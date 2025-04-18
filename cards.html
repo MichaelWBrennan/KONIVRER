@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KONIVRER - All Cards</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>KONIVRER Cards</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cards.html">Cards</a>
+            <a href="deckbuilder.html">Deck Builder</a>
+            <a href="how-to-play.html">How to Play</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Card Library</h2>
+        <div id="cards-container"></div>
+    </main>
+    <script>
+        async function loadCards() {
+            const res = await fetch('https://konivrer-deck-database.onrender.com/api/cards');
+            const cards = await res.json();
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            cards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                cardDiv.innerHTML = `<h3>${card.name}</h3><p>Element: ${card.elements.join(', ')}</p><p>${card.ability}</p>`;
+                container.appendChild(cardDiv);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', loadCards);
+    </script>
+</body>
+</html>
