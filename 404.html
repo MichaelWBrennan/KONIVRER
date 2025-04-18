@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 - Page Not Found</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>KONIVRER</h1>
+      </div>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/cards">Cards</a>
+        <a href="/deckbuilder">Deck Builder</a>
+        <a href="/how-to-play">How to Play</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <div style="margin-top: auto;">
+        <button onclick="toggleDarkMode()" style="width: 100%;">Toggle Dark Mode</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <h2>404 - Page Not Found</h2>
+        <p>The page you're looking for doesn’t exist. Maybe it was exiled by Void.</p>
+      </header>
+
+      <section class="hero">
+        <div class="hero-text">
+          <h3>Return to the battlefield</h3>
+          <p>Use the navigation to find your way back to the world of KONIVRER.</p>
+          <a href="/" class="btn-primary">Back to Home</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('konivrer-dark', document.body.classList.contains('dark'));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('konivrer-dark') === 'true') {
+        document.body.classList.add('dark');
+      }
+    });
+  </script>
+</body>
+</html>
