@@ -1,0 +1,32 @@
+[
+  {
+    "id": "card001",
+    "name": "Gustling Wisp",
+    "elements": ["🜁"],
+    "keywords": ["Gust"],
+    "cost": 1,
+    "power": 1,
+    "rarity": "common",
+    "text": "When this enters, Gust a target card."
+  },
+  {
+    "id": "card002",
+    "name": "Infernal Sprinter",
+    "elements": ["🜂"],
+    "keywords": ["Inferno"],
+    "cost": 2,
+    "power": 2,
+    "rarity": "uncommon",
+    "text": "Inferno - Deal 1 extra damage when this attacks."
+  },
+  {
+    "id": "card003",
+    "name": "Brilliant Watcher",
+    "elements": ["🜃", "🜄"],
+    "keywords": ["Brilliance", "Steadfast"],
+    "cost": 3,
+    "power": 3,
+    "rarity": "rare",
+    "text": "Brilliance - Place the top card of your deck under your Life Cards."
+  }
+]
