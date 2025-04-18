@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/cards", "destination": "/cards.html" },
+    { "source": "/deckbuilder", "destination": "/deckbuilder.html" },
+    { "source": "/how-to-play", "destination": "/how-to-play.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
+}
