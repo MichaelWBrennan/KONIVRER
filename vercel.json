@@ -7,8 +7,7 @@
     { "source": "/about", "destination": "/about.html" },
     { "source": "/contact", "destination": "/contact.html" }
   ],
-  "error": {
+  {"error":
     "status": 404,
-    "destination": "/404.html"
-  }
+    "destination": "/404.html"}
 }
