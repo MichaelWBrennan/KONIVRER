@@ -8,6 +8,6 @@
     { "src": "^/about$", "dest": "/about.html" },
     { "src": "^/contact$", "dest": "/contact.html" },
     { "handle": "miss" },
-    { "src": ".*", "status": 404, "dest": "/404.html" }
+    { "src": ".*", "status": 404, "dest": "/404.html", "check": true }
   ]
 }
