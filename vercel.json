@@ -1,14 +1,12 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/cards", "destination": "/cards.html" },
-    { "source": "/deckbuilder", "destination": "/deckbuilder.html" },
-    { "source": "/how-to-play", "destination": "/how-to-play.html" },
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/contact", "destination": "/contact.html" }
-  ],
   "routes": [
-    { "src": "/(.*)", "dest": "/404.html", "status": 404 }
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^/cards$", "dest": "/cards.html" },
+    { "src": "^/deckbuilder$", "dest": "/deckbuilder.html" },
+    { "src": "^/how-to-play$", "dest": "/how-to-play.html" },
+    { "src": "^/about$", "dest": "/about.html" },
+    { "src": "^/contact$", "dest": "/contact.html" },
+    { "src": ".*", "dest": "/404.html", "status": 404 }
   ]
 }
