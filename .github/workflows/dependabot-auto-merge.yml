@@ -1,0 +1,85 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  dependabot-auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Wait for status checks
+        id: wait-for-checks
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30
+          running-timeout-minutes: 15
+          allowed-conclusions: success,skipped
+          check-regexp: "build.*"
+
+      - name: Auto-approve and merge patch/minor updates
+        if: |
+          steps.wait-for-checks.outputs.conclusion == 'success' &&
+          (steps.metadata.outputs.update-type == 'version-update:semver-patch' || 
+           steps.metadata.outputs.update-type == 'version-update:semver-minor')
+        run: |
+          echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
+          echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
+          echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
+          
+          # Approve the PR
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update"
+          
+          # Enable auto-merge
+          gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on major updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        run: |
+          echo "🚨 Major version update detected - requires manual review"
+          gh pr comment "${{ github.event.pull_request.number }}" --body "🚨 **Major version update detected!**
+
+          This PR contains a major version update that may include breaking changes. Please review carefully before merging.
+          
+          **Update Details:**
+          - **Package:** ${{ steps.metadata.outputs.dependency-names }}
+          - **Update type:** ${{ steps.metadata.outputs.update-type }}
+          - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
+          
+          **Next steps:**
+          1. Review the changelog/release notes for breaking changes
+          2. Test the application thoroughly
+          3. Merge manually if everything looks good: \`gh pr merge --squash ${{ github.event.pull_request.number }}\`"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Handle failed checks
+        if: steps.wait-for-checks.outputs.conclusion != 'success'
+        run: |
+          echo "❌ Status checks failed or timed out"
+          gh pr comment "${{ github.event.pull_request.number }}" --body "❌ **Automated merge failed**
+          
+          Status checks did not pass. Please review the failed checks and fix any issues before merging.
+          
+          **Check status:** ${{ steps.wait-for-checks.outputs.conclusion }}
+          **Package:** ${{ steps.metadata.outputs.dependency-names }}
+          **Update type:** ${{ steps.metadata.outputs.update-type }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
