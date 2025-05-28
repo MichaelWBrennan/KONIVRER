@@ -1,12 +1,13 @@
-import React from 'react';
+//  // Not needed in React 19
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import DeckBuilder from './pages/DeckBuilder';
-import CardDatabase from './pages/CardDatabase';
-import MyDecks from './pages/MyDecks';
 import { validateEnv } from './config/env';
+import CardDatabase from './pages/CardDatabase';
+import DeckBuilder from './pages/DeckBuilder';
+import Home from './pages/Home';
+import MyDecks from './pages/MyDecks';
 import './App.css';
 
 // Validate environment variables on app start

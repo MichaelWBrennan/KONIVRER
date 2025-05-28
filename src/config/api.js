@@ -2,6 +2,7 @@
  * API configuration and axios instance
  */
 import axios from 'axios';
+
 import { env } from './env.js';
 
 // Create axios instance with default configuration
@@ -31,7 +32,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -41,7 +42,7 @@ apiClient.interceptors.response.use(
     if (env.ENABLE_DEBUG && response.config.metadata) {
       const endTime = new Date();
       const duration = endTime - response.config.metadata.startTime;
-      console.log(`API Request to ${response.config.url} took ${duration}ms`);
+      console.warn(`API Request to ${response.config.url} took ${duration}ms`);
     }
     
     return response;
@@ -60,7 +61,7 @@ apiClient.interceptors.response.use(
     }
     
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;

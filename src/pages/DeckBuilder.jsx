@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { 
   Search, 
   Filter, 
@@ -8,20 +6,20 @@ import {
   Save, 
   Share2, 
   BarChart3,
-  Eye,
-  X,
-  ChevronDown
 } from 'lucide-react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import CardViewer from '../components/CardViewer';
 import DeckStats from '../components/DeckStats';
 import cardsData from '../data/cards.json';
 
 const DeckBuilder = () => {
-  const { deckId } = useParams();
+  const { deckId: _deckId } = useParams();
   const [deck, setDeck] = useState({
     name: 'Untitled Deck',
     cards: [],
-    description: ''
+    description: '',
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
@@ -30,7 +28,7 @@ const DeckBuilder = () => {
     elements: [],
     rarity: '',
     cost: '',
-    keywords: []
+    keywords: [],
   });
   const [showFilters, setShowFilters] = useState(false);
 
@@ -64,14 +62,14 @@ const DeckBuilder = () => {
         setDeck(prev => ({
           ...prev,
           cards: prev.cards.map(c => 
-            c.id === card.id ? { ...c, count: c.count + 1 } : c
-          )
+            c.id === card.id ? { ...c, count: c.count + 1 } : c,
+          ),
         }));
       }
     } else {
       setDeck(prev => ({
         ...prev,
-        cards: [...prev.cards, { ...card, count: 1 }]
+        cards: [...prev.cards, { ...card, count: 1 }],
       }));
     }
   };
@@ -88,7 +86,7 @@ const DeckBuilder = () => {
           acc.push(card);
         }
         return acc;
-      }, [])
+      }, []),
     }));
   };
 
@@ -98,13 +96,13 @@ const DeckBuilder = () => {
 
   const saveDeck = () => {
     // TODO: Implement save functionality
-    console.log('Saving deck:', deck);
+    console.warn('Saving deck:', deck);
     alert('Deck saved! (This is a demo)');
   };
 
   const shareDeck = () => {
     // TODO: Implement share functionality
-    console.log('Sharing deck:', deck);
+    console.warn('Sharing deck:', deck);
     alert('Deck shared! (This is a demo)');
   };
 
@@ -187,12 +185,12 @@ const DeckBuilder = () => {
                                 if (e.target.checked) {
                                   setFilters(prev => ({
                                     ...prev,
-                                    elements: [...prev.elements, element]
+                                    elements: [...prev.elements, element],
                                   }));
                                 } else {
                                   setFilters(prev => ({
                                     ...prev,
-                                    elements: prev.elements.filter(el => el !== element)
+                                    elements: prev.elements.filter(el => el !== element),
                                   }));
                                 }
                               }}
@@ -249,12 +247,12 @@ const DeckBuilder = () => {
                                 if (e.target.checked) {
                                   setFilters(prev => ({
                                     ...prev,
-                                    keywords: [...prev.keywords, keyword]
+                                    keywords: [...prev.keywords, keyword],
                                   }));
                                 } else {
                                   setFilters(prev => ({
                                     ...prev,
-                                    keywords: prev.keywords.filter(kw => kw !== keyword)
+                                    keywords: prev.keywords.filter(kw => kw !== keyword),
                                   }));
                                 }
                               }}

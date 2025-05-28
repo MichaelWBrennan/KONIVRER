@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import { Search, Filter, Grid, List, Eye, Plus } from 'lucide-react';
+import { useState } from 'react';
+
 import CardViewer from '../components/CardViewer';
 import cardsData from '../data/cards.json';
 
@@ -12,7 +13,7 @@ const CardDatabase = () => {
     elements: [],
     rarity: '',
     cost: '',
-    keywords: []
+    keywords: [],
   });
   const [showFilters, setShowFilters] = useState(false);
 
@@ -47,9 +48,10 @@ const CardDatabase = () => {
           return a.cost - b.cost;
         case 'power':
           return b.power - a.power;
-        case 'rarity':
+        case 'rarity': {
           const rarityOrder = { common: 1, uncommon: 2, rare: 3, legendary: 4 };
           return rarityOrder[a.rarity] - rarityOrder[b.rarity];
+        }
         default:
           return 0;
       }
@@ -146,12 +148,12 @@ const CardDatabase = () => {
                             if (e.target.checked) {
                               setFilters(prev => ({
                                 ...prev,
-                                elements: [...prev.elements, element]
+                                elements: [...prev.elements, element],
                               }));
                             } else {
                               setFilters(prev => ({
                                 ...prev,
-                                elements: prev.elements.filter(el => el !== element)
+                                elements: prev.elements.filter(el => el !== element),
                               }));
                             }
                           }}
@@ -208,12 +210,12 @@ const CardDatabase = () => {
                             if (e.target.checked) {
                               setFilters(prev => ({
                                 ...prev,
-                                keywords: [...prev.keywords, keyword]
+                                keywords: [...prev.keywords, keyword],
                               }));
                             } else {
                               setFilters(prev => ({
                                 ...prev,
-                                keywords: prev.keywords.filter(kw => kw !== keyword)
+                                keywords: prev.keywords.filter(kw => kw !== keyword),
                               }));
                             }
                           }}
@@ -369,7 +371,7 @@ const CardDatabase = () => {
           onClose={() => setSelectedCard(null)}
           onAddToDeck={() => {
             // TODO: Add to deck functionality
-            console.log('Add to deck:', selectedCard);
+            console.warn('Add to deck:', selectedCard);
           }}
         />
       )}

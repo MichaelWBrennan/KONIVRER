@@ -1,6 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { PlusCircle, Database, BookOpen, TrendingUp, Users, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const features = [
@@ -8,27 +7,27 @@ const Home = () => {
       icon: PlusCircle,
       title: 'Advanced Deck Builder',
       description: 'Create and customize your decks with our intuitive drag-and-drop interface.',
-      link: '/deckbuilder'
+      link: '/deckbuilder',
     },
     {
       icon: Database,
       title: 'Complete Card Database',
       description: 'Browse and search through all KONIVRER cards with advanced filtering options.',
-      link: '/cards'
+      link: '/cards',
     },
     {
       icon: BookOpen,
       title: 'Deck Management',
       description: 'Organize, share, and track your deck collections with ease.',
-      link: '/decks'
-    }
+      link: '/decks',
+    },
   ];
 
   const stats = [
     { label: 'Total Cards', value: '500+', icon: Database },
     { label: 'Active Players', value: '1.2K+', icon: Users },
     { label: 'Decks Created', value: '5.8K+', icon: BookOpen },
-    { label: 'Games Played', value: '15K+', icon: Zap }
+    { label: 'Games Played', value: '15K+', icon: Zap },
   ];
 
   return (

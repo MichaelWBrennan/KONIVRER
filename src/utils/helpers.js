@@ -82,7 +82,7 @@ export const filterCards = (cards, filters) => {
       const matchesName = card.name.toLowerCase().includes(searchLower);
       const matchesText = card.text.toLowerCase().includes(searchLower);
       const matchesKeywords = card.keywords.some(keyword => 
-        keyword.toLowerCase().includes(searchLower)
+        keyword.toLowerCase().includes(searchLower),
       );
       
       if (!matchesName && !matchesText && !matchesKeywords) {
@@ -93,7 +93,7 @@ export const filterCards = (cards, filters) => {
     // Element filter
     if (filters.elements && filters.elements.length > 0) {
       const hasMatchingElement = card.elements.some(element => 
-        filters.elements.includes(element)
+        filters.elements.includes(element),
       );
       if (!hasMatchingElement) {
         return false;
@@ -147,11 +147,12 @@ export const sortCards = (cards, sortBy, sortOrder = 'asc') => {
         aValue = a.power;
         bValue = b.power;
         break;
-      case 'rarity':
+      case 'rarity': {
         const rarityOrder = { common: 1, uncommon: 2, rare: 3, legendary: 4 };
         aValue = rarityOrder[a.rarity] || 0;
         bValue = rarityOrder[b.rarity] || 0;
         break;
+      }
       default:
         return 0;
     }
