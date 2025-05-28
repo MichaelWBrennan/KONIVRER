@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
-import CardViewer from './CardViewer';
-import cardData from '../data/cards.json';
+import React, { useState } from "react";
 
 const DeckBuilder = () => {
-  const [query, setQuery] = useState('');
-  const [filteredCards, setFilteredCards] = useState(cardData);
+  const [deckName, setDeckName] = useState("");
+  const [cards, setCards] = useState<{ name: string; count: number }[]>([]);
 
-  useEffect(() => {
-    const lowerCaseQuery = query.toLowerCase();
-    const filtered = cardData.filter(
-      (card) =>
-        card.name.toLowerCase().includes(lowerCaseQuery) ||
-        card.type.toLowerCase().includes(lowerCaseQuery) ||
-        card.description.toLowerCase().includes(lowerCaseQuery)
-    );
-    setFilteredCards(filtered);
-  }, [query]);
+  const addCard = (cardName: string) => {
+    setCards([...cards, { name: cardName, count: 1 }]);
+  };
 
   return (
-    <div style={{ padding: '24px' }}>
-      <h1>KONIVRER Deck Builder</h1>
-      <SearchBar query={query} setQuery={setQuery} />
-      <CardViewer cards={filteredCards} />
+    <div>
+      <h2>Deck Builder</h2>
+      <input
+        type="text"
+        placeholder="Deck Name"
+        value={deckName}
+        onChange={e => setDeckName(e.target.value)}
+      />
+      {/* Card search/autocomplete would go here */}
+      <button onClick={() => addCard("Sample Card")}>Add Sample Card</button>
+      <ul>
+        {cards.map((card, idx) => (
+          <li key={idx}>
+            {card.count}x {card.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
