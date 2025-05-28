@@ -308,8 +308,8 @@ const CardDatabase = () => {
                 </div>
 
                 <div className='flex items-center gap-2 mb-2'>
-                  {card.elements.map((element, idx) => (
-                    <span key={idx} className='text-lg'>
+                  {card.elements.map(element => (
+                    <span key={element} className='text-lg'>
                       {element}
                     </span>
                   ))}
@@ -324,8 +324,8 @@ const CardDatabase = () => {
 
                 {card.keywords.length > 0 && (
                   <div className='flex flex-wrap gap-1 mt-2'>
-                    {card.keywords.map((keyword, idx) => (
-                      <span key={idx} className='px-2 py-1 bg-tertiary rounded text-xs'>
+                    {card.keywords.map(keyword => (
+                      <span key={keyword} className='px-2 py-1 bg-tertiary rounded text-xs'>
                         {keyword}
                       </span>
                     ))}
@@ -354,8 +354,8 @@ const CardDatabase = () => {
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center gap-4 flex-1'>
                     <div className='flex items-center gap-2'>
-                      {card.elements.map((element, idx) => (
-                        <span key={idx} className='text-lg'>
+                      {card.elements.map(element => (
+                        <span key={element} className='text-lg'>
                           {element}
                         </span>
                       ))}
