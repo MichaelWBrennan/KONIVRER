@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { 
   Plus, 
   Search, 
-  Filter, 
   Grid, 
   List, 
   Edit, 
   Copy, 
   Share2, 
   Trash2,
-  Eye,
-  Calendar,
-  User
 } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const MyDecks = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,7 +31,7 @@ const MyDecks = () => {
       elements: ['🜂', '🜃'],
       wins: 15,
       losses: 8,
-      winRate: 65
+      winRate: 65,
     },
     {
       id: '2',
@@ -49,7 +45,7 @@ const MyDecks = () => {
       elements: ['🜄'],
       wins: 12,
       losses: 6,
-      winRate: 67
+      winRate: 67,
     },
     {
       id: '3',
@@ -63,8 +59,8 @@ const MyDecks = () => {
       elements: ['🜁', '🜂', '🜃', '🜄'],
       wins: 8,
       losses: 12,
-      winRate: 40
-    }
+      winRate: 40,
+    },
   ]);
 
   // Filter and sort decks
@@ -95,19 +91,19 @@ const MyDecks = () => {
     });
 
   const duplicateDeck = (deckId) => {
-    console.log('Duplicating deck:', deckId);
+    console.warn('Duplicating deck:', deckId);
     // TODO: Implement deck duplication
   };
 
   const deleteDeck = (deckId) => {
     if (window.confirm('Are you sure you want to delete this deck?')) {
-      console.log('Deleting deck:', deckId);
+      console.warn('Deleting deck:', deckId);
       // TODO: Implement deck deletion
     }
   };
 
   const shareDeck = (deckId) => {
-    console.log('Sharing deck:', deckId);
+    console.warn('Sharing deck:', deckId);
     // TODO: Implement deck sharing
   };
 
@@ -352,7 +348,7 @@ const MyDecks = () => {
             <p className="text-secondary mb-6">
               {decks.length === 0 
                 ? "You haven't created any decks yet" 
-                : "Try adjusting your search or filters"
+                : 'Try adjusting your search or filters'
               }
             </p>
             <Link to="/deckbuilder" className="btn btn-primary">

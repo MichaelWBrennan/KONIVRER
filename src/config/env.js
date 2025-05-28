@@ -5,7 +5,7 @@
 
 // Helper function to determine the correct backend URL based on environment
 const getBackendUrl = () => {
-  const nodeEnv = import.meta.env.NODE_ENV || 'development';
+  const _nodeEnv = import.meta.env.NODE_ENV || 'development';
   const mode = import.meta.env.MODE || 'development';
   
   // If explicitly set, use it
@@ -61,19 +61,19 @@ export const validateEnv = () => {
     console.error('Environment validation failed:', {
       missing,
       current: env,
-      meta: import.meta.env
+      meta: import.meta.env,
     });
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
   
   // Log configuration in development
   if (env.ENABLE_DEBUG) {
-    console.log('Environment configuration:', {
+    console.warn('Environment configuration:', {
       NODE_ENV: env.NODE_ENV,
       MODE: env.MODE,
       API_BASE_URL: env.API_BASE_URL,
       BACKEND_URL: env.BACKEND_URL,
-      ENABLE_DEBUG: env.ENABLE_DEBUG
+      ENABLE_DEBUG: env.ENABLE_DEBUG,
     });
   }
 };

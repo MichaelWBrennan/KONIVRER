@@ -1,19 +1,20 @@
 # Contributing to KONIVRER Deck Database
 
-Thank you for your interest in contributing to the KONIVRER Deck Database! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to the KONIVRER Deck Database! This document provides guidelines and information for contributors following 2025 coding standards.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18 or higher
-- npm 8 or higher
+
+- Node.js 18+ and npm 8+
 - Git
+- Modern web browser
 
 ### Development Setup
 
-1. **Fork the repository**
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/KONIVRER-deck-database.git
+   git clone https://github.com/Crypto3k/KONIVRER-deck-database.git
    cd KONIVRER-deck-database
    ```
 
