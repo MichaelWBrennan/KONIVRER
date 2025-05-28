@@ -1,65 +1,222 @@
-# [Start Bootstrap - SB Admin 2](https://startbootstrap.com/theme/sb-admin-2/)
+# KONIVRER Deck Database
 
-[SB Admin 2](https://startbootstrap.com/theme/sb-admin-2/) is an open source admin dashboard theme for [Bootstrap](https://getbootstrap.com/) created by [Start Bootstrap](https://startbootstrap.com/).
+A professional deck building and card database application for the KONIVRER trading card game. Built with React, Vite, and optimized for Vercel deployment.
 
-For the legacy Bootstrap 3 version of this theme, you can view the [last stable release](https://github.com/StartBootstrap/startbootstrap-sb-admin-2/releases/tag/v3.3.7%2B1) of SB Admin 2 for Bootstrap 3.
+## 🚀 Features
 
-## Preview
+- **Modern React Frontend**: Built with React 18 and modern hooks
+- **Professional Deck Builder**: Drag-and-drop interface with real-time validation
+- **Comprehensive Card Database**: Search, filter, and browse all cards
+- **Responsive Design**: Works seamlessly on desktop and mobile
+- **Fast Performance**: Optimized with Vite for lightning-fast development and builds
+- **Type Safety**: TypeScript support for better development experience
+- **Professional Architecture**: Clean, maintainable code structure
 
-[![SB Admin 2 Preview](https://assets.startbootstrap.com/img/screenshots/themes/sb-admin-2.png)](https://startbootstrap.github.io/startbootstrap-sb-admin-2/)
+## 🛠️ Tech Stack
 
-**[Launch Live Preview](https://startbootstrap.github.io/startbootstrap-sb-admin-2/)**
+### Frontend
+- **React 18** - Modern React with hooks and concurrent features
+- **Vite** - Next-generation frontend tooling
+- **React Router** - Client-side routing
+- **Framer Motion** - Smooth animations and transitions
+- **Lucide React** - Beautiful, customizable icons
+- **Axios** - HTTP client for API requests
 
-## Status
+### Development Tools
+- **ESLint** - Code linting and formatting
+- **Vercel** - Deployment and hosting platform
+- **Environment Configuration** - Centralized config management
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/StartBootstrap/startbootstrap-sb-admin-2/master/LICENSE)
-[![npm version](https://img.shields.io/npm/v/startbootstrap-sb-admin-2.svg)](https://www.npmjs.com/package/startbootstrap-sb-admin-2)
-[![Build Status](https://travis-ci.org/StartBootstrap/startbootstrap-sb-admin-2.svg?branch=master)](https://travis-ci.org/StartBootstrap/startbootstrap-sb-admin-2)
-[![dependencies Status](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2/status.svg)](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2)
-[![devDependencies Status](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2/dev-status.svg)](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2?type=dev)
+## 📁 Project Structure
 
-## Download and Installation
+```
+konivrer-deck-database/
+├── public/                 # Static assets
+│   └── index.html         # Main HTML template
+├── src/                   # Source code
+│   ├── components/        # Reusable React components
+│   ├── pages/            # Page components
+│   ├── config/           # Configuration files
+│   ├── utils/            # Utility functions
+│   ├── hooks/            # Custom React hooks
+│   ├── context/          # React context providers
+│   └── data/             # Static data files
+├── Backend/              # Backend API (Node.js/Express)
+├── legacy/               # Legacy Bootstrap files (archived)
+└── dist/                 # Build output (generated)
+```
 
-To begin using this template, choose one of the following options to get started:
+## 🚀 Quick Start
 
-* [Download the latest release on Start Bootstrap](https://startbootstrap.com/theme/sb-admin-2/)
-* Install via npm: `npm i startbootstrap-sb-admin-2`
-* Clone the repo: `git clone https://github.com/StartBootstrap/startbootstrap-sb-admin-2.git`
-* [Fork, Clone, or Download on GitHub](https://github.com/StartBootstrap/startbootstrap-sb-admin-2)
+### Prerequisites
+- Node.js 18+ 
+- npm 8+
 
-## Usage
+### Installation
 
-After installation, run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Crypto3k/KONIVRER-deck-database.git
+   cd KONIVRER-deck-database
+   ```
 
-### Gulp Tasks
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-* `gulp` the default task that builds everything
-* `gulp watch` browserSync opens the project in your default browser and live reloads when changes are made
-* `gulp css` compiles SCSS files into CSS and minifies the compiled CSS
-* `gulp js` minifies the themes JS file
-* `gulp vendor` copies dependencies from node_modules to the vendor directory
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
 
-You must have npm installed globally in order to use this build environment. This theme was built using node v11.6.0 and the Gulp CLI v2.0.1. If Gulp is not running properly after running `npm install`, you may need to update node and/or the Gulp CLI locally.
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-## Bugs and Issues
+   The application will be available at `http://localhost:12000`
 
-Have a bug or an issue with this template? [Open a new issue](https://github.com/StartBootstrap/startbootstrap-sb-admin-2/issues) here on GitHub or leave a comment on the [template overview page at Start Bootstrap](https://startbootstrap.com/theme/sb-admin-2/).
+### Development Scripts
 
-## About
+```bash
+# Start development server
+npm run dev
 
-Start Bootstrap is an open source library of free Bootstrap templates and themes. All of the free templates and themes on Start Bootstrap are released under the MIT license, which means you can use them for any purpose, even for commercial projects.
+# Build for production
+npm run build
 
-* <https://startbootstrap.com>
-* <https://twitter.com/SBootstrap>
+# Preview production build
+npm run preview
 
-Start Bootstrap was created by and is maintained by **[David Miller](https://davidmiller.io/)**.
+# Lint code
+npm run lint
 
-* <https://davidmiller.io>
-* <https://twitter.com/davidmillerhere>
-* <https://github.com/davidtmiller>
+# Fix linting issues
+npm run lint:fix
 
-Start Bootstrap is based on the [Bootstrap](https://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
+# Clean build directory
+npm run clean
+```
 
-## Copyright and License
+## 🌐 Deployment
 
-Copyright 2013-2021 Start Bootstrap LLC. Code released under the [MIT](https://github.com/StartBootstrap/startbootstrap-resume/blob/master/LICENSE) license.
+### Vercel (Recommended)
+
+This project is optimized for Vercel deployment:
+
+1. **Connect your repository to Vercel**
+2. **Configure environment variables** in Vercel dashboard
+3. **Deploy automatically** on every push to main branch
+
+The `vercel.json` configuration handles:
+- Automatic builds with Vite
+- SPA routing
+- Security headers
+- Static asset caching
+
+### Manual Deployment
+
+```bash
+# Build the project
+npm run build
+
+# Deploy the dist/ folder to your hosting provider
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+Create a `.env.local` file based on `.env.example`:
+
+```env
+# API Configuration
+VITE_API_BASE_URL=https://your-api-url.com/api
+VITE_BACKEND_URL=https://your-backend-url.com
+
+# Application Configuration
+VITE_APP_NAME=KONIVRER Deck Database
+VITE_ENABLE_DEBUG=false
+```
+
+### Backend Integration
+
+Update the backend URL in `vercel.json`:
+
+```json
+{
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://your-backend-url.com/api/$1"
+    }
+  ]
+}
+```
+
+## 🏗️ Architecture
+
+### Component Structure
+- **Layout Components**: Navigation, sidebar, footer
+- **Page Components**: Home, deck builder, card database
+- **Feature Components**: Card viewer, deck stats, search
+- **UI Components**: Buttons, modals, forms
+
+### State Management
+- React hooks for local state
+- Context API for global state
+- Custom hooks for business logic
+
+### API Integration
+- Centralized API configuration
+- Request/response interceptors
+- Error handling and retry logic
+
+## 🧪 Development
+
+### Code Style
+- ESLint configuration for consistent code style
+- React best practices and hooks rules
+- Automatic formatting on save
+
+### Performance Optimization
+- Code splitting with dynamic imports
+- Lazy loading of components
+- Optimized bundle chunks
+- Image optimization
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the documentation
+- Review the FAQ section
+
+## 🔄 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and updates.
+
+---
+
+**Built with ❤️ by the KONIVRER Team**

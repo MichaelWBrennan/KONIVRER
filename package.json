@@ -1,21 +1,41 @@
 {
-  "name": "konivrer-deck-database-frontend",
+  "name": "konivrer-deck-database",
   "version": "1.0.0",
-  "description": "Frontend for KONIVRER deck database",
+  "description": "Professional deck building and card database for KONIVRER trading card game",
   "type": "module",
+  "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 12000",
     "build": "vite build",
-    "preview": "vite preview",
-    "start": "vite --host 0.0.0.0 --port 12000"
+    "preview": "vite preview --host 0.0.0.0 --port 12001",
+    "start": "vite --host 0.0.0.0 --port 12000",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext js,jsx --fix",
+    "clean": "rm -rf dist",
+    "build:analyze": "vite build --mode analyze"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
+  "keywords": [
+    "konivrer",
+    "deck-builder",
+    "card-game",
+    "database",
+    "react",
+    "vite"
+  ],
+  "author": "KONIVRER Team",
+  "license": "MIT",
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.0.8"
   },
   "dependencies": {
