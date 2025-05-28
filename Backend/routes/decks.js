@@ -1,13 +1,19 @@
-const express = require('express');
-const { getDecks, createDeck, getDeck, updateDeck, deleteDeck } = require('../controllers/deckController');
-const auth = require('../middleware/authMiddleware');
+const express = require("express");
 const router = express.Router();
+const Deck = require("../models/Deck");
 
-router.use(auth);
-router.get('/', getDecks);
-router.post('/', createDeck);
-router.get('/:id', getDeck);
-router.put('/:id', updateDeck);
-router.delete('/:id', deleteDeck);
+// Get all decks
+router.get("/", async (req, res) => {
+  const decks = await Deck.find();
+  res.json(decks);
+});
+
+// Create deck
+router.post("/", async (req, res) => {
+  const deck = new Deck(req.body);
+  await deck.save();
+  res.status(201).json(deck);
+});
 
 module.exports = router;
+  
