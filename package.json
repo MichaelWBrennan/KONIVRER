@@ -42,7 +42,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
-    "lucide-react": "^0.294.0",
+    "lucide-react": "^0.511.0",
     "framer-motion": "^10.16.16",
     "react-beautiful-dnd": "^13.1.1",
     "react-hook-form": "^7.48.2",
