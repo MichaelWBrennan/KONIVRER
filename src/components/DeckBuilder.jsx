@@ -1,31 +1,15 @@
-import React, { useState } from "react";
+// This component has been moved to /pages/DeckBuilder.jsx
+// This file is kept for backward compatibility but should be removed
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const DeckBuilder = () => {
-  const [deckName, setDeckName] = useState("");
-  const [cards, setCards] = useState<{ name: string; count: number }[]>([]);
-
-  const addCard = (cardName: string) => {
-    setCards([...cards, { name: cardName, count: 1 }]);
-  };
-
   return (
-    <div>
-      <h2>Deck Builder</h2>
-      <input
-        type="text"
-        placeholder="Deck Name"
-        value={deckName}
-        onChange={e => setDeckName(e.target.value)}
-      />
-      {/* Card search/autocomplete would go here */}
-      <button onClick={() => addCard("Sample Card")}>Add Sample Card</button>
-      <ul>
-        {cards.map((card, idx) => (
-          <li key={idx}>
-            {card.count}x {card.name}
-          </li>
-        ))}
-      </ul>
+    <div className="p-4">
+      <p>This component has been moved. Please use the new deck builder at:</p>
+      <Link to="/deckbuilder" className="btn btn-primary">
+        Go to Deck Builder
+      </Link>
     </div>
   );
 };
