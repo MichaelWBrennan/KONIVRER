@@ -3,10 +3,18 @@ services:
     name: konivrer-backend
     env: node
     plan: free
+    region: oregon
     buildCommand: "npm install"
     startCommand: "npm start"
+    healthCheckPath: "/health"
     envVars:
+      - key: NODE_ENV
+        value: production
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
         sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: PORT
+        value: 10000
