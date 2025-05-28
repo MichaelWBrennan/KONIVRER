@@ -1,4 +1,3 @@
-import React from 'react';
 import { X, Plus } from 'lucide-react';
 
 const CardViewer = ({ card, onClose, onAddToDeck }) => {

@@ -1,5 +1,4 @@
-import React from 'react';
-import { BarChart3, PieChart, TrendingUp } from 'lucide-react';
+import { BarChart3, TrendingUp } from 'lucide-react';
 
 const DeckStats = ({ deck }) => {
   // Calculate mana curve

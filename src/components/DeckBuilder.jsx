@@ -1,6 +1,6 @@
 // This component has been moved to /pages/DeckBuilder.jsx
 // This file is kept for backward compatibility but should be removed
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 const DeckBuilder = () => {

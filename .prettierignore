@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+Backend/node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Legacy code
+legacy/
+
+# Generated files
+*.min.js
+*.min.css
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment files
+.env*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+.parcel-cache/
+.next/
+.nuxt/

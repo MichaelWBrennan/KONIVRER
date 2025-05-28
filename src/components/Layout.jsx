@@ -1,5 +1,3 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
   Database, 
@@ -8,12 +6,14 @@ import {
   User, 
   Search,
   Menu,
-  X
+  X,
 } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },

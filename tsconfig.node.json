@@ -6,7 +6,14 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node"]
   },
-  "include": ["vite.config.js"]
+  "include": [
+    "vite.config.js",
+    "vitest.config.js",
+    "eslint.config.js",
+    "lighthouserc.js",
+    "postcss.config.js"
+  ]
 }
