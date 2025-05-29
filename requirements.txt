@@ -1,6 +1,9 @@
 # Python dependencies for Vercel deployment
-# Add your Python packages here
-# Example:
-# flask==2.3.3
+# Core dependencies for API functionality
+requests==2.31.0
+urllib3==2.1.0
+
+# Optional: Add these if you need more functionality
+# flask==3.0.0
 # fastapi==0.104.1
-# requests==2.31.0
+# pydantic==2.5.0
