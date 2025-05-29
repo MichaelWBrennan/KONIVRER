@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install --include=optional",
+  "installCommand": "yarn install",
   "devCommand": "npm run dev",
   "rewrites": [
     {
