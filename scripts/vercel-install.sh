@@ -16,7 +16,7 @@ rm -rf node_modules/node-sass 2>/dev/null || true
 
 # Install dependencies with npm overrides
 echo "Installing dependencies with npm overrides..."
-npm ci --no-optional --ignore-scripts
+npm install --no-optional --ignore-scripts
 
 # Verify sass is installed instead of node-sass
 echo "Verifying sass installation..."

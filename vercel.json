@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "bash scripts/vercel-install.sh",
+  "installCommand": "npm install --include=optional",
   "devCommand": "npm run dev",
   "rewrites": [
     {
@@ -73,7 +73,6 @@
     "VITE_ENABLE_DEBUG": "false",
     "SKIP_NODE_SASS_TESTS": "true",
     "NODE_SASS_BINARY_SITE": "false",
-    "NODE_SASS_BINARY_CACHE_PATH": "false",
-    "NPM_CONFIG_OPTIONAL": "false"
+    "NODE_SASS_BINARY_CACHE_PATH": "false"
   }
 }
