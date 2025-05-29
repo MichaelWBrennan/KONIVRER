@@ -4,11 +4,6 @@
   "framework": "vite",
   "installCommand": "bash scripts/vercel-install.sh",
   "devCommand": "npm run dev",
-  "functions": {
-    "api/*.py": {
-      "runtime": "python3.9"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
