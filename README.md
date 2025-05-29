@@ -15,6 +15,7 @@ A professional deck building and card database application for the KONIVRER trad
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks and concurrent features
 - **Vite** - Next-generation frontend tooling
 - **React Router** - Client-side routing
@@ -23,11 +24,13 @@ A professional deck building and card database application for the KONIVRER trad
 - **Axios** - HTTP client for API requests
 
 ### Backend & API
+
 - **Python 3.12** - Serverless functions for Vercel
 - **Node.js/Express** - Traditional backend API
 - **Vercel Functions** - Serverless API endpoints
 
 ### Development Tools
+
 - **ESLint** - Code linting and formatting
 - **Vercel** - Deployment and hosting platform
 - **Environment Configuration** - Centralized config management
@@ -60,29 +63,34 @@ konivrer-deck-database/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm 8+
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Crypto3k/KONIVRER-deck-database.git
    cd KONIVRER-deck-database
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your configuration
    ```
 
 4. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -122,6 +130,7 @@ This project is optimized for Vercel deployment:
 3. **Deploy automatically** on every push to main branch
 
 The `vercel.json` configuration handles:
+
 - Automatic builds with Vite
 - SPA routing
 - Security headers
@@ -170,17 +179,20 @@ Update the backend URL in `vercel.json`:
 ## 🏗️ Architecture
 
 ### Component Structure
+
 - **Layout Components**: Navigation, sidebar, footer
 - **Page Components**: Home, deck builder, card database
 - **Feature Components**: Card viewer, deck stats, search
 - **UI Components**: Buttons, modals, forms
 
 ### State Management
+
 - React hooks for local state
 - Context API for global state
 - Custom hooks for business logic
 
 ### API Integration
+
 - Centralized API configuration
 - Request/response interceptors
 - Error handling and retry logic
@@ -188,11 +200,13 @@ Update the backend URL in `vercel.json`:
 ## 🧪 Development
 
 ### Code Style
+
 - ESLint configuration for consistent code style
 - React best practices and hooks rules
 - Automatic formatting on save
 
 ### Performance Optimization
+
 - Code splitting with dynamic imports
 - Lazy loading of components
 - Optimized bundle chunks
@@ -220,6 +234,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue on GitHub
 - Check the documentation
 - Review the FAQ section
@@ -231,3 +246,5 @@ See [CHANGELOG.md](CHANGELOG.md) for a list of changes and updates.
 ---
 
 **Built with ❤️ by the KONIVRER Team**
+
+# Force deployment refresh
