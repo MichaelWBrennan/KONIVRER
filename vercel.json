@@ -6,7 +6,7 @@
   "devCommand": "npm run dev",
   "functions": {
     "api/*.py": {
-      "runtime": "python3.12"
+      "runtime": "python3.9"
     }
   },
   "rewrites": [
