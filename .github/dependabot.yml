@@ -13,11 +13,31 @@ updates:
     assignees:
       - "Crypto3k"
     commit-message:
-      prefix: "chore"
+      prefix: "deps"
       include: "scope"
     labels:
       - "dependencies"
       - "frontend"
+      - "security"
+    # Group security updates for faster merging
+    groups:
+      security-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "security"
+      minor-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    # Allow auto-merge for security patches
+    allow:
+      - dependency-type: "direct"
+        update-type: "security"
+      - dependency-type: "indirect"
+        update-type: "security"
 
   # Backend dependencies
   - package-ecosystem: "npm"
