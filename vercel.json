@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install",
+  "installCommand": "bash scripts/vercel-install.sh",
   "devCommand": "npm run dev",
   "functions": {
     "api/*.py": {
@@ -77,6 +77,10 @@
     "VITE_API_BASE_URL": "@vite_api_base_url",
     "VITE_BACKEND_URL": "@vite_backend_url",
     "VITE_APP_NAME": "KONIVRER Deck Database",
-    "VITE_ENABLE_DEBUG": "false"
+    "VITE_ENABLE_DEBUG": "false",
+    "SKIP_NODE_SASS_TESTS": "true",
+    "NODE_SASS_BINARY_SITE": "false",
+    "NODE_SASS_BINARY_CACHE_PATH": "false",
+    "NPM_CONFIG_OPTIONAL": "false"
   }
 }

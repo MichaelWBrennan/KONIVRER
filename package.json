@@ -28,14 +28,20 @@
     "security:audit": "npm audit --audit-level=moderate",
     "security:fix": "npm audit fix",
     "deps:check": "npx npm-check-updates",
-    "deps:update": "npx npm-check-updates -u && npm install"
+    "deps:update": "npx npm-check-updates -u && npm install",
+    "postinstall": "node -e \"try { require('fs').unlinkSync('node_modules/.bin/node-sass'); } catch(e) {} try { require('fs').rmSync('node_modules/node-sass', {recursive: true, force: true}); } catch(e) {}\""
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
   "overrides": {
-    "node-sass": "npm:sass@latest"
+    "node-sass": "npm:sass@latest",
+    "**/node-sass": "npm:sass@latest"
+  },
+  "resolutions": {
+    "node-sass": "npm:sass@latest",
+    "**/node-sass": "npm:sass@latest"
   },
   "keywords": [
     "konivrer",
