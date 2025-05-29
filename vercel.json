@@ -40,8 +40,8 @@
           "value": "public, max-age=31536000, immutable"
         },
         {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
+          "key": "Content-Encoding",
+          "value": "gzip"
         }
       ]
     },
@@ -55,6 +55,23 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Content-Encoding",
+          "value": "gzip"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Content-Encoding",
+          "value": "gzip"
         }
       ]
     },
@@ -64,6 +81,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
         }
       ]
     }
