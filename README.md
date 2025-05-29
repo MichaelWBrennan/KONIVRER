@@ -117,6 +117,15 @@ npm run lint:fix
 
 # Clean build directory
 npm run clean
+
+# Run quality checks
+npm run quality:check
+
+# Run full validation (lint + test + quality)
+npm run quality:full
+
+# Security audit
+npm run security:audit
 ```
 
 ## 🌐 Deployment
@@ -218,6 +227,48 @@ Update the backend URL in `vercel.json`:
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+
+## 🔒 Security & Quality
+
+### Security Features
+
+- **Comprehensive Security Headers**: CSP, HSTS, XSS protection, frame options
+- **Input Validation**: All API endpoints validate and sanitize user input
+- **Dependency Security**: Regular security audits with automated vulnerability scanning
+- **Secure Deployment**: Vercel deployment with security best practices
+- **No Sensitive Data**: No API keys or secrets in client-side code
+
+### Quality Assurance
+
+- **Automated Testing**: Comprehensive test suite with Vitest
+- **Code Quality**: ESLint and Prettier for consistent code style
+- **Type Safety**: TypeScript for better development experience
+- **Performance Monitoring**: Bundle size optimization and performance tracking
+- **Dependency Management**: Automated dependency updates with Dependabot
+
+### Security Workflows
+
+- **GitHub Security**: CodeQL analysis and dependency review
+- **Automated Audits**: Daily security scans via GitHub Actions
+- **Vulnerability Management**: Automatic security updates for dependencies
+
+### Quality Checks
+
+Run the comprehensive quality check script:
+
+```bash
+npm run quality:check
+```
+
+This validates:
+
+- ✅ No security vulnerabilities
+- ✅ Build process works
+- ✅ Python API files are valid
+- ✅ No sensitive files in repository
+- ✅ All required configuration files present
+- ✅ Security headers configured
+- ✅ Bundle size optimization
 
 ## 🤝 Contributing
 
