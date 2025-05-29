@@ -103,3 +103,31 @@ temp/
 *.html.bak
 *.css.bak
 *.js.bak
+
+# Security and sensitive files
+*.key
+*.pem
+*.p12
+*.pfx
+.env.*
+secrets/
+private/
+*.secret
+auth.json
+config.json
+.secrets/
+
+# API keys and tokens
+.api-keys
+.tokens
+.credentials
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.backup
+*.bak
+*.old
