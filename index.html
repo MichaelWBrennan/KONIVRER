@@ -1,37 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="KONIVRER Deck Database - Professional deck building and card database for the KONIVRER trading card game" />
+    <meta
+      name="description"
+      content="KONIVRER Deck Database - Professional deck building and card database for the KONIVRER trading card game"
+    />
     <meta name="keywords" content="KONIVRER, deck builder, trading cards, card game, database" />
     <meta name="author" content="KONIVRER Team" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://konivrer-deck-database.vercel.app/" />
     <meta property="og:title" content="KONIVRER Deck Database" />
-    <meta property="og:description" content="Professional deck building and card database for the KONIVRER trading card game" />
-    
+    <meta
+      property="og:description"
+      content="Professional deck building and card database for the KONIVRER trading card game"
+    />
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://konivrer-deck-database.vercel.app/" />
     <meta property="twitter:title" content="KONIVRER Deck Database" />
-    <meta property="twitter:description" content="Professional deck building and card database for the KONIVRER trading card game" />
-    
+    <meta
+      property="twitter:description"
+      content="Professional deck building and card database for the KONIVRER trading card game"
+    />
+
     <!-- Security -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
+    <!-- Resource hints for performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts with display=swap for faster loading -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.jsx" />
+    <link rel="prefetch" href="/src/data/cards.json" />
+
     <title>KONIVRER Deck Database</title>
-    
+
     <style>
       /* Loading spinner styles */
       .loading-container {
@@ -46,7 +66,7 @@
         align-items: center;
         z-index: 9999;
       }
-      
+
       .loading-spinner {
         width: 50px;
         height: 50px;
@@ -55,7 +75,7 @@
         border-top-color: #fff;
         animation: spin 1s ease-in-out infinite;
       }
-      
+
       .loading-text {
         color: white;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -63,11 +83,13 @@
         margin-top: 20px;
         text-align: center;
       }
-      
+
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+          transform: rotate(360deg);
+        }
       }
-      
+
       /* Hide loading when React app loads */
       #root:not(:empty) + .loading-container {
         display: none;
@@ -76,7 +98,7 @@
   </head>
   <body>
     <div id="root"></div>
-    
+
     <!-- Loading spinner shown while React app loads -->
     <div class="loading-container">
       <div>
@@ -84,7 +106,7 @@
         <div class="loading-text">Loading KONIVRER Deck Database...</div>
       </div>
     </div>
-    
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
