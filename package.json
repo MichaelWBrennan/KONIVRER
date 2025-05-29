@@ -36,12 +36,10 @@
     "npm": ">=8.0.0"
   },
   "overrides": {
-    "node-sass": "npm:sass@latest",
-    "**/node-sass": "npm:sass@latest"
+    "node-sass": "sass"
   },
   "resolutions": {
-    "node-sass": "npm:sass@latest",
-    "**/node-sass": "npm:sass@latest"
+    "node-sass": "sass"
   },
   "keywords": [
     "konivrer",
