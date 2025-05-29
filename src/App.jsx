@@ -1,14 +1,17 @@
-//  // Not needed in React 19
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
+import LoadingSpinner from './components/LoadingSpinner';
 import { validateEnv } from './config/env';
-import CardDatabase from './pages/CardDatabase';
-import DeckBuilder from './pages/DeckBuilder';
-import Home from './pages/Home';
-import MyDecks from './pages/MyDecks';
 import './App.css';
+
+// Lazy load pages for better performance
+const Home = lazy(() => import('./pages/Home'));
+const CardDatabase = lazy(() => import('./pages/CardDatabase'));
+const DeckBuilder = lazy(() => import('./pages/DeckBuilder'));
+const MyDecks = lazy(() => import('./pages/MyDecks'));
 
 // Validate environment variables on app start
 try {
@@ -22,13 +25,15 @@ function App() {
     <ErrorBoundary>
       <Router>
         <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/deckbuilder" element={<DeckBuilder />} />
-            <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
-            <Route path="/cards" element={<CardDatabase />} />
-            <Route path="/decks" element={<MyDecks />} />
-          </Routes>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/deckbuilder' element={<DeckBuilder />} />
+              <Route path='/deckbuilder/:deckId' element={<DeckBuilder />} />
+              <Route path='/cards' element={<CardDatabase />} />
+              <Route path='/decks' element={<MyDecks />} />
+            </Routes>
+          </Suspense>
         </Layout>
       </Router>
     </ErrorBoundary>
