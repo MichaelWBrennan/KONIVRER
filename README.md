@@ -22,6 +22,11 @@ A professional deck building and card database application for the KONIVRER trad
 - **Lucide React** - Beautiful, customizable icons
 - **Axios** - HTTP client for API requests
 
+### Backend & API
+- **Python 3.12** - Serverless functions for Vercel
+- **Node.js/Express** - Traditional backend API
+- **Vercel Functions** - Serverless API endpoints
+
 ### Development Tools
 - **ESLint** - Code linting and formatting
 - **Vercel** - Deployment and hosting platform
@@ -41,8 +46,14 @@ konivrer-deck-database/
 │   ├── hooks/            # Custom React hooks
 │   ├── context/          # React context providers
 │   └── data/             # Static data files
+├── api/                  # Python serverless functions
+│   ├── hello.py          # Example Python API endpoint
+│   ├── cards.py          # Cards API endpoint
+│   └── README.md         # Python API documentation
 ├── Backend/              # Backend API (Node.js/Express)
 ├── legacy/               # Legacy Bootstrap files (archived)
+├── requirements.txt      # Python dependencies
+├── runtime.txt           # Python runtime version
 └── dist/                 # Build output (generated)
 ```
 
