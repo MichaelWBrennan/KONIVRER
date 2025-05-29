@@ -6,12 +6,15 @@ export const measurePerformance = () => {
 
     const metrics = {
       // Core Web Vitals
-      domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+      domContentLoaded:
+        navigation.domContentLoadedEventEnd -
+        navigation.domContentLoadedEventStart,
       loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
 
       // Paint metrics
       firstPaint: paint.find(p => p.name === 'first-paint')?.startTime || 0,
-      firstContentfulPaint: paint.find(p => p.name === 'first-contentful-paint')?.startTime || 0,
+      firstContentfulPaint:
+        paint.find(p => p.name === 'first-contentful-paint')?.startTime || 0,
 
       // Network timing
       dnsLookup: navigation.domainLookupEnd - navigation.domainLookupStart,
@@ -22,7 +25,7 @@ export const measurePerformance = () => {
       totalLoadTime: navigation.loadEventEnd - navigation.navigationStart,
     };
 
-    console.log('Performance Metrics:', metrics);
+    console.warn('Performance Metrics:', metrics);
     return metrics;
   }
   return null;
@@ -50,7 +53,7 @@ export const trackRouteChange = routeName => {
       );
 
       const measure = performance.getEntriesByName(`route-${routeName}`)[0];
-      console.log(`Route ${routeName} load time:`, measure.duration, 'ms');
+      console.warn(`Route ${routeName} load time:`, measure.duration, 'ms');
     }, 0);
   }
 };
