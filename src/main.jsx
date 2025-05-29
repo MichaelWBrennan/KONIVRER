@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import './App.css';
+import './utils/performance';
 
 // Register service worker for caching
 if ('serviceWorker' in navigator) {
