@@ -1,0 +1,19 @@
+---
+name: Prettier-fix
+on: [pull_request, push]
+
+permissions:
+  contents: write
+
+jobs:
+  prettier-fix:
+    runs-on: ubuntu-latest
+    # Limit the running time
+    timeout-minutes: 10
+    steps:
+      - name: Invoke the Prettier fix
+        # Use the latest commit in the main branch.
+        uses: WorkOfStan/prettier-fix@main
+        with:
+          #node-version: "20"
+          commit-changes: true
