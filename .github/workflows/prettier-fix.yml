@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Invoke the Prettier fix
         # Use the latest commit in the main branch.
-        uses: MichaelWBrennan/KONIVRER-deck-database/prettier-fix@main
+        uses: MichaelWBrennan/KONIVRER-deck-database@main
         with:
           #node-version: "20"
           commit-changes: true
