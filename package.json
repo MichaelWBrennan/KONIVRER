@@ -94,7 +94,7 @@
     "terser": "^5.40.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-bundle-analyzer": "^0.7.0",
+    "vite-bundle-analyzer": "^0.22.0",
     "vitest": "^3.1.4",
     "ws": "^8.17.1"
   },
