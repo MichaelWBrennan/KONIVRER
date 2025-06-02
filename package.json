@@ -75,7 +75,7 @@
     "autoprefixer": "^10.4.21",
     "cookie": "^0.7.0",
     "esbuild": "^0.25.0",
-    "eslint": "^9.27.0",
+    "eslint": "^9.28.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
