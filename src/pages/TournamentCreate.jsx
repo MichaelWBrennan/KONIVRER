@@ -24,12 +24,12 @@ const TournamentCreate = () => {
     description: '',
     type: 'standard',
     format: 'standard',
-    
+
     // Schedule
     date: '',
     time: '',
     registrationDeadline: '',
-    
+
     // Location
     venue: '',
     address: '',
@@ -37,34 +37,34 @@ const TournamentCreate = () => {
     state: '',
     country: '',
     isOnline: false,
-    
+
     // Participants
     maxParticipants: 32,
     minParticipants: 8,
     registrationOpen: true,
-    
+
     // Prizes and Fees
     entryFee: 0,
     prizePool: 0,
     prizeDistribution: 'standard',
-    
+
     // Tournament Structure
     rounds: 'swiss',
     roundsCount: 0, // Auto-calculated
     topCut: 8,
     timeLimit: 50,
-    
+
     // Judge Information
     headJudge: '',
     judgeLevel: 1,
     additionalJudges: [],
-    
+
     // Advanced Settings
     decklistRequired: true,
     lateRegistration: false,
     spectators: true,
     streaming: false,
-    
+
     // Rules and Policies
     specialRules: '',
     penaltyPolicy: 'standard',
@@ -75,7 +75,7 @@ const TournamentCreate = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const calculateRounds = (participants) => {
+  const calculateRounds = participants => {
     if (participants <= 8) return 3;
     if (participants <= 16) return 4;
     if (participants <= 32) return 5;
@@ -87,13 +87,15 @@ const TournamentCreate = () => {
   const renderBasicInfo = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium mb-2">Tournament Name *</label>
+        <label className="block text-sm font-medium mb-2">
+          Tournament Name *
+        </label>
         <input
           type="text"
           className="input"
           placeholder="Enter tournament name"
           value={formData.name}
-          onChange={(e) => updateFormData('name', e.target.value)}
+          onChange={e => updateFormData('name', e.target.value)}
         />
       </div>
 
@@ -103,17 +105,19 @@ const TournamentCreate = () => {
           className="input resize-none h-24"
           placeholder="Describe your tournament..."
           value={formData.description}
-          onChange={(e) => updateFormData('description', e.target.value)}
+          onChange={e => updateFormData('description', e.target.value)}
         />
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Tournament Type *</label>
+          <label className="block text-sm font-medium mb-2">
+            Tournament Type *
+          </label>
           <select
             className="input"
             value={formData.type}
-            onChange={(e) => updateFormData('type', e.target.value)}
+            onChange={e => updateFormData('type', e.target.value)}
           >
             <option value="standard">Standard Tournament</option>
             <option value="qualifier">Qualifier Event</option>
@@ -129,7 +133,7 @@ const TournamentCreate = () => {
           <select
             className="input"
             value={formData.format}
-            onChange={(e) => updateFormData('format', e.target.value)}
+            onChange={e => updateFormData('format', e.target.value)}
           >
             <option value="standard">Standard</option>
             <option value="extended">Extended</option>
@@ -151,7 +155,7 @@ const TournamentCreate = () => {
             type="date"
             className="input"
             value={formData.date}
-            onChange={(e) => updateFormData('date', e.target.value)}
+            onChange={e => updateFormData('date', e.target.value)}
           />
         </div>
 
@@ -161,18 +165,20 @@ const TournamentCreate = () => {
             type="time"
             className="input"
             value={formData.time}
-            onChange={(e) => updateFormData('time', e.target.value)}
+            onChange={e => updateFormData('time', e.target.value)}
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Registration Deadline</label>
+        <label className="block text-sm font-medium mb-2">
+          Registration Deadline
+        </label>
         <input
           type="datetime-local"
           className="input"
           value={formData.registrationDeadline}
-          onChange={(e) => updateFormData('registrationDeadline', e.target.value)}
+          onChange={e => updateFormData('registrationDeadline', e.target.value)}
         />
       </div>
 
@@ -181,22 +187,26 @@ const TournamentCreate = () => {
           type="checkbox"
           id="isOnline"
           checked={formData.isOnline}
-          onChange={(e) => updateFormData('isOnline', e.target.checked)}
+          onChange={e => updateFormData('isOnline', e.target.checked)}
           className="w-4 h-4"
         />
-        <label htmlFor="isOnline" className="text-sm font-medium">Online Tournament</label>
+        <label htmlFor="isOnline" className="text-sm font-medium">
+          Online Tournament
+        </label>
       </div>
 
       {!formData.isOnline && (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Venue Name *</label>
+            <label className="block text-sm font-medium mb-2">
+              Venue Name *
+            </label>
             <input
               type="text"
               className="input"
               placeholder="Tournament venue"
               value={formData.venue}
-              onChange={(e) => updateFormData('venue', e.target.value)}
+              onChange={e => updateFormData('venue', e.target.value)}
             />
           </div>
 
@@ -207,7 +217,7 @@ const TournamentCreate = () => {
               className="input"
               placeholder="Street address"
               value={formData.address}
-              onChange={(e) => updateFormData('address', e.target.value)}
+              onChange={e => updateFormData('address', e.target.value)}
             />
           </div>
 
@@ -218,27 +228,31 @@ const TournamentCreate = () => {
                 type="text"
                 className="input"
                 value={formData.city}
-                onChange={(e) => updateFormData('city', e.target.value)}
+                onChange={e => updateFormData('city', e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">State/Province</label>
+              <label className="block text-sm font-medium mb-2">
+                State/Province
+              </label>
               <input
                 type="text"
                 className="input"
                 value={formData.state}
-                onChange={(e) => updateFormData('state', e.target.value)}
+                onChange={e => updateFormData('state', e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Country *</label>
+              <label className="block text-sm font-medium mb-2">
+                Country *
+              </label>
               <input
                 type="text"
                 className="input"
                 value={formData.country}
-                onChange={(e) => updateFormData('country', e.target.value)}
+                onChange={e => updateFormData('country', e.target.value)}
               />
             </div>
           </div>
@@ -251,61 +265,79 @@ const TournamentCreate = () => {
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Maximum Participants *</label>
+          <label className="block text-sm font-medium mb-2">
+            Maximum Participants *
+          </label>
           <input
             type="number"
             className="input"
             min="4"
             max="512"
             value={formData.maxParticipants}
-            onChange={(e) => updateFormData('maxParticipants', parseInt(e.target.value))}
+            onChange={e =>
+              updateFormData('maxParticipants', parseInt(e.target.value))
+            }
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Minimum Participants</label>
+          <label className="block text-sm font-medium mb-2">
+            Minimum Participants
+          </label>
           <input
             type="number"
             className="input"
             min="4"
             value={formData.minParticipants}
-            onChange={(e) => updateFormData('minParticipants', parseInt(e.target.value))}
+            onChange={e =>
+              updateFormData('minParticipants', parseInt(e.target.value))
+            }
           />
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Entry Fee ($)</label>
+          <label className="block text-sm font-medium mb-2">
+            Entry Fee ($)
+          </label>
           <input
             type="number"
             className="input"
             min="0"
             step="0.01"
             value={formData.entryFee}
-            onChange={(e) => updateFormData('entryFee', parseFloat(e.target.value))}
+            onChange={e =>
+              updateFormData('entryFee', parseFloat(e.target.value))
+            }
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Prize Pool ($)</label>
+          <label className="block text-sm font-medium mb-2">
+            Prize Pool ($)
+          </label>
           <input
             type="number"
             className="input"
             min="0"
             step="0.01"
             value={formData.prizePool}
-            onChange={(e) => updateFormData('prizePool', parseFloat(e.target.value))}
+            onChange={e =>
+              updateFormData('prizePool', parseFloat(e.target.value))
+            }
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Tournament Structure</label>
+        <label className="block text-sm font-medium mb-2">
+          Tournament Structure
+        </label>
         <select
           className="input"
           value={formData.rounds}
-          onChange={(e) => updateFormData('rounds', e.target.value)}
+          onChange={e => updateFormData('rounds', e.target.value)}
         >
           <option value="swiss">Swiss Rounds</option>
           <option value="single-elimination">Single Elimination</option>
@@ -320,7 +352,7 @@ const TournamentCreate = () => {
           <select
             className="input"
             value={formData.topCut}
-            onChange={(e) => updateFormData('topCut', parseInt(e.target.value))}
+            onChange={e => updateFormData('topCut', parseInt(e.target.value))}
           >
             <option value={4}>Top 4</option>
             <option value={8}>Top 8</option>
@@ -330,14 +362,18 @@ const TournamentCreate = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Time Limit (minutes)</label>
+          <label className="block text-sm font-medium mb-2">
+            Time Limit (minutes)
+          </label>
           <input
             type="number"
             className="input"
             min="30"
             max="90"
             value={formData.timeLimit}
-            onChange={(e) => updateFormData('timeLimit', parseInt(e.target.value))}
+            onChange={e =>
+              updateFormData('timeLimit', parseInt(e.target.value))
+            }
           />
         </div>
       </div>
@@ -351,7 +387,14 @@ const TournamentCreate = () => {
           </div>
           <div>
             <span className="text-muted">Estimated Duration: </span>
-            <span>{Math.ceil((calculateRounds(formData.maxParticipants) * (formData.timeLimit + 10)) / 60)} hours</span>
+            <span>
+              {Math.ceil(
+                (calculateRounds(formData.maxParticipants) *
+                  (formData.timeLimit + 10)) /
+                  60,
+              )}{' '}
+              hours
+            </span>
           </div>
         </div>
       </div>
@@ -367,16 +410,18 @@ const TournamentCreate = () => {
           className="input"
           placeholder="Head judge name"
           value={formData.headJudge}
-          onChange={(e) => updateFormData('headJudge', e.target.value)}
+          onChange={e => updateFormData('headJudge', e.target.value)}
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Required Judge Level</label>
+        <label className="block text-sm font-medium mb-2">
+          Required Judge Level
+        </label>
         <select
           className="input"
           value={formData.judgeLevel}
-          onChange={(e) => updateFormData('judgeLevel', parseInt(e.target.value))}
+          onChange={e => updateFormData('judgeLevel', parseInt(e.target.value))}
         >
           <option value={1}>Level 1 (Local Events)</option>
           <option value={2}>Level 2 (Regional Events)</option>
@@ -390,10 +435,12 @@ const TournamentCreate = () => {
             type="checkbox"
             id="decklistRequired"
             checked={formData.decklistRequired}
-            onChange={(e) => updateFormData('decklistRequired', e.target.checked)}
+            onChange={e => updateFormData('decklistRequired', e.target.checked)}
             className="w-4 h-4"
           />
-          <label htmlFor="decklistRequired" className="text-sm font-medium">Decklist Required</label>
+          <label htmlFor="decklistRequired" className="text-sm font-medium">
+            Decklist Required
+          </label>
         </div>
 
         <div className="flex items-center gap-3">
@@ -401,10 +448,12 @@ const TournamentCreate = () => {
             type="checkbox"
             id="lateRegistration"
             checked={formData.lateRegistration}
-            onChange={(e) => updateFormData('lateRegistration', e.target.checked)}
+            onChange={e => updateFormData('lateRegistration', e.target.checked)}
             className="w-4 h-4"
           />
-          <label htmlFor="lateRegistration" className="text-sm font-medium">Allow Late Registration</label>
+          <label htmlFor="lateRegistration" className="text-sm font-medium">
+            Allow Late Registration
+          </label>
         </div>
 
         <div className="flex items-center gap-3">
@@ -412,10 +461,12 @@ const TournamentCreate = () => {
             type="checkbox"
             id="spectators"
             checked={formData.spectators}
-            onChange={(e) => updateFormData('spectators', e.target.checked)}
+            onChange={e => updateFormData('spectators', e.target.checked)}
             className="w-4 h-4"
           />
-          <label htmlFor="spectators" className="text-sm font-medium">Allow Spectators</label>
+          <label htmlFor="spectators" className="text-sm font-medium">
+            Allow Spectators
+          </label>
         </div>
 
         <div className="flex items-center gap-3">
@@ -423,10 +474,12 @@ const TournamentCreate = () => {
             type="checkbox"
             id="streaming"
             checked={formData.streaming}
-            onChange={(e) => updateFormData('streaming', e.target.checked)}
+            onChange={e => updateFormData('streaming', e.target.checked)}
             className="w-4 h-4"
           />
-          <label htmlFor="streaming" className="text-sm font-medium">Live Streaming</label>
+          <label htmlFor="streaming" className="text-sm font-medium">
+            Live Streaming
+          </label>
         </div>
       </div>
 
@@ -436,7 +489,7 @@ const TournamentCreate = () => {
           className="input resize-none h-24"
           placeholder="Any special rules or modifications for this tournament..."
           value={formData.specialRules}
-          onChange={(e) => updateFormData('specialRules', e.target.value)}
+          onChange={e => updateFormData('specialRules', e.target.value)}
         />
       </div>
     </div>
@@ -450,7 +503,9 @@ const TournamentCreate = () => {
           <div className="space-y-3">
             <div>
               <span className="text-sm text-muted">Name:</span>
-              <p className="font-medium">{formData.name || 'Untitled Tournament'}</p>
+              <p className="font-medium">
+                {formData.name || 'Untitled Tournament'}
+              </p>
             </div>
             <div>
               <span className="text-sm text-muted">Type:</span>
@@ -462,19 +517,25 @@ const TournamentCreate = () => {
             </div>
             <div>
               <span className="text-sm text-muted">Date & Time:</span>
-              <p className="font-medium">{formData.date} at {formData.time}</p>
+              <p className="font-medium">
+                {formData.date} at {formData.time}
+              </p>
             </div>
           </div>
           <div className="space-y-3">
             <div>
               <span className="text-sm text-muted">Location:</span>
               <p className="font-medium">
-                {formData.isOnline ? 'Online' : `${formData.venue}, ${formData.city}`}
+                {formData.isOnline
+                  ? 'Online'
+                  : `${formData.venue}, ${formData.city}`}
               </p>
             </div>
             <div>
               <span className="text-sm text-muted">Participants:</span>
-              <p className="font-medium">{formData.minParticipants} - {formData.maxParticipants} players</p>
+              <p className="font-medium">
+                {formData.minParticipants} - {formData.maxParticipants} players
+              </p>
             </div>
             <div>
               <span className="text-sm text-muted">Entry Fee:</span>
@@ -498,7 +559,9 @@ const TournamentCreate = () => {
             </div>
             <div>
               <span className="text-sm text-muted">Swiss Rounds:</span>
-              <p className="font-medium">{calculateRounds(formData.maxParticipants)}</p>
+              <p className="font-medium">
+                {calculateRounds(formData.maxParticipants)}
+              </p>
             </div>
           </div>
           <div className="space-y-3">
@@ -519,7 +582,9 @@ const TournamentCreate = () => {
         <div className="space-y-3">
           <div>
             <span className="text-sm text-muted">Head Judge:</span>
-            <p className="font-medium">{formData.headJudge || 'Not specified'}</p>
+            <p className="font-medium">
+              {formData.headJudge || 'Not specified'}
+            </p>
           </div>
           <div>
             <span className="text-sm text-muted">Required Level:</span>
@@ -559,19 +624,30 @@ const TournamentCreate = () => {
             const Icon = stepItem.icon;
             const isActive = step === stepItem.id;
             const isCompleted = step > stepItem.id;
-            
+
             return (
               <div key={stepItem.id} className="flex items-center">
-                <div className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                  isActive ? 'bg-accent-primary text-white' : 
-                  isCompleted ? 'bg-green-600 text-white' : 'bg-tertiary text-muted'
-                }`}>
+                <div
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-accent-primary text-white'
+                      : isCompleted
+                        ? 'bg-green-600 text-white'
+                        : 'bg-tertiary text-muted'
+                  }`}
+                >
                   <Icon size={16} />
-                  <span className="text-sm font-medium hidden sm:block">{stepItem.title}</span>
-                  <span className="text-sm font-medium sm:hidden">{stepItem.id}</span>
+                  <span className="text-sm font-medium hidden sm:block">
+                    {stepItem.title}
+                  </span>
+                  <span className="text-sm font-medium sm:hidden">
+                    {stepItem.id}
+                  </span>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`w-8 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-tertiary'}`} />
+                  <div
+                    className={`w-8 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-tertiary'}`}
+                  />
                 )}
               </div>
             );
@@ -604,7 +680,7 @@ const TournamentCreate = () => {
             >
               Cancel
             </button>
-            
+
             {step < 5 ? (
               <button
                 onClick={() => setStep(Math.min(5, step + 1))}
@@ -613,10 +689,7 @@ const TournamentCreate = () => {
                 Next
               </button>
             ) : (
-              <button
-                onClick={handleSubmit}
-                className="btn btn-primary"
-              >
+              <button onClick={handleSubmit} className="btn btn-primary">
                 <Save size={16} />
                 Create Tournament
               </button>

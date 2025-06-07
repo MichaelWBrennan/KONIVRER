@@ -40,7 +40,8 @@ const Tournaments = () => {
         maxParticipants: 256,
         prizePool: '$50,000',
         entryFee: '$25',
-        description: 'The ultimate KONIVRER tournament featuring the best players from around the world.',
+        description:
+          'The ultimate KONIVRER tournament featuring the best players from around the world.',
         image: '/api/placeholder/400/200',
         rounds: 8,
         judge: 'Head Judge Sarah Chen',
@@ -110,27 +111,36 @@ const Tournaments = () => {
 
   const filteredTournaments = tournaments.filter(tournament => {
     const matchesFilter = filter === 'all' || tournament.status === filter;
-    const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tournament.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tournament.organizer.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tournament.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tournament.organizer.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'live': return 'bg-green-600 text-white';
-      case 'upcoming': return 'bg-blue-600 text-white';
-      case 'completed': return 'bg-gray-600 text-white';
-      default: return 'bg-gray-600 text-white';
+      case 'live':
+        return 'bg-green-600 text-white';
+      case 'upcoming':
+        return 'bg-blue-600 text-white';
+      case 'completed':
+        return 'bg-gray-600 text-white';
+      default:
+        return 'bg-gray-600 text-white';
     }
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = status => {
     switch (status) {
-      case 'live': return <Zap size={14} />;
-      case 'upcoming': return <Calendar size={14} />;
-      case 'completed': return <Award size={14} />;
-      default: return <Calendar size={14} />;
+      case 'live':
+        return <Zap size={14} />;
+      case 'upcoming':
+        return <Calendar size={14} />;
+      case 'completed':
+        return <Award size={14} />;
+      default:
+        return <Calendar size={14} />;
     }
   };
 
@@ -161,52 +171,77 @@ const Tournaments = () => {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Featured Events</h2>
           <div className="grid lg:grid-cols-2 gap-6">
-            {tournaments.filter(t => t.featured).map(tournament => (
-              <div key={tournament.id} className="card bg-gradient-to-br from-accent-primary to-accent-secondary text-white relative overflow-hidden">
-                <div className="absolute top-4 right-4">
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}>
-                    {getStatusIcon(tournament.status)}
-                    {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
-                  </span>
+            {tournaments
+              .filter(t => t.featured)
+              .map(tournament => (
+                <div
+                  key={tournament.id}
+                  className="card bg-gradient-to-br from-accent-primary to-accent-secondary text-white relative overflow-hidden"
+                >
+                  <div className="absolute top-4 right-4">
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}
+                    >
+                      {getStatusIcon(tournament.status)}
+                      {tournament.status.charAt(0).toUpperCase() +
+                        tournament.status.slice(1)}
+                    </span>
+                  </div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trophy size={20} className="text-yellow-300" />
+                      <span className="text-sm font-medium text-yellow-300">
+                        {tournament.type}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">
+                      {tournament.name}
+                    </h3>
+                    <p className="text-white/90 mb-4 line-clamp-2">
+                      {tournament.description}
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="flex items-center gap-2 text-sm">
+                        <Calendar size={14} />
+                        <span>
+                          {new Date(tournament.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Clock size={14} />
+                        <span>{tournament.time}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <MapPin size={14} />
+                        <span className="line-clamp-1">
+                          {tournament.location}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Users size={14} />
+                        <span>
+                          {tournament.participants}/{tournament.maxParticipants}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm">
+                        <span className="text-white/80">Prize Pool: </span>
+                        <span className="font-semibold text-yellow-300">
+                          {tournament.prizePool}
+                        </span>
+                      </div>
+                      <Link
+                        to={`/tournaments/${tournament.id}`}
+                        className="btn btn-ghost text-white border-white/30 hover:bg-white/20"
+                      >
+                        <Eye size={16} />
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="relative z-10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Trophy size={20} className="text-yellow-300" />
-                    <span className="text-sm font-medium text-yellow-300">{tournament.type}</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{tournament.name}</h3>
-                  <p className="text-white/90 mb-4 line-clamp-2">{tournament.description}</p>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar size={14} />
-                      <span>{new Date(tournament.date).toLocaleDateString()}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Clock size={14} />
-                      <span>{tournament.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <MapPin size={14} />
-                      <span className="line-clamp-1">{tournament.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Users size={14} />
-                      <span>{tournament.participants}/{tournament.maxParticipants}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm">
-                      <span className="text-white/80">Prize Pool: </span>
-                      <span className="font-semibold text-yellow-300">{tournament.prizePool}</span>
-                    </div>
-                    <Link to={`/tournaments/${tournament.id}`} className="btn btn-ghost text-white border-white/30 hover:bg-white/20">
-                      <Eye size={16} />
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </section>
 
@@ -225,13 +260,16 @@ const Tournaments = () => {
           </div>
           <div className="flex gap-2 flex-1">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                size={16}
+              />
               <input
                 type="text"
                 placeholder="Search tournaments..."
                 className="input pl-10"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
             <button className="btn btn-secondary">
@@ -243,25 +281,40 @@ const Tournaments = () => {
         {/* Tournament List */}
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredTournaments.map(tournament => (
-            <div key={tournament.id} className="card hover:border-accent-primary transition-all duration-300">
+            <div
+              key={tournament.id}
+              className="card hover:border-accent-primary transition-all duration-300"
+            >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <Trophy size={16} className="text-accent-primary" />
-                  <span className="text-sm font-medium text-accent-primary">{tournament.type}</span>
+                  <span className="text-sm font-medium text-accent-primary">
+                    {tournament.type}
+                  </span>
                 </div>
-                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}>
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}
+                >
                   {getStatusIcon(tournament.status)}
-                  {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
+                  {tournament.status.charAt(0).toUpperCase() +
+                    tournament.status.slice(1)}
                 </span>
               </div>
 
-              <h3 className="font-semibold mb-2 line-clamp-2">{tournament.name}</h3>
-              <p className="text-sm text-secondary mb-4 line-clamp-2">{tournament.description}</p>
+              <h3 className="font-semibold mb-2 line-clamp-2">
+                {tournament.name}
+              </h3>
+              <p className="text-sm text-secondary mb-4 line-clamp-2">
+                {tournament.description}
+              </p>
 
               <div className="space-y-2 mb-4">
                 <div className="flex items-center gap-2 text-sm">
                   <Calendar size={14} className="text-muted" />
-                  <span>{new Date(tournament.date).toLocaleDateString()} at {tournament.time}</span>
+                  <span>
+                    {new Date(tournament.date).toLocaleDateString()} at{' '}
+                    {tournament.time}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <MapPin size={14} className="text-muted" />
@@ -269,7 +322,10 @@ const Tournaments = () => {
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Users size={14} className="text-muted" />
-                  <span>{tournament.participants}/{tournament.maxParticipants} players</span>
+                  <span>
+                    {tournament.participants}/{tournament.maxParticipants}{' '}
+                    players
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Star size={14} className="text-muted" />
@@ -282,16 +338,19 @@ const Tournaments = () => {
                   <span className="text-muted">Entry: </span>
                   <span className="font-medium">{tournament.entryFee}</span>
                   <span className="text-muted"> • Prize: </span>
-                  <span className="font-medium text-accent-primary">{tournament.prizePool}</span>
+                  <span className="font-medium text-accent-primary">
+                    {tournament.prizePool}
+                  </span>
                 </div>
                 <div className="flex gap-2">
-                  <Link to={`/tournaments/${tournament.id}`} className="btn btn-sm btn-secondary">
+                  <Link
+                    to={`/tournaments/${tournament.id}`}
+                    className="btn btn-sm btn-secondary"
+                  >
                     <Eye size={14} />
                   </Link>
                   {tournament.status === 'upcoming' && (
-                    <button className="btn btn-sm btn-primary">
-                      Register
-                    </button>
+                    <button className="btn btn-sm btn-primary">Register</button>
                   )}
                 </div>
               </div>
@@ -300,7 +359,9 @@ const Tournaments = () => {
                 <div className="mt-3 p-2 bg-yellow-900/20 border border-yellow-600/30 rounded">
                   <div className="flex items-center gap-2 text-sm">
                     <Award size={14} className="text-yellow-400" />
-                    <span className="text-yellow-100">Winner: {tournament.winner}</span>
+                    <span className="text-yellow-100">
+                      Winner: {tournament.winner}
+                    </span>
                   </div>
                 </div>
               )}
@@ -313,7 +374,9 @@ const Tournaments = () => {
             <Trophy size={48} className="text-muted mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">No tournaments found</h3>
             <p className="text-secondary mb-4">
-              {searchTerm ? 'Try adjusting your search terms' : 'No tournaments match your current filters'}
+              {searchTerm
+                ? 'Try adjusting your search terms'
+                : 'No tournaments match your current filters'}
             </p>
             <Link to="/tournaments/create" className="btn btn-primary">
               <Plus size={16} />
