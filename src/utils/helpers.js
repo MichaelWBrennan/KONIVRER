@@ -85,7 +85,7 @@ export const filterCards = (cards, filters) => {
       const matchesName = card.name.toLowerCase().includes(searchLower);
       const matchesText = card.text.toLowerCase().includes(searchLower);
       const matchesKeywords = card.keywords.some(keyword =>
-        keyword.toLowerCase().includes(searchLower),
+        keyword.toLowerCase().includes(searchLower)
       );
 
       if (!matchesName && !matchesText && !matchesKeywords) {
@@ -96,7 +96,7 @@ export const filterCards = (cards, filters) => {
     // Element filter
     if (filters.elements && filters.elements.length > 0) {
       const hasMatchingElement = card.elements.some(element =>
-        filters.elements.includes(element),
+        filters.elements.includes(element)
       );
       if (!hasMatchingElement) {
         return false;
@@ -212,14 +212,14 @@ export const validateDeck = cards => {
   // Check deck size
   const totalCards = Object.values(cardCounts).reduce(
     (sum, count) => sum + count,
-    0,
+    0
   );
   if (totalCards < 30) {
     errors.push(`Deck must have at least 30 cards (currently ${totalCards})`);
   }
   if (totalCards > 60) {
     errors.push(
-      `Deck cannot have more than 60 cards (currently ${totalCards})`,
+      `Deck cannot have more than 60 cards (currently ${totalCards})`
     );
   }
 
@@ -228,7 +228,7 @@ export const validateDeck = cards => {
     if (count > 3) {
       const card = cards.find(c => c.card.id === cardId)?.card;
       errors.push(
-        `Cannot have more than 3 copies of ${card?.name || 'a card'} (currently ${count})`,
+        `Cannot have more than 3 copies of ${card?.name || 'a card'} (currently ${count})`
       );
     }
   });
