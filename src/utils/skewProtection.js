@@ -135,7 +135,9 @@ class SkewProtection {
 
       // If no endpoints worked, don't treat it as an error
       if (!anyEndpointWorked) {
-        console.debug('No version check endpoints available, skipping skew detection');
+        console.debug(
+          'No version check endpoints available, skipping skew detection',
+        );
       }
     } catch (error) {
       console.debug('Skew check error:', error.message);
@@ -385,7 +387,7 @@ export const getSkewStatus = () => skewProtection.getStatus();
 export function useSkewProtection() {
   // This is a placeholder - actual React hooks should be used in React components
   // Components should import { useState, useEffect } from 'react' and use them directly
-  
+
   // Fallback for non-React environments or when React hooks aren't available
   return {
     ...skewProtection.getStatus(),
