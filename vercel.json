@@ -36,7 +36,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com https://vitals.vercel-insights.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: https://vitals.vercel-insights.com https://va.vercel-scripts.com; frame-ancestors 'none'"
         },
         {
           "key": "Referrer-Policy",
@@ -113,6 +113,7 @@
   "env": {
     "VITE_APP_NAME": "KONIVRER Deck Database",
     "VITE_ENABLE_DEBUG": "false",
+    "VITE_ENABLE_ANALYTICS": "true",
     "SKIP_NODE_SASS_TESTS": "true",
     "NODE_SASS_BINARY_SITE": "false",
     "NODE_SASS_BINARY_CACHE_PATH": "false"
