@@ -1,8 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import App from './App';
 import './App.css';
+import { initializeAnalytics, analyticsConfig } from './config/analytics.js';
+import { initializeSecurity } from './config/security.js';
 
 // Performance monitoring (only in development)
 if (import.meta.env.DEV) {
@@ -45,5 +49,17 @@ const root = createRoot(container);
 root.render(
   <StrictMode>
     <App />
+    {analyticsConfig.vercel.enabled && (
+      <>
+        <Analytics />
+        <SpeedInsights 
+          sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
+        />
+      </>
+    )}
   </StrictMode>,
 );
+
+// Initialize security and analytics after render
+initializeSecurity();
+initializeAnalytics();
