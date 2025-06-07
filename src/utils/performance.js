@@ -26,6 +26,14 @@ export const measurePerformance = () => {
     };
 
     console.warn('Performance Metrics:', metrics);
+    
+    // Track performance metrics with analytics
+    import('./analytics').then(({ trackPerformance }) => {
+      trackPerformance(metrics);
+    }).catch(() => {
+      // Silently fail if analytics is not available
+    });
+    
     return metrics;
   }
   return null;
@@ -53,7 +61,15 @@ export const trackRouteChange = routeName => {
       );
 
       const measure = performance.getEntriesByName(`route-${routeName}`)[0];
-      console.warn(`Route ${routeName} load time:`, measure.duration, 'ms');
+      const loadTime = Math.round(measure.duration);
+      console.warn(`Route ${routeName} load time:`, loadTime, 'ms');
+      
+      // Track route change with analytics
+      import('./analytics').then(({ trackRouteChange }) => {
+        trackRouteChange(routeName, loadTime);
+      }).catch(() => {
+        // Silently fail if analytics is not available
+      });
     }, 0);
   }
 };

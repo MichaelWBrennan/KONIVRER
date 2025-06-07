@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
+import WebVitals from './components/WebVitals';
+import { env } from './config/env';
 
 // Lazy load pages with prefetch hints
 const Home = lazy(
@@ -48,8 +50,21 @@ function App() {
             </Routes>
           </Suspense>
         </Layout>
-        <Analytics />
-        <SpeedInsights />
+        
+        {/* Analytics and Performance Monitoring */}
+        <WebVitals />
+        {(env.ENABLE_ANALYTICS || import.meta.env.PROD) && (
+          <>
+            <Analytics 
+              mode={import.meta.env.DEV ? 'development' : 'production'}
+              debug={env.ENABLE_DEBUG}
+            />
+            <SpeedInsights 
+              debug={env.ENABLE_DEBUG}
+              sampleRate={import.meta.env.DEV ? 1 : 0.1}
+            />
+          </>
+        )}
       </Router>
     </ErrorBoundary>
   );
