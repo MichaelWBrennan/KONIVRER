@@ -34,6 +34,9 @@
     "quality:full": "npm run validate && npm run quality:check",
     "deps:check": "npx npm-check-updates",
     "analytics:verify": "node scripts/verify-analytics.js",
+    "security:check": "node scripts/security-check.js",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:scan": "npm audit && npm run security:check",
     "deps:update": "npx npm-check-updates -u && npm install",
     "postinstall": "node -e \"try { require('fs').unlinkSync('node_modules/.bin/node-sass'); } catch(e) {} try { require('fs').rmSync('node_modules/node-sass', {recursive: true, force: true}); } catch(e) {}\""
   },
