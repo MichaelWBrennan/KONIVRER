@@ -156,7 +156,7 @@
   "crons": [
     {
       "path": "/api/security/health-check",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 2 * * *"
     }
   ]
 }
