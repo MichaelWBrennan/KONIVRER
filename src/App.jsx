@@ -1,13 +1,15 @@
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
+import SkewProtection from './components/SkewProtection';
 import WebVitals from './components/WebVitals';
 import { env } from './config/env';
+import './utils/skewProtection'; // Initialize skew protection
 
 // Lazy load pages with prefetch hints
 const Home = lazy(
@@ -50,6 +52,9 @@ function App() {
             </Routes>
           </Suspense>
         </Layout>
+
+        {/* Skew Protection */}
+        <SkewProtection />
 
         {/* Analytics and Performance Monitoring */}
         <WebVitals />

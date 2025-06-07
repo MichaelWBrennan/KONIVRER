@@ -60,6 +60,13 @@ root.render(
   </StrictMode>,
 );
 
-// Initialize security and analytics after render
+// Initialize security, analytics, and skew protection after render
 initializeSecurity();
 initializeAnalytics();
+
+// Initialize skew protection
+if (import.meta.env.PROD) {
+  import('./utils/skewProtection.js').then(({ skewProtection }) => {
+    console.log('Vercel skew protection initialized');
+  });
+}

@@ -93,7 +93,10 @@ object-src 'none'
   },
   "regions": ["iad1"],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "skewProtection": {
+    "maxAge": 3600
+  }
 }
 ```
 
@@ -101,6 +104,31 @@ object-src 'none'
 - **Endpoint**: `/api/security/health-check`
 - **Monitoring**: Automated security status checks
 - **Metrics**: Security score and compliance status
+
+### 9. Skew Protection ✅
+
+**Implementation**: `src/utils/skewProtection.js` + `vercel.json`
+
+#### Features:
+- **Server-side Protection**: Vercel's built-in skew protection (1 hour maxAge)
+- **Client-side Detection**: Automatic version mismatch detection
+- **Multi-endpoint Checking**: Health, version, and analytics endpoints
+- **Graceful Handling**: User-friendly update notifications
+- **Automatic Retry**: Smart retry logic for failed requests
+- **Cache Busting**: Force refresh with cache clearing
+
+#### Endpoints:
+- `/api/version` - Version information with skew headers
+- `/api/health` - Health check with deployment info
+- `/api/security/health-check` - Security status monitoring
+
+#### Usage:
+```javascript
+import { useSkewProtection } from './utils/skewProtection.js';
+
+// In React components
+const { skewDetected, checkForUpdates, forceRefresh } = useSkewProtection();
+```
 
 ## Security Testing ✅
 
