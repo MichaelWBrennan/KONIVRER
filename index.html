@@ -64,13 +64,58 @@
     
     <script type="module" src="/src/main.jsx"></script>
     
-    <!-- Performance monitoring -->
+    <!-- CRITICAL: Aggressive cache busting and cleanup -->
     <script>
-      // Basic performance monitoring
+      // Immediate cache busting
+      const timestamp = Date.now();
+      console.log('🚀 KONIVRER App loading at:', new Date().toISOString());
+      console.log('🔄 Cache bust timestamp:', timestamp);
+      
+      // Aggressive cache clearing
+      if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+          cacheNames.forEach(cacheName => {
+            caches.delete(cacheName);
+            console.log('🗑️ Deleted cache:', cacheName);
+          });
+        });
+      }
+      
+      // Clear localStorage and sessionStorage
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log('🗑️ Cleared local storage');
+      } catch (e) {
+        console.log('⚠️ Storage clear error:', e);
+      }
+      
+      // Remove any existing loading elements immediately
+      const removeLoading = () => {
+        const selectors = [
+          '.loading', '.loading-container', '.loading-spinner',
+          '[class*="loading"]', '[class*="spinner"]',
+          '[data-loading]', '#loading', '#spinner'
+        ];
+        
+        selectors.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => {
+            el.style.display = 'none';
+            el.remove();
+          });
+        });
+      };
+      
+      // Execute immediately and on DOM ready
+      removeLoading();
+      document.addEventListener('DOMContentLoaded', removeLoading);
+      
+      // Performance monitoring
       window.addEventListener('load', () => {
         console.log('✅ Page loaded successfully');
-        console.log('🚀 App version: production-v2.1.0');
+        console.log('🚀 App version: production-v2.2.0-clean');
         console.log('🕐 Load time:', performance.now(), 'ms');
+        removeLoading(); // Final cleanup
       });
     </script>
   </body>
