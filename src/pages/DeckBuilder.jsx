@@ -489,4 +489,5 @@ const DeckBuilder = () => {
   );
 };
 
+export { DeckBuilder };
 export default DeckBuilder;
