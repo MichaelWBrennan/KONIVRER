@@ -64,14 +64,70 @@ root.render(
 initializeSecurity();
 initializeAnalytics();
 
-// Hide loading spinner when React app mounts
-const hideLoading = () => {
-  const loadingElement = document.querySelector('.loading');
-  if (loadingElement) {
-    loadingElement.style.display = 'none';
+// CRITICAL: Comprehensive loading spinner removal
+const removeAllLoadingElements = () => {
+  // Remove by class names
+  const loadingSelectors = [
+    '.loading', '.loading-container', '.loading-spinner', 
+    '[class*="loading"]', '[class*="spinner"]',
+    '[data-loading]', '#loading', '#spinner'
+  ];
+  
+  loadingSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(element => {
+      element.style.display = 'none';
+      element.remove();
+    });
+  });
+  
+  // Remove any elements with loading text
+  const allElements = document.querySelectorAll('*');
+  allElements.forEach(element => {
+    if (element.textContent && element.textContent.includes('Loading KONIVRER')) {
+      element.style.display = 'none';
+      element.remove();
+    }
+  });
+  
+  console.log('🗑️ Comprehensive loading element removal completed');
+};
+
+// CRITICAL: Unregister all service workers
+const unregisterServiceWorkers = async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const registration of registrations) {
+        await registration.unregister();
+        console.log('🗑️ Unregistered service worker:', registration.scope);
+      }
+    } catch (error) {
+      console.log('⚠️ Service worker unregistration error:', error);
+    }
   }
 };
 
-// Hide loading immediately and also after a short delay as fallback
-hideLoading();
-setTimeout(hideLoading, 100);
+// CRITICAL: Clear all caches
+const clearAllCaches = async () => {
+  if ('caches' in window) {
+    try {
+      const cacheNames = await caches.keys();
+      for (const cacheName of cacheNames) {
+        await caches.delete(cacheName);
+        console.log('🗑️ Deleted cache:', cacheName);
+      }
+    } catch (error) {
+      console.log('⚠️ Cache clearing error:', error);
+    }
+  }
+};
+
+// Execute all cleanup operations
+removeAllLoadingElements();
+unregisterServiceWorkers();
+clearAllCaches();
+
+// Repeat cleanup after delays as fallback
+setTimeout(removeAllLoadingElements, 100);
+setTimeout(removeAllLoadingElements, 500);
+setTimeout(removeAllLoadingElements, 1000);
