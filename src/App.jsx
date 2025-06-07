@@ -5,11 +5,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
+// import PerformanceOptimizer from './components/PerformanceOptimizer';
 import LoadingSpinner from './components/LoadingSpinner';
 import SkewProtection from './components/SkewProtection';
 import WebVitals from './components/WebVitals';
 import { env } from './config/env';
-import './utils/skewProtection'; // Initialize skew protection
+// import './utils/skewProtection'; // Initialize skew protection
 
 // Lazy load pages with prefetch hints
 const Home = lazy(
@@ -27,15 +28,16 @@ const MyDecks = lazy(
 );
 
 // Validate environment variables only in development
-if (import.meta.env.DEV) {
-  import('./config/env').then(({ validateEnv }) => {
-    try {
-      validateEnv();
-    } catch (error) {
-      console.error('Environment validation failed:', error);
-    }
-  });
-}
+// Temporarily disabled to debug loading issue
+// if (import.meta.env.DEV) {
+//   import('./config/env').then(({ validateEnv }) => {
+//     try {
+//       validateEnv();
+//     } catch (error) {
+//       console.error('Environment validation failed:', error);
+//     }
+//   });
+// }
 
 function App() {
   return (
@@ -54,11 +56,12 @@ function App() {
         </Layout>
 
         {/* Skew Protection */}
-        <SkewProtection />
+        {/* <SkewProtection /> */}
 
         {/* Analytics and Performance Monitoring */}
-        <WebVitals />
-        {(env.ENABLE_ANALYTICS || import.meta.env.PROD) && (
+        {/* <WebVitals /> */}
+        {/* Temporarily disabled analytics */}
+        {/* {(env.ENABLE_ANALYTICS || import.meta.env.PROD) && (
           <>
             <Analytics
               mode={import.meta.env.DEV ? 'development' : 'production'}
@@ -69,7 +72,7 @@ function App() {
               sampleRate={import.meta.env.DEV ? 1 : 0.1}
             />
           </>
-        )}
+        )} */}
       </Router>
     </ErrorBoundary>
   );
