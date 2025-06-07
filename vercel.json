@@ -138,8 +138,6 @@
     "VITE_APP_NAME": "KONIVRER Deck Database",
     "VITE_ENABLE_DEBUG": "false",
     "VITE_ENABLE_ANALYTICS": "true",
-    "VITE_BUILD_TIME": "@now",
-    "VITE_GIT_COMMIT_SHA": "@vercel-git-commit-sha",
     "SKIP_NODE_SASS_TESTS": "true",
     "NODE_SASS_BINARY_SITE": "false",
     "NODE_SASS_BINARY_CACHE_PATH": "false"
