@@ -72,7 +72,7 @@ const DeckBuilder = () => {
         setDeck(prev => ({
           ...prev,
           cards: prev.cards.map(c =>
-            c.id === card.id ? { ...c, count: c.count + 1 } : c
+            c.id === card.id ? { ...c, count: c.count + 1 } : c,
           ),
         }));
       }
@@ -214,7 +214,7 @@ const DeckBuilder = () => {
                                   setFilters(prev => ({
                                     ...prev,
                                     elements: prev.elements.filter(
-                                      el => el !== element
+                                      el => el !== element,
                                     ),
                                   }));
                                 }
@@ -313,7 +313,7 @@ const DeckBuilder = () => {
                                   setFilters(prev => ({
                                     ...prev,
                                     keywords: prev.keywords.filter(
-                                      kw => kw !== keyword
+                                      kw => kw !== keyword,
                                     ),
                                   }));
                                 }
