@@ -474,4 +474,5 @@ const CardDatabase = () => {
   );
 };
 
+export { CardDatabase };
 export default CardDatabase;

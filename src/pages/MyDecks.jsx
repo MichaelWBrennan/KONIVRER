@@ -395,4 +395,5 @@ const MyDecks = () => {
   );
 };
 
+export { MyDecks };
 export default MyDecks;
