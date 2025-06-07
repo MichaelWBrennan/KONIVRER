@@ -18,41 +18,60 @@ if (import.meta.env.PROD) {
   import('./utils/speedOptimizations');
 }
 
-// Initialize security configurations
-initializeSecurity();
+// Optimized service worker registration
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  // Use requestIdleCallback for better performance
+  const registerSW = () => {
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/' })
+      .then(registration => {
+        // Update on reload
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      })
+      .catch(() => {
+        // Silently fail in production
+      });
+  };
 
-// Initialize analytics
-initializeAnalytics();
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(registerSW);
+  } else {
+    setTimeout(registerSW, 1000);
+  }
+}
 
-// Create root and render
+// Optimized root creation
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-// Enhanced App component with analytics
-function AppWithAnalytics() {
-  return (
-    <>
-      <App />
-      {analyticsConfig.enabled && <Analytics />}
-      {analyticsConfig.speedInsights && <SpeedInsights />}
-    </>
-  );
-}
-
 root.render(
   <StrictMode>
-    <AppWithAnalytics />
-  </StrictMode>
+    <App />
+    {analyticsConfig.vercel.enabled && (
+      <>
+        <Analytics />
+        <SpeedInsights
+          sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
+        />
+      </>
+    )}
+  </StrictMode>,
 );
 
-console.log('✅ KONIVRER Deck Database loaded successfully');
+// Initialize security and analytics after render
+initializeSecurity();
+initializeAnalytics();
 
-// CRITICAL: Aggressively remove any loading screens that might persist
-setTimeout(() => {
-  const loadingElements = document.querySelectorAll('.loading-container, .loading-spinner, [class*="loading"]');
-  loadingElements.forEach(element => {
-    element.style.display = 'none';
-    element.remove();
-  });
-  console.log('🗑️ Removed any persistent loading elements');
-}, 100);
+// Hide loading spinner when React app mounts
+const hideLoading = () => {
+  const loadingElement = document.querySelector('.loading');
+  if (loadingElement) {
+    loadingElement.style.display = 'none';
+  }
+};
+
+// Hide loading immediately and also after a short delay as fallback
+hideLoading();
+setTimeout(hideLoading, 100);
