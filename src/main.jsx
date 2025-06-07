@@ -68,27 +68,35 @@ initializeAnalytics();
 const removeAllLoadingElements = () => {
   // Remove by class names
   const loadingSelectors = [
-    '.loading', '.loading-container', '.loading-spinner', 
-    '[class*="loading"]', '[class*="spinner"]',
-    '[data-loading]', '#loading', '#spinner'
+    '.loading',
+    '.loading-container',
+    '.loading-spinner',
+    '[class*="loading"]',
+    '[class*="spinner"]',
+    '[data-loading]',
+    '#loading',
+    '#spinner',
   ];
-  
+
   loadingSelectors.forEach(selector => {
     document.querySelectorAll(selector).forEach(element => {
       element.style.display = 'none';
       element.remove();
     });
   });
-  
+
   // Remove any elements with loading text
   const allElements = document.querySelectorAll('*');
   allElements.forEach(element => {
-    if (element.textContent && element.textContent.includes('Loading KONIVRER')) {
+    if (
+      element.textContent &&
+      element.textContent.includes('Loading KONIVRER')
+    ) {
       element.style.display = 'none';
       element.remove();
     }
   });
-  
+
   console.log('🗑️ Comprehensive loading element removal completed');
 };
 
