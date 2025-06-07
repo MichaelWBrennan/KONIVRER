@@ -26,7 +26,8 @@ const Layout = ({ children }) => {
 
   // Track page views when location changes
   useEffect(() => {
-    const pageName = location.pathname === '/' ? 'home' : location.pathname.slice(1);
+    const pageName =
+      location.pathname === '/' ? 'home' : location.pathname.slice(1);
     analytics.pageView(pageName, {
       path: location.pathname,
       search: location.search,
@@ -42,7 +43,7 @@ const Layout = ({ children }) => {
   };
 
   // Handle search
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     if (e.key === 'Enter' && searchTerm.trim()) {
       analytics.cardSearch(searchTerm.trim());
       // Navigate to cards page with search
@@ -70,8 +71,8 @@ const Layout = ({ children }) => {
         <div className="container">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center gap-3"
               onClick={() => analytics.navigationClick('/', location.pathname)}
             >
@@ -115,7 +116,7 @@ const Layout = ({ children }) => {
                   placeholder="Search cards..."
                   className="input pl-10 w-64"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   onKeyDown={handleSearch}
                 />
               </div>
@@ -170,7 +171,7 @@ const Layout = ({ children }) => {
                   placeholder="Search cards..."
                   className="input pl-10"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   onKeyDown={handleSearch}
                 />
               </div>
