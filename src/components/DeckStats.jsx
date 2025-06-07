@@ -27,7 +27,7 @@ const DeckStats = ({ deck }) => {
   const totalCards = deck.cards.reduce((total, card) => total + card.count, 0);
   const totalCost = deck.cards.reduce(
     (total, card) => total + card.cost * card.count,
-    0
+    0,
   );
   const averageCost = totalCards > 0 ? (totalCost / totalCards).toFixed(1) : 0;
 

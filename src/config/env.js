@@ -72,7 +72,7 @@ export const validateEnv = () => {
       meta: import.meta.env,
     });
     throw new Error(
-      `Missing required environment variables: ${missing.join(', ')}`
+      `Missing required environment variables: ${missing.join(', ')}`,
     );
   }
 
