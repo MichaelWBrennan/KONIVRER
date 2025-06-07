@@ -52,7 +52,7 @@ root.render(
     {analyticsConfig.vercel.enabled && (
       <>
         <Analytics />
-        <SpeedInsights 
+        <SpeedInsights
           sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
         />
       </>
