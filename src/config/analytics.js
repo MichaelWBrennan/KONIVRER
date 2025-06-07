@@ -9,15 +9,15 @@ import { env } from './env.js';
 export const analyticsConfig = {
   // Enable analytics only in production
   enabled: import.meta.env.PROD && env.ENABLE_ANALYTICS,
-  
+
   // Debug mode for development
   debug: env.ENABLE_DEBUG,
-  
+
   // Vercel Analytics settings
   vercel: {
     // Automatically enabled for Vercel deployments
     enabled: import.meta.env.PROD,
-    
+
     // Speed Insights settings
     speedInsights: {
       enabled: import.meta.env.PROD,
@@ -45,7 +45,7 @@ export const analytics = {
   },
 
   // Track page views
-  pageView: (path) => {
+  pageView: path => {
     if (!analyticsConfig.enabled) {
       if (analyticsConfig.debug) {
         console.log('Analytics (debug) - Page view:', path);

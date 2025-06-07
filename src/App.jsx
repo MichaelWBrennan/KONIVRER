@@ -50,16 +50,16 @@ function App() {
             </Routes>
           </Suspense>
         </Layout>
-        
+
         {/* Analytics and Performance Monitoring */}
         <WebVitals />
         {(env.ENABLE_ANALYTICS || import.meta.env.PROD) && (
           <>
-            <Analytics 
+            <Analytics
               mode={import.meta.env.DEV ? 'development' : 'production'}
               debug={env.ENABLE_DEBUG}
             />
-            <SpeedInsights 
+            <SpeedInsights
               debug={env.ENABLE_DEBUG}
               sampleRate={import.meta.env.DEV ? 1 : 0.1}
             />
