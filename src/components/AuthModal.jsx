@@ -1,103 +1,190 @@
-import { useState } from 'react';
-import { X, Mail, Lock, User, MapPin, Eye, EyeOff } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  X, 
+  Mail, 
+  Lock, 
+  User, 
+  MapPin, 
+  Eye, 
+  EyeOff, 
+  Shield,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  Github,
+  Chrome
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+
+// Form validation schemas
+const LoginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+const RegisterSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 
+      'Password must contain uppercase, lowercase, number, and special character'),
+  confirmPassword: z.string(),
+  username: z.string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(20, 'Username must be less than 20 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
+  displayName: z.string().min(1, 'Display name is required').max(50),
+  location: z.string().optional(),
+  agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms'),
+  agreeToPrivacy: z.boolean().refine(val => val === true, 'You must agree to the privacy policy'),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
 
 const AuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const { login, register } = useAuth();
 
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
+  // Login form
+  const loginForm = useForm({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
-  const [registerForm, setRegisterForm] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    username: '',
-    displayName: '',
-    location: '',
+  // Register form
+  const registerForm = useForm({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      username: '',
+      displayName: '',
+      location: '',
+      agreeToTerms: false,
+      agreeToPrivacy: false,
+    },
   });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  // Password strength calculator
+  const calculatePasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 8) strength += 25;
+    if (/[a-z]/.test(password)) strength += 25;
+    if (/[A-Z]/.test(password)) strength += 25;
+    if (/\d/.test(password)) strength += 25;
+    if (/[@$!%*?&]/.test(password)) strength += 25;
+    return Math.min(strength, 100);
+  };
 
+  const handleLogin = async (data) => {
     try {
-      const result = await login(loginForm.email, loginForm.password);
+      const result = await login(data.email, data.password);
       if (result.success) {
         onClose();
-        setLoginForm({ email: '', password: '' });
+        loginForm.reset();
       } else {
-        setError(result.error);
+        loginForm.setError('root', { message: result.error });
       }
     } catch (err) {
-      setError('Login failed. Please try again.');
-    } finally {
-      setLoading(false);
+      loginForm.setError('root', { message: 'Login failed. Please try again.' });
     }
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    if (registerForm.password !== registerForm.confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-
-    if (registerForm.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      setLoading(false);
-      return;
-    }
-
+  const handleRegister = async (data) => {
     try {
-      const result = await register(registerForm);
+      const result = await register(data);
       if (result.success) {
         onClose();
-        setRegisterForm({
-          email: '',
-          password: '',
-          confirmPassword: '',
-          username: '',
-          displayName: '',
-          location: '',
-        });
+        registerForm.reset();
       } else {
-        setError(result.error);
+        registerForm.setError('root', { message: result.error });
       }
     } catch (err) {
-      setError('Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
+      registerForm.setError('root', { message: 'Registration failed. Please try again.' });
     }
+  };
+
+  // Watch password for strength indicator
+  const watchedPassword = registerForm.watch('password');
+  
+  // Update password strength when password changes
+  useEffect(() => {
+    if (watchedPassword) {
+      setPasswordStrength(calculatePasswordStrength(watchedPassword));
+    } else {
+      setPasswordStrength(0);
+    }
+  }, [watchedPassword]);
+
+  const getPasswordStrengthColor = () => {
+    if (passwordStrength < 25) return 'bg-red-500';
+    if (passwordStrength < 50) return 'bg-orange-500';
+    if (passwordStrength < 75) return 'bg-yellow-500';
+    return 'bg-green-500';
+  };
+
+  const getPasswordStrengthText = () => {
+    if (passwordStrength < 25) return 'Weak';
+    if (passwordStrength < 50) return 'Fair';
+    if (passwordStrength < 75) return 'Good';
+    return 'Strong';
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="card max-w-md w-full mx-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">
-            {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
-          </h2>
-          <button
-            onClick={onClose}
-            className="btn btn-ghost btn-sm"
-          >
-            <X size={20} />
-          </button>
-        </div>
+    <AnimatePresence>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+        onClick={onClose}
+      >
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          transition={{ type: "spring", duration: 0.3 }}
+          className="card max-w-md w-full mx-4 relative overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-accent-primary rounded-lg flex items-center justify-center">
+                  <Shield className="text-white" size={20} />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
+                  </h2>
+                  <p className="text-sm text-secondary">
+                    {activeTab === 'login' ? 'Sign in to your account' : 'Create your account'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={onClose}
+                className="btn btn-ghost btn-sm hover:bg-red-500/20"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 border-b border-color">
