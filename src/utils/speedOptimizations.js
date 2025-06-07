@@ -15,7 +15,9 @@ export const preloadCriticalResources = () => {
     link.rel = 'preload';
     link.as = 'style';
     link.href = href;
-    link.onload = function() { this.rel = 'stylesheet'; };
+    link.onload = function () {
+      this.rel = 'stylesheet';
+    };
     document.head.appendChild(link);
   });
 
@@ -107,14 +109,16 @@ export const reduceLayoutShifts = () => {
 export const optimizeCSSDelivery = () => {
   // Inline critical CSS (this would be done at build time)
   // For runtime, we can optimize CSS loading
-  
+
   // Remove unused CSS classes (basic implementation)
   const removeUnusedCSS = () => {
     const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
     stylesheets.forEach(stylesheet => {
       // Mark as non-render-blocking
       stylesheet.media = 'print';
-      stylesheet.onload = function() { this.media = 'all'; };
+      stylesheet.onload = function () {
+        this.media = 'all';
+      };
     });
   };
 
@@ -128,7 +132,7 @@ export const optimizeCSSDelivery = () => {
 export const optimizeJavaScript = () => {
   // Debounce scroll events
   let scrollTimeout;
-  const optimizedScrollHandler = (callback) => {
+  const optimizedScrollHandler = callback => {
     return () => {
       if (scrollTimeout) {
         cancelAnimationFrame(scrollTimeout);
@@ -138,9 +142,13 @@ export const optimizeJavaScript = () => {
   };
 
   // Replace existing scroll listeners with optimized versions
-  window.addEventListener('scroll', optimizedScrollHandler(() => {
-    // Scroll handling logic
-  }), { passive: true });
+  window.addEventListener(
+    'scroll',
+    optimizedScrollHandler(() => {
+      // Scroll handling logic
+    }),
+    { passive: true },
+  );
 
   // Optimize resize events
   let resizeTimeout;
@@ -174,7 +182,7 @@ export const prefetchNextPageResources = () => {
   }
 
   // Use requestIdleCallback for prefetching
-  const prefetchResource = (url) => {
+  const prefetchResource = url => {
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.href = url;
@@ -200,14 +208,17 @@ export const optimizeServiceWorker = () => {
       try {
         const registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
-          updateViaCache: 'none'
+          updateViaCache: 'none',
         });
 
         // Handle updates
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
           newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            if (
+              newWorker.state === 'installed' &&
+              navigator.serviceWorker.controller
+            ) {
               // New content available, notify user
               console.log('New content available, please refresh.');
             }
@@ -218,7 +229,6 @@ export const optimizeServiceWorker = () => {
         setInterval(() => {
           registration.update();
         }, 60000); // Check every minute
-
       } catch (error) {
         console.log('Service Worker registration failed:', error);
       }
@@ -248,7 +258,10 @@ export const optimizeMemoryUsage = () => {
   // Periodic garbage collection hint
   if (window.gc && import.meta.env.DEV) {
     setInterval(() => {
-      if (performance.memory && performance.memory.usedJSHeapSize > 50 * 1024 * 1024) {
+      if (
+        performance.memory &&
+        performance.memory.usedJSHeapSize > 50 * 1024 * 1024
+      ) {
         window.gc();
       }
     }, 30000);

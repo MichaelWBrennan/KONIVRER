@@ -141,7 +141,7 @@ export const analytics = {
 };
 
 // Performance monitoring integration
-export const trackPerformance = (metrics) => {
+export const trackPerformance = metrics => {
   if (!isAnalyticsEnabled() || !metrics) return;
 
   // Track Core Web Vitals
@@ -155,7 +155,7 @@ export const trackPerformance = (metrics) => {
 // Route change tracking for SPA
 export const trackRouteChange = (routeName, loadTime = 0) => {
   analytics.pageView(routeName, { load_time: loadTime });
-  
+
   if (loadTime > 0) {
     analytics.performanceMetric('route_load_time', loadTime);
   }
@@ -182,7 +182,7 @@ export const trackSession = () => {
 if (typeof window !== 'undefined' && isAnalyticsEnabled()) {
   // Track session on load
   window.addEventListener('load', trackSession);
-  
+
   // Track page visibility changes
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
