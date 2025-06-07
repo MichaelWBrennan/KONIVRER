@@ -20,7 +20,7 @@ import {
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import AuthModal from './AuthModal';
+import ModernAuthModal from './ModernAuthModal';
 
 import { analytics } from '../utils/analytics';
 
@@ -345,7 +345,7 @@ const Layout = ({ children }) => {
       </footer>
 
       {/* Auth Modal */}
-      <AuthModal
+      <ModernAuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
