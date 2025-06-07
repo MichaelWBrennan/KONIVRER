@@ -1,7 +1,7 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 import App from './App';
 import './App.css';
@@ -66,7 +66,7 @@ initializeAnalytics();
 
 // Initialize skew protection
 if (import.meta.env.PROD) {
-  import('./utils/skewProtection.js').then(({ skewProtection }) => {
-    console.log('Vercel skew protection initialized');
+  import('./utils/skewProtection.js').then(() => {
+    console.warn('Vercel skew protection initialized');
   });
 }

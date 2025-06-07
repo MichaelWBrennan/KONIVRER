@@ -3,7 +3,8 @@
  * Displays current skew protection status and handles version updates
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
 import {
   getSkewStatus,
   checkForUpdates,

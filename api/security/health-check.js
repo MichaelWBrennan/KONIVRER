@@ -18,7 +18,7 @@ export default function handler(req, res) {
       environment: checkEnvironment(),
       rateLimit: checkRateLimit(req),
       ssl: checkSSL(req),
-    }
+    },
   };
 
   // Calculate overall health
@@ -37,7 +37,7 @@ function checkSecurityHeaders(req) {
   const requiredHeaders = [
     'x-content-type-options',
     'x-frame-options',
-    'strict-transport-security'
+    'strict-transport-security',
   ];
 
   const missingHeaders = requiredHeaders.filter(header => !req.headers[header]);
@@ -47,8 +47,8 @@ function checkSecurityHeaders(req) {
     message: missingHeaders.length === 0 ? 'All security headers present' : `Missing headers: ${missingHeaders.join(', ')}`,
     details: {
       required: requiredHeaders,
-      missing: missingHeaders
-    }
+      missing: missingHeaders,
+    },
   };
 }
 
@@ -62,8 +62,8 @@ function checkEnvironment() {
     details: {
       environment: process.env.NODE_ENV || 'development',
       analytics: hasAnalytics,
-      production: isProduction
-    }
+      production: isProduction,
+    },
   };
 }
 
@@ -78,8 +78,8 @@ function checkRateLimit(req) {
     details: {
       userAgent: userAgent.substring(0, 50),
       isBot,
-      ip: req.headers['x-forwarded-for'] || req.connection?.remoteAddress || 'unknown'
-    }
+      ip: req.headers['x-forwarded-for'] || req.connection?.remoteAddress || 'unknown',
+    },
   };
 }
 
@@ -91,7 +91,7 @@ function checkSSL(req) {
     message: isSecure ? 'SSL/TLS enabled' : 'SSL/TLS not detected',
     details: {
       protocol: req.headers['x-forwarded-proto'] || 'unknown',
-      encrypted: !!req.connection?.encrypted
-    }
+      encrypted: !!req.connection?.encrypted,
+    },
   };
 }

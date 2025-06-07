@@ -34,8 +34,8 @@ export default function handler(req, res) {
     region: process.env.VERCEL_REGION || 'unknown',
     deployment: {
       id: process.env.VERCEL_DEPLOYMENT_ID || 'local',
-      url: process.env.VERCEL_URL || 'localhost'
-    }
+      url: process.env.VERCEL_URL || 'localhost',
+    },
   };
 
   return res.status(200).json(versionInfo);
