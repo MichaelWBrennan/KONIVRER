@@ -228,8 +228,8 @@
       }
 
       /* Hide loading when React app loads */
-      #root:not(:empty) + .loading-container {
-        display: none;
+      .loading-container.hidden {
+        display: none !important;
       }
 
       /* Prevent layout shift */
@@ -250,5 +250,32 @@
     </div>
 
     <script type="module" src="/src/main.jsx"></script>
+    
+    <script>
+      // Hide loading spinner when React app mounts
+      const observer = new MutationObserver((mutations) => {
+        const root = document.getElementById('root');
+        if (root && root.children.length > 0) {
+          const loadingContainer = document.querySelector('.loading-container');
+          if (loadingContainer) {
+            loadingContainer.classList.add('hidden');
+          }
+          observer.disconnect();
+        }
+      });
+      
+      observer.observe(document.getElementById('root'), {
+        childList: true,
+        subtree: true
+      });
+      
+      // Fallback: hide loading after 10 seconds
+      setTimeout(() => {
+        const loadingContainer = document.querySelector('.loading-container');
+        if (loadingContainer) {
+          loadingContainer.classList.add('hidden');
+        }
+      }, 10000);
+    </script>
   </body>
 </html>
