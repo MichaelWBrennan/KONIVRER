@@ -17,7 +17,9 @@ export const securityConfig = {
     generateToken: () => {
       const array = new Uint8Array(32);
       crypto.getRandomValues(array);
-      return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+      return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join(
+        '',
+      );
     },
   },
 
@@ -33,20 +35,9 @@ export const securityConfig = {
         'https://va.vercel-scripts.com',
         'https://vitals.vercel-insights.com',
       ],
-      'style-src': [
-        "'self'",
-        "'unsafe-inline'",
-        'fonts.googleapis.com',
-      ],
-      'font-src': [
-        "'self'",
-        'fonts.gstatic.com',
-      ],
-      'img-src': [
-        "'self'",
-        'data:',
-        'https:',
-      ],
+      'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+      'font-src': ["'self'", 'fonts.gstatic.com'],
+      'img-src': ["'self'", 'data:', 'https:'],
       'connect-src': [
         "'self'",
         'https:',
@@ -107,7 +98,7 @@ export class CSRFProtection {
 
   getStoredToken() {
     if (typeof window === 'undefined') return null;
-    
+
     // Try to get from meta tag first
     const metaTag = document.querySelector('meta[name="csrf-token"]');
     if (metaTag) {
@@ -120,7 +111,7 @@ export class CSRFProtection {
 
   storeToken(token) {
     if (typeof window === 'undefined') return;
-    
+
     localStorage.setItem(securityConfig.csrf.tokenName, token);
   }
 
@@ -212,7 +203,7 @@ export class SecureHTTPClient {
 
     try {
       const response = await fetch(url, mergedOptions);
-      
+
       // Check for CSRF token refresh
       const newToken = response.headers.get('X-CSRF-Token-Refresh');
       if (newToken) {
@@ -266,11 +257,11 @@ export const securityLogger = {
     });
   },
 
-  logCSRFAttempt: (token) => {
+  logCSRFAttempt: token => {
     securityLogger.log('CSRF_ATTEMPT', { token });
   },
 
-  logRateLimitExceeded: (ip) => {
+  logRateLimitExceeded: ip => {
     securityLogger.log('RATE_LIMIT_EXCEEDED', { ip });
   },
 
@@ -278,7 +269,7 @@ export const securityLogger = {
     securityLogger.log('SUSPICIOUS_INPUT', { input, field });
   },
 
-  logSecurityHeaderMissing: (header) => {
+  logSecurityHeaderMissing: header => {
     securityLogger.log('SECURITY_HEADER_MISSING', { header });
   },
 };
@@ -307,7 +298,7 @@ export const initializeSecurity = () => {
   };
 
   // Set up global error handling for security events
-  window.addEventListener('error', (event) => {
+  window.addEventListener('error', event => {
     if (event.error && event.error.name === 'SecurityError') {
       securityLogger.log('SECURITY_ERROR', {
         message: event.error.message,
@@ -319,12 +310,13 @@ export const initializeSecurity = () => {
 
   // Check for mixed content
   if (location.protocol === 'https:' && env.ENABLE_DEBUG) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === 1) { // Element node
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === 1) {
+            // Element node
             const insecureElements = node.querySelectorAll?.(
-              'img[src^="http:"], script[src^="http:"], link[href^="http:"]'
+              'img[src^="http:"], script[src^="http:"], link[href^="http:"]',
             );
             if (insecureElements?.length > 0) {
               securityLogger.log('MIXED_CONTENT_DETECTED', {
