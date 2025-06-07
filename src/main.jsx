@@ -7,6 +7,7 @@ import App from './App';
 import './App.css';
 import { initializeAnalytics, analyticsConfig } from './config/analytics.js';
 import { initializeSecurity } from './config/security.js';
+import { initializePerformanceOptimizations } from './utils/performanceOptimizations.js';
 
 // Performance monitoring (only in development)
 if (import.meta.env.DEV) {
