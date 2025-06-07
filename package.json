@@ -41,14 +41,24 @@
     "npm": ">=8.0.0"
   },
   "overrides": {
-    "node-sass": "sass"
+    "node-sass": "sass",
+    "cookie": "^0.7.2",
+    "tar-fs": "^3.0.9",
+    "ws": "^8.17.1",
+    "rimraf": "^6.0.1",
+    "glob": "^11.0.0",
+    "inflight": "^1.0.6",
+    "@sentry/node": "^8.0.0",
+    "lighthouse": "^12.6.1"
   },
   "resolutions": {
     "node-sass": "sass",
     "ws": "^8.17.1",
-    "tar-fs": "^2.1.2",
+    "tar-fs": "^3.0.9",
     "esbuild": "^0.25.0",
-    "cookie": "^0.7.0"
+    "cookie": "^0.7.2",
+    "rimraf": "^6.0.1",
+    "glob": "^11.0.0"
   },
   "keywords": [
     "konivrer",
@@ -77,7 +87,6 @@
     "@vitest/ui": "^3.1.4",
     "audit-ci": "^7.0.1",
     "autoprefixer": "^10.4.21",
-    "cookie": "^1.0.2",
     "cssnano": "^7.0.7",
     "cssnano-preset-advanced": "^7.0.7",
     "esbuild": "^0.25.0",
@@ -91,6 +100,7 @@
     "globals": "^16.2.0",
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lighthouse": "^12.6.1",
     "lint-staged": "^16.1.0",
     "npm-check-updates": "^18.0.1",
     "prettier": "^3.5.3",
