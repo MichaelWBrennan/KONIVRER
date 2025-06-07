@@ -181,7 +181,7 @@
     "maxAge": 3600,
     "enabled": true
   },
-  "buildCommand": "npm run build:versioned",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "crons": [
     {
