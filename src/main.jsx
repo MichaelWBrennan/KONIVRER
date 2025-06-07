@@ -7,7 +7,7 @@ import App from './App';
 import './App.css';
 import { initializeAnalytics, analyticsConfig } from './config/analytics.js';
 import { initializeSecurity } from './config/security.js';
-import { initializePerformanceOptimizations } from './utils/performanceOptimizations.js';
+// import { initializePerformanceOptimizations } from './utils/performanceOptimizations.js';
 
 // Performance monitoring (only in development)
 if (import.meta.env.DEV) {
@@ -64,6 +64,7 @@ root.render(
 // Initialize security, analytics, and skew protection after render
 initializeSecurity();
 initializeAnalytics();
+// initializePerformanceOptimizations();
 
 // Initialize skew protection
 if (import.meta.env.PROD) {
