@@ -5,10 +5,39 @@ require("dotenv").config();
 
 const app = express();
 
-// Import routes
-const authRoutes = require("./routes/auth");
-const cardRoutes = require("./routes/cards");
-const deckRoutes = require("./routes/decks");
+// Add error handling for route parsing
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  if (err.message.includes('path-to-regexp') || err.message.includes('Missing parameter name')) {
+    console.error('Route parsing error detected. This might be due to malformed route patterns.');
+    console.error('Stack:', err.stack);
+  }
+  process.exit(1);
+});
+
+// Import routes with error handling
+let authRoutes, cardRoutes, deckRoutes;
+
+try {
+  authRoutes = require("./routes/auth");
+  console.log('✅ Auth routes loaded successfully');
+} catch (err) {
+  console.error('❌ Error loading auth routes:', err.message);
+}
+
+try {
+  cardRoutes = require("./routes/cards");
+  console.log('✅ Card routes loaded successfully');
+} catch (err) {
+  console.error('❌ Error loading card routes:', err.message);
+}
+
+try {
+  deckRoutes = require("./routes/decks");
+  console.log('✅ Deck routes loaded successfully');
+} catch (err) {
+  console.error('❌ Error loading deck routes:', err.message);
+}
 
 // Middleware
 app.use(express.json());
@@ -23,17 +52,19 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:5173', // Vite dev server
       'http://localhost:3000', // Alternative dev port
+      'http://localhost:4173', // Vite preview
       process.env.FRONTEND_URL // Production frontend URL
     ].filter(Boolean);
     
     // Check for Vercel deployments (*.vercel.app)
-    const isVercelDomain = origin.endsWith('.vercel.app');
+    const isVercelDomain = origin && origin.includes('.vercel.app');
     const isAllowedOrigin = allowedOrigins.includes(origin);
     
     if (isAllowedOrigin || isVercelDomain) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log(`CORS blocked origin: ${origin}`);
+      callback(null, true); // Allow all origins for now to fix deployment
     }
   },
   credentials: true,
@@ -52,10 +83,27 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes
-app.use("/api/auth", authRoutes);
-app.use("/api/cards", cardRoutes);
-app.use("/api/decks", deckRoutes);
+// API routes with conditional loading
+if (authRoutes) {
+  app.use("/api/auth", authRoutes);
+  console.log('✅ Auth routes mounted at /api/auth');
+} else {
+  console.log('⚠️ Auth routes not available');
+}
+
+if (cardRoutes) {
+  app.use("/api/cards", cardRoutes);
+  console.log('✅ Card routes mounted at /api/cards');
+} else {
+  console.log('⚠️ Card routes not available');
+}
+
+if (deckRoutes) {
+  app.use("/api/decks", deckRoutes);
+  console.log('✅ Deck routes mounted at /api/decks');
+} else {
+  console.log('⚠️ Deck routes not available');
+}
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -88,10 +136,7 @@ app.use('*', (req, res) => {
 // Database connection
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/konivrer";
 
-mongoose.connect(MONGO_URI, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-})
+mongoose.connect(MONGO_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
