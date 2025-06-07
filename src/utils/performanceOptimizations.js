@@ -22,11 +22,7 @@ export const preloadCriticalResources = () => {
 
   // Preload critical API endpoints
   if ('serviceWorker' in navigator) {
-    const criticalEndpoints = [
-      '/api/cards',
-      '/api/decks',
-      '/api/version'
-    ];
+    const criticalEndpoints = ['/api/cards', '/api/decks', '/api/version'];
 
     criticalEndpoints.forEach(endpoint => {
       fetch(endpoint, { method: 'HEAD' }).catch(() => {
@@ -40,7 +36,7 @@ export const preloadCriticalResources = () => {
 export const optimizeImages = () => {
   // Lazy loading for images
   const images = document.querySelectorAll('img[data-src]');
-  
+
   if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -67,7 +63,7 @@ export const optimizeImages = () => {
 export const preventLayoutShift = () => {
   // Add aspect ratio containers for dynamic content
   const dynamicContainers = document.querySelectorAll('[data-aspect-ratio]');
-  
+
   dynamicContainers.forEach(container => {
     const ratio = container.dataset.aspectRatio || '16/9';
     container.style.aspectRatio = ratio;
@@ -137,7 +133,11 @@ export const addResourceHints = () => {
     { rel: 'dns-prefetch', href: '//vitals.vercel-insights.com' },
     { rel: 'dns-prefetch', href: '//va.vercel-scripts.com' },
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous',
+    },
   ];
 
   hints.forEach(hint => {
@@ -156,18 +156,24 @@ export const optimizeForMobile = () => {
     viewport.name = 'viewport';
     document.head.appendChild(viewport);
   }
-  viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+  viewport.content =
+    'width=device-width, initial-scale=1.0, viewport-fit=cover';
 
   // Add touch-action optimization
   document.body.style.touchAction = 'manipulation';
 
   // Optimize touch targets
-  const touchTargets = document.querySelectorAll('button, a, input, select, textarea');
+  const touchTargets = document.querySelectorAll(
+    'button, a, input, select, textarea',
+  );
   touchTargets.forEach(target => {
     const computedStyle = window.getComputedStyle(target);
     const minSize = 44; // 44px minimum touch target size
-    
-    if (parseInt(computedStyle.height) < minSize || parseInt(computedStyle.width) < minSize) {
+
+    if (
+      parseInt(computedStyle.height) < minSize ||
+      parseInt(computedStyle.width) < minSize
+    ) {
       target.style.minHeight = `${minSize}px`;
       target.style.minWidth = `${minSize}px`;
     }
@@ -179,10 +185,10 @@ export const initPerformanceMonitoring = () => {
   // Core Web Vitals monitoring
   if ('PerformanceObserver' in window) {
     // Largest Contentful Paint
-    new PerformanceObserver((entryList) => {
+    new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       const lastEntry = entries[entries.length - 1];
-      
+
       // Send to analytics
       if (window.gtag) {
         window.gtag('event', 'LCP', {
@@ -194,7 +200,7 @@ export const initPerformanceMonitoring = () => {
     }).observe({ entryTypes: ['largest-contentful-paint'] });
 
     // First Input Delay
-    new PerformanceObserver((entryList) => {
+    new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       entries.forEach(entry => {
         if (window.gtag) {
@@ -209,14 +215,14 @@ export const initPerformanceMonitoring = () => {
 
     // Cumulative Layout Shift
     let clsValue = 0;
-    new PerformanceObserver((entryList) => {
+    new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       entries.forEach(entry => {
         if (!entry.hadRecentInput) {
           clsValue += entry.value;
         }
       });
-      
+
       if (window.gtag) {
         window.gtag('event', 'CLS', {
           event_category: 'Web Vitals',
@@ -246,7 +252,7 @@ export const initializePerformanceOptimizations = () => {
   addResourceHints();
   inlineCriticalCSS();
   preloadCriticalResources();
-  
+
   // Run when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
