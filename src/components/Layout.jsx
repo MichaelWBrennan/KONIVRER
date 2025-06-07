@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 import { analytics } from '../utils/analytics';
 
 const Layout = ({ children }) => {
