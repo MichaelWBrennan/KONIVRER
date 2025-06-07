@@ -253,29 +253,48 @@
     
     <script>
       // Hide loading spinner when React app mounts
+      function hideLoadingSpinner() {
+        const loadingContainer = document.querySelector('.loading-container');
+        if (loadingContainer) {
+          loadingContainer.classList.add('hidden');
+          console.log('✅ Loading spinner hidden');
+        }
+      }
+
+      // Multiple strategies to hide the loading spinner
       const observer = new MutationObserver((mutations) => {
         const root = document.getElementById('root');
         if (root && root.children.length > 0) {
-          const loadingContainer = document.querySelector('.loading-container');
-          if (loadingContainer) {
-            loadingContainer.classList.add('hidden');
-          }
+          hideLoadingSpinner();
           observer.disconnect();
         }
       });
       
-      observer.observe(document.getElementById('root'), {
-        childList: true,
-        subtree: true
+      // Start observing immediately
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        observer.observe(rootElement, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
+      // Also hide when DOM is ready
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(hideLoadingSpinner, 100);
       });
       
-      // Fallback: hide loading after 10 seconds
+      // Fallback: hide loading after 3 seconds (reduced from 10)
+      setTimeout(hideLoadingSpinner, 3000);
+      
+      // Emergency fallback: hide after 1 second if React hasn't loaded
       setTimeout(() => {
-        const loadingContainer = document.querySelector('.loading-container');
-        if (loadingContainer) {
-          loadingContainer.classList.add('hidden');
+        const root = document.getElementById('root');
+        if (!root || root.children.length === 0) {
+          console.warn('React app not loaded after 1 second, hiding spinner anyway');
+          hideLoadingSpinner();
         }
-      }, 10000);
+      }, 1000);
     </script>
   </body>
 </html>

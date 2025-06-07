@@ -41,3 +41,12 @@ root.render(
 );
 
 console.log('✅ Minimal app loaded successfully');
+
+// Also hide loading spinner from React side
+setTimeout(() => {
+  const loadingContainer = document.querySelector('.loading-container');
+  if (loadingContainer) {
+    loadingContainer.classList.add('hidden');
+    console.log('✅ Loading spinner hidden from React');
+  }
+}, 100);
