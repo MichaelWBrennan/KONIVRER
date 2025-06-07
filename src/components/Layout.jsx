@@ -9,6 +9,7 @@ import {
   X,
   Trophy,
   Shield,
+  TrendingUp,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -26,7 +27,9 @@ const Layout = ({ children }) => {
     { name: 'Card Database', href: '/cards', icon: Database },
     { name: 'My Decks', href: '/decks', icon: BookOpen },
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
+    { name: 'Leaderboards', href: '/leaderboards', icon: TrendingUp },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
+    { name: 'Profile', href: '/profile', icon: User },
   ];
 
   // Track page views when location changes
