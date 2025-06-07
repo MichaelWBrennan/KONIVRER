@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { 
-  Trophy, 
-  Medal, 
-  Crown, 
-  TrendingUp, 
-  TrendingDown, 
+import {
+  Trophy,
+  Medal,
+  Crown,
+  TrendingUp,
+  TrendingDown,
   Minus,
   Filter,
   Search,
@@ -13,7 +13,7 @@ import {
   Target,
   Star,
   Award,
-  Zap
+  Zap,
 } from 'lucide-react';
 import { analytics } from '../utils/analytics';
 
@@ -29,138 +29,138 @@ const Leaderboards = () => {
     // Mock leaderboard data
     const mockLeaderboards = {
       overall: [
-        { 
-          rank: 1, 
-          player: 'DragonMaster2024', 
+        {
+          rank: 1,
+          player: 'DragonMaster2024',
           displayName: 'Alex Chen',
-          points: 2847, 
-          wins: 156, 
-          losses: 91, 
+          points: 2847,
+          wins: 156,
+          losses: 91,
           winRate: 63.2,
           change: 'up',
           changeValue: 2,
           tournaments: 23,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 2, 
-          player: 'ElementalMage', 
+        {
+          rank: 2,
+          player: 'ElementalMage',
           displayName: 'Sarah Wilson',
-          points: 2756, 
-          wins: 142, 
-          losses: 98, 
+          points: 2756,
+          wins: 142,
+          losses: 98,
           winRate: 59.2,
           change: 'down',
           changeValue: 1,
           tournaments: 19,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 3, 
-          player: 'StormCaller', 
+        {
+          rank: 3,
+          player: 'StormCaller',
           displayName: 'Mike Johnson',
-          points: 2698, 
-          wins: 134, 
-          losses: 89, 
+          points: 2698,
+          wins: 134,
+          losses: 89,
           winRate: 60.1,
           change: 'up',
           changeValue: 3,
           tournaments: 21,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 4, 
-          player: 'FireStorm99', 
+        {
+          rank: 4,
+          player: 'FireStorm99',
           displayName: 'Emma Davis',
-          points: 2634, 
-          wins: 128, 
-          losses: 95, 
+          points: 2634,
+          wins: 128,
+          losses: 95,
           winRate: 57.4,
           change: 'same',
           changeValue: 0,
           tournaments: 18,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 5, 
-          player: 'EarthShaker', 
+        {
+          rank: 5,
+          player: 'EarthShaker',
           displayName: 'Jordan Smith',
-          points: 2589, 
-          wins: 119, 
-          losses: 87, 
+          points: 2589,
+          wins: 119,
+          losses: 87,
           winRate: 57.8,
           change: 'up',
           changeValue: 1,
           tournaments: 16,
-          avatar: '/api/placeholder/40/40'
-        }
+          avatar: '/api/placeholder/40/40',
+        },
       ],
       tournaments: [
-        { 
-          rank: 1, 
-          player: 'DragonMaster2024', 
+        {
+          rank: 1,
+          player: 'DragonMaster2024',
           displayName: 'Alex Chen',
-          tournamentsWon: 4, 
-          tournamentsPlayed: 23, 
+          tournamentsWon: 4,
+          tournamentsPlayed: 23,
           winRate: 17.4,
           topFinishes: 8,
           change: 'same',
           changeValue: 0,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 2, 
-          player: 'StormCaller', 
+        {
+          rank: 2,
+          player: 'StormCaller',
           displayName: 'Mike Johnson',
-          tournamentsWon: 3, 
-          tournamentsPlayed: 21, 
+          tournamentsWon: 3,
+          tournamentsPlayed: 21,
           winRate: 14.3,
           topFinishes: 7,
           change: 'up',
           changeValue: 1,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 3, 
-          player: 'ElementalMage', 
+        {
+          rank: 3,
+          player: 'ElementalMage',
           displayName: 'Sarah Wilson',
-          tournamentsWon: 3, 
-          tournamentsPlayed: 19, 
+          tournamentsWon: 3,
+          tournamentsPlayed: 19,
           winRate: 15.8,
           topFinishes: 6,
           change: 'down',
           changeValue: 1,
-          avatar: '/api/placeholder/40/40'
-        }
+          avatar: '/api/placeholder/40/40',
+        },
       ],
       monthly: [
-        { 
-          rank: 1, 
-          player: 'FireStorm99', 
+        {
+          rank: 1,
+          player: 'FireStorm99',
           displayName: 'Emma Davis',
-          points: 234, 
-          wins: 18, 
-          losses: 7, 
+          points: 234,
+          wins: 18,
+          losses: 7,
           winRate: 72.0,
           change: 'up',
           changeValue: 5,
           gamesPlayed: 25,
-          avatar: '/api/placeholder/40/40'
+          avatar: '/api/placeholder/40/40',
         },
-        { 
-          rank: 2, 
-          player: 'DragonMaster2024', 
+        {
+          rank: 2,
+          player: 'DragonMaster2024',
           displayName: 'Alex Chen',
-          points: 198, 
-          wins: 15, 
-          losses: 8, 
+          points: 198,
+          wins: 15,
+          losses: 8,
           winRate: 65.2,
           change: 'down',
           changeValue: 1,
           gamesPlayed: 23,
-          avatar: '/api/placeholder/40/40'
-        }
-      ]
+          avatar: '/api/placeholder/40/40',
+        },
+      ],
     };
 
     setTimeout(() => {
@@ -169,23 +169,29 @@ const Leaderboards = () => {
     }, 1000);
   }, []);
 
-  const handleBoardChange = (board) => {
+  const handleBoardChange = board => {
     setActiveBoard(board);
     analytics.buttonClick('leaderboard_tab', board);
   };
 
-  const getRankIcon = (rank) => {
+  const getRankIcon = rank => {
     switch (rank) {
-      case 1: return <Crown className="text-yellow-400" size={20} />;
-      case 2: return <Medal className="text-gray-300" size={20} />;
-      case 3: return <Medal className="text-yellow-600" size={20} />;
-      default: return <span className="text-muted font-bold">{rank}</span>;
+      case 1:
+        return <Crown className="text-yellow-400" size={20} />;
+      case 2:
+        return <Medal className="text-gray-300" size={20} />;
+      case 3:
+        return <Medal className="text-yellow-600" size={20} />;
+      default:
+        return <span className="text-muted font-bold">{rank}</span>;
     }
   };
 
   const getChangeIcon = (change, value) => {
-    if (change === 'up') return <TrendingUp className="text-green-400" size={16} />;
-    if (change === 'down') return <TrendingDown className="text-red-400" size={16} />;
+    if (change === 'up')
+      return <TrendingUp className="text-green-400" size={16} />;
+    if (change === 'down')
+      return <TrendingDown className="text-red-400" size={16} />;
     return <Minus className="text-muted" size={16} />;
   };
 
@@ -195,10 +201,12 @@ const Leaderboards = () => {
     return '—';
   };
 
-  const filteredData = leaderboards[activeBoard]?.filter(player => 
-    player.player.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    player.displayName.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  const filteredData =
+    leaderboards[activeBoard]?.filter(
+      player =>
+        player.player.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        player.displayName.toLowerCase().includes(searchTerm.toLowerCase()),
+    ) || [];
 
   if (loading) {
     return (
@@ -232,7 +240,7 @@ const Leaderboards = () => {
           { id: 'overall', label: 'Overall Rankings', icon: Trophy },
           { id: 'tournaments', label: 'Tournament Champions', icon: Award },
           { id: 'monthly', label: 'This Month', icon: Calendar },
-          { id: 'weekly', label: 'This Week', icon: Zap }
+          { id: 'weekly', label: 'This Week', icon: Zap },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -255,32 +263,35 @@ const Leaderboards = () => {
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+            size={16}
+          />
           <input
             type="text"
             placeholder="Search players..."
             className="input pl-10"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
-        
+
         <div className="flex gap-2">
           <select
             className="input"
             value={timeframe}
-            onChange={(e) => setTimeframe(e.target.value)}
+            onChange={e => setTimeframe(e.target.value)}
           >
             <option value="all">All Time</option>
             <option value="year">This Year</option>
             <option value="month">This Month</option>
             <option value="week">This Week</option>
           </select>
-          
+
           <select
             className="input"
             value={format}
-            onChange={(e) => setFormat(e.target.value)}
+            onChange={e => setFormat(e.target.value)}
           >
             <option value="all">All Formats</option>
             <option value="standard">Standard</option>
@@ -306,9 +317,15 @@ const Leaderboards = () => {
                 <div className="absolute -top-2 -right-2">
                   <Medal className="text-gray-300" size={24} />
                 </div>
-                <h3 className="font-bold text-white">{filteredData[1].displayName}</h3>
-                <p className="text-gray-200 text-sm">@{filteredData[1].player}</p>
-                <p className="text-white font-bold text-lg mt-2">{filteredData[1].points} pts</p>
+                <h3 className="font-bold text-white">
+                  {filteredData[1].displayName}
+                </h3>
+                <p className="text-gray-200 text-sm">
+                  @{filteredData[1].player}
+                </p>
+                <p className="text-white font-bold text-lg mt-2">
+                  {filteredData[1].points} pts
+                </p>
               </div>
               <div className="text-2xl font-bold text-gray-300">2nd</div>
             </div>
@@ -324,9 +341,15 @@ const Leaderboards = () => {
                 <div className="absolute -top-3 -right-3">
                   <Crown className="text-yellow-200" size={32} />
                 </div>
-                <h3 className="font-bold text-white text-lg">{filteredData[0].displayName}</h3>
-                <p className="text-yellow-100 text-sm">@{filteredData[0].player}</p>
-                <p className="text-white font-bold text-xl mt-2">{filteredData[0].points} pts</p>
+                <h3 className="font-bold text-white text-lg">
+                  {filteredData[0].displayName}
+                </h3>
+                <p className="text-yellow-100 text-sm">
+                  @{filteredData[0].player}
+                </p>
+                <p className="text-white font-bold text-xl mt-2">
+                  {filteredData[0].points} pts
+                </p>
               </div>
               <div className="text-3xl font-bold text-yellow-400">1st</div>
             </div>
@@ -342,9 +365,15 @@ const Leaderboards = () => {
                 <div className="absolute -top-2 -right-2">
                   <Medal className="text-yellow-600" size={24} />
                 </div>
-                <h3 className="font-bold text-white">{filteredData[2].displayName}</h3>
-                <p className="text-yellow-200 text-sm">@{filteredData[2].player}</p>
-                <p className="text-white font-bold text-lg mt-2">{filteredData[2].points} pts</p>
+                <h3 className="font-bold text-white">
+                  {filteredData[2].displayName}
+                </h3>
+                <p className="text-yellow-200 text-sm">
+                  @{filteredData[2].player}
+                </p>
+                <p className="text-white font-bold text-lg mt-2">
+                  {filteredData[2].points} pts
+                </p>
               </div>
               <div className="text-2xl font-bold text-yellow-600">3rd</div>
             </div>
@@ -389,8 +418,8 @@ const Leaderboards = () => {
             </thead>
             <tbody>
               {filteredData.map((player, index) => (
-                <tr 
-                  key={player.player} 
+                <tr
+                  key={player.player}
                   className={`border-b border-color hover:bg-tertiary transition-colors ${
                     player.rank <= 3 ? 'bg-tertiary/30' : ''
                   }`}
@@ -400,7 +429,7 @@ const Leaderboards = () => {
                       {getRankIcon(player.rank)}
                     </div>
                   </td>
-                  
+
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
                       <img
@@ -410,7 +439,9 @@ const Leaderboards = () => {
                       />
                       <div>
                         <div className="font-medium">{player.displayName}</div>
-                        <div className="text-sm text-muted">@{player.player}</div>
+                        <div className="text-sm text-muted">
+                          @{player.player}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -473,10 +504,15 @@ const Leaderboards = () => {
                   <td className="py-4 px-4 text-right">
                     <div className="flex items-center justify-end gap-1">
                       {getChangeIcon(player.change, player.changeValue)}
-                      <span className={`text-sm ${
-                        player.change === 'up' ? 'text-green-400' : 
-                        player.change === 'down' ? 'text-red-400' : 'text-muted'
-                      }`}>
+                      <span
+                        className={`text-sm ${
+                          player.change === 'up'
+                            ? 'text-green-400'
+                            : player.change === 'down'
+                              ? 'text-red-400'
+                              : 'text-muted'
+                        }`}
+                      >
                         {getChangeText(player.change, player.changeValue)}
                       </span>
                     </div>
@@ -492,9 +528,7 @@ const Leaderboards = () => {
         <div className="text-center py-12">
           <Trophy size={48} className="text-muted mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">No players found</h3>
-          <p className="text-secondary">
-            Try adjusting your search or filters
-          </p>
+          <p className="text-secondary">Try adjusting your search or filters</p>
         </div>
       )}
 
@@ -505,39 +539,73 @@ const Leaderboards = () => {
           <div className="text-2xl font-bold">{filteredData.length}</div>
           <div className="text-sm text-muted">Ranked Players</div>
         </div>
-        
+
         <div className="card text-center">
           <Target className="mx-auto text-green-400 mb-2" size={24} />
           <div className="text-2xl font-bold">
-            {filteredData.length > 0 ? Math.round(filteredData.reduce((acc, p) => acc + (p.winRate || 0), 0) / filteredData.length) : 0}%
+            {filteredData.length > 0
+              ? Math.round(
+                  filteredData.reduce((acc, p) => acc + (p.winRate || 0), 0) /
+                    filteredData.length,
+                )
+              : 0}
+            %
           </div>
           <div className="text-sm text-muted">Avg Win Rate</div>
         </div>
-        
+
         <div className="card text-center">
           <Trophy className="mx-auto text-yellow-400 mb-2" size={24} />
           <div className="text-2xl font-bold">
-            {activeBoard === 'overall' ? filteredData.reduce((acc, p) => acc + (p.tournaments || 0), 0) : 
-             activeBoard === 'tournaments' ? filteredData.reduce((acc, p) => acc + (p.tournamentsWon || 0), 0) : 
-             filteredData.reduce((acc, p) => acc + (p.gamesPlayed || 0), 0)}
+            {activeBoard === 'overall'
+              ? filteredData.reduce((acc, p) => acc + (p.tournaments || 0), 0)
+              : activeBoard === 'tournaments'
+                ? filteredData.reduce(
+                    (acc, p) => acc + (p.tournamentsWon || 0),
+                    0,
+                  )
+                : filteredData.reduce(
+                    (acc, p) => acc + (p.gamesPlayed || 0),
+                    0,
+                  )}
           </div>
           <div className="text-sm text-muted">
-            {activeBoard === 'overall' ? 'Total Tournaments' : 
-             activeBoard === 'tournaments' ? 'Total Wins' : 'Total Games'}
+            {activeBoard === 'overall'
+              ? 'Total Tournaments'
+              : activeBoard === 'tournaments'
+                ? 'Total Wins'
+                : 'Total Games'}
           </div>
         </div>
-        
+
         <div className="card text-center">
           <Star className="mx-auto text-purple-400 mb-2" size={24} />
           <div className="text-2xl font-bold">
-            {filteredData.length > 0 ? 
-              (activeBoard === 'overall' ? Math.round(filteredData.reduce((acc, p) => acc + p.points, 0) / filteredData.length) :
-               activeBoard === 'tournaments' ? Math.round(filteredData.reduce((acc, p) => acc + p.tournamentsPlayed, 0) / filteredData.length) :
-               Math.round(filteredData.reduce((acc, p) => acc + p.points, 0) / filteredData.length)) : 0}
+            {filteredData.length > 0
+              ? activeBoard === 'overall'
+                ? Math.round(
+                    filteredData.reduce((acc, p) => acc + p.points, 0) /
+                      filteredData.length,
+                  )
+                : activeBoard === 'tournaments'
+                  ? Math.round(
+                      filteredData.reduce(
+                        (acc, p) => acc + p.tournamentsPlayed,
+                        0,
+                      ) / filteredData.length,
+                    )
+                  : Math.round(
+                      filteredData.reduce((acc, p) => acc + p.points, 0) /
+                        filteredData.length,
+                    )
+              : 0}
           </div>
           <div className="text-sm text-muted">
-            {activeBoard === 'overall' ? 'Avg Points' : 
-             activeBoard === 'tournaments' ? 'Avg Tournaments' : 'Avg Points'}
+            {activeBoard === 'overall'
+              ? 'Avg Points'
+              : activeBoard === 'tournaments'
+                ? 'Avg Tournaments'
+                : 'Avg Points'}
           </div>
         </div>
       </div>
