@@ -9,16 +9,16 @@ import LoadingSpinner from './components/LoadingSpinner';
 
 // Lazy load pages with prefetch hints
 const Home = lazy(
-  () => import(/* webpackChunkName: "page-home" */ './pages/Home')
+  () => import(/* webpackChunkName: "page-home" */ './pages/Home'),
 );
 const CardDatabase = lazy(
-  () => import(/* webpackChunkName: "page-cards" */ './pages/CardDatabase')
+  () => import(/* webpackChunkName: "page-cards" */ './pages/CardDatabase'),
 );
 const DeckBuilder = lazy(
-  () => import(/* webpackChunkName: "page-deckbuilder" */ './pages/DeckBuilder')
+  () => import(/* webpackChunkName: "page-deckbuilder" */ './pages/DeckBuilder'),
 );
 const MyDecks = lazy(
-  () => import(/* webpackChunkName: "page-decks" */ './pages/MyDecks')
+  () => import(/* webpackChunkName: "page-decks" */ './pages/MyDecks'),
 );
 
 // Validate environment variables only in development
