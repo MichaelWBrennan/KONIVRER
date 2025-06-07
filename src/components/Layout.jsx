@@ -35,11 +35,12 @@ const Layout = ({ children }) => {
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Deck Builder', href: '/deckbuilder', icon: PlusCircle },
+    { name: 'Advanced Builder', href: '/deckbuilder-advanced', icon: Settings },
     { name: 'Card Database', href: '/cards', icon: Database },
     { name: 'My Decks', href: '/decks', icon: BookOpen },
-    { name: 'Saved Decks', href: '/saved-decks', icon: Star },
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
-    { name: 'Leaderboards', href: '/leaderboards', icon: TrendingUp },
+    { name: 'Social Hub', href: '/social', icon: Users },
+    { name: 'Analytics', href: '/analytics', icon: TrendingUp },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
   ];
 
