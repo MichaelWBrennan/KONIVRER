@@ -1,0 +1,230 @@
+{
+  "name": "KONIVRER - Advanced Trading Card Game Platform",
+  "short_name": "KONIVRER",
+  "description": "The ultimate platform for KONIVRER trading card game with advanced deck building, live tournaments, social features, and AI-powered analytics.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1a1a2e",
+  "background_color": "#0f0f23",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["games", "entertainment", "social"],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "KONIVRER Home Dashboard"
+    },
+    {
+      "src": "/screenshots/mobile-deckbuilder.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Advanced Deck Builder"
+    },
+    {
+      "src": "/screenshots/desktop-tournament.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Live Tournament Streaming"
+    },
+    {
+      "src": "/screenshots/mobile-social.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Social Hub"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Deck Builder",
+      "short_name": "Build",
+      "description": "Create and optimize your decks",
+      "url": "/deckbuilder-advanced",
+      "icons": [
+        {
+          "src": "/shortcut-deckbuilder.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Live Tournaments",
+      "short_name": "Tournaments",
+      "description": "Join live tournaments and competitions",
+      "url": "/tournaments",
+      "icons": [
+        {
+          "src": "/shortcut-tournaments.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Social Hub",
+      "short_name": "Social",
+      "description": "Connect with other players",
+      "url": "/social",
+      "icons": [
+        {
+          "src": "/shortcut-social.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Stats",
+      "description": "View your performance analytics",
+      "url": "/analytics",
+      "icons": [
+        {
+          "src": "/shortcut-analytics.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "deck",
+          "accept": [".json", ".txt", ".deck"]
+        }
+      ]
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "konivrer",
+      "url": "/deck?import=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/deck-import",
+      "accept": {
+        "application/json": [".json"],
+        "text/plain": [".txt", ".deck"]
+      }
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.konivrer.app",
+      "id": "com.konivrer.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/konivrer/id123456789"
+    }
+  ],
+  "features": [
+    "cross-origin-isolated",
+    "web-share",
+    "web-share-target",
+    "background-sync",
+    "push-messaging",
+    "notifications",
+    "persistent-storage",
+    "payment-request",
+    "geolocation",
+    "camera",
+    "microphone",
+    "webrtc",
+    "websockets",
+    "indexeddb",
+    "service-worker",
+    "offline-support"
+  ],
+  "permissions": [
+    "notifications",
+    "persistent-storage",
+    "background-sync",
+    "geolocation",
+    "camera",
+    "microphone"
+  ],
+  "display_override": [
+    "window-controls-overlay",
+    "minimal-ui",
+    "standalone",
+    "browser"
+  ]
+}
