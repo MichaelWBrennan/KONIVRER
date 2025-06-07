@@ -45,7 +45,7 @@ export const useLocalStorage = (key, initialValue) => {
         } catch (error) {
           console.warn(
             `Error parsing localStorage value for key "${key}":`,
-            error
+            error,
           );
         }
       }

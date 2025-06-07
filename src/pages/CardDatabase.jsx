@@ -177,7 +177,7 @@ const CardDatabase = () => {
                               setFilters(prev => ({
                                 ...prev,
                                 elements: prev.elements.filter(
-                                  el => el !== element
+                                  el => el !== element,
                                 ),
                               }));
                             }
@@ -267,7 +267,7 @@ const CardDatabase = () => {
                               setFilters(prev => ({
                                 ...prev,
                                 keywords: prev.keywords.filter(
-                                  kw => kw !== keyword
+                                  kw => kw !== keyword,
                                 ),
                               }));
                             }
