@@ -16,12 +16,26 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration for Vercel frontend
 const corsOptions = {
-  origin: [
-    'http://localhost:5173', // Vite dev server
-    'http://localhost:3000', // Alternative dev port
-    'https://*.vercel.app',  // Vercel preview deployments
-    process.env.FRONTEND_URL // Production frontend URL
-  ].filter(Boolean),
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173', // Vite dev server
+      'http://localhost:3000', // Alternative dev port
+      process.env.FRONTEND_URL // Production frontend URL
+    ].filter(Boolean);
+    
+    // Check for Vercel deployments (*.vercel.app)
+    const isVercelDomain = origin.endsWith('.vercel.app');
+    const isAllowedOrigin = allowedOrigins.includes(origin);
+    
+    if (isAllowedOrigin || isVercelDomain) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
