@@ -153,7 +153,15 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400"
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         }
       ]
     }
@@ -179,7 +187,7 @@
   "trailingSlash": false,
   "skewProtection": {
     "maxAge": 3600,
-    "enabled": true
+    "enabled": false
   },
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
