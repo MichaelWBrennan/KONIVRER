@@ -6,11 +6,15 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      // Optimize React for production
+      jsxRuntime: 'automatic',
+    }),
     visualizer({
       filename: 'dist/stats.html',
       open: false,
       gzipSize: true,
+      brotliSize: true,
     }),
   ],
   build: {
@@ -19,24 +23,56 @@ export default defineConfig({
     cssCodeSplit: true,
     assetsDir: 'assets',
     minify: 'terser',
+    target: 'es2020', // Modern browsers only - reduces polyfills
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info'],
+        passes: 2, // Multiple passes for better compression
       },
       mangle: {
         safari10: true,
       },
+      format: {
+        comments: false, // Remove all comments
+      },
     },
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500, // Stricter warning limit
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['framer-motion', 'lucide-react'],
+        manualChunks: (id) => {
+          // More granular code splitting
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            if (id.includes('framer-motion')) {
+              return 'animations';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons';
+            }
+            if (id.includes('@dnd-kit')) {
+              return 'dnd';
+            }
+            if (id.includes('axios')) {
+              return 'http';
+            }
+            return 'vendor';
+          }
+          // Split by feature/page
+          if (id.includes('/pages/')) {
+            const pageName = id.split('/pages/')[1].split('/')[0];
+            return `page-${pageName}`;
+          }
+          if (id.includes('/components/')) {
+            return 'components';
+          }
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.');
@@ -52,6 +88,7 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
       },
+      external: [], // Don't externalize anything for better bundling
     },
   },
   resolve: {
