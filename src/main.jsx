@@ -22,5 +22,5 @@ if ('serviceWorker' in navigator) {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
 );
