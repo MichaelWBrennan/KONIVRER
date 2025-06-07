@@ -82,6 +82,23 @@ function checkVercelSecurity() {
     console.log(`${hasIncludeSubDomains ? '✅' : '❌'} HSTS includeSubDomains`);
     console.log(`${hasLongMaxAge ? '✅' : '❌'} HSTS long max-age (1 year)`);
   }
+
+  // Check skew protection
+  const skewProtection = vercelConfig.skewProtection;
+  if (skewProtection) {
+    const isEnabled = skewProtection.enabled === true;
+    const hasMaxAge = skewProtection.maxAge > 0;
+    
+    console.log(`${isEnabled ? '✅' : '❌'} Skew protection enabled`);
+    console.log(`${hasMaxAge ? '✅' : '❌'} Skew protection max age configured`);
+    
+    if (!isEnabled || !hasMaxAge) {
+      allChecksPass = false;
+    }
+  } else {
+    console.log('❌ Skew protection not configured');
+    allChecksPass = false;
+  }
 }
 
 // Check environment variables
@@ -121,9 +138,14 @@ function checkSecurityFiles() {
   
   const securityFiles = [
     'src/config/security.js',
+    'src/utils/skewProtection.js',
+    'src/hooks/useSkewProtection.js',
+    'src/components/SkewProtection.jsx',
     'middleware.js',
     'api/security/health-check.js',
-    'SECURITY_FEATURES.md'
+    'api/version.js',
+    'SECURITY_FEATURES.md',
+    'docs/SKEW_PROTECTION.md'
   ];
 
   securityFiles.forEach(file => {
