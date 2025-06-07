@@ -150,6 +150,12 @@ export default [
     }
   },
   {
+    files: ['scripts/**/*.js', 'public/sw.js'],
+    rules: {
+      'no-console': 'off'
+    }
+  },
+  {
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
     languageOptions: {
       globals: {

@@ -21,16 +21,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: 'npm'
 
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: npm ci
 
     - name: Lint code
-      run: yarn lint || echo "Linting not configured, skipping..."
+      run: npm run lint || echo "Linting not configured, skipping..."
 
     - name: Build application
-      run: yarn build
+      run: npm run build
 
     - name: Test build output
       run: |

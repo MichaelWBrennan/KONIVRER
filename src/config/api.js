@@ -16,52 +16,52 @@ export const apiClient = axios.create({
 
 // Request interceptor
 apiClient.interceptors.request.use(
-  (config) => {
+  config => {
     // Add auth token if available
     const token = localStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     // Add request timestamp for debugging
     if (env.ENABLE_DEBUG) {
       config.metadata = { startTime: new Date() };
     }
-    
+
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
-  },
+  }
 );
 
 // Response interceptor
 apiClient.interceptors.response.use(
-  (response) => {
+  response => {
     // Log response time in development
     if (env.ENABLE_DEBUG && response.config.metadata) {
       const endTime = new Date();
       const duration = endTime - response.config.metadata.startTime;
       console.warn(`API Request to ${response.config.url} took ${duration}ms`);
     }
-    
+
     return response;
   },
-  (error) => {
+  error => {
     // Handle common error scenarios
     if (error.response?.status === 401) {
       // Unauthorized - clear token and redirect to login
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
-    
+
     // Log errors in development
     if (env.ENABLE_DEBUG) {
       console.error('API Error:', error);
     }
-    
+
     return Promise.reject(error);
-  },
+  }
 );
 
 export default apiClient;

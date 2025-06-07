@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { existsSync } from 'fs';
 import { join } from 'path';
 
 console.log('🔍 Analyzing bundle performance...\n');
@@ -26,7 +26,7 @@ console.log('\n📁 Analyzing dist folder...');
 try {
   const distAnalysis = execSync('du -sh dist/* | sort -hr', { encoding: 'utf8' });
   console.log(distAnalysis);
-} catch (error) {
+} catch {
   console.log('Could not analyze dist folder size');
 }
 
@@ -39,7 +39,7 @@ try {
   } else {
     console.log('✅ No files larger than 100KB found');
   }
-} catch (error) {
+} catch {
   console.log('Could not analyze file sizes');
 }
 

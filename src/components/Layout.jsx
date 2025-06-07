@@ -1,9 +1,9 @@
-import { 
-  Home, 
-  Database, 
-  PlusCircle, 
-  BookOpen, 
-  User, 
+import {
+  Home,
+  Database,
+  PlusCircle,
+  BookOpen,
+  User,
   Search,
   Menu,
   X,
@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
     { name: 'My Decks', href: '/decks', icon: BookOpen },
   ];
 
-  const isActive = (path) => {
+  const isActive = path => {
     if (path === '/' && location.pathname === '/') return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
     return false;
@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6">
-              {navigation.map((item) => {
+              {navigation.map(item => {
                 const Icon = item.icon;
                 return (
                   <Link
@@ -66,7 +66,10 @@ const Layout = ({ children }) => {
             {/* Search Bar */}
             <div className="hidden lg:flex items-center gap-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                  size={16}
+                />
                 <input
                   type="text"
                   placeholder="Search cards..."
@@ -93,7 +96,7 @@ const Layout = ({ children }) => {
           <div className="md:hidden bg-secondary border-t border-color">
             <div className="container py-4">
               <nav className="flex flex-col gap-2">
-                {navigation.map((item) => {
+                {navigation.map(item => {
                   const Icon = item.icon;
                   return (
                     <Link
@@ -112,10 +115,13 @@ const Layout = ({ children }) => {
                   );
                 })}
               </nav>
-              
+
               {/* Mobile Search */}
               <div className="mt-4 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                  size={16}
+                />
                 <input
                   type="text"
                   placeholder="Search cards..."
@@ -128,9 +134,7 @@ const Layout = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
 
       {/* Footer */}
       <footer className="bg-secondary border-t border-color mt-auto">
@@ -142,13 +146,22 @@ const Layout = ({ children }) => {
               </span>
             </div>
             <div className="flex items-center gap-4">
-              <Link to="/about" className="text-sm text-secondary hover:text-primary">
+              <Link
+                to="/about"
+                className="text-sm text-secondary hover:text-primary"
+              >
                 About
               </Link>
-              <Link to="/contact" className="text-sm text-secondary hover:text-primary">
+              <Link
+                to="/contact"
+                className="text-sm text-secondary hover:text-primary"
+              >
                 Contact
               </Link>
-              <Link to="/how-to-play" className="text-sm text-secondary hover:text-primary">
+              <Link
+                to="/how-to-play"
+                className="text-sm text-secondary hover:text-primary"
+              >
                 How to Play
               </Link>
             </div>

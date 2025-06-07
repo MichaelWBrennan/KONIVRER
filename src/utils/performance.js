@@ -49,7 +49,7 @@ export const trackRouteChange = routeName => {
       performance.measure(
         `route-${routeName}`,
         `route-${routeName}-start`,
-        `route-${routeName}-end`,
+        `route-${routeName}-end`
       );
 
       const measure = performance.getEntriesByName(`route-${routeName}`)[0];

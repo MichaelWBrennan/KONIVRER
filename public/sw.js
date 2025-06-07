@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
         console.log('Caching static assets');
         return cache.addAll(STATIC_ASSETS);
       })
-      .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()),
   );
 });
 
@@ -35,9 +35,9 @@ self.addEventListener('activate', (event) => {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
-        })
+        }),
       );
-    }).then(() => self.clients.claim())
+    }).then(() => self.clients.claim()),
   );
 });
 
@@ -100,6 +100,6 @@ self.addEventListener('fetch', (event) => {
           });
 
         return fetchPromise;
-      })
+      }),
   );
 });
