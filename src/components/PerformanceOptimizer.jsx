@@ -48,8 +48,8 @@ const PerformanceOptimizer = ({ children }) => {
       const images = document.querySelectorAll('img[data-src]');
       if (images.length > 0 && 'IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
+          entries => {
+            entries.forEach(entry => {
               if (entry.isIntersecting) {
                 const img = entry.target;
                 img.src = img.dataset.src;
@@ -62,10 +62,10 @@ const PerformanceOptimizer = ({ children }) => {
           {
             rootMargin: '50px 0px',
             threshold: 0.01,
-          }
+          },
         );
 
-        images.forEach((img) => imageObserver.observe(img));
+        images.forEach(img => imageObserver.observe(img));
       }
 
       // Preload critical resources
@@ -89,10 +89,14 @@ const PerformanceOptimizer = ({ children }) => {
         { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
         { rel: 'dns-prefetch', href: '//vitals.vercel-insights.com' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossOrigin: 'anonymous',
+        },
       ];
 
-      resourceHints.forEach((hint) => {
+      resourceHints.forEach(hint => {
         const link = document.createElement('link');
         Object.assign(link, hint);
         document.head.appendChild(link);
@@ -105,16 +109,17 @@ const PerformanceOptimizer = ({ children }) => {
         viewport.name = 'viewport';
         document.head.appendChild(viewport);
       }
-      viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+      viewport.content =
+        'width=device-width, initial-scale=1.0, viewport-fit=cover';
 
       // Add performance observer for Core Web Vitals
       if ('PerformanceObserver' in window) {
         // Largest Contentful Paint
         try {
-          new PerformanceObserver((entryList) => {
+          new PerformanceObserver(entryList => {
             const entries = entryList.getEntries();
             const lastEntry = entries[entries.length - 1];
-            
+
             // Report to analytics
             if (window.gtag && lastEntry) {
               window.gtag('event', 'web_vitals', {
@@ -131,9 +136,9 @@ const PerformanceOptimizer = ({ children }) => {
 
         // First Input Delay
         try {
-          new PerformanceObserver((entryList) => {
+          new PerformanceObserver(entryList => {
             const entries = entryList.getEntries();
-            entries.forEach((entry) => {
+            entries.forEach(entry => {
               if (window.gtag) {
                 window.gtag('event', 'web_vitals', {
                   event_category: 'Web Vitals',
@@ -151,14 +156,14 @@ const PerformanceOptimizer = ({ children }) => {
         // Cumulative Layout Shift
         try {
           let clsValue = 0;
-          new PerformanceObserver((entryList) => {
+          new PerformanceObserver(entryList => {
             const entries = entryList.getEntries();
-            entries.forEach((entry) => {
+            entries.forEach(entry => {
               if (!entry.hadRecentInput) {
                 clsValue += entry.value;
               }
             });
-            
+
             if (window.gtag) {
               window.gtag('event', 'web_vitals', {
                 event_category: 'Web Vitals',
@@ -174,12 +179,17 @@ const PerformanceOptimizer = ({ children }) => {
       }
 
       // Optimize touch targets for mobile
-      const touchTargets = document.querySelectorAll('button, a, input, select, textarea');
-      touchTargets.forEach((target) => {
+      const touchTargets = document.querySelectorAll(
+        'button, a, input, select, textarea',
+      );
+      touchTargets.forEach(target => {
         const computedStyle = window.getComputedStyle(target);
         const minSize = 44; // 44px minimum touch target size
-        
-        if (parseInt(computedStyle.height) < minSize || parseInt(computedStyle.width) < minSize) {
+
+        if (
+          parseInt(computedStyle.height) < minSize ||
+          parseInt(computedStyle.width) < minSize
+        ) {
           target.style.minHeight = `${minSize}px`;
           target.style.minWidth = `${minSize}px`;
           target.style.display = 'inline-flex';
@@ -207,7 +217,7 @@ const PerformanceOptimizer = ({ children }) => {
   useEffect(() => {
     if (isOptimized) {
       const elements = document.querySelectorAll('[data-performance-optimize]');
-      elements.forEach((element) => {
+      elements.forEach(element => {
         element.classList.add('performance-optimized');
       });
     }
@@ -217,7 +227,11 @@ const PerformanceOptimizer = ({ children }) => {
 };
 
 // Loading skeleton component for better perceived performance
-export const LoadingSkeleton = ({ width = '100%', height = '20px', className = '' }) => (
+export const LoadingSkeleton = ({
+  width = '100%',
+  height = '20px',
+  className = '',
+}) => (
   <div
     className={`loading-skeleton ${className}`}
     style={{
@@ -231,32 +245,30 @@ export const LoadingSkeleton = ({ width = '100%', height = '20px', className = '
 );
 
 // Optimized image component with lazy loading
-export const OptimizedImage = ({ 
-  src, 
-  alt, 
-  width, 
-  height, 
-  className = '', 
+export const OptimizedImage = ({
+  src,
+  alt,
+  width,
+  height,
+  className = '',
   loading = 'lazy',
-  ...props 
+  ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div 
-      style={{ 
-        width, 
-        height, 
+    <div
+      style={{
+        width,
+        height,
         position: 'relative',
         backgroundColor: '#f0f0f0',
         borderRadius: '4px',
         overflow: 'hidden',
       }}
     >
-      {!isLoaded && !hasError && (
-        <LoadingSkeleton width="100%" height="100%" />
-      )}
+      {!isLoaded && !hasError && <LoadingSkeleton width="100%" height="100%" />}
       <img
         src={src}
         alt={alt}
@@ -277,7 +289,7 @@ export const OptimizedImage = ({
         {...props}
       />
       {hasError && (
-        <div 
+        <div
           style={{
             position: 'absolute',
             top: '50%',
