@@ -4,7 +4,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { getSkewStatus, checkForUpdates, forceRefresh } from '../utils/skewProtection.js';
+import {
+  getSkewStatus,
+  checkForUpdates,
+  forceRefresh,
+} from '../utils/skewProtection.js';
 
 const SkewProtectionStatus = ({ showDetails = false }) => {
   const [status, setStatus] = useState(null);
@@ -17,7 +21,7 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
     setLastCheck(new Date());
 
     // Listen for skew detection events
-    const handleSkewDetected = (event) => {
+    const handleSkewDetected = event => {
       setSkewDetected(true);
       console.warn('Skew detected:', event.detail);
     };
@@ -74,7 +78,7 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
               <strong>New version available</strong>
               <p>A new version of the application is available.</p>
             </div>
-            <button 
+            <button
               onClick={handleForceRefresh}
               className="skew-refresh-button"
             >
@@ -98,7 +102,11 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
             </div>
             <div className="skew-info-item">
               <label>Monitoring:</label>
-              <span className={status.isMonitoring ? 'status-active' : 'status-inactive'}>
+              <span
+                className={
+                  status.isMonitoring ? 'status-active' : 'status-inactive'
+                }
+              >
                 {status.isMonitoring ? 'Active' : 'Inactive'}
               </span>
             </div>
@@ -108,14 +116,22 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
             </div>
             <div className="skew-info-item">
               <label>Last Check:</label>
-              <span>{lastCheck ? lastCheck.toLocaleTimeString() : 'Never'}</span>
+              <span>
+                {lastCheck ? lastCheck.toLocaleTimeString() : 'Never'}
+              </span>
             </div>
           </div>
           <div className="skew-actions">
-            <button onClick={handleCheckForUpdates} className="check-updates-button">
+            <button
+              onClick={handleCheckForUpdates}
+              className="check-updates-button"
+            >
               Check for Updates
             </button>
-            <button onClick={handleForceRefresh} className="force-refresh-button">
+            <button
+              onClick={handleForceRefresh}
+              className="force-refresh-button"
+            >
               Force Refresh
             </button>
           </div>
@@ -139,7 +155,8 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
           padding: 16px;
           max-width: 400px;
           z-index: 10000;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family:
+            -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .skew-alert-content {
@@ -191,7 +208,8 @@ const SkewProtectionStatus = ({ showDetails = false }) => {
           border-radius: 8px;
           padding: 16px;
           margin: 16px 0;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family:
+            -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .skew-details h4 {
