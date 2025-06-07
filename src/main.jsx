@@ -1,26 +1,44 @@
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 
 import App from './App';
 import './App.css';
-import './utils/performance';
 
-// Register service worker for caching
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(registration => {
-        console.warn('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.warn('SW registration failed: ', registrationError);
-      });
-  });
+// Performance monitoring (only in development)
+if (import.meta.env.DEV) {
+  import('./utils/performance');
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+// Optimized service worker registration
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  // Use requestIdleCallback for better performance
+  const registerSW = () => {
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/' })
+      .then(registration => {
+        // Update on reload
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      })
+      .catch(() => {
+        // Silently fail in production
+      });
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(registerSW);
+  } else {
+    setTimeout(registerSW, 1000);
+  }
+}
+
+// Optimized root creation
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 );
