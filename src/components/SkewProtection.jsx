@@ -7,14 +7,14 @@ import { useEffect, useState } from 'react';
 import { useSkewProtection } from '../hooks/useSkewProtection.js';
 
 const SkewProtection = () => {
-  const { 
-    isUpdateAvailable, 
-    currentVersion, 
-    checkForUpdates, 
+  const {
+    isUpdateAvailable,
+    currentVersion,
+    checkForUpdates,
     forceRefresh,
-    dismissUpdate 
+    dismissUpdate,
   } = useSkewProtection();
-  
+
   const [showNotification, setShowNotification] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
 
@@ -58,12 +58,13 @@ const SkewProtection = () => {
         borderRadius: '12px',
         boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
         zIndex: 10000,
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         fontSize: '14px',
         maxWidth: '320px',
         backdropFilter: 'blur(10px)',
         border: '1px solid rgba(255,255,255,0.1)',
-        animation: 'slideIn 0.3s ease-out'
+        animation: 'slideIn 0.3s ease-out',
       }}
     >
       <style>
@@ -113,32 +114,43 @@ const SkewProtection = () => {
           }
         `}
       </style>
-      
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+        }}
+      >
         <div style={{ flex: 1 }}>
-          <div style={{ 
-            fontWeight: '600', 
-            marginBottom: '6px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
+          <div
+            style={{
+              fontWeight: '600',
+              marginBottom: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
             <span style={{ fontSize: '16px' }}>🚀</span>
             New version available
           </div>
-          <div style={{ 
-            fontSize: '12px', 
-            opacity: '0.9',
-            lineHeight: '1.4',
-            marginBottom: '8px'
-          }}>
-            A new version of the app is ready. Refresh to get the latest features and improvements.
+          <div
+            style={{
+              fontSize: '12px',
+              opacity: '0.9',
+              lineHeight: '1.4',
+              marginBottom: '8px',
+            }}
+          >
+            A new version of the app is ready. Refresh to get the latest
+            features and improvements.
           </div>
           <div style={{ fontSize: '11px', opacity: '0.7' }}>
             Version: {currentVersion?.slice(0, 8) || 'Unknown'}
           </div>
         </div>
-        
+
         <button
           onClick={handleDismiss}
           style={{
@@ -150,14 +162,14 @@ const SkewProtection = () => {
             padding: '0',
             marginLeft: '12px',
             opacity: '0.7',
-            lineHeight: '1'
+            lineHeight: '1',
           }}
           title="Dismiss"
         >
           ×
         </button>
       </div>
-      
+
       <div style={{ marginTop: '12px' }}>
         <button
           className="skew-button primary"
@@ -166,7 +178,7 @@ const SkewProtection = () => {
         >
           {isChecking ? 'Refreshing...' : 'Refresh Now'}
         </button>
-        
+
         <button
           className="skew-button"
           onClick={handleCheckUpdates}

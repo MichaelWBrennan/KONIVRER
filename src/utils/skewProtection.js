@@ -17,7 +17,7 @@ class SkewProtection {
     this.retryDelay = 1000; // 1 second
     this.versionCheckInterval = 5 * 60 * 1000; // 5 minutes
     this.skewDetected = false;
-    
+
     this.init();
   }
 
@@ -26,13 +26,13 @@ class SkewProtection {
 
     // Store current version
     this.storeVersion(this.currentVersion);
-    
+
     // Set up periodic version checking
     this.startVersionMonitoring();
-    
+
     // Handle fetch errors that might indicate skew
     this.setupFetchInterceptor();
-    
+
     // Listen for visibility changes to check version when user returns
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
@@ -49,9 +49,11 @@ class SkewProtection {
     }
 
     // Fallback to build timestamp or environment
-    return import.meta.env.VITE_APP_VERSION || 
-           import.meta.env.VITE_BUILD_TIME || 
-           Date.now().toString();
+    return (
+      import.meta.env.VITE_APP_VERSION ||
+      import.meta.env.VITE_BUILD_TIME ||
+      Date.now().toString()
+    );
   }
 
   getStoredVersion() {
@@ -78,7 +80,7 @@ class SkewProtection {
       const endpoints = [
         '/api/version',
         '/api/health',
-        '/_vercel/insights/vitals'
+        '/_vercel/insights/vitals',
       ];
 
       for (const endpoint of endpoints) {
@@ -87,29 +89,35 @@ class SkewProtection {
             method: 'HEAD',
             cache: 'no-cache',
             headers: {
-              'X-Vercel-Skew-Protection': 'check'
-            }
+              'X-Vercel-Skew-Protection': 'check',
+            },
           });
 
           // Check Vercel-specific headers
-          const serverVersion = response.headers.get('x-app-version') || 
-                               response.headers.get('x-vercel-deployment-id');
+          const serverVersion =
+            response.headers.get('x-app-version') ||
+            response.headers.get('x-vercel-deployment-id');
           const skewDetected = response.headers.get('x-vercel-skew-protection');
-          
-          if (skewDetected === 'detected' || 
-              (serverVersion && serverVersion !== this.currentVersion)) {
+
+          if (
+            skewDetected === 'detected' ||
+            (serverVersion && serverVersion !== this.currentVersion)
+          ) {
             this.handleVersionMismatch(serverVersion);
             break;
           }
         } catch (endpointError) {
-          console.debug(`Version check failed for ${endpoint}:`, endpointError.message);
+          console.debug(
+            `Version check failed for ${endpoint}:`,
+            endpointError.message,
+          );
           continue;
         }
       }
     } catch (error) {
       securityLogger.log('SKEW_CHECK_ERROR', {
         error: error.message,
-        currentVersion: this.currentVersion
+        currentVersion: this.currentVersion,
       });
     }
   }
@@ -117,7 +125,7 @@ class SkewProtection {
   handleVersionMismatch(newVersion) {
     console.warn('Version skew detected:', {
       current: this.currentVersion,
-      server: newVersion
+      server: newVersion,
     });
 
     // Log skew detection for monitoring
@@ -126,22 +134,24 @@ class SkewProtection {
       serverVersion: newVersion,
       userAgent: navigator.userAgent,
       timestamp: new Date().toISOString(),
-      url: window.location.href
+      url: window.location.href,
     });
 
     // Show user notification about new version
     this.showUpdateNotification();
-    
+
     // Update stored version
     this.storeVersion(newVersion);
-    
+
     // Emit custom event for app-level handling
-    window.dispatchEvent(new CustomEvent('vercelSkewDetected', {
-      detail: {
-        clientVersion: this.currentVersion,
-        serverVersion: newVersion
-      }
-    }));
+    window.dispatchEvent(
+      new CustomEvent('vercelSkewDetected', {
+        detail: {
+          clientVersion: this.currentVersion,
+          serverVersion: newVersion,
+        },
+      }),
+    );
   }
 
   showUpdateNotification() {
@@ -209,20 +219,24 @@ class SkewProtection {
     window.fetch = async (...args) => {
       try {
         const response = await originalFetch(...args);
-        
+
         // Check for Vercel skew protection headers
         const skewProtection = response.headers.get('x-vercel-skew-protection');
         const deploymentId = response.headers.get('x-vercel-deployment-id');
-        
+
         if (skewProtection === 'detected') {
           this.handleSkewError(response);
         }
-        
+
         // Check for skew-related status codes
-        if (response.status === 409 || response.status === 412 || response.status === 426) {
+        if (
+          response.status === 409 ||
+          response.status === 412 ||
+          response.status === 426
+        ) {
           this.handleSkewError(response);
         }
-        
+
         // Store deployment ID for tracking
         if (deploymentId && deploymentId !== this.lastDeploymentId) {
           this.lastDeploymentId = deploymentId;
@@ -231,7 +245,7 @@ class SkewProtection {
 
         // Reset retry count on successful request
         this.retryCount = 0;
-        
+
         return response;
       } catch (error) {
         return this.handleFetchError(error, args);
@@ -243,15 +257,20 @@ class SkewProtection {
     // Check if this might be a skew-related error
     if (this.isSkewError(error) && this.retryCount < this.maxRetries) {
       this.retryCount++;
-      
-      console.warn(`Potential skew error, retrying (${this.retryCount}/${this.maxRetries}):`, error.message);
-      
+
+      console.warn(
+        `Potential skew error, retrying (${this.retryCount}/${this.maxRetries}):`,
+        error.message,
+      );
+
       // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, this.retryDelay * this.retryCount));
-      
+      await new Promise(resolve =>
+        setTimeout(resolve, this.retryDelay * this.retryCount),
+      );
+
       // Check for version updates before retrying
       await this.checkVersionSkew();
-      
+
       // Retry the original request
       return window.fetch(...originalArgs);
     }
@@ -262,7 +281,7 @@ class SkewProtection {
 
   handleSkewError(response) {
     console.warn('Server returned skew-related status:', response.status);
-    
+
     // Check if server provides version information
     const serverVersion = response.headers.get('x-app-version');
     if (serverVersion) {
@@ -284,7 +303,7 @@ class SkewProtection {
       'version mismatch',
       'deployment conflict',
       'cache miss',
-      'stale deployment'
+      'stale deployment',
     ];
 
     const errorMessage = error.message.toLowerCase();
@@ -298,13 +317,13 @@ class SkewProtection {
       if ('caches' in window) {
         const cacheNames = await caches.keys();
         await Promise.all(
-          cacheNames.map(cacheName => caches.delete(cacheName))
+          cacheNames.map(cacheName => caches.delete(cacheName)),
         );
       }
 
       // Clear localStorage version info
       localStorage.removeItem('app-version');
-      
+
       // Hard refresh
       window.location.reload(true);
     } catch (error) {
@@ -320,7 +339,7 @@ class SkewProtection {
       currentVersion: this.currentVersion,
       lastKnownVersion: this.lastKnownVersion,
       retryCount: this.retryCount,
-      isMonitoring: !!this.versionCheckInterval
+      isMonitoring: !!this.versionCheckInterval,
     };
   }
 }
@@ -337,21 +356,23 @@ export const getSkewStatus = () => skewProtection.getStatus();
 export function useSkewProtection() {
   // This will be used in React components that import React
   if (typeof window !== 'undefined' && window.React) {
-    const [status, setStatus] = window.React.useState(skewProtection.getStatus());
+    const [status, setStatus] = window.React.useState(
+      skewProtection.getStatus(),
+    );
 
     window.React.useEffect(() => {
       const updateStatus = () => setStatus(skewProtection.getStatus());
-      
+
       // Update status periodically
       const interval = setInterval(updateStatus, 30000); // 30 seconds
-      
+
       return () => clearInterval(interval);
     }, []);
 
     return {
       ...status,
       checkForUpdates,
-      forceRefresh
+      forceRefresh,
     };
   }
 
@@ -359,7 +380,7 @@ export function useSkewProtection() {
   return {
     ...skewProtection.getStatus(),
     checkForUpdates,
-    forceRefresh
+    forceRefresh,
   };
 }
 
