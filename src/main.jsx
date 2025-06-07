@@ -42,7 +42,7 @@ root.render(
 
 console.log('✅ Minimal app loaded successfully');
 
-// Unregister service worker for debugging
+// Aggressively unregister service worker and clear cache for debugging
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(registrations => {
     registrations.forEach(registration => {
@@ -50,6 +50,16 @@ if ('serviceWorker' in navigator) {
       console.log('🗑️ Service worker unregistered for debugging');
     });
   });
+  
+  // Also clear all caches
+  if ('caches' in window) {
+    caches.keys().then(cacheNames => {
+      cacheNames.forEach(cacheName => {
+        caches.delete(cacheName);
+        console.log('🗑️ Cache deleted:', cacheName);
+      });
+    });
+  }
 }
 
 // Also hide loading spinner from React side
