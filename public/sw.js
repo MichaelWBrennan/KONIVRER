@@ -1,8 +1,8 @@
 // Ultra-optimized service worker for KONIVRER Deck Database
-const CACHE_NAME = 'konivrer-v4';
-const STATIC_CACHE_NAME = 'konivrer-static-v4';
-const RUNTIME_CACHE_NAME = 'konivrer-runtime-v4';
-const API_CACHE_NAME = 'konivrer-api-v4';
+const CACHE_NAME = 'konivrer-v5-debug';
+const STATIC_CACHE_NAME = 'konivrer-static-v5-debug';
+const RUNTIME_CACHE_NAME = 'konivrer-runtime-v5-debug';
+const API_CACHE_NAME = 'konivrer-api-v5-debug';
 
 // Critical assets to cache immediately
 const STATIC_ASSETS = [
@@ -22,7 +22,19 @@ const API_CACHE_PATTERNS = [
   /^\/api\/security/,
 ];
 
-// Install event - cache static assets
+// TEMPORARY: Unregister service worker for debugging
+self.addEventListener('install', (event) => {
+  console.log('Service Worker unregistering for debugging...');
+  event.waitUntil(
+    self.registration.unregister().then(() => {
+      console.log('Service Worker unregistered');
+      return self.clients.claim();
+    })
+  );
+});
+
+// Original install event - cache static assets (disabled for debugging)
+/*
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
   event.waitUntil(
