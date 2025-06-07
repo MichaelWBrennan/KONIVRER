@@ -5,6 +5,10 @@ import {
   TrendingUp,
   Users,
   Zap,
+  Trophy,
+  Shield,
+  Calendar,
+  Target,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -31,13 +35,34 @@ const Home = () => {
         'Organize, share, and track your deck collections with ease.',
       link: '/decks',
     },
+    {
+      icon: Trophy,
+      title: 'Organized Play',
+      description:
+        'Join official tournaments, compete with players worldwide, and climb the rankings.',
+      link: '/tournaments',
+    },
+    {
+      icon: Shield,
+      title: 'Judge Center',
+      description:
+        'Access official rules, manage tournaments, and advance your judge certification.',
+      link: '/judge-center',
+    },
+    {
+      icon: Target,
+      title: 'Tournament Tools',
+      description:
+        'Create and manage tournaments with comprehensive bracket and pairing systems.',
+      link: '/tournaments/create',
+    },
   ];
 
   const stats = [
     { label: 'Total Cards', value: '500+', icon: Database },
     { label: 'Active Players', value: '1.2K+', icon: Users },
-    { label: 'Decks Created', value: '5.8K+', icon: BookOpen },
-    { label: 'Games Played', value: '15K+', icon: Zap },
+    { label: 'Tournaments', value: '250+', icon: Trophy },
+    { label: 'Certified Judges', value: '45+', icon: Shield },
   ];
 
   return (
@@ -48,20 +73,20 @@ const Home = () => {
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="hero-title">Master the Elements</h1>
             <p className="hero-subtitle">
-              Build powerful decks, discover new strategies, and compete with
-              players worldwide in the ultimate elemental card game.
+              Build powerful decks, discover new strategies, and compete in official tournaments
+              in the ultimate elemental card game platform.
             </p>
             <div className="btn-group">
               <Link
-                to="/deckbuilder"
+                to="/tournaments"
                 className="btn btn-primary text-lg px-8 py-3"
               >
-                <PlusCircle size={20} />
-                Start Building
+                <Trophy size={20} />
+                Join Tournament
               </Link>
-              <Link to="/cards" className="btn btn-secondary text-lg px-8 py-3">
-                <Database size={20} />
-                Browse Cards
+              <Link to="/deckbuilder" className="btn btn-secondary text-lg px-8 py-3">
+                <PlusCircle size={20} />
+                Build Deck
               </Link>
             </div>
           </div>
@@ -103,7 +128,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map(feature => {
               const Icon = feature.icon;
               return (
