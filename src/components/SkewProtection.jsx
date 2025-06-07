@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
+
 import { useSkewProtection } from '../hooks/useSkewProtection.js';
 
 const SkewProtection = () => {

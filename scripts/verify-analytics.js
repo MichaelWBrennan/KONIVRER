@@ -30,7 +30,7 @@ console.log(`${hasAnalyticsEnv ? '✅' : '❌'} VITE_ENABLE_ANALYTICS: ${vercelC
 // Check CSP headers
 const headers = vercelConfig.headers || [];
 const cspHeader = headers.find(h => 
-  h.headers?.some(header => header.key === 'Content-Security-Policy')
+  h.headers?.some(header => header.key === 'Content-Security-Policy'),
 );
 
 if (cspHeader) {
