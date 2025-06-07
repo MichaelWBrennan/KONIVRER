@@ -61,14 +61,41 @@ root.render(
   </StrictMode>,
 );
 
-// Initialize security, analytics, and skew protection after render
-initializeSecurity();
-initializeAnalytics();
-// initializePerformanceOptimizations();
+// Initialize security, analytics, and skew protection after render (non-blocking)
+setTimeout(() => {
+  try {
+    initializeSecurity();
+  } catch (error) {
+    console.warn('Security initialization failed:', error);
+  }
+}, 100);
 
-// Initialize skew protection
+setTimeout(() => {
+  try {
+    initializeAnalytics();
+  } catch (error) {
+    console.warn('Analytics initialization failed:', error);
+  }
+}, 200);
+
+// Initialize performance optimizations if available
+setTimeout(() => {
+  try {
+    if (typeof initializePerformanceOptimizations === 'function') {
+      initializePerformanceOptimizations();
+    }
+  } catch (error) {
+    console.warn('Performance optimization initialization failed:', error);
+  }
+}, 300);
+
+// Initialize skew protection (non-blocking)
 if (import.meta.env.PROD) {
-  import('./utils/skewProtection.js').then(() => {
-    console.warn('Vercel skew protection initialized');
-  });
+  setTimeout(() => {
+    import('./utils/skewProtection.js').then(() => {
+      console.log('Vercel skew protection initialized');
+    }).catch(error => {
+      console.warn('Skew protection initialization failed:', error);
+    });
+  }, 1000); // Wait 1 second after app loads
 }
