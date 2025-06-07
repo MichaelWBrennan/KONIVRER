@@ -19,7 +19,7 @@ class ErrorBoundary extends Component {
   componentDidCatch(error, errorInfo) {
     // Log error details
     console.error('Error Boundary caught an error:', error, errorInfo);
-    
+
     this.setState({
       error,
       errorInfo,
@@ -50,7 +50,8 @@ class ErrorBoundary extends Component {
                 Oops! Something went wrong
               </h1>
               <p className="text-gray-300 mb-6">
-                We encountered an unexpected error. This has been logged and we&apos;ll look into it.
+                We encountered an unexpected error. This has been logged and
+                we&apos;ll look into it.
               </p>
             </div>
 
@@ -62,7 +63,7 @@ class ErrorBoundary extends Component {
                 <RefreshCw className="w-4 h-4" />
                 Reload Page
               </button>
-              
+
               <button
                 onClick={this.handleGoHome}
                 className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"

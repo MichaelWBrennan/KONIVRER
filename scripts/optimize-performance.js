@@ -6,7 +6,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 const log = (message) => console.log(`🚀 ${message}`);
@@ -62,7 +62,7 @@ function analyzeBundleSize() {
     js: [],
     css: [],
     totalSize: 0,
-    gzippedSize: 0
+    gzippedSize: 0,
   };
 
   try {
