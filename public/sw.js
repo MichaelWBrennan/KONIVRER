@@ -1,6 +1,7 @@
-// Enhanced service worker for KONIVRER Deck Database
-const CACHE_NAME = 'konivrer-v2';
-const STATIC_CACHE_NAME = 'konivrer-static-v2';
+// Ultra-optimized service worker for KONIVRER Deck Database
+const CACHE_NAME = 'konivrer-v3';
+const STATIC_CACHE_NAME = 'konivrer-static-v3';
+const RUNTIME_CACHE_NAME = 'konivrer-runtime-v3';
 
 // Critical assets to cache immediately
 const STATIC_ASSETS = [
@@ -63,45 +64,42 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        // Fetch from network and cache
-        return fetch(request)
+        // Implement stale-while-revalidate for better performance
+        const fetchPromise = fetch(request)
           .then((response) => {
             // Don't cache non-successful responses
-            if (!response || response.status !== 200 || response.type !== 'basic') {
+            if (!response || response.status !== 200) {
               return response;
             }
 
             // Clone the response for caching
             const responseToCache = response.clone();
 
-            // Determine cache strategy
-            let cacheName = CACHE_NAME;
-            const isStatic = request.url.includes('.js') || 
-                           request.url.includes('.css') || 
-                           request.url.includes('.png') || 
-                           request.url.includes('.jpg') || 
-                           request.url.includes('.svg') ||
-                           request.url.includes('.woff') ||
-                           request.url.includes('googleapis.com');
+            // Determine cache strategy based on resource type
+            let cacheName = RUNTIME_CACHE_NAME;
+            const isStatic = /\.(js|css|png|jpg|jpeg|svg|gif|webp|avif|woff2?|ttf)$/i.test(url.pathname) ||
+                           url.hostname.includes('googleapis.com') ||
+                           url.hostname.includes('gstatic.com');
 
             if (isStatic) {
               cacheName = STATIC_CACHE_NAME;
             }
 
-            // Cache the response
+            // Cache the response asynchronously
             caches.open(cacheName)
               .then((cache) => {
                 cache.put(request, responseToCache);
-              });
+              })
+              .catch(() => {}); // Ignore cache errors
 
             return response;
           })
           .catch(() => {
-            // Offline fallback
-            if (request.destination === 'document') {
-              return caches.match('/index.html');
-            }
+            // Network failed, try cache
+            return caches.match(request);
           });
+
+        return fetchPromise;
       })
   );
 });

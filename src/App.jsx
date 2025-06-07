@@ -4,20 +4,30 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
-import { validateEnv } from './config/env';
-import './App.css';
 
-// Lazy load pages for better performance
-const Home = lazy(() => import('./pages/Home'));
-const CardDatabase = lazy(() => import('./pages/CardDatabase'));
-const DeckBuilder = lazy(() => import('./pages/DeckBuilder'));
-const MyDecks = lazy(() => import('./pages/MyDecks'));
+// Lazy load pages with prefetch hints
+const Home = lazy(
+  () => import(/* webpackChunkName: "page-home" */ './pages/Home')
+);
+const CardDatabase = lazy(
+  () => import(/* webpackChunkName: "page-cards" */ './pages/CardDatabase')
+);
+const DeckBuilder = lazy(
+  () => import(/* webpackChunkName: "page-deckbuilder" */ './pages/DeckBuilder')
+);
+const MyDecks = lazy(
+  () => import(/* webpackChunkName: "page-decks" */ './pages/MyDecks')
+);
 
-// Validate environment variables on app start
-try {
-  validateEnv();
-} catch (error) {
-  console.error('Environment validation failed:', error);
+// Validate environment variables only in development
+if (import.meta.env.DEV) {
+  import('./config/env').then(({ validateEnv }) => {
+    try {
+      validateEnv();
+    } catch (error) {
+      console.error('Environment validation failed:', error);
+    }
+  });
 }
 
 function App() {
@@ -27,11 +37,11 @@ function App() {
         <Layout>
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/deckbuilder' element={<DeckBuilder />} />
-              <Route path='/deckbuilder/:deckId' element={<DeckBuilder />} />
-              <Route path='/cards' element={<CardDatabase />} />
-              <Route path='/decks' element={<MyDecks />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/deckbuilder" element={<DeckBuilder />} />
+              <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
+              <Route path="/cards" element={<CardDatabase />} />
+              <Route path="/decks" element={<MyDecks />} />
             </Routes>
           </Suspense>
         </Layout>
