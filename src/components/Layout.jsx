@@ -8,12 +8,14 @@ import {
   Menu,
   X,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { analytics } from '../utils/analytics';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
@@ -21,6 +23,39 @@ const Layout = ({ children }) => {
     { name: 'Card Database', href: '/cards', icon: Database },
     { name: 'My Decks', href: '/decks', icon: BookOpen },
   ];
+
+  // Track page views when location changes
+  useEffect(() => {
+    const pageName = location.pathname === '/' ? 'home' : location.pathname.slice(1);
+    analytics.pageView(pageName, {
+      path: location.pathname,
+      search: location.search,
+    });
+  }, [location]);
+
+  // Handle navigation clicks
+  const handleNavClick = (itemName, href) => {
+    analytics.navigationClick(href, location.pathname);
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  // Handle search
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && searchTerm.trim()) {
+      analytics.cardSearch(searchTerm.trim());
+      // Navigate to cards page with search
+      window.location.href = `/cards?search=${encodeURIComponent(searchTerm.trim())}`;
+    }
+  };
+
+  // Handle mobile menu toggle
+  const handleMobileMenuToggle = () => {
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    analytics.buttonClick('mobile_menu', newState ? 'open' : 'close');
+  };
 
   const isActive = path => {
     if (path === '/' && location.pathname === '/') return true;
@@ -35,7 +70,11 @@ const Layout = ({ children }) => {
         <div className="container">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3">
+            <Link 
+              to="/" 
+              className="flex items-center gap-3"
+              onClick={() => analytics.navigationClick('/', location.pathname)}
+            >
               <div className="w-8 h-8 bg-accent-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">K</span>
               </div>
@@ -55,6 +94,7 @@ const Layout = ({ children }) => {
                         ? 'bg-accent-primary text-white'
                         : 'text-secondary hover:text-primary hover:bg-tertiary'
                     }`}
+                    onClick={() => handleNavClick(item.name, item.href)}
                   >
                     <Icon size={16} />
                     {item.name}
@@ -74,6 +114,9 @@ const Layout = ({ children }) => {
                   type="text"
                   placeholder="Search cards..."
                   className="input pl-10 w-64"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleSearch}
                 />
               </div>
               <button className="btn btn-ghost">
@@ -84,7 +127,7 @@ const Layout = ({ children }) => {
             {/* Mobile Menu Button */}
             <button
               className="md:hidden btn btn-ghost"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={handleMobileMenuToggle}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -107,7 +150,7 @@ const Layout = ({ children }) => {
                           ? 'bg-accent-primary text-white'
                           : 'text-secondary hover:text-primary hover:bg-tertiary'
                       }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={() => handleNavClick(item.name, item.href)}
                     >
                       <Icon size={16} />
                       {item.name}
@@ -126,6 +169,9 @@ const Layout = ({ children }) => {
                   type="text"
                   placeholder="Search cards..."
                   className="input pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleSearch}
                 />
               </div>
             </div>

@@ -9,6 +9,11 @@ if (import.meta.env.DEV) {
   import('./utils/performance');
 }
 
+// Speed optimizations (production only)
+if (import.meta.env.PROD) {
+  import('./utils/speedOptimizations');
+}
+
 // Optimized service worker registration
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   // Use requestIdleCallback for better performance

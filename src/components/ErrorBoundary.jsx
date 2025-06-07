@@ -25,6 +25,13 @@ class ErrorBoundary extends Component {
       errorInfo,
     });
 
+    // Track error with analytics
+    import('../utils/analytics').then(({ analytics }) => {
+      analytics.error('javascript_error', error.message, errorInfo.componentStack);
+    }).catch(() => {
+      // Silently fail if analytics is not available
+    });
+
     // You can also log the error to an error reporting service here
     if (window.Sentry) {
       window.Sentry.captureException(error, { extra: errorInfo });
@@ -32,10 +39,20 @@ class ErrorBoundary extends Component {
   }
 
   handleReload = () => {
+    // Track error recovery action
+    import('../utils/analytics').then(({ analytics }) => {
+      analytics.buttonClick('error_reload', 'error_boundary');
+    }).catch(() => {});
+    
     window.location.reload();
   };
 
   handleGoHome = () => {
+    // Track error recovery action
+    import('../utils/analytics').then(({ analytics }) => {
+      analytics.buttonClick('error_go_home', 'error_boundary');
+    }).catch(() => {});
+    
     window.location.href = '/';
   };
 
