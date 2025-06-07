@@ -20,14 +20,14 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'yarn'
+        node-version: '20'
+        cache: 'npm'
         
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: npm ci
       
     - name: Run security audit
-      run: yarn audit --level moderate
+      run: npm audit --audit-level moderate
       continue-on-error: true
       
     - name: Run npm audit
@@ -38,9 +38,9 @@ jobs:
       
     - name: Check for high/critical vulnerabilities
       run: |
-        if yarn audit --level high --json | grep -q '"type":"auditAdvisory"'; then
+        if npm audit --audit-level high --json | grep -q '"type":"auditAdvisory"'; then
           echo "High or critical vulnerabilities found!"
-          yarn audit --level high
+          npm audit --audit-level high
           exit 1
         else
           echo "No high or critical vulnerabilities found."

@@ -7,35 +7,35 @@ import { ELEMENT_SYMBOLS, RARITY_COLORS } from './constants.js';
 /**
  * Format a number with commas
  */
-export const formatNumber = (num) => {
+export const formatNumber = num => {
   return new Intl.NumberFormat().format(num);
 };
 
 /**
  * Capitalize first letter of a string
  */
-export const capitalize = (str) => {
+export const capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 /**
  * Get element symbol by element type
  */
-export const getElementSymbol = (element) => {
+export const getElementSymbol = element => {
   return ELEMENT_SYMBOLS[element] || '?';
 };
 
 /**
  * Get rarity color by rarity type
  */
-export const getRarityColor = (rarity) => {
+export const getRarityColor = rarity => {
   return RARITY_COLORS[rarity] || '#6b7280';
 };
 
 /**
  * Calculate deck statistics
  */
-export const calculateDeckStats = (cards) => {
+export const calculateDeckStats = cards => {
   const stats = {
     totalCards: 0,
     averageCost: 0,
@@ -56,17 +56,20 @@ export const calculateDeckStats = (cards) => {
 
     // Element distribution
     card.elements.forEach(element => {
-      stats.elementDistribution[element] = (stats.elementDistribution[element] || 0) + quantity;
+      stats.elementDistribution[element] =
+        (stats.elementDistribution[element] || 0) + quantity;
     });
 
     // Rarity distribution
-    stats.rarityDistribution[card.rarity] = (stats.rarityDistribution[card.rarity] || 0) + quantity;
+    stats.rarityDistribution[card.rarity] =
+      (stats.rarityDistribution[card.rarity] || 0) + quantity;
 
     // Cost curve
     stats.costCurve[card.cost] = (stats.costCurve[card.cost] || 0) + quantity;
   });
 
-  stats.averageCost = stats.totalCards > 0 ? (totalCost / stats.totalCards).toFixed(1) : 0;
+  stats.averageCost =
+    stats.totalCards > 0 ? (totalCost / stats.totalCards).toFixed(1) : 0;
 
   return stats;
 };
@@ -81,10 +84,10 @@ export const filterCards = (cards, filters) => {
       const searchLower = filters.search.toLowerCase();
       const matchesName = card.name.toLowerCase().includes(searchLower);
       const matchesText = card.text.toLowerCase().includes(searchLower);
-      const matchesKeywords = card.keywords.some(keyword => 
-        keyword.toLowerCase().includes(searchLower),
+      const matchesKeywords = card.keywords.some(keyword =>
+        keyword.toLowerCase().includes(searchLower)
       );
-      
+
       if (!matchesName && !matchesText && !matchesKeywords) {
         return false;
       }
@@ -92,8 +95,8 @@ export const filterCards = (cards, filters) => {
 
     // Element filter
     if (filters.elements && filters.elements.length > 0) {
-      const hasMatchingElement = card.elements.some(element => 
-        filters.elements.includes(element),
+      const hasMatchingElement = card.elements.some(element =>
+        filters.elements.includes(element)
       );
       if (!hasMatchingElement) {
         return false;
@@ -190,14 +193,14 @@ export const generateId = () => {
 /**
  * Deep clone an object
  */
-export const deepClone = (obj) => {
+export const deepClone = obj => {
   return JSON.parse(JSON.stringify(obj));
 };
 
 /**
  * Check if deck is valid
  */
-export const validateDeck = (cards) => {
+export const validateDeck = cards => {
   const errors = [];
   const cardCounts = {};
 
@@ -207,19 +210,26 @@ export const validateDeck = (cards) => {
   });
 
   // Check deck size
-  const totalCards = Object.values(cardCounts).reduce((sum, count) => sum + count, 0);
+  const totalCards = Object.values(cardCounts).reduce(
+    (sum, count) => sum + count,
+    0
+  );
   if (totalCards < 30) {
     errors.push(`Deck must have at least 30 cards (currently ${totalCards})`);
   }
   if (totalCards > 60) {
-    errors.push(`Deck cannot have more than 60 cards (currently ${totalCards})`);
+    errors.push(
+      `Deck cannot have more than 60 cards (currently ${totalCards})`
+    );
   }
 
   // Check card limits
   Object.entries(cardCounts).forEach(([cardId, count]) => {
     if (count > 3) {
       const card = cards.find(c => c.card.id === cardId)?.card;
-      errors.push(`Cannot have more than 3 copies of ${card?.name || 'a card'} (currently ${count})`);
+      errors.push(
+        `Cannot have more than 3 copies of ${card?.name || 'a card'} (currently ${count})`
+      );
     }
   });
 

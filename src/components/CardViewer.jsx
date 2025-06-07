@@ -19,47 +19,49 @@ const CardViewer = ({ card, onClose, onAddToDeck }) => {
   };
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'>
-      <div className='bg-card border border-color rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto'>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-card border border-color rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className='flex items-center justify-between p-6 border-b border-color'>
-          <h2 className='text-2xl font-bold'>{card.name}</h2>
-          <button onClick={onClose} className='btn btn-ghost'>
+        <div className="flex items-center justify-between p-6 border-b border-color">
+          <h2 className="text-2xl font-bold">{card.name}</h2>
+          <button onClick={onClose} className="btn btn-ghost">
             <X size={20} />
           </button>
         </div>
 
         {/* Card Content */}
-        <div className='p-6'>
-          <div className='grid md:grid-cols-2 gap-6'>
+        <div className="p-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {/* Card Image Placeholder */}
-            <div className='aspect-[3/4] bg-tertiary rounded-lg flex items-center justify-center'>
-              <div className='text-center'>
-                <div className='text-4xl mb-2'>🎴</div>
-                <div className='text-sm text-secondary'>Card Artwork</div>
+            <div className="aspect-[3/4] bg-tertiary rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-4xl mb-2">🎴</div>
+                <div className="text-sm text-secondary">Card Artwork</div>
               </div>
             </div>
 
             {/* Card Details */}
-            <div className='space-y-4'>
+            <div className="space-y-4">
               {/* Cost and Power */}
-              <div className='flex items-center gap-4'>
-                <div className='bg-tertiary rounded-lg p-3 text-center'>
-                  <div className='text-sm text-secondary'>Cost</div>
-                  <div className='text-xl font-bold'>{card.cost}</div>
+              <div className="flex items-center gap-4">
+                <div className="bg-tertiary rounded-lg p-3 text-center">
+                  <div className="text-sm text-secondary">Cost</div>
+                  <div className="text-xl font-bold">{card.cost}</div>
                 </div>
-                <div className='bg-tertiary rounded-lg p-3 text-center'>
-                  <div className='text-sm text-secondary'>Power</div>
-                  <div className='text-xl font-bold'>{card.power}</div>
+                <div className="bg-tertiary rounded-lg p-3 text-center">
+                  <div className="text-sm text-secondary">Power</div>
+                  <div className="text-xl font-bold">{card.power}</div>
                 </div>
               </div>
 
               {/* Elements */}
               <div>
-                <h3 className='text-sm font-medium text-secondary mb-2'>Elements</h3>
-                <div className='flex items-center gap-2'>
+                <h3 className="text-sm font-medium text-secondary mb-2">
+                  Elements
+                </h3>
+                <div className="flex items-center gap-2">
                   {card.elements.map(element => (
-                    <span key={element} className='text-2xl'>
+                    <span key={element} className="text-2xl">
                       {element}
                     </span>
                   ))}
@@ -68,7 +70,9 @@ const CardViewer = ({ card, onClose, onAddToDeck }) => {
 
               {/* Rarity */}
               <div>
-                <h3 className='text-sm font-medium text-secondary mb-2'>Rarity</h3>
+                <h3 className="text-sm font-medium text-secondary mb-2">
+                  Rarity
+                </h3>
                 <span
                   className={`px-3 py-1 rounded text-sm font-medium ${getRarityColor(card.rarity)}`}
                 >
@@ -79,10 +83,15 @@ const CardViewer = ({ card, onClose, onAddToDeck }) => {
               {/* Keywords */}
               {card.keywords.length > 0 && (
                 <div>
-                  <h3 className='text-sm font-medium text-secondary mb-2'>Keywords</h3>
-                  <div className='flex flex-wrap gap-2'>
+                  <h3 className="text-sm font-medium text-secondary mb-2">
+                    Keywords
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
                     {card.keywords.map(keyword => (
-                      <span key={keyword} className='px-2 py-1 bg-tertiary rounded text-sm'>
+                      <span
+                        key={keyword}
+                        className="px-2 py-1 bg-tertiary rounded text-sm"
+                      >
                         {keyword}
                       </span>
                     ))}
@@ -92,19 +101,24 @@ const CardViewer = ({ card, onClose, onAddToDeck }) => {
 
               {/* Card Text */}
               <div>
-                <h3 className='text-sm font-medium text-secondary mb-2'>Card Text</h3>
-                <div className='bg-tertiary rounded-lg p-3'>
-                  <p className='text-sm leading-relaxed'>{card.text}</p>
+                <h3 className="text-sm font-medium text-secondary mb-2">
+                  Card Text
+                </h3>
+                <div className="bg-tertiary rounded-lg p-3">
+                  <p className="text-sm leading-relaxed">{card.text}</p>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className='flex gap-3 pt-4'>
-                <button onClick={onAddToDeck} className='btn btn-primary flex-1'>
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={onAddToDeck}
+                  className="btn btn-primary flex-1"
+                >
                   <Plus size={16} />
                   Add to Deck
                 </button>
-                <button onClick={onClose} className='btn btn-secondary'>
+                <button onClick={onClose} className="btn btn-secondary">
                   Close
                 </button>
               </div>
@@ -112,18 +126,18 @@ const CardViewer = ({ card, onClose, onAddToDeck }) => {
           </div>
 
           {/* Additional Info */}
-          <div className='mt-6 pt-6 border-t border-color'>
-            <div className='grid md:grid-cols-3 gap-4 text-sm'>
+          <div className="mt-6 pt-6 border-t border-color">
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
               <div>
-                <div className='text-secondary'>Card ID</div>
-                <div className='font-mono'>{card.id}</div>
+                <div className="text-secondary">Card ID</div>
+                <div className="font-mono">{card.id}</div>
               </div>
               <div>
-                <div className='text-secondary'>Type</div>
+                <div className="text-secondary">Type</div>
                 <div>Creature</div>
               </div>
               <div>
-                <div className='text-secondary'>Set</div>
+                <div className="text-secondary">Set</div>
                 <div>Core Set</div>
               </div>
             </div>

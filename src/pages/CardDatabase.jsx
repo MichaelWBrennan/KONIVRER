@@ -35,13 +35,20 @@ const CardDatabase = () => {
 
       const matchesRarity = !filters.rarity || card.rarity === filters.rarity;
 
-      const matchesCost = !filters.cost || card.cost.toString() === filters.cost;
+      const matchesCost =
+        !filters.cost || card.cost.toString() === filters.cost;
 
       const matchesKeywords =
         filters.keywords.length === 0 ||
         filters.keywords.some(keyword => card.keywords.includes(keyword));
 
-      return matchesSearch && matchesElements && matchesRarity && matchesCost && matchesKeywords;
+      return (
+        matchesSearch &&
+        matchesElements &&
+        matchesRarity &&
+        matchesCost &&
+        matchesKeywords
+      );
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -76,31 +83,31 @@ const CardDatabase = () => {
   };
 
   return (
-    <div className='min-h-screen bg-primary'>
-      <div className='container py-6'>
+    <div className="min-h-screen bg-primary">
+      <div className="container py-6">
         {/* Header */}
-        <div className='mb-6'>
-          <h1 className='text-3xl font-bold mb-2'>Card Database</h1>
-          <p className='text-secondary'>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold mb-2">Card Database</h1>
+          <p className="text-secondary">
             Browse and search through all {cardsData.length} KONIVRER cards
           </p>
         </div>
 
         {/* Search and Controls */}
-        <div className='card mb-6'>
-          <div className='flex flex-col lg:flex-row gap-4 mb-4'>
+        <div className="card mb-6">
+          <div className="flex flex-col lg:flex-row gap-4 mb-4">
             {/* Search Bar */}
-            <div className='flex-1 relative'>
+            <div className="flex-1 relative">
               <Search
-                className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted'
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                 size={16}
               />
               <input
-                type='text'
-                placeholder='Search cards by name or text...'
+                type="text"
+                placeholder="Search cards by name or text..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className='input pl-10'
+                className="input pl-10"
               />
             </div>
 
@@ -108,16 +115,16 @@ const CardDatabase = () => {
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
-              className='input lg:w-48'
+              className="input lg:w-48"
             >
-              <option value='name'>Sort by Name</option>
-              <option value='cost'>Sort by Cost</option>
-              <option value='power'>Sort by Power</option>
-              <option value='rarity'>Sort by Rarity</option>
+              <option value="name">Sort by Name</option>
+              <option value="cost">Sort by Cost</option>
+              <option value="power">Sort by Power</option>
+              <option value="rarity">Sort by Rarity</option>
             </select>
 
             {/* View Mode */}
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`btn ${viewMode === 'grid' ? 'btn-primary' : 'btn-secondary'}`}
@@ -144,18 +151,21 @@ const CardDatabase = () => {
 
           {/* Filters */}
           {showFilters && (
-            <div className='border-t border-color pt-4 space-y-4'>
-              <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4'>
+            <div className="border-t border-color pt-4 space-y-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Elements Filter */}
                 <div>
-                  <label htmlFor='elements-filter' className='block text-sm font-medium mb-2'>
+                  <label
+                    htmlFor="elements-filter"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Elements
                   </label>
-                  <div id='elements-filter' className='space-y-1'>
+                  <div id="elements-filter" className="space-y-1">
                     {allElements.map(element => (
-                      <label key={element} className='flex items-center gap-2'>
+                      <label key={element} className="flex items-center gap-2">
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           checked={filters.elements.includes(element)}
                           onChange={e => {
                             if (e.target.checked) {
@@ -166,13 +176,15 @@ const CardDatabase = () => {
                             } else {
                               setFilters(prev => ({
                                 ...prev,
-                                elements: prev.elements.filter(el => el !== element),
+                                elements: prev.elements.filter(
+                                  el => el !== element
+                                ),
                               }));
                             }
                           }}
-                          className='rounded'
+                          className="rounded"
                         />
-                        <span className='text-sm'>{element}</span>
+                        <span className="text-sm">{element}</span>
                       </label>
                     ))}
                   </div>
@@ -180,16 +192,21 @@ const CardDatabase = () => {
 
                 {/* Rarity Filter */}
                 <div>
-                  <label htmlFor='rarity-filter' className='block text-sm font-medium mb-2'>
+                  <label
+                    htmlFor="rarity-filter"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Rarity
                   </label>
                   <select
-                    id='rarity-filter'
+                    id="rarity-filter"
                     value={filters.rarity}
-                    onChange={e => setFilters(prev => ({ ...prev, rarity: e.target.value }))}
-                    className='input'
+                    onChange={e =>
+                      setFilters(prev => ({ ...prev, rarity: e.target.value }))
+                    }
+                    className="input"
                   >
-                    <option value=''>All Rarities</option>
+                    <option value="">All Rarities</option>
                     {allRarities.map(rarity => (
                       <option key={rarity} value={rarity}>
                         {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
@@ -200,16 +217,21 @@ const CardDatabase = () => {
 
                 {/* Cost Filter */}
                 <div>
-                  <label htmlFor='cost-filter' className='block text-sm font-medium mb-2'>
+                  <label
+                    htmlFor="cost-filter"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Cost
                   </label>
                   <select
-                    id='cost-filter'
+                    id="cost-filter"
                     value={filters.cost}
-                    onChange={e => setFilters(prev => ({ ...prev, cost: e.target.value }))}
-                    className='input'
+                    onChange={e =>
+                      setFilters(prev => ({ ...prev, cost: e.target.value }))
+                    }
+                    className="input"
                   >
-                    <option value=''>Any Cost</option>
+                    <option value="">Any Cost</option>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(cost => (
                       <option key={cost} value={cost.toString()}>
                         {cost}
@@ -220,14 +242,20 @@ const CardDatabase = () => {
 
                 {/* Keywords Filter */}
                 <div>
-                  <label htmlFor='keywords-filter' className='block text-sm font-medium mb-2'>
+                  <label
+                    htmlFor="keywords-filter"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Keywords
                   </label>
-                  <div id='keywords-filter' className='space-y-1 max-h-32 overflow-y-auto'>
+                  <div
+                    id="keywords-filter"
+                    className="space-y-1 max-h-32 overflow-y-auto"
+                  >
                     {allKeywords.map(keyword => (
-                      <label key={keyword} className='flex items-center gap-2'>
+                      <label key={keyword} className="flex items-center gap-2">
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           checked={filters.keywords.includes(keyword)}
                           onChange={e => {
                             if (e.target.checked) {
@@ -238,13 +266,15 @@ const CardDatabase = () => {
                             } else {
                               setFilters(prev => ({
                                 ...prev,
-                                keywords: prev.keywords.filter(kw => kw !== keyword),
+                                keywords: prev.keywords.filter(
+                                  kw => kw !== keyword
+                                ),
                               }));
                             }
                           }}
-                          className='rounded'
+                          className="rounded"
                         />
-                        <span className='text-sm'>{keyword}</span>
+                        <span className="text-sm">{keyword}</span>
                       </label>
                     ))}
                   </div>
@@ -253,8 +283,15 @@ const CardDatabase = () => {
 
               {/* Clear Filters */}
               <button
-                onClick={() => setFilters({ elements: [], rarity: '', cost: '', keywords: [] })}
-                className='btn btn-ghost text-sm'
+                onClick={() =>
+                  setFilters({
+                    elements: [],
+                    rarity: '',
+                    cost: '',
+                    keywords: [],
+                  })
+                }
+                className="btn btn-ghost text-sm"
               >
                 Clear All Filters
               </button>
@@ -262,18 +299,18 @@ const CardDatabase = () => {
           )}
 
           {/* Results Count */}
-          <div className='text-sm text-secondary mt-4'>
+          <div className="text-sm text-secondary mt-4">
             Showing {filteredAndSortedCards.length} of {cardsData.length} cards
           </div>
         </div>
 
         {/* Cards Display */}
         {viewMode === 'grid' ? (
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredAndSortedCards.map(card => (
               <div
                 key={card.id}
-                className='card hover:border-accent-primary cursor-pointer transition-all group'
+                className="card hover:border-accent-primary cursor-pointer transition-all group"
                 onClick={() => setSelectedCard(card)}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -281,16 +318,16 @@ const CardDatabase = () => {
                     setSelectedCard(card);
                   }
                 }}
-                role='button'
+                role="button"
                 tabIndex={0}
                 aria-label={`View details for ${card.name}`}
               >
-                <div className='flex items-start justify-between mb-3'>
-                  <div className='flex-1'>
-                    <h3 className='font-semibold group-hover:text-accent-primary transition-colors'>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-semibold group-hover:text-accent-primary transition-colors">
                       {card.name}
                     </h3>
-                    <div className='flex items-center gap-2 text-sm text-secondary'>
+                    <div className="flex items-center gap-2 text-sm text-secondary">
                       <span>Cost: {card.cost}</span>
                       <span>•</span>
                       <span>Power: {card.power}</span>
@@ -301,15 +338,15 @@ const CardDatabase = () => {
                       e.stopPropagation();
                       // TODO: Add to deck functionality
                     }}
-                    className='btn btn-ghost btn-sm opacity-0 group-hover:opacity-100 transition-opacity'
+                    className="btn btn-ghost btn-sm opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Plus size={14} />
                   </button>
                 </div>
 
-                <div className='flex items-center gap-2 mb-2'>
+                <div className="flex items-center gap-2 mb-2">
                   {card.elements.map(element => (
-                    <span key={element} className='text-lg'>
+                    <span key={element} className="text-lg">
                       {element}
                     </span>
                   ))}
@@ -320,12 +357,17 @@ const CardDatabase = () => {
                   </span>
                 </div>
 
-                <p className='text-sm text-secondary line-clamp-3'>{card.text}</p>
+                <p className="text-sm text-secondary line-clamp-3">
+                  {card.text}
+                </p>
 
                 {card.keywords.length > 0 && (
-                  <div className='flex flex-wrap gap-1 mt-2'>
+                  <div className="flex flex-wrap gap-1 mt-2">
                     {card.keywords.map(keyword => (
-                      <span key={keyword} className='px-2 py-1 bg-tertiary rounded text-xs'>
+                      <span
+                        key={keyword}
+                        className="px-2 py-1 bg-tertiary rounded text-xs"
+                      >
                         {keyword}
                       </span>
                     ))}
@@ -335,11 +377,11 @@ const CardDatabase = () => {
             ))}
           </div>
         ) : (
-          <div className='space-y-2'>
+          <div className="space-y-2">
             {filteredAndSortedCards.map(card => (
               <div
                 key={card.id}
-                className='card hover:border-accent-primary cursor-pointer transition-all'
+                className="card hover:border-accent-primary cursor-pointer transition-all"
                 onClick={() => setSelectedCard(card)}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -347,26 +389,28 @@ const CardDatabase = () => {
                     setSelectedCard(card);
                   }
                 }}
-                role='button'
+                role="button"
                 tabIndex={0}
                 aria-label={`View details for ${card.name}`}
               >
-                <div className='flex items-center justify-between'>
-                  <div className='flex items-center gap-4 flex-1'>
-                    <div className='flex items-center gap-2'>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="flex items-center gap-2">
                       {card.elements.map(element => (
-                        <span key={element} className='text-lg'>
+                        <span key={element} className="text-lg">
                           {element}
                         </span>
                       ))}
                     </div>
 
-                    <div className='flex-1'>
-                      <h3 className='font-semibold'>{card.name}</h3>
-                      <p className='text-sm text-secondary line-clamp-1'>{card.text}</p>
+                    <div className="flex-1">
+                      <h3 className="font-semibold">{card.name}</h3>
+                      <p className="text-sm text-secondary line-clamp-1">
+                        {card.text}
+                      </p>
                     </div>
 
-                    <div className='flex items-center gap-4 text-sm'>
+                    <div className="flex items-center gap-4 text-sm">
                       <span>Cost: {card.cost}</span>
                       <span>Power: {card.power}</span>
                       <span
@@ -377,13 +421,13 @@ const CardDatabase = () => {
                     </div>
                   </div>
 
-                  <div className='flex items-center gap-2'>
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={e => {
                         e.stopPropagation();
                         setSelectedCard(card);
                       }}
-                      className='btn btn-ghost btn-sm'
+                      className="btn btn-ghost btn-sm"
                     >
                       <Eye size={14} />
                     </button>
@@ -392,7 +436,7 @@ const CardDatabase = () => {
                         e.stopPropagation();
                         // TODO: Add to deck functionality
                       }}
-                      className='btn btn-ghost btn-sm'
+                      className="btn btn-ghost btn-sm"
                     >
                       <Plus size={14} />
                     </button>
@@ -405,10 +449,12 @@ const CardDatabase = () => {
 
         {/* No Results */}
         {filteredAndSortedCards.length === 0 && (
-          <div className='text-center py-12'>
-            <div className='text-6xl mb-4'>🔍</div>
-            <h3 className='text-xl font-semibold mb-2'>No cards found</h3>
-            <p className='text-secondary'>Try adjusting your search or filters</p>
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-semibold mb-2">No cards found</h3>
+            <p className="text-secondary">
+              Try adjusting your search or filters
+            </p>
           </div>
         )}
       </div>
