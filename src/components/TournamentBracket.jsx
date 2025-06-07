@@ -85,62 +85,84 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
     setBracket(mockBracket);
   }, [tournamentId]);
 
-  const getMatchStatusColor = (status) => {
+  const getMatchStatusColor = status => {
     switch (status) {
-      case 'completed': return 'border-green-500 bg-green-900/20';
-      case 'in-progress': return 'border-yellow-500 bg-yellow-900/20';
-      case 'pending': return 'border-gray-500 bg-gray-900/20';
-      default: return 'border-gray-500 bg-gray-900/20';
+      case 'completed':
+        return 'border-green-500 bg-green-900/20';
+      case 'in-progress':
+        return 'border-yellow-500 bg-yellow-900/20';
+      case 'pending':
+        return 'border-gray-500 bg-gray-900/20';
+      default:
+        return 'border-gray-500 bg-gray-900/20';
     }
   };
 
-  const getMatchStatusIcon = (status) => {
+  const getMatchStatusIcon = status => {
     switch (status) {
-      case 'completed': return <CheckCircle size={16} className="text-green-400" />;
-      case 'in-progress': return <Clock size={16} className="text-yellow-400" />;
-      case 'pending': return <AlertCircle size={16} className="text-gray-400" />;
-      default: return null;
+      case 'completed':
+        return <CheckCircle size={16} className="text-green-400" />;
+      case 'in-progress':
+        return <Clock size={16} className="text-yellow-400" />;
+      case 'pending':
+        return <AlertCircle size={16} className="text-gray-400" />;
+      default:
+        return null;
     }
   };
 
   const renderMatch = (match, roundIndex) => {
     const isSelected = selectedMatch?.id === match.id;
-    
+
     return (
       <div
         key={match.id}
-        className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
-          getMatchStatusColor(match.status)
-        } ${isSelected ? 'ring-2 ring-accent-primary' : ''}`}
+        className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${getMatchStatusColor(
+          match.status,
+        )} ${isSelected ? 'ring-2 ring-accent-primary' : ''}`}
         onClick={() => setSelectedMatch(match)}
       >
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-muted">Table {match.table}</span>
           <div className="flex items-center gap-1">
             {getMatchStatusIcon(match.status)}
-            <span className="text-xs capitalize">{match.status.replace('-', ' ')}</span>
+            <span className="text-xs capitalize">
+              {match.status.replace('-', ' ')}
+            </span>
           </div>
         </div>
 
         <div className="space-y-2">
-          <div className={`flex items-center justify-between p-2 rounded ${
-            match.winner === match.player1.name ? 'bg-accent-primary/20 border border-accent-primary/50' : 'bg-tertiary'
-          }`}>
+          <div
+            className={`flex items-center justify-between p-2 rounded ${
+              match.winner === match.player1.name
+                ? 'bg-accent-primary/20 border border-accent-primary/50'
+                : 'bg-tertiary'
+            }`}
+          >
             <div className="flex items-center gap-2">
               {match.player1.seed && (
-                <span className="text-xs bg-secondary px-1 rounded">{match.player1.seed}</span>
+                <span className="text-xs bg-secondary px-1 rounded">
+                  {match.player1.seed}
+                </span>
               )}
               <span className="text-sm font-medium">{match.player1.name}</span>
             </div>
             <span className="text-sm font-bold">{match.player1.score}</span>
           </div>
 
-          <div className={`flex items-center justify-between p-2 rounded ${
-            match.winner === match.player2.name ? 'bg-accent-primary/20 border border-accent-primary/50' : 'bg-tertiary'
-          }`}>
+          <div
+            className={`flex items-center justify-between p-2 rounded ${
+              match.winner === match.player2.name
+                ? 'bg-accent-primary/20 border border-accent-primary/50'
+                : 'bg-tertiary'
+            }`}
+          >
             <div className="flex items-center gap-2">
               {match.player2.seed && (
-                <span className="text-xs bg-secondary px-1 rounded">{match.player2.seed}</span>
+                <span className="text-xs bg-secondary px-1 rounded">
+                  {match.player2.seed}
+                </span>
               )}
               <span className="text-sm font-medium">{match.player2.name}</span>
             </div>
@@ -155,13 +177,27 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
     // For Swiss format, show current standings instead of elimination bracket
     const standings = [
       { rank: 1, name: 'Alex Chen', points: 9, wins: 3, losses: 0, draws: 0 },
-      { rank: 2, name: 'Mike Johnson', points: 6, wins: 2, losses: 1, draws: 0 },
+      {
+        rank: 2,
+        name: 'Mike Johnson',
+        points: 6,
+        wins: 2,
+        losses: 1,
+        draws: 0,
+      },
       { rank: 3, name: 'Lisa Zhang', points: 6, wins: 2, losses: 1, draws: 0 },
       { rank: 4, name: 'Anna Lee', points: 6, wins: 2, losses: 1, draws: 0 },
       { rank: 5, name: 'David Kim', points: 3, wins: 1, losses: 2, draws: 0 },
       { rank: 6, name: 'Emma Davis', points: 3, wins: 1, losses: 2, draws: 0 },
       { rank: 7, name: 'Tom Brown', points: 3, wins: 1, losses: 2, draws: 0 },
-      { rank: 8, name: 'Sarah Wilson', points: 0, wins: 0, losses: 3, draws: 0 },
+      {
+        rank: 8,
+        name: 'Sarah Wilson',
+        points: 0,
+        wins: 0,
+        losses: 3,
+        draws: 0,
+      },
     ];
 
     return (
@@ -180,17 +216,22 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
             <span>Status</span>
           </div>
 
-          {standings.map((player) => (
-            <div key={player.rank} className="grid grid-cols-6 gap-4 p-3 border-b border-color last:border-b-0">
+          {standings.map(player => (
+            <div
+              key={player.rank}
+              className="grid grid-cols-6 gap-4 p-3 border-b border-color last:border-b-0"
+            >
               <span className="font-medium">{player.rank}</span>
               <span className="col-span-2 font-medium">{player.name}</span>
               <span>{player.points}</span>
               <span className="text-sm text-secondary">
                 {player.wins}-{player.losses}-{player.draws}
               </span>
-              <span className={`text-sm ${
-                player.rank <= 8 ? 'text-green-400' : 'text-red-400'
-              }`}>
+              <span
+                className={`text-sm ${
+                  player.rank <= 8 ? 'text-green-400' : 'text-red-400'
+                }`}
+              >
                 {player.rank <= 8 ? 'In Top Cut' : 'Eliminated'}
               </span>
             </div>
@@ -241,7 +282,7 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
                 {round.name}
               </h4>
               <div className="space-y-4">
-                {round.matches.map((match) => renderMatch(match, roundIndex))}
+                {round.matches.map(match => renderMatch(match, roundIndex))}
               </div>
             </div>
           ))}
@@ -264,19 +305,25 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
 
             <div className="space-y-4">
               <div className="text-center">
-                <span className="text-sm text-secondary">Table {selectedMatch.table}</span>
+                <span className="text-sm text-secondary">
+                  Table {selectedMatch.table}
+                </span>
                 <div className="flex items-center justify-center gap-2 mt-1">
                   {getMatchStatusIcon(selectedMatch.status)}
-                  <span className="text-sm capitalize">{selectedMatch.status.replace('-', ' ')}</span>
+                  <span className="text-sm capitalize">
+                    {selectedMatch.status.replace('-', ' ')}
+                  </span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <div className={`p-3 rounded ${
-                  selectedMatch.winner === selectedMatch.player1.name 
-                    ? 'bg-accent-primary/20 border border-accent-primary' 
-                    : 'bg-tertiary'
-                }`}>
+                <div
+                  className={`p-3 rounded ${
+                    selectedMatch.winner === selectedMatch.player1.name
+                      ? 'bg-accent-primary/20 border border-accent-primary'
+                      : 'bg-tertiary'
+                  }`}
+                >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {selectedMatch.player1.seed && (
@@ -284,19 +331,25 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
                           Seed {selectedMatch.player1.seed}
                         </span>
                       )}
-                      <span className="font-medium">{selectedMatch.player1.name}</span>
+                      <span className="font-medium">
+                        {selectedMatch.player1.name}
+                      </span>
                     </div>
-                    <span className="text-xl font-bold">{selectedMatch.player1.score}</span>
+                    <span className="text-xl font-bold">
+                      {selectedMatch.player1.score}
+                    </span>
                   </div>
                 </div>
 
                 <div className="text-center text-sm text-secondary">vs</div>
 
-                <div className={`p-3 rounded ${
-                  selectedMatch.winner === selectedMatch.player2.name 
-                    ? 'bg-accent-primary/20 border border-accent-primary' 
-                    : 'bg-tertiary'
-                }`}>
+                <div
+                  className={`p-3 rounded ${
+                    selectedMatch.winner === selectedMatch.player2.name
+                      ? 'bg-accent-primary/20 border border-accent-primary'
+                      : 'bg-tertiary'
+                  }`}
+                >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {selectedMatch.player2.seed && (
@@ -304,9 +357,13 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
                           Seed {selectedMatch.player2.seed}
                         </span>
                       )}
-                      <span className="font-medium">{selectedMatch.player2.name}</span>
+                      <span className="font-medium">
+                        {selectedMatch.player2.name}
+                      </span>
                     </div>
-                    <span className="text-xl font-bold">{selectedMatch.player2.score}</span>
+                    <span className="text-xl font-bold">
+                      {selectedMatch.player2.score}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -315,7 +372,8 @@ const TournamentBracket = ({ tournamentId, format = 'single-elimination' }) => {
                 <div className="text-center p-3 bg-green-900/20 border border-green-500/30 rounded">
                   <Trophy size={20} className="text-yellow-400 mx-auto mb-1" />
                   <p className="text-sm">
-                    <span className="font-medium">{selectedMatch.winner}</span> wins!
+                    <span className="font-medium">{selectedMatch.winner}</span>{' '}
+                    wins!
                   </p>
                 </div>
               )}

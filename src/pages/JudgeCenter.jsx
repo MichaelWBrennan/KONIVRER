@@ -58,7 +58,7 @@ const JudgeCenter = () => {
       {
         id: 1,
         case: 'Elemental Fusion timing',
-        ruling: 'Player may activate in response to opponent\'s spell',
+        ruling: "Player may activate in response to opponent's spell",
         judge: 'You',
         time: '1 hour ago',
         tournament: 'Friday Night KONIVRER',
@@ -98,21 +98,29 @@ const JudgeCenter = () => {
     ]);
   }, []);
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = priority => {
     switch (priority) {
-      case 'high': return 'bg-red-600 text-white';
-      case 'medium': return 'bg-yellow-600 text-white';
-      case 'low': return 'bg-green-600 text-white';
-      default: return 'bg-gray-600 text-white';
+      case 'high':
+        return 'bg-red-600 text-white';
+      case 'medium':
+        return 'bg-yellow-600 text-white';
+      case 'low':
+        return 'bg-green-600 text-white';
+      default:
+        return 'bg-gray-600 text-white';
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'pending': return 'text-yellow-400';
-      case 'investigating': return 'text-blue-400';
-      case 'resolved': return 'text-green-400';
-      default: return 'text-gray-400';
+      case 'pending':
+        return 'text-yellow-400';
+      case 'investigating':
+        return 'text-blue-400';
+      case 'resolved':
+        return 'text-green-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
@@ -154,13 +162,20 @@ const JudgeCenter = () => {
         {activeCalls.length > 0 ? (
           <div className="space-y-3">
             {activeCalls.map(call => (
-              <div key={call.id} className="p-4 bg-secondary rounded-lg border border-color">
+              <div
+                key={call.id}
+                className="p-4 bg-secondary rounded-lg border border-color"
+              >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}
+                    >
                       {call.priority.toUpperCase()}
                     </span>
-                    <span className="text-sm text-secondary">Table {call.table}</span>
+                    <span className="text-sm text-secondary">
+                      Table {call.table}
+                    </span>
                   </div>
                   <span className={`text-sm ${getStatusColor(call.status)}`}>
                     {call.status.charAt(0).toUpperCase() + call.status.slice(1)}
@@ -177,9 +192,7 @@ const JudgeCenter = () => {
                       <Eye size={14} />
                       View
                     </button>
-                    <button className="btn btn-sm btn-primary">
-                      Respond
-                    </button>
+                    <button className="btn btn-sm btn-primary">Respond</button>
                   </div>
                 </div>
               </div>
@@ -198,7 +211,10 @@ const JudgeCenter = () => {
         <h3 className="text-lg font-semibold mb-4">Recent Rulings</h3>
         <div className="space-y-3">
           {recentRulings.map(ruling => (
-            <div key={ruling.id} className="p-3 bg-tertiary rounded border border-color">
+            <div
+              key={ruling.id}
+              className="p-3 bg-tertiary rounded border border-color"
+            >
               <div className="flex items-start justify-between mb-2">
                 <h4 className="font-medium">{ruling.case}</h4>
                 <span className="text-xs text-muted">{ruling.time}</span>
@@ -231,20 +247,29 @@ const JudgeCenter = () => {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-semibold">{tournament.name}</h3>
-                <p className="text-sm text-secondary">Role: {tournament.role}</p>
+                <p className="text-sm text-secondary">
+                  Role: {tournament.role}
+                </p>
               </div>
               <div className="text-right">
-                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                  tournament.status === 'active' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white'
-                }`}>
-                  {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
+                <span
+                  className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                    tournament.status === 'active'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-blue-600 text-white'
+                  }`}
+                >
+                  {tournament.status.charAt(0).toUpperCase() +
+                    tournament.status.slice(1)}
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               <div className="text-center">
-                <div className="text-lg font-semibold">{tournament.players}</div>
+                <div className="text-lg font-semibold">
+                  {tournament.players}
+                </div>
                 <div className="text-xs text-secondary">Players</div>
               </div>
               <div className="text-center">
@@ -254,7 +279,9 @@ const JudgeCenter = () => {
                 <div className="text-xs text-secondary">Rounds</div>
               </div>
               <div className="text-center">
-                <div className="text-lg font-semibold">{tournament.startTime}</div>
+                <div className="text-lg font-semibold">
+                  {tournament.startTime}
+                </div>
                 <div className="text-xs text-secondary">Start Time</div>
               </div>
               <div className="text-center">
@@ -266,11 +293,17 @@ const JudgeCenter = () => {
             </div>
 
             <div className="flex gap-2">
-              <Link to={`/tournaments/${tournament.id}/judge`} className="btn btn-primary flex-1">
+              <Link
+                to={`/tournaments/${tournament.id}/judge`}
+                className="btn btn-primary flex-1"
+              >
                 <Gavel size={16} />
                 Judge Panel
               </Link>
-              <Link to={`/tournaments/${tournament.id}`} className="btn btn-secondary">
+              <Link
+                to={`/tournaments/${tournament.id}`}
+                className="btn btn-secondary"
+              >
                 <Eye size={16} />
                 View
               </Link>
@@ -299,19 +332,54 @@ const JudgeCenter = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { title: 'Basic Rules', icon: BookOpen, sections: 12, updated: '2024-06-01' },
-          { title: 'Tournament Rules', icon: Trophy, sections: 8, updated: '2024-05-15' },
-          { title: 'Penalty Guidelines', icon: AlertTriangle, sections: 6, updated: '2024-05-20' },
-          { title: 'Card Interactions', icon: Target, sections: 15, updated: '2024-06-05' },
-          { title: 'Judge Procedures', icon: Gavel, sections: 10, updated: '2024-05-10' },
-          { title: 'Digital Play Rules', icon: Settings, sections: 5, updated: '2024-05-25' },
+          {
+            title: 'Basic Rules',
+            icon: BookOpen,
+            sections: 12,
+            updated: '2024-06-01',
+          },
+          {
+            title: 'Tournament Rules',
+            icon: Trophy,
+            sections: 8,
+            updated: '2024-05-15',
+          },
+          {
+            title: 'Penalty Guidelines',
+            icon: AlertTriangle,
+            sections: 6,
+            updated: '2024-05-20',
+          },
+          {
+            title: 'Card Interactions',
+            icon: Target,
+            sections: 15,
+            updated: '2024-06-05',
+          },
+          {
+            title: 'Judge Procedures',
+            icon: Gavel,
+            sections: 10,
+            updated: '2024-05-10',
+          },
+          {
+            title: 'Digital Play Rules',
+            icon: Settings,
+            sections: 5,
+            updated: '2024-05-25',
+          },
         ].map((section, index) => (
-          <div key={index} className="card hover:border-accent-primary transition-colors cursor-pointer">
+          <div
+            key={index}
+            className="card hover:border-accent-primary transition-colors cursor-pointer"
+          >
             <div className="flex items-center gap-3 mb-3">
               <section.icon size={24} className="text-accent-primary" />
               <h3 className="font-semibold">{section.title}</h3>
             </div>
-            <p className="text-sm text-secondary mb-3">{section.sections} sections</p>
+            <p className="text-sm text-secondary mb-3">
+              {section.sections} sections
+            </p>
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted">Updated: {section.updated}</span>
               <button className="btn btn-sm btn-ghost">
@@ -384,11 +452,18 @@ const JudgeCenter = () => {
 
       <div className="grid md:grid-cols-3 gap-4">
         {[1, 2, 3].map(level => (
-          <div key={level} className={`card ${judgeLevel >= level ? 'border-accent-primary bg-accent-primary/10' : ''}`}>
+          <div
+            key={level}
+            className={`card ${judgeLevel >= level ? 'border-accent-primary bg-accent-primary/10' : ''}`}
+          >
             <div className="text-center">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 ${
-                judgeLevel >= level ? 'bg-accent-primary text-white' : 'bg-tertiary text-muted'
-              }`}>
+              <div
+                className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 ${
+                  judgeLevel >= level
+                    ? 'bg-accent-primary text-white'
+                    : 'bg-tertiary text-muted'
+                }`}
+              >
                 {judgeLevel >= level ? <CheckCircle size={24} /> : level}
               </div>
               <h3 className="font-semibold mb-2">Level {level} Judge</h3>
@@ -398,11 +473,11 @@ const JudgeCenter = () => {
                 {level === 3 && 'National events and premier tournaments'}
               </p>
               {judgeLevel >= level ? (
-                <span className="text-sm text-accent-primary font-medium">Certified</span>
+                <span className="text-sm text-accent-primary font-medium">
+                  Certified
+                </span>
               ) : (
-                <button className="btn btn-sm btn-primary">
-                  Start Exam
-                </button>
+                <button className="btn btn-sm btn-primary">Start Exam</button>
               )}
             </div>
           </div>
@@ -418,7 +493,10 @@ const JudgeCenter = () => {
               <span>95%</span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2">
-              <div className="bg-accent-primary h-2 rounded-full" style={{ width: '95%' }}></div>
+              <div
+                className="bg-accent-primary h-2 rounded-full"
+                style={{ width: '95%' }}
+              ></div>
             </div>
           </div>
           <div>
@@ -427,7 +505,10 @@ const JudgeCenter = () => {
               <span>88%</span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2">
-              <div className="bg-accent-primary h-2 rounded-full" style={{ width: '88%' }}></div>
+              <div
+                className="bg-accent-primary h-2 rounded-full"
+                style={{ width: '88%' }}
+              ></div>
             </div>
           </div>
           <div>
@@ -436,7 +517,10 @@ const JudgeCenter = () => {
               <span>92%</span>
             </div>
             <div className="w-full bg-tertiary rounded-full h-2">
-              <div className="bg-accent-primary h-2 rounded-full" style={{ width: '92%' }}></div>
+              <div
+                className="bg-accent-primary h-2 rounded-full"
+                style={{ width: '92%' }}
+              ></div>
             </div>
           </div>
         </div>
