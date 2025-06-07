@@ -16,8 +16,10 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Tournaments = () => {
+  const { user, isAuthenticated, registerForTournament, unregisterFromTournament } = useAuth();
   const [tournaments, setTournaments] = useState([]);
   const [filter, setFilter] = useState('all'); // all, upcoming, live, completed
   const [searchTerm, setSearchTerm] = useState('');
@@ -349,8 +351,30 @@ const Tournaments = () => {
                   >
                     <Eye size={14} />
                   </Link>
-                  {tournament.status === 'upcoming' && (
-                    <button className="btn btn-sm btn-primary">Register</button>
+                  {tournament.status === 'upcoming' && isAuthenticated && (
+                    user.registeredTournaments.includes(tournament.id) ? (
+                      <button 
+                        onClick={() => unregisterFromTournament(tournament.id)}
+                        className="btn btn-sm btn-secondary"
+                      >
+                        Unregister
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={() => registerForTournament(tournament.id)}
+                        className="btn btn-sm btn-primary"
+                      >
+                        Register
+                      </button>
+                    )
+                  )}
+                  {tournament.status === 'upcoming' && !isAuthenticated && (
+                    <button 
+                      onClick={() => alert('Please login to register for tournaments')}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Register
+                    </button>
                   )}
                 </div>
               </div>

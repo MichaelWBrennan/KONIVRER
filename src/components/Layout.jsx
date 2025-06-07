@@ -10,16 +10,25 @@ import {
   Trophy,
   Shield,
   TrendingUp,
+  LogIn,
+  LogOut,
+  Settings,
+  ChevronDown,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
 
 import { analytics } from '../utils/analytics';
 
 const Layout = ({ children }) => {
   const location = useLocation();
+  const { user, logout, isAuthenticated } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
@@ -112,7 +121,7 @@ const Layout = ({ children }) => {
               })}
             </nav>
 
-            {/* Search Bar */}
+            {/* Search Bar & User Menu */}
             <div className="hidden lg:flex items-center gap-4">
               <div className="relative">
                 <Search
@@ -128,9 +137,70 @@ const Layout = ({ children }) => {
                   onKeyDown={handleSearch}
                 />
               </div>
-              <button className="btn btn-ghost">
-                <User size={16} />
-              </button>
+              
+              {/* User Authentication */}
+              {isAuthenticated ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    className="flex items-center gap-2 btn btn-ghost"
+                  >
+                    <img
+                      src={user.avatar}
+                      alt={user.displayName}
+                      className="w-6 h-6 rounded-full bg-tertiary"
+                    />
+                    <span className="hidden xl:block">{user.displayName}</span>
+                    <ChevronDown size={14} />
+                  </button>
+                  
+                  {showUserDropdown && (
+                    <div className="absolute right-0 mt-2 w-48 bg-card border border-color rounded-lg shadow-lg z-50">
+                      <div className="p-3 border-b border-color">
+                        <p className="font-medium">{user.displayName}</p>
+                        <p className="text-sm text-secondary">@{user.username}</p>
+                      </div>
+                      <div className="py-2">
+                        <Link
+                          to="/profile"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <User size={16} />
+                          Profile
+                        </Link>
+                        <Link
+                          to="/profile?tab=settings"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Settings size={16} />
+                          Settings
+                        </Link>
+                        <hr className="my-2 border-color" />
+                        <button
+                          onClick={() => {
+                            logout();
+                            setShowUserDropdown(false);
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover w-full text-left text-red-400"
+                        >
+                          <LogOut size={16} />
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="btn btn-primary"
+                >
+                  <LogIn size={16} />
+                  Login
+                </button>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -183,6 +253,54 @@ const Layout = ({ children }) => {
                   onKeyDown={handleSearch}
                 />
               </div>
+
+              {/* Mobile User Menu */}
+              <div className="mt-4 pt-4 border-t border-color">
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 px-3 py-2">
+                      <img
+                        src={user.avatar}
+                        alt={user.displayName}
+                        className="w-8 h-8 rounded-full bg-tertiary"
+                      />
+                      <div>
+                        <p className="font-medium text-sm">{user.displayName}</p>
+                        <p className="text-xs text-secondary">@{user.username}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-3 px-3 py-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-md"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <User size={16} />
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex items-center gap-3 px-3 py-2 text-sm text-red-400 hover:bg-tertiary rounded-md w-full text-left"
+                    >
+                      <LogOut size={16} />
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setShowAuthModal(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="btn btn-primary w-full"
+                  >
+                    <LogIn size={16} />
+                    Login
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -223,6 +341,20 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </footer>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+
+      {/* Click outside to close dropdown */}
+      {showUserDropdown && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowUserDropdown(false)}
+        />
+      )}
     </div>
   );
 };
