@@ -24,21 +24,33 @@ class SkewProtection {
   init() {
     if (typeof window === 'undefined') return;
 
-    // Store current version
-    this.storeVersion(this.currentVersion);
+    try {
+      // Store current version
+      this.storeVersion(this.currentVersion);
 
-    // Set up periodic version checking
-    this.startVersionMonitoring();
+      // Set up periodic version checking (delayed to not block startup)
+      setTimeout(() => {
+        this.startVersionMonitoring();
+      }, 5000); // Wait 5 seconds after app loads
 
-    // Handle fetch errors that might indicate skew
-    this.setupFetchInterceptor();
+      // Handle fetch errors that might indicate skew (delayed)
+      setTimeout(() => {
+        this.setupFetchInterceptor();
+      }, 2000); // Wait 2 seconds after app loads
 
-    // Listen for visibility changes to check version when user returns
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        this.checkVersionSkew();
-      }
-    });
+      // Listen for visibility changes to check version when user returns
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          // Delay the check to avoid blocking UI
+          setTimeout(() => {
+            this.checkVersionSkew();
+          }, 1000);
+        }
+      });
+    } catch (error) {
+      console.warn('Skew protection initialization failed:', error);
+      // Don't block app startup if skew protection fails
+    }
   }
 
   getCurrentVersion() {
@@ -83,6 +95,8 @@ class SkewProtection {
         '/_vercel/insights/vitals',
       ];
 
+      let anyEndpointWorked = false;
+
       for (const endpoint of endpoints) {
         try {
           const response = await fetch(endpoint, {
@@ -91,7 +105,11 @@ class SkewProtection {
             headers: {
               'X-Vercel-Skew-Protection': 'check',
             },
+            // Add timeout to prevent hanging
+            signal: AbortSignal.timeout(5000), // 5 second timeout
           });
+
+          anyEndpointWorked = true;
 
           // Check Vercel-specific headers
           const serverVersion =
@@ -114,11 +132,22 @@ class SkewProtection {
           continue;
         }
       }
+
+      // If no endpoints worked, don't treat it as an error
+      if (!anyEndpointWorked) {
+        console.debug('No version check endpoints available, skipping skew detection');
+      }
     } catch (error) {
-      securityLogger.log('SKEW_CHECK_ERROR', {
-        error: error.message,
-        currentVersion: this.currentVersion,
-      });
+      console.debug('Skew check error:', error.message);
+      // Don't log to security logger if it might not exist
+      try {
+        securityLogger.log('SKEW_CHECK_ERROR', {
+          error: error.message,
+          currentVersion: this.currentVersion,
+        });
+      } catch (logError) {
+        // Silently fail if security logger is not available
+      }
     }
   }
 
@@ -352,31 +381,12 @@ export const checkForUpdates = () => skewProtection.checkVersionSkew();
 export const forceRefresh = () => skewProtection.forceRefresh();
 export const getSkewStatus = () => skewProtection.getStatus();
 
-// React hook for components (import React in components that use this)
+// React hook for components - this will be properly imported in React components
 export function useSkewProtection() {
-  // This will be used in React components that import React
-  if (typeof window !== 'undefined' && window.React) {
-    const [status, setStatus] = window.React.useState(
-      skewProtection.getStatus(),
-    );
-
-    window.React.useEffect(() => {
-      const updateStatus = () => setStatus(skewProtection.getStatus());
-
-      // Update status periodically
-      const interval = setInterval(updateStatus, 30000); // 30 seconds
-
-      return () => clearInterval(interval);
-    }, []);
-
-    return {
-      ...status,
-      checkForUpdates,
-      forceRefresh,
-    };
-  }
-
-  // Fallback for non-React environments
+  // This is a placeholder - actual React hooks should be used in React components
+  // Components should import { useState, useEffect } from 'react' and use them directly
+  
+  // Fallback for non-React environments or when React hooks aren't available
   return {
     ...skewProtection.getStatus(),
     checkForUpdates,
