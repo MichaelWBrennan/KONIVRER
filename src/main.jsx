@@ -42,6 +42,16 @@ root.render(
 
 console.log('✅ Minimal app loaded successfully');
 
+// Unregister service worker for debugging
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(registration => {
+      registration.unregister();
+      console.log('🗑️ Service worker unregistered for debugging');
+    });
+  });
+}
+
 // Also hide loading spinner from React side
 setTimeout(() => {
   const loadingContainer = document.querySelector('.loading-container');
