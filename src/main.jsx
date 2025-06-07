@@ -1,32 +1,35 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import './App.css';
-
-// Simple test component
-function TestHome() {
+// Ultra-minimal test component
+function NuclearTest() {
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>🎮 KONIVRER Deck Database</h1>
-      <p>App is working! Loading issue has been resolved.</p>
-      <div style={{ marginTop: '20px' }}>
-        <button onClick={() => alert('App is functional!')}>
-          Test Button
-        </button>
-      </div>
+    <div style={{ 
+      padding: '40px', 
+      textAlign: 'center', 
+      background: '#111', 
+      color: '#0f0',
+      minHeight: '100vh',
+      border: '10px solid red'
+    }}>
+      <h1>🚀 NUCLEAR SUCCESS!</h1>
+      <h2>Loading screen is GONE!</h2>
+      <p>This proves the app can load without infinite spinner.</p>
+      <button 
+        onClick={() => alert('🎉 VICTORY!')}
+        style={{ 
+          padding: '10px 20px', 
+          fontSize: '18px', 
+          background: '#0f0', 
+          color: '#000',
+          border: 'none',
+          cursor: 'pointer',
+          marginTop: '20px'
+        }}
+      >
+        🎯 CLICK ME - APP WORKS!
+      </button>
     </div>
-  );
-}
-
-// Minimal App component
-function MinimalApp() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="*" element={<TestHome />} />
-      </Routes>
-    </Router>
   );
 }
 
@@ -36,37 +39,8 @@ const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <MinimalApp />
+    <NuclearTest />
   </StrictMode>
 );
 
-console.log('✅ Minimal app loaded successfully');
-
-// Aggressively unregister service worker and clear cache for debugging
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(registrations => {
-    registrations.forEach(registration => {
-      registration.unregister();
-      console.log('🗑️ Service worker unregistered for debugging');
-    });
-  });
-  
-  // Also clear all caches
-  if ('caches' in window) {
-    caches.keys().then(cacheNames => {
-      cacheNames.forEach(cacheName => {
-        caches.delete(cacheName);
-        console.log('🗑️ Cache deleted:', cacheName);
-      });
-    });
-  }
-}
-
-// Also hide loading spinner from React side
-setTimeout(() => {
-  const loadingContainer = document.querySelector('.loading-container');
-  if (loadingContainer) {
-    loadingContainer.classList.add('hidden');
-    console.log('✅ Loading spinner hidden from React');
-  }
-}, 100);
+console.log('🚀 NUCLEAR TEST: Ultra-minimal app loaded successfully!');
