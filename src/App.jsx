@@ -8,6 +8,8 @@ import { MyDecks } from './pages/MyDecks';
 import { Tournaments } from './pages/Tournaments';
 import { JudgeCenter } from './pages/JudgeCenter';
 import { TournamentCreate } from './pages/TournamentCreate';
+import PlayerProfile from './pages/PlayerProfile';
+import Leaderboards from './pages/Leaderboards';
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
             <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
             <Route path="/tournaments" element={<Tournaments />} />
             <Route path="/tournaments/create" element={<TournamentCreate />} />
+            <Route path="/leaderboards" element={<Leaderboards />} />
             <Route path="/judge-center" element={<JudgeCenter />} />
+            <Route path="/profile" element={<PlayerProfile />} />
           </Routes>
         </Layout>
       </Router>
