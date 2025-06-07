@@ -73,8 +73,8 @@ const Home = () => {
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="hero-title">Master the Elements</h1>
             <p className="hero-subtitle">
-              Build powerful decks, discover new strategies, and compete in official tournaments
-              in the ultimate elemental card game platform.
+              Build powerful decks, discover new strategies, and compete in
+              official tournaments in the ultimate elemental card game platform.
             </p>
             <div className="btn-group">
               <Link
@@ -84,7 +84,10 @@ const Home = () => {
                 <Trophy size={20} />
                 Join Tournament
               </Link>
-              <Link to="/deckbuilder" className="btn btn-secondary text-lg px-8 py-3">
+              <Link
+                to="/deckbuilder"
+                className="btn btn-secondary text-lg px-8 py-3"
+              >
                 <PlusCircle size={20} />
                 Build Deck
               </Link>
