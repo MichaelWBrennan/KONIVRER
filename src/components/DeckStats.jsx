@@ -25,20 +25,28 @@ const DeckStats = ({ deck }) => {
 
   // Calculate average cost
   const totalCards = deck.cards.reduce((total, card) => total + card.count, 0);
-  const totalCost = deck.cards.reduce((total, card) => total + (card.cost * card.count), 0);
+  const totalCost = deck.cards.reduce(
+    (total, card) => total + card.cost * card.count,
+    0
+  );
   const averageCost = totalCards > 0 ? (totalCost / totalCards).toFixed(1) : 0;
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity) {
-      case 'common': return 'bg-gray-600';
-      case 'uncommon': return 'bg-green-600';
-      case 'rare': return 'bg-blue-600';
-      case 'legendary': return 'bg-purple-600';
-      default: return 'bg-gray-600';
+      case 'common':
+        return 'bg-gray-600';
+      case 'uncommon':
+        return 'bg-green-600';
+      case 'rare':
+        return 'bg-blue-600';
+      case 'legendary':
+        return 'bg-purple-600';
+      default:
+        return 'bg-gray-600';
     }
   };
 
-  const getElementEmoji = (element) => {
+  const getElementEmoji = element => {
     // Return the element as is since they're already emojis
     return element;
   };
@@ -65,12 +73,15 @@ const DeckStats = ({ deck }) => {
 
         {/* Mana Curve */}
         <div>
-          <h4 className="text-sm font-medium text-secondary mb-3">Mana Curve</h4>
+          <h4 className="text-sm font-medium text-secondary mb-3">
+            Mana Curve
+          </h4>
           <div className="space-y-2">
             {['0', '1', '2', '3', '4', '5', '6', '7+'].map(cost => {
               const count = manaCurve[cost] || 0;
-              const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
-              
+              const percentage =
+                totalCards > 0 ? (count / totalCards) * 100 : 0;
+
               return (
                 <div key={cost} className="flex items-center gap-3">
                   <div className="w-8 text-sm text-secondary">{cost}</div>
@@ -89,11 +100,14 @@ const DeckStats = ({ deck }) => {
 
         {/* Element Distribution */}
         <div>
-          <h4 className="text-sm font-medium text-secondary mb-3">Element Distribution</h4>
+          <h4 className="text-sm font-medium text-secondary mb-3">
+            Element Distribution
+          </h4>
           <div className="space-y-2">
             {Object.entries(elementDistribution).map(([element, count]) => {
-              const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
-              
+              const percentage =
+                totalCards > 0 ? (count / totalCards) * 100 : 0;
+
               return (
                 <div key={element} className="flex items-center gap-3">
                   <div className="w-8 text-lg">{getElementEmoji(element)}</div>
@@ -112,15 +126,20 @@ const DeckStats = ({ deck }) => {
 
         {/* Rarity Distribution */}
         <div>
-          <h4 className="text-sm font-medium text-secondary mb-3">Rarity Distribution</h4>
+          <h4 className="text-sm font-medium text-secondary mb-3">
+            Rarity Distribution
+          </h4>
           <div className="space-y-2">
             {Object.entries(rarityDistribution).map(([rarity, count]) => {
-              const percentage = totalCards > 0 ? (count / totalCards) * 100 : 0;
-              
+              const percentage =
+                totalCards > 0 ? (count / totalCards) * 100 : 0;
+
               return (
                 <div key={rarity} className="flex items-center gap-3">
                   <div className="w-16 text-sm">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(rarity)}`}>
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(rarity)}`}
+                    >
                       {rarity}
                     </span>
                   </div>
@@ -139,19 +158,26 @@ const DeckStats = ({ deck }) => {
 
         {/* Deck Validation */}
         <div>
-          <h4 className="text-sm font-medium text-secondary mb-3">Deck Validation</h4>
+          <h4 className="text-sm font-medium text-secondary mb-3">
+            Deck Validation
+          </h4>
           <div className="space-y-2">
-            <div className={`flex items-center justify-between p-2 rounded ${
-              totalCards === 40 ? 'bg-green-900 text-green-100' : 
-              totalCards < 40 ? 'bg-yellow-900 text-yellow-100' : 
-              'bg-red-900 text-red-100'
-            }`}>
+            <div
+              className={`flex items-center justify-between p-2 rounded ${
+                totalCards === 40
+                  ? 'bg-green-900 text-green-100'
+                  : totalCards < 40
+                    ? 'bg-yellow-900 text-yellow-100'
+                    : 'bg-red-900 text-red-100'
+              }`}
+            >
               <span className="text-sm">Card Count</span>
               <span className="text-sm font-medium">
-                {totalCards}/40 {totalCards === 40 ? '✓' : totalCards < 40 ? '⚠' : '✗'}
+                {totalCards}/40{' '}
+                {totalCards === 40 ? '✓' : totalCards < 40 ? '⚠' : '✗'}
               </span>
             </div>
-            
+
             {/* Check for card limits */}
             {deck.cards.some(card => card.count > 4) && (
               <div className="flex items-center justify-between p-2 rounded bg-red-900 text-red-100">
@@ -159,7 +185,7 @@ const DeckStats = ({ deck }) => {
                 <span className="text-sm font-medium">✗ Over limit</span>
               </div>
             )}
-            
+
             {!deck.cards.some(card => card.count > 4) && (
               <div className="flex items-center justify-between p-2 rounded bg-green-900 text-green-100">
                 <span className="text-sm">Card Limits</span>
@@ -174,10 +200,13 @@ const DeckStats = ({ deck }) => {
           <div className="bg-yellow-900 bg-opacity-50 border border-yellow-600 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp size={16} className="text-yellow-400" />
-              <span className="text-sm font-medium text-yellow-100">Suggestion</span>
+              <span className="text-sm font-medium text-yellow-100">
+                Suggestion
+              </span>
             </div>
             <p className="text-sm text-yellow-200">
-              Add {40 - totalCards} more cards to reach the minimum deck size of 40 cards.
+              Add {40 - totalCards} more cards to reach the minimum deck size of
+              40 cards.
             </p>
           </div>
         )}

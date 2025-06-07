@@ -42,15 +42,15 @@ print_status "Checking project structure..."
 
 # 1. Security Audit
 print_status "Running security audit..."
-if yarn audit --level high > /dev/null 2>&1; then
+if npm audit --audit-level high > /dev/null 2>&1; then
     print_success "No high/critical security vulnerabilities found"
 else
-    print_warning "Security vulnerabilities detected - check yarn audit output"
+    print_warning "Security vulnerabilities detected - check npm audit output"
 fi
 
 # 2. Dependency Check
 print_status "Checking for node-sass..."
-if yarn list | grep -q "node-sass"; then
+if npm list | grep -q "node-sass"; then
     print_error "node-sass found in dependencies - should be replaced with sass"
     exit 1
 else
@@ -125,7 +125,7 @@ fi
 print_status "Checking for required files..."
 required_files=(
     "package.json"
-    "yarn.lock"
+    "package-lock.json"
     "vercel.json"
     ".gitignore"
     "SECURITY.md"
