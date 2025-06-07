@@ -4,6 +4,7 @@
  */
 
 import { useEffect } from 'react';
+
 import { analytics } from '../utils/analytics';
 
 const WebVitals = () => {

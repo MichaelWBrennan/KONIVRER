@@ -3,6 +3,7 @@
  */
 
 import { track } from '@vercel/analytics';
+
 import { env } from '../config/env';
 
 // Check if analytics is enabled

@@ -40,7 +40,7 @@ function checkVercelSecurity() {
     'Strict-Transport-Security',
     'Content-Security-Policy',
     'Referrer-Policy',
-    'Permissions-Policy'
+    'Permissions-Policy',
   ];
 
   const presentHeaders = mainHeaders.map(h => h.key);
@@ -121,7 +121,7 @@ function checkEnvironmentSecurity() {
   const sensitivePatterns = ['password', 'secret', 'key', 'token'];
   const envKeys = Object.keys(env).map(k => k.toLowerCase());
   const hasSensitiveKeys = envKeys.some(key => 
-    sensitivePatterns.some(pattern => key.includes(pattern))
+    sensitivePatterns.some(pattern => key.includes(pattern)),
   );
   
   if (hasSensitiveKeys) {
@@ -145,7 +145,7 @@ function checkSecurityFiles() {
     'api/security/health-check.js',
     'api/version.js',
     'SECURITY_FEATURES.md',
-    'docs/SKEW_PROTECTION.md'
+    'docs/SKEW_PROTECTION.md',
   ];
 
   securityFiles.forEach(file => {
@@ -170,7 +170,7 @@ function checkPackageSecurity() {
   const securityScripts = [
     'security:check',
     'security:audit', 
-    'security:scan'
+    'security:scan',
   ];
   
   const scripts = packageJson.scripts || {};
