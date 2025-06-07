@@ -5,6 +5,9 @@ import { Home } from './pages/Home';
 import { CardDatabase } from './pages/CardDatabase';
 import { DeckBuilder } from './pages/DeckBuilder';
 import { MyDecks } from './pages/MyDecks';
+import { Tournaments } from './pages/Tournaments';
+import { JudgeCenter } from './pages/JudgeCenter';
+import { TournamentCreate } from './pages/TournamentCreate';
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
             <Route path="/decks" element={<MyDecks />} />
             <Route path="/deckbuilder" element={<DeckBuilder />} />
             <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
+            <Route path="/tournaments" element={<Tournaments />} />
+            <Route path="/tournaments/create" element={<TournamentCreate />} />
+            <Route path="/judge-center" element={<JudgeCenter />} />
           </Routes>
         </Layout>
       </Router>
