@@ -3,37 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KONIVRER Deck Database</title>
-    <meta name="description" content="Build and manage your KONIVRER trading card game decks with our comprehensive database and deck builder.">
-    <meta name="keywords" content="KONIVRER, trading cards, deck builder, card game, database">
+    <title>KONIVRER - Deck Database</title>
+    <meta name="description" content="Professional deck building and card database for KONIVRER trading card game">
     <meta name="author" content="KONIVRER Team">
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://konivrer-deck-database.vercel.app/">
-    <meta property="og:title" content="KONIVRER Deck Database">
-    <meta property="og:description" content="Build and manage your KONIVRER trading card game decks">
-    <meta property="og:image" content="/og-image.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://konivrer-deck-database.vercel.app/">
-    <meta property="twitter:title" content="KONIVRER Deck Database">
-    <meta property="twitter:description" content="Build and manage your KONIVRER trading card game decks">
-    <meta property="twitter:image" content="/og-image.png">
-
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- Preconnect to external domains for performance -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Critical CSS for immediate rendering -->
     <style>
         * {
             margin: 0;
@@ -42,54 +24,52 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-                sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background-color: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            background: #0f0f0f;
             color: #ffffff;
             line-height: 1.6;
         }
         
         #root {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         
-        /* Ensure no loading screens appear */
-        .loading-container,
-        .loading-spinner,
-        [class*="loading"] {
-            display: none !important;
+        /* Loading spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #0f0f0f;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-left: 20px;
+            font-size: 18px;
+            color: #ccc;
         }
     </style>
 </head>
 <body>
+    <div class="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading KONIVRER...</div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    
-    <!-- Performance and security enhancements -->
-    <script>
-        // Prevent loading screen persistence
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingElements = document.querySelectorAll('.loading-container, .loading-spinner, [class*="loading"]');
-            loadingElements.forEach(element => {
-                element.style.display = 'none';
-                element.remove();
-            });
-        });
-        
-        // Basic error handling
-        window.addEventListener('error', function(e) {
-            console.error('Application error:', e.error);
-        });
-        
-        // Unhandled promise rejection handling
-        window.addEventListener('unhandledrejection', function(e) {
-            console.error('Unhandled promise rejection:', e.reason);
-        });
-    </script>
 </body>
 </html>

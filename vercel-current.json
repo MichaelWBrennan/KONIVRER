@@ -10,6 +10,10 @@
       "destination": "/api/$1"
     },
     {
+      "source": "/emergency",
+      "destination": "/emergency.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
@@ -61,6 +65,30 @@
         {
           "key": "X-DNS-Prefetch-Control",
           "value": "on"
+        },
+        {
+          "key": "X-Download-Options",
+          "value": "noopen"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "off"
         },
         {
           "key": "X-Download-Options",
@@ -129,7 +157,15 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400"
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         }
       ]
     }
