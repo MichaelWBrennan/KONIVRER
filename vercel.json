@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "yarn install",
+  "installCommand": "npm ci",
   "devCommand": "npm run dev",
   "rewrites": [
     {
@@ -105,7 +105,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=3600, s-maxage=86400"
+          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400"
         }
       ]
     }

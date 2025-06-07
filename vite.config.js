@@ -23,20 +23,34 @@ export default defineConfig({
     cssCodeSplit: true,
     assetsDir: 'assets',
     minify: 'terser',
-    target: 'es2020', // Modern browsers only - reduces polyfills
+    target: ['es2022', 'chrome91', 'firefox90', 'safari15'], // Ultra-modern browsers only
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
-        passes: 2, // Multiple passes for better compression
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 3, // More passes for maximum compression
+        unsafe_arrows: true,
+        unsafe_methods: true,
+        unsafe_proto: true,
+        unsafe_regexp: true,
+        dead_code: true,
+        collapse_vars: true,
+        reduce_vars: true,
+        hoist_funs: true,
+        hoist_vars: true,
       },
       mangle: {
         safari10: true,
+        properties: {
+          regex: /^_/,
+        },
       },
       format: {
-        comments: false, // Remove all comments
+        comments: false,
+        ecma: 2022,
       },
+      ecma: 2022,
     },
     // Optimize chunk size
     chunkSizeWarningLimit: 500, // Stricter warning limit
@@ -89,7 +103,22 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js',
       },
       external: [], // Don't externalize anything for better bundling
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+      },
     },
+    reportCompressedSize: false, // Faster builds
+    assetsInlineLimit: 4096, // Inline small assets
+  },
+  esbuild: {
+    target: 'es2022',
+    legalComments: 'none',
+    treeShaking: true,
+    minifyIdentifiers: true,
+    minifySyntax: true,
+    minifyWhitespace: true,
   },
   resolve: {
     alias: {
