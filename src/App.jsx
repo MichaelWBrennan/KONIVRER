@@ -1,80 +1,53 @@
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import ErrorBoundary from './components/ErrorBoundary';
-import Layout from './components/Layout';
-// import PerformanceOptimizer from './components/PerformanceOptimizer';
-import LoadingSpinner from './components/LoadingSpinner';
-import SkewProtection from './components/SkewProtection';
-import WebVitals from './components/WebVitals';
-import { env } from './config/env';
-// import './utils/skewProtection'; // Initialize skew protection
-
-// Lazy load pages with prefetch hints
-const Home = lazy(
-  () => import(/* webpackChunkName: "page-home" */ './pages/Home'),
-);
-const CardDatabase = lazy(
-  () => import(/* webpackChunkName: "page-cards" */ './pages/CardDatabase'),
-);
-const DeckBuilder = lazy(
-  () =>
-    import(/* webpackChunkName: "page-deckbuilder" */ './pages/DeckBuilder'),
-);
-const MyDecks = lazy(
-  () => import(/* webpackChunkName: "page-decks" */ './pages/MyDecks'),
+// Simple test component
+const TestHome = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <h1>KONIVRER Deck Database</h1>
+    <p>Test page - if you see this, the app is loading correctly!</p>
+    <div style={{ marginTop: '20px' }}>
+      <a href="/cards" style={{ margin: '0 10px', color: '#007bff' }}>Cards</a>
+      <a href="/decks" style={{ margin: '0 10px', color: '#007bff' }}>Decks</a>
+      <a href="/deckbuilder" style={{ margin: '0 10px', color: '#007bff' }}>Deck Builder</a>
+    </div>
+  </div>
 );
 
-// Validate environment variables only in development
-// Temporarily disabled to debug loading issue
-// if (import.meta.env.DEV) {
-//   import('./config/env').then(({ validateEnv }) => {
-//     try {
-//       validateEnv();
-//     } catch (error) {
-//       console.error('Environment validation failed:', error);
-//     }
-//   });
-// }
+const TestCards = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <h1>Card Database</h1>
+    <p>Cards page is working!</p>
+    <a href="/" style={{ color: '#007bff' }}>← Back to Home</a>
+  </div>
+);
+
+const TestDecks = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <h1>My Decks</h1>
+    <p>Decks page is working!</p>
+    <a href="/" style={{ color: '#007bff' }}>← Back to Home</a>
+  </div>
+);
+
+const TestDeckBuilder = () => (
+  <div style={{ padding: '20px', textAlign: 'center' }}>
+    <h1>Deck Builder</h1>
+    <p>Deck Builder page is working!</p>
+    <a href="/" style={{ color: '#007bff' }}>← Back to Home</a>
+  </div>
+);
 
 function App() {
   return (
-    <ErrorBoundary>
-      <Router>
-        <Layout>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/deckbuilder" element={<DeckBuilder />} />
-              <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
-              <Route path="/cards" element={<CardDatabase />} />
-              <Route path="/decks" element={<MyDecks />} />
-            </Routes>
-          </Suspense>
-        </Layout>
-
-        {/* Skew Protection */}
-        {/* <SkewProtection /> */}
-
-        {/* Analytics and Performance Monitoring */}
-        {/* <WebVitals /> */}
-        {/* Temporarily disabled analytics */}
-        {/* {(env.ENABLE_ANALYTICS || import.meta.env.PROD) && (
-          <>
-            <Analytics
-              mode={import.meta.env.DEV ? 'development' : 'production'}
-              debug={env.ENABLE_DEBUG}
-            />
-            <SpeedInsights
-              debug={env.ENABLE_DEBUG}
-              sampleRate={import.meta.env.DEV ? 1 : 0.1}
-            />
-          </>
-        )} */}
-      </Router>
-    </ErrorBoundary>
+    <Router>
+      <Routes>
+        <Route path="/" element={<TestHome />} />
+        <Route path="/cards" element={<TestCards />} />
+        <Route path="/decks" element={<TestDecks />} />
+        <Route path="/deckbuilder" element={<TestDeckBuilder />} />
+        <Route path="/deckbuilder/:deckId" element={<TestDeckBuilder />} />
+      </Routes>
+    </Router>
   );
 }
 
