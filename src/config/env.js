@@ -25,10 +25,10 @@ const getBackendUrl = () => {
     );
   }
 
-  // Production default
+  // Production default - disable backend calls if not configured
   return (
     import.meta.env.VITE_BACKEND_URL_PROD ||
-    'https://your-production-backend.onrender.com'
+    null // No backend URL means use fallback data only
   );
 };
 
