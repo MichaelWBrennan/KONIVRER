@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/test/setup.js'],
+    setupFiles: ['@testing-library/jest-dom/vitest'],
     css: true,
     coverage: {
       provider: 'v8',
@@ -39,7 +39,6 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@pages': path.resolve(__dirname, './src/pages'),
       '@utils': path.resolve(__dirname, './src/utils'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
       '@config': path.resolve(__dirname, './src/config'),
       '@data': path.resolve(__dirname, './src/data'),
     },
