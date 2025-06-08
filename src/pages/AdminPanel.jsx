@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { RefreshCw, Wifi, WifiOff, Database, Settings, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import {
+  RefreshCw,
+  Wifi,
+  WifiOff,
+  Database,
+  Settings,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+} from 'lucide-react';
 import cardsService from '../services/cardsService';
 
 const AdminPanel = () => {
@@ -11,7 +20,7 @@ const AdminPanel = () => {
   const [stats, setStats] = useState({
     totalCards: 0,
     lastSync: null,
-    cacheAge: null
+    cacheAge: null,
   });
 
   useEffect(() => {
@@ -33,7 +42,7 @@ const AdminPanel = () => {
         ...prev,
         totalCards: cards.length,
         lastSync: cache.lastFetchTime,
-        cacheAge: cache.cacheAge
+        cacheAge: cache.cacheAge,
       }));
     } catch (error) {
       console.error('Error loading cards for stats:', error);
@@ -45,7 +54,11 @@ const AdminPanel = () => {
     try {
       const status = await cardsService.testConnection();
       setConnectionStatus(status);
-      addToSyncHistory('connection_test', status.connected ? 'success' : 'error', status.message || status.error);
+      addToSyncHistory(
+        'connection_test',
+        status.connected ? 'success' : 'error',
+        status.message || status.error,
+      );
     } catch (error) {
       setConnectionStatus({ connected: false, error: error.message });
       addToSyncHistory('connection_test', 'error', error.message);
@@ -63,7 +76,7 @@ const AdminPanel = () => {
         setStats(prev => ({
           ...prev,
           totalCards: result.cards.length,
-          lastSync: Date.now()
+          lastSync: Date.now(),
         }));
         // Refresh cache status
         setCacheStatus(cardsService.getCacheStatus());
@@ -89,24 +102,24 @@ const AdminPanel = () => {
       timestamp: new Date(),
       action,
       status,
-      message
+      message,
     };
     setSyncHistory(prev => [entry, ...prev.slice(0, 9)]); // Keep last 10 entries
   };
 
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = timestamp => {
     if (!timestamp) return 'Never';
     return new Date(timestamp).toLocaleString();
   };
 
-  const formatDuration = (ms) => {
+  const formatDuration = ms => {
     if (!ms) return 'N/A';
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}m ${seconds}s ago`;
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = status => {
     switch (status) {
       case 'success':
         return <CheckCircle className="text-green-500" size={16} />;
@@ -141,10 +154,14 @@ const AdminPanel = () => {
               <h3 className="font-semibold">Connection</h3>
             </div>
             <p className="text-sm text-secondary">
-              {connectionStatus?.connected ? 'Connected to Google Sheets' : 'Disconnected'}
+              {connectionStatus?.connected
+                ? 'Connected to Google Sheets'
+                : 'Disconnected'}
             </p>
             {connectionStatus?.error && (
-              <p className="text-xs text-red-600 mt-1">{connectionStatus.error}</p>
+              <p className="text-xs text-red-600 mt-1">
+                {connectionStatus.error}
+              </p>
             )}
           </div>
 
@@ -155,10 +172,13 @@ const AdminPanel = () => {
               <h3 className="font-semibold">Cache</h3>
             </div>
             <p className="text-sm text-secondary">
-              {cacheStatus?.hasCache ? `${stats.totalCards} cards cached` : 'No cache'}
+              {cacheStatus?.hasCache
+                ? `${stats.totalCards} cards cached`
+                : 'No cache'}
             </p>
             <p className="text-xs text-secondary">
-              {cacheStatus?.isExpired ? 'Expired' : 'Fresh'} • {formatDuration(cacheStatus?.cacheAge)}
+              {cacheStatus?.isExpired ? 'Expired' : 'Fresh'} •{' '}
+              {formatDuration(cacheStatus?.cacheAge)}
             </p>
           </div>
 
@@ -205,18 +225,12 @@ const AdminPanel = () => {
               {syncing ? 'Syncing...' : 'Sync from Google Sheets'}
             </button>
 
-            <button
-              onClick={clearCache}
-              className="btn btn-warning"
-            >
+            <button onClick={clearCache} className="btn btn-warning">
               <Database size={16} />
               Clear Cache
             </button>
 
-            <button
-              onClick={loadAdminData}
-              className="btn btn-secondary"
-            >
+            <button onClick={loadAdminData} className="btn btn-secondary">
               <RefreshCw size={16} />
               Refresh Status
             </button>
@@ -231,7 +245,10 @@ const AdminPanel = () => {
           ) : (
             <div className="space-y-3">
               {syncHistory.map(entry => (
-                <div key={entry.id} className="flex items-start gap-3 p-3 bg-secondary rounded-lg">
+                <div
+                  key={entry.id}
+                  className="flex items-start gap-3 p-3 bg-secondary rounded-lg"
+                >
                   {getStatusIcon(entry.status)}
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -264,11 +281,12 @@ const AdminPanel = () => {
                 <li>Set the environment variables in your backend</li>
               </ol>
             </div>
-            
+
             <div>
               <h3 className="font-medium mb-2">Expected Spreadsheet Format</h3>
               <p className="text-sm text-secondary mb-2">
-                Your spreadsheet should have a sheet named "Cards" with these columns:
+                Your spreadsheet should have a sheet named "Cards" with these
+                columns:
               </p>
               <div className="bg-secondary p-3 rounded text-sm font-mono">
                 ID | Name | Elements | Keywords | Cost | Power | Rarity | Text

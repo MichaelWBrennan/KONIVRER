@@ -141,7 +141,7 @@ const Layout = ({ children }) => {
                   onKeyDown={handleSearch}
                 />
               </div>
-              
+
               {/* User Authentication */}
               {isAuthenticated ? (
                 <div className="relative">
@@ -157,12 +157,14 @@ const Layout = ({ children }) => {
                     <span className="hidden xl:block">{user.displayName}</span>
                     <ChevronDown size={14} />
                   </button>
-                  
+
                   {showUserDropdown && (
                     <div className="absolute right-0 mt-2 w-48 bg-card border border-color rounded-lg shadow-lg z-50">
                       <div className="p-3 border-b border-color">
                         <p className="font-medium">{user.displayName}</p>
-                        <p className="text-sm text-secondary">@{user.username}</p>
+                        <p className="text-sm text-secondary">
+                          @{user.username}
+                        </p>
                       </div>
                       <div className="py-2">
                         <Link
@@ -269,8 +271,12 @@ const Layout = ({ children }) => {
                         className="w-8 h-8 rounded-full bg-tertiary"
                       />
                       <div>
-                        <p className="font-medium text-sm">{user.displayName}</p>
-                        <p className="text-xs text-secondary">@{user.username}</p>
+                        <p className="font-medium text-sm">
+                          {user.displayName}
+                        </p>
+                        <p className="text-xs text-secondary">
+                          @{user.username}
+                        </p>
                       </div>
                     </div>
                     <Link
