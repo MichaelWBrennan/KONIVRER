@@ -14,6 +14,7 @@ import LiveTournament from './pages/LiveTournament';
 import AdvancedDeckBuilder from './pages/AdvancedDeckBuilder';
 import SocialHub from './pages/SocialHub';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import AdminPanel from './pages/AdminPanel';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="/profile" element={<EnhancedProfile />} />
               <Route path="/social" element={<SocialHub />} />
               <Route path="/analytics" element={<AnalyticsDashboard />} />
+              <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </Layout>
         </Router>
