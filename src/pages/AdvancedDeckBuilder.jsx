@@ -24,7 +24,7 @@ import {
   PieChart,
   LineChart,
   Settings,
-  Magic,
+  Sparkles as Magic,
   Wand2,
   Bot,
   Gamepad2,
