@@ -25,43 +25,59 @@ class ErrorBoundary extends Component {
       errorInfo,
     });
 
-    // Track error with analytics
-    import('../utils/analytics')
-      .then(({ analytics }) => {
-        analytics.error(
-          'javascript_error',
-          error.message,
-          errorInfo.componentStack,
-        );
-      })
-      .catch(() => {
-        // Silently fail if analytics is not available
-      });
+    // Track error with analytics (with error handling)
+    try {
+      import('../utils/analytics')
+        .then(({ analytics }) => {
+          analytics.error(
+            'javascript_error',
+            error.message,
+            errorInfo.componentStack,
+          );
+        })
+        .catch(() => {
+          // Silently fail if analytics is not available
+        });
+    } catch (analyticsError) {
+      console.warn('Analytics error tracking failed:', analyticsError);
+    }
 
     // You can also log the error to an error reporting service here
-    if (window.Sentry) {
-      window.Sentry.captureException(error, { extra: errorInfo });
+    try {
+      if (window.Sentry) {
+        window.Sentry.captureException(error, { extra: errorInfo });
+      }
+    } catch (sentryError) {
+      console.warn('Sentry error reporting failed:', sentryError);
     }
   }
 
   handleReload = () => {
     // Track error recovery action
-    import('../utils/analytics')
-      .then(({ analytics }) => {
-        analytics.buttonClick('error_reload', 'error_boundary');
-      })
-      .catch(() => {});
+    try {
+      import('../utils/analytics')
+        .then(({ analytics }) => {
+          analytics.buttonClick('error_reload', 'error_boundary');
+        })
+        .catch(() => {});
+    } catch (error) {
+      console.warn('Analytics tracking failed:', error);
+    }
 
     window.location.reload();
   };
 
   handleGoHome = () => {
     // Track error recovery action
-    import('../utils/analytics')
-      .then(({ analytics }) => {
-        analytics.buttonClick('error_go_home', 'error_boundary');
-      })
-      .catch(() => {});
+    try {
+      import('../utils/analytics')
+        .then(({ analytics }) => {
+          analytics.buttonClick('error_go_home', 'error_boundary');
+        })
+        .catch(() => {});
+    } catch (error) {
+      console.warn('Analytics tracking failed:', error);
+    }
 
     window.location.href = '/';
   };

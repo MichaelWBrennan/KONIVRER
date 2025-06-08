@@ -25,10 +25,10 @@ const getBackendUrl = () => {
     );
   }
 
-  // Production default
+  // Production default - disable backend calls if not configured
   return (
     import.meta.env.VITE_BACKEND_URL_PROD ||
-    'https://your-production-backend.onrender.com'
+    null // No backend URL means use fallback data only
   );
 };
 
@@ -59,21 +59,17 @@ export const env = {
   GOOGLE_ANALYTICS_ID: import.meta.env.VITE_GOOGLE_ANALYTICS_ID,
 };
 
-// Validation
-const requiredEnvVars = ['API_BASE_URL', 'BACKEND_URL'];
+// Validation - now optional for demo deployments
+const optionalEnvVars = ['API_BASE_URL', 'BACKEND_URL'];
 
 export const validateEnv = () => {
-  const missing = requiredEnvVars.filter(key => !env[key]);
+  const missing = optionalEnvVars.filter(key => !env[key]);
 
   if (missing.length > 0) {
-    console.error('Environment validation failed:', {
+    console.warn('Environment variables not configured (using fallback mode):', {
       missing,
-      current: env,
-      meta: import.meta.env,
+      note: 'App will use fallback data without backend integration'
     });
-    throw new Error(
-      `Missing required environment variables: ${missing.join(', ')}`,
-    );
   }
 
   // Log configuration in development
@@ -81,8 +77,8 @@ export const validateEnv = () => {
     console.warn('Environment configuration:', {
       NODE_ENV: env.NODE_ENV,
       MODE: env.MODE,
-      API_BASE_URL: env.API_BASE_URL,
-      BACKEND_URL: env.BACKEND_URL,
+      API_BASE_URL: env.API_BASE_URL || 'Not configured (fallback mode)',
+      BACKEND_URL: env.BACKEND_URL || 'Not configured (fallback mode)',
       ENABLE_DEBUG: env.ENABLE_DEBUG,
     });
   }
