@@ -48,28 +48,35 @@ const root = createRoot(container);
 
 // Fallback component for critical errors
 const FallbackApp = () => (
-  <div style={{
-    minHeight: '100vh',
-    backgroundColor: '#111827',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px',
-    fontFamily: 'system-ui, -apple-system, sans-serif'
-  }}>
-    <div style={{
-      maxWidth: '400px',
-      textAlign: 'center',
-      backgroundColor: '#1f2937',
-      padding: '40px',
-      borderRadius: '8px'
-    }}>
-      <h1 style={{ marginBottom: '20px', fontSize: '24px' }}>KONIVRER Deck Database</h1>
+  <div
+    style={{
+      minHeight: '100vh',
+      backgroundColor: '#111827',
+      color: 'white',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+    }}
+  >
+    <div
+      style={{
+        maxWidth: '400px',
+        textAlign: 'center',
+        backgroundColor: '#1f2937',
+        padding: '40px',
+        borderRadius: '8px',
+      }}
+    >
+      <h1 style={{ marginBottom: '20px', fontSize: '24px' }}>
+        KONIVRER Deck Database
+      </h1>
       <p style={{ marginBottom: '20px', opacity: 0.8 }}>
-        The application is starting up. If this message persists, please refresh the page.
+        The application is starting up. If this message persists, please refresh
+        the page.
       </p>
-      <button 
+      <button
         onClick={() => window.location.reload()}
         style={{
           backgroundColor: '#3b82f6',
@@ -78,7 +85,7 @@ const FallbackApp = () => (
           padding: '12px 24px',
           borderRadius: '6px',
           cursor: 'pointer',
-          fontSize: '16px'
+          fontSize: '16px',
         }}
       >
         Refresh Page
@@ -186,11 +193,11 @@ const clearAllCaches = async () => {
 };
 
 // Global error handlers
-window.addEventListener('error', (event) => {
+window.addEventListener('error', event => {
   console.error('Global error:', event.error);
 });
 
-window.addEventListener('unhandledrejection', (event) => {
+window.addEventListener('unhandledrejection', event => {
   console.error('Unhandled promise rejection:', event.reason);
   event.preventDefault(); // Prevent the default browser behavior
 });
