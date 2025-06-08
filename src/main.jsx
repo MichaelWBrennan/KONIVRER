@@ -42,27 +42,82 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
   }
 }
 
-// Optimized root creation
+// Optimized root creation with error handling
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-root.render(
-  <StrictMode>
-    <App />
-    {analyticsConfig.vercel.enabled && (
-      <>
-        <Analytics />
-        <SpeedInsights
-          sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
-        />
-      </>
-    )}
-  </StrictMode>,
+// Fallback component for critical errors
+const FallbackApp = () => (
+  <div style={{
+    minHeight: '100vh',
+    backgroundColor: '#111827',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px',
+    fontFamily: 'system-ui, -apple-system, sans-serif'
+  }}>
+    <div style={{
+      maxWidth: '400px',
+      textAlign: 'center',
+      backgroundColor: '#1f2937',
+      padding: '40px',
+      borderRadius: '8px'
+    }}>
+      <h1 style={{ marginBottom: '20px', fontSize: '24px' }}>KONIVRER Deck Database</h1>
+      <p style={{ marginBottom: '20px', opacity: 0.8 }}>
+        The application is starting up. If this message persists, please refresh the page.
+      </p>
+      <button 
+        onClick={() => window.location.reload()}
+        style={{
+          backgroundColor: '#3b82f6',
+          color: 'white',
+          border: 'none',
+          padding: '12px 24px',
+          borderRadius: '6px',
+          cursor: 'pointer',
+          fontSize: '16px'
+        }}
+      >
+        Refresh Page
+      </button>
+    </div>
+  </div>
 );
 
-// Initialize security and analytics after render
-initializeSecurity();
-initializeAnalytics();
+try {
+  root.render(
+    <StrictMode>
+      <App />
+      {analyticsConfig.vercel.enabled && (
+        <>
+          <Analytics />
+          <SpeedInsights
+            sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
+          />
+        </>
+      )}
+    </StrictMode>,
+  );
+} catch (error) {
+  console.error('Critical error during app initialization:', error);
+  root.render(<FallbackApp />);
+}
+
+// Initialize security and analytics after render with error handling
+try {
+  initializeSecurity();
+} catch (error) {
+  console.warn('Security initialization failed:', error);
+}
+
+try {
+  initializeAnalytics();
+} catch (error) {
+  console.warn('Analytics initialization failed:', error);
+}
 
 // CRITICAL: Comprehensive loading spinner removal
 const removeAllLoadingElements = () => {
@@ -130,12 +185,26 @@ const clearAllCaches = async () => {
   }
 };
 
-// Execute all cleanup operations
-removeAllLoadingElements();
-unregisterServiceWorkers();
-clearAllCaches();
+// Global error handlers
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error);
+});
 
-// Repeat cleanup after delays as fallback
-setTimeout(removeAllLoadingElements, 100);
-setTimeout(removeAllLoadingElements, 500);
-setTimeout(removeAllLoadingElements, 1000);
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason);
+  event.preventDefault(); // Prevent the default browser behavior
+});
+
+// Execute all cleanup operations with error handling
+try {
+  removeAllLoadingElements();
+  unregisterServiceWorkers();
+  clearAllCaches();
+
+  // Repeat cleanup after delays as fallback
+  setTimeout(removeAllLoadingElements, 100);
+  setTimeout(removeAllLoadingElements, 500);
+  setTimeout(removeAllLoadingElements, 1000);
+} catch (error) {
+  console.warn('Cleanup operations failed:', error);
+}
