@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import { z } from 'zod';
 
 // Validation schemas using Zod for type safety
@@ -27,7 +33,9 @@ const UserSchema = z.object({
     pushNotifications: z.boolean().default(true),
     tournamentReminders: z.boolean().default(true),
     deckSharing: z.enum(['public', 'friends', 'private']).default('public'),
-    profileVisibility: z.enum(['public', 'friends', 'private']).default('public'),
+    profileVisibility: z
+      .enum(['public', 'friends', 'private'])
+      .default('public'),
     dataProcessing: z.boolean().default(false),
     marketing: z.boolean().default(false),
   }),
@@ -38,25 +46,38 @@ const LoginSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-const RegisterSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 
-      'Password must contain uppercase, lowercase, number, and special character'),
-  confirmPassword: z.string(),
-  username: z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username must be less than 20 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-  displayName: z.string().min(1, 'Display name is required').max(50),
-  location: z.string().optional(),
-  agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms'),
-  agreeToPrivacy: z.boolean().refine(val => val === true, 'You must agree to the privacy policy'),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const RegisterSchema = z
+  .object({
+    email: z.string().email('Invalid email format'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        'Password must contain uppercase, lowercase, number, and special character',
+      ),
+    confirmPassword: z.string(),
+    username: z
+      .string()
+      .min(3, 'Username must be at least 3 characters')
+      .max(20, 'Username must be less than 20 characters')
+      .regex(
+        /^[a-zA-Z0-9_]+$/,
+        'Username can only contain letters, numbers, and underscores',
+      ),
+    displayName: z.string().min(1, 'Display name is required').max(50),
+    location: z.string().optional(),
+    agreeToTerms: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the terms'),
+    agreeToPrivacy: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the privacy policy'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 const AuthContext = createContext();
 
@@ -69,7 +90,7 @@ export const useAuth = () => {
 };
 
 // Security utilities
-const hashPassword = async (password) => {
+const hashPassword = async password => {
   const encoder = new TextEncoder();
   const data = encoder.encode(password + 'konivrer_salt_2024');
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -83,7 +104,7 @@ const generateSessionToken = () => {
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 };
 
-const isTokenExpired = (timestamp) => {
+const isTokenExpired = timestamp => {
   const now = Date.now();
   const tokenAge = now - timestamp;
   const maxAge = 24 * 60 * 60 * 1000; // 24 hours
@@ -93,21 +114,28 @@ const isTokenExpired = (timestamp) => {
 // Rate limiting for login attempts
 const rateLimiter = {
   attempts: new Map(),
-  isBlocked: (email) => {
-    const attempts = rateLimiter.attempts.get(email) || { count: 0, lastAttempt: 0 };
+  isBlocked: email => {
+    const attempts = rateLimiter.attempts.get(email) || {
+      count: 0,
+      lastAttempt: 0,
+    };
     const now = Date.now();
     const timeDiff = now - attempts.lastAttempt;
-    
-    if (timeDiff > 15 * 60 * 1000) { // Reset after 15 minutes
+
+    if (timeDiff > 15 * 60 * 1000) {
+      // Reset after 15 minutes
       rateLimiter.attempts.delete(email);
       return false;
     }
-    
+
     return attempts.count >= 5; // Block after 5 attempts
   },
   recordAttempt: (email, success) => {
-    const attempts = rateLimiter.attempts.get(email) || { count: 0, lastAttempt: 0 };
-    
+    const attempts = rateLimiter.attempts.get(email) || {
+      count: 0,
+      lastAttempt: 0,
+    };
+
     if (success) {
       rateLimiter.attempts.delete(email);
     } else {
@@ -115,7 +143,7 @@ const rateLimiter = {
       attempts.lastAttempt = Date.now();
       rateLimiter.attempts.set(email, attempts);
     }
-  }
+  },
 };
 
 export const AuthProvider = ({ children }) => {
@@ -150,10 +178,34 @@ export const AuthProvider = ({ children }) => {
         organizedEvents: 3,
       },
       achievements: [
-        { id: 1, name: 'First Victory', description: 'Win your first tournament', earned: true, rarity: 'common' },
-        { id: 2, name: 'Deck Master', description: 'Create 20 decks', earned: true, rarity: 'rare' },
-        { id: 3, name: 'Judge Apprentice', description: 'Become a Level 1 Judge', earned: true, rarity: 'epic' },
-        { id: 4, name: 'Tournament Organizer', description: 'Organize your first tournament', earned: true, rarity: 'epic' },
+        {
+          id: 1,
+          name: 'First Victory',
+          description: 'Win your first tournament',
+          earned: true,
+          rarity: 'common',
+        },
+        {
+          id: 2,
+          name: 'Deck Master',
+          description: 'Create 20 decks',
+          earned: true,
+          rarity: 'rare',
+        },
+        {
+          id: 3,
+          name: 'Judge Apprentice',
+          description: 'Become a Level 1 Judge',
+          earned: true,
+          rarity: 'epic',
+        },
+        {
+          id: 4,
+          name: 'Tournament Organizer',
+          description: 'Organize your first tournament',
+          earned: true,
+          rarity: 'epic',
+        },
       ],
       preferences: {
         theme: 'dark',
@@ -196,13 +248,55 @@ export const AuthProvider = ({ children }) => {
         organizedEvents: 23,
       },
       achievements: [
-        { id: 1, name: 'First Victory', description: 'Win your first tournament', earned: true, rarity: 'common' },
-        { id: 2, name: 'Deck Master', description: 'Create 20 decks', earned: true, rarity: 'rare' },
-        { id: 3, name: 'Judge Apprentice', description: 'Become a Level 1 Judge', earned: true, rarity: 'epic' },
-        { id: 4, name: 'Tournament Organizer', description: 'Organize your first tournament', earned: true, rarity: 'epic' },
-        { id: 5, name: 'Head Judge', description: 'Become a Level 5 Judge', earned: true, rarity: 'legendary' },
-        { id: 6, name: 'Community Leader', description: 'Organize 20 tournaments', earned: true, rarity: 'legendary' },
-        { id: 7, name: 'Platform Admin', description: 'Administrative privileges', earned: true, rarity: 'mythic' },
+        {
+          id: 1,
+          name: 'First Victory',
+          description: 'Win your first tournament',
+          earned: true,
+          rarity: 'common',
+        },
+        {
+          id: 2,
+          name: 'Deck Master',
+          description: 'Create 20 decks',
+          earned: true,
+          rarity: 'rare',
+        },
+        {
+          id: 3,
+          name: 'Judge Apprentice',
+          description: 'Become a Level 1 Judge',
+          earned: true,
+          rarity: 'epic',
+        },
+        {
+          id: 4,
+          name: 'Tournament Organizer',
+          description: 'Organize your first tournament',
+          earned: true,
+          rarity: 'epic',
+        },
+        {
+          id: 5,
+          name: 'Head Judge',
+          description: 'Become a Level 5 Judge',
+          earned: true,
+          rarity: 'legendary',
+        },
+        {
+          id: 6,
+          name: 'Community Leader',
+          description: 'Organize 20 tournaments',
+          earned: true,
+          rarity: 'legendary',
+        },
+        {
+          id: 7,
+          name: 'Platform Admin',
+          description: 'Administrative privileges',
+          earned: true,
+          rarity: 'mythic',
+        },
       ],
       preferences: {
         theme: 'dark',
@@ -237,18 +331,18 @@ export const AuthProvider = ({ children }) => {
       // Validate input
       const validation = LoginSchema.safeParse({ email, password });
       if (!validation.success) {
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: validation.error.errors[0].message,
-          field: validation.error.errors[0].path[0]
+          field: validation.error.errors[0].path[0],
         };
       }
 
       // Check rate limiting
       if (rateLimiter.isBlocked(email)) {
-        return { 
-          success: false, 
-          error: 'Too many login attempts. Please try again in 15 minutes.' 
+        return {
+          success: false,
+          error: 'Too many login attempts. Please try again in 15 minutes.',
         };
       }
 
@@ -257,7 +351,7 @@ export const AuthProvider = ({ children }) => {
 
       const userData = mockUsers[email];
       const hashedPassword = await hashPassword(password);
-      
+
       // Check if user exists and account is not locked
       if (!userData) {
         rateLimiter.recordAttempt(email, false);
@@ -265,12 +359,16 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (userData.accountLocked) {
-        return { success: false, error: 'Account is locked. Please contact support.' };
+        return {
+          success: false,
+          error: 'Account is locked. Please contact support.',
+        };
       }
 
       // For demo purposes, accept 'password' or 'Password123!'
-      const isValidPassword = password === 'password' || password === 'Password123!';
-      
+      const isValidPassword =
+        password === 'password' || password === 'Password123!';
+
       if (isValidPassword) {
         // Generate session token
         const token = generateSessionToken();
@@ -278,28 +376,30 @@ export const AuthProvider = ({ children }) => {
           token,
           timestamp: Date.now(),
           userAgent: navigator.userAgent,
-          ipAddress: '127.0.0.1' // Mock IP
+          ipAddress: '127.0.0.1', // Mock IP
         };
 
         // Update user's last login
         const updatedUser = {
           ...userData,
           lastLogin: new Date().toISOString(),
-          loginAttempts: 0
+          loginAttempts: 0,
         };
 
         setUser(updatedUser);
         setSessionToken(token);
-        
+
         // Store encrypted session data
         localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
         localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
-        
+
         rateLimiter.recordAttempt(email, true);
-        
+
         // Log security event
-        console.log(`[SECURITY] Successful login for ${email} at ${new Date().toISOString()}`);
-        
+        console.log(
+          `[SECURITY] Successful login for ${email} at ${new Date().toISOString()}`,
+        );
+
         return { success: true, user: updatedUser };
       } else {
         rateLimiter.recordAttempt(email, false);
@@ -311,15 +411,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData) => {
+  const register = async userData => {
     try {
       // Validate input with Zod schema
       const validation = RegisterSchema.safeParse(userData);
       if (!validation.success) {
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: validation.error.errors[0].message,
-          field: validation.error.errors[0].path[0]
+          field: validation.error.errors[0].path[0],
         };
       }
 
@@ -332,7 +432,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       // Check if username is taken (simulate database check)
-      const existingUsernames = Object.values(mockUsers).map(u => u.username.toLowerCase());
+      const existingUsernames = Object.values(mockUsers).map(u =>
+        u.username.toLowerCase(),
+      );
       if (existingUsernames.includes(userData.username.toLowerCase())) {
         return { success: false, error: 'Username already taken' };
       }
@@ -341,7 +443,7 @@ export const AuthProvider = ({ children }) => {
       const hashedPassword = await hashPassword(userData.password);
       const userId = Date.now();
       const avatarSeed = userData.username.toLowerCase();
-      
+
       const newUser = {
         id: userId,
         email: userData.email,
@@ -367,7 +469,13 @@ export const AuthProvider = ({ children }) => {
           organizedEvents: 0,
         },
         achievements: [
-          { id: 1, name: 'Welcome to KONIVRER', description: 'Created your account', earned: true, rarity: 'common' }
+          {
+            id: 1,
+            name: 'Welcome to KONIVRER',
+            description: 'Created your account',
+            earned: true,
+            rarity: 'common',
+          },
         ],
         preferences: {
           theme: 'dark',
@@ -392,36 +500,43 @@ export const AuthProvider = ({ children }) => {
         token,
         timestamp: Date.now(),
         userAgent: navigator.userAgent,
-        ipAddress: '127.0.0.1'
+        ipAddress: '127.0.0.1',
       };
 
       setUser(newUser);
       setSessionToken(token);
-      
+
       localStorage.setItem('konivrer_user', JSON.stringify(newUser));
       localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
-      
+
       // Log security event
-      console.log(`[SECURITY] New user registered: ${userData.email} at ${new Date().toISOString()}`);
-      
+      console.log(
+        `[SECURITY] New user registered: ${userData.email} at ${new Date().toISOString()}`,
+      );
+
       return { success: true, user: newUser };
     } catch (error) {
       console.error('[SECURITY] Registration error:', error);
-      return { success: false, error: 'Registration failed. Please try again.' };
+      return {
+        success: false,
+        error: 'Registration failed. Please try again.',
+      };
     }
   };
 
   const logout = useCallback(() => {
     // Log security event
     if (user) {
-      console.log(`[SECURITY] User logout: ${user.email} at ${new Date().toISOString()}`);
+      console.log(
+        `[SECURITY] User logout: ${user.email} at ${new Date().toISOString()}`,
+      );
     }
-    
+
     setUser(null);
     setSessionToken(null);
     localStorage.removeItem('konivrer_user');
     localStorage.removeItem('konivrer_session');
-    
+
     // Clear any cached data
     sessionStorage.clear();
   }, [user]);
@@ -430,10 +545,12 @@ export const AuthProvider = ({ children }) => {
   const validateSession = useCallback(() => {
     const sessionData = localStorage.getItem('konivrer_session');
     if (!sessionData || !sessionToken) return false;
-    
+
     try {
       const session = JSON.parse(sessionData);
-      return !isTokenExpired(session.timestamp) && session.token === sessionToken;
+      return (
+        !isTokenExpired(session.timestamp) && session.token === sessionToken
+      );
     } catch {
       return false;
     }
@@ -447,33 +564,37 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, validateSession, logout]);
 
-  const updateProfile = (updates) => {
+  const updateProfile = updates => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const applyForJudge = (level) => {
+  const applyForJudge = level => {
     const updatedUser = {
       ...user,
-      roles: user.roles.includes('judge') ? user.roles : [...user.roles, 'judge'],
+      roles: user.roles.includes('judge')
+        ? user.roles
+        : [...user.roles, 'judge'],
       judgeLevel: Math.max(user.judgeLevel, level),
     };
     setUser(updatedUser);
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const applyForOrganizer = (level) => {
+  const applyForOrganizer = level => {
     const updatedUser = {
       ...user,
-      roles: user.roles.includes('organizer') ? user.roles : [...user.roles, 'organizer'],
+      roles: user.roles.includes('organizer')
+        ? user.roles
+        : [...user.roles, 'organizer'],
       organizerLevel: Math.max(user.organizerLevel, level),
     };
     setUser(updatedUser);
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const registerForTournament = (tournamentId) => {
+  const registerForTournament = tournamentId => {
     const updatedUser = {
       ...user,
       registeredTournaments: [...user.registeredTournaments, tournamentId],
@@ -482,16 +603,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const unregisterFromTournament = (tournamentId) => {
+  const unregisterFromTournament = tournamentId => {
     const updatedUser = {
       ...user,
-      registeredTournaments: user.registeredTournaments.filter(id => id !== tournamentId),
+      registeredTournaments: user.registeredTournaments.filter(
+        id => id !== tournamentId,
+      ),
     };
     setUser(updatedUser);
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const saveDeck = (deckId) => {
+  const saveDeck = deckId => {
     const updatedUser = {
       ...user,
       savedDecks: [...user.savedDecks, deckId],
@@ -500,7 +623,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
-  const unsaveDeck = (deckId) => {
+  const unsaveDeck = deckId => {
     const updatedUser = {
       ...user,
       savedDecks: user.savedDecks.filter(id => id !== deckId),
@@ -523,14 +646,10 @@ export const AuthProvider = ({ children }) => {
     saveDeck,
     unsaveDeck,
     isAuthenticated: !!user,
-    hasRole: (role) => user?.roles?.includes(role) || false,
+    hasRole: role => user?.roles?.includes(role) || false,
     isJudge: () => user?.roles?.includes('judge') || false,
     isOrganizer: () => user?.roles?.includes('organizer') || false,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
