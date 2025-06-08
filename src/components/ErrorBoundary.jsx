@@ -94,7 +94,7 @@ class ErrorBoundary extends Component {
               </h1>
               <p className="text-gray-300 mb-6">
                 We encountered an unexpected error. This has been logged and
-                we&apos;ll look into it.
+                we'll look into it.
               </p>
             </div>
 
