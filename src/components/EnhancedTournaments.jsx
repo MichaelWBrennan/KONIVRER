@@ -41,7 +41,12 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 
 const EnhancedTournaments = () => {
-  const { user, isAuthenticated, registerForTournament, unregisterFromTournament } = useAuth();
+  const {
+    user,
+    isAuthenticated,
+    registerForTournament,
+    unregisterFromTournament,
+  } = useAuth();
   const [tournaments, setTournaments] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -58,7 +63,8 @@ const EnhancedTournaments = () => {
       {
         id: 1,
         name: 'Friday Night KONIVRER Championship',
-        description: 'Weekly competitive tournament featuring the latest Standard format with exciting prizes and professional coverage.',
+        description:
+          'Weekly competitive tournament featuring the latest Standard format with exciting prizes and professional coverage.',
         date: '2024-06-07',
         time: '19:00',
         location: 'GameHub Arena, Los Angeles',
@@ -71,7 +77,8 @@ const EnhancedTournaments = () => {
         prizePool: '$480',
         judge: 'Sarah Chen (Level 3)',
         organizer: 'GameHub Events',
-        image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
+        image:
+          'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
         tags: ['Weekly', 'Standard', 'Competitive'],
         difficulty: 'Intermediate',
         estimatedDuration: '4-5 hours',
@@ -93,7 +100,8 @@ const EnhancedTournaments = () => {
       {
         id: 2,
         name: 'Regional Qualifier - Summer Series',
-        description: 'High-stakes regional qualifier for the Summer Championship. Top 8 players qualify for the national tournament.',
+        description:
+          'High-stakes regional qualifier for the Summer Championship. Top 8 players qualify for the national tournament.',
         date: '2024-06-15',
         time: '10:00',
         location: 'Convention Center, San Francisco',
@@ -106,7 +114,8 @@ const EnhancedTournaments = () => {
         prizePool: '$4,480',
         judge: 'Michael Torres (Level 5)',
         organizer: 'KONIVRER Official',
-        image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400',
+        image:
+          'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400',
         tags: ['Qualifier', 'Regional', 'High Stakes'],
         difficulty: 'Advanced',
         estimatedDuration: '8-10 hours',
@@ -121,7 +130,11 @@ const EnhancedTournaments = () => {
           { place: '9th-16th', prize: '$100 each' },
         ],
         requirements: ['Standard legal deck', 'DCI number', 'Photo ID'],
-        features: ['Professional coverage', 'Top 8 qualification', 'Premium prizes'],
+        features: [
+          'Professional coverage',
+          'Top 8 qualification',
+          'Premium prizes',
+        ],
         rating: 4.9,
         reviews: 342,
         lastUpdated: '2024-06-04T15:45:00Z',
@@ -129,7 +142,8 @@ const EnhancedTournaments = () => {
       {
         id: 3,
         name: 'Draft Masters Weekly',
-        description: 'Casual draft tournament perfect for players of all skill levels. Learn and improve your drafting skills.',
+        description:
+          'Casual draft tournament perfect for players of all skill levels. Learn and improve your drafting skills.',
         date: '2024-06-08',
         time: '14:00',
         location: 'Local Game Store, Seattle',
@@ -142,7 +156,8 @@ const EnhancedTournaments = () => {
         prizePool: '$320',
         judge: 'Alex Kim (Level 2)',
         organizer: 'Seattle Gaming Community',
-        image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
+        image:
+          'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
         tags: ['Draft', 'Casual', 'Learning'],
         difficulty: 'Beginner',
         estimatedDuration: '3-4 hours',
@@ -164,7 +179,8 @@ const EnhancedTournaments = () => {
       {
         id: 4,
         name: 'Legacy Legends Tournament',
-        description: 'Premium legacy format tournament featuring vintage cards and classic strategies.',
+        description:
+          'Premium legacy format tournament featuring vintage cards and classic strategies.',
         date: '2024-06-22',
         time: '11:00',
         location: 'Premium Gaming Lounge, New York',
@@ -177,7 +193,8 @@ const EnhancedTournaments = () => {
         prizePool: '$3,200',
         judge: 'Jennifer Walsh (Level 4)',
         organizer: 'Legacy Masters',
-        image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
+        image:
+          'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
         tags: ['Legacy', 'Premium', 'Vintage'],
         difficulty: 'Expert',
         estimatedDuration: '6-8 hours',
@@ -199,7 +216,8 @@ const EnhancedTournaments = () => {
       {
         id: 5,
         name: 'Online Championship Series',
-        description: 'Digital tournament series with global participation and innovative online features.',
+        description:
+          'Digital tournament series with global participation and innovative online features.',
         date: '2024-06-10',
         time: '16:00',
         location: 'Online - Global',
@@ -212,7 +230,8 @@ const EnhancedTournaments = () => {
         prizePool: '$5,120',
         judge: 'AI Judge System + Human Oversight',
         organizer: 'KONIVRER Digital',
-        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400',
+        image:
+          'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400',
         tags: ['Online', 'Global', 'Digital'],
         difficulty: 'All Levels',
         estimatedDuration: '5-6 hours',
@@ -226,7 +245,10 @@ const EnhancedTournaments = () => {
           { place: '5th-8th', prize: '$200 each' },
           { place: '9th-16th', prize: '$100 each' },
         ],
-        requirements: ['Stable internet connection', 'KONIVRER Digital account'],
+        requirements: [
+          'Stable internet connection',
+          'KONIVRER Digital account',
+        ],
         features: ['Global participation', 'AI assistance', 'Digital rewards'],
         rating: 4.5,
         reviews: 1247,
@@ -235,7 +257,8 @@ const EnhancedTournaments = () => {
       {
         id: 6,
         name: 'Charity Cup - Community Heroes',
-        description: 'Special charity tournament supporting local gaming communities. All proceeds go to youth gaming programs.',
+        description:
+          'Special charity tournament supporting local gaming communities. All proceeds go to youth gaming programs.',
         date: '2024-05-30',
         time: '13:00',
         location: 'Community Center, Austin',
@@ -249,7 +272,8 @@ const EnhancedTournaments = () => {
         judge: 'Community Volunteers',
         organizer: 'Austin Gaming Alliance',
         winner: 'DragonMaster2024',
-        image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
+        image:
+          'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
         tags: ['Charity', 'Community', 'Youth Support'],
         difficulty: 'All Levels',
         estimatedDuration: '6 hours',
@@ -272,57 +296,81 @@ const EnhancedTournaments = () => {
     setTournaments(mockTournaments);
   }, []);
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = status => {
     switch (status) {
-      case 'upcoming': return <Clock className="text-blue-400" size={16} />;
-      case 'live': return <Zap className="text-green-400" size={16} />;
-      case 'completed': return <CheckCircle className="text-gray-400" size={16} />;
-      default: return <Circle className="text-gray-400" size={16} />;
+      case 'upcoming':
+        return <Clock className="text-blue-400" size={16} />;
+      case 'live':
+        return <Zap className="text-green-400" size={16} />;
+      case 'completed':
+        return <CheckCircle className="text-gray-400" size={16} />;
+      default:
+        return <Circle className="text-gray-400" size={16} />;
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'upcoming': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-      case 'live': return 'bg-green-500/20 text-green-400 border-green-500/30';
-      case 'completed': return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+      case 'upcoming':
+        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'live':
+        return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'completed':
+        return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+      default:
+        return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
   };
 
-  const getTypeIcon = (type) => {
+  const getTypeIcon = type => {
     switch (type) {
-      case 'Competitive': return <Trophy className="text-yellow-400" size={16} />;
-      case 'Qualifier': return <Target className="text-red-400" size={16} />;
-      case 'Casual': return <Heart className="text-pink-400" size={16} />;
-      case 'Premium': return <Crown className="text-purple-400" size={16} />;
-      case 'Online': return <Globe className="text-cyan-400" size={16} />;
-      case 'Charity': return <Heart className="text-green-400" size={16} />;
-      default: return <Circle className="text-gray-400" size={16} />;
+      case 'Competitive':
+        return <Trophy className="text-yellow-400" size={16} />;
+      case 'Qualifier':
+        return <Target className="text-red-400" size={16} />;
+      case 'Casual':
+        return <Heart className="text-pink-400" size={16} />;
+      case 'Premium':
+        return <Crown className="text-purple-400" size={16} />;
+      case 'Online':
+        return <Globe className="text-cyan-400" size={16} />;
+      case 'Charity':
+        return <Heart className="text-green-400" size={16} />;
+      default:
+        return <Circle className="text-gray-400" size={16} />;
     }
   };
 
-  const getDifficultyColor = (difficulty) => {
+  const getDifficultyColor = difficulty => {
     switch (difficulty) {
-      case 'Beginner': return 'text-green-400';
-      case 'Intermediate': return 'text-yellow-400';
-      case 'Advanced': return 'text-orange-400';
-      case 'Expert': return 'text-red-400';
-      default: return 'text-gray-400';
+      case 'Beginner':
+        return 'text-green-400';
+      case 'Intermediate':
+        return 'text-yellow-400';
+      case 'Advanced':
+        return 'text-orange-400';
+      case 'Expert':
+        return 'text-red-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
   const filteredTournaments = tournaments.filter(tournament => {
-    const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tournament.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tournament.location.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const matchesSearch =
+      tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tournament.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tournament.location.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesFilter = filter === 'all' || tournament.status === filter;
-    
-    const matchesFormat = selectedFormats.length === 0 || selectedFormats.includes(tournament.format);
-    
-    const matchesType = selectedTypes.length === 0 || selectedTypes.includes(tournament.type);
-    
+
+    const matchesFormat =
+      selectedFormats.length === 0 ||
+      selectedFormats.includes(tournament.format);
+
+    const matchesType =
+      selectedTypes.length === 0 || selectedTypes.includes(tournament.type);
+
     return matchesSearch && matchesFilter && matchesFormat && matchesType;
   });
 
@@ -333,7 +381,10 @@ const EnhancedTournaments = () => {
       case 'participants':
         return b.participants - a.participants;
       case 'prize':
-        return parseInt(b.prizePool.replace(/[^0-9]/g, '')) - parseInt(a.prizePool.replace(/[^0-9]/g, ''));
+        return (
+          parseInt(b.prizePool.replace(/[^0-9]/g, '')) -
+          parseInt(a.prizePool.replace(/[^0-9]/g, ''))
+        );
       case 'rating':
         return b.rating - a.rating;
       default:
@@ -358,12 +409,15 @@ const EnhancedTournaments = () => {
           className="w-full h-full object-cover transition-transform group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        
+
         {/* Status Badge */}
         <div className="absolute top-3 left-3">
-          <span className={`px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1 ${getStatusColor(tournament.status)}`}>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1 ${getStatusColor(tournament.status)}`}
+          >
             {getStatusIcon(tournament.status)}
-            {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
+            {tournament.status.charAt(0).toUpperCase() +
+              tournament.status.slice(1)}
           </span>
         </div>
 
@@ -414,7 +468,8 @@ const EnhancedTournaments = () => {
           <div className="flex items-center gap-2 text-sm">
             <Calendar size={14} className="text-accent-primary" />
             <span>
-              {new Date(tournament.date).toLocaleDateString()} at {tournament.time}
+              {new Date(tournament.date).toLocaleDateString()} at{' '}
+              {tournament.time}
             </span>
           </div>
           <div className="flex items-center gap-2 text-sm">
@@ -427,9 +482,11 @@ const EnhancedTournaments = () => {
               {tournament.participants}/{tournament.maxParticipants} players
             </span>
             <div className="flex-1 bg-tertiary rounded-full h-2 ml-2">
-              <div 
+              <div
                 className="bg-accent-primary h-2 rounded-full transition-all"
-                style={{ width: `${(tournament.participants / tournament.maxParticipants) * 100}%` }}
+                style={{
+                  width: `${(tournament.participants / tournament.maxParticipants) * 100}%`,
+                }}
               />
             </div>
           </div>
@@ -444,7 +501,9 @@ const EnhancedTournaments = () => {
           <span className="px-2 py-1 bg-accent-primary/20 text-accent-primary rounded text-xs font-medium">
             {tournament.format}
           </span>
-          <span className={`px-2 py-1 bg-gray-500/20 rounded text-xs font-medium ${getDifficultyColor(tournament.difficulty)}`}>
+          <span
+            className={`px-2 py-1 bg-gray-500/20 rounded text-xs font-medium ${getDifficultyColor(tournament.difficulty)}`}
+          >
             {tournament.difficulty}
           </span>
           <span className="px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs">
@@ -455,7 +514,10 @@ const EnhancedTournaments = () => {
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-4">
           {tournament.tags.map(tag => (
-            <span key={tag} className="px-2 py-1 bg-tertiary text-secondary rounded text-xs">
+            <span
+              key={tag}
+              className="px-2 py-1 bg-tertiary text-secondary rounded text-xs"
+            >
               {tag}
             </span>
           ))}
@@ -482,10 +544,11 @@ const EnhancedTournaments = () => {
             <Eye size={14} />
             View Details
           </Link>
-          
-          {tournament.status === 'upcoming' && isAuthenticated && (
-            user?.registeredTournaments?.includes(tournament.id) ? (
-              <motion.button 
+
+          {tournament.status === 'upcoming' &&
+            isAuthenticated &&
+            (user?.registeredTournaments?.includes(tournament.id) ? (
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => unregisterFromTournament(tournament.id)}
@@ -494,7 +557,7 @@ const EnhancedTournaments = () => {
                 Unregister
               </motion.button>
             ) : (
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => registerForTournament(tournament.id)}
@@ -502,11 +565,10 @@ const EnhancedTournaments = () => {
               >
                 Register
               </motion.button>
-            )
-          )}
-          
+            ))}
+
           {tournament.status === 'upcoming' && !isAuthenticated && (
-            <button 
+            <button
               onClick={() => alert('Please login to register for tournaments')}
               className="btn btn-primary btn-sm"
             >
@@ -581,12 +643,16 @@ const EnhancedTournaments = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="card text-center">
               <Trophy size={24} className="text-yellow-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{tournaments.filter(t => t.status === 'upcoming').length}</div>
+              <div className="text-2xl font-bold">
+                {tournaments.filter(t => t.status === 'upcoming').length}
+              </div>
               <div className="text-sm text-secondary">Upcoming</div>
             </div>
             <div className="card text-center">
               <Zap size={24} className="text-green-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{tournaments.filter(t => t.status === 'live').length}</div>
+              <div className="text-2xl font-bold">
+                {tournaments.filter(t => t.status === 'live').length}
+              </div>
               <div className="text-sm text-secondary">Live Now</div>
             </div>
             <div className="card text-center">
@@ -599,7 +665,14 @@ const EnhancedTournaments = () => {
             <div className="card text-center">
               <Gem size={24} className="text-purple-400 mx-auto mb-2" />
               <div className="text-2xl font-bold">
-                ${tournaments.reduce((sum, t) => sum + parseInt(t.prizePool.replace(/[^0-9]/g, '')), 0).toLocaleString()}
+                $
+                {tournaments
+                  .reduce(
+                    (sum, t) =>
+                      sum + parseInt(t.prizePool.replace(/[^0-9]/g, '')),
+                    0,
+                  )
+                  .toLocaleString()}
               </div>
               <div className="text-sm text-secondary">Total Prizes</div>
             </div>
@@ -615,20 +688,23 @@ const EnhancedTournaments = () => {
           <div className="flex flex-wrap items-center gap-4 mb-4">
             {/* Search */}
             <div className="relative flex-1 min-w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                size={16}
+              />
               <input
                 type="text"
                 placeholder="Search tournaments..."
                 className="input pl-10"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
             {/* Status Filter */}
             <select
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={e => setFilter(e.target.value)}
               className="input min-w-32"
             >
               <option value="all">All Status</option>
@@ -640,7 +716,7 @@ const EnhancedTournaments = () => {
             {/* Sort */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
               className="input min-w-32"
             >
               <option value="date">Sort by Date</option>
@@ -672,7 +748,11 @@ const EnhancedTournaments = () => {
             >
               <Filter size={16} />
               Filters
-              {showFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {showFilters ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
 
@@ -688,18 +768,25 @@ const EnhancedTournaments = () => {
                 <div className="grid md:grid-cols-3 gap-4">
                   {/* Format Filter */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Format</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Format
+                    </label>
                     <div className="space-y-2">
                       {['Standard', 'Draft', 'Legacy', 'Modern'].map(format => (
                         <label key={format} className="flex items-center gap-2">
                           <input
                             type="checkbox"
                             checked={selectedFormats.includes(format)}
-                            onChange={(e) => {
+                            onChange={e => {
                               if (e.target.checked) {
-                                setSelectedFormats([...selectedFormats, format]);
+                                setSelectedFormats([
+                                  ...selectedFormats,
+                                  format,
+                                ]);
                               } else {
-                                setSelectedFormats(selectedFormats.filter(f => f !== format));
+                                setSelectedFormats(
+                                  selectedFormats.filter(f => f !== format),
+                                );
                               }
                             }}
                             className="w-4 h-4"
@@ -712,18 +799,29 @@ const EnhancedTournaments = () => {
 
                   {/* Type Filter */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Type</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Type
+                    </label>
                     <div className="space-y-2">
-                      {['Competitive', 'Casual', 'Qualifier', 'Premium', 'Online', 'Charity'].map(type => (
+                      {[
+                        'Competitive',
+                        'Casual',
+                        'Qualifier',
+                        'Premium',
+                        'Online',
+                        'Charity',
+                      ].map(type => (
                         <label key={type} className="flex items-center gap-2">
                           <input
                             type="checkbox"
                             checked={selectedTypes.includes(type)}
-                            onChange={(e) => {
+                            onChange={e => {
                               if (e.target.checked) {
                                 setSelectedTypes([...selectedTypes, type]);
                               } else {
-                                setSelectedTypes(selectedTypes.filter(t => t !== type));
+                                setSelectedTypes(
+                                  selectedTypes.filter(t => t !== type),
+                                );
                               }
                             }}
                             className="w-4 h-4"
@@ -736,7 +834,9 @@ const EnhancedTournaments = () => {
 
                   {/* Additional Filters */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Features</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Features
+                    </label>
                     <div className="space-y-2">
                       <label className="flex items-center gap-2">
                         <input type="checkbox" className="w-4 h-4" />
@@ -766,13 +866,14 @@ const EnhancedTournaments = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className={viewMode === 'grid' 
-                ? 'grid md:grid-cols-2 lg:grid-cols-3 gap-6' 
-                : 'space-y-4'
+              className={
+                viewMode === 'grid'
+                  ? 'grid md:grid-cols-2 lg:grid-cols-3 gap-6'
+                  : 'space-y-4'
               }
             >
-              {sortedTournaments.map((tournament, index) => 
-                renderTournamentCard(tournament, index)
+              {sortedTournaments.map((tournament, index) =>
+                renderTournamentCard(tournament, index),
               )}
             </motion.div>
           ) : (
@@ -782,12 +883,13 @@ const EnhancedTournaments = () => {
               className="text-center py-12"
             >
               <Trophy size={64} className="text-muted mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">No tournaments found</h3>
+              <h3 className="text-2xl font-semibold mb-2">
+                No tournaments found
+              </h3>
               <p className="text-secondary mb-6">
                 {searchTerm
                   ? 'Try adjusting your search terms or filters'
-                  : 'No tournaments match your current filters'
-                }
+                  : 'No tournaments match your current filters'}
               </p>
               <button
                 onClick={() => {
