@@ -50,9 +50,16 @@ apiClient.interceptors.response.use(
   error => {
     // Handle common error scenarios
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      // Only redirect to login if we're actually trying to access protected resources
+      // Don't redirect for general API failures
+      const isProtectedRoute = error.config?.url?.includes('/auth/') || 
+                              error.config?.url?.includes('/user/') ||
+                              error.config?.url?.includes('/admin/');
+      
+      if (isProtectedRoute) {
+        localStorage.removeItem('authToken');
+        window.location.href = '/login';
+      }
     }
 
     // Log errors in development
