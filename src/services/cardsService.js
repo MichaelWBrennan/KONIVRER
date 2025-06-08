@@ -2,6 +2,7 @@
  * Cards service for handling card data operations
  */
 import { apiClient } from '../config/api.js';
+import { env } from '../config/env.js';
 
 // Fallback data in case API is unavailable
 const fallbackCards = [
@@ -58,6 +59,12 @@ class CardsService {
         }
       }
 
+      // Check if backend is available
+      if (!env.BACKEND_URL) {
+        console.log('No backend URL configured, using fallback data');
+        return fallbackCards;
+      }
+
       // Fetch from API
       console.log('Fetching cards from API...');
       const response = await apiClient.get('/cards');
@@ -91,6 +98,16 @@ class CardsService {
    */
   async syncCards() {
     try {
+      // Check if backend is available
+      if (!env.BACKEND_URL) {
+        console.log('No backend URL configured, cannot sync from Google Sheets');
+        return {
+          success: false,
+          message: 'Backend not configured. Using local fallback data.',
+          cards: fallbackCards
+        };
+      }
+
       console.log('Requesting manual sync from Google Sheets...');
       const response = await apiClient.post('/cards/sync');
       
@@ -121,6 +138,15 @@ class CardsService {
    */
   async testConnection() {
     try {
+      // Check if backend is available
+      if (!env.BACKEND_URL) {
+        return {
+          connected: false,
+          message: 'Backend not configured. Using local fallback data.',
+          error: 'No backend URL configured'
+        };
+      }
+
       const response = await apiClient.get('/cards/test-connection');
       return response.data;
     } catch (error) {
