@@ -1,4 +1,14 @@
-import { Search, Filter, Grid, List, Eye, Plus, RefreshCw, Wifi, WifiOff } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Grid,
+  List,
+  Eye,
+  Plus,
+  RefreshCw,
+  Wifi,
+  WifiOff,
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import CardViewer from '../components/CardViewer';
@@ -16,7 +26,7 @@ const CardDatabase = () => {
     keywords: [],
   });
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // New state for API integration
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,9 +81,15 @@ const CardDatabase = () => {
   };
 
   // Get unique values for filters
-  const allElements = [...new Set(cardsData.flatMap(card => card.elements || []))];
-  const allRarities = [...new Set(cardsData.map(card => card.rarity).filter(Boolean))];
-  const allKeywords = [...new Set(cardsData.flatMap(card => card.keywords || []))];
+  const allElements = [
+    ...new Set(cardsData.flatMap(card => card.elements || [])),
+  ];
+  const allRarities = [
+    ...new Set(cardsData.map(card => card.rarity).filter(Boolean)),
+  ];
+  const allKeywords = [
+    ...new Set(cardsData.flatMap(card => card.keywords || [])),
+  ];
 
   // Filter and sort cards
   const filteredAndSortedCards = cardsData
@@ -147,7 +163,7 @@ const CardDatabase = () => {
                 Browse and search through all {cardsData.length} KONIVRER cards
               </p>
             </div>
-            
+
             {/* Sync Controls */}
             <div className="flex items-center gap-3">
               {/* Connection Status */}
@@ -161,7 +177,7 @@ const CardDatabase = () => {
                   {connectionStatus?.connected ? 'Connected' : 'Offline'}
                 </span>
               </div>
-              
+
               {/* Refresh Button */}
               <button
                 onClick={() => loadCards(true)}
@@ -169,10 +185,13 @@ const CardDatabase = () => {
                 className="btn btn-secondary"
                 title="Refresh cards from cache"
               >
-                <RefreshCw className={loading ? 'animate-spin' : ''} size={16} />
+                <RefreshCw
+                  className={loading ? 'animate-spin' : ''}
+                  size={16}
+                />
                 Refresh
               </button>
-              
+
               {/* Sync Button */}
               <button
                 onClick={handleSync}
@@ -180,7 +199,10 @@ const CardDatabase = () => {
                 className="btn btn-primary"
                 title="Sync cards from Google Sheets"
               >
-                <RefreshCw className={syncing ? 'animate-spin' : ''} size={16} />
+                <RefreshCw
+                  className={syncing ? 'animate-spin' : ''}
+                  size={16}
+                />
                 {syncing ? 'Syncing...' : 'Sync'}
               </button>
             </div>
@@ -416,7 +438,7 @@ const CardDatabase = () => {
               <div>
                 <h3 className="font-semibold">Error loading cards</h3>
                 <p className="text-sm">{error}</p>
-                <button 
+                <button
                   onClick={() => loadCards(true)}
                   className="mt-2 text-sm underline hover:no-underline"
                 >
@@ -428,147 +450,149 @@ const CardDatabase = () => {
         )}
 
         {/* Cards Display */}
-        {!loading && !error && (viewMode === 'grid' ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredAndSortedCards.map(card => (
-              <div
-                key={card.id}
-                className="card hover:border-accent-primary cursor-pointer transition-all group"
-                onClick={() => setSelectedCard(card)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setSelectedCard(card);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`View details for ${card.name}`}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <h3 className="font-semibold group-hover:text-accent-primary transition-colors">
-                      {card.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-sm text-secondary">
-                      <span>Cost: {card.cost}</span>
-                      <span>•</span>
-                      <span>Power: {card.power}</span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      // TODO: Add to deck functionality
-                    }}
-                    className="btn btn-ghost btn-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <Plus size={14} />
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2 mb-2">
-                  {card.elements.map(element => (
-                    <span key={element} className="text-lg">
-                      {element}
-                    </span>
-                  ))}
-                  <span
-                    className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
-                  >
-                    {card.rarity}
-                  </span>
-                </div>
-
-                <p className="text-sm text-secondary line-clamp-3">
-                  {card.text}
-                </p>
-
-                {card.keywords.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {card.keywords.map(keyword => (
-                      <span
-                        key={keyword}
-                        className="px-2 py-1 bg-tertiary rounded text-xs"
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {filteredAndSortedCards.map(card => (
-              <div
-                key={card.id}
-                className="card hover:border-accent-primary cursor-pointer transition-all"
-                onClick={() => setSelectedCard(card)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setSelectedCard(card);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`View details for ${card.name}`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="flex items-center gap-2">
-                      {card.elements.map(element => (
-                        <span key={element} className="text-lg">
-                          {element}
-                        </span>
-                      ))}
-                    </div>
-
+        {!loading &&
+          !error &&
+          (viewMode === 'grid' ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredAndSortedCards.map(card => (
+                <div
+                  key={card.id}
+                  className="card hover:border-accent-primary cursor-pointer transition-all group"
+                  onClick={() => setSelectedCard(card)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedCard(card);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View details for ${card.name}`}
+                >
+                  <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className="font-semibold">{card.name}</h3>
-                      <p className="text-sm text-secondary line-clamp-1">
-                        {card.text}
-                      </p>
+                      <h3 className="font-semibold group-hover:text-accent-primary transition-colors">
+                        {card.name}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-secondary">
+                        <span>Cost: {card.cost}</span>
+                        <span>•</span>
+                        <span>Power: {card.power}</span>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-4 text-sm">
-                      <span>Cost: {card.cost}</span>
-                      <span>Power: {card.power}</span>
-                      <span
-                        className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
-                      >
-                        {card.rarity}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        setSelectedCard(card);
-                      }}
-                      className="btn btn-ghost btn-sm"
-                    >
-                      <Eye size={14} />
-                    </button>
                     <button
                       onClick={e => {
                         e.stopPropagation();
                         // TODO: Add to deck functionality
                       }}
-                      className="btn btn-ghost btn-sm"
+                      className="btn btn-ghost btn-sm opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Plus size={14} />
                     </button>
                   </div>
+
+                  <div className="flex items-center gap-2 mb-2">
+                    {card.elements.map(element => (
+                      <span key={element} className="text-lg">
+                        {element}
+                      </span>
+                    ))}
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
+                    >
+                      {card.rarity}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-secondary line-clamp-3">
+                    {card.text}
+                  </p>
+
+                  {card.keywords.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {card.keywords.map(keyword => (
+                        <span
+                          key={keyword}
+                          className="px-2 py-1 bg-tertiary rounded text-xs"
+                        >
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {filteredAndSortedCards.map(card => (
+                <div
+                  key={card.id}
+                  className="card hover:border-accent-primary cursor-pointer transition-all"
+                  onClick={() => setSelectedCard(card)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedCard(card);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View details for ${card.name}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="flex items-center gap-2">
+                        {card.elements.map(element => (
+                          <span key={element} className="text-lg">
+                            {element}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex-1">
+                        <h3 className="font-semibold">{card.name}</h3>
+                        <p className="text-sm text-secondary line-clamp-1">
+                          {card.text}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-4 text-sm">
+                        <span>Cost: {card.cost}</span>
+                        <span>Power: {card.power}</span>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
+                        >
+                          {card.rarity}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          setSelectedCard(card);
+                        }}
+                        className="btn btn-ghost btn-sm"
+                      >
+                        <Eye size={14} />
+                      </button>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          // TODO: Add to deck functionality
+                        }}
+                        className="btn btn-ghost btn-sm"
+                      >
+                        <Plus size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
 
         {/* No Results */}
         {!loading && !error && filteredAndSortedCards.length === 0 && (

@@ -29,11 +29,23 @@ function App() {
               <Route path="/saved-decks" element={<MyDecks />} />
               <Route path="/deckbuilder" element={<DeckBuilder />} />
               <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
-              <Route path="/deckbuilder-advanced" element={<AdvancedDeckBuilder />} />
-              <Route path="/deckbuilder-advanced/:deckId" element={<AdvancedDeckBuilder />} />
+              <Route
+                path="/deckbuilder-advanced"
+                element={<AdvancedDeckBuilder />}
+              />
+              <Route
+                path="/deckbuilder-advanced/:deckId"
+                element={<AdvancedDeckBuilder />}
+              />
               <Route path="/tournaments" element={<EnhancedTournaments />} />
-              <Route path="/tournaments/create" element={<TournamentCreate />} />
-              <Route path="/tournaments/:tournamentId/live" element={<LiveTournament />} />
+              <Route
+                path="/tournaments/create"
+                element={<TournamentCreate />}
+              />
+              <Route
+                path="/tournaments/:tournamentId/live"
+                element={<LiveTournament />}
+              />
               <Route path="/judge-center" element={<JudgeCenter />} />
               <Route path="/profile" element={<EnhancedProfile />} />
               <Route path="/social" element={<SocialHub />} />

@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { 
-  Users, 
-  MessageCircle, 
-  Heart, 
-  Share2, 
-  UserPlus, 
+import {
+  Users,
+  MessageCircle,
+  Heart,
+  Share2,
+  UserPlus,
   UserMinus,
   Search,
   Filter,
@@ -65,10 +65,14 @@ import {
   Info,
   X,
   Plus,
-  Minus
+  Minus,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { WebSocketManager, announceToScreenReader, getDeviceInfo } from '../utils/modernFeatures';
+import {
+  WebSocketManager,
+  announceToScreenReader,
+  getDeviceInfo,
+} from '../utils/modernFeatures';
 
 const SocialHub = () => {
   const { user, wsManager } = useAuth();
@@ -84,17 +88,21 @@ const SocialHub = () => {
   const [notifications, setNotifications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreatingPost, setIsCreatingPost] = useState(false);
-  const [newPost, setNewPost] = useState({ content: '', images: [], visibility: 'public' });
+  const [newPost, setNewPost] = useState({
+    content: '',
+    images: [],
+    visibility: 'public',
+  });
   const [voiceCall, setVoiceCall] = useState(null);
   const [videoCall, setVideoCall] = useState(null);
   const [streamingUsers, setStreamingUsers] = useState([]);
-  
+
   // Real-time features
   const [typingUsers, setTypingUsers] = useState(new Set());
   const [userPresence, setUserPresence] = useState(new Map());
   const [liveActivities, setLiveActivities] = useState([]);
   const [trendingTopics, setTrendingTopics] = useState([]);
-  
+
   // Advanced features
   const [communityEvents, setCommunityEvents] = useState([]);
   const [achievements, setAchievements] = useState([]);
@@ -110,7 +118,7 @@ const SocialHub = () => {
   useEffect(() => {
     initializeSocialData();
     setupWebSocketListeners();
-    
+
     return () => {
       if (wsManager) {
         wsManager.send('leave_social_hub', { userId: user?.id });
@@ -131,7 +139,7 @@ const SocialHub = () => {
         lastSeen: new Date().toISOString(),
         mutualFriends: 12,
         isStreaming: true,
-        streamTitle: 'Climbing to Legend Rank!'
+        streamTitle: 'Climbing to Legend Rank!',
       },
       {
         id: 2,
@@ -142,7 +150,7 @@ const SocialHub = () => {
         activity: 'In Tournament',
         lastSeen: new Date(Date.now() - 300000).toISOString(),
         mutualFriends: 8,
-        isStreaming: false
+        isStreaming: false,
       },
       {
         id: 3,
@@ -153,8 +161,8 @@ const SocialHub = () => {
         activity: 'Last seen 2 hours ago',
         lastSeen: new Date(Date.now() - 7200000).toISOString(),
         mutualFriends: 15,
-        isStreaming: false
-      }
+        isStreaming: false,
+      },
     ];
 
     const mockPosts = [
@@ -165,9 +173,10 @@ const SocialHub = () => {
           username: 'ElementalMage',
           displayName: 'Sarah Wilson',
           avatar: '/api/placeholder/40/40',
-          verified: true
+          verified: true,
         },
-        content: 'Just hit Legend rank with my new Elemental Storm deck! The meta is really shifting towards more aggressive strategies. What do you all think?',
+        content:
+          'Just hit Legend rank with my new Elemental Storm deck! The meta is really shifting towards more aggressive strategies. What do you all think?',
         images: ['/api/placeholder/400/300'],
         timestamp: new Date(Date.now() - 3600000).toISOString(),
         likes: 47,
@@ -177,7 +186,7 @@ const SocialHub = () => {
         isBookmarked: true,
         visibility: 'public',
         tags: ['#Legend', '#ElementalStorm', '#Meta'],
-        location: 'Los Angeles, CA'
+        location: 'Los Angeles, CA',
       },
       {
         id: 2,
@@ -186,9 +195,10 @@ const SocialHub = () => {
           username: 'StormCaller',
           displayName: 'Mike Chen',
           avatar: '/api/placeholder/40/40',
-          verified: false
+          verified: false,
         },
-        content: 'Streaming some tournament prep! Come watch and learn some advanced strategies. Link in bio!',
+        content:
+          'Streaming some tournament prep! Come watch and learn some advanced strategies. Link in bio!',
         images: [],
         timestamp: new Date(Date.now() - 7200000).toISOString(),
         likes: 23,
@@ -198,8 +208,8 @@ const SocialHub = () => {
         isBookmarked: false,
         visibility: 'public',
         tags: ['#Stream', '#Tournament', '#Strategy'],
-        streamUrl: 'https://stream.konivrer.com/stormcaller'
-      }
+        streamUrl: 'https://stream.konivrer.com/stormcaller',
+      },
     ];
 
     const mockCommunities = [
@@ -214,7 +224,7 @@ const SocialHub = () => {
         isVerified: true,
         moderators: ['ProPlayer123', 'MetaAnalyst'],
         rules: ['Be respectful', 'No spam', 'Stay on topic'],
-        recentActivity: 'Very Active'
+        recentActivity: 'Very Active',
       },
       {
         id: 2,
@@ -226,8 +236,12 @@ const SocialHub = () => {
         category: 'Deck Building',
         isVerified: false,
         moderators: ['DeckMaster', 'BuilderPro'],
-        rules: ['Share constructive feedback', 'Include deck lists', 'No netdecking shame'],
-        recentActivity: 'Active'
+        rules: [
+          'Share constructive feedback',
+          'Include deck lists',
+          'No netdecking shame',
+        ],
+        recentActivity: 'Active',
       },
       {
         id: 3,
@@ -239,9 +253,13 @@ const SocialHub = () => {
         category: 'Beginner',
         isVerified: true,
         moderators: ['HelpfulVet', 'TeacherMage'],
-        rules: ['Be patient and helpful', 'No question is too basic', 'Encourage learning'],
-        recentActivity: 'Very Active'
-      }
+        rules: [
+          'Be patient and helpful',
+          'No question is too basic',
+          'Encourage learning',
+        ],
+        recentActivity: 'Very Active',
+      },
     ];
 
     const mockNotifications = [
@@ -252,7 +270,7 @@ const SocialHub = () => {
         message: 'sent you a friend request',
         timestamp: new Date(Date.now() - 1800000).toISOString(),
         isRead: false,
-        action: 'friend_request'
+        action: 'friend_request',
       },
       {
         id: 2,
@@ -261,17 +279,20 @@ const SocialHub = () => {
         message: 'liked your post about deck building',
         timestamp: new Date(Date.now() - 3600000).toISOString(),
         isRead: false,
-        action: 'view_post'
+        action: 'view_post',
       },
       {
         id: 3,
         type: 'tournament',
-        from: { username: 'KONIVRER Official', avatar: '/api/placeholder/32/32' },
+        from: {
+          username: 'KONIVRER Official',
+          avatar: '/api/placeholder/32/32',
+        },
         message: 'Tournament registration opens in 1 hour',
         timestamp: new Date(Date.now() - 5400000).toISOString(),
         isRead: true,
-        action: 'view_tournament'
-      }
+        action: 'view_tournament',
+      },
     ];
 
     setFriends(mockFriends);
@@ -286,14 +307,29 @@ const SocialHub = () => {
       { tag: '#ElementalStorm', posts: 234, growth: '+15%' },
       { tag: '#WorldChampionship', posts: 567, growth: '+45%' },
       { tag: '#NewMeta', posts: 189, growth: '+8%' },
-      { tag: '#DeckTech', posts: 123, growth: '+22%' }
+      { tag: '#DeckTech', posts: 123, growth: '+22%' },
     ]);
 
     // Set live activities
     setLiveActivities([
-      { type: 'tournament', title: 'Weekly Championship', participants: 128, status: 'live' },
-      { type: 'stream', title: 'Pro Player Coaching', viewers: 1250, status: 'live' },
-      { type: 'event', title: 'Community Deck Review', participants: 45, status: 'starting_soon' }
+      {
+        type: 'tournament',
+        title: 'Weekly Championship',
+        participants: 128,
+        status: 'live',
+      },
+      {
+        type: 'stream',
+        title: 'Pro Player Coaching',
+        viewers: 1250,
+        status: 'live',
+      },
+      {
+        type: 'event',
+        title: 'Community Deck Review',
+        participants: 45,
+        status: 'starting_soon',
+      },
     ]);
   };
 
@@ -304,18 +340,21 @@ const SocialHub = () => {
     wsManager.send('join_social_hub', { userId: user?.id });
 
     // Listen for real-time updates
-    wsManager.on('user_online', (userData) => {
-      setOnlineUsers(prev => [...prev.filter(u => u.id !== userData.id), userData]);
+    wsManager.on('user_online', userData => {
+      setOnlineUsers(prev => [
+        ...prev.filter(u => u.id !== userData.id),
+        userData,
+      ]);
       setUserPresence(prev => new Map(prev.set(userData.id, 'online')));
       announceToScreenReader(`${userData.displayName} came online`);
     });
 
-    wsManager.on('user_offline', (userData) => {
+    wsManager.on('user_offline', userData => {
       setOnlineUsers(prev => prev.filter(u => u.id !== userData.id));
       setUserPresence(prev => new Map(prev.set(userData.id, 'offline')));
     });
 
-    wsManager.on('new_message', (message) => {
+    wsManager.on('new_message', message => {
       if (activeChat && message.chatId === activeChat.id) {
         setChatMessages(prev => [...prev, message]);
         scrollToBottom();
@@ -323,7 +362,7 @@ const SocialHub = () => {
       announceToScreenReader(`New message from ${message.author.displayName}`);
     });
 
-    wsManager.on('user_typing', (data) => {
+    wsManager.on('user_typing', data => {
       if (data.chatId === activeChat?.id) {
         setTypingUsers(prev => new Set(prev.add(data.userId)));
         setTimeout(() => {
@@ -336,41 +375,54 @@ const SocialHub = () => {
       }
     });
 
-    wsManager.on('new_post', (post) => {
+    wsManager.on('new_post', post => {
       setPosts(prev => [post, ...prev]);
       announceToScreenReader(`New post from ${post.author.displayName}`);
     });
 
-    wsManager.on('post_liked', (data) => {
-      setPosts(prev => prev.map(post => 
-        post.id === data.postId 
-          ? { ...post, likes: post.likes + (data.liked ? 1 : -1), isLiked: data.liked }
-          : post
-      ));
+    wsManager.on('post_liked', data => {
+      setPosts(prev =>
+        prev.map(post =>
+          post.id === data.postId
+            ? {
+                ...post,
+                likes: post.likes + (data.liked ? 1 : -1),
+                isLiked: data.liked,
+              }
+            : post,
+        ),
+      );
     });
 
-    wsManager.on('friend_request', (request) => {
+    wsManager.on('friend_request', request => {
       setFriendRequests(prev => [...prev, request]);
-      setNotifications(prev => [{
-        id: Date.now(),
-        type: 'friend_request',
-        from: request.from,
-        message: 'sent you a friend request',
-        timestamp: new Date().toISOString(),
-        isRead: false,
-        action: 'friend_request'
-      }, ...prev]);
+      setNotifications(prev => [
+        {
+          id: Date.now(),
+          type: 'friend_request',
+          from: request.from,
+          message: 'sent you a friend request',
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          action: 'friend_request',
+        },
+        ...prev,
+      ]);
       announceToScreenReader(`Friend request from ${request.from.displayName}`);
     });
 
-    wsManager.on('voice_call_incoming', (callData) => {
+    wsManager.on('voice_call_incoming', callData => {
       setVoiceCall({ ...callData, status: 'incoming' });
-      announceToScreenReader(`Incoming voice call from ${callData.from.displayName}`);
+      announceToScreenReader(
+        `Incoming voice call from ${callData.from.displayName}`,
+      );
     });
 
-    wsManager.on('video_call_incoming', (callData) => {
+    wsManager.on('video_call_incoming', callData => {
       setVideoCall({ ...callData, status: 'incoming' });
-      announceToScreenReader(`Incoming video call from ${callData.from.displayName}`);
+      announceToScreenReader(
+        `Incoming video call from ${callData.from.displayName}`,
+      );
     });
   };
 
@@ -390,16 +442,16 @@ const SocialHub = () => {
         id: user.id,
         username: user.username,
         displayName: user.displayName,
-        avatar: user.avatar
+        avatar: user.avatar,
       },
       content: content.trim(),
       type,
       timestamp: new Date().toISOString(),
-      isRead: false
+      isRead: false,
     };
 
     setChatMessages(prev => [...prev, message]);
-    
+
     if (wsManager) {
       wsManager.send('send_message', message);
     }
@@ -419,7 +471,7 @@ const SocialHub = () => {
         username: user.username,
         displayName: user.displayName,
         avatar: user.avatar,
-        verified: user.verified || false
+        verified: user.verified || false,
       },
       content: newPost.content,
       images: newPost.images,
@@ -430,11 +482,11 @@ const SocialHub = () => {
       isLiked: false,
       isBookmarked: false,
       visibility: newPost.visibility,
-      tags: extractTags(newPost.content)
+      tags: extractTags(newPost.content),
     };
 
     setPosts(prev => [post, ...prev]);
-    
+
     if (wsManager) {
       wsManager.send('create_post', post);
     }
@@ -444,49 +496,51 @@ const SocialHub = () => {
     announceToScreenReader('Post created successfully');
   };
 
-  const extractTags = (content) => {
+  const extractTags = content => {
     const tagRegex = /#\w+/g;
     return content.match(tagRegex) || [];
   };
 
-  const likePost = (postId) => {
-    setPosts(prev => prev.map(post => {
-      if (post.id === postId) {
-        const newIsLiked = !post.isLiked;
-        const newLikes = post.likes + (newIsLiked ? 1 : -1);
-        
-        if (wsManager) {
-          wsManager.send('like_post', { postId, liked: newIsLiked });
+  const likePost = postId => {
+    setPosts(prev =>
+      prev.map(post => {
+        if (post.id === postId) {
+          const newIsLiked = !post.isLiked;
+          const newLikes = post.likes + (newIsLiked ? 1 : -1);
+
+          if (wsManager) {
+            wsManager.send('like_post', { postId, liked: newIsLiked });
+          }
+
+          return { ...post, isLiked: newIsLiked, likes: newLikes };
         }
-        
-        return { ...post, isLiked: newIsLiked, likes: newLikes };
-      }
-      return post;
-    }));
+        return post;
+      }),
+    );
   };
 
-  const sendFriendRequest = (userId) => {
+  const sendFriendRequest = userId => {
     if (wsManager) {
-      wsManager.send('send_friend_request', { 
+      wsManager.send('send_friend_request', {
         to: userId,
         from: {
           id: user.id,
           username: user.username,
           displayName: user.displayName,
-          avatar: user.avatar
-        }
+          avatar: user.avatar,
+        },
       });
     }
     announceToScreenReader('Friend request sent');
   };
 
-  const acceptFriendRequest = (requestId) => {
+  const acceptFriendRequest = requestId => {
     setFriendRequests(prev => prev.filter(req => req.id !== requestId));
     // Add to friends list logic here
     announceToScreenReader('Friend request accepted');
   };
 
-  const startVoiceCall = (friendId) => {
+  const startVoiceCall = friendId => {
     const friend = friends.find(f => f.id === friendId);
     if (friend && wsManager) {
       wsManager.send('start_voice_call', { to: friendId });
@@ -494,12 +548,12 @@ const SocialHub = () => {
         id: Date.now(),
         with: friend,
         status: 'calling',
-        startTime: new Date().toISOString()
+        startTime: new Date().toISOString(),
       });
     }
   };
 
-  const startVideoCall = (friendId) => {
+  const startVideoCall = friendId => {
     const friend = friends.find(f => f.id === friendId);
     if (friend && wsManager) {
       wsManager.send('start_video_call', { to: friendId });
@@ -507,7 +561,7 @@ const SocialHub = () => {
         id: Date.now(),
         with: friend,
         status: 'calling',
-        startTime: new Date().toISOString()
+        startTime: new Date().toISOString(),
       });
     }
   };
@@ -523,7 +577,7 @@ const SocialHub = () => {
     setVideoCall(null);
   };
 
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = timestamp => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now - date;
@@ -538,12 +592,16 @@ const SocialHub = () => {
     return date.toLocaleDateString();
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'online': return 'bg-green-400';
-      case 'away': return 'bg-yellow-400';
-      case 'busy': return 'bg-red-400';
-      default: return 'bg-gray-400';
+      case 'online':
+        return 'bg-green-400';
+      case 'away':
+        return 'bg-yellow-400';
+      case 'busy':
+        return 'bg-red-400';
+      default:
+        return 'bg-gray-400';
     }
   };
 
@@ -556,7 +614,10 @@ const SocialHub = () => {
             <h1 className="text-2xl font-bold">Social Hub</h1>
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Bell size={20} className="text-muted hover:text-primary cursor-pointer" />
+                <Bell
+                  size={20}
+                  className="text-muted hover:text-primary cursor-pointer"
+                />
                 {notifications.filter(n => !n.isRead).length > 0 && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
                     {notifications.filter(n => !n.isRead).length}
@@ -564,12 +625,16 @@ const SocialHub = () => {
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${getStatusColor('online')}`} />
-                <span className="text-sm text-muted">{onlineUsers.length} online</span>
+                <div
+                  className={`w-2 h-2 rounded-full ${getStatusColor('online')}`}
+                />
+                <span className="text-sm text-muted">
+                  {onlineUsers.length} online
+                </span>
               </div>
             </div>
           </div>
-          
+
           {/* Navigation Tabs */}
           <div className="flex gap-6 mt-4">
             {[
@@ -577,14 +642,14 @@ const SocialHub = () => {
               { id: 'friends', label: 'Friends', icon: Users },
               { id: 'communities', label: 'Communities', icon: Globe },
               { id: 'messages', label: 'Messages', icon: MessageCircle },
-              { id: 'live', label: 'Live', icon: Video }
+              { id: 'live', label: 'Live', icon: Video },
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === tab.id 
-                    ? 'bg-accent-primary text-white' 
+                  activeTab === tab.id
+                    ? 'bg-accent-primary text-white'
                     : 'text-muted hover:text-primary hover:bg-tertiary'
                 }`}
               >
@@ -616,7 +681,12 @@ const SocialHub = () => {
                       <div className="space-y-4">
                         <textarea
                           value={newPost.content}
-                          onChange={(e) => setNewPost(prev => ({ ...prev, content: e.target.value }))}
+                          onChange={e =>
+                            setNewPost(prev => ({
+                              ...prev,
+                              content: e.target.value,
+                            }))
+                          }
                           placeholder="Share your thoughts..."
                           className="w-full p-3 bg-tertiary rounded-lg resize-none"
                           rows={4}
@@ -634,7 +704,12 @@ const SocialHub = () => {
                             </button>
                             <select
                               value={newPost.visibility}
-                              onChange={(e) => setNewPost(prev => ({ ...prev, visibility: e.target.value }))}
+                              onChange={e =>
+                                setNewPost(prev => ({
+                                  ...prev,
+                                  visibility: e.target.value,
+                                }))
+                              }
                               className="input text-sm"
                             >
                               <option value="public">Public</option>
@@ -677,13 +752,19 @@ const SocialHub = () => {
                           />
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-medium">{post.author.displayName}</span>
+                              <span className="font-medium">
+                                {post.author.displayName}
+                              </span>
                               {post.author.verified && (
-                                <CheckCircle size={14} className="text-blue-400" />
+                                <CheckCircle
+                                  size={14}
+                                  className="text-blue-400"
+                                />
                               )}
                             </div>
                             <div className="text-sm text-muted">
-                              @{post.author.username} • {formatTimestamp(post.timestamp)}
+                              @{post.author.username} •{' '}
+                              {formatTimestamp(post.timestamp)}
                               {post.location && (
                                 <>
                                   <span className="mx-1">•</span>
@@ -705,7 +786,10 @@ const SocialHub = () => {
                         {post.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
                             {post.tags.map(tag => (
-                              <span key={tag} className="text-accent-primary text-sm hover:underline cursor-pointer">
+                              <span
+                                key={tag}
+                                className="text-accent-primary text-sm hover:underline cursor-pointer"
+                              >
                                 {tag}
                               </span>
                             ))}
@@ -735,10 +819,15 @@ const SocialHub = () => {
                           <button
                             onClick={() => likePost(post.id)}
                             className={`flex items-center gap-2 text-sm transition-colors ${
-                              post.isLiked ? 'text-red-400' : 'text-muted hover:text-red-400'
+                              post.isLiked
+                                ? 'text-red-400'
+                                : 'text-muted hover:text-red-400'
                             }`}
                           >
-                            <Heart size={16} className={post.isLiked ? 'fill-current' : ''} />
+                            <Heart
+                              size={16}
+                              className={post.isLiked ? 'fill-current' : ''}
+                            />
                             {post.likes}
                           </button>
                           <button className="flex items-center gap-2 text-sm text-muted hover:text-primary">
@@ -755,7 +844,10 @@ const SocialHub = () => {
                             post.isBookmarked ? 'text-yellow-400' : ''
                           }`}
                         >
-                          <Bookmark size={16} className={post.isBookmarked ? 'fill-current' : ''} />
+                          <Bookmark
+                            size={16}
+                            className={post.isBookmarked ? 'fill-current' : ''}
+                          />
                         </button>
                       </div>
                     </div>
@@ -770,11 +862,16 @@ const SocialHub = () => {
                 {friendRequests.length > 0 && (
                   <div className="card">
                     <div className="p-4 border-b border-color">
-                      <h3 className="font-semibold">Friend Requests ({friendRequests.length})</h3>
+                      <h3 className="font-semibold">
+                        Friend Requests ({friendRequests.length})
+                      </h3>
                     </div>
                     <div className="p-4 space-y-3">
                       {friendRequests.map(request => (
-                        <div key={request.id} className="flex items-center justify-between">
+                        <div
+                          key={request.id}
+                          className="flex items-center justify-between"
+                        >
                           <div className="flex items-center gap-3">
                             <img
                               src={request.from.avatar}
@@ -782,8 +879,12 @@ const SocialHub = () => {
                               className="w-10 h-10 rounded-full"
                             />
                             <div>
-                              <div className="font-medium">{request.from.displayName}</div>
-                              <div className="text-sm text-muted">@{request.from.username}</div>
+                              <div className="font-medium">
+                                {request.from.displayName}
+                              </div>
+                              <div className="text-sm text-muted">
+                                @{request.from.username}
+                              </div>
                             </div>
                           </div>
                           <div className="flex gap-2">
@@ -807,15 +908,20 @@ const SocialHub = () => {
                 <div className="card">
                   <div className="p-4 border-b border-color">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">Friends ({friends.length})</h3>
+                      <h3 className="font-semibold">
+                        Friends ({friends.length})
+                      </h3>
                       <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                        <Search
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                          size={16}
+                        />
                         <input
                           type="text"
                           placeholder="Search friends..."
                           className="input pl-10 w-64"
                           value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
+                          onChange={e => setSearchTerm(e.target.value)}
                         />
                       </div>
                     </div>
@@ -823,12 +929,20 @@ const SocialHub = () => {
                   <div className="p-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       {friends
-                        .filter(friend => 
-                          friend.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          friend.username.toLowerCase().includes(searchTerm.toLowerCase())
+                        .filter(
+                          friend =>
+                            friend.displayName
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()) ||
+                            friend.username
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()),
                         )
                         .map(friend => (
-                          <div key={friend.id} className="flex items-center justify-between p-3 bg-tertiary rounded-lg">
+                          <div
+                            key={friend.id}
+                            className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
+                          >
                             <div className="flex items-center gap-3">
                               <div className="relative">
                                 <img
@@ -836,7 +950,9 @@ const SocialHub = () => {
                                   alt={friend.displayName}
                                   className="w-12 h-12 rounded-full"
                                 />
-                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-card ${getStatusColor(friend.status)}`} />
+                                <div
+                                  className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-card ${getStatusColor(friend.status)}`}
+                                />
                                 {friend.isStreaming && (
                                   <div className="absolute -top-1 -left-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
                                     <Video size={8} className="text-white" />
@@ -844,9 +960,15 @@ const SocialHub = () => {
                                 )}
                               </div>
                               <div>
-                                <div className="font-medium">{friend.displayName}</div>
-                                <div className="text-sm text-muted">@{friend.username}</div>
-                                <div className="text-xs text-muted">{friend.activity}</div>
+                                <div className="font-medium">
+                                  {friend.displayName}
+                                </div>
+                                <div className="text-sm text-muted">
+                                  @{friend.username}
+                                </div>
+                                <div className="text-xs text-muted">
+                                  {friend.activity}
+                                </div>
                               </div>
                             </div>
                             <div className="flex gap-1">
@@ -890,7 +1012,10 @@ const SocialHub = () => {
                   <div className="p-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       {communities.map(community => (
-                        <div key={community.id} className="border border-color rounded-lg p-4">
+                        <div
+                          key={community.id}
+                          className="border border-color rounded-lg p-4"
+                        >
                           <div className="flex items-start gap-3 mb-3">
                             <img
                               src={community.avatar}
@@ -899,14 +1024,22 @@ const SocialHub = () => {
                             />
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
-                                <h4 className="font-medium">{community.name}</h4>
+                                <h4 className="font-medium">
+                                  {community.name}
+                                </h4>
                                 {community.isVerified && (
-                                  <CheckCircle size={14} className="text-blue-400" />
+                                  <CheckCircle
+                                    size={14}
+                                    className="text-blue-400"
+                                  />
                                 )}
                               </div>
-                              <p className="text-sm text-muted mb-1">{community.description}</p>
+                              <p className="text-sm text-muted mb-1">
+                                {community.description}
+                              </p>
                               <div className="text-xs text-muted">
-                                {community.memberCount.toLocaleString()} members • {community.recentActivity}
+                                {community.memberCount.toLocaleString()} members
+                                • {community.recentActivity}
                               </div>
                             </div>
                           </div>
@@ -916,7 +1049,9 @@ const SocialHub = () => {
                             </span>
                             <button
                               className={`btn btn-sm ${
-                                community.isJoined ? 'btn-secondary' : 'btn-primary'
+                                community.isJoined
+                                  ? 'btn-secondary'
+                                  : 'btn-primary'
                               }`}
                             >
                               {community.isJoined ? 'Joined' : 'Join'}
@@ -940,7 +1075,10 @@ const SocialHub = () => {
                   <div className="p-4">
                     <div className="grid md:grid-cols-2 gap-4">
                       {streamingUsers.map(streamer => (
-                        <div key={streamer.id} className="relative bg-black rounded-lg overflow-hidden">
+                        <div
+                          key={streamer.id}
+                          className="relative bg-black rounded-lg overflow-hidden"
+                        >
                           <div className="aspect-video bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
                             <Play size={48} className="text-white opacity-80" />
                           </div>
@@ -954,9 +1092,13 @@ const SocialHub = () => {
                                 alt={streamer.displayName}
                                 className="w-6 h-6 rounded-full"
                               />
-                              <span className="text-white font-medium">{streamer.displayName}</span>
+                              <span className="text-white font-medium">
+                                {streamer.displayName}
+                              </span>
                             </div>
-                            <div className="text-white text-sm">{streamer.streamTitle}</div>
+                            <div className="text-white text-sm">
+                              {streamer.streamTitle}
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -971,17 +1113,27 @@ const SocialHub = () => {
                   </div>
                   <div className="p-4 space-y-3">
                     {liveActivities.map((activity, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-tertiary rounded-lg">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
+                      >
                         <div className="flex items-center gap-3">
-                          <div className={`w-3 h-3 rounded-full ${
-                            activity.status === 'live' ? 'bg-red-500 animate-pulse' : 'bg-yellow-500'
-                          }`} />
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              activity.status === 'live'
+                                ? 'bg-red-500 animate-pulse'
+                                : 'bg-yellow-500'
+                            }`}
+                          />
                           <div>
                             <div className="font-medium">{activity.title}</div>
                             <div className="text-sm text-muted">
-                              {activity.type === 'tournament' && `${activity.participants} participants`}
-                              {activity.type === 'stream' && `${activity.viewers} viewers`}
-                              {activity.type === 'event' && `${activity.participants} participants`}
+                              {activity.type === 'tournament' &&
+                                `${activity.participants} participants`}
+                              {activity.type === 'stream' &&
+                                `${activity.viewers} viewers`}
+                              {activity.type === 'event' &&
+                                `${activity.participants} participants`}
                             </div>
                           </div>
                         </div>
@@ -1001,7 +1153,9 @@ const SocialHub = () => {
             {/* Online Friends */}
             <div className="card">
               <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">Online Now ({onlineUsers.length})</h3>
+                <h3 className="font-semibold">
+                  Online Now ({onlineUsers.length})
+                </h3>
               </div>
               <div className="p-4 space-y-2">
                 {onlineUsers.slice(0, 8).map(friend => (
@@ -1012,11 +1166,17 @@ const SocialHub = () => {
                         alt={friend.displayName}
                         className="w-8 h-8 rounded-full"
                       />
-                      <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border border-card ${getStatusColor(friend.status)}`} />
+                      <div
+                        className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border border-card ${getStatusColor(friend.status)}`}
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm truncate">{friend.displayName}</div>
-                      <div className="text-xs text-muted truncate">{friend.activity}</div>
+                      <div className="font-medium text-sm truncate">
+                        {friend.displayName}
+                      </div>
+                      <div className="text-xs text-muted truncate">
+                        {friend.activity}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -1030,10 +1190,17 @@ const SocialHub = () => {
               </div>
               <div className="p-4 space-y-3">
                 {trendingTopics.map((topic, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div>
-                      <div className="font-medium text-accent-primary">{topic.tag}</div>
-                      <div className="text-sm text-muted">{topic.posts} posts</div>
+                      <div className="font-medium text-accent-primary">
+                        {topic.tag}
+                      </div>
+                      <div className="text-sm text-muted">
+                        {topic.posts} posts
+                      </div>
                     </div>
                     <div className="text-sm text-green-400">{topic.growth}</div>
                   </div>
@@ -1081,7 +1248,9 @@ const SocialHub = () => {
                 className="w-8 h-8 rounded-full"
               />
               <div>
-                <div className="font-medium text-sm">{activeChat.displayName}</div>
+                <div className="font-medium text-sm">
+                  {activeChat.displayName}
+                </div>
                 <div className="text-xs text-muted">{activeChat.status}</div>
               </div>
             </div>
@@ -1113,7 +1282,8 @@ const SocialHub = () => {
             ))}
             {typingUsers.size > 0 && (
               <div className="text-xs text-muted italic">
-                {Array.from(typingUsers).join(', ')} {typingUsers.size === 1 ? 'is' : 'are'} typing...
+                {Array.from(typingUsers).join(', ')}{' '}
+                {typingUsers.size === 1 ? 'is' : 'are'} typing...
               </div>
             )}
           </div>
@@ -1126,16 +1296,16 @@ const SocialHub = () => {
                 type="text"
                 placeholder="Type a message..."
                 className="input flex-1 text-sm"
-                onKeyPress={(e) => {
+                onKeyPress={e => {
                   if (e.key === 'Enter') {
                     sendMessage(e.target.value);
                   }
                 }}
-                onChange={(e) => {
+                onChange={e => {
                   if (wsManager) {
-                    wsManager.send('user_typing', { 
+                    wsManager.send('user_typing', {
                       chatId: activeChat.id,
-                      userId: user.id 
+                      userId: user.id,
                     });
                   }
                 }}
@@ -1164,10 +1334,15 @@ const SocialHub = () => {
               alt={voiceCall.with.displayName}
               className="w-24 h-24 rounded-full mx-auto mb-4"
             />
-            <h3 className="text-lg font-semibold mb-2">{voiceCall.with.displayName}</h3>
+            <h3 className="text-lg font-semibold mb-2">
+              {voiceCall.with.displayName}
+            </h3>
             <p className="text-muted mb-6">
-              {voiceCall.status === 'calling' ? 'Calling...' : 
-               voiceCall.status === 'incoming' ? 'Incoming call' : 'Connected'}
+              {voiceCall.status === 'calling'
+                ? 'Calling...'
+                : voiceCall.status === 'incoming'
+                  ? 'Incoming call'
+                  : 'Connected'}
             </p>
             <div className="flex gap-4 justify-center">
               {voiceCall.status === 'incoming' && (
@@ -1176,10 +1351,7 @@ const SocialHub = () => {
                   Accept
                 </button>
               )}
-              <button
-                onClick={endCall}
-                className="btn btn-red"
-              >
+              <button onClick={endCall} className="btn btn-red">
                 <PhoneOff size={16} />
                 {voiceCall.status === 'incoming' ? 'Decline' : 'End Call'}
               </button>
