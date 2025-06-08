@@ -4,6 +4,7 @@ import {
   PlusCircle,
   BookOpen,
   User,
+  Users,
   Search,
   Menu,
   X,
