@@ -27,8 +27,7 @@ const getBackendUrl = () => {
 
   // Production default - disable backend calls if not configured
   return (
-    import.meta.env.VITE_BACKEND_URL_PROD ||
-    null // No backend URL means use fallback data only
+    import.meta.env.VITE_BACKEND_URL_PROD || null // No backend URL means use fallback data only
   );
 };
 
@@ -66,10 +65,13 @@ export const validateEnv = () => {
   const missing = optionalEnvVars.filter(key => !env[key]);
 
   if (missing.length > 0) {
-    console.warn('Environment variables not configured (using fallback mode):', {
-      missing,
-      note: 'App will use fallback data without backend integration'
-    });
+    console.warn(
+      'Environment variables not configured (using fallback mode):',
+      {
+        missing,
+        note: 'App will use fallback data without backend integration',
+      },
+    );
   }
 
   // Log configuration in development
