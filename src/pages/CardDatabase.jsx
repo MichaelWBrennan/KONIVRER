@@ -1,8 +1,8 @@
-import { Search, Filter, Grid, List, Eye, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { Search, Filter, Grid, List, Eye, Plus, RefreshCw, Wifi, WifiOff } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 import CardViewer from '../components/CardViewer';
-import cardsData from '../data/cards.json';
+import cardsService from '../services/cardsService';
 
 const CardDatabase = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,11 +16,64 @@ const CardDatabase = () => {
     keywords: [],
   });
   const [showFilters, setShowFilters] = useState(false);
+  
+  // New state for API integration
+  const [cardsData, setCardsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(null);
+
+  // Load cards on component mount
+  useEffect(() => {
+    loadCards();
+    checkConnection();
+  }, []);
+
+  const loadCards = async (forceRefresh = false) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const cards = await cardsService.getCards(forceRefresh);
+      setCardsData(cards);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error loading cards:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSync = async () => {
+    try {
+      setSyncing(true);
+      const result = await cardsService.syncCards();
+      if (result.success) {
+        setCardsData(result.cards);
+        alert(`Success: ${result.message}`);
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const checkConnection = async () => {
+    try {
+      const status = await cardsService.testConnection();
+      setConnectionStatus(status);
+    } catch (err) {
+      setConnectionStatus({ connected: false, error: err.message });
+    }
+  };
 
   // Get unique values for filters
-  const allElements = [...new Set(cardsData.flatMap(card => card.elements))];
-  const allRarities = [...new Set(cardsData.map(card => card.rarity))];
-  const allKeywords = [...new Set(cardsData.flatMap(card => card.keywords))];
+  const allElements = [...new Set(cardsData.flatMap(card => card.elements || []))];
+  const allRarities = [...new Set(cardsData.map(card => card.rarity).filter(Boolean))];
+  const allKeywords = [...new Set(cardsData.flatMap(card => card.keywords || []))];
 
   // Filter and sort cards
   const filteredAndSortedCards = cardsData
@@ -87,10 +140,51 @@ const CardDatabase = () => {
       <div className="container py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Card Database</h1>
-          <p className="text-secondary">
-            Browse and search through all {cardsData.length} KONIVRER cards
-          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Card Database</h1>
+              <p className="text-secondary">
+                Browse and search through all {cardsData.length} KONIVRER cards
+              </p>
+            </div>
+            
+            {/* Sync Controls */}
+            <div className="flex items-center gap-3">
+              {/* Connection Status */}
+              <div className="flex items-center gap-2">
+                {connectionStatus?.connected ? (
+                  <Wifi className="text-green-500" size={16} />
+                ) : (
+                  <WifiOff className="text-red-500" size={16} />
+                )}
+                <span className="text-sm text-secondary">
+                  {connectionStatus?.connected ? 'Connected' : 'Offline'}
+                </span>
+              </div>
+              
+              {/* Refresh Button */}
+              <button
+                onClick={() => loadCards(true)}
+                disabled={loading}
+                className="btn btn-secondary"
+                title="Refresh cards from cache"
+              >
+                <RefreshCw className={loading ? 'animate-spin' : ''} size={16} />
+                Refresh
+              </button>
+              
+              {/* Sync Button */}
+              <button
+                onClick={handleSync}
+                disabled={syncing || !connectionStatus?.connected}
+                className="btn btn-primary"
+                title="Sync cards from Google Sheets"
+              >
+                <RefreshCw className={syncing ? 'animate-spin' : ''} size={16} />
+                {syncing ? 'Syncing...' : 'Sync'}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Search and Controls */}
@@ -304,8 +398,37 @@ const CardDatabase = () => {
           </div>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center py-12">
+            <div className="flex items-center gap-3">
+              <RefreshCw className="animate-spin" size={20} />
+              <span>Loading cards...</span>
+            </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="card bg-red-50 border-red-200 text-red-800 mb-6">
+            <div className="flex items-center gap-3">
+              <WifiOff size={20} />
+              <div>
+                <h3 className="font-semibold">Error loading cards</h3>
+                <p className="text-sm">{error}</p>
+                <button 
+                  onClick={() => loadCards(true)}
+                  className="mt-2 text-sm underline hover:no-underline"
+                >
+                  Try again
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Cards Display */}
-        {viewMode === 'grid' ? (
+        {!loading && !error && (viewMode === 'grid' ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredAndSortedCards.map(card => (
               <div
@@ -445,10 +568,10 @@ const CardDatabase = () => {
               </div>
             ))}
           </div>
-        )}
+        ))}
 
         {/* No Results */}
-        {filteredAndSortedCards.length === 0 && (
+        {!loading && !error && filteredAndSortedCards.length === 0 && (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold mb-2">No cards found</h3>
