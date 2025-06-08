@@ -52,10 +52,11 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Only redirect to login if we're actually trying to access protected resources
       // Don't redirect for general API failures
-      const isProtectedRoute = error.config?.url?.includes('/auth/') || 
-                              error.config?.url?.includes('/user/') ||
-                              error.config?.url?.includes('/admin/');
-      
+      const isProtectedRoute =
+        error.config?.url?.includes('/auth/') ||
+        error.config?.url?.includes('/user/') ||
+        error.config?.url?.includes('/admin/');
+
       if (isProtectedRoute) {
         localStorage.removeItem('authToken');
         window.location.href = '/login';

@@ -112,33 +112,45 @@ const EnhancedProfile = () => {
     setIsEditing(false);
   };
 
-  const handleApplyForJudge = (level) => {
+  const handleApplyForJudge = level => {
     applyForJudge(level);
   };
 
-  const handleApplyForOrganizer = (level) => {
+  const handleApplyForOrganizer = level => {
     applyForOrganizer(level);
   };
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity) {
-      case 'common': return 'text-gray-400 border-gray-400';
-      case 'rare': return 'text-blue-400 border-blue-400';
-      case 'epic': return 'text-purple-400 border-purple-400';
-      case 'legendary': return 'text-yellow-400 border-yellow-400';
-      case 'mythic': return 'text-red-400 border-red-400';
-      default: return 'text-gray-400 border-gray-400';
+      case 'common':
+        return 'text-gray-400 border-gray-400';
+      case 'rare':
+        return 'text-blue-400 border-blue-400';
+      case 'epic':
+        return 'text-purple-400 border-purple-400';
+      case 'legendary':
+        return 'text-yellow-400 border-yellow-400';
+      case 'mythic':
+        return 'text-red-400 border-red-400';
+      default:
+        return 'text-gray-400 border-gray-400';
     }
   };
 
-  const getRarityIcon = (rarity) => {
+  const getRarityIcon = rarity => {
     switch (rarity) {
-      case 'common': return Circle;
-      case 'rare': return Square;
-      case 'epic': return Pentagon;
-      case 'legendary': return Hexagon;
-      case 'mythic': return Diamond;
-      default: return Circle;
+      case 'common':
+        return Circle;
+      case 'rare':
+        return Square;
+      case 'epic':
+        return Pentagon;
+      case 'legendary':
+        return Hexagon;
+      case 'mythic':
+        return Diamond;
+      default:
+        return Circle;
     }
   };
 
@@ -157,7 +169,9 @@ const EnhancedProfile = () => {
             <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
               Authentication Required
             </h1>
-            <p className="text-secondary mb-6">You need to be logged in to view your profile.</p>
+            <p className="text-secondary mb-6">
+              You need to be logged in to view your profile.
+            </p>
             <Link to="/" className="btn btn-primary">
               <Rocket size={16} />
               Go Home
@@ -170,13 +184,38 @@ const EnhancedProfile = () => {
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: User, color: 'text-blue-400' },
-    { id: 'tournaments', label: 'Tournaments', icon: Trophy, color: 'text-yellow-400' },
+    {
+      id: 'tournaments',
+      label: 'Tournaments',
+      icon: Trophy,
+      color: 'text-yellow-400',
+    },
     { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
-    { id: 'achievements', label: 'Achievements', icon: Award, color: 'text-purple-400' },
-    { id: 'applications', label: 'Applications', icon: Target, color: 'text-orange-400' },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, color: 'text-cyan-400' },
+    {
+      id: 'achievements',
+      label: 'Achievements',
+      icon: Award,
+      color: 'text-purple-400',
+    },
+    {
+      id: 'applications',
+      label: 'Applications',
+      icon: Target,
+      color: 'text-orange-400',
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: BarChart3,
+      color: 'text-cyan-400',
+    },
     { id: 'security', label: 'Security', icon: Shield, color: 'text-red-400' },
-    { id: 'settings', label: 'Settings', icon: Settings, color: 'text-gray-400' },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: Settings,
+      color: 'text-gray-400',
+    },
   ];
 
   const renderOverview = () => (
@@ -207,7 +246,7 @@ const EnhancedProfile = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="flex-1">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -216,7 +255,12 @@ const EnhancedProfile = () => {
                       type="text"
                       className="input text-2xl font-bold bg-transparent border-0 border-b-2 border-accent-primary"
                       value={editForm.displayName}
-                      onChange={(e) => setEditForm({ ...editForm, displayName: e.target.value })}
+                      onChange={e =>
+                        setEditForm({
+                          ...editForm,
+                          displayName: e.target.value,
+                        })
+                      }
                     />
                   ) : (
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
@@ -273,11 +317,11 @@ const EnhancedProfile = () => {
                     player: { color: 'bg-green-600', icon: Gamepad2 },
                     judge: { color: 'bg-blue-600', icon: Gavel },
                     organizer: { color: 'bg-purple-600', icon: Crown },
-                    admin: { color: 'bg-red-600', icon: Shield }
+                    admin: { color: 'bg-red-600', icon: Shield },
                   };
                   const config = roleConfig[role];
                   const Icon = config.icon;
-                  
+
                   return (
                     <motion.span
                       key={role}
@@ -285,8 +329,12 @@ const EnhancedProfile = () => {
                       className={`px-3 py-1 rounded-full text-white text-sm font-medium flex items-center gap-1 ${config.color}`}
                     >
                       <Icon size={14} />
-                      {role === 'judge' && user.judgeLevel > 0 && `Level ${user.judgeLevel} `}
-                      {role === 'organizer' && user.organizerLevel > 0 && `Level ${user.organizerLevel} `}
+                      {role === 'judge' &&
+                        user.judgeLevel > 0 &&
+                        `Level ${user.judgeLevel} `}
+                      {role === 'organizer' &&
+                        user.organizerLevel > 0 &&
+                        `Level ${user.organizerLevel} `}
                       {role.charAt(0).toUpperCase() + role.slice(1)}
                     </motion.span>
                   );
@@ -301,15 +349,22 @@ const EnhancedProfile = () => {
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <LocationIcon size={16} className="text-accent-primary" />
-                  <span className="truncate">{user.location || 'Not specified'}</span>
+                  <span className="truncate">
+                    {user.location || 'Not specified'}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <CalendarIcon size={16} className="text-accent-primary" />
-                  <span>Joined {new Date(user.joinDate).toLocaleDateString()}</span>
+                  <span>
+                    Joined {new Date(user.joinDate).toLocaleDateString()}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Sparkles size={16} className="text-accent-primary" />
-                  <span>{user.achievements?.filter(a => a.earned).length || 0} Achievements</span>
+                  <span>
+                    {user.achievements?.filter(a => a.earned).length || 0}{' '}
+                    Achievements
+                  </span>
                 </div>
               </div>
 
@@ -317,21 +372,29 @@ const EnhancedProfile = () => {
               {isEditing ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Location</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Location
+                    </label>
                     <input
                       type="text"
                       className="input"
                       value={editForm.location}
-                      onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
+                      onChange={e =>
+                        setEditForm({ ...editForm, location: e.target.value })
+                      }
                       placeholder="City, State/Country"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Bio</label>
+                    <label className="block text-sm font-medium mb-1">
+                      Bio
+                    </label>
                     <textarea
                       className="input resize-none h-24"
                       value={editForm.bio}
-                      onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
+                      onChange={e =>
+                        setEditForm({ ...editForm, bio: e.target.value })
+                      }
                       placeholder="Tell us about yourself..."
                       maxLength={500}
                     />
@@ -353,33 +416,33 @@ const EnhancedProfile = () => {
       {/* Enhanced Statistics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { 
-            icon: TrophyIcon, 
-            value: user.stats.tournamentsWon, 
+          {
+            icon: TrophyIcon,
+            value: user.stats.tournamentsWon,
             label: 'Tournaments Won',
             color: 'text-yellow-400',
-            bgColor: 'bg-yellow-400/10'
+            bgColor: 'bg-yellow-400/10',
           },
-          { 
-            icon: UsersIcon, 
-            value: user.stats.tournamentsPlayed, 
+          {
+            icon: UsersIcon,
+            value: user.stats.tournamentsPlayed,
             label: 'Tournaments Played',
             color: 'text-blue-400',
-            bgColor: 'bg-blue-400/10'
+            bgColor: 'bg-blue-400/10',
           },
-          { 
-            icon: BookOpen, 
-            value: user.stats.decksCreated, 
+          {
+            icon: BookOpen,
+            value: user.stats.decksCreated,
             label: 'Decks Created',
             color: 'text-green-400',
-            bgColor: 'bg-green-400/10'
+            bgColor: 'bg-green-400/10',
           },
-          { 
-            icon: Gavel, 
-            value: user.stats.judgeEvents, 
+          {
+            icon: Gavel,
+            value: user.stats.judgeEvents,
             label: 'Events Judged',
             color: 'text-purple-400',
-            bgColor: 'bg-purple-400/10'
+            bgColor: 'bg-purple-400/10',
           },
         ].map((stat, index) => {
           const Icon = stat.icon;
@@ -397,7 +460,9 @@ const EnhancedProfile = () => {
                 <div className="text-3xl font-bold mb-1">{stat.value}</div>
                 <div className="text-sm text-secondary">{stat.label}</div>
               </div>
-              <div className={`absolute top-0 right-0 w-16 h-16 ${stat.color} opacity-5 transform rotate-12 translate-x-4 -translate-y-4`}>
+              <div
+                className={`absolute top-0 right-0 w-16 h-16 ${stat.color} opacity-5 transform rotate-12 translate-x-4 -translate-y-4`}
+              >
                 <Icon size={64} />
               </div>
             </motion.div>
@@ -425,7 +490,7 @@ const EnhancedProfile = () => {
               bgColor: 'bg-yellow-400/10',
               title: 'Won Friday Night KONIVRER tournament',
               time: '2 days ago',
-              description: 'Defeated 23 other players in Swiss + Top 8'
+              description: 'Defeated 23 other players in Swiss + Top 8',
             },
             {
               icon: BookOpen,
@@ -433,7 +498,7 @@ const EnhancedProfile = () => {
               bgColor: 'bg-green-400/10',
               title: 'Created new deck: "Elemental Storm"',
               time: '5 days ago',
-              description: 'Fire/Water synergy deck for Standard format'
+              description: 'Fire/Water synergy deck for Standard format',
             },
             {
               icon: Shield,
@@ -441,7 +506,7 @@ const EnhancedProfile = () => {
               bgColor: 'bg-blue-400/10',
               title: 'Judged Regional Qualifier event',
               time: '1 week ago',
-              description: '128 players, 9 rounds of Swiss'
+              description: '128 players, 9 rounds of Swiss',
             },
           ].map((activity, index) => {
             const Icon = activity.icon;
@@ -453,12 +518,16 @@ const EnhancedProfile = () => {
                 transition={{ delay: index * 0.1 }}
                 className={`flex items-start gap-4 p-4 rounded-lg ${activity.bgColor} hover:bg-opacity-20 transition-colors`}
               >
-                <div className={`w-10 h-10 rounded-lg ${activity.bgColor} flex items-center justify-center`}>
+                <div
+                  className={`w-10 h-10 rounded-lg ${activity.bgColor} flex items-center justify-center`}
+                >
                   <Icon size={20} className={activity.color} />
                 </div>
                 <div className="flex-1">
                   <h4 className="font-medium mb-1">{activity.title}</h4>
-                  <p className="text-sm text-secondary mb-1">{activity.description}</p>
+                  <p className="text-sm text-secondary mb-1">
+                    {activity.description}
+                  </p>
                   <p className="text-xs text-muted">{activity.time}</p>
                 </div>
               </motion.div>
@@ -482,7 +551,8 @@ const EnhancedProfile = () => {
         </h3>
         <div className="flex items-center gap-2 text-sm text-secondary">
           <Award size={16} />
-          {achievements.filter(a => a.earned).length} / {achievements.length} Unlocked
+          {achievements.filter(a => a.earned).length} / {achievements.length}{' '}
+          Unlocked
         </div>
       </div>
 
@@ -497,8 +567,8 @@ const EnhancedProfile = () => {
               transition={{ delay: index * 0.05 }}
               whileHover={{ scale: 1.02 }}
               className={`card relative overflow-hidden ${
-                achievement.earned 
-                  ? `border-2 ${getRarityColor(achievement.rarity)} bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-900/10 to-transparent` 
+                achievement.earned
+                  ? `border-2 ${getRarityColor(achievement.rarity)} bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-900/10 to-transparent`
                   : 'opacity-60 grayscale'
               }`}
             >
@@ -507,26 +577,32 @@ const EnhancedProfile = () => {
                   <CheckCircle size={20} className="text-green-400" />
                 </div>
               )}
-              
+
               <div className="flex items-start gap-4 mb-4">
-                <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${
-                  achievement.earned 
-                    ? `bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-500 to-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-600`
-                    : 'bg-tertiary'
-                }`}>
+                <div
+                  className={`w-16 h-16 rounded-xl flex items-center justify-center ${
+                    achievement.earned
+                      ? `bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-500 to-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-600`
+                      : 'bg-tertiary'
+                  }`}
+                >
                   <RarityIcon size={32} className="text-white" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold">{achievement.name}</h4>
-                    <span className={`text-xs px-2 py-1 rounded-full border ${getRarityColor(achievement.rarity)}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full border ${getRarityColor(achievement.rarity)}`}
+                    >
                       {achievement.rarity}
                     </span>
                   </div>
-                  <p className="text-sm text-secondary">{achievement.description}</p>
+                  <p className="text-sm text-secondary">
+                    {achievement.description}
+                  </p>
                 </div>
               </div>
-              
+
               {achievement.earned && (
                 <div className="text-xs text-green-400 flex items-center gap-1">
                   <Sparkles size={12} />
@@ -559,7 +635,10 @@ const EnhancedProfile = () => {
                     : 'text-secondary hover:text-primary hover:bg-tertiary'
                 }`}
               >
-                <Icon size={18} className={activeTab === tab.id ? 'text-white' : tab.color} />
+                <Icon
+                  size={18}
+                  className={activeTab === tab.id ? 'text-white' : tab.color}
+                />
                 <span className="hidden sm:block">{tab.label}</span>
               </motion.button>
             );

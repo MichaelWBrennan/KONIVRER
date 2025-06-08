@@ -3,21 +3,21 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  X, 
-  Mail, 
-  Lock, 
-  User, 
-  MapPin, 
-  Eye, 
-  EyeOff, 
+import {
+  X,
+  Mail,
+  Lock,
+  User,
+  MapPin,
+  Eye,
+  EyeOff,
   Shield,
   CheckCircle,
   AlertCircle,
   Loader2,
   Github,
   Chrome,
-  Zap
+  Zap,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -27,25 +27,38 @@ const LoginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-const RegisterSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 
-      'Password must contain uppercase, lowercase, number, and special character'),
-  confirmPassword: z.string(),
-  username: z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username must be less than 20 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-  displayName: z.string().min(1, 'Display name is required').max(50),
-  location: z.string().optional(),
-  agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms'),
-  agreeToPrivacy: z.boolean().refine(val => val === true, 'You must agree to the privacy policy'),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const RegisterSchema = z
+  .object({
+    email: z.string().email('Please enter a valid email address'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        'Password must contain uppercase, lowercase, number, and special character',
+      ),
+    confirmPassword: z.string(),
+    username: z
+      .string()
+      .min(3, 'Username must be at least 3 characters')
+      .max(20, 'Username must be less than 20 characters')
+      .regex(
+        /^[a-zA-Z0-9_]+$/,
+        'Username can only contain letters, numbers, and underscores',
+      ),
+    displayName: z.string().min(1, 'Display name is required').max(50),
+    location: z.string().optional(),
+    agreeToTerms: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the terms'),
+    agreeToPrivacy: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the privacy policy'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
@@ -78,7 +91,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
   });
 
   // Password strength calculator
-  const calculatePasswordStrength = (password) => {
+  const calculatePasswordStrength = password => {
     let strength = 0;
     if (password.length >= 8) strength += 20;
     if (/[a-z]/.test(password)) strength += 20;
@@ -88,7 +101,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
     return Math.min(strength, 100);
   };
 
-  const handleLogin = async (data) => {
+  const handleLogin = async data => {
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
@@ -98,11 +111,13 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
         loginForm.setError('root', { message: result.error });
       }
     } catch (err) {
-      loginForm.setError('root', { message: 'Login failed. Please try again.' });
+      loginForm.setError('root', {
+        message: 'Login failed. Please try again.',
+      });
     }
   };
 
-  const handleRegister = async (data) => {
+  const handleRegister = async data => {
     try {
       const result = await register(data);
       if (result.success) {
@@ -112,13 +127,15 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
         registerForm.setError('root', { message: result.error });
       }
     } catch (err) {
-      registerForm.setError('root', { message: 'Registration failed. Please try again.' });
+      registerForm.setError('root', {
+        message: 'Registration failed. Please try again.',
+      });
     }
   };
 
   // Watch password for strength indicator
   const watchedPassword = registerForm.watch('password');
-  
+
   // Update password strength when password changes
   useEffect(() => {
     if (watchedPassword) {
@@ -146,24 +163,24 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
 
   return (
     <AnimatePresence>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
         onClick={onClose}
       >
-        <motion.div 
+        <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          transition={{ type: "spring", duration: 0.3 }}
+          transition={{ type: 'spring', duration: 0.3 }}
           className="bg-card border border-color rounded-xl shadow-2xl max-w-md w-full relative overflow-hidden"
-          onClick={(e) => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
         >
           {/* Gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" />
-          
+
           <div className="relative z-10 p-6">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
@@ -176,7 +193,9 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                     {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
                   </h2>
                   <p className="text-sm text-secondary">
-                    {activeTab === 'login' ? 'Sign in to your account' : 'Create your account'}
+                    {activeTab === 'login'
+                      ? 'Sign in to your account'
+                      : 'Create your account'}
                   </p>
                 </div>
               </div>
@@ -226,9 +245,14 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                 >
                   {/* Login Form */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Email
+                    </label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <Mail
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...loginForm.register('email')}
                         type="email"
@@ -237,14 +261,21 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                       />
                     </div>
                     {loginForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1">{loginForm.formState.errors.email.message}</p>
+                      <p className="text-red-400 text-sm mt-1">
+                        {loginForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Password
+                    </label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <Lock
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...loginForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
@@ -256,11 +287,17 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
-                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
                       </button>
                     </div>
                     {loginForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1">{loginForm.formState.errors.password.message}</p>
+                      <p className="text-red-400 text-sm mt-1">
+                        {loginForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
@@ -293,8 +330,14 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   <div className="text-center text-sm text-secondary">
                     <p className="mb-2">Demo accounts:</p>
                     <div className="space-y-1 text-xs">
-                      <p><strong>user1@example.com</strong> / password (Player + Judge)</p>
-                      <p><strong>judge@example.com</strong> / password (All roles)</p>
+                      <p>
+                        <strong>user1@example.com</strong> / password (Player +
+                        Judge)
+                      </p>
+                      <p>
+                        <strong>judge@example.com</strong> / password (All
+                        roles)
+                      </p>
                     </div>
                   </div>
                 </motion.form>
@@ -313,9 +356,14 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   {/* Register Form */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Username</label>
+                      <label className="block text-sm font-medium mb-2">
+                        Username
+                      </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                        <User
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                          size={16}
+                        />
                         <input
                           {...registerForm.register('username')}
                           type="text"
@@ -324,12 +372,16 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         />
                       </div>
                       {registerForm.formState.errors.username && (
-                        <p className="text-red-400 text-xs mt-1">{registerForm.formState.errors.username.message}</p>
+                        <p className="text-red-400 text-xs mt-1">
+                          {registerForm.formState.errors.username.message}
+                        </p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium mb-2">Display Name</label>
+                      <label className="block text-sm font-medium mb-2">
+                        Display Name
+                      </label>
                       <input
                         {...registerForm.register('displayName')}
                         type="text"
@@ -337,15 +389,22 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         placeholder="Your name"
                       />
                       {registerForm.formState.errors.displayName && (
-                        <p className="text-red-400 text-xs mt-1">{registerForm.formState.errors.displayName.message}</p>
+                        <p className="text-red-400 text-xs mt-1">
+                          {registerForm.formState.errors.displayName.message}
+                        </p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Email
+                    </label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <Mail
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...registerForm.register('email')}
                         type="email"
@@ -354,14 +413,21 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                       />
                     </div>
                     {registerForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1">{registerForm.formState.errors.email.message}</p>
+                      <p className="text-red-400 text-sm mt-1">
+                        {registerForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Location (Optional)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Location (Optional)
+                    </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <MapPin
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...registerForm.register('location')}
                         type="text"
@@ -372,9 +438,14 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Password
+                    </label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <Lock
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...registerForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
@@ -386,20 +457,30 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
-                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
                       </button>
                     </div>
-                    
+
                     {/* Password Strength Indicator */}
                     {watchedPassword && (
                       <div className="mt-2">
                         <div className="flex items-center justify-between text-xs mb-1">
                           <span>Password strength</span>
-                          <span className={`font-medium ${
-                            passwordStrength < 40 ? 'text-red-400' :
-                            passwordStrength < 60 ? 'text-orange-400' :
-                            passwordStrength < 80 ? 'text-yellow-400' : 'text-green-400'
-                          }`}>
+                          <span
+                            className={`font-medium ${
+                              passwordStrength < 40
+                                ? 'text-red-400'
+                                : passwordStrength < 60
+                                  ? 'text-orange-400'
+                                  : passwordStrength < 80
+                                    ? 'text-yellow-400'
+                                    : 'text-green-400'
+                            }`}
+                          >
                             {getPasswordStrengthText()}
                           </span>
                         </div>
@@ -412,16 +493,23 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         </div>
                       </div>
                     )}
-                    
+
                     {registerForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1">{registerForm.formState.errors.password.message}</p>
+                      <p className="text-red-400 text-sm mt-1">
+                        {registerForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Confirm Password</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Confirm Password
+                    </label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+                      <Lock
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
                       <input
                         {...registerForm.register('confirmPassword')}
                         type={showPassword ? 'text' : 'password'}
@@ -430,7 +518,9 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                       />
                     </div>
                     {registerForm.formState.errors.confirmPassword && (
-                      <p className="text-red-400 text-sm mt-1">{registerForm.formState.errors.confirmPassword.message}</p>
+                      <p className="text-red-400 text-sm mt-1">
+                        {registerForm.formState.errors.confirmPassword.message}
+                      </p>
                     )}
                   </div>
 
@@ -444,11 +534,19 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         className="w-4 h-4 mt-0.5"
                       />
                       <label htmlFor="agreeToTerms" className="text-sm">
-                        I agree to the <a href="#" className="text-accent-primary hover:underline">Terms of Service</a>
+                        I agree to the{' '}
+                        <a
+                          href="#"
+                          className="text-accent-primary hover:underline"
+                        >
+                          Terms of Service
+                        </a>
                       </label>
                     </div>
                     {registerForm.formState.errors.agreeToTerms && (
-                      <p className="text-red-400 text-sm">{registerForm.formState.errors.agreeToTerms.message}</p>
+                      <p className="text-red-400 text-sm">
+                        {registerForm.formState.errors.agreeToTerms.message}
+                      </p>
                     )}
 
                     <div className="flex items-start gap-3">
@@ -459,11 +557,19 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         className="w-4 h-4 mt-0.5"
                       />
                       <label htmlFor="agreeToPrivacy" className="text-sm">
-                        I agree to the <a href="#" className="text-accent-primary hover:underline">Privacy Policy</a>
+                        I agree to the{' '}
+                        <a
+                          href="#"
+                          className="text-accent-primary hover:underline"
+                        >
+                          Privacy Policy
+                        </a>
                       </label>
                     </div>
                     {registerForm.formState.errors.agreeToPrivacy && (
-                      <p className="text-red-400 text-sm">{registerForm.formState.errors.agreeToPrivacy.message}</p>
+                      <p className="text-red-400 text-sm">
+                        {registerForm.formState.errors.agreeToPrivacy.message}
+                      </p>
                     )}
                   </div>
 
@@ -501,7 +607,9 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
 
             {/* Social Login Options */}
             <div className="mt-6 pt-6 border-t border-color">
-              <p className="text-center text-sm text-secondary mb-4">Or continue with</p>
+              <p className="text-center text-sm text-secondary mb-4">
+                Or continue with
+              </p>
               <div className="grid grid-cols-2 gap-3">
                 <button className="btn btn-secondary flex items-center justify-center gap-2">
                   <Github size={16} />
