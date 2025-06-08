@@ -7,35 +7,35 @@ import { env } from '../config/env.js';
 // Fallback data in case API is unavailable
 const fallbackCards = [
   {
-    id: "card001",
-    name: "Gustling Wisp",
-    elements: ["🜁"],
-    keywords: ["Gust"],
+    id: 'card001',
+    name: 'Gustling Wisp',
+    elements: ['🜁'],
+    keywords: ['Gust'],
     cost: 1,
     power: 1,
-    rarity: "common",
-    text: "When this enters, Gust a target card."
+    rarity: 'common',
+    text: 'When this enters, Gust a target card.',
   },
   {
-    id: "card002",
-    name: "Infernal Sprinter",
-    elements: ["🜂"],
-    keywords: ["Inferno"],
+    id: 'card002',
+    name: 'Infernal Sprinter',
+    elements: ['🜂'],
+    keywords: ['Inferno'],
     cost: 2,
     power: 2,
-    rarity: "uncommon",
-    text: "Inferno - Deal 1 extra damage when this attacks."
+    rarity: 'uncommon',
+    text: 'Inferno - Deal 1 extra damage when this attacks.',
   },
   {
-    id: "card003",
-    name: "Brilliant Watcher",
-    elements: ["🜃", "🜄"],
-    keywords: ["Brilliance", "Steadfast"],
+    id: 'card003',
+    name: 'Brilliant Watcher',
+    elements: ['🜃', '🜄'],
+    keywords: ['Brilliance', 'Steadfast'],
     cost: 3,
     power: 3,
-    rarity: "rare",
-    text: "Brilliance - Place the top card of your deck under your Life Cards."
-  }
+    rarity: 'rare',
+    text: 'Brilliance - Place the top card of your deck under your Life Cards.',
+  },
 ];
 
 class CardsService {
@@ -68,19 +68,20 @@ class CardsService {
       // Fetch from API
       console.log('Fetching cards from API...');
       const response = await apiClient.get('/cards');
-      
+
       if (response.data && Array.isArray(response.data)) {
         this.cache = response.data;
         this.lastFetchTime = Date.now();
-        console.log(`Successfully fetched ${response.data.length} cards from API`);
+        console.log(
+          `Successfully fetched ${response.data.length} cards from API`,
+        );
         return response.data;
       }
 
       throw new Error('Invalid response format from API');
-
     } catch (error) {
       console.error('Error fetching cards from API:', error.message);
-      
+
       // Return cached data if available
       if (this.cache) {
         console.log('Using cached card data due to API error');
@@ -100,17 +101,19 @@ class CardsService {
     try {
       // Check if backend is available
       if (!env.BACKEND_URL) {
-        console.log('No backend URL configured, cannot sync from Google Sheets');
+        console.log(
+          'No backend URL configured, cannot sync from Google Sheets',
+        );
         return {
           success: false,
           message: 'Backend not configured. Using local fallback data.',
-          cards: fallbackCards
+          cards: fallbackCards,
         };
       }
 
       console.log('Requesting manual sync from Google Sheets...');
       const response = await apiClient.post('/cards/sync');
-      
+
       if (response.data.success) {
         this.cache = response.data.cards;
         this.lastFetchTime = Date.now();
@@ -118,17 +121,16 @@ class CardsService {
         return {
           success: true,
           message: response.data.message,
-          cards: response.data.cards
+          cards: response.data.cards,
         };
       }
 
       throw new Error(response.data.message || 'Sync failed');
-
     } catch (error) {
       console.error('Error syncing cards:', error.message);
       return {
         success: false,
-        message: error.response?.data?.message || error.message
+        message: error.response?.data?.message || error.message,
       };
     }
   }
@@ -143,7 +145,7 @@ class CardsService {
         return {
           connected: false,
           message: 'Backend not configured. Using local fallback data.',
-          error: 'No backend URL configured'
+          error: 'No backend URL configured',
         };
       }
 
@@ -153,7 +155,7 @@ class CardsService {
       console.error('Error testing connection:', error.message);
       return {
         connected: false,
-        error: error.response?.data?.error || error.message
+        error: error.response?.data?.error || error.message,
       };
     }
   }
@@ -175,7 +177,9 @@ class CardsService {
       hasCache: !!this.cache,
       lastFetchTime: this.lastFetchTime,
       cacheAge: this.lastFetchTime ? Date.now() - this.lastFetchTime : null,
-      isExpired: this.lastFetchTime ? (Date.now() - this.lastFetchTime) > this.cacheDuration : true
+      isExpired: this.lastFetchTime
+        ? Date.now() - this.lastFetchTime > this.cacheDuration
+        : true,
     };
   }
 }

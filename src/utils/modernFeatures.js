@@ -28,7 +28,7 @@ export const sendPushNotification = (title, options = {}) => {
       icon: '/icon-192x192.png',
       badge: '/badge-72x72.png',
       vibrate: [200, 100, 200],
-      ...options
+      ...options,
     });
   }
 };
@@ -47,14 +47,14 @@ export class WebSocketManager {
   connect() {
     try {
       this.ws = new WebSocket(this.url);
-      
+
       this.ws.onopen = () => {
         console.log('WebSocket connected');
         this.reconnectAttempts = 0;
         this.emit('connected');
       };
 
-      this.ws.onmessage = (event) => {
+      this.ws.onmessage = event => {
         const data = JSON.parse(event.data);
         this.emit(data.type, data.payload);
       };
@@ -65,7 +65,7 @@ export class WebSocketManager {
         this.attemptReconnect();
       };
 
-      this.ws.onerror = (error) => {
+      this.ws.onerror = error => {
         console.error('WebSocket error:', error);
         this.emit('error', error);
       };
@@ -133,7 +133,7 @@ export const createBiometricCredential = async (userId, userName) => {
       publicKey: {
         challenge: new Uint8Array(32),
         rp: {
-          name: "KONIVRER",
+          name: 'KONIVRER',
           id: window.location.hostname,
         },
         user: {
@@ -141,14 +141,14 @@ export const createBiometricCredential = async (userId, userName) => {
           name: userName,
           displayName: userName,
         },
-        pubKeyCredParams: [{alg: -7, type: "public-key"}],
+        pubKeyCredParams: [{ alg: -7, type: 'public-key' }],
         authenticatorSelection: {
-          authenticatorAttachment: "platform",
-          userVerification: "required"
+          authenticatorAttachment: 'platform',
+          userVerification: 'required',
         },
         timeout: 60000,
-        attestation: "direct"
-      }
+        attestation: 'direct',
+      },
     });
     return credential;
   } catch (error) {
@@ -165,8 +165,8 @@ export const authenticateWithBiometric = async () => {
       publicKey: {
         challenge: new Uint8Array(32),
         timeout: 60000,
-        userVerification: "required"
-      }
+        userVerification: 'required',
+      },
     });
     return credential;
   } catch (error) {
@@ -182,7 +182,8 @@ export class CacheManager {
     this.ttl = new Map();
   }
 
-  set(key, value, ttlMs = 300000) { // 5 minutes default
+  set(key, value, ttlMs = 300000) {
+    // 5 minutes default
     this.cache.set(key, value);
     this.ttl.set(key, Date.now() + ttlMs);
   }
@@ -217,10 +218,15 @@ export class PerformanceMonitor {
     if ('performance' in window) {
       const navigation = performance.getEntriesByType('navigation')[0];
       return {
-        domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+        domContentLoaded:
+          navigation.domContentLoadedEventEnd -
+          navigation.domContentLoadedEventStart,
         loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
-        firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime || 0,
-        firstContentfulPaint: performance.getEntriesByName('first-contentful-paint')[0]?.startTime || 0
+        firstPaint:
+          performance.getEntriesByName('first-paint')[0]?.startTime || 0,
+        firstContentfulPaint:
+          performance.getEntriesByName('first-contentful-paint')[0]
+            ?.startTime || 0,
       };
     }
     return null;
@@ -243,7 +249,7 @@ export class PerformanceMonitor {
         navigation: performance.getEntriesByType('navigation'),
         resource: performance.getEntriesByType('resource'),
         measure: performance.getEntriesByType('measure'),
-        mark: performance.getEntriesByType('mark')
+        mark: performance.getEntriesByType('mark'),
       };
     }
     return null;
@@ -251,7 +257,7 @@ export class PerformanceMonitor {
 }
 
 // Accessibility Helpers
-export const announceToScreenReader = (message) => {
+export const announceToScreenReader = message => {
   const announcement = document.createElement('div');
   announcement.setAttribute('aria-live', 'polite');
   announcement.setAttribute('aria-atomic', 'true');
@@ -261,19 +267,19 @@ export const announceToScreenReader = (message) => {
   announcement.style.height = '1px';
   announcement.style.overflow = 'hidden';
   announcement.textContent = message;
-  
+
   document.body.appendChild(announcement);
   setTimeout(() => document.body.removeChild(announcement), 1000);
 };
 
-export const trapFocus = (element) => {
+export const trapFocus = element => {
   const focusableElements = element.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );
   const firstElement = focusableElements[0];
   const lastElement = focusableElements[focusableElements.length - 1];
 
-  const handleTabKey = (e) => {
+  const handleTabKey = e => {
     if (e.key === 'Tab') {
       if (e.shiftKey) {
         if (document.activeElement === firstElement) {
@@ -316,16 +322,19 @@ export class I18nManager {
   }
 
   t(key, params = {}) {
-    const translations = this.translations.get(this.locale) || 
-                        this.translations.get(this.fallbackLocale) || {};
-    
-    let translation = key.split('.').reduce((obj, k) => obj?.[k], translations) || key;
-    
+    const translations =
+      this.translations.get(this.locale) ||
+      this.translations.get(this.fallbackLocale) ||
+      {};
+
+    let translation =
+      key.split('.').reduce((obj, k) => obj?.[k], translations) || key;
+
     // Replace parameters
     Object.entries(params).forEach(([param, value]) => {
       translation = translation.replace(`{{${param}}}`, value);
     });
-    
+
     return translation;
   }
 
@@ -340,7 +349,7 @@ export class I18nManager {
   formatCurrency(amount, currency = 'USD') {
     return new Intl.NumberFormat(this.locale, {
       style: 'currency',
-      currency
+      currency,
     }).format(amount);
   }
 }
@@ -355,7 +364,9 @@ export class ErrorTracker {
   }
 
   generateSessionId() {
-    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    return (
+      'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+    );
   }
 
   setUser(userId) {
@@ -363,22 +374,22 @@ export class ErrorTracker {
   }
 
   setupGlobalErrorHandlers() {
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       this.captureError({
         type: 'javascript',
         message: event.message,
         filename: event.filename,
         lineno: event.lineno,
         colno: event.colno,
-        stack: event.error?.stack
+        stack: event.error?.stack,
       });
     });
 
-    window.addEventListener('unhandledrejection', (event) => {
+    window.addEventListener('unhandledrejection', event => {
       this.captureError({
         type: 'promise',
         message: event.reason?.message || 'Unhandled Promise Rejection',
-        stack: event.reason?.stack
+        stack: event.reason?.stack,
       });
     });
   }
@@ -391,7 +402,7 @@ export class ErrorTracker {
       sessionId: this.sessionId,
       url: window.location.href,
       userAgent: navigator.userAgent,
-      context
+      context,
     };
 
     // Send to error tracking service
@@ -403,9 +414,9 @@ export class ErrorTracker {
       await fetch(this.apiEndpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(errorData)
+        body: JSON.stringify(errorData),
       });
     } catch (error) {
       console.error('Failed to send error to tracking service:', error);
@@ -417,11 +428,16 @@ export class ErrorTracker {
 export const getDeviceInfo = () => {
   const ua = navigator.userAgent;
   return {
-    isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+    isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      ua,
+    ),
     isTablet: /iPad|Android(?!.*Mobile)/i.test(ua),
-    isDesktop: !/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+    isDesktop: !/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      ua,
+    ),
     hasTouch: 'ontouchstart' in window,
-    hasCamera: 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices,
+    hasCamera:
+      'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices,
     hasGeolocation: 'geolocation' in navigator,
     hasVibration: 'vibrate' in navigator,
     hasNotifications: 'Notification' in window,
@@ -429,13 +445,15 @@ export const getDeviceInfo = () => {
     hasWebGL: (() => {
       try {
         const canvas = document.createElement('canvas');
-        return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+        return !!(
+          canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+        );
       } catch (e) {
         return false;
       }
     })(),
     connectionType: navigator.connection?.effectiveType || 'unknown',
-    memoryInfo: navigator.deviceMemory || 'unknown'
+    memoryInfo: navigator.deviceMemory || 'unknown',
   };
 };
 
@@ -448,44 +466,44 @@ export class SecureStorage {
   async encrypt(data) {
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(JSON.stringify(data));
-    
+
     const key = await crypto.subtle.importKey(
       'raw',
       encoder.encode(this.encryptionKey),
       { name: 'AES-GCM' },
       false,
-      ['encrypt']
+      ['encrypt'],
     );
 
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const encrypted = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       key,
-      dataBuffer
+      dataBuffer,
     );
 
     return {
       data: Array.from(new Uint8Array(encrypted)),
-      iv: Array.from(iv)
+      iv: Array.from(iv),
     };
   }
 
   async decrypt(encryptedData) {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
-    
+
     const key = await crypto.subtle.importKey(
       'raw',
       encoder.encode(this.encryptionKey),
       { name: 'AES-GCM' },
       false,
-      ['decrypt']
+      ['decrypt'],
     );
 
     const decrypted = await crypto.subtle.decrypt(
       { name: 'AES-GCM', iv: new Uint8Array(encryptedData.iv) },
       key,
-      new Uint8Array(encryptedData.data)
+      new Uint8Array(encryptedData.data),
     );
 
     return JSON.parse(decoder.decode(decrypted));
@@ -504,7 +522,7 @@ export class SecureStorage {
     try {
       const stored = localStorage.getItem(key);
       if (!stored) return null;
-      
+
       const encrypted = JSON.parse(stored);
       return await this.decrypt(encrypted);
     } catch (error) {
@@ -533,5 +551,5 @@ export default {
   I18nManager,
   ErrorTracker,
   getDeviceInfo,
-  SecureStorage
+  SecureStorage,
 };
