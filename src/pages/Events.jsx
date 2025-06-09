@@ -49,7 +49,8 @@ const Events = () => {
     {
       id: 1,
       name: 'KONIVRER World Championship 2024',
-      description: 'The premier tournament of the year featuring the best players from around the world competing for the ultimate title.',
+      description:
+        'The premier tournament of the year featuring the best players from around the world competing for the ultimate title.',
       date: '2024-07-15',
       endDate: '2024-07-17',
       time: '10:00 AM',
@@ -68,7 +69,8 @@ const Events = () => {
       structure: 'Swiss + Top 8 Elimination',
       streaming: true,
       featured: true,
-      image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
+      image:
+        'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
       website: 'https://konivrer.com/worlds2024',
       registration: {
         open: true,
@@ -78,7 +80,12 @@ const Events = () => {
       schedule: [
         { day: 'Day 1', date: '2024-07-15', rounds: '1-9', format: 'Swiss' },
         { day: 'Day 2', date: '2024-07-16', rounds: '10-15', format: 'Swiss' },
-        { day: 'Day 3', date: '2024-07-17', rounds: 'Top 8', format: 'Elimination' },
+        {
+          day: 'Day 3',
+          date: '2024-07-17',
+          rounds: 'Top 8',
+          format: 'Elimination',
+        },
       ],
       prizes: [
         { place: '1st', prize: '$15,000 + Trophy + Title' },
@@ -91,7 +98,8 @@ const Events = () => {
     {
       id: 2,
       name: 'Regional Qualifier - Summer Series',
-      description: 'High-stakes regional qualifier for the Summer Championship. Top 8 players qualify for the national tournament.',
+      description:
+        'High-stakes regional qualifier for the Summer Championship. Top 8 players qualify for the national tournament.',
       date: '2024-06-15',
       endDate: '2024-06-16',
       time: '10:00 AM',
@@ -110,7 +118,8 @@ const Events = () => {
       structure: 'Swiss + Top 8 Elimination',
       streaming: true,
       featured: true,
-      image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400',
+      image:
+        'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400',
       website: 'https://konivrer.com/summer-qualifier',
       registration: {
         open: true,
@@ -119,7 +128,12 @@ const Events = () => {
       },
       schedule: [
         { day: 'Day 1', date: '2024-06-15', rounds: '1-7', format: 'Swiss' },
-        { day: 'Day 2', date: '2024-06-16', rounds: '8-9 + Top 8', format: 'Swiss + Elimination' },
+        {
+          day: 'Day 2',
+          date: '2024-06-16',
+          rounds: '8-9 + Top 8',
+          format: 'Swiss + Elimination',
+        },
       ],
       prizes: [
         { place: '1st', prize: '$1,500 + Qualification' },
@@ -131,7 +145,8 @@ const Events = () => {
     {
       id: 3,
       name: 'Friday Night KONIVRER Championship',
-      description: 'Weekly competitive tournament featuring the latest Standard format with exciting prizes and professional coverage.',
+      description:
+        'Weekly competitive tournament featuring the latest Standard format with exciting prizes and professional coverage.',
       date: '2024-06-14',
       endDate: '2024-06-14',
       time: '7:00 PM',
@@ -150,7 +165,8 @@ const Events = () => {
       structure: 'Swiss + Top 8',
       streaming: true,
       featured: false,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
+      image:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
       website: 'https://gamehub.com/friday-night',
       registration: {
         open: false,
@@ -159,7 +175,12 @@ const Events = () => {
       },
       currentRound: 3,
       schedule: [
-        { day: 'Tonight', date: '2024-06-14', rounds: '1-5 + Top 8', format: 'Swiss + Elimination' },
+        {
+          day: 'Tonight',
+          date: '2024-06-14',
+          rounds: '1-5 + Top 8',
+          format: 'Swiss + Elimination',
+        },
       ],
       prizes: [
         { place: '1st', prize: '$200 + Trophy' },
@@ -171,7 +192,8 @@ const Events = () => {
     {
       id: 4,
       name: 'Legacy Legends Tournament',
-      description: 'Premium legacy format tournament featuring vintage cards and classic strategies.',
+      description:
+        'Premium legacy format tournament featuring vintage cards and classic strategies.',
       date: '2024-06-22',
       endDate: '2024-06-22',
       time: '11:00 AM',
@@ -190,7 +212,8 @@ const Events = () => {
       structure: 'Swiss + Top 8',
       streaming: true,
       featured: false,
-      image: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
+      image:
+        'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400',
       website: 'https://legacymasters.com/legends',
       registration: {
         open: true,
@@ -198,7 +221,12 @@ const Events = () => {
         waitlist: false,
       },
       schedule: [
-        { day: 'Saturday', date: '2024-06-22', rounds: '1-7 + Top 8', format: 'Swiss + Elimination' },
+        {
+          day: 'Saturday',
+          date: '2024-06-22',
+          rounds: '1-7 + Top 8',
+          format: 'Swiss + Elimination',
+        },
       ],
       prizes: [
         { place: '1st', prize: '$1,200 + Vintage Card' },
@@ -210,7 +238,8 @@ const Events = () => {
     {
       id: 5,
       name: 'Online Championship Series',
-      description: 'Digital tournament series with global participation and innovative online features.',
+      description:
+        'Digital tournament series with global participation and innovative online features.',
       date: '2024-06-10',
       endDate: '2024-06-10',
       time: '4:00 PM',
@@ -238,7 +267,12 @@ const Events = () => {
       },
       winner: 'DigitalMaster',
       schedule: [
-        { day: 'Monday', date: '2024-06-10', rounds: '1-9 + Top 16', format: 'Swiss + Elimination' },
+        {
+          day: 'Monday',
+          date: '2024-06-10',
+          rounds: '1-9 + Top 16',
+          format: 'Swiss + Elimination',
+        },
       ],
       prizes: [
         { place: '1st', prize: '$1,500 + Digital Trophy' },
@@ -251,42 +285,66 @@ const Events = () => {
   ]);
 
   // Available formats and types
-  const formats = ['Classic Constructed', 'Blitz', 'Draft', 'Sealed', 'Legacy', 'Standard'];
-  const types = ['Championship', 'Qualifier', 'Weekly', 'Premium', 'Online', 'Casual'];
+  const formats = [
+    'Classic Constructed',
+    'Blitz',
+    'Draft',
+    'Sealed',
+    'Legacy',
+    'Standard',
+  ];
+  const types = [
+    'Championship',
+    'Qualifier',
+    'Weekly',
+    'Premium',
+    'Online',
+    'Casual',
+  ];
   const statuses = ['upcoming', 'live', 'completed', 'cancelled'];
 
   // Filter events
   const filteredEvents = events.filter(event => {
-    const matchesSearch = 
+    const matchesSearch =
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.organizer.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesFormat = !filters.format || event.format === filters.format;
-    const matchesLocation = !filters.location || 
+    const matchesLocation =
+      !filters.location ||
       event.location.toLowerCase().includes(filters.location.toLowerCase());
     const matchesStatus = !filters.status || event.status === filters.status;
     const matchesType = !filters.type || event.type === filters.type;
 
-    const matchesDateFrom = !filters.dateFrom || 
-      new Date(event.date) >= new Date(filters.dateFrom);
-    const matchesDateTo = !filters.dateTo || 
-      new Date(event.date) <= new Date(filters.dateTo);
+    const matchesDateFrom =
+      !filters.dateFrom || new Date(event.date) >= new Date(filters.dateFrom);
+    const matchesDateTo =
+      !filters.dateTo || new Date(event.date) <= new Date(filters.dateTo);
 
-    const matchesPrizeMin = !filters.prizeMin || 
-      event.prizePool >= parseInt(filters.prizeMin);
-    const matchesPrizeMax = !filters.prizeMax || 
-      event.prizePool <= parseInt(filters.prizeMax);
+    const matchesPrizeMin =
+      !filters.prizeMin || event.prizePool >= parseInt(filters.prizeMin);
+    const matchesPrizeMax =
+      !filters.prizeMax || event.prizePool <= parseInt(filters.prizeMax);
 
-    return matchesSearch && matchesFormat && matchesLocation && matchesStatus && 
-           matchesType && matchesDateFrom && matchesDateTo && matchesPrizeMin && matchesPrizeMax;
+    return (
+      matchesSearch &&
+      matchesFormat &&
+      matchesLocation &&
+      matchesStatus &&
+      matchesType &&
+      matchesDateFrom &&
+      matchesDateTo &&
+      matchesPrizeMin &&
+      matchesPrizeMax
+    );
   });
 
   // Sort events
   const sortedEvents = [...filteredEvents].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy) {
       case 'date':
         comparison = new Date(a.date) - new Date(b.date);
@@ -310,9 +368,12 @@ const Events = () => {
   // Pagination
   const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
   const startIndex = (currentPage - 1) * eventsPerPage;
-  const paginatedEvents = sortedEvents.slice(startIndex, startIndex + eventsPerPage);
+  const paginatedEvents = sortedEvents.slice(
+    startIndex,
+    startIndex + eventsPerPage,
+  );
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = status => {
     switch (status) {
       case 'upcoming':
         return <Clock className="text-blue-400" size={16} />;
@@ -327,7 +388,7 @@ const Events = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
       case 'upcoming':
         return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
@@ -342,7 +403,7 @@ const Events = () => {
     }
   };
 
-  const getTypeIcon = (type) => {
+  const getTypeIcon = type => {
     switch (type) {
       case 'Championship':
         return <Crown className="text-yellow-400" size={16} />;
@@ -361,7 +422,7 @@ const Events = () => {
     }
   };
 
-  const formatPrize = (amount) => {
+  const formatPrize = amount => {
     if (amount >= 1000) {
       return `$${(amount / 1000).toFixed(amount % 1000 === 0 ? 0 : 1)}k`;
     }
@@ -398,10 +459,12 @@ const Events = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        
+
         {/* Status Badge */}
         <div className="absolute top-3 left-3">
-          <span className={`px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1 ${getStatusColor(event.status)}`}>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1 ${getStatusColor(event.status)}`}
+          >
             {getStatusIcon(event.status)}
             {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
           </span>
@@ -459,12 +522,10 @@ const Events = () => {
           <div className="flex items-center space-x-2 text-sm text-gray-300">
             <Calendar size={14} />
             <span>{event.date}</span>
-            {event.endDate !== event.date && (
-              <span>- {event.endDate}</span>
-            )}
+            {event.endDate !== event.date && <span>- {event.endDate}</span>}
             <span className="text-gray-500">at {event.time}</span>
           </div>
-          
+
           <div className="flex items-center space-x-2 text-sm text-gray-300">
             <MapPin size={14} />
             <span className="line-clamp-1">{event.location}</span>
@@ -472,7 +533,9 @@ const Events = () => {
 
           <div className="flex items-center space-x-2 text-sm text-gray-300">
             <Users size={14} />
-            <span>{event.participants}/{event.maxParticipants} players</span>
+            <span>
+              {event.participants}/{event.maxParticipants} players
+            </span>
             <span className="text-gray-500">•</span>
             <span>{event.format}</span>
           </div>
@@ -492,7 +555,9 @@ const Events = () => {
           <div className="mb-4 p-3 bg-yellow-500/20 border border-yellow-500/30 rounded">
             <div className="flex items-center space-x-2">
               <Trophy className="text-yellow-400" size={16} />
-              <span className="text-yellow-400 font-medium">Winner: {event.winner}</span>
+              <span className="text-yellow-400 font-medium">
+                Winner: {event.winner}
+              </span>
             </div>
           </div>
         )}
@@ -533,7 +598,7 @@ const Events = () => {
               <span>{event.rounds} rounds</span>
             </div>
           </div>
-          
+
           <div className="flex space-x-2">
             <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
               <Eye size={14} className="inline mr-1" />
@@ -558,7 +623,8 @@ const Events = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Tournament Events</h1>
           <p className="text-gray-400">
-            Discover and participate in competitive KONIVRER tournaments worldwide
+            Discover and participate in competitive KONIVRER tournaments
+            worldwide
           </p>
         </div>
 
@@ -568,12 +634,15 @@ const Events = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search events, locations, organizers..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -584,7 +653,11 @@ const Events = () => {
             >
               <Filter size={20} />
               <span>Filters</span>
-              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {showAdvancedFilters ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
 
@@ -605,12 +678,16 @@ const Events = () => {
                     </label>
                     <select
                       value={filters.format}
-                      onChange={(e) => setFilters({...filters, format: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, format: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Formats</option>
                       {formats.map(format => (
-                        <option key={format} value={format}>{format}</option>
+                        <option key={format} value={format}>
+                          {format}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -622,12 +699,16 @@ const Events = () => {
                     </label>
                     <select
                       value={filters.type}
-                      onChange={(e) => setFilters({...filters, type: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, type: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Types</option>
                       {types.map(type => (
-                        <option key={type} value={type}>{type}</option>
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -639,7 +720,9 @@ const Events = () => {
                     </label>
                     <select
                       value={filters.status}
-                      onChange={(e) => setFilters({...filters, status: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, status: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Statuses</option>
@@ -660,7 +743,9 @@ const Events = () => {
                       type="text"
                       placeholder="City, State, Country"
                       value={filters.location}
-                      onChange={(e) => setFilters({...filters, location: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, location: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -676,7 +761,9 @@ const Events = () => {
                       <input
                         type="date"
                         value={filters.dateFrom}
-                        onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+                        onChange={e =>
+                          setFilters({ ...filters, dateFrom: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -687,7 +774,9 @@ const Events = () => {
                       <input
                         type="date"
                         value={filters.dateTo}
-                        onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+                        onChange={e =>
+                          setFilters({ ...filters, dateTo: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -702,7 +791,9 @@ const Events = () => {
                         type="number"
                         placeholder="0"
                         value={filters.prizeMin}
-                        onChange={(e) => setFilters({...filters, prizeMin: e.target.value})}
+                        onChange={e =>
+                          setFilters({ ...filters, prizeMin: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -714,7 +805,9 @@ const Events = () => {
                         type="number"
                         placeholder="100000"
                         value={filters.prizeMax}
-                        onChange={(e) => setFilters({...filters, prizeMax: e.target.value})}
+                        onChange={e =>
+                          setFilters({ ...filters, prizeMax: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -738,15 +831,17 @@ const Events = () => {
         {/* Sort and Results Info */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <div className="text-gray-400 mb-4 md:mb-0">
-            Showing {startIndex + 1}-{Math.min(startIndex + eventsPerPage, sortedEvents.length)} of {sortedEvents.length} events
+            Showing {startIndex + 1}-
+            {Math.min(startIndex + eventsPerPage, sortedEvents.length)} of{' '}
+            {sortedEvents.length} events
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-400">Sort by:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={e => setSortBy(e.target.value)}
                 className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
               >
                 <option value="date">Date</option>
@@ -755,12 +850,16 @@ const Events = () => {
                 <option value="participants">Participants</option>
               </select>
             </div>
-            
+
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm hover:bg-gray-600 transition-colors"
             >
-              {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {sortOrder === 'asc' ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
         </div>
@@ -784,9 +883,10 @@ const Events = () => {
             >
               Previous
             </button>
-            
+
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+              const page =
+                Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
               return (
                 <button
                   key={page}
@@ -801,9 +901,11 @@ const Events = () => {
                 </button>
               );
             })}
-            
+
             <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                setCurrentPage(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage === totalPages}
               className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
             >

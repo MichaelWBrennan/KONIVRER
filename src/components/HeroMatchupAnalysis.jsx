@@ -33,18 +33,22 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
   const calculateMatchupData = () => {
     // Filter matches based on hero matchup and criteria
     const relevantMatches = matches.filter(match => {
-      const hasHeroes = 
+      const hasHeroes =
         (match.player1.hero === hero1 && match.player2.hero === hero2) ||
         (match.player1.hero === hero2 && match.player2.hero === hero1);
-      
-      const matchesFormat = format === 'all' || match.tournament.format === format;
-      
+
+      const matchesFormat =
+        format === 'all' || match.tournament.format === format;
+
       let matchesTimeframe = true;
       if (timeframe !== 'all') {
         const matchDate = new Date(match.tournament.date);
         const now = new Date();
-        const daysAgo = timeframe === '30d' ? 30 : timeframe === '90d' ? 90 : 365;
-        const cutoffDate = new Date(now.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+        const daysAgo =
+          timeframe === '30d' ? 30 : timeframe === '90d' ? 90 : 365;
+        const cutoffDate = new Date(
+          now.getTime() - daysAgo * 24 * 60 * 60 * 1000,
+        );
         matchesTimeframe = matchDate >= cutoffDate;
       }
 
@@ -67,27 +71,35 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
     relevantMatches.forEach(match => {
       const isHero1Player1 = match.player1.hero === hero1;
       const winner = match.result.winner;
-      
-      if ((isHero1Player1 && winner === 'player1') || (!isHero1Player1 && winner === 'player2')) {
+
+      if (
+        (isHero1Player1 && winner === 'player1') ||
+        (!isHero1Player1 && winner === 'player2')
+      ) {
         hero1Wins++;
       } else {
         hero2Wins++;
       }
 
       totalGames += match.result.games.length;
-      
+
       // Convert duration to minutes
       const [minutes, seconds] = match.duration.split(':').map(Number);
-      avgDuration += minutes + (seconds / 60);
+      avgDuration += minutes + seconds / 60;
 
       // Track tournament types
       const tournamentType = match.tournament.format;
-      tournamentTypes[tournamentType] = (tournamentTypes[tournamentType] || 0) + 1;
+      tournamentTypes[tournamentType] =
+        (tournamentTypes[tournamentType] || 0) + 1;
 
       // Add to recent trend (last 10 matches)
       recentTrend.push({
         date: match.tournament.date,
-        winner: (isHero1Player1 && winner === 'player1') || (!isHero1Player1 && winner === 'player2') ? hero1 : hero2,
+        winner:
+          (isHero1Player1 && winner === 'player1') ||
+          (!isHero1Player1 && winner === 'player2')
+            ? hero1
+            : hero2,
         tournament: match.tournament.name,
       });
     });
@@ -102,7 +114,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
 
     // Calculate recent form (last 5 matches)
     const recentForm = recentTrend.slice(0, 5);
-    const recentHero1Wins = recentForm.filter(match => match.winner === hero1).length;
+    const recentHero1Wins = recentForm.filter(
+      match => match.winner === hero1,
+    ).length;
     const recentWinRate = (recentHero1Wins / recentForm.length) * 100;
 
     setAnalysisData({
@@ -120,27 +134,37 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
     });
   };
 
-  const getHeroIcon = (heroName) => {
+  const getHeroIcon = heroName => {
     const heroIcons = {
       'Vynnset, Iron Maiden': <Sword className="text-red-400" size={20} />,
-      'Briar, Warden of Thorns': <Shield className="text-green-400" size={20} />,
+      'Briar, Warden of Thorns': (
+        <Shield className="text-green-400" size={20} />
+      ),
       'Iyslander, Stormbind': <Zap className="text-blue-400" size={20} />,
-      'Prism, Sculptor of Arc Light': <Star className="text-yellow-400" size={20} />,
+      'Prism, Sculptor of Arc Light': (
+        <Star className="text-yellow-400" size={20} />
+      ),
       'Kano, Dracai of Aether': <Crown className="text-purple-400" size={20} />,
-      'Rhinar, Reckless Rampage': <Trophy className="text-orange-400" size={20} />,
+      'Rhinar, Reckless Rampage': (
+        <Trophy className="text-orange-400" size={20} />
+      ),
     };
-    return heroIcons[heroName] || <Target className="text-gray-400" size={20} />;
+    return (
+      heroIcons[heroName] || <Target className="text-gray-400" size={20} />
+    );
   };
 
-  const getWinRateColor = (winRate) => {
+  const getWinRateColor = winRate => {
     if (winRate >= 60) return 'text-green-400';
     if (winRate >= 50) return 'text-yellow-400';
     return 'text-red-400';
   };
 
   const getTrendIcon = (recentWinRate, overallWinRate) => {
-    if (recentWinRate > overallWinRate + 5) return <TrendingUp className="text-green-400" size={16} />;
-    if (recentWinRate < overallWinRate - 5) return <TrendingDown className="text-red-400" size={16} />;
+    if (recentWinRate > overallWinRate + 5)
+      return <TrendingUp className="text-green-400" size={16} />;
+    if (recentWinRate < overallWinRate - 5)
+      return <TrendingDown className="text-red-400" size={16} />;
     return <Activity className="text-gray-400" size={16} />;
   };
 
@@ -148,7 +172,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
     return (
       <div className="bg-gray-800 rounded-lg p-8 text-center">
         <Target className="mx-auto text-gray-400 mb-4" size={48} />
-        <h3 className="text-xl font-bold text-white mb-2">Hero Matchup Analysis</h3>
+        <h3 className="text-xl font-bold text-white mb-2">
+          Hero Matchup Analysis
+        </h3>
         <p className="text-gray-400">
           Select two heroes to view detailed matchup statistics and analysis
         </p>
@@ -173,11 +199,13 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
       {/* Header */}
       <div className="bg-gray-800 rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-white">Hero Matchup Analysis</h2>
+          <h2 className="text-2xl font-bold text-white">
+            Hero Matchup Analysis
+          </h2>
           <div className="flex space-x-2">
             <select
               value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value)}
+              onChange={e => setTimeframe(e.target.value)}
               className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Time</option>
@@ -187,7 +215,7 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
             </select>
             <select
               value={format}
-              onChange={(e) => setFormat(e.target.value)}
+              onChange={e => setFormat(e.target.value)}
               className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Formats</option>
@@ -207,7 +235,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               {getHeroIcon(hero1)}
               <h3 className="text-lg font-bold text-white">{hero1}</h3>
             </div>
-            <div className={`text-3xl font-bold ${getWinRateColor(analysisData.hero1WinRate)}`}>
+            <div
+              className={`text-3xl font-bold ${getWinRateColor(analysisData.hero1WinRate)}`}
+            >
               {analysisData.hero1WinRate.toFixed(1)}%
             </div>
             <div className="text-sm text-gray-400">
@@ -230,7 +260,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               {getHeroIcon(hero2)}
               <h3 className="text-lg font-bold text-white">{hero2}</h3>
             </div>
-            <div className={`text-3xl font-bold ${getWinRateColor(analysisData.hero2WinRate)}`}>
+            <div
+              className={`text-3xl font-bold ${getWinRateColor(analysisData.hero2WinRate)}`}
+            >
               {analysisData.hero2WinRate.toFixed(1)}%
             </div>
             <div className="text-sm text-gray-400">
@@ -252,8 +284,12 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
             <Users className="text-blue-400" size={24} />
             <h3 className="font-medium text-white">Total Matches</h3>
           </div>
-          <div className="text-2xl font-bold text-white">{analysisData.totalMatches}</div>
-          <div className="text-sm text-gray-400">{analysisData.totalGames} total games</div>
+          <div className="text-2xl font-bold text-white">
+            {analysisData.totalMatches}
+          </div>
+          <div className="text-sm text-gray-400">
+            {analysisData.totalGames} total games
+          </div>
         </motion.div>
 
         {/* Average Duration */}
@@ -268,7 +304,11 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
             <h3 className="font-medium text-white">Avg Duration</h3>
           </div>
           <div className="text-2xl font-bold text-white">
-            {Math.floor(analysisData.avgDuration)}:{String(Math.round((analysisData.avgDuration % 1) * 60)).padStart(2, '0')}
+            {Math.floor(analysisData.avgDuration)}:
+            {String(Math.round((analysisData.avgDuration % 1) * 60)).padStart(
+              2,
+              '0',
+            )}
           </div>
           <div className="text-sm text-gray-400">per match</div>
         </motion.div>
@@ -283,12 +323,19 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
           <div className="flex items-center space-x-3 mb-2">
             <Activity className="text-purple-400" size={24} />
             <h3 className="font-medium text-white">Recent Form</h3>
-            {getTrendIcon(analysisData.recentWinRate, analysisData.hero1WinRate)}
+            {getTrendIcon(
+              analysisData.recentWinRate,
+              analysisData.hero1WinRate,
+            )}
           </div>
-          <div className={`text-2xl font-bold ${getWinRateColor(analysisData.recentWinRate)}`}>
+          <div
+            className={`text-2xl font-bold ${getWinRateColor(analysisData.recentWinRate)}`}
+          >
             {analysisData.recentWinRate.toFixed(1)}%
           </div>
-          <div className="text-sm text-gray-400">Last {analysisData.recentForm.length} matches</div>
+          <div className="text-sm text-gray-400">
+            Last {analysisData.recentForm.length} matches
+          </div>
         </motion.div>
 
         {/* Dominance */}
@@ -303,10 +350,16 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
             <h3 className="font-medium text-white">Favored Hero</h3>
           </div>
           <div className="text-lg font-bold text-white">
-            {analysisData.hero1WinRate > analysisData.hero2WinRate ? hero1 : hero2}
+            {analysisData.hero1WinRate > analysisData.hero2WinRate
+              ? hero1
+              : hero2}
           </div>
           <div className="text-sm text-gray-400">
-            +{Math.abs(analysisData.hero1WinRate - analysisData.hero2WinRate).toFixed(1)}% advantage
+            +
+            {Math.abs(
+              analysisData.hero1WinRate - analysisData.hero2WinRate,
+            ).toFixed(1)}
+            % advantage
           </div>
         </motion.div>
       </div>
@@ -327,7 +380,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               className="flex items-center justify-between p-3 bg-gray-700 rounded"
             >
               <div className="flex items-center space-x-3">
-                <div className={`w-3 h-3 rounded-full ${match.winner === hero1 ? 'bg-green-400' : 'bg-red-400'}`} />
+                <div
+                  className={`w-3 h-3 rounded-full ${match.winner === hero1 ? 'bg-green-400' : 'bg-red-400'}`}
+                />
                 <span className="text-white font-medium">{match.winner}</span>
                 <span className="text-gray-400">won</span>
               </div>
@@ -347,20 +402,26 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
           <span>Format Breakdown</span>
         </h3>
         <div className="space-y-3">
-          {Object.entries(analysisData.tournamentTypes).map(([format, count]) => (
-            <div key={format} className="flex items-center justify-between">
-              <span className="text-white">{format}</span>
-              <div className="flex items-center space-x-2">
-                <div className="w-32 bg-gray-700 rounded-full h-2">
-                  <div
-                    className="bg-blue-500 h-2 rounded-full"
-                    style={{ width: `${(count / analysisData.totalMatches) * 100}%` }}
-                  />
+          {Object.entries(analysisData.tournamentTypes).map(
+            ([format, count]) => (
+              <div key={format} className="flex items-center justify-between">
+                <span className="text-white">{format}</span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-32 bg-gray-700 rounded-full h-2">
+                    <div
+                      className="bg-blue-500 h-2 rounded-full"
+                      style={{
+                        width: `${(count / analysisData.totalMatches) * 100}%`,
+                      }}
+                    />
+                  </div>
+                  <span className="text-gray-400 text-sm w-12 text-right">
+                    {count}
+                  </span>
                 </div>
-                <span className="text-gray-400 text-sm w-12 text-right">{count}</span>
               </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
 
@@ -377,7 +438,9 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
                 {getHeroIcon(hero1)}
                 <span>{hero1}</span>
               </span>
-              <span className={`font-bold ${getWinRateColor(analysisData.hero1WinRate)}`}>
+              <span
+                className={`font-bold ${getWinRateColor(analysisData.hero1WinRate)}`}
+              >
                 {analysisData.hero1WinRate.toFixed(1)}%
               </span>
             </div>
@@ -388,14 +451,16 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               />
             </div>
           </div>
-          
+
           <div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-white flex items-center space-x-2">
                 {getHeroIcon(hero2)}
                 <span>{hero2}</span>
               </span>
-              <span className={`font-bold ${getWinRateColor(analysisData.hero2WinRate)}`}>
+              <span
+                className={`font-bold ${getWinRateColor(analysisData.hero2WinRate)}`}
+              >
                 {analysisData.hero2WinRate.toFixed(1)}%
               </span>
             </div>
