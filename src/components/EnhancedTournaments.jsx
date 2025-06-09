@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useData } from '../contexts/DataContext';
 import {
   Calendar,
   MapPin,
@@ -47,6 +48,7 @@ const EnhancedTournaments = () => {
     registerForTournament,
     unregisterFromTournament,
   } = useAuth();
+  const { tournaments: dataTournaments } = useData();
   const [tournaments, setTournaments] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,9 +59,14 @@ const EnhancedTournaments = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [prizeRange, setPrizeRange] = useState([0, 10000]);
 
-  // Enhanced mock tournament data
+  // Load tournaments from DataContext
   useEffect(() => {
-    const mockTournaments = [
+    // Use real tournament data from DataContext
+    if (dataTournaments && dataTournaments.length > 0) {
+      setTournaments(dataTournaments);
+    } else {
+      // Fallback to sample tournaments if no real data exists
+      const sampleTournaments = [
       {
         id: 1,
         name: 'Friday Night KONIVRER Championship',
@@ -293,8 +300,9 @@ const EnhancedTournaments = () => {
       },
     ];
 
-    setTournaments(mockTournaments);
-  }, []);
+      setTournaments(sampleTournaments);
+    }
+  }, [dataTournaments]);
 
   const getStatusIcon = status => {
     switch (status) {
