@@ -135,6 +135,8 @@ export default defineConfig({
     open: false,
     cors: true,
     allowedHosts: [
+      'work-1-yxjvidvyzjtfdnks.prod-runtime.all-hands.dev',
+      'work-2-yxjvidvyzjtfdnks.prod-runtime.all-hands.dev',
       'work-1-uqjylmppmftqniux.prod-runtime.all-hands.dev',
       'work-2-uqjylmppmftqniux.prod-runtime.all-hands.dev',
       'localhost',
