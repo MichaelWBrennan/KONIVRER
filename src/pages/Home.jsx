@@ -9,10 +9,15 @@ import {
   Shield,
   Calendar,
   Target,
+  Clock,
+  User,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useData } from '../contexts/DataContext';
 
 const Home = () => {
+  const { stats, recentActivity, getRecentDecks } = useData();
+
   const features = [
     {
       icon: PlusCircle,
@@ -58,11 +63,31 @@ const Home = () => {
     },
   ];
 
-  const stats = [
-    { label: 'Total Cards', value: '500+', icon: Database },
-    { label: 'Active Players', value: '1.2K+', icon: Users },
-    { label: 'Tournaments', value: '250+', icon: Trophy },
-    { label: 'Certified Judges', value: '45+', icon: Shield },
+  // Dynamic stats from real data
+  const dynamicStats = [
+    {
+      label: 'Total Cards',
+      value: stats.totalCards.toLocaleString(),
+      icon: Database,
+    },
+    {
+      label: 'Active Players',
+      value:
+        stats.activePlayers > 1000
+          ? `${(stats.activePlayers / 1000).toFixed(1)}K+`
+          : `${stats.activePlayers}+`,
+      icon: Users,
+    },
+    {
+      label: 'Tournaments',
+      value: `${stats.tournaments}+`,
+      icon: Trophy,
+    },
+    {
+      label: 'Certified Judges',
+      value: `${stats.certifiedJudges}+`,
+      icon: Shield,
+    },
   ];
 
   return (
@@ -100,7 +125,7 @@ const Home = () => {
       <section className="py-16 bg-secondary">
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map(stat => {
+            {dynamicStats.map(stat => {
               const Icon = stat.icon;
               return (
                 <div key={stat.label} className="text-center">
@@ -166,28 +191,65 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Placeholder for recent decks */}
-            {[1, 2, 3].map(i => (
-              <div key={i} className="card">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-accent-primary rounded-full flex items-center justify-center">
-                    <span className="text-white font-semibold">U</span>
+            {recentActivity.length > 0 ? (
+              recentActivity.map(activity => (
+                <div
+                  key={activity.id}
+                  className="card hover:border-accent-primary transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 bg-accent-primary rounded-full flex items-center justify-center">
+                      {activity.type === 'deck_created' ? (
+                        <PlusCircle size={16} className="text-white" />
+                      ) : activity.type === 'tournament_started' ? (
+                        <Trophy size={16} className="text-white" />
+                      ) : (
+                        <User size={16} className="text-white" />
+                      )}
+                    </div>
+                    <div>
+                      <div className="font-medium">{activity.title}</div>
+                      <div className="text-sm text-secondary">
+                        by {activity.user}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-medium">Sample Deck {i}</div>
-                    <div className="text-sm text-secondary">by User{i}</div>
+                  <div className="text-sm text-secondary mb-3">
+                    {activity.description}
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted">
+                      {activity.cardCount && `${activity.cardCount} cards`}
+                      {activity.participants &&
+                        `${activity.participants} players`}
+                    </span>
+                    <span className="text-muted flex items-center gap-1">
+                      <Clock size={12} />
+                      {new Date(activity.timestamp).toLocaleString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
+                      })}
+                    </span>
                   </div>
                 </div>
-                <div className="text-sm text-secondary mb-3">
-                  A powerful elemental deck focusing on fire and earth
-                  synergies.
+              ))
+            ) : (
+              // Fallback when no real activity exists
+              <div className="col-span-full text-center py-8">
+                <div className="text-secondary mb-4">
+                  <TrendingUp size={48} className="mx-auto mb-2 opacity-50" />
+                  <p>No recent activity yet</p>
+                  <p className="text-sm">
+                    Start building decks to see activity here!
+                  </p>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted">40 cards</span>
-                  <span className="text-muted">2 hours ago</span>
-                </div>
+                <Link to="/deckbuilder" className="btn btn-primary">
+                  <PlusCircle size={16} />
+                  Create Your First Deck
+                </Link>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
