@@ -143,7 +143,9 @@ const DeckDiscovery = ({ onImportDeck }) => {
     >
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-lg font-bold text-white">{deck.name || 'Untitled Deck'}</h3>
+          <h3 className="text-lg font-bold text-white">
+            {deck.name || 'Untitled Deck'}
+          </h3>
           <p className="text-sm text-gray-400">
             {deck.archetype || 'Unknown'} • {deck.format || 'Standard'}
           </p>
@@ -168,7 +170,13 @@ const DeckDiscovery = ({ onImportDeck }) => {
         </div>
         <div className="flex items-center space-x-1">
           <Calendar size={14} />
-          <span>{deck.date ? new Date(deck.date).toLocaleDateString() : deck.createdAt ? new Date(deck.createdAt).toLocaleDateString() : 'Unknown'}</span>
+          <span>
+            {deck.date
+              ? new Date(deck.date).toLocaleDateString()
+              : deck.createdAt
+                ? new Date(deck.createdAt).toLocaleDateString()
+                : 'Unknown'}
+          </span>
         </div>
         <div className="flex items-center space-x-1">
           <Eye size={14} />
