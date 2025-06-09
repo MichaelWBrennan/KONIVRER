@@ -30,7 +30,10 @@ function App() {
               <Route path="/decks" element={<MyDecks />} />
               <Route path="/saved-decks" element={<MyDecks />} />
               <Route path="/deckbuilder" element={<EnhancedDeckBuilder />} />
-              <Route path="/deckbuilder/:deckId" element={<EnhancedDeckBuilder />} />
+              <Route
+                path="/deckbuilder/:deckId"
+                element={<EnhancedDeckBuilder />}
+              />
               <Route
                 path="/deckbuilder-advanced"
                 element={<AdvancedDeckBuilder />}

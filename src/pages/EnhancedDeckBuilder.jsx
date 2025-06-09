@@ -36,7 +36,9 @@ const EnhancedDeckBuilder = () => {
   useEffect(() => {
     if (deckId) {
       // TODO: Load deck from storage/API
-      const savedDecks = JSON.parse(localStorage.getItem('konivrer-decks') || '[]');
+      const savedDecks = JSON.parse(
+        localStorage.getItem('konivrer-decks') || '[]',
+      );
       const foundDeck = savedDecks.find(d => d.id === deckId);
       if (foundDeck) {
         setDeck(foundDeck);
@@ -49,15 +51,14 @@ const EnhancedDeckBuilder = () => {
     const matchesSearch =
       card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       card.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (card.flavor && card.flavor.toLowerCase().includes(searchQuery.toLowerCase()));
+      (card.flavor &&
+        card.flavor.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesType =
-      filters.type.length === 0 ||
-      filters.type.includes(card.type);
+      filters.type.length === 0 || filters.type.includes(card.type);
 
     const matchesClass =
-      filters.class.length === 0 ||
-      filters.class.includes(card.class);
+      filters.class.length === 0 || filters.class.includes(card.class);
 
     const matchesElements =
       filters.elements.length === 0 ||
@@ -69,21 +70,21 @@ const EnhancedDeckBuilder = () => {
 
     const matchesTalents =
       filters.talents.length === 0 ||
-      filters.talents.some(talent => card.talents && card.talents.includes(talent));
+      filters.talents.some(
+        talent => card.talents && card.talents.includes(talent),
+      );
 
     const matchesRarity =
-      filters.rarity.length === 0 ||
-      filters.rarity.includes(card.rarity);
+      filters.rarity.length === 0 || filters.rarity.includes(card.rarity);
 
     const matchesSet =
-      filters.set.length === 0 ||
-      filters.set.includes(card.set);
+      filters.set.length === 0 || filters.set.includes(card.set);
 
-    const matchesCost = 
+    const matchesCost =
       (!filters.cost.min || card.cost >= parseInt(filters.cost.min)) &&
       (!filters.cost.max || card.cost <= parseInt(filters.cost.max));
 
-    const matchesPower = 
+    const matchesPower =
       (!filters.power.min || card.power >= parseInt(filters.power.min)) &&
       (!filters.power.max || card.power <= parseInt(filters.power.max));
 
@@ -101,50 +102,47 @@ const EnhancedDeckBuilder = () => {
     );
   });
 
-  const addCardToDeck = (card) => {
+  const addCardToDeck = card => {
     const existingCard = deck.cards.find(c => c.id === card.id);
     const currentCount = existingCard ? existingCard.quantity : 0;
-    
-    if (currentCount < 4) { // Max 4 copies per card
+
+    if (currentCount < 4) {
+      // Max 4 copies per card
       const newCards = existingCard
-        ? deck.cards.map(c => 
-            c.id === card.id 
-              ? { ...c, quantity: c.quantity + 1 }
-              : c
+        ? deck.cards.map(c =>
+            c.id === card.id ? { ...c, quantity: c.quantity + 1 } : c,
           )
         : [...deck.cards, { ...card, quantity: 1 }];
-      
+
       setDeck({ ...deck, cards: newCards });
     }
   };
 
-  const removeCardFromDeck = (cardId) => {
+  const removeCardFromDeck = cardId => {
     const newCards = deck.cards
-      .map(c => 
-        c.id === cardId 
-          ? { ...c, quantity: c.quantity - 1 }
-          : c
-      )
+      .map(c => (c.id === cardId ? { ...c, quantity: c.quantity - 1 } : c))
       .filter(c => c.quantity > 0);
-    
+
     setDeck({ ...deck, cards: newCards });
   };
 
   const saveDeck = () => {
-    const savedDecks = JSON.parse(localStorage.getItem('konivrer-decks') || '[]');
+    const savedDecks = JSON.parse(
+      localStorage.getItem('konivrer-decks') || '[]',
+    );
     const deckToSave = {
       ...deck,
       id: deckId || Date.now().toString(),
       lastModified: new Date().toISOString(),
     };
-    
+
     const existingIndex = savedDecks.findIndex(d => d.id === deckToSave.id);
     if (existingIndex >= 0) {
       savedDecks[existingIndex] = deckToSave;
     } else {
       savedDecks.push(deckToSave);
     }
-    
+
     localStorage.setItem('konivrer-decks', JSON.stringify(savedDecks));
     alert('Deck saved successfully!');
   };
@@ -189,13 +187,15 @@ const EnhancedDeckBuilder = () => {
           <p className="text-gray-400">
             Build and test your deck with advanced tools and statistics
           </p>
-          
+
           {/* View Mode Toggle */}
           <div className="flex items-center space-x-4 mt-4">
             <button
               onClick={() => setViewMode('split')}
               className={`px-4 py-2 rounded ${
-                viewMode === 'split' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                viewMode === 'split'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300'
               }`}
             >
               Split View
@@ -203,7 +203,9 @@ const EnhancedDeckBuilder = () => {
             <button
               onClick={() => setViewMode('cards')}
               className={`px-4 py-2 rounded ${
-                viewMode === 'cards' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                viewMode === 'cards'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300'
               }`}
             >
               Cards Only
@@ -211,7 +213,9 @@ const EnhancedDeckBuilder = () => {
             <button
               onClick={() => setViewMode('deck')}
               className={`px-4 py-2 rounded ${
-                viewMode === 'deck' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                viewMode === 'deck'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300'
               }`}
             >
               Deck Only
@@ -219,7 +223,9 @@ const EnhancedDeckBuilder = () => {
             <button
               onClick={() => setViewMode('validate')}
               className={`px-4 py-2 rounded ${
-                viewMode === 'validate' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                viewMode === 'validate'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300'
               }`}
             >
               Validate
@@ -227,13 +233,15 @@ const EnhancedDeckBuilder = () => {
           </div>
         </div>
 
-        <div className={`grid gap-6 ${viewMode === 'split' ? 'lg:grid-cols-2' : 'grid-cols-1'}`}>
+        <div
+          className={`grid gap-6 ${viewMode === 'split' ? 'lg:grid-cols-2' : 'grid-cols-1'}`}
+        >
           {/* Card Browser */}
           {(viewMode === 'split' || viewMode === 'cards') && (
             <div className="space-y-4">
               <div className="bg-gray-800 rounded-lg p-4">
                 <h2 className="text-xl font-bold mb-4">Card Browser</h2>
-                
+
                 {/* Search and Filters */}
                 <div className="space-y-4">
                   <div className="relative">
@@ -249,11 +257,13 @@ const EnhancedDeckBuilder = () => {
                       className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  
+
                   <button
                     onClick={() => setShowAdvancedFilters(true)}
                     className={`flex items-center space-x-2 px-3 py-2 rounded transition-colors ${
-                      hasActiveFilters() ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      hasActiveFilters()
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     }`}
                   >
                     <Filter size={16} />
@@ -298,7 +308,7 @@ const EnhancedDeckBuilder = () => {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 mb-2">
                       {card.elements.map(element => (
                         <span key={element} className="text-lg">
@@ -311,7 +321,7 @@ const EnhancedDeckBuilder = () => {
                         {card.rarity}
                       </span>
                     </div>
-                    
+
                     <p className="text-sm text-gray-300 line-clamp-2">
                       {card.text}
                     </p>
@@ -329,7 +339,7 @@ const EnhancedDeckBuilder = () => {
                 onDeckChange={setDeck}
                 cards={cardsData}
               />
-              
+
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={saveDeck}
@@ -345,10 +355,12 @@ const EnhancedDeckBuilder = () => {
           {viewMode === 'validate' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-white">Deck Validation</h2>
+                <h2 className="text-xl font-bold text-white">
+                  Deck Validation
+                </h2>
                 <select
                   value={selectedFormat}
-                  onChange={(e) => setSelectedFormat(e.target.value)}
+                  onChange={e => setSelectedFormat(e.target.value)}
                   className="px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
                 >
                   <option value="standard">Standard</option>
@@ -356,9 +368,9 @@ const EnhancedDeckBuilder = () => {
                   <option value="eternal">Eternal</option>
                 </select>
               </div>
-              
+
               <DeckValidator deck={deck} format={selectedFormat} />
-              
+
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={saveDeck}

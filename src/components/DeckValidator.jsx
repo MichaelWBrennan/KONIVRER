@@ -12,7 +12,7 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       maxCopies: 4,
       bannedCards: ['Ancient Dragon'], // Example banned card
       restrictedCards: { 'Lightning Bolt': 1 }, // Example restricted card
-      requiredSets: ['Core Set', 'Expansion 1']
+      requiredSets: ['Core Set', 'Expansion 1'],
     },
     limited: {
       minCards: 40,
@@ -20,7 +20,7 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       maxCopies: 4,
       bannedCards: [],
       restrictedCards: {},
-      requiredSets: []
+      requiredSets: [],
     },
     eternal: {
       minCards: 40,
@@ -28,8 +28,8 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       maxCopies: 4,
       bannedCards: [],
       restrictedCards: {},
-      requiredSets: []
-    }
+      requiredSets: [],
+    },
   };
 
   const rules = formatRules[format] || formatRules.standard;
@@ -40,42 +40,48 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
     {
       type: 'error',
       check: totalCards >= rules.minCards,
-      message: `Deck must have at least ${rules.minCards} cards (currently ${totalCards})`
+      message: `Deck must have at least ${rules.minCards} cards (currently ${totalCards})`,
     },
     {
       type: 'error',
       check: totalCards <= rules.maxCards,
-      message: `Deck cannot exceed ${rules.maxCards} cards (currently ${totalCards})`
+      message: `Deck cannot exceed ${rules.maxCards} cards (currently ${totalCards})`,
     },
     {
       type: 'error',
       check: deck.cards.every(card => card.quantity <= rules.maxCopies),
       message: `No card can have more than ${rules.maxCopies} copies`,
-      details: deck.cards.filter(card => card.quantity > rules.maxCopies).map(card => 
-        `${card.name}: ${card.quantity} copies`
-      )
+      details: deck.cards
+        .filter(card => card.quantity > rules.maxCopies)
+        .map(card => `${card.name}: ${card.quantity} copies`),
     },
     {
       type: 'error',
       check: !deck.cards.some(card => rules.bannedCards.includes(card.name)),
       message: 'Deck contains banned cards',
-      details: deck.cards.filter(card => rules.bannedCards.includes(card.name)).map(card => card.name)
+      details: deck.cards
+        .filter(card => rules.bannedCards.includes(card.name))
+        .map(card => card.name),
     },
     {
       type: 'warning',
-      check: Object.entries(rules.restrictedCards).every(([cardName, maxAllowed]) => {
-        const cardInDeck = deck.cards.find(card => card.name === cardName);
-        return !cardInDeck || cardInDeck.quantity <= maxAllowed;
-      }),
+      check: Object.entries(rules.restrictedCards).every(
+        ([cardName, maxAllowed]) => {
+          const cardInDeck = deck.cards.find(card => card.name === cardName);
+          return !cardInDeck || cardInDeck.quantity <= maxAllowed;
+        },
+      ),
       message: 'Deck violates restricted card limits',
-      details: Object.entries(rules.restrictedCards).filter(([cardName, maxAllowed]) => {
-        const cardInDeck = deck.cards.find(card => card.name === cardName);
-        return cardInDeck && cardInDeck.quantity > maxAllowed;
-      }).map(([cardName, maxAllowed]) => {
-        const cardInDeck = deck.cards.find(card => card.name === cardName);
-        return `${cardName}: ${cardInDeck.quantity}/${maxAllowed} allowed`;
-      })
-    }
+      details: Object.entries(rules.restrictedCards)
+        .filter(([cardName, maxAllowed]) => {
+          const cardInDeck = deck.cards.find(card => card.name === cardName);
+          return cardInDeck && cardInDeck.quantity > maxAllowed;
+        })
+        .map(([cardName, maxAllowed]) => {
+          const cardInDeck = deck.cards.find(card => card.name === cardName);
+          return `${cardName}: ${cardInDeck.quantity}/${maxAllowed} allowed`;
+        }),
+    },
   ];
 
   const errors = validations.filter(v => v.type === 'error' && !v.check);
@@ -129,23 +135,29 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       <div className="grid grid-cols-3 gap-4 text-sm">
         <div className="bg-gray-700 rounded p-3">
           <div className="text-gray-300">Total Cards</div>
-          <div className={`text-lg font-bold ${
-            totalCards >= rules.minCards && totalCards <= rules.maxCards 
-              ? 'text-green-400' 
-              : 'text-red-400'
-          }`}>
+          <div
+            className={`text-lg font-bold ${
+              totalCards >= rules.minCards && totalCards <= rules.maxCards
+                ? 'text-green-400'
+                : 'text-red-400'
+            }`}
+          >
             {totalCards}
           </div>
         </div>
         <div className="bg-gray-700 rounded p-3">
           <div className="text-gray-300">Errors</div>
-          <div className={`text-lg font-bold ${errors.length === 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <div
+            className={`text-lg font-bold ${errors.length === 0 ? 'text-green-400' : 'text-red-400'}`}
+          >
             {errors.length}
           </div>
         </div>
         <div className="bg-gray-700 rounded p-3">
           <div className="text-gray-300">Warnings</div>
-          <div className={`text-lg font-bold ${warnings.length === 0 ? 'text-green-400' : 'text-yellow-400'}`}>
+          <div
+            className={`text-lg font-bold ${warnings.length === 0 ? 'text-green-400' : 'text-yellow-400'}`}
+          >
             {warnings.length}
           </div>
         </div>
@@ -155,7 +167,10 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       {(errors.length > 0 || warnings.length > 0) && (
         <div className="space-y-2">
           {errors.map((validation, index) => (
-            <div key={`error-${index}`} className="flex items-start space-x-2 p-2 bg-red-900/20 rounded">
+            <div
+              key={`error-${index}`}
+              className="flex items-start space-x-2 p-2 bg-red-900/20 rounded"
+            >
               {getValidationIcon(validation.type, false)}
               <div className="flex-1">
                 <div className="text-red-400 text-sm">{validation.message}</div>
@@ -168,10 +183,15 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
             </div>
           ))}
           {warnings.map((validation, index) => (
-            <div key={`warning-${index}`} className="flex items-start space-x-2 p-2 bg-yellow-900/20 rounded">
+            <div
+              key={`warning-${index}`}
+              className="flex items-start space-x-2 p-2 bg-yellow-900/20 rounded"
+            >
               {getValidationIcon(validation.type, false)}
               <div className="flex-1">
-                <div className="text-yellow-400 text-sm">{validation.message}</div>
+                <div className="text-yellow-400 text-sm">
+                  {validation.message}
+                </div>
                 {validation.details && validation.details.length > 0 && (
                   <div className="text-yellow-300 text-xs mt-1">
                     {validation.details.join(', ')}
@@ -196,7 +216,9 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
               {['0', '1', '2', '3', '4', '5', '6', '7+'].map(cost => (
                 <div key={cost} className="bg-gray-700 rounded p-2 text-center">
                   <div className="text-gray-300">{cost}</div>
-                  <div className="text-white font-bold">{manaCurve[cost] || 0}</div>
+                  <div className="text-white font-bold">
+                    {manaCurve[cost] || 0}
+                  </div>
                 </div>
               ))}
             </div>
@@ -205,10 +227,15 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
           {/* Color Distribution */}
           {Object.keys(colorDistribution).length > 0 && (
             <div>
-              <h4 className="text-white font-medium mb-2">Color Distribution</h4>
+              <h4 className="text-white font-medium mb-2">
+                Color Distribution
+              </h4>
               <div className="grid grid-cols-5 gap-2 text-xs">
                 {Object.entries(colorDistribution).map(([element, count]) => (
-                  <div key={element} className="bg-gray-700 rounded p-2 text-center">
+                  <div
+                    key={element}
+                    className="bg-gray-700 rounded p-2 text-center"
+                  >
                     <div className="text-gray-300">{element}</div>
                     <div className="text-white font-bold">{count}</div>
                   </div>
@@ -221,15 +248,20 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
           <div className="bg-gray-700 rounded p-3">
             <h4 className="text-white font-medium mb-2">Format Rules</h4>
             <div className="text-sm text-gray-300 space-y-1">
-              <div>Cards: {rules.minCards}-{rules.maxCards}</div>
+              <div>
+                Cards: {rules.minCards}-{rules.maxCards}
+              </div>
               <div>Max copies per card: {rules.maxCopies}</div>
               {rules.bannedCards.length > 0 && (
                 <div>Banned cards: {rules.bannedCards.join(', ')}</div>
               )}
               {Object.keys(rules.restrictedCards).length > 0 && (
-                <div>Restricted cards: {Object.entries(rules.restrictedCards).map(([card, limit]) => 
-                  `${card} (${limit})`
-                ).join(', ')}</div>
+                <div>
+                  Restricted cards:{' '}
+                  {Object.entries(rules.restrictedCards)
+                    .map(([card, limit]) => `${card} (${limit})`)
+                    .join(', ')}
+                </div>
               )}
             </div>
           </div>
