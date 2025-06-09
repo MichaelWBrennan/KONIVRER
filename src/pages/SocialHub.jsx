@@ -41,7 +41,7 @@ import { announceToScreenReader } from '../utils/modernFeatures';
 const SocialHub = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('trending');
-  
+
   // Hashtag tracking state
   const [trendingHashtags, setTrendingHashtags] = useState([]);
   const [trackedHashtags, setTrackedHashtags] = useState([]);
@@ -134,7 +134,8 @@ const SocialHub = () => {
       setRealtimeUpdates(prev => [...updates, ...prev].slice(0, 50)); // Keep last 50 updates
 
       if (selectedHashtag) {
-        const analytics = await hashtagService.getHashtagAnalytics(selectedHashtag);
+        const analytics =
+          await hashtagService.getHashtagAnalytics(selectedHashtag);
         setHashtagAnalytics(analytics);
       }
     } catch (error) {
@@ -142,7 +143,7 @@ const SocialHub = () => {
     }
   };
 
-  const searchHashtags = async (query) => {
+  const searchHashtags = async query => {
     if (!query.trim()) {
       setSearchResults({});
       return;
@@ -161,7 +162,7 @@ const SocialHub = () => {
     }
   };
 
-  const selectHashtag = async (hashtag) => {
+  const selectHashtag = async hashtag => {
     setSelectedHashtag(hashtag);
     setIsLoading(true);
     try {
@@ -176,33 +177,33 @@ const SocialHub = () => {
     }
   };
 
-  const addHashtagToTracking = (hashtag) => {
+  const addHashtagToTracking = hashtag => {
     const success = hashtagService.addTrackedHashtag(hashtag);
     if (success) {
       setTrackedHashtags(hashtagService.getTrackedHashtags());
     }
   };
 
-  const removeHashtagFromTracking = (hashtag) => {
+  const removeHashtagFromTracking = hashtag => {
     const success = hashtagService.removeTrackedHashtag(hashtag);
     if (success) {
       setTrackedHashtags(hashtagService.getTrackedHashtags());
     }
   };
 
-  const togglePlatform = (platformKey) => {
+  const togglePlatform = platformKey => {
     const enabled = hashtagService.togglePlatform(platformKey);
     setPlatforms(hashtagService.getPlatforms());
     refreshData();
   };
 
-  const formatNumber = (num) => {
+  const formatNumber = num => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
     if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
     return num.toString();
   };
 
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = timestamp => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now - date;
@@ -217,41 +218,59 @@ const SocialHub = () => {
     return date.toLocaleDateString();
   };
 
-  const getSentimentColor = (sentiment) => {
+  const getSentimentColor = sentiment => {
     switch (sentiment) {
-      case 'positive': return 'text-green-600';
-      case 'negative': return 'text-red-600';
-      default: return 'text-gray-600';
-    }
-  };
-
-  const getSentimentIcon = (sentiment) => {
-    switch (sentiment) {
-      case 'positive': return <ArrowUp size={16} className="text-green-600" />;
-      case 'negative': return <ArrowDown size={16} className="text-red-600" />;
-      default: return <Minus size={16} className="text-gray-600" />;
-    }
-  };
-
-  const filteredTrendingHashtags = trendingHashtags.filter(hashtag => {
-    if (filters.minMentions > 0 && hashtag.totalMentions < filters.minMentions) return false;
-    if (filters.sentiment !== 'all' && hashtag.sentiment !== filters.sentiment) return false;
-    if (filters.platforms.length > 0) {
-      const hasActivePlatform = filters.platforms.some(platform => 
-        hashtag.platforms[platform] && hashtag.platforms[platform].mentions > 0
-      );
-      if (!hasActivePlatform) return false;
-    }
-    return true;
-  }).sort((a, b) => {
-    switch (filters.sortBy) {
-      case 'growth':
-        return parseFloat(b.growth) - parseFloat(a.growth);
-      case 'mentions':
+      case 'positive':
+        return 'text-green-600';
+      case 'negative':
+        return 'text-red-600';
       default:
-        return b.totalMentions - a.totalMentions;
+        return 'text-gray-600';
     }
-  });
+  };
+
+  const getSentimentIcon = sentiment => {
+    switch (sentiment) {
+      case 'positive':
+        return <ArrowUp size={16} className="text-green-600" />;
+      case 'negative':
+        return <ArrowDown size={16} className="text-red-600" />;
+      default:
+        return <Minus size={16} className="text-gray-600" />;
+    }
+  };
+
+  const filteredTrendingHashtags = trendingHashtags
+    .filter(hashtag => {
+      if (
+        filters.minMentions > 0 &&
+        hashtag.totalMentions < filters.minMentions
+      )
+        return false;
+      if (
+        filters.sentiment !== 'all' &&
+        hashtag.sentiment !== filters.sentiment
+      )
+        return false;
+      if (filters.platforms.length > 0) {
+        const hasActivePlatform = filters.platforms.some(
+          platform =>
+            hashtag.platforms[platform] &&
+            hashtag.platforms[platform].mentions > 0,
+        );
+        if (!hasActivePlatform) return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      switch (filters.sortBy) {
+        case 'growth':
+          return parseFloat(b.growth) - parseFloat(a.growth);
+        case 'mentions':
+        default:
+          return b.totalMentions - a.totalMentions;
+      }
+    });
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -275,7 +294,9 @@ const SocialHub = () => {
                 <button
                   onClick={() => setAutoRefresh(!autoRefresh)}
                   className={`btn ${autoRefresh ? 'btn-primary' : 'btn-secondary'} flex items-center gap-2`}
-                  aria-label={autoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'}
+                  aria-label={
+                    autoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'
+                  }
                 >
                   {autoRefresh ? <Pause size={16} /> : <Play size={16} />}
                   Auto-refresh
@@ -286,7 +307,10 @@ const SocialHub = () => {
                   className="btn btn-secondary flex items-center gap-2"
                   aria-label="Refresh data"
                 >
-                  <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
+                  <RefreshCw
+                    size={16}
+                    className={isLoading ? 'animate-spin' : ''}
+                  />
                   Refresh
                 </button>
               </div>
@@ -296,12 +320,15 @@ const SocialHub = () => {
           {/* Search Bar */}
           <div className="flex gap-4 mb-6">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="text"
                 placeholder="Search hashtags..."
                 value={searchTerm}
-                onChange={(e) => {
+                onChange={e => {
                   setSearchTerm(e.target.value);
                   searchHashtags(e.target.value);
                 }}
@@ -310,7 +337,7 @@ const SocialHub = () => {
             </div>
             <select
               value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value)}
+              onChange={e => setTimeframe(e.target.value)}
               className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
             >
               <option value="1h">Last Hour</option>
@@ -330,7 +357,11 @@ const SocialHub = () => {
                     ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                     : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
                 }`}
-                style={{ borderColor: platform.enabled ? platform.color : 'transparent' }}
+                style={{
+                  borderColor: platform.enabled
+                    ? platform.color
+                    : 'transparent',
+                }}
               >
                 <span className="mr-2">{platform.icon}</span>
                 {platform.name}
@@ -374,7 +405,9 @@ const SocialHub = () => {
                 <div className="flex items-center gap-4">
                   <select
                     value={filters.sortBy}
-                    onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+                    onChange={e =>
+                      setFilters(prev => ({ ...prev, sortBy: e.target.value }))
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
                   >
                     <option value="mentions">Sort by Mentions</option>
@@ -404,9 +437,17 @@ const SocialHub = () => {
                             {hashtag.hashtag}
                           </h3>
                           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <span>{formatNumber(hashtag.totalMentions)} mentions</span>
-                            <span className={`flex items-center gap-1 ${hashtag.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                              {hashtag.growth.startsWith('+') ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
+                            <span>
+                              {formatNumber(hashtag.totalMentions)} mentions
+                            </span>
+                            <span
+                              className={`flex items-center gap-1 ${hashtag.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}
+                            >
+                              {hashtag.growth.startsWith('+') ? (
+                                <ArrowUp size={12} />
+                              ) : (
+                                <ArrowDown size={12} />
+                              )}
                               {hashtag.growth}
                             </span>
                           </div>
@@ -415,68 +456,87 @@ const SocialHub = () => {
                       <div className="flex items-center gap-2">
                         {getSentimentIcon(hashtag.sentiment)}
                         <button
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation();
                             trackedHashtags.includes(hashtag.hashtag)
                               ? removeHashtagFromTracking(hashtag.hashtag)
                               : addHashtagToTracking(hashtag.hashtag);
                           }}
                           className={`btn btn-sm ${
-                            trackedHashtags.includes(hashtag.hashtag) ? 'btn-primary' : 'btn-secondary'
+                            trackedHashtags.includes(hashtag.hashtag)
+                              ? 'btn-primary'
+                              : 'btn-secondary'
                           }`}
                         >
-                          {trackedHashtags.includes(hashtag.hashtag) ? <Minus size={16} /> : <Plus size={16} />}
+                          {trackedHashtags.includes(hashtag.hashtag) ? (
+                            <Minus size={16} />
+                          ) : (
+                            <Plus size={16} />
+                          )}
                         </button>
                       </div>
                     </div>
 
                     {/* Platform breakdown */}
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                      {Object.entries(hashtag.platforms).map(([platform, data]) => (
-                        <div key={platform} className="text-center">
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                            {platforms[platform]?.icon} {platforms[platform]?.name}
+                      {Object.entries(hashtag.platforms).map(
+                        ([platform, data]) => (
+                          <div key={platform} className="text-center">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                              {platforms[platform]?.icon}{' '}
+                              {platforms[platform]?.name}
+                            </div>
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                              {formatNumber(data.mentions)}
+                            </div>
+                            <div
+                              className={`text-xs ${data.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}
+                            >
+                              {data.growth}
+                            </div>
                           </div>
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
-                            {formatNumber(data.mentions)}
-                          </div>
-                          <div className={`text-xs ${data.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                            {data.growth}
-                          </div>
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </div>
 
                     {/* Top posts preview */}
                     {hashtag.topPosts && hashtag.topPosts.length > 0 && (
                       <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Top Posts</h4>
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                          Top Posts
+                        </h4>
                         <div className="space-y-2">
-                          {hashtag.topPosts.slice(0, 2).map((post, postIndex) => (
-                            <div key={postIndex} className="bg-gray-50 dark:bg-gray-700 rounded-md p-3">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                  {platforms[post.platform]?.icon} {post.author}
-                                </span>
-                                <span className="text-xs text-gray-400">
-                                  {formatTimestamp(post.timestamp)}
-                                </span>
+                          {hashtag.topPosts
+                            .slice(0, 2)
+                            .map((post, postIndex) => (
+                              <div
+                                key={postIndex}
+                                className="bg-gray-50 dark:bg-gray-700 rounded-md p-3"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                                    {platforms[post.platform]?.icon}{' '}
+                                    {post.author}
+                                  </span>
+                                  <span className="text-xs text-gray-400">
+                                    {formatTimestamp(post.timestamp)}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
+                                  {post.content}
+                                </p>
+                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                  <span className="flex items-center gap-1">
+                                    <Heart size={12} />
+                                    {formatNumber(post.engagement)}
+                                  </span>
+                                  <button className="flex items-center gap-1 hover:text-blue-600">
+                                    <ExternalLink size={12} />
+                                    View
+                                  </button>
+                                </div>
                               </div>
-                              <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
-                                {post.content}
-                              </p>
-                              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
-                                <span className="flex items-center gap-1">
-                                  <Heart size={12} />
-                                  {formatNumber(post.engagement)}
-                                </span>
-                                <button className="flex items-center gap-1 hover:text-blue-600">
-                                  <ExternalLink size={12} />
-                                  View
-                                </button>
-                              </div>
-                            </div>
-                          ))}
+                            ))}
                         </div>
                       </div>
                     )}
@@ -500,8 +560,10 @@ const SocialHub = () => {
               </div>
 
               <div className="grid gap-4">
-                {trackedHashtags.map((hashtag) => {
-                  const trendingData = trendingHashtags.find(t => t.hashtag === hashtag);
+                {trackedHashtags.map(hashtag => {
+                  const trendingData = trendingHashtags.find(
+                    t => t.hashtag === hashtag,
+                  );
                   return (
                     <div
                       key={hashtag}
@@ -514,9 +576,18 @@ const SocialHub = () => {
                           </h3>
                           {trendingData && (
                             <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              <span>{formatNumber(trendingData.totalMentions)} mentions</span>
-                              <span className={`flex items-center gap-1 ${trendingData.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                                {trendingData.growth.startsWith('+') ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
+                              <span>
+                                {formatNumber(trendingData.totalMentions)}{' '}
+                                mentions
+                              </span>
+                              <span
+                                className={`flex items-center gap-1 ${trendingData.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}
+                              >
+                                {trendingData.growth.startsWith('+') ? (
+                                  <ArrowUp size={12} />
+                                ) : (
+                                  <ArrowDown size={12} />
+                                )}
                                 {trendingData.growth}
                               </span>
                             </div>
@@ -549,7 +620,8 @@ const SocialHub = () => {
                       No hashtags tracked yet
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Start tracking hashtags to monitor their performance across social media platforms.
+                      Start tracking hashtags to monitor their performance
+                      across social media platforms.
                     </p>
                     <button className="btn btn-primary">
                       Add Your First Hashtag
@@ -583,7 +655,9 @@ const SocialHub = () => {
                       className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
                     >
                       <div className="flex items-center gap-3 mb-4">
-                        <span className="text-2xl">{platforms[platform]?.icon}</span>
+                        <span className="text-2xl">
+                          {platforms[platform]?.icon}
+                        </span>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                           {platforms[platform]?.name}
                         </h3>
@@ -594,59 +668,81 @@ const SocialHub = () => {
                           <div className="text-2xl font-bold text-gray-900 dark:text-white">
                             {formatNumber(data.mentions)}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Mentions</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            Mentions
+                          </div>
                         </div>
                         <div className="text-center">
                           <div className="text-2xl font-bold text-gray-900 dark:text-white">
                             {formatNumber(data.engagement)}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Engagement</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            Engagement
+                          </div>
                         </div>
                         <div className="text-center">
                           <div className="text-2xl font-bold text-gray-900 dark:text-white">
                             {formatNumber(data.reach)}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Reach</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            Reach
+                          </div>
                         </div>
                         <div className="text-center">
-                          <div className={`text-2xl font-bold ${getSentimentColor(data.sentiment)}`}>
+                          <div
+                            className={`text-2xl font-bold ${getSentimentColor(data.sentiment)}`}
+                          >
                             {data.sentiment}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">Sentiment</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            Sentiment
+                          </div>
                         </div>
                       </div>
 
                       {/* Top Influencers */}
-                      {data.topInfluencers && data.topInfluencers.length > 0 && (
-                        <div className="mb-6">
-                          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Top Influencers</h4>
-                          <div className="space-y-2">
-                            {data.topInfluencers.map((influencer, index) => (
-                              <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-md p-3">
-                                <div>
-                                  <div className="font-medium text-gray-900 dark:text-white">
-                                    {influencer.username}
+                      {data.topInfluencers &&
+                        data.topInfluencers.length > 0 && (
+                          <div className="mb-6">
+                            <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                              Top Influencers
+                            </h4>
+                            <div className="space-y-2">
+                              {data.topInfluencers.map((influencer, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-md p-3"
+                                >
+                                  <div>
+                                    <div className="font-medium text-gray-900 dark:text-white">
+                                      {influencer.username}
+                                    </div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                                      {formatNumber(influencer.followers)}{' '}
+                                      followers
+                                    </div>
                                   </div>
-                                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                                    {formatNumber(influencer.followers)} followers
+                                  <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {influencer.mentions} mentions
                                   </div>
                                 </div>
-                                <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                  {influencer.mentions} mentions
-                                </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       {/* Recent Posts */}
                       {data.recentPosts && data.recentPosts.length > 0 && (
                         <div>
-                          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Posts</h4>
+                          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                            Recent Posts
+                          </h4>
                           <div className="space-y-3">
                             {data.recentPosts.map((post, index) => (
-                              <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-md p-3">
+                              <div
+                                key={index}
+                                className="bg-gray-50 dark:bg-gray-700 rounded-md p-3"
+                              >
                                 <div className="flex items-center gap-2 mb-2">
                                   <span className="text-sm font-medium text-gray-900 dark:text-white">
                                     {post.author}
@@ -683,7 +779,8 @@ const SocialHub = () => {
                     Select a hashtag to view analytics
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Click on any hashtag from the trending or tracked lists to see detailed analytics.
+                    Click on any hashtag from the trending or tracked lists to
+                    see detailed analytics.
                   </p>
                 </div>
               )}
@@ -710,7 +807,9 @@ const SocialHub = () => {
                     className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 flex items-center gap-4"
                   >
                     <div className="flex-shrink-0">
-                      <span className="text-xl">{platforms[update.platform]?.icon}</span>
+                      <span className="text-xl">
+                        {platforms[update.platform]?.icon}
+                      </span>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -738,12 +837,16 @@ const SocialHub = () => {
 
                 {realtimeUpdates.length === 0 && (
                   <div className="text-center py-12">
-                    <Activity className="mx-auto text-gray-400 mb-4" size={48} />
+                    <Activity
+                      className="mx-auto text-gray-400 mb-4"
+                      size={48}
+                    />
                     <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                       No real-time updates yet
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Real-time updates will appear here as they happen across social media platforms.
+                      Real-time updates will appear here as they happen across
+                      social media platforms.
                     </p>
                   </div>
                 )}
@@ -794,8 +897,16 @@ const SocialHub = () => {
                               {result.hashtag}
                             </span>
                             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                              <span>{formatNumber(result.mentions)} mentions</span>
-                              <span className={result.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                              <span>
+                                {formatNumber(result.mentions)} mentions
+                              </span>
+                              <span
+                                className={
+                                  result.growth.startsWith('+')
+                                    ? 'text-green-600'
+                                    : 'text-red-600'
+                                }
+                              >
                                 {result.growth}
                               </span>
                             </div>
