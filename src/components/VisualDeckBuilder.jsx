@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Plus, Minus, Eye, BarChart3, Shuffle, Download, Upload, Share2 } from 'lucide-react';
+import {
+  Plus,
+  Minus,
+  Eye,
+  BarChart3,
+  Shuffle,
+  Download,
+  Upload,
+  Share2,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
@@ -8,32 +17,27 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [deckTest, setDeckTest] = useState({ hand: [], library: [] });
 
-  const addCardToDeck = (card) => {
+  const addCardToDeck = card => {
     const existingCard = deck.cards.find(c => c.id === card.id);
     const currentCount = existingCard ? existingCard.quantity : 0;
-    
-    if (currentCount < 4) { // Max 4 copies per card
+
+    if (currentCount < 4) {
+      // Max 4 copies per card
       const newCards = existingCard
-        ? deck.cards.map(c => 
-            c.id === card.id 
-              ? { ...c, quantity: c.quantity + 1 }
-              : c
+        ? deck.cards.map(c =>
+            c.id === card.id ? { ...c, quantity: c.quantity + 1 } : c,
           )
         : [...deck.cards, { ...card, quantity: 1 }];
-      
+
       onDeckChange({ ...deck, cards: newCards });
     }
   };
 
-  const removeCardFromDeck = (cardId) => {
+  const removeCardFromDeck = cardId => {
     const newCards = deck.cards
-      .map(c => 
-        c.id === cardId 
-          ? { ...c, quantity: c.quantity - 1 }
-          : c
-      )
+      .map(c => (c.id === cardId ? { ...c, quantity: c.quantity - 1 } : c))
       .filter(c => c.quantity > 0);
-    
+
     onDeckChange({ ...deck, cards: newCards });
   };
 
@@ -66,20 +70,20 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
         allCards.push(card);
       }
     });
-    
+
     // Shuffle deck
     const shuffled = [...allCards].sort(() => Math.random() - 0.5);
     const hand = shuffled.slice(0, 7);
     const library = shuffled.slice(7);
-    
+
     setDeckTest({ hand, library });
   };
 
   const exportDeck = () => {
-    const deckText = `${deck.name}\n\n${deck.cards.map(card => 
-      `${card.quantity}x ${card.name}`
-    ).join('\n')}\n\nTotal: ${getTotalCards()} cards`;
-    
+    const deckText = `${deck.name}\n\n${deck.cards
+      .map(card => `${card.quantity}x ${card.name}`)
+      .join('\n')}\n\nTotal: ${getTotalCards()} cards`;
+
     navigator.clipboard.writeText(deckText);
     alert('Deck copied to clipboard!');
   };
@@ -88,15 +92,15 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json,.txt';
-    input.onchange = (e) => {
+    input.onchange = e => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           try {
             const content = e.target.result;
             let importedDeck;
-            
+
             if (file.name.endsWith('.json')) {
               importedDeck = JSON.parse(content);
               if (importedDeck.cards) {
@@ -104,7 +108,7 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
                   ...deck,
                   name: importedDeck.name || deck.name,
                   description: importedDeck.description || deck.description,
-                  cards: importedDeck.cards
+                  cards: importedDeck.cards,
                 });
                 alert('Deck imported successfully!');
               }
@@ -112,23 +116,25 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               // Parse text format
               const lines = content.split('\n').filter(line => line.trim());
               const importedCards = [];
-              
+
               for (const line of lines) {
                 const match = line.match(/^(\d+)x?\s+(.+)$/);
                 if (match) {
                   const quantity = parseInt(match[1]);
                   const cardName = match[2].trim();
-                  const foundCard = cards.find(c => c.name.toLowerCase() === cardName.toLowerCase());
+                  const foundCard = cards.find(
+                    c => c.name.toLowerCase() === cardName.toLowerCase(),
+                  );
                   if (foundCard) {
                     importedCards.push({ ...foundCard, quantity });
                   }
                 }
               }
-              
+
               if (importedCards.length > 0) {
                 onDeckChange({
                   ...deck,
-                  cards: importedCards
+                  cards: importedCards,
                 });
                 alert(`Imported ${importedCards.length} cards successfully!`);
               } else {
@@ -149,8 +155,9 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
     const manaCurve = getManaCurve();
     const typeDistribution = getCardTypeDistribution();
     const totalCards = getTotalCards();
-    const avgManaCost = deck.cards.reduce((sum, card) => 
-      sum + (card.cost * card.quantity), 0) / totalCards || 0;
+    const avgManaCost =
+      deck.cards.reduce((sum, card) => sum + card.cost * card.quantity, 0) /
+        totalCards || 0;
 
     return (
       <motion.div
@@ -159,18 +166,22 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
         className="bg-gray-800 rounded-lg p-4 space-y-4"
       >
         <h3 className="text-lg font-bold text-white">Deck Statistics</h3>
-        
+
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Mana Curve</h4>
+            <h4 className="text-sm font-medium text-gray-300 mb-2">
+              Mana Curve
+            </h4>
             <div className="space-y-1">
               {Object.entries(manaCurve).map(([cost, count]) => (
                 <div key={cost} className="flex items-center space-x-2">
                   <span className="text-xs text-gray-400 w-4">{cost}</span>
                   <div className="flex-1 bg-gray-700 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: `${(count / Math.max(...Object.values(manaCurve))) * 100}%` }}
+                      style={{
+                        width: `${(count / Math.max(...Object.values(manaCurve))) * 100}%`,
+                      }}
                     />
                   </div>
                   <span className="text-xs text-gray-400 w-4">{count}</span>
@@ -178,9 +189,11 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               ))}
             </div>
           </div>
-          
+
           <div>
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Card Types</h4>
+            <h4 className="text-sm font-medium text-gray-300 mb-2">
+              Card Types
+            </h4>
             <div className="space-y-1">
               {Object.entries(typeDistribution).map(([type, count]) => (
                 <div key={type} className="flex justify-between text-xs">
@@ -191,18 +204,22 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-lg font-bold text-white">{totalCards}</div>
             <div className="text-xs text-gray-400">Total Cards</div>
           </div>
           <div>
-            <div className="text-lg font-bold text-white">{avgManaCost.toFixed(1)}</div>
+            <div className="text-lg font-bold text-white">
+              {avgManaCost.toFixed(1)}
+            </div>
             <div className="text-xs text-gray-400">Avg. Cost</div>
           </div>
           <div>
-            <div className="text-lg font-bold text-white">{deck.cards.length}</div>
+            <div className="text-lg font-bold text-white">
+              {deck.cards.length}
+            </div>
             <div className="text-xs text-gray-400">Unique Cards</div>
           </div>
         </div>
@@ -226,10 +243,12 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
           <span>Draw Hand</span>
         </button>
       </div>
-      
+
       {deckTest.hand.length > 0 && (
         <div>
-          <h4 className="text-sm font-medium text-gray-300 mb-2">Opening Hand (7 cards)</h4>
+          <h4 className="text-sm font-medium text-gray-300 mb-2">
+            Opening Hand (7 cards)
+          </h4>
           <div className="grid grid-cols-7 gap-2">
             {deckTest.hand.map((card, index) => (
               <div
@@ -237,7 +256,9 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
                 className="bg-gray-700 rounded p-2 text-center cursor-pointer hover:bg-gray-600 transition-colors"
                 onClick={() => setSelectedCard(card)}
               >
-                <div className="text-xs font-medium text-white truncate">{card.name}</div>
+                <div className="text-xs font-medium text-white truncate">
+                  {card.name}
+                </div>
                 <div className="text-xs text-gray-400">{card.cost}</div>
               </div>
             ))}
@@ -256,13 +277,13 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
             <input
               type="text"
               value={deck.name}
-              onChange={(e) => onDeckChange({ ...deck, name: e.target.value })}
+              onChange={e => onDeckChange({ ...deck, name: e.target.value })}
               className="text-xl font-bold bg-transparent text-white border-none outline-none"
               placeholder="Deck Name"
             />
             <span className="text-gray-400">{getTotalCards()}/40 cards</span>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowStats(!showStats)}
@@ -285,18 +306,16 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               <Download size={16} />
               <span>Export</span>
             </button>
-            <button
-              className="flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-            >
+            <button className="flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
               <Share2 size={16} />
               <span>Share</span>
             </button>
           </div>
         </div>
-        
+
         <textarea
           value={deck.description}
-          onChange={(e) => onDeckChange({ ...deck, description: e.target.value })}
+          onChange={e => onDeckChange({ ...deck, description: e.target.value })}
           placeholder="Describe your deck strategy..."
           className="w-full bg-gray-700 text-white rounded p-3 resize-none"
           rows={3}
@@ -339,7 +358,13 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
             <p className="text-sm">Add cards from the database</p>
           </div>
         ) : (
-          <div className={viewMode === 'gallery' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4' : 'space-y-2'}>
+          <div
+            className={
+              viewMode === 'gallery'
+                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+                : 'space-y-2'
+            }
+          >
             {deck.cards.map(card => (
               <motion.div
                 key={card.id}
@@ -347,17 +372,26 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className={viewMode === 'gallery' 
-                  ? 'bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors'
-                  : 'flex items-center justify-between bg-gray-700 rounded p-2 hover:bg-gray-600 transition-colors'
+                className={
+                  viewMode === 'gallery'
+                    ? 'bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors'
+                    : 'flex items-center justify-between bg-gray-700 rounded p-2 hover:bg-gray-600 transition-colors'
                 }
               >
-                <div className={viewMode === 'gallery' ? 'space-y-2' : 'flex items-center space-x-3'}>
+                <div
+                  className={
+                    viewMode === 'gallery'
+                      ? 'space-y-2'
+                      : 'flex items-center space-x-3'
+                  }
+                >
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium text-white">{card.name}</h4>
-                    <span className="text-sm text-gray-400">×{card.quantity}</span>
+                    <span className="text-sm text-gray-400">
+                      ×{card.quantity}
+                    </span>
                   </div>
-                  
+
                   {viewMode === 'gallery' && (
                     <>
                       <div className="flex items-center space-x-2 text-sm text-gray-400">
@@ -369,7 +403,7 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
                     </>
                   )}
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => removeCardFromDeck(card.id)}
