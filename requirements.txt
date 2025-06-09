@@ -1,6 +1,6 @@
 # Python dependencies for Vercel deployment
 # Core dependencies for API functionality
-requests==2.32.3
+requests==2.32.4
 urllib3==2.4.0
 
 # Optional: Add these if you need more functionality
