@@ -64,7 +64,8 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const { login, register } = useAuth();
+  const [ssoLoading, setSsoLoading] = useState(null);
+  const { login, register, loginWithSSO } = useAuth();
 
   // Login form
   const loginForm = useForm({
@@ -130,6 +131,34 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
       registerForm.setError('root', {
         message: 'Registration failed. Please try again.',
       });
+    }
+  };
+
+  const handleSSOLogin = async (provider) => {
+    try {
+      setSsoLoading(provider);
+      const result = await loginWithSSO(provider);
+      
+      if (result.success) {
+        onClose();
+        // Reset forms
+        loginForm.reset();
+        registerForm.reset();
+      } else {
+        // Show error on the current active form
+        const currentForm = activeTab === 'login' ? loginForm : registerForm;
+        currentForm.setError('root', { 
+          message: result.error || `${provider} authentication failed. Please try again.` 
+        });
+      }
+    } catch (err) {
+      console.error(`SSO ${provider} error:`, err);
+      const currentForm = activeTab === 'login' ? loginForm : registerForm;
+      currentForm.setError('root', {
+        message: `${provider} authentication failed. Please try again.`,
+      });
+    } finally {
+      setSsoLoading(null);
     }
   };
 
@@ -611,13 +640,29 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                 Or continue with
               </p>
               <div className="grid grid-cols-2 gap-3">
-                <button className="btn btn-secondary flex items-center justify-center gap-2">
-                  <Github size={16} />
-                  GitHub
+                <button 
+                  onClick={() => handleSSOLogin('github')}
+                  disabled={ssoLoading !== null}
+                  className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {ssoLoading === 'github' ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Github size={16} />
+                  )}
+                  {ssoLoading === 'github' ? 'Connecting...' : 'GitHub'}
                 </button>
-                <button className="btn btn-secondary flex items-center justify-center gap-2">
-                  <Chrome size={16} />
-                  Google
+                <button 
+                  onClick={() => handleSSOLogin('google')}
+                  disabled={ssoLoading !== null}
+                  className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {ssoLoading === 'google' ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Chrome size={16} />
+                  )}
+                  {ssoLoading === 'google' ? 'Connecting...' : 'Google'}
                 </button>
               </div>
             </div>
