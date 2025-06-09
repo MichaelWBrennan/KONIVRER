@@ -6,6 +6,7 @@ import {
   useCallback,
 } from 'react';
 import { z } from 'zod';
+import { initiateOAuth } from '../services/oauthService.js';
 
 // Validation schemas using Zod for type safety
 const UserSchema = z.object({
@@ -632,12 +633,64 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
+  // SSO Login method
+  const loginWithSSO = async (provider) => {
+    try {
+      console.log(`[SSO] Initiating ${provider} OAuth flow`);
+      
+      const ssoUser = await initiateOAuth(provider);
+      
+      if (ssoUser) {
+        // Generate session token
+        const token = generateSessionToken();
+        const sessionData = {
+          token,
+          timestamp: Date.now(),
+          userAgent: navigator.userAgent,
+          ipAddress: '127.0.0.1',
+          provider: provider,
+        };
+
+        // Create full user object with SSO data
+        const fullUser = {
+          ...ssoUser,
+          lastLogin: new Date().toISOString(),
+          loginAttempts: 0,
+          accountLocked: false,
+        };
+
+        setUser(fullUser);
+        setSessionToken(token);
+
+        // Store user and session data
+        localStorage.setItem('konivrer_user', JSON.stringify(fullUser));
+        localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
+
+        // Log security event
+        console.log(
+          `[SECURITY] SSO login successful for ${fullUser.email} via ${provider} at ${new Date().toISOString()}`,
+        );
+
+        return { success: true, user: fullUser };
+      } else {
+        return { success: false, error: 'SSO authentication failed' };
+      }
+    } catch (error) {
+      console.error(`[SSO] ${provider} login error:`, error);
+      return { 
+        success: false, 
+        error: error.message || `${provider} authentication failed. Please try again.` 
+      };
+    }
+  };
+
   const value = {
     user,
     loading,
     login,
     register,
     logout,
+    loginWithSSO,
     updateProfile,
     applyForJudge,
     applyForOrganizer,
