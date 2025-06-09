@@ -61,9 +61,11 @@ export const env = {
   GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID,
   GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
   DISCORD_CLIENT_ID: import.meta.env.VITE_DISCORD_CLIENT_ID,
-  
+
   // OAuth Redirect URIs
-  OAUTH_REDIRECT_URI: import.meta.env.VITE_OAUTH_REDIRECT_URI || `${window.location.origin}/auth/callback`,
+  OAUTH_REDIRECT_URI:
+    import.meta.env.VITE_OAUTH_REDIRECT_URI ||
+    `${window.location.origin}/auth/callback`,
 };
 
 // Validation - now optional for demo deployments
