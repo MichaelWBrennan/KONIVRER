@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Search, Filter, Plus, Minus, Eye } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Search, Filter, Plus, Minus, Eye, Save } from 'lucide-react';
 
 import CardViewer from '../components/CardViewer';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
 import AdvancedCardFilters from '../components/AdvancedCardFilters';
 import DeckValidator from '../components/DeckValidator';
+import { useData } from '../contexts/DataContext';
 import cardsData from '../data/cards.json';
 
 const EnhancedDeckBuilder = () => {
   const { deckId } = useParams();
+  const navigate = useNavigate();
+  const { addDeck, updateDeck, decks } = useData();
   const [deck, setDeck] = useState({
     name: 'Untitled Deck',
     cards: [],
@@ -35,16 +38,15 @@ const EnhancedDeckBuilder = () => {
   // Load deck if deckId is provided
   useEffect(() => {
     if (deckId) {
-      // TODO: Load deck from storage/API
-      const savedDecks = JSON.parse(
-        localStorage.getItem('konivrer-decks') || '[]',
-      );
-      const foundDeck = savedDecks.find(d => d.id === deckId);
+      const foundDeck = decks.find(d => d.id === deckId);
       if (foundDeck) {
         setDeck(foundDeck);
+        if (foundDeck.format) {
+          setSelectedFormat(foundDeck.format);
+        }
       }
     }
-  }, [deckId]);
+  }, [deckId, decks]);
 
   // Filter cards based on search and filters
   const filteredCards = cardsData.filter(card => {
@@ -127,24 +129,33 @@ const EnhancedDeckBuilder = () => {
   };
 
   const saveDeck = () => {
-    const savedDecks = JSON.parse(
-      localStorage.getItem('konivrer-decks') || '[]',
-    );
-    const deckToSave = {
-      ...deck,
-      id: deckId || Date.now().toString(),
-      lastModified: new Date().toISOString(),
-    };
+    try {
+      const deckToSave = {
+        ...deck,
+        author: 'Current User', // TODO: Get from auth context
+        format: selectedFormat,
+        totalCards: deck.cards.reduce((sum, card) => sum + card.quantity, 0),
+      };
 
-    const existingIndex = savedDecks.findIndex(d => d.id === deckToSave.id);
-    if (existingIndex >= 0) {
-      savedDecks[existingIndex] = deckToSave;
-    } else {
-      savedDecks.push(deckToSave);
+      if (deckId) {
+        // Update existing deck
+        const updatedDeck = updateDeck(deckId, deckToSave);
+        if (updatedDeck) {
+          alert('Deck updated successfully!');
+        }
+      } else {
+        // Create new deck
+        const newDeck = addDeck(deckToSave);
+        if (newDeck) {
+          alert('Deck saved successfully!');
+          // Navigate to the new deck's edit page
+          navigate(`/deckbuilder/${newDeck.id}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error saving deck:', error);
+      alert('Failed to save deck. Please try again.');
     }
-
-    localStorage.setItem('konivrer-decks', JSON.stringify(savedDecks));
-    alert('Deck saved successfully!');
   };
 
   const hasActiveFilters = () => {
