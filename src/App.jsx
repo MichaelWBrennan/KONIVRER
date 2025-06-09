@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
+import { DataProvider } from './contexts/DataContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import EnhancedCardDatabase from './pages/EnhancedCardDatabase';
@@ -22,7 +23,8 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Router>
+        <DataProvider>
+          <Router>
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -56,7 +58,8 @@ function App() {
               <Route path="/deck-discovery" element={<DeckDiscovery />} />
             </Routes>
           </Layout>
-        </Router>
+          </Router>
+        </DataProvider>
       </AuthProvider>
     </ErrorBoundary>
   );
