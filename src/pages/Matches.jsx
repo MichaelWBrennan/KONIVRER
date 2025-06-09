@@ -247,41 +247,55 @@ const Matches = () => {
 
   // Filter matches based on search and filters
   const filteredMatches = matches.filter(match => {
-    const matchesSearch = 
+    const matchesSearch =
       match.player1.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       match.player2.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       match.player1.hero.toLowerCase().includes(searchQuery.toLowerCase()) ||
       match.player2.hero.toLowerCase().includes(searchQuery.toLowerCase()) ||
       match.tournament.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesHero1 = !filters.hero1 || 
+    const matchesHero1 =
+      !filters.hero1 ||
       match.player1.hero.toLowerCase().includes(filters.hero1.toLowerCase()) ||
       match.player2.hero.toLowerCase().includes(filters.hero1.toLowerCase());
 
-    const matchesHero2 = !filters.hero2 || 
+    const matchesHero2 =
+      !filters.hero2 ||
       match.player1.hero.toLowerCase().includes(filters.hero2.toLowerCase()) ||
       match.player2.hero.toLowerCase().includes(filters.hero2.toLowerCase());
 
-    const matchesFormat = !filters.format || 
-      match.tournament.format === filters.format;
+    const matchesFormat =
+      !filters.format || match.tournament.format === filters.format;
 
-    const matchesDateFrom = !filters.dateFrom || 
+    const matchesDateFrom =
+      !filters.dateFrom ||
       new Date(match.tournament.date) >= new Date(filters.dateFrom);
 
-    const matchesDateTo = !filters.dateTo || 
+    const matchesDateTo =
+      !filters.dateTo ||
       new Date(match.tournament.date) <= new Date(filters.dateTo);
 
-    const matchesTopEight = !filters.topEight || 
-      ['Quarter Finals', 'Semi Finals', 'Finals'].includes(match.tournament.round);
+    const matchesTopEight =
+      !filters.topEight ||
+      ['Quarter Finals', 'Semi Finals', 'Finals'].includes(
+        match.tournament.round,
+      );
 
-    return matchesSearch && matchesHero1 && matchesHero2 && matchesFormat && 
-           matchesDateFrom && matchesDateTo && matchesTopEight;
+    return (
+      matchesSearch &&
+      matchesHero1 &&
+      matchesHero2 &&
+      matchesFormat &&
+      matchesDateFrom &&
+      matchesDateTo &&
+      matchesTopEight
+    );
   });
 
   // Sort matches
   const sortedMatches = [...filteredMatches].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy) {
       case 'date':
         comparison = new Date(a.tournament.date) - new Date(b.tournament.date);
@@ -293,8 +307,12 @@ const Matches = () => {
         comparison = a.tournament.format.localeCompare(b.tournament.format);
         break;
       case 'duration':
-        const aDuration = a.duration.split(':').reduce((acc, time) => (60 * acc) + +time, 0);
-        const bDuration = b.duration.split(':').reduce((acc, time) => (60 * acc) + +time, 0);
+        const aDuration = a.duration
+          .split(':')
+          .reduce((acc, time) => 60 * acc + +time, 0);
+        const bDuration = b.duration
+          .split(':')
+          .reduce((acc, time) => 60 * acc + +time, 0);
         comparison = aDuration - bDuration;
         break;
       default:
@@ -307,7 +325,10 @@ const Matches = () => {
   // Pagination
   const totalPages = Math.ceil(sortedMatches.length / matchesPerPage);
   const startIndex = (currentPage - 1) * matchesPerPage;
-  const paginatedMatches = sortedMatches.slice(startIndex, startIndex + matchesPerPage);
+  const paginatedMatches = sortedMatches.slice(
+    startIndex,
+    startIndex + matchesPerPage,
+  );
 
   const resetFilters = () => {
     setFilters({
@@ -324,17 +345,25 @@ const Matches = () => {
     setCurrentPage(1);
   };
 
-  const getHeroIcon = (heroName) => {
+  const getHeroIcon = heroName => {
     // Simple mapping of heroes to icons
     const heroIcons = {
       'Vynnset, Iron Maiden': <Sword className="text-red-400" size={16} />,
-      'Briar, Warden of Thorns': <Shield className="text-green-400" size={16} />,
+      'Briar, Warden of Thorns': (
+        <Shield className="text-green-400" size={16} />
+      ),
       'Iyslander, Stormbind': <Zap className="text-blue-400" size={16} />,
-      'Prism, Sculptor of Arc Light': <Star className="text-yellow-400" size={16} />,
+      'Prism, Sculptor of Arc Light': (
+        <Star className="text-yellow-400" size={16} />
+      ),
       'Kano, Dracai of Aether': <Crown className="text-purple-400" size={16} />,
-      'Rhinar, Reckless Rampage': <Trophy className="text-orange-400" size={16} />,
+      'Rhinar, Reckless Rampage': (
+        <Trophy className="text-orange-400" size={16} />
+      ),
     };
-    return heroIcons[heroName] || <Gamepad2 className="text-gray-400" size={16} />;
+    return (
+      heroIcons[heroName] || <Gamepad2 className="text-gray-400" size={16} />
+    );
   };
 
   const MatchCard = ({ match }) => (
@@ -368,7 +397,9 @@ const Matches = () => {
       {/* Players */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {/* Player 1 */}
-        <div className={`p-4 rounded-lg ${match.result.winner === 'player1' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}>
+        <div
+          className={`p-4 rounded-lg ${match.result.winner === 'player1' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}
+        >
           <div className="flex items-center space-x-2 mb-2">
             {getHeroIcon(match.player1.hero)}
             <span className="font-medium text-white">{match.player1.name}</span>
@@ -378,20 +409,27 @@ const Matches = () => {
           </div>
           <div className="text-sm text-gray-300 mb-1">{match.player1.hero}</div>
           <div className="text-xs text-gray-400">{match.player1.deck}</div>
-          <div className="text-xs text-blue-400 mt-1">Rating: {match.player1.rating}</div>
+          <div className="text-xs text-blue-400 mt-1">
+            Rating: {match.player1.rating}
+          </div>
         </div>
 
         {/* VS and Score */}
         <div className="flex flex-col items-center justify-center">
           <div className="text-gray-400 text-sm mb-2">VS</div>
-          <div className="text-2xl font-bold text-white mb-2">{match.result.score}</div>
+          <div className="text-2xl font-bold text-white mb-2">
+            {match.result.score}
+          </div>
           <div className="text-xs text-gray-400">
-            {match.result.games.length} game{match.result.games.length > 1 ? 's' : ''}
+            {match.result.games.length} game
+            {match.result.games.length > 1 ? 's' : ''}
           </div>
         </div>
 
         {/* Player 2 */}
-        <div className={`p-4 rounded-lg ${match.result.winner === 'player2' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}>
+        <div
+          className={`p-4 rounded-lg ${match.result.winner === 'player2' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}
+        >
           <div className="flex items-center space-x-2 mb-2">
             {getHeroIcon(match.player2.hero)}
             <span className="font-medium text-white">{match.player2.name}</span>
@@ -401,7 +439,9 @@ const Matches = () => {
           </div>
           <div className="text-sm text-gray-300 mb-1">{match.player2.hero}</div>
           <div className="text-xs text-gray-400">{match.player2.deck}</div>
-          <div className="text-xs text-blue-400 mt-1">Rating: {match.player2.rating}</div>
+          <div className="text-xs text-blue-400 mt-1">
+            Rating: {match.player2.rating}
+          </div>
         </div>
       </div>
 
@@ -439,8 +479,13 @@ const Matches = () => {
                 <span className="text-gray-400">Game {game.game}</span>
                 <span className="text-gray-400">{game.duration}</span>
               </div>
-              <div className={`font-medium ${game.winner === 'player1' ? 'text-green-400' : 'text-blue-400'}`}>
-                Winner: {game.winner === 'player1' ? match.player1.name : match.player2.name}
+              <div
+                className={`font-medium ${game.winner === 'player1' ? 'text-green-400' : 'text-blue-400'}`}
+              >
+                Winner:{' '}
+                {game.winner === 'player1'
+                  ? match.player1.name
+                  : match.player2.name}
               </div>
             </div>
           ))}
@@ -484,12 +529,15 @@ const Matches = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search players, heroes, tournaments..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -500,7 +548,11 @@ const Matches = () => {
             >
               <Filter size={20} />
               <span>Filters</span>
-              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {showAdvancedFilters ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
 
@@ -521,12 +573,16 @@ const Matches = () => {
                     </label>
                     <select
                       value={filters.hero1}
-                      onChange={(e) => setFilters({...filters, hero1: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, hero1: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">Any Hero</option>
                       {heroes.map(hero => (
-                        <option key={hero} value={hero}>{hero}</option>
+                        <option key={hero} value={hero}>
+                          {hero}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -537,12 +593,16 @@ const Matches = () => {
                     </label>
                     <select
                       value={filters.hero2}
-                      onChange={(e) => setFilters({...filters, hero2: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, hero2: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">Any Hero</option>
                       {heroes.map(hero => (
-                        <option key={hero} value={hero}>{hero}</option>
+                        <option key={hero} value={hero}>
+                          {hero}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -554,12 +614,16 @@ const Matches = () => {
                     </label>
                     <select
                       value={filters.format}
-                      onChange={(e) => setFilters({...filters, format: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, format: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Formats</option>
                       {formats.map(format => (
-                        <option key={format} value={format}>{format}</option>
+                        <option key={format} value={format}>
+                          {format}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -573,7 +637,9 @@ const Matches = () => {
                       <input
                         type="checkbox"
                         checked={filters.topEight}
-                        onChange={(e) => setFilters({...filters, topEight: e.target.checked})}
+                        onChange={e =>
+                          setFilters({ ...filters, topEight: e.target.checked })
+                        }
                         className="rounded border-gray-600 bg-gray-700 text-blue-600 focus:ring-blue-500"
                       />
                       <span className="text-sm">Top 8 Only</span>
@@ -590,7 +656,9 @@ const Matches = () => {
                     <input
                       type="date"
                       value={filters.dateFrom}
-                      onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, dateFrom: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -601,7 +669,9 @@ const Matches = () => {
                     <input
                       type="date"
                       value={filters.dateTo}
-                      onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, dateTo: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -624,15 +694,17 @@ const Matches = () => {
         {/* Sort and Results Info */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <div className="text-gray-400 mb-4 md:mb-0">
-            Showing {startIndex + 1}-{Math.min(startIndex + matchesPerPage, sortedMatches.length)} of {sortedMatches.length} matches
+            Showing {startIndex + 1}-
+            {Math.min(startIndex + matchesPerPage, sortedMatches.length)} of{' '}
+            {sortedMatches.length} matches
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-400">Sort by:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={e => setSortBy(e.target.value)}
                 className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
               >
                 <option value="date">Date</option>
@@ -641,12 +713,16 @@ const Matches = () => {
                 <option value="duration">Duration</option>
               </select>
             </div>
-            
+
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm hover:bg-gray-600 transition-colors"
             >
-              {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {sortOrder === 'asc' ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
         </div>
@@ -670,9 +746,10 @@ const Matches = () => {
             >
               Previous
             </button>
-            
+
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+              const page =
+                Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
               return (
                 <button
                   key={page}
@@ -687,9 +764,11 @@ const Matches = () => {
                 </button>
               );
             })}
-            
+
             <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                setCurrentPage(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage === totalPages}
               className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
             >
