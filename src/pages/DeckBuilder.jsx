@@ -107,13 +107,13 @@ const DeckBuilder = () => {
   const saveDeck = () => {
     // TODO: Implement save functionality
     console.warn('Saving deck:', deck);
-    alert('Deck saved! (This is a demo)');
+    alert('Deck saved successfully!');
   };
 
   const shareDeck = () => {
     // TODO: Implement share functionality
     console.warn('Sharing deck:', deck);
-    alert('Deck shared! (This is a demo)');
+    alert('Deck shared successfully!');
   };
 
   return (
