@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Trophy, Users, Calendar, Star, Eye, Copy, Filter, TrendingUp } from 'lucide-react';
+import { Trophy, Users, Calendar, Star, Eye, Copy, Filter, TrendingUp, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useData } from '../contexts/DataContext';
 
 const DeckDiscovery = ({ onImportDeck }) => {
+  const { decks: allDecks, getPopularDecks, getRecentDecks } = useData();
   const [decks, setDecks] = useState([]);
   const [filters, setFilters] = useState({
     format: '',
@@ -13,84 +15,62 @@ const DeckDiscovery = ({ onImportDeck }) => {
   const [sortBy, setSortBy] = useState('recent'); // 'recent', 'popular', 'winrate'
   const [selectedDeck, setSelectedDeck] = useState(null);
 
-  // Mock tournament deck data
+  // Load and filter real deck data
   useEffect(() => {
-    const mockDecks = [
-      {
-        id: 'deck1',
-        name: 'Aggro Lightning',
-        archetype: 'Aggro',
-        format: 'Standard',
-        pilot: 'ProPlayer123',
-        tournament: 'Weekly Championship #45',
-        placement: 1,
-        date: '2024-06-08',
-        winRate: 85,
-        popularity: 92,
-        cards: [
-          { id: 'card001', name: 'Gustling Wisp', quantity: 4 },
-          { id: 'card004', name: 'Lightning Bolt', quantity: 4 },
-          { id: 'card002', name: 'Infernal Sprinter', quantity: 3 },
-        ],
-        description: 'Fast aggro deck focusing on early pressure and burn spells.',
-        sideboard: [
-          { id: 'card005', name: 'Healing Potion', quantity: 2 },
-        ],
-        tags: ['Fast', 'Competitive', 'Budget-Friendly'],
-        votes: 156,
-        views: 2340
-      },
-      {
-        id: 'deck2',
-        name: 'Control Guardian',
-        archetype: 'Control',
-        format: 'Standard',
-        pilot: 'ControlMaster',
-        tournament: 'Grand Prix Finals',
-        placement: 2,
-        date: '2024-06-06',
-        winRate: 78,
-        popularity: 67,
-        cards: [
-          { id: 'card003', name: 'Brilliant Watcher', quantity: 4 },
-          { id: 'card007', name: 'Crystal Shield', quantity: 3 },
-          { id: 'card005', name: 'Healing Potion', quantity: 4 },
-        ],
-        description: 'Defensive control deck with strong late-game threats.',
-        sideboard: [
-          { id: 'card004', name: 'Lightning Bolt', quantity: 3 },
-        ],
-        tags: ['Control', 'Late Game', 'Defensive'],
-        votes: 89,
-        views: 1567
-      },
-      {
-        id: 'deck3',
-        name: 'Dragon Ramp',
-        archetype: 'Midrange',
-        format: 'Standard',
-        pilot: 'DragonLord',
-        tournament: 'Regional Championship',
-        placement: 1,
-        date: '2024-06-07',
-        winRate: 82,
-        popularity: 74,
-        cards: [
-          { id: 'card008', name: 'Ancient Dragon', quantity: 2 },
-          { id: 'card010', name: 'Mana Crystal', quantity: 4 },
-          { id: 'card006', name: 'Flame Sword', quantity: 3 },
-        ],
-        description: 'Ramp into powerful dragons and dominate the late game.',
-        sideboard: [
-          { id: 'card009', name: 'Void Walker', quantity: 2 },
-        ],
-        tags: ['Dragons', 'Ramp', 'Big Threats'],
-        votes: 203,
-        views: 3421
-      }
-    ];
-    setDecks(mockDecks);
-  }, []);
+    let filteredDecks = [...allDecks];
+
+    // Apply filters
+    if (filters.format) {
+      filteredDecks = filteredDecks.filter(deck => 
+        deck.format?.toLowerCase() === filters.format.toLowerCase()
+      );
+    }
+
+    if (filters.archetype) {
+      filteredDecks = filteredDecks.filter(deck => 
+        deck.archetype?.toLowerCase() === filters.archetype.toLowerCase()
+      );
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case 'recent':
+        filteredDecks = getRecentDecks(50);
+        break;
+      case 'popular':
+        filteredDecks = getPopularDecks(50);
+        break;
+      case 'winrate':
+        filteredDecks.sort((a, b) => (b.winRate || 0) - (a.winRate || 0));
+        break;
+      default:
+        break;
+    }
+
+    // If no real decks exist, show a helpful message
+    if (filteredDecks.length === 0 && allDecks.length === 0) {
+      // Create some example decks to show the interface
+      const exampleDecks = [
+        {
+          id: 'example1',
+          name: 'Example Fire Deck',
+          description: 'Create your own deck to see it here!',
+          author: 'System',
+          format: 'Standard',
+          archetype: 'Example',
+          cards: [
+            { name: 'Lightning Bolt', quantity: 4 },
+            { name: 'Infernal Sprinter', quantity: 3 }
+          ],
+          createdAt: new Date().toISOString(),
+          isExample: true
+        }
+      ];
+      setDecks(exampleDecks);
+    } else {
+      setDecks(filteredDecks);
+    }
+  }, [allDecks, filters, sortBy, getRecentDecks, getPopularDecks]);
 
   const getFilteredDecks = () => {
     return decks.filter(deck => {
