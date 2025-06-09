@@ -39,6 +39,7 @@ const Layout = ({ children }) => {
     { name: 'Advanced Builder', href: '/deckbuilder-advanced', icon: Settings },
     { name: 'Card Database', href: '/cards', icon: Database },
     { name: 'My Decks', href: '/decks', icon: BookOpen },
+    { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
     { name: 'Social Hub', href: '/social', icon: Users },
     { name: 'Analytics', href: '/analytics', icon: TrendingUp },
