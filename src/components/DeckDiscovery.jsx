@@ -143,18 +143,20 @@ const DeckDiscovery = ({ onImportDeck }) => {
     >
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-lg font-bold text-white">{deck.name}</h3>
+          <h3 className="text-lg font-bold text-white">{deck.name || 'Untitled Deck'}</h3>
           <p className="text-sm text-gray-400">
-            {deck.archetype} • {deck.format}
+            {deck.archetype || 'Unknown'} • {deck.format || 'Standard'}
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <span className={`text-lg ${getPlacementColor(deck.placement)}`}>
-            {getPlacementIcon(deck.placement)}
-          </span>
+          {deck.placement && (
+            <span className={`text-lg ${getPlacementColor(deck.placement)}`}>
+              {getPlacementIcon(deck.placement)}
+            </span>
+          )}
           <div className="flex items-center space-x-1 text-yellow-400">
             <Star size={14} />
-            <span className="text-sm">{deck.votes}</span>
+            <span className="text-sm">{deck.votes || 0}</span>
           </div>
         </div>
       </div>
@@ -162,15 +164,15 @@ const DeckDiscovery = ({ onImportDeck }) => {
       <div className="flex items-center space-x-4 text-sm text-gray-400 mb-3">
         <div className="flex items-center space-x-1">
           <Users size={14} />
-          <span>{deck.pilot}</span>
+          <span>{deck.pilot || deck.author || 'Anonymous'}</span>
         </div>
         <div className="flex items-center space-x-1">
           <Calendar size={14} />
-          <span>{new Date(deck.date).toLocaleDateString()}</span>
+          <span>{deck.date ? new Date(deck.date).toLocaleDateString() : deck.createdAt ? new Date(deck.createdAt).toLocaleDateString() : 'Unknown'}</span>
         </div>
         <div className="flex items-center space-x-1">
           <Eye size={14} />
-          <span>{deck.views}</span>
+          <span>{deck.views || 0}</span>
         </div>
       </div>
 
@@ -178,7 +180,7 @@ const DeckDiscovery = ({ onImportDeck }) => {
 
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-1">
-          {deck.tags.map(tag => (
+          {(deck.tags || []).map(tag => (
             <span
               key={tag}
               className="px-2 py-1 bg-gray-700 text-xs text-gray-300 rounded"
@@ -189,8 +191,8 @@ const DeckDiscovery = ({ onImportDeck }) => {
         </div>
 
         <div className="flex items-center space-x-2 text-sm">
-          <span className="text-green-400">{deck.winRate}% WR</span>
-          <span className="text-blue-400">{deck.popularity}% Pop</span>
+          <span className="text-green-400">{deck.winRate || 0}% WR</span>
+          <span className="text-blue-400">{deck.popularity || 0}% Pop</span>
         </div>
       </div>
     </motion.div>
@@ -275,9 +277,9 @@ const DeckDiscovery = ({ onImportDeck }) => {
           <div>
             <h3 className="text-lg font-bold text-white mb-4">Main Deck</h3>
             <div className="space-y-2">
-              {deck.cards.map(card => (
+              {(deck.cards || []).map((card, index) => (
                 <div
-                  key={card.id}
+                  key={card.id || index}
                   className="flex justify-between bg-gray-700 rounded p-2"
                 >
                   <span className="text-white">{card.name}</span>
@@ -290,9 +292,9 @@ const DeckDiscovery = ({ onImportDeck }) => {
           <div>
             <h3 className="text-lg font-bold text-white mb-4">Sideboard</h3>
             <div className="space-y-2">
-              {deck.sideboard.map(card => (
+              {(deck.sideboard || []).map((card, index) => (
                 <div
-                  key={card.id}
+                  key={card.id || index}
                   className="flex justify-between bg-gray-700 rounded p-2"
                 >
                   <span className="text-white">{card.name}</span>
@@ -305,7 +307,7 @@ const DeckDiscovery = ({ onImportDeck }) => {
 
         <div className="flex justify-between mt-6">
           <div className="flex space-x-2">
-            {deck.tags.map(tag => (
+            {(deck.tags || []).map(tag => (
               <span
                 key={tag}
                 className="px-3 py-1 bg-gray-700 text-sm text-gray-300 rounded"
@@ -319,9 +321,9 @@ const DeckDiscovery = ({ onImportDeck }) => {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `${deck.name}\n\n${deck.cards
+                  `${deck.name}\n\n${(deck.cards || [])
                     .map(card => `${card.quantity}x ${card.name}`)
-                    .join('\n')}\n\nSideboard:\n${deck.sideboard
+                    .join('\n')}\n\nSideboard:\n${(deck.sideboard || [])
                     .map(card => `${card.quantity}x ${card.name}`)
                     .join('\n')}`,
                 );
