@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
+import { DataProvider } from './contexts/DataContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import EnhancedCardDatabase from './pages/EnhancedCardDatabase';
@@ -22,44 +23,46 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/cards" element={<EnhancedCardDatabase />} />
-              <Route path="/decks" element={<MyDecks />} />
-              <Route path="/saved-decks" element={<MyDecks />} />
-              <Route path="/deckbuilder" element={<EnhancedDeckBuilder />} />
-              <Route
-                path="/deckbuilder/:deckId"
-                element={<EnhancedDeckBuilder />}
-              />
-              <Route
-                path="/deckbuilder-advanced"
-                element={<AdvancedDeckBuilder />}
-              />
-              <Route
-                path="/deckbuilder-advanced/:deckId"
-                element={<AdvancedDeckBuilder />}
-              />
-              <Route path="/tournaments" element={<TournamentCenter />} />
-              <Route
-                path="/tournaments/create"
-                element={<TournamentCreate />}
-              />
-              <Route
-                path="/tournaments/:tournamentId/live"
-                element={<LiveTournament />}
-              />
-              <Route path="/judge-center" element={<JudgeCenter />} />
-              <Route path="/profile" element={<EnhancedProfile />} />
-              <Route path="/social" element={<SocialHub />} />
-              <Route path="/analytics" element={<AnalyticsDashboard />} />
-              <Route path="/admin" element={<AdminPanel />} />
-              <Route path="/deck-discovery" element={<DeckDiscovery />} />
-            </Routes>
-          </Layout>
-        </Router>
+        <DataProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/cards" element={<EnhancedCardDatabase />} />
+                <Route path="/decks" element={<MyDecks />} />
+                <Route path="/saved-decks" element={<MyDecks />} />
+                <Route path="/deckbuilder" element={<EnhancedDeckBuilder />} />
+                <Route
+                  path="/deckbuilder/:deckId"
+                  element={<EnhancedDeckBuilder />}
+                />
+                <Route
+                  path="/deckbuilder-advanced"
+                  element={<AdvancedDeckBuilder />}
+                />
+                <Route
+                  path="/deckbuilder-advanced/:deckId"
+                  element={<AdvancedDeckBuilder />}
+                />
+                <Route path="/tournaments" element={<TournamentCenter />} />
+                <Route
+                  path="/tournaments/create"
+                  element={<TournamentCreate />}
+                />
+                <Route
+                  path="/tournaments/:tournamentId/live"
+                  element={<LiveTournament />}
+                />
+                <Route path="/judge-center" element={<JudgeCenter />} />
+                <Route path="/profile" element={<EnhancedProfile />} />
+                <Route path="/social" element={<SocialHub />} />
+                <Route path="/analytics" element={<AnalyticsDashboard />} />
+                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/deck-discovery" element={<DeckDiscovery />} />
+              </Routes>
+            </Layout>
+          </Router>
+        </DataProvider>
       </AuthProvider>
     </ErrorBoundary>
   );
