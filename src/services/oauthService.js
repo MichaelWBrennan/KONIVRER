@@ -55,20 +55,20 @@ const storeOAuthState = (provider, state) => {
 /**
  * Verify OAuth state parameter
  */
-const verifyOAuthState = (receivedState) => {
+const verifyOAuthState = receivedState => {
   try {
     const storedData = sessionStorage.getItem('oauth_state');
     if (!storedData) return false;
 
     const { state, timestamp } = JSON.parse(storedData);
-    
+
     // Check if state matches and is not expired (5 minutes)
-    const isValid = state === receivedState && (Date.now() - timestamp) < 300000;
-    
+    const isValid = state === receivedState && Date.now() - timestamp < 300000;
+
     if (isValid) {
       sessionStorage.removeItem('oauth_state');
     }
-    
+
     return isValid;
   } catch (error) {
     console.error('Error verifying OAuth state:', error);
@@ -79,9 +79,9 @@ const verifyOAuthState = (receivedState) => {
 /**
  * Initiate OAuth flow for a specific provider
  */
-export const initiateOAuth = (provider) => {
+export const initiateOAuth = provider => {
   const config = OAUTH_PROVIDERS[provider];
-  
+
   if (!config || !config.clientId) {
     console.error(`OAuth not configured for provider: ${provider}`);
     // For demo purposes, simulate OAuth success
@@ -106,12 +106,12 @@ export const initiateOAuth = (provider) => {
   }
 
   const authUrl = `${config.authUrl}?${params.toString()}`;
-  
+
   // Open OAuth popup or redirect
   const popup = window.open(
     authUrl,
     'oauth_popup',
-    'width=500,height=600,scrollbars=yes,resizable=yes'
+    'width=500,height=600,scrollbars=yes,resizable=yes',
   );
 
   return new Promise((resolve, reject) => {
@@ -123,9 +123,9 @@ export const initiateOAuth = (provider) => {
     }, 1000);
 
     // Listen for OAuth callback
-    const handleMessage = (event) => {
+    const handleMessage = event => {
       if (event.origin !== window.location.origin) return;
-      
+
       if (event.data.type === 'OAUTH_SUCCESS') {
         clearInterval(checkClosed);
         popup.close();
@@ -146,8 +146,8 @@ export const initiateOAuth = (provider) => {
 /**
  * Simulate OAuth success for demo purposes when OAuth is not configured
  */
-const simulateOAuthSuccess = (provider) => {
-  return new Promise((resolve) => {
+const simulateOAuthSuccess = provider => {
+  return new Promise(resolve => {
     setTimeout(() => {
       const mockUsers = {
         google: {
@@ -202,7 +202,7 @@ export const handleOAuthCallback = async (code, state, provider) => {
     const tokenResponse = await fetch(config.tokenUrl, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
@@ -218,12 +218,12 @@ export const handleOAuthCallback = async (code, state, provider) => {
     }
 
     const tokenData = await tokenResponse.json();
-    
+
     // Fetch user information
     const userResponse = await fetch(config.userInfoUrl, {
       headers: {
-        'Authorization': `Bearer ${tokenData.access_token}`,
-        'Accept': 'application/json',
+        Authorization: `Bearer ${tokenData.access_token}`,
+        Accept: 'application/json',
       },
     });
 
@@ -232,10 +232,10 @@ export const handleOAuthCallback = async (code, state, provider) => {
     }
 
     const userData = await userResponse.json();
-    
+
     // Normalize user data across providers
     const normalizedUser = normalizeUserData(userData, provider);
-    
+
     return normalizedUser;
   } catch (error) {
     console.error('OAuth callback error:', error);
@@ -323,7 +323,7 @@ const normalizeUserData = (userData, provider) => {
         email: userData.email,
         username: userData.username,
         displayName: userData.global_name || userData.username,
-        avatar: userData.avatar 
+        avatar: userData.avatar
           ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
           : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.username}`,
         location: userData.locale || '',
@@ -337,7 +337,7 @@ const normalizeUserData = (userData, provider) => {
 /**
  * Check if OAuth is configured for a provider
  */
-export const isOAuthConfigured = (provider) => {
+export const isOAuthConfigured = provider => {
   const config = OAUTH_PROVIDERS[provider];
   return config && config.clientId;
 };
@@ -346,8 +346,8 @@ export const isOAuthConfigured = (provider) => {
  * Get available OAuth providers
  */
 export const getAvailableProviders = () => {
-  return Object.keys(OAUTH_PROVIDERS).filter(provider => 
-    isOAuthConfigured(provider)
+  return Object.keys(OAUTH_PROVIDERS).filter(provider =>
+    isOAuthConfigured(provider),
   );
 };
 

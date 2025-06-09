@@ -634,12 +634,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // SSO Login method
-  const loginWithSSO = async (provider) => {
+  const loginWithSSO = async provider => {
     try {
       console.log(`[SSO] Initiating ${provider} OAuth flow`);
-      
+
       const ssoUser = await initiateOAuth(provider);
-      
+
       if (ssoUser) {
         // Generate session token
         const token = generateSessionToken();
@@ -677,9 +677,11 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(`[SSO] ${provider} login error:`, error);
-      return { 
-        success: false, 
-        error: error.message || `${provider} authentication failed. Please try again.` 
+      return {
+        success: false,
+        error:
+          error.message ||
+          `${provider} authentication failed. Please try again.`,
       };
     }
   };
