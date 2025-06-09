@@ -18,6 +18,8 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminPanel from './pages/AdminPanel';
 import DeckDiscovery from './components/DeckDiscovery';
 import TournamentCenter from './pages/TournamentCenter';
+import Matches from './pages/Matches';
+import Events from './pages/Events';
 
 function App() {
   return (
@@ -53,6 +55,8 @@ function App() {
                   path="/tournaments/:tournamentId/live"
                   element={<LiveTournament />}
                 />
+                <Route path="/matches" element={<Matches />} />
+                <Route path="/events" element={<Events />} />
                 <Route path="/judge-center" element={<JudgeCenter />} />
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/social" element={<SocialHub />} />
