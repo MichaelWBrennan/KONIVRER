@@ -3,8 +3,8 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
-import { CardDatabase } from './pages/CardDatabase';
-import { DeckBuilder } from './pages/DeckBuilder';
+import EnhancedCardDatabase from './pages/EnhancedCardDatabase';
+import EnhancedDeckBuilder from './pages/EnhancedDeckBuilder';
 import { MyDecks } from './pages/MyDecks';
 import EnhancedTournaments from './components/EnhancedTournaments';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -15,6 +15,8 @@ import AdvancedDeckBuilder from './pages/AdvancedDeckBuilder';
 import SocialHub from './pages/SocialHub';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminPanel from './pages/AdminPanel';
+import DeckDiscovery from './components/DeckDiscovery';
+import TournamentCenter from './pages/TournamentCenter';
 
 function App() {
   return (
@@ -24,11 +26,14 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/cards" element={<CardDatabase />} />
+              <Route path="/cards" element={<EnhancedCardDatabase />} />
               <Route path="/decks" element={<MyDecks />} />
               <Route path="/saved-decks" element={<MyDecks />} />
-              <Route path="/deckbuilder" element={<DeckBuilder />} />
-              <Route path="/deckbuilder/:deckId" element={<DeckBuilder />} />
+              <Route path="/deckbuilder" element={<EnhancedDeckBuilder />} />
+              <Route
+                path="/deckbuilder/:deckId"
+                element={<EnhancedDeckBuilder />}
+              />
               <Route
                 path="/deckbuilder-advanced"
                 element={<AdvancedDeckBuilder />}
@@ -37,7 +42,7 @@ function App() {
                 path="/deckbuilder-advanced/:deckId"
                 element={<AdvancedDeckBuilder />}
               />
-              <Route path="/tournaments" element={<EnhancedTournaments />} />
+              <Route path="/tournaments" element={<TournamentCenter />} />
               <Route
                 path="/tournaments/create"
                 element={<TournamentCreate />}
@@ -51,6 +56,7 @@ function App() {
               <Route path="/social" element={<SocialHub />} />
               <Route path="/analytics" element={<AnalyticsDashboard />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/deck-discovery" element={<DeckDiscovery />} />
             </Routes>
           </Layout>
         </Router>

@@ -8,10 +8,13 @@ import {
   RefreshCw,
   Wifi,
   WifiOff,
+  Package,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import CardViewer from '../components/CardViewer';
+import AdvancedCardFilters from '../components/AdvancedCardFilters';
+import CollectionManager from '../components/CollectionManager';
 import cardsService from '../services/cardsService';
 
 const CardDatabase = () => {
@@ -20,12 +23,19 @@ const CardDatabase = () => {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [sortBy, setSortBy] = useState('name');
   const [filters, setFilters] = useState({
+    type: [],
+    class: [],
     elements: [],
-    rarity: '',
-    cost: '',
     keywords: [],
+    talents: [],
+    cost: { min: '', max: '' },
+    power: { min: '', max: '' },
+    rarity: [],
+    set: [],
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [activeTab, setActiveTab] = useState('browse'); // 'browse' or 'collection'
 
   // New state for API integration
   const [cardsData, setCardsData] = useState([]);
@@ -96,27 +106,55 @@ const CardDatabase = () => {
     .filter(card => {
       const matchesSearch =
         card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        card.text.toLowerCase().includes(searchQuery.toLowerCase());
+        card.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (card.flavor &&
+          card.flavor.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      const matchesType =
+        filters.type.length === 0 || filters.type.includes(card.type);
+
+      const matchesClass =
+        filters.class.length === 0 || filters.class.includes(card.class);
 
       const matchesElements =
         filters.elements.length === 0 ||
         filters.elements.some(element => card.elements.includes(element));
 
-      const matchesRarity = !filters.rarity || card.rarity === filters.rarity;
-
-      const matchesCost =
-        !filters.cost || card.cost.toString() === filters.cost;
-
       const matchesKeywords =
         filters.keywords.length === 0 ||
         filters.keywords.some(keyword => card.keywords.includes(keyword));
 
+      const matchesTalents =
+        filters.talents.length === 0 ||
+        filters.talents.some(
+          talent => card.talents && card.talents.includes(talent),
+        );
+
+      const matchesRarity =
+        filters.rarity.length === 0 || filters.rarity.includes(card.rarity);
+
+      const matchesSet =
+        filters.set.length === 0 || filters.set.includes(card.set);
+
+      const matchesCost =
+        (!filters.cost.min || card.cost >= parseInt(filters.cost.min)) &&
+        (!filters.cost.max || card.cost <= parseInt(filters.cost.max));
+
+      const matchesPower =
+        (!filters.power.min || card.power >= parseInt(filters.power.min)) &&
+        (!filters.power.max || card.power <= parseInt(filters.power.max));
+
       return (
         matchesSearch &&
+        matchesType &&
+        matchesClass &&
         matchesElements &&
+        matchesKeywords &&
+        matchesTalents &&
         matchesRarity &&
+        matchesSet &&
         matchesCost &&
-        matchesKeywords
+        matchesPower
       );
     })
     .sort((a, b) => {
@@ -162,6 +200,32 @@ const CardDatabase = () => {
               <p className="text-secondary">
                 Browse and search through all {cardsData.length} KONIVRER cards
               </p>
+
+              {/* Tabs */}
+              <div className="flex items-center space-x-4 mt-4">
+                <button
+                  onClick={() => setActiveTab('browse')}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded ${
+                    activeTab === 'browse'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  <Search size={16} />
+                  <span>Browse Cards</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('collection')}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded ${
+                    activeTab === 'collection'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  <Package size={16} />
+                  <span>My Collection</span>
+                </button>
+              </div>
             </div>
 
             {/* Sync Controls */}
@@ -257,11 +321,11 @@ const CardDatabase = () => {
 
             {/* Filters Toggle */}
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`btn ${showFilters ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setShowAdvancedFilters(true)}
+              className="btn btn-secondary"
             >
               <Filter size={16} />
-              Filters
+              Advanced Filters
             </button>
           </div>
 
