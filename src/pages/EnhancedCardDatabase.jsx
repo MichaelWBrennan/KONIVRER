@@ -94,15 +94,14 @@ const EnhancedCardDatabase = () => {
       const matchesSearch =
         card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         card.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (card.flavor && card.flavor.toLowerCase().includes(searchQuery.toLowerCase()));
+        (card.flavor &&
+          card.flavor.toLowerCase().includes(searchQuery.toLowerCase()));
 
       const matchesType =
-        filters.type.length === 0 ||
-        filters.type.includes(card.type);
+        filters.type.length === 0 || filters.type.includes(card.type);
 
       const matchesClass =
-        filters.class.length === 0 ||
-        filters.class.includes(card.class);
+        filters.class.length === 0 || filters.class.includes(card.class);
 
       const matchesElements =
         filters.elements.length === 0 ||
@@ -114,21 +113,21 @@ const EnhancedCardDatabase = () => {
 
       const matchesTalents =
         filters.talents.length === 0 ||
-        filters.talents.some(talent => card.talents && card.talents.includes(talent));
+        filters.talents.some(
+          talent => card.talents && card.talents.includes(talent),
+        );
 
       const matchesRarity =
-        filters.rarity.length === 0 ||
-        filters.rarity.includes(card.rarity);
+        filters.rarity.length === 0 || filters.rarity.includes(card.rarity);
 
       const matchesSet =
-        filters.set.length === 0 ||
-        filters.set.includes(card.set);
+        filters.set.length === 0 || filters.set.includes(card.set);
 
-      const matchesCost = 
+      const matchesCost =
         (!filters.cost.min || card.cost >= parseInt(filters.cost.min)) &&
         (!filters.cost.max || card.cost <= parseInt(filters.cost.max));
 
-      const matchesPower = 
+      const matchesPower =
         (!filters.power.min || card.power >= parseInt(filters.power.min)) &&
         (!filters.power.max || card.power <= parseInt(filters.power.max));
 
@@ -208,13 +207,15 @@ const EnhancedCardDatabase = () => {
               <p className="text-gray-400">
                 Browse and search through all {cardsData.length} KONIVRER cards
               </p>
-              
+
               {/* Tabs */}
               <div className="flex items-center space-x-4 mt-4">
                 <button
                   onClick={() => setActiveTab('browse')}
                   className={`flex items-center space-x-2 px-4 py-2 rounded ${
-                    activeTab === 'browse' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeTab === 'browse'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   <Search size={16} />
@@ -223,7 +224,9 @@ const EnhancedCardDatabase = () => {
                 <button
                   onClick={() => setActiveTab('collection')}
                   className={`flex items-center space-x-2 px-4 py-2 rounded ${
-                    activeTab === 'collection' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeTab === 'collection'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   <Package size={16} />
@@ -327,7 +330,9 @@ const EnhancedCardDatabase = () => {
             <button
               onClick={() => setShowAdvancedFilters(true)}
               className={`flex items-center space-x-2 px-3 py-2 rounded transition-colors ${
-                hasActiveFilters() ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                hasActiveFilters()
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
               <Filter size={16} />
@@ -360,7 +365,9 @@ const EnhancedCardDatabase = () => {
         {error && (
           <div className="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
             <div className="text-center">
-              <h3 className="font-semibold text-red-300">Error loading cards</h3>
+              <h3 className="font-semibold text-red-300">
+                Error loading cards
+              </h3>
               <p className="text-sm text-red-400">{error}</p>
               <button
                 onClick={() => loadCards(true)}

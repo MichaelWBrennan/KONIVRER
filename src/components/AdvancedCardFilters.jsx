@@ -14,10 +14,10 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
     set: true,
   });
 
-  const toggleSection = (section) => {
+  const toggleSection = section => {
     setExpandedSections(prev => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   };
 
@@ -29,9 +29,9 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
         : [...currentValues, value];
       onFiltersChange({ ...filters, [category]: newValues });
     } else {
-      onFiltersChange({ 
-        ...filters, 
-        [category]: filters[category] === value ? '' : value 
+      onFiltersChange({
+        ...filters,
+        [category]: filters[category] === value ? '' : value,
       });
     }
   };
@@ -57,12 +57,14 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
         className="flex items-center justify-between w-full text-left font-medium text-white hover:text-blue-400 transition-colors"
       >
         {title}
-        {expandedSections[section] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        {expandedSections[section] ? (
+          <ChevronUp size={16} />
+        ) : (
+          <ChevronDown size={16} />
+        )}
       </button>
       {expandedSections[section] && (
-        <div className="mt-3 space-y-2">
-          {children}
-        </div>
+        <div className="mt-3 space-y-2">{children}</div>
       )}
     </div>
   );
@@ -70,7 +72,10 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
   const CheckboxFilter = ({ options, category, label }) => (
     <div className="space-y-2">
       {options.map(option => (
-        <label key={option} className="flex items-center space-x-2 cursor-pointer">
+        <label
+          key={option}
+          className="flex items-center space-x-2 cursor-pointer"
+        >
           <input
             type="checkbox"
             checked={(filters[category] || []).includes(option)}
@@ -90,7 +95,12 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
           type="number"
           placeholder="Min"
           value={filters[category]?.min || ''}
-          onChange={(e) => updateFilter(category, { ...filters[category], min: e.target.value })}
+          onChange={e =>
+            updateFilter(category, {
+              ...filters[category],
+              min: e.target.value,
+            })
+          }
           className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white text-sm"
           min={min}
           max={max}
@@ -100,7 +110,12 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
           type="number"
           placeholder="Max"
           value={filters[category]?.max || ''}
-          onChange={(e) => updateFilter(category, { ...filters[category], max: e.target.value })}
+          onChange={e =>
+            updateFilter(category, {
+              ...filters[category],
+              max: e.target.value,
+            })
+          }
           className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white text-sm"
           min={min}
           max={max}
@@ -132,7 +147,19 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
 
           <FilterSection title="Class" section="class">
             <CheckboxFilter
-              options={['Elemental', 'Demon', 'Guardian', 'Support', 'Weapon', 'Armor', 'Dragon', 'Assassin', 'Resource', 'Wizard', 'Construct']}
+              options={[
+                'Elemental',
+                'Demon',
+                'Guardian',
+                'Support',
+                'Weapon',
+                'Armor',
+                'Dragon',
+                'Assassin',
+                'Resource',
+                'Wizard',
+                'Construct',
+              ]}
               category="class"
             />
           </FilterSection>
@@ -146,7 +173,20 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
 
           <FilterSection title="Keywords" section="keywords">
             <CheckboxFilter
-              options={['Gust', 'Inferno', 'Brilliance', 'Steadfast', 'Instant', 'Equipment', 'Flying', 'Shadow', 'Stealth', 'Artifact', 'Storm', 'Defender']}
+              options={[
+                'Gust',
+                'Inferno',
+                'Brilliance',
+                'Steadfast',
+                'Instant',
+                'Equipment',
+                'Flying',
+                'Shadow',
+                'Stealth',
+                'Artifact',
+                'Storm',
+                'Defender',
+              ]}
               category="keywords"
             />
           </FilterSection>
