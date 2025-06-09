@@ -89,7 +89,10 @@ class HashtagService {
 
       for (const platform of targetPlatforms) {
         if (this.platforms[platform]?.enabled) {
-          analytics[platform] = await this.getPlatformHashtagData(hashtag, platform);
+          analytics[platform] = await this.getPlatformHashtagData(
+            hashtag,
+            platform,
+          );
         }
       }
 
@@ -114,7 +117,10 @@ class HashtagService {
 
       for (const platform of targetPlatforms) {
         if (this.platforms[platform]?.enabled) {
-          results[platform] = await this.searchPlatformHashtags(query, platform);
+          results[platform] = await this.searchPlatformHashtags(
+            query,
+            platform,
+          );
         }
       }
 
@@ -161,7 +167,8 @@ class HashtagService {
         topPosts: [
           {
             platform: 'twitter',
-            content: 'Just discovered #KONIVRER and I\'m obsessed! The deck building is so strategic 🔥',
+            content:
+              "Just discovered #KONIVRER and I'm obsessed! The deck building is so strategic 🔥",
             author: '@CardGameFan',
             engagement: 234,
             timestamp: new Date(Date.now() - 3600000).toISOString(),
@@ -254,7 +261,7 @@ class HashtagService {
         Object.entries(item.platforms).map(([platform, data]) => [
           platform,
           { ...data, mentions: Math.floor(data.mentions * multiplier) },
-        ])
+        ]),
       ),
     }));
   }
@@ -266,7 +273,9 @@ class HashtagService {
       growth: `${Math.random() > 0.5 ? '+' : '-'}${Math.floor(Math.random() * 50)}%`,
       engagement: Math.floor(Math.random() * 5000) + 500,
       reach: Math.floor(Math.random() * 50000) + 5000,
-      sentiment: ['positive', 'neutral', 'negative'][Math.floor(Math.random() * 3)],
+      sentiment: ['positive', 'neutral', 'negative'][
+        Math.floor(Math.random() * 3)
+      ],
       topInfluencers: [
         { username: '@ProGamer123', followers: 45000, mentions: 12 },
         { username: '@CardMaster', followers: 23000, mentions: 8 },
@@ -277,13 +286,17 @@ class HashtagService {
           content: `Amazing ${hashtag} content! Love this game 🎮`,
           author: '@RandomUser1',
           engagement: Math.floor(Math.random() * 1000),
-          timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
+          timestamp: new Date(
+            Date.now() - Math.random() * 86400000,
+          ).toISOString(),
         },
         {
           content: `Just tried ${hashtag} strategy and it works!`,
           author: '@RandomUser2',
           engagement: Math.floor(Math.random() * 1000),
-          timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
+          timestamp: new Date(
+            Date.now() - Math.random() * 86400000,
+          ).toISOString(),
         },
       ],
     };
@@ -303,7 +316,8 @@ class HashtagService {
     ];
 
     variations.forEach((variation, index) => {
-      if (Math.random() > 0.3) { // 70% chance to include each variation
+      if (Math.random() > 0.3) {
+        // 70% chance to include each variation
         results.push({
           hashtag: variation,
           mentions: Math.floor(Math.random() * 500) + 50,
@@ -319,12 +333,14 @@ class HashtagService {
   // Generate mock real-time data
   generateMockRealtimeData(hashtags) {
     const updates = [];
-    
+
     hashtags.forEach(hashtag => {
-      if (Math.random() > 0.7) { // 30% chance for each hashtag to have an update
+      if (Math.random() > 0.7) {
+        // 30% chance for each hashtag to have an update
         const platforms = Object.keys(this.platforms);
-        const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
-        
+        const randomPlatform =
+          platforms[Math.floor(Math.random() * platforms.length)];
+
         updates.push({
           hashtag,
           platform: randomPlatform,
@@ -373,9 +389,10 @@ class HashtagService {
   // Toggle platform
   togglePlatform(platformKey) {
     if (this.platforms[platformKey]) {
-      this.platforms[platformKey].enabled = !this.platforms[platformKey].enabled;
+      this.platforms[platformKey].enabled =
+        !this.platforms[platformKey].enabled;
       announceToScreenReader(
-        `${this.platforms[platformKey].name} ${this.platforms[platformKey].enabled ? 'enabled' : 'disabled'}`
+        `${this.platforms[platformKey].name} ${this.platforms[platformKey].enabled ? 'enabled' : 'disabled'}`,
       );
       return this.platforms[platformKey].enabled;
     }

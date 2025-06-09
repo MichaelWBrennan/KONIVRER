@@ -134,11 +134,11 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
     }
   };
 
-  const handleSSOLogin = async (provider) => {
+  const handleSSOLogin = async provider => {
     try {
       setSsoLoading(provider);
       const result = await loginWithSSO(provider);
-      
+
       if (result.success) {
         onClose();
         // Reset forms
@@ -147,8 +147,10 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
       } else {
         // Show error on the current active form
         const currentForm = activeTab === 'login' ? loginForm : registerForm;
-        currentForm.setError('root', { 
-          message: result.error || `${provider} authentication failed. Please try again.` 
+        currentForm.setError('root', {
+          message:
+            result.error ||
+            `${provider} authentication failed. Please try again.`,
         });
       }
     } catch (err) {
@@ -640,7 +642,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                 Or continue with
               </p>
               <div className="grid grid-cols-2 gap-3">
-                <button 
+                <button
                   onClick={() => handleSSOLogin('github')}
                   disabled={ssoLoading !== null}
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -652,7 +654,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   )}
                   {ssoLoading === 'github' ? 'Connecting...' : 'GitHub'}
                 </button>
-                <button 
+                <button
                   onClick={() => handleSSOLogin('google')}
                   disabled={ssoLoading !== null}
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
