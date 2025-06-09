@@ -1,583 +1,208 @@
 import { useState, useEffect, useRef } from 'react';
 import {
+  Hash,
+  TrendingUp,
+  Search,
+  Filter,
+  RefreshCw,
+  BarChart3,
+  Eye,
+  Settings,
+  Plus,
+  Minus,
+  X,
+  Clock,
+  Activity,
+  Globe,
   Users,
   MessageCircle,
   Heart,
   Share2,
-  UserPlus,
-  UserMinus,
-  Search,
-  Filter,
-  Bell,
-  BellOff,
-  Star,
-  Trophy,
-  Gamepad2,
-  Calendar,
-  MapPin,
-  Globe,
-  Lock,
-  Eye,
-  EyeOff,
-  Camera,
-  Video,
-  Mic,
-  MicOff,
-  Ban,
-  Phone,
-  PhoneOff,
-  Settings,
-  MoreHorizontal,
-  Send,
-  Smile,
-  Image,
-  Paperclip,
-  Gift,
-  Zap,
-  Flame,
-  ThumbsUp,
-  ThumbsDown,
-  Bookmark,
-  Flag,
-  Volume2,
-  VolumeX,
-  Maximize,
-  Minimize,
-  Copy,
+  ExternalLink,
   Download,
   Upload,
-  Edit,
-  Trash2,
-  Pin,
-  Archive,
-  VolumeX as Mute,
-  Ban as Block,
-  Flag as Report,
-  Crown,
-  Shield,
-  Award,
+  Calendar,
   Target,
-  Activity,
-  TrendingUp,
-  Clock,
-  CheckCircle,
+  Zap,
+  Star,
   AlertCircle,
+  CheckCircle,
   Info,
-  X,
-  Plus,
-  Minus,
+  ArrowUp,
+  ArrowDown,
+  Pause,
+  Play,
+  MoreHorizontal,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import {
-  WebSocketManager,
-  announceToScreenReader,
-  getDeviceInfo,
-} from '../utils/modernFeatures';
+import hashtagService from '../services/hashtagService';
+import { announceToScreenReader } from '../utils/modernFeatures';
 
 const SocialHub = () => {
-  const { user, wsManager } = useAuth();
-  const [activeTab, setActiveTab] = useState('feed');
-  const [friends, setFriends] = useState([]);
-  const [friendRequests, setFriendRequests] = useState([]);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [communities, setCommunities] = useState([]);
-  const [directMessages, setDirectMessages] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
-  const [notifications, setNotifications] = useState([]);
+  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('trending');
+  
+  // Hashtag tracking state
+  const [trendingHashtags, setTrendingHashtags] = useState([]);
+  const [trackedHashtags, setTrackedHashtags] = useState([]);
+  const [platforms, setPlatforms] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [isCreatingPost, setIsCreatingPost] = useState(false);
-  const [newPost, setNewPost] = useState({
-    content: '',
-    images: [],
-    visibility: 'public',
+  const [searchResults, setSearchResults] = useState({});
+  const [selectedHashtag, setSelectedHashtag] = useState(null);
+  const [hashtagAnalytics, setHashtagAnalytics] = useState({});
+  const [realtimeUpdates, setRealtimeUpdates] = useState([]);
+  const [timeframe, setTimeframe] = useState('24h');
+  const [isLoading, setIsLoading] = useState(false);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [refreshInterval, setRefreshInterval] = useState(30000); // 30 seconds
+  const [filters, setFilters] = useState({
+    platforms: [],
+    sentiment: 'all',
+    minMentions: 0,
+    sortBy: 'mentions',
   });
-  const [voiceCall, setVoiceCall] = useState(null);
-  const [videoCall, setVideoCall] = useState(null);
-  const [streamingUsers, setStreamingUsers] = useState([]);
 
-  // Real-time features
-  const [typingUsers, setTypingUsers] = useState(new Set());
-  const [userPresence, setUserPresence] = useState(new Map());
-  const [liveActivities, setLiveActivities] = useState([]);
-  const [trendingTopics, setTrendingTopics] = useState([]);
-
-  // Advanced features
-  const [communityEvents, setCommunityEvents] = useState([]);
-  const [achievements, setAchievements] = useState([]);
-  const [leaderboards, setLeaderboards] = useState([]);
-  const [mentorshipProgram, setMentorshipProgram] = useState([]);
-  const [tournaments, setTournaments] = useState([]);
-
-  const chatRef = useRef(null);
-  const messageInputRef = useRef(null);
-  const videoRef = useRef(null);
-  const localVideoRef = useRef(null);
+  const refreshIntervalRef = useRef(null);
 
   useEffect(() => {
-    initializeSocialData();
-    setupWebSocketListeners();
+    initializeHashtagData();
+    setupAutoRefresh();
 
     return () => {
-      if (wsManager) {
-        wsManager.send('leave_social_hub', { userId: user?.id });
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current);
       }
     };
   }, []);
 
-  const initializeSocialData = async () => {
-    // Mock data initialization
-    const mockFriends = [
-      {
-        id: 1,
-        username: 'ElementalMage',
-        displayName: 'Sarah Wilson',
-        avatar: '/api/placeholder/40/40',
-        status: 'online',
-        activity: 'Playing Ranked',
-        lastSeen: new Date().toISOString(),
-        mutualFriends: 12,
-        isStreaming: true,
-        streamTitle: 'Climbing to Legend Rank!',
-      },
-      {
-        id: 2,
-        username: 'StormCaller',
-        displayName: 'Mike Chen',
-        avatar: '/api/placeholder/40/40',
-        status: 'away',
-        activity: 'In Tournament',
-        lastSeen: new Date(Date.now() - 300000).toISOString(),
-        mutualFriends: 8,
-        isStreaming: false,
-      },
-      {
-        id: 3,
-        username: 'FireStorm99',
-        displayName: 'Alex Rodriguez',
-        avatar: '/api/placeholder/40/40',
-        status: 'offline',
-        activity: 'Last seen 2 hours ago',
-        lastSeen: new Date(Date.now() - 7200000).toISOString(),
-        mutualFriends: 15,
-        isStreaming: false,
-      },
-    ];
-
-    const mockPosts = [
-      {
-        id: 1,
-        author: {
-          id: 1,
-          username: 'ElementalMage',
-          displayName: 'Sarah Wilson',
-          avatar: '/api/placeholder/40/40',
-          verified: true,
-        },
-        content:
-          'Just hit Legend rank with my new Elemental Storm deck! The meta is really shifting towards more aggressive strategies. What do you all think?',
-        images: ['/api/placeholder/400/300'],
-        timestamp: new Date(Date.now() - 3600000).toISOString(),
-        likes: 47,
-        comments: 12,
-        shares: 8,
-        isLiked: false,
-        isBookmarked: true,
-        visibility: 'public',
-        tags: ['#Legend', '#ElementalStorm', '#Meta'],
-        location: 'Los Angeles, CA',
-      },
-      {
-        id: 2,
-        author: {
-          id: 2,
-          username: 'StormCaller',
-          displayName: 'Mike Chen',
-          avatar: '/api/placeholder/40/40',
-          verified: false,
-        },
-        content:
-          'Streaming some tournament prep! Come watch and learn some advanced strategies. Link in bio!',
-        images: [],
-        timestamp: new Date(Date.now() - 7200000).toISOString(),
-        likes: 23,
-        comments: 5,
-        shares: 3,
-        isLiked: true,
-        isBookmarked: false,
-        visibility: 'public',
-        tags: ['#Stream', '#Tournament', '#Strategy'],
-        streamUrl: 'https://stream.konivrer.com/stormcaller',
-      },
-    ];
-
-    const mockCommunities = [
-      {
-        id: 1,
-        name: 'KONIVRER Competitive',
-        description: 'Discuss competitive strategies and meta analysis',
-        memberCount: 15420,
-        isJoined: true,
-        avatar: '/api/placeholder/60/60',
-        category: 'Competitive',
-        isVerified: true,
-        moderators: ['ProPlayer123', 'MetaAnalyst'],
-        rules: ['Be respectful', 'No spam', 'Stay on topic'],
-        recentActivity: 'Very Active',
-      },
-      {
-        id: 2,
-        name: 'Deck Builders United',
-        description: 'Share and discuss deck builds',
-        memberCount: 8750,
-        isJoined: true,
-        avatar: '/api/placeholder/60/60',
-        category: 'Deck Building',
-        isVerified: false,
-        moderators: ['DeckMaster', 'BuilderPro'],
-        rules: [
-          'Share constructive feedback',
-          'Include deck lists',
-          'No netdecking shame',
-        ],
-        recentActivity: 'Active',
-      },
-      {
-        id: 3,
-        name: 'New Player Help',
-        description: 'Helping newcomers learn the game',
-        memberCount: 12300,
-        isJoined: false,
-        avatar: '/api/placeholder/60/60',
-        category: 'Beginner',
-        isVerified: true,
-        moderators: ['HelpfulVet', 'TeacherMage'],
-        rules: [
-          'Be patient and helpful',
-          'No question is too basic',
-          'Encourage learning',
-        ],
-        recentActivity: 'Very Active',
-      },
-    ];
-
-    const mockNotifications = [
-      {
-        id: 1,
-        type: 'friend_request',
-        from: { username: 'NewPlayer123', avatar: '/api/placeholder/32/32' },
-        message: 'sent you a friend request',
-        timestamp: new Date(Date.now() - 1800000).toISOString(),
-        isRead: false,
-        action: 'friend_request',
-      },
-      {
-        id: 2,
-        type: 'like',
-        from: { username: 'ElementalMage', avatar: '/api/placeholder/32/32' },
-        message: 'liked your post about deck building',
-        timestamp: new Date(Date.now() - 3600000).toISOString(),
-        isRead: false,
-        action: 'view_post',
-      },
-      {
-        id: 3,
-        type: 'tournament',
-        from: {
-          username: 'KONIVRER Official',
-          avatar: '/api/placeholder/32/32',
-        },
-        message: 'Tournament registration opens in 1 hour',
-        timestamp: new Date(Date.now() - 5400000).toISOString(),
-        isRead: true,
-        action: 'view_tournament',
-      },
-    ];
-
-    setFriends(mockFriends);
-    setPosts(mockPosts);
-    setCommunities(mockCommunities);
-    setNotifications(mockNotifications);
-    setOnlineUsers(mockFriends.filter(f => f.status === 'online'));
-    setStreamingUsers(mockFriends.filter(f => f.isStreaming));
-
-    // Set trending topics
-    setTrendingTopics([
-      { tag: '#ElementalStorm', posts: 234, growth: '+15%' },
-      { tag: '#WorldChampionship', posts: 567, growth: '+45%' },
-      { tag: '#NewMeta', posts: 189, growth: '+8%' },
-      { tag: '#DeckTech', posts: 123, growth: '+22%' },
-    ]);
-
-    // Set live activities
-    setLiveActivities([
-      {
-        type: 'tournament',
-        title: 'Weekly Championship',
-        participants: 128,
-        status: 'live',
-      },
-      {
-        type: 'stream',
-        title: 'Pro Player Coaching',
-        viewers: 1250,
-        status: 'live',
-      },
-      {
-        type: 'event',
-        title: 'Community Deck Review',
-        participants: 45,
-        status: 'starting_soon',
-      },
-    ]);
-  };
-
-  const setupWebSocketListeners = () => {
-    if (!wsManager) return;
-
-    // Join social hub
-    wsManager.send('join_social_hub', { userId: user?.id });
-
-    // Listen for real-time updates
-    wsManager.on('user_online', userData => {
-      setOnlineUsers(prev => [
-        ...prev.filter(u => u.id !== userData.id),
-        userData,
-      ]);
-      setUserPresence(prev => new Map(prev.set(userData.id, 'online')));
-      announceToScreenReader(`${userData.displayName} came online`);
-    });
-
-    wsManager.on('user_offline', userData => {
-      setOnlineUsers(prev => prev.filter(u => u.id !== userData.id));
-      setUserPresence(prev => new Map(prev.set(userData.id, 'offline')));
-    });
-
-    wsManager.on('new_message', message => {
-      if (activeChat && message.chatId === activeChat.id) {
-        setChatMessages(prev => [...prev, message]);
-        scrollToBottom();
+  useEffect(() => {
+    if (autoRefresh) {
+      setupAutoRefresh();
+    } else {
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current);
       }
-      announceToScreenReader(`New message from ${message.author.displayName}`);
-    });
+    }
+  }, [autoRefresh, refreshInterval]);
 
-    wsManager.on('user_typing', data => {
-      if (data.chatId === activeChat?.id) {
-        setTypingUsers(prev => new Set(prev.add(data.userId)));
-        setTimeout(() => {
-          setTypingUsers(prev => {
-            const newSet = new Set(prev);
-            newSet.delete(data.userId);
-            return newSet;
-          });
-        }, 3000);
+  const initializeHashtagData = async () => {
+    setIsLoading(true);
+    try {
+      // Initialize platforms
+      const platformsData = hashtagService.getPlatforms();
+      setPlatforms(platformsData);
+
+      // Get tracked hashtags
+      const tracked = hashtagService.getTrackedHashtags();
+      setTrackedHashtags(tracked);
+
+      // Get trending hashtags
+      const trending = await hashtagService.getTrendingHashtags(timeframe);
+      setTrendingHashtags(trending);
+
+      // Get real-time updates
+      const updates = await hashtagService.getRealtimeUpdates(tracked);
+      setRealtimeUpdates(updates);
+
+      announceToScreenReader('Hashtag data loaded successfully');
+    } catch (error) {
+      console.error('Error initializing hashtag data:', error);
+      announceToScreenReader('Error loading hashtag data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const setupAutoRefresh = () => {
+    if (refreshIntervalRef.current) {
+      clearInterval(refreshIntervalRef.current);
+    }
+
+    if (autoRefresh) {
+      refreshIntervalRef.current = setInterval(() => {
+        refreshData();
+      }, refreshInterval);
+    }
+  };
+
+  const refreshData = async () => {
+    try {
+      const trending = await hashtagService.getTrendingHashtags(timeframe);
+      setTrendingHashtags(trending);
+
+      const updates = await hashtagService.getRealtimeUpdates(trackedHashtags);
+      setRealtimeUpdates(prev => [...updates, ...prev].slice(0, 50)); // Keep last 50 updates
+
+      if (selectedHashtag) {
+        const analytics = await hashtagService.getHashtagAnalytics(selectedHashtag);
+        setHashtagAnalytics(analytics);
       }
-    });
-
-    wsManager.on('new_post', post => {
-      setPosts(prev => [post, ...prev]);
-      announceToScreenReader(`New post from ${post.author.displayName}`);
-    });
-
-    wsManager.on('post_liked', data => {
-      setPosts(prev =>
-        prev.map(post =>
-          post.id === data.postId
-            ? {
-                ...post,
-                likes: post.likes + (data.liked ? 1 : -1),
-                isLiked: data.liked,
-              }
-            : post,
-        ),
-      );
-    });
-
-    wsManager.on('friend_request', request => {
-      setFriendRequests(prev => [...prev, request]);
-      setNotifications(prev => [
-        {
-          id: Date.now(),
-          type: 'friend_request',
-          from: request.from,
-          message: 'sent you a friend request',
-          timestamp: new Date().toISOString(),
-          isRead: false,
-          action: 'friend_request',
-        },
-        ...prev,
-      ]);
-      announceToScreenReader(`Friend request from ${request.from.displayName}`);
-    });
-
-    wsManager.on('voice_call_incoming', callData => {
-      setVoiceCall({ ...callData, status: 'incoming' });
-      announceToScreenReader(
-        `Incoming voice call from ${callData.from.displayName}`,
-      );
-    });
-
-    wsManager.on('video_call_incoming', callData => {
-      setVideoCall({ ...callData, status: 'incoming' });
-      announceToScreenReader(
-        `Incoming video call from ${callData.from.displayName}`,
-      );
-    });
-  };
-
-  const scrollToBottom = () => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    } catch (error) {
+      console.error('Error refreshing data:', error);
     }
   };
 
-  const sendMessage = (content, type = 'text') => {
-    if (!activeChat || !content.trim()) return;
-
-    const message = {
-      id: Date.now(),
-      chatId: activeChat.id,
-      author: {
-        id: user.id,
-        username: user.username,
-        displayName: user.displayName,
-        avatar: user.avatar,
-      },
-      content: content.trim(),
-      type,
-      timestamp: new Date().toISOString(),
-      isRead: false,
-    };
-
-    setChatMessages(prev => [...prev, message]);
-
-    if (wsManager) {
-      wsManager.send('send_message', message);
+  const searchHashtags = async (query) => {
+    if (!query.trim()) {
+      setSearchResults({});
+      return;
     }
 
-    if (messageInputRef.current) {
-      messageInputRef.current.value = '';
+    setIsLoading(true);
+    try {
+      const results = await hashtagService.searchHashtags(query);
+      setSearchResults(results);
+      announceToScreenReader(`Found hashtag results for ${query}`);
+    } catch (error) {
+      console.error('Error searching hashtags:', error);
+      announceToScreenReader('Error searching hashtags');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const createPost = async () => {
-    if (!newPost.content.trim()) return;
-
-    const post = {
-      id: Date.now(),
-      author: {
-        id: user.id,
-        username: user.username,
-        displayName: user.displayName,
-        avatar: user.avatar,
-        verified: user.verified || false,
-      },
-      content: newPost.content,
-      images: newPost.images,
-      timestamp: new Date().toISOString(),
-      likes: 0,
-      comments: 0,
-      shares: 0,
-      isLiked: false,
-      isBookmarked: false,
-      visibility: newPost.visibility,
-      tags: extractTags(newPost.content),
-    };
-
-    setPosts(prev => [post, ...prev]);
-
-    if (wsManager) {
-      wsManager.send('create_post', post);
-    }
-
-    setNewPost({ content: '', images: [], visibility: 'public' });
-    setIsCreatingPost(false);
-    announceToScreenReader('Post created successfully');
-  };
-
-  const extractTags = content => {
-    const tagRegex = /#\w+/g;
-    return content.match(tagRegex) || [];
-  };
-
-  const likePost = postId => {
-    setPosts(prev =>
-      prev.map(post => {
-        if (post.id === postId) {
-          const newIsLiked = !post.isLiked;
-          const newLikes = post.likes + (newIsLiked ? 1 : -1);
-
-          if (wsManager) {
-            wsManager.send('like_post', { postId, liked: newIsLiked });
-          }
-
-          return { ...post, isLiked: newIsLiked, likes: newLikes };
-        }
-        return post;
-      }),
-    );
-  };
-
-  const sendFriendRequest = userId => {
-    if (wsManager) {
-      wsManager.send('send_friend_request', {
-        to: userId,
-        from: {
-          id: user.id,
-          username: user.username,
-          displayName: user.displayName,
-          avatar: user.avatar,
-        },
-      });
-    }
-    announceToScreenReader('Friend request sent');
-  };
-
-  const acceptFriendRequest = requestId => {
-    setFriendRequests(prev => prev.filter(req => req.id !== requestId));
-    // Add to friends list logic here
-    announceToScreenReader('Friend request accepted');
-  };
-
-  const startVoiceCall = friendId => {
-    const friend = friends.find(f => f.id === friendId);
-    if (friend && wsManager) {
-      wsManager.send('start_voice_call', { to: friendId });
-      setVoiceCall({
-        id: Date.now(),
-        with: friend,
-        status: 'calling',
-        startTime: new Date().toISOString(),
-      });
+  const selectHashtag = async (hashtag) => {
+    setSelectedHashtag(hashtag);
+    setIsLoading(true);
+    try {
+      const analytics = await hashtagService.getHashtagAnalytics(hashtag);
+      setHashtagAnalytics(analytics);
+      announceToScreenReader(`Loaded analytics for ${hashtag}`);
+    } catch (error) {
+      console.error('Error loading hashtag analytics:', error);
+      announceToScreenReader('Error loading hashtag analytics');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const startVideoCall = friendId => {
-    const friend = friends.find(f => f.id === friendId);
-    if (friend && wsManager) {
-      wsManager.send('start_video_call', { to: friendId });
-      setVideoCall({
-        id: Date.now(),
-        with: friend,
-        status: 'calling',
-        startTime: new Date().toISOString(),
-      });
+  const addHashtagToTracking = (hashtag) => {
+    const success = hashtagService.addTrackedHashtag(hashtag);
+    if (success) {
+      setTrackedHashtags(hashtagService.getTrackedHashtags());
     }
   };
 
-  const endCall = () => {
-    if (voiceCall && wsManager) {
-      wsManager.send('end_call', { callId: voiceCall.id });
+  const removeHashtagFromTracking = (hashtag) => {
+    const success = hashtagService.removeTrackedHashtag(hashtag);
+    if (success) {
+      setTrackedHashtags(hashtagService.getTrackedHashtags());
     }
-    if (videoCall && wsManager) {
-      wsManager.send('end_call', { callId: videoCall.id });
-    }
-    setVoiceCall(null);
-    setVideoCall(null);
   };
 
-  const formatTimestamp = timestamp => {
+  const togglePlatform = (platformKey) => {
+    const enabled = hashtagService.togglePlatform(platformKey);
+    setPlatforms(hashtagService.getPlatforms());
+    refreshData();
+  };
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+  };
+
+  const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now - date;
@@ -592,803 +217,599 @@ const SocialHub = () => {
     return date.toLocaleDateString();
   };
 
-  const getStatusColor = status => {
-    switch (status) {
-      case 'online':
-        return 'bg-green-400';
-      case 'away':
-        return 'bg-yellow-400';
-      case 'busy':
-        return 'bg-red-400';
-      default:
-        return 'bg-gray-400';
+  const getSentimentColor = (sentiment) => {
+    switch (sentiment) {
+      case 'positive': return 'text-green-600';
+      case 'negative': return 'text-red-600';
+      default: return 'text-gray-600';
     }
   };
 
+  const getSentimentIcon = (sentiment) => {
+    switch (sentiment) {
+      case 'positive': return <ArrowUp size={16} className="text-green-600" />;
+      case 'negative': return <ArrowDown size={16} className="text-red-600" />;
+      default: return <Minus size={16} className="text-gray-600" />;
+    }
+  };
+
+  const filteredTrendingHashtags = trendingHashtags.filter(hashtag => {
+    if (filters.minMentions > 0 && hashtag.totalMentions < filters.minMentions) return false;
+    if (filters.sentiment !== 'all' && hashtag.sentiment !== filters.sentiment) return false;
+    if (filters.platforms.length > 0) {
+      const hasActivePlatform = filters.platforms.some(platform => 
+        hashtag.platforms[platform] && hashtag.platforms[platform].mentions > 0
+      );
+      if (!hasActivePlatform) return false;
+    }
+    return true;
+  }).sort((a, b) => {
+    switch (filters.sortBy) {
+      case 'growth':
+        return parseFloat(b.growth) - parseFloat(a.growth);
+      case 'mentions':
+      default:
+        return b.totalMentions - a.totalMentions;
+    }
+  });
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-card border-b border-color">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Social Hub</h1>
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Bell
-                  size={20}
-                  className="text-muted hover:text-primary cursor-pointer"
-                />
-                {notifications.filter(n => !n.isRead).length > 0 && (
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
-                    {notifications.filter(n => !n.isRead).length}
-                  </div>
-                )}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Hash className="text-blue-600" size={32} />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Social Media Hashtag Tracker
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Monitor KONIVRER hashtags across all major social platforms
+                </p>
               </div>
+            </div>
+            <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <div
-                  className={`w-2 h-2 rounded-full ${getStatusColor('online')}`}
-                />
-                <span className="text-sm text-muted">
-                  {onlineUsers.length} online
-                </span>
+                <button
+                  onClick={() => setAutoRefresh(!autoRefresh)}
+                  className={`btn ${autoRefresh ? 'btn-primary' : 'btn-secondary'} flex items-center gap-2`}
+                  aria-label={autoRefresh ? 'Disable auto-refresh' : 'Enable auto-refresh'}
+                >
+                  {autoRefresh ? <Pause size={16} /> : <Play size={16} />}
+                  Auto-refresh
+                </button>
+                <button
+                  onClick={refreshData}
+                  disabled={isLoading}
+                  className="btn btn-secondary flex items-center gap-2"
+                  aria-label="Refresh data"
+                >
+                  <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
+                  Refresh
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="flex gap-6 mt-4">
-            {[
-              { id: 'feed', label: 'Feed', icon: Activity },
-              { id: 'friends', label: 'Friends', icon: Users },
-              { id: 'communities', label: 'Communities', icon: Globe },
-              { id: 'messages', label: 'Messages', icon: MessageCircle },
-              { id: 'live', label: 'Live', icon: Video },
-            ].map(tab => (
+          {/* Search Bar */}
+          <div className="flex gap-4 mb-6">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                placeholder="Search hashtags..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  searchHashtags(e.target.value);
+                }}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <select
+              value={timeframe}
+              onChange={(e) => setTimeframe(e.target.value)}
+              className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="1h">Last Hour</option>
+              <option value="24h">Last 24 Hours</option>
+              <option value="7d">Last 7 Days</option>
+            </select>
+          </div>
+
+          {/* Platform Toggles */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {Object.entries(platforms).map(([key, platform]) => (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  activeTab === tab.id
-                    ? 'bg-accent-primary text-white'
-                    : 'text-muted hover:text-primary hover:bg-tertiary'
+                key={key}
+                onClick={() => togglePlatform(key)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  platform.enabled
+                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
                 }`}
+                style={{ borderColor: platform.enabled ? platform.color : 'transparent' }}
               >
-                <tab.icon size={16} />
-                {tab.label}
+                <span className="mr-2">{platform.icon}</span>
+                {platform.name}
               </button>
             ))}
           </div>
         </div>
-      </div>
 
-      <div className="container py-6">
-        <div className="grid lg:grid-cols-4 gap-6">
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            {activeTab === 'feed' && (
-              <div className="space-y-6">
-                {/* Create Post */}
-                <div className="card">
-                  <div className="p-4">
-                    {!isCreatingPost ? (
-                      <button
-                        onClick={() => setIsCreatingPost(true)}
-                        className="w-full text-left p-3 bg-tertiary rounded-lg text-muted hover:bg-opacity-80 transition-colors"
-                      >
-                        What's on your mind, {user?.displayName}?
-                      </button>
-                    ) : (
-                      <div className="space-y-4">
-                        <textarea
-                          value={newPost.content}
-                          onChange={e =>
-                            setNewPost(prev => ({
-                              ...prev,
-                              content: e.target.value,
-                            }))
-                          }
-                          placeholder="Share your thoughts..."
-                          className="w-full p-3 bg-tertiary rounded-lg resize-none"
-                          rows={4}
-                          autoFocus
-                        />
-                        <div className="flex items-center justify-between">
-                          <div className="flex gap-2">
-                            <button className="btn btn-sm btn-secondary">
-                              <Image size={14} />
-                              Photo
-                            </button>
-                            <button className="btn btn-sm btn-secondary">
-                              <Video size={14} />
-                              Video
-                            </button>
-                            <select
-                              value={newPost.visibility}
-                              onChange={e =>
-                                setNewPost(prev => ({
-                                  ...prev,
-                                  visibility: e.target.value,
-                                }))
-                              }
-                              className="input text-sm"
-                            >
-                              <option value="public">Public</option>
-                              <option value="friends">Friends Only</option>
-                              <option value="private">Private</option>
-                            </select>
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 mb-8 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          {[
+            { id: 'trending', label: 'Trending', icon: TrendingUp },
+            { id: 'tracked', label: 'Tracked', icon: Target },
+            { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+            { id: 'realtime', label: 'Real-time', icon: Activity },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <tab.icon size={16} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="space-y-6">
+          {/* Trending Tab */}
+          {activeTab === 'trending' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Trending Hashtags
+                </h2>
+                <div className="flex items-center gap-4">
+                  <select
+                    value={filters.sortBy}
+                    onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                  >
+                    <option value="mentions">Sort by Mentions</option>
+                    <option value="growth">Sort by Growth</option>
+                  </select>
+                  <button className="btn btn-secondary btn-sm flex items-center gap-2">
+                    <Filter size={16} />
+                    Filters
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid gap-4">
+                {filteredTrendingHashtags.map((hashtag, index) => (
+                  <div
+                    key={hashtag.hashtag}
+                    className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => selectHashtag(hashtag.hashtag)}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full text-sm font-bold">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            {hashtag.hashtag}
+                          </h3>
+                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <span>{formatNumber(hashtag.totalMentions)} mentions</span>
+                            <span className={`flex items-center gap-1 ${hashtag.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                              {hashtag.growth.startsWith('+') ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
+                              {hashtag.growth}
+                            </span>
                           </div>
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => setIsCreatingPost(false)}
-                              className="btn btn-sm btn-secondary"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              onClick={createPost}
-                              disabled={!newPost.content.trim()}
-                              className="btn btn-sm btn-primary"
-                            >
-                              Post
-                            </button>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {getSentimentIcon(hashtag.sentiment)}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            trackedHashtags.includes(hashtag.hashtag)
+                              ? removeHashtagFromTracking(hashtag.hashtag)
+                              : addHashtagToTracking(hashtag.hashtag);
+                          }}
+                          className={`btn btn-sm ${
+                            trackedHashtags.includes(hashtag.hashtag) ? 'btn-primary' : 'btn-secondary'
+                          }`}
+                        >
+                          {trackedHashtags.includes(hashtag.hashtag) ? <Minus size={16} /> : <Plus size={16} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Platform breakdown */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                      {Object.entries(hashtag.platforms).map(([platform, data]) => (
+                        <div key={platform} className="text-center">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                            {platforms[platform]?.icon} {platforms[platform]?.name}
                           </div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {formatNumber(data.mentions)}
+                          </div>
+                          <div className={`text-xs ${data.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                            {data.growth}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Top posts preview */}
+                    {hashtag.topPosts && hashtag.topPosts.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Top Posts</h4>
+                        <div className="space-y-2">
+                          {hashtag.topPosts.slice(0, 2).map((post, postIndex) => (
+                            <div key={postIndex} className="bg-gray-50 dark:bg-gray-700 rounded-md p-3">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  {platforms[post.platform]?.icon} {post.author}
+                                </span>
+                                <span className="text-xs text-gray-400">
+                                  {formatTimestamp(post.timestamp)}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
+                                {post.content}
+                              </p>
+                              <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                <span className="flex items-center gap-1">
+                                  <Heart size={12} />
+                                  {formatNumber(post.engagement)}
+                                </span>
+                                <button className="flex items-center gap-1 hover:text-blue-600">
+                                  <ExternalLink size={12} />
+                                  View
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
                   </div>
-                </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-                {/* Posts Feed */}
-                {posts.map(post => (
-                  <div key={post.id} className="card">
-                    <div className="p-4">
-                      {/* Post Header */}
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={post.author.avatar}
-                            alt={post.author.displayName}
-                            className="w-10 h-10 rounded-full"
-                          />
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">
-                                {post.author.displayName}
+          {/* Tracked Tab */}
+          {activeTab === 'tracked' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Tracked Hashtags
+                </h2>
+                <button className="btn btn-primary flex items-center gap-2">
+                  <Plus size={16} />
+                  Add Hashtag
+                </button>
+              </div>
+
+              <div className="grid gap-4">
+                {trackedHashtags.map((hashtag) => {
+                  const trendingData = trendingHashtags.find(t => t.hashtag === hashtag);
+                  return (
+                    <div
+                      key={hashtag}
+                      className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            {hashtag}
+                          </h3>
+                          {trendingData && (
+                            <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              <span>{formatNumber(trendingData.totalMentions)} mentions</span>
+                              <span className={`flex items-center gap-1 ${trendingData.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                {trendingData.growth.startsWith('+') ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
+                                {trendingData.growth}
                               </span>
-                              {post.author.verified && (
-                                <CheckCircle
-                                  size={14}
-                                  className="text-blue-400"
-                                />
-                              )}
                             </div>
-                            <div className="text-sm text-muted">
-                              @{post.author.username} •{' '}
-                              {formatTimestamp(post.timestamp)}
-                              {post.location && (
-                                <>
-                                  <span className="mx-1">•</span>
-                                  <MapPin size={12} className="inline" />
-                                  <span className="ml-1">{post.location}</span>
-                                </>
-                              )}
-                            </div>
-                          </div>
+                          )}
                         </div>
-                        <button className="text-muted hover:text-primary">
-                          <MoreHorizontal size={16} />
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => selectHashtag(hashtag)}
+                            className="btn btn-secondary btn-sm flex items-center gap-2"
+                          >
+                            <BarChart3 size={16} />
+                            Analytics
+                          </button>
+                          <button
+                            onClick={() => removeHashtagFromTracking(hashtag)}
+                            className="btn btn-red btn-sm"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {trackedHashtags.length === 0 && (
+                  <div className="text-center py-12">
+                    <Target className="mx-auto text-gray-400 mb-4" size={48} />
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                      No hashtags tracked yet
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      Start tracking hashtags to monitor their performance across social media platforms.
+                    </p>
+                    <button className="btn btn-primary">
+                      Add Your First Hashtag
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Analytics Tab */}
+          {activeTab === 'analytics' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Hashtag Analytics
+                </h2>
+                {selectedHashtag && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Hash size={16} />
+                    {selectedHashtag}
+                  </div>
+                )}
+              </div>
+
+              {selectedHashtag ? (
+                <div className="space-y-6">
+                  {Object.entries(hashtagAnalytics).map(([platform, data]) => (
+                    <div
+                      key={platform}
+                      className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="text-2xl">{platforms[platform]?.icon}</span>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          {platforms[platform]?.name}
+                        </h3>
                       </div>
 
-                      {/* Post Content */}
-                      <div className="mb-3">
-                        <p className="whitespace-pre-wrap">{post.content}</p>
-                        {post.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {post.tags.map(tag => (
-                              <span
-                                key={tag}
-                                className="text-accent-primary text-sm hover:underline cursor-pointer"
-                              >
-                                {tag}
-                              </span>
-                            ))}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {formatNumber(data.mentions)}
                           </div>
-                        )}
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Mentions</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {formatNumber(data.engagement)}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Engagement</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {formatNumber(data.reach)}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Reach</div>
+                        </div>
+                        <div className="text-center">
+                          <div className={`text-2xl font-bold ${getSentimentColor(data.sentiment)}`}>
+                            {data.sentiment}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Sentiment</div>
+                        </div>
                       </div>
 
-                      {/* Post Images */}
-                      {post.images.length > 0 && (
-                        <div className="mb-3">
-                          <div className="grid grid-cols-2 gap-2">
-                            {post.images.map((image, index) => (
-                              <img
-                                key={index}
-                                src={image}
-                                alt="Post image"
-                                className="w-full h-48 object-cover rounded-lg"
-                              />
+                      {/* Top Influencers */}
+                      {data.topInfluencers && data.topInfluencers.length > 0 && (
+                        <div className="mb-6">
+                          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Top Influencers</h4>
+                          <div className="space-y-2">
+                            {data.topInfluencers.map((influencer, index) => (
+                              <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-md p-3">
+                                <div>
+                                  <div className="font-medium text-gray-900 dark:text-white">
+                                    {influencer.username}
+                                  </div>
+                                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                                    {formatNumber(influencer.followers)} followers
+                                  </div>
+                                </div>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                  {influencer.mentions} mentions
+                                </div>
+                              </div>
                             ))}
                           </div>
                         </div>
                       )}
 
-                      {/* Post Actions */}
-                      <div className="flex items-center justify-between pt-3 border-t border-color">
-                        <div className="flex gap-6">
-                          <button
-                            onClick={() => likePost(post.id)}
-                            className={`flex items-center gap-2 text-sm transition-colors ${
-                              post.isLiked
-                                ? 'text-red-400'
-                                : 'text-muted hover:text-red-400'
-                            }`}
-                          >
-                            <Heart
-                              size={16}
-                              className={post.isLiked ? 'fill-current' : ''}
-                            />
-                            {post.likes}
-                          </button>
-                          <button className="flex items-center gap-2 text-sm text-muted hover:text-primary">
-                            <MessageCircle size={16} />
-                            {post.comments}
-                          </button>
-                          <button className="flex items-center gap-2 text-sm text-muted hover:text-primary">
-                            <Share2 size={16} />
-                            {post.shares}
-                          </button>
-                        </div>
-                        <button
-                          className={`text-muted hover:text-yellow-400 ${
-                            post.isBookmarked ? 'text-yellow-400' : ''
-                          }`}
-                        >
-                          <Bookmark
-                            size={16}
-                            className={post.isBookmarked ? 'fill-current' : ''}
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === 'friends' && (
-              <div className="space-y-6">
-                {/* Friend Requests */}
-                {friendRequests.length > 0 && (
-                  <div className="card">
-                    <div className="p-4 border-b border-color">
-                      <h3 className="font-semibold">
-                        Friend Requests ({friendRequests.length})
-                      </h3>
-                    </div>
-                    <div className="p-4 space-y-3">
-                      {friendRequests.map(request => (
-                        <div
-                          key={request.id}
-                          className="flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={request.from.avatar}
-                              alt={request.from.displayName}
-                              className="w-10 h-10 rounded-full"
-                            />
-                            <div>
-                              <div className="font-medium">
-                                {request.from.displayName}
-                              </div>
-                              <div className="text-sm text-muted">
-                                @{request.from.username}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => acceptFriendRequest(request.id)}
-                              className="btn btn-sm btn-primary"
-                            >
-                              Accept
-                            </button>
-                            <button className="btn btn-sm btn-secondary">
-                              Decline
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Friends List */}
-                <div className="card">
-                  <div className="p-4 border-b border-color">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">
-                        Friends ({friends.length})
-                      </h3>
-                      <div className="relative">
-                        <Search
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
-                          size={16}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Search friends..."
-                          className="input pl-10 w-64"
-                          value={searchTerm}
-                          onChange={e => setSearchTerm(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {friends
-                        .filter(
-                          friend =>
-                            friend.displayName
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase()) ||
-                            friend.username
-                              .toLowerCase()
-                              .includes(searchTerm.toLowerCase()),
-                        )
-                        .map(friend => (
-                          <div
-                            key={friend.id}
-                            className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="relative">
-                                <img
-                                  src={friend.avatar}
-                                  alt={friend.displayName}
-                                  className="w-12 h-12 rounded-full"
-                                />
-                                <div
-                                  className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-card ${getStatusColor(friend.status)}`}
-                                />
-                                {friend.isStreaming && (
-                                  <div className="absolute -top-1 -left-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
-                                    <Video size={8} className="text-white" />
-                                  </div>
-                                )}
-                              </div>
-                              <div>
-                                <div className="font-medium">
-                                  {friend.displayName}
+                      {/* Recent Posts */}
+                      {data.recentPosts && data.recentPosts.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Posts</h4>
+                          <div className="space-y-3">
+                            {data.recentPosts.map((post, index) => (
+                              <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-md p-3">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {post.author}
+                                  </span>
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                                    {formatTimestamp(post.timestamp)}
+                                  </span>
                                 </div>
-                                <div className="text-sm text-muted">
-                                  @{friend.username}
-                                </div>
-                                <div className="text-xs text-muted">
-                                  {friend.activity}
+                                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                                  {post.content}
+                                </p>
+                                <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                                  <span className="flex items-center gap-1">
+                                    <Heart size={12} />
+                                    {formatNumber(post.engagement)}
+                                  </span>
+                                  <button className="flex items-center gap-1 hover:text-blue-600">
+                                    <ExternalLink size={12} />
+                                    View
+                                  </button>
                                 </div>
                               </div>
-                            </div>
-                            <div className="flex gap-1">
-                              <button
-                                onClick={() => startVoiceCall(friend.id)}
-                                className="btn btn-sm btn-secondary"
-                                title="Voice call"
-                              >
-                                <Phone size={12} />
-                              </button>
-                              <button
-                                onClick={() => startVideoCall(friend.id)}
-                                className="btn btn-sm btn-secondary"
-                                title="Video call"
-                              >
-                                <Video size={12} />
-                              </button>
-                              <button
-                                onClick={() => setActiveChat(friend)}
-                                className="btn btn-sm btn-primary"
-                                title="Message"
-                              >
-                                <MessageCircle size={12} />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'communities' && (
-              <div className="space-y-6">
-                {/* Community Discovery */}
-                <div className="card">
-                  <div className="p-4 border-b border-color">
-                    <h3 className="font-semibold">Discover Communities</h3>
-                  </div>
-                  <div className="p-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {communities.map(community => (
-                        <div
-                          key={community.id}
-                          className="border border-color rounded-lg p-4"
-                        >
-                          <div className="flex items-start gap-3 mb-3">
-                            <img
-                              src={community.avatar}
-                              alt={community.name}
-                              className="w-12 h-12 rounded-lg"
-                            />
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2">
-                                <h4 className="font-medium">
-                                  {community.name}
-                                </h4>
-                                {community.isVerified && (
-                                  <CheckCircle
-                                    size={14}
-                                    className="text-blue-400"
-                                  />
-                                )}
-                              </div>
-                              <p className="text-sm text-muted mb-1">
-                                {community.description}
-                              </p>
-                              <div className="text-xs text-muted">
-                                {community.memberCount.toLocaleString()} members
-                                • {community.recentActivity}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs bg-tertiary px-2 py-1 rounded">
-                              {community.category}
-                            </span>
-                            <button
-                              className={`btn btn-sm ${
-                                community.isJoined
-                                  ? 'btn-secondary'
-                                  : 'btn-primary'
-                              }`}
-                            >
-                              {community.isJoined ? 'Joined' : 'Join'}
-                            </button>
+                            ))}
                           </div>
                         </div>
-                      ))}
+                      )}
                     </div>
-                  </div>
+                  ))}
                 </div>
-              </div>
-            )}
-
-            {activeTab === 'live' && (
-              <div className="space-y-6">
-                {/* Live Streams */}
-                <div className="card">
-                  <div className="p-4 border-b border-color">
-                    <h3 className="font-semibold">Live Streams</h3>
-                  </div>
-                  <div className="p-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {streamingUsers.map(streamer => (
-                        <div
-                          key={streamer.id}
-                          className="relative bg-black rounded-lg overflow-hidden"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-                            <Play size={48} className="text-white opacity-80" />
-                          </div>
-                          <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
-                            🔴 LIVE
-                          </div>
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                            <div className="flex items-center gap-2 mb-1">
-                              <img
-                                src={streamer.avatar}
-                                alt={streamer.displayName}
-                                className="w-6 h-6 rounded-full"
-                              />
-                              <span className="text-white font-medium">
-                                {streamer.displayName}
-                              </span>
-                            </div>
-                            <div className="text-white text-sm">
-                              {streamer.streamTitle}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+              ) : (
+                <div className="text-center py-12">
+                  <BarChart3 className="mx-auto text-gray-400 mb-4" size={48} />
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                    Select a hashtag to view analytics
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Click on any hashtag from the trending or tracked lists to see detailed analytics.
+                  </p>
                 </div>
-
-                {/* Live Activities */}
-                <div className="card">
-                  <div className="p-4 border-b border-color">
-                    <h3 className="font-semibold">Live Activities</h3>
-                  </div>
-                  <div className="p-4 space-y-3">
-                    {liveActivities.map((activity, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-3 h-3 rounded-full ${
-                              activity.status === 'live'
-                                ? 'bg-red-500 animate-pulse'
-                                : 'bg-yellow-500'
-                            }`}
-                          />
-                          <div>
-                            <div className="font-medium">{activity.title}</div>
-                            <div className="text-sm text-muted">
-                              {activity.type === 'tournament' &&
-                                `${activity.participants} participants`}
-                              {activity.type === 'stream' &&
-                                `${activity.viewers} viewers`}
-                              {activity.type === 'event' &&
-                                `${activity.participants} participants`}
-                            </div>
-                          </div>
-                        </div>
-                        <button className="btn btn-sm btn-primary">
-                          {activity.status === 'live' ? 'Join' : 'Notify Me'}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Online Friends */}
-            <div className="card">
-              <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">
-                  Online Now ({onlineUsers.length})
-                </h3>
-              </div>
-              <div className="p-4 space-y-2">
-                {onlineUsers.slice(0, 8).map(friend => (
-                  <div key={friend.id} className="flex items-center gap-2">
-                    <div className="relative">
-                      <img
-                        src={friend.avatar}
-                        alt={friend.displayName}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <div
-                        className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border border-card ${getStatusColor(friend.status)}`}
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm truncate">
-                        {friend.displayName}
-                      </div>
-                      <div className="text-xs text-muted truncate">
-                        {friend.activity}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              )}
             </div>
+          )}
 
-            {/* Trending Topics */}
-            <div className="card">
-              <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">Trending</h3>
+          {/* Real-time Tab */}
+          {activeTab === 'realtime' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Real-time Updates
+                </h2>
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <Activity className="text-green-500" size={16} />
+                  Live
+                </div>
               </div>
-              <div className="p-4 space-y-3">
-                {trendingTopics.map((topic, index) => (
+
+              <div className="space-y-3">
+                {realtimeUpdates.map((update, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between"
+                    className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 flex items-center gap-4"
                   >
-                    <div>
-                      <div className="font-medium text-accent-primary">
-                        {topic.tag}
+                    <div className="flex-shrink-0">
+                      <span className="text-xl">{platforms[update.platform]?.icon}</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          {update.hashtag}
+                        </span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          on {platforms[update.platform]?.name}
+                        </span>
                       </div>
-                      <div className="text-sm text-muted">
-                        {topic.posts} posts
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        {update.content}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 text-right">
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {formatTimestamp(update.timestamp)}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {formatNumber(update.engagement)} engagement
                       </div>
                     </div>
-                    <div className="text-sm text-green-400">{topic.growth}</div>
+                  </div>
+                ))}
+
+                {realtimeUpdates.length === 0 && (
+                  <div className="text-center py-12">
+                    <Activity className="mx-auto text-gray-400 mb-4" size={48} />
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                      No real-time updates yet
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Real-time updates will appear here as they happen across social media platforms.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Search Results Overlay */}
+        {searchTerm && Object.keys(searchResults).length > 0 && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Search Results for "{searchTerm}"
+                </h3>
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSearchResults({});
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {Object.entries(searchResults).map(([platform, results]) => (
+                  <div key={platform}>
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                      <span>{platforms[platform]?.icon}</span>
+                      {platforms[platform]?.name}
+                    </h4>
+                    <div className="space-y-2">
+                      {results.map((result, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-50 dark:bg-gray-700 rounded-md p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                          onClick={() => {
+                            selectHashtag(result.hashtag);
+                            setSearchTerm('');
+                            setSearchResults({});
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-gray-900 dark:text-white">
+                              {result.hashtag}
+                            </span>
+                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                              <span>{formatNumber(result.mentions)} mentions</span>
+                              <span className={result.growth.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                                {result.growth}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Quick Actions */}
-            <div className="card">
-              <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">Quick Actions</h3>
-              </div>
-              <div className="p-4 space-y-2">
-                <button className="btn btn-secondary w-full justify-start">
-                  <Users size={16} />
-                  Find Friends
-                </button>
-                <button className="btn btn-secondary w-full justify-start">
-                  <Globe size={16} />
-                  Create Community
-                </button>
-                <button className="btn btn-secondary w-full justify-start">
-                  <Calendar size={16} />
-                  Host Event
-                </button>
-                <button className="btn btn-secondary w-full justify-start">
-                  <Video size={16} />
-                  Start Stream
-                </button>
-              </div>
-            </div>
           </div>
-        </div>
+        )}
       </div>
-
-      {/* Chat Modal */}
-      {activeChat && (
-        <div className="fixed bottom-4 right-4 w-80 h-96 bg-card border border-color rounded-lg shadow-lg flex flex-col">
-          {/* Chat Header */}
-          <div className="p-3 border-b border-color flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img
-                src={activeChat.avatar}
-                alt={activeChat.displayName}
-                className="w-8 h-8 rounded-full"
-              />
-              <div>
-                <div className="font-medium text-sm">
-                  {activeChat.displayName}
-                </div>
-                <div className="text-xs text-muted">{activeChat.status}</div>
-              </div>
-            </div>
-            <button
-              onClick={() => setActiveChat(null)}
-              className="text-muted hover:text-primary"
-            >
-              <X size={16} />
-            </button>
-          </div>
-
-          {/* Chat Messages */}
-          <div ref={chatRef} className="flex-1 p-3 overflow-y-auto space-y-2">
-            {chatMessages.map(message => (
-              <div
-                key={message.id}
-                className={`flex ${message.author.id === user.id ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-xs p-2 rounded-lg text-sm ${
-                    message.author.id === user.id
-                      ? 'bg-accent-primary text-white'
-                      : 'bg-tertiary'
-                  }`}
-                >
-                  {message.content}
-                </div>
-              </div>
-            ))}
-            {typingUsers.size > 0 && (
-              <div className="text-xs text-muted italic">
-                {Array.from(typingUsers).join(', ')}{' '}
-                {typingUsers.size === 1 ? 'is' : 'are'} typing...
-              </div>
-            )}
-          </div>
-
-          {/* Chat Input */}
-          <div className="p-3 border-t border-color">
-            <div className="flex gap-2">
-              <input
-                ref={messageInputRef}
-                type="text"
-                placeholder="Type a message..."
-                className="input flex-1 text-sm"
-                onKeyPress={e => {
-                  if (e.key === 'Enter') {
-                    sendMessage(e.target.value);
-                  }
-                }}
-                onChange={e => {
-                  if (wsManager) {
-                    wsManager.send('user_typing', {
-                      chatId: activeChat.id,
-                      userId: user.id,
-                    });
-                  }
-                }}
-              />
-              <button
-                onClick={() => {
-                  if (messageInputRef.current) {
-                    sendMessage(messageInputRef.current.value);
-                  }
-                }}
-                className="btn btn-sm btn-primary"
-              >
-                <Send size={14} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Voice Call Modal */}
-      {voiceCall && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-card border border-color rounded-lg p-6 text-center">
-            <img
-              src={voiceCall.with.avatar}
-              alt={voiceCall.with.displayName}
-              className="w-24 h-24 rounded-full mx-auto mb-4"
-            />
-            <h3 className="text-lg font-semibold mb-2">
-              {voiceCall.with.displayName}
-            </h3>
-            <p className="text-muted mb-6">
-              {voiceCall.status === 'calling'
-                ? 'Calling...'
-                : voiceCall.status === 'incoming'
-                  ? 'Incoming call'
-                  : 'Connected'}
-            </p>
-            <div className="flex gap-4 justify-center">
-              {voiceCall.status === 'incoming' && (
-                <button className="btn btn-green">
-                  <Phone size={16} />
-                  Accept
-                </button>
-              )}
-              <button onClick={endCall} className="btn btn-red">
-                <PhoneOff size={16} />
-                {voiceCall.status === 'incoming' ? 'Decline' : 'End Call'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Video Call Modal */}
-      {videoCall && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <div className="w-full h-full relative">
-            <video
-              ref={videoRef}
-              className="w-full h-full object-cover"
-              autoPlay
-            />
-            <video
-              ref={localVideoRef}
-              className="absolute bottom-4 right-4 w-48 h-36 object-cover rounded-lg border-2 border-white"
-              autoPlay
-              muted
-            />
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
-              <button className="btn btn-red rounded-full w-12 h-12">
-                <PhoneOff size={20} />
-              </button>
-              <button className="btn btn-secondary rounded-full w-12 h-12">
-                <MicOff size={20} />
-              </button>
-              <button className="btn btn-secondary rounded-full w-12 h-12">
-                <VideoOff size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
