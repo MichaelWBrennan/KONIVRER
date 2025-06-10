@@ -36,11 +36,8 @@ const Layout = ({ children }) => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Deck Builder', href: '/deckbuilder', icon: PlusCircle },
-    { name: 'Advanced Builder', href: '/deckbuilder-advanced', icon: Settings },
+    { name: 'Deck Lists', href: '/decklists', icon: Layers },
     { name: 'Card Database', href: '/cards', icon: Database },
-    { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
-    { name: 'Decklists', href: '/decklists', icon: Layers },
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
     { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Social Hub', href: '/social', icon: Users },
