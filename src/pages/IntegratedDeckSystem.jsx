@@ -117,6 +117,88 @@ const IntegratedDeckSystem = () => {
           { archetype: 'Aggro Fire', winRate: 75, games: 20 },
           { archetype: 'Midrange Earth', winRate: 62, games: 16 },
           { archetype: 'Control Water', winRate: 45, games: 22 },
+        ],
+        tournamentHistory: [
+          {
+            name: 'World Championship 2024',
+            date: '2024-07-15',
+            placement: 1,
+            participants: 256,
+            format: 'Standard',
+            winRate: 85.7,
+            rounds: 9,
+            wins: 6,
+            losses: 3
+          },
+          {
+            name: 'Regional Qualifier',
+            date: '2024-06-20',
+            placement: 3,
+            participants: 128,
+            format: 'Standard',
+            winRate: 75.0,
+            rounds: 7,
+            wins: 5,
+            losses: 2
+          },
+          {
+            name: 'Local Tournament',
+            date: '2024-05-15',
+            placement: 1,
+            participants: 64,
+            format: 'Standard',
+            winRate: 100.0,
+            rounds: 6,
+            wins: 6,
+            losses: 0
+          }
+        ],
+        recentMatches: [
+          {
+            opponent: 'FireMaster',
+            opponentDeck: 'Blazing Aggro Rush',
+            result: 'Win',
+            date: '2024-07-15',
+            tournament: 'World Championship 2024',
+            round: 'Finals',
+            duration: '12:34'
+          },
+          {
+            opponent: 'WaterWizard',
+            opponentDeck: 'Deep Sea Control',
+            result: 'Win',
+            date: '2024-07-15',
+            tournament: 'World Championship 2024',
+            round: 'Semi-Finals',
+            duration: '18:45'
+          },
+          {
+            opponent: 'EarthShaker',
+            opponentDeck: 'Mountain Fortress',
+            result: 'Loss',
+            date: '2024-07-14',
+            tournament: 'World Championship 2024',
+            round: 'Quarter-Finals',
+            duration: '15:22'
+          },
+          {
+            opponent: 'StormCaller',
+            opponentDeck: 'Lightning Rush',
+            result: 'Win',
+            date: '2024-07-14',
+            tournament: 'World Championship 2024',
+            round: 'Round 6',
+            duration: '9:18'
+          },
+          {
+            opponent: 'NatureLover',
+            opponentDeck: 'Forest Harmony',
+            result: 'Win',
+            date: '2024-07-13',
+            tournament: 'World Championship 2024',
+            round: 'Round 5',
+            duration: '14:56'
+          }
         ]
       }
     },
@@ -218,6 +300,85 @@ const IntegratedDeckSystem = () => {
       colors: ['Lightning', 'Air'],
       winRate: 0, // No games played yet
       gamesPlayed: 0,
+      metaShare: 0,
+      placement: 'N/A',
+      cards: [
+        { name: 'Lightning Bolt', cost: 3, count: 4, type: 'Spell', rarity: 'Common' },
+        { name: 'Storm Elemental', cost: 5, count: 3, type: 'Creature', rarity: 'Rare' },
+        { name: 'Air Current', cost: 2, count: 4, type: 'Spell', rarity: 'Uncommon' },
+        { name: 'Thunder Strike', cost: 1, count: 4, type: 'Spell', rarity: 'Common' },
+        { name: 'Wind Walker', cost: 4, count: 3, type: 'Creature', rarity: 'Uncommon' },
+        { name: 'Lightning Lord', cost: 7, count: 2, type: 'Creature', rarity: 'Legendary' },
+      ],
+      analytics: {
+        manaCurve: [2, 8, 12, 10, 8, 6, 4, 3, 2, 2, 1],
+        elementDistribution: {
+          'Lightning': 48.3,
+          'Air': 34.5,
+          'Neutral': 17.2
+        },
+        rarityDistribution: {
+          'Common': 41.4,
+          'Uncommon': 31.0,
+          'Rare': 20.7,
+          'Legendary': 6.9
+        },
+        matchups: [
+          { archetype: 'Fire Aggro', winRate: 65, games: 8 },
+          { archetype: 'Water Control', winRate: 45, games: 6 },
+          { archetype: 'Earth Midrange', winRate: 70, games: 4 }
+        ],
+        tournamentHistory: [
+          {
+            name: 'Local Tournament #1',
+            date: '2024-06-01',
+            placement: 3,
+            participants: 16,
+            winRate: 75,
+            rounds: 5,
+            wins: 3,
+            losses: 1
+          }
+        ],
+        recentMatches: [
+          {
+            opponent: 'FireMaster',
+            opponentDeck: 'Blazing Aggro Rush',
+            result: 'Win',
+            date: '2024-06-01',
+            tournament: 'Local Tournament #1',
+            round: 'Round 5',
+            duration: '12:34'
+          },
+          {
+            opponent: 'WaterWizard',
+            opponentDeck: 'Deep Sea Control',
+            result: 'Win',
+            date: '2024-06-01',
+            tournament: 'Local Tournament #1',
+            round: 'Round 4',
+            duration: '18:45'
+          },
+          {
+            opponent: 'EarthShaker',
+            opponentDeck: 'Mountain Fortress',
+            result: 'Loss',
+            date: '2024-06-01',
+            tournament: 'Local Tournament #1',
+            round: 'Round 3',
+            duration: '15:22'
+          },
+          {
+            opponent: 'StormCaller',
+            opponentDeck: 'Lightning Rush',
+            result: 'Win',
+            date: '2024-06-01',
+            tournament: 'Local Tournament #1',
+            round: 'Round 2',
+            duration: '9:18'
+          }
+        ]
+      }
     },
     {
       id: 'user2',
@@ -231,6 +392,88 @@ const IntegratedDeckSystem = () => {
       colors: ['Fire'],
       winRate: 58.3,
       gamesPlayed: 12,
+      metaShare: 3.2,
+      placement: 8,
+      cards: [
+        { name: 'Flame Burst', cost: 1, count: 4, type: 'Spell', rarity: 'Common' },
+        { name: 'Fire Imp', cost: 2, count: 4, type: 'Creature', rarity: 'Common' },
+        { name: 'Molten Hammer', cost: 3, count: 3, type: 'Equipment', rarity: 'Uncommon' },
+        { name: 'Lava Flow', cost: 4, count: 2, type: 'Spell', rarity: 'Rare' },
+        { name: 'Ember Spirit', cost: 1, count: 4, type: 'Creature', rarity: 'Common' },
+        { name: 'Inferno Blast', cost: 5, count: 2, type: 'Spell', rarity: 'Rare' },
+        { name: 'Volcanic Eruption', cost: 6, count: 1, type: 'Spell', rarity: 'Legendary' },
+      ],
+      analytics: {
+        manaCurve: [0, 12, 14, 12, 10, 6, 4, 2, 0, 0, 0],
+        elementDistribution: {
+          'Fire': 75.0,
+          'Neutral': 25.0
+        },
+        rarityDistribution: {
+          'Common': 50.0,
+          'Uncommon': 33.3,
+          'Rare': 13.3,
+          'Legendary': 3.3
+        },
+        matchups: [
+          { archetype: 'Lightning Control', winRate: 72, games: 5 },
+          { archetype: 'Water Control', winRate: 40, games: 3 },
+          { archetype: 'Earth Midrange', winRate: 60, games: 4 }
+        ],
+        tournamentHistory: [
+          {
+            name: 'Local FNM',
+            date: '2024-06-05',
+            placement: 8,
+            participants: 32,
+            format: 'Standard',
+            winRate: 58.3,
+            rounds: 5,
+            wins: 3,
+            losses: 2
+          },
+          {
+            name: 'Weekly Tournament',
+            date: '2024-05-28',
+            placement: 4,
+            participants: 16,
+            format: 'Standard',
+            winRate: 66.7,
+            rounds: 4,
+            wins: 2,
+            losses: 1
+          }
+        ],
+        recentMatches: [
+          {
+            opponent: 'LocalPlayer1',
+            opponentDeck: 'Water Control',
+            result: 'Win',
+            date: '2024-06-05',
+            tournament: 'Local FNM',
+            round: 'Round 5',
+            duration: '8:45'
+          },
+          {
+            opponent: 'LocalPlayer2',
+            opponentDeck: 'Earth Midrange',
+            result: 'Loss',
+            date: '2024-06-05',
+            tournament: 'Local FNM',
+            round: 'Round 4',
+            duration: '12:30'
+          },
+          {
+            opponent: 'LocalPlayer3',
+            opponentDeck: 'Lightning Aggro',
+            result: 'Win',
+            date: '2024-06-05',
+            tournament: 'Local FNM',
+            round: 'Round 3',
+            duration: '6:22'
+          }
+        ]
+      }
     }
   ];
 
@@ -739,6 +982,85 @@ const IntegratedDeckSystem = () => {
           </AnalyticsCard>
         </div>
 
+        {/* Tournament History */}
+        <AnalyticsCard title="Tournament History" icon={Trophy}>
+          <div className="space-y-4">
+            {analytics.tournamentHistory?.map((tournament, index) => (
+              <div key={index} className="flex items-center justify-between p-4 bg-gray-700/30 rounded-lg">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h4 className="text-white font-semibold">{tournament.name}</h4>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      tournament.placement === 1 ? 'bg-yellow-500/20 text-yellow-400' :
+                      tournament.placement <= 3 ? 'bg-orange-500/20 text-orange-400' :
+                      tournament.placement <= 8 ? 'bg-blue-500/20 text-blue-400' :
+                      'bg-gray-500/20 text-gray-400'
+                    }`}>
+                      #{tournament.placement}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-400">Date:</span>
+                      <div className="text-white">{new Date(tournament.date).toLocaleDateString()}</div>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Participants:</span>
+                      <div className="text-white">{tournament.participants}</div>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Record:</span>
+                      <div className="text-white">{tournament.wins}-{tournament.losses}</div>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Win Rate:</span>
+                      <div className={`font-medium ${
+                        tournament.winRate >= 70 ? 'text-green-400' :
+                        tournament.winRate >= 50 ? 'text-yellow-400' :
+                        'text-red-400'
+                      }`}>
+                        {tournament.winRate}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </AnalyticsCard>
+
+        {/* Recent Matches */}
+        <AnalyticsCard title="Recent Matches" icon={Gamepad2}>
+          <div className="space-y-3">
+            {analytics.recentMatches?.map((match, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
+                <div className="flex items-center gap-4">
+                  <div className={`w-3 h-3 rounded-full ${
+                    match.result === 'Win' ? 'bg-green-400' : 'bg-red-400'
+                  }`} />
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-white font-medium">vs {match.opponent}</span>
+                      <span className="text-gray-400 text-sm">({match.opponentDeck})</span>
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      {match.tournament} • {match.round} • {new Date(match.date).toLocaleDateString()}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className={`font-semibold ${
+                    match.result === 'Win' ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {match.result}
+                  </div>
+                  <div className="text-xs text-gray-400">{match.duration}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </AnalyticsCard>
+
         {/* Card List */}
         <AnalyticsCard title="Deck Composition" icon={Layers}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -902,7 +1224,13 @@ const IntegratedDeckSystem = () => {
                 <Edit3 className="w-4 h-4" />
                 Edit
               </Link>
-              <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm">
+              <button 
+                onClick={() => {
+                  setSelectedDeck(deck);
+                  setCurrentView('analytics');
+                }}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
+              >
                 <BarChart3 className="w-4 h-4" />
                 Analytics
               </button>
