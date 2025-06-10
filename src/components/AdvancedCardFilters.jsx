@@ -222,16 +222,10 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
         </div>
 
         <div className="flex justify-between mt-8">
-          <button
-            onClick={clearFilters}
-            className="btn btn-ghost"
-          >
+          <button onClick={clearFilters} className="btn btn-ghost">
             Clear All
           </button>
-          <button
-            onClick={onClose}
-            className="btn btn-primary"
-          >
+          <button onClick={onClose} className="btn btn-primary">
             Apply Filters
           </button>
         </div>
