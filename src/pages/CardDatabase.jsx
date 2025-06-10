@@ -206,9 +206,7 @@ const CardDatabase = () => {
                 <button
                   onClick={() => setActiveTab('browse')}
                   className={`btn flex items-center gap-2 ${
-                    activeTab === 'browse'
-                      ? 'btn-primary'
-                      : 'btn-secondary'
+                    activeTab === 'browse' ? 'btn-primary' : 'btn-secondary'
                   }`}
                 >
                   <Search size={16} />
@@ -217,9 +215,7 @@ const CardDatabase = () => {
                 <button
                   onClick={() => setActiveTab('collection')}
                   className={`btn flex items-center gap-2 ${
-                    activeTab === 'collection'
-                      ? 'btn-primary'
-                      : 'btn-secondary'
+                    activeTab === 'collection' ? 'btn-primary' : 'btn-secondary'
                   }`}
                 >
                   <Package size={16} />
