@@ -76,12 +76,13 @@ const Decklists = () => {
       trend: 'up',
       featured: true,
       verified: true,
-      description: 'Aggressive warrior build focusing on early pressure and equipment synergy.',
+      description:
+        'Aggressive warrior build focusing on early pressure and equipment synergy.',
       keyCards: [
         { name: 'Vynnset, Iron Maiden', type: 'Hero', rarity: 'Legendary' },
         { name: 'Steelblade Supremacy', type: 'Action', rarity: 'Majestic' },
         { name: 'Ironsong Determination', type: 'Action', rarity: 'Rare' },
-        { name: 'Warrior\'s Valor', type: 'Action', rarity: 'Common' },
+        { name: "Warrior's Valor", type: 'Action', rarity: 'Common' },
       ],
       stats: {
         avgGameLength: '14:32',
@@ -121,11 +122,12 @@ const Decklists = () => {
       trend: 'stable',
       featured: false,
       verified: true,
-      description: 'Control-oriented wizard deck with powerful late-game threats and board control.',
+      description:
+        'Control-oriented wizard deck with powerful late-game threats and board control.',
       keyCards: [
         { name: 'Iyslander, Stormbind', type: 'Hero', rarity: 'Legendary' },
         { name: 'Frost Hex', type: 'Action', rarity: 'Majestic' },
-        { name: 'Winter\'s Bite', type: 'Action', rarity: 'Rare' },
+        { name: "Winter's Bite", type: 'Action', rarity: 'Rare' },
         { name: 'Ice Eternal', type: 'Action', rarity: 'Common' },
       ],
       stats: {
@@ -166,9 +168,14 @@ const Decklists = () => {
       trend: 'up',
       featured: true,
       verified: true,
-      description: 'Explosive combo deck that can win games quickly with the right setup.',
+      description:
+        'Explosive combo deck that can win games quickly with the right setup.',
       keyCards: [
-        { name: 'Prism, Sculptor of Arc Light', type: 'Hero', rarity: 'Legendary' },
+        {
+          name: 'Prism, Sculptor of Arc Light',
+          type: 'Hero',
+          rarity: 'Legendary',
+        },
         { name: 'Herald of Erudition', type: 'Ally', rarity: 'Majestic' },
         { name: 'Luminaris', type: 'Action', rarity: 'Rare' },
         { name: 'Spectral Shield', type: 'Equipment', rarity: 'Common' },
@@ -211,7 +218,8 @@ const Decklists = () => {
       trend: 'down',
       featured: false,
       verified: true,
-      description: 'Balanced midrange strategy with strong elemental synergies and board presence.',
+      description:
+        'Balanced midrange strategy with strong elemental synergies and board presence.',
       keyCards: [
         { name: 'Briar, Warden of Thorns', type: 'Hero', rarity: 'Legendary' },
         { name: 'Bramble Blast', type: 'Action', rarity: 'Majestic' },
@@ -256,7 +264,8 @@ const Decklists = () => {
       trend: 'stable',
       featured: false,
       verified: true,
-      description: 'High-damage spell-based deck that aims to burn opponents quickly.',
+      description:
+        'High-damage spell-based deck that aims to burn opponents quickly.',
       keyCards: [
         { name: 'Kano, Dracai of Aether', type: 'Hero', rarity: 'Legendary' },
         { name: 'Blazing Aether', type: 'Action', rarity: 'Majestic' },
@@ -295,14 +304,29 @@ const Decklists = () => {
     'Fai, Rising Rebellion',
   ];
 
-  const formats = ['Classic Constructed', 'Blitz', 'Draft', 'Sealed', 'Legacy', 'Limited'];
-  const archetypes = ['Aggro', 'Control', 'Midrange', 'Combo', 'Burn', 'Tempo', 'Ramp'];
+  const formats = [
+    'Classic Constructed',
+    'Blitz',
+    'Draft',
+    'Sealed',
+    'Legacy',
+    'Limited',
+  ];
+  const archetypes = [
+    'Aggro',
+    'Control',
+    'Midrange',
+    'Combo',
+    'Burn',
+    'Tempo',
+    'Ramp',
+  ];
   const placements = ['1st', '2nd', '3rd', '4th', 'Top 8', 'Top 16', 'Top 32'];
   const colors = ['Red', 'Blue', 'Yellow', 'Green', 'Generic'];
 
   // Filter decklists
   const filteredDecklists = decklists.filter(deck => {
-    const matchesSearch = 
+    const matchesSearch =
       deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       deck.hero.toLowerCase().includes(searchQuery.toLowerCase()) ||
       deck.player.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -311,27 +335,42 @@ const Decklists = () => {
 
     const matchesHero = !filters.hero || deck.hero === filters.hero;
     const matchesFormat = !filters.format || deck.format === filters.format;
-    const matchesArchetype = !filters.archetype || deck.archetype === filters.archetype;
-    const matchesPlacement = !filters.placement || deck.tournament.placement === filters.placement;
+    const matchesArchetype =
+      !filters.archetype || deck.archetype === filters.archetype;
+    const matchesPlacement =
+      !filters.placement || deck.tournament.placement === filters.placement;
 
-    const matchesDateFrom = !filters.dateFrom || 
+    const matchesDateFrom =
+      !filters.dateFrom ||
       new Date(deck.tournament.date) >= new Date(filters.dateFrom);
-    const matchesDateTo = !filters.dateTo || 
+    const matchesDateTo =
+      !filters.dateTo ||
       new Date(deck.tournament.date) <= new Date(filters.dateTo);
 
-    const matchesColors = filters.colors.length === 0 || 
+    const matchesColors =
+      filters.colors.length === 0 ||
       filters.colors.every(color => deck.colors.includes(color));
 
-    const matchesCardCount = !filters.cardCount || deck.cardCount.toString() === filters.cardCount;
+    const matchesCardCount =
+      !filters.cardCount || deck.cardCount.toString() === filters.cardCount;
 
-    return matchesSearch && matchesHero && matchesFormat && matchesArchetype && 
-           matchesPlacement && matchesDateFrom && matchesDateTo && matchesColors && matchesCardCount;
+    return (
+      matchesSearch &&
+      matchesHero &&
+      matchesFormat &&
+      matchesArchetype &&
+      matchesPlacement &&
+      matchesDateFrom &&
+      matchesDateTo &&
+      matchesColors &&
+      matchesCardCount
+    );
   });
 
   // Sort decklists
   const sortedDecklists = [...filteredDecklists].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy) {
       case 'date':
         comparison = new Date(a.tournament.date) - new Date(b.tournament.date);
@@ -346,8 +385,18 @@ const Decklists = () => {
         comparison = a.popularity - b.popularity;
         break;
       case 'placement':
-        const placementOrder = { '1st': 1, '2nd': 2, '3rd': 3, '4th': 4, 'Top 8': 8, 'Top 16': 16, 'Top 32': 32 };
-        comparison = (placementOrder[a.tournament.placement] || 99) - (placementOrder[b.tournament.placement] || 99);
+        const placementOrder = {
+          '1st': 1,
+          '2nd': 2,
+          '3rd': 3,
+          '4th': 4,
+          'Top 8': 8,
+          'Top 16': 16,
+          'Top 32': 32,
+        };
+        comparison =
+          (placementOrder[a.tournament.placement] || 99) -
+          (placementOrder[b.tournament.placement] || 99);
         break;
       default:
         comparison = 0;
@@ -359,7 +408,10 @@ const Decklists = () => {
   // Pagination
   const totalPages = Math.ceil(sortedDecklists.length / decksPerPage);
   const startIndex = (currentPage - 1) * decksPerPage;
-  const paginatedDecklists = sortedDecklists.slice(startIndex, startIndex + decksPerPage);
+  const paginatedDecklists = sortedDecklists.slice(
+    startIndex,
+    startIndex + decksPerPage,
+  );
 
   const resetFilters = () => {
     setFilters({
@@ -377,32 +429,40 @@ const Decklists = () => {
     setCurrentPage(1);
   };
 
-  const getHeroIcon = (heroName) => {
+  const getHeroIcon = heroName => {
     const heroIcons = {
       'Vynnset, Iron Maiden': <Sword className="text-red-400" size={16} />,
-      'Briar, Warden of Thorns': <Shield className="text-green-400" size={16} />,
+      'Briar, Warden of Thorns': (
+        <Shield className="text-green-400" size={16} />
+      ),
       'Iyslander, Stormbind': <Zap className="text-blue-400" size={16} />,
-      'Prism, Sculptor of Arc Light': <Star className="text-yellow-400" size={16} />,
+      'Prism, Sculptor of Arc Light': (
+        <Star className="text-yellow-400" size={16} />
+      ),
       'Kano, Dracai of Aether': <Crown className="text-purple-400" size={16} />,
-      'Rhinar, Reckless Rampage': <Trophy className="text-orange-400" size={16} />,
+      'Rhinar, Reckless Rampage': (
+        <Trophy className="text-orange-400" size={16} />
+      ),
     };
-    return heroIcons[heroName] || <Gamepad2 className="text-gray-400" size={16} />;
+    return (
+      heroIcons[heroName] || <Gamepad2 className="text-gray-400" size={16} />
+    );
   };
 
-  const getArchetypeColor = (archetype) => {
+  const getArchetypeColor = archetype => {
     const colors = {
-      'Aggro': 'text-red-400 bg-red-500/20',
-      'Control': 'text-blue-400 bg-blue-500/20',
-      'Midrange': 'text-green-400 bg-green-500/20',
-      'Combo': 'text-purple-400 bg-purple-500/20',
-      'Burn': 'text-orange-400 bg-orange-500/20',
-      'Tempo': 'text-cyan-400 bg-cyan-500/20',
-      'Ramp': 'text-yellow-400 bg-yellow-500/20',
+      Aggro: 'text-red-400 bg-red-500/20',
+      Control: 'text-blue-400 bg-blue-500/20',
+      Midrange: 'text-green-400 bg-green-500/20',
+      Combo: 'text-purple-400 bg-purple-500/20',
+      Burn: 'text-orange-400 bg-orange-500/20',
+      Tempo: 'text-cyan-400 bg-cyan-500/20',
+      Ramp: 'text-yellow-400 bg-yellow-500/20',
     };
     return colors[archetype] || 'text-gray-400 bg-gray-500/20';
   };
 
-  const getTrendIcon = (trend) => {
+  const getTrendIcon = trend => {
     switch (trend) {
       case 'up':
         return <TrendingUp className="text-green-400" size={14} />;
@@ -413,7 +473,7 @@ const Decklists = () => {
     }
   };
 
-  const getPlacementColor = (placement) => {
+  const getPlacementColor = placement => {
     if (placement === '1st') return 'text-yellow-400';
     if (placement === '2nd') return 'text-gray-300';
     if (placement === '3rd') return 'text-orange-400';
@@ -430,12 +490,8 @@ const Decklists = () => {
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-2">
-            {deck.featured && (
-              <Star className="text-yellow-400" size={16} />
-            )}
-            {deck.verified && (
-              <Award className="text-blue-400" size={16} />
-            )}
+            {deck.featured && <Star className="text-yellow-400" size={16} />}
+            {deck.verified && <Award className="text-blue-400" size={16} />}
             <h3 className="font-bold text-lg text-white">{deck.name}</h3>
           </div>
           <div className="flex items-center space-x-3 text-sm text-gray-400">
@@ -443,16 +499,22 @@ const Decklists = () => {
               {getHeroIcon(deck.hero)}
               <span>{deck.hero}</span>
             </span>
-            <span className={`px-2 py-1 rounded text-xs font-medium ${getArchetypeColor(deck.archetype)}`}>
+            <span
+              className={`px-2 py-1 rounded text-xs font-medium ${getArchetypeColor(deck.archetype)}`}
+            >
               {deck.archetype}
             </span>
           </div>
         </div>
         <div className="text-right">
-          <div className={`text-lg font-bold ${getPlacementColor(deck.tournament.placement)}`}>
+          <div
+            className={`text-lg font-bold ${getPlacementColor(deck.tournament.placement)}`}
+          >
             {deck.tournament.placement}
           </div>
-          <div className="text-xs text-gray-400">{deck.tournament.participants} players</div>
+          <div className="text-xs text-gray-400">
+            {deck.tournament.participants} players
+          </div>
         </div>
       </div>
 
@@ -465,10 +527,15 @@ const Decklists = () => {
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div className="bg-gray-700 rounded p-3 text-center">
           <div className="text-gray-300 text-xs">Win Rate</div>
-          <div className={`font-bold ${
-            deck.winRate >= 75 ? 'text-green-400' :
-            deck.winRate >= 60 ? 'text-yellow-400' : 'text-red-400'
-          }`}>
+          <div
+            className={`font-bold ${
+              deck.winRate >= 75
+                ? 'text-green-400'
+                : deck.winRate >= 60
+                  ? 'text-yellow-400'
+                  : 'text-red-400'
+            }`}
+          >
             {deck.winRate}%
           </div>
         </div>
@@ -513,7 +580,10 @@ const Decklists = () => {
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {deck.tags.slice(0, 3).map(tag => (
-          <span key={tag} className="px-2 py-1 bg-gray-600 text-gray-300 rounded text-xs">
+          <span
+            key={tag}
+            className="px-2 py-1 bg-gray-600 text-gray-300 rounded text-xs"
+          >
             {tag}
           </span>
         ))}
@@ -557,12 +627,15 @@ const Decklists = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search decks, heroes, players, tournaments..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -573,7 +646,11 @@ const Decklists = () => {
             >
               <Filter size={20} />
               <span>Filters</span>
-              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {showAdvancedFilters ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
 
@@ -594,12 +671,16 @@ const Decklists = () => {
                     </label>
                     <select
                       value={filters.hero}
-                      onChange={(e) => setFilters({...filters, hero: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, hero: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Heroes</option>
                       {heroes.map(hero => (
-                        <option key={hero} value={hero}>{hero}</option>
+                        <option key={hero} value={hero}>
+                          {hero}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -611,12 +692,16 @@ const Decklists = () => {
                     </label>
                     <select
                       value={filters.format}
-                      onChange={(e) => setFilters({...filters, format: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, format: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Formats</option>
                       {formats.map(format => (
-                        <option key={format} value={format}>{format}</option>
+                        <option key={format} value={format}>
+                          {format}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -628,12 +713,16 @@ const Decklists = () => {
                     </label>
                     <select
                       value={filters.archetype}
-                      onChange={(e) => setFilters({...filters, archetype: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, archetype: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Archetypes</option>
                       {archetypes.map(archetype => (
-                        <option key={archetype} value={archetype}>{archetype}</option>
+                        <option key={archetype} value={archetype}>
+                          {archetype}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -645,12 +734,16 @@ const Decklists = () => {
                     </label>
                     <select
                       value={filters.placement}
-                      onChange={(e) => setFilters({...filters, placement: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, placement: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">All Placements</option>
                       {placements.map(placement => (
-                        <option key={placement} value={placement}>{placement}</option>
+                        <option key={placement} value={placement}>
+                          {placement}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -665,7 +758,9 @@ const Decklists = () => {
                     <input
                       type="date"
                       value={filters.dateFrom}
-                      onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, dateFrom: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -676,7 +771,9 @@ const Decklists = () => {
                     <input
                       type="date"
                       value={filters.dateTo}
-                      onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+                      onChange={e =>
+                        setFilters({ ...filters, dateTo: e.target.value })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -699,15 +796,17 @@ const Decklists = () => {
         {/* Sort and Results Info */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <div className="text-gray-400 mb-4 md:mb-0">
-            Showing {startIndex + 1}-{Math.min(startIndex + decksPerPage, sortedDecklists.length)} of {sortedDecklists.length} decklists
+            Showing {startIndex + 1}-
+            {Math.min(startIndex + decksPerPage, sortedDecklists.length)} of{' '}
+            {sortedDecklists.length} decklists
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-400">Sort by:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={e => setSortBy(e.target.value)}
                 className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
               >
                 <option value="date">Date</option>
@@ -717,12 +816,16 @@ const Decklists = () => {
                 <option value="placement">Placement</option>
               </select>
             </div>
-            
+
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm hover:bg-gray-600 transition-colors"
             >
-              {sortOrder === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {sortOrder === 'asc' ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
           </div>
         </div>
@@ -746,9 +849,10 @@ const Decklists = () => {
             >
               Previous
             </button>
-            
+
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+              const page =
+                Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
               return (
                 <button
                   key={page}
@@ -763,9 +867,11 @@ const Decklists = () => {
                 </button>
               );
             })}
-            
+
             <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                setCurrentPage(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage === totalPages}
               className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
             >

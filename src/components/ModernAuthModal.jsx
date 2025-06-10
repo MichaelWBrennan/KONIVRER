@@ -243,9 +243,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
               <button
                 onClick={() => setActiveTab('login')}
                 className={`btn flex-1 ${
-                  activeTab === 'login'
-                    ? 'btn-primary'
-                    : 'btn-ghost'
+                  activeTab === 'login' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Login
@@ -253,9 +251,7 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
               <button
                 onClick={() => setActiveTab('register')}
                 className={`btn flex-1 ${
-                  activeTab === 'register'
-                    ? 'btn-primary'
-                    : 'btn-ghost'
+                  activeTab === 'register' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Register
