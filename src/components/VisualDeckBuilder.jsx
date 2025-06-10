@@ -306,7 +306,7 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               <Download size={16} />
               <span>Export</span>
             </button>
-            <button className="flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+            <button className="btn btn-sm btn-primary">
               <Share2 size={16} />
               <span>Share</span>
             </button>
