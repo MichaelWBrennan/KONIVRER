@@ -148,7 +148,7 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-center mb-6">
               Master the Elements
@@ -157,22 +157,38 @@ const Home = () => {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-secondary text-center max-w-4xl mx-auto mb-8 leading-relaxed">
-              Build powerful decks, discover new strategies, and compete in official tournaments 
-              in the ultimate elemental card game platform. Experience enhanced readability with 
-              OpenDyslexic font and modern, accessible design principles.
+              Build powerful decks, discover new strategies, and compete in
+              official tournaments in the ultimate elemental card game platform.
+              Experience enhanced readability with OpenDyslexic font and modern,
+              accessible design principles.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/tournaments" className="btn btn-primary btn-lg group">
-                <Trophy size={24} className="group-hover:scale-110 transition-transform" />
+                <Trophy
+                  size={24}
+                  className="group-hover:scale-110 transition-transform"
+                />
                 Join Tournament
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight
+                  size={20}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </Link>
-              <Link to="/deckbuilder" className="btn btn-secondary btn-lg group">
-                <PlusCircle size={24} className="group-hover:rotate-90 transition-transform" />
+              <Link
+                to="/deckbuilder"
+                className="btn btn-secondary btn-lg group"
+              >
+                <PlusCircle
+                  size={24}
+                  className="group-hover:rotate-90 transition-transform"
+                />
                 Build Deck
               </Link>
               <Link to="/matches" className="btn btn-outline btn-lg group">
-                <Target size={24} className="group-hover:scale-110 transition-transform" />
+                <Target
+                  size={24}
+                  className="group-hover:scale-110 transition-transform"
+                />
                 Explore Matches
               </Link>
             </div>
@@ -180,7 +196,7 @@ const Home = () => {
 
           {/* Hero Features Grid */}
           <div className="hero-features">
-            <motion.div 
+            <motion.div
               className="hero-feature"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -191,11 +207,12 @@ const Home = () => {
               </div>
               <h3 className="hero-feature-title">Modern Design</h3>
               <p className="hero-feature-description">
-                Beautiful, accessible interface with OpenDyslexic font for enhanced readability
+                Beautiful, accessible interface with OpenDyslexic font for
+                enhanced readability
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="hero-feature"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -206,11 +223,12 @@ const Home = () => {
               </div>
               <h3 className="hero-feature-title">Competitive Play</h3>
               <p className="hero-feature-description">
-                Join tournaments, analyze matches, and climb the competitive ladder
+                Join tournaments, analyze matches, and climb the competitive
+                ladder
               </p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="hero-feature"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -221,7 +239,8 @@ const Home = () => {
               </div>
               <h3 className="hero-feature-title">Deck Discovery</h3>
               <p className="hero-feature-description">
-                Explore winning decklists and discover new strategies from top players
+                Explore winning decklists and discover new strategies from top
+                players
               </p>
             </motion.div>
           </div>
@@ -232,7 +251,7 @@ const Home = () => {
       <section className="py-20 bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5"></div>
         <div className="container relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -243,16 +262,17 @@ const Home = () => {
               Join the Community
             </h2>
             <p className="text-lg text-secondary max-w-2xl mx-auto">
-              Be part of a thriving community of players, builders, and competitors
+              Be part of a thriving community of players, builders, and
+              competitors
             </p>
           </motion.div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {dynamicStats.map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <motion.div 
-                  key={stat.label} 
+                <motion.div
+                  key={stat.label}
                   className="text-center group"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -266,7 +286,9 @@ const Home = () => {
                     <div className="text-3xl font-bold text-primary mb-2 font-mono">
                       {stat.value}
                     </div>
-                    <div className="text-sm text-secondary font-medium">{stat.label}</div>
+                    <div className="text-sm text-secondary font-medium">
+                      {stat.label}
+                    </div>
                   </div>
                 </motion.div>
               );
@@ -279,7 +301,7 @@ const Home = () => {
       <section className="py-20 bg-primary relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent"></div>
         <div className="container relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -290,8 +312,8 @@ const Home = () => {
               Everything You Need
             </h2>
             <p className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
-              Powerful tools and features designed to enhance your KONIVRER experience 
-              with modern design and accessibility in mind.
+              Powerful tools and features designed to enhance your KONIVRER
+              experience with modern design and accessibility in mind.
             </p>
           </motion.div>
 
@@ -312,12 +334,18 @@ const Home = () => {
                     to={feature.link}
                     className="card card-interactive h-full flex flex-col relative overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-                         style={{ background: `linear-gradient(135deg, var(--accent-primary), var(--accent-purple))` }}></div>
-                    
+                    <div
+                      className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                      style={{
+                        background: `linear-gradient(135deg, var(--accent-primary), var(--accent-purple))`,
+                      }}
+                    ></div>
+
                     <div className="relative z-10">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient || 'from-blue-500 to-purple-600'} rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
+                        <div
+                          className={`w-14 h-14 bg-gradient-to-br ${feature.gradient || 'from-blue-500 to-purple-600'} rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}
+                        >
                           <Icon size={28} className="text-white" />
                         </div>
                         <div className="flex-1">
@@ -326,14 +354,17 @@ const Home = () => {
                           </h3>
                         </div>
                       </div>
-                      
+
                       <p className="text-secondary text-sm leading-relaxed mb-4 flex-1">
                         {feature.description}
                       </p>
-                      
+
                       <div className="flex items-center text-blue-400 text-sm font-medium group-hover:text-blue-300 transition-colors">
                         <span>Explore</span>
-                        <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight
+                          size={16}
+                          className="ml-2 group-hover:translate-x-1 transition-transform"
+                        />
                       </div>
                     </div>
                   </Link>
@@ -348,7 +379,7 @@ const Home = () => {
       <section className="py-20 bg-secondary relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5"></div>
         <div className="container relative z-10">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -356,8 +387,12 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <div>
-              <h2 className="text-3xl font-bold text-primary mb-2">Recent Activity</h2>
-              <p className="text-secondary">See what the community is building</p>
+              <h2 className="text-3xl font-bold text-primary mb-2">
+                Recent Activity
+              </h2>
+              <p className="text-secondary">
+                See what the community is building
+              </p>
             </div>
             <Link to="/decks" className="btn btn-ghost">
               View All
@@ -387,8 +422,12 @@ const Home = () => {
                       )}
                     </div>
                     <div className="flex-1">
-                      <div className="font-bold text-primary">{activity.title}</div>
-                      <div className="text-sm text-secondary">by {activity.user}</div>
+                      <div className="font-bold text-primary">
+                        {activity.title}
+                      </div>
+                      <div className="text-sm text-secondary">
+                        by {activity.user}
+                      </div>
                     </div>
                   </div>
                   <div className="text-sm text-secondary mb-4 leading-relaxed">
@@ -397,7 +436,8 @@ const Home = () => {
                   <div className="flex items-center justify-between text-xs text-muted">
                     <span>
                       {activity.cardCount && `${activity.cardCount} cards`}
-                      {activity.participants && `${activity.participants} players`}
+                      {activity.participants &&
+                        `${activity.participants} players`}
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock size={12} />
@@ -411,7 +451,7 @@ const Home = () => {
                 </motion.div>
               ))
             ) : (
-              <motion.div 
+              <motion.div
                 className="col-span-full text-center py-16"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -419,8 +459,13 @@ const Home = () => {
                 viewport={{ once: true }}
               >
                 <div className="glass-card max-w-md mx-auto">
-                  <TrendingUp size={64} className="mx-auto mb-4 text-blue-400 opacity-50" />
-                  <h3 className="text-xl font-bold text-primary mb-2">No Recent Activity</h3>
+                  <TrendingUp
+                    size={64}
+                    className="mx-auto mb-4 text-blue-400 opacity-50"
+                  />
+                  <h3 className="text-xl font-bold text-primary mb-2">
+                    No Recent Activity
+                  </h3>
                   <p className="text-secondary mb-6">
                     Start building decks to see activity here!
                   </p>
@@ -438,12 +483,15 @@ const Home = () => {
       {/* Enhanced CTA Section */}
       <section className="py-20 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20"></div>
-        <div className="absolute inset-0 opacity-50" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}></div>
-        
+        <div
+          className="absolute inset-0 opacity-50"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        ></div>
+
         <div className="container relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -454,10 +502,10 @@ const Home = () => {
               Ready to Master the Elements?
             </h2>
             <p className="text-xl text-secondary mb-8 leading-relaxed max-w-2xl mx-auto">
-              Join thousands of players in the ultimate KONIVRER experience. Build decks, 
-              compete in tournaments, and become a legend.
+              Join thousands of players in the ultimate KONIVRER experience.
+              Build decks, compete in tournaments, and become a legend.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/deckbuilder" className="btn btn-primary btn-lg">
                 <PlusCircle size={24} />
@@ -473,14 +521,18 @@ const Home = () => {
                 Explore Matches
               </Link>
             </div>
-            
+
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div className="glass-card">
-                <div className="text-3xl font-bold text-blue-400 mb-2">10K+</div>
+                <div className="text-3xl font-bold text-blue-400 mb-2">
+                  10K+
+                </div>
                 <div className="text-sm text-secondary">Active Players</div>
               </div>
               <div className="glass-card">
-                <div className="text-3xl font-bold text-purple-400 mb-2">500+</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">
+                  500+
+                </div>
                 <div className="text-sm text-secondary">Daily Matches</div>
               </div>
               <div className="glass-card">

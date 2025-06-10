@@ -242,20 +242,16 @@ const ModernAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
             <div className="flex gap-1 mb-6 p-1 bg-tertiary rounded-lg">
               <button
                 onClick={() => setActiveTab('login')}
-                className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  activeTab === 'login'
-                    ? 'bg-accent-primary text-white shadow-lg'
-                    : 'text-secondary hover:text-primary'
+                className={`btn flex-1 ${
+                  activeTab === 'login' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Login
               </button>
               <button
                 onClick={() => setActiveTab('register')}
-                className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  activeTab === 'register'
-                    ? 'bg-accent-primary text-white shadow-lg'
-                    : 'text-secondary hover:text-primary'
+                className={`btn flex-1 ${
+                  activeTab === 'register' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Register
