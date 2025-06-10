@@ -10,14 +10,12 @@ import {
   X,
   Trophy,
   Shield,
-  TrendingUp,
   LogIn,
   LogOut,
   Settings,
   ChevronDown,
   Star,
   Calendar,
-  Target,
   Gamepad2,
   Layers,
 } from 'lucide-react';
@@ -41,14 +39,11 @@ const Layout = ({ children }) => {
     { name: 'Deck Builder', href: '/deckbuilder', icon: PlusCircle },
     { name: 'Advanced Builder', href: '/deckbuilder-advanced', icon: Settings },
     { name: 'Card Database', href: '/cards', icon: Database },
-    { name: 'My Decks', href: '/decks', icon: BookOpen },
     { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
-    { name: 'Tournaments', href: '/tournaments', icon: Trophy },
-    { name: 'Matches', href: '/matches', icon: Target },
-    { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Decklists', href: '/decklists', icon: Layers },
+    { name: 'Tournaments', href: '/tournaments', icon: Trophy },
+    { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Social Hub', href: '/social', icon: Users },
-    { name: 'Analytics', href: '/analytics', icon: TrendingUp },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
   ];
 
@@ -188,6 +183,14 @@ const Layout = ({ children }) => {
                           Profile
                         </Link>
                         <Link
+                          to="/decklists?view=mydecks"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <BookOpen size={16} />
+                          My Decks
+                        </Link>
+                        <Link
                           to="/profile?tab=settings"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
                           onClick={() => setShowUserDropdown(false)}
@@ -298,6 +301,14 @@ const Layout = ({ children }) => {
                     >
                       <User size={16} />
                       Profile
+                    </Link>
+                    <Link
+                      to="/decklists?view=mydecks"
+                      className="flex items-center gap-3 px-3 py-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-md"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <BookOpen size={16} />
+                      My Decks
                     </Link>
                     <button
                       onClick={() => {
