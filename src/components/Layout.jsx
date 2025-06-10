@@ -79,8 +79,18 @@ const Layout = ({ children }) => {
 
   const isActive = path => {
     if (path === '/' && location.pathname === '/') return true;
-    if (path === '/tournaments' && (location.pathname.startsWith('/tournaments') || location.pathname.startsWith('/events'))) return true;
-    if (path !== '/' && path !== '/tournaments' && location.pathname.startsWith(path)) return true;
+    if (
+      path === '/tournaments' &&
+      (location.pathname.startsWith('/tournaments') ||
+        location.pathname.startsWith('/events'))
+    )
+      return true;
+    if (
+      path !== '/' &&
+      path !== '/tournaments' &&
+      location.pathname.startsWith(path)
+    )
+      return true;
     return false;
   };
 
