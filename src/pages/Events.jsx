@@ -600,13 +600,13 @@ const Events = () => {
           </div>
 
           <div className="flex space-x-2">
-            <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
-              <Eye size={14} className="inline mr-1" />
+            <button className="btn btn-sm btn-primary">
+              <Eye size={14} />
               View
             </button>
             {event.website && (
-              <button className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors">
-                <ExternalLink size={14} className="inline mr-1" />
+              <button className="btn btn-sm btn-secondary">
+                <ExternalLink size={14} />
                 Website
               </button>
             )}
@@ -649,7 +649,7 @@ const Events = () => {
             </div>
             <button
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              className="px-6 py-3 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 transition-colors flex items-center space-x-2"
+              className="btn btn-secondary flex items-center gap-2"
             >
               <Filter size={20} />
               <span>Filters</span>
@@ -816,10 +816,7 @@ const Events = () => {
 
                 {/* Filter Actions */}
                 <div className="flex justify-end space-x-2">
-                  <button
-                    onClick={resetFilters}
-                    className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-                  >
+                  <button onClick={resetFilters} className="btn btn-secondary">
                     Reset
                   </button>
                 </div>
@@ -853,7 +850,7 @@ const Events = () => {
 
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm hover:bg-gray-600 transition-colors"
+              className="btn btn-sm btn-secondary"
             >
               {sortOrder === 'asc' ? (
                 <ChevronUp size={16} />
@@ -879,7 +876,7 @@ const Events = () => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              className="btn btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
@@ -891,10 +888,8 @@ const Events = () => {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded transition-colors ${
-                    currentPage === page
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-700 text-white hover:bg-gray-600'
+                  className={`btn ${
+                    currentPage === page ? 'btn-primary' : 'btn-secondary'
                   }`}
                 >
                   {page}
@@ -907,7 +902,7 @@ const Events = () => {
                 setCurrentPage(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              className="btn btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>

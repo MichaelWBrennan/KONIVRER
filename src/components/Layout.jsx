@@ -127,7 +127,10 @@ const Layout = ({ children }) => {
                     }`}
                     onClick={() => handleNavClick(item.name, item.href)}
                   >
-                    <Icon size={16} className="transition-transform duration-200 group-hover:scale-110" />
+                    <Icon
+                      size={16}
+                      className="transition-transform duration-200 group-hover:scale-110"
+                    />
                     {item.name}
                   </Link>
                 );

@@ -585,7 +585,7 @@ const LiveTournament = () => {
                       <option value="480p">480p</option>
                     </select>
 
-                    <button className="text-white hover:text-gray-300">
+                    <button className="btn btn-xs btn-ghost">
                       <Settings size={16} />
                     </button>
                   </div>
