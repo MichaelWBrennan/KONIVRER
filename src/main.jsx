@@ -81,15 +81,7 @@ const FallbackApp = () => (
       </p>
       <button
         onClick={() => window.location.reload()}
-        style={{
-          backgroundColor: '#3b82f6',
-          color: 'white',
-          border: 'none',
-          padding: '12px 24px',
-          borderRadius: '6px',
-          cursor: 'pointer',
-          fontSize: '16px',
-        }}
+        className="btn btn-primary"
       >
         Refresh Page
       </button>

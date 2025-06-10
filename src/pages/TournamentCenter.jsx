@@ -326,7 +326,7 @@ const TournamentCenter = () => {
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors"
+              className="btn btn-xs btn-ghost"
             >
               ✕
             </button>
@@ -447,19 +447,19 @@ const TournamentCenter = () => {
 
           <div className="flex justify-end space-x-3">
             {tournament.status === 'Registration Open' && (
-              <button className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+              <button className="btn btn-success">
                 Register Now
               </button>
             )}
             {tournament.status === 'Completed' && tournament.winning_deck && (
-              <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center space-x-2">
+              <button className="btn btn-primary flex items-center gap-2">
                 <Download size={16} />
                 <span>Download Winning Deck</span>
               </button>
             )}
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+              className="btn btn-secondary"
             >
               Close
             </button>
@@ -514,7 +514,7 @@ const TournamentCenter = () => {
               }
               className="px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
             />
-            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+            <button className="btn btn-primary flex items-center gap-2">
               <Filter size={16} />
               <span>Advanced Filters</span>
             </button>
@@ -533,10 +533,10 @@ const TournamentCenter = () => {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-md transition-colors ${
+                className={`btn flex-1 ${
                   activeTab === tab.key
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-300 hover:text-white'
+                    ? 'btn-primary'
+                    : 'btn-ghost'
                 }`}
               >
                 <Icon size={16} />

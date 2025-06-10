@@ -522,12 +522,12 @@ const Decklists = () => {
       {/* Actions */}
       <div className="flex justify-between items-center">
         <div className="flex space-x-2">
-          <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
-            <Eye size={12} className="inline mr-1" />
+          <button className="btn btn-sm btn-primary">
+            <Eye size={12} />
             View
           </button>
-          <button className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors">
-            <Copy size={12} className="inline mr-1" />
+          <button className="btn btn-sm btn-success">
+            <Copy size={12} />
             Copy
           </button>
         </div>

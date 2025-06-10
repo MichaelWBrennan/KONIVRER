@@ -530,7 +530,7 @@ const SocialHub = () => {
                                     <Heart size={12} />
                                     {formatNumber(post.engagement)}
                                   </span>
-                                  <button className="flex items-center gap-1 hover:text-blue-600">
+                                  <button className="btn btn-xs btn-ghost">
                                     <ExternalLink size={12} />
                                     View
                                   </button>
@@ -759,7 +759,7 @@ const SocialHub = () => {
                                     <Heart size={12} />
                                     {formatNumber(post.engagement)}
                                   </span>
-                                  <button className="flex items-center gap-1 hover:text-blue-600">
+                                  <button className="btn btn-xs btn-ghost">
                                     <ExternalLink size={12} />
                                     View
                                   </button>
