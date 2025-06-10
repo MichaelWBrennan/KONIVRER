@@ -10,14 +10,12 @@ import {
   X,
   Trophy,
   Shield,
-  TrendingUp,
   LogIn,
   LogOut,
   Settings,
   ChevronDown,
   Star,
   Calendar,
-  Target,
   Gamepad2,
   Layers,
 } from 'lucide-react';
@@ -44,11 +42,9 @@ const Layout = ({ children }) => {
     { name: 'My Decks', href: '/decks', icon: BookOpen },
     { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
-    { name: 'Matches', href: '/matches', icon: Target },
     { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Decklists', href: '/decklists', icon: Layers },
     { name: 'Social Hub', href: '/social', icon: Users },
-    { name: 'Analytics', href: '/analytics', icon: TrendingUp },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
   ];
 
