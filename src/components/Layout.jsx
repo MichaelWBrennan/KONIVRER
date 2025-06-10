@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Deck Lists', href: '/decklists', icon: Layers },
     { name: 'Card Database', href: '/cards', icon: Database },
-    { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
+    { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Social Hub', href: '/social', icon: Users },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
   ];
@@ -79,8 +79,8 @@ const Layout = ({ children }) => {
 
   const isActive = path => {
     if (path === '/' && location.pathname === '/') return true;
-    if (path === '/tournaments' && (location.pathname.startsWith('/tournaments') || location.pathname.startsWith('/events'))) return true;
-    if (path !== '/' && path !== '/tournaments' && location.pathname.startsWith(path)) return true;
+    if (path === '/events' && (location.pathname.startsWith('/tournaments') || location.pathname.startsWith('/events'))) return true;
+    if (path !== '/' && path !== '/events' && location.pathname.startsWith(path)) return true;
     return false;
   };
 

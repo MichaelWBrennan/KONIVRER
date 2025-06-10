@@ -29,11 +29,11 @@ function App() {
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder/:deckId" element={<UnifiedDeckSystem />} />
                 <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
+                <Route path="/events" element={<UnifiedTournamentsEvents />} />
                 <Route
                   path="/tournaments"
                   element={<UnifiedTournamentsEvents />}
                 />
-                <Route path="/events" element={<UnifiedTournamentsEvents />} />
                 <Route
                   path="/tournaments/create"
                   element={<TournamentCreate />}
