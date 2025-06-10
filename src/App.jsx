@@ -5,24 +5,19 @@ import { DataProvider } from './contexts/DataContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import EnhancedCardDatabase from './pages/EnhancedCardDatabase';
-import EnhancedDeckBuilder from './pages/EnhancedDeckBuilder';
-import { MyDecks } from './pages/MyDecks';
 import EnhancedTournaments from './components/EnhancedTournaments';
 import { JudgeCenter } from './pages/JudgeCenter';
 import { TournamentCreate } from './pages/TournamentCreate';
 import EnhancedProfile from './components/EnhancedProfile';
 import LiveTournament from './pages/LiveTournament';
-import AdvancedDeckBuilder from './pages/AdvancedDeckBuilder';
 import SocialHub from './pages/SocialHub';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminPanel from './pages/AdminPanel';
-import DeckDiscovery from './components/DeckDiscovery';
 import TournamentCenter from './pages/TournamentCenter';
 import Matches from './pages/Matches';
 import Events from './pages/Events';
-import Decklists from './pages/Decklists';
-import IntegratedDeckSystem from './pages/IntegratedDeckSystem';
 import TournamentMatchAnalytics from './pages/TournamentMatchAnalytics';
+import UnifiedDeckSystem from './pages/UnifiedDeckSystem';
 
 function App() {
   return (
@@ -34,21 +29,23 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/cards" element={<EnhancedCardDatabase />} />
-                <Route path="/decks" element={<MyDecks />} />
-                <Route path="/saved-decks" element={<MyDecks />} />
-                <Route path="/deckbuilder" element={<EnhancedDeckBuilder />} />
+                <Route path="/decklists" element={<UnifiedDeckSystem />} />
+                <Route path="/decks" element={<UnifiedDeckSystem />} />
+                <Route path="/saved-decks" element={<UnifiedDeckSystem />} />
+                <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
                 <Route
                   path="/deckbuilder/:deckId"
-                  element={<EnhancedDeckBuilder />}
+                  element={<UnifiedDeckSystem />}
                 />
                 <Route
                   path="/deckbuilder-advanced"
-                  element={<AdvancedDeckBuilder />}
+                  element={<UnifiedDeckSystem />}
                 />
                 <Route
                   path="/deckbuilder-advanced/:deckId"
-                  element={<AdvancedDeckBuilder />}
+                  element={<UnifiedDeckSystem />}
                 />
+                <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
                 <Route
                   path="/tournaments"
                   element={<TournamentMatchAnalytics />}
@@ -65,14 +62,11 @@ function App() {
                 <Route path="/matches" element={<TournamentMatchAnalytics />} />
                 <Route path="/matches-old" element={<Matches />} />
                 <Route path="/events" element={<Events />} />
-                <Route path="/decklists" element={<IntegratedDeckSystem />} />
-                <Route path="/decklists-old" element={<Decklists />} />
                 <Route path="/judge-center" element={<JudgeCenter />} />
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/social" element={<SocialHub />} />
                 <Route path="/analytics" element={<AnalyticsDashboard />} />
                 <Route path="/admin" element={<AdminPanel />} />
-                <Route path="/deck-discovery" element={<DeckDiscovery />} />
               </Routes>
             </Layout>
           </Router>
