@@ -21,6 +21,7 @@ import TournamentCenter from './pages/TournamentCenter';
 import Matches from './pages/Matches';
 import Events from './pages/Events';
 import Decklists from './pages/Decklists';
+import TournamentMatchAnalytics from './pages/TournamentMatchAnalytics';
 
 function App() {
   return (
@@ -47,7 +48,8 @@ function App() {
                   path="/deckbuilder-advanced/:deckId"
                   element={<AdvancedDeckBuilder />}
                 />
-                <Route path="/tournaments" element={<TournamentCenter />} />
+                <Route path="/tournaments" element={<TournamentMatchAnalytics />} />
+                <Route path="/tournaments-old" element={<TournamentCenter />} />
                 <Route
                   path="/tournaments/create"
                   element={<TournamentCreate />}
@@ -56,7 +58,8 @@ function App() {
                   path="/tournaments/:tournamentId/live"
                   element={<LiveTournament />}
                 />
-                <Route path="/matches" element={<Matches />} />
+                <Route path="/matches" element={<TournamentMatchAnalytics />} />
+                <Route path="/matches-old" element={<Matches />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/decklists" element={<Decklists />} />
                 <Route path="/judge-center" element={<JudgeCenter />} />

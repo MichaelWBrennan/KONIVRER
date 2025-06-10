@@ -109,6 +109,7 @@
     "ws": "^8.18.2"
   },
   "dependencies": {
+    "@esbuild/linux-x64": "^0.25.5",
     "@hookform/resolvers": "^5.1.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
