@@ -147,6 +147,8 @@ export default defineConfig({
       'work-2-kuvjjrfmovharowh.prod-runtime.all-hands.dev',
       'work-1-boxcmpdvhkyxeisg.prod-runtime.all-hands.dev',
       'work-2-boxcmpdvhkyxeisg.prod-runtime.all-hands.dev',
+      'work-1-gobalavagfmfizdh.prod-runtime.all-hands.dev',
+      'work-2-gobalavagfmfizdh.prod-runtime.all-hands.dev',
       'localhost',
       '127.0.0.1'
     ]
