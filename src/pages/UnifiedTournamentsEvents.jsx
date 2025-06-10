@@ -82,7 +82,8 @@ const UnifiedTournamentsEvents = () => {
       maxParticipants: 512,
       status: 'Registration Open',
       organizer: 'KONIVRER Official',
-      description: 'The premier tournament of the year featuring the best players from around the world.',
+      description:
+        'The premier tournament of the year featuring the best players from around the world.',
       rounds: 9,
       category: 'Championship',
       isOnline: false,
@@ -99,7 +100,8 @@ const UnifiedTournamentsEvents = () => {
       maxParticipants: 256,
       status: 'In Progress',
       organizer: 'East Coast Gaming',
-      description: 'Regional championship determining the East Coast representative.',
+      description:
+        'Regional championship determining the East Coast representative.',
       rounds: 8,
       category: 'Regional',
       isOnline: false,
@@ -116,7 +118,8 @@ const UnifiedTournamentsEvents = () => {
       maxParticipants: 60,
       status: 'Registration Open',
       organizer: 'Community Leaders',
-      description: 'Monthly community gathering for casual play and deck sharing.',
+      description:
+        'Monthly community gathering for casual play and deck sharing.',
       category: 'Community',
       isOnline: false,
     },
@@ -208,16 +211,21 @@ const UnifiedTournamentsEvents = () => {
 
   // Filter and search logic
   const getFilteredItems = () => {
-    let items = currentView === 'events' ? events : 
-                 currentView === 'matches' ? getEventMatches() : [];
+    let items =
+      currentView === 'events'
+        ? events
+        : currentView === 'matches'
+          ? getEventMatches()
+          : [];
 
     // Apply search filter
     if (searchQuery) {
-      items = items.filter(item =>
-        item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.format?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.organizer?.toLowerCase().includes(searchQuery.toLowerCase())
+      items = items.filter(
+        item =>
+          item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.format?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.organizer?.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 
@@ -232,8 +240,8 @@ const UnifiedTournamentsEvents = () => {
       items = items.filter(item => item.category === filters.category);
     }
     if (filters.location && currentView !== 'matches') {
-      items = items.filter(item => 
-        item.location?.toLowerCase().includes(filters.location.toLowerCase())
+      items = items.filter(item =>
+        item.location?.toLowerCase().includes(filters.location.toLowerCase()),
       );
     }
 
@@ -251,7 +259,10 @@ const UnifiedTournamentsEvents = () => {
   // Pagination
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedItems = filteredItems.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   // Reset page when view changes
   useEffect(() => {
@@ -259,7 +270,7 @@ const UnifiedTournamentsEvents = () => {
   }, [currentView, selectedEvent]);
 
   // Render event card (unified for all event types)
-  const renderEventCard = (event) => (
+  const renderEventCard = event => (
     <motion.div
       key={event.id}
       layout
@@ -270,13 +281,19 @@ const UnifiedTournamentsEvents = () => {
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-            event.category === 'Championship' ? 'bg-gradient-to-br from-yellow-500 to-orange-500' :
-            event.category === 'Regional' ? 'bg-gradient-to-br from-blue-500 to-purple-500' :
-            event.category === 'Store Championship' ? 'bg-gradient-to-br from-green-500 to-teal-500' :
-            event.category === 'Community' ? 'bg-gradient-to-br from-purple-500 to-pink-500' :
-            'bg-gradient-to-br from-gray-500 to-gray-600'
-          }`}>
+          <div
+            className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+              event.category === 'Championship'
+                ? 'bg-gradient-to-br from-yellow-500 to-orange-500'
+                : event.category === 'Regional'
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-500'
+                  : event.category === 'Store Championship'
+                    ? 'bg-gradient-to-br from-green-500 to-teal-500'
+                    : event.category === 'Community'
+                      ? 'bg-gradient-to-br from-purple-500 to-pink-500'
+                      : 'bg-gradient-to-br from-gray-500 to-gray-600'
+            }`}
+          >
             <Calendar className="text-white" size={24} />
           </div>
           <div>
@@ -290,12 +307,17 @@ const UnifiedTournamentsEvents = () => {
               Online
             </span>
           )}
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-            event.status === 'Registration Open' ? 'bg-green-100 text-green-800' :
-            event.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-            event.status === 'Completed' ? 'bg-gray-100 text-gray-800' :
-            'bg-yellow-100 text-yellow-800'
-          }`}>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium ${
+              event.status === 'Registration Open'
+                ? 'bg-green-100 text-green-800'
+                : event.status === 'In Progress'
+                  ? 'bg-blue-100 text-blue-800'
+                  : event.status === 'Completed'
+                    ? 'bg-gray-100 text-gray-800'
+                    : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
             {event.status}
           </span>
         </div>
@@ -306,7 +328,9 @@ const UnifiedTournamentsEvents = () => {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="flex items-center gap-2 text-sm">
           <Calendar size={16} className="text-accent-primary" />
-          <span>{event.date} at {event.time}</span>
+          <span>
+            {event.date} at {event.time}
+          </span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           {event.isOnline ? (
@@ -318,7 +342,9 @@ const UnifiedTournamentsEvents = () => {
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Users size={16} className="text-accent-primary" />
-          <span>{event.participants}/{event.maxParticipants} participants</span>
+          <span>
+            {event.participants}/{event.maxParticipants} participants
+          </span>
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Award size={16} className="text-accent-primary" />
@@ -331,13 +357,19 @@ const UnifiedTournamentsEvents = () => {
           <span className="px-2 py-1 bg-tertiary rounded text-xs font-medium">
             {event.format}
           </span>
-          <span className={`px-2 py-1 rounded text-xs font-medium ${
-            event.category === 'Championship' ? 'bg-yellow-100 text-yellow-800' :
-            event.category === 'Regional' ? 'bg-blue-100 text-blue-800' :
-            event.category === 'Store Championship' ? 'bg-green-100 text-green-800' :
-            event.category === 'Community' ? 'bg-purple-100 text-purple-800' :
-            'bg-gray-100 text-gray-800'
-          }`}>
+          <span
+            className={`px-2 py-1 rounded text-xs font-medium ${
+              event.category === 'Championship'
+                ? 'bg-yellow-100 text-yellow-800'
+                : event.category === 'Regional'
+                  ? 'bg-blue-100 text-blue-800'
+                  : event.category === 'Store Championship'
+                    ? 'bg-green-100 text-green-800'
+                    : event.category === 'Community'
+                      ? 'bg-purple-100 text-purple-800'
+                      : 'bg-gray-100 text-gray-800'
+            }`}
+          >
             {event.category}
           </span>
         </div>
@@ -359,16 +391,14 @@ const UnifiedTournamentsEvents = () => {
             <Eye size={16} />
             Details
           </button>
-          <button className="btn btn-sm btn-primary">
-            Register
-          </button>
+          <button className="btn btn-sm btn-primary">Register</button>
         </div>
       </div>
     </motion.div>
   );
 
   // Render match card
-  const renderMatchCard = (match) => (
+  const renderMatchCard = match => (
     <motion.div
       key={match.id}
       layout
@@ -380,15 +410,24 @@ const UnifiedTournamentsEvents = () => {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-bold text-lg text-primary">{match.eventName}</h3>
-          <p className="text-secondary text-sm">{match.round} • {match.date} at {match.time}</p>
+          <p className="text-secondary text-sm">
+            {match.round} • {match.date} at {match.time}
+          </p>
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-          match.status === 'completed' ? 'bg-green-100 text-green-800' :
-          match.status === 'in-progress' ? 'bg-blue-100 text-blue-800' :
-          'bg-yellow-100 text-yellow-800'
-        }`}>
-          {match.status === 'completed' ? 'Completed' : 
-           match.status === 'in-progress' ? 'In Progress' : 'Scheduled'}
+        <span
+          className={`px-3 py-1 rounded-full text-xs font-medium ${
+            match.status === 'completed'
+              ? 'bg-green-100 text-green-800'
+              : match.status === 'in-progress'
+                ? 'bg-blue-100 text-blue-800'
+                : 'bg-yellow-100 text-yellow-800'
+          }`}
+        >
+          {match.status === 'completed'
+            ? 'Completed'
+            : match.status === 'in-progress'
+              ? 'In Progress'
+              : 'Scheduled'}
         </span>
       </div>
 
@@ -407,9 +446,12 @@ const UnifiedTournamentsEvents = () => {
 
       {match.status === 'completed' && (
         <div className="text-center mb-4">
-          <div className="text-2xl font-bold text-accent-primary mb-1">{match.result}</div>
+          <div className="text-2xl font-bold text-accent-primary mb-1">
+            {match.result}
+          </div>
           <p className="text-sm text-secondary">
-            Winner: <span className="font-semibold text-primary">{match.winner}</span>
+            Winner:{' '}
+            <span className="font-semibold text-primary">{match.winner}</span>
           </p>
           <p className="text-xs text-muted">Duration: {match.duration}</p>
         </div>
@@ -438,7 +480,9 @@ const UnifiedTournamentsEvents = () => {
             </div>
             <div>
               <h3 className="font-semibold text-primary">Total Events</h3>
-              <p className="text-2xl font-bold text-accent-primary">{events.length}</p>
+              <p className="text-2xl font-bold text-accent-primary">
+                {events.length}
+              </p>
             </div>
           </div>
         </div>
@@ -464,7 +508,9 @@ const UnifiedTournamentsEvents = () => {
             </div>
             <div>
               <h3 className="font-semibold text-primary">Total Matches</h3>
-              <p className="text-2xl font-bold text-accent-primary">{matches.length}</p>
+              <p className="text-2xl font-bold text-accent-primary">
+                {matches.length}
+              </p>
             </div>
           </div>
         </div>
@@ -477,7 +523,13 @@ const UnifiedTournamentsEvents = () => {
             <div>
               <h3 className="font-semibold text-primary">Active Events</h3>
               <p className="text-2xl font-bold text-accent-primary">
-                {events.filter(event => event.status === 'Registration Open' || event.status === 'In Progress').length}
+                {
+                  events.filter(
+                    event =>
+                      event.status === 'Registration Open' ||
+                      event.status === 'In Progress',
+                  ).length
+                }
               </p>
             </div>
           </div>
@@ -487,18 +539,34 @@ const UnifiedTournamentsEvents = () => {
       {/* Event Categories Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-card border border-color rounded-xl p-6">
-          <h3 className="text-xl font-bold text-primary mb-4">Events by Category</h3>
+          <h3 className="text-xl font-bold text-primary mb-4">
+            Events by Category
+          </h3>
           <div className="space-y-3">
-            {['Championship', 'Regional', 'Store Championship', 'Community', 'Weekly'].map(category => {
-              const count = events.filter(event => event.category === category).length;
-              const percentage = events.length > 0 ? (count / events.length * 100).toFixed(1) : 0;
+            {[
+              'Championship',
+              'Regional',
+              'Store Championship',
+              'Community',
+              'Weekly',
+            ].map(category => {
+              const count = events.filter(
+                event => event.category === category,
+              ).length;
+              const percentage =
+                events.length > 0
+                  ? ((count / events.length) * 100).toFixed(1)
+                  : 0;
               return (
-                <div key={category} className="flex items-center justify-between">
+                <div
+                  key={category}
+                  className="flex items-center justify-between"
+                >
                   <span className="text-secondary">{category}</span>
                   <div className="flex items-center gap-2">
                     <div className="w-20 bg-tertiary rounded-full h-2">
-                      <div 
-                        className="bg-accent-primary h-2 rounded-full" 
+                      <div
+                        className="bg-accent-primary h-2 rounded-full"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -513,7 +581,9 @@ const UnifiedTournamentsEvents = () => {
         <div className="bg-card border border-color rounded-xl p-6">
           <h3 className="text-xl font-bold text-primary mb-4">Event Trends</h3>
           <div className="h-48 bg-tertiary rounded-lg flex items-center justify-center">
-            <p className="text-muted">Event analytics charts would be displayed here</p>
+            <p className="text-muted">
+              Event analytics charts would be displayed here
+            </p>
           </div>
         </div>
       </div>
@@ -548,11 +618,10 @@ const UnifiedTournamentsEvents = () => {
             </div>
           ) : (
             <>
-              <h1 className="text-4xl font-bold text-primary mb-2">
-                Events
-              </h1>
+              <h1 className="text-4xl font-bold text-primary mb-2">Events</h1>
               <p className="text-secondary">
-                Discover competitive tournaments, community events, and track analytics
+                Discover competitive tournaments, community events, and track
+                analytics
               </p>
             </>
           )}
@@ -561,7 +630,7 @@ const UnifiedTournamentsEvents = () => {
         {/* Navigation Tabs */}
         {currentView !== 'matches' && (
           <div className="flex flex-wrap gap-2 mb-6 border-b border-color">
-            {navigationTabs.map((tab) => {
+            {navigationTabs.map(tab => {
               const Icon = tab.icon;
               return (
                 <button
@@ -586,47 +655,58 @@ const UnifiedTournamentsEvents = () => {
           <div className="bg-card border border-color rounded-xl p-6 mb-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder={`Search ${currentView === 'matches' ? 'matches' : 'events'}...`}
                   className="input pl-10 w-full"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
-              
+
               <div className="flex flex-wrap gap-2">
                 <select
                   className="input min-w-32"
                   value={filters.format}
-                  onChange={(e) => setFilters({ ...filters, format: e.target.value })}
+                  onChange={e =>
+                    setFilters({ ...filters, format: e.target.value })
+                  }
                 >
                   <option value="">All Formats</option>
                   <option value="Standard">Standard</option>
                   <option value="Draft">Draft</option>
                   <option value="Casual">Casual</option>
                 </select>
-                
+
                 {currentView === 'events' && (
                   <select
                     className="input min-w-32"
                     value={filters.category}
-                    onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                    onChange={e =>
+                      setFilters({ ...filters, category: e.target.value })
+                    }
                   >
                     <option value="">All Categories</option>
                     <option value="Championship">Championship</option>
                     <option value="Regional">Regional</option>
-                    <option value="Store Championship">Store Championship</option>
+                    <option value="Store Championship">
+                      Store Championship
+                    </option>
                     <option value="Community">Community</option>
                     <option value="Weekly">Weekly</option>
                   </select>
                 )}
-                
+
                 <select
                   className="input min-w-32"
                   value={filters.status}
-                  onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                  onChange={e =>
+                    setFilters({ ...filters, status: e.target.value })
+                  }
                 >
                   <option value="">All Status</option>
                   <option value="Registration Open">Registration Open</option>
@@ -659,28 +739,36 @@ const UnifiedTournamentsEvents = () => {
                       placeholder="Location"
                       className="input"
                       value={filters.location}
-                      onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+                      onChange={e =>
+                        setFilters({ ...filters, location: e.target.value })
+                      }
                     />
                     <input
                       type="date"
                       placeholder="Date From"
                       className="input"
                       value={filters.dateFrom}
-                      onChange={(e) => setFilters({ ...filters, dateFrom: e.target.value })}
+                      onChange={e =>
+                        setFilters({ ...filters, dateFrom: e.target.value })
+                      }
                     />
                     <input
                       type="date"
                       placeholder="Date To"
                       className="input"
                       value={filters.dateTo}
-                      onChange={(e) => setFilters({ ...filters, dateTo: e.target.value })}
+                      onChange={e =>
+                        setFilters({ ...filters, dateTo: e.target.value })
+                      }
                     />
                     <input
                       type="text"
                       placeholder="Prize Pool"
                       className="input"
                       value={filters.prizeMin}
-                      onChange={(e) => setFilters({ ...filters, prizeMin: e.target.value })}
+                      onChange={e =>
+                        setFilters({ ...filters, prizeMin: e.target.value })
+                      }
                     />
                   </div>
                 </motion.div>
@@ -711,9 +799,15 @@ const UnifiedTournamentsEvents = () => {
               <div className="flex items-center justify-between mb-6">
                 <p className="text-secondary">
                   {currentView === 'matches' && selectedEvent ? (
-                    <>Showing {paginatedItems.length} of {filteredItems.length} matches for {selectedEvent.name}</>
+                    <>
+                      Showing {paginatedItems.length} of {filteredItems.length}{' '}
+                      matches for {selectedEvent.name}
+                    </>
                   ) : (
-                    <>Showing {paginatedItems.length} of {filteredItems.length} {currentView}</>
+                    <>
+                      Showing {paginatedItems.length} of {filteredItems.length}{' '}
+                      {currentView}
+                    </>
                   )}
                 </p>
                 <div className="flex items-center gap-2">
@@ -721,7 +815,7 @@ const UnifiedTournamentsEvents = () => {
                   <select
                     className="input input-sm"
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={e => setSortBy(e.target.value)}
                   >
                     <option value="date">Date</option>
                     <option value="name">Name</option>
@@ -738,7 +832,7 @@ const UnifiedTournamentsEvents = () => {
               {/* Items Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
                 <AnimatePresence>
-                  {paginatedItems.map((item) => {
+                  {paginatedItems.map(item => {
                     if (currentView === 'events') return renderEventCard(item);
                     if (currentView === 'matches') return renderMatchCard(item);
                     return null;
@@ -762,8 +856,7 @@ const UnifiedTournamentsEvents = () => {
                   <p className="text-secondary">
                     {currentView === 'matches' && selectedEvent
                       ? `No matches found for ${selectedEvent.name}`
-                      : `Try adjusting your search or filters to find ${currentView}`
-                    }
+                      : `Try adjusting your search or filters to find ${currentView}`}
                   </p>
                 </div>
               )}
@@ -779,23 +872,27 @@ const UnifiedTournamentsEvents = () => {
                     <ChevronLeft size={16} />
                     Previous
                   </button>
-                  
+
                   <div className="flex gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`btn btn-sm ${
-                          currentPage === page ? 'btn-primary' : 'btn-ghost'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      page => (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`btn btn-sm ${
+                            currentPage === page ? 'btn-primary' : 'btn-ghost'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
                   </div>
-                  
+
                   <button
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    onClick={() =>
+                      setCurrentPage(Math.min(totalPages, currentPage + 1))
+                    }
                     disabled={currentPage === totalPages}
                     className="btn btn-ghost btn-sm"
                   >
