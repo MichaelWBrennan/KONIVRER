@@ -20,6 +20,7 @@ import DeckDiscovery from './components/DeckDiscovery';
 import TournamentCenter from './pages/TournamentCenter';
 import Matches from './pages/Matches';
 import Events from './pages/Events';
+import Decklists from './pages/Decklists';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
                 />
                 <Route path="/matches" element={<Matches />} />
                 <Route path="/events" element={<Events />} />
+                <Route path="/decklists" element={<Decklists />} />
                 <Route path="/judge-center" element={<JudgeCenter />} />
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/social" element={<SocialHub />} />
