@@ -19,6 +19,7 @@ import {
   Calendar,
   Target,
   Gamepad2,
+  Layers,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -45,6 +46,7 @@ const Layout = ({ children }) => {
     { name: 'Tournaments', href: '/tournaments', icon: Trophy },
     { name: 'Matches', href: '/matches', icon: Target },
     { name: 'Events', href: '/events', icon: Calendar },
+    { name: 'Decklists', href: '/decklists', icon: Layers },
     { name: 'Social Hub', href: '/social', icon: Users },
     { name: 'Analytics', href: '/analytics', icon: TrendingUp },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
@@ -99,13 +101,15 @@ const Layout = ({ children }) => {
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 transition-all duration-200 hover:scale-105"
               onClick={() => analytics.navigationClick('/', location.pathname)}
             >
-              <div className="w-8 h-8 bg-accent-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">K</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">K</span>
               </div>
-              <span className="text-xl font-bold text-primary">KONIVRER</span>
+              <span className="text-2xl font-bold text-primary bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+                KONIVRER
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -116,14 +120,14 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                       isActive(item.href)
-                        ? 'bg-accent-primary text-white'
-                        : 'text-secondary hover:text-primary hover:bg-tertiary'
+                        ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
+                        : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
                     }`}
                     onClick={() => handleNavClick(item.name, item.href)}
                   >
-                    <Icon size={16} />
+                    <Icon size={16} className="transition-transform duration-200 group-hover:scale-110" />
                     {item.name}
                   </Link>
                 );
@@ -140,7 +144,7 @@ const Layout = ({ children }) => {
                 <input
                   type="text"
                   placeholder="Search cards..."
-                  className="input pl-10 w-64"
+                  className="input pl-10 w-64 bg-tertiary border-secondary focus:border-accent-primary focus:shadow-lg focus:shadow-accent-primary/25 transition-all duration-200"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                   onKeyDown={handleSearch}
