@@ -495,14 +495,10 @@ const Matches = () => {
       {/* Actions */}
       <div className="flex justify-end space-x-2 mt-4">
         {match.hasReplay && (
-          <button className="btn btn-sm btn-primary">
-            View Replay
-          </button>
+          <button className="btn btn-sm btn-primary">View Replay</button>
         )}
         {match.hasVideo && (
-          <button className="btn btn-sm btn-danger">
-            Watch Video
-          </button>
+          <button className="btn btn-sm btn-danger">Watch Video</button>
         )}
         <button className="btn btn-sm btn-secondary">
           <BarChart3 size={14} />

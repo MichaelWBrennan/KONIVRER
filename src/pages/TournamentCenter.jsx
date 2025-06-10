@@ -324,10 +324,7 @@ const TournamentCenter = () => {
                 </span>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="btn btn-xs btn-ghost"
-            >
+            <button onClick={onClose} className="btn btn-xs btn-ghost">
               ✕
             </button>
           </div>
@@ -447,9 +444,7 @@ const TournamentCenter = () => {
 
           <div className="flex justify-end space-x-3">
             {tournament.status === 'Registration Open' && (
-              <button className="btn btn-success">
-                Register Now
-              </button>
+              <button className="btn btn-success">Register Now</button>
             )}
             {tournament.status === 'Completed' && tournament.winning_deck && (
               <button className="btn btn-primary flex items-center gap-2">
@@ -457,10 +452,7 @@ const TournamentCenter = () => {
                 <span>Download Winning Deck</span>
               </button>
             )}
-            <button
-              onClick={onClose}
-              className="btn btn-secondary"
-            >
+            <button onClick={onClose} className="btn btn-secondary">
               Close
             </button>
           </div>
@@ -534,9 +526,7 @@ const TournamentCenter = () => {
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={`btn flex-1 ${
-                  activeTab === tab.key
-                    ? 'btn-primary'
-                    : 'btn-ghost'
+                  activeTab === tab.key ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 <Icon size={16} />

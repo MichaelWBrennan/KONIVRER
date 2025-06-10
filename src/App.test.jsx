@@ -15,11 +15,11 @@ describe('App', () => {
     // The app might show error boundary or main content
     const appElement = document.querySelector('div');
     expect(appElement).toBeInTheDocument();
-    
+
     // Check if we have either main content or error boundary
     const hasMainContent = screen.queryByRole('main');
     const hasErrorBoundary = screen.queryByText(/something went wrong/i);
-    
+
     expect(hasMainContent || hasErrorBoundary).toBeTruthy();
   });
 });

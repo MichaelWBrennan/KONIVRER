@@ -816,10 +816,7 @@ const Events = () => {
 
                 {/* Filter Actions */}
                 <div className="flex justify-end space-x-2">
-                  <button
-                    onClick={resetFilters}
-                    className="btn btn-secondary"
-                  >
+                  <button onClick={resetFilters} className="btn btn-secondary">
                     Reset
                   </button>
                 </div>
@@ -892,9 +889,7 @@ const Events = () => {
                   key={page}
                   onClick={() => setCurrentPage(page)}
                   className={`btn ${
-                    currentPage === page
-                      ? 'btn-primary'
-                      : 'btn-secondary'
+                    currentPage === page ? 'btn-primary' : 'btn-secondary'
                   }`}
                 >
                   {page}
