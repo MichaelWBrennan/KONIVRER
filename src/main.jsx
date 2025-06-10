@@ -4,6 +4,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import App from './App';
+import './styles/modern-design.css';
+import './styles/components.css';
+import './styles/utilities.css';
 import './App.css';
 import { initializeAnalytics, analyticsConfig } from './config/analytics.js';
 import { initializeSecurity } from './config/security.js';
