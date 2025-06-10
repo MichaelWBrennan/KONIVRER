@@ -27,7 +27,10 @@ function App() {
                 <Route path="/cards" element={<EnhancedCardDatabase />} />
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder/:deckId" element={<UnifiedDeckSystem />} />
+                <Route
+                  path="/deckbuilder/:deckId"
+                  element={<UnifiedDeckSystem />}
+                />
                 <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
                 <Route
                   path="/tournaments"
