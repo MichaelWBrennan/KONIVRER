@@ -21,6 +21,7 @@ import TournamentCenter from './pages/TournamentCenter';
 import Matches from './pages/Matches';
 import Events from './pages/Events';
 import Decklists from './pages/Decklists';
+import IntegratedDeckSystem from './pages/IntegratedDeckSystem';
 import TournamentMatchAnalytics from './pages/TournamentMatchAnalytics';
 
 function App() {
@@ -64,7 +65,8 @@ function App() {
                 <Route path="/matches" element={<TournamentMatchAnalytics />} />
                 <Route path="/matches-old" element={<Matches />} />
                 <Route path="/events" element={<Events />} />
-                <Route path="/decklists" element={<Decklists />} />
+                <Route path="/decklists" element={<IntegratedDeckSystem />} />
+                <Route path="/decklists-old" element={<Decklists />} />
                 <Route path="/judge-center" element={<JudgeCenter />} />
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/social" element={<SocialHub />} />
