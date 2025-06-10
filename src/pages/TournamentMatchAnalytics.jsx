@@ -62,7 +62,8 @@ const TournamentMatchAnalytics = () => {
       participants: 512,
       status: 'Completed',
       organizer: 'KONIVRER Official',
-      description: 'The premier tournament of the year featuring the best players from around the world.',
+      description:
+        'The premier tournament of the year featuring the best players from around the world.',
       rounds: 9,
       matches: [
         {
@@ -77,23 +78,107 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Aggro',
               colors: ['🔥', '⚔️'],
               cards: [
-                { name: 'Lightning Strike', cost: 1, count: 4, rarity: 'common', elements: ['🔥'], type: 'Spell' },
-                { name: 'Warrior\'s Blade', cost: 2, count: 4, rarity: 'uncommon', elements: ['⚔️'], type: 'Equipment' },
-                { name: 'Fire Elemental', cost: 3, count: 4, rarity: 'rare', elements: ['🔥'], type: 'Creature' },
-                { name: 'Berserker Rage', cost: 2, count: 3, rarity: 'uncommon', elements: ['🔥'], type: 'Spell' },
-                { name: 'Iron Will', cost: 1, count: 4, rarity: 'common', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Flame Sword', cost: 4, count: 3, rarity: 'rare', elements: ['🔥', '⚔️'], type: 'Equipment' },
-                { name: 'Battle Fury', cost: 3, count: 4, rarity: 'uncommon', elements: ['🔥'], type: 'Spell' },
-                { name: 'Steel Guardian', cost: 5, count: 2, rarity: 'rare', elements: ['⚔️'], type: 'Creature' },
-                { name: 'Volcanic Eruption', cost: 6, count: 1, rarity: 'legendary', elements: ['🔥'], type: 'Spell' },
-                { name: 'Warrior\'s Honor', cost: 2, count: 4, rarity: 'common', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Blazing Strike', cost: 1, count: 3, rarity: 'common', elements: ['🔥'], type: 'Spell' },
-                { name: 'Shield Wall', cost: 3, count: 4, rarity: 'uncommon', elements: ['⚔️'], type: 'Spell' },
+                {
+                  name: 'Lightning Strike',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: "Warrior's Blade",
+                  cost: 2,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['⚔️'],
+                  type: 'Equipment',
+                },
+                {
+                  name: 'Fire Elemental',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'rare',
+                  elements: ['🔥'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Berserker Rage',
+                  cost: 2,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Iron Will',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Flame Sword',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['🔥', '⚔️'],
+                  type: 'Equipment',
+                },
+                {
+                  name: 'Battle Fury',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Steel Guardian',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['⚔️'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Volcanic Eruption',
+                  cost: 6,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: "Warrior's Honor",
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Blazing Strike',
+                  cost: 1,
+                  count: 3,
+                  rarity: 'common',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Shield Wall',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
               ],
               winRate: 78.5,
               gamesPlayed: 23,
               metaShare: 12.3,
-            }
+            },
           },
           player2: {
             name: 'ElementalForce',
@@ -104,32 +189,140 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Midrange',
               colors: ['🌿', '💧'],
               cards: [
-                { name: 'Nature\'s Growth', cost: 2, count: 4, rarity: 'common', elements: ['🌿'], type: 'Spell' },
-                { name: 'Water Elemental', cost: 3, count: 4, rarity: 'uncommon', elements: ['💧'], type: 'Creature' },
-                { name: 'Thorn Barrier', cost: 1, count: 4, rarity: 'common', elements: ['🌿'], type: 'Spell' },
-                { name: 'Healing Spring', cost: 2, count: 3, rarity: 'uncommon', elements: ['💧'], type: 'Spell' },
-                { name: 'Ancient Tree', cost: 4, count: 3, rarity: 'rare', elements: ['🌿'], type: 'Creature' },
-                { name: 'Tsunami', cost: 5, count: 2, rarity: 'rare', elements: ['💧'], type: 'Spell' },
-                { name: 'Forest Guardian', cost: 6, count: 2, rarity: 'rare', elements: ['🌿'], type: 'Creature' },
-                { name: 'Elemental Harmony', cost: 3, count: 4, rarity: 'uncommon', elements: ['🌿', '💧'], type: 'Spell' },
-                { name: 'Vine Whip', cost: 1, count: 4, rarity: 'common', elements: ['🌿'], type: 'Spell' },
-                { name: 'Aqua Shield', cost: 2, count: 3, rarity: 'uncommon', elements: ['💧'], type: 'Spell' },
-                { name: 'Gaia\'s Blessing', cost: 7, count: 1, rarity: 'legendary', elements: ['🌿', '💧'], type: 'Spell' },
-                { name: 'Elemental Bond', cost: 2, count: 4, rarity: 'common', elements: ['🌿', '💧'], type: 'Spell' },
+                {
+                  name: "Nature's Growth",
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🌿'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Water Elemental',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['💧'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Thorn Barrier',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🌿'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Healing Spring',
+                  cost: 2,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['💧'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Ancient Tree',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['🌿'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Tsunami',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['💧'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Forest Guardian',
+                  cost: 6,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🌿'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Elemental Harmony',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['🌿', '💧'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Vine Whip',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🌿'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Aqua Shield',
+                  cost: 2,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['💧'],
+                  type: 'Spell',
+                },
+                {
+                  name: "Gaia's Blessing",
+                  cost: 7,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['🌿', '💧'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Elemental Bond',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🌿', '💧'],
+                  type: 'Spell',
+                },
               ],
               winRate: 65.2,
               gamesPlayed: 31,
               metaShare: 8.7,
-            }
+            },
           },
           result: {
             winner: 'player1',
             score: '3-1',
             games: [
-              { game: 1, winner: 'player1', duration: '12:34', p1Life: 20, p2Life: 0 },
-              { game: 2, winner: 'player2', duration: '18:45', p1Life: 0, p2Life: 8 },
-              { game: 3, winner: 'player1', duration: '15:22', p1Life: 5, p2Life: 0 },
-              { game: 4, winner: 'player1', duration: '11:18', p1Life: 12, p2Life: 0 },
+              {
+                game: 1,
+                winner: 'player1',
+                duration: '12:34',
+                p1Life: 20,
+                p2Life: 0,
+              },
+              {
+                game: 2,
+                winner: 'player2',
+                duration: '18:45',
+                p1Life: 0,
+                p2Life: 8,
+              },
+              {
+                game: 3,
+                winner: 'player1',
+                duration: '15:22',
+                p1Life: 5,
+                p2Life: 0,
+              },
+              {
+                game: 4,
+                winner: 'player1',
+                duration: '11:18',
+                p1Life: 12,
+                p2Life: 0,
+              },
             ],
           },
           duration: '58:39',
@@ -149,23 +342,107 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Control',
               colors: ['⚡', '🌙'],
               cards: [
-                { name: 'Lightning Bolt', cost: 1, count: 4, rarity: 'common', elements: ['⚡'], type: 'Spell' },
-                { name: 'Shadow Bind', cost: 2, count: 4, rarity: 'uncommon', elements: ['🌙'], type: 'Spell' },
-                { name: 'Storm Cloud', cost: 3, count: 3, rarity: 'rare', elements: ['⚡'], type: 'Creature' },
-                { name: 'Dark Ritual', cost: 1, count: 4, rarity: 'common', elements: ['🌙'], type: 'Spell' },
-                { name: 'Thunder Strike', cost: 4, count: 3, rarity: 'rare', elements: ['⚡'], type: 'Spell' },
-                { name: 'Void Walker', cost: 5, count: 2, rarity: 'rare', elements: ['🌙'], type: 'Creature' },
-                { name: 'Chain Lightning', cost: 3, count: 4, rarity: 'uncommon', elements: ['⚡'], type: 'Spell' },
-                { name: 'Shadow Portal', cost: 6, count: 2, rarity: 'rare', elements: ['🌙'], type: 'Spell' },
-                { name: 'Storm Lord', cost: 7, count: 1, rarity: 'legendary', elements: ['⚡', '🌙'], type: 'Creature' },
-                { name: 'Electric Surge', cost: 2, count: 4, rarity: 'common', elements: ['⚡'], type: 'Spell' },
-                { name: 'Darkness Falls', cost: 4, count: 3, rarity: 'uncommon', elements: ['🌙'], type: 'Spell' },
-                { name: 'Mystic Shield', cost: 2, count: 4, rarity: 'common', elements: ['⚡', '🌙'], type: 'Spell' },
+                {
+                  name: 'Lightning Bolt',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Shadow Bind',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['🌙'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Storm Cloud',
+                  cost: 3,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['⚡'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Dark Ritual',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🌙'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Thunder Strike',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Void Walker',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🌙'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Chain Lightning',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Shadow Portal',
+                  cost: 6,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🌙'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Storm Lord',
+                  cost: 7,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['⚡', '🌙'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Electric Surge',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Darkness Falls',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['🌙'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Mystic Shield',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚡', '🌙'],
+                  type: 'Spell',
+                },
               ],
               winRate: 72.1,
               gamesPlayed: 28,
               metaShare: 15.6,
-            }
+            },
           },
           player2: {
             name: 'LightBringer',
@@ -176,33 +453,147 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Combo',
               colors: ['☀️', '✨'],
               cards: [
-                { name: 'Divine Light', cost: 1, count: 4, rarity: 'common', elements: ['☀️'], type: 'Spell' },
-                { name: 'Starfall', cost: 3, count: 4, rarity: 'uncommon', elements: ['✨'], type: 'Spell' },
-                { name: 'Solar Flare', cost: 2, count: 4, rarity: 'common', elements: ['☀️'], type: 'Spell' },
-                { name: 'Celestial Being', cost: 4, count: 3, rarity: 'rare', elements: ['✨'], type: 'Creature' },
-                { name: 'Radiant Burst', cost: 3, count: 4, rarity: 'uncommon', elements: ['☀️'], type: 'Spell' },
-                { name: 'Cosmic Energy', cost: 5, count: 2, rarity: 'rare', elements: ['✨'], type: 'Spell' },
-                { name: 'Angel of Light', cost: 6, count: 2, rarity: 'rare', elements: ['☀️', '✨'], type: 'Creature' },
-                { name: 'Prism Shield', cost: 2, count: 4, rarity: 'common', elements: ['☀️'], type: 'Spell' },
-                { name: 'Stellar Convergence', cost: 8, count: 1, rarity: 'legendary', elements: ['☀️', '✨'], type: 'Spell' },
-                { name: 'Light Beam', cost: 1, count: 4, rarity: 'common', elements: ['☀️'], type: 'Spell' },
-                { name: 'Stardust', cost: 2, count: 3, rarity: 'uncommon', elements: ['✨'], type: 'Spell' },
-                { name: 'Blessing of Light', cost: 3, count: 3, rarity: 'uncommon', elements: ['☀️', '✨'], type: 'Spell' },
+                {
+                  name: 'Divine Light',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['☀️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Starfall',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['✨'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Solar Flare',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['☀️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Celestial Being',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['✨'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Radiant Burst',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['☀️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Cosmic Energy',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['✨'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Angel of Light',
+                  cost: 6,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['☀️', '✨'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Prism Shield',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['☀️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Stellar Convergence',
+                  cost: 8,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['☀️', '✨'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Light Beam',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['☀️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Stardust',
+                  cost: 2,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['✨'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Blessing of Light',
+                  cost: 3,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['☀️', '✨'],
+                  type: 'Spell',
+                },
               ],
               winRate: 69.8,
               gamesPlayed: 26,
               metaShare: 11.2,
-            }
+            },
           },
           result: {
             winner: 'player2',
             score: '3-2',
             games: [
-              { game: 1, winner: 'player1', duration: '22:15', p1Life: 3, p2Life: 0 },
-              { game: 2, winner: 'player2', duration: '19:33', p1Life: 0, p2Life: 15 },
-              { game: 3, winner: 'player1', duration: '16:42', p1Life: 7, p2Life: 0 },
-              { game: 4, winner: 'player2', duration: '25:18', p1Life: 0, p2Life: 2 },
-              { game: 5, winner: 'player2', duration: '14:27', p1Life: 0, p2Life: 11 },
+              {
+                game: 1,
+                winner: 'player1',
+                duration: '22:15',
+                p1Life: 3,
+                p2Life: 0,
+              },
+              {
+                game: 2,
+                winner: 'player2',
+                duration: '19:33',
+                p1Life: 0,
+                p2Life: 15,
+              },
+              {
+                game: 3,
+                winner: 'player1',
+                duration: '16:42',
+                p1Life: 7,
+                p2Life: 0,
+              },
+              {
+                game: 4,
+                winner: 'player2',
+                duration: '25:18',
+                p1Life: 0,
+                p2Life: 2,
+              },
+              {
+                game: 5,
+                winner: 'player2',
+                duration: '14:27',
+                p1Life: 0,
+                p2Life: 11,
+              },
             ],
           },
           duration: '98:15',
@@ -223,7 +614,8 @@ const TournamentMatchAnalytics = () => {
       participants: 128,
       status: 'Live',
       organizer: 'Midwest Gaming League',
-      description: 'Regional championship featuring sealed deck format with latest expansion.',
+      description:
+        'Regional championship featuring sealed deck format with latest expansion.',
       rounds: 7,
       matches: [
         {
@@ -238,23 +630,107 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Burn',
               colors: ['🔥', '⚡'],
               cards: [
-                { name: 'Fireball', cost: 3, count: 4, rarity: 'common', elements: ['🔥'], type: 'Spell' },
-                { name: 'Lightning Strike', cost: 1, count: 4, rarity: 'common', elements: ['⚡'], type: 'Spell' },
-                { name: 'Burn', cost: 1, count: 4, rarity: 'common', elements: ['🔥'], type: 'Spell' },
-                { name: 'Shock', cost: 1, count: 4, rarity: 'common', elements: ['⚡'], type: 'Spell' },
-                { name: 'Flame Burst', cost: 2, count: 4, rarity: 'uncommon', elements: ['🔥'], type: 'Spell' },
-                { name: 'Thunder Bolt', cost: 2, count: 4, rarity: 'uncommon', elements: ['⚡'], type: 'Spell' },
-                { name: 'Inferno', cost: 4, count: 3, rarity: 'rare', elements: ['🔥'], type: 'Spell' },
-                { name: 'Lightning Storm', cost: 4, count: 3, rarity: 'rare', elements: ['⚡'], type: 'Spell' },
-                { name: 'Meteor', cost: 6, count: 2, rarity: 'rare', elements: ['🔥'], type: 'Spell' },
-                { name: 'Chain Lightning', cost: 5, count: 2, rarity: 'rare', elements: ['⚡'], type: 'Spell' },
-                { name: 'Apocalypse', cost: 8, count: 1, rarity: 'legendary', elements: ['🔥', '⚡'], type: 'Spell' },
-                { name: 'Elemental Fury', cost: 3, count: 3, rarity: 'uncommon', elements: ['🔥', '⚡'], type: 'Spell' },
+                {
+                  name: 'Fireball',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Lightning Strike',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Burn',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Shock',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Flame Burst',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Thunder Bolt',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Inferno',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Lightning Storm',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Meteor',
+                  cost: 6,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🔥'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Chain Lightning',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Apocalypse',
+                  cost: 8,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['🔥', '⚡'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Elemental Fury',
+                  cost: 3,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['🔥', '⚡'],
+                  type: 'Spell',
+                },
               ],
               winRate: 81.3,
               gamesPlayed: 16,
               metaShare: 9.4,
-            }
+            },
           },
           player2: {
             name: 'EarthShaker',
@@ -265,31 +741,133 @@ const TournamentMatchAnalytics = () => {
               archetype: 'Aggro',
               colors: ['🏔️', '⚔️'],
               cards: [
-                { name: 'Rock Throw', cost: 1, count: 4, rarity: 'common', elements: ['🏔️'], type: 'Spell' },
-                { name: 'Brute Force', cost: 2, count: 4, rarity: 'common', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Stone Fist', cost: 1, count: 4, rarity: 'common', elements: ['🏔️'], type: 'Equipment' },
-                { name: 'Rampage', cost: 3, count: 4, rarity: 'uncommon', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Earthquake', cost: 4, count: 3, rarity: 'rare', elements: ['🏔️'], type: 'Spell' },
-                { name: 'Berserker', cost: 3, count: 3, rarity: 'uncommon', elements: ['⚔️'], type: 'Creature' },
-                { name: 'Mountain Giant', cost: 5, count: 2, rarity: 'rare', elements: ['🏔️'], type: 'Creature' },
-                { name: 'Savage Strike', cost: 2, count: 4, rarity: 'common', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Landslide', cost: 6, count: 2, rarity: 'rare', elements: ['🏔️'], type: 'Spell' },
-                { name: 'Brutal Assault', cost: 4, count: 3, rarity: 'uncommon', elements: ['⚔️'], type: 'Spell' },
-                { name: 'Titan\'s Wrath', cost: 7, count: 1, rarity: 'legendary', elements: ['🏔️', '⚔️'], type: 'Spell' },
-                { name: 'Stone Armor', cost: 2, count: 4, rarity: 'common', elements: ['🏔️'], type: 'Equipment' },
+                {
+                  name: 'Rock Throw',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🏔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Brute Force',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Stone Fist',
+                  cost: 1,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🏔️'],
+                  type: 'Equipment',
+                },
+                {
+                  name: 'Rampage',
+                  cost: 3,
+                  count: 4,
+                  rarity: 'uncommon',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Earthquake',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'rare',
+                  elements: ['🏔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Berserker',
+                  cost: 3,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['⚔️'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Mountain Giant',
+                  cost: 5,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🏔️'],
+                  type: 'Creature',
+                },
+                {
+                  name: 'Savage Strike',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Landslide',
+                  cost: 6,
+                  count: 2,
+                  rarity: 'rare',
+                  elements: ['🏔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Brutal Assault',
+                  cost: 4,
+                  count: 3,
+                  rarity: 'uncommon',
+                  elements: ['⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: "Titan's Wrath",
+                  cost: 7,
+                  count: 1,
+                  rarity: 'legendary',
+                  elements: ['🏔️', '⚔️'],
+                  type: 'Spell',
+                },
+                {
+                  name: 'Stone Armor',
+                  cost: 2,
+                  count: 4,
+                  rarity: 'common',
+                  elements: ['🏔️'],
+                  type: 'Equipment',
+                },
               ],
               winRate: 58.7,
               gamesPlayed: 23,
               metaShare: 7.8,
-            }
+            },
           },
           result: {
             winner: 'player1',
             score: '2-1',
             games: [
-              { game: 1, winner: 'player2', duration: '8:22', p1Life: 0, p2Life: 4 },
-              { game: 2, winner: 'player1', duration: '14:17', p1Life: 18, p2Life: 0 },
-              { game: 3, winner: 'player1', duration: '11:45', p1Life: 9, p2Life: 0 },
+              {
+                game: 1,
+                winner: 'player2',
+                duration: '8:22',
+                p1Life: 0,
+                p2Life: 4,
+              },
+              {
+                game: 2,
+                winner: 'player1',
+                duration: '14:17',
+                p1Life: 18,
+                p2Life: 0,
+              },
+              {
+                game: 3,
+                winner: 'player1',
+                duration: '11:45',
+                p1Life: 9,
+                p2Life: 0,
+              },
             ],
           },
           duration: '34:24',
@@ -303,16 +881,19 @@ const TournamentMatchAnalytics = () => {
 
   // Filter tournaments
   const filteredTournaments = tournaments.filter(tournament => {
-    const matchesSearch = tournament.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         tournament.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFormat = !filters.format || tournament.format === filters.format;
-    const matchesStatus = !filters.status || tournament.status === filters.status;
-    
+    const matchesSearch =
+      tournament.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tournament.location.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFormat =
+      !filters.format || tournament.format === filters.format;
+    const matchesStatus =
+      !filters.status || tournament.status === filters.status;
+
     return matchesSearch && matchesFormat && matchesStatus;
   });
 
   // Get element icon
-  const getElementIcon = (element) => {
+  const getElementIcon = element => {
     const icons = {
       '🔥': <Flame className="text-red-400" size={16} />,
       '💧': <Droplets className="text-blue-400" size={16} />,
@@ -328,10 +909,17 @@ const TournamentMatchAnalytics = () => {
   };
 
   // Calculate deck analytics
-  const calculateDeckAnalytics = (deck) => {
-    const totalCards = deck.cards.reduce((total, card) => total + card.count, 0);
-    const totalCost = deck.cards.reduce((total, card) => total + (card.cost * card.count), 0);
-    const averageCost = totalCards > 0 ? (totalCost / totalCards).toFixed(1) : 0;
+  const calculateDeckAnalytics = deck => {
+    const totalCards = deck.cards.reduce(
+      (total, card) => total + card.count,
+      0,
+    );
+    const totalCost = deck.cards.reduce(
+      (total, card) => total + card.cost * card.count,
+      0,
+    );
+    const averageCost =
+      totalCards > 0 ? (totalCost / totalCards).toFixed(1) : 0;
 
     // Mana curve
     const manaCurve = deck.cards.reduce((curve, card) => {
@@ -378,18 +966,21 @@ const TournamentMatchAnalytics = () => {
         <h1 className="text-4xl font-bold text-white">Tournament Analytics</h1>
         <div className="flex space-x-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search tournaments..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
             />
           </div>
           <select
             value={filters.format}
-            onChange={(e) => setFilters({...filters, format: e.target.value})}
+            onChange={e => setFilters({ ...filters, format: e.target.value })}
             className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
           >
             <option value="">All Formats</option>
@@ -399,7 +990,7 @@ const TournamentMatchAnalytics = () => {
           </select>
           <select
             value={filters.status}
-            onChange={(e) => setFilters({...filters, status: e.target.value})}
+            onChange={e => setFilters({ ...filters, status: e.target.value })}
             className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
           >
             <option value="">All Status</option>
@@ -424,7 +1015,9 @@ const TournamentMatchAnalytics = () => {
           >
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">{tournament.name}</h3>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {tournament.name}
+                </h3>
                 <div className="flex items-center space-x-4 text-sm text-gray-300">
                   <span className="flex items-center space-x-1">
                     <Calendar size={14} />
@@ -437,12 +1030,18 @@ const TournamentMatchAnalytics = () => {
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-green-400">{tournament.prizePool}</div>
-                <div className={`px-3 py-1 rounded text-xs font-medium ${
-                  tournament.status === 'Live' ? 'bg-red-600 text-white' :
-                  tournament.status === 'Completed' ? 'bg-gray-600 text-white' :
-                  'bg-green-600 text-white'
-                }`}>
+                <div className="text-2xl font-bold text-green-400">
+                  {tournament.prizePool}
+                </div>
+                <div
+                  className={`px-3 py-1 rounded text-xs font-medium ${
+                    tournament.status === 'Live'
+                      ? 'bg-red-600 text-white'
+                      : tournament.status === 'Completed'
+                        ? 'bg-gray-600 text-white'
+                        : 'bg-green-600 text-white'
+                  }`}
+                >
                   {tournament.status}
                 </div>
               </div>
@@ -455,11 +1054,15 @@ const TournamentMatchAnalytics = () => {
               </div>
               <div className="bg-gray-700 rounded p-3 text-center">
                 <div className="text-gray-300 text-sm">Players</div>
-                <div className="text-white font-bold">{tournament.participants}</div>
+                <div className="text-white font-bold">
+                  {tournament.participants}
+                </div>
               </div>
               <div className="bg-gray-700 rounded p-3 text-center">
                 <div className="text-gray-300 text-sm">Matches</div>
-                <div className="text-white font-bold">{tournament.matches.length}</div>
+                <div className="text-white font-bold">
+                  {tournament.matches.length}
+                </div>
               </div>
             </div>
 
@@ -483,7 +1086,9 @@ const TournamentMatchAnalytics = () => {
             <span>Back to Tournaments</span>
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-white">{selectedTournament?.name}</h1>
+            <h1 className="text-3xl font-bold text-white">
+              {selectedTournament?.name}
+            </h1>
             <p className="text-gray-400">Tournament Matches & Analytics</p>
           </div>
         </div>
@@ -492,19 +1097,27 @@ const TournamentMatchAnalytics = () => {
       <div className="bg-gray-800 rounded-lg p-6 mb-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-white">{selectedTournament?.participants}</div>
+            <div className="text-2xl font-bold text-white">
+              {selectedTournament?.participants}
+            </div>
             <div className="text-gray-400 text-sm">Players</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-400">{selectedTournament?.prizePool}</div>
+            <div className="text-2xl font-bold text-green-400">
+              {selectedTournament?.prizePool}
+            </div>
             <div className="text-gray-400 text-sm">Prize Pool</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-400">{selectedTournament?.matches.length}</div>
+            <div className="text-2xl font-bold text-blue-400">
+              {selectedTournament?.matches.length}
+            </div>
             <div className="text-gray-400 text-sm">Featured Matches</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-400">{selectedTournament?.format}</div>
+            <div className="text-2xl font-bold text-purple-400">
+              {selectedTournament?.format}
+            </div>
             <div className="text-gray-400 text-sm">Format</div>
           </div>
         </div>
@@ -524,7 +1137,9 @@ const TournamentMatchAnalytics = () => {
           >
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center space-x-3">
-                <div className="text-lg font-bold text-white">{match.round}</div>
+                <div className="text-lg font-bold text-white">
+                  {match.round}
+                </div>
                 {match.featured && (
                   <div className="flex items-center space-x-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs font-medium">
                     <Star size={12} />
@@ -534,52 +1149,88 @@ const TournamentMatchAnalytics = () => {
               </div>
               <div className="text-right">
                 <div className="text-sm text-gray-400">{match.duration}</div>
-                <div className="text-xs text-gray-500">{match.result.games.length} games</div>
+                <div className="text-xs text-gray-500">
+                  {match.result.games.length} games
+                </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               {/* Player 1 */}
-              <div className={`p-4 rounded-lg ${match.result.winner === 'player1' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}>
+              <div
+                className={`p-4 rounded-lg ${match.result.winner === 'player1' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}
+              >
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="font-medium text-white">{match.player1.name}</span>
-                  {match.result.winner === 'player1' && <Trophy className="text-yellow-400" size={14} />}
+                  <span className="font-medium text-white">
+                    {match.player1.name}
+                  </span>
+                  {match.result.winner === 'player1' && (
+                    <Trophy className="text-yellow-400" size={14} />
+                  )}
                 </div>
-                <div className="text-sm text-gray-300 mb-1">{match.player1.hero}</div>
-                <div className="text-xs text-gray-400 mb-2">{match.player1.deck.name}</div>
+                <div className="text-sm text-gray-300 mb-1">
+                  {match.player1.hero}
+                </div>
+                <div className="text-xs text-gray-400 mb-2">
+                  {match.player1.deck.name}
+                </div>
                 <div className="flex items-center space-x-1 mb-1">
                   {match.player1.deck.colors.map((color, index) => (
-                    <span key={index} className="text-sm">{getElementIcon(color)}</span>
+                    <span key={index} className="text-sm">
+                      {getElementIcon(color)}
+                    </span>
                   ))}
-                  <span className="text-xs text-gray-400 ml-2">{match.player1.deck.archetype}</span>
+                  <span className="text-xs text-gray-400 ml-2">
+                    {match.player1.deck.archetype}
+                  </span>
                 </div>
-                <div className="text-xs text-blue-400">Rating: {match.player1.rating}</div>
+                <div className="text-xs text-blue-400">
+                  Rating: {match.player1.rating}
+                </div>
               </div>
 
               {/* VS and Score */}
               <div className="flex flex-col items-center justify-center">
                 <div className="text-gray-400 text-sm mb-2">VS</div>
-                <div className="text-2xl font-bold text-white mb-2">{match.result.score}</div>
+                <div className="text-2xl font-bold text-white mb-2">
+                  {match.result.score}
+                </div>
                 <button className="text-xs text-blue-400 hover:text-blue-300">
                   View Analytics →
                 </button>
               </div>
 
               {/* Player 2 */}
-              <div className={`p-4 rounded-lg ${match.result.winner === 'player2' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}>
+              <div
+                className={`p-4 rounded-lg ${match.result.winner === 'player2' ? 'bg-green-500/20 border border-green-500/30' : 'bg-gray-700'}`}
+              >
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="font-medium text-white">{match.player2.name}</span>
-                  {match.result.winner === 'player2' && <Trophy className="text-yellow-400" size={14} />}
+                  <span className="font-medium text-white">
+                    {match.player2.name}
+                  </span>
+                  {match.result.winner === 'player2' && (
+                    <Trophy className="text-yellow-400" size={14} />
+                  )}
                 </div>
-                <div className="text-sm text-gray-300 mb-1">{match.player2.hero}</div>
-                <div className="text-xs text-gray-400 mb-2">{match.player2.deck.name}</div>
+                <div className="text-sm text-gray-300 mb-1">
+                  {match.player2.hero}
+                </div>
+                <div className="text-xs text-gray-400 mb-2">
+                  {match.player2.deck.name}
+                </div>
                 <div className="flex items-center space-x-1 mb-1">
                   {match.player2.deck.colors.map((color, index) => (
-                    <span key={index} className="text-sm">{getElementIcon(color)}</span>
+                    <span key={index} className="text-sm">
+                      {getElementIcon(color)}
+                    </span>
                   ))}
-                  <span className="text-xs text-gray-400 ml-2">{match.player2.deck.archetype}</span>
+                  <span className="text-xs text-gray-400 ml-2">
+                    {match.player2.deck.archetype}
+                  </span>
                 </div>
-                <div className="text-xs text-blue-400">Rating: {match.player2.rating}</div>
+                <div className="text-xs text-blue-400">
+                  Rating: {match.player2.rating}
+                </div>
               </div>
             </div>
 
@@ -591,8 +1242,12 @@ const TournamentMatchAnalytics = () => {
                     <span className="text-gray-400">Game {game.game}</span>
                     <span className="text-gray-400">{game.duration}</span>
                   </div>
-                  <div className={`font-medium ${game.winner === 'player1' ? 'text-green-400' : 'text-blue-400'}`}>
-                    {game.winner === 'player1' ? match.player1.name : match.player2.name}
+                  <div
+                    className={`font-medium ${game.winner === 'player1' ? 'text-green-400' : 'text-blue-400'}`}
+                  >
+                    {game.winner === 'player1'
+                      ? match.player1.name
+                      : match.player2.name}
                   </div>
                   <div className="text-gray-500 text-xs">
                     {game.p1Life} - {game.p2Life}
@@ -611,13 +1266,18 @@ const TournamentMatchAnalytics = () => {
     const player1Analytics = calculateDeckAnalytics(selectedMatch.player1.deck);
     const player2Analytics = calculateDeckAnalytics(selectedMatch.player2.deck);
 
-    const getRarityColor = (rarity) => {
+    const getRarityColor = rarity => {
       switch (rarity) {
-        case 'common': return 'bg-gray-600';
-        case 'uncommon': return 'bg-green-600';
-        case 'rare': return 'bg-blue-600';
-        case 'legendary': return 'bg-purple-600';
-        default: return 'bg-gray-600';
+        case 'common':
+          return 'bg-gray-600';
+        case 'uncommon':
+          return 'bg-green-600';
+        case 'rare':
+          return 'bg-blue-600';
+        case 'legendary':
+          return 'bg-purple-600';
+        default:
+          return 'bg-gray-600';
       }
     };
 
@@ -626,22 +1286,30 @@ const TournamentMatchAnalytics = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h3 className="text-xl font-bold text-white">{player.name}</h3>
-            <p className="text-gray-400">{deck.name} - {deck.archetype}</p>
+            <p className="text-gray-400">
+              {deck.name} - {deck.archetype}
+            </p>
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-400">Win Rate</div>
-            <div className="text-2xl font-bold text-green-400">{deck.winRate}%</div>
+            <div className="text-2xl font-bold text-green-400">
+              {deck.winRate}%
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-gray-700 rounded p-3 text-center">
             <div className="text-gray-300 text-sm">Total Cards</div>
-            <div className="text-xl font-bold text-white">{analytics.totalCards}</div>
+            <div className="text-xl font-bold text-white">
+              {analytics.totalCards}
+            </div>
           </div>
           <div className="bg-gray-700 rounded p-3 text-center">
             <div className="text-gray-300 text-sm">Avg. Cost</div>
-            <div className="text-xl font-bold text-white">{analytics.averageCost}</div>
+            <div className="text-xl font-bold text-white">
+              {analytics.averageCost}
+            </div>
           </div>
         </div>
 
@@ -654,7 +1322,10 @@ const TournamentMatchAnalytics = () => {
           <div className="space-y-2">
             {['0', '1', '2', '3', '4', '5', '6', '7+'].map(cost => {
               const count = analytics.manaCurve[cost] || 0;
-              const percentage = analytics.totalCards > 0 ? (count / analytics.totalCards) * 100 : 0;
+              const percentage =
+                analytics.totalCards > 0
+                  ? (count / analytics.totalCards) * 100
+                  : 0;
               return (
                 <div key={cost} className="flex items-center gap-3">
                   <div className="w-8 text-sm text-gray-400">{cost}</div>
@@ -664,7 +1335,9 @@ const TournamentMatchAnalytics = () => {
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
-                  <div className="w-8 text-sm text-right text-white">{count}</div>
+                  <div className="w-8 text-sm text-right text-white">
+                    {count}
+                  </div>
                 </div>
               );
             })}
@@ -678,21 +1351,28 @@ const TournamentMatchAnalytics = () => {
             Element Distribution
           </h4>
           <div className="space-y-2">
-            {Object.entries(analytics.elementDistribution).map(([element, count]) => {
-              const percentage = analytics.totalCards > 0 ? (count / analytics.totalCards) * 100 : 0;
-              return (
-                <div key={element} className="flex items-center gap-3">
-                  <div className="w-8">{getElementIcon(element)}</div>
-                  <div className="flex-1 bg-gray-700 rounded-full h-3 overflow-hidden">
-                    <div
-                      className="h-full bg-green-500 transition-all duration-300"
-                      style={{ width: `${percentage}%` }}
-                    />
+            {Object.entries(analytics.elementDistribution).map(
+              ([element, count]) => {
+                const percentage =
+                  analytics.totalCards > 0
+                    ? (count / analytics.totalCards) * 100
+                    : 0;
+                return (
+                  <div key={element} className="flex items-center gap-3">
+                    <div className="w-8">{getElementIcon(element)}</div>
+                    <div className="flex-1 bg-gray-700 rounded-full h-3 overflow-hidden">
+                      <div
+                        className="h-full bg-green-500 transition-all duration-300"
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                    <div className="w-8 text-sm text-right text-white">
+                      {count}
+                    </div>
                   </div>
-                  <div className="w-8 text-sm text-right text-white">{count}</div>
-                </div>
-              );
-            })}
+                );
+              },
+            )}
           </div>
         </div>
 
@@ -720,15 +1400,21 @@ const TournamentMatchAnalytics = () => {
           </h4>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <div className="text-lg font-bold text-green-400">{deck.winRate}%</div>
+              <div className="text-lg font-bold text-green-400">
+                {deck.winRate}%
+              </div>
               <div className="text-xs text-gray-400">Win Rate</div>
             </div>
             <div>
-              <div className="text-lg font-bold text-blue-400">{deck.gamesPlayed}</div>
+              <div className="text-lg font-bold text-blue-400">
+                {deck.gamesPlayed}
+              </div>
               <div className="text-xs text-gray-400">Games</div>
             </div>
             <div>
-              <div className="text-lg font-bold text-purple-400">{deck.metaShare}%</div>
+              <div className="text-lg font-bold text-purple-400">
+                {deck.metaShare}%
+              </div>
               <div className="text-xs text-gray-400">Meta Share</div>
             </div>
           </div>
@@ -749,7 +1435,9 @@ const TournamentMatchAnalytics = () => {
             </button>
             <div>
               <h1 className="text-3xl font-bold text-white">Deck Analytics</h1>
-              <p className="text-gray-400">{selectedMatch?.round} - {selectedTournament?.name}</p>
+              <p className="text-gray-400">
+                {selectedMatch?.round} - {selectedTournament?.name}
+              </p>
             </div>
           </div>
         </div>
@@ -758,25 +1446,35 @@ const TournamentMatchAnalytics = () => {
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-white">Match Summary</h3>
-            <div className="text-2xl font-bold text-white">{selectedMatch?.result.score}</div>
+            <div className="text-2xl font-bold text-white">
+              {selectedMatch?.result.score}
+            </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <div className="text-lg font-bold text-white">{selectedMatch?.duration}</div>
+              <div className="text-lg font-bold text-white">
+                {selectedMatch?.duration}
+              </div>
               <div className="text-gray-400 text-sm">Total Duration</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-blue-400">{selectedMatch?.result.games.length}</div>
+              <div className="text-lg font-bold text-blue-400">
+                {selectedMatch?.result.games.length}
+              </div>
               <div className="text-gray-400 text-sm">Games Played</div>
             </div>
             <div className="text-center">
               <div className="text-lg font-bold text-green-400">
-                {selectedMatch?.result.winner === 'player1' ? selectedMatch?.player1.name : selectedMatch?.player2.name}
+                {selectedMatch?.result.winner === 'player1'
+                  ? selectedMatch?.player1.name
+                  : selectedMatch?.player2.name}
               </div>
               <div className="text-gray-400 text-sm">Winner</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-purple-400">{selectedMatch?.round}</div>
+              <div className="text-lg font-bold text-purple-400">
+                {selectedMatch?.round}
+              </div>
               <div className="text-gray-400 text-sm">Round</div>
             </div>
           </div>
@@ -809,23 +1507,35 @@ const TournamentMatchAnalytics = () => {
               <h4 className="text-white font-medium mb-2">Archetype Matchup</h4>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white mb-1">
-                  {selectedMatch?.player1.deck.archetype} vs {selectedMatch?.player2.deck.archetype}
+                  {selectedMatch?.player1.deck.archetype} vs{' '}
+                  {selectedMatch?.player2.deck.archetype}
                 </div>
                 <div className="text-sm text-gray-400">
-                  {selectedMatch?.player1.deck.archetype === 'Aggro' && selectedMatch?.player2.deck.archetype === 'Control' ? 'Favors Aggro' :
-                   selectedMatch?.player1.deck.archetype === 'Control' && selectedMatch?.player2.deck.archetype === 'Aggro' ? 'Favors Control' :
-                   'Balanced Matchup'}
+                  {selectedMatch?.player1.deck.archetype === 'Aggro' &&
+                  selectedMatch?.player2.deck.archetype === 'Control'
+                    ? 'Favors Aggro'
+                    : selectedMatch?.player1.deck.archetype === 'Control' &&
+                        selectedMatch?.player2.deck.archetype === 'Aggro'
+                      ? 'Favors Control'
+                      : 'Balanced Matchup'}
                 </div>
               </div>
             </div>
             <div className="bg-gray-700 rounded-lg p-4">
-              <h4 className="text-white font-medium mb-2">Average Game Length</h4>
+              <h4 className="text-white font-medium mb-2">
+                Average Game Length
+              </h4>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white mb-1">
-                  {Math.round(selectedMatch?.result.games.reduce((total, game) => {
-                    const [minutes, seconds] = game.duration.split(':').map(Number);
-                    return total + minutes + seconds / 60;
-                  }, 0) / selectedMatch?.result.games.length)} min
+                  {Math.round(
+                    selectedMatch?.result.games.reduce((total, game) => {
+                      const [minutes, seconds] = game.duration
+                        .split(':')
+                        .map(Number);
+                      return total + minutes + seconds / 60;
+                    }, 0) / selectedMatch?.result.games.length,
+                  )}{' '}
+                  min
                 </div>
                 <div className="text-sm text-gray-400">Per Game</div>
               </div>
@@ -834,7 +1544,11 @@ const TournamentMatchAnalytics = () => {
               <h4 className="text-white font-medium mb-2">Deck Efficiency</h4>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white mb-1">
-                  {((player1Analytics.averageCost + player2Analytics.averageCost) / 2).toFixed(1)}
+                  {(
+                    (player1Analytics.averageCost +
+                      player2Analytics.averageCost) /
+                    2
+                  ).toFixed(1)}
                 </div>
                 <div className="text-sm text-gray-400">Avg Mana Cost</div>
               </div>
@@ -849,7 +1563,9 @@ const TournamentMatchAnalytics = () => {
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <AnimatePresence mode="wait">
-          {currentView === 'tournaments' && <TournamentList key="tournaments" />}
+          {currentView === 'tournaments' && (
+            <TournamentList key="tournaments" />
+          )}
           {currentView === 'matches' && <MatchList key="matches" />}
           {currentView === 'analytics' && <DeckAnalytics key="analytics" />}
         </AnimatePresence>
