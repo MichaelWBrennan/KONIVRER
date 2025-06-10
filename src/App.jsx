@@ -33,9 +33,18 @@ function App() {
                 <Route path="/decks" element={<UnifiedDeckSystem />} />
                 <Route path="/saved-decks" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder/:deckId" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder-advanced" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder-advanced/:deckId" element={<UnifiedDeckSystem />} />
+                <Route
+                  path="/deckbuilder/:deckId"
+                  element={<UnifiedDeckSystem />}
+                />
+                <Route
+                  path="/deckbuilder-advanced"
+                  element={<UnifiedDeckSystem />}
+                />
+                <Route
+                  path="/deckbuilder-advanced/:deckId"
+                  element={<UnifiedDeckSystem />}
+                />
                 <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
                 <Route
                   path="/tournaments"
