@@ -495,17 +495,17 @@ const Matches = () => {
       {/* Actions */}
       <div className="flex justify-end space-x-2 mt-4">
         {match.hasReplay && (
-          <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
+          <button className="btn btn-sm btn-primary">
             View Replay
           </button>
         )}
         {match.hasVideo && (
-          <button className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors">
+          <button className="btn btn-sm btn-danger">
             Watch Video
           </button>
         )}
-        <button className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors">
-          <BarChart3 size={14} className="inline mr-1" />
+        <button className="btn btn-sm btn-secondary">
+          <BarChart3 size={14} />
           Analysis
         </button>
       </div>

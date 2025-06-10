@@ -205,10 +205,10 @@ const CardDatabase = () => {
               <div className="flex items-center space-x-4 mt-4">
                 <button
                   onClick={() => setActiveTab('browse')}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded ${
+                  className={`btn flex items-center gap-2 ${
                     activeTab === 'browse'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-700 text-gray-300'
+                      ? 'btn-primary'
+                      : 'btn-secondary'
                   }`}
                 >
                   <Search size={16} />
@@ -216,10 +216,10 @@ const CardDatabase = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab('collection')}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded ${
+                  className={`btn flex items-center gap-2 ${
                     activeTab === 'collection'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-700 text-gray-300'
+                      ? 'btn-primary'
+                      : 'btn-secondary'
                   }`}
                 >
                   <Package size={16} />

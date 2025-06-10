@@ -224,13 +224,13 @@ const AdvancedCardFilters = ({ filters, onFiltersChange, onClose }) => {
         <div className="flex justify-between mt-8">
           <button
             onClick={clearFilters}
-            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            className="btn btn-ghost"
           >
             Clear All
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            className="btn btn-primary"
           >
             Apply Filters
           </button>
