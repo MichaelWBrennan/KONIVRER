@@ -210,7 +210,9 @@
 .input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: var(--shadow-md), 0 0 0 3px var(--accent-primary-light);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--accent-primary-light);
   background: var(--bg-card);
 }
 
@@ -721,7 +723,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -730,10 +733,15 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
-  40%, 43% {
+  40%,
+  43% {
     transform: translate3d(0, -8px, 0);
   }
   70% {
@@ -771,16 +779,16 @@
     padding-left: var(--space-3);
     padding-right: var(--space-3);
   }
-  
+
   .btn {
     padding: var(--space-2) var(--space-4);
     font-size: var(--font-size-sm);
   }
-  
+
   .card {
     padding: var(--space-4);
   }
-  
+
   .modal {
     margin: var(--space-2);
     max-width: calc(100vw - var(--space-4));
@@ -792,11 +800,11 @@
     flex-direction: column;
     width: 100%;
   }
-  
+
   .btn-group .btn {
     width: 100%;
   }
-  
+
   .modal-header,
   .modal-body,
   .modal-footer {
