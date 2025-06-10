@@ -83,7 +83,7 @@ const UnifiedDeckSystem = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
   // Main view states
-  const [currentView, setCurrentView] = useState('browse'); // 'browse', 'builder', 'advanced-builder', 'analytics', 'mydecks'
+  const [currentView, setCurrentView] = useState('browse'); // 'browse', 'builder', 'analytics'
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -151,9 +151,7 @@ const UnifiedDeckSystem = () => {
     const view = searchParams.get('view');
     const deckId = searchParams.get('deckId');
     
-    if (view === 'mydecks' && user) {
-      setCurrentView('mydecks');
-    } else if (view === 'builder') {
+    if (view === 'builder') {
       setCurrentView('builder');
       if (deckId) {
         const foundDeck = decks.find(d => d.id === deckId);
@@ -162,14 +160,6 @@ const UnifiedDeckSystem = () => {
           if (foundDeck.format) {
             setSelectedFormat(foundDeck.format);
           }
-        }
-      }
-    } else if (view === 'advanced-builder') {
-      setCurrentView('advanced-builder');
-      if (deckId) {
-        const foundDeck = decks.find(d => d.id === deckId);
-        if (foundDeck) {
-          setBuilderDeck(foundDeck);
         }
       }
     } else if (view === 'analytics') {
@@ -304,76 +294,7 @@ const UnifiedDeckSystem = () => {
     },
   ];
 
-  // Mock user's personal decks
-  const mockUserDecks = [
-    {
-      id: 'user1',
-      name: 'My Lightning Deck',
-      hero: 'Zephyr',
-      archetype: 'Control',
-      format: 'Standard',
-      lastModified: '2024-06-08',
-      cardCount: 58,
-      isPublic: false,
-      colors: ['Lightning', 'Air'],
-      winRate: 65.0,
-      gamesPlayed: 20,
-      metaShare: 0,
-      placement: 'N/A',
-      cards: [
-        { name: 'Lightning Bolt', cost: 3, count: 4, type: 'Spell', rarity: 'Common' },
-        { name: 'Storm Elemental', cost: 5, count: 3, type: 'Creature', rarity: 'Rare' },
-        { name: 'Air Current', cost: 2, count: 4, type: 'Spell', rarity: 'Uncommon' },
-        { name: 'Thunder Strike', cost: 1, count: 4, type: 'Spell', rarity: 'Common' },
-        { name: 'Wind Walker', cost: 4, count: 3, type: 'Creature', rarity: 'Uncommon' },
-        { name: 'Lightning Lord', cost: 7, count: 2, type: 'Creature', rarity: 'Legendary' },
-      ],
-      analytics: {
-        manaCurve: [2, 8, 12, 10, 8, 6, 4, 3, 2, 2, 1],
-        elementDistribution: { Lightning: 48.3, Air: 34.5, Neutral: 17.2 },
-        rarityDistribution: { Common: 41.4, Uncommon: 31.0, Rare: 20.7, Legendary: 6.9 },
-        matchups: [
-          { archetype: 'Fire Aggro', winRate: 65, games: 8 },
-          { archetype: 'Water Control', winRate: 45, games: 6 },
-          { archetype: 'Earth Midrange', winRate: 70, games: 4 },
-        ],
-      },
-    },
-    {
-      id: 'user2',
-      name: 'Experimental Fire Build',
-      hero: 'Ignis',
-      archetype: 'Aggro',
-      format: 'Standard',
-      lastModified: '2024-06-05',
-      cardCount: 60,
-      isPublic: true,
-      colors: ['Fire'],
-      winRate: 58.3,
-      gamesPlayed: 12,
-      metaShare: 3.2,
-      placement: 8,
-      cards: [
-        { name: 'Flame Burst', cost: 1, count: 4, type: 'Spell', rarity: 'Common' },
-        { name: 'Fire Imp', cost: 2, count: 4, type: 'Creature', rarity: 'Common' },
-        { name: 'Molten Hammer', cost: 3, count: 3, type: 'Equipment', rarity: 'Uncommon' },
-        { name: 'Lava Flow', cost: 4, count: 2, type: 'Spell', rarity: 'Rare' },
-        { name: 'Ember Spirit', cost: 1, count: 4, type: 'Creature', rarity: 'Common' },
-        { name: 'Inferno Blast', cost: 5, count: 2, type: 'Spell', rarity: 'Rare' },
-        { name: 'Volcanic Eruption', cost: 6, count: 1, type: 'Spell', rarity: 'Legendary' },
-      ],
-      analytics: {
-        manaCurve: [0, 12, 14, 12, 10, 6, 4, 2, 0, 0, 0],
-        elementDistribution: { Fire: 75.0, Neutral: 25.0 },
-        rarityDistribution: { Common: 50.0, Uncommon: 33.3, Rare: 13.3, Legendary: 3.3 },
-        matchups: [
-          { archetype: 'Lightning Control', winRate: 72, games: 5 },
-          { archetype: 'Water Control', winRate: 40, games: 3 },
-          { archetype: 'Earth Midrange', winRate: 60, games: 4 },
-        ],
-      },
-    },
-  ];
+
 
   // Filter cards for deck builder
   const filteredCards = cardsData.filter(card => {
@@ -420,22 +341,6 @@ const UnifiedDeckSystem = () => {
   const handleEditDeck = (deck) => {
     setBuilderDeck(deck);
     navigateToView('builder', { deckId: deck.id });
-  };
-
-  const handleAdvancedBuilder = (deck = null) => {
-    if (deck) {
-      setBuilderDeck(deck);
-      navigateToView('advanced-builder', { deckId: deck.id });
-    } else {
-      setBuilderDeck({
-        name: 'Untitled Deck',
-        cards: [],
-        description: '',
-        hero: '',
-        format: 'standard',
-      });
-      navigateToView('advanced-builder');
-    }
   };
 
   const handleSaveDeck = () => {
@@ -498,20 +403,6 @@ const UnifiedDeckSystem = () => {
           >
             <PlusCircle size={16} />
             New Deck
-          </button>
-          <button
-            onClick={() => handleAdvancedBuilder()}
-            className="btn btn-secondary flex items-center gap-2"
-          >
-            <Settings size={16} />
-            Advanced Builder
-          </button>
-          <button
-            onClick={() => navigateToView('mydecks')}
-            className="btn btn-ghost flex items-center gap-2"
-          >
-            <BookOpen size={16} />
-            My Decks
           </button>
           <button
             onClick={() => navigateToView('analytics')}
@@ -713,123 +604,14 @@ const UnifiedDeckSystem = () => {
     </div>
   );
 
-  const renderMyDecks = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">My Decks</h1>
-          <p className="text-secondary">Manage your personal deck collection</p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={handleCreateNewDeck}
-            className="btn btn-primary flex items-center gap-2"
-          >
-            <PlusCircle size={16} />
-            New Deck
-          </button>
-          <button
-            onClick={() => navigateToView('browse')}
-            className="btn btn-ghost flex items-center gap-2"
-          >
-            <ArrowLeft size={16} />
-            Back to Browse
-          </button>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {mockUserDecks.map((deck) => (
-          <motion.div
-            key={deck.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-card border border-color rounded-lg p-6 hover:shadow-lg transition-all duration-200"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-semibold text-primary mb-1">{deck.name}</h3>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <span>{deck.hero}</span>
-                  <span>•</span>
-                  <span>{deck.archetype}</span>
-                  <span>•</span>
-                  <span>{deck.format}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                {deck.isPublic ? (
-                  <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-md">
-                    Public
-                  </span>
-                ) : (
-                  <span className="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-md">
-                    Private
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="text-sm text-secondary mb-4">
-              Last modified: {new Date(deck.lastModified).toLocaleDateString()}
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
-              <div className="text-center">
-                <div className="text-lg font-semibold text-primary">{deck.winRate}%</div>
-                <div className="text-muted">Win Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-primary">{deck.gamesPlayed}</div>
-                <div className="text-muted">Games</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-primary">{deck.cardCount}</div>
-                <div className="text-muted">Cards</div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex flex-wrap gap-1">
-                {deck.colors.map((color) => (
-                  <span
-                    key={color}
-                    className="px-2 py-1 bg-tertiary text-xs rounded-md text-secondary"
-                  >
-                    {color}
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleEditDeck(deck)}
-                  className="btn btn-sm btn-primary"
-                >
-                  <Edit3 size={14} />
-                </button>
-                <button
-                  onClick={() => handleAdvancedBuilder(deck)}
-                  className="btn btn-sm btn-secondary"
-                >
-                  <Settings size={14} />
-                </button>
-                <button className="btn btn-sm btn-ghost text-red-500">
-                  <Trash2 size={14} />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
 
   const renderDeckBuilder = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-primary mb-2">Deck Builder</h1>
-          <p className="text-secondary">Build and customize your deck</p>
+          <p className="text-secondary">Build and customize your deck with advanced tools</p>
         </div>
         <div className="flex gap-3">
           <button
@@ -838,6 +620,20 @@ const UnifiedDeckSystem = () => {
           >
             <Save size={16} />
             Save Deck
+          </button>
+          <button
+            onClick={() => setShowAI(!showAI)}
+            className={`btn flex items-center gap-2 ${showAI ? 'btn-secondary' : 'btn-ghost'}`}
+          >
+            <Bot size={16} />
+            AI Assistant
+          </button>
+          <button
+            onClick={() => setShowStats(!showStats)}
+            className={`btn flex items-center gap-2 ${showStats ? 'btn-secondary' : 'btn-ghost'}`}
+          >
+            <BarChart3 size={16} />
+            Analytics
           </button>
           <button
             onClick={() => navigateToView('browse')}
@@ -879,157 +675,281 @@ const UnifiedDeckSystem = () => {
             <option value="legacy">Legacy</option>
           </select>
         </div>
+        <div className="mt-4">
+          <textarea
+            placeholder="Deck description..."
+            className="input w-full h-20 resize-none"
+            value={builderDeck.description}
+            onChange={(e) => setBuilderDeck(prev => ({ ...prev, description: e.target.value }))}
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Card search and list */}
-        <div className="bg-card border border-color rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-primary">Card Database</h3>
-            <button
-              onClick={() => setShowCardFilters(!showCardFilters)}
-              className="btn btn-sm btn-ghost"
-            >
-              <Filter size={16} />
-            </button>
-          </div>
-
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
-            <input
-              type="text"
-              placeholder="Search cards..."
-              className="input pl-10 w-full"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {filteredCards.slice(0, 50).map((card) => (
-              <div
-                key={card.id}
-                className="flex items-center justify-between p-3 bg-tertiary rounded-lg hover:bg-hover transition-colors cursor-pointer"
-                onClick={() => setSelectedCard(card)}
-              >
-                <div>
-                  <div className="font-medium text-primary">{card.name}</div>
-                  <div className="text-sm text-secondary">
-                    {card.type} • Cost: {card.cost}
-                  </div>
-                </div>
+        <div className="xl:col-span-2">
+          <div className="bg-card border border-color rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-primary">Card Database</h3>
+              <div className="flex gap-2">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addCardToDeck(card);
-                  }}
-                  className="btn btn-sm btn-primary"
+                  onClick={() => setShowCardFilters(!showCardFilters)}
+                  className="btn btn-sm btn-ghost"
                 >
-                  <Plus size={14} />
+                  <Filter size={16} />
+                </button>
+                <button
+                  onClick={() => setBuilderViewMode(builderViewMode === 'grid' ? 'list' : 'grid')}
+                  className="btn btn-sm btn-ghost"
+                >
+                  {builderViewMode === 'grid' ? <List size={16} /> : <Grid size={16} />}
                 </button>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Current deck */}
-        <div className="bg-card border border-color rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-primary">
-              Current Deck ({builderDeck.cards.reduce((sum, card) => sum + card.count, 0)} cards)
-            </h3>
-          </div>
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted" size={16} />
+              <input
+                type="text"
+                placeholder="Search cards..."
+                className="input pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
 
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {builderDeck.cards.map((card) => (
-              <div
-                key={card.name}
-                className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
-              >
-                <div>
-                  <div className="font-medium text-primary">{card.name}</div>
-                  <div className="text-sm text-secondary">
-                    {card.type} • Cost: {card.cost}
+            {/* Advanced filters */}
+            <AnimatePresence>
+              {showCardFilters && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="mb-4 p-4 bg-tertiary rounded-lg"
+                >
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <select
+                      className="input text-sm"
+                      value={cardFilters.type.join(',')}
+                      onChange={(e) => setCardFilters(prev => ({ ...prev, type: e.target.value ? e.target.value.split(',') : [] }))}
+                    >
+                      <option value="">All Types</option>
+                      <option value="Creature">Creature</option>
+                      <option value="Spell">Spell</option>
+                      <option value="Equipment">Equipment</option>
+                      <option value="Artifact">Artifact</option>
+                    </select>
+                    <input
+                      type="number"
+                      placeholder="Min Cost"
+                      className="input text-sm"
+                      value={cardFilters.cost.min}
+                      onChange={(e) => setCardFilters(prev => ({ ...prev, cost: { ...prev.cost, min: e.target.value } }))}
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max Cost"
+                      className="input text-sm"
+                      value={cardFilters.cost.max}
+                      onChange={(e) => setCardFilters(prev => ({ ...prev, cost: { ...prev.cost, max: e.target.value } }))}
+                    />
+                    <select
+                      className="input text-sm"
+                      value={cardFilters.rarity.join(',')}
+                      onChange={(e) => setCardFilters(prev => ({ ...prev, rarity: e.target.value ? e.target.value.split(',') : [] }))}
+                    >
+                      <option value="">All Rarities</option>
+                      <option value="Common">Common</option>
+                      <option value="Uncommon">Uncommon</option>
+                      <option value="Rare">Rare</option>
+                      <option value="Legendary">Legendary</option>
+                    </select>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {filteredCards.slice(0, 50).map((card) => (
+                <div
+                  key={card.id}
+                  className="flex items-center justify-between p-3 bg-tertiary rounded-lg hover:bg-hover transition-colors cursor-pointer"
+                  onClick={() => setSelectedCard(card)}
+                >
+                  <div>
+                    <div className="font-medium text-primary">{card.name}</div>
+                    <div className="text-sm text-secondary">
+                      {card.type} • Cost: {card.cost} • {card.rarity}
+                    </div>
+                  </div>
                   <button
-                    onClick={() => removeCardFromDeck(card.name)}
-                    className="btn btn-sm btn-ghost"
-                  >
-                    <Minus size={14} />
-                  </button>
-                  <span className="text-sm font-medium w-6 text-center">{card.count}</span>
-                  <button
-                    onClick={() => addCardToDeck(card)}
-                    className="btn btn-sm btn-ghost"
-                    disabled={card.count >= 4}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addCardToDeck(card);
+                    }}
+                    className="btn btn-sm btn-primary"
                   >
                     <Plus size={14} />
                   </button>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Current deck and advanced features */}
+        <div className="space-y-6">
+          {/* Current deck */}
+          <div className="bg-card border border-color rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-primary">
+                Current Deck ({builderDeck.cards.reduce((sum, card) => sum + card.count, 0)} cards)
+              </h3>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setBuilderDeck(prev => ({ ...prev, cards: [] }))}
+                  className="btn btn-sm btn-ghost text-red-500"
+                  title="Clear deck"
+                >
+                  <Trash2 size={14} />
+                </button>
+                <button
+                  className="btn btn-sm btn-ghost"
+                  title="Shuffle deck"
+                >
+                  <Shuffle size={14} />
+                </button>
               </div>
-            ))}
+            </div>
+
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {builderDeck.cards.map((card) => (
+                <div
+                  key={card.name}
+                  className="flex items-center justify-between p-2 bg-tertiary rounded-lg"
+                >
+                  <div>
+                    <div className="font-medium text-primary text-sm">{card.name}</div>
+                    <div className="text-xs text-secondary">
+                      {card.type} • Cost: {card.cost}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => removeCardFromDeck(card.name)}
+                      className="btn btn-xs btn-ghost"
+                    >
+                      <Minus size={12} />
+                    </button>
+                    <span className="text-sm font-medium w-6 text-center">{card.count}</span>
+                    <button
+                      onClick={() => addCardToDeck(card)}
+                      className="btn btn-xs btn-ghost"
+                      disabled={card.count >= 4}
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Deck Statistics */}
+          {showStats && (
+            <div className="bg-card border border-color rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-primary mb-4">Deck Analytics</h3>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-secondary mb-2">Mana Curve</div>
+                  <div className="flex items-end gap-1 h-16">
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((cost) => {
+                      const count = builderDeck.cards.filter(card => card.cost === cost).reduce((sum, card) => sum + card.count, 0);
+                      const maxCount = Math.max(...[0, 1, 2, 3, 4, 5, 6, 7].map(c => 
+                        builderDeck.cards.filter(card => card.cost === c).reduce((sum, card) => sum + card.count, 0)
+                      ));
+                      return (
+                        <div
+                          key={cost}
+                          className="bg-accent-primary rounded-t flex-1 min-h-[4px] flex items-end justify-center text-xs text-white"
+                          style={{ height: maxCount > 0 ? `${(count / maxCount) * 100}%` : '4px' }}
+                          title={`Cost ${cost}: ${count} cards`}
+                        >
+                          {count > 0 && count}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex justify-between text-xs text-secondary mt-1">
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map(cost => (
+                      <span key={cost}>{cost}</span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-secondary mb-2">Type Distribution</div>
+                  <div className="space-y-1">
+                    {['Creature', 'Spell', 'Equipment', 'Artifact'].map(type => {
+                      const count = builderDeck.cards.filter(card => card.type === type).reduce((sum, card) => sum + card.count, 0);
+                      const total = builderDeck.cards.reduce((sum, card) => sum + card.count, 0);
+                      const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+                      return (
+                        <div key={type} className="flex items-center justify-between text-sm">
+                          <span className="text-primary">{type}</span>
+                          <span className="text-secondary">{count} ({percentage}%)</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* AI Suggestions */}
+          {showAI && (
+            <div className="bg-card border border-color rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
+                <Bot size={20} />
+                AI Suggestions
+              </h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-tertiary rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Lightbulb size={16} className="text-yellow-500" />
+                    <span className="font-medium text-primary">Mana Curve</span>
+                  </div>
+                  <p className="text-sm text-secondary">
+                    Consider adding more 2-cost cards to improve your early game presence.
+                  </p>
+                </div>
+                <div className="p-3 bg-tertiary rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Target size={16} className="text-blue-500" />
+                    <span className="font-medium text-primary">Synergy</span>
+                  </div>
+                  <p className="text-sm text-secondary">
+                    "Lightning Bolt" pairs well with "Storm Elemental" for combo potential.
+                  </p>
+                </div>
+                <div className="p-3 bg-tertiary rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield size={16} className="text-green-500" />
+                    <span className="font-medium text-primary">Defense</span>
+                  </div>
+                  <p className="text-sm text-secondary">
+                    Your deck lacks defensive options. Consider adding removal spells.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 
-  const renderAdvancedBuilder = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">Advanced Deck Builder</h1>
-          <p className="text-secondary">Professional deck building with AI assistance and analytics</p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={handleSaveDeck}
-            className="btn btn-primary flex items-center gap-2"
-          >
-            <Save size={16} />
-            Save Deck
-          </button>
-          <button
-            onClick={() => navigateToView('browse')}
-            className="btn btn-ghost flex items-center gap-2"
-          >
-            <ArrowLeft size={16} />
-            Back to Browse
-          </button>
-        </div>
-      </div>
 
-      {/* Advanced builder interface would go here */}
-      <div className="bg-card border border-color rounded-lg p-6">
-        <div className="text-center py-12">
-          <Bot size={48} className="mx-auto mb-4 text-accent-primary" />
-          <h3 className="text-xl font-semibold text-primary mb-2">Advanced Builder</h3>
-          <p className="text-secondary mb-6">
-            AI-powered deck building with meta analysis, optimization suggestions, and playtesting tools.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            <div className="p-4 bg-tertiary rounded-lg">
-              <Brain size={24} className="mx-auto mb-2 text-accent-primary" />
-              <div className="font-medium text-primary">AI Suggestions</div>
-              <div className="text-sm text-secondary">Smart card recommendations</div>
-            </div>
-            <div className="p-4 bg-tertiary rounded-lg">
-              <BarChart3 size={24} className="mx-auto mb-2 text-accent-primary" />
-              <div className="font-medium text-primary">Meta Analysis</div>
-              <div className="text-sm text-secondary">Competitive insights</div>
-            </div>
-            <div className="p-4 bg-tertiary rounded-lg">
-              <TestTube size={24} className="mx-auto mb-2 text-accent-primary" />
-              <div className="font-medium text-primary">Playtesting</div>
-              <div className="text-sm text-secondary">Virtual testing environment</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
   const renderAnalytics = () => (
     <div className="space-y-6">
@@ -1114,9 +1034,7 @@ const UnifiedDeckSystem = () => {
   return (
     <div className="container py-6">
       {currentView === 'browse' && renderDeckBrowser()}
-      {currentView === 'mydecks' && renderMyDecks()}
       {currentView === 'builder' && renderDeckBuilder()}
-      {currentView === 'advanced-builder' && renderAdvancedBuilder()}
       {currentView === 'analytics' && renderAnalytics()}
 
       {/* Deck detail modal */}
