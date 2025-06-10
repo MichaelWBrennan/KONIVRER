@@ -48,7 +48,10 @@ function App() {
                   path="/deckbuilder-advanced/:deckId"
                   element={<AdvancedDeckBuilder />}
                 />
-                <Route path="/tournaments" element={<TournamentMatchAnalytics />} />
+                <Route
+                  path="/tournaments"
+                  element={<TournamentMatchAnalytics />}
+                />
                 <Route path="/tournaments-old" element={<TournamentCenter />} />
                 <Route
                   path="/tournaments/create"
