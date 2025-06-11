@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {
   Calendar,
   Trophy,
@@ -574,6 +574,42 @@ const UnifiedTournamentsEvents = () => {
             Discover competitive tournaments, community events, and track match
             analytics
           </p>
+
+          {/* Quick Navigation */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            <Link
+              to="/tournament-manager"
+              className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"
+            >
+              <Trophy size={14} />
+              Tournament Manager
+              <ExternalLink size={12} />
+            </Link>
+            <Link
+              to="/meta-analysis"
+              className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"
+            >
+              <BarChart3 size={14} />
+              Meta Analysis
+              <ExternalLink size={12} />
+            </Link>
+            <Link
+              to="/leaderboards"
+              className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"
+            >
+              <Crown size={14} />
+              Leaderboards
+              <ExternalLink size={12} />
+            </Link>
+            <Link
+              to="/store-locator"
+              className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"
+            >
+              <MapPin size={14} />
+              Store Locator
+              <ExternalLink size={12} />
+            </Link>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
