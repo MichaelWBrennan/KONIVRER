@@ -63,14 +63,23 @@ function App() {
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/store-locator" element={<StoreLocator />} />
                 <Route path="/leaderboards" element={<Leaderboards />} />
-                <Route path="/official-decklists" element={<OfficialDecklists />} />
+                <Route
+                  path="/official-decklists"
+                  element={<OfficialDecklists />}
+                />
                 <Route path="/lore" element={<LoreCenter />} />
                 <Route path="/products" element={<ProductReleases />} />
 
                 <Route path="/hall-of-fame" element={<RollOfHonor />} />
-                <Route path="/tournament-manager" element={<TournamentManager />} />
+                <Route
+                  path="/tournament-manager"
+                  element={<TournamentManager />}
+                />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
-                <Route path="/advanced-cards" element={<AdvancedCardDatabase />} />
+                <Route
+                  path="/advanced-cards"
+                  element={<AdvancedCardDatabase />}
+                />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
               </Routes>
             </Layout>

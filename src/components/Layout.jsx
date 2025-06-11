@@ -44,36 +44,44 @@ const Layout = ({ children }) => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
-    { 
-      name: 'Game', 
+    {
+      name: 'Game',
       icon: Gamepad2,
       submenu: [
         { name: 'Card Database', href: '/cards', icon: Database },
         { name: 'Advanced Search', href: '/advanced-cards', icon: Search },
-        { name: 'Official Decklists', href: '/official-decklists', icon: FileText },
+        {
+          name: 'Official Decklists',
+          href: '/official-decklists',
+          icon: FileText,
+        },
         { name: 'Product Releases', href: '/products', icon: Package },
-      ]
+      ],
     },
-    { 
-      name: 'Play', 
+    {
+      name: 'Play',
       icon: Trophy,
       submenu: [
         { name: 'Deck Builder', href: '/decklists', icon: Layers },
-        { name: 'Tournament Manager', href: '/tournament-manager', icon: Settings },
+        {
+          name: 'Tournament Manager',
+          href: '/tournament-manager',
+          icon: Settings,
+        },
         { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
         { name: 'Meta Analysis', href: '/meta-analysis', icon: BarChart3 },
         { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
         { name: 'Store Locator', href: '/store-locator', icon: MapPin },
-      ]
+      ],
     },
-    { 
-      name: 'Community', 
+    {
+      name: 'Community',
       icon: Users,
       submenu: [
         { name: 'Social Hub', href: '/social', icon: Users },
         { name: 'Lore & Stories', href: '/lore', icon: BookOpen },
         { name: 'Hall of Fame', href: '/hall-of-fame', icon: Award },
-      ]
+      ],
     },
     { name: 'Judge Center & Rules', href: '/judge-center', icon: Shield },
   ];
@@ -153,7 +161,7 @@ const Layout = ({ children }) => {
             <nav className="hidden md:flex items-center gap-6">
               {navigation.map(item => {
                 const Icon = item.icon;
-                
+
                 if (item.submenu) {
                   return (
                     <div key={item.name} className="relative group">
@@ -163,9 +171,12 @@ const Layout = ({ children }) => {
                           className="transition-transform duration-200 group-hover:scale-110"
                         />
                         {item.name}
-                        <ChevronDown size={12} className="transition-transform duration-200 group-hover:rotate-180" />
+                        <ChevronDown
+                          size={12}
+                          className="transition-transform duration-200 group-hover:rotate-180"
+                        />
                       </button>
-                      
+
                       {/* Dropdown Menu */}
                       <div className="absolute top-full left-0 mt-2 w-56 bg-secondary border border-color rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                         <div className="py-2">
@@ -180,7 +191,9 @@ const Layout = ({ children }) => {
                                     ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white'
                                     : 'text-secondary hover:text-primary hover:bg-tertiary'
                                 }`}
-                                onClick={() => handleNavClick(subItem.name, subItem.href)}
+                                onClick={() =>
+                                  handleNavClick(subItem.name, subItem.href)
+                                }
                               >
                                 <SubIcon size={16} />
                                 {subItem.name}
@@ -192,7 +205,7 @@ const Layout = ({ children }) => {
                     </div>
                   );
                 }
-                
+
                 return (
                   <Link
                     key={item.name}
@@ -323,7 +336,7 @@ const Layout = ({ children }) => {
               <nav className="flex flex-col gap-2">
                 {navigation.map(item => {
                   const Icon = item.icon;
-                  
+
                   if (item.submenu) {
                     return (
                       <div key={item.name} className="space-y-1">
@@ -357,7 +370,7 @@ const Layout = ({ children }) => {
                       </div>
                     );
                   }
-                  
+
                   return (
                     <Link
                       key={item.name}
