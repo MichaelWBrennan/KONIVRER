@@ -582,10 +582,17 @@ const UnifiedDeckSystem = () => {
         <div className="flex flex-wrap gap-3">
           <button
             onClick={handleCreateNewDeck}
-            className="btn btn-primary flex items-center gap-2"
+            className="btn btn-primary flex items-center gap-2 text-lg px-6 py-3"
           >
-            <PlusCircle size={16} />
-            New Deck
+            <PlusCircle size={20} />
+            Create New Deck
+          </button>
+          <button
+            onClick={() => navigateToView('builder')}
+            className="btn btn-secondary flex items-center gap-2 text-lg px-6 py-3"
+          >
+            <Edit3 size={20} />
+            Deck Builder
           </button>
           <button
             onClick={() => navigateToView('analytics')}
@@ -594,6 +601,34 @@ const UnifiedDeckSystem = () => {
             <BarChart3 size={16} />
             Analytics
           </button>
+        </div>
+      </div>
+
+      {/* Deck Builder Call-to-Action */}
+      <div className="bg-gradient-to-r from-accent-primary/20 to-accent-secondary/20 border border-accent-primary/30 rounded-lg p-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div className="text-center lg:text-left">
+            <h2 className="text-2xl font-bold text-primary mb-2">Build Your Perfect Deck</h2>
+            <p className="text-secondary">
+              Use our advanced deck builder with real-time validation, meta analysis, and AI suggestions
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigateToView('builder')}
+              className="btn btn-primary flex items-center gap-2 text-lg px-8 py-4"
+            >
+              <Edit3 size={20} />
+              Open Deck Builder
+            </button>
+            <button
+              onClick={handleCreateNewDeck}
+              className="btn btn-secondary flex items-center gap-2 text-lg px-8 py-4"
+            >
+              <PlusCircle size={20} />
+              Quick Start
+            </button>
+          </div>
         </div>
       </div>
 
