@@ -9,8 +9,12 @@ import {
   Wifi,
   WifiOff,
   Package,
+  FileText,
+  Layers,
+  ExternalLink,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import CardViewer from '../components/CardViewer';
 import AdvancedCardFilters from '../components/AdvancedCardFilters';
@@ -232,6 +236,42 @@ const EnhancedCardDatabase = () => {
                   <Package size={16} />
                   <span>My Collection</span>
                 </button>
+              </div>
+
+              {/* Quick Navigation */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                <Link
+                  to="/advanced-cards"
+                  className="flex items-center gap-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                >
+                  <Search size={14} />
+                  Advanced Search
+                  <ExternalLink size={12} />
+                </Link>
+                <Link
+                  to="/official-decklists"
+                  className="flex items-center gap-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                >
+                  <FileText size={14} />
+                  Official Decklists
+                  <ExternalLink size={12} />
+                </Link>
+                <Link
+                  to="/products"
+                  className="flex items-center gap-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                >
+                  <Package size={14} />
+                  Product Releases
+                  <ExternalLink size={12} />
+                </Link>
+                <Link
+                  to="/decklists"
+                  className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-colors"
+                >
+                  <Layers size={14} />
+                  Build Deck with Card
+                  <ExternalLink size={12} />
+                </Link>
               </div>
             </div>
 
