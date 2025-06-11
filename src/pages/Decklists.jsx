@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../contexts/AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {
   Search,
   Filter,
@@ -31,6 +33,32 @@ import {
 } from 'lucide-react';
 
 const Decklists = () => {
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Handle authentication redirect with useEffect
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, loading, navigate]);
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-secondary">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render content if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
     hero: '',

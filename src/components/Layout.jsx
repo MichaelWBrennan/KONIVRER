@@ -36,20 +36,62 @@ import { analytics } from '../utils/analytics';
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
-  const navigation = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'Cards & Database', href: '/cards', icon: Database },
-    { name: 'Deck Building', href: '/decklists', icon: Layers },
-    { name: 'Tournaments', href: '/tournaments', icon: Trophy },
-    { name: 'Community', href: '/social', icon: Users },
-    { name: 'Judge Center', href: '/judge-center', icon: Shield },
-  ];
+  // Debug logging
+  console.log('Layout - isAuthenticated:', isAuthenticated);
+  console.log('Layout - loading:', loading);
+  console.log('Layout - user:', user);
+
+  // Helper functions for role-based access
+  const hasJudgeAccess = () => {
+    return isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1;
+  };
+
+  const hasOrganizerAccess = () => {
+    return isAuthenticated && user?.roles?.includes('organizer') && user?.organizerLevel >= 1;
+  };
+
+  const isOnHomePage = () => {
+    return location.pathname === '/';
+  };
+
+  // Dynamic navigation based on authentication and roles
+  const getNavigation = () => {
+    const baseNavigation = [];
+
+    // Home - only show when not on home page
+    if (!isOnHomePage()) {
+      baseNavigation.push({ name: 'Home', href: '/', icon: Home });
+    }
+
+    // Cards & Database - always available
+    baseNavigation.push({ name: 'Cards & Database', href: '/cards', icon: Database });
+
+    // Deck Building - only for authenticated users
+    if (isAuthenticated) {
+      baseNavigation.push({ name: 'Deck Building', href: '/decklists', icon: Layers });
+    }
+
+    // Tournaments - public view for all, but organizer tools require authentication
+    baseNavigation.push({ name: 'Tournaments', href: '/tournaments', icon: Trophy });
+
+    // Community - always available
+    baseNavigation.push({ name: 'Community', href: '/social', icon: Users });
+
+    // Judge Center - only for certified judges
+    if (hasJudgeAccess()) {
+      baseNavigation.push({ name: 'Judge Center', href: '/judge-center', icon: Shield });
+    }
+
+    return baseNavigation;
+  };
+
+  const navigation = getNavigation();
 
   // Track page views when location changes
   useEffect(() => {
@@ -205,6 +247,26 @@ const Layout = ({ children }) => {
                           <BookOpen size={16} />
                           My Decks
                         </Link>
+                        {hasJudgeAccess() && (
+                          <Link
+                            to="/judge-center"
+                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                            onClick={() => setShowUserDropdown(false)}
+                          >
+                            <Shield size={16} />
+                            Judge Center
+                          </Link>
+                        )}
+                        {hasOrganizerAccess() && (
+                          <Link
+                            to="/tournament-manager"
+                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                            onClick={() => setShowUserDropdown(false)}
+                          >
+                            <Trophy size={16} />
+                            Tournament Manager
+                          </Link>
+                        )}
                         <Link
                           to="/profile?tab=settings"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
