@@ -18,7 +18,7 @@ import {
   Eye,
   Users,
   Trophy,
-  Percent
+  Percent,
 } from 'lucide-react';
 
 const MetaAnalysis = () => {
@@ -36,7 +36,7 @@ const MetaAnalysis = () => {
         trend: 'up',
         games: 1247,
         avgTournamentFinish: 3.2,
-        colors: ['Lightning', 'Water', 'Air']
+        colors: ['Lightning', 'Water', 'Air'],
       },
       {
         name: 'Blazing Aggro Rush',
@@ -47,7 +47,7 @@ const MetaAnalysis = () => {
         trend: 'up',
         games: 892,
         avgTournamentFinish: 2.8,
-        colors: ['Fire', 'Earth']
+        colors: ['Fire', 'Earth'],
       },
       {
         name: "Nature's Harmony",
@@ -58,7 +58,7 @@ const MetaAnalysis = () => {
         trend: 'down',
         games: 678,
         avgTournamentFinish: 4.1,
-        colors: ['Earth', 'Nature']
+        colors: ['Earth', 'Nature'],
       },
       {
         name: 'Shadow Assassin',
@@ -69,7 +69,7 @@ const MetaAnalysis = () => {
         trend: 'stable',
         games: 534,
         avgTournamentFinish: 5.3,
-        colors: ['Shadow', 'Dark']
+        colors: ['Shadow', 'Dark'],
       },
       {
         name: 'Crystal Guardian',
@@ -80,37 +80,49 @@ const MetaAnalysis = () => {
         trend: 'up',
         games: 445,
         avgTournamentFinish: 4.7,
-        colors: ['Light', 'Crystal']
-      }
+        colors: ['Light', 'Crystal'],
+      },
     ],
     archetypeBreakdown: [
       { name: 'Control', percentage: 32.1, color: 'blue' },
       { name: 'Aggro', percentage: 28.7, color: 'red' },
       { name: 'Midrange', percentage: 23.4, color: 'green' },
-      { name: 'Combo', percentage: 15.8, color: 'purple' }
+      { name: 'Combo', percentage: 15.8, color: 'purple' },
     ],
     formatStats: {
-      'Classic Constructed': { tournaments: 45, players: 1247, avgDeckCost: 450 },
-      'Blitz': { tournaments: 32, players: 892, avgDeckCost: 180 },
-      'Limited': { tournaments: 18, players: 534, avgDeckCost: 45 }
-    }
+      'Classic Constructed': {
+        tournaments: 45,
+        players: 1247,
+        avgDeckCost: 450,
+      },
+      Blitz: { tournaments: 32, players: 892, avgDeckCost: 180 },
+      Limited: { tournaments: 18, players: 534, avgDeckCost: 45 },
+    },
   };
 
-  const getTrendIcon = (trend) => {
+  const getTrendIcon = trend => {
     switch (trend) {
-      case 'up': return <TrendingUp className="text-green-500" size={16} />;
-      case 'down': return <TrendingDown className="text-red-500" size={16} />;
-      default: return <div className="w-4 h-4 bg-gray-400 rounded-full"></div>;
+      case 'up':
+        return <TrendingUp className="text-green-500" size={16} />;
+      case 'down':
+        return <TrendingDown className="text-red-500" size={16} />;
+      default:
+        return <div className="w-4 h-4 bg-gray-400 rounded-full"></div>;
     }
   };
 
-  const getArchetypeIcon = (archetype) => {
+  const getArchetypeIcon = archetype => {
     switch (archetype.toLowerCase()) {
-      case 'control': return <Shield className="text-blue-500" size={16} />;
-      case 'aggro': return <Sword className="text-red-500" size={16} />;
-      case 'midrange': return <Heart className="text-green-500" size={16} />;
-      case 'combo': return <Zap className="text-purple-500" size={16} />;
-      default: return <Target size={16} />;
+      case 'control':
+        return <Shield className="text-blue-500" size={16} />;
+      case 'aggro':
+        return <Sword className="text-red-500" size={16} />;
+      case 'midrange':
+        return <Heart className="text-green-500" size={16} />;
+      case 'combo':
+        return <Zap className="text-purple-500" size={16} />;
+      default:
+        return <Target size={16} />;
     }
   };
 
@@ -125,15 +137,19 @@ const MetaAnalysis = () => {
                 <BarChart3 className="text-white" size={24} />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-primary">Meta Analysis</h1>
-                <p className="text-secondary">Competitive landscape insights and trends</p>
+                <h1 className="text-3xl font-bold text-primary">
+                  Meta Analysis
+                </h1>
+                <p className="text-secondary">
+                  Competitive landscape insights and trends
+                </p>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
-              <select 
+              <select
                 value={timeframe}
-                onChange={(e) => setTimeframe(e.target.value)}
+                onChange={e => setTimeframe(e.target.value)}
                 className="px-4 py-2 bg-secondary border border-color rounded-xl text-primary"
               >
                 <option value="7d">Last 7 days</option>
@@ -141,10 +157,10 @@ const MetaAnalysis = () => {
                 <option value="90d">Last 3 months</option>
                 <option value="1y">Last year</option>
               </select>
-              
-              <select 
+
+              <select
                 value={format}
-                onChange={(e) => setFormat(e.target.value)}
+                onChange={e => setFormat(e.target.value)}
                 className="px-4 py-2 bg-secondary border border-color rounded-xl text-primary"
               >
                 <option value="all">All Formats</option>
@@ -152,7 +168,7 @@ const MetaAnalysis = () => {
                 <option value="blitz">Blitz</option>
                 <option value="limited">Limited</option>
               </select>
-              
+
               <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
                 <RefreshCw size={16} />
                 Refresh
@@ -233,7 +249,9 @@ const MetaAnalysis = () => {
           <div className="lg:col-span-2">
             <div className="bg-secondary border border-color rounded-xl p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-primary">Top Performing Decks</h3>
+                <h3 className="text-xl font-bold text-primary">
+                  Top Performing Decks
+                </h3>
                 <button className="flex items-center gap-2 px-3 py-1 text-sm text-secondary hover:text-primary transition-colors">
                   <Download size={14} />
                   Export
@@ -242,14 +260,19 @@ const MetaAnalysis = () => {
 
               <div className="space-y-4">
                 {metaData.topDecks.map((deck, index) => (
-                  <div key={index} className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200">
+                  <div
+                    key={index}
+                    className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"
+                  >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center text-white font-bold text-sm">
                           #{index + 1}
                         </div>
                         <div>
-                          <h4 className="font-semibold text-primary">{deck.name}</h4>
+                          <h4 className="font-semibold text-primary">
+                            {deck.name}
+                          </h4>
                           <div className="flex items-center gap-2 text-sm text-secondary">
                             {getArchetypeIcon(deck.archetype)}
                             <span>{deck.hero}</span>
@@ -258,31 +281,44 @@ const MetaAnalysis = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         {getTrendIcon(deck.trend)}
-                        <span className="text-sm font-medium text-primary">{deck.metaShare}%</span>
+                        <span className="text-sm font-medium text-primary">
+                          {deck.metaShare}%
+                        </span>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-4 gap-4 text-sm">
                       <div>
                         <p className="text-secondary">Win Rate</p>
-                        <p className="font-semibold text-primary">{deck.winRate}%</p>
+                        <p className="font-semibold text-primary">
+                          {deck.winRate}%
+                        </p>
                       </div>
                       <div>
                         <p className="text-secondary">Games</p>
-                        <p className="font-semibold text-primary">{deck.games}</p>
+                        <p className="font-semibold text-primary">
+                          {deck.games}
+                        </p>
                       </div>
                       <div>
                         <p className="text-secondary">Avg Finish</p>
-                        <p className="font-semibold text-primary">{deck.avgTournamentFinish}</p>
+                        <p className="font-semibold text-primary">
+                          {deck.avgTournamentFinish}
+                        </p>
                       </div>
                       <div>
                         <p className="text-secondary">Colors</p>
                         <div className="flex gap-1">
                           {deck.colors.map((color, i) => (
-                            <span key={i} className="px-2 py-1 bg-tertiary rounded text-xs">{color}</span>
+                            <span
+                              key={i}
+                              className="px-2 py-1 bg-tertiary rounded text-xs"
+                            >
+                              {color}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -296,25 +332,34 @@ const MetaAnalysis = () => {
           {/* Archetype Breakdown */}
           <div className="space-y-6">
             <div className="bg-secondary border border-color rounded-xl p-6">
-              <h3 className="text-xl font-bold text-primary mb-6">Archetype Distribution</h3>
-              
+              <h3 className="text-xl font-bold text-primary mb-6">
+                Archetype Distribution
+              </h3>
+
               <div className="space-y-4">
                 {metaData.archetypeBreakdown.map((archetype, index) => (
                   <div key={index} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {getArchetypeIcon(archetype.name)}
-                        <span className="text-primary font-medium">{archetype.name}</span>
+                        <span className="text-primary font-medium">
+                          {archetype.name}
+                        </span>
                       </div>
-                      <span className="text-sm font-semibold text-primary">{archetype.percentage}%</span>
+                      <span className="text-sm font-semibold text-primary">
+                        {archetype.percentage}%
+                      </span>
                     </div>
                     <div className="w-full bg-tertiary rounded-full h-2">
-                      <div 
+                      <div
                         className={`h-2 rounded-full bg-gradient-to-r ${
-                          archetype.color === 'blue' ? 'from-blue-500 to-blue-600' :
-                          archetype.color === 'red' ? 'from-red-500 to-red-600' :
-                          archetype.color === 'green' ? 'from-green-500 to-green-600' :
-                          'from-purple-500 to-purple-600'
+                          archetype.color === 'blue'
+                            ? 'from-blue-500 to-blue-600'
+                            : archetype.color === 'red'
+                              ? 'from-red-500 to-red-600'
+                              : archetype.color === 'green'
+                                ? 'from-green-500 to-green-600'
+                                : 'from-purple-500 to-purple-600'
                         }`}
                         style={{ width: `${archetype.percentage}%` }}
                       ></div>
@@ -326,24 +371,37 @@ const MetaAnalysis = () => {
 
             {/* Format Stats */}
             <div className="bg-secondary border border-color rounded-xl p-6">
-              <h3 className="text-xl font-bold text-primary mb-6">Format Statistics</h3>
-              
+              <h3 className="text-xl font-bold text-primary mb-6">
+                Format Statistics
+              </h3>
+
               <div className="space-y-4">
                 {Object.entries(metaData.formatStats).map(([format, stats]) => (
-                  <div key={format} className="border border-color rounded-lg p-4">
-                    <h4 className="font-semibold text-primary mb-3">{format}</h4>
+                  <div
+                    key={format}
+                    className="border border-color rounded-lg p-4"
+                  >
+                    <h4 className="font-semibold text-primary mb-3">
+                      {format}
+                    </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-secondary">Tournaments</span>
-                        <span className="text-primary font-medium">{stats.tournaments}</span>
+                        <span className="text-primary font-medium">
+                          {stats.tournaments}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-secondary">Players</span>
-                        <span className="text-primary font-medium">{stats.players}</span>
+                        <span className="text-primary font-medium">
+                          {stats.players}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-secondary">Avg Deck Cost</span>
-                        <span className="text-primary font-medium">${stats.avgDeckCost}</span>
+                        <span className="text-primary font-medium">
+                          ${stats.avgDeckCost}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -356,20 +414,29 @@ const MetaAnalysis = () => {
         {/* Trending Cards Section */}
         <div className="mt-8">
           <div className="bg-secondary border border-color rounded-xl p-6">
-            <h3 className="text-xl font-bold text-primary mb-6">Trending Cards</h3>
-            
+            <h3 className="text-xl font-bold text-primary mb-6">
+              Trending Cards
+            </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="border border-color rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-primary">Lightning Strike</h4>
+                  <h4 className="font-semibold text-primary">
+                    Lightning Strike
+                  </h4>
                   <div className="flex items-center gap-1 text-green-500">
                     <TrendingUp size={14} />
                     <span className="text-sm">+23%</span>
                   </div>
                 </div>
-                <p className="text-sm text-secondary mb-2">Played in 67% of Lightning decks</p>
+                <p className="text-sm text-secondary mb-2">
+                  Played in 67% of Lightning decks
+                </p>
                 <div className="w-full bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full" style={{width: '67%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full"
+                    style={{ width: '67%' }}
+                  ></div>
                 </div>
               </div>
 
@@ -381,23 +448,35 @@ const MetaAnalysis = () => {
                     <span className="text-sm">+18%</span>
                   </div>
                 </div>
-                <p className="text-sm text-secondary mb-2">Played in 54% of Fire decks</p>
+                <p className="text-sm text-secondary mb-2">
+                  Played in 54% of Fire decks
+                </p>
                 <div className="w-full bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full" style={{width: '54%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full"
+                    style={{ width: '54%' }}
+                  ></div>
                 </div>
               </div>
 
               <div className="border border-color rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-primary">Nature's Blessing</h4>
+                  <h4 className="font-semibold text-primary">
+                    Nature's Blessing
+                  </h4>
                   <div className="flex items-center gap-1 text-red-500">
                     <TrendingDown size={14} />
                     <span className="text-sm">-12%</span>
                   </div>
                 </div>
-                <p className="text-sm text-secondary mb-2">Played in 41% of Nature decks</p>
+                <p className="text-sm text-secondary mb-2">
+                  Played in 41% of Nature decks
+                </p>
                 <div className="w-full bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style={{width: '41%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full"
+                    style={{ width: '41%' }}
+                  ></div>
                 </div>
               </div>
             </div>
