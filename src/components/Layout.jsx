@@ -49,11 +49,17 @@ const Layout = ({ children }) => {
 
   // Helper functions for role-based access
   const hasJudgeAccess = () => {
-    return isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1;
+    return (
+      isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1
+    );
   };
 
   const hasOrganizerAccess = () => {
-    return isAuthenticated && user?.roles?.includes('organizer') && user?.organizerLevel >= 1;
+    return (
+      isAuthenticated &&
+      user?.roles?.includes('organizer') &&
+      user?.organizerLevel >= 1
+    );
   };
 
   const isOnHomePage = () => {
@@ -70,22 +76,38 @@ const Layout = ({ children }) => {
     }
 
     // Cards & Database - always available
-    baseNavigation.push({ name: 'Cards & Database', href: '/cards', icon: Database });
+    baseNavigation.push({
+      name: 'Cards & Database',
+      href: '/cards',
+      icon: Database,
+    });
 
     // Deck Building - only for authenticated users
     if (isAuthenticated) {
-      baseNavigation.push({ name: 'Deck Building', href: '/decklists', icon: Layers });
+      baseNavigation.push({
+        name: 'Deck Building',
+        href: '/decklists',
+        icon: Layers,
+      });
     }
 
     // Tournaments - public view for all, but organizer tools require authentication
-    baseNavigation.push({ name: 'Tournaments', href: '/tournaments', icon: Trophy });
+    baseNavigation.push({
+      name: 'Tournaments',
+      href: '/tournaments',
+      icon: Trophy,
+    });
 
     // Community - always available
     baseNavigation.push({ name: 'Community', href: '/social', icon: Users });
 
     // Judge Center - only for certified judges
     if (hasJudgeAccess()) {
-      baseNavigation.push({ name: 'Judge Center', href: '/judge-center', icon: Shield });
+      baseNavigation.push({
+        name: 'Judge Center',
+        href: '/judge-center',
+        icon: Shield,
+      });
     }
 
     return baseNavigation;
