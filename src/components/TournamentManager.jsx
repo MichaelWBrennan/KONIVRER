@@ -20,7 +20,7 @@ import {
   AlertCircle,
   Play,
   Pause,
-  Square
+  Square,
 } from 'lucide-react';
 
 const TournamentManager = () => {
@@ -40,7 +40,7 @@ const TournamentManager = () => {
       maxPlayers: 64,
       prizePool: '$2,500',
       rounds: 6,
-      organizer: 'Tournament Central'
+      organizer: 'Tournament Central',
     },
     {
       id: 2,
@@ -55,7 +55,7 @@ const TournamentManager = () => {
       prizePool: '$200',
       rounds: 4,
       currentRound: 2,
-      organizer: 'GameMaster Pro'
+      organizer: 'GameMaster Pro',
     },
     {
       id: 3,
@@ -70,8 +70,8 @@ const TournamentManager = () => {
       prizePool: '$800',
       rounds: 5,
       winner: 'ProPlayer123',
-      organizer: 'Elite Events'
-    }
+      organizer: 'Elite Events',
+    },
   ];
 
   const renderDashboard = () => (
@@ -130,7 +130,9 @@ const TournamentManager = () => {
       {/* Tournament List */}
       <div className="bg-secondary border border-color rounded-xl p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-primary">Tournament Overview</h3>
+          <h3 className="text-xl font-bold text-primary">
+            Tournament Overview
+          </h3>
           <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
             <Plus size={16} />
             Create Tournament
@@ -139,20 +141,29 @@ const TournamentManager = () => {
 
         <div className="space-y-4">
           {tournaments.map(tournament => (
-            <div key={tournament.id} className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200">
+            <div
+              key={tournament.id}
+              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h4 className="font-semibold text-primary">{tournament.name}</h4>
-                    <span className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                      tournament.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
-                      tournament.status === 'ongoing' ? 'bg-green-100 text-green-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+                    <h4 className="font-semibold text-primary">
+                      {tournament.name}
+                    </h4>
+                    <span
+                      className={`px-2 py-1 rounded-lg text-xs font-medium ${
+                        tournament.status === 'upcoming'
+                          ? 'bg-blue-100 text-blue-800'
+                          : tournament.status === 'ongoing'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-gray-100 text-gray-800'
+                      }`}
+                    >
                       {tournament.status}
                     </span>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary">
                     <div className="flex items-center gap-2">
                       <Calendar size={14} />
@@ -193,21 +204,27 @@ const TournamentManager = () => {
 
   const renderCreateTournament = () => (
     <div className="bg-secondary border border-color rounded-xl p-6">
-      <h3 className="text-xl font-bold text-primary mb-6">Create New Tournament</h3>
-      
+      <h3 className="text-xl font-bold text-primary mb-6">
+        Create New Tournament
+      </h3>
+
       <form className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Tournament Name</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Tournament Name
+            </label>
             <input
               type="text"
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="Enter tournament name"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Format</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Format
+            </label>
             <select className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent">
               <option>Classic Constructed</option>
               <option>Blitz</option>
@@ -216,34 +233,42 @@ const TournamentManager = () => {
               <option>Legacy</option>
             </select>
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Date</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Date
+            </label>
             <input
               type="date"
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Time</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Time
+            </label>
             <input
               type="time"
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Max Players</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Max Players
+            </label>
             <input
               type="number"
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="64"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-primary mb-2">Entry Fee</label>
+            <label className="block text-sm font-medium text-primary mb-2">
+              Entry Fee
+            </label>
             <input
               type="text"
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
@@ -251,25 +276,29 @@ const TournamentManager = () => {
             />
           </div>
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-primary mb-2">Location</label>
+          <label className="block text-sm font-medium text-primary mb-2">
+            Location
+          </label>
           <input
             type="text"
             className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Enter venue address"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-primary mb-2">Description</label>
+          <label className="block text-sm font-medium text-primary mb-2">
+            Description
+          </label>
           <textarea
             rows={4}
             className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Tournament description and rules"
           />
         </div>
-        
+
         <div className="flex gap-4">
           <button
             type="submit"
@@ -291,23 +320,31 @@ const TournamentManager = () => {
   const renderAnalytics = () => (
     <div className="space-y-6">
       <div className="bg-secondary border border-color rounded-xl p-6">
-        <h3 className="text-xl font-bold text-primary mb-6">Tournament Analytics</h3>
-        
+        <h3 className="text-xl font-bold text-primary mb-6">
+          Tournament Analytics
+        </h3>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="text-center">
-            <div className="text-3xl font-bold text-accent-primary mb-2">156</div>
+            <div className="text-3xl font-bold text-accent-primary mb-2">
+              156
+            </div>
             <div className="text-sm text-secondary">Total Tournaments</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-accent-primary mb-2">4,892</div>
+            <div className="text-3xl font-bold text-accent-primary mb-2">
+              4,892
+            </div>
             <div className="text-sm text-secondary">Total Participants</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-accent-primary mb-2">$127,500</div>
+            <div className="text-3xl font-bold text-accent-primary mb-2">
+              $127,500
+            </div>
             <div className="text-sm text-secondary">Total Prize Pool</div>
           </div>
         </div>
-        
+
         <div className="bg-primary border border-color rounded-xl p-4">
           <h4 className="font-semibold text-primary mb-4">Format Popularity</h4>
           <div className="space-y-3">
@@ -315,7 +352,10 @@ const TournamentManager = () => {
               <span className="text-secondary">Classic Constructed</span>
               <div className="flex items-center gap-2">
                 <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-accent-primary to-accent-secondary h-2 rounded-full" style={{width: '68%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-accent-primary to-accent-secondary h-2 rounded-full"
+                    style={{ width: '68%' }}
+                  ></div>
                 </div>
                 <span className="text-sm text-secondary">68%</span>
               </div>
@@ -324,7 +364,10 @@ const TournamentManager = () => {
               <span className="text-secondary">Blitz</span>
               <div className="flex items-center gap-2">
                 <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style={{width: '45%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
+                    style={{ width: '45%' }}
+                  ></div>
                 </div>
                 <span className="text-sm text-secondary">45%</span>
               </div>
@@ -333,7 +376,10 @@ const TournamentManager = () => {
               <span className="text-secondary">Booster Draft</span>
               <div className="flex items-center gap-2">
                 <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style={{width: '32%'}}></div>
+                  <div
+                    className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full"
+                    style={{ width: '32%' }}
+                  ></div>
                 </div>
                 <span className="text-sm text-secondary">32%</span>
               </div>
@@ -354,8 +400,12 @@ const TournamentManager = () => {
               <Trophy className="text-white" size={24} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-primary">Tournament Manager</h1>
-              <p className="text-secondary">Organize and manage KONIVRER tournaments</p>
+              <h1 className="text-3xl font-bold text-primary">
+                Tournament Manager
+              </h1>
+              <p className="text-secondary">
+                Organize and manage KONIVRER tournaments
+              </p>
             </div>
           </div>
         </div>
@@ -366,7 +416,7 @@ const TournamentManager = () => {
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'create', label: 'Create Tournament', icon: Plus },
             { id: 'analytics', label: 'Analytics', icon: Target },
-            { id: 'settings', label: 'Settings', icon: Settings }
+            { id: 'settings', label: 'Settings', icon: Settings },
           ].map(tab => {
             const Icon = tab.icon;
             return (
@@ -392,8 +442,12 @@ const TournamentManager = () => {
         {activeTab === 'analytics' && renderAnalytics()}
         {activeTab === 'settings' && (
           <div className="bg-secondary border border-color rounded-xl p-6">
-            <h3 className="text-xl font-bold text-primary mb-4">Tournament Settings</h3>
-            <p className="text-secondary">Tournament configuration options coming soon...</p>
+            <h3 className="text-xl font-bold text-primary mb-4">
+              Tournament Settings
+            </h3>
+            <p className="text-secondary">
+              Tournament configuration options coming soon...
+            </p>
           </div>
         )}
       </div>
