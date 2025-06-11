@@ -608,9 +608,12 @@ const UnifiedDeckSystem = () => {
       <div className="bg-gradient-to-r from-accent-primary/20 to-accent-secondary/20 border border-accent-primary/30 rounded-lg p-6">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-center lg:text-left">
-            <h2 className="text-2xl font-bold text-primary mb-2">Build Your Perfect Deck</h2>
+            <h2 className="text-2xl font-bold text-primary mb-2">
+              Build Your Perfect Deck
+            </h2>
             <p className="text-secondary">
-              Use our advanced deck builder with real-time validation, meta analysis, and AI suggestions
+              Use our advanced deck builder with real-time validation, meta
+              analysis, and AI suggestions
             </p>
           </div>
           <div className="flex gap-3">
