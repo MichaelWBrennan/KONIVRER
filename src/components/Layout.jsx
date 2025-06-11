@@ -42,11 +42,6 @@ const Layout = ({ children }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
-  // Debug logging
-  console.log('Layout - isAuthenticated:', isAuthenticated);
-  console.log('Layout - loading:', loading);
-  console.log('Layout - user:', user);
-
   // Helper functions for role-based access
   const hasJudgeAccess = () => {
     return (
