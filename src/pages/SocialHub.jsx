@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Hash,
   TrendingUp,
@@ -287,6 +288,26 @@ const SocialHub = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   Monitor KONIVRER hashtags across all major social platforms
                 </p>
+
+                {/* Quick Navigation */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <Link
+                    to="/lore"
+                    className="flex items-center gap-2 px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                  >
+                    <Star size={14} />
+                    Lore & Stories
+                    <ExternalLink size={12} />
+                  </Link>
+                  <Link
+                    to="/hall-of-fame"
+                    className="flex items-center gap-2 px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                  >
+                    <Star size={14} />
+                    Hall of Fame
+                    <ExternalLink size={12} />
+                  </Link>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-4">
