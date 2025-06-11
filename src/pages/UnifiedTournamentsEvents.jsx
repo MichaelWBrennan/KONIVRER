@@ -53,7 +53,11 @@ const UnifiedTournamentsEvents = () => {
 
   // Helper function for organizer access
   const hasOrganizerAccess = () => {
-    return isAuthenticated && user?.roles?.includes('organizer') && user?.organizerLevel >= 1;
+    return (
+      isAuthenticated &&
+      user?.roles?.includes('organizer') &&
+      user?.organizerLevel >= 1
+    );
   };
   const location = useLocation();
   const [currentView, setCurrentView] = useState('tournaments'); // 'tournaments', 'events', 'matches', 'analytics'

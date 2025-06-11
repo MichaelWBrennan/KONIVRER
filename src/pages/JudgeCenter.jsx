@@ -31,7 +31,9 @@ const JudgeCenter = () => {
 
   // Check if user has judge access
   const hasJudgeAccess = () => {
-    return isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1;
+    return (
+      isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1
+    );
   };
 
   // Show loading while checking authentication
