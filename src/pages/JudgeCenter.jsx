@@ -31,7 +31,8 @@ const JudgeCenter = () => {
   const [activeCalls, setActiveCalls] = useState([]);
   const [recentRulings, setRecentRulings] = useState([]);
   const [tournaments, setTournaments] = useState([]);
-  const [selectedRuleSection, setSelectedRuleSection] = useState('comprehensive');
+  const [selectedRuleSection, setSelectedRuleSection] =
+    useState('comprehensive');
 
   // Mock data
   useEffect(() => {
@@ -323,175 +324,180 @@ const JudgeCenter = () => {
   // Rules data from RulesCenter
   const rulesData = {
     comprehensive: {
-      title: "Comprehensive Rules",
-      version: "3.2.1",
-      lastUpdated: "2025-06-01",
-      description: "The complete and authoritative rules for KONIVRER, covering all game mechanics, interactions, and edge cases.",
+      title: 'Comprehensive Rules',
+      version: '3.2.1',
+      lastUpdated: '2025-06-01',
+      description:
+        'The complete and authoritative rules for KONIVRER, covering all game mechanics, interactions, and edge cases.',
       sections: [
         {
-          id: "1",
-          title: "Game Concepts",
+          id: '1',
+          title: 'Game Concepts',
           subsections: [
-            "1.1 The Golden Rules",
-            "1.2 Game Zones",
-            "1.3 Card Types",
-            "1.4 Game Actions"
-          ]
+            '1.1 The Golden Rules',
+            '1.2 Game Zones',
+            '1.3 Card Types',
+            '1.4 Game Actions',
+          ],
         },
         {
-          id: "2",
-          title: "Turn Structure",
+          id: '2',
+          title: 'Turn Structure',
           subsections: [
-            "2.1 Beginning Phase",
-            "2.2 Action Phase",
-            "2.3 End Phase",
-            "2.4 Cleanup"
-          ]
+            '2.1 Beginning Phase',
+            '2.2 Action Phase',
+            '2.3 End Phase',
+            '2.4 Cleanup',
+          ],
         },
         {
-          id: "3",
-          title: "Combat System",
+          id: '3',
+          title: 'Combat System',
           subsections: [
-            "3.1 Attack Declaration",
-            "3.2 Defense Assignment",
-            "3.3 Damage Resolution",
-            "3.4 Combat Modifiers"
-          ]
+            '3.1 Attack Declaration',
+            '3.2 Defense Assignment',
+            '3.3 Damage Resolution',
+            '3.4 Combat Modifiers',
+          ],
         },
         {
-          id: "4",
-          title: "Card Abilities",
+          id: '4',
+          title: 'Card Abilities',
           subsections: [
-            "4.1 Triggered Abilities",
-            "4.2 Activated Abilities",
-            "4.3 Static Abilities",
-            "4.4 Replacement Effects"
-          ]
-        }
-      ]
+            '4.1 Triggered Abilities',
+            '4.2 Activated Abilities',
+            '4.3 Static Abilities',
+            '4.4 Replacement Effects',
+          ],
+        },
+      ],
     },
     tournament: {
-      title: "Tournament Rules & Policy",
-      version: "2.1.0",
-      lastUpdated: "2025-05-15",
-      description: "Official tournament rules, policies, and procedures for competitive KONIVRER play.",
+      title: 'Tournament Rules & Policy',
+      version: '2.1.0',
+      lastUpdated: '2025-05-15',
+      description:
+        'Official tournament rules, policies, and procedures for competitive KONIVRER play.',
       sections: [
         {
-          id: "1",
-          title: "Tournament Structure",
+          id: '1',
+          title: 'Tournament Structure',
           subsections: [
-            "1.1 Tournament Types",
-            "1.2 Round Structure",
-            "1.3 Pairing Procedures",
-            "1.4 Time Limits"
-          ]
+            '1.1 Tournament Types',
+            '1.2 Round Structure',
+            '1.3 Pairing Procedures',
+            '1.4 Time Limits',
+          ],
         },
         {
-          id: "2",
-          title: "Deck Construction",
+          id: '2',
+          title: 'Deck Construction',
           subsections: [
-            "2.1 Format Requirements",
-            "2.2 Card Legality",
-            "2.3 Deck Registration",
-            "2.4 Sideboard Rules"
-          ]
+            '2.1 Format Requirements',
+            '2.2 Card Legality',
+            '2.3 Deck Registration',
+            '2.4 Sideboard Rules',
+          ],
         },
         {
-          id: "3",
-          title: "Player Conduct",
+          id: '3',
+          title: 'Player Conduct',
           subsections: [
-            "3.1 Sportsmanship",
-            "3.2 Communication",
-            "3.3 Penalties",
-            "3.4 Appeals Process"
-          ]
-        }
-      ]
+            '3.1 Sportsmanship',
+            '3.2 Communication',
+            '3.3 Penalties',
+            '3.4 Appeals Process',
+          ],
+        },
+      ],
     },
     penalties: {
-      title: "Penalty Guidelines",
-      version: "1.8.2",
-      lastUpdated: "2025-05-20",
-      description: "Guidelines for judges on issuing penalties and handling infractions during tournaments.",
+      title: 'Penalty Guidelines',
+      version: '1.8.2',
+      lastUpdated: '2025-05-20',
+      description:
+        'Guidelines for judges on issuing penalties and handling infractions during tournaments.',
       sections: [
         {
-          id: "1",
-          title: "Infraction Categories",
+          id: '1',
+          title: 'Infraction Categories',
           subsections: [
-            "1.1 Game Rule Violations",
-            "1.2 Tournament Errors",
-            "1.3 Unsporting Conduct",
-            "1.4 Cheating"
-          ]
+            '1.1 Game Rule Violations',
+            '1.2 Tournament Errors',
+            '1.3 Unsporting Conduct',
+            '1.4 Cheating',
+          ],
         },
         {
-          id: "2",
-          title: "Penalty Types",
+          id: '2',
+          title: 'Penalty Types',
           subsections: [
-            "2.1 Warning",
-            "2.2 Game Loss",
-            "2.3 Match Loss",
-            "2.4 Disqualification"
-          ]
-        }
-      ]
+            '2.1 Warning',
+            '2.2 Game Loss',
+            '2.3 Match Loss',
+            '2.4 Disqualification',
+          ],
+        },
+      ],
     },
     formats: {
-      title: "Gameplay Formats",
-      version: "Current",
-      lastUpdated: "2025-06-10",
-      description: "Official formats for KONIVRER play, including constructed and limited formats.",
+      title: 'Gameplay Formats',
+      version: 'Current',
+      lastUpdated: '2025-06-10',
+      description:
+        'Official formats for KONIVRER play, including constructed and limited formats.',
       sections: [
         {
-          id: "1",
-          title: "Constructed Formats",
+          id: '1',
+          title: 'Constructed Formats',
           subsections: [
-            "1.1 Classic Constructed",
-            "1.2 Blitz",
-            "1.3 Legacy",
-            "1.4 Premium"
-          ]
+            '1.1 Classic Constructed',
+            '1.2 Blitz',
+            '1.3 Legacy',
+            '1.4 Premium',
+          ],
         },
         {
-          id: "2",
-          title: "Limited Formats",
+          id: '2',
+          title: 'Limited Formats',
           subsections: [
-            "2.1 Sealed Deck",
-            "2.2 Booster Draft",
-            "2.3 Team Draft",
-            "2.4 Cube Draft"
-          ]
-        }
-      ]
-    }
+            '2.1 Sealed Deck',
+            '2.2 Booster Draft',
+            '2.3 Team Draft',
+            '2.4 Cube Draft',
+          ],
+        },
+      ],
+    },
   };
 
   const sections = [
     { id: 'comprehensive', name: 'Comprehensive Rules', icon: Book },
     { id: 'tournament', name: 'Tournament Policy', icon: Scale },
     { id: 'penalties', name: 'Penalty Guidelines', icon: AlertTriangle },
-    { id: 'formats', name: 'Game Formats', icon: FileText }
+    { id: 'formats', name: 'Game Formats', icon: FileText },
   ];
 
   const recentUpdates = [
     {
-      date: "2025-06-10",
-      title: "Format Update: Premium Constructed",
-      description: "New Premium Constructed format added with unique deck building restrictions.",
-      type: "Format Addition"
+      date: '2025-06-10',
+      title: 'Format Update: Premium Constructed',
+      description:
+        'New Premium Constructed format added with unique deck building restrictions.',
+      type: 'Format Addition',
     },
     {
-      date: "2025-06-01",
-      title: "Comprehensive Rules 3.2.1",
-      description: "Clarifications on combat timing and ability interactions.",
-      type: "Rules Update"
+      date: '2025-06-01',
+      title: 'Comprehensive Rules 3.2.1',
+      description: 'Clarifications on combat timing and ability interactions.',
+      type: 'Rules Update',
     },
     {
-      date: "2025-05-20",
-      title: "Penalty Guidelines Update",
-      description: "Revised guidelines for handling communication infractions.",
-      type: "Policy Update"
-    }
+      date: '2025-05-20',
+      title: 'Penalty Guidelines Update',
+      description: 'Revised guidelines for handling communication infractions.',
+      type: 'Policy Update',
+    },
   ];
 
   const currentSection = rulesData[selectedRuleSection];
@@ -541,14 +547,19 @@ const JudgeCenter = () => {
             {/* Section Header */}
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h3 className="text-2xl font-bold mb-2">{currentSection.title}</h3>
-                <p className="text-secondary mb-4">{currentSection.description}</p>
+                <h3 className="text-2xl font-bold mb-2">
+                  {currentSection.title}
+                </h3>
+                <p className="text-secondary mb-4">
+                  {currentSection.description}
+                </p>
                 <div className="flex items-center gap-4 text-sm text-muted">
                   <span>Version {currentSection.version}</span>
                   <span>•</span>
                   <span className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
-                    Updated {new Date(currentSection.lastUpdated).toLocaleDateString()}
+                    Updated{' '}
+                    {new Date(currentSection.lastUpdated).toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -562,11 +573,17 @@ const JudgeCenter = () => {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">Table of Contents</h4>
               {currentSection.sections.map(section => (
-                <div key={section.id} className="border border-color rounded-lg p-4 hover:border-accent-primary transition-colors">
+                <div
+                  key={section.id}
+                  className="border border-color rounded-lg p-4 hover:border-accent-primary transition-colors"
+                >
                   <h5 className="font-semibold mb-2">{section.title}</h5>
                   <ul className="space-y-1">
                     {section.subsections.map((subsection, index) => (
-                      <li key={index} className="text-secondary hover:text-accent-primary cursor-pointer transition-colors text-sm">
+                      <li
+                        key={index}
+                        className="text-secondary hover:text-accent-primary cursor-pointer transition-colors text-sm"
+                      >
                         {subsection}
                       </li>
                     ))}
@@ -579,19 +596,31 @@ const JudgeCenter = () => {
             <div className="mt-6 pt-6 border-t border-color">
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="#" className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors">
+                <a
+                  href="#"
+                  className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
+                >
                   <ExternalLink className="w-4 h-4" />
                   <span>Official FAQ</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors">
+                <a
+                  href="#"
+                  className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
+                >
                   <ExternalLink className="w-4 h-4" />
                   <span>Judge Resources</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors">
+                <a
+                  href="#"
+                  className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
+                >
                   <ExternalLink className="w-4 h-4" />
                   <span>Tournament Organizer Guide</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors">
+                <a
+                  href="#"
+                  className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
+                >
                   <ExternalLink className="w-4 h-4" />
                   <span>Player Education</span>
                 </a>
@@ -607,9 +636,14 @@ const JudgeCenter = () => {
             <h4 className="font-semibold mb-4">Recent Updates</h4>
             <div className="space-y-4">
               {recentUpdates.map((update, index) => (
-                <div key={index} className="border-l-4 border-accent-primary pl-4">
+                <div
+                  key={index}
+                  className="border-l-4 border-accent-primary pl-4"
+                >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm text-muted">{new Date(update.date).toLocaleDateString()}</span>
+                    <span className="text-sm text-muted">
+                      {new Date(update.date).toLocaleDateString()}
+                    </span>
                     <span className="bg-accent-primary/20 text-accent-primary px-2 py-1 rounded text-xs">
                       {update.type}
                     </span>
