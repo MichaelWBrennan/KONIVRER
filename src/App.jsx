@@ -63,7 +63,10 @@ function App() {
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/store-locator" element={<StoreLocator />} />
                 <Route path="/leaderboards" element={<Leaderboards />} />
-                <Route path="/official-decklists" element={<OfficialDecklists />} />
+                <Route
+                  path="/official-decklists"
+                  element={<OfficialDecklists />}
+                />
                 <Route path="/lore" element={<LoreCenter />} />
                 <Route path="/products" element={<ProductReleases />} />
 
