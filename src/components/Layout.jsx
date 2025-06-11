@@ -50,16 +50,24 @@ const Layout = ({ children }) => {
       submenu: [
         { name: 'Card Database', href: '/cards', icon: Database },
         { name: 'Advanced Search', href: '/advanced-cards', icon: Search },
-        { name: 'Official Decklists', href: '/official-decklists', icon: FileText },
+        {
+          name: 'Official Decklists',
+          href: '/official-decklists',
+          icon: FileText,
+        },
         { name: 'Product Releases', href: '/products', icon: Package },
-      ]
+      ],
     },
     {
       name: 'Play',
       icon: Trophy,
       submenu: [
         { name: 'Deck Builder', href: '/decklists', icon: Layers },
-        { name: 'Tournament Manager', href: '/tournament-manager', icon: Settings },
+        {
+          name: 'Tournament Manager',
+          href: '/tournament-manager',
+          icon: Settings,
+        },
         { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
         { name: 'Meta Analysis', href: '/meta-analysis', icon: BarChart3 },
         { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
