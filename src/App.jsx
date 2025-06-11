@@ -19,8 +19,12 @@ import Leaderboards from './pages/Leaderboards';
 import OfficialDecklists from './pages/OfficialDecklists';
 import LoreCenter from './pages/LoreCenter';
 import ProductReleases from './pages/ProductReleases';
-import RulesCenter from './pages/RulesCenter';
+
 import RollOfHonor from './pages/RollOfHonor';
+import TournamentManager from './components/TournamentManager';
+import MetaAnalysis from './components/MetaAnalysis';
+import AdvancedCardDatabase from './components/AdvancedCardDatabase';
+import PlayerProfile from './components/PlayerProfile';
 
 function App() {
   return (
@@ -62,8 +66,12 @@ function App() {
                 <Route path="/official-decklists" element={<OfficialDecklists />} />
                 <Route path="/lore" element={<LoreCenter />} />
                 <Route path="/products" element={<ProductReleases />} />
-                <Route path="/rules" element={<RulesCenter />} />
+
                 <Route path="/hall-of-fame" element={<RollOfHonor />} />
+                <Route path="/tournament-manager" element={<TournamentManager />} />
+                <Route path="/meta-analysis" element={<MetaAnalysis />} />
+                <Route path="/advanced-cards" element={<AdvancedCardDatabase />} />
+                <Route path="/player/:playerId" element={<PlayerProfile />} />
               </Routes>
             </Layout>
           </Router>

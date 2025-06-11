@@ -25,6 +25,7 @@ import {
   Award,
   FileText,
   Globe,
+  BarChart3,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -48,9 +49,9 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
       submenu: [
         { name: 'Card Database', href: '/cards', icon: Database },
+        { name: 'Advanced Search', href: '/advanced-cards', icon: Search },
         { name: 'Official Decklists', href: '/official-decklists', icon: FileText },
         { name: 'Product Releases', href: '/products', icon: Package },
-        { name: 'Rules & Policy', href: '/rules', icon: Scale },
       ]
     },
     { 
@@ -58,7 +59,9 @@ const Layout = ({ children }) => {
       icon: Trophy,
       submenu: [
         { name: 'Deck Builder', href: '/decklists', icon: Layers },
+        { name: 'Tournament Manager', href: '/tournament-manager', icon: Settings },
         { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
+        { name: 'Meta Analysis', href: '/meta-analysis', icon: BarChart3 },
         { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
         { name: 'Store Locator', href: '/store-locator', icon: MapPin },
       ]
@@ -72,7 +75,7 @@ const Layout = ({ children }) => {
         { name: 'Hall of Fame', href: '/hall-of-fame', icon: Award },
       ]
     },
-    { name: 'Judge Center', href: '/judge-center', icon: Shield },
+    { name: 'Judge Center & Rules', href: '/judge-center', icon: Shield },
   ];
 
   // Track page views when location changes
