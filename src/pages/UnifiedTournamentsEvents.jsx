@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Calendar,
   Trophy,
@@ -48,6 +49,16 @@ import {
 } from 'lucide-react';
 
 const UnifiedTournamentsEvents = () => {
+  const { user, isAuthenticated } = useAuth();
+
+  // Helper function for organizer access
+  const hasOrganizerAccess = () => {
+    return (
+      isAuthenticated &&
+      user?.roles?.includes('organizer') &&
+      user?.organizerLevel >= 1
+    );
+  };
   const location = useLocation();
   const [currentView, setCurrentView] = useState('tournaments'); // 'tournaments', 'events', 'matches', 'analytics'
   const [selectedTournament, setSelectedTournament] = useState(null);
@@ -577,14 +588,16 @@ const UnifiedTournamentsEvents = () => {
 
           {/* Quick Navigation */}
           <div className="flex flex-wrap gap-2 mt-4">
-            <Link
-              to="/tournament-manager"
-              className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"
-            >
-              <Trophy size={14} />
-              Tournament Manager
-              <ExternalLink size={12} />
-            </Link>
+            {hasOrganizerAccess() && (
+              <Link
+                to="/tournament-manager"
+                className="flex items-center gap-2 px-3 py-1 bg-accent-primary hover:bg-accent-secondary text-white rounded-lg text-sm transition-colors"
+              >
+                <Trophy size={14} />
+                Tournament Manager
+                <ExternalLink size={12} />
+              </Link>
+            )}
             <Link
               to="/meta-analysis"
               className="flex items-center gap-2 px-3 py-1 bg-tertiary hover:bg-hover rounded-lg text-sm transition-colors"

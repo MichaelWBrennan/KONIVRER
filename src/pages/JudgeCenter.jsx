@@ -23,11 +23,38 @@ import {
   Trophy,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const JudgeCenter = () => {
+  const { user, isAuthenticated, loading } = useAuth();
+
+  // Check if user has judge access
+  const hasJudgeAccess = () => {
+    return (
+      isAuthenticated && user?.roles?.includes('judge') && user?.judgeLevel >= 1
+    );
+  };
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-secondary">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated or not a judge
+  if (!hasJudgeAccess()) {
+    return <Navigate to="/" replace />;
+  }
+
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [judgeLevel, setJudgeLevel] = useState(2); // Mock judge level
+  const judgeLevel = user?.judgeLevel || 1;
   const [activeCalls, setActiveCalls] = useState([]);
   const [recentRulings, setRecentRulings] = useState([]);
   const [tournaments, setTournaments] = useState([]);
