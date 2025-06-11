@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 import CardViewer from '../components/CardViewer';
 import AdvancedCardFilters from '../components/AdvancedCardFilters';
@@ -22,6 +23,7 @@ import CollectionManager from '../components/CollectionManager';
 import cardsService from '../services/cardsService';
 
 const EnhancedCardDatabase = () => {
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -264,14 +266,16 @@ const EnhancedCardDatabase = () => {
                   Product Releases
                   <ExternalLink size={12} />
                 </Link>
-                <Link
-                  to="/decklists"
-                  className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-colors"
-                >
-                  <Layers size={14} />
-                  Build Deck with Card
-                  <ExternalLink size={12} />
-                </Link>
+                {isAuthenticated && (
+                  <Link
+                    to="/decklists"
+                    className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-colors"
+                  >
+                    <Layers size={14} />
+                    Build Deck with Card
+                    <ExternalLink size={12} />
+                  </Link>
+                )}
               </div>
             </div>
 
