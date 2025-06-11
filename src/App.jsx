@@ -71,9 +71,15 @@ function App() {
                 <Route path="/products" element={<ProductReleases />} />
 
                 <Route path="/hall-of-fame" element={<RollOfHonor />} />
-                <Route path="/tournament-manager" element={<TournamentManager />} />
+                <Route
+                  path="/tournament-manager"
+                  element={<TournamentManager />}
+                />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
-                <Route path="/advanced-cards" element={<AdvancedCardDatabase />} />
+                <Route
+                  path="/advanced-cards"
+                  element={<AdvancedCardDatabase />}
+                />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
               </Routes>
             </Layout>
