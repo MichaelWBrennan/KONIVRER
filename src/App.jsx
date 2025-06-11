@@ -14,6 +14,13 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import AdminPanel from './pages/AdminPanel';
 import UnifiedDeckSystem from './pages/UnifiedDeckSystem';
 import UnifiedTournamentsEvents from './pages/UnifiedTournamentsEvents';
+import StoreLocator from './pages/StoreLocator';
+import Leaderboards from './pages/Leaderboards';
+import OfficialDecklists from './pages/OfficialDecklists';
+import LoreCenter from './pages/LoreCenter';
+import ProductReleases from './pages/ProductReleases';
+import RulesCenter from './pages/RulesCenter';
+import RollOfHonor from './pages/RollOfHonor';
 
 function App() {
   return (
@@ -50,6 +57,16 @@ function App() {
                 <Route path="/social" element={<SocialHub />} />
                 <Route path="/analytics" element={<AnalyticsDashboard />} />
                 <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/store-locator" element={<StoreLocator />} />
+                <Route path="/leaderboards" element={<Leaderboards />} />
+                <Route
+                  path="/official-decklists"
+                  element={<OfficialDecklists />}
+                />
+                <Route path="/lore" element={<LoreCenter />} />
+                <Route path="/products" element={<ProductReleases />} />
+                <Route path="/rules" element={<RulesCenter />} />
+                <Route path="/hall-of-fame" element={<RollOfHonor />} />
               </Routes>
             </Layout>
           </Router>

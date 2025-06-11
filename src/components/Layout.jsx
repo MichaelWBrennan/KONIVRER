@@ -18,6 +18,13 @@ import {
   Calendar,
   Gamepad2,
   Layers,
+  MapPin,
+  Crown,
+  Package,
+  Scale,
+  Award,
+  FileText,
+  Globe,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -36,10 +43,39 @@ const Layout = ({ children }) => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Deck Lists', href: '/decklists', icon: Layers },
-    { name: 'Card Database', href: '/cards', icon: Database },
-    { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
-    { name: 'Social Hub', href: '/social', icon: Users },
+    {
+      name: 'Game',
+      icon: Gamepad2,
+      submenu: [
+        { name: 'Card Database', href: '/cards', icon: Database },
+        {
+          name: 'Official Decklists',
+          href: '/official-decklists',
+          icon: FileText,
+        },
+        { name: 'Product Releases', href: '/products', icon: Package },
+        { name: 'Rules & Policy', href: '/rules', icon: Scale },
+      ],
+    },
+    {
+      name: 'Play',
+      icon: Trophy,
+      submenu: [
+        { name: 'Deck Builder', href: '/decklists', icon: Layers },
+        { name: 'Tournaments & Events', href: '/tournaments', icon: Trophy },
+        { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
+        { name: 'Store Locator', href: '/store-locator', icon: MapPin },
+      ],
+    },
+    {
+      name: 'Community',
+      icon: Users,
+      submenu: [
+        { name: 'Social Hub', href: '/social', icon: Users },
+        { name: 'Lore & Stories', href: '/lore', icon: BookOpen },
+        { name: 'Hall of Fame', href: '/hall-of-fame', icon: Award },
+      ],
+    },
     { name: 'Judge Center', href: '/judge-center', icon: Shield },
   ];
 
@@ -118,6 +154,51 @@ const Layout = ({ children }) => {
             <nav className="hidden md:flex items-center gap-6">
               {navigation.map(item => {
                 const Icon = item.icon;
+
+                if (item.submenu) {
+                  return (
+                    <div key={item.name} className="relative group">
+                      <button className="group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105">
+                        <Icon
+                          size={16}
+                          className="transition-transform duration-200 group-hover:scale-110"
+                        />
+                        {item.name}
+                        <ChevronDown
+                          size={12}
+                          className="transition-transform duration-200 group-hover:rotate-180"
+                        />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      <div className="absolute top-full left-0 mt-2 w-56 bg-secondary border border-color rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="py-2">
+                          {item.submenu.map(subItem => {
+                            const SubIcon = subItem.icon;
+                            return (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.href}
+                                className={`flex items-center gap-3 px-4 py-3 text-sm transition-all duration-200 ${
+                                  isActive(subItem.href)
+                                    ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white'
+                                    : 'text-secondary hover:text-primary hover:bg-tertiary'
+                                }`}
+                                onClick={() =>
+                                  handleNavClick(subItem.name, subItem.href)
+                                }
+                              >
+                                <SubIcon size={16} />
+                                {subItem.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.name}
@@ -248,6 +329,41 @@ const Layout = ({ children }) => {
               <nav className="flex flex-col gap-2">
                 {navigation.map(item => {
                   const Icon = item.icon;
+
+                  if (item.submenu) {
+                    return (
+                      <div key={item.name} className="space-y-1">
+                        <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-primary">
+                          <Icon size={16} />
+                          {item.name}
+                        </div>
+                        <div className="ml-6 space-y-1">
+                          {item.submenu.map(subItem => {
+                            const SubIcon = subItem.icon;
+                            return (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.href}
+                                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                                  isActive(subItem.href)
+                                    ? 'bg-accent-primary text-white'
+                                    : 'text-secondary hover:text-primary hover:bg-tertiary'
+                                }`}
+                                onClick={() => {
+                                  handleNavClick(subItem.name, subItem.href);
+                                  setIsMobileMenuOpen(false);
+                                }}
+                              >
+                                <SubIcon size={16} />
+                                {subItem.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+
                   return (
                     <Link
                       key={item.name}
@@ -257,7 +373,10 @@ const Layout = ({ children }) => {
                           ? 'bg-accent-primary text-white'
                           : 'text-secondary hover:text-primary hover:bg-tertiary'
                       }`}
-                      onClick={() => handleNavClick(item.name, item.href)}
+                      onClick={() => {
+                        handleNavClick(item.name, item.href);
+                        setIsMobileMenuOpen(false);
+                      }}
                     >
                       <Icon size={16} />
                       {item.name}
