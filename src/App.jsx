@@ -35,8 +35,14 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/cards" element={<UnifiedCardDatabase />} />
-                <Route path="/card-database" element={<UnifiedCardDatabase />} />
-                <Route path="/advanced-cards" element={<UnifiedCardDatabase />} />
+                <Route
+                  path="/card-database"
+                  element={<UnifiedCardDatabase />}
+                />
+                <Route
+                  path="/advanced-cards"
+                  element={<UnifiedCardDatabase />}
+                />
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
                 <Route
