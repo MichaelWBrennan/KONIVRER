@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const CollectionManager = ({ cards }) => {
+const CollectionManager = ({ cards, favorites, bookmarks }) => {
   const [collection, setCollection] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [viewMode, setViewMode] = useState('owned'); // 'owned', 'missing', 'wishlist', 'stats'
