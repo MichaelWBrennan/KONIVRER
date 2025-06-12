@@ -1,13 +1,13 @@
 import { X, Plus, Heart, Bookmark } from 'lucide-react';
 
-const CardViewer = ({ 
-  card, 
-  onClose, 
-  onAddToDeck, 
-  isFavorite, 
-  isBookmarked, 
-  onToggleFavorite, 
-  onToggleBookmark 
+const CardViewer = ({
+  card,
+  onClose,
+  onAddToDeck,
+  isFavorite,
+  isBookmarked,
+  onToggleFavorite,
+  onToggleBookmark,
 }) => {
   if (!card) return null;
 
@@ -34,21 +34,26 @@ const CardViewer = ({
           <h2 className="text-2xl font-bold">{card.name}</h2>
           <div className="flex items-center gap-2">
             {onToggleFavorite && (
-              <button 
+              <button
                 onClick={onToggleFavorite}
                 className={`btn ${isFavorite ? 'btn-primary' : 'btn-ghost'}`}
-                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                title={
+                  isFavorite ? 'Remove from favorites' : 'Add to favorites'
+                }
               >
                 <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
               </button>
             )}
             {onToggleBookmark && (
-              <button 
+              <button
                 onClick={onToggleBookmark}
                 className={`btn ${isBookmarked ? 'btn-primary' : 'btn-ghost'}`}
                 title={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
               >
-                <Bookmark size={16} fill={isBookmarked ? 'currentColor' : 'none'} />
+                <Bookmark
+                  size={16}
+                  fill={isBookmarked ? 'currentColor' : 'none'}
+                />
               </button>
             )}
             <button onClick={onClose} className="btn btn-ghost">
