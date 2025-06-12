@@ -4,7 +4,6 @@ import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
-import EnhancedCardDatabase from './pages/EnhancedCardDatabase';
 import { JudgeCenter } from './pages/JudgeCenter';
 import { TournamentCreate } from './pages/TournamentCreate';
 import EnhancedProfile from './components/EnhancedProfile';
@@ -23,7 +22,7 @@ import ProductReleases from './pages/ProductReleases';
 import RollOfHonor from './pages/RollOfHonor';
 import TournamentManager from './components/TournamentManager';
 import MetaAnalysis from './components/MetaAnalysis';
-import AdvancedCardDatabase from './components/AdvancedCardDatabase';
+import UnifiedCardDatabase from './components/UnifiedCardDatabase';
 import PlayerProfile from './components/PlayerProfile';
 
 function App() {
@@ -35,7 +34,9 @@ function App() {
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/cards" element={<EnhancedCardDatabase />} />
+                <Route path="/cards" element={<UnifiedCardDatabase />} />
+                <Route path="/card-database" element={<UnifiedCardDatabase />} />
+                <Route path="/advanced-cards" element={<UnifiedCardDatabase />} />
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
                 <Route
@@ -76,10 +77,6 @@ function App() {
                   element={<TournamentManager />}
                 />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
-                <Route
-                  path="/advanced-cards"
-                  element={<AdvancedCardDatabase />}
-                />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
               </Routes>
             </Layout>
