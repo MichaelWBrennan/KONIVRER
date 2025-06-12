@@ -134,13 +134,13 @@ const UnifiedCardDatabase = () => {
     const savedFavorites = localStorage.getItem('cardFavorites');
     const savedBookmarks = localStorage.getItem('cardBookmarks');
     const savedViewMode = localStorage.getItem('cardViewMode');
-    
+
     if (savedFavorites) setFavorites(new Set(JSON.parse(savedFavorites)));
     if (savedBookmarks) setBookmarks(new Set(JSON.parse(savedBookmarks)));
     if (savedViewMode) setViewMode(savedViewMode);
   };
 
-  const toggleFavorite = (cardId) => {
+  const toggleFavorite = cardId => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(cardId)) {
       newFavorites.delete(cardId);
@@ -151,7 +151,7 @@ const UnifiedCardDatabase = () => {
     localStorage.setItem('cardFavorites', JSON.stringify([...newFavorites]));
   };
 
-  const toggleBookmark = (cardId) => {
+  const toggleBookmark = cardId => {
     const newBookmarks = new Set(bookmarks);
     if (newBookmarks.has(cardId)) {
       newBookmarks.delete(cardId);
@@ -206,12 +206,28 @@ const UnifiedCardDatabase = () => {
 
   // Filter options derived from actual data
   const getFilterOptions = () => {
-    const allElements = [...new Set(cardsData.flatMap(card => card.elements || [card.element]).filter(Boolean))];
-    const allRarities = [...new Set(cardsData.map(card => card.rarity).filter(Boolean))];
-    const allTypes = [...new Set(cardsData.map(card => card.type).filter(Boolean))];
-    const allSets = [...new Set(cardsData.map(card => card.set).filter(Boolean))];
-    const allKeywords = [...new Set(cardsData.flatMap(card => card.keywords || []))];
-    const allClasses = [...new Set(cardsData.map(card => card.class).filter(Boolean))];
+    const allElements = [
+      ...new Set(
+        cardsData
+          .flatMap(card => card.elements || [card.element])
+          .filter(Boolean),
+      ),
+    ];
+    const allRarities = [
+      ...new Set(cardsData.map(card => card.rarity).filter(Boolean)),
+    ];
+    const allTypes = [
+      ...new Set(cardsData.map(card => card.type).filter(Boolean)),
+    ];
+    const allSets = [
+      ...new Set(cardsData.map(card => card.set).filter(Boolean)),
+    ];
+    const allKeywords = [
+      ...new Set(cardsData.flatMap(card => card.keywords || [])),
+    ];
+    const allClasses = [
+      ...new Set(cardsData.map(card => card.class).filter(Boolean)),
+    ];
 
     return {
       element: ['All', ...allElements],
@@ -286,14 +302,15 @@ const UnifiedCardDatabase = () => {
       card.flavor?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesElement =
-      (filters.element === 'all' || 
-       card.element === filters.element ||
-       (card.elements && card.elements.includes(filters.element))) &&
+      (filters.element === 'all' ||
+        card.element === filters.element ||
+        (card.elements && card.elements.includes(filters.element))) &&
       (filters.elements.length === 0 ||
-       filters.elements.some(element => 
-         card.element === element || 
-         (card.elements && card.elements.includes(element))
-       ));
+        filters.elements.some(
+          element =>
+            card.element === element ||
+            (card.elements && card.elements.includes(element)),
+        ));
 
     const matchesRarity =
       filters.rarity === 'all' || card.rarity === filters.rarity;
@@ -316,12 +333,15 @@ const UnifiedCardDatabase = () => {
       filters.keywords.some(keyword => card.keywords?.includes(keyword));
 
     const matchesCostRange =
-      (!filters.costRange.min || card.cost >= parseInt(filters.costRange.min)) &&
+      (!filters.costRange.min ||
+        card.cost >= parseInt(filters.costRange.min)) &&
       (!filters.costRange.max || card.cost <= parseInt(filters.costRange.max));
 
     const matchesPowerRange =
-      (!filters.powerRange.min || card.power >= parseInt(filters.powerRange.min)) &&
-      (!filters.powerRange.max || card.power <= parseInt(filters.powerRange.max));
+      (!filters.powerRange.min ||
+        card.power >= parseInt(filters.powerRange.min)) &&
+      (!filters.powerRange.max ||
+        card.power <= parseInt(filters.powerRange.max));
 
     return (
       matchesSearch &&
@@ -488,10 +508,7 @@ const UnifiedCardDatabase = () => {
             </FilterSection>
 
             <FilterSection title="Class" section="class">
-              <CheckboxFilter
-                options={filterOptions.class}
-                category="class"
-              />
+              <CheckboxFilter options={filterOptions.class} category="class" />
             </FilterSection>
 
             <FilterSection title="Elements" section="elements">
@@ -509,11 +526,21 @@ const UnifiedCardDatabase = () => {
             </FilterSection>
 
             <FilterSection title="Cost Range" section="cost">
-              <RangeFilter category="costRange" label="Mana Cost" min={0} max={10} />
+              <RangeFilter
+                category="costRange"
+                label="Mana Cost"
+                min={0}
+                max={10}
+              />
             </FilterSection>
 
             <FilterSection title="Power Range" section="power">
-              <RangeFilter category="powerRange" label="Power" min={0} max={10} />
+              <RangeFilter
+                category="powerRange"
+                label="Power"
+                min={0}
+                max={10}
+              />
             </FilterSection>
           </div>
 
@@ -521,8 +548,8 @@ const UnifiedCardDatabase = () => {
             <button onClick={clearFilters} className="btn btn-ghost">
               Clear All Filters
             </button>
-            <button 
-              onClick={() => setShowAdvancedFilters(false)} 
+            <button
+              onClick={() => setShowAdvancedFilters(false)}
               className="btn btn-primary"
             >
               Apply Filters ({filteredCards.length} cards)
@@ -553,27 +580,37 @@ const UnifiedCardDatabase = () => {
               {card.element || card.elements?.[0] || 'Neutral'}
             </div>
             <div className="absolute top-3 right-3 flex gap-2">
-              <button 
-                onClick={(e) => {
+              <button
+                onClick={e => {
                   e.stopPropagation();
                   toggleFavorite(card.id);
                 }}
                 className={`p-1.5 bg-black/50 rounded-lg transition-colors ${
-                  favorites.has(card.id) ? 'text-red-500' : 'text-white hover:text-red-400'
+                  favorites.has(card.id)
+                    ? 'text-red-500'
+                    : 'text-white hover:text-red-400'
                 }`}
               >
-                <Heart size={14} fill={favorites.has(card.id) ? 'currentColor' : 'none'} />
+                <Heart
+                  size={14}
+                  fill={favorites.has(card.id) ? 'currentColor' : 'none'}
+                />
               </button>
-              <button 
-                onClick={(e) => {
+              <button
+                onClick={e => {
                   e.stopPropagation();
                   toggleBookmark(card.id);
                 }}
                 className={`p-1.5 bg-black/50 rounded-lg transition-colors ${
-                  bookmarks.has(card.id) ? 'text-blue-500' : 'text-white hover:text-blue-400'
+                  bookmarks.has(card.id)
+                    ? 'text-blue-500'
+                    : 'text-white hover:text-blue-400'
                 }`}
               >
-                <Bookmark size={14} fill={bookmarks.has(card.id) ? 'currentColor' : 'none'} />
+                <Bookmark
+                  size={14}
+                  fill={bookmarks.has(card.id) ? 'currentColor' : 'none'}
+                />
               </button>
             </div>
           </div>
@@ -678,7 +715,9 @@ const UnifiedCardDatabase = () => {
                 )}
               </div>
 
-              <p className="text-sm text-secondary">{card.text || card.description}</p>
+              <p className="text-sm text-secondary">
+                {card.text || card.description}
+              </p>
             </div>
 
             <div className="text-right">
@@ -704,27 +743,37 @@ const UnifiedCardDatabase = () => {
               )}
               <div className="flex items-center gap-2">
                 {card.trending && getTrendingIcon(card.trending)}
-                <button 
-                  onClick={(e) => {
+                <button
+                  onClick={e => {
                     e.stopPropagation();
                     toggleFavorite(card.id);
                   }}
                   className={`p-1 transition-colors ${
-                    favorites.has(card.id) ? 'text-red-500' : 'text-secondary hover:text-primary'
+                    favorites.has(card.id)
+                      ? 'text-red-500'
+                      : 'text-secondary hover:text-primary'
                   }`}
                 >
-                  <Heart size={14} fill={favorites.has(card.id) ? 'currentColor' : 'none'} />
+                  <Heart
+                    size={14}
+                    fill={favorites.has(card.id) ? 'currentColor' : 'none'}
+                  />
                 </button>
-                <button 
-                  onClick={(e) => {
+                <button
+                  onClick={e => {
                     e.stopPropagation();
                     toggleBookmark(card.id);
                   }}
                   className={`p-1 transition-colors ${
-                    bookmarks.has(card.id) ? 'text-blue-500' : 'text-secondary hover:text-primary'
+                    bookmarks.has(card.id)
+                      ? 'text-blue-500'
+                      : 'text-secondary hover:text-primary'
                   }`}
                 >
-                  <Bookmark size={14} fill={bookmarks.has(card.id) ? 'currentColor' : 'none'} />
+                  <Bookmark
+                    size={14}
+                    fill={bookmarks.has(card.id) ? 'currentColor' : 'none'}
+                  />
                 </button>
               </div>
             </div>
@@ -738,7 +787,10 @@ const UnifiedCardDatabase = () => {
     return (
       <div className="min-h-screen bg-primary flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="animate-spin mx-auto mb-4 text-accent-primary" size={48} />
+          <RefreshCw
+            className="animate-spin mx-auto mb-4 text-accent-primary"
+            size={48}
+          />
           <p className="text-secondary">Loading card database...</p>
         </div>
       </div>
@@ -906,10 +958,16 @@ const UnifiedCardDatabase = () => {
               </select>
 
               <button
-                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                onClick={() =>
+                  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+                }
                 className="p-2 border border-color rounded-lg hover:bg-tertiary transition-colors"
               >
-                {sortOrder === 'asc' ? <SortAsc size={16} /> : <SortDesc size={16} />}
+                {sortOrder === 'asc' ? (
+                  <SortAsc size={16} />
+                ) : (
+                  <SortDesc size={16} />
+                )}
               </button>
             </div>
 
@@ -939,7 +997,9 @@ const UnifiedCardDatabase = () => {
             {error && (
               <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
                 <p className="text-red-400">Error: {error}</p>
-                <p className="text-sm text-red-300 mt-1">Showing sample data instead.</p>
+                <p className="text-sm text-red-300 mt-1">
+                  Showing sample data instead.
+                </p>
               </div>
             )}
 
@@ -948,15 +1008,19 @@ const UnifiedCardDatabase = () => {
             {filteredCards.length === 0 && (
               <div className="text-center py-12">
                 <Search className="mx-auto mb-4 text-secondary" size={48} />
-                <h3 className="text-xl font-semibold text-primary mb-2">No cards found</h3>
-                <p className="text-secondary">Try adjusting your search or filters</p>
+                <h3 className="text-xl font-semibold text-primary mb-2">
+                  No cards found
+                </h3>
+                <p className="text-secondary">
+                  Try adjusting your search or filters
+                </p>
               </div>
             )}
           </>
         )}
 
         {activeTab === 'collection' && (
-          <CollectionManager 
+          <CollectionManager
             cards={cardsData}
             favorites={favorites}
             bookmarks={bookmarks}
