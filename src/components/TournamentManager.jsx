@@ -342,20 +342,33 @@ const TournamentManager = () => {
             <div className="flex items-center gap-3">
               <Zap className="text-accent-primary" size={18} />
               <div>
-                <h5 className="font-medium text-primary">Enable Smart Matchmaking</h5>
-                <p className="text-xs text-secondary">Use AI to create balanced matches</p>
+                <h5 className="font-medium text-primary">
+                  Enable Smart Matchmaking
+                </h5>
+                <p className="text-xs text-secondary">
+                  Use AI to create balanced matches
+                </p>
               </div>
             </div>
             <button
               type="button"
-              onClick={() => setMatchmakingSettings(prev => ({ ...prev, enabled: !prev.enabled }))}
+              onClick={() =>
+                setMatchmakingSettings(prev => ({
+                  ...prev,
+                  enabled: !prev.enabled,
+                }))
+              }
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 text-sm ${
                 matchmakingSettings.enabled
                   ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
                   : 'bg-gray-200 text-gray-600'
               }`}
             >
-              {matchmakingSettings.enabled ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
+              {matchmakingSettings.enabled ? (
+                <ToggleRight size={16} />
+              ) : (
+                <ToggleLeft size={16} />
+              )}
               {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
             </button>
           </div>
@@ -374,11 +387,18 @@ const TournamentManager = () => {
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() => setMatchmakingSettings(prev => ({ ...prev, algorithm: 'bayesian' }))}
+                    onClick={() =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        algorithm: 'bayesian',
+                      }))
+                    }
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <Brain className="text-accent-primary" size={16} />
-                      <span className="font-medium text-primary text-sm">Bayesian TrueSkill</span>
+                      <span className="font-medium text-primary text-sm">
+                        Bayesian TrueSkill
+                      </span>
                     </div>
                     <p className="text-xs text-secondary">
                       Advanced probabilistic skill modeling
@@ -391,11 +411,18 @@ const TournamentManager = () => {
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() => setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))}
+                    onClick={() =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        algorithm: 'elo',
+                      }))
+                    }
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <TrendingUp className="text-blue-500" size={16} />
-                      <span className="font-medium text-primary text-sm">Enhanced ELO</span>
+                      <span className="font-medium text-primary text-sm">
+                        Enhanced ELO
+                      </span>
                     </div>
                     <p className="text-xs text-secondary">
                       Traditional rating with meta analysis
@@ -416,10 +443,12 @@ const TournamentManager = () => {
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.skillVariance}
-                    onChange={(e) => setMatchmakingSettings(prev => ({ 
-                      ...prev, 
-                      skillVariance: parseFloat(e.target.value) 
-                    }))}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        skillVariance: parseFloat(e.target.value),
+                      }))
+                    }
                     className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer"
                   />
                   <p className="text-xs text-secondary mt-1">
@@ -429,7 +458,8 @@ const TournamentManager = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-primary mb-2">
-                    Deck Diversity Weight: {matchmakingSettings.deckDiversityWeight}
+                    Deck Diversity Weight:{' '}
+                    {matchmakingSettings.deckDiversityWeight}
                   </label>
                   <input
                     type="range"
@@ -437,10 +467,12 @@ const TournamentManager = () => {
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.deckDiversityWeight}
-                    onChange={(e) => setMatchmakingSettings(prev => ({ 
-                      ...prev, 
-                      deckDiversityWeight: parseFloat(e.target.value) 
-                    }))}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        deckDiversityWeight: parseFloat(e.target.value),
+                      }))
+                    }
                     className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer"
                   />
                   <p className="text-xs text-secondary mt-1">
@@ -454,9 +486,11 @@ const TournamentManager = () => {
                 <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-accent-primary hover:text-accent-secondary transition-colors">
                   <Sliders size={16} />
                   Advanced Parameters
-                  <span className="ml-auto group-open:rotate-180 transition-transform">▼</span>
+                  <span className="ml-auto group-open:rotate-180 transition-transform">
+                    ▼
+                  </span>
                 </summary>
-                
+
                 <div className="mt-4 space-y-4 pl-6 border-l-2 border-accent-primary/20">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -469,17 +503,20 @@ const TournamentManager = () => {
                         max="0.5"
                         step="0.01"
                         value={matchmakingSettings.learningRate}
-                        onChange={(e) => setMatchmakingSettings(prev => ({ 
-                          ...prev, 
-                          learningRate: parseFloat(e.target.value) 
-                        }))}
+                        onChange={e =>
+                          setMatchmakingSettings(prev => ({
+                            ...prev,
+                            learningRate: parseFloat(e.target.value),
+                          }))
+                        }
                         className="w-full h-1.5 bg-tertiary rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-primary mb-1">
-                        Confidence Threshold: {matchmakingSettings.confidenceThreshold}
+                        Confidence Threshold:{' '}
+                        {matchmakingSettings.confidenceThreshold}
                       </label>
                       <input
                         type="range"
@@ -487,10 +524,12 @@ const TournamentManager = () => {
                         max="0.95"
                         step="0.05"
                         value={matchmakingSettings.confidenceThreshold}
-                        onChange={(e) => setMatchmakingSettings(prev => ({ 
-                          ...prev, 
-                          confidenceThreshold: parseFloat(e.target.value) 
-                        }))}
+                        onChange={e =>
+                          setMatchmakingSettings(prev => ({
+                            ...prev,
+                            confidenceThreshold: parseFloat(e.target.value),
+                          }))
+                        }
                         className="w-full h-1.5 bg-tertiary rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
@@ -605,7 +644,8 @@ const TournamentManager = () => {
               Bayesian Matchmaking System
             </h3>
             <p className="text-secondary">
-              Advanced AI-powered tournament matchmaking with skill-based pairing
+              Advanced AI-powered tournament matchmaking with skill-based
+              pairing
             </p>
           </div>
         </div>
@@ -615,19 +655,32 @@ const TournamentManager = () => {
           <div className="flex items-center gap-3">
             <Zap className="text-accent-primary" size={20} />
             <div>
-              <h4 className="font-semibold text-primary">Enable Smart Matchmaking</h4>
-              <p className="text-sm text-secondary">Use AI to create balanced, competitive matches</p>
+              <h4 className="font-semibold text-primary">
+                Enable Smart Matchmaking
+              </h4>
+              <p className="text-sm text-secondary">
+                Use AI to create balanced, competitive matches
+              </p>
             </div>
           </div>
           <button
-            onClick={() => setMatchmakingSettings(prev => ({ ...prev, enabled: !prev.enabled }))}
+            onClick={() =>
+              setMatchmakingSettings(prev => ({
+                ...prev,
+                enabled: !prev.enabled,
+              }))
+            }
             className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
               matchmakingSettings.enabled
                 ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
                 : 'bg-gray-200 text-gray-600'
             }`}
           >
-            {matchmakingSettings.enabled ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
+            {matchmakingSettings.enabled ? (
+              <ToggleRight size={20} />
+            ) : (
+              <ToggleLeft size={20} />
+            )}
             {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
           </button>
         </div>
@@ -639,7 +692,7 @@ const TournamentManager = () => {
           <Target className="text-accent-primary" size={20} />
           Matchmaking Algorithm
         </h4>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div
             className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
@@ -647,14 +700,20 @@ const TournamentManager = () => {
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() => setMatchmakingSettings(prev => ({ ...prev, algorithm: 'bayesian' }))}
+            onClick={() =>
+              setMatchmakingSettings(prev => ({
+                ...prev,
+                algorithm: 'bayesian',
+              }))
+            }
           >
             <div className="flex items-center gap-3 mb-2">
               <Brain className="text-accent-primary" size={20} />
               <h5 className="font-semibold text-primary">Bayesian TrueSkill</h5>
             </div>
             <p className="text-sm text-secondary">
-              Advanced probabilistic model that accounts for skill uncertainty and learning over time
+              Advanced probabilistic model that accounts for skill uncertainty
+              and learning over time
             </p>
           </div>
 
@@ -664,14 +723,17 @@ const TournamentManager = () => {
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() => setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))}
+            onClick={() =>
+              setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))
+            }
           >
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="text-blue-500" size={20} />
               <h5 className="font-semibold text-primary">Enhanced ELO</h5>
             </div>
             <p className="text-sm text-secondary">
-              Traditional rating system enhanced with deck archetype analysis and meta considerations
+              Traditional rating system enhanced with deck archetype analysis
+              and meta considerations
             </p>
           </div>
         </div>
@@ -696,10 +758,12 @@ const TournamentManager = () => {
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.skillVariance}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  skillVariance: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    skillVariance: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -722,10 +786,12 @@ const TournamentManager = () => {
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.historicalWeight}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  historicalWeight: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    historicalWeight: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -748,10 +814,12 @@ const TournamentManager = () => {
                 max="0.5"
                 step="0.05"
                 value={matchmakingSettings.uncertaintyFactor}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  uncertaintyFactor: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    uncertaintyFactor: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -774,10 +842,12 @@ const TournamentManager = () => {
                 max="0.3"
                 step="0.05"
                 value={matchmakingSettings.learningRate}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  learningRate: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    learningRate: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -810,10 +880,12 @@ const TournamentManager = () => {
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.deckDiversityWeight}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  deckDiversityWeight: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    deckDiversityWeight: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -821,7 +893,8 @@ const TournamentManager = () => {
               </span>
             </div>
             <p className="text-xs text-secondary mt-1">
-              Prioritizes diverse deck archetype matchups over pure skill matching
+              Prioritizes diverse deck archetype matchups over pure skill
+              matching
             </p>
           </div>
 
@@ -836,14 +909,17 @@ const TournamentManager = () => {
                 max="1.0"
                 step="0.05"
                 value={matchmakingSettings.preferredMatchupBalance}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  preferredMatchupBalance: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    preferredMatchupBalance: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
-                {(matchmakingSettings.preferredMatchupBalance * 100).toFixed(0)}%
+                {(matchmakingSettings.preferredMatchupBalance * 100).toFixed(0)}
+                %
               </span>
             </div>
             <p className="text-xs text-secondary mt-1">
@@ -896,14 +972,17 @@ const TournamentManager = () => {
               min="50"
               max="300"
               value={matchmakingSettings.minSkillDifference}
-              onChange={(e) => setMatchmakingSettings(prev => ({ 
-                ...prev, 
-                minSkillDifference: parseInt(e.target.value) 
-              }))}
+              onChange={e =>
+                setMatchmakingSettings(prev => ({
+                  ...prev,
+                  minSkillDifference: parseInt(e.target.value),
+                }))
+              }
               className="w-full px-4 py-2 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
             <p className="text-xs text-secondary mt-1">
-              Minimum rating difference to consider players as different skill levels
+              Minimum rating difference to consider players as different skill
+              levels
             </p>
           </div>
 
@@ -916,10 +995,12 @@ const TournamentManager = () => {
               min="300"
               max="1000"
               value={matchmakingSettings.maxSkillDifference}
-              onChange={(e) => setMatchmakingSettings(prev => ({ 
-                ...prev, 
-                maxSkillDifference: parseInt(e.target.value) 
-              }))}
+              onChange={e =>
+                setMatchmakingSettings(prev => ({
+                  ...prev,
+                  maxSkillDifference: parseInt(e.target.value),
+                }))
+              }
               className="w-full px-4 py-2 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
             <p className="text-xs text-secondary mt-1">
@@ -938,10 +1019,12 @@ const TournamentManager = () => {
                 max="0.95"
                 step="0.05"
                 value={matchmakingSettings.confidenceThreshold}
-                onChange={(e) => setMatchmakingSettings(prev => ({ 
-                  ...prev, 
-                  confidenceThreshold: parseFloat(e.target.value) 
-                }))}
+                onChange={e =>
+                  setMatchmakingSettings(prev => ({
+                    ...prev,
+                    confidenceThreshold: parseFloat(e.target.value),
+                  }))
+                }
                 className="flex-1"
               />
               <span className="text-sm text-secondary w-12">
@@ -966,19 +1049,25 @@ const TournamentManager = () => {
           <div className="text-center p-4 bg-primary border border-color rounded-xl">
             <div className="text-2xl font-bold text-green-500 mb-2">94.7%</div>
             <div className="text-sm text-secondary">Match Quality Score</div>
-            <div className="text-xs text-secondary mt-1">Based on post-game feedback</div>
+            <div className="text-xs text-secondary mt-1">
+              Based on post-game feedback
+            </div>
           </div>
 
           <div className="text-center p-4 bg-primary border border-color rounded-xl">
             <div className="text-2xl font-bold text-blue-500 mb-2">1.2s</div>
             <div className="text-sm text-secondary">Avg. Processing Time</div>
-            <div className="text-xs text-secondary mt-1">Per matchmaking request</div>
+            <div className="text-xs text-secondary mt-1">
+              Per matchmaking request
+            </div>
           </div>
 
           <div className="text-center p-4 bg-primary border border-color rounded-xl">
             <div className="text-2xl font-bold text-purple-500 mb-2">87.3%</div>
             <div className="text-sm text-secondary">Prediction Accuracy</div>
-            <div className="text-xs text-secondary mt-1">Match outcome predictions</div>
+            <div className="text-xs text-secondary mt-1">
+              Match outcome predictions
+            </div>
           </div>
         </div>
 
@@ -986,10 +1075,13 @@ const TournamentManager = () => {
           <div className="flex items-start gap-3">
             <Info className="text-blue-500 mt-1" size={16} />
             <div>
-              <h5 className="font-semibold text-blue-800 mb-1">Bayesian Learning Status</h5>
+              <h5 className="font-semibold text-blue-800 mb-1">
+                Bayesian Learning Status
+              </h5>
               <p className="text-sm text-blue-700">
-                The system has processed 2,847 matches and is continuously learning from player performance patterns. 
-                Current model confidence: 92.4%
+                The system has processed 2,847 matches and is continuously
+                learning from player performance patterns. Current model
+                confidence: 92.4%
               </p>
             </div>
           </div>
