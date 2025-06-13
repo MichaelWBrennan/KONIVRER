@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 class TournamentService {
   constructor() {
@@ -12,7 +13,7 @@ class TournamentService {
     });
 
     // Add auth token to requests if available
-    this.api.interceptors.request.use((config) => {
+    this.api.interceptors.request.use(config => {
       const token = localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -88,7 +89,10 @@ class TournamentService {
   // Matchmaking settings
   async updateMatchmakingSettings(id, settings) {
     try {
-      const response = await this.api.put(`/${id}/matchmaking-settings`, settings);
+      const response = await this.api.put(
+        `/${id}/matchmaking-settings`,
+        settings,
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -121,12 +125,14 @@ class TournamentService {
         baseURL: `${API_BASE_URL}/matches`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       const params = round ? { round } : {};
-      const response = await matchApi.get(`/tournament/${tournamentId}`, { params });
+      const response = await matchApi.get(`/tournament/${tournamentId}`, {
+        params,
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -139,7 +145,7 @@ class TournamentService {
         baseURL: `${API_BASE_URL}/matches`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -156,7 +162,7 @@ class TournamentService {
         baseURL: `${API_BASE_URL}/matches`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -173,7 +179,7 @@ class TournamentService {
         baseURL: `${API_BASE_URL}/matches`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -209,16 +215,16 @@ class TournamentService {
       surpriseFactorAverage: 12.4,
       skillDifferenceAverage: 245,
       deckArchetypeDistribution: {
-        'Aggro': 32,
-        'Control': 28,
-        'Midrange': 25,
-        'Combo': 15
+        Aggro: 32,
+        Control: 28,
+        Midrange: 25,
+        Combo: 15,
       },
       roundAnalytics: [
         { round: 1, averageQuality: 92.1, processingTime: 1.1 },
         { round: 2, averageQuality: 94.3, processingTime: 1.2 },
         { round: 3, averageQuality: 96.2, processingTime: 1.3 },
-      ]
+      ],
     };
   }
 
@@ -247,7 +253,10 @@ class TournamentService {
       errors.push('Skill variance must be between 0.1 and 1.0');
     }
 
-    if (settings.deckDiversityWeight < 0.1 || settings.deckDiversityWeight > 1.0) {
+    if (
+      settings.deckDiversityWeight < 0.1 ||
+      settings.deckDiversityWeight > 1.0
+    ) {
       errors.push('Deck diversity weight must be between 0.1 and 1.0');
     }
 
@@ -263,15 +272,23 @@ class TournamentService {
       errors.push('Minimum skill difference must be between 50 and 300');
     }
 
-    if (settings.maxSkillDifference < 300 || settings.maxSkillDifference > 1000) {
+    if (
+      settings.maxSkillDifference < 300 ||
+      settings.maxSkillDifference > 1000
+    ) {
       errors.push('Maximum skill difference must be between 300 and 1000');
     }
 
     if (settings.minSkillDifference >= settings.maxSkillDifference) {
-      errors.push('Minimum skill difference must be less than maximum skill difference');
+      errors.push(
+        'Minimum skill difference must be less than maximum skill difference',
+      );
     }
 
-    if (settings.preferredMatchupBalance < 0.5 || settings.preferredMatchupBalance > 1.0) {
+    if (
+      settings.preferredMatchupBalance < 0.5 ||
+      settings.preferredMatchupBalance > 1.0
+    ) {
       errors.push('Preferred matchup balance must be between 0.5 and 1.0');
     }
 
@@ -279,7 +296,10 @@ class TournamentService {
       errors.push('Learning rate must be between 0.05 and 0.3');
     }
 
-    if (settings.confidenceThreshold < 0.5 || settings.confidenceThreshold > 0.95) {
+    if (
+      settings.confidenceThreshold < 0.5 ||
+      settings.confidenceThreshold > 0.95
+    ) {
       errors.push('Confidence threshold must be between 0.5 and 0.95');
     }
 
@@ -296,10 +316,12 @@ class TournamentService {
       isUpcoming: tournament.status === 'upcoming',
       isOngoing: tournament.status === 'ongoing',
       isCompleted: tournament.status === 'completed',
-      canJoin: tournament.status === 'upcoming' && 
-               tournament.participants?.length < tournament.maxPlayers,
-      canStart: tournament.status === 'upcoming' && 
-                tournament.participants?.length >= 4,
+      canJoin:
+        tournament.status === 'upcoming' &&
+        tournament.participants?.length < tournament.maxPlayers,
+      canStart:
+        tournament.status === 'upcoming' &&
+        tournament.participants?.length >= 4,
     };
   }
 
@@ -307,7 +329,7 @@ class TournamentService {
   calculateTournamentProgress(tournament) {
     if (tournament.status === 'upcoming') return 0;
     if (tournament.status === 'completed') return 100;
-    
+
     const progress = (tournament.currentRound / tournament.rounds) * 100;
     return Math.min(progress, 100);
   }
@@ -315,20 +337,28 @@ class TournamentService {
   // Get tournament status color
   getStatusColor(status) {
     switch (status) {
-      case 'upcoming': return 'blue';
-      case 'ongoing': return 'green';
-      case 'completed': return 'gray';
-      case 'cancelled': return 'red';
-      default: return 'gray';
+      case 'upcoming':
+        return 'blue';
+      case 'ongoing':
+        return 'green';
+      case 'completed':
+        return 'gray';
+      case 'cancelled':
+        return 'red';
+      default:
+        return 'gray';
     }
   }
 
   // Format matchmaking algorithm name
   formatAlgorithmName(algorithm) {
     switch (algorithm) {
-      case 'bayesian': return 'Bayesian TrueSkill';
-      case 'elo': return 'Enhanced ELO';
-      default: return algorithm;
+      case 'bayesian':
+        return 'Bayesian TrueSkill';
+      case 'elo':
+        return 'Enhanced ELO';
+      default:
+        return algorithm;
     }
   }
 }
