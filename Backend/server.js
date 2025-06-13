@@ -16,7 +16,7 @@ process.on('uncaughtException', (err) => {
 });
 
 // Import routes with error handling
-let authRoutes, cardRoutes, deckRoutes;
+let authRoutes, cardRoutes, deckRoutes, tournamentRoutes, matchRoutes;
 
 try {
   authRoutes = require("./routes/auth");
@@ -37,6 +37,20 @@ try {
   console.log('✅ Deck routes loaded successfully');
 } catch (err) {
   console.error('❌ Error loading deck routes:', err.message);
+}
+
+try {
+  tournamentRoutes = require("./routes/tournaments");
+  console.log('✅ Tournament routes loaded successfully');
+} catch (err) {
+  console.error('❌ Error loading tournament routes:', err.message);
+}
+
+try {
+  matchRoutes = require("./routes/matches");
+  console.log('✅ Match routes loaded successfully');
+} catch (err) {
+  console.error('❌ Error loading match routes:', err.message);
 }
 
 // Middleware
@@ -105,6 +119,20 @@ if (deckRoutes) {
   console.log('⚠️ Deck routes not available');
 }
 
+if (tournamentRoutes) {
+  app.use("/api/tournaments", tournamentRoutes);
+  console.log('✅ Tournament routes mounted at /api/tournaments');
+} else {
+  console.log('⚠️ Tournament routes not available');
+}
+
+if (matchRoutes) {
+  app.use("/api/matches", matchRoutes);
+  console.log('✅ Match routes mounted at /api/matches');
+} else {
+  console.log('⚠️ Match routes not available');
+}
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({ 
@@ -114,7 +142,9 @@ app.get('/', (req, res) => {
       health: '/health',
       auth: '/api/auth',
       cards: '/api/cards',
-      decks: '/api/decks'
+      decks: '/api/decks',
+      tournaments: '/api/tournaments',
+      matches: '/api/matches'
     }
   });
 });
