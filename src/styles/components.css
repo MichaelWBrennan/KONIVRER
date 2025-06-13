@@ -78,8 +78,14 @@
 
 .btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%); /* Slightly different gradient on hover */
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(
+    135deg,
+    #7c3aed 0%,
+    #0891b2 100%
+  ); /* Slightly different gradient on hover */
 }
 
 .btn:disabled {
@@ -136,7 +142,9 @@
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -153,7 +161,9 @@
 
 .btn-secondary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -165,7 +175,9 @@
 
 .btn-success:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -177,7 +189,9 @@
 
 .btn-warning:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -189,7 +203,9 @@
 
 .btn-danger:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -201,7 +217,9 @@
 
 .btn-ghost:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -213,7 +231,9 @@
 
 .btn-outline:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
