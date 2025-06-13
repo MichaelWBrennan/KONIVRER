@@ -280,7 +280,7 @@ body {
   justify-content: center;
   padding: var(--space-3) var(--space-6);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: 50px; /* Fully rounded like the image */
   font-family: 'OpenDyslexic', 'Inter', sans-serif;
   font-size: var(--font-size-sm);
   font-weight: 600;
@@ -291,6 +291,11 @@ body {
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  /* Universal gradient for all buttons */
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+  min-height: 48px; /* Consistent height */
 }
 
 .btn::before {
@@ -303,7 +308,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.2),
     transparent
   );
   transition: left var(--transition-slow) var(--ease-out);
@@ -311,6 +316,12 @@ body {
 
 .btn:hover::before {
   left: 100%;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%); /* Slightly different gradient on hover */
 }
 
 .btn:disabled {
@@ -326,76 +337,127 @@ body {
 .btn-sm {
   padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-xs);
-  border-radius: var(--radius-md);
+  border-radius: 40px;
+  min-height: 36px;
 }
 
 .btn-lg {
   padding: var(--space-4) var(--space-8);
   font-size: var(--font-size-lg);
-  border-radius: var(--radius-xl);
+  border-radius: 60px;
+  min-height: 56px;
 }
 
+/* All button variants now use the same gradient */
 .btn-primary {
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
   color: white;
   box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
 .btn-secondary {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background: var(--bg-hover);
-  border-color: var(--border-hover);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+  color: white;
   box-shadow: var(--shadow-md);
 }
 
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+}
+
 .btn-ghost {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid transparent;
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  border-color: var(--border-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
 .btn-success {
-  background: var(--gradient-success);
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
   color: white;
   box-shadow: var(--shadow-md);
 }
 
 .btn-success:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow:
-    var(--shadow-lg),
-    0 0 20px rgba(16, 185, 129, 0.3);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
   color: white;
   box-shadow: var(--shadow-md);
 }
 
 .btn-danger:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow:
-    var(--shadow-lg),
-    0 0 20px rgba(239, 68, 68, 0.3);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+}
+
+.btn-outline {
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+}
+
+/* Global button styling - applies to all button elements */
+button {
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 50px !important;
+  font-family: 'OpenDyslexic', 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all var(--transition-normal) var(--ease-out) !important;
+  box-shadow: var(--shadow-md) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4) !important;
+  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%) !important;
+}
+
+button:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px) !important;
+}
+
+/* Override for specific button types that should maintain their original styling */
+button[type="submit"],
+button[type="button"],
+button[type="reset"] {
+  background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%) !important;
+  color: white !important;
 }
 
 .input {
