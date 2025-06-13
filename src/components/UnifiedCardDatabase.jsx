@@ -87,17 +87,23 @@ const UnifiedCardDatabase = () => {
     loadCards();
     checkConnection();
     loadUserPreferences();
-    
+
     // Set up automatic syncing every 10 minutes
-    syncIntervalRef.current = setInterval(() => {
-      loadCards(true); // Force refresh to get latest data
-    }, 10 * 60 * 1000);
-    
+    syncIntervalRef.current = setInterval(
+      () => {
+        loadCards(true); // Force refresh to get latest data
+      },
+      10 * 60 * 1000,
+    );
+
     // Set up automatic connection checking every 2 minutes
-    connectionCheckRef.current = setInterval(() => {
-      checkConnection();
-    }, 2 * 60 * 1000);
-    
+    connectionCheckRef.current = setInterval(
+      () => {
+        checkConnection();
+      },
+      2 * 60 * 1000,
+    );
+
     // Cleanup intervals on unmount
     return () => {
       if (syncIntervalRef.current) {
@@ -113,11 +119,11 @@ const UnifiedCardDatabase = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Try to get cards from cache first
       const cards = await cardsService.getCards(forceRefresh);
       setCardsData(cards);
-      
+
       // If we're forcing refresh and connected, also try to sync from source
       if (forceRefresh && connectionStatus?.connected) {
         try {
@@ -876,7 +882,9 @@ const UnifiedCardDatabase = () => {
                   <WifiOff className="text-red-500" size={16} />
                 )}
                 <span className="text-sm text-secondary">
-                  {connectionStatus?.connected ? 'Auto-sync enabled' : 'Offline mode'}
+                  {connectionStatus?.connected
+                    ? 'Auto-sync enabled'
+                    : 'Offline mode'}
                 </span>
               </div>
               <span className="text-sm text-secondary">
