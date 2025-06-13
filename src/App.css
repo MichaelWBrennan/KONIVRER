@@ -320,8 +320,14 @@ body {
 
 .btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%); /* Slightly different gradient on hover */
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(
+    135deg,
+    #7c3aed 0%,
+    #0891b2 100%
+  ); /* Slightly different gradient on hover */
 }
 
 .btn:disabled {
@@ -357,7 +363,9 @@ body {
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -369,7 +377,9 @@ body {
 
 .btn-secondary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -381,7 +391,9 @@ body {
 
 .btn-ghost:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -393,7 +405,9 @@ body {
 
 .btn-success:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -405,7 +419,9 @@ body {
 
 .btn-danger:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -417,7 +433,9 @@ body {
 
 .btn-outline:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
 }
 
@@ -438,7 +456,9 @@ button {
 
 button:hover:not(:disabled) {
   transform: translateY(-2px) !important;
-  box-shadow: var(--shadow-lg), 0 0 25px rgba(102, 126, 234, 0.4) !important;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 25px rgba(102, 126, 234, 0.4) !important;
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%) !important;
 }
 
@@ -453,9 +473,9 @@ button:active:not(:disabled) {
 }
 
 /* Override for specific button types that should maintain their original styling */
-button[type="submit"],
-button[type="button"],
-button[type="reset"] {
+button[type='submit'],
+button[type='button'],
+button[type='reset'] {
   background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%) !important;
   color: white !important;
 }
