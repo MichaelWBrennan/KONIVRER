@@ -5,15 +5,15 @@ import {
   List,
   Eye,
   Plus,
-  RefreshCw,
   Wifi,
   WifiOff,
   Package,
   FileText,
   Layers,
   ExternalLink,
+  Loader2,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -46,42 +46,62 @@ const EnhancedCardDatabase = () => {
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [syncing, setSyncing] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(null);
+  const syncIntervalRef = useRef(null);
+  const connectionCheckRef = useRef(null);
 
-  // Load cards on component mount
+  // Load cards on component mount and set up automatic syncing
   useEffect(() => {
     loadCards();
     checkConnection();
+    
+    // Set up automatic syncing every 10 minutes
+    syncIntervalRef.current = setInterval(() => {
+      loadCards(true); // Force refresh to get latest data
+    }, 10 * 60 * 1000);
+    
+    // Set up automatic connection checking every 2 minutes
+    connectionCheckRef.current = setInterval(() => {
+      checkConnection();
+    }, 2 * 60 * 1000);
+    
+    // Cleanup intervals on unmount
+    return () => {
+      if (syncIntervalRef.current) {
+        clearInterval(syncIntervalRef.current);
+      }
+      if (connectionCheckRef.current) {
+        clearInterval(connectionCheckRef.current);
+      }
+    };
   }, []);
 
   const loadCards = async (forceRefresh = false) => {
     try {
       setLoading(true);
       setError(null);
+      
+      // Try to get cards from cache first
       const cards = await cardsService.getCards(forceRefresh);
       setCardsData(cards);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSync = async () => {
-    try {
-      setSyncing(true);
-      const result = await cardsService.syncCards();
-      if (result.success) {
-        setCardsData(result.cards);
-        alert(`Success: ${result.message}`);
-      } else {
-        alert(`Error: ${result.message}`);
+      
+      // If we're forcing refresh and connected, also try to sync from source
+      if (forceRefresh && connectionStatus?.connected) {
+        try {
+          const syncResult = await cardsService.syncCards();
+          if (syncResult.success) {
+            setCardsData(syncResult.cards);
+            console.log('Auto-sync successful:', syncResult.message);
+          }
+        } catch (syncErr) {
+          console.warn('Auto-sync failed, using cached data:', syncErr.message);
+        }
       }
     } catch (err) {
-      alert(`Error: ${err.message}`);
+      setError(err.message);
+      console.error('Error loading cards:', err);
     } finally {
-      setSyncing(false);
+      setLoading(false);
     }
   };
 
@@ -279,47 +299,16 @@ const EnhancedCardDatabase = () => {
               </div>
             </div>
 
-            {/* Sync Controls */}
-            <div className="flex items-center gap-3">
-              {/* Connection Status */}
-              <div className="flex items-center gap-2">
-                {connectionStatus?.connected ? (
-                  <Wifi className="text-green-500" size={16} />
-                ) : (
-                  <WifiOff className="text-red-500" size={16} />
-                )}
-                <span className="text-sm text-gray-400">
-                  {connectionStatus?.connected ? 'Connected' : 'Offline'}
-                </span>
-              </div>
-
-              {/* Refresh Button */}
-              <button
-                onClick={() => loadCards(true)}
-                disabled={loading}
-                className="flex items-center space-x-2 px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors disabled:opacity-50"
-                title="Refresh cards from cache"
-              >
-                <RefreshCw
-                  className={loading ? 'animate-spin' : ''}
-                  size={16}
-                />
-                Refresh
-              </button>
-
-              {/* Sync Button */}
-              <button
-                onClick={handleSync}
-                disabled={syncing || !connectionStatus?.connected}
-                className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
-                title="Sync cards from Google Sheets"
-              >
-                <RefreshCw
-                  className={syncing ? 'animate-spin' : ''}
-                  size={16}
-                />
-                {syncing ? 'Syncing...' : 'Sync'}
-              </button>
+            {/* Connection Status */}
+            <div className="flex items-center gap-2">
+              {connectionStatus?.connected ? (
+                <Wifi className="text-green-500" size={16} />
+              ) : (
+                <WifiOff className="text-red-500" size={16} />
+              )}
+              <span className="text-sm text-gray-400">
+                {connectionStatus?.connected ? 'Auto-sync enabled' : 'Offline mode'}
+              </span>
             </div>
           </div>
         </div>
@@ -399,7 +388,7 @@ const EnhancedCardDatabase = () => {
         {loading && (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <RefreshCw className="animate-spin mx-auto mb-4" size={32} />
+              <Loader2 className="animate-spin mx-auto mb-4" size={32} />
               <p className="text-gray-400">Loading cards...</p>
             </div>
           </div>
