@@ -42,7 +42,7 @@ class CardsService {
   constructor() {
     this.cache = null;
     this.lastFetchTime = null;
-    this.cacheDuration = 5 * 60 * 1000; // 5 minutes
+    this.cacheDuration = 2 * 60 * 1000; // 2 minutes (shorter since we have auto-sync)
   }
 
   /**
