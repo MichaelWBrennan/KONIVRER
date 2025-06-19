@@ -66,6 +66,28 @@ const Home = () => {
       category: 'Rules',
       image: '/api/placeholder/400/250',
     },
+    {
+      id: 5,
+      title: 'Behind the Scenes: Art and Lore Development',
+      excerpt:
+        'Get an exclusive look at how we create the stunning artwork and rich lore that brings KONIVRER to life.',
+      author: 'Creative Team',
+      date: '2024-06-05',
+      readTime: '7 min read',
+      category: 'Development',
+      image: '/api/placeholder/400/250',
+    },
+    {
+      id: 6,
+      title: 'Player Interview: World Champion Insights',
+      excerpt:
+        'An in-depth conversation with our reigning world champion about strategy, preparation, and the future of competitive play.',
+      author: 'Editorial Team',
+      date: '2024-06-03',
+      readTime: '10 min read',
+      category: 'Interview',
+      image: '/api/placeholder/400/250',
+    },
   ];
 
   useEffect(() => {
@@ -456,218 +478,312 @@ const Home = () => {
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             {/* Left Column - Main Content Feed */}
             <div className="xl:col-span-2 space-y-6">
-              
-              {/* Featured Blog Post */}
-              {activeFilter !== 'community' && filteredBlogPosts
-                .filter(post => post.featured)
-                .map((post, index) => (
-                  <motion.article
-                    key={post.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="mb-6"
-                  >
-                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">
-                      <div className="grid lg:grid-cols-2 gap-0">
-                        <div className="relative">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            className="w-full h-64 lg:h-full object-cover"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-3 py-1 rounded-full font-bold">
-                              FEATURED
-                            </span>
-                          </div>
-                        </div>
-                        <div className="p-8 flex flex-col justify-center">
-                          <div className="flex items-center gap-3 mb-4">
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
-                            >
-                              {post.category}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {post.readTime}
-                            </span>
-                          </div>
-                          <h2 className="text-3xl font-bold mb-4 text-white hover:text-blue-400 transition-colors cursor-pointer">
-                            {post.title}
-                          </h2>
-                          <p className="text-gray-300 mb-6 text-lg leading-relaxed">
-                            {post.excerpt}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                              <div>
-                                <p className="text-white font-medium">
-                                  {post.author}
-                                </p>
-                                <p className="text-gray-400 text-sm">
-                                  {formatDate(post.date)}
-                                </p>
-                              </div>
-                            </div>
-                            <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                              Read More →
-                            </button>
-                          </div>
-                        </div>
+          {/* Featured Post */}
+          {blogPosts
+            .filter(post => post.featured)
+            .map((post, index) => (
+              <motion.article
+                key={post.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mb-16"
+              >
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">
+                  <div className="grid lg:grid-cols-2 gap-0">
+                    <div className="relative">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-64 lg:h-full object-cover"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-3 py-1 rounded-full font-bold">
+                          FEATURED
+                        </span>
                       </div>
                     </div>
-                  </motion.article>
-                ))}
+                    <div className="p-8 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
+                        >
+                          {post.category}
+                        </span>
+                        <span className="text-gray-400 text-sm">
+                          {post.readTime}
+                        </span>
+                      </div>
+                      <h2 className="text-3xl font-bold mb-4 text-white hover:text-blue-400 transition-colors cursor-pointer">
+                        {post.title}
+                      </h2>
+                      <p className="text-gray-300 mb-6 text-lg leading-relaxed">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                          <div>
+                            <p className="text-white font-medium">
+                              {post.author}
+                            </p>
+                            <p className="text-gray-400 text-sm">
+                              {formatDate(post.date)}
+                            </p>
+                          </div>
+                        </div>
+                        <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                          Read More →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
 
-              {/* Mixed Content Feed */}
-              <div className="space-y-6">
-                {/* Blog Posts */}
-                {activeFilter !== 'community' && filteredBlogPosts
-                  .filter(post => !post.featured)
-                  .map((post, index) => (
-                    <motion.article
-                      key={`blog-${post.id}`}
-                      initial={{ opacity: 0, y: 30 }}
+          {/* Regular Posts Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogPosts
+              .filter(post => !post.featured)
+              .map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
+                  className="group cursor-pointer"
+                >
+                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 hover:transform hover:scale-105">
+                    <div className="relative">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
+                        >
+                          {post.category}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-gray-400 text-sm">
+                          {post.readTime}
+                        </span>
+                        <span className="text-gray-600">•</span>
+                        <span className="text-gray-400 text-sm">
+                          {formatDate(post.date)}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-gray-300 mb-4 line-clamp-3">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                          <span className="text-gray-400 text-sm">
+                            {post.author}
+                          </span>
+                        </div>
+                        <span className="text-blue-400 group-hover:text-blue-300 text-sm font-medium transition-colors">
+                          Read More →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+          </div>
+
+          {/* Load More Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="text-center mt-12"
+          >
+            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:transform hover:scale-105">
+              Load More Posts
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section className="py-16 bg-gradient-to-br from-gray-800/50 to-gray-900/50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4">
+              Community
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">
+                Hub
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Connect with players, find local stores, and celebrate our champions
+            </p>
+          </motion.div>
+
+          {/* Community Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+          >
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
+              <div className="text-3xl font-bold text-blue-400 mb-2">
+                {communityStats.totalMembers?.toLocaleString()}
+              </div>
+              <div className="text-gray-400 text-sm">Total Members</div>
+            </div>
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
+              <div className="text-3xl font-bold text-green-400 mb-2">
+                {communityStats.activeToday?.toLocaleString()}
+              </div>
+              <div className="text-gray-400 text-sm">Active Today</div>
+            </div>
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">
+                {communityStats.postsToday}
+              </div>
+              <div className="text-gray-400 text-sm">Posts Today</div>
+            </div>
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
+              <div className="text-3xl font-bold text-orange-400 mb-2">
+                {communityStats.eventsThisWeek}
+              </div>
+              <div className="text-gray-400 text-sm">Events This Week</div>
+            </div>
+          </motion.div>
+
+          {/* Main Community Grid */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Left Column - Recent Community Posts */}
+            <div className="lg:col-span-2">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold text-white">Recent Activity</h3>
+                  <Link
+                    to="/social"
+                    className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+                  >
+                    View All →
+                  </Link>
+                </div>
+                
+                <div className="space-y-6">
+                  {socialPosts.slice(0, 3).map((post, index) => (
+                    <motion.div
+                      key={post.id}
+                      initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.1 * index }}
-                      className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700/50 transition-colors"
+                      transition={{ duration: 0.5, delay: 0.1 * index }}
+                      className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300"
                     >
-                      <div className="flex items-start space-x-4">
+                      <div className="flex items-start space-x-3 mb-4">
                         <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+                          src={post.user.avatar}
+                          alt={post.user.name}
+                          className="w-10 h-10 rounded-full"
                         />
                         <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
-                            >
-                              {post.category}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {post.readTime}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {formatDate(post.date)}
-                            </span>
+                          <div className="flex items-center space-x-2 mb-1">
+                            <span className="font-semibold text-white">{post.user.name}</span>
+                            {post.user.verified && (
+                              <span className="text-blue-400 text-xs">✓</span>
+                            )}
+                            <span className="text-sm text-gray-400">•</span>
+                            <span className="text-sm text-gray-400">{post.user.rank}</span>
+                            <span className="text-sm text-gray-400">•</span>
+                            <span className="text-sm text-gray-400">{post.timestamp}</span>
                           </div>
-                          <h3 className="text-xl font-bold mb-2 text-white hover:text-blue-400 transition-colors cursor-pointer">
-                            {post.title}
-                          </h3>
-                          <p className="text-gray-300 mb-3 line-clamp-2">
-                            {post.excerpt}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-400 text-sm">
-                              By {post.author}
-                            </span>
-                            <button className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
-                              Read More →
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.article>
-                  ))}
-
-                {/* Social Posts */}
-                {activeFilter !== 'blog' && filteredSocialPosts.map((post, index) => (
-                  <motion.div
-                    key={`social-${post.id}`}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                    className="bg-gray-800 rounded-lg p-6"
-                  >
-                    <div className="flex items-start space-x-3 mb-4">
-                      <img
-                        src={post.user.avatar}
-                        alt={post.user.name}
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-semibold text-white">{post.user.name}</span>
-                          {post.user.verified && (
-                            <span className="text-blue-400 text-xs">✓</span>
+                          {post.location && (
+                            <div className="text-sm text-gray-400 mb-2">📍 {post.location}</div>
                           )}
-                          <span className="text-sm text-gray-400">•</span>
-                          <span className="text-sm text-gray-400">{post.user.rank}</span>
-                          <span className="text-sm text-gray-400">•</span>
-                          <span className="text-sm text-gray-400">{post.timestamp}</span>
                         </div>
-                        {post.location && (
-                          <div className="text-sm text-gray-400 mb-2">📍 {post.location}</div>
-                        )}
                       </div>
-                    </div>
 
-                    <p className="text-gray-300 mb-4">{post.content}</p>
+                      <p className="text-gray-300 mb-4">{post.content}</p>
 
-                    {post.images && (
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {post.images.map((image, imgIndex) => (
-                          <img
-                            key={imgIndex}
-                            src={image}
-                            alt={`Post image ${imgIndex + 1}`}
-                            className="rounded-lg w-full h-32 object-cover"
-                          />
-                        ))}
+                      {post.images && (
+                        <div className="grid grid-cols-2 gap-2 mb-4">
+                          {post.images.map((image, imgIndex) => (
+                            <img
+                              key={imgIndex}
+                              src={image}
+                              alt={`Post image ${imgIndex + 1}`}
+                              className="rounded-lg w-full h-32 object-cover"
+                            />
+                          ))}
+                        </div>
+                      )}
+
+                      {post.tags && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {post.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className="text-blue-400 text-sm hover:text-blue-300 cursor-pointer"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex items-center space-x-6 pt-3 border-t border-gray-700">
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors"
+                        >
+                          <span>❤️</span>
+                          <span>{post.likes}</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                          <span>💬</span>
+                          <span>{post.comments}</span>
+                        </button>
+                        <button
+                          onClick={() => handleShare(post.id)}
+                          className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors"
+                        >
+                          <span>🔄</span>
+                          <span>{post.shares}</span>
+                        </button>
                       </div>
-                    )}
-
-                    {post.tags && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {post.tags.map((tag, tagIndex) => (
-                          <span
-                            key={tagIndex}
-                            className="text-blue-400 text-sm hover:text-blue-300 cursor-pointer"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex items-center space-x-6 pt-3 border-t border-gray-700">
-                      <button
-                        onClick={() => handleLike(post.id)}
-                        className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors"
-                      >
-                        <span>❤️</span>
-                        <span>{post.likes}</span>
-                      </button>
-                      <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                        <span>💬</span>
-                        <span>{post.comments}</span>
-                      </button>
-                      <button
-                        onClick={() => handleShare(post.id)}
-                        className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors"
-                      >
-                        <span>🔄</span>
-                        <span>{post.shares}</span>
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
 
-            {/* Right Column - Sidebar */}
-            <div className="space-y-6">
+            {/* Right Column - Store Locator & Hall of Fame */}
+            <div className="space-y-8">
               {/* Nearby Stores */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="bg-gray-800 rounded-lg p-6"
+                className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50"
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-white">Nearby Stores</h3>
                   <Link
                     to="/store-locator"
@@ -679,23 +795,30 @@ const Home = () => {
                 
                 <div className="space-y-4">
                   {stores.slice(0, 2).map((store, index) => (
-                    <div
+                    <motion.div
                       key={store.id}
-                      className="bg-gray-700/50 rounded-lg p-4"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 * index }}
+                      className="bg-gray-700/50 rounded-lg p-4 hover:bg-gray-700/70 transition-colors"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h4 className="font-semibold text-white">
+                          <h4 className="font-semibold text-white flex items-center">
                             {store.name}
+                            {store.verified && (
+                              <span className="text-green-400 text-xs ml-1">✓</span>
+                            )}
                           </h4>
                           <div className="text-sm text-gray-400 mt-1">
                             <div className="mb-1">📍 {store.address}</div>
-                            <div>{store.distance} miles away</div>
+                            <div>📏 {store.distance} miles away</div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="flex items-center text-yellow-400">
-                            <span className="text-sm">⭐ {store.rating}</span>
+                            <span>⭐</span>
+                            <span className="text-sm ml-1">{store.rating}</span>
                           </div>
                           <div className="text-xs text-gray-400">
                             {store.reviews} reviews
@@ -710,23 +833,33 @@ const Home = () => {
                         <div className="space-y-1">
                           {store.events.slice(0, 2).map((event, eventIndex) => (
                             <div key={eventIndex} className="text-xs text-gray-400">
-                              {event.name} - {event.day} {event.time}
+                              🎮 {event.name} - {event.day} {event.time}
                             </div>
                           ))}
                         </div>
                       </div>
 
-                      <div className="flex space-x-1">
-                        {store.amenities.slice(0, 3).map((amenity, amenityIndex) => (
-                          <span
-                            key={amenityIndex}
-                            className="text-xs bg-gray-600 px-2 py-1 rounded"
-                          >
-                            {amenity}
-                          </span>
-                        ))}
+                      <div className="flex items-center justify-between">
+                        <div className="flex space-x-1">
+                          {store.amenities?.slice(0, 3).map((amenity, amenityIndex) => (
+                            <span
+                              key={amenityIndex}
+                              className="text-xs bg-gray-600 px-2 py-1 rounded"
+                            >
+                              {amenity}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex space-x-2">
+                          <button className="text-green-400 hover:text-green-300 text-sm">
+                            📞
+                          </button>
+                          <button className="text-blue-400 hover:text-blue-300 text-sm">
+                            🌐
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -736,9 +869,9 @@ const Home = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="bg-gray-800 rounded-lg p-6"
+                className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50"
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-white">Hall of Fame</h3>
                   <Link
                     to="/hall-of-fame"
@@ -749,46 +882,50 @@ const Home = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {hallOfFame.map(player => (
-                    <div key={player.id} className="bg-gray-700/50 rounded-lg p-4">
+                  {hallOfFame.slice(0, 2).map((player, index) => (
+                    <motion.div
+                      key={player.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 * index }}
+                      className="bg-gray-700/50 rounded-lg p-4 hover:bg-gray-700/70 transition-colors"
+                    >
                       <div className="flex items-start space-x-3 mb-3">
                         <img
                           src={player.image}
                           alt={player.name}
-                          className="w-12 h-12 rounded-full"
+                          className="w-12 h-12 rounded-full border-2 border-yellow-400"
                         />
                         <div className="flex-1">
                           <h4 className="font-semibold text-white">{player.name}</h4>
-                          <p className="text-sm text-yellow-400">
-                            {player.title}
-                          </p>
+                          <p className="text-sm text-yellow-400">{player.title}</p>
                           <p className="text-xs text-gray-400">
-                            Inducted {player.inducted} • {player.country}
+                            🏆 Inducted {player.inducted} • 🌍 {player.country}
                           </p>
                         </div>
                       </div>
 
-                      <div className="mb-3">
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          <div>
-                            <span className="text-gray-400">Win Rate:</span>
-                            <span className="ml-1 text-green-400">
-                              {player.winRate}%
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-gray-400">Tournaments:</span>
-                            <span className="ml-1">
-                              {player.totalTournaments}
-                            </span>
-                          </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs mb-3">
+                        <div>
+                          <span className="text-gray-400">Win Rate:</span>
+                          <span className="ml-1 text-green-400 font-semibold">
+                            {player.winRate}%
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400">Tournaments:</span>
+                          <span className="ml-1 text-white font-semibold">
+                            {player.totalTournaments}
+                          </span>
                         </div>
                       </div>
 
-                      <blockquote className="text-sm italic text-gray-300 border-l-2 border-blue-500 pl-3">
-                        "{player.quote}"
-                      </blockquote>
-                    </div>
+                      {player.quote && (
+                        <blockquote className="text-sm italic text-gray-300 border-l-2 border-yellow-400 pl-3">
+                          "{player.quote}"
+                        </blockquote>
+                      )}
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -798,93 +935,67 @@ const Home = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="bg-gray-800 rounded-lg p-6"
+                className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50"
               >
-                <h3 className="text-xl font-bold text-white mb-4">Top Contributors</h3>
-                
+                <h3 className="text-xl font-bold text-white mb-6">Top Contributors</h3>
                 <div className="space-y-3">
                   {communityStats.topContributors?.map((contributor, index) => (
-                    <div
+                    <motion.div
                       key={contributor.name}
-                      className="flex items-center space-x-3"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 * index }}
+                      className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors"
                     >
-                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm">
+                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 font-bold text-sm">
                         {index + 1}
                       </div>
                       <div className="flex-1">
                         <div className="font-semibold text-white">{contributor.name}</div>
                         <div className="text-xs text-gray-400">
-                          {contributor.posts} posts • {contributor.likes} likes
+                          📝 {contributor.posts} posts • ❤️ {contributor.likes} likes
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
             </div>
           </div>
+
+          {/* Call to Action */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="text-center mt-12"
+          >
+            <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-8 border border-blue-500/30">
+              <h3 className="text-2xl font-bold text-white mb-4">Join Our Community</h3>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                Connect with thousands of KONIVRER players worldwide. Share strategies, find local events, and become part of our growing community.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  to="/social"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  Join Community
+                </Link>
+                <Link
+                  to="/tournaments"
+                  className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  Find Events
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* New Post Modal */}
-      <AnimatePresence>
-        {showNewPostModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Create New Post</h3>
-                <button
-                  onClick={() => setShowNewPostModal(false)}
-                  className="text-gray-400 hover:text-gray-300"
-                >
-                  ✕
-                </button>
-              </div>
-              <textarea
-                value={newPost}
-                onChange={e => setNewPost(e.target.value)}
-                placeholder="What's on your mind?"
-                className="w-full h-32 bg-gray-700 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex space-x-2">
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    📷
-                  </button>
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    📍
-                  </button>
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    #️⃣
-                  </button>
-                </div>
-                <button
-                  onClick={() => {
-                    // Handle post creation
-                    setShowNewPostModal(false);
-                    setNewPost('');
-                  }}
-                  className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded transition-colors text-white"
-                >
-                  Post
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
 
+export { Home };
 export default Home;
