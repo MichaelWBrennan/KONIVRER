@@ -61,8 +61,6 @@ function App() {
                 {/* Community */}
                 <Route path="/social" element={<UnifiedCommunity />} />
 
-
-
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
