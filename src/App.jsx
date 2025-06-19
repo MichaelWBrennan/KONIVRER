@@ -24,6 +24,10 @@ import TournamentManager from './components/TournamentManager';
 import MetaAnalysis from './components/MetaAnalysis';
 import UnifiedCardDatabase from './components/UnifiedCardDatabase';
 import PlayerProfile from './components/PlayerProfile';
+import UnifiedCards from './pages/UnifiedCards';
+import UnifiedTournaments from './pages/UnifiedTournaments';
+import UnifiedCommunity from './pages/UnifiedCommunity';
+import UnifiedResources from './pages/UnifiedResources';
 
 function App() {
   return (
@@ -33,16 +37,15 @@ function App() {
           <Router>
             <Layout>
               <Routes>
+                {/* Core Pages */}
                 <Route path="/" element={<Home />} />
-                <Route path="/cards" element={<UnifiedCardDatabase />} />
-                <Route
-                  path="/card-database"
-                  element={<UnifiedCardDatabase />}
-                />
-                <Route
-                  path="/advanced-cards"
-                  element={<UnifiedCardDatabase />}
-                />
+
+                {/* Cards - Unified card database with all card-related functionality */}
+                <Route path="/cards" element={<UnifiedCards />} />
+                <Route path="/card-database" element={<UnifiedCards />} />
+                <Route path="/advanced-cards" element={<UnifiedCards />} />
+
+                {/* Decks - Unified deck system with all deck-related functionality */}
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
                 <Route
@@ -51,10 +54,13 @@ function App() {
                 />
                 <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
                 <Route
-                  path="/tournaments"
-                  element={<UnifiedTournamentsEvents />}
+                  path="/official-decklists"
+                  element={<OfficialDecklists />}
                 />
-                <Route path="/events" element={<UnifiedTournamentsEvents />} />
+
+                {/* Tournaments & Events - Unified competitive section */}
+                <Route path="/tournaments" element={<UnifiedTournaments />} />
+                <Route path="/events" element={<UnifiedTournaments />} />
                 <Route
                   path="/tournaments/create"
                   element={<TournamentCreate />}
@@ -63,27 +69,30 @@ function App() {
                   path="/tournaments/:tournamentId/live"
                   element={<LiveTournament />}
                 />
-                <Route path="/judge-center" element={<JudgeCenter />} />
-                <Route path="/profile" element={<EnhancedProfile />} />
-                <Route path="/social" element={<SocialHub />} />
-                <Route path="/analytics" element={<AnalyticsDashboard />} />
-                <Route path="/admin" element={<AdminPanel />} />
-                <Route path="/store-locator" element={<StoreLocator />} />
-                <Route path="/leaderboards" element={<Leaderboards />} />
-                <Route
-                  path="/official-decklists"
-                  element={<OfficialDecklists />}
-                />
-                <Route path="/lore" element={<LoreCenter />} />
-                <Route path="/products" element={<ProductReleases />} />
+                <Route path="/leaderboards" element={<UnifiedTournaments />} />
+                <Route path="/analytics" element={<UnifiedTournaments />} />
 
-                <Route path="/hall-of-fame" element={<RollOfHonor />} />
+                {/* Community & Social */}
+                <Route path="/social" element={<UnifiedCommunity />} />
+                <Route path="/hall-of-fame" element={<UnifiedCommunity />} />
+                <Route path="/store-locator" element={<UnifiedCommunity />} />
+
+                {/* Game Resources */}
+                <Route path="/lore" element={<UnifiedResources />} />
+                <Route path="/products" element={<UnifiedResources />} />
+                <Route path="/meta-analysis" element={<UnifiedResources />} />
+
+                {/* User Management */}
+                <Route path="/profile" element={<EnhancedProfile />} />
+                <Route path="/player/:playerId" element={<PlayerProfile />} />
+
+                {/* Administrative */}
+                <Route path="/judge-center" element={<JudgeCenter />} />
                 <Route
                   path="/tournament-manager"
                   element={<TournamentManager />}
                 />
-                <Route path="/meta-analysis" element={<MetaAnalysis />} />
-                <Route path="/player/:playerId" element={<PlayerProfile />} />
+                <Route path="/admin" element={<AdminPanel />} />
               </Routes>
             </Layout>
           </Router>
