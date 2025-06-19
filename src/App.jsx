@@ -3,7 +3,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
 import { Layout } from './components/Layout';
-import { Home } from './pages/Home';
+import Home from './pages/Home';
 import { JudgeCenter } from './pages/JudgeCenter';
 import { TournamentCreate } from './pages/TournamentCreate';
 import EnhancedProfile from './components/EnhancedProfile';
