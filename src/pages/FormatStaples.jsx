@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  TrendingUp, 
-  Filter, 
-  Search, 
-  Star, 
+import {
+  TrendingUp,
+  Filter,
+  Search,
+  Star,
   Percent,
   Trophy,
   Users,
   BarChart3,
   ArrowUpDown,
   Eye,
-  DollarSign
+  DollarSign,
 } from 'lucide-react';
 
 const FormatStaples = () => {
@@ -24,9 +24,9 @@ const FormatStaples = () => {
   const formatStaples = {
     standard: [
       {
-        name: "Lightning Bolt",
+        name: 'Lightning Bolt',
         manaCost: 1,
-        type: "Instant",
+        type: 'Instant',
         colors: ['R'],
         playRate: 87.5,
         decksPlayed: 1420,
@@ -34,13 +34,13 @@ const FormatStaples = () => {
         avgCopies: 3.8,
         price: 2.99,
         priceChange: 15.2,
-        rarity: "Common",
-        set: "Foundations"
+        rarity: 'Common',
+        set: 'Foundations',
       },
       {
-        name: "Counterspell",
+        name: 'Counterspell',
         manaCost: 2,
-        type: "Instant", 
+        type: 'Instant',
         colors: ['U'],
         playRate: 76.3,
         decksPlayed: 1238,
@@ -48,13 +48,13 @@ const FormatStaples = () => {
         avgCopies: 3.2,
         price: 1.49,
         priceChange: -5.1,
-        rarity: "Common",
-        set: "Foundations"
+        rarity: 'Common',
+        set: 'Foundations',
       },
       {
-        name: "Swords to Plowshares",
+        name: 'Swords to Plowshares',
         manaCost: 1,
-        type: "Instant",
+        type: 'Instant',
         colors: ['W'],
         playRate: 68.9,
         decksPlayed: 1118,
@@ -62,15 +62,15 @@ const FormatStaples = () => {
         avgCopies: 2.9,
         price: 3.99,
         priceChange: 8.7,
-        rarity: "Uncommon",
-        set: "Foundations"
-      }
+        rarity: 'Uncommon',
+        set: 'Foundations',
+      },
     ],
     modern: [
       {
-        name: "Fetchlands",
+        name: 'Fetchlands',
         manaCost: 0,
-        type: "Land",
+        type: 'Land',
         colors: [],
         playRate: 92.1,
         decksPlayed: 2847,
@@ -78,15 +78,15 @@ const FormatStaples = () => {
         avgCopies: 7.2,
         price: 45.99,
         priceChange: 12.3,
-        rarity: "Rare",
-        set: "Modern Horizons 3"
-      }
+        rarity: 'Rare',
+        set: 'Modern Horizons 3',
+      },
     ],
     commander: [
       {
-        name: "Sol Ring",
+        name: 'Sol Ring',
         manaCost: 1,
-        type: "Artifact",
+        type: 'Artifact',
         colors: [],
         playRate: 98.7,
         decksPlayed: 15420,
@@ -94,10 +94,10 @@ const FormatStaples = () => {
         avgCopies: 1.0,
         price: 1.99,
         priceChange: 2.1,
-        rarity: "Uncommon",
-        set: "Commander Masters"
-      }
-    ]
+        rarity: 'Uncommon',
+        set: 'Commander Masters',
+      },
+    ],
   };
 
   const formats = [
@@ -107,43 +107,59 @@ const FormatStaples = () => {
     { id: 'legacy', name: 'Legacy', icon: '👑' },
     { id: 'vintage', name: 'Vintage', icon: '💎' },
     { id: 'commander', name: 'Commander', icon: '⚔️' },
-    { id: 'pauper', name: 'Pauper', icon: '🏛️' }
+    { id: 'pauper', name: 'Pauper', icon: '🏛️' },
   ];
 
   const filteredStaples = useMemo(() => {
     const staples = formatStaples[selectedFormat] || [];
-    
-    return staples.filter(card => {
-      const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilter = filterBy === 'all' || 
-        (filterBy === 'expensive' && card.price >= 10) ||
-        (filterBy === 'budget' && card.price < 5) ||
-        (filterBy === 'trending' && card.priceChange > 10);
-      return matchesSearch && matchesFilter;
-    }).sort((a, b) => {
-      switch (sortBy) {
-        case 'playRate': return b.playRate - a.playRate;
-        case 'price': return b.price - a.price;
-        case 'priceChange': return b.priceChange - a.priceChange;
-        case 'alphabetical': return a.name.localeCompare(b.name);
-        default: return 0;
-      }
-    });
+
+    return staples
+      .filter(card => {
+        const matchesSearch = card.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const matchesFilter =
+          filterBy === 'all' ||
+          (filterBy === 'expensive' && card.price >= 10) ||
+          (filterBy === 'budget' && card.price < 5) ||
+          (filterBy === 'trending' && card.priceChange > 10);
+        return matchesSearch && matchesFilter;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case 'playRate':
+            return b.playRate - a.playRate;
+          case 'price':
+            return b.price - a.price;
+          case 'priceChange':
+            return b.priceChange - a.priceChange;
+          case 'alphabetical':
+            return a.name.localeCompare(b.name);
+          default:
+            return 0;
+        }
+      });
   }, [selectedFormat, searchTerm, filterBy, sortBy]);
 
-  const getColorSymbols = (colors) => {
+  const getColorSymbols = colors => {
     const colorMap = {
-      'W': '⚪', 'U': '🔵', 'B': '⚫', 'R': '🔴', 'G': '🟢'
+      W: '⚪',
+      U: '🔵',
+      B: '⚫',
+      R: '🔴',
+      G: '🟢',
     };
-    return colors.length > 0 ? colors.map(color => colorMap[color]).join('') : '◯';
+    return colors.length > 0
+      ? colors.map(color => colorMap[color]).join('')
+      : '◯';
   };
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     const rarityColors = {
-      'Common': 'text-gray-400',
-      'Uncommon': 'text-blue-400',
-      'Rare': 'text-yellow-400',
-      'Mythic': 'text-orange-400'
+      Common: 'text-gray-400',
+      Uncommon: 'text-blue-400',
+      Rare: 'text-yellow-400',
+      Mythic: 'text-orange-400',
     };
     return rarityColors[rarity] || 'text-gray-400';
   };
@@ -162,7 +178,8 @@ const FormatStaples = () => {
             Format Staples
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Discover the most played cards in each format with detailed statistics and trends
+            Discover the most played cards in each format with detailed
+            statistics and trends
           </p>
         </motion.div>
 
@@ -173,7 +190,7 @@ const FormatStaples = () => {
           className="mb-8"
         >
           <div className="flex flex-wrap justify-center gap-4">
-            {formats.map((format) => (
+            {formats.map(format => (
               <button
                 key={format.id}
                 onClick={() => setSelectedFormat(format.id)}
@@ -203,14 +220,14 @@ const FormatStaples = () => {
                 type="text"
                 placeholder="Search cards..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
-            
+
             <select
               value={filterBy}
-              onChange={(e) => setFilterBy(e.target.value)}
+              onChange={e => setFilterBy(e.target.value)}
               className="px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Cards</option>
@@ -221,7 +238,7 @@ const FormatStaples = () => {
 
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
               className="px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="playRate">Sort by Play Rate</option>
@@ -249,7 +266,9 @@ const FormatStaples = () => {
               <h3 className="text-lg font-semibold text-white">Total Decks</h3>
             </div>
             <p className="text-3xl font-bold text-blue-400">
-              {formatStaples[selectedFormat]?.[0]?.totalDecks?.toLocaleString() || '0'}
+              {formatStaples[
+                selectedFormat
+              ]?.[0]?.totalDecks?.toLocaleString() || '0'}
             </p>
           </div>
 
@@ -269,7 +288,11 @@ const FormatStaples = () => {
               <h3 className="text-lg font-semibold text-white">Avg Price</h3>
             </div>
             <p className="text-3xl font-bold text-green-400">
-              ${(filteredStaples.reduce((sum, card) => sum + card.price, 0) / filteredStaples.length || 0).toFixed(2)}
+              $
+              {(
+                filteredStaples.reduce((sum, card) => sum + card.price, 0) /
+                  filteredStaples.length || 0
+              ).toFixed(2)}
             </p>
           </div>
 
@@ -278,7 +301,9 @@ const FormatStaples = () => {
               <Eye className="text-purple-400 w-6 h-6" />
               <h3 className="text-lg font-semibold text-white">Unique Cards</h3>
             </div>
-            <p className="text-3xl font-bold text-purple-400">{filteredStaples.length}</p>
+            <p className="text-3xl font-bold text-purple-400">
+              {filteredStaples.length}
+            </p>
           </div>
         </motion.div>
 
@@ -301,14 +326,20 @@ const FormatStaples = () => {
                 <div className="lg:col-span-4">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center">
-                      <span className="text-2xl">{getColorSymbols(card.colors)}</span>
+                      <span className="text-2xl">
+                        {getColorSymbols(card.colors)}
+                      </span>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{card.name}</h3>
+                      <h3 className="text-xl font-bold text-white">
+                        {card.name}
+                      </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-300">
                         <span>{card.type}</span>
                         <span>•</span>
-                        <span className={getRarityColor(card.rarity)}>{card.rarity}</span>
+                        <span className={getRarityColor(card.rarity)}>
+                          {card.rarity}
+                        </span>
                         <span>•</span>
                         <span>{card.set}</span>
                       </div>
@@ -322,9 +353,12 @@ const FormatStaples = () => {
                     <Percent className="w-4 h-4 text-green-400" />
                     <span className="text-sm text-gray-400">Play Rate</span>
                   </div>
-                  <div className="text-2xl font-bold text-green-400">{card.playRate}%</div>
+                  <div className="text-2xl font-bold text-green-400">
+                    {card.playRate}%
+                  </div>
                   <div className="text-sm text-gray-400">
-                    {card.decksPlayed.toLocaleString()} / {card.totalDecks.toLocaleString()}
+                    {card.decksPlayed.toLocaleString()} /{' '}
+                    {card.totalDecks.toLocaleString()}
                   </div>
                 </div>
 
@@ -334,7 +368,9 @@ const FormatStaples = () => {
                     <ArrowUpDown className="w-4 h-4 text-blue-400" />
                     <span className="text-sm text-gray-400">Avg Copies</span>
                   </div>
-                  <div className="text-2xl font-bold text-blue-400">{card.avgCopies}</div>
+                  <div className="text-2xl font-bold text-blue-400">
+                    {card.avgCopies}
+                  </div>
                 </div>
 
                 {/* Price */}
@@ -343,7 +379,9 @@ const FormatStaples = () => {
                     <DollarSign className="w-4 h-4 text-yellow-400" />
                     <span className="text-sm text-gray-400">Price</span>
                   </div>
-                  <div className="text-2xl font-bold text-yellow-400">${card.price}</div>
+                  <div className="text-2xl font-bold text-yellow-400">
+                    ${card.price}
+                  </div>
                 </div>
 
                 {/* Price Change */}
@@ -352,10 +390,13 @@ const FormatStaples = () => {
                     <TrendingUp className="w-4 h-4 text-purple-400" />
                     <span className="text-sm text-gray-400">24h Change</span>
                   </div>
-                  <div className={`text-2xl font-bold ${
-                    card.priceChange > 0 ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {card.priceChange > 0 ? '+' : ''}{card.priceChange}%
+                  <div
+                    className={`text-2xl font-bold ${
+                      card.priceChange > 0 ? 'text-green-400' : 'text-red-400'
+                    }`}
+                  >
+                    {card.priceChange > 0 ? '+' : ''}
+                    {card.priceChange}%
                   </div>
                 </div>
               </div>
@@ -363,7 +404,7 @@ const FormatStaples = () => {
               {/* Play Rate Bar */}
               <div className="mt-4">
                 <div className="w-full bg-slate-700 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500"
                     style={{ width: `${card.playRate}%` }}
                   ></div>
@@ -380,8 +421,12 @@ const FormatStaples = () => {
             className="text-center py-12"
           >
             <Filter className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-400 mb-2">No Cards Found</h3>
-            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+            <h3 className="text-xl font-bold text-gray-400 mb-2">
+              No Cards Found
+            </h3>
+            <p className="text-gray-500">
+              Try adjusting your search or filter criteria
+            </p>
           </motion.div>
         )}
       </div>
