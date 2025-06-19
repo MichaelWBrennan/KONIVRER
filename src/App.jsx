@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
@@ -13,7 +13,7 @@ import TournamentManager from './components/TournamentManager';
 import PlayerProfile from './components/PlayerProfile';
 import UnifiedTournaments from './pages/UnifiedTournaments';
 import UnifiedCommunity from './pages/UnifiedCommunity';
-import UnifiedResources from './pages/UnifiedResources';
+
 import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
 import CardDetail from './pages/CardDetail';
 
@@ -61,8 +61,7 @@ function App() {
                 {/* Community */}
                 <Route path="/social" element={<UnifiedCommunity />} />
 
-                {/* Resources - Redirected to Home */}
-                <Route path="/lore" element={<Navigate to="/?filter=lore" replace />} />
+
 
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
