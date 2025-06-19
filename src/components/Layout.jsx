@@ -32,6 +32,10 @@ import {
   Calculator,
   Eye,
   Sparkles,
+  Zap,
+  Link as LinkIcon,
+  AlertTriangle,
+  Activity
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -128,6 +132,31 @@ const Layout = ({ children }) => {
       name: 'Spoilers',
       href: '/spoilers',
       icon: Sparkles,
+    });
+
+    // Additional MTGGoldfish features
+    baseNavigation.push({
+      name: 'Commanders',
+      href: '/commander-recommendations',
+      icon: Crown,
+    });
+
+    baseNavigation.push({
+      name: 'Format Staples',
+      href: '/format-staples',
+      icon: Activity,
+    });
+
+    baseNavigation.push({
+      name: 'Tournament Results',
+      href: '/tournament-results',
+      icon: AlertTriangle,
+    });
+
+    baseNavigation.push({
+      name: 'Collection',
+      href: '/collection',
+      icon: LinkIcon,
     });
 
     // Community - always available
