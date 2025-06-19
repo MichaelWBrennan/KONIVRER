@@ -26,12 +26,12 @@ const Home = () => {
 
   const features = [
     {
-      icon: Database,
-      title: 'Game Hub',
+      icon: Gamepad2,
+      title: 'Game Platform',
       description:
-        'Your unified platform for cards, decks, market analysis, and collection management - everything in one intuitive interface.',
+        'Your complete gaming ecosystem - discover cards, build decks, analyze markets, manage collections, and create content all in one unified platform.',
       link: '/hub',
-      gradient: 'from-blue-500 to-cyan-600',
+      gradient: 'from-purple-500 to-pink-600',
       delay: 0.1,
       featured: true,
     },
