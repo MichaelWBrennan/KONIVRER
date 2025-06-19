@@ -27,16 +27,16 @@ const Home = () => {
   const features = [
     {
       icon: Database,
-      title: 'Card Database',
+      title: 'Cards',
       description:
-        'Browse and search through all KONIVRER cards with advanced filtering options and modern, accessible design.',
+        'Browse and search through all KONIVRER cards with advanced filtering and search capabilities in one unified interface.',
       link: '/cards',
       gradient: 'from-blue-500 to-cyan-600',
       delay: 0.1,
     },
     {
       icon: Layers,
-      title: 'Deck System',
+      title: 'Decks',
       description:
         'Build, manage, and discover decks with our comprehensive deck management tools and intuitive interface.',
       link: '/decklists',
@@ -45,7 +45,7 @@ const Home = () => {
     },
     {
       icon: Trophy,
-      title: 'Competitive Play',
+      title: 'Tournaments',
       description:
         'Join tournaments, compete in events, track your progress on leaderboards, and analyze your performance.',
       link: '/tournaments',
@@ -54,7 +54,7 @@ const Home = () => {
     },
     {
       icon: Users,
-      title: 'Community Hub',
+      title: 'Community',
       description:
         'Connect with other players, explore the hall of fame, and find local game stores in your area.',
       link: '/social',
@@ -63,7 +63,7 @@ const Home = () => {
     },
     {
       icon: BookOpen,
-      title: 'Game Resources',
+      title: 'Resources',
       description:
         'Dive into the lore, stay updated with product releases, and analyze the current meta trends.',
       link: '/lore',
@@ -72,9 +72,9 @@ const Home = () => {
     },
     {
       icon: Shield,
-      title: 'Administrative Tools',
+      title: 'Judge Center',
       description:
-        'Access judge center, tournament management tools, and administrative features for certified users.',
+        'Access judge center and administrative tools for certified judges and tournament organizers.',
       link: '/judge-center',
       gradient: 'from-red-500 to-pink-600',
       delay: 0.6,

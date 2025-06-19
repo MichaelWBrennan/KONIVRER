@@ -1,7 +1,6 @@
 import {
   Home,
   Database,
-  PlusCircle,
   BookOpen,
   User,
   Users,
@@ -13,20 +12,7 @@ import {
   LogIn,
   LogOut,
   Settings,
-  ChevronDown,
-  Star,
-  Calendar,
-  Gamepad2,
   Layers,
-  MapPin,
-  Crown,
-  Package,
-  Scale,
-  Award,
-  FileText,
-  Globe,
-  BarChart3,
-  TrendingUp,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -42,8 +28,6 @@ const Layout = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [expandedMobileSection, setExpandedMobileSection] = useState(null);
 
   // Helper functions for role-based access
   const hasJudgeAccess = () => {
@@ -64,7 +48,7 @@ const Layout = ({ children }) => {
     return location.pathname === '/';
   };
 
-  // Simplified navigation with grouped sections
+  // Simplified flat navigation structure
   const getNavigation = () => {
     const baseNavigation = [];
 
@@ -73,33 +57,19 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
-    // Cards - unified card database and search
+    // Cards - unified card browsing and search
     baseNavigation.push({
       name: 'Cards',
       href: '/cards',
       icon: Database,
-      subItems: [
-        { name: 'Browse Cards', href: '/cards', icon: Database },
-        { name: 'Advanced Search', href: '/cards?advanced=true', icon: Search },
-      ],
     });
 
-    // Decks - unified deck management (only for authenticated users)
+    // Decks - unified deck management
     if (isAuthenticated) {
       baseNavigation.push({
         name: 'Decks',
         href: '/decklists',
         icon: Layers,
-        subItems: [
-          { name: 'My Decks', href: '/decklists?view=mydecks', icon: BookOpen },
-          { name: 'Deck Builder', href: '/deckbuilder', icon: PlusCircle },
-          { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
-          {
-            name: 'Official Decklists',
-            href: '/official-decklists',
-            icon: FileText,
-          },
-        ],
       });
     } else {
       // Public deck browsing for non-authenticated users
@@ -107,90 +77,37 @@ const Layout = ({ children }) => {
         name: 'Decks',
         href: '/deck-discovery',
         icon: Layers,
-        subItems: [
-          { name: 'Browse Decks', href: '/deck-discovery', icon: Star },
-          {
-            name: 'Official Decklists',
-            href: '/official-decklists',
-            icon: FileText,
-          },
-        ],
       });
     }
 
-    // Tournaments & Events - unified competitive section
+    // Tournaments - unified competitive features
     baseNavigation.push({
-      name: 'Compete',
+      name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
-      subItems: [
-        { name: 'Tournaments', href: '/tournaments', icon: Trophy },
-        { name: 'Events', href: '/events', icon: Calendar },
-        { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
-        { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-      ],
     });
 
-    // Community & Social
+    // Community - social features
     baseNavigation.push({
       name: 'Community',
       href: '/social',
       icon: Users,
-      subItems: [
-        { name: 'Social Hub', href: '/social', icon: Users },
-        { name: 'Hall of Fame', href: '/hall-of-fame', icon: Award },
-        { name: 'Store Locator', href: '/store-locator', icon: MapPin },
-      ],
     });
 
-    // Game Resources
+    // Resources - game knowledge
     baseNavigation.push({
       name: 'Resources',
       href: '/lore',
       icon: BookOpen,
-      subItems: [
-        { name: 'Lore Center', href: '/lore', icon: BookOpen },
-        { name: 'Product Releases', href: '/products', icon: Package },
-        { name: 'Meta Analysis', href: '/meta-analysis', icon: TrendingUp },
-      ],
     });
 
-    // Administrative tools - only for judges/organizers
-    if (hasJudgeAccess() || hasOrganizerAccess()) {
-      const adminSubItems = [];
-
-      if (hasJudgeAccess()) {
-        adminSubItems.push({
-          name: 'Judge Center',
-          href: '/judge-center',
-          icon: Shield,
-        });
-      }
-
-      if (hasOrganizerAccess()) {
-        adminSubItems.push({
-          name: 'Tournament Manager',
-          href: '/tournament-manager',
-          icon: Settings,
-        });
-      }
-
-      if (user?.roles?.includes('admin')) {
-        adminSubItems.push({
-          name: 'Admin Panel',
-          href: '/admin',
-          icon: Settings,
-        });
-      }
-
-      if (adminSubItems.length > 0) {
-        baseNavigation.push({
-          name: 'Admin',
-          href: adminSubItems[0].href,
-          icon: Shield,
-          subItems: adminSubItems,
-        });
-      }
+    // Judge Center - only for judges
+    if (hasJudgeAccess()) {
+      baseNavigation.push({
+        name: 'Judge Center',
+        href: '/judge-center',
+        icon: Shield,
+      });
     }
 
     return baseNavigation;
@@ -238,20 +155,32 @@ const Layout = ({ children }) => {
     // Exact match for home
     if (path === '/' && location.pathname === '/') return true;
 
-    // Check if current path matches any subItem
-    if (item.subItems) {
-      return item.subItems.some(subItem => {
-        if (subItem.href === '/' && location.pathname === '/') return true;
-        if (
-          subItem.href !== '/' &&
-          location.pathname.startsWith(subItem.href.split('?')[0])
-        )
-          return true;
-        return false;
-      });
-    }
+    // For grouped navigation items, check if current path matches the group's functionality
+    if (item.name === 'Cards' && location.pathname.startsWith('/cards')) return true;
+    if (item.name === 'Decks' && (
+      location.pathname.startsWith('/decklists') ||
+      location.pathname.startsWith('/deckbuilder') ||
+      location.pathname.startsWith('/deck-discovery') ||
+      location.pathname.startsWith('/official-decklists')
+    )) return true;
+    if (item.name === 'Tournaments' && (
+      location.pathname.startsWith('/tournaments') ||
+      location.pathname.startsWith('/events') ||
+      location.pathname.startsWith('/leaderboards') ||
+      location.pathname.startsWith('/analytics')
+    )) return true;
+    if (item.name === 'Community' && (
+      location.pathname.startsWith('/social') ||
+      location.pathname.startsWith('/hall-of-fame') ||
+      location.pathname.startsWith('/store-locator')
+    )) return true;
+    if (item.name === 'Resources' && (
+      location.pathname.startsWith('/lore') ||
+      location.pathname.startsWith('/products') ||
+      location.pathname.startsWith('/meta-analysis')
+    )) return true;
 
-    // Check main path
+    // Check main path for other items
     if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
       return true;
 
@@ -282,84 +211,26 @@ const Layout = ({ children }) => {
             <nav className="hidden md:flex items-center gap-2">
               {navigation.map(item => {
                 const Icon = item.icon;
-                const hasSubItems = item.subItems && item.subItems.length > 0;
                 const isItemActive = isActive(item);
 
-                if (hasSubItems) {
-                  return (
-                    <div key={item.name} className="relative">
-                      <button
-                        className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                          isItemActive
-                            ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
-                            : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
-                        }`}
-                        onMouseEnter={() => setActiveDropdown(item.name)}
-                        onMouseLeave={() => setActiveDropdown(null)}
-                      >
-                        <Icon
-                          size={16}
-                          className="transition-transform duration-200 group-hover:scale-110"
-                        />
-                        {item.name}
-                        <ChevronDown
-                          size={14}
-                          className={`transition-transform duration-200 ${
-                            activeDropdown === item.name ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-
-                      {/* Dropdown Menu */}
-                      {activeDropdown === item.name && (
-                        <div
-                          className="absolute top-full left-0 mt-2 w-56 bg-card border border-color rounded-lg shadow-lg z-50"
-                          onMouseEnter={() => setActiveDropdown(item.name)}
-                          onMouseLeave={() => setActiveDropdown(null)}
-                        >
-                          <div className="py-2">
-                            {item.subItems.map(subItem => {
-                              const SubIcon = subItem.icon;
-                              return (
-                                <Link
-                                  key={subItem.name}
-                                  to={subItem.href}
-                                  className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-hover transition-colors"
-                                  onClick={() => {
-                                    setActiveDropdown(null);
-                                    handleNavClick(subItem.name, subItem.href);
-                                  }}
-                                >
-                                  <SubIcon size={16} className="text-muted" />
-                                  {subItem.name}
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                } else {
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                        isItemActive
-                          ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
-                          : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
-                      }`}
-                      onClick={() => handleNavClick(item.name, item.href)}
-                    >
-                      <Icon
-                        size={16}
-                        className="transition-transform duration-200 group-hover:scale-110"
-                      />
-                      {item.name}
-                    </Link>
-                  );
-                }
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      isItemActive
+                        ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
+                        : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
+                    }`}
+                    onClick={() => handleNavClick(item.name, item.href)}
+                  >
+                    <Icon
+                      size={16}
+                      className="transition-transform duration-200 group-hover:scale-110"
+                    />
+                    {item.name}
+                  </Link>
+                );
               })}
             </nav>
 
@@ -492,82 +363,25 @@ const Layout = ({ children }) => {
               <nav className="flex flex-col gap-1">
                 {navigation.map(item => {
                   const Icon = item.icon;
-                  const hasSubItems = item.subItems && item.subItems.length > 0;
                   const isItemActive = isActive(item);
-                  const isExpanded = expandedMobileSection === item.name;
 
                   return (
-                    <div key={item.name}>
-                      {hasSubItems ? (
-                        <>
-                          <button
-                            className={`flex items-center justify-between w-full gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                              isItemActive
-                                ? 'bg-accent-primary text-white'
-                                : 'text-secondary hover:text-primary hover:bg-tertiary'
-                            }`}
-                            onClick={() => {
-                              setExpandedMobileSection(
-                                isExpanded ? null : item.name,
-                              );
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <Icon size={16} />
-                              {item.name}
-                            </div>
-                            <ChevronDown
-                              size={14}
-                              className={`transition-transform duration-200 ${
-                                isExpanded ? 'rotate-180' : ''
-                              }`}
-                            />
-                          </button>
-
-                          {isExpanded && (
-                            <div className="ml-6 mt-1 space-y-1">
-                              {item.subItems.map(subItem => {
-                                const SubIcon = subItem.icon;
-                                return (
-                                  <Link
-                                    key={subItem.name}
-                                    to={subItem.href}
-                                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-secondary hover:text-primary hover:bg-tertiary transition-colors"
-                                    onClick={() => {
-                                      handleNavClick(
-                                        subItem.name,
-                                        subItem.href,
-                                      );
-                                      setIsMobileMenuOpen(false);
-                                      setExpandedMobileSection(null);
-                                    }}
-                                  >
-                                    <SubIcon size={14} />
-                                    {subItem.name}
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <Link
-                          to={item.href}
-                          className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                            isItemActive
-                              ? 'bg-accent-primary text-white'
-                              : 'text-secondary hover:text-primary hover:bg-tertiary'
-                          }`}
-                          onClick={() => {
-                            handleNavClick(item.name, item.href);
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          <Icon size={16} />
-                          {item.name}
-                        </Link>
-                      )}
-                    </div>
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        isItemActive
+                          ? 'bg-accent-primary text-white'
+                          : 'text-secondary hover:text-primary hover:bg-tertiary'
+                      }`}
+                      onClick={() => {
+                        handleNavClick(item.name, item.href);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <Icon size={16} />
+                      {item.name}
+                    </Link>
                   );
                 })}
               </nav>
