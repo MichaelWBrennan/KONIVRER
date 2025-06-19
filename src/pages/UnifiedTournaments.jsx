@@ -867,39 +867,7 @@ const UnifiedTournaments = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-              <div className="space-y-2">
-                <Link
-                  to="/store-locator"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <MapPin size={14} />
-                  <span>Find Local Events</span>
-                </Link>
-                <Link
-                  to="/official-decklists"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <FileText size={14} />
-                  <span>Winning Decklists</span>
-                </Link>
-                <Link
-                  to="/deckbuilder"
-                  className="flex items-center space-x-2 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors text-sm"
-                >
-                  <Plus size={14} />
-                  <span>Build Tournament Deck</span>
-                </Link>
-                {isAuthenticated && (
-                  <button className="flex items-center space-x-2 w-full p-2 bg-green-600 hover:bg-green-500 rounded transition-colors text-sm">
-                    <UserPlus size={14} />
-                    <span>Register for Event</span>
-                  </button>
-                )}
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
