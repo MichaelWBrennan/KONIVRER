@@ -290,7 +290,9 @@ const Home = () => {
                   <Link
                     to={feature.link}
                     className={`card card-interactive h-full flex flex-col relative overflow-hidden ${
-                      feature.featured ? 'ring-2 ring-blue-500 ring-opacity-50' : ''
+                      feature.featured
+                        ? 'ring-2 ring-blue-500 ring-opacity-50'
+                        : ''
                     }`}
                   >
                     <div
