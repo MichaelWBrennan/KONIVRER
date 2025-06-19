@@ -13,6 +13,11 @@ import {
   LogOut,
   Settings,
   Layers,
+  Sparkles,
+  Palette,
+  Play,
+  Bot,
+  ChevronDown,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -300,6 +305,30 @@ const Layout = ({ children }) => {
                         >
                           <BookOpen size={16} />
                           My Decks
+                        </Link>
+                        <Link
+                          to="/battle-pass"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Sparkles size={16} />
+                          Battle Pass
+                        </Link>
+                        <Link
+                          to="/card-maker"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Palette size={16} />
+                          Card Maker
+                        </Link>
+                        <Link
+                          to="/replays"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Play size={16} />
+                          Replays
                         </Link>
                         {hasJudgeAccess() && (
                           <Link
