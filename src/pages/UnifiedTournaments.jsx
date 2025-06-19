@@ -866,8 +866,6 @@ const UnifiedTournaments = () => {
                 </Link>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
