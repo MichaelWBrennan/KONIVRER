@@ -322,35 +322,92 @@ const GameSimulator = () => {
         </div>
       </div>
 
-      {/* Battlefield */}
+      {/* KONIVRER Field Layout */}
       <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-300 mb-2">Battlefield</h4>
-        <div className="min-h-24 bg-gray-700 rounded p-2">
-          {player.battlefield.length === 0 ? (
-            <div className="text-center text-gray-500 py-4">No creatures on battlefield</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-              {player.battlefield.map((card, index) => (
-                <motion.div
-                  key={`${card.id}_${index}`}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className={`bg-gray-600 rounded p-2 cursor-pointer hover:bg-gray-500 transition-colors ${card.tapped ? 'opacity-50 transform rotate-90' : ''}`}
-                  onClick={() => isCurrentPlayer && attackWithCreature(card, playerId)}
-                >
-                  <div className="text-sm font-medium text-white">{card.name}</div>
-                  <div className="text-xs text-gray-300">
-                    {card.power}/{card.power} {card.tapped ? '(Tapped)' : ''} {card.summoned ? '(Sick)' : ''}
-                  </div>
-                  <div className="flex items-center gap-1 mt-1">
-                    {card.elements.map((element, i) => (
-                      <span key={i} className="text-xs">{element}</span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
+        <h4 className="text-sm font-medium text-gray-300 mb-2">Field Setup/Zones</h4>
+        <div className="bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
+          <div className="grid grid-cols-4 gap-2 mb-4">
+            {/* Top Row */}
+            <div className="bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">FLAG</div>
+              {player.flag ? (
+                <div className="text-xs text-white">{player.flag.name}</div>
+              ) : (
+                <div className="text-xs text-gray-500">No Flag</div>
+              )}
             </div>
-          )}
+            
+            <div className="col-span-2 bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">Combat Row</div>
+              <div className="min-h-12 flex flex-wrap gap-1">
+                {player.combatRow.length === 0 ? (
+                  <div className="text-xs text-gray-500">Designated area for Familiar battles</div>
+                ) : (
+                  player.combatRow.map((card, index) => (
+                    <div key={index} className="bg-blue-600 rounded px-2 py-1 text-xs text-white">
+                      {card.name}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            
+            <div className="bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">DECK</div>
+              <div className="text-xs text-white">{player.deck.length} cards</div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-4 gap-2 mb-4">
+            {/* Middle Row */}
+            <div className="bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">LIFE</div>
+              <div className="text-xs text-white">{player.lifeCards.length} cards</div>
+              <div className="text-xs text-gray-500">Face down</div>
+            </div>
+            
+            <div className="col-span-2 bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">Field</div>
+              <div className="min-h-16 flex flex-wrap gap-1">
+                {player.field.length === 0 ? (
+                  <div className="text-xs text-gray-500">Where Familiars and Spells are played</div>
+                ) : (
+                  player.field.map((card, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="bg-green-600 rounded px-2 py-1 text-xs text-white cursor-pointer hover:bg-green-500"
+                      onClick={() => setShowCardDetail(card)}
+                    >
+                      {card.name}
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </div>
+            
+            <div className="bg-gray-700 rounded p-2 border border-gray-500">
+              <div className="text-xs text-gray-400 mb-1">REMOVED FROM PLAY</div>
+              <div className="text-xs text-white">{player.removedFromPlay.length} cards</div>
+              <div className="text-xs text-gray-500">Void affected</div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-700 rounded p-2 border border-gray-500">
+            <div className="text-xs text-gray-400 mb-1">Azoth Row</div>
+            <div className="min-h-8 flex flex-wrap gap-1">
+              {player.azothRow.length === 0 ? (
+                <div className="text-xs text-gray-500">Where Azoth cards are placed as resources</div>
+              ) : (
+                player.azothRow.map((card, index) => (
+                  <div key={index} className="bg-purple-600 rounded px-2 py-1 text-xs text-white">
+                    {card.name}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
