@@ -26,6 +26,12 @@ import {
   FileText,
   Globe,
   BarChart3,
+  DollarSign,
+  TrendingUp,
+  Target,
+  Calculator,
+  Eye,
+  Sparkles
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -91,6 +97,37 @@ const Layout = ({ children }) => {
       name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
+    });
+
+    // MTGGoldfish-inspired features - always available
+    baseNavigation.push({
+      name: 'Prices',
+      href: '/prices',
+      icon: DollarSign,
+    });
+
+    baseNavigation.push({
+      name: 'Metagame',
+      href: '/metagame',
+      icon: TrendingUp,
+    });
+
+    baseNavigation.push({
+      name: 'Budget Decks',
+      href: '/budget-decks',
+      icon: Target,
+    });
+
+    baseNavigation.push({
+      name: 'Deck Pricing',
+      href: '/deck-pricing',
+      icon: Calculator,
+    });
+
+    baseNavigation.push({
+      name: 'Spoilers',
+      href: '/spoilers',
+      icon: Sparkles,
     });
 
     // Community - always available
