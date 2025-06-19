@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  Trophy, 
-  Users, 
+import {
+  BarChart3,
+  TrendingUp,
+  Trophy,
+  Users,
   Calendar,
   Filter,
   Download,
@@ -12,7 +12,7 @@ import {
   Target,
   Zap,
   Shield,
-  Sword
+  Sword,
 } from 'lucide-react';
 
 const MetagameAnalysis = () => {
@@ -35,7 +35,7 @@ const MetagameAnalysis = () => {
           avgPrice: 245,
           trend: 'up',
           color: '#ef4444',
-          description: 'Fast aggressive deck focused on early pressure'
+          description: 'Fast aggressive deck focused on early pressure',
         },
         {
           name: 'Briar Control',
@@ -46,7 +46,7 @@ const MetagameAnalysis = () => {
           avgPrice: 320,
           trend: 'stable',
           color: '#22c55e',
-          description: 'Defensive control deck with late-game power'
+          description: 'Defensive control deck with late-game power',
         },
         {
           name: 'Elemental Midrange',
@@ -57,7 +57,7 @@ const MetagameAnalysis = () => {
           avgPrice: 180,
           trend: 'up',
           color: '#3b82f6',
-          description: 'Balanced midrange strategy with elemental synergies'
+          description: 'Balanced midrange strategy with elemental synergies',
         },
         {
           name: 'Shadow Combo',
@@ -68,7 +68,7 @@ const MetagameAnalysis = () => {
           avgPrice: 290,
           trend: 'down',
           color: '#8b5cf6',
-          description: 'Combo deck that wins through shadow manipulation'
+          description: 'Combo deck that wins through shadow manipulation',
         },
         {
           name: 'Artifact Ramp',
@@ -79,7 +79,7 @@ const MetagameAnalysis = () => {
           avgPrice: 410,
           trend: 'stable',
           color: '#f59e0b',
-          description: 'Ramp strategy using powerful artifacts'
+          description: 'Ramp strategy using powerful artifacts',
         },
         {
           name: 'Burn Rush',
@@ -90,7 +90,7 @@ const MetagameAnalysis = () => {
           avgPrice: 125,
           trend: 'up',
           color: '#dc2626',
-          description: 'Ultra-fast burn deck for quick victories'
+          description: 'Ultra-fast burn deck for quick victories',
         },
         {
           name: 'Tempo Control',
@@ -101,7 +101,7 @@ const MetagameAnalysis = () => {
           avgPrice: 275,
           trend: 'stable',
           color: '#06b6d4',
-          description: 'Tempo-based control with efficient threats'
+          description: 'Tempo-based control with efficient threats',
         },
         {
           name: 'Other Decks',
@@ -112,10 +112,10 @@ const MetagameAnalysis = () => {
           avgPrice: 200,
           trend: 'stable',
           color: '#6b7280',
-          description: 'Various other archetypes and brews'
-        }
-      ]
-    }
+          description: 'Various other archetypes and brews',
+        },
+      ],
+    },
   });
 
   const [recentTournaments] = useState([
@@ -128,7 +128,7 @@ const MetagameAnalysis = () => {
       winner: 'DragonMaster',
       winningDeck: 'Vynnset Aggro',
       prizePool: 50000,
-      location: 'Los Angeles, CA'
+      location: 'Los Angeles, CA',
     },
     {
       id: 2,
@@ -139,7 +139,7 @@ const MetagameAnalysis = () => {
       winner: 'ElementalForce',
       winningDeck: 'Briar Control',
       prizePool: 10000,
-      location: 'New York, NY'
+      location: 'New York, NY',
     },
     {
       id: 3,
@@ -150,21 +150,41 @@ const MetagameAnalysis = () => {
       winner: 'StormCaller99',
       winningDeck: 'Elemental Midrange',
       prizePool: 2500,
-      location: 'Online'
-    }
+      location: 'Online',
+    },
   ]);
 
   const [matchupData] = useState([
-    { deck1: 'Vynnset Aggro', deck2: 'Briar Control', winRate: 68.5, matches: 342 },
-    { deck1: 'Elemental Midrange', deck2: 'Shadow Combo', winRate: 72.1, matches: 289 },
+    {
+      deck1: 'Vynnset Aggro',
+      deck2: 'Briar Control',
+      winRate: 68.5,
+      matches: 342,
+    },
+    {
+      deck1: 'Elemental Midrange',
+      deck2: 'Shadow Combo',
+      winRate: 72.1,
+      matches: 289,
+    },
     { deck1: 'Burn Rush', deck2: 'Artifact Ramp', winRate: 78.9, matches: 198 },
-    { deck1: 'Tempo Control', deck2: 'Vynnset Aggro', winRate: 45.2, matches: 267 },
-    { deck1: 'Briar Control', deck2: 'Shadow Combo', winRate: 61.8, matches: 223 }
+    {
+      deck1: 'Tempo Control',
+      deck2: 'Vynnset Aggro',
+      winRate: 45.2,
+      matches: 267,
+    },
+    {
+      deck1: 'Briar Control',
+      deck2: 'Shadow Combo',
+      winRate: 61.8,
+      matches: 223,
+    },
   ]);
 
   const currentData = metagameData[selectedFormat];
 
-  const getTrendIcon = (trend) => {
+  const getTrendIcon = trend => {
     switch (trend) {
       case 'up':
         return <TrendingUp className="w-4 h-4 text-green-400" />;
@@ -175,7 +195,7 @@ const MetagameAnalysis = () => {
     }
   };
 
-  const getArchetypeIcon = (deckName) => {
+  const getArchetypeIcon = deckName => {
     if (deckName.includes('Aggro') || deckName.includes('Rush')) {
       return <Zap className="w-5 h-5" />;
     } else if (deckName.includes('Control')) {
@@ -212,10 +232,12 @@ const MetagameAnalysis = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Format</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Format
+              </label>
               <select
                 value={selectedFormat}
-                onChange={(e) => setSelectedFormat(e.target.value)}
+                onChange={e => setSelectedFormat(e.target.value)}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
                 <option value="standard">Standard</option>
@@ -224,12 +246,14 @@ const MetagameAnalysis = () => {
                 <option value="blitz">Blitz</option>
               </select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Time Range</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Time Range
+              </label>
               <select
                 value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
+                onChange={e => setTimeRange(e.target.value)}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
                 <option value="7d">Last 7 Days</option>
@@ -238,12 +262,14 @@ const MetagameAnalysis = () => {
                 <option value="1y">Last Year</option>
               </select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Tournament Type</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Tournament Type
+              </label>
               <select
                 value={tournamentType}
-                onChange={(e) => setTournamentType(e.target.value)}
+                onChange={e => setTournamentType(e.target.value)}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
                 <option value="all">All Tournaments</option>
@@ -252,7 +278,7 @@ const MetagameAnalysis = () => {
                 <option value="weekly">Weekly Events</option>
               </select>
             </div>
-            
+
             <div className="flex items-end">
               <button className="w-full bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors flex items-center justify-center">
                 <Download className="w-4 h-4 mr-2" />
@@ -272,22 +298,26 @@ const MetagameAnalysis = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Total Matches</p>
-                <p className="text-2xl font-bold text-blue-400">{currentData.totalMatches.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-400">
+                  {currentData.totalMatches.toLocaleString()}
+                </p>
               </div>
               <BarChart3 className="w-8 h-8 text-blue-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Tournaments</p>
-                <p className="text-2xl font-bold text-green-400">{currentData.totalTournaments}</p>
+                <p className="text-2xl font-bold text-green-400">
+                  {currentData.totalTournaments}
+                </p>
               </div>
               <Trophy className="w-8 h-8 text-green-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -297,7 +327,7 @@ const MetagameAnalysis = () => {
               <Users className="w-8 h-8 text-purple-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -321,7 +351,7 @@ const MetagameAnalysis = () => {
                 <BarChart3 className="w-6 h-6 mr-2 text-purple-400" />
                 Metagame Breakdown
               </h2>
-              
+
               <div className="space-y-4">
                 {currentData.topDecks.map((deck, index) => (
                   <motion.div
@@ -343,36 +373,45 @@ const MetagameAnalysis = () => {
                       </div>
                       <div className="flex items-center space-x-2">
                         {getTrendIcon(deck.trend)}
-                        <span className="text-2xl font-bold" style={{ color: deck.color }}>
+                        <span
+                          className="text-2xl font-bold"
+                          style={{ color: deck.color }}
+                        >
                           {deck.percentage}%
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="mb-3">
                       <div className="w-full bg-gray-600 rounded-full h-2">
                         <div
                           className="h-2 rounded-full transition-all duration-500"
-                          style={{ 
+                          style={{
                             width: `${deck.percentage}%`,
-                            backgroundColor: deck.color 
+                            backgroundColor: deck.color,
                           }}
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
                         <span className="text-gray-400">Win Rate:</span>
-                        <span className="ml-2 font-medium text-green-400">{deck.winRate}%</span>
+                        <span className="ml-2 font-medium text-green-400">
+                          {deck.winRate}%
+                        </span>
                       </div>
                       <div>
                         <span className="text-gray-400">Matches:</span>
-                        <span className="ml-2 font-medium">{deck.matches.toLocaleString()}</span>
+                        <span className="ml-2 font-medium">
+                          {deck.matches.toLocaleString()}
+                        </span>
                       </div>
                       <div>
                         <span className="text-gray-400">Avg Price:</span>
-                        <span className="ml-2 font-medium text-yellow-400">${deck.avgPrice}</span>
+                        <span className="ml-2 font-medium text-yellow-400">
+                          ${deck.avgPrice}
+                        </span>
                       </div>
                       <div className="md:col-span-1 col-span-2">
                         <button className="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-xs transition-colors">
@@ -380,8 +419,10 @@ const MetagameAnalysis = () => {
                         </button>
                       </div>
                     </div>
-                    
-                    <p className="text-gray-400 text-sm mt-2">{deck.description}</p>
+
+                    <p className="text-gray-400 text-sm mt-2">
+                      {deck.description}
+                    </p>
                   </motion.div>
                 ))}
               </div>
@@ -400,15 +441,22 @@ const MetagameAnalysis = () => {
                 <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
                 Recent Tournaments
               </h3>
-              
+
               <div className="space-y-4">
-                {recentTournaments.map((tournament) => (
-                  <div key={tournament.id} className="bg-gray-700/30 rounded-lg p-4">
-                    <h4 className="font-bold text-sm mb-2">{tournament.name}</h4>
+                {recentTournaments.map(tournament => (
+                  <div
+                    key={tournament.id}
+                    className="bg-gray-700/30 rounded-lg p-4"
+                  >
+                    <h4 className="font-bold text-sm mb-2">
+                      {tournament.name}
+                    </h4>
                     <div className="text-xs text-gray-400 space-y-1">
                       <div className="flex justify-between">
                         <span>Winner:</span>
-                        <span className="text-yellow-400">{tournament.winner}</span>
+                        <span className="text-yellow-400">
+                          {tournament.winner}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Deck:</span>
@@ -420,7 +468,9 @@ const MetagameAnalysis = () => {
                       </div>
                       <div className="flex justify-between">
                         <span>Prize:</span>
-                        <span className="text-green-400">${tournament.prizePool.toLocaleString()}</span>
+                        <span className="text-green-400">
+                          ${tournament.prizePool.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -434,7 +484,7 @@ const MetagameAnalysis = () => {
                 <Target className="w-5 h-5 mr-2 text-red-400" />
                 Key Matchups
               </h3>
-              
+
               <div className="space-y-3">
                 {matchupData.map((matchup, index) => (
                   <div key={index} className="bg-gray-700/30 rounded-lg p-3">
@@ -442,8 +492,12 @@ const MetagameAnalysis = () => {
                       {matchup.deck1} vs {matchup.deck2}
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">{matchup.matches} matches</span>
-                      <span className={`font-bold ${matchup.winRate > 50 ? 'text-green-400' : 'text-red-400'}`}>
+                      <span className="text-gray-400">
+                        {matchup.matches} matches
+                      </span>
+                      <span
+                        className={`font-bold ${matchup.winRate > 50 ? 'text-green-400' : 'text-red-400'}`}
+                      >
                         {matchup.winRate}%
                       </span>
                     </div>
