@@ -156,29 +156,38 @@ const Layout = ({ children }) => {
     if (path === '/' && location.pathname === '/') return true;
 
     // For grouped navigation items, check if current path matches the group's functionality
-    if (item.name === 'Cards' && location.pathname.startsWith('/cards')) return true;
-    if (item.name === 'Decks' && (
-      location.pathname.startsWith('/decklists') ||
-      location.pathname.startsWith('/deckbuilder') ||
-      location.pathname.startsWith('/deck-discovery') ||
-      location.pathname.startsWith('/official-decklists')
-    )) return true;
-    if (item.name === 'Tournaments' && (
-      location.pathname.startsWith('/tournaments') ||
-      location.pathname.startsWith('/events') ||
-      location.pathname.startsWith('/leaderboards') ||
-      location.pathname.startsWith('/analytics')
-    )) return true;
-    if (item.name === 'Community' && (
-      location.pathname.startsWith('/social') ||
-      location.pathname.startsWith('/hall-of-fame') ||
-      location.pathname.startsWith('/store-locator')
-    )) return true;
-    if (item.name === 'Resources' && (
-      location.pathname.startsWith('/lore') ||
-      location.pathname.startsWith('/products') ||
-      location.pathname.startsWith('/meta-analysis')
-    )) return true;
+    if (item.name === 'Cards' && location.pathname.startsWith('/cards'))
+      return true;
+    if (
+      item.name === 'Decks' &&
+      (location.pathname.startsWith('/decklists') ||
+        location.pathname.startsWith('/deckbuilder') ||
+        location.pathname.startsWith('/deck-discovery') ||
+        location.pathname.startsWith('/official-decklists'))
+    )
+      return true;
+    if (
+      item.name === 'Tournaments' &&
+      (location.pathname.startsWith('/tournaments') ||
+        location.pathname.startsWith('/events') ||
+        location.pathname.startsWith('/leaderboards') ||
+        location.pathname.startsWith('/analytics'))
+    )
+      return true;
+    if (
+      item.name === 'Community' &&
+      (location.pathname.startsWith('/social') ||
+        location.pathname.startsWith('/hall-of-fame') ||
+        location.pathname.startsWith('/store-locator'))
+    )
+      return true;
+    if (
+      item.name === 'Resources' &&
+      (location.pathname.startsWith('/lore') ||
+        location.pathname.startsWith('/products') ||
+        location.pathname.startsWith('/meta-analysis'))
+    )
+      return true;
 
     // Check main path for other items
     if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
