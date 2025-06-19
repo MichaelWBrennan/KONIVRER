@@ -35,6 +35,7 @@ import ReplayCenter from './pages/ReplayCenter';
 // Unified feature pages
 import UnifiedMarket from './pages/UnifiedMarket';
 import UnifiedTools from './pages/UnifiedTools';
+import UnifiedGameHub from './pages/UnifiedGameHub';
 
 // Individual feature components (for backwards compatibility)
 import PriceTracker from './pages/PriceTracker';
@@ -60,19 +61,23 @@ function App() {
                 {/* Core Pages */}
                 <Route path="/" element={<Home />} />
 
-                {/* Cards - Unified card database with all card-related functionality */}
-                <Route path="/cards" element={<UnifiedCards />} />
-                <Route path="/card-database" element={<UnifiedCards />} />
-                <Route path="/advanced-cards" element={<UnifiedCards />} />
+                {/* Unified Game Hub - All cards, decks, and market functionality */}
+                <Route path="/hub" element={<UnifiedGameHub />} />
+                <Route path="/game-hub" element={<UnifiedGameHub />} />
 
-                {/* Decks - Unified deck system with all deck-related functionality */}
-                <Route path="/decklists" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
+                {/* Cards - Redirect to unified hub */}
+                <Route path="/cards" element={<UnifiedGameHub />} />
+                <Route path="/card-database" element={<UnifiedGameHub />} />
+                <Route path="/advanced-cards" element={<UnifiedGameHub />} />
+
+                {/* Decks - Redirect to unified hub */}
+                <Route path="/decklists" element={<UnifiedGameHub />} />
+                <Route path="/deckbuilder" element={<UnifiedGameHub />} />
                 <Route
                   path="/deckbuilder/:deckId"
-                  element={<UnifiedDeckSystem />}
+                  element={<UnifiedGameHub />}
                 />
-                <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
+                <Route path="/deck-discovery" element={<UnifiedGameHub />} />
                 <Route
                   path="/official-decklists"
                   element={<OfficialDecklists />}
@@ -119,23 +124,23 @@ function App() {
                 />
                 <Route path="/admin" element={<AdminPanel />} />
 
-                {/* Unified Market Page - All pricing and meta features */}
-                <Route path="/market" element={<UnifiedMarket />} />
+                {/* Market - Redirect to unified hub */}
+                <Route path="/market" element={<UnifiedGameHub />} />
 
                 {/* Unified Tools Page - All utilities and helpers */}
                 <Route path="/tools" element={<UnifiedTools />} />
 
-                {/* Market-related redirects to unified page */}
-                <Route path="/prices" element={<UnifiedMarket />} />
-                <Route path="/price-tracker" element={<UnifiedMarket />} />
-                <Route path="/metagame" element={<UnifiedMarket />} />
-                <Route path="/metagame-analysis" element={<UnifiedMarket />} />
-                <Route path="/budget-decks" element={<UnifiedMarket />} />
-                <Route path="/budget" element={<UnifiedMarket />} />
-                <Route path="/deck-pricing" element={<UnifiedMarket />} />
-                <Route path="/pricing" element={<UnifiedMarket />} />
-                <Route path="/spoilers" element={<UnifiedCards />} />
-                <Route path="/previews" element={<UnifiedCards />} />
+                {/* Market-related redirects to unified hub */}
+                <Route path="/prices" element={<UnifiedGameHub />} />
+                <Route path="/price-tracker" element={<UnifiedGameHub />} />
+                <Route path="/metagame" element={<UnifiedGameHub />} />
+                <Route path="/metagame-analysis" element={<UnifiedGameHub />} />
+                <Route path="/budget-decks" element={<UnifiedGameHub />} />
+                <Route path="/budget" element={<UnifiedGameHub />} />
+                <Route path="/deck-pricing" element={<UnifiedGameHub />} />
+                <Route path="/pricing" element={<UnifiedGameHub />} />
+                <Route path="/spoilers" element={<UnifiedGameHub />} />
+                <Route path="/previews" element={<UnifiedGameHub />} />
 
                 {/* Tools-related redirects to unified page */}
                 <Route
@@ -144,15 +149,15 @@ function App() {
                 />
                 <Route path="/commander-recs" element={<UnifiedTools />} />
                 <Route path="/commanders" element={<UnifiedTools />} />
-                <Route path="/card-synergy" element={<UnifiedCards />} />
-                <Route path="/synergy-explorer" element={<UnifiedCards />} />
-                <Route path="/synergy" element={<UnifiedCards />} />
+                <Route path="/card-synergy" element={<UnifiedGameHub />} />
+                <Route path="/synergy-explorer" element={<UnifiedGameHub />} />
+                <Route path="/synergy" element={<UnifiedGameHub />} />
                 <Route path="/power-level" element={<UnifiedTools />} />
                 <Route path="/power-calculator" element={<UnifiedTools />} />
                 <Route path="/power" element={<UnifiedTools />} />
-                <Route path="/collection" element={<UnifiedTools />} />
-                <Route path="/portfolio" element={<UnifiedTools />} />
-                <Route path="/format-staples" element={<UnifiedCards />} />
+                <Route path="/collection" element={<UnifiedGameHub />} />
+                <Route path="/portfolio" element={<UnifiedGameHub />} />
+                <Route path="/format-staples" element={<UnifiedGameHub />} />
                 <Route
                   path="/tournament-results"
                   element={<UnifiedTournaments />}
