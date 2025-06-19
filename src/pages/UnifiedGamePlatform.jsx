@@ -83,11 +83,6 @@ const UnifiedGamePlatform = () => {
           name: 'Game Simulator',
           component: GameSimulatorSimple,
         },
-        {
-          id: 'yugioh',
-          name: 'Yu-Gi-Oh! Arena',
-          component: null, // Link to /yugioh
-        },
       ],
     },
     {
@@ -310,13 +305,7 @@ const UnifiedGamePlatform = () => {
             {currentSection.features.map((feature, index) => (
               <motion.button
                 key={feature.id}
-                onClick={() => {
-                  if (feature.id === 'yugioh') {
-                    window.location.href = '/yugioh';
-                  } else {
-                    updateURL(activeSection, feature.id);
-                  }
-                }}
+                onClick={() => updateURL(activeSection, feature.id)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, x: -20 }}
@@ -330,9 +319,6 @@ const UnifiedGamePlatform = () => {
                 }`}
               >
                 {feature.name}
-                {feature.id === 'yugioh' && (
-                  <span className="ml-2 text-xs opacity-75">↗</span>
-                )}
               </motion.button>
             ))}
           </motion.div>
@@ -390,29 +376,13 @@ const UnifiedGamePlatform = () => {
               {currentSection?.features?.map((feature, index) => (
                 <div
                   key={feature.id}
-                  className={`bg-white/5 rounded-lg p-4 border border-white/10 ${
-                    feature.id === 'yugioh'
-                      ? 'cursor-pointer hover:bg-white/10'
-                      : ''
-                  }`}
-                  onClick={() => {
-                    if (feature.id === 'yugioh') {
-                      window.location.href = '/yugioh';
-                    }
-                  }}
+                  className="bg-white/5 rounded-lg p-4 border border-white/10"
                 >
                   <h3 className="font-semibold text-white mb-2">
                     {feature.name}
-                    {feature.id === 'yugioh' && (
-                      <span className="ml-2 text-xs opacity-75">↗</span>
-                    )}
                   </h3>
                   <p className="text-sm text-gray-400">
-                    {feature.id === 'yugioh'
-                      ? 'Available - Click to open'
-                      : feature.component
-                        ? 'Available'
-                        : 'Coming Soon'}
+                    {feature.component ? 'Available' : 'Coming Soon'}
                   </p>
                 </div>
               ))}
