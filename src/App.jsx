@@ -29,7 +29,7 @@ function App() {
 
                 {/* Unified Game Platform - All game functionality */}
                 <Route path="/hub" element={<UnifiedGamePlatform />} />
-                
+
                 {/* All game-related redirects to unified platform */}
                 <Route path="/cards/*" element={<UnifiedGamePlatform />} />
                 <Route path="/decks/*" element={<UnifiedGamePlatform />} />
@@ -45,8 +45,14 @@ function App() {
 
                 {/* Tournaments */}
                 <Route path="/tournaments" element={<UnifiedTournaments />} />
-                <Route path="/tournaments/create" element={<TournamentCreate />} />
-                <Route path="/tournaments/:tournamentId/live" element={<LiveTournament />} />
+                <Route
+                  path="/tournaments/create"
+                  element={<TournamentCreate />}
+                />
+                <Route
+                  path="/tournaments/:tournamentId/live"
+                  element={<LiveTournament />}
+                />
 
                 {/* Community */}
                 <Route path="/social" element={<UnifiedCommunity />} />
@@ -60,7 +66,10 @@ function App() {
 
                 {/* Administrative */}
                 <Route path="/judge-center" element={<JudgeCenter />} />
-                <Route path="/tournament-manager" element={<TournamentManager />} />
+                <Route
+                  path="/tournament-manager"
+                  element={<TournamentManager />}
+                />
                 <Route path="/admin" element={<AdminPanel />} />
               </Routes>
             </Layout>
