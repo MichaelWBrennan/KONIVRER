@@ -1227,9 +1227,9 @@ const UnifiedDeckSystem = () => {
 
           {/* AI Assistant */}
           {showAI && (
-            <AIAssistant 
-              currentDeck={builderDeck} 
-              onSuggestion={(suggestion) => {
+            <AIAssistant
+              currentDeck={builderDeck}
+              onSuggestion={suggestion => {
                 // Handle AI suggestions - could add cards to deck, show notifications, etc.
                 console.log('AI Suggestion:', suggestion);
                 if (suggestion.type === 'add_card' && suggestion.card) {
@@ -1237,7 +1237,7 @@ const UnifiedDeckSystem = () => {
                   const newCard = { ...suggestion.card, quantity: 1 };
                   setBuilderDeck(prev => ({
                     ...prev,
-                    cards: [...prev.cards, newCard]
+                    cards: [...prev.cards, newCard],
                   }));
                 }
               }}
