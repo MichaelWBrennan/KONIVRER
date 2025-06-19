@@ -16,7 +16,7 @@ import {
   Save,
   Load,
   Users,
-  Bot
+  Bot,
 } from 'lucide-react';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
@@ -37,7 +37,7 @@ const GameSimulator = () => {
         library: [],
         graveyard: [],
         battlefield: [],
-        deck: null
+        deck: null,
       },
       2: {
         name: 'Player 2',
@@ -48,12 +48,12 @@ const GameSimulator = () => {
         library: [],
         graveyard: [],
         battlefield: [],
-        deck: null
-      }
+        deck: null,
+      },
     },
     selectedCard: null,
     targetMode: false,
-    gameLog: []
+    gameLog: [],
   });
 
   const [availableDecks, setAvailableDecks] = useState([]);
@@ -68,18 +68,28 @@ const GameSimulator = () => {
       {
         id: 'elemental-deck',
         name: 'Elemental Forces',
-        cards: cardsData.slice(0, 8).map(card => ({ ...card, quantity: Math.floor(Math.random() * 3) + 1 }))
+        cards: cardsData
+          .slice(0, 8)
+          .map(card => ({
+            ...card,
+            quantity: Math.floor(Math.random() * 3) + 1,
+          })),
       },
       {
         id: 'void-deck',
         name: 'Void Walker',
-        cards: cardsData.filter(card => card.keywords.includes('Void') || card.elements.includes('▢')).map(card => ({ ...card, quantity: 2 }))
+        cards: cardsData
+          .filter(
+            card =>
+              card.keywords.includes('Void') || card.elements.includes('▢'),
+          )
+          .map(card => ({ ...card, quantity: 2 })),
       },
       {
         id: 'balanced-deck',
         name: 'Balanced Strategy',
-        cards: cardsData.slice(2, 10).map(card => ({ ...card, quantity: 2 }))
-      }
+        cards: cardsData.slice(2, 10).map(card => ({ ...card, quantity: 2 })),
+      },
     ];
     setAvailableDecks(sampleDecks);
   }, []);
@@ -92,24 +102,24 @@ const GameSimulator = () => {
     }
 
     const newGameState = { ...gameState };
-    
+
     // Initialize libraries and shuffle
     Object.keys(newGameState.players).forEach(playerId => {
       const player = newGameState.players[playerId];
       const library = [];
-      
+
       player.deck.cards.forEach(card => {
         for (let i = 0; i < card.quantity; i++) {
           library.push({ ...card, id: `${card.id}_${i}` });
         }
       });
-      
+
       // Shuffle library
       player.library = library.sort(() => Math.random() - 0.5);
-      
+
       // Draw opening hand
       player.hand = player.library.splice(0, 7);
-      
+
       // Reset other zones
       player.graveyard = [];
       player.battlefield = [];
@@ -121,7 +131,10 @@ const GameSimulator = () => {
     newGameState.phase = 'playing';
     newGameState.turn = 1;
     newGameState.currentPlayer = 1;
-    newGameState.gameLog = ['Game started!', 'Both players drew their opening hands.'];
+    newGameState.gameLog = [
+      'Game started!',
+      'Both players drew their opening hands.',
+    ];
 
     setGameState(newGameState);
   };
@@ -130,21 +143,21 @@ const GameSimulator = () => {
     const newGameState = { ...gameState };
     const currentPlayer = newGameState.players[newGameState.currentPlayer];
     const nextPlayerId = newGameState.currentPlayer === 1 ? 2 : 1;
-    
+
     // Draw a card for the next player
     const nextPlayer = newGameState.players[nextPlayerId];
     if (nextPlayer.library.length > 0) {
       nextPlayer.hand.push(nextPlayer.library.shift());
     }
-    
+
     // Increase max azoth for next player (up to 10)
     if (nextPlayer.maxAzoth < 10) {
       nextPlayer.maxAzoth++;
     }
-    
+
     // Restore azoth to max
     nextPlayer.azoth = nextPlayer.maxAzoth;
-    
+
     // Untap all cards on battlefield
     nextPlayer.battlefield.forEach(card => {
       card.tapped = false;
@@ -154,29 +167,34 @@ const GameSimulator = () => {
     if (nextPlayerId === 1) {
       newGameState.turn++;
     }
-    
-    newGameState.gameLog.unshift(`Turn ${newGameState.turn}: ${nextPlayer.name}'s turn`);
-    
+
+    newGameState.gameLog.unshift(
+      `Turn ${newGameState.turn}: ${nextPlayer.name}'s turn`,
+    );
+
     setGameState(newGameState);
   };
 
   const playCard = (card, playerId) => {
     const newGameState = { ...gameState };
     const player = newGameState.players[playerId];
-    
+
     // Check if player can afford the card
-    const cardCost = typeof card.cost === 'string' ? parseInt(card.cost.split('/')[0]) : card.cost;
+    const cardCost =
+      typeof card.cost === 'string'
+        ? parseInt(card.cost.split('/')[0])
+        : card.cost;
     if (player.azoth < cardCost) {
       alert('Not enough Azoth to play this card!');
       return;
     }
-    
+
     // Remove card from hand
     player.hand = player.hand.filter(c => c.id !== card.id);
-    
+
     // Pay cost
     player.azoth -= cardCost;
-    
+
     // Add to battlefield or resolve effect
     if (card.type.includes('CREATURE') || card.type.includes('AMILIAR')) {
       player.battlefield.push({ ...card, tapped: false, summoned: true });
@@ -185,7 +203,7 @@ const GameSimulator = () => {
       // Spell effect - add to graveyard
       player.graveyard.push(card);
       newGameState.gameLog.unshift(`${player.name} cast ${card.name}`);
-      
+
       // Apply spell effects (simplified)
       if (card.text.includes('damage')) {
         const damage = parseInt(card.text.match(/(\d+) damage/)?.[1] || 0);
@@ -196,7 +214,7 @@ const GameSimulator = () => {
           newGameState.gameLog.unshift(`${card.name} deals ${damage} damage`);
         }
       }
-      
+
       if (card.text.includes('life')) {
         const healing = parseInt(card.text.match(/(\d+) life/)?.[1] || 0);
         if (healing > 0) {
@@ -205,7 +223,7 @@ const GameSimulator = () => {
         }
       }
     }
-    
+
     setGameState(newGameState);
   };
 
@@ -214,27 +232,29 @@ const GameSimulator = () => {
     const attacker = newGameState.players[attackerId];
     const defenderId = attackerId === 1 ? 2 : 1;
     const defender = newGameState.players[defenderId];
-    
+
     if (creature.tapped || creature.summoned) {
       alert('This creature cannot attack (tapped or summoning sick)');
       return;
     }
-    
+
     // Tap the creature
     creature.tapped = true;
-    
+
     // Deal damage to defender (simplified - no blocking)
     const damage = creature.power || 0;
     defender.life -= damage;
-    
-    newGameState.gameLog.unshift(`${creature.name} attacks for ${damage} damage`);
-    
+
+    newGameState.gameLog.unshift(
+      `${creature.name} attacks for ${damage} damage`,
+    );
+
     // Check for game end
     if (defender.life <= 0) {
       newGameState.phase = 'ended';
       newGameState.gameLog.unshift(`${attacker.name} wins!`);
     }
-    
+
     setGameState(newGameState);
   };
 
@@ -259,7 +279,7 @@ const GameSimulator = () => {
           library: [],
           graveyard: [],
           battlefield: [],
-          deck: null
+          deck: null,
         },
         2: {
           name: 'Player 2',
@@ -270,23 +290,27 @@ const GameSimulator = () => {
           library: [],
           graveyard: [],
           battlefield: [],
-          deck: null
-        }
+          deck: null,
+        },
       },
       selectedCard: null,
       targetMode: false,
-      gameLog: []
+      gameLog: [],
     });
   };
 
   const PlayerZone = ({ player, playerId, isCurrentPlayer }) => (
-    <div className={`bg-gray-800 rounded-lg p-4 border-2 ${isCurrentPlayer ? 'border-blue-500' : 'border-gray-600'}`}>
+    <div
+      className={`bg-gray-800 rounded-lg p-4 border-2 ${isCurrentPlayer ? 'border-blue-500' : 'border-gray-600'}`}
+    >
       {/* Player Info */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-4">
           <h3 className="text-lg font-bold text-white">{player.name}</h3>
           {isCurrentPlayer && (
-            <span className="px-2 py-1 bg-blue-500 text-white text-xs rounded">Current Turn</span>
+            <span className="px-2 py-1 bg-blue-500 text-white text-xs rounded">
+              Current Turn
+            </span>
           )}
         </div>
         <div className="flex items-center space-x-4 text-sm">
@@ -296,7 +320,9 @@ const GameSimulator = () => {
           </div>
           <div className="flex items-center space-x-1">
             <Zap className="text-blue-400" size={16} />
-            <span className="text-white">{player.azoth}/{player.maxAzoth}</span>
+            <span className="text-white">
+              {player.azoth}/{player.maxAzoth}
+            </span>
           </div>
           <div className="text-gray-400">
             Hand: {player.hand.length} | Library: {player.library.length}
@@ -309,7 +335,9 @@ const GameSimulator = () => {
         <h4 className="text-sm font-medium text-gray-300 mb-2">Battlefield</h4>
         <div className="min-h-24 bg-gray-700 rounded p-2">
           {player.battlefield.length === 0 ? (
-            <div className="text-center text-gray-500 py-4">No creatures on battlefield</div>
+            <div className="text-center text-gray-500 py-4">
+              No creatures on battlefield
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {player.battlefield.map((card, index) => (
@@ -318,15 +346,22 @@ const GameSimulator = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className={`bg-gray-600 rounded p-2 cursor-pointer hover:bg-gray-500 transition-colors ${card.tapped ? 'opacity-50 transform rotate-90' : ''}`}
-                  onClick={() => isCurrentPlayer && attackWithCreature(card, playerId)}
+                  onClick={() =>
+                    isCurrentPlayer && attackWithCreature(card, playerId)
+                  }
                 >
-                  <div className="text-sm font-medium text-white">{card.name}</div>
+                  <div className="text-sm font-medium text-white">
+                    {card.name}
+                  </div>
                   <div className="text-xs text-gray-300">
-                    {card.power}/{card.power} {card.tapped ? '(Tapped)' : ''} {card.summoned ? '(Sick)' : ''}
+                    {card.power}/{card.power} {card.tapped ? '(Tapped)' : ''}{' '}
+                    {card.summoned ? '(Sick)' : ''}
                   </div>
                   <div className="flex items-center gap-1 mt-1">
                     {card.elements.map((element, i) => (
-                      <span key={i} className="text-xs">{element}</span>
+                      <span key={i} className="text-xs">
+                        {element}
+                      </span>
                     ))}
                   </div>
                 </motion.div>
@@ -355,11 +390,15 @@ const GameSimulator = () => {
                   }
                 }}
               >
-                <div className="text-sm font-medium text-white">{card.name}</div>
+                <div className="text-sm font-medium text-white">
+                  {card.name}
+                </div>
                 <div className="text-xs text-gray-300">Cost: {card.cost}</div>
                 <div className="flex items-center gap-1 mt-1">
                   {card.elements.map((element, i) => (
-                    <span key={i} className="text-xs">{element}</span>
+                    <span key={i} className="text-xs">
+                      {element}
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -377,7 +416,9 @@ const GameSimulator = () => {
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-400">Turn {gameState.turn}</span>
           <span className="text-sm text-gray-400">•</span>
-          <span className="text-sm text-gray-400">Phase: {gameState.phase}</span>
+          <span className="text-sm text-gray-400">
+            Phase: {gameState.phase}
+          </span>
         </div>
       </div>
 
@@ -411,11 +452,20 @@ const GameSimulator = () => {
         </button>
 
         <button
-          onClick={() => setGameState({...gameState, phase: gameState.phase === 'paused' ? 'playing' : 'paused'})}
+          onClick={() =>
+            setGameState({
+              ...gameState,
+              phase: gameState.phase === 'paused' ? 'playing' : 'paused',
+            })
+          }
           className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
           disabled={gameState.phase === 'setup'}
         >
-          {gameState.phase === 'paused' ? <Play size={16} /> : <Pause size={16} />}
+          {gameState.phase === 'paused' ? (
+            <Play size={16} />
+          ) : (
+            <Pause size={16} />
+          )}
           <span>{gameState.phase === 'paused' ? 'Resume' : 'Pause'}</span>
         </button>
       </div>
@@ -425,7 +475,7 @@ const GameSimulator = () => {
   const DeckSelection = () => (
     <div className="bg-gray-800 rounded-lg p-4">
       <h3 className="text-lg font-bold text-white mb-4">Deck Selection</h3>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {[1, 2].map(playerId => (
           <div key={playerId}>
@@ -445,7 +495,11 @@ const GameSimulator = () => {
                 >
                   <div className="font-medium">{deck.name}</div>
                   <div className="text-sm text-gray-400">
-                    {deck.cards.reduce((total, card) => total + card.quantity, 0)} cards
+                    {deck.cards.reduce(
+                      (total, card) => total + card.quantity,
+                      0,
+                    )}{' '}
+                    cards
                   </div>
                 </button>
               ))}
@@ -461,12 +515,17 @@ const GameSimulator = () => {
       <h3 className="text-lg font-bold text-white mb-4">Game Log</h3>
       <div className="max-h-64 overflow-y-auto space-y-1">
         {gameState.gameLog.map((entry, index) => (
-          <div key={index} className="text-sm text-gray-300 p-2 bg-gray-700 rounded">
+          <div
+            key={index}
+            className="text-sm text-gray-300 p-2 bg-gray-700 rounded"
+          >
             {entry}
           </div>
         ))}
         {gameState.gameLog.length === 0 && (
-          <div className="text-gray-500 text-center py-4">No game events yet</div>
+          <div className="text-gray-500 text-center py-4">
+            No game events yet
+          </div>
         )}
       </div>
     </div>
@@ -476,8 +535,13 @@ const GameSimulator = () => {
     <div className="space-y-6">
       {/* Game Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">KONIVRER Game Simulator</h2>
-        <p className="text-gray-400">Experience the full KONIVRER gameplay with deck testing and AI opponents</p>
+        <h2 className="text-2xl font-bold text-white mb-2">
+          KONIVRER Game Simulator
+        </h2>
+        <p className="text-gray-400">
+          Experience the full KONIVRER gameplay with deck testing and AI
+          opponents
+        </p>
       </div>
 
       {/* Game Controls */}
@@ -490,16 +554,16 @@ const GameSimulator = () => {
       {gameState.phase !== 'setup' && (
         <div className="space-y-4">
           {/* Player 2 (Opponent) */}
-          <PlayerZone 
-            player={gameState.players[2]} 
-            playerId={2} 
+          <PlayerZone
+            player={gameState.players[2]}
+            playerId={2}
             isCurrentPlayer={gameState.currentPlayer === 2}
           />
-          
+
           {/* Player 1 (You) */}
-          <PlayerZone 
-            player={gameState.players[1]} 
-            playerId={1} 
+          <PlayerZone
+            player={gameState.players[1]}
+            playerId={1}
             isCurrentPlayer={gameState.currentPlayer === 1}
           />
         </div>
@@ -518,7 +582,9 @@ const GameSimulator = () => {
           <div className="bg-gray-800 rounded-lg p-8 text-center">
             <h2 className="text-2xl font-bold text-white mb-4">Game Over!</h2>
             <p className="text-gray-300 mb-6">
-              {gameState.players[1].life <= 0 ? 'Player 2 Wins!' : 'Player 1 Wins!'}
+              {gameState.players[1].life <= 0
+                ? 'Player 2 Wins!'
+                : 'Player 1 Wins!'}
             </p>
             <div className="flex gap-4 justify-center">
               <button
@@ -528,7 +594,7 @@ const GameSimulator = () => {
                 Play Again
               </button>
               <button
-                onClick={() => setGameState({...gameState, phase: 'setup'})}
+                onClick={() => setGameState({ ...gameState, phase: 'setup' })}
                 className="px-6 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
               >
                 Change Decks
