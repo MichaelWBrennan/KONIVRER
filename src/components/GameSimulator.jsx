@@ -30,25 +30,33 @@ const GameSimulator = () => {
     players: {
       1: {
         name: 'Player 1',
-        life: 20,
+        life: 4000, // KONIVRER uses 4000 life points
         azoth: 0,
         maxAzoth: 0,
-        hand: [],
-        library: [],
-        graveyard: [],
-        battlefield: [],
-        deck: null
+        hand: [], // Cards not yet played
+        deck: [], // Your draw pile for the duration of the game
+        field: [], // Where Familiars and Spells are played
+        combatRow: [], // Designated area for Familiar battles
+        azothRow: [], // Where Azoth cards are placed as resources
+        lifeCards: [], // Top 4 cards face down, revealed as damage is taken
+        flag: null, // Flag card showing deck elements and bonus damage
+        removedFromPlay: [], // Zone for cards affected by Void keyword
+        graveyard: []
       },
       2: {
         name: 'Player 2',
-        life: 20,
+        life: 4000,
         azoth: 0,
         maxAzoth: 0,
         hand: [],
-        library: [],
-        graveyard: [],
-        battlefield: [],
-        deck: null
+        deck: [],
+        field: [],
+        combatRow: [],
+        azothRow: [],
+        lifeCards: [],
+        flag: null,
+        removedFromPlay: [],
+        graveyard: []
       }
     },
     selectedCard: null,
@@ -93,27 +101,37 @@ const GameSimulator = () => {
 
     const newGameState = { ...gameState };
     
-    // Initialize libraries and shuffle
+    // Initialize decks and shuffle
     Object.keys(newGameState.players).forEach(playerId => {
       const player = newGameState.players[playerId];
-      const library = [];
+      const deckCards = [];
       
       player.deck.cards.forEach(card => {
         for (let i = 0; i < card.quantity; i++) {
-          library.push({ ...card, id: `${card.id}_${i}` });
+          deckCards.push({ ...card, id: `${card.id}_${i}` });
         }
       });
       
-      // Shuffle library
-      player.library = library.sort(() => Math.random() - 0.5);
+      // Shuffle deck
+      const shuffledDeck = deckCards.sort(() => Math.random() - 0.5);
       
-      // Draw opening hand
-      player.hand = player.library.splice(0, 7);
+      // Set up Life Cards (top 4 cards face down)
+      player.lifeCards = shuffledDeck.splice(0, 4);
       
-      // Reset other zones
+      // Remaining cards become the deck
+      player.deck = shuffledDeck;
+      
+      // Draw opening hand (5 cards in KONIVRER)
+      player.hand = player.deck.splice(0, 5);
+      
+      // Reset all zones
+      player.field = [];
+      player.combatRow = [];
+      player.azothRow = [];
+      player.removedFromPlay = [];
       player.graveyard = [];
-      player.battlefield = [];
-      player.life = 20;
+      player.flag = null;
+      player.life = 4000;
       player.azoth = 0;
       player.maxAzoth = 0;
     });
