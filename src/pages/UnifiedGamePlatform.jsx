@@ -391,7 +391,9 @@ const UnifiedGamePlatform = () => {
                 <div
                   key={feature.id}
                   className={`bg-white/5 rounded-lg p-4 border border-white/10 ${
-                    feature.id === 'yugioh' ? 'cursor-pointer hover:bg-white/10' : ''
+                    feature.id === 'yugioh'
+                      ? 'cursor-pointer hover:bg-white/10'
+                      : ''
                   }`}
                   onClick={() => {
                     if (feature.id === 'yugioh') {
@@ -406,12 +408,11 @@ const UnifiedGamePlatform = () => {
                     )}
                   </h3>
                   <p className="text-sm text-gray-400">
-                    {feature.id === 'yugioh' 
-                      ? 'Available - Click to open' 
-                      : feature.component 
-                        ? 'Available' 
-                        : 'Coming Soon'
-                    }
+                    {feature.id === 'yugioh'
+                      ? 'Available - Click to open'
+                      : feature.component
+                        ? 'Available'
+                        : 'Coming Soon'}
                   </p>
                 </div>
               ))}
