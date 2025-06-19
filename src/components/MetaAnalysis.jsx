@@ -177,7 +177,7 @@ const MetaAnalysis = () => {
           </div>
         </div>
 
-        {/* Quick Stats */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-secondary border border-color rounded-xl p-6">
             <div className="flex items-center gap-3">

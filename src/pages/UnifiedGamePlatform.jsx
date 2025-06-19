@@ -269,7 +269,6 @@ const UnifiedGamePlatform = () => {
               </div>
               <div className="space-y-1">
                 <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="text-sm text-gray-300">{stat.label}</p>
               </div>
             </motion.div>
           ))}
