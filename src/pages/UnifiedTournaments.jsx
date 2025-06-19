@@ -392,7 +392,7 @@ const UnifiedTournaments = () => {
             )}
           </div>
 
-          {/* Quick Stats */}
+          {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
