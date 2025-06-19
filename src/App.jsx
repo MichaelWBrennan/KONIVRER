@@ -32,6 +32,21 @@ import BattlePass from './pages/BattlePass';
 import CardMaker from './pages/CardMaker';
 import ReplayCenter from './pages/ReplayCenter';
 
+// New MTGGoldfish-inspired features
+import PriceTracker from './pages/PriceTracker';
+import MetagameAnalysis from './pages/MetagameAnalysis';
+import BudgetDecks from './pages/BudgetDecks';
+import DeckPricing from './pages/DeckPricing';
+import CardSpoilers from './pages/CardSpoilers';
+
+// New EDHREC-inspired features
+import CommanderRecommendations from './pages/CommanderRecommendations';
+import CardSynergy from './pages/CardSynergy';
+import PowerLevelCalculator from './pages/PowerLevelCalculator';
+import TournamentResults from './pages/TournamentResults';
+import CollectionPortfolio from './pages/CollectionPortfolio';
+import FormatStaples from './pages/FormatStaples';
+
 function App() {
   return (
     <ErrorBoundary>
@@ -101,6 +116,48 @@ function App() {
                   element={<TournamentManager />}
                 />
                 <Route path="/admin" element={<AdminPanel />} />
+
+                {/* New MTGGoldfish-inspired routes */}
+                <Route path="/prices" element={<PriceTracker />} />
+                <Route path="/price-tracker" element={<PriceTracker />} />
+                <Route path="/metagame" element={<MetagameAnalysis />} />
+                <Route
+                  path="/metagame-analysis"
+                  element={<MetagameAnalysis />}
+                />
+                <Route path="/budget-decks" element={<BudgetDecks />} />
+                <Route path="/budget" element={<BudgetDecks />} />
+                <Route path="/deck-pricing" element={<DeckPricing />} />
+                <Route path="/pricing" element={<DeckPricing />} />
+                <Route path="/spoilers" element={<CardSpoilers />} />
+                <Route path="/previews" element={<CardSpoilers />} />
+
+                {/* New EDHREC-inspired routes */}
+                <Route
+                  path="/commander-recommendations"
+                  element={<CommanderRecommendations />}
+                />
+                <Route
+                  path="/commander-recs"
+                  element={<CommanderRecommendations />}
+                />
+                <Route
+                  path="/commanders"
+                  element={<CommanderRecommendations />}
+                />
+                <Route path="/card-synergy" element={<CardSynergy />} />
+                <Route path="/synergy-explorer" element={<CardSynergy />} />
+                <Route path="/synergy" element={<CardSynergy />} />
+                <Route path="/power-level" element={<PowerLevelCalculator />} />
+                <Route
+                  path="/power-calculator"
+                  element={<PowerLevelCalculator />}
+                />
+                <Route path="/power" element={<PowerLevelCalculator />} />
+                <Route path="/tournament-results" element={<TournamentResults />} />
+                <Route path="/collection" element={<CollectionPortfolio />} />
+                <Route path="/portfolio" element={<CollectionPortfolio />} />
+                <Route path="/format-staples" element={<FormatStaples />} />
               </Routes>
             </Layout>
           </Router>
