@@ -11,7 +11,11 @@ import {
 import { motion } from 'framer-motion';
 import cardsData from '../data/cards.json';
 
-const CollectionManager = ({ cards = cardsData, favorites = [], bookmarks = [] }) => {
+const CollectionManager = ({
+  cards = cardsData,
+  favorites = [],
+  bookmarks = [],
+}) => {
   const [collection, setCollection] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [viewMode, setViewMode] = useState('owned'); // 'owned', 'missing', 'wishlist', 'stats'
@@ -63,15 +67,16 @@ const CollectionManager = ({ cards = cardsData, favorites = [], bookmarks = [] }
   const isInWishlist = cardId => wishlist.includes(cardId);
 
   const getCollectionStats = () => {
-    if (!cards || !Array.isArray(cards)) return {
-      totalCards: 0,
-      ownedCards: 0,
-      totalOwned: 0,
-      completionPercentage: 0,
-      rarityStats: {},
-      setStats: {},
-      wishlistCount: 0,
-    };
+    if (!cards || !Array.isArray(cards))
+      return {
+        totalCards: 0,
+        ownedCards: 0,
+        totalOwned: 0,
+        completionPercentage: 0,
+        rarityStats: {},
+        setStats: {},
+        wishlistCount: 0,
+      };
     const totalCards = cards.length;
     const ownedCards = Object.keys(collection).filter(
       id => collection[id] > 0,
