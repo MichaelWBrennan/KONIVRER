@@ -15,6 +15,7 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 import UnifiedCommunity from './pages/UnifiedCommunity';
 import UnifiedResources from './pages/UnifiedResources';
 import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
+import CardDetail from './pages/CardDetail';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
 
                 {/* Unified Game Platform - All game functionality */}
                 <Route path="/hub" element={<UnifiedGamePlatform />} />
+
+                {/* Card Detail Pages */}
+                <Route path="/card/:cardId" element={<CardDetail />} />
 
                 {/* All game-related redirects to unified platform */}
                 <Route path="/cards/*" element={<UnifiedGamePlatform />} />
