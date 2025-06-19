@@ -479,7 +479,6 @@ const UnifiedResources = () => {
                     {resourceStats.totalArticles}
                   </p>
                 </div>
-
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -490,7 +489,6 @@ const UnifiedResources = () => {
                     {resourceStats.totalViews?.toLocaleString()}
                   </p>
                 </div>
-
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -501,7 +499,6 @@ const UnifiedResources = () => {
                     {resourceStats.weeklyViews?.toLocaleString()}
                   </p>
                 </div>
-
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -512,7 +509,6 @@ const UnifiedResources = () => {
                     {resourceStats.totalLikes?.toLocaleString()}
                   </p>
                 </div>
-
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -523,7 +519,6 @@ const UnifiedResources = () => {
                     {resourceStats.totalBookmarks?.toLocaleString()}
                   </p>
                 </div>
-
               </div>
             </div>
           </div>
@@ -662,7 +657,6 @@ const UnifiedResources = () => {
                             {item.type}
                           </span>
                         </div>
-
                       </div>
 
                       <h3 className="font-semibold mb-2 line-clamp-2">
@@ -777,7 +771,6 @@ const UnifiedResources = () => {
                             <span className="text-xs text-gray-400 uppercase">
                               {item.type}
                             </span>
-
                           </div>
                           <div className="flex items-center space-x-3 text-sm text-gray-400">
                             {item.views && (
@@ -829,7 +822,6 @@ const UnifiedResources = () => {
             {/* Featured Content */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-
                 Featured
               </h2>
               <div className="space-y-4">
@@ -855,7 +847,6 @@ const UnifiedResources = () => {
             {/* Popular Tags */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-
                 Popular Tags
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -873,7 +864,6 @@ const UnifiedResources = () => {
             {/* Top Authors */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-
                 Top Authors
               </h2>
               <div className="space-y-3">
