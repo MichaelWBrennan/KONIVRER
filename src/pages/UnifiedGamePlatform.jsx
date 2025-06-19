@@ -177,53 +177,6 @@ const UnifiedGamePlatform = () => {
       color: 'text-purple-400',
     },
   ];
-
-  const renderSectionContent = () => {
-    const section = sections.find(s => s.id === activeSection);
-    if (!section) return null;
-
-    return (
-      <div className="space-y-6">
-        {/* Section Header */}
-        <div className="text-center">
-          <div
-            className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${section.color} mb-4`}
-          ></div>
-          <h2 className="text-3xl font-bold text-white mb-2">{section.name}</h2>
-        </div>
-
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {section.features.map((feature, index) => (
-            <motion.div
-              key={feature.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 cursor-pointer group"
-            >
-              <div className="flex items-center space-x-3 mb-3">
-                <h3 className="font-semibold text-white">{feature.name}</h3>
-              </div>
-              <div className="h-32 bg-gray-800/50 rounded-lg flex items-center justify-center"></div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Main Content Area */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/20 min-h-[400px] p-6">
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {section.name}
-              </h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -332,16 +285,6 @@ const UnifiedGamePlatform = () => {
               </div>
             </motion.button>
           ))}
-        </motion.div>
-
-        {/* Content Area */}
-        <motion.div
-          key={activeSection}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {renderSectionContent()}
         </motion.div>
       </div>
     </div>
