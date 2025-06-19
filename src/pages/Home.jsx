@@ -49,7 +49,9 @@ const Home = () => {
 
   // State management
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState(searchParams.get('filter') || 'all'); // 'all', 'blog', 'community', 'lore', 'products', 'meta', 'guides'
+  const [activeFilter, setActiveFilter] = useState(
+    searchParams.get('filter') || 'all',
+  ); // 'all', 'blog', 'community', 'lore', 'products', 'meta', 'guides'
   const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list'
   const [sortBy, setSortBy] = useState('recent');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
@@ -139,7 +141,7 @@ const Home = () => {
     }
   }, [searchParams]);
 
-  const handleFilterChange = (filter) => {
+  const handleFilterChange = filter => {
     setActiveFilter(filter);
     if (filter === 'all') {
       setSearchParams({});
@@ -386,7 +388,8 @@ const Home = () => {
         publishDate: '2024-07-01',
         status: 'upcoming',
         price: '$4.99',
-        excerpt: 'The most ambitious expansion yet, featuring revolutionary Convergence mechanics and 156 new cards.',
+        excerpt:
+          'The most ambitious expansion yet, featuring revolutionary Convergence mechanics and 156 new cards.',
         image: '/api/placeholder/300/400',
         cardCount: 156,
         mechanics: ['Convergence', 'Elemental Mastery', 'Fusion'],
@@ -406,7 +409,8 @@ const Home = () => {
         publishDate: '2024-01-15',
         status: 'available',
         price: '$3.99',
-        excerpt: 'The foundation of KONIVRER gameplay with 200 essential cards for new and veteran players.',
+        excerpt:
+          'The foundation of KONIVRER gameplay with 200 essential cards for new and veteran players.',
         image: '/api/placeholder/300/400',
         cardCount: 200,
         mechanics: ['Basic Combat', 'Resource Management', 'Deck Building'],
@@ -426,7 +430,8 @@ const Home = () => {
         publishDate: '2024-03-20',
         status: 'available',
         price: '$9.99',
-        excerpt: 'Premium collection featuring legendary cards with alternate art and foil treatments.',
+        excerpt:
+          'Premium collection featuring legendary cards with alternate art and foil treatments.',
         image: '/api/placeholder/300/400',
         cardCount: 75,
         mechanics: ['Legendary', 'Alternate Art', 'Foil Treatment'],
@@ -595,18 +600,18 @@ const Home = () => {
       postsToday: 156,
       eventsThisWeek: 23,
       storesNearby: 2,
-      
+
       // Resource stats
       totalArticles: 156,
       totalViews: 245670,
       totalLikes: 18920,
       totalBookmarks: 4560,
       weeklyViews: 12450,
-      
+
       // Combined stats
       totalContent: 312, // articles + posts
       engagementRate: 78.5,
-      
+
       topContributors: [
         { name: 'Alex Chen', posts: 45, likes: 1230 },
         { name: 'Sarah Johnson', posts: 38, likes: 980 },
@@ -632,7 +637,7 @@ const Home = () => {
       ...metaAnalysis,
       ...guides,
     ];
-    
+
     return allContent.filter(item => {
       const matchesSearch =
         (item.title || item.name || item.content || '')
@@ -660,11 +665,16 @@ const Home = () => {
           new Date(a.publishDate || a.releaseDate || a.timestamp || a.date)
         );
       case 'popular':
-        return (b.views || b.likes || b.hypeLevel || 0) - (a.views || a.likes || a.hypeLevel || 0);
+        return (
+          (b.views || b.likes || b.hypeLevel || 0) -
+          (a.views || a.likes || a.hypeLevel || 0)
+        );
       case 'likes':
         return (b.likes || 0) - (a.likes || 0);
       case 'title':
-        return (a.title || a.name || a.content || '').localeCompare(b.title || b.name || b.content || '');
+        return (a.title || a.name || a.content || '').localeCompare(
+          b.title || b.name || b.content || '',
+        );
       default:
         return 0;
     }
@@ -771,7 +781,8 @@ const Home = () => {
               KONIVRER Hub
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Your unified hub for community, news, lore, guides, and everything KONIVRER
+              Your unified hub for community, news, lore, guides, and everything
+              KONIVRER
             </p>
           </motion.div>
 
@@ -976,7 +987,13 @@ const Home = () => {
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Main Content Feed */}
             <div className="xl:col-span-3">
-              <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-4'}>
+              <div
+                className={
+                  viewMode === 'grid'
+                    ? 'grid grid-cols-1 md:grid-cols-2 gap-6'
+                    : 'space-y-4'
+                }
+              >
                 {sortedContent.map((item, index) => (
                   <motion.div
                     key={`${item.category}-${item.id}`}
@@ -997,15 +1014,21 @@ const Home = () => {
                           />
                           <div className="flex-1">
                             <div className="flex items-center space-x-2">
-                              <h3 className="font-semibold">{item.user.name}</h3>
+                              <h3 className="font-semibold">
+                                {item.user.name}
+                              </h3>
                               {item.user.verified && (
                                 <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
                                   <div className="w-2 h-2 bg-white rounded-full"></div>
                                 </div>
                               )}
-                              <span className="text-sm text-blue-400">{item.user.rank}</span>
+                              <span className="text-sm text-blue-400">
+                                {item.user.rank}
+                              </span>
                             </div>
-                            <p className="text-sm text-gray-400">{item.timestamp}</p>
+                            <p className="text-sm text-gray-400">
+                              {item.timestamp}
+                            </p>
                           </div>
                         </div>
                         <p className="text-gray-300 mb-4">{item.content}</p>
@@ -1059,14 +1082,18 @@ const Home = () => {
                             alt={item.name}
                             className="w-full h-48 object-cover"
                           />
-                          <div className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getStatusColor(item.status)}`}>
+                          <div
+                            className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getStatusColor(item.status)}`}
+                          >
                             {item.status}
                           </div>
                         </div>
                         <div className="p-6">
                           <div className="flex items-start justify-between mb-2">
                             <h3 className="text-xl font-bold">{item.name}</h3>
-                            <span className="text-lg font-bold text-green-400">{item.price}</span>
+                            <span className="text-lg font-bold text-green-400">
+                              {item.price}
+                            </span>
                           </div>
                           <p className="text-gray-400 mb-4">{item.excerpt}</p>
                           <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
@@ -1111,12 +1138,16 @@ const Home = () => {
                             alt={item.title}
                             className="w-full h-48 object-cover"
                           />
-                          <div className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getDifficultyColor(item.difficulty)}`}>
+                          <div
+                            className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getDifficultyColor(item.difficulty)}`}
+                          >
                             {item.difficulty}
                           </div>
                         </div>
                         <div className="p-6">
-                          <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                          <h3 className="text-xl font-bold mb-2">
+                            {item.title}
+                          </h3>
                           <p className="text-gray-400 mb-4">{item.excerpt}</p>
                           <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
                             <span>By {item.author}</span>
@@ -1124,16 +1155,20 @@ const Home = () => {
                           </div>
                           {item.sections && (
                             <div className="mb-4">
-                              <p className="text-sm text-gray-400 mb-2">Sections:</p>
+                              <p className="text-sm text-gray-400 mb-2">
+                                Sections:
+                              </p>
                               <div className="flex flex-wrap gap-1">
-                                {item.sections.slice(0, 3).map((section, idx) => (
-                                  <span
-                                    key={idx}
-                                    className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs"
-                                  >
-                                    {section}
-                                  </span>
-                                ))}
+                                {item.sections
+                                  .slice(0, 3)
+                                  .map((section, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs"
+                                    >
+                                      {section}
+                                    </span>
+                                  ))}
                                 {item.sections.length > 3 && (
                                   <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">
                                     +{item.sections.length - 3} more
@@ -1180,14 +1215,18 @@ const Home = () => {
                         </div>
                         <div className="p-6">
                           <div className="flex items-center justify-between mb-2">
-                            <span className={`px-2 py-1 rounded text-xs border ${getCategoryColor(item.type || item.category)}`}>
+                            <span
+                              className={`px-2 py-1 rounded text-xs border ${getCategoryColor(item.type || item.category)}`}
+                            >
                               {item.type || item.category}
                             </span>
                             <span className="text-sm text-gray-400">
                               {formatDate(item.publishDate || item.date)}
                             </span>
                           </div>
-                          <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                          <h3 className="text-xl font-bold mb-2">
+                            {item.title}
+                          </h3>
                           <p className="text-gray-400 mb-4">{item.excerpt}</p>
                           <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
                             <span>By {item.author}</span>
@@ -1217,8 +1256,12 @@ const Home = () => {
 
               {sortedContent.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-gray-400 text-lg">No content found matching your search.</p>
-                  <p className="text-gray-500 mt-2">Try adjusting your filters or search terms.</p>
+                  <p className="text-gray-400 text-lg">
+                    No content found matching your search.
+                  </p>
+                  <p className="text-gray-500 mt-2">
+                    Try adjusting your filters or search terms.
+                  </p>
                 </div>
               )}
             </div>
@@ -1245,13 +1288,20 @@ const Home = () => {
                 <h3 className="text-lg font-semibold mb-4">Top Contributors</h3>
                 <div className="space-y-3">
                   {unifiedStats.topContributors?.map((contributor, index) => (
-                    <div key={index} className="flex items-center justify-between">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
                       <div>
                         <p className="font-medium">{contributor.name}</p>
-                        <p className="text-sm text-gray-400">{contributor.posts} posts</p>
+                        <p className="text-sm text-gray-400">
+                          {contributor.posts} posts
+                        </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-blue-400">{contributor.likes} likes</p>
+                        <p className="text-sm text-blue-400">
+                          {contributor.likes} likes
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -1275,7 +1325,9 @@ const Home = () => {
                       <div>
                         <p className="font-medium">{player.name}</p>
                         <p className="text-sm text-gray-400">{player.title}</p>
-                        <p className="text-xs text-blue-400">{player.winRate}% win rate</p>
+                        <p className="text-xs text-blue-400">
+                          {player.winRate}% win rate
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -1296,7 +1348,10 @@ const Home = () => {
                 </h3>
                 <div className="space-y-4">
                   {stores.slice(0, 2).map((store, index) => (
-                    <div key={index} className="border-b border-gray-700 pb-4 last:border-b-0">
+                    <div
+                      key={index}
+                      className="border-b border-gray-700 pb-4 last:border-b-0"
+                    >
                       <div className="flex items-start justify-between mb-2">
                         <h4 className="font-medium">{store.name}</h4>
                         <div className="flex items-center text-yellow-400">
@@ -1304,8 +1359,12 @@ const Home = () => {
                           <span className="text-sm">{store.rating}</span>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-400 mb-2">{store.address}</p>
-                      <p className="text-xs text-blue-400">{store.distance} miles away</p>
+                      <p className="text-sm text-gray-400 mb-2">
+                        {store.address}
+                      </p>
+                      <p className="text-xs text-blue-400">
+                        {store.distance} miles away
+                      </p>
                     </div>
                   ))}
                 </div>
