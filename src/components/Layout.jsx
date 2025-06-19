@@ -86,6 +86,13 @@ const Layout = ({ children }) => {
       icon: Database,
     });
 
+    // Yu-Gi-Oh! Duel Arena - playable game with Dueling Nexus compatibility
+    baseNavigation.push({
+      name: 'Duel Arena',
+      href: '/yugioh',
+      icon: Zap,
+    });
+
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
       name: 'Tournaments',
@@ -166,6 +173,13 @@ const Layout = ({ children }) => {
         location.pathname.startsWith('/synergy') ||
         location.pathname.startsWith('/collection') ||
         location.pathname.startsWith('/portfolio'))
+    )
+      return true;
+    if (
+      item.name === 'Duel Arena' &&
+      (location.pathname.startsWith('/yugioh') ||
+        location.pathname.startsWith('/duel') ||
+        location.pathname.startsWith('/game'))
     )
       return true;
     if (
