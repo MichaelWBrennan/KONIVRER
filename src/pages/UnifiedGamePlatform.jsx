@@ -14,7 +14,6 @@ import AIAssistant from '../components/AIAssistant';
 // Import remaining components
 import BattlePass from './BattlePass';
 
-
 const UnifiedGamePlatform = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState('discover');
