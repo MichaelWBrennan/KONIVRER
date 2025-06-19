@@ -75,8 +75,8 @@ const UnifiedGamePlatform = () => {
       features: [
         { id: 'cards', name: 'Card Database', icon: Database, component: CardViewer },
         { id: 'spoilers', name: 'Spoilers & Previews', icon: Eye, component: CardViewer },
-        { id: 'synergy', name: 'Card Synergy', icon: Zap, component: null },
-        { id: 'commanders', name: 'Commander Hub', icon: Crown, component: null },
+        { id: 'synergy', name: 'Card Synergy', icon: Zap, component: CardSynergy },
+        { id: 'commanders', name: 'Commander Hub', icon: Crown, component: CommanderRecommendations },
       ]
     },
     {
@@ -87,7 +87,7 @@ const UnifiedGamePlatform = () => {
       color: 'from-green-500 to-emerald-500',
       features: [
         { id: 'builder', name: 'Deck Builder', icon: Plus, component: VisualDeckBuilder },
-        { id: 'power', name: 'Power Level', icon: Calculator, component: null },
+        { id: 'power', name: 'Power Level', icon: Calculator, component: PowerLevelCalculator },
         { id: 'stats', name: 'Deck Analytics', icon: BarChart3, component: DeckStats },
         { id: 'ai', name: 'AI Assistant', icon: Bot, component: AIAssistant },
       ]
@@ -113,7 +113,7 @@ const UnifiedGamePlatform = () => {
       color: 'from-orange-500 to-red-500',
       features: [
         { id: 'collection', name: 'Collection', icon: Package, component: CollectionManager },
-        { id: 'portfolio', name: 'Portfolio', icon: PieChart, component: CollectionManager },
+        { id: 'portfolio', name: 'Portfolio', icon: PieChart, component: CollectionPortfolio },
         { id: 'battlepass', name: 'Battle Pass', icon: Trophy, component: BattlePass },
         { id: 'favorites', name: 'Favorites', icon: Heart, component: CollectionManager },
       ]
