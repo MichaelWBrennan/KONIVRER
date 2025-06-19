@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Calculator, 
-  Upload, 
+import {
+  Calculator,
+  Upload,
   BarChart3,
   TrendingUp,
   AlertTriangle,
@@ -16,7 +16,7 @@ import {
   DollarSign,
   FileText,
   Download,
-  Info
+  Info,
 } from 'lucide-react';
 
 const PowerLevelCalculator = () => {
@@ -27,88 +27,141 @@ const PowerLevelCalculator = () => {
   // Mock power level calculation
   const calculatePowerLevel = async () => {
     setIsAnalyzing(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     const mockAnalysis = {
       overallPowerLevel: 7.2,
       confidence: 85,
-      bracket: "High Power",
+      bracket: 'High Power',
       categories: {
-        fastMana: { score: 8.5, weight: 20, description: "Mana acceleration and ramp" },
-        interaction: { score: 6.8, weight: 15, description: "Removal and counterspells" },
-        cardAdvantage: { score: 7.5, weight: 15, description: "Card draw and tutors" },
-        winConditions: { score: 7.0, weight: 20, description: "Ways to win the game" },
-        consistency: { score: 6.5, weight: 10, description: "Deck reliability" },
-        resilience: { score: 6.2, weight: 10, description: "Recovery from setbacks" },
-        speed: { score: 8.0, weight: 10, description: "How fast the deck operates" }
+        fastMana: {
+          score: 8.5,
+          weight: 20,
+          description: 'Mana acceleration and ramp',
+        },
+        interaction: {
+          score: 6.8,
+          weight: 15,
+          description: 'Removal and counterspells',
+        },
+        cardAdvantage: {
+          score: 7.5,
+          weight: 15,
+          description: 'Card draw and tutors',
+        },
+        winConditions: {
+          score: 7.0,
+          weight: 20,
+          description: 'Ways to win the game',
+        },
+        consistency: {
+          score: 6.5,
+          weight: 10,
+          description: 'Deck reliability',
+        },
+        resilience: {
+          score: 6.2,
+          weight: 10,
+          description: 'Recovery from setbacks',
+        },
+        speed: {
+          score: 8.0,
+          weight: 10,
+          description: 'How fast the deck operates',
+        },
       },
       powerCards: [
-        { name: "Mana Crypt", impact: 9.5, category: "Fast Mana" },
-        { name: "Sol Ring", impact: 8.0, category: "Fast Mana" },
-        { name: "Rhystic Study", impact: 8.5, category: "Card Advantage" },
-        { name: "Cyclonic Rift", impact: 8.8, category: "Interaction" },
-        { name: "Demonic Tutor", impact: 8.2, category: "Card Advantage" }
+        { name: 'Mana Crypt', impact: 9.5, category: 'Fast Mana' },
+        { name: 'Sol Ring', impact: 8.0, category: 'Fast Mana' },
+        { name: 'Rhystic Study', impact: 8.5, category: 'Card Advantage' },
+        { name: 'Cyclonic Rift', impact: 8.8, category: 'Interaction' },
+        { name: 'Demonic Tutor', impact: 8.2, category: 'Card Advantage' },
       ],
       recommendations: [
         {
-          type: "upgrade",
-          priority: "high",
-          title: "Add More Fast Mana",
-          description: "Your deck could benefit from additional mana acceleration",
-          suggestions: ["Mana Vault", "Chrome Mox", "Mox Diamond"]
+          type: 'upgrade',
+          priority: 'high',
+          title: 'Add More Fast Mana',
+          description:
+            'Your deck could benefit from additional mana acceleration',
+          suggestions: ['Mana Vault', 'Chrome Mox', 'Mox Diamond'],
         },
         {
-          type: "balance",
-          priority: "medium", 
-          title: "Improve Interaction Suite",
-          description: "Consider adding more removal and counterspells",
-          suggestions: ["Force of Will", "Swords to Plowshares", "Counterspell"]
+          type: 'balance',
+          priority: 'medium',
+          title: 'Improve Interaction Suite',
+          description: 'Consider adding more removal and counterspells',
+          suggestions: [
+            'Force of Will',
+            'Swords to Plowshares',
+            'Counterspell',
+          ],
         },
         {
-          type: "consistency",
-          priority: "low",
-          title: "Add More Tutors",
-          description: "Increase deck consistency with additional tutors",
-          suggestions: ["Vampiric Tutor", "Mystical Tutor", "Enlightened Tutor"]
-        }
+          type: 'consistency',
+          priority: 'low',
+          title: 'Add More Tutors',
+          description: 'Increase deck consistency with additional tutors',
+          suggestions: [
+            'Vampiric Tutor',
+            'Mystical Tutor',
+            'Enlightened Tutor',
+          ],
+        },
       ],
       comparison: {
-        casual: { min: 1, max: 4, description: "Precon level, very casual" },
-        focused: { min: 4, max: 6, description: "Upgraded precons, focused strategy" },
-        optimized: { min: 6, max: 8, description: "Highly tuned, competitive cards" },
-        competitive: { min: 8, max: 10, description: "cEDH level, maximum optimization" }
+        casual: { min: 1, max: 4, description: 'Precon level, very casual' },
+        focused: {
+          min: 4,
+          max: 6,
+          description: 'Upgraded precons, focused strategy',
+        },
+        optimized: {
+          min: 6,
+          max: 8,
+          description: 'Highly tuned, competitive cards',
+        },
+        competitive: {
+          min: 8,
+          max: 10,
+          description: 'cEDH level, maximum optimization',
+        },
       },
       avgTurnWin: 8.5,
       totalPrice: 1250.75,
-      saltScore: 3.2
+      saltScore: 3.2,
     };
-    
+
     setAnalysis(mockAnalysis);
     setIsAnalyzing(false);
   };
 
-  const getPowerLevelColor = (level) => {
+  const getPowerLevelColor = level => {
     if (level >= 8) return 'text-red-400 bg-red-900/20 border-red-500';
     if (level >= 6) return 'text-yellow-400 bg-yellow-900/20 border-yellow-500';
     if (level >= 4) return 'text-blue-400 bg-blue-900/20 border-blue-500';
     return 'text-green-400 bg-green-900/20 border-green-500';
   };
 
-  const getPowerLevelLabel = (level) => {
+  const getPowerLevelLabel = level => {
     if (level >= 8) return 'Competitive';
     if (level >= 6) return 'Optimized';
     if (level >= 4) return 'Focused';
     return 'Casual';
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = priority => {
     switch (priority) {
-      case 'high': return 'text-red-400 bg-red-900/20 border-red-500';
-      case 'medium': return 'text-yellow-400 bg-yellow-900/20 border-yellow-500';
-      case 'low': return 'text-blue-400 bg-blue-900/20 border-blue-500';
-      default: return 'text-gray-400 bg-gray-900/20 border-gray-500';
+      case 'high':
+        return 'text-red-400 bg-red-900/20 border-red-500';
+      case 'medium':
+        return 'text-yellow-400 bg-yellow-900/20 border-yellow-500';
+      case 'low':
+        return 'text-blue-400 bg-blue-900/20 border-blue-500';
+      default:
+        return 'text-gray-400 bg-gray-900/20 border-gray-500';
     }
   };
 
@@ -126,7 +179,8 @@ const PowerLevelCalculator = () => {
             Power Level Calculator
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Analyze your deck's power level with our comprehensive algorithm based on competitive data
+            Analyze your deck's power level with our comprehensive algorithm
+            based on competitive data
           </p>
         </motion.div>
 
@@ -145,24 +199,44 @@ const PowerLevelCalculator = () => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="text-center p-4 bg-green-900/20 border border-green-500 rounded-lg">
-                  <div className="text-2xl font-bold text-green-400 mb-2">1-4</div>
+                  <div className="text-2xl font-bold text-green-400 mb-2">
+                    1-4
+                  </div>
                   <div className="text-green-400 font-medium mb-2">Casual</div>
-                  <div className="text-sm text-gray-300">Precon level, very casual play</div>
+                  <div className="text-sm text-gray-300">
+                    Precon level, very casual play
+                  </div>
                 </div>
                 <div className="text-center p-4 bg-blue-900/20 border border-blue-500 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-400 mb-2">4-6</div>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">
+                    4-6
+                  </div>
                   <div className="text-blue-400 font-medium mb-2">Focused</div>
-                  <div className="text-sm text-gray-300">Upgraded precons, clear strategy</div>
+                  <div className="text-sm text-gray-300">
+                    Upgraded precons, clear strategy
+                  </div>
                 </div>
                 <div className="text-center p-4 bg-yellow-900/20 border border-yellow-500 rounded-lg">
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">6-8</div>
-                  <div className="text-yellow-400 font-medium mb-2">Optimized</div>
-                  <div className="text-sm text-gray-300">Highly tuned, competitive cards</div>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">
+                    6-8
+                  </div>
+                  <div className="text-yellow-400 font-medium mb-2">
+                    Optimized
+                  </div>
+                  <div className="text-sm text-gray-300">
+                    Highly tuned, competitive cards
+                  </div>
                 </div>
                 <div className="text-center p-4 bg-red-900/20 border border-red-500 rounded-lg">
-                  <div className="text-2xl font-bold text-red-400 mb-2">8-10</div>
-                  <div className="text-red-400 font-medium mb-2">Competitive</div>
-                  <div className="text-sm text-gray-300">cEDH level, maximum optimization</div>
+                  <div className="text-2xl font-bold text-red-400 mb-2">
+                    8-10
+                  </div>
+                  <div className="text-red-400 font-medium mb-2">
+                    Competitive
+                  </div>
+                  <div className="text-sm text-gray-300">
+                    cEDH level, maximum optimization
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,9 +244,12 @@ const PowerLevelCalculator = () => {
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-8 border border-slate-600">
               <div className="text-center mb-6">
                 <Upload className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-white mb-2">Calculate Power Level</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  Calculate Power Level
+                </h2>
                 <p className="text-gray-300">
-                  Paste your deck list below to get a comprehensive power level analysis
+                  Paste your deck list below to get a comprehensive power level
+                  analysis
                 </p>
               </div>
 
@@ -183,7 +260,7 @@ const PowerLevelCalculator = () => {
                   </label>
                   <textarea
                     value={deckList}
-                    onChange={(e) => setDeckList(e.target.value)}
+                    onChange={e => setDeckList(e.target.value)}
                     placeholder="1 Atraxa, Praetors' Voice
 1 Sol Ring
 1 Command Tower
@@ -212,7 +289,7 @@ const PowerLevelCalculator = () => {
                       </>
                     )}
                   </button>
-                  
+
                   <button className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2">
                     <FileText className="w-5 h-5" />
                     Import from URL
@@ -235,9 +312,15 @@ const PowerLevelCalculator = () => {
               className={`backdrop-blur-sm rounded-xl p-8 border-2 ${getPowerLevelColor(analysis.overallPowerLevel)}`}
             >
               <div className="text-center">
-                <div className="text-6xl font-bold mb-2">{analysis.overallPowerLevel}</div>
-                <div className="text-2xl font-bold mb-2">{getPowerLevelLabel(analysis.overallPowerLevel)}</div>
-                <div className="text-lg opacity-90 mb-4">{analysis.bracket}</div>
+                <div className="text-6xl font-bold mb-2">
+                  {analysis.overallPowerLevel}
+                </div>
+                <div className="text-2xl font-bold mb-2">
+                  {getPowerLevelLabel(analysis.overallPowerLevel)}
+                </div>
+                <div className="text-lg opacity-90 mb-4">
+                  {analysis.bracket}
+                </div>
                 <div className="flex items-center justify-center gap-4 text-sm">
                   <div className="flex items-center gap-1">
                     <Target className="w-4 h-4" />
@@ -273,9 +356,13 @@ const PowerLevelCalculator = () => {
                         <span className="text-white font-medium capitalize">
                           {category.replace(/([A-Z])/g, ' $1').trim()}
                         </span>
-                        <span className="text-gray-400 text-sm ml-2">({data.weight}% weight)</span>
+                        <span className="text-gray-400 text-sm ml-2">
+                          ({data.weight}% weight)
+                        </span>
                       </div>
-                      <span className="text-white font-bold">{data.score}/10</span>
+                      <span className="text-white font-bold">
+                        {data.score}/10
+                      </span>
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-3 relative overflow-hidden">
                       <motion.div
@@ -312,10 +399,14 @@ const PowerLevelCalculator = () => {
                   >
                     <div>
                       <h4 className="font-bold text-white">{card.name}</h4>
-                      <div className="text-sm text-gray-400">{card.category}</div>
+                      <div className="text-sm text-gray-400">
+                        {card.category}
+                      </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-yellow-400">{card.impact}/10</div>
+                      <div className="text-lg font-bold text-yellow-400">
+                        {card.impact}/10
+                      </div>
                       <div className="text-sm text-gray-400">Impact</div>
                     </div>
                   </motion.div>
@@ -350,10 +441,15 @@ const PowerLevelCalculator = () => {
                             {rec.priority}
                           </span>
                         </div>
-                        <p className="text-sm opacity-90 mb-3">{rec.description}</p>
+                        <p className="text-sm opacity-90 mb-3">
+                          {rec.description}
+                        </p>
                         <div className="flex flex-wrap gap-2">
                           {rec.suggestions.map((suggestion, i) => (
-                            <span key={i} className="px-2 py-1 bg-slate-700/50 rounded text-xs">
+                            <span
+                              key={i}
+                              className="px-2 py-1 bg-slate-700/50 rounded text-xs"
+                            >
                               {suggestion}
                             </span>
                           ))}
@@ -387,14 +483,18 @@ const PowerLevelCalculator = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 via-yellow-500 to-red-500 rounded-full" />
                   <motion.div
                     initial={{ left: 0 }}
-                    animate={{ left: `${(analysis.overallPowerLevel / 10) * 100}%` }}
+                    animate={{
+                      left: `${(analysis.overallPowerLevel / 10) * 100}%`,
+                    }}
                     transition={{ delay: 0.5, duration: 1 }}
                     className="absolute top-0 w-1 h-full bg-white shadow-lg"
                     style={{ transform: 'translateX(-50%)' }}
                   />
                 </div>
                 <div className="text-center mt-2">
-                  <span className="text-white font-bold">Your Deck: {analysis.overallPowerLevel}</span>
+                  <span className="text-white font-bold">
+                    Your Deck: {analysis.overallPowerLevel}
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -409,7 +509,7 @@ const PowerLevelCalculator = () => {
                 <Download className="w-5 h-5" />
                 Export Analysis
               </button>
-              <button 
+              <button
                 onClick={() => setAnalysis(null)}
                 className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2"
               >
