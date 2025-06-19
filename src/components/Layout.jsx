@@ -100,12 +100,7 @@ const Layout = ({ children }) => {
       icon: Users,
     });
 
-    // Resources - game knowledge, lore, and guides
-    baseNavigation.push({
-      name: 'Resources',
-      href: '/lore',
-      icon: BookOpen,
-    });
+
 
     // Judge Center - only for judges
     if (hasJudgeAccess()) {
@@ -197,13 +192,7 @@ const Layout = ({ children }) => {
         location.pathname.startsWith('/store-locator'))
     )
       return true;
-    if (
-      item.name === 'Resources' &&
-      (location.pathname.startsWith('/lore') ||
-        location.pathname.startsWith('/products') ||
-        location.pathname.startsWith('/meta-analysis'))
-    )
-      return true;
+
 
     // Check main path for other items
     if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
