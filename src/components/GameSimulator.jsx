@@ -72,7 +72,13 @@ const GameSimulator = () => {
 
   const [availableDecks, setAvailableDecks] = useState([]);
   const [showCardDetail, setShowCardDetail] = useState(null);
-  const [gameMode, setGameMode] = useState('pvp'); // 'pvp', 'ai', 'tutorial'
+  const [gameMode, setGameMode] = useState('pvp'); // 'pvp', 'ai', 'tutorial', 'automated'
+  
+  // Automation state
+  const [isAutomated, setIsAutomated] = useState(false);
+  const [automationSpeed, setAutomationSpeed] = useState(2000); // ms between actions
+  const [automationPaused, setAutomationPaused] = useState(false);
+  const [aiDifficulty, setAiDifficulty] = useState('medium'); // 'easy', 'medium', 'hard'
 
   // Deck selection
   const selectDeck = (deck, playerId) => {
@@ -742,6 +748,353 @@ const GameSimulator = () => {
     });
   };
 
+  // AI Decision Making System
+  const evaluateCardValue = (card, playerId, gameState) => {
+    let value = 0;
+    const player = gameState.players[playerId];
+    const opponent = gameState.players[playerId === 1 ? 2 : 1];
+    
+    // Base card value
+    if (card.type === 'Familiar') {
+      value += (card.attack || 0) + (card.defense || 0);
+      value += card.counters * 2; // Counters are valuable
+    }
+    
+    // Element diversity bonus
+    if (card.elements) {
+      const uniqueElements = new Set([...card.elements, ...player.field.flatMap(c => c.elements || [])]);
+      value += uniqueElements.size * 0.5;
+    }
+    
+    // Keyword bonuses
+    if (card.keywords) {
+      card.keywords.forEach(keyword => {
+        switch (keyword) {
+          case 'Brilliance': value += 3; break;
+          case 'Gust': value += 2; break;
+          case 'Inferno': value += 2.5; break;
+          case 'Steadfast': value += 1.5; break;
+          case 'Submerged': value += 1; break;
+          case 'Void': value += 2; break;
+          case 'Amalgam': value += 1; break;
+          case 'Quintessence': value += 4; break;
+        }
+      });
+    }
+    
+    // Situational modifiers
+    if (opponent.field.length > player.field.length) {
+      value += 1; // Need board presence
+    }
+    
+    if (player.lifeCards.length <= 2) {
+      value += 2; // Desperate situation
+    }
+    
+    return value;
+  };
+
+  const aiChooseAction = (playerId) => {
+    const player = gameState.players[playerId];
+    const opponent = gameState.players[playerId === 1 ? 2 : 1];
+    const availableAzoth = player.azothRow.filter(azoth => !azoth.rested).length;
+    
+    // Evaluate all possible actions
+    const actions = [];
+    
+    // Evaluate each card in hand
+    player.hand.forEach(card => {
+      const cardValue = evaluateCardValue(card, playerId, gameState);
+      
+      // Can summon as familiar?
+      if (card.type === 'Familiar' || !card.type) {
+        for (let azothCost = 0; azothCost <= Math.min(availableAzoth, 3); azothCost++) {
+          actions.push({
+            type: 'summon',
+            card: card,
+            azothCost: azothCost,
+            value: cardValue + azothCost * 0.5,
+            urgency: opponent.field.length > player.field.length ? 2 : 1
+          });
+        }
+      }
+      
+      // Can cast as spell?
+      for (let azothCost = 0; azothCost <= Math.min(availableAzoth, 3); azothCost++) {
+        actions.push({
+          type: 'spell',
+          card: card,
+          azothCost: azothCost,
+          value: cardValue * 0.8 + azothCost * 0.3,
+          urgency: 1
+        });
+      }
+    });
+    
+    // Add phase transition actions
+    if (gameState.phase === 'start') {
+      actions.push({
+        type: 'moveToMain',
+        value: 1,
+        urgency: 1
+      });
+    } else if (gameState.phase === 'main') {
+      actions.push({
+        type: 'moveToCombat',
+        value: player.field.length > 0 ? 2 : 0.5,
+        urgency: 1
+      });
+    } else if (gameState.phase === 'combat') {
+      // Evaluate attacks
+      player.field.forEach(familiar => {
+        if (!familiar.rested) {
+          actions.push({
+            type: 'attack',
+            familiar: familiar,
+            value: (familiar.attack || 0) + familiar.counters + 1,
+            urgency: 3
+          });
+        }
+      });
+      
+      actions.push({
+        type: 'moveToPostCombat',
+        value: 1,
+        urgency: 1
+      });
+    } else if (gameState.phase === 'postCombatMain') {
+      actions.push({
+        type: 'moveToRefresh',
+        value: 1,
+        urgency: 1
+      });
+    }
+    
+    // Sort actions by value and urgency
+    actions.sort((a, b) => (b.value * b.urgency) - (a.value * a.urgency));
+    
+    // Apply difficulty-based decision making
+    let chosenAction;
+    switch (aiDifficulty) {
+      case 'easy':
+        // Random from top 50% of actions
+        const easyActions = actions.slice(0, Math.max(1, Math.floor(actions.length * 0.5)));
+        chosenAction = easyActions[Math.floor(Math.random() * easyActions.length)];
+        break;
+      case 'medium':
+        // Random from top 25% of actions
+        const mediumActions = actions.slice(0, Math.max(1, Math.floor(actions.length * 0.25)));
+        chosenAction = mediumActions[Math.floor(Math.random() * mediumActions.length)];
+        break;
+      case 'hard':
+        // Best action with small random factor
+        chosenAction = actions[Math.floor(Math.random() * Math.min(3, actions.length))];
+        break;
+      default:
+        chosenAction = actions[0];
+    }
+    
+    return chosenAction || { type: 'pass', value: 0, urgency: 1 };
+  };
+
+  const aiMakeResponse = (playerId) => {
+    const player = gameState.players[playerId];
+    
+    // Simple response logic - respond with highest value card 30% of the time
+    if (Math.random() < 0.3 && player.hand.length > 0) {
+      const bestCard = player.hand.reduce((best, card) => {
+        const value = evaluateCardValue(card, playerId, gameState);
+        return value > evaluateCardValue(best, playerId, gameState) ? card : best;
+      });
+      
+      return { type: 'respond', card: bestCard };
+    }
+    
+    return { type: 'pass' };
+  };
+
+  const executeAiAction = (action, playerId) => {
+    switch (action.type) {
+      case 'summon':
+        summonFamiliar(action.card, playerId, action.azothCost);
+        break;
+      case 'spell':
+        castSpell(action.card, playerId, action.azothCost);
+        break;
+      case 'attack':
+        attackWithFamiliar(action.familiar, playerId);
+        break;
+      case 'moveToMain':
+        moveToMainPhase();
+        break;
+      case 'moveToCombat':
+        moveToCombatPhase();
+        break;
+      case 'moveToPostCombat':
+        moveToPostCombatMain();
+        break;
+      case 'moveToRefresh':
+        moveToRefreshPhase();
+        break;
+      case 'respond':
+        playResponse(action.card, playerId);
+        break;
+      case 'pass':
+        if (gameState.awaitingResponse) {
+          passResponse(playerId);
+        }
+        break;
+    }
+  };
+
+  // Automatic Turn Progression
+  const shouldAutoProgressTurn = () => {
+    const currentPlayer = gameState.players[gameState.currentPlayer];
+    
+    // Auto-progress if no valid actions available
+    if (gameState.phase === 'refresh') {
+      return true; // Always progress from refresh
+    }
+    
+    if (gameState.phase === 'start' && !gameState.currentPhaseActions.includes('azothPlacement')) {
+      return true; // No azoth placement available
+    }
+    
+    if ((gameState.phase === 'main' || gameState.phase === 'postCombatMain')) {
+      // Check if player can do anything meaningful
+      const availableAzoth = currentPlayer.azothRow.filter(azoth => !azoth.rested).length;
+      const hasPlayableCards = currentPlayer.hand.length > 0;
+      
+      // If no resources and no cards, auto-progress
+      if (availableAzoth === 0 && !hasPlayableCards) {
+        return true;
+      }
+    }
+    
+    if (gameState.phase === 'combat') {
+      // Check if any familiars can attack
+      const canAttack = currentPlayer.field.some(familiar => !familiar.rested);
+      if (!canAttack) {
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
+  // Auto-setup for automation
+  useEffect(() => {
+    if (isAutomated && gameState.phase === 'setup' && availableDecks.length >= 2) {
+      // Auto-select decks for both players
+      if (!gameState.players[1].selectedDeck) {
+        selectDeck(availableDecks[0], 1);
+      }
+      if (!gameState.players[2].selectedDeck) {
+        selectDeck(availableDecks[1], 2);
+      }
+      
+      // Auto-start game if both decks selected
+      if (gameState.players[1].selectedDeck && gameState.players[2].selectedDeck) {
+        setTimeout(() => {
+          startPreGame();
+        }, 1000);
+      }
+    }
+  }, [isAutomated, gameState.phase, availableDecks]);
+
+  // Enhanced Automation Engine
+  useEffect(() => {
+    if (!isAutomated || automationPaused || gameState.phase === 'setup' || gameState.phase === 'ended') {
+      return;
+    }
+
+    const automationTimer = setTimeout(() => {
+      // Handle response stack first
+      if (gameState.awaitingResponse && gameState.priorityPlayer) {
+        const responseAction = aiMakeResponse(gameState.priorityPlayer);
+        executeAiAction(responseAction, gameState.priorityPlayer);
+        return;
+      }
+
+      // Handle normal turn actions
+      if (gameState.gameStarted && !gameState.stackResolving) {
+        // Check for automatic turn progression
+        if (shouldAutoProgressTurn()) {
+          const currentPlayerId = gameState.currentPlayer;
+          const action = aiChooseAction(currentPlayerId);
+          
+          if (action && action.type.startsWith('moveTo')) {
+            executeAiAction(action, currentPlayerId);
+            return;
+          }
+        }
+        
+        // Normal AI decision making
+        const currentPlayerId = gameState.currentPlayer;
+        const action = aiChooseAction(currentPlayerId);
+        
+        if (action) {
+          executeAiAction(action, currentPlayerId);
+        }
+      }
+    }, automationSpeed);
+
+    return () => clearTimeout(automationTimer);
+  }, [isAutomated, automationPaused, gameState, automationSpeed, aiDifficulty]);
+
+  // Rule Enforcement System
+  const enforceGameRules = () => {
+    const newGameState = { ...gameState };
+    let rulesViolated = [];
+
+    // Check life card limits
+    Object.keys(newGameState.players).forEach(playerId => {
+      const player = newGameState.players[playerId];
+      
+      // Ensure life cards don't exceed 4
+      if (player.lifeCards.length > 4) {
+        player.lifeCards = player.lifeCards.slice(0, 4);
+        rulesViolated.push(`${player.name} life cards limited to 4`);
+      }
+      
+      // Check for game end condition
+      if (player.lifeCards.length === 0 && newGameState.phase !== 'ended') {
+        newGameState.phase = 'ended';
+        const winner = newGameState.players[playerId === '1' ? '2' : '1'];
+        newGameState.gameLog.unshift(`${winner.name} wins! ${player.name} has no life cards left.`);
+      }
+      
+      // Validate Azoth row (max reasonable limit)
+      if (player.azothRow.length > 10) {
+        rulesViolated.push(`${player.name} has too many Azoth resources`);
+      }
+      
+      // Validate field size (reasonable limit)
+      if (player.field.length > 8) {
+        rulesViolated.push(`${player.name} has too many familiars on field`);
+      }
+    });
+
+    // Log rule violations
+    if (rulesViolated.length > 0) {
+      rulesViolated.forEach(violation => {
+        newGameState.gameLog.unshift(`Rule Enforcement: ${violation}`);
+      });
+    }
+
+    return newGameState;
+  };
+
+  // Apply rule enforcement periodically
+  useEffect(() => {
+    if (gameState.gameStarted && gameState.phase !== 'setup') {
+      const enforcedState = enforceGameRules();
+      if (JSON.stringify(enforcedState) !== JSON.stringify(gameState)) {
+        setGameState(enforcedState);
+      }
+    }
+  }, [gameState.turn, gameState.phase]);
+
   // Response Stack UI Component
   const ResponseStackUI = () => {
     if (!gameState.awaitingResponse && gameState.responseStack.length === 0) {
@@ -1209,6 +1562,60 @@ const GameSimulator = () => {
           </button>
         )}
 
+        {/* Automation Controls */}
+        {gameState.gameStarted && (
+          <div className="flex items-center space-x-2 p-2 bg-gray-700 rounded">
+            <button
+              onClick={() => setIsAutomated(!isAutomated)}
+              className={`flex items-center space-x-2 px-3 py-1 rounded text-sm transition-colors ${
+                isAutomated 
+                  ? 'bg-red-600 hover:bg-red-700 text-white' 
+                  : 'bg-green-600 hover:bg-green-700 text-white'
+              }`}
+            >
+              {isAutomated ? <Pause size={14} /> : <Play size={14} />}
+              <span>{isAutomated ? 'Stop Auto' : 'Start Auto'}</span>
+            </button>
+            
+            {isAutomated && (
+              <>
+                <button
+                  onClick={() => setAutomationPaused(!automationPaused)}
+                  className={`px-2 py-1 rounded text-sm transition-colors ${
+                    automationPaused 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                      : 'bg-yellow-600 hover:bg-yellow-700 text-white'
+                  }`}
+                >
+                  {automationPaused ? 'Resume' : 'Pause'}
+                </button>
+                
+                <select
+                  value={automationSpeed}
+                  onChange={(e) => setAutomationSpeed(Number(e.target.value))}
+                  className="px-2 py-1 bg-gray-600 text-white text-sm rounded"
+                >
+                  <option value={500}>Very Fast</option>
+                  <option value={1000}>Fast</option>
+                  <option value={2000}>Normal</option>
+                  <option value={3000}>Slow</option>
+                  <option value={5000}>Very Slow</option>
+                </select>
+                
+                <select
+                  value={aiDifficulty}
+                  onChange={(e) => setAiDifficulty(e.target.value)}
+                  className="px-2 py-1 bg-gray-600 text-white text-sm rounded"
+                >
+                  <option value="easy">Easy AI</option>
+                  <option value="medium">Medium AI</option>
+                  <option value="hard">Hard AI</option>
+                </select>
+              </>
+            )}
+          </div>
+        )}
+
         {/* Universal Controls */}
         <button
           onClick={resetGame}
@@ -1284,12 +1691,21 @@ const GameSimulator = () => {
     <div className="space-y-6">
       {/* Game Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">
-          KONIVRER Game Simulator
-        </h2>
+        <div className="flex items-center justify-center gap-4 mb-2">
+          <h2 className="text-2xl font-bold text-white">
+            KONIVRER Game Simulator
+          </h2>
+          {isAutomated && (
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${automationPaused ? 'bg-yellow-500' : 'bg-green-500 animate-pulse'}`}></div>
+              <span className="text-sm text-gray-300">
+                {automationPaused ? 'Auto Paused' : `Auto Running (${aiDifficulty})`}
+              </span>
+            </div>
+          )}
+        </div>
         <p className="text-gray-400">
-          Experience the full KONIVRER gameplay with deck testing and AI
-          opponents
+          Experience the full KONIVRER gameplay with automated AI opponents and response stack system
         </p>
       </div>
 
