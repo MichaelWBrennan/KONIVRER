@@ -73,6 +73,7 @@ import CardViewer from '../components/CardViewer';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
 import AdvancedCardFilters from '../components/AdvancedCardFilters';
 import DeckValidator from '../components/DeckValidator';
+import AIAssistant from '../components/AIAssistant';
 import { useData } from '../contexts/DataContext';
 import cardsData from '../data/cards.json';
 
@@ -1224,46 +1225,23 @@ const UnifiedDeckSystem = () => {
             </div>
           )}
 
-          {/* AI Suggestions */}
+          {/* AI Assistant */}
           {showAI && (
-            <div className="bg-card border border-color rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
-                <Bot size={20} />
-                AI Suggestions
-              </h3>
-              <div className="space-y-3">
-                <div className="p-3 bg-tertiary rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Lightbulb size={16} className="text-yellow-500" />
-                    <span className="font-medium text-primary">Mana Curve</span>
-                  </div>
-                  <p className="text-sm text-secondary">
-                    Consider adding more 2-cost cards to improve your early game
-                    presence.
-                  </p>
-                </div>
-                <div className="p-3 bg-tertiary rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Target size={16} className="text-blue-500" />
-                    <span className="font-medium text-primary">Synergy</span>
-                  </div>
-                  <p className="text-sm text-secondary">
-                    "Lightning Bolt" pairs well with "Storm Elemental" for combo
-                    potential.
-                  </p>
-                </div>
-                <div className="p-3 bg-tertiary rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield size={16} className="text-green-500" />
-                    <span className="font-medium text-primary">Defense</span>
-                  </div>
-                  <p className="text-sm text-secondary">
-                    Your deck lacks defensive options. Consider adding removal
-                    spells.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <AIAssistant
+              currentDeck={builderDeck}
+              onSuggestion={suggestion => {
+                // Handle AI suggestions - could add cards to deck, show notifications, etc.
+                console.log('AI Suggestion:', suggestion);
+                if (suggestion.type === 'add_card' && suggestion.card) {
+                  // Add suggested card to deck
+                  const newCard = { ...suggestion.card, quantity: 1 };
+                  setBuilderDeck(prev => ({
+                    ...prev,
+                    cards: [...prev.cards, newCard],
+                  }));
+                }
+              }}
+            />
           )}
         </div>
       </div>
