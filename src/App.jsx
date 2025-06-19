@@ -25,6 +25,13 @@ import MetaAnalysis from './components/MetaAnalysis';
 import UnifiedCardDatabase from './components/UnifiedCardDatabase';
 import PlayerProfile from './components/PlayerProfile';
 
+// New MTGGoldfish-inspired features
+import PriceTracker from './pages/PriceTracker';
+import MetagameAnalysis from './pages/MetagameAnalysis';
+import BudgetDecks from './pages/BudgetDecks';
+import DeckPricing from './pages/DeckPricing';
+import CardSpoilers from './pages/CardSpoilers';
+
 function App() {
   return (
     <ErrorBoundary>
@@ -84,6 +91,18 @@ function App() {
                 />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
+                
+                {/* New MTGGoldfish-inspired routes */}
+                <Route path="/prices" element={<PriceTracker />} />
+                <Route path="/price-tracker" element={<PriceTracker />} />
+                <Route path="/metagame" element={<MetagameAnalysis />} />
+                <Route path="/metagame-analysis" element={<MetagameAnalysis />} />
+                <Route path="/budget-decks" element={<BudgetDecks />} />
+                <Route path="/budget" element={<BudgetDecks />} />
+                <Route path="/deck-pricing" element={<DeckPricing />} />
+                <Route path="/pricing" element={<DeckPricing />} />
+                <Route path="/spoilers" element={<CardSpoilers />} />
+                <Route path="/previews" element={<CardSpoilers />} />
               </Routes>
             </Layout>
           </Router>
