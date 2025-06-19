@@ -786,8 +786,6 @@ const UnifiedCommunity = () => {
                 ))}
               </div>
             </div>
-
-
           </div>
         </div>
 

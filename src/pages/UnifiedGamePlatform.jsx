@@ -272,8 +272,7 @@ const UnifiedGamePlatform = () => {
                 </div>
                 <h3 className="font-semibold text-white">{feature.name}</h3>
               </div>
-              <div className="h-32 bg-gray-800/50 rounded-lg flex items-center justify-center">
-              </div>
+              <div className="h-32 bg-gray-800/50 rounded-lg flex items-center justify-center"></div>
             </motion.div>
           ))}
         </div>
