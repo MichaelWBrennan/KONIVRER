@@ -3,47 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  MessageCircle,
-  Heart,
-  Share2,
-  Star,
-  Trophy,
-  Calendar,
-  Clock,
-  Eye,
-  ThumbsUp,
-  MessageSquare,
-  Bookmark,
   Search,
   Filter,
-  Plus,
-  Settings,
-  Bell,
-  Globe,
-  Navigation,
-  Phone,
-  ExternalLink,
-  Award,
-  Hash,
-  AtSign,
-  Image,
-  Video,
-  FileText,
-  Send,
-  MoreHorizontal,
-  UserPlus,
-  UserMinus,
-  Flag,
-  Edit3,
-  Trash2,
-  Copy,
-  Download,
-  Upload,
-  RefreshCw,
-  CheckCircle,
-  AlertCircle,
-  Info,
-  X,
 } from 'lucide-react';
 
 const UnifiedCommunity = () => {
@@ -304,23 +265,13 @@ const UnifiedCommunity = () => {
   });
 
   const getPostTypeIcon = type => {
-    switch (type) {
-      case 'achievement':
-        return <Trophy className="text-yellow-400" size={16} />;
-      case 'event':
-        return <Calendar className="text-blue-400" size={16} />;
-      case 'discussion':
-        return <MessageCircle className="text-green-400" size={16} />;
-      default:
-        return <MessageCircle className="text-gray-400" size={16} />;
-    }
+    return null;
   };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="animate-spin mx-auto mb-4" size={48} />
           <p>Loading community data...</p>
         </div>
       </div>
@@ -342,7 +293,6 @@ const UnifiedCommunity = () => {
                 onClick={() => setShowNewPostModal(true)}
                 className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors"
               >
-                <Plus size={16} />
                 <span>New Post</span>
               </button>
             )}
@@ -476,9 +426,7 @@ const UnifiedCommunity = () => {
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
                         <span className="font-semibold">{post.user.name}</span>
-                        {post.user.verified && (
-                          <CheckCircle className="text-blue-400" size={16} />
-                        )}
+
                         <span className="text-sm text-gray-400">•</span>
                         <span className="text-sm text-gray-400">
                           {post.user.rank}
@@ -491,7 +439,6 @@ const UnifiedCommunity = () => {
                       </div>
                       {post.location && (
                         <div className="flex items-center text-sm text-gray-400 mb-2">
-                          <MapPin size={12} className="mr-1" />
                           {post.location}
                         </div>
                       )}
@@ -534,23 +481,19 @@ const UnifiedCommunity = () => {
                         onClick={() => handleLike(post.id)}
                         className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors"
                       >
-                        <Heart size={16} />
                         <span>{post.likes}</span>
                       </button>
                       <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                        <MessageSquare size={16} />
                         <span>{post.comments}</span>
                       </button>
                       <button
                         onClick={() => handleShare(post.id)}
                         className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors"
                       >
-                        <Share2 size={16} />
                         <span>{post.shares}</span>
                       </button>
                     </div>
                     <button className="text-gray-400 hover:text-gray-300">
-                      <Bookmark size={16} />
                     </button>
                   </div>
                 </div>
@@ -563,7 +506,6 @@ const UnifiedCommunity = () => {
             {/* Store Locator */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <MapPin className="mr-2" size={20} />
                 Nearby Stores
               </h2>
               <div className="space-y-4">
@@ -573,27 +515,19 @@ const UnifiedCommunity = () => {
                       <div className="flex-1">
                         <h3 className="font-semibold flex items-center">
                           {store.name}
-                          {store.verified && (
-                            <CheckCircle
-                              className="ml-1 text-blue-400"
-                              size={14}
-                            />
-                          )}
+
                         </h3>
                         <div className="text-sm text-gray-400 mt-1">
                           <div className="flex items-center mb-1">
-                            <MapPin size={12} className="mr-1" />
                             {store.address}
                           </div>
                           <div className="flex items-center">
-                            <Navigation size={12} className="mr-1" />
                             {store.distance} miles away
                           </div>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="flex items-center text-yellow-400">
-                          <Star size={14} className="mr-1" />
                           <span className="text-sm">{store.rating}</span>
                         </div>
                         <div className="text-xs text-gray-400">
@@ -631,7 +565,6 @@ const UnifiedCommunity = () => {
                           href={`tel:${store.phone}`}
                           className="p-1 bg-green-600 hover:bg-green-500 rounded transition-colors"
                         >
-                          <Phone size={12} />
                         </a>
                         <a
                           href={store.website}
@@ -639,7 +572,6 @@ const UnifiedCommunity = () => {
                           rel="noopener noreferrer"
                           className="p-1 bg-blue-600 hover:bg-blue-500 rounded transition-colors"
                         >
-                          <ExternalLink size={12} />
                         </a>
                       </div>
                     </div>
@@ -659,7 +591,6 @@ const UnifiedCommunity = () => {
             {/* Hall of Fame */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Crown className="mr-2" size={20} />
                 Hall of Fame
               </h2>
               <div className="space-y-4">
@@ -711,10 +642,6 @@ const UnifiedCommunity = () => {
                               key={index}
                               className="text-xs text-gray-400 flex items-center"
                             >
-                              <Medal
-                                size={10}
-                                className="mr-1 text-yellow-400"
-                              />
                               {achievement}
                             </div>
                           ))}
@@ -740,7 +667,6 @@ const UnifiedCommunity = () => {
             {/* Top Contributors */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <TrendingUp className="mr-2" size={20} />
                 Top Contributors
               </h2>
               <div className="space-y-3">
@@ -775,7 +701,6 @@ const UnifiedCommunity = () => {
                   onClick={() => setShowNewPostModal(false)}
                   className="text-gray-400 hover:text-gray-300"
                 >
-                  <X size={20} />
                 </button>
               </div>
               <textarea
@@ -787,13 +712,10 @@ const UnifiedCommunity = () => {
               <div className="flex items-center justify-between mt-4">
                 <div className="flex space-x-2">
                   <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    <Image size={16} />
                   </button>
                   <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    <Video size={16} />
                   </button>
                   <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                    <MapPin size={16} />
                   </button>
                 </div>
                 <button
@@ -804,7 +726,6 @@ const UnifiedCommunity = () => {
                   }}
                   className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded transition-colors"
                 >
-                  <Send size={16} />
                   <span>Post</span>
                 </button>
               </div>
