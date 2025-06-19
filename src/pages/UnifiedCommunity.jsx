@@ -787,42 +787,7 @@ const UnifiedCommunity = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
-              <div className="space-y-2">
-                <Link
-                  to="/tournaments"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <Trophy size={14} />
-                  <span>Find Tournaments</span>
-                </Link>
-                <Link
-                  to="/deckbuilder"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <Plus size={14} />
-                  <span>Build Deck</span>
-                </Link>
-                <Link
-                  to="/leaderboards"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <Award size={14} />
-                  <span>View Rankings</span>
-                </Link>
-                {isAuthenticated && (
-                  <button
-                    onClick={() => setShowNewPostModal(true)}
-                    className="flex items-center space-x-2 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors text-sm"
-                  >
-                    <MessageCircle size={14} />
-                    <span>Share Achievement</span>
-                  </button>
-                )}
-              </div>
-            </div>
+
           </div>
         </div>
 
