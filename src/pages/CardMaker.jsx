@@ -194,9 +194,6 @@ const CardMaker = () => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
             Card Maker
           </h1>
-          <p className="text-xl text-gray-300">
-            Create custom cards for testing and fun
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

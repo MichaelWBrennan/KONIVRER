@@ -655,7 +655,7 @@ const EnhancedTournaments = () => {
             </Link>
           </div>
 
-          {/* Quick Stats */}
+          {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="card text-center">
               <Trophy size={24} className="text-yellow-400 mx-auto mb-2" />
