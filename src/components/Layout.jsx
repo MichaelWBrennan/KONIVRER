@@ -1,7 +1,6 @@
 import {
   Home,
   Database,
-  PlusCircle,
   BookOpen,
   User,
   Users,
@@ -13,19 +12,7 @@ import {
   LogIn,
   LogOut,
   Settings,
-  ChevronDown,
-  Star,
-  Calendar,
-  Gamepad2,
   Layers,
-  MapPin,
-  Crown,
-  Package,
-  Scale,
-  Award,
-  FileText,
-  Globe,
-  BarChart3,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -61,7 +48,7 @@ const Layout = ({ children }) => {
     return location.pathname === '/';
   };
 
-  // Dynamic navigation based on authentication and roles
+  // Simplified flat navigation structure
   const getNavigation = () => {
     const baseNavigation = [];
 
@@ -70,33 +57,51 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
-    // Cards & Database - always available
+    // Cards - unified card browsing and search
     baseNavigation.push({
-      name: 'Cards & Database',
+      name: 'Cards',
       href: '/cards',
       icon: Database,
     });
 
-    // Deck Building - only for authenticated users
+    // Decks - unified deck management
     if (isAuthenticated) {
       baseNavigation.push({
-        name: 'Deck Building',
+        name: 'Decks',
         href: '/decklists',
+        icon: Layers,
+      });
+    } else {
+      // Public deck browsing for non-authenticated users
+      baseNavigation.push({
+        name: 'Decks',
+        href: '/deck-discovery',
         icon: Layers,
       });
     }
 
-    // Tournaments - public view for all, but organizer tools require authentication
+    // Tournaments - unified competitive features
     baseNavigation.push({
       name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
     });
 
-    // Community - always available
-    baseNavigation.push({ name: 'Community', href: '/social', icon: Users });
+    // Community - social features
+    baseNavigation.push({
+      name: 'Community',
+      href: '/social',
+      icon: Users,
+    });
 
-    // Judge Center - only for certified judges
+    // Resources - game knowledge
+    baseNavigation.push({
+      name: 'Resources',
+      href: '/lore',
+      icon: BookOpen,
+    });
+
+    // Judge Center - only for judges
     if (hasJudgeAccess()) {
       baseNavigation.push({
         name: 'Judge Center',
@@ -144,20 +149,50 @@ const Layout = ({ children }) => {
     analytics.buttonClick('mobile_menu', newState ? 'open' : 'close');
   };
 
-  const isActive = path => {
+  const isActive = item => {
+    const path = item.href;
+
+    // Exact match for home
     if (path === '/' && location.pathname === '/') return true;
+
+    // For grouped navigation items, check if current path matches the group's functionality
+    if (item.name === 'Cards' && location.pathname.startsWith('/cards'))
+      return true;
     if (
-      path === '/tournaments' &&
+      item.name === 'Decks' &&
+      (location.pathname.startsWith('/decklists') ||
+        location.pathname.startsWith('/deckbuilder') ||
+        location.pathname.startsWith('/deck-discovery') ||
+        location.pathname.startsWith('/official-decklists'))
+    )
+      return true;
+    if (
+      item.name === 'Tournaments' &&
       (location.pathname.startsWith('/tournaments') ||
-        location.pathname.startsWith('/events'))
+        location.pathname.startsWith('/events') ||
+        location.pathname.startsWith('/leaderboards') ||
+        location.pathname.startsWith('/analytics'))
     )
       return true;
     if (
-      path !== '/' &&
-      path !== '/tournaments' &&
-      location.pathname.startsWith(path)
+      item.name === 'Community' &&
+      (location.pathname.startsWith('/social') ||
+        location.pathname.startsWith('/hall-of-fame') ||
+        location.pathname.startsWith('/store-locator'))
     )
       return true;
+    if (
+      item.name === 'Resources' &&
+      (location.pathname.startsWith('/lore') ||
+        location.pathname.startsWith('/products') ||
+        location.pathname.startsWith('/meta-analysis'))
+    )
+      return true;
+
+    // Check main path for other items
+    if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
+      return true;
+
     return false;
   };
 
@@ -182,15 +217,17 @@ const Layout = ({ children }) => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-2">
               {navigation.map(item => {
                 const Icon = item.icon;
+                const isItemActive = isActive(item);
+
                 return (
                   <Link
                     key={item.name}
                     to={item.href}
                     className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                      isActive(item.href)
+                      isItemActive
                         ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
                         : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
                     }`}
@@ -332,15 +369,17 @@ const Layout = ({ children }) => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-secondary border-t border-color">
             <div className="container py-4">
-              <nav className="flex flex-col gap-2">
+              <nav className="flex flex-col gap-1">
                 {navigation.map(item => {
                   const Icon = item.icon;
+                  const isItemActive = isActive(item);
+
                   return (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        isActive(item.href)
+                        isItemActive
                           ? 'bg-accent-primary text-white'
                           : 'text-secondary hover:text-primary hover:bg-tertiary'
                       }`}
