@@ -2,10 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import {
-  Search,
-  Filter,
-} from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 
 const UnifiedCommunity = () => {
   const { user, isAuthenticated } = useAuth();
@@ -286,7 +283,6 @@ const UnifiedCommunity = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-4xl font-bold mb-2">Community Hub</h1>
-
             </div>
             {isAuthenticated && (
               <button
@@ -493,8 +489,7 @@ const UnifiedCommunity = () => {
                         <span>{post.shares}</span>
                       </button>
                     </div>
-                    <button className="text-gray-400 hover:text-gray-300">
-                    </button>
+                    <button className="text-gray-400 hover:text-gray-300"></button>
                   </div>
                 </div>
               ))}
@@ -515,7 +510,6 @@ const UnifiedCommunity = () => {
                       <div className="flex-1">
                         <h3 className="font-semibold flex items-center">
                           {store.name}
-
                         </h3>
                         <div className="text-sm text-gray-400 mt-1">
                           <div className="flex items-center mb-1">
@@ -564,15 +558,13 @@ const UnifiedCommunity = () => {
                         <a
                           href={`tel:${store.phone}`}
                           className="p-1 bg-green-600 hover:bg-green-500 rounded transition-colors"
-                        >
-                        </a>
+                        ></a>
                         <a
                           href={store.website}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-1 bg-blue-600 hover:bg-blue-500 rounded transition-colors"
-                        >
-                        </a>
+                        ></a>
                       </div>
                     </div>
                   </div>
@@ -700,8 +692,7 @@ const UnifiedCommunity = () => {
                 <button
                   onClick={() => setShowNewPostModal(false)}
                   className="text-gray-400 hover:text-gray-300"
-                >
-                </button>
+                ></button>
               </div>
               <textarea
                 value={newPost}
@@ -711,12 +702,9 @@ const UnifiedCommunity = () => {
               />
               <div className="flex items-center justify-between mt-4">
                 <div className="flex space-x-2">
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                  </button>
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                  </button>
-                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors">
-                  </button>
+                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"></button>
+                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"></button>
+                  <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"></button>
                 </div>
                 <button
                   onClick={() => {
