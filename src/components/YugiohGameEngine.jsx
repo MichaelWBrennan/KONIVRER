@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  Settings, 
-  Users, 
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  Settings,
+  Users,
   Zap,
   Shield,
   Sword,
@@ -16,7 +16,7 @@ import {
   EyeOff,
   Shuffle,
   Plus,
-  Minus
+  Minus,
 } from 'lucide-react';
 import { yugiohCards, getCardById, sampleDecks } from '../data/yugiohCards';
 
@@ -29,7 +29,7 @@ const YugiohGameEngine = () => {
     currentPlayer: 1,
     turnPhase: 'draw', // draw, standby, main1, battle, main2, end
     winner: null,
-    gameMode: 'classic' // classic, speed, rush
+    gameMode: 'classic', // classic, speed, rush
   });
 
   // Player States
@@ -46,10 +46,10 @@ const YugiohGameEngine = () => {
         fieldSpell: null,
         extraDeck: [],
         graveyard: [],
-        banished: []
+        banished: [],
       },
       deckCount: 40,
-      extraDeckCount: 15
+      extraDeckCount: 15,
     },
     2: {
       id: 2,
@@ -63,11 +63,11 @@ const YugiohGameEngine = () => {
         fieldSpell: null,
         extraDeck: [],
         graveyard: [],
-        banished: []
+        banished: [],
       },
       deckCount: 40,
-      extraDeckCount: 15
-    }
+      extraDeckCount: 15,
+    },
   });
 
   // Game Settings
@@ -76,7 +76,7 @@ const YugiohGameEngine = () => {
     confirmActions: true,
     showOpponentHand: false,
     animationSpeed: 'normal',
-    soundEnabled: true
+    soundEnabled: true,
   });
 
   // UI State
@@ -93,18 +93,18 @@ const YugiohGameEngine = () => {
   const initializeGame = () => {
     // Load sample deck for testing
     const sampleDeck = generateSampleDeck();
-    
+
     setPlayers(prev => ({
       1: {
         ...prev[1],
         deck: [...sampleDeck],
-        deckCount: sampleDeck.length
+        deckCount: sampleDeck.length,
       },
       2: {
         ...prev[2],
         deck: [...sampleDeck],
-        deckCount: sampleDeck.length
-      }
+        deckCount: sampleDeck.length,
+      },
     }));
 
     // Start game
@@ -123,7 +123,7 @@ const YugiohGameEngine = () => {
         for (let i = 0; i < count; i++) {
           deck.push({
             ...card,
-            uniqueId: `${cardId}_${i}_${Date.now()}_${Math.random()}`
+            uniqueId: `${cardId}_${i}_${Date.now()}_${Math.random()}`,
           });
         }
       }
@@ -137,7 +137,7 @@ const YugiohGameEngine = () => {
       if (card) {
         deck.push({
           ...card,
-          uniqueId: `filler_${cardId}_${deck.length}_${Date.now()}_${Math.random()}`
+          uniqueId: `filler_${cardId}_${deck.length}_${Date.now()}_${Math.random()}`,
         });
       }
     }
@@ -145,7 +145,7 @@ const YugiohGameEngine = () => {
     return shuffleDeck(deck);
   };
 
-  const shuffleDeck = (deck) => {
+  const shuffleDeck = deck => {
     const shuffled = [...deck];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -163,7 +163,7 @@ const YugiohGameEngine = () => {
   const drawOpeningHands = () => {
     setPlayers(prev => {
       const newPlayers = { ...prev };
-      
+
       // Player 1 draws 5 cards
       const player1Hand = newPlayers[1].deck.splice(0, 5);
       newPlayers[1].hand = player1Hand;
@@ -178,17 +178,17 @@ const YugiohGameEngine = () => {
     });
   };
 
-  const drawCard = (playerId) => {
+  const drawCard = playerId => {
     setPlayers(prev => {
       const newPlayers = { ...prev };
       const player = newPlayers[playerId];
-      
+
       if (player.deck.length > 0) {
         const drawnCard = player.deck.shift();
         player.hand.push(drawnCard);
         player.deckCount = player.deck.length;
       }
-      
+
       return newPlayers;
     });
   };
@@ -196,11 +196,11 @@ const YugiohGameEngine = () => {
   const nextPhase = () => {
     const phases = ['draw', 'standby', 'main1', 'battle', 'main2', 'end'];
     const currentPhaseIndex = phases.indexOf(gameState.turnPhase);
-    
+
     if (currentPhaseIndex < phases.length - 1) {
       setGameState(prev => ({
         ...prev,
-        turnPhase: phases[currentPhaseIndex + 1]
+        turnPhase: phases[currentPhaseIndex + 1],
       }));
     } else {
       // End turn
@@ -211,15 +211,15 @@ const YugiohGameEngine = () => {
   const endTurn = () => {
     const nextPlayer = gameState.currentPlayer === 1 ? 2 : 1;
     const nextTurn = nextPlayer === 1 ? gameState.turn + 1 : gameState.turn;
-    
+
     // Draw card for next player
     drawCard(nextPlayer);
-    
+
     setGameState(prev => ({
       ...prev,
       currentPlayer: nextPlayer,
       turn: nextTurn,
-      turnPhase: 'draw'
+      turnPhase: 'draw',
     }));
   };
 
@@ -237,19 +237,19 @@ const YugiohGameEngine = () => {
     setPlayers(prev => {
       const newPlayers = { ...prev };
       const player = newPlayers[playerId];
-      
+
       // Remove from hand
       player.hand = player.hand.filter(c => c.uniqueId !== card.uniqueId);
-      
+
       // Add to field
       if (position !== null && player.field.monsters[position] === null) {
         player.field.monsters[position] = {
           ...card,
           position: 'attack', // attack or defense
-          faceUp: true
+          faceUp: true,
         };
       }
-      
+
       return newPlayers;
     });
   };
@@ -259,13 +259,13 @@ const YugiohGameEngine = () => {
     setPlayers(prev => {
       const newPlayers = { ...prev };
       const player = newPlayers[playerId];
-      
+
       // Remove from hand
       player.hand = player.hand.filter(c => c.uniqueId !== card.uniqueId);
-      
+
       // Add to graveyard after activation
       player.field.graveyard.push(card);
-      
+
       return newPlayers;
     });
   };
@@ -274,23 +274,29 @@ const YugiohGameEngine = () => {
     setPlayers(prev => {
       const newPlayers = { ...prev };
       const player = newPlayers[playerId];
-      
+
       // Remove from hand
       player.hand = player.hand.filter(c => c.uniqueId !== card.uniqueId);
-      
+
       // Set face-down in spell/trap zone
       if (position !== null && player.field.spells[position] === null) {
         player.field.spells[position] = {
           ...card,
-          faceUp: false
+          faceUp: false,
         };
       }
-      
+
       return newPlayers;
     });
   };
 
-  const CardComponent = ({ card, zone, position, playerId, faceDown = false }) => {
+  const CardComponent = ({
+    card,
+    zone,
+    position,
+    playerId,
+    faceDown = false,
+  }) => {
     const isCurrentPlayer = playerId === gameState.currentPlayer;
     const canInteract = isCurrentPlayer && gameState.phase === 'duel';
 
@@ -312,7 +318,9 @@ const YugiohGameEngine = () => {
             <div className="font-bold truncate">{card.name}</div>
             {card.type === 'Monster' && (
               <div className="absolute bottom-1 left-1 text-xs">
-                <div>{card.attack}/{card.defense}</div>
+                <div>
+                  {card.attack}/{card.defense}
+                </div>
               </div>
             )}
           </div>
@@ -331,8 +339,10 @@ const YugiohGameEngine = () => {
 
   const HandCard = ({ card, playerId }) => {
     const isCurrentPlayer = playerId === gameState.currentPlayer;
-    const canPlay = isCurrentPlayer && gameState.phase === 'duel' && 
-                   (gameState.turnPhase === 'main1' || gameState.turnPhase === 'main2');
+    const canPlay =
+      isCurrentPlayer &&
+      gameState.phase === 'duel' &&
+      (gameState.turnPhase === 'main1' || gameState.turnPhase === 'main2');
 
     return (
       <motion.div
@@ -374,7 +384,7 @@ const YugiohGameEngine = () => {
               <span>Player {gameState.currentPlayer}'s Turn</span>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowSettings(!showSettings)}
@@ -401,7 +411,9 @@ const YugiohGameEngine = () => {
               <h3 className="text-lg font-semibold">{players[2].name}</h3>
               <div className="flex items-center space-x-2">
                 <Heart className="w-5 h-5 text-red-400" />
-                <span className="text-xl font-bold">{players[2].lifePoints}</span>
+                <span className="text-xl font-bold">
+                  {players[2].lifePoints}
+                </span>
               </div>
             </div>
             <div className="text-sm text-gray-400">
@@ -436,7 +448,7 @@ const YugiohGameEngine = () => {
                 />
               ))}
             </div>
-            
+
             {/* Monster Zone */}
             <div className="flex justify-center space-x-2">
               {players[2].field.monsters.map((card, index) => (
@@ -476,7 +488,7 @@ const YugiohGameEngine = () => {
                 />
               ))}
             </div>
-            
+
             {/* Spell/Trap Zone */}
             <div className="flex justify-center space-x-2">
               {players[1].field.spells.map((card, index) => (
@@ -496,11 +508,7 @@ const YugiohGameEngine = () => {
           <div className="flex justify-center mb-4">
             <div className="flex space-x-1">
               {players[1].hand.map((card, index) => (
-                <HandCard
-                  key={card.uniqueId}
-                  card={card}
-                  playerId={1}
-                />
+                <HandCard key={card.uniqueId} card={card} playerId={1} />
               ))}
             </div>
           </div>
@@ -512,7 +520,9 @@ const YugiohGameEngine = () => {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Heart className="w-5 h-5 text-red-400" />
-                <span className="text-xl font-bold">{players[1].lifePoints}</span>
+                <span className="text-xl font-bold">
+                  {players[1].lifePoints}
+                </span>
               </div>
               <h3 className="text-lg font-semibold">{players[1].name}</h3>
             </div>
@@ -535,69 +545,86 @@ const YugiohGameEngine = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               className="bg-gray-800 rounded-xl p-6 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <h3 className="text-xl font-bold mb-4">{selectedCard.name}</h3>
               <div className="space-y-2 mb-4">
-                <div><strong>Type:</strong> {selectedCard.type}</div>
+                <div>
+                  <strong>Type:</strong> {selectedCard.type}
+                </div>
                 {selectedCard.attribute && (
-                  <div><strong>Attribute:</strong> {selectedCard.attribute}</div>
+                  <div>
+                    <strong>Attribute:</strong> {selectedCard.attribute}
+                  </div>
                 )}
                 {selectedCard.level && (
-                  <div><strong>Level:</strong> {selectedCard.level}</div>
+                  <div>
+                    <strong>Level:</strong> {selectedCard.level}
+                  </div>
                 )}
                 {selectedCard.attack !== undefined && (
-                  <div><strong>ATK/DEF:</strong> {selectedCard.attack}/{selectedCard.defense}</div>
+                  <div>
+                    <strong>ATK/DEF:</strong> {selectedCard.attack}/
+                    {selectedCard.defense}
+                  </div>
                 )}
-                <div><strong>Description:</strong> {selectedCard.description}</div>
+                <div>
+                  <strong>Description:</strong> {selectedCard.description}
+                </div>
               </div>
-              
+
               <div className="flex space-x-2">
-                {gameState.currentPlayer === 1 && gameState.phase === 'duel' && (
-                  <>
-                    {selectedCard.type === 'Monster' && (
-                      <button
-                        onClick={() => {
-                          // Find empty monster zone
-                          const emptySlot = players[1].field.monsters.findIndex(slot => slot === null);
-                          if (emptySlot !== -1) {
-                            playCard(selectedCard, 1, emptySlot);
+                {gameState.currentPlayer === 1 &&
+                  gameState.phase === 'duel' && (
+                    <>
+                      {selectedCard.type === 'Monster' && (
+                        <button
+                          onClick={() => {
+                            // Find empty monster zone
+                            const emptySlot =
+                              players[1].field.monsters.findIndex(
+                                slot => slot === null,
+                              );
+                            if (emptySlot !== -1) {
+                              playCard(selectedCard, 1, emptySlot);
+                              setSelectedCard(null);
+                            }
+                          }}
+                          className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg transition-colors"
+                        >
+                          Summon
+                        </button>
+                      )}
+                      {selectedCard.type === 'Spell' && (
+                        <button
+                          onClick={() => {
+                            playCard(selectedCard, 1);
                             setSelectedCard(null);
-                          }
-                        }}
-                        className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg transition-colors"
-                      >
-                        Summon
-                      </button>
-                    )}
-                    {selectedCard.type === 'Spell' && (
-                      <button
-                        onClick={() => {
-                          playCard(selectedCard, 1);
-                          setSelectedCard(null);
-                        }}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
-                      >
-                        Activate
-                      </button>
-                    )}
-                    {selectedCard.type === 'Trap' && (
-                      <button
-                        onClick={() => {
-                          // Find empty spell/trap zone
-                          const emptySlot = players[1].field.spells.findIndex(slot => slot === null);
-                          if (emptySlot !== -1) {
-                            playCard(selectedCard, 1, emptySlot);
-                            setSelectedCard(null);
-                          }
-                        }}
-                        className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors"
-                      >
-                        Set
-                      </button>
-                    )}
-                  </>
-                )}
+                          }}
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
+                        >
+                          Activate
+                        </button>
+                      )}
+                      {selectedCard.type === 'Trap' && (
+                        <button
+                          onClick={() => {
+                            // Find empty spell/trap zone
+                            const emptySlot = players[1].field.spells.findIndex(
+                              slot => slot === null,
+                            );
+                            if (emptySlot !== -1) {
+                              playCard(selectedCard, 1, emptySlot);
+                              setSelectedCard(null);
+                            }
+                          }}
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors"
+                        >
+                          Set
+                        </button>
+                      )}
+                    </>
+                  )}
                 <button
                   onClick={() => setSelectedCard(null)}
                   className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors"
@@ -625,53 +652,78 @@ const YugiohGameEngine = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               className="bg-gray-800 rounded-xl p-6 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <h3 className="text-xl font-bold mb-4">Game Settings</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span>Auto Phase</span>
                   <button
-                    onClick={() => setSettings(prev => ({ ...prev, autoPhase: !prev.autoPhase }))}
+                    onClick={() =>
+                      setSettings(prev => ({
+                        ...prev,
+                        autoPhase: !prev.autoPhase,
+                      }))
+                    }
                     className={`w-12 h-6 rounded-full transition-colors ${
                       settings.autoPhase ? 'bg-blue-600' : 'bg-gray-600'
                     }`}
                   >
-                    <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                      settings.autoPhase ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
+                    <div
+                      className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                        settings.autoPhase ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
                   </button>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <span>Confirm Actions</span>
                   <button
-                    onClick={() => setSettings(prev => ({ ...prev, confirmActions: !prev.confirmActions }))}
+                    onClick={() =>
+                      setSettings(prev => ({
+                        ...prev,
+                        confirmActions: !prev.confirmActions,
+                      }))
+                    }
                     className={`w-12 h-6 rounded-full transition-colors ${
                       settings.confirmActions ? 'bg-blue-600' : 'bg-gray-600'
                     }`}
                   >
-                    <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                      settings.confirmActions ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
+                    <div
+                      className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                        settings.confirmActions
+                          ? 'translate-x-6'
+                          : 'translate-x-1'
+                      }`}
+                    />
                   </button>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span>Show Opponent Hand</span>
                   <button
-                    onClick={() => setSettings(prev => ({ ...prev, showOpponentHand: !prev.showOpponentHand }))}
+                    onClick={() =>
+                      setSettings(prev => ({
+                        ...prev,
+                        showOpponentHand: !prev.showOpponentHand,
+                      }))
+                    }
                     className={`w-12 h-6 rounded-full transition-colors ${
                       settings.showOpponentHand ? 'bg-blue-600' : 'bg-gray-600'
                     }`}
                   >
-                    <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                      settings.showOpponentHand ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
+                    <div
+                      className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                        settings.showOpponentHand
+                          ? 'translate-x-6'
+                          : 'translate-x-1'
+                      }`}
+                    />
                   </button>
                 </div>
               </div>
-              
+
               <div className="flex justify-end mt-6">
                 <button
                   onClick={() => setShowSettings(false)}

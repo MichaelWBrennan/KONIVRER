@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Play, 
-  Users, 
-  Settings, 
-  Download, 
+import {
+  Play,
+  Users,
+  Settings,
+  Download,
   Upload,
   Gamepad2,
   Trophy,
@@ -12,7 +12,7 @@ import {
   Zap,
   Shield,
   Star,
-  Target
+  Target,
 } from 'lucide-react';
 
 import YugiohGameEngine from '../components/YugiohGameEngine';
@@ -23,14 +23,14 @@ const YugiohGame = () => {
   const [showDeckImporter, setShowDeckImporter] = useState(false);
   const [playerDecks, setPlayerDecks] = useState({
     1: null,
-    2: null
+    2: null,
   });
   const [gameSettings, setGameSettings] = useState({
     lifePoints: 8000,
     timeLimit: 0, // 0 = no limit, in minutes
     format: 'tcg', // tcg, ocg, rush
     banlist: 'current',
-    allowSpectators: true
+    allowSpectators: true,
   });
 
   // Game modes configuration
@@ -41,7 +41,7 @@ const YugiohGame = () => {
       description: 'Traditional Yu-Gi-Oh! duel with 8000 LP',
       icon: Gamepad2,
       color: 'from-blue-500 to-cyan-500',
-      settings: { lifePoints: 8000, format: 'tcg' }
+      settings: { lifePoints: 8000, format: 'tcg' },
     },
     {
       id: 'speed',
@@ -49,7 +49,7 @@ const YugiohGame = () => {
       description: 'Faster format with 4000 LP and smaller decks',
       icon: Zap,
       color: 'from-yellow-500 to-orange-500',
-      settings: { lifePoints: 4000, format: 'speed' }
+      settings: { lifePoints: 4000, format: 'speed' },
     },
     {
       id: 'rush',
@@ -57,7 +57,7 @@ const YugiohGame = () => {
       description: 'New format with unique rules and mechanics',
       icon: Target,
       color: 'from-red-500 to-pink-500',
-      settings: { lifePoints: 8000, format: 'rush' }
+      settings: { lifePoints: 8000, format: 'rush' },
     },
     {
       id: 'tournament',
@@ -65,26 +65,26 @@ const YugiohGame = () => {
       description: 'Best of 3 with side deck and time limits',
       icon: Trophy,
       color: 'from-purple-500 to-indigo-500',
-      settings: { lifePoints: 8000, format: 'tcg', timeLimit: 40 }
-    }
+      settings: { lifePoints: 8000, format: 'tcg', timeLimit: 40 },
+    },
   ];
 
   // Handle deck import
   const handleDeckImported = (deck, playerId = 1) => {
     setPlayerDecks(prev => ({
       ...prev,
-      [playerId]: deck
+      [playerId]: deck,
     }));
     setShowDeckImporter(false);
   };
 
   // Start game with selected settings
-  const startGame = (mode) => {
+  const startGame = mode => {
     const selectedMode = gameModes.find(m => m.id === mode);
     if (selectedMode) {
       setGameSettings(prev => ({
         ...prev,
-        ...selectedMode.settings
+        ...selectedMode.settings,
       }));
     }
     setGameMode('playing');
@@ -96,7 +96,9 @@ const YugiohGame = () => {
   };
 
   if (gameMode === 'playing') {
-    return <YugiohGameEngine initialDecks={playerDecks} settings={gameSettings} />;
+    return (
+      <YugiohGameEngine initialDecks={playerDecks} settings={gameSettings} />
+    );
   }
 
   return (
@@ -122,9 +124,11 @@ const YugiohGame = () => {
           >
             {/* Game Mode Selection */}
             <div>
-              <h2 className="text-2xl font-bold mb-6 text-center">Choose Your Duel Format</h2>
+              <h2 className="text-2xl font-bold mb-6 text-center">
+                Choose Your Duel Format
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {gameModes.map((mode) => {
+                {gameModes.map(mode => {
                   const Icon = mode.icon;
                   return (
                     <motion.div
@@ -137,7 +141,10 @@ const YugiohGame = () => {
                         hover:shadow-xl transition-all duration-300
                       `}
                       onClick={() => {
-                        setGameSettings(prev => ({ ...prev, ...mode.settings }));
+                        setGameSettings(prev => ({
+                          ...prev,
+                          ...mode.settings,
+                        }));
                         setGameMode('setup');
                       }}
                     >
@@ -177,14 +184,18 @@ const YugiohGame = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
               <div className="text-center p-6 bg-gray-800/50 rounded-xl">
                 <Shield className="w-12 h-12 mx-auto mb-4 text-blue-400" />
-                <h4 className="text-lg font-semibold mb-2">Dueling Nexus Compatible</h4>
+                <h4 className="text-lg font-semibold mb-2">
+                  Dueling Nexus Compatible
+                </h4>
                 <p className="text-gray-300">
                   Import decks directly from Dueling Nexus deck creator
                 </p>
               </div>
               <div className="text-center p-6 bg-gray-800/50 rounded-xl">
                 <Zap className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
-                <h4 className="text-lg font-semibold mb-2">Real-Time Gameplay</h4>
+                <h4 className="text-lg font-semibold mb-2">
+                  Real-Time Gameplay
+                </h4>
                 <p className="text-gray-300">
                   Smooth, responsive dueling with automatic rule enforcement
                 </p>
@@ -208,7 +219,9 @@ const YugiohGame = () => {
           >
             <div className="text-center">
               <h2 className="text-3xl font-bold mb-2">Game Setup</h2>
-              <p className="text-gray-300">Configure your duel settings and import decks</p>
+              <p className="text-gray-300">
+                Configure your duel settings and import decks
+              </p>
             </div>
 
             {/* Player Setup */}
@@ -219,10 +232,12 @@ const YugiohGame = () => {
                   <Users className="w-6 h-6 mr-2" />
                   Player 1
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Player Name</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Player Name
+                    </label>
                     <input
                       type="text"
                       defaultValue="Player 1"
@@ -231,12 +246,15 @@ const YugiohGame = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Deck</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Deck
+                    </label>
                     {playerDecks[1] ? (
                       <div className="p-3 bg-green-900/30 border border-green-600 rounded-lg">
                         <div className="font-medium">{playerDecks[1].name}</div>
                         <div className="text-sm text-gray-300">
-                          {playerDecks[1].mainDeck.length} main, {playerDecks[1].extraDeck.length} extra
+                          {playerDecks[1].mainDeck.length} main,{' '}
+                          {playerDecks[1].extraDeck.length} extra
                         </div>
                       </div>
                     ) : (
@@ -261,10 +279,12 @@ const YugiohGame = () => {
                   <Users className="w-6 h-6 mr-2" />
                   Player 2
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Player Name</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Player Name
+                    </label>
                     <input
                       type="text"
                       defaultValue="Player 2"
@@ -273,12 +293,15 @@ const YugiohGame = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Deck</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Deck
+                    </label>
                     {playerDecks[2] ? (
                       <div className="p-3 bg-green-900/30 border border-green-600 rounded-lg">
                         <div className="font-medium">{playerDecks[2].name}</div>
                         <div className="text-sm text-gray-300">
-                          {playerDecks[2].mainDeck.length} main, {playerDecks[2].extraDeck.length} extra
+                          {playerDecks[2].mainDeck.length} main,{' '}
+                          {playerDecks[2].extraDeck.length} extra
                         </div>
                       </div>
                     ) : (
@@ -298,7 +321,9 @@ const YugiohGame = () => {
                       className="mt-2 w-full flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
                     >
                       <Download className="w-4 h-4" />
-                      <span>{playerDecks[1] ? 'Use Same Deck' : 'Import Deck'}</span>
+                      <span>
+                        {playerDecks[1] ? 'Use Same Deck' : 'Import Deck'}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -314,10 +339,17 @@ const YugiohGame = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Life Points</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Life Points
+                  </label>
                   <select
                     value={gameSettings.lifePoints}
-                    onChange={(e) => setGameSettings(prev => ({ ...prev, lifePoints: parseInt(e.target.value) }))}
+                    onChange={e =>
+                      setGameSettings(prev => ({
+                        ...prev,
+                        lifePoints: parseInt(e.target.value),
+                      }))
+                    }
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value={4000}>4000 (Speed Duel)</option>
@@ -327,10 +359,17 @@ const YugiohGame = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Format</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Format
+                  </label>
                   <select
                     value={gameSettings.format}
-                    onChange={(e) => setGameSettings(prev => ({ ...prev, format: e.target.value }))}
+                    onChange={e =>
+                      setGameSettings(prev => ({
+                        ...prev,
+                        format: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="tcg">TCG</option>
@@ -341,10 +380,17 @@ const YugiohGame = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Time Limit</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Time Limit
+                  </label>
                   <select
                     value={gameSettings.timeLimit}
-                    onChange={(e) => setGameSettings(prev => ({ ...prev, timeLimit: parseInt(e.target.value) }))}
+                    onChange={e =>
+                      setGameSettings(prev => ({
+                        ...prev,
+                        timeLimit: parseInt(e.target.value),
+                      }))
+                    }
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value={0}>No Limit</option>
@@ -355,10 +401,17 @@ const YugiohGame = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Banlist</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Banlist
+                  </label>
                   <select
                     value={gameSettings.banlist}
-                    onChange={(e) => setGameSettings(prev => ({ ...prev, banlist: e.target.value }))}
+                    onChange={e =>
+                      setGameSettings(prev => ({
+                        ...prev,
+                        banlist: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="current">Current</option>
@@ -382,9 +435,10 @@ const YugiohGame = () => {
                 disabled={!canStartGame()}
                 className={`
                   px-8 py-3 rounded-lg transition-colors font-semibold
-                  ${canStartGame() 
-                    ? 'bg-green-600 hover:bg-green-500 text-white' 
-                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  ${
+                    canStartGame()
+                      ? 'bg-green-600 hover:bg-green-500 text-white'
+                      : 'bg-gray-600 text-gray-400 cursor-not-allowed'
                   }
                 `}
               >
