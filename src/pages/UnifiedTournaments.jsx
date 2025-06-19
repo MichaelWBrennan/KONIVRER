@@ -435,7 +435,6 @@ const UnifiedTournaments = () => {
                     {matches.filter(m => m.status === 'In Progress').length}
                   </p>
                 </div>
-                <Activity className="text-red-400" size={24} />
               </div>
             </div>
           </div>
@@ -582,7 +581,6 @@ const UnifiedTournaments = () => {
                             rel="noopener noreferrer"
                             className="flex items-center space-x-1 bg-purple-600 hover:bg-purple-500 px-3 py-1 rounded text-sm transition-colors"
                           >
-                            <Video size={14} />
                             <span>Watch</span>
                           </a>
                         )}
@@ -600,7 +598,6 @@ const UnifiedTournaments = () => {
             {/* Featured Live Tournament */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Activity className="mr-2 text-red-400" size={20} />
                 Featured Live Tournament
                 <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
                   LIVE
@@ -662,7 +659,6 @@ const UnifiedTournaments = () => {
             {/* Live Matches */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Activity className="mr-2" size={20} />
                 Live Matches
               </h2>
               <div className="space-y-3">
@@ -712,7 +708,6 @@ const UnifiedTournaments = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center space-x-1 bg-purple-600 hover:bg-purple-500 px-3 py-1 rounded text-sm transition-colors"
                           >
-                            <Video size={14} />
                             <span>Watch Stream</span>
                           </a>
                         </div>
@@ -728,7 +723,6 @@ const UnifiedTournaments = () => {
             {/* Leaderboards */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Crown className="mr-2" size={20} />
                 Leaderboards
               </h2>
               <div className="space-y-3">
