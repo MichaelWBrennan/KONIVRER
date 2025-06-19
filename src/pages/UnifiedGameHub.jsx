@@ -108,19 +108,24 @@ const UnifiedGameHub = () => {
     const section = searchParams.get('section') || 'explore';
     const tab = searchParams.get('tab') || getDefaultTab(section);
     const search = searchParams.get('search') || '';
-    
+
     setActiveSection(section);
     setActiveSubTab(tab);
     setSearchQuery(search);
   }, [searchParams]);
 
-  const getDefaultTab = (section) => {
+  const getDefaultTab = section => {
     switch (section) {
-      case 'explore': return 'cards';
-      case 'build': return 'builder';
-      case 'analyze': return 'meta';
-      case 'manage': return 'collection';
-      default: return 'cards';
+      case 'explore':
+        return 'cards';
+      case 'build':
+        return 'builder';
+      case 'analyze':
+        return 'meta';
+      case 'manage':
+        return 'collection';
+      default:
+        return 'cards';
     }
   };
 
@@ -129,22 +134,22 @@ const UnifiedGameHub = () => {
     newParams.set('section', section);
     newParams.set('tab', tab);
     if (searchQuery) newParams.set('search', searchQuery);
-    
+
     Object.entries(additionalParams).forEach(([key, value]) => {
       if (value) newParams.set(key, value);
     });
-    
+
     setSearchParams(newParams);
   };
 
-  const handleSectionChange = (section) => {
+  const handleSectionChange = section => {
     const defaultTab = getDefaultTab(section);
     setActiveSection(section);
     setActiveSubTab(defaultTab);
     updateURL(section, defaultTab);
   };
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = tab => {
     setActiveSubTab(tab);
     updateURL(activeSection, tab);
   };
@@ -162,7 +167,7 @@ const UnifiedGameHub = () => {
         { id: 'spoilers', name: 'Spoilers', icon: Sparkles },
         { id: 'synergy', name: 'Synergy', icon: Zap },
         { id: 'staples', name: 'Format Staples', icon: Star },
-      ]
+      ],
     },
     {
       id: 'build',
@@ -175,7 +180,7 @@ const UnifiedGameHub = () => {
         { id: 'pricing', name: 'Deck Pricing', icon: Calculator },
         { id: 'budget', name: 'Budget Decks', icon: Target },
         { id: 'validator', name: 'Deck Validator', icon: CheckCircle },
-      ]
+      ],
     },
     {
       id: 'analyze',
@@ -188,7 +193,7 @@ const UnifiedGameHub = () => {
         { id: 'prices', name: 'Price Tracker', icon: DollarSign },
         { id: 'analytics', name: 'Deck Analytics', icon: BarChart2 },
         { id: 'trends', name: 'Market Trends', icon: LineChart },
-      ]
+      ],
     },
     {
       id: 'manage',
@@ -201,7 +206,7 @@ const UnifiedGameHub = () => {
         { id: 'mydecks', name: 'My Decks', icon: BookOpen },
         { id: 'portfolio', name: 'Portfolio', icon: PieChart },
         { id: 'watchlist', name: 'Watchlist', icon: Eye },
-      ]
+      ],
     },
   ];
 
@@ -240,7 +245,7 @@ const UnifiedGameHub = () => {
   // Render content based on active section and tab
   const renderContent = () => {
     const key = `${activeSection}-${activeSubTab}`;
-    
+
     switch (key) {
       // Explore section
       case 'explore-cards':
@@ -251,7 +256,7 @@ const UnifiedGameHub = () => {
         return <CardSynergy />;
       case 'explore-staples':
         return <FormatStaples />;
-      
+
       // Build section
       case 'build-builder':
         return <DeckBuilderView />;
@@ -261,7 +266,7 @@ const UnifiedGameHub = () => {
         return <BudgetDecks />;
       case 'build-validator':
         return <DeckValidatorView />;
-      
+
       // Analyze section
       case 'analyze-meta':
         return <MetagameAnalysis />;
@@ -271,7 +276,7 @@ const UnifiedGameHub = () => {
         return <DeckAnalyticsView />;
       case 'analyze-trends':
         return <MarketTrendsView />;
-      
+
       // Manage section
       case 'manage-collection':
         return <CollectionManager />;
@@ -281,7 +286,7 @@ const UnifiedGameHub = () => {
         return <PortfolioView />;
       case 'manage-watchlist':
         return <WatchlistView />;
-      
+
       default:
         return <CardDatabaseView />;
     }
@@ -316,14 +321,20 @@ const UnifiedGameHub = () => {
           </button>
         </div>
       </div>
-      
+
       {showFilters && (
         <div className="bg-gray-800 rounded-lg p-6">
           <AdvancedCardFilters />
         </div>
       )}
-      
-      <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4' : 'space-y-2'}>
+
+      <div
+        className={
+          viewMode === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+            : 'space-y-2'
+        }
+      >
         {cardsData.slice(0, 20).map((card, index) => (
           <motion.div
             key={card.id}
@@ -337,9 +348,13 @@ const UnifiedGameHub = () => {
               <h3 className="font-semibold text-white truncate">{card.name}</h3>
               <span className="text-sm text-gray-400">{card.cost}</span>
             </div>
-            <p className="text-sm text-gray-300 line-clamp-2">{card.description}</p>
+            <p className="text-sm text-gray-300 line-clamp-2">
+              {card.description}
+            </p>
             <div className="flex items-center justify-between mt-3">
-              <span className="text-xs px-2 py-1 bg-blue-600 rounded">{card.type}</span>
+              <span className="text-xs px-2 py-1 bg-blue-600 rounded">
+                {card.type}
+              </span>
               <span className="text-xs text-gray-400">{card.rarity}</span>
             </div>
           </motion.div>
@@ -363,10 +378,10 @@ const UnifiedGameHub = () => {
           </button>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <VisualDeckBuilder 
+          <VisualDeckBuilder
             deck={builderDeck}
             onDeckChange={setBuilderDeck}
             onCardSelect={setSelectedCard}
@@ -390,7 +405,7 @@ const UnifiedGameHub = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-gray-800 rounded-lg p-4">
             <h3 className="font-semibold text-white mb-3">AI Suggestions</h3>
             <AIAssistant deck={builderDeck} />
@@ -440,7 +455,7 @@ const UnifiedGameHub = () => {
         <div className="bg-gray-800 rounded-lg p-6">
           <h3 className="font-semibold text-white mb-4">Price Movements</h3>
           <div className="space-y-3">
-            {['Lightning Bolt', 'Storm Elemental', 'Fire Imp'].map((card) => (
+            {['Lightning Bolt', 'Storm Elemental', 'Fire Imp'].map(card => (
               <div key={card} className="flex items-center justify-between">
                 <span className="text-gray-300">{card}</span>
                 <div className="flex items-center gap-2">
@@ -465,7 +480,7 @@ const UnifiedGameHub = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">My Decks</h2>
-        <button 
+        <button
           onClick={() => handleTabChange('builder')}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
         >
@@ -473,10 +488,13 @@ const UnifiedGameHub = () => {
           New Deck
         </button>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {decks.map((deck) => (
-          <div key={deck.id} className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700 cursor-pointer">
+        {decks.map(deck => (
+          <div
+            key={deck.id}
+            className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700 cursor-pointer"
+          >
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-white">{deck.name}</h3>
               <button className="text-gray-400 hover:text-white">
@@ -485,7 +503,9 @@ const UnifiedGameHub = () => {
             </div>
             <p className="text-sm text-gray-400 mb-3">{deck.description}</p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-400">{deck.cards?.length || 0} cards</span>
+              <span className="text-gray-400">
+                {deck.cards?.length || 0} cards
+              </span>
               <span className="text-gray-400">{deck.format}</span>
             </div>
           </div>
@@ -522,8 +542,11 @@ const UnifiedGameHub = () => {
       <h2 className="text-2xl font-bold text-white">Watchlist</h2>
       <div className="bg-gray-800 rounded-lg p-6">
         <div className="space-y-4">
-          {['Storm Elemental', 'Fire Imp', 'Water Shield'].map((card) => (
-            <div key={card} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+          {['Storm Elemental', 'Fire Imp', 'Water Shield'].map(card => (
+            <div
+              key={card}
+              className="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+            >
               <div>
                 <h3 className="font-semibold text-white">{card}</h3>
                 <p className="text-sm text-gray-400">Rare • Lightning</p>
@@ -548,11 +571,10 @@ const UnifiedGameHub = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Game Hub
-          </h1>
+          <h1 className="text-4xl font-bold text-white mb-4">Game Hub</h1>
           <p className="text-xl text-blue-200 max-w-3xl mx-auto">
-            Your unified platform for cards, decks, market analysis, and collection management
+            Your unified platform for cards, decks, market analysis, and
+            collection management
           </p>
         </motion.div>
 
@@ -589,19 +611,24 @@ const UnifiedGameHub = () => {
         >
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="text"
                 placeholder="Search cards, decks, or market data..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="flex gap-3">
               <select
                 value={globalFilters.format}
-                onChange={(e) => setGlobalFilters({...globalFilters, format: e.target.value})}
+                onChange={e =>
+                  setGlobalFilters({ ...globalFilters, format: e.target.value })
+                }
                 className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white"
               >
                 <option value="all">All Formats</option>
@@ -611,7 +638,12 @@ const UnifiedGameHub = () => {
               </select>
               <select
                 value={globalFilters.timeframe}
-                onChange={(e) => setGlobalFilters({...globalFilters, timeframe: e.target.value})}
+                onChange={e =>
+                  setGlobalFilters({
+                    ...globalFilters,
+                    timeframe: e.target.value,
+                  })
+                }
                 className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white"
               >
                 <option value="7d">Last 7 days</option>
@@ -631,7 +663,7 @@ const UnifiedGameHub = () => {
           className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-8 border border-white/20"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-            {sections.map((section) => (
+            {sections.map(section => (
               <button
                 key={section.id}
                 onClick={() => handleSectionChange(section.id)}
@@ -645,7 +677,9 @@ const UnifiedGameHub = () => {
                   <section.icon className="w-8 h-8" />
                   <div>
                     <div className="font-semibold text-lg">{section.name}</div>
-                    <div className="text-xs opacity-75">{section.description}</div>
+                    <div className="text-xs opacity-75">
+                      {section.description}
+                    </div>
                   </div>
                 </div>
               </button>
@@ -661,20 +695,22 @@ const UnifiedGameHub = () => {
           className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-8 border border-white/20"
         >
           <div className="flex flex-wrap gap-2">
-            {sections.find(s => s.id === activeSection)?.tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
-                  activeSubTab === tab.id
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'text-gray-300 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <tab.icon className="w-4 h-4" />
-                <span className="font-medium">{tab.name}</span>
-              </button>
-            ))}
+            {sections
+              .find(s => s.id === activeSection)
+              ?.tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
+                    activeSubTab === tab.id
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <tab.icon className="w-4 h-4" />
+                  <span className="font-medium">{tab.name}</span>
+                </button>
+              ))}
           </div>
         </motion.div>
 
@@ -686,9 +722,7 @@ const UnifiedGameHub = () => {
           transition={{ duration: 0.3 }}
           className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
         >
-          <div className="p-6">
-            {renderContent()}
-          </div>
+          <div className="p-6">{renderContent()}</div>
         </motion.div>
 
         {/* Card Detail Modal */}
@@ -706,10 +740,12 @@ const UnifiedGameHub = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
+                onClick={e => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-white">{selectedCard.name}</h2>
+                  <h2 className="text-2xl font-bold text-white">
+                    {selectedCard.name}
+                  </h2>
                   <button
                     onClick={() => setSelectedCard(null)}
                     className="text-gray-400 hover:text-white"
