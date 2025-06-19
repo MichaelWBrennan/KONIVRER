@@ -853,7 +853,6 @@ const JudgeCenter = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Judge Center</h1>
-
         </div>
 
         {/* Navigation Tabs */}
