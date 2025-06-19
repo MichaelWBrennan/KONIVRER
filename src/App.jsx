@@ -33,7 +33,7 @@ function App() {
 
                 {/* Card Detail Pages */}
                 <Route path="/card/:cardId" element={<CardDetail />} />
-                
+
                 {/* All game-related redirects to unified platform */}
                 <Route path="/cards/*" element={<UnifiedGamePlatform />} />
                 <Route path="/decks/*" element={<UnifiedGamePlatform />} />
