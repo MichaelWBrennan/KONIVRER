@@ -44,11 +44,7 @@ import MetaAnalysis from '../components/MetaAnalysis';
 import CollectionManager from '../components/CollectionManager';
 import AIAssistant from '../components/AIAssistant';
 
-// Import Tools components
-import CommanderRecommendations from './CommanderRecommendations';
-import CardSynergy from './CardSynergy';
-import PowerLevelCalculator from './PowerLevelCalculator';
-import CollectionPortfolio from './CollectionPortfolio';
+// Import remaining components
 import BattlePass from './BattlePass';
 import CardMaker from './CardMaker';
 
@@ -79,8 +75,8 @@ const UnifiedGamePlatform = () => {
       features: [
         { id: 'cards', name: 'Card Database', icon: Database, component: CardViewer },
         { id: 'spoilers', name: 'Spoilers & Previews', icon: Eye, component: CardViewer },
-        { id: 'synergy', name: 'Card Synergy', icon: Zap, component: CardSynergy },
-        { id: 'commanders', name: 'Commander Hub', icon: Crown, component: CommanderRecommendations },
+        { id: 'synergy', name: 'Card Synergy', icon: Zap, component: null },
+        { id: 'commanders', name: 'Commander Hub', icon: Crown, component: null },
       ]
     },
     {
@@ -91,7 +87,7 @@ const UnifiedGamePlatform = () => {
       color: 'from-green-500 to-emerald-500',
       features: [
         { id: 'builder', name: 'Deck Builder', icon: Plus, component: VisualDeckBuilder },
-        { id: 'power', name: 'Power Level', icon: Calculator, component: PowerLevelCalculator },
+        { id: 'power', name: 'Power Level', icon: Calculator, component: null },
         { id: 'stats', name: 'Deck Analytics', icon: BarChart3, component: DeckStats },
         { id: 'ai', name: 'AI Assistant', icon: Bot, component: AIAssistant },
       ]
@@ -117,7 +113,7 @@ const UnifiedGamePlatform = () => {
       color: 'from-orange-500 to-red-500',
       features: [
         { id: 'collection', name: 'Collection', icon: Package, component: CollectionManager },
-        { id: 'portfolio', name: 'Portfolio', icon: PieChart, component: CollectionPortfolio },
+        { id: 'portfolio', name: 'Portfolio', icon: PieChart, component: CollectionManager },
         { id: 'battlepass', name: 'Battle Pass', icon: Trophy, component: BattlePass },
         { id: 'favorites', name: 'Favorites', icon: Heart, component: CollectionManager },
       ]
