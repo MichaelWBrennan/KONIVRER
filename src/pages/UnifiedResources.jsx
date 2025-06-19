@@ -671,8 +671,6 @@ const UnifiedResources = () => {
                         {item.title || item.name}
                       </h3>
 
-
-
                       {/* Category-specific content */}
                       {item.category === 'products' && (
                         <div className="mb-3">
@@ -808,8 +806,6 @@ const UnifiedResources = () => {
                           {item.title || item.name}
                         </h3>
 
-
-
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center space-x-2">
                             {item.author && <span>By {item.author}</span>}
@@ -860,7 +856,6 @@ const UnifiedResources = () => {
                     <h3 className="font-semibold text-sm mb-1 line-clamp-2">
                       {item.title || item.name}
                     </h3>
-
                   </div>
                 ))}
               </div>

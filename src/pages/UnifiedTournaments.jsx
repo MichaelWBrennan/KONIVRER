@@ -435,7 +435,6 @@ const UnifiedTournaments = () => {
                     {matches.filter(m => m.status === 'In Progress').length}
                   </p>
                 </div>
-
               </div>
             </div>
           </div>
