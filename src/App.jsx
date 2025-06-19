@@ -69,8 +69,14 @@ function App() {
 
                 {/* Cards - Redirect to unified platform */}
                 <Route path="/cards" element={<UnifiedGamePlatform />} />
-                <Route path="/card-database" element={<UnifiedGamePlatform />} />
-                <Route path="/advanced-cards" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/card-database"
+                  element={<UnifiedGamePlatform />}
+                />
+                <Route
+                  path="/advanced-cards"
+                  element={<UnifiedGamePlatform />}
+                />
 
                 {/* Decks - Redirect to unified platform */}
                 <Route path="/decklists" element={<UnifiedGamePlatform />} />
@@ -79,7 +85,10 @@ function App() {
                   path="/deckbuilder/:deckId"
                   element={<UnifiedGamePlatform />}
                 />
-                <Route path="/deck-discovery" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/deck-discovery"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route
                   path="/official-decklists"
                   element={<OfficialDecklists />}
@@ -134,9 +143,15 @@ function App() {
 
                 {/* Market-related redirects to unified platform */}
                 <Route path="/prices" element={<UnifiedGamePlatform />} />
-                <Route path="/price-tracker" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/price-tracker"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/metagame" element={<UnifiedGamePlatform />} />
-                <Route path="/metagame-analysis" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/metagame-analysis"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/budget-decks" element={<UnifiedGamePlatform />} />
                 <Route path="/budget" element={<UnifiedGamePlatform />} />
                 <Route path="/deck-pricing" element={<UnifiedGamePlatform />} />
@@ -149,17 +164,29 @@ function App() {
                   path="/commander-recommendations"
                   element={<UnifiedGamePlatform />}
                 />
-                <Route path="/commander-recs" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/commander-recs"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/commanders" element={<UnifiedGamePlatform />} />
                 <Route path="/card-synergy" element={<UnifiedGamePlatform />} />
-                <Route path="/synergy-explorer" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/synergy-explorer"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/synergy" element={<UnifiedGamePlatform />} />
                 <Route path="/power-level" element={<UnifiedGamePlatform />} />
-                <Route path="/power-calculator" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/power-calculator"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/power" element={<UnifiedGamePlatform />} />
                 <Route path="/collection" element={<UnifiedGamePlatform />} />
                 <Route path="/portfolio" element={<UnifiedGamePlatform />} />
-                <Route path="/format-staples" element={<UnifiedGamePlatform />} />
+                <Route
+                  path="/format-staples"
+                  element={<UnifiedGamePlatform />}
+                />
                 <Route path="/card-maker" element={<UnifiedGamePlatform />} />
                 <Route path="/battle-pass" element={<UnifiedGamePlatform />} />
                 <Route
