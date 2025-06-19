@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Trophy, 
-  Calendar, 
-  Users, 
+import {
+  Trophy,
+  Calendar,
+  Users,
   Target,
   Filter,
   Search,
@@ -12,7 +12,7 @@ import {
   Clock,
   TrendingUp,
   Eye,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 
 const TournamentResults = () => {
@@ -26,86 +26,86 @@ const TournamentResults = () => {
     standard: [
       {
         id: 1,
-        name: "Pro Tour Thunder Junction",
-        date: "2025-06-15",
-        location: "Las Vegas, NV",
-        format: "Standard",
+        name: 'Pro Tour Thunder Junction',
+        date: '2025-06-15',
+        location: 'Las Vegas, NV',
+        format: 'Standard',
         players: 512,
         rounds: 15,
-        prizePool: "$250,000",
+        prizePool: '$250,000',
         winner: {
-          name: "Alex Chen",
-          deck: "Izzet Prowess",
-          record: "13-2"
+          name: 'Alex Chen',
+          deck: 'Izzet Prowess',
+          record: '13-2',
         },
         topDecks: [
           {
             position: 1,
-            player: "Alex Chen",
-            deck: "Izzet Prowess",
-            record: "13-2",
+            player: 'Alex Chen',
+            deck: 'Izzet Prowess',
+            record: '13-2',
             mainboard: [
-              { name: "Slickshot Show-Off", count: 4 },
+              { name: 'Slickshot Show-Off', count: 4 },
               { name: "Stormchaser's Talent", count: 4 },
-              { name: "Lightning Bolt", count: 4 }
-            ]
+              { name: 'Lightning Bolt', count: 4 },
+            ],
           },
           {
             position: 2,
-            player: "Sarah Johnson", 
-            deck: "Mono-Red Aggro",
-            record: "12-3",
+            player: 'Sarah Johnson',
+            deck: 'Mono-Red Aggro',
+            record: '12-3',
             mainboard: [
-              { name: "Monstrous Rage", count: 4 },
-              { name: "Screaming Nemesis", count: 4 },
-              { name: "Emberheart Challenger", count: 4 }
-            ]
-          }
+              { name: 'Monstrous Rage', count: 4 },
+              { name: 'Screaming Nemesis', count: 4 },
+              { name: 'Emberheart Challenger', count: 4 },
+            ],
+          },
         ],
         metagame: [
-          { deck: "Izzet Prowess", percentage: 22.5, count: 115 },
-          { deck: "Mono-Red Aggro", percentage: 18.7, count: 96 },
-          { deck: "Azorius Control", percentage: 15.2, count: 78 },
-          { deck: "Golgari Midrange", percentage: 12.1, count: 62 }
-        ]
+          { deck: 'Izzet Prowess', percentage: 22.5, count: 115 },
+          { deck: 'Mono-Red Aggro', percentage: 18.7, count: 96 },
+          { deck: 'Azorius Control', percentage: 15.2, count: 78 },
+          { deck: 'Golgari Midrange', percentage: 12.1, count: 62 },
+        ],
       },
       {
         id: 2,
-        name: "Regional Championship Qualifier",
-        date: "2025-06-12",
-        location: "Online",
-        format: "Standard",
+        name: 'Regional Championship Qualifier',
+        date: '2025-06-12',
+        location: 'Online',
+        format: 'Standard',
         players: 256,
         rounds: 9,
-        prizePool: "$10,000",
+        prizePool: '$10,000',
         winner: {
-          name: "Mike Rodriguez",
-          deck: "Azorius Control",
-          record: "9-0"
+          name: 'Mike Rodriguez',
+          deck: 'Azorius Control',
+          record: '9-0',
         },
         topDecks: [],
-        metagame: []
-      }
+        metagame: [],
+      },
     ],
     modern: [
       {
         id: 3,
-        name: "Modern Challenge",
-        date: "2025-06-14",
-        location: "Online",
-        format: "Modern",
+        name: 'Modern Challenge',
+        date: '2025-06-14',
+        location: 'Online',
+        format: 'Modern',
         players: 128,
         rounds: 7,
-        prizePool: "$5,000",
+        prizePool: '$5,000',
         winner: {
-          name: "Emma Wilson",
-          deck: "Burn",
-          record: "7-0"
+          name: 'Emma Wilson',
+          deck: 'Burn',
+          record: '7-0',
         },
         topDecks: [],
-        metagame: []
-      }
-    ]
+        metagame: [],
+      },
+    ],
   };
 
   const formats = [
@@ -113,43 +113,54 @@ const TournamentResults = () => {
     { id: 'modern', name: 'Modern', icon: '🔥' },
     { id: 'pioneer', name: 'Pioneer', icon: '🚀' },
     { id: 'legacy', name: 'Legacy', icon: '👑' },
-    { id: 'commander', name: 'Commander', icon: '⚔️' }
+    { id: 'commander', name: 'Commander', icon: '⚔️' },
   ];
 
   const timeFilters = [
     { id: 'week', name: 'This Week' },
     { id: 'month', name: 'This Month' },
     { id: 'quarter', name: 'This Quarter' },
-    { id: 'year', name: 'This Year' }
+    { id: 'year', name: 'This Year' },
   ];
 
   const filteredTournaments = useMemo(() => {
     const tournamentList = tournaments[selectedFormat] || [];
-    
-    return tournamentList.filter(tournament => {
-      const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           tournament.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           tournament.winner.name.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      // Simple time filtering (in real app, would use proper date logic)
-      return matchesSearch;
-    }).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return tournamentList
+      .filter(tournament => {
+        const matchesSearch =
+          tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          tournament.location
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          tournament.winner.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+
+        // Simple time filtering (in real app, would use proper date logic)
+        return matchesSearch;
+      })
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [selectedFormat, searchTerm, timeFilter]);
 
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
-  const getPositionIcon = (position) => {
+  const getPositionIcon = position => {
     switch (position) {
-      case 1: return '🥇';
-      case 2: return '🥈';
-      case 3: return '🥉';
-      default: return `#${position}`;
+      case 1:
+        return '🥇';
+      case 2:
+        return '🥈';
+      case 3:
+        return '🥉';
+      default:
+        return `#${position}`;
     }
   };
 
@@ -167,7 +178,8 @@ const TournamentResults = () => {
             Tournament Results
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Track major tournament results, winning decks, and metagame trends across all formats
+            Track major tournament results, winning decks, and metagame trends
+            across all formats
           </p>
         </motion.div>
 
@@ -178,7 +190,7 @@ const TournamentResults = () => {
           className="mb-8"
         >
           <div className="flex flex-wrap justify-center gap-4">
-            {formats.map((format) => (
+            {formats.map(format => (
               <button
                 key={format.id}
                 onClick={() => setSelectedFormat(format.id)}
@@ -208,23 +220,27 @@ const TournamentResults = () => {
                 type="text"
                 placeholder="Search tournaments, players, locations..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
-            
+
             <select
               value={timeFilter}
-              onChange={(e) => setTimeFilter(e.target.value)}
+              onChange={e => setTimeFilter(e.target.value)}
               className="px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               {timeFilters.map(filter => (
-                <option key={filter.id} value={filter.id}>{filter.name}</option>
+                <option key={filter.id} value={filter.id}>
+                  {filter.name}
+                </option>
               ))}
             </select>
 
             <div className="flex items-center justify-between bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3">
-              <span className="text-white">{filteredTournaments.length} Tournaments</span>
+              <span className="text-white">
+                {filteredTournaments.length} Tournaments
+              </span>
               <Calendar className="text-purple-400 w-5 h-5" />
             </div>
           </div>
@@ -241,9 +257,9 @@ const TournamentResults = () => {
               <Medal className="text-yellow-400" />
               Recent Tournaments
             </h2>
-            
+
             <div className="space-y-4 max-h-[800px] overflow-y-auto">
-              {filteredTournaments.map((tournament) => (
+              {filteredTournaments.map(tournament => (
                 <motion.div
                   key={tournament.id}
                   whileHover={{ scale: 1.02 }}
@@ -257,7 +273,9 @@ const TournamentResults = () => {
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className="font-bold text-white text-lg mb-1">{tournament.name}</h3>
+                      <h3 className="font-bold text-white text-lg mb-1">
+                        {tournament.name}
+                      </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-300 mb-2">
                         <Calendar className="w-4 h-4" />
                         <span>{formatDate(tournament.date)}</span>
@@ -273,15 +291,23 @@ const TournamentResults = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-2xl mb-1">🏆</div>
-                      <div className="text-xs text-gray-400">{tournament.prizePool}</div>
+                      <div className="text-xs text-gray-400">
+                        {tournament.prizePool}
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-slate-700/30 rounded-lg p-3">
                     <div className="text-sm text-gray-400 mb-1">Winner</div>
-                    <div className="font-semibold text-white">{tournament.winner.name}</div>
-                    <div className="text-sm text-purple-300">{tournament.winner.deck}</div>
-                    <div className="text-sm text-green-400">{tournament.winner.record}</div>
+                    <div className="font-semibold text-white">
+                      {tournament.winner.name}
+                    </div>
+                    <div className="text-sm text-purple-300">
+                      {tournament.winner.deck}
+                    </div>
+                    <div className="text-sm text-green-400">
+                      {tournament.winner.record}
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -314,7 +340,9 @@ const TournamentResults = () => {
                       <Calendar className="text-blue-400 w-5 h-5" />
                       <span className="text-sm text-gray-400">Date</span>
                     </div>
-                    <div className="text-lg font-bold text-white">{formatDate(selectedTournament.date)}</div>
+                    <div className="text-lg font-bold text-white">
+                      {formatDate(selectedTournament.date)}
+                    </div>
                   </div>
 
                   <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-600">
@@ -322,7 +350,9 @@ const TournamentResults = () => {
                       <Users className="text-green-400 w-5 h-5" />
                       <span className="text-sm text-gray-400">Players</span>
                     </div>
-                    <div className="text-lg font-bold text-white">{selectedTournament.players}</div>
+                    <div className="text-lg font-bold text-white">
+                      {selectedTournament.players}
+                    </div>
                   </div>
 
                   <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-600">
@@ -330,7 +360,9 @@ const TournamentResults = () => {
                       <Clock className="text-yellow-400 w-5 h-5" />
                       <span className="text-sm text-gray-400">Rounds</span>
                     </div>
-                    <div className="text-lg font-bold text-white">{selectedTournament.rounds}</div>
+                    <div className="text-lg font-bold text-white">
+                      {selectedTournament.rounds}
+                    </div>
                   </div>
 
                   <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-600">
@@ -338,7 +370,9 @@ const TournamentResults = () => {
                       <Trophy className="text-purple-400 w-5 h-5" />
                       <span className="text-sm text-gray-400">Prize Pool</span>
                     </div>
-                    <div className="text-lg font-bold text-white">{selectedTournament.prizePool}</div>
+                    <div className="text-lg font-bold text-white">
+                      {selectedTournament.prizePool}
+                    </div>
                   </div>
                 </div>
 
@@ -360,11 +394,19 @@ const TournamentResults = () => {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                              <div className="text-2xl">{getPositionIcon(result.position)}</div>
+                              <div className="text-2xl">
+                                {getPositionIcon(result.position)}
+                              </div>
                               <div>
-                                <div className="font-bold text-white">{result.player}</div>
-                                <div className="text-purple-300">{result.deck}</div>
-                                <div className="text-sm text-gray-400">Record: {result.record}</div>
+                                <div className="font-bold text-white">
+                                  {result.player}
+                                </div>
+                                <div className="text-purple-300">
+                                  {result.deck}
+                                </div>
+                                <div className="text-sm text-gray-400">
+                                  Record: {result.record}
+                                </div>
                               </div>
                             </div>
                             <button className="px-3 py-1 bg-purple-600/30 text-purple-300 rounded text-sm hover:bg-purple-600/50 transition-colors">
@@ -394,14 +436,20 @@ const TournamentResults = () => {
                           className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-600"
                         >
                           <div className="flex items-center justify-between mb-2">
-                            <div className="font-bold text-white">{deck.deck}</div>
+                            <div className="font-bold text-white">
+                              {deck.deck}
+                            </div>
                             <div className="text-right">
-                              <div className="text-lg font-bold text-green-400">{deck.percentage}%</div>
-                              <div className="text-sm text-gray-400">{deck.count} decks</div>
+                              <div className="text-lg font-bold text-green-400">
+                                {deck.percentage}%
+                              </div>
+                              <div className="text-sm text-gray-400">
+                                {deck.count} decks
+                              </div>
                             </div>
                           </div>
                           <div className="w-full bg-slate-700 rounded-full h-2">
-                            <div 
+                            <div
                               className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500"
                               style={{ width: `${deck.percentage}%` }}
                             ></div>
@@ -416,8 +464,13 @@ const TournamentResults = () => {
               <div className="flex items-center justify-center h-96 bg-slate-800/30 rounded-lg border-2 border-dashed border-slate-600">
                 <div className="text-center">
                   <Eye className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-gray-400 mb-2">Select a Tournament</h3>
-                  <p className="text-gray-500">Choose a tournament from the list to see detailed results and metagame data</p>
+                  <h3 className="text-xl font-bold text-gray-400 mb-2">
+                    Select a Tournament
+                  </h3>
+                  <p className="text-gray-500">
+                    Choose a tournament from the list to see detailed results
+                    and metagame data
+                  </p>
                 </div>
               </div>
             )}
