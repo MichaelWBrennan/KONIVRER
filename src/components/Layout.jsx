@@ -35,7 +35,7 @@ import {
   Zap,
   Link as LinkIcon,
   AlertTriangle,
-  Activity
+  Activity,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
