@@ -160,7 +160,7 @@ const JudgeCenter = () => {
 
   const renderDashboard = () => (
     <div className="space-y-6">
-      {/* Quick Stats */}
+      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="card text-center">
           <Shield size={24} className="text-accent-primary mx-auto mb-2" />
@@ -619,9 +619,9 @@ const JudgeCenter = () => {
               ))}
             </div>
 
-            {/* Quick Links */}
+            {/* Links */}
             <div className="mt-6 pt-6 border-t border-color">
-              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <h4 className="font-semibold mb-4">Links</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <a
                   href="#"
@@ -682,9 +682,9 @@ const JudgeCenter = () => {
             </div>
           </div>
 
-          {/* Quick Access */}
+          {/* Access */}
           <div className="card">
-            <h4 className="font-semibold mb-4">Quick Access</h4>
+            <h4 className="font-semibold mb-4">Access</h4>
             <div className="space-y-3">
               <button className="w-full btn btn-primary text-left">
                 Download All Rules (PDF)
@@ -701,9 +701,9 @@ const JudgeCenter = () => {
             </div>
           </div>
 
-          {/* Judge Quick Reference */}
+          {/* Judge Reference */}
           <div className="card">
-            <h4 className="font-semibold mb-4">Judge Quick Reference</h4>
+            <h4 className="font-semibold mb-4">Judge Reference</h4>
             <div className="space-y-4">
               <div>
                 <h5 className="font-medium mb-2">Common Penalties</h5>
@@ -853,9 +853,6 @@ const JudgeCenter = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Judge Center</h1>
-          <p className="text-secondary">
-            Official tools and resources for KONIVRER judges
-          </p>
         </div>
 
         {/* Navigation Tabs */}
