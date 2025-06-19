@@ -108,7 +108,10 @@ const GameSimulator = () => {
 
   // Pre-Game Actions (Phase 0)
   const startPreGame = () => {
-    if (!gameState.players[1].selectedDeck || !gameState.players[2].selectedDeck) {
+    if (
+      !gameState.players[1].selectedDeck ||
+      !gameState.players[2].selectedDeck
+    ) {
       alert('Both players need to select a deck first!');
       return;
     }
@@ -122,7 +125,12 @@ const GameSimulator = () => {
 
       player.selectedDeck.cards.forEach(card => {
         for (let i = 0; i < card.quantity; i++) {
-          deckCards.push({ ...card, id: `${card.id}_${i}`, rested: false, counters: 0 });
+          deckCards.push({
+            ...card,
+            id: `${card.id}_${i}`,
+            rested: false,
+            counters: 0,
+          });
         }
       });
 
@@ -169,7 +177,9 @@ const GameSimulator = () => {
     if (newGameState.turn === 1) {
       const drawnCards = currentPlayer.deck.splice(0, 2);
       currentPlayer.hand.push(...drawnCards);
-      newGameState.gameLog.unshift(`${currentPlayer.name} draws 2 cards to start the game`);
+      newGameState.gameLog.unshift(
+        `${currentPlayer.name} draws 2 cards to start the game`,
+      );
     } else {
       // Regular turns: no automatic draw in start phase
       newGameState.gameLog.unshift(`${currentPlayer.name}'s Start Phase`);
@@ -191,11 +201,13 @@ const GameSimulator = () => {
     const azothCard = { ...card, rested: false, isAzoth: true };
     player.azothRow.push(azothCard);
 
-    newGameState.gameLog.unshift(`${player.name} places ${card.name} as Azoth resource`);
-    
+    newGameState.gameLog.unshift(
+      `${player.name} places ${card.name} as Azoth resource`,
+    );
+
     // Remove azoth placement action
     newGameState.currentPhaseActions = newGameState.currentPhaseActions.filter(
-      action => action !== 'azothPlacement'
+      action => action !== 'azothPlacement',
     );
 
     setGameState(newGameState);
@@ -205,7 +217,13 @@ const GameSimulator = () => {
   const moveToMainPhase = () => {
     const newGameState = { ...gameState };
     newGameState.phase = 'main';
-    newGameState.currentPhaseActions = ['playCards', 'summon', 'tribute', 'spell', 'burst'];
+    newGameState.currentPhaseActions = [
+      'playCards',
+      'summon',
+      'tribute',
+      'spell',
+      'burst',
+    ];
     newGameState.gameLog.unshift('Entering Main Phase');
     setGameState(newGameState);
   };
@@ -231,11 +249,11 @@ const GameSimulator = () => {
     player.hand = player.hand.filter(c => c.id !== card.id);
 
     // Summon with +1 counters equal to Azoth paid
-    const summonedCard = { 
-      ...card, 
-      rested: false, 
+    const summonedCard = {
+      ...card,
+      rested: false,
       counters: azothPaid,
-      summoned: true 
+      summoned: true,
     };
     player.field.push(summonedCard);
 
@@ -245,7 +263,7 @@ const GameSimulator = () => {
     }
 
     newGameState.gameLog.unshift(
-      `${player.name} summons ${card.name} with ${azothPaid} +1 counters`
+      `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
     );
 
     setGameState(newGameState);
@@ -282,11 +300,11 @@ const GameSimulator = () => {
 
     // Remove card from hand and summon
     player.hand = player.hand.filter(c => c.id !== card.id);
-    const summonedCard = { 
-      ...card, 
-      rested: false, 
+    const summonedCard = {
+      ...card,
+      rested: false,
       counters: actualAzothPaid,
-      summoned: true 
+      summoned: true,
     };
     player.field.push(summonedCard);
 
@@ -296,7 +314,7 @@ const GameSimulator = () => {
     }
 
     newGameState.gameLog.unshift(
-      `${player.name} tribute summons ${card.name} (tributed ${tributedFamiliars.length} familiars)`
+      `${player.name} tribute summons ${card.name} (tributed ${tributedFamiliars.length} familiars)`,
     );
 
     setGameState(newGameState);
@@ -325,7 +343,7 @@ const GameSimulator = () => {
     }
 
     newGameState.gameLog.unshift(
-      `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`
+      `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
     );
 
     setGameState(newGameState);
@@ -337,7 +355,7 @@ const GameSimulator = () => {
 
     // Burst: play for free when drawn from life cards
     const lifeCardsLeft = player.lifeCards.length;
-    
+
     // Remove from hand (if it was added there from life cards)
     player.hand = player.hand.filter(c => c.id !== card.id);
 
@@ -345,19 +363,19 @@ const GameSimulator = () => {
     const burstValue = lifeCardsLeft;
 
     // Keywords do not resolve for Burst
-    const burstCard = { 
-      ...card, 
-      rested: false, 
+    const burstCard = {
+      ...card,
+      rested: false,
       counters: 0,
       burstValue: burstValue,
-      keywordsDisabled: true 
+      keywordsDisabled: true,
     };
 
     // Can be played for free or put in hand
     player.field.push(burstCard);
 
     newGameState.gameLog.unshift(
-      `${player.name} plays ${card.name} as Burst (✡︎⃝ = ${burstValue})`
+      `${player.name} plays ${card.name} as Burst (✡︎⃝ = ${burstValue})`,
     );
 
     setGameState(newGameState);
@@ -381,21 +399,23 @@ const GameSimulator = () => {
     // Familiar attacks individually
     // For now, simplified: damage goes to life cards
     const damage = (familiar.attack || 0) + familiar.counters;
-    
+
     if (defender.lifeCards.length > 0) {
       // Reveal and remove life card
       const damagedCard = defender.lifeCards.shift();
       defender.graveyard.push(damagedCard);
-      
+
       // Check if revealed card can be played as Burst
       newGameState.gameLog.unshift(
-        `${familiar.name} attacks! ${defender.name} loses a life card: ${damagedCard.name}`
+        `${familiar.name} attacks! ${defender.name} loses a life card: ${damagedCard.name}`,
       );
-      
+
       // If defender has no life cards left, they lose
       if (defender.lifeCards.length === 0) {
         newGameState.phase = 'ended';
-        newGameState.gameLog.unshift(`${attacker.name} wins! ${defender.name} has no life cards left.`);
+        newGameState.gameLog.unshift(
+          `${attacker.name} wins! ${defender.name} has no life cards left.`,
+        );
       }
     }
 
@@ -423,7 +443,7 @@ const GameSimulator = () => {
 
     newGameState.phase = 'refresh';
     newGameState.gameLog.unshift('Refresh Phase: All Azoth sources refreshed');
-    
+
     setGameState(newGameState);
   };
 
@@ -629,11 +649,13 @@ const GameSimulator = () => {
                         <div className="text-yellow-300">+{card.counters}</div>
                       )}
                       {card.attack && (
-                        <div className="text-red-300">ATK: {card.attack + (card.counters || 0)}</div>
+                        <div className="text-red-300">
+                          ATK: {card.attack + (card.counters || 0)}
+                        </div>
                       )}
                       {isCurrentPlayer && gameState.phase === 'combat' && (
                         <button
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation();
                             attackWithFamiliar(card, playerId);
                           }}
@@ -671,11 +693,13 @@ const GameSimulator = () => {
                   <div
                     key={index}
                     className={`rounded px-2 py-1 text-xs text-white transition-all ${
-                      card.rested 
-                        ? 'bg-gray-500 transform rotate-90 opacity-60' 
+                      card.rested
+                        ? 'bg-gray-500 transform rotate-90 opacity-60'
                         : 'bg-purple-600 hover:bg-purple-500'
                     }`}
-                    title={card.rested ? 'Rested (used this turn)' : 'Available'}
+                    title={
+                      card.rested ? 'Rested (used this turn)' : 'Available'
+                    }
                   >
                     {card.name}
                   </div>
@@ -708,46 +732,50 @@ const GameSimulator = () => {
                 <div className="text-xs text-gray-300">
                   {card.counters > 0 && `+${card.counters} counters`}
                 </div>
-                
+
                 {/* Card Action Buttons */}
-                {isCurrentPlayer && (gameState.phase === 'main' || gameState.phase === 'postCombatMain') && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        summonFamiliar(card, playerId, 1);
-                      }}
-                      className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
-                      title="Summon with 1 Azoth"
-                    >
-                      Summon
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        castSpell(card, playerId, 1);
-                      }}
-                      className="px-2 py-1 bg-blue-600 text-xs rounded hover:bg-blue-700"
-                      title="Cast as Spell"
-                    >
-                      Spell
-                    </button>
-                  </div>
-                )}
-                
+                {isCurrentPlayer &&
+                  (gameState.phase === 'main' ||
+                    gameState.phase === 'postCombatMain') && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          summonFamiliar(card, playerId, 1);
+                        }}
+                        className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
+                        title="Summon with 1 Azoth"
+                      >
+                        Summon
+                      </button>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          castSpell(card, playerId, 1);
+                        }}
+                        className="px-2 py-1 bg-blue-600 text-xs rounded hover:bg-blue-700"
+                        title="Cast as Spell"
+                      >
+                        Spell
+                      </button>
+                    </div>
+                  )}
+
                 {/* Azoth Placement in Start Phase */}
-                {isCurrentPlayer && gameState.phase === 'start' && gameState.currentPhaseActions.includes('azothPlacement') && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      placeAsAzoth(card, playerId);
-                    }}
-                    className="px-2 py-1 bg-purple-600 text-xs rounded hover:bg-purple-700 mt-2"
-                    title="Place as Azoth resource"
-                  >
-                    Place Azoth
-                  </button>
-                )}
+                {isCurrentPlayer &&
+                  gameState.phase === 'start' &&
+                  gameState.currentPhaseActions.includes('azothPlacement') && (
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        placeAsAzoth(card, playerId);
+                      }}
+                      className="px-2 py-1 bg-purple-600 text-xs rounded hover:bg-purple-700 mt-2"
+                      title="Place as Azoth resource"
+                    >
+                      Place Azoth
+                    </button>
+                  )}
               </motion.div>
             ))}
           </div>
@@ -776,13 +804,20 @@ const GameSimulator = () => {
       {/* Phase Description */}
       <div className="mb-4 p-3 bg-gray-700 rounded">
         <div className="text-sm text-gray-300">
-          {gameState.phase === 'setup' && 'Select decks for both players to begin the game.'}
-          {gameState.phase === 'start' && 'Draw cards (first turn only) and optionally place 1 Azoth resource.'}
-          {gameState.phase === 'main' && 'Play cards: Summon familiars, cast spells, or place Azoth resources.'}
-          {gameState.phase === 'combat' && 'Attack with familiars individually. Each attack targets life cards.'}
-          {gameState.phase === 'postCombatMain' && 'Play additional cards if resources allow.'}
-          {gameState.phase === 'refresh' && 'All rested Azoth sources are refreshed (turned vertical).'}
-          {gameState.phase === 'ended' && 'Game Over! One player has no life cards remaining.'}
+          {gameState.phase === 'setup' &&
+            'Select decks for both players to begin the game.'}
+          {gameState.phase === 'start' &&
+            'Draw cards (first turn only) and optionally place 1 Azoth resource.'}
+          {gameState.phase === 'main' &&
+            'Play cards: Summon familiars, cast spells, or place Azoth resources.'}
+          {gameState.phase === 'combat' &&
+            'Attack with familiars individually. Each attack targets life cards.'}
+          {gameState.phase === 'postCombatMain' &&
+            'Play additional cards if resources allow.'}
+          {gameState.phase === 'refresh' &&
+            'All rested Azoth sources are refreshed (turned vertical).'}
+          {gameState.phase === 'ended' &&
+            'Game Over! One player has no life cards remaining.'}
         </div>
         {gameState.currentPhaseActions.length > 0 && (
           <div className="text-xs text-yellow-400 mt-1">
