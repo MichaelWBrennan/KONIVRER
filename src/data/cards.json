@@ -1,5 +1,23 @@
 [
   {
+    "id": "mb001",
+    "name": "ABISS",
+    "elements": ["✡︎⃝", "▢", "∇"],
+    "keywords": ["Void", "Submerged"],
+    "cost": "1/2",
+    "power": 0,
+    "rarity": "rare",
+    "type": "AZΘΘ/Φ AMILIAR/SPELL",
+    "class": "ELEMENTAL",
+    "talents": ["Void", "Water"],
+    "set": "MB",
+    "setNumber": "1/63",
+    "artist": "Unknown",
+    "flavor": "\"THE EARTH WAS A FORMLESS VOID AND DARKNESS COVERED OF THE DEEP, WHILE A WIND FROM G-D SWEPT OVER THE FACE OF THE WATERS.\" - GENESIS 1:2",
+    "text": "Void, Submerged",
+    "image": "/images/cards/abiss.jpg"
+  },
+  {
     "id": "card001",
     "name": "Gustling Wisp",
     "elements": ["🜁"],
