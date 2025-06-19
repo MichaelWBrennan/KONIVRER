@@ -31,6 +31,10 @@ import MetagameAnalysis from './pages/MetagameAnalysis';
 import BudgetDecks from './pages/BudgetDecks';
 import DeckPricing from './pages/DeckPricing';
 import CardSpoilers from './pages/CardSpoilers';
+import CommanderRecommendations from './pages/CommanderRecommendations';
+import FormatStaples from './pages/FormatStaples';
+import TournamentResults from './pages/TournamentResults';
+import CollectionPortfolio from './pages/CollectionPortfolio';
 
 function App() {
   return (
@@ -106,6 +110,16 @@ function App() {
                 <Route path="/pricing" element={<DeckPricing />} />
                 <Route path="/spoilers" element={<CardSpoilers />} />
                 <Route path="/previews" element={<CardSpoilers />} />
+                
+                {/* Additional MTGGoldfish features */}
+                <Route path="/commander-recommendations" element={<CommanderRecommendations />} />
+                <Route path="/commanders" element={<CommanderRecommendations />} />
+                <Route path="/format-staples" element={<FormatStaples />} />
+                <Route path="/staples" element={<FormatStaples />} />
+                <Route path="/tournament-results" element={<TournamentResults />} />
+                <Route path="/results" element={<TournamentResults />} />
+                <Route path="/collection" element={<CollectionPortfolio />} />
+                <Route path="/portfolio" element={<CollectionPortfolio />} />
               </Routes>
             </Layout>
           </Router>
