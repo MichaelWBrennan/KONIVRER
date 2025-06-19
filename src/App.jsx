@@ -32,14 +32,16 @@ import BattlePass from './pages/BattlePass';
 import CardMaker from './pages/CardMaker';
 import ReplayCenter from './pages/ReplayCenter';
 
-// New MTGGoldfish-inspired features
+// Unified feature pages
+import UnifiedMarket from './pages/UnifiedMarket';
+import UnifiedTools from './pages/UnifiedTools';
+
+// Individual feature components (for backwards compatibility)
 import PriceTracker from './pages/PriceTracker';
 import MetagameAnalysis from './pages/MetagameAnalysis';
 import BudgetDecks from './pages/BudgetDecks';
 import DeckPricing from './pages/DeckPricing';
 import CardSpoilers from './pages/CardSpoilers';
-
-// New EDHREC-inspired features
 import CommanderRecommendations from './pages/CommanderRecommendations';
 import CardSynergy from './pages/CardSynergy';
 import PowerLevelCalculator from './pages/PowerLevelCalculator';
@@ -117,47 +119,38 @@ function App() {
                 />
                 <Route path="/admin" element={<AdminPanel />} />
 
-                {/* New MTGGoldfish-inspired routes */}
-                <Route path="/prices" element={<PriceTracker />} />
-                <Route path="/price-tracker" element={<PriceTracker />} />
-                <Route path="/metagame" element={<MetagameAnalysis />} />
-                <Route
-                  path="/metagame-analysis"
-                  element={<MetagameAnalysis />}
-                />
-                <Route path="/budget-decks" element={<BudgetDecks />} />
-                <Route path="/budget" element={<BudgetDecks />} />
-                <Route path="/deck-pricing" element={<DeckPricing />} />
-                <Route path="/pricing" element={<DeckPricing />} />
-                <Route path="/spoilers" element={<CardSpoilers />} />
-                <Route path="/previews" element={<CardSpoilers />} />
+                {/* Unified Market Page - All pricing and meta features */}
+                <Route path="/market" element={<UnifiedMarket />} />
+                
+                {/* Unified Tools Page - All utilities and helpers */}
+                <Route path="/tools" element={<UnifiedTools />} />
 
-                {/* New EDHREC-inspired routes */}
-                <Route
-                  path="/commander-recommendations"
-                  element={<CommanderRecommendations />}
-                />
-                <Route
-                  path="/commander-recs"
-                  element={<CommanderRecommendations />}
-                />
-                <Route
-                  path="/commanders"
-                  element={<CommanderRecommendations />}
-                />
-                <Route path="/card-synergy" element={<CardSynergy />} />
-                <Route path="/synergy-explorer" element={<CardSynergy />} />
-                <Route path="/synergy" element={<CardSynergy />} />
-                <Route path="/power-level" element={<PowerLevelCalculator />} />
-                <Route
-                  path="/power-calculator"
-                  element={<PowerLevelCalculator />}
-                />
-                <Route path="/power" element={<PowerLevelCalculator />} />
-                <Route path="/tournament-results" element={<TournamentResults />} />
-                <Route path="/collection" element={<CollectionPortfolio />} />
-                <Route path="/portfolio" element={<CollectionPortfolio />} />
-                <Route path="/format-staples" element={<FormatStaples />} />
+                {/* Market-related redirects to unified page */}
+                <Route path="/prices" element={<UnifiedMarket />} />
+                <Route path="/price-tracker" element={<UnifiedMarket />} />
+                <Route path="/metagame" element={<UnifiedMarket />} />
+                <Route path="/metagame-analysis" element={<UnifiedMarket />} />
+                <Route path="/budget-decks" element={<UnifiedMarket />} />
+                <Route path="/budget" element={<UnifiedMarket />} />
+                <Route path="/deck-pricing" element={<UnifiedMarket />} />
+                <Route path="/pricing" element={<UnifiedMarket />} />
+                <Route path="/spoilers" element={<UnifiedCards />} />
+                <Route path="/previews" element={<UnifiedCards />} />
+
+                {/* Tools-related redirects to unified page */}
+                <Route path="/commander-recommendations" element={<UnifiedTools />} />
+                <Route path="/commander-recs" element={<UnifiedTools />} />
+                <Route path="/commanders" element={<UnifiedTools />} />
+                <Route path="/card-synergy" element={<UnifiedCards />} />
+                <Route path="/synergy-explorer" element={<UnifiedCards />} />
+                <Route path="/synergy" element={<UnifiedCards />} />
+                <Route path="/power-level" element={<UnifiedTools />} />
+                <Route path="/power-calculator" element={<UnifiedTools />} />
+                <Route path="/power" element={<UnifiedTools />} />
+                <Route path="/collection" element={<UnifiedTools />} />
+                <Route path="/portfolio" element={<UnifiedTools />} />
+                <Route path="/format-staples" element={<UnifiedCards />} />
+                <Route path="/tournament-results" element={<UnifiedTournaments />} />
               </Routes>
             </Layout>
           </Router>
