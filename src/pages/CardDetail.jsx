@@ -12,42 +12,56 @@ const CardDetail = () => {
 
   useEffect(() => {
     if (cards && cardId) {
-      const foundCard = cards.find(c => c.id === cardId || c.name.toLowerCase().replace(/\s+/g, '-') === cardId);
+      const foundCard = cards.find(
+        c =>
+          c.id === cardId ||
+          c.name.toLowerCase().replace(/\s+/g, '-') === cardId,
+      );
       setCard(foundCard);
       setLoading(false);
     }
   }, [cards, cardId]);
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     const colors = {
       common: 'text-gray-400 border-gray-400',
       uncommon: 'text-green-400 border-green-400',
       rare: 'text-blue-400 border-blue-400',
       mythic: 'text-purple-400 border-purple-400',
-      legendary: 'text-orange-400 border-orange-400'
+      legendary: 'text-orange-400 border-orange-400',
     };
     return colors[rarity] || 'text-gray-400 border-gray-400';
   };
 
-  const getElementSymbol = (element) => {
+  const getElementSymbol = element => {
     const symbols = {
       '🜁': { symbol: '🜁', name: 'Air', color: 'text-cyan-400' },
       '🜂': { symbol: '🜂', name: 'Fire', color: 'text-red-400' },
       '🜃': { symbol: '🜃', name: 'Light', color: 'text-yellow-400' },
       '🜄': { symbol: '🜄', name: 'Earth', color: 'text-green-400' },
       '🜅': { symbol: '🜅', name: 'Water', color: 'text-blue-400' },
-      '🜆': { symbol: '🜆', name: 'Dark', color: 'text-purple-400' }
+      '🜆': { symbol: '🜆', name: 'Dark', color: 'text-purple-400' },
     };
-    return symbols[element] || { symbol: element, name: 'Unknown', color: 'text-gray-400' };
+    return (
+      symbols[element] || {
+        symbol: element,
+        name: 'Unknown',
+        color: 'text-gray-400',
+      }
+    );
   };
 
   const formatLegality = (format, legal) => {
     return (
       <div className="flex justify-between items-center py-2 border-b border-gray-700/50 last:border-b-0">
         <span className="text-gray-300 font-medium">{format}</span>
-        <span className={`px-2 py-1 rounded text-xs font-bold ${
-          legal ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
-        }`}>
+        <span
+          className={`px-2 py-1 rounded text-xs font-bold ${
+            legal
+              ? 'bg-green-500/20 text-green-400'
+              : 'bg-red-500/20 text-red-400'
+          }`}
+        >
           {legal ? 'Legal' : 'Not Legal'}
         </span>
       </div>
@@ -70,8 +84,13 @@ const CardDetail = () => {
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Card Not Found</h1>
-          <p className="text-gray-400 mb-6">The card you're looking for doesn't exist.</p>
-          <Link to="/cards" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg transition-colors">
+          <p className="text-gray-400 mb-6">
+            The card you're looking for doesn't exist.
+          </p>
+          <Link
+            to="/cards"
+            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg transition-colors"
+          >
             Browse All Cards
           </Link>
         </div>
@@ -85,9 +104,19 @@ const CardDetail = () => {
         {/* Breadcrumb */}
         <nav className="mb-8">
           <div className="flex items-center space-x-2 text-sm">
-            <Link to="/" className="text-blue-400 hover:text-blue-300 transition-colors">Home</Link>
+            <Link
+              to="/"
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Home
+            </Link>
             <span className="text-gray-500">/</span>
-            <Link to="/cards" className="text-blue-400 hover:text-blue-300 transition-colors">Cards</Link>
+            <Link
+              to="/cards"
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Cards
+            </Link>
             <span className="text-gray-500">/</span>
             <span className="text-gray-300">{card.name}</span>
           </div>
@@ -105,11 +134,11 @@ const CardDetail = () => {
               <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                 <div className="aspect-[3/4] bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mb-4 flex items-center justify-center border-2 border-gray-600">
                   {card.image ? (
-                    <img 
-                      src={card.image} 
+                    <img
+                      src={card.image}
                       alt={card.name}
                       className="w-full h-full object-cover rounded-xl"
-                      onError={(e) => {
+                      onError={e => {
                         e.target.style.display = 'none';
                         e.target.nextSibling.style.display = 'flex';
                       }}
@@ -120,7 +149,7 @@ const CardDetail = () => {
                     <p className="text-sm">Card Image</p>
                   </div>
                 </div>
-                
+
                 {/* Quick Actions */}
                 <div className="space-y-3">
                   <button className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg transition-colors font-medium">
@@ -148,7 +177,9 @@ const CardDetail = () => {
               <div className="mb-8">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h1 className="text-4xl font-bold text-white mb-2">{card.name}</h1>
+                    <h1 className="text-4xl font-bold text-white mb-2">
+                      {card.name}
+                    </h1>
                     <div className="flex items-center gap-4 text-lg">
                       <span className="text-gray-300">{card.type}</span>
                       {card.class && (
@@ -164,15 +195,24 @@ const CardDetail = () => {
                       {card.elements?.map((element, index) => {
                         const elementData = getElementSymbol(element);
                         return (
-                          <span key={index} className={`text-2xl ${elementData.color}`} title={elementData.name}>
+                          <span
+                            key={index}
+                            className={`text-2xl ${elementData.color}`}
+                            title={elementData.name}
+                          >
                             {elementData.symbol}
                           </span>
                         );
                       })}
-                      <span className="text-2xl font-bold text-gray-300 ml-2">{card.cost}</span>
+                      <span className="text-2xl font-bold text-gray-300 ml-2">
+                        {card.cost}
+                      </span>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getRarityColor(card.rarity)}`}>
-                      {card.rarity?.charAt(0).toUpperCase() + card.rarity?.slice(1)}
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium border ${getRarityColor(card.rarity)}`}
+                    >
+                      {card.rarity?.charAt(0).toUpperCase() +
+                        card.rarity?.slice(1)}
                     </span>
                   </div>
                 </div>
@@ -182,14 +222,20 @@ const CardDetail = () => {
                   <div className="space-y-4">
                     {card.text && (
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-2">Card Text</h3>
-                        <p className="text-gray-300 leading-relaxed">{card.text}</p>
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                          Card Text
+                        </h3>
+                        <p className="text-gray-300 leading-relaxed">
+                          {card.text}
+                        </p>
                       </div>
                     )}
-                    
+
                     {card.flavor && (
                       <div className="border-t border-gray-700 pt-4">
-                        <p className="text-gray-400 italic text-sm leading-relaxed">"{card.flavor}"</p>
+                        <p className="text-gray-400 italic text-sm leading-relaxed">
+                          "{card.flavor}"
+                        </p>
                       </div>
                     )}
                   </div>
@@ -198,10 +244,14 @@ const CardDetail = () => {
                 {/* Stats */}
                 {card.power && (
                   <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 mb-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">Combat Stats</h3>
+                    <h3 className="text-lg font-semibold text-white mb-4">
+                      Combat Stats
+                    </h3>
                     <div className="flex items-center justify-center">
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white">{card.power}</div>
+                        <div className="text-3xl font-bold text-white">
+                          {card.power}
+                        </div>
                         <div className="text-sm text-gray-400">Power</div>
                       </div>
                     </div>
@@ -212,7 +262,7 @@ const CardDetail = () => {
               {/* Tabs */}
               <div className="border-b border-gray-700 mb-6">
                 <nav className="flex space-x-8">
-                  {['details', 'legality', 'printings'].map((tab) => (
+                  {['details', 'legality', 'printings'].map(tab => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -238,7 +288,9 @@ const CardDetail = () => {
                     className="grid md:grid-cols-2 gap-6"
                   >
                     <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-                      <h3 className="text-lg font-semibold text-white mb-4">Card Information</h3>
+                      <h3 className="text-lg font-semibold text-white mb-4">
+                        Card Information
+                      </h3>
                       <div className="space-y-3">
                         <div className="flex justify-between">
                           <span className="text-gray-400">Set</span>
@@ -262,14 +314,21 @@ const CardDetail = () => {
                     </div>
 
                     <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-                      <h3 className="text-lg font-semibold text-white mb-4">Game Mechanics</h3>
+                      <h3 className="text-lg font-semibold text-white mb-4">
+                        Game Mechanics
+                      </h3>
                       <div className="space-y-3">
                         {card.keywords && card.keywords.length > 0 && (
                           <div>
-                            <span className="text-gray-400 block mb-2">Keywords</span>
+                            <span className="text-gray-400 block mb-2">
+                              Keywords
+                            </span>
                             <div className="flex flex-wrap gap-2">
                               {card.keywords.map((keyword, index) => (
-                                <span key={index} className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-sm">
+                                <span
+                                  key={index}
+                                  className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-sm"
+                                >
                                   {keyword}
                                 </span>
                               ))}
@@ -278,10 +337,15 @@ const CardDetail = () => {
                         )}
                         {card.talents && card.talents.length > 0 && (
                           <div>
-                            <span className="text-gray-400 block mb-2">Talents</span>
+                            <span className="text-gray-400 block mb-2">
+                              Talents
+                            </span>
                             <div className="flex flex-wrap gap-2">
                               {card.talents.map((talent, index) => (
-                                <span key={index} className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-sm">
+                                <span
+                                  key={index}
+                                  className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded text-sm"
+                                >
                                   {talent}
                                 </span>
                               ))}
@@ -300,7 +364,9 @@ const CardDetail = () => {
                     transition={{ duration: 0.3 }}
                     className="bg-gray-800 rounded-xl p-6 border border-gray-700"
                   >
-                    <h3 className="text-lg font-semibold text-white mb-4">Format Legality</h3>
+                    <h3 className="text-lg font-semibold text-white mb-4">
+                      Format Legality
+                    </h3>
                     <div className="space-y-1">
                       {formatLegality('Standard', true)}
                       {formatLegality('Pioneer', true)}
@@ -323,15 +389,23 @@ const CardDetail = () => {
                     transition={{ duration: 0.3 }}
                     className="bg-gray-800 rounded-xl p-6 border border-gray-700"
                   >
-                    <h3 className="text-lg font-semibold text-white mb-4">Printings & Versions</h3>
+                    <h3 className="text-lg font-semibold text-white mb-4">
+                      Printings & Versions
+                    </h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg">
                         <div>
-                          <div className="font-medium text-white">{card.set}</div>
-                          <div className="text-sm text-gray-400">#{card.id} • {card.rarity}</div>
+                          <div className="font-medium text-white">
+                            {card.set}
+                          </div>
+                          <div className="text-sm text-gray-400">
+                            #{card.id} • {card.rarity}
+                          </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm text-gray-400">Illustrated by</div>
+                          <div className="text-sm text-gray-400">
+                            Illustrated by
+                          </div>
                           <div className="text-white">{card.artist}</div>
                         </div>
                       </div>
