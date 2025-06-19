@@ -134,7 +134,7 @@ const Layout = ({ children }) => {
       icon: Sparkles,
     });
 
-    // Additional MTGGoldfish features
+    // EDHREC-inspired features
     baseNavigation.push({
       name: 'Commanders',
       href: '/commander-recommendations',
@@ -142,21 +142,15 @@ const Layout = ({ children }) => {
     });
 
     baseNavigation.push({
-      name: 'Format Staples',
-      href: '/format-staples',
-      icon: Activity,
+      name: 'Card Synergy',
+      href: '/card-synergy',
+      icon: Zap,
     });
 
     baseNavigation.push({
-      name: 'Tournament Results',
-      href: '/tournament-results',
-      icon: AlertTriangle,
-    });
-
-    baseNavigation.push({
-      name: 'Collection',
-      href: '/collection',
-      icon: LinkIcon,
+      name: 'Power Level',
+      href: '/power-level',
+      icon: BarChart3,
     });
 
     // Community - always available
