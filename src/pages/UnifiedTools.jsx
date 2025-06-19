@@ -119,7 +119,8 @@ const UnifiedTools = () => {
             Deck Building Tools
           </h1>
           <p className="text-xl text-purple-200 max-w-3xl mx-auto">
-            Advanced utilities and AI-powered tools to enhance your deck building experience
+            Advanced utilities and AI-powered tools to enhance your deck
+            building experience
           </p>
         </motion.div>
 
@@ -158,7 +159,7 @@ const UnifiedTools = () => {
           className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-8 border border-white/20"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            {tabs.map((tab) => (
+            {tabs.map(tab => (
               <motion.button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -173,7 +174,9 @@ const UnifiedTools = () => {
                 <tab.icon className="w-6 h-6 flex-shrink-0" />
                 <div className="text-left flex-1">
                   <div className="font-medium">{tab.name}</div>
-                  <div className="text-xs opacity-75 line-clamp-2">{tab.description}</div>
+                  <div className="text-xs opacity-75 line-clamp-2">
+                    {tab.description}
+                  </div>
                 </div>
               </motion.button>
             ))}

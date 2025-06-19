@@ -105,7 +105,7 @@ const UnifiedMarket = () => {
     }
   };
 
-  const getTrendIcon = (trend) => {
+  const getTrendIcon = trend => {
     switch (trend) {
       case 'up':
         return <ArrowUpRight className="w-4 h-4 text-green-500" />;
@@ -116,7 +116,7 @@ const UnifiedMarket = () => {
     }
   };
 
-  const getTrendColor = (trend) => {
+  const getTrendColor = trend => {
     switch (trend) {
       case 'up':
         return 'text-green-500';
@@ -140,7 +140,8 @@ const UnifiedMarket = () => {
             Market Intelligence
           </h1>
           <p className="text-xl text-blue-200 max-w-3xl mx-auto">
-            Comprehensive market analysis, pricing data, and competitive insights for informed decision making
+            Comprehensive market analysis, pricing data, and competitive
+            insights for informed decision making
           </p>
         </motion.div>
 
@@ -163,7 +164,9 @@ const UnifiedMarket = () => {
               <div className="space-y-1">
                 <p className="text-2xl font-bold text-white">{stat.value}</p>
                 <p className="text-sm text-gray-300">{stat.label}</p>
-                <p className={`text-sm font-medium ${getTrendColor(stat.trend)}`}>
+                <p
+                  className={`text-sm font-medium ${getTrendColor(stat.trend)}`}
+                >
                   {stat.change}
                 </p>
               </div>
@@ -179,7 +182,7 @@ const UnifiedMarket = () => {
           className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-8 border border-white/20"
         >
           <div className="flex flex-wrap gap-2">
-            {tabs.map((tab) => (
+            {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
