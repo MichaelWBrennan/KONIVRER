@@ -121,7 +121,7 @@ function App() {
 
                 {/* Unified Market Page - All pricing and meta features */}
                 <Route path="/market" element={<UnifiedMarket />} />
-                
+
                 {/* Unified Tools Page - All utilities and helpers */}
                 <Route path="/tools" element={<UnifiedTools />} />
 
@@ -138,7 +138,10 @@ function App() {
                 <Route path="/previews" element={<UnifiedCards />} />
 
                 {/* Tools-related redirects to unified page */}
-                <Route path="/commander-recommendations" element={<UnifiedTools />} />
+                <Route
+                  path="/commander-recommendations"
+                  element={<UnifiedTools />}
+                />
                 <Route path="/commander-recs" element={<UnifiedTools />} />
                 <Route path="/commanders" element={<UnifiedTools />} />
                 <Route path="/card-synergy" element={<UnifiedCards />} />
@@ -150,7 +153,10 @@ function App() {
                 <Route path="/collection" element={<UnifiedTools />} />
                 <Route path="/portfolio" element={<UnifiedTools />} />
                 <Route path="/format-staples" element={<UnifiedCards />} />
-                <Route path="/tournament-results" element={<UnifiedTournaments />} />
+                <Route
+                  path="/tournament-results"
+                  element={<UnifiedTournaments />}
+                />
               </Routes>
             </Layout>
           </Router>
