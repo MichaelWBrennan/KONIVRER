@@ -479,7 +479,7 @@ const UnifiedResources = () => {
                     {resourceStats.totalArticles}
                   </p>
                 </div>
-                <FileText className="text-blue-400" size={24} />
+
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -490,7 +490,7 @@ const UnifiedResources = () => {
                     {resourceStats.totalViews?.toLocaleString()}
                   </p>
                 </div>
-                <Eye className="text-green-400" size={24} />
+
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -501,7 +501,7 @@ const UnifiedResources = () => {
                     {resourceStats.weeklyViews?.toLocaleString()}
                   </p>
                 </div>
-                <TrendingUp className="text-purple-400" size={24} />
+
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -512,7 +512,7 @@ const UnifiedResources = () => {
                     {resourceStats.totalLikes?.toLocaleString()}
                   </p>
                 </div>
-                <Heart className="text-red-400" size={24} />
+
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
@@ -523,7 +523,7 @@ const UnifiedResources = () => {
                     {resourceStats.totalBookmarks?.toLocaleString()}
                   </p>
                 </div>
-                <Bookmark className="text-yellow-400" size={24} />
+
               </div>
             </div>
           </div>
@@ -662,9 +662,7 @@ const UnifiedResources = () => {
                             {item.type}
                           </span>
                         </div>
-                        {item.featured && (
-                          <Star className="text-yellow-400" size={16} />
-                        )}
+
                       </div>
 
                       <h3 className="font-semibold mb-2 line-clamp-2">
@@ -735,19 +733,16 @@ const UnifiedResources = () => {
                         <div className="flex items-center space-x-3">
                           {item.views && (
                             <span className="flex items-center">
-                              <Eye size={12} className="mr-1" />
                               {item.views.toLocaleString()}
                             </span>
                           )}
                           {item.likes && (
                             <span className="flex items-center">
-                              <Heart size={12} className="mr-1" />
                               {item.likes}
                             </span>
                           )}
                           {item.hypeLevel && (
                             <span className="flex items-center">
-                              <TrendingUp size={12} className="mr-1" />
                               {item.hypeLevel}%
                             </span>
                           )}
@@ -782,20 +777,16 @@ const UnifiedResources = () => {
                             <span className="text-xs text-gray-400 uppercase">
                               {item.type}
                             </span>
-                            {item.featured && (
-                              <Star className="text-yellow-400" size={14} />
-                            )}
+
                           </div>
                           <div className="flex items-center space-x-3 text-sm text-gray-400">
                             {item.views && (
                               <span className="flex items-center">
-                                <Eye size={12} className="mr-1" />
                                 {item.views.toLocaleString()}
                               </span>
                             )}
                             {item.likes && (
                               <span className="flex items-center">
-                                <Heart size={12} className="mr-1" />
                                 {item.likes}
                               </span>
                             )}
@@ -838,7 +829,7 @@ const UnifiedResources = () => {
             {/* Featured Content */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Star className="mr-2" size={20} />
+
                 Featured
               </h2>
               <div className="space-y-4">
@@ -864,7 +855,7 @@ const UnifiedResources = () => {
             {/* Popular Tags */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Hash className="mr-2" size={20} />
+
                 Popular Tags
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -882,7 +873,7 @@ const UnifiedResources = () => {
             {/* Top Authors */}
             <div className="bg-gray-800 rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Users className="mr-2" size={20} />
+
                 Top Authors
               </h2>
               <div className="space-y-3">
