@@ -61,6 +61,8 @@ import {
   Medal,
 } from 'lucide-react';
 
+import LiveTournamentBracket from '../components/LiveTournamentBracket';
+
 const UnifiedTournaments = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
@@ -626,6 +628,18 @@ const UnifiedTournaments = () => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Featured Live Tournament */}
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h2 className="text-xl font-bold mb-4 flex items-center">
+                <Activity className="mr-2 text-red-400" size={20} />
+                Featured Live Tournament
+                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+                  LIVE
+                </span>
+              </h2>
+              <LiveTournamentBracket tournamentId="world-championship-2024" isLive={true} />
             </div>
 
             {/* Community Events */}
