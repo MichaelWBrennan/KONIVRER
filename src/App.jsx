@@ -17,8 +17,7 @@ import AdminPanel from './pages/AdminPanel';
 import TournamentManager from './components/TournamentManager';
 import PlayerProfile from './components/PlayerProfile';
 import UnifiedTournaments from './pages/UnifiedTournaments';
-
-import UnifiedResources from './pages/UnifiedResources';
+import UnifiedCommunity from './pages/UnifiedCommunity';
 import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
 import CardDetail from './pages/CardDetail';
 
@@ -63,18 +62,8 @@ function App() {
                   element={<LiveTournament />}
                 />
 
-                {/* Community - Redirected to Home */}
-                <Route
-                  path="/social"
-                  element={<Navigate to="/?filter=community" replace />}
-                />
-
-                {/* Resources - Redirected to Home */}
-                <Route
-                  path="/lore"
-                  element={<Navigate to="/?filter=lore" replace />}
-                />
-
+                {/* Community */}
+                <Route path="/social" element={<UnifiedCommunity />} />
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
