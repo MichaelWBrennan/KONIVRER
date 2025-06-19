@@ -17,56 +17,62 @@ import {
   Load,
   Users,
   Bot,
+  Flag,
+  Swords,
+  RefreshCw,
 } from 'lucide-react';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
 
 const GameSimulator = () => {
-  // Game state
+  // Game state with new phase system
   const [gameState, setGameState] = useState({
-    phase: 'setup', // 'setup', 'playing', 'paused', 'ended'
+    phase: 'setup', // 'setup', 'preGame', 'start', 'main', 'combat', 'postCombatMain', 'refresh', 'ended'
     turn: 1,
     currentPlayer: 1,
+    gameStarted: false,
     players: {
       1: {
         name: 'Player 1',
-        life: 4000, // KONIVRER uses 4000 life points
-        azoth: 0,
-        maxAzoth: 0,
-        hand: [], // Cards not yet played
-        deck: [], // Your draw pile for the duration of the game
-        field: [], // Where Familiars and Spells are played
-        combatRow: [], // Designated area for Familiar battles
-        azothRow: [], // Where Azoth cards are placed as resources
+        hand: [], // Cards in hand
+        deck: [], // Draw pile
+        field: [], // Where Familiars are played
+        azothRow: [], // Where Azoth cards are placed as resources (face-up)
         lifeCards: [], // Top 4 cards face down, revealed as damage is taken
-        flag: null, // Flag card showing deck elements and bonus damage
-        removedFromPlay: [], // Zone for cards affected by Void keyword
+        flag: null, // Flag card placed in top left corner
+        removedFromPlay: [], // Zone for cards affected by removal
         graveyard: [],
+        selectedDeck: null,
       },
       2: {
         name: 'Player 2',
-        life: 4000,
-        azoth: 0,
-        maxAzoth: 0,
         hand: [],
         deck: [],
         field: [],
-        combatRow: [],
         azothRow: [],
         lifeCards: [],
         flag: null,
         removedFromPlay: [],
         graveyard: [],
+        selectedDeck: null,
       },
     },
     selectedCard: null,
     targetMode: false,
     gameLog: [],
+    currentPhaseActions: [], // Track what actions have been taken this phase
   });
 
   const [availableDecks, setAvailableDecks] = useState([]);
   const [showCardDetail, setShowCardDetail] = useState(null);
   const [gameMode, setGameMode] = useState('pvp'); // 'pvp', 'ai', 'tutorial'
+
+  // Deck selection
+  const selectDeck = (deck, playerId) => {
+    const newGameState = { ...gameState };
+    newGameState.players[playerId].selectedDeck = deck;
+    setGameState(newGameState);
+  };
   const [simulationSpeed, setSimulationSpeed] = useState(1);
 
   // Initialize available decks
@@ -100,9 +106,9 @@ const GameSimulator = () => {
     setAvailableDecks(sampleDecks);
   }, []);
 
-  // Game actions
-  const startGame = () => {
-    if (!gameState.players[1].deck || !gameState.players[2].deck) {
+  // Pre-Game Actions (Phase 0)
+  const startPreGame = () => {
+    if (!gameState.players[1].selectedDeck || !gameState.players[2].selectedDeck) {
       alert('Both players need to select a deck first!');
       return;
     }
@@ -114,131 +120,331 @@ const GameSimulator = () => {
       const player = newGameState.players[playerId];
       const deckCards = [];
 
-      player.deck.cards.forEach(card => {
+      player.selectedDeck.cards.forEach(card => {
         for (let i = 0; i < card.quantity; i++) {
-          deckCards.push({ ...card, id: `${card.id}_${i}` });
+          deckCards.push({ ...card, id: `${card.id}_${i}`, rested: false, counters: 0 });
         }
       });
 
-      // Shuffle deck
+      // Thoroughly shuffle deck
       const shuffledDeck = deckCards.sort(() => Math.random() - 0.5);
 
-      // Set up Life Cards (top 4 cards face down)
-      player.lifeCards = shuffledDeck.splice(0, 4);
+      // Place Flag on top left corner (first card of deck becomes flag)
+      player.flag = shuffledDeck.shift();
 
-      // Remaining cards become the deck
+      // Place deck in top right corner
       player.deck = shuffledDeck;
 
-      // Draw opening hand (5 cards in KONIVRER)
-      player.hand = player.deck.splice(0, 5);
+      // Take top 4 cards and place face down as life cards (don't look at them)
+      player.lifeCards = player.deck.splice(0, 4);
 
       // Reset all zones
       player.field = [];
-      player.combatRow = [];
       player.azothRow = [];
       player.removedFromPlay = [];
       player.graveyard = [];
-      player.flag = null;
-      player.life = 4000;
-      player.azoth = 0;
-      player.maxAzoth = 0;
+      player.hand = [];
     });
 
-    newGameState.phase = 'playing';
+    newGameState.phase = 'start';
     newGameState.turn = 1;
     newGameState.currentPlayer = 1;
+    newGameState.gameStarted = true;
+    newGameState.currentPhaseActions = [];
     newGameState.gameLog = [
-      'Game started!',
-      'Both players drew their opening hands.',
+      'Pre-Game Setup Complete!',
+      'Flags placed, decks shuffled, life cards set.',
+      'Starting Phase 1: Start Phase',
     ];
 
     setGameState(newGameState);
   };
 
-  const endTurn = () => {
+  // Start Phase (Phase 1)
+  const executeStartPhase = () => {
     const newGameState = { ...gameState };
     const currentPlayer = newGameState.players[newGameState.currentPlayer];
-    const nextPlayerId = newGameState.currentPlayer === 1 ? 2 : 1;
 
-    // Draw a card for the next player
-    const nextPlayer = newGameState.players[nextPlayerId];
-    if (nextPlayer.library.length > 0) {
-      nextPlayer.hand.push(nextPlayer.library.shift());
+    // Draw 2 cards (only at start of game, turn 1)
+    if (newGameState.turn === 1) {
+      const drawnCards = currentPlayer.deck.splice(0, 2);
+      currentPlayer.hand.push(...drawnCards);
+      newGameState.gameLog.unshift(`${currentPlayer.name} draws 2 cards to start the game`);
+    } else {
+      // Regular turns: no automatic draw in start phase
+      newGameState.gameLog.unshift(`${currentPlayer.name}'s Start Phase`);
     }
 
-    // Increase max azoth for next player (up to 10)
-    if (nextPlayer.maxAzoth < 10) {
-      nextPlayer.maxAzoth++;
+    newGameState.currentPhaseActions = ['azothPlacement']; // Can optionally place 1 Azoth
+    setGameState(newGameState);
+  };
+
+  // Place card as Azoth resource
+  const placeAsAzoth = (card, playerId) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Remove from hand
+    player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // Place face-up in Azoth Row
+    const azothCard = { ...card, rested: false, isAzoth: true };
+    player.azothRow.push(azothCard);
+
+    newGameState.gameLog.unshift(`${player.name} places ${card.name} as Azoth resource`);
+    
+    // Remove azoth placement action
+    newGameState.currentPhaseActions = newGameState.currentPhaseActions.filter(
+      action => action !== 'azothPlacement'
+    );
+
+    setGameState(newGameState);
+  };
+
+  // Move to Main Phase
+  const moveToMainPhase = () => {
+    const newGameState = { ...gameState };
+    newGameState.phase = 'main';
+    newGameState.currentPhaseActions = ['playCards', 'summon', 'tribute', 'spell', 'burst'];
+    newGameState.gameLog.unshift('Entering Main Phase');
+    setGameState(newGameState);
+  };
+
+  // Main Phase Actions
+  const summonFamiliar = (card, playerId, azothPaid = 0) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Check if player has enough unrested Azoth
+    const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
+    if (availableAzoth.length < azothPaid) {
+      alert('Not enough unrested Azoth to pay for this summon!');
+      return;
     }
 
-    // Restore azoth to max
-    nextPlayer.azoth = nextPlayer.maxAzoth;
+    // Rest the required Azoth
+    for (let i = 0; i < azothPaid; i++) {
+      availableAzoth[i].rested = true;
+    }
 
-    // Untap all cards on battlefield
-    nextPlayer.battlefield.forEach(card => {
-      card.tapped = false;
+    // Remove card from hand
+    player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // Summon with +1 counters equal to Azoth paid
+    const summonedCard = { 
+      ...card, 
+      rested: false, 
+      counters: azothPaid,
+      summoned: true 
+    };
+    player.field.push(summonedCard);
+
+    // Draw a card after playing
+    if (player.deck.length > 0) {
+      player.hand.push(player.deck.shift());
+    }
+
+    newGameState.gameLog.unshift(
+      `${player.name} summons ${card.name} with ${azothPaid} +1 counters`
+    );
+
+    setGameState(newGameState);
+  };
+
+  const tributeSummon = (card, playerId, tributedFamiliars, azothPaid = 0) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Calculate tribute value
+    let tributeValue = 0;
+    tributedFamiliars.forEach(familiar => {
+      // Combined Elements costs + counters
+      const elementCost = familiar.elements ? familiar.elements.length : 0;
+      tributeValue += elementCost + familiar.counters;
     });
+
+    // Remove tributed familiars from game
+    tributedFamiliars.forEach(familiar => {
+      player.field = player.field.filter(f => f.id !== familiar.id);
+      player.removedFromPlay.push(familiar);
+    });
+
+    // Calculate final cost after tribute reduction
+    const originalCost = card.elements ? card.elements.length : 0;
+    const finalCost = Math.max(0, originalCost - tributeValue);
+    const actualAzothPaid = Math.max(azothPaid, finalCost);
+
+    // Rest required Azoth
+    const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
+    for (let i = 0; i < actualAzothPaid; i++) {
+      if (availableAzoth[i]) availableAzoth[i].rested = true;
+    }
+
+    // Remove card from hand and summon
+    player.hand = player.hand.filter(c => c.id !== card.id);
+    const summonedCard = { 
+      ...card, 
+      rested: false, 
+      counters: actualAzothPaid,
+      summoned: true 
+    };
+    player.field.push(summonedCard);
+
+    // Draw a card after playing
+    if (player.deck.length > 0) {
+      player.hand.push(player.deck.shift());
+    }
+
+    newGameState.gameLog.unshift(
+      `${player.name} tribute summons ${card.name} (tributed ${tributedFamiliars.length} familiars)`
+    );
+
+    setGameState(newGameState);
+  };
+
+  const castSpell = (card, playerId, azothPaid = 0) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Rest required Azoth
+    const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
+    for (let i = 0; i < azothPaid; i++) {
+      if (availableAzoth[i]) availableAzoth[i].rested = true;
+    }
+
+    // Remove card from hand
+    player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // Resolve spell effect (simplified - replace ✡︎⃝ with azothPaid)
+    // Then put on bottom of deck
+    player.deck.push(card);
+
+    // Draw a card after playing
+    if (player.deck.length > 0) {
+      player.hand.push(player.deck.shift());
+    }
+
+    newGameState.gameLog.unshift(
+      `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`
+    );
+
+    setGameState(newGameState);
+  };
+
+  const playBurst = (card, playerId) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Burst: play for free when drawn from life cards
+    const lifeCardsLeft = player.lifeCards.length;
+    
+    // Remove from hand (if it was added there from life cards)
+    player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // ✡︎⃝ = number of life cards left (not including this card)
+    const burstValue = lifeCardsLeft;
+
+    // Keywords do not resolve for Burst
+    const burstCard = { 
+      ...card, 
+      rested: false, 
+      counters: 0,
+      burstValue: burstValue,
+      keywordsDisabled: true 
+    };
+
+    // Can be played for free or put in hand
+    player.field.push(burstCard);
+
+    newGameState.gameLog.unshift(
+      `${player.name} plays ${card.name} as Burst (✡︎⃝ = ${burstValue})`
+    );
+
+    setGameState(newGameState);
+  };
+
+  // Combat Phase
+  const moveToCombatPhase = () => {
+    const newGameState = { ...gameState };
+    newGameState.phase = 'combat';
+    newGameState.currentPhaseActions = ['attack'];
+    newGameState.gameLog.unshift('Entering Combat Phase');
+    setGameState(newGameState);
+  };
+
+  const attackWithFamiliar = (familiar, attackerId) => {
+    const newGameState = { ...gameState };
+    const attacker = newGameState.players[attackerId];
+    const defenderId = attackerId === 1 ? 2 : 1;
+    const defender = newGameState.players[defenderId];
+
+    // Familiar attacks individually
+    // For now, simplified: damage goes to life cards
+    const damage = (familiar.attack || 0) + familiar.counters;
+    
+    if (defender.lifeCards.length > 0) {
+      // Reveal and remove life card
+      const damagedCard = defender.lifeCards.shift();
+      defender.graveyard.push(damagedCard);
+      
+      // Check if revealed card can be played as Burst
+      newGameState.gameLog.unshift(
+        `${familiar.name} attacks! ${defender.name} loses a life card: ${damagedCard.name}`
+      );
+      
+      // If defender has no life cards left, they lose
+      if (defender.lifeCards.length === 0) {
+        newGameState.phase = 'ended';
+        newGameState.gameLog.unshift(`${attacker.name} wins! ${defender.name} has no life cards left.`);
+      }
+    }
+
+    setGameState(newGameState);
+  };
+
+  // Post-Combat Main Phase
+  const moveToPostCombatMain = () => {
+    const newGameState = { ...gameState };
+    newGameState.phase = 'postCombatMain';
+    newGameState.currentPhaseActions = ['playCards'];
+    newGameState.gameLog.unshift('Entering Post-Combat Main Phase');
+    setGameState(newGameState);
+  };
+
+  // Refresh Phase
+  const moveToRefreshPhase = () => {
+    const newGameState = { ...gameState };
+    const currentPlayer = newGameState.players[newGameState.currentPlayer];
+
+    // Refresh all rested Azoth sources (turn vertical)
+    currentPlayer.azothRow.forEach(azoth => {
+      azoth.rested = false;
+    });
+
+    newGameState.phase = 'refresh';
+    newGameState.gameLog.unshift('Refresh Phase: All Azoth sources refreshed');
+    
+    setGameState(newGameState);
+  };
+
+  // End Turn and move to next player
+  const endTurn = () => {
+    const newGameState = { ...gameState };
+    const nextPlayerId = newGameState.currentPlayer === 1 ? 2 : 1;
+    const nextPlayer = newGameState.players[nextPlayerId];
 
     newGameState.currentPlayer = nextPlayerId;
     if (nextPlayerId === 1) {
       newGameState.turn++;
     }
 
+    // Start next player's turn with Start Phase
+    newGameState.phase = 'start';
+    newGameState.currentPhaseActions = [];
+
     newGameState.gameLog.unshift(
-      `Turn ${newGameState.turn}: ${nextPlayer.name}'s turn`,
+      `Turn ${newGameState.turn}: ${nextPlayer.name}'s turn begins`,
     );
-
-    setGameState(newGameState);
-  };
-
-  const playCard = (card, playerId) => {
-    const newGameState = { ...gameState };
-    const player = newGameState.players[playerId];
-
-    // Check if player can afford the card
-    const cardCost =
-      typeof card.cost === 'string'
-        ? parseInt(card.cost.split('/')[0])
-        : card.cost;
-    if (player.azoth < cardCost) {
-      alert('Not enough Azoth to play this card!');
-      return;
-    }
-
-    // Remove card from hand
-    player.hand = player.hand.filter(c => c.id !== card.id);
-
-    // Pay cost
-    player.azoth -= cardCost;
-
-    // Add to battlefield or resolve effect
-    if (card.type.includes('CREATURE') || card.type.includes('AMILIAR')) {
-      player.battlefield.push({ ...card, tapped: false, summoned: true });
-      newGameState.gameLog.unshift(`${player.name} summoned ${card.name}`);
-    } else {
-      // Spell effect - add to graveyard
-      player.graveyard.push(card);
-      newGameState.gameLog.unshift(`${player.name} cast ${card.name}`);
-
-      // Apply spell effects (simplified)
-      if (card.text.includes('damage')) {
-        const damage = parseInt(card.text.match(/(\d+) damage/)?.[1] || 0);
-        if (damage > 0) {
-          // For demo, damage goes to opponent
-          const opponentId = playerId === 1 ? 2 : 1;
-          newGameState.players[opponentId].life -= damage;
-          newGameState.gameLog.unshift(`${card.name} deals ${damage} damage`);
-        }
-      }
-
-      if (card.text.includes('life')) {
-        const healing = parseInt(card.text.match(/(\d+) life/)?.[1] || 0);
-        if (healing > 0) {
-          player.life += healing;
-          newGameState.gameLog.unshift(`${player.name} gains ${healing} life`);
-        }
-      }
-    }
 
     setGameState(newGameState);
   };
@@ -415,10 +621,27 @@ const GameSimulator = () => {
                       key={index}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="bg-green-600 rounded px-2 py-1 text-xs text-white cursor-pointer hover:bg-green-500"
+                      className="bg-green-600 rounded p-2 text-xs text-white cursor-pointer hover:bg-green-500 min-w-24"
                       onClick={() => setShowCardDetail(card)}
                     >
-                      {card.name}
+                      <div className="font-medium">{card.name}</div>
+                      {card.counters > 0 && (
+                        <div className="text-yellow-300">+{card.counters}</div>
+                      )}
+                      {card.attack && (
+                        <div className="text-red-300">ATK: {card.attack + (card.counters || 0)}</div>
+                      )}
+                      {isCurrentPlayer && gameState.phase === 'combat' && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            attackWithFamiliar(card, playerId);
+                          }}
+                          className="mt-1 px-1 py-0.5 bg-red-700 rounded text-xs hover:bg-red-800"
+                        >
+                          Attack
+                        </button>
+                      )}
                     </motion.div>
                   ))
                 )}
@@ -447,7 +670,12 @@ const GameSimulator = () => {
                 player.azothRow.map((card, index) => (
                   <div
                     key={index}
-                    className="bg-purple-600 rounded px-2 py-1 text-xs text-white"
+                    className={`rounded px-2 py-1 text-xs text-white transition-all ${
+                      card.rested 
+                        ? 'bg-gray-500 transform rotate-90 opacity-60' 
+                        : 'bg-purple-600 hover:bg-purple-500'
+                    }`}
+                    title={card.rested ? 'Rested (used this turn)' : 'Available'}
                   >
                     {card.name}
                   </div>
@@ -469,25 +697,57 @@ const GameSimulator = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-gray-600 rounded p-2 cursor-pointer hover:bg-gray-500 transition-colors min-w-32"
-                onClick={() => {
-                  if (gameState.phase === 'playing' && isCurrentPlayer) {
-                    playCard(card, playerId);
-                  } else {
-                    setShowCardDetail(card);
-                  }
-                }}
+                onClick={() => setShowCardDetail(card)}
               >
                 <div className="text-sm font-medium text-white">
                   {card.name}
                 </div>
-                <div className="text-xs text-gray-300">Cost: {card.cost}</div>
-                <div className="flex items-center gap-1 mt-1">
-                  {card.elements.map((element, i) => (
-                    <span key={i} className="text-xs">
-                      {element}
-                    </span>
-                  ))}
+                <div className="text-xs text-gray-300">
+                  Elements: {card.elements?.join('') || 'None'}
                 </div>
+                <div className="text-xs text-gray-300">
+                  {card.counters > 0 && `+${card.counters} counters`}
+                </div>
+                
+                {/* Card Action Buttons */}
+                {isCurrentPlayer && (gameState.phase === 'main' || gameState.phase === 'postCombatMain') && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        summonFamiliar(card, playerId, 1);
+                      }}
+                      className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
+                      title="Summon with 1 Azoth"
+                    >
+                      Summon
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        castSpell(card, playerId, 1);
+                      }}
+                      className="px-2 py-1 bg-blue-600 text-xs rounded hover:bg-blue-700"
+                      title="Cast as Spell"
+                    >
+                      Spell
+                    </button>
+                  </div>
+                )}
+                
+                {/* Azoth Placement in Start Phase */}
+                {isCurrentPlayer && gameState.phase === 'start' && gameState.currentPhaseActions.includes('azothPlacement') && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      placeAsAzoth(card, playerId);
+                    }}
+                    className="px-2 py-1 bg-purple-600 text-xs rounded hover:bg-purple-700 mt-2"
+                    title="Place as Azoth resource"
+                  >
+                    Place Azoth
+                  </button>
+                )}
               </motion.div>
             ))}
           </div>
@@ -503,24 +763,103 @@ const GameSimulator = () => {
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-400">Turn {gameState.turn}</span>
           <span className="text-sm text-gray-400">•</span>
-          <span className="text-sm text-gray-400">
+          <span className="text-sm text-gray-400 capitalize">
             Phase: {gameState.phase}
+          </span>
+          <span className="text-sm text-gray-400">•</span>
+          <span className="text-sm text-blue-400">
+            {gameState.players[gameState.currentPlayer]?.name}'s Turn
           </span>
         </div>
       </div>
 
+      {/* Phase Description */}
+      <div className="mb-4 p-3 bg-gray-700 rounded">
+        <div className="text-sm text-gray-300">
+          {gameState.phase === 'setup' && 'Select decks for both players to begin the game.'}
+          {gameState.phase === 'start' && 'Draw cards (first turn only) and optionally place 1 Azoth resource.'}
+          {gameState.phase === 'main' && 'Play cards: Summon familiars, cast spells, or place Azoth resources.'}
+          {gameState.phase === 'combat' && 'Attack with familiars individually. Each attack targets life cards.'}
+          {gameState.phase === 'postCombatMain' && 'Play additional cards if resources allow.'}
+          {gameState.phase === 'refresh' && 'All rested Azoth sources are refreshed (turned vertical).'}
+          {gameState.phase === 'ended' && 'Game Over! One player has no life cards remaining.'}
+        </div>
+        {gameState.currentPhaseActions.length > 0 && (
+          <div className="text-xs text-yellow-400 mt-1">
+            Available actions: {gameState.currentPhaseActions.join(', ')}
+          </div>
+        )}
+      </div>
+
       <div className="flex flex-wrap gap-2">
+        {/* Setup Phase */}
         {gameState.phase === 'setup' && (
           <button
-            onClick={startGame}
+            onClick={startPreGame}
             className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
           >
-            <Play size={16} />
-            <span>Start Game</span>
+            <Flag size={16} />
+            <span>Start Pre-Game Setup</span>
           </button>
         )}
 
-        {gameState.phase === 'playing' && (
+        {/* Start Phase */}
+        {gameState.phase === 'start' && (
+          <>
+            <button
+              onClick={executeStartPhase}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            >
+              <Play size={16} />
+              <span>Execute Start Phase</span>
+            </button>
+            <button
+              onClick={moveToMainPhase}
+              className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+            >
+              <Target size={16} />
+              <span>Move to Main Phase</span>
+            </button>
+          </>
+        )}
+
+        {/* Main Phase */}
+        {gameState.phase === 'main' && (
+          <>
+            <button
+              onClick={moveToCombatPhase}
+              className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+            >
+              <Swords size={16} />
+              <span>Combat Phase</span>
+            </button>
+          </>
+        )}
+
+        {/* Combat Phase */}
+        {gameState.phase === 'combat' && (
+          <button
+            onClick={moveToPostCombatMain}
+            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors"
+          >
+            <Target size={16} />
+            <span>Post-Combat Main</span>
+          </button>
+        )}
+
+        {/* Post-Combat Main Phase */}
+        {gameState.phase === 'postCombatMain' && (
+          <button
+            onClick={moveToRefreshPhase}
+            className="flex items-center space-x-2 px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
+          >
+            <RefreshCw size={16} />
+            <span>Refresh Phase</span>
+          </button>
+        )}
+
+        {/* Refresh Phase */}
+        {gameState.phase === 'refresh' && (
           <button
             onClick={endTurn}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
@@ -530,30 +869,13 @@ const GameSimulator = () => {
           </button>
         )}
 
+        {/* Universal Controls */}
         <button
           onClick={resetGame}
-          className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
         >
           <RotateCcw size={16} />
           <span>Reset Game</span>
-        </button>
-
-        <button
-          onClick={() =>
-            setGameState({
-              ...gameState,
-              phase: gameState.phase === 'paused' ? 'playing' : 'paused',
-            })
-          }
-          className="flex items-center space-x-2 px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors"
-          disabled={gameState.phase === 'setup'}
-        >
-          {gameState.phase === 'paused' ? (
-            <Play size={16} />
-          ) : (
-            <Pause size={16} />
-          )}
-          <span>{gameState.phase === 'paused' ? 'Resume' : 'Pause'}</span>
         </button>
       </div>
     </div>
@@ -575,7 +897,7 @@ const GameSimulator = () => {
                   key={deck.id}
                   onClick={() => selectDeck(deck, playerId)}
                   className={`w-full text-left p-3 rounded border transition-colors ${
-                    gameState.players[playerId].deck?.id === deck.id
+                    gameState.players[playerId].selectedDeck?.id === deck.id
                       ? 'border-blue-500 bg-blue-500/20 text-white'
                       : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
