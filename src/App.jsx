@@ -21,7 +21,7 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 import UnifiedResources from './pages/UnifiedResources';
 import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
 import CardDetail from './pages/CardDetail';
-import YugiohGame from './pages/YugiohGame';
+
 
 function App() {
   return (
@@ -37,10 +37,7 @@ function App() {
                 {/* Unified Game Platform - All game functionality */}
                 <Route path="/hub" element={<UnifiedGamePlatform />} />
 
-                {/* Yu-Gi-Oh! Game */}
-                <Route path="/yugioh" element={<YugiohGame />} />
-                <Route path="/duel" element={<YugiohGame />} />
-                <Route path="/game" element={<YugiohGame />} />
+
 
                 {/* Card Detail Pages */}
                 <Route path="/card/:cardId" element={<CardDetail />} />
