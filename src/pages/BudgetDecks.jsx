@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  DollarSign, 
-  TrendingUp, 
-  Star, 
+import {
+  DollarSign,
+  TrendingUp,
+  Star,
   Filter,
   Search,
   Download,
@@ -12,7 +12,7 @@ import {
   Trophy,
   Users,
   Clock,
-  Target
+  Target,
 } from 'lucide-react';
 
 const BudgetDecks = () => {
@@ -34,7 +34,8 @@ const BudgetDecks = () => {
       popularity: 15.2,
       difficulty: 'Easy',
       archetype: 'Aggro',
-      description: 'Fast and aggressive deck that wins through direct damage and quick creatures.',
+      description:
+        'Fast and aggressive deck that wins through direct damage and quick creatures.',
       keyCards: ['Lightning Strike', 'Flame Burst', 'Quick Draw'],
       author: 'BudgetMaster',
       dateCreated: '2024-06-10',
@@ -46,12 +47,12 @@ const BudgetDecks = () => {
         tier2Price: 85,
         tier3Price: 150,
         tier2Cards: ['Premium Lightning', 'Elite Flame Dancer'],
-        tier3Cards: ['Legendary Fire Sword', 'Ancient Flame Spirit']
-      }
+        tier3Cards: ['Legendary Fire Sword', 'Ancient Flame Spirit'],
+      },
     },
     {
       id: 2,
-      name: 'Nature\'s Might',
+      name: "Nature's Might",
       hero: 'Grove Guardian Elm',
       format: 'Standard',
       price: 38,
@@ -59,8 +60,9 @@ const BudgetDecks = () => {
       popularity: 12.8,
       difficulty: 'Medium',
       archetype: 'Midrange',
-      description: 'Balanced deck using nature\'s power with efficient creatures and spells.',
-      keyCards: ['Forest Growth', 'Wild Companion', 'Nature\'s Blessing'],
+      description:
+        "Balanced deck using nature's power with efficient creatures and spells.",
+      keyCards: ['Forest Growth', 'Wild Companion', "Nature's Blessing"],
       author: 'EcoWarrior',
       dateCreated: '2024-06-08',
       matches: 892,
@@ -71,8 +73,8 @@ const BudgetDecks = () => {
         tier2Price: 75,
         tier3Price: 140,
         tier2Cards: ['Ancient Grove', 'Elite Guardian'],
-        tier3Cards: ['World Tree', 'Gaia\'s Champion']
-      }
+        tier3Cards: ['World Tree', "Gaia's Champion"],
+      },
     },
     {
       id: 3,
@@ -84,7 +86,8 @@ const BudgetDecks = () => {
       popularity: 9.4,
       difficulty: 'Hard',
       archetype: 'Combo',
-      description: 'Complex combo deck that manipulates shadows for powerful late-game plays.',
+      description:
+        'Complex combo deck that manipulates shadows for powerful late-game plays.',
       keyCards: ['Shadow Manipulation', 'Dark Ritual', 'Void Walker'],
       author: 'ComboKing',
       dateCreated: '2024-06-05',
@@ -96,8 +99,8 @@ const BudgetDecks = () => {
         tier2Price: 95,
         tier3Price: 180,
         tier2Cards: ['Master Shadow Weaver', 'Elite Void Walker'],
-        tier3Cards: ['Legendary Shadow Realm', 'Ancient Darkness']
-      }
+        tier3Cards: ['Legendary Shadow Realm', 'Ancient Darkness'],
+      },
     },
     {
       id: 4,
@@ -109,7 +112,8 @@ const BudgetDecks = () => {
       popularity: 11.7,
       difficulty: 'Easy',
       archetype: 'Control',
-      description: 'Defensive control deck that wins through attrition and powerful late-game threats.',
+      description:
+        'Defensive control deck that wins through attrition and powerful late-game threats.',
       keyCards: ['Steel Barrier', 'Defensive Stance', 'Iron Resolve'],
       author: 'DefenseFirst',
       dateCreated: '2024-06-12',
@@ -121,8 +125,8 @@ const BudgetDecks = () => {
         tier2Price: 80,
         tier3Price: 160,
         tier2Cards: ['Fortress Wall', 'Elite Guardian'],
-        tier3Cards: ['Legendary Fortress', 'Immortal Defender']
-      }
+        tier3Cards: ['Legendary Fortress', 'Immortal Defender'],
+      },
     },
     {
       id: 5,
@@ -134,7 +138,8 @@ const BudgetDecks = () => {
       popularity: 8.9,
       difficulty: 'Medium',
       archetype: 'Tempo',
-      description: 'Tempo-based deck that controls the pace of the game with efficient threats.',
+      description:
+        'Tempo-based deck that controls the pace of the game with efficient threats.',
       keyCards: ['Wind Slash', 'Swift Strike', 'Aerial Maneuver'],
       author: 'TempoMaster',
       dateCreated: '2024-06-07',
@@ -146,8 +151,8 @@ const BudgetDecks = () => {
         tier2Price: 90,
         tier3Price: 170,
         tier2Cards: ['Master Wind Walker', 'Elite Aerial Unit'],
-        tier3Cards: ['Legendary Storm Lord', 'Ancient Wind Spirit']
-      }
+        tier3Cards: ['Legendary Storm Lord', 'Ancient Wind Spirit'],
+      },
     },
     {
       id: 6,
@@ -159,7 +164,8 @@ const BudgetDecks = () => {
       popularity: 7.3,
       difficulty: 'Hard',
       archetype: 'Ramp',
-      description: 'Artifact-based ramp deck that builds towards powerful late-game constructs.',
+      description:
+        'Artifact-based ramp deck that builds towards powerful late-game constructs.',
       keyCards: ['Scrap Assembly', 'Gear Works', 'Mechanical Marvel'],
       author: 'ArtifactLover',
       dateCreated: '2024-06-03',
@@ -171,28 +177,31 @@ const BudgetDecks = () => {
         tier2Price: 105,
         tier3Price: 200,
         tier2Cards: ['Master Tinker', 'Elite Construct'],
-        tier3Cards: ['Legendary Workshop', 'Ancient Automaton']
-      }
-    }
+        tier3Cards: ['Legendary Workshop', 'Ancient Automaton'],
+      },
+    },
   ]);
 
   const [priceRanges] = useState([
     { value: 'ultra', label: 'Ultra Budget (<$30)', max: 30 },
     { value: 'budget', label: 'Budget ($30-$60)', max: 60 },
     { value: 'mid', label: 'Mid Budget ($60-$100)', max: 100 },
-    { value: 'competitive', label: 'Competitive Budget ($100-$150)', max: 150 }
+    { value: 'competitive', label: 'Competitive Budget ($100-$150)', max: 150 },
   ]);
 
   const filteredDecks = budgetDecks.filter(deck => {
-    const matchesSearch = deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         deck.hero.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         deck.archetype.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesFormat = selectedFormat === 'all' || deck.format.toLowerCase() === selectedFormat.toLowerCase();
-    
+    const matchesSearch =
+      deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      deck.hero.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      deck.archetype.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesFormat =
+      selectedFormat === 'all' ||
+      deck.format.toLowerCase() === selectedFormat.toLowerCase();
+
     const selectedRange = priceRanges.find(range => range.value === priceRange);
     const matchesPrice = !selectedRange || deck.price <= selectedRange.max;
-    
+
     return matchesSearch && matchesFormat && matchesPrice;
   });
 
@@ -213,7 +222,7 @@ const BudgetDecks = () => {
     }
   });
 
-  const toggleFavorite = (deckId) => {
+  const toggleFavorite = deckId => {
     const newFavorites = new Set(favoriteDecks);
     if (newFavorites.has(deckId)) {
       newFavorites.delete(deckId);
@@ -223,24 +232,35 @@ const BudgetDecks = () => {
     setFavoriteDecks(newFavorites);
   };
 
-  const getDifficultyColor = (difficulty) => {
+  const getDifficultyColor = difficulty => {
     switch (difficulty) {
-      case 'Easy': return 'text-green-400';
-      case 'Medium': return 'text-yellow-400';
-      case 'Hard': return 'text-red-400';
-      default: return 'text-gray-400';
+      case 'Easy':
+        return 'text-green-400';
+      case 'Medium':
+        return 'text-yellow-400';
+      case 'Hard':
+        return 'text-red-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
-  const getArchetypeColor = (archetype) => {
+  const getArchetypeColor = archetype => {
     switch (archetype) {
-      case 'Aggro': return 'bg-red-500';
-      case 'Control': return 'bg-blue-500';
-      case 'Midrange': return 'bg-green-500';
-      case 'Combo': return 'bg-purple-500';
-      case 'Tempo': return 'bg-cyan-500';
-      case 'Ramp': return 'bg-yellow-500';
-      default: return 'bg-gray-500';
+      case 'Aggro':
+        return 'bg-red-500';
+      case 'Control':
+        return 'bg-blue-500';
+      case 'Midrange':
+        return 'bg-green-500';
+      case 'Combo':
+        return 'bg-purple-500';
+      case 'Tempo':
+        return 'bg-cyan-500';
+      case 'Ramp':
+        return 'bg-yellow-500';
+      default:
+        return 'bg-gray-500';
     }
   };
 
@@ -271,12 +291,14 @@ const BudgetDecks = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Budget Decks</p>
-                <p className="text-2xl font-bold text-green-400">{budgetDecks.length}</p>
+                <p className="text-2xl font-bold text-green-400">
+                  {budgetDecks.length}
+                </p>
               </div>
               <DollarSign className="w-8 h-8 text-green-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -286,7 +308,7 @@ const BudgetDecks = () => {
               <Trophy className="w-8 h-8 text-blue-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -296,7 +318,7 @@ const BudgetDecks = () => {
               <Target className="w-8 h-8 text-purple-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -322,7 +344,7 @@ const BudgetDecks = () => {
                 type="text"
                 placeholder="Search decks..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
@@ -330,7 +352,7 @@ const BudgetDecks = () => {
             {/* Format */}
             <select
               value={selectedFormat}
-              onChange={(e) => setSelectedFormat(e.target.value)}
+              onChange={e => setSelectedFormat(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Formats</option>
@@ -342,18 +364,20 @@ const BudgetDecks = () => {
             {/* Price Range */}
             <select
               value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
+              onChange={e => setPriceRange(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               {priceRanges.map(range => (
-                <option key={range.value} value={range.value}>{range.label}</option>
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
               ))}
             </select>
 
             {/* Sort By */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="popularity">Most Popular</option>
@@ -377,7 +401,7 @@ const BudgetDecks = () => {
           animate={{ opacity: 1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {sortedDecks.map((deck) => (
+          {sortedDecks.map(deck => (
             <motion.div
               key={deck.id}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -395,24 +419,30 @@ const BudgetDecks = () => {
                   <button
                     onClick={() => toggleFavorite(deck.id)}
                     className={`p-2 rounded-full transition-colors ${
-                      favoriteDecks.has(deck.id) 
-                        ? 'text-red-400 hover:text-red-300' 
+                      favoriteDecks.has(deck.id)
+                        ? 'text-red-400 hover:text-red-300'
                         : 'text-gray-400 hover:text-red-400'
                     }`}
                   >
-                    <Heart className={`w-5 h-5 ${favoriteDecks.has(deck.id) ? 'fill-current' : ''}`} />
+                    <Heart
+                      className={`w-5 h-5 ${favoriteDecks.has(deck.id) ? 'fill-current' : ''}`}
+                    />
                   </button>
                 </div>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getArchetypeColor(deck.archetype)} text-white`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getArchetypeColor(deck.archetype)} text-white`}
+                  >
                     {deck.archetype}
                   </span>
                   <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-600 text-white">
                     {deck.format}
                   </span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(deck.difficulty)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(deck.difficulty)}`}
+                  >
                     {deck.difficulty}
                   </span>
                 </div>
@@ -420,15 +450,21 @@ const BudgetDecks = () => {
                 {/* Price and Stats */}
                 <div className="grid grid-cols-3 gap-4 mb-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400">${deck.price}</div>
+                    <div className="text-2xl font-bold text-green-400">
+                      ${deck.price}
+                    </div>
                     <div className="text-gray-400 text-xs">Total Cost</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl font-bold text-blue-400">{deck.winRate}%</div>
+                    <div className="text-xl font-bold text-blue-400">
+                      {deck.winRate}%
+                    </div>
                     <div className="text-gray-400 text-xs">Win Rate</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl font-bold text-purple-400">{deck.popularity}%</div>
+                    <div className="text-xl font-bold text-purple-400">
+                      {deck.popularity}%
+                    </div>
                     <div className="text-gray-400 text-xs">Meta Share</div>
                   </div>
                 </div>
@@ -438,10 +474,15 @@ const BudgetDecks = () => {
 
                 {/* Key Cards */}
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-400 mb-2">Key Cards:</h4>
+                  <h4 className="text-sm font-medium text-gray-400 mb-2">
+                    Key Cards:
+                  </h4>
                   <div className="flex flex-wrap gap-1">
                     {deck.keyCards.map((card, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-700 rounded text-xs">
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-gray-700 rounded text-xs"
+                      >
                         {card}
                       </span>
                     ))}
@@ -450,10 +491,18 @@ const BudgetDecks = () => {
 
                 {/* Upgrade Path */}
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-400 mb-2">Upgrade Path:</h4>
+                  <h4 className="text-sm font-medium text-gray-400 mb-2">
+                    Upgrade Path:
+                  </h4>
                   <div className="text-xs text-gray-300 space-y-1">
-                    <div>Tier 2: ${deck.upgradePath.tier2Price} (+{deck.upgradePath.tier2Cards.join(', ')})</div>
-                    <div>Tier 3: ${deck.upgradePath.tier3Price} (+{deck.upgradePath.tier3Cards.join(', ')})</div>
+                    <div>
+                      Tier 2: ${deck.upgradePath.tier2Price} (+
+                      {deck.upgradePath.tier2Cards.join(', ')})
+                    </div>
+                    <div>
+                      Tier 3: ${deck.upgradePath.tier3Price} (+
+                      {deck.upgradePath.tier3Cards.join(', ')})
+                    </div>
                   </div>
                 </div>
 
@@ -491,7 +540,9 @@ const BudgetDecks = () => {
             className="text-center py-12"
           >
             <DollarSign className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-400 mb-2">No budget decks found</h3>
+            <h3 className="text-xl font-bold text-gray-400 mb-2">
+              No budget decks found
+            </h3>
             <p className="text-gray-500">Try adjusting your search criteria</p>
           </motion.div>
         )}

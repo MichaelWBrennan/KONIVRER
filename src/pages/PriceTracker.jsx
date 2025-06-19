@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  DollarSign, 
-  Search, 
+import {
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Search,
   Filter,
   Bell,
   BarChart3,
   Calendar,
   Target,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 
 const PriceTracker = () => {
@@ -28,15 +28,15 @@ const PriceTracker = () => {
       set: 'Core Set 2024',
       rarity: 'Legendary',
       currentPrice: 45.99,
-      previousPrice: 38.50,
+      previousPrice: 38.5,
       priceChange: 7.49,
       percentChange: 19.5,
       format: 'Standard',
       marketCap: 125000,
       volume24h: 2500,
       image: '/api/placeholder/150/200',
-      priceHistory: [38.50, 39.20, 41.00, 43.50, 45.99],
-      alerts: 3
+      priceHistory: [38.5, 39.2, 41.0, 43.5, 45.99],
+      alerts: 3,
     },
     {
       id: 2,
@@ -44,31 +44,31 @@ const PriceTracker = () => {
       set: 'Elemental Rising',
       rarity: 'Legendary',
       currentPrice: 32.75,
-      previousPrice: 35.20,
+      previousPrice: 35.2,
       priceChange: -2.45,
       percentChange: -7.0,
       format: 'Standard',
       marketCap: 89000,
       volume24h: 1800,
       image: '/api/placeholder/150/200',
-      priceHistory: [35.20, 34.80, 33.90, 33.10, 32.75],
-      alerts: 1
+      priceHistory: [35.2, 34.8, 33.9, 33.1, 32.75],
+      alerts: 1,
     },
     {
       id: 3,
       name: 'Lightning Strike',
       set: 'Core Set 2024',
       rarity: 'Common',
-      currentPrice: 2.50,
-      previousPrice: 1.80,
-      priceChange: 0.70,
+      currentPrice: 2.5,
+      previousPrice: 1.8,
+      priceChange: 0.7,
       percentChange: 38.9,
       format: 'Standard',
       marketCap: 15000,
       volume24h: 5200,
       image: '/api/placeholder/150/200',
-      priceHistory: [1.80, 1.95, 2.10, 2.30, 2.50],
-      alerts: 8
+      priceHistory: [1.8, 1.95, 2.1, 2.3, 2.5],
+      alerts: 8,
     },
     {
       id: 4,
@@ -76,15 +76,15 @@ const PriceTracker = () => {
       set: 'Lands of Power',
       rarity: 'Rare',
       currentPrice: 18.99,
-      previousPrice: 22.50,
+      previousPrice: 22.5,
       priceChange: -3.51,
       percentChange: -15.6,
       format: 'Legacy',
       marketCap: 45000,
       volume24h: 950,
       image: '/api/placeholder/150/200',
-      priceHistory: [22.50, 21.80, 20.50, 19.75, 18.99],
-      alerts: 2
+      priceHistory: [22.5, 21.8, 20.5, 19.75, 18.99],
+      alerts: 2,
     },
     {
       id: 5,
@@ -92,39 +92,46 @@ const PriceTracker = () => {
       set: 'Artifacts Unleashed',
       rarity: 'Mythic',
       currentPrice: 89.99,
-      previousPrice: 75.00,
+      previousPrice: 75.0,
       priceChange: 14.99,
       percentChange: 20.0,
       format: 'Legacy',
       marketCap: 180000,
       volume24h: 750,
       image: '/api/placeholder/150/200',
-      priceHistory: [75.00, 78.50, 82.00, 86.25, 89.99],
-      alerts: 12
-    }
+      priceHistory: [75.0, 78.5, 82.0, 86.25, 89.99],
+      alerts: 12,
+    },
   ]);
 
   const [topMovers] = useState({
     gainers: [
-      { name: 'Lightning Strike', change: 38.9, price: 2.50 },
+      { name: 'Lightning Strike', change: 38.9, price: 2.5 },
       { name: 'Ancient Relic', change: 20.0, price: 89.99 },
-      { name: 'Vynnset, Iron Maiden', change: 19.5, price: 45.99 }
+      { name: 'Vynnset, Iron Maiden', change: 19.5, price: 45.99 },
     ],
     losers: [
       { name: 'Mystic Sanctuary', change: -15.6, price: 18.99 },
       { name: 'Briar, Warden of Thorns', change: -7.0, price: 32.75 },
-      { name: 'Storm Caller', change: -5.2, price: 12.50 }
-    ]
+      { name: 'Storm Caller', change: -5.2, price: 12.5 },
+    ],
   });
 
   const filteredCards = priceData.filter(card => {
-    const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFormat = selectedFormat === 'all' || card.format.toLowerCase() === selectedFormat.toLowerCase();
-    const matchesPrice = priceFilter === 'all' || 
+    const matchesSearch = card.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesFormat =
+      selectedFormat === 'all' ||
+      card.format.toLowerCase() === selectedFormat.toLowerCase();
+    const matchesPrice =
+      priceFilter === 'all' ||
       (priceFilter === 'budget' && card.currentPrice < 10) ||
-      (priceFilter === 'mid' && card.currentPrice >= 10 && card.currentPrice < 50) ||
+      (priceFilter === 'mid' &&
+        card.currentPrice >= 10 &&
+        card.currentPrice < 50) ||
       (priceFilter === 'high' && card.currentPrice >= 50);
-    
+
     return matchesSearch && matchesFormat && matchesPrice;
   });
 
@@ -175,7 +182,7 @@ const PriceTracker = () => {
               <BarChart3 className="w-8 h-8 text-green-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -185,7 +192,7 @@ const PriceTracker = () => {
               <TrendingUp className="w-8 h-8 text-blue-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -195,7 +202,7 @@ const PriceTracker = () => {
               <Bell className="w-8 h-8 text-yellow-400" />
             </div>
           </div>
-          
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
@@ -221,10 +228,15 @@ const PriceTracker = () => {
             </h3>
             <div className="space-y-3">
               {topMovers.gainers.map((card, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg"
+                >
                   <span className="font-medium">{card.name}</span>
                   <div className="text-right">
-                    <div className="text-green-400 font-bold">+{card.change}%</div>
+                    <div className="text-green-400 font-bold">
+                      +{card.change}%
+                    </div>
                     <div className="text-gray-400 text-sm">${card.price}</div>
                   </div>
                 </div>
@@ -240,7 +252,10 @@ const PriceTracker = () => {
             </h3>
             <div className="space-y-3">
               {topMovers.losers.map((card, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg"
+                >
                   <span className="font-medium">{card.name}</span>
                   <div className="text-right">
                     <div className="text-red-400 font-bold">{card.change}%</div>
@@ -266,7 +281,7 @@ const PriceTracker = () => {
                 type="text"
                 placeholder="Search cards..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
@@ -274,7 +289,7 @@ const PriceTracker = () => {
             {/* Format Filter */}
             <select
               value={selectedFormat}
-              onChange={(e) => setSelectedFormat(e.target.value)}
+              onChange={e => setSelectedFormat(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Formats</option>
@@ -286,7 +301,7 @@ const PriceTracker = () => {
             {/* Price Filter */}
             <select
               value={priceFilter}
-              onChange={(e) => setPriceFilter(e.target.value)}
+              onChange={e => setPriceFilter(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Prices</option>
@@ -298,7 +313,7 @@ const PriceTracker = () => {
             {/* Time Range */}
             <select
               value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
+              onChange={e => setTimeRange(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="1d">24 Hours</option>
@@ -310,7 +325,7 @@ const PriceTracker = () => {
             {/* Sort By */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
               className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
             >
               <option value="price_change">Price Change</option>
@@ -327,7 +342,7 @@ const PriceTracker = () => {
           animate={{ opacity: 1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {sortedCards.map((card) => (
+          {sortedCards.map(card => (
             <motion.div
               key={card.id}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -338,7 +353,9 @@ const PriceTracker = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <h3 className="font-bold text-lg mb-1">{card.name}</h3>
-                  <p className="text-gray-400 text-sm">{card.set} • {card.rarity}</p>
+                  <p className="text-gray-400 text-sm">
+                    {card.set} • {card.rarity}
+                  </p>
                 </div>
                 {card.alerts > 0 && (
                   <div className="flex items-center text-yellow-400">
@@ -353,14 +370,17 @@ const PriceTracker = () => {
                   <div className="text-2xl font-bold">${card.currentPrice}</div>
                   <div className="text-gray-400 text-sm">Current Price</div>
                 </div>
-                <div className={`flex items-center ${card.percentChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <div
+                  className={`flex items-center ${card.percentChange >= 0 ? 'text-green-400' : 'text-red-400'}`}
+                >
                   {card.percentChange >= 0 ? (
                     <TrendingUp className="w-4 h-4 mr-1" />
                   ) : (
                     <TrendingDown className="w-4 h-4 mr-1" />
                   )}
                   <span className="font-bold">
-                    {card.percentChange >= 0 ? '+' : ''}{card.percentChange}%
+                    {card.percentChange >= 0 ? '+' : ''}
+                    {card.percentChange}%
                   </span>
                 </div>
               </div>
@@ -368,11 +388,15 @@ const PriceTracker = () => {
               <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
                 <div>
                   <div className="text-gray-400">24h Volume</div>
-                  <div className="font-medium">{card.volume24h.toLocaleString()}</div>
+                  <div className="font-medium">
+                    {card.volume24h.toLocaleString()}
+                  </div>
                 </div>
                 <div>
                   <div className="text-gray-400">Market Cap</div>
-                  <div className="font-medium">${(card.marketCap / 1000).toFixed(0)}K</div>
+                  <div className="font-medium">
+                    ${(card.marketCap / 1000).toFixed(0)}K
+                  </div>
                 </div>
               </div>
 
@@ -396,7 +420,9 @@ const PriceTracker = () => {
             className="text-center py-12"
           >
             <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-400 mb-2">No cards found</h3>
+            <h3 className="text-xl font-bold text-gray-400 mb-2">
+              No cards found
+            </h3>
             <p className="text-gray-500">Try adjusting your search criteria</p>
           </motion.div>
         )}
