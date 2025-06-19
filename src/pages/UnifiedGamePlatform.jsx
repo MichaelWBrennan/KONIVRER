@@ -160,9 +160,11 @@ const UnifiedGamePlatform = () => {
 
   // Get current section data
   const currentSection = sections.find(section => section.id === activeSection);
-  
+
   // Get current feature data
-  const currentFeature = currentSection?.features?.find(feature => feature.id === activeFeature) || currentSection?.features?.[0];
+  const currentFeature =
+    currentSection?.features?.find(feature => feature.id === activeFeature) ||
+    currentSection?.features?.[0];
 
   // Platform statistics
   const platformStats = [
@@ -319,7 +321,8 @@ const UnifiedGamePlatform = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                  activeFeature === feature.id || (!activeFeature && index === 0)
+                  activeFeature === feature.id ||
+                  (!activeFeature && index === 0)
                     ? 'bg-white/20 text-white border border-white/40'
                     : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/15 hover:text-white'
                 }`}
@@ -348,11 +351,11 @@ const UnifiedGamePlatform = () => {
                   {currentSection.name}
                 </span>
               </div>
-              
+
               {/* Render the component */}
               <div className="min-h-[400px]">
                 {currentFeature.component && (
-                  <currentFeature.component 
+                  <currentFeature.component
                     deck={{ name: 'New Deck', cards: [] }}
                     onDeckChange={() => {}}
                     cards={[]}
@@ -375,7 +378,8 @@ const UnifiedGamePlatform = () => {
               {currentSection?.name} - Coming Soon
             </h2>
             <p className="text-gray-300 mb-6">
-              This feature is currently under development. Check back soon for updates!
+              This feature is currently under development. Check back soon for
+              updates!
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {currentSection?.features?.map((feature, index) => (
@@ -383,7 +387,9 @@ const UnifiedGamePlatform = () => {
                   key={feature.id}
                   className="bg-white/5 rounded-lg p-4 border border-white/10"
                 >
-                  <h3 className="font-semibold text-white mb-2">{feature.name}</h3>
+                  <h3 className="font-semibold text-white mb-2">
+                    {feature.name}
+                  </h3>
                   <p className="text-sm text-gray-400">
                     {feature.component ? 'Available' : 'Coming Soon'}
                   </p>
