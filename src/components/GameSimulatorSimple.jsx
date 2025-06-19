@@ -75,15 +75,17 @@ const GameSimulatorSimple = () => {
 
             {/* KONIVRER Game Field Layout */}
             <div className="mb-8">
-              <h3 className="text-xl font-bold mb-4 text-center">KONIVRER Game Field</h3>
-              
+              <h3 className="text-xl font-bold mb-4 text-center">
+                KONIVRER Game Field
+              </h3>
+
               {/* Player 2 Area (Top) */}
               <div className="mb-4 p-4 bg-red-500/20 rounded-lg border border-red-500/30">
                 <div className="text-center mb-2">
                   <h4 className="font-bold">Player 2</h4>
                   <div className="text-sm">Life: 4000 | Hand: 5 | Azoth: 3</div>
                 </div>
-                
+
                 <div className="grid grid-cols-7 gap-2 mb-2">
                   {/* Player 2 zones */}
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-2 text-center text-xs rounded">
@@ -100,21 +102,25 @@ const GameSimulatorSimple = () => {
                     <div>FROM PLAY</div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-7 gap-2">
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-2 text-center text-xs rounded">
                     <div>LIFE</div>
                   </div>
                   <div className="bg-gray-800 border-2 border-dashed border-gray-400 p-4 text-center text-sm rounded col-span-4">
                     <div className="font-bold">Field</div>
-                    <div className="text-xs mt-1">Where Familiars and Spells are played</div>
+                    <div className="text-xs mt-1">
+                      Where Familiars and Spells are played
+                    </div>
                   </div>
                   <div className="col-span-2"></div>
                 </div>
-                
+
                 <div className="mt-2">
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-1 text-center text-xs rounded">
-                    <div>Azoth Row - Where Azoth cards are placed as resources</div>
+                    <div>
+                      Azoth Row - Where Azoth cards are placed as resources
+                    </div>
                   </div>
                 </div>
               </div>
@@ -123,21 +129,25 @@ const GameSimulatorSimple = () => {
               <div className="p-4 bg-blue-500/20 rounded-lg border border-blue-500/30">
                 <div className="mb-2">
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-1 text-center text-xs rounded">
-                    <div>Azoth Row - Where Azoth cards are placed as resources</div>
+                    <div>
+                      Azoth Row - Where Azoth cards are placed as resources
+                    </div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-7 gap-2 mb-2">
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-2 text-center text-xs rounded">
                     <div>LIFE</div>
                   </div>
                   <div className="bg-gray-800 border-2 border-dashed border-gray-400 p-4 text-center text-sm rounded col-span-4">
                     <div className="font-bold">Field</div>
-                    <div className="text-xs mt-1">Where Familiars and Spells are played</div>
+                    <div className="text-xs mt-1">
+                      Where Familiars and Spells are played
+                    </div>
                   </div>
                   <div className="col-span-2"></div>
                 </div>
-                
+
                 <div className="grid grid-cols-7 gap-2">
                   <div className="bg-gray-700 border-2 border-dashed border-gray-500 p-2 text-center text-xs rounded">
                     <div>FLAG</div>
@@ -153,7 +163,7 @@ const GameSimulatorSimple = () => {
                     <div>FROM PLAY</div>
                   </div>
                 </div>
-                
+
                 <div className="text-center mt-2">
                   <h4 className="font-bold">Player 1</h4>
                   <div className="text-sm">Life: 4000 | Hand: 5 | Azoth: 3</div>
@@ -165,14 +175,36 @@ const GameSimulatorSimple = () => {
             <div className="mb-6 bg-gray-800/50 rounded-lg p-4">
               <h4 className="font-bold mb-2">Game Zones:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                <div><strong>Field:</strong> Where Familiars and Spells are played</div>
-                <div><strong>Combat Row:</strong> Designated area for Familiar battles</div>
-                <div><strong>Azoth Row:</strong> Where Azoth cards are placed as resources</div>
-                <div><strong>Deck:</strong> Your draw pile for the duration of the game</div>
-                <div><strong>Life:</strong> 4 cards face down, revealed as damage is taken</div>
-                <div><strong>Flag:</strong> Shows elements your deck abides by and bonus damage</div>
-                <div><strong>Removed from Play:</strong> Cards affected by the Void keyword</div>
-                <div><strong>Player's Hand:</strong> Cards not yet played</div>
+                <div>
+                  <strong>Field:</strong> Where Familiars and Spells are played
+                </div>
+                <div>
+                  <strong>Combat Row:</strong> Designated area for Familiar
+                  battles
+                </div>
+                <div>
+                  <strong>Azoth Row:</strong> Where Azoth cards are placed as
+                  resources
+                </div>
+                <div>
+                  <strong>Deck:</strong> Your draw pile for the duration of the
+                  game
+                </div>
+                <div>
+                  <strong>Life:</strong> 4 cards face down, revealed as damage
+                  is taken
+                </div>
+                <div>
+                  <strong>Flag:</strong> Shows elements your deck abides by and
+                  bonus damage
+                </div>
+                <div>
+                  <strong>Removed from Play:</strong> Cards affected by the Void
+                  keyword
+                </div>
+                <div>
+                  <strong>Player's Hand:</strong> Cards not yet played
+                </div>
               </div>
             </div>
 
