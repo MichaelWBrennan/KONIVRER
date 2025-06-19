@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  Search,
-  Filter,
-} from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 
 // Import existing components
 import CardViewer from '../components/CardViewer';
@@ -181,8 +178,6 @@ const UnifiedGamePlatform = () => {
     },
   ];
 
-
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -193,13 +188,11 @@ const UnifiedGamePlatform = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold text-white mb-4">
-
             Game Platform
             <span className="ml-3 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium rounded-full">
               UNIFIED
             </span>
           </h1>
-
         </motion.div>
 
         {/* Platform Stats */}
@@ -286,8 +279,7 @@ const UnifiedGamePlatform = () => {
                 className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-10`}
               />
               <div className="relative z-10">
-                <div className="flex items-center justify-center mb-3">
-                </div>
+                <div className="flex items-center justify-center mb-3"></div>
                 <h3 className="font-semibold text-white text-center mb-2">
                   {section.name}
                 </h3>
@@ -295,8 +287,6 @@ const UnifiedGamePlatform = () => {
             </motion.button>
           ))}
         </motion.div>
-
-
       </div>
     </div>
   );

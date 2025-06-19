@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 import { motion } from 'framer-motion';
@@ -83,8 +82,6 @@ const Home = () => {
               </Link>
             </div>
           </motion.div>
-
-
         </div>
       </section>
 
@@ -98,9 +95,7 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-          >
-
-          </motion.div>
+          ></motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {dynamicStats.map((stat, index) => {
@@ -135,9 +130,7 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-          >
-
-          </motion.div>
+          ></motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {features.map((feature, index) => {
@@ -199,9 +192,7 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div>
-
-            </div>
+            <div></div>
             <Link to="/decklists" className="btn btn-ghost">
               View All
             </Link>
@@ -264,8 +255,6 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link to="/decklists" className="btn btn-primary btn-lg">
                 Start Building
