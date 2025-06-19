@@ -373,7 +373,6 @@ This was the beginning of the end, or perhaps, the beginning of something far wo
           <h1 className="text-4xl font-bold text-white mb-4">
             World of KONIVRER
           </h1>
-
         </div>
 
         {/* Category Tabs */}
