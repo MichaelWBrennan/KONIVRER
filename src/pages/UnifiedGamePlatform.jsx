@@ -59,7 +59,7 @@ const UnifiedGamePlatform = () => {
   }, [searchParams]);
 
   // Update URL when section changes
-  const updateURL = (section) => {
+  const updateURL = section => {
     setSearchParams({ section });
     setActiveSection(section);
   };
@@ -73,11 +73,31 @@ const UnifiedGamePlatform = () => {
       description: 'Explore cards, spoilers, and synergies',
       color: 'from-blue-500 to-cyan-500',
       features: [
-        { id: 'cards', name: 'Card Database', icon: Database, component: CardViewer },
-        { id: 'spoilers', name: 'Spoilers & Previews', icon: Eye, component: CardViewer },
-        { id: 'synergy', name: 'Card Synergy', icon: Zap, component: CardSynergy },
-        { id: 'commanders', name: 'Commander Hub', icon: Crown, component: CommanderRecommendations },
-      ]
+        {
+          id: 'cards',
+          name: 'Card Database',
+          icon: Database,
+          component: CardViewer,
+        },
+        {
+          id: 'spoilers',
+          name: 'Spoilers & Previews',
+          icon: Eye,
+          component: CardViewer,
+        },
+        {
+          id: 'synergy',
+          name: 'Card Synergy',
+          icon: Zap,
+          component: CardSynergy,
+        },
+        {
+          id: 'commanders',
+          name: 'Commander Hub',
+          icon: Crown,
+          component: CommanderRecommendations,
+        },
+      ],
     },
     {
       id: 'build',
@@ -86,11 +106,26 @@ const UnifiedGamePlatform = () => {
       description: 'Create, optimize, and analyze decks',
       color: 'from-green-500 to-emerald-500',
       features: [
-        { id: 'builder', name: 'Deck Builder', icon: Plus, component: VisualDeckBuilder },
-        { id: 'power', name: 'Power Level', icon: Calculator, component: PowerLevelCalculator },
-        { id: 'stats', name: 'Deck Analytics', icon: BarChart3, component: DeckStats },
+        {
+          id: 'builder',
+          name: 'Deck Builder',
+          icon: Plus,
+          component: VisualDeckBuilder,
+        },
+        {
+          id: 'power',
+          name: 'Power Level',
+          icon: Calculator,
+          component: PowerLevelCalculator,
+        },
+        {
+          id: 'stats',
+          name: 'Deck Analytics',
+          icon: BarChart3,
+          component: DeckStats,
+        },
         { id: 'ai', name: 'AI Assistant', icon: Bot, component: AIAssistant },
-      ]
+      ],
     },
     {
       id: 'analyze',
@@ -99,11 +134,31 @@ const UnifiedGamePlatform = () => {
       description: 'Market trends and competitive analysis',
       color: 'from-purple-500 to-violet-500',
       features: [
-        { id: 'meta', name: 'Metagame', icon: TrendingUp, component: MetaAnalysis },
-        { id: 'prices', name: 'Price Tracker', icon: DollarSign, component: MetaAnalysis },
-        { id: 'trends', name: 'Market Trends', icon: Activity, component: MetaAnalysis },
-        { id: 'tournaments', name: 'Tournament Data', icon: Trophy, component: MetaAnalysis },
-      ]
+        {
+          id: 'meta',
+          name: 'Metagame',
+          icon: TrendingUp,
+          component: MetaAnalysis,
+        },
+        {
+          id: 'prices',
+          name: 'Price Tracker',
+          icon: DollarSign,
+          component: MetaAnalysis,
+        },
+        {
+          id: 'trends',
+          name: 'Market Trends',
+          icon: Activity,
+          component: MetaAnalysis,
+        },
+        {
+          id: 'tournaments',
+          name: 'Tournament Data',
+          icon: Trophy,
+          component: MetaAnalysis,
+        },
+      ],
     },
     {
       id: 'manage',
@@ -112,11 +167,31 @@ const UnifiedGamePlatform = () => {
       description: 'Collections, decks, and progression',
       color: 'from-orange-500 to-red-500',
       features: [
-        { id: 'collection', name: 'Collection', icon: Package, component: CollectionManager },
-        { id: 'portfolio', name: 'Portfolio', icon: PieChart, component: CollectionPortfolio },
-        { id: 'battlepass', name: 'Battle Pass', icon: Trophy, component: BattlePass },
-        { id: 'favorites', name: 'Favorites', icon: Heart, component: CollectionManager },
-      ]
+        {
+          id: 'collection',
+          name: 'Collection',
+          icon: Package,
+          component: CollectionManager,
+        },
+        {
+          id: 'portfolio',
+          name: 'Portfolio',
+          icon: PieChart,
+          component: CollectionPortfolio,
+        },
+        {
+          id: 'battlepass',
+          name: 'Battle Pass',
+          icon: Trophy,
+          component: BattlePass,
+        },
+        {
+          id: 'favorites',
+          name: 'Favorites',
+          icon: Heart,
+          component: CollectionManager,
+        },
+      ],
     },
     {
       id: 'create',
@@ -125,12 +200,27 @@ const UnifiedGamePlatform = () => {
       description: 'Design and customize content',
       color: 'from-pink-500 to-rose-500',
       features: [
-        { id: 'cardmaker', name: 'Card Maker', icon: Palette, component: CardMaker },
-        { id: 'templates', name: 'Templates', icon: Edit3, component: CardMaker },
+        {
+          id: 'cardmaker',
+          name: 'Card Maker',
+          icon: Palette,
+          component: CardMaker,
+        },
+        {
+          id: 'templates',
+          name: 'Templates',
+          icon: Edit3,
+          component: CardMaker,
+        },
         { id: 'gallery', name: 'Gallery', icon: Eye, component: CardMaker },
-        { id: 'share', name: 'Share Creations', icon: Users, component: CardMaker },
-      ]
-    }
+        {
+          id: 'share',
+          name: 'Share Creations',
+          icon: Users,
+          component: CardMaker,
+        },
+      ],
+    },
   ];
 
   // Platform statistics
@@ -173,7 +263,9 @@ const UnifiedGamePlatform = () => {
       <div className="space-y-6">
         {/* Section Header */}
         <div className="text-center">
-          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${section.color} mb-4`}>
+          <div
+            className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${section.color} mb-4`}
+          >
             <section.icon className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">{section.name}</h2>
@@ -212,7 +304,8 @@ const UnifiedGamePlatform = () => {
                 {section.name} Interface
               </h3>
               <p className="text-gray-400">
-                Select a feature above to get started with {section.name.toLowerCase()}
+                Select a feature above to get started with{' '}
+                {section.name.toLowerCase()}
               </p>
             </div>
           </div>
@@ -238,7 +331,8 @@ const UnifiedGamePlatform = () => {
             </span>
           </h1>
           <p className="text-xl text-purple-200 max-w-3xl mx-auto">
-            Your complete gaming ecosystem - discover, build, analyze, manage, and create all in one place
+            Your complete gaming ecosystem - discover, build, analyze, manage,
+            and create all in one place
           </p>
         </motion.div>
 
@@ -324,7 +418,9 @@ const UnifiedGamePlatform = () => {
                   : 'border-white/20 bg-white/10 hover:border-white/30 hover:bg-white/15'
               }`}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-10`} />
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-10`}
+              />
               <div className="relative z-10">
                 <div className="flex items-center justify-center mb-3">
                   <section.icon className="w-8 h-8 text-white" />
