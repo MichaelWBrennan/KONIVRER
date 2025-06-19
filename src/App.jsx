@@ -28,6 +28,9 @@ import UnifiedCards from './pages/UnifiedCards';
 import UnifiedTournaments from './pages/UnifiedTournaments';
 import UnifiedCommunity from './pages/UnifiedCommunity';
 import UnifiedResources from './pages/UnifiedResources';
+import BattlePass from './pages/BattlePass';
+import CardMaker from './pages/CardMaker';
+import ReplayCenter from './pages/ReplayCenter';
 
 function App() {
   return (
@@ -85,6 +88,11 @@ function App() {
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
+
+                {/* New Dueling Nexus Features */}
+                <Route path="/battle-pass" element={<BattlePass />} />
+                <Route path="/card-maker" element={<CardMaker />} />
+                <Route path="/replays" element={<ReplayCenter />} />
 
                 {/* Administrative */}
                 <Route path="/judge-center" element={<JudgeCenter />} />
