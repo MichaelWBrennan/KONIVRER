@@ -27,21 +27,13 @@ const Home = () => {
   const features = [
     {
       icon: Database,
-      title: 'Cards',
+      title: 'Game Hub',
       description:
-        'Browse and search through all KONIVRER cards with advanced filtering and search capabilities in one unified interface.',
-      link: '/cards',
+        'Your unified platform for cards, decks, market analysis, and collection management - everything in one intuitive interface.',
+      link: '/hub',
       gradient: 'from-blue-500 to-cyan-600',
       delay: 0.1,
-    },
-    {
-      icon: Layers,
-      title: 'Decks',
-      description:
-        'Build, manage, and discover decks with our comprehensive deck management tools and intuitive interface.',
-      link: '/decklists',
-      gradient: 'from-purple-500 to-pink-600',
-      delay: 0.2,
+      featured: true,
     },
     {
       icon: Trophy,
@@ -297,7 +289,11 @@ const Home = () => {
                 >
                   <Link
                     to={feature.link}
-                    className="card card-interactive h-full flex flex-col relative overflow-hidden"
+                    className={`card card-interactive h-full flex flex-col relative overflow-hidden ${
+                      feature.featured
+                        ? 'ring-2 ring-blue-500 ring-opacity-50'
+                        : ''
+                    }`}
                   >
                     <div
                       className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300"
@@ -307,6 +303,11 @@ const Home = () => {
                     ></div>
 
                     <div className="relative z-10">
+                      {feature.featured && (
+                        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                          NEW
+                        </div>
+                      )}
                       <div className="flex items-center gap-4 mb-4">
                         <div
                           className={`w-14 h-14 bg-gradient-to-br ${feature.gradient || 'from-blue-500 to-purple-600'} rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}
@@ -316,6 +317,9 @@ const Home = () => {
                         <div className="flex-1">
                           <h3 className="text-lg font-bold text-primary group-hover:text-blue-400 transition-colors">
                             {feature.title}
+                            {feature.featured && (
+                              <span className="ml-2 text-blue-500">✨</span>
+                            )}
                           </h3>
                         </div>
                       </div>
