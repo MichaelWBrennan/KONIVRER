@@ -25,6 +25,9 @@ import {
   Sword,
   Crown,
   Target,
+  Sparkles,
+  Database,
+  Link as LinkIcon,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -34,9 +37,13 @@ import CardViewer from '../components/CardViewer';
 import AdvancedCardFilters from '../components/AdvancedCardFilters';
 import CollectionManager from '../components/CollectionManager';
 import cardsService from '../services/cardsService';
+import CardSpoilers from './CardSpoilers';
+import CardSynergy from './CardSynergy';
+import FormatStaples from './FormatStaples';
 
 const UnifiedCards = () => {
   const { isAuthenticated } = useAuth();
+  const [activeTab, setActiveTab] = useState('database');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
@@ -283,6 +290,37 @@ const UnifiedCards = () => {
           </div>
         </div>
 
+        {/* Tab Navigation */}
+        <div className="bg-gray-800 rounded-lg p-2 mb-6">
+          <div className="flex flex-wrap gap-2">
+            {[
+              { id: 'database', name: 'Card Database', icon: Database, description: 'Search and browse all cards' },
+              { id: 'spoilers', name: 'Spoilers', icon: Sparkles, description: 'Latest card previews' },
+              { id: 'synergy', name: 'Synergy', icon: Zap, description: 'Card interactions' },
+              { id: 'staples', name: 'Format Staples', icon: Star, description: 'Essential cards by format' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                }`}
+              >
+                <tab.icon className="w-5 h-5" />
+                <div className="text-left">
+                  <div className="font-medium">{tab.name}</div>
+                  <div className="text-xs opacity-75">{tab.description}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'database' && (
+          <>
         {/* Unified Search and Filters */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -617,6 +655,28 @@ const UnifiedCards = () => {
             </div>
           </div>
         </div>
+
+          </>
+        )}
+
+        {/* Other Tab Contents */}
+        {activeTab === 'spoilers' && (
+          <div className="bg-gray-800 rounded-lg overflow-hidden">
+            <CardSpoilers />
+          </div>
+        )}
+
+        {activeTab === 'synergy' && (
+          <div className="bg-gray-800 rounded-lg overflow-hidden">
+            <CardSynergy />
+          </div>
+        )}
+
+        {activeTab === 'staples' && (
+          <div className="bg-gray-800 rounded-lg overflow-hidden">
+            <FormatStaples />
+          </div>
+        )}
 
         {/* Card Detail Modal */}
         {selectedCard && (

@@ -79,14 +79,14 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
-    // Cards - unified card browsing and search
+    // Cards - unified card database with spoilers, synergy, and search
     baseNavigation.push({
       name: 'Cards',
       href: '/cards',
       icon: Database,
     });
 
-    // Decks - unified deck management
+    // Decks - unified deck system with building, pricing, budget, and power analysis
     if (isAuthenticated) {
       baseNavigation.push({
         name: 'Decks',
@@ -94,7 +94,6 @@ const Layout = ({ children }) => {
         icon: Layers,
       });
     } else {
-      // Public deck browsing for non-authenticated users
       baseNavigation.push({
         name: 'Decks',
         href: '/deck-discovery',
@@ -102,71 +101,35 @@ const Layout = ({ children }) => {
       });
     }
 
-    // Tournaments - unified competitive features
+    // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
       name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
     });
 
-    // MTGGoldfish-inspired features - always available
+    // Market - all pricing, metagame analysis, and market trends
     baseNavigation.push({
-      name: 'Prices',
-      href: '/prices',
-      icon: DollarSign,
-    });
-
-    baseNavigation.push({
-      name: 'Metagame',
-      href: '/metagame',
+      name: 'Market',
+      href: '/market',
       icon: TrendingUp,
     });
 
+    // Tools - utilities like commanders, collection, battle pass, card maker
     baseNavigation.push({
-      name: 'Budget Decks',
-      href: '/budget-decks',
-      icon: Target,
+      name: 'Tools',
+      href: '/tools',
+      icon: Settings,
     });
 
-    baseNavigation.push({
-      name: 'Deck Pricing',
-      href: '/deck-pricing',
-      icon: Calculator,
-    });
-
-    baseNavigation.push({
-      name: 'Spoilers',
-      href: '/spoilers',
-      icon: Sparkles,
-    });
-
-    // EDHREC-inspired features
-    baseNavigation.push({
-      name: 'Commanders',
-      href: '/commander-recommendations',
-      icon: Crown,
-    });
-
-    baseNavigation.push({
-      name: 'Card Synergy',
-      href: '/card-synergy',
-      icon: Zap,
-    });
-
-    baseNavigation.push({
-      name: 'Power Level',
-      href: '/power-level',
-      icon: BarChart3,
-    });
-
-    // Community - social features
+    // Community - social features and interaction
     baseNavigation.push({
       name: 'Community',
       href: '/social',
       icon: Users,
     });
 
-    // Resources - game knowledge
+    // Resources - game knowledge, lore, and guides
     baseNavigation.push({
       name: 'Resources',
       href: '/lore',
