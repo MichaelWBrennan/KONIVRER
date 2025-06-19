@@ -42,14 +42,8 @@ function App() {
 
                 {/* Cards - Unified card database with all card-related functionality */}
                 <Route path="/cards" element={<UnifiedCards />} />
-                <Route
-                  path="/card-database"
-                  element={<UnifiedCards />}
-                />
-                <Route
-                  path="/advanced-cards"
-                  element={<UnifiedCards />}
-                />
+                <Route path="/card-database" element={<UnifiedCards />} />
+                <Route path="/advanced-cards" element={<UnifiedCards />} />
 
                 {/* Decks - Unified deck system with all deck-related functionality */}
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
@@ -65,10 +59,7 @@ function App() {
                 />
 
                 {/* Tournaments & Events - Unified competitive section */}
-                <Route
-                  path="/tournaments"
-                  element={<UnifiedTournaments />}
-                />
+                <Route path="/tournaments" element={<UnifiedTournaments />} />
                 <Route path="/events" element={<UnifiedTournaments />} />
                 <Route
                   path="/tournaments/create"

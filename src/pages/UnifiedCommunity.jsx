@@ -59,14 +59,14 @@ import {
 
 const UnifiedCommunity = () => {
   const { user, isAuthenticated } = useAuth();
-  
+
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [newPost, setNewPost] = useState('');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'following', 'local'
-  
+
   // Data states
   const [posts, setPosts] = useState([]);
   const [stores, setStores] = useState([]);
@@ -107,7 +107,8 @@ const UnifiedCommunity = () => {
           verified: true,
           rank: 'Champion',
         },
-        content: 'Just won my first tournament with this amazing Aggro Red deck! The meta is shifting and I think this archetype is really undervalued right now. Here\'s my decklist for anyone interested.',
+        content:
+          "Just won my first tournament with this amazing Aggro Red deck! The meta is shifting and I think this archetype is really undervalued right now. Here's my decklist for anyone interested.",
         timestamp: '2 hours ago',
         likes: 45,
         comments: 12,
@@ -125,7 +126,8 @@ const UnifiedCommunity = () => {
           verified: false,
           rank: 'Expert',
         },
-        content: 'Looking for players in the NYC area for weekly draft nights! We meet every Thursday at 7 PM at the Manhattan Gaming Center. All skill levels welcome!',
+        content:
+          'Looking for players in the NYC area for weekly draft nights! We meet every Thursday at 7 PM at the Manhattan Gaming Center. All skill levels welcome!',
         timestamp: '4 hours ago',
         likes: 23,
         comments: 18,
@@ -142,7 +144,8 @@ const UnifiedCommunity = () => {
           verified: true,
           rank: 'Master',
         },
-        content: 'New card spoilers are looking incredible! The design team really outdid themselves with this set. Can\'t wait to start brewing with these new mechanics.',
+        content:
+          "New card spoilers are looking incredible! The design team really outdid themselves with this set. Can't wait to start brewing with these new mechanics.",
         timestamp: '6 hours ago',
         likes: 67,
         comments: 34,
@@ -160,7 +163,7 @@ const UnifiedCommunity = () => {
     const mockStores = [
       {
         id: 1,
-        name: 'Dragon\'s Den Gaming',
+        name: "Dragon's Den Gaming",
         address: '123 Main St, Los Angeles, CA 90210',
         phone: '(555) 123-4567',
         website: 'https://dragonsden.com',
@@ -282,27 +285,28 @@ const UnifiedCommunity = () => {
     });
   };
 
-  const handleLike = (postId) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
-        ? { ...post, likes: post.likes + 1 }
-        : post
-    ));
+  const handleLike = postId => {
+    setPosts(
+      posts.map(post =>
+        post.id === postId ? { ...post, likes: post.likes + 1 } : post,
+      ),
+    );
   };
 
-  const handleShare = (postId) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
-        ? { ...post, shares: post.shares + 1 }
-        : post
-    ));
+  const handleShare = postId => {
+    setPosts(
+      posts.map(post =>
+        post.id === postId ? { ...post, shares: post.shares + 1 } : post,
+      ),
+    );
   };
 
   const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.user.name.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesFilter = 
+    const matchesSearch =
+      post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.user.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesFilter =
       activeFilter === 'all' ||
       (activeFilter === 'local' && post.location) ||
       (activeFilter === 'following' && isAuthenticated);
@@ -310,7 +314,7 @@ const UnifiedCommunity = () => {
     return matchesSearch && matchesFilter;
   });
 
-  const getPostTypeIcon = (type) => {
+  const getPostTypeIcon = type => {
     switch (type) {
       case 'achievement':
         return <Trophy className="text-yellow-400" size={16} />;
@@ -343,7 +347,8 @@ const UnifiedCommunity = () => {
             <div>
               <h1 className="text-4xl font-bold mb-2">Community Hub</h1>
               <p className="text-gray-400">
-                Connect with players, find local stores, and celebrate achievements
+                Connect with players, find local stores, and celebrate
+                achievements
               </p>
             </div>
             {isAuthenticated && (
@@ -363,7 +368,9 @@ const UnifiedCommunity = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Total Members</p>
-                  <p className="text-2xl font-bold">{communityStats.totalMembers?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {communityStats.totalMembers?.toLocaleString()}
+                  </p>
                 </div>
                 <Users className="text-blue-400" size={24} />
               </div>
@@ -372,7 +379,9 @@ const UnifiedCommunity = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Active Today</p>
-                  <p className="text-2xl font-bold">{communityStats.activeToday?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {communityStats.activeToday?.toLocaleString()}
+                  </p>
                 </div>
                 <Activity className="text-green-400" size={24} />
               </div>
@@ -381,7 +390,9 @@ const UnifiedCommunity = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Posts Today</p>
-                  <p className="text-2xl font-bold">{communityStats.postsToday}</p>
+                  <p className="text-2xl font-bold">
+                    {communityStats.postsToday}
+                  </p>
                 </div>
                 <MessageCircle className="text-purple-400" size={24} />
               </div>
@@ -390,7 +401,9 @@ const UnifiedCommunity = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Events This Week</p>
-                  <p className="text-2xl font-bold">{communityStats.eventsThisWeek}</p>
+                  <p className="text-2xl font-bold">
+                    {communityStats.eventsThisWeek}
+                  </p>
                 </div>
                 <Calendar className="text-yellow-400" size={24} />
               </div>
@@ -412,12 +425,15 @@ const UnifiedCommunity = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
               <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search posts, players, or locations..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -426,7 +442,9 @@ const UnifiedCommunity = () => {
                 <button
                   onClick={() => setActiveFilter('all')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeFilter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeFilter === 'all'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   All Posts
@@ -434,7 +452,9 @@ const UnifiedCommunity = () => {
                 <button
                   onClick={() => setActiveFilter('following')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeFilter === 'following' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeFilter === 'following'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Following
@@ -442,7 +462,9 @@ const UnifiedCommunity = () => {
                 <button
                   onClick={() => setActiveFilter('local')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeFilter === 'local' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeFilter === 'local'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Local
@@ -467,7 +489,7 @@ const UnifiedCommunity = () => {
           <div className="xl:col-span-2 space-y-6">
             {/* Social Posts */}
             <div className="space-y-4">
-              {filteredPosts.map((post) => (
+              {filteredPosts.map(post => (
                 <div key={post.id} className="bg-gray-800 rounded-lg p-6">
                   <div className="flex items-start space-x-3 mb-4">
                     <img
@@ -482,9 +504,13 @@ const UnifiedCommunity = () => {
                           <CheckCircle className="text-blue-400" size={16} />
                         )}
                         <span className="text-sm text-gray-400">•</span>
-                        <span className="text-sm text-gray-400">{post.user.rank}</span>
+                        <span className="text-sm text-gray-400">
+                          {post.user.rank}
+                        </span>
                         <span className="text-sm text-gray-400">•</span>
-                        <span className="text-sm text-gray-400">{post.timestamp}</span>
+                        <span className="text-sm text-gray-400">
+                          {post.timestamp}
+                        </span>
                         {getPostTypeIcon(post.type)}
                       </div>
                       {post.location && (
@@ -498,7 +524,7 @@ const UnifiedCommunity = () => {
 
                   <div className="mb-4">
                     <p className="text-gray-100 mb-3">{post.content}</p>
-                    
+
                     {post.images && (
                       <div className="grid grid-cols-2 gap-2 mb-3">
                         {post.images.map((image, index) => (
@@ -565,14 +591,17 @@ const UnifiedCommunity = () => {
                 Nearby Stores
               </h2>
               <div className="space-y-4">
-                {stores.map((store) => (
+                {stores.map(store => (
                   <div key={store.id} className="bg-gray-700 rounded-lg p-4">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <h3 className="font-semibold flex items-center">
                           {store.name}
                           {store.verified && (
-                            <CheckCircle className="ml-1 text-blue-400" size={14} />
+                            <CheckCircle
+                              className="ml-1 text-blue-400"
+                              size={14}
+                            />
                           )}
                         </h3>
                         <div className="text-sm text-gray-400 mt-1">
@@ -598,7 +627,9 @@ const UnifiedCommunity = () => {
                     </div>
 
                     <div className="mb-3">
-                      <h4 className="text-sm font-medium text-gray-300 mb-1">Upcoming Events</h4>
+                      <h4 className="text-sm font-medium text-gray-300 mb-1">
+                        Upcoming Events
+                      </h4>
                       <div className="space-y-1">
                         {store.events.slice(0, 2).map((event, index) => (
                           <div key={index} className="text-xs text-gray-400">
@@ -656,7 +687,7 @@ const UnifiedCommunity = () => {
                 Hall of Fame
               </h2>
               <div className="space-y-4">
-                {hallOfFame.map((player) => (
+                {hallOfFame.map(player => (
                   <div key={player.id} className="bg-gray-700 rounded-lg p-4">
                     <div className="flex items-start space-x-3 mb-3">
                       <img
@@ -666,7 +697,9 @@ const UnifiedCommunity = () => {
                       />
                       <div className="flex-1">
                         <h3 className="font-semibold">{player.name}</h3>
-                        <p className="text-sm text-yellow-400">{player.title}</p>
+                        <p className="text-sm text-yellow-400">
+                          {player.title}
+                        </p>
                         <p className="text-xs text-gray-400">
                           Inducted {player.inducted} • {player.country}
                         </p>
@@ -677,24 +710,38 @@ const UnifiedCommunity = () => {
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div>
                           <span className="text-gray-400">Win Rate:</span>
-                          <span className="ml-1 text-green-400">{player.winRate}%</span>
+                          <span className="ml-1 text-green-400">
+                            {player.winRate}%
+                          </span>
                         </div>
                         <div>
                           <span className="text-gray-400">Tournaments:</span>
-                          <span className="ml-1">{player.totalTournaments}</span>
+                          <span className="ml-1">
+                            {player.totalTournaments}
+                          </span>
                         </div>
                       </div>
                     </div>
 
                     <div className="mb-3">
-                      <h4 className="text-sm font-medium text-gray-300 mb-1">Achievements</h4>
+                      <h4 className="text-sm font-medium text-gray-300 mb-1">
+                        Achievements
+                      </h4>
                       <div className="space-y-1">
-                        {player.achievements.slice(0, 2).map((achievement, index) => (
-                          <div key={index} className="text-xs text-gray-400 flex items-center">
-                            <Medal size={10} className="mr-1 text-yellow-400" />
-                            {achievement}
-                          </div>
-                        ))}
+                        {player.achievements
+                          .slice(0, 2)
+                          .map((achievement, index) => (
+                            <div
+                              key={index}
+                              className="text-xs text-gray-400 flex items-center"
+                            >
+                              <Medal
+                                size={10}
+                                className="mr-1 text-yellow-400"
+                              />
+                              {achievement}
+                            </div>
+                          ))}
                       </div>
                     </div>
 
@@ -722,7 +769,10 @@ const UnifiedCommunity = () => {
               </h2>
               <div className="space-y-3">
                 {communityStats.topContributors?.map((contributor, index) => (
-                  <div key={contributor.name} className="flex items-center space-x-3">
+                  <div
+                    key={contributor.name}
+                    className="flex items-center space-x-3"
+                  >
                     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm">
                       {index + 1}
                     </div>
@@ -791,7 +841,7 @@ const UnifiedCommunity = () => {
               </div>
               <textarea
                 value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
+                onChange={e => setNewPost(e.target.value)}
                 placeholder="What's on your mind?"
                 className="w-full h-32 bg-gray-700 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               />

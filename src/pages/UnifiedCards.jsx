@@ -123,23 +123,28 @@ const UnifiedCards = () => {
     }
   };
 
-  const calculateCollectionStats = (collection) => {
+  const calculateCollectionStats = collection => {
     const total = collection.reduce((sum, item) => sum + item.quantity, 0);
     const unique = collection.length;
     const completion = (unique / cardsData.length) * 100;
-    const value = collection.reduce((sum, item) => sum + (item.value * item.quantity), 0);
-    
+    const value = collection.reduce(
+      (sum, item) => sum + item.value * item.quantity,
+      0,
+    );
+
     setCollectionStats({ total, unique, completion, value });
   };
 
-  const filteredCards = cardsData.filter((card) => {
-    const matchesSearch = card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         card.description?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesFilters = 
+  const filteredCards = cardsData.filter(card => {
+    const matchesSearch =
+      card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      card.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesFilters =
       (filters.type.length === 0 || filters.type.includes(card.type)) &&
       (filters.rarity.length === 0 || filters.rarity.includes(card.rarity)) &&
-      (filters.elements.length === 0 || filters.elements.some(el => card.elements?.includes(el))) &&
+      (filters.elements.length === 0 ||
+        filters.elements.some(el => card.elements?.includes(el))) &&
       (!filters.cost.min || card.cost >= parseInt(filters.cost.min)) &&
       (!filters.cost.max || card.cost <= parseInt(filters.cost.max));
 
@@ -158,7 +163,9 @@ const UnifiedCards = () => {
         const rarityOrder = { common: 1, uncommon: 2, rare: 3, mythic: 4 };
         return rarityOrder[a.rarity] - rarityOrder[b.rarity];
       case 'playRate':
-        return (metaData.playRates[b.id] || 0) - (metaData.playRates[a.id] || 0);
+        return (
+          (metaData.playRates[b.id] || 0) - (metaData.playRates[a.id] || 0)
+        );
       case 'winRate':
         return (metaData.winRates[b.id] || 0) - (metaData.winRates[a.id] || 0);
       default:
@@ -166,7 +173,7 @@ const UnifiedCards = () => {
     }
   });
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity) {
       case 'common':
         return 'bg-gray-600';
@@ -181,7 +188,7 @@ const UnifiedCards = () => {
     }
   };
 
-  const getCardInCollection = (cardId) => {
+  const getCardInCollection = cardId => {
     return userCollection.find(item => item.cardId === cardId);
   };
 
@@ -242,8 +249,12 @@ const UnifiedCards = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-400">Collection</p>
-                    <p className="text-2xl font-bold">{collectionStats.unique}</p>
-                    <p className="text-xs text-gray-500">{collectionStats.completion.toFixed(1)}% complete</p>
+                    <p className="text-2xl font-bold">
+                      {collectionStats.unique}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {collectionStats.completion.toFixed(1)}% complete
+                    </p>
                   </div>
                   <Star className="text-yellow-400" size={24} />
                 </div>
@@ -253,7 +264,9 @@ const UnifiedCards = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Meta Cards</p>
-                  <p className="text-2xl font-bold">{metaData.popularCards.length}</p>
+                  <p className="text-2xl font-bold">
+                    {metaData.popularCards.length}
+                  </p>
                 </div>
                 <TrendingUp className="text-green-400" size={24} />
               </div>
@@ -276,12 +289,15 @@ const UnifiedCards = () => {
             {/* Search Section */}
             <div className="lg:col-span-2">
               <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search cards by name, description, or effect..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -290,7 +306,12 @@ const UnifiedCards = () => {
               <div className="flex flex-wrap gap-2 mb-4">
                 <select
                   value={filters.type[0] || ''}
-                  onChange={(e) => setFilters({...filters, type: e.target.value ? [e.target.value] : []})}
+                  onChange={e =>
+                    setFilters({
+                      ...filters,
+                      type: e.target.value ? [e.target.value] : [],
+                    })
+                  }
                   className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
                 >
                   <option value="">All Types</option>
@@ -301,7 +322,12 @@ const UnifiedCards = () => {
                 </select>
                 <select
                   value={filters.rarity[0] || ''}
-                  onChange={(e) => setFilters({...filters, rarity: e.target.value ? [e.target.value] : []})}
+                  onChange={e =>
+                    setFilters({
+                      ...filters,
+                      rarity: e.target.value ? [e.target.value] : [],
+                    })
+                  }
                   className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
                 >
                   <option value="">All Rarities</option>
@@ -312,7 +338,7 @@ const UnifiedCards = () => {
                 </select>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={e => setSortBy(e.target.value)}
                   className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
                 >
                   <option value="name">Sort by Name</option>
@@ -377,11 +403,11 @@ const UnifiedCards = () => {
           <div className="xl:col-span-3">
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {sortedCards.map((card) => {
+                {sortedCards.map(card => {
                   const collectionItem = getCardInCollection(card.id);
                   const playRate = metaData.playRates[card.id] || 0;
                   const winRate = metaData.winRates[card.id] || 0;
-                  
+
                   return (
                     <div
                       key={card.id}
@@ -394,7 +420,9 @@ const UnifiedCards = () => {
                           alt={card.name}
                           className="w-full h-48 object-cover"
                         />
-                        <div className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}>
+                        <div
+                          className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
+                        >
                           {card.rarity}
                         </div>
                         {collectionItem && (
@@ -432,11 +460,11 @@ const UnifiedCards = () => {
               </div>
             ) : (
               <div className="space-y-2">
-                {sortedCards.map((card) => {
+                {sortedCards.map(card => {
                   const collectionItem = getCardInCollection(card.id);
                   const playRate = metaData.playRates[card.id] || 0;
                   const winRate = metaData.winRates[card.id] || 0;
-                  
+
                   return (
                     <div
                       key={card.id}
@@ -457,15 +485,22 @@ const UnifiedCards = () => {
                                 {collectionItem.quantity}x
                               </span>
                             )}
-                            <span className={`px-2 py-1 rounded text-xs ${getRarityColor(card.rarity)}`}>
+                            <span
+                              className={`px-2 py-1 rounded text-xs ${getRarityColor(card.rarity)}`}
+                            >
                               {card.rarity}
                             </span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between text-sm text-gray-400 mt-1">
-                          <span>{card.type} • Cost: {card.cost}</span>
+                          <span>
+                            {card.type} • Cost: {card.cost}
+                          </span>
                           {(playRate > 0 || winRate > 0) && (
-                            <span>Play: {(playRate * 100).toFixed(1)}% • Win: {(winRate * 100).toFixed(1)}%</span>
+                            <span>
+                              Play: {(playRate * 100).toFixed(1)}% • Win:{' '}
+                              {(winRate * 100).toFixed(1)}%
+                            </span>
                           )}
                         </div>
                         <p className="text-sm text-gray-500 mt-1 line-clamp-1">
@@ -517,21 +552,33 @@ const UnifiedCards = () => {
               </h3>
               <div className="space-y-3">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-2">Popular Cards</h4>
+                  <h4 className="text-sm font-medium text-gray-300 mb-2">
+                    Popular Cards
+                  </h4>
                   <div className="space-y-1">
                     {metaData.popularCards.slice(0, 5).map((card, index) => (
-                      <div key={card.id} className="flex items-center justify-between text-xs">
+                      <div
+                        key={card.id}
+                        className="flex items-center justify-between text-xs"
+                      >
                         <span className="truncate">{card.name}</span>
-                        <span className="text-green-400">{(card.playRate * 100).toFixed(1)}%</span>
+                        <span className="text-green-400">
+                          {(card.playRate * 100).toFixed(1)}%
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-2">Trending</h4>
+                  <h4 className="text-sm font-medium text-gray-300 mb-2">
+                    Trending
+                  </h4>
                   <div className="space-y-1">
                     {metaData.trendingCards.slice(0, 3).map((card, index) => (
-                      <div key={card.id} className="flex items-center justify-between text-xs">
+                      <div
+                        key={card.id}
+                        className="flex items-center justify-between text-xs"
+                      >
                         <span className="truncate">{card.name}</span>
                         <TrendingUp className="text-green-400" size={12} />
                       </div>

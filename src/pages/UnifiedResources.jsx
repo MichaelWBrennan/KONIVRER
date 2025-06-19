@@ -73,13 +73,13 @@ import {
 
 const UnifiedResources = () => {
   const { user, isAuthenticated } = useAuth();
-  
+
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all'); // 'all', 'lore', 'products', 'meta', 'guides'
   const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list'
   const [sortBy, setSortBy] = useState('recent');
-  
+
   // Data states
   const [loreContent, setLoreContent] = useState([]);
   const [products, setProducts] = useState([]);
@@ -122,7 +122,8 @@ const UnifiedResources = () => {
         author: 'KONIVRER Lore Team',
         publishDate: '2024-06-15',
         readTime: '8 min read',
-        excerpt: 'The ancient powers stir as the elemental planes begin to merge. Heroes from across the realm must unite to prevent catastrophe.',
+        excerpt:
+          'The ancient powers stir as the elemental planes begin to merge. Heroes from across the realm must unite to prevent catastrophe.',
         content: 'Full story content here...',
         image: '/api/placeholder/400/250',
         tags: ['epic', 'convergence', 'elements'],
@@ -138,7 +139,8 @@ const UnifiedResources = () => {
         author: 'Elena Vasquez',
         publishDate: '2024-06-10',
         readTime: '12 min read',
-        excerpt: 'Deep within the volcanic peaks, the Flame Keepers guard ancient secrets that could reshape the world.',
+        excerpt:
+          'Deep within the volcanic peaks, the Flame Keepers guard ancient secrets that could reshape the world.',
         content: 'Full lore content here...',
         image: '/api/placeholder/400/250',
         tags: ['flame', 'keepers', 'secrets'],
@@ -154,7 +156,8 @@ const UnifiedResources = () => {
         author: 'Marcus Thompson',
         publishDate: '2024-06-05',
         readTime: '15 min read',
-        excerpt: 'A comprehensive guide to the elemental forces that shape the KONIVRER universe.',
+        excerpt:
+          'A comprehensive guide to the elemental forces that shape the KONIVRER universe.',
         content: 'Full reference content here...',
         image: '/api/placeholder/400/250',
         tags: ['elements', 'codex', 'reference'],
@@ -177,7 +180,8 @@ const UnifiedResources = () => {
         releaseDate: '2024-07-01',
         status: 'upcoming',
         price: '$4.99',
-        description: 'The latest expansion featuring new elemental mechanics and 150+ new cards.',
+        description:
+          'The latest expansion featuring new elemental mechanics and 150+ new cards.',
         image: '/api/placeholder/300/400',
         cardCount: 156,
         mechanics: ['Convergence', 'Elemental Mastery', 'Fusion'],
@@ -193,7 +197,8 @@ const UnifiedResources = () => {
         releaseDate: '2024-01-15',
         status: 'available',
         price: '$3.99',
-        description: 'The foundational set for new players featuring balanced gameplay and classic mechanics.',
+        description:
+          'The foundational set for new players featuring balanced gameplay and classic mechanics.',
         image: '/api/placeholder/300/400',
         cardCount: 200,
         mechanics: ['Basic Combat', 'Resource Management', 'Deck Building'],
@@ -209,7 +214,8 @@ const UnifiedResources = () => {
         releaseDate: '2024-03-20',
         status: 'available',
         price: '$9.99',
-        description: 'Premium collection featuring legendary heroes and alternate art cards.',
+        description:
+          'Premium collection featuring legendary heroes and alternate art cards.',
         image: '/api/placeholder/300/400',
         cardCount: 75,
         mechanics: ['Legendary', 'Alternate Art', 'Foil Treatment'],
@@ -232,7 +238,8 @@ const UnifiedResources = () => {
         author: 'Pro Analytics Team',
         publishDate: '2024-06-18',
         period: 'Week of June 10-16, 2024',
-        excerpt: 'Aggro Red continues to dominate the meta while Control Blue sees a resurgence in tournament play.',
+        excerpt:
+          'Aggro Red continues to dominate the meta while Control Blue sees a resurgence in tournament play.',
         topDecks: [
           { name: 'Aggro Red', percentage: 28.5, change: '+2.1%' },
           { name: 'Control Blue', percentage: 22.3, change: '+4.2%' },
@@ -241,7 +248,7 @@ const UnifiedResources = () => {
           { name: 'Other', percentage: 15.3, change: '-3.9%' },
         ],
         keyInsights: [
-          'Control Blue\'s rise due to new sideboard tech',
+          "Control Blue's rise due to new sideboard tech",
           'Aggro Red adapting to counter meta shifts',
           'Midrange strategies struggling against faster decks',
         ],
@@ -259,7 +266,8 @@ const UnifiedResources = () => {
         category: 'meta',
         author: 'Sarah Johnson',
         publishDate: '2024-06-15',
-        excerpt: 'An in-depth look at the resurgent Control Blue archetype and its impact on the current meta.',
+        excerpt:
+          'An in-depth look at the resurgent Control Blue archetype and its impact on the current meta.',
         winRates: {
           overall: 58.2,
           vsAggro: 45.3,
@@ -283,14 +291,15 @@ const UnifiedResources = () => {
     const mockGuides = [
       {
         id: 1,
-        title: 'Beginner\'s Guide to KONIVRER',
+        title: "Beginner's Guide to KONIVRER",
         type: 'guide',
         category: 'guides',
         author: 'Community Team',
         publishDate: '2024-06-01',
         difficulty: 'Beginner',
         readTime: '20 min read',
-        excerpt: 'Everything you need to know to start your KONIVRER journey, from basic rules to your first deck.',
+        excerpt:
+          'Everything you need to know to start your KONIVRER journey, from basic rules to your first deck.',
         sections: [
           'Game Basics',
           'Card Types',
@@ -313,7 +322,8 @@ const UnifiedResources = () => {
         publishDate: '2024-05-28',
         difficulty: 'Advanced',
         readTime: '35 min read',
-        excerpt: 'Master the art of deck construction with advanced techniques used by professional players.',
+        excerpt:
+          'Master the art of deck construction with advanced techniques used by professional players.',
         sections: [
           'Mana Curve Optimization',
           'Synergy Identification',
@@ -336,7 +346,8 @@ const UnifiedResources = () => {
         publishDate: '2024-05-25',
         difficulty: 'Intermediate',
         readTime: '15 min read',
-        excerpt: 'Prepare for competitive play with this comprehensive tournament preparation guide.',
+        excerpt:
+          'Prepare for competitive play with this comprehensive tournament preparation guide.',
         sections: [
           'Deck Selection',
           'Practice Routine',
@@ -356,7 +367,12 @@ const UnifiedResources = () => {
 
   const loadFeaturedContent = async () => {
     // Combine featured content from all categories
-    const allContent = [...loreContent, ...products, ...metaAnalysis, ...guides];
+    const allContent = [
+      ...loreContent,
+      ...products,
+      ...metaAnalysis,
+      ...guides,
+    ];
     const featured = allContent.filter(item => item.featured);
     setFeaturedContent(featured);
   };
@@ -386,14 +402,23 @@ const UnifiedResources = () => {
   };
 
   const getAllContent = () => {
-    const allContent = [...loreContent, ...products, ...metaAnalysis, ...guides];
+    const allContent = [
+      ...loreContent,
+      ...products,
+      ...metaAnalysis,
+      ...guides,
+    ];
     return allContent.filter(item => {
-      const matchesSearch = (item.title || item.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.description?.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
-      
+      const matchesSearch =
+        (item.title || item.name || '')
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory =
+        activeCategory === 'all' || item.category === activeCategory;
+
       return matchesSearch && matchesCategory;
     });
   };
@@ -401,7 +426,10 @@ const UnifiedResources = () => {
   const sortedContent = getAllContent().sort((a, b) => {
     switch (sortBy) {
       case 'recent':
-        return new Date(b.publishDate || b.releaseDate) - new Date(a.publishDate || a.releaseDate);
+        return (
+          new Date(b.publishDate || b.releaseDate) -
+          new Date(a.publishDate || a.releaseDate)
+        );
       case 'popular':
         return (b.views || b.hypeLevel || 0) - (a.views || a.hypeLevel || 0);
       case 'likes':
@@ -413,7 +441,7 @@ const UnifiedResources = () => {
     }
   });
 
-  const getCategoryIcon = (category) => {
+  const getCategoryIcon = category => {
     switch (category) {
       case 'lore':
         return <BookOpen className="text-purple-400" size={16} />;
@@ -428,7 +456,7 @@ const UnifiedResources = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
       case 'upcoming':
         return 'bg-blue-600';
@@ -441,7 +469,7 @@ const UnifiedResources = () => {
     }
   };
 
-  const getDifficultyColor = (difficulty) => {
+  const getDifficultyColor = difficulty => {
     switch (difficulty) {
       case 'Beginner':
         return 'bg-green-600';
@@ -474,7 +502,8 @@ const UnifiedResources = () => {
             <div>
               <h1 className="text-4xl font-bold mb-2">Knowledge Center</h1>
               <p className="text-gray-400">
-                Game lore, product information, meta analysis, and strategy guides
+                Game lore, product information, meta analysis, and strategy
+                guides
               </p>
             </div>
             {isAuthenticated && (
@@ -497,7 +526,9 @@ const UnifiedResources = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Total Articles</p>
-                  <p className="text-2xl font-bold">{resourceStats.totalArticles}</p>
+                  <p className="text-2xl font-bold">
+                    {resourceStats.totalArticles}
+                  </p>
                 </div>
                 <FileText className="text-blue-400" size={24} />
               </div>
@@ -506,7 +537,9 @@ const UnifiedResources = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Total Views</p>
-                  <p className="text-2xl font-bold">{resourceStats.totalViews?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {resourceStats.totalViews?.toLocaleString()}
+                  </p>
                 </div>
                 <Eye className="text-green-400" size={24} />
               </div>
@@ -515,7 +548,9 @@ const UnifiedResources = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Weekly Views</p>
-                  <p className="text-2xl font-bold">{resourceStats.weeklyViews?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {resourceStats.weeklyViews?.toLocaleString()}
+                  </p>
                 </div>
                 <TrendingUp className="text-purple-400" size={24} />
               </div>
@@ -524,7 +559,9 @@ const UnifiedResources = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Total Likes</p>
-                  <p className="text-2xl font-bold">{resourceStats.totalLikes?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {resourceStats.totalLikes?.toLocaleString()}
+                  </p>
                 </div>
                 <Heart className="text-red-400" size={24} />
               </div>
@@ -533,7 +570,9 @@ const UnifiedResources = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">Bookmarks</p>
-                  <p className="text-2xl font-bold">{resourceStats.totalBookmarks?.toLocaleString()}</p>
+                  <p className="text-2xl font-bold">
+                    {resourceStats.totalBookmarks?.toLocaleString()}
+                  </p>
                 </div>
                 <Bookmark className="text-yellow-400" size={24} />
               </div>
@@ -546,12 +585,15 @@ const UnifiedResources = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
               <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <input
                   type="text"
                   placeholder="Search articles, guides, products, and lore..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -560,7 +602,9 @@ const UnifiedResources = () => {
                 <button
                   onClick={() => setActiveCategory('all')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeCategory === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeCategory === 'all'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   All Content
@@ -568,7 +612,9 @@ const UnifiedResources = () => {
                 <button
                   onClick={() => setActiveCategory('lore')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeCategory === 'lore' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeCategory === 'lore'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Lore & Stories
@@ -576,7 +622,9 @@ const UnifiedResources = () => {
                 <button
                   onClick={() => setActiveCategory('products')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeCategory === 'products' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeCategory === 'products'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Products
@@ -584,7 +632,9 @@ const UnifiedResources = () => {
                 <button
                   onClick={() => setActiveCategory('meta')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeCategory === 'meta' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeCategory === 'meta'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Meta Analysis
@@ -592,7 +642,9 @@ const UnifiedResources = () => {
                 <button
                   onClick={() => setActiveCategory('guides')}
                   className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                    activeCategory === 'guides' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                    activeCategory === 'guides'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300'
                   }`}
                 >
                   Guides
@@ -620,7 +672,7 @@ const UnifiedResources = () => {
               </div>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={e => setSortBy(e.target.value)}
                 className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
               >
                 <option value="recent">Most Recent</option>
@@ -641,8 +693,11 @@ const UnifiedResources = () => {
           <div className="xl:col-span-3">
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedContent.map((item) => (
-                  <div key={`${item.category}-${item.id}`} className="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-750 transition-colors">
+                {sortedContent.map(item => (
+                  <div
+                    key={`${item.category}-${item.id}`}
+                    className="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-750 transition-colors"
+                  >
                     {item.image && (
                       <img
                         src={item.image}
@@ -654,17 +709,19 @@ const UnifiedResources = () => {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
                           {getCategoryIcon(item.category)}
-                          <span className="text-xs text-gray-400 uppercase">{item.type}</span>
+                          <span className="text-xs text-gray-400 uppercase">
+                            {item.type}
+                          </span>
                         </div>
                         {item.featured && (
                           <Star className="text-yellow-400" size={16} />
                         )}
                       </div>
-                      
+
                       <h3 className="font-semibold mb-2 line-clamp-2">
                         {item.title || item.name}
                       </h3>
-                      
+
                       <p className="text-sm text-gray-400 mb-3 line-clamp-3">
                         {item.excerpt || item.description}
                       </p>
@@ -673,10 +730,14 @@ const UnifiedResources = () => {
                       {item.category === 'products' && (
                         <div className="mb-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className={`px-2 py-1 rounded text-xs ${getStatusColor(item.status)}`}>
+                            <span
+                              className={`px-2 py-1 rounded text-xs ${getStatusColor(item.status)}`}
+                            >
                               {item.status}
                             </span>
-                            <span className="font-bold text-green-400">{item.price}</span>
+                            <span className="font-bold text-green-400">
+                              {item.price}
+                            </span>
                           </div>
                           <div className="text-xs text-gray-400 mt-1">
                             {item.cardCount} cards • Release: {item.releaseDate}
@@ -687,10 +748,14 @@ const UnifiedResources = () => {
                       {item.category === 'guides' && (
                         <div className="mb-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className={`px-2 py-1 rounded text-xs ${getDifficultyColor(item.difficulty)}`}>
+                            <span
+                              className={`px-2 py-1 rounded text-xs ${getDifficultyColor(item.difficulty)}`}
+                            >
                               {item.difficulty}
                             </span>
-                            <span className="text-gray-400">{item.readTime}</span>
+                            <span className="text-gray-400">
+                              {item.readTime}
+                            </span>
                           </div>
                         </div>
                       )}
@@ -698,8 +763,12 @@ const UnifiedResources = () => {
                       {item.category === 'lore' && (
                         <div className="mb-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-400">By {item.author}</span>
-                            <span className="text-gray-400">{item.readTime}</span>
+                            <span className="text-gray-400">
+                              By {item.author}
+                            </span>
+                            <span className="text-gray-400">
+                              {item.readTime}
+                            </span>
                           </div>
                         </div>
                       )}
@@ -707,8 +776,12 @@ const UnifiedResources = () => {
                       {item.category === 'meta' && (
                         <div className="mb-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-400">By {item.author}</span>
-                            <span className="text-gray-400">{item.period || item.publishDate}</span>
+                            <span className="text-gray-400">
+                              By {item.author}
+                            </span>
+                            <span className="text-gray-400">
+                              {item.period || item.publishDate}
+                            </span>
                           </div>
                         </div>
                       )}
@@ -744,8 +817,11 @@ const UnifiedResources = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {sortedContent.map((item) => (
-                  <div key={`${item.category}-${item.id}`} className="bg-gray-800 rounded-lg p-4 hover:bg-gray-750 transition-colors">
+                {sortedContent.map(item => (
+                  <div
+                    key={`${item.category}-${item.id}`}
+                    className="bg-gray-800 rounded-lg p-4 hover:bg-gray-750 transition-colors"
+                  >
                     <div className="flex items-start space-x-4">
                       {item.image && (
                         <img
@@ -758,7 +834,9 @@ const UnifiedResources = () => {
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center space-x-2">
                             {getCategoryIcon(item.category)}
-                            <span className="text-xs text-gray-400 uppercase">{item.type}</span>
+                            <span className="text-xs text-gray-400 uppercase">
+                              {item.type}
+                            </span>
                             {item.featured && (
                               <Star className="text-yellow-400" size={14} />
                             )}
@@ -778,11 +856,11 @@ const UnifiedResources = () => {
                             )}
                           </div>
                         </div>
-                        
+
                         <h3 className="font-semibold mb-1">
                           {item.title || item.name}
                         </h3>
-                        
+
                         <p className="text-sm text-gray-400 mb-2 line-clamp-2">
                           {item.excerpt || item.description}
                         </p>
@@ -790,10 +868,14 @@ const UnifiedResources = () => {
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center space-x-2">
                             {item.author && <span>By {item.author}</span>}
-                            {item.publishDate && <span>• {item.publishDate}</span>}
+                            {item.publishDate && (
+                              <span>• {item.publishDate}</span>
+                            )}
                             {item.readTime && <span>• {item.readTime}</span>}
                             {item.difficulty && (
-                              <span className={`px-2 py-1 rounded ${getDifficultyColor(item.difficulty)}`}>
+                              <span
+                                className={`px-2 py-1 rounded ${getDifficultyColor(item.difficulty)}`}
+                              >
                                 {item.difficulty}
                               </span>
                             )}
@@ -819,11 +901,16 @@ const UnifiedResources = () => {
                 Featured
               </h2>
               <div className="space-y-4">
-                {featuredContent.slice(0, 3).map((item) => (
-                  <div key={`featured-${item.category}-${item.id}`} className="border-b border-gray-700 pb-3 last:border-b-0">
+                {featuredContent.slice(0, 3).map(item => (
+                  <div
+                    key={`featured-${item.category}-${item.id}`}
+                    className="border-b border-gray-700 pb-3 last:border-b-0"
+                  >
                     <div className="flex items-center space-x-2 mb-1">
                       {getCategoryIcon(item.category)}
-                      <span className="text-xs text-gray-400 uppercase">{item.type}</span>
+                      <span className="text-xs text-gray-400 uppercase">
+                        {item.type}
+                      </span>
                     </div>
                     <h3 className="font-semibold text-sm mb-1 line-clamp-2">
                       {item.title || item.name}
@@ -843,7 +930,7 @@ const UnifiedResources = () => {
                 Popular Tags
               </h2>
               <div className="flex flex-wrap gap-2">
-                {resourceStats.popularTags?.map((tag) => (
+                {resourceStats.popularTags?.map(tag => (
                   <button
                     key={tag.name}
                     className="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-sm transition-colors"
@@ -862,14 +949,18 @@ const UnifiedResources = () => {
               </h2>
               <div className="space-y-3">
                 {resourceStats.topAuthors?.map((author, index) => (
-                  <div key={author.name} className="flex items-center space-x-3">
+                  <div
+                    key={author.name}
+                    className="flex items-center space-x-3"
+                  >
                     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm">
                       {index + 1}
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold text-sm">{author.name}</div>
                       <div className="text-xs text-gray-400">
-                        {author.articles} articles • {author.views.toLocaleString()} views
+                        {author.articles} articles •{' '}
+                        {author.views.toLocaleString()} views
                       </div>
                     </div>
                   </div>
