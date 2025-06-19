@@ -436,7 +436,6 @@ const UnifiedResources = () => {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="animate-spin mx-auto mb-4" size={48} />
           <p>Loading resources...</p>
         </div>
       </div>
