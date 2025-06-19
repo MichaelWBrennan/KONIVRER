@@ -76,12 +76,10 @@ const GameSimulator = () => {
       {
         id: 'elemental-deck',
         name: 'Elemental Forces',
-        cards: cardsData
-          .slice(0, 8)
-          .map(card => ({
-            ...card,
-            quantity: Math.floor(Math.random() * 3) + 1,
-          })),
+        cards: cardsData.slice(0, 8).map(card => ({
+          ...card,
+          quantity: Math.floor(Math.random() * 3) + 1,
+        })),
       },
       {
         id: 'void-deck',

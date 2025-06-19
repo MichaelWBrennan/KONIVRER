@@ -86,8 +86,6 @@ const Layout = ({ children }) => {
       icon: Database,
     });
 
-
-
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
       name: 'Tournaments',
