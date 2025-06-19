@@ -142,10 +142,7 @@ const Home = () => {
                   className="group-hover:translate-x-1 transition-transform"
                 />
               </Link>
-              <Link
-                to="/decklists"
-                className="btn btn-secondary btn-lg group"
-              >
+              <Link to="/decklists" className="btn btn-secondary btn-lg group">
                 <Layers
                   size={24}
                   className="group-hover:scale-110 transition-transform"

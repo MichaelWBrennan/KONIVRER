@@ -35,44 +35,68 @@ function App() {
               <Routes>
                 {/* Core Pages */}
                 <Route path="/" element={<Home />} />
-                
+
                 {/* Cards - Unified card database with all card-related functionality */}
                 <Route path="/cards" element={<UnifiedCardDatabase />} />
-                <Route path="/card-database" element={<UnifiedCardDatabase />} />
-                <Route path="/advanced-cards" element={<UnifiedCardDatabase />} />
-                
+                <Route
+                  path="/card-database"
+                  element={<UnifiedCardDatabase />}
+                />
+                <Route
+                  path="/advanced-cards"
+                  element={<UnifiedCardDatabase />}
+                />
+
                 {/* Decks - Unified deck system with all deck-related functionality */}
                 <Route path="/decklists" element={<UnifiedDeckSystem />} />
                 <Route path="/deckbuilder" element={<UnifiedDeckSystem />} />
-                <Route path="/deckbuilder/:deckId" element={<UnifiedDeckSystem />} />
+                <Route
+                  path="/deckbuilder/:deckId"
+                  element={<UnifiedDeckSystem />}
+                />
                 <Route path="/deck-discovery" element={<UnifiedDeckSystem />} />
-                <Route path="/official-decklists" element={<OfficialDecklists />} />
-                
+                <Route
+                  path="/official-decklists"
+                  element={<OfficialDecklists />}
+                />
+
                 {/* Tournaments & Events - Unified competitive section */}
-                <Route path="/tournaments" element={<UnifiedTournamentsEvents />} />
+                <Route
+                  path="/tournaments"
+                  element={<UnifiedTournamentsEvents />}
+                />
                 <Route path="/events" element={<UnifiedTournamentsEvents />} />
-                <Route path="/tournaments/create" element={<TournamentCreate />} />
-                <Route path="/tournaments/:tournamentId/live" element={<LiveTournament />} />
+                <Route
+                  path="/tournaments/create"
+                  element={<TournamentCreate />}
+                />
+                <Route
+                  path="/tournaments/:tournamentId/live"
+                  element={<LiveTournament />}
+                />
                 <Route path="/leaderboards" element={<Leaderboards />} />
                 <Route path="/analytics" element={<AnalyticsDashboard />} />
-                
+
                 {/* Community & Social */}
                 <Route path="/social" element={<SocialHub />} />
                 <Route path="/hall-of-fame" element={<RollOfHonor />} />
                 <Route path="/store-locator" element={<StoreLocator />} />
-                
+
                 {/* Game Resources */}
                 <Route path="/lore" element={<LoreCenter />} />
                 <Route path="/products" element={<ProductReleases />} />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
-                
+
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
-                
+
                 {/* Administrative */}
                 <Route path="/judge-center" element={<JudgeCenter />} />
-                <Route path="/tournament-manager" element={<TournamentManager />} />
+                <Route
+                  path="/tournament-manager"
+                  element={<TournamentManager />}
+                />
                 <Route path="/admin" element={<AdminPanel />} />
               </Routes>
             </Layout>

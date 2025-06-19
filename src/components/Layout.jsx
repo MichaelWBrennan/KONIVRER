@@ -81,7 +81,7 @@ const Layout = ({ children }) => {
       subItems: [
         { name: 'Browse Cards', href: '/cards', icon: Database },
         { name: 'Advanced Search', href: '/cards?advanced=true', icon: Search },
-      ]
+      ],
     });
 
     // Decks - unified deck management (only for authenticated users)
@@ -94,8 +94,12 @@ const Layout = ({ children }) => {
           { name: 'My Decks', href: '/decklists?view=mydecks', icon: BookOpen },
           { name: 'Deck Builder', href: '/deckbuilder', icon: PlusCircle },
           { name: 'Deck Discovery', href: '/deck-discovery', icon: Star },
-          { name: 'Official Decklists', href: '/official-decklists', icon: FileText },
-        ]
+          {
+            name: 'Official Decklists',
+            href: '/official-decklists',
+            icon: FileText,
+          },
+        ],
       });
     } else {
       // Public deck browsing for non-authenticated users
@@ -105,8 +109,12 @@ const Layout = ({ children }) => {
         icon: Layers,
         subItems: [
           { name: 'Browse Decks', href: '/deck-discovery', icon: Star },
-          { name: 'Official Decklists', href: '/official-decklists', icon: FileText },
-        ]
+          {
+            name: 'Official Decklists',
+            href: '/official-decklists',
+            icon: FileText,
+          },
+        ],
       });
     }
 
@@ -120,7 +128,7 @@ const Layout = ({ children }) => {
         { name: 'Events', href: '/events', icon: Calendar },
         { name: 'Leaderboards', href: '/leaderboards', icon: Crown },
         { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-      ]
+      ],
     });
 
     // Community & Social
@@ -132,7 +140,7 @@ const Layout = ({ children }) => {
         { name: 'Social Hub', href: '/social', icon: Users },
         { name: 'Hall of Fame', href: '/hall-of-fame', icon: Award },
         { name: 'Store Locator', href: '/store-locator', icon: MapPin },
-      ]
+      ],
     });
 
     // Game Resources
@@ -144,23 +152,35 @@ const Layout = ({ children }) => {
         { name: 'Lore Center', href: '/lore', icon: BookOpen },
         { name: 'Product Releases', href: '/products', icon: Package },
         { name: 'Meta Analysis', href: '/meta-analysis', icon: TrendingUp },
-      ]
+      ],
     });
 
     // Administrative tools - only for judges/organizers
     if (hasJudgeAccess() || hasOrganizerAccess()) {
       const adminSubItems = [];
-      
+
       if (hasJudgeAccess()) {
-        adminSubItems.push({ name: 'Judge Center', href: '/judge-center', icon: Shield });
+        adminSubItems.push({
+          name: 'Judge Center',
+          href: '/judge-center',
+          icon: Shield,
+        });
       }
-      
+
       if (hasOrganizerAccess()) {
-        adminSubItems.push({ name: 'Tournament Manager', href: '/tournament-manager', icon: Settings });
+        adminSubItems.push({
+          name: 'Tournament Manager',
+          href: '/tournament-manager',
+          icon: Settings,
+        });
       }
-      
+
       if (user?.roles?.includes('admin')) {
-        adminSubItems.push({ name: 'Admin Panel', href: '/admin', icon: Settings });
+        adminSubItems.push({
+          name: 'Admin Panel',
+          href: '/admin',
+          icon: Settings,
+        });
       }
 
       if (adminSubItems.length > 0) {
@@ -168,7 +188,7 @@ const Layout = ({ children }) => {
           name: 'Admin',
           href: adminSubItems[0].href,
           icon: Shield,
-          subItems: adminSubItems
+          subItems: adminSubItems,
         });
       }
     }
@@ -212,24 +232,29 @@ const Layout = ({ children }) => {
     analytics.buttonClick('mobile_menu', newState ? 'open' : 'close');
   };
 
-  const isActive = (item) => {
+  const isActive = item => {
     const path = item.href;
-    
+
     // Exact match for home
     if (path === '/' && location.pathname === '/') return true;
-    
+
     // Check if current path matches any subItem
     if (item.subItems) {
       return item.subItems.some(subItem => {
         if (subItem.href === '/' && location.pathname === '/') return true;
-        if (subItem.href !== '/' && location.pathname.startsWith(subItem.href.split('?')[0])) return true;
+        if (
+          subItem.href !== '/' &&
+          location.pathname.startsWith(subItem.href.split('?')[0])
+        )
+          return true;
         return false;
       });
     }
-    
+
     // Check main path
-    if (path !== '/' && location.pathname.startsWith(path.split('?')[0])) return true;
-    
+    if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
+      return true;
+
     return false;
   };
 
@@ -259,7 +284,7 @@ const Layout = ({ children }) => {
                 const Icon = item.icon;
                 const hasSubItems = item.subItems && item.subItems.length > 0;
                 const isItemActive = isActive(item);
-                
+
                 if (hasSubItems) {
                   return (
                     <div key={item.name} className="relative">
@@ -284,7 +309,7 @@ const Layout = ({ children }) => {
                           }`}
                         />
                       </button>
-                      
+
                       {/* Dropdown Menu */}
                       {activeDropdown === item.name && (
                         <div
@@ -470,7 +495,7 @@ const Layout = ({ children }) => {
                   const hasSubItems = item.subItems && item.subItems.length > 0;
                   const isItemActive = isActive(item);
                   const isExpanded = expandedMobileSection === item.name;
-                  
+
                   return (
                     <div key={item.name}>
                       {hasSubItems ? (
@@ -482,7 +507,9 @@ const Layout = ({ children }) => {
                                 : 'text-secondary hover:text-primary hover:bg-tertiary'
                             }`}
                             onClick={() => {
-                              setExpandedMobileSection(isExpanded ? null : item.name);
+                              setExpandedMobileSection(
+                                isExpanded ? null : item.name,
+                              );
                             }}
                           >
                             <div className="flex items-center gap-3">
@@ -496,7 +523,7 @@ const Layout = ({ children }) => {
                               }`}
                             />
                           </button>
-                          
+
                           {isExpanded && (
                             <div className="ml-6 mt-1 space-y-1">
                               {item.subItems.map(subItem => {
@@ -507,7 +534,10 @@ const Layout = ({ children }) => {
                                     to={subItem.href}
                                     className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-secondary hover:text-primary hover:bg-tertiary transition-colors"
                                     onClick={() => {
-                                      handleNavClick(subItem.name, subItem.href);
+                                      handleNavClick(
+                                        subItem.name,
+                                        subItem.href,
+                                      );
                                       setIsMobileMenuOpen(false);
                                       setExpandedMobileSection(null);
                                     }}
