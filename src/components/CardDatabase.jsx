@@ -14,7 +14,7 @@ const CardDatabase = () => {
     rarity: 'all',
     type: 'all',
     element: 'all',
-    set: 'all'
+    set: 'all',
   });
   const [favorites, setFavorites] = useState(new Set());
 
@@ -27,33 +27,52 @@ const CardDatabase = () => {
   // Filter and search cards
   useEffect(() => {
     let filtered = cards.filter(card => {
-      const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           card.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           card.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()));
-      
-      const matchesRarity = filters.rarity === 'all' || card.rarity === filters.rarity;
-      const matchesType = filters.type === 'all' || card.type.toLowerCase().includes(filters.type.toLowerCase());
-      const matchesElement = filters.element === 'all' || card.elements.includes(filters.element);
+      const matchesSearch =
+        card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        card.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        card.keywords.some(keyword =>
+          keyword.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+
+      const matchesRarity =
+        filters.rarity === 'all' || card.rarity === filters.rarity;
+      const matchesType =
+        filters.type === 'all' ||
+        card.type.toLowerCase().includes(filters.type.toLowerCase());
+      const matchesElement =
+        filters.element === 'all' || card.elements.includes(filters.element);
       const matchesSet = filters.set === 'all' || card.set === filters.set;
 
-      return matchesSearch && matchesRarity && matchesType && matchesElement && matchesSet;
+      return (
+        matchesSearch &&
+        matchesRarity &&
+        matchesType &&
+        matchesElement &&
+        matchesSet
+      );
     });
 
     setFilteredCards(filtered);
   }, [cards, searchTerm, filters]);
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity) {
-      case 'common': return 'border-gray-400 bg-gray-50';
-      case 'uncommon': return 'border-green-400 bg-green-50';
-      case 'rare': return 'border-blue-400 bg-blue-50';
-      case 'mythic': return 'border-purple-400 bg-purple-50';
-      case 'legendary': return 'border-yellow-400 bg-yellow-50';
-      default: return 'border-gray-400 bg-gray-50';
+      case 'common':
+        return 'border-gray-400 bg-gray-50';
+      case 'uncommon':
+        return 'border-green-400 bg-green-50';
+      case 'rare':
+        return 'border-blue-400 bg-blue-50';
+      case 'mythic':
+        return 'border-purple-400 bg-purple-50';
+      case 'legendary':
+        return 'border-yellow-400 bg-yellow-50';
+      default:
+        return 'border-gray-400 bg-gray-50';
     }
   };
 
-  const getElementSymbol = (element) => {
+  const getElementSymbol = element => {
     const elementMap = {
       '🜂': { symbol: '🜂', name: 'Fire' },
       '🜄': { symbol: '🜄', name: 'Water' },
@@ -63,12 +82,12 @@ const CardDatabase = () => {
       '▢': { symbol: '▢', name: 'Nether' },
       '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
       '∇': { symbol: '∇', name: 'Void' },
-      '🜅': { symbol: '🜅', name: 'Shadow' }
+      '🜅': { symbol: '🜅', name: 'Shadow' },
     };
     return elementMap[element] || { symbol: element, name: element };
   };
 
-  const toggleFavorite = (cardId) => {
+  const toggleFavorite = cardId => {
     const newFavorites = new Set(favorites);
     if (newFavorites.has(cardId)) {
       newFavorites.delete(cardId);
@@ -82,7 +101,7 @@ const CardDatabase = () => {
     rarities: [...new Set(cards.map(card => card.rarity))],
     types: [...new Set(cards.map(card => card.type))],
     elements: [...new Set(cards.flatMap(card => card.elements))],
-    sets: [...new Set(cards.map(card => card.set))]
+    sets: [...new Set(cards.map(card => card.set))],
   };
 
   const CardGridItem = ({ card }) => (
@@ -103,11 +122,7 @@ const CardDatabase = () => {
             {card.elements.map((element, index) => {
               const elementInfo = getElementSymbol(element);
               return (
-                <span
-                  key={index}
-                  className="text-xl"
-                  title={elementInfo.name}
-                >
+                <span key={index} className="text-xl" title={elementInfo.name}>
                   {elementInfo.symbol}
                 </span>
               );
@@ -119,13 +134,16 @@ const CardDatabase = () => {
             {typeof card.cost === 'string' ? card.cost : card.cost}
           </span>
           <button
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               toggleFavorite(card.id);
             }}
             className={`p-1 rounded ${favorites.has(card.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
           >
-            <Heart size={16} fill={favorites.has(card.id) ? 'currentColor' : 'none'} />
+            <Heart
+              size={16}
+              fill={favorites.has(card.id) ? 'currentColor' : 'none'}
+            />
           </button>
         </div>
       </div>
@@ -200,18 +218,25 @@ const CardDatabase = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm font-medium">{typeof card.cost === 'string' ? card.cost : card.cost}</span>
-          <span className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}>
+          <span className="text-sm font-medium">
+            {typeof card.cost === 'string' ? card.cost : card.cost}
+          </span>
+          <span
+            className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
+          >
             {card.rarity}
           </span>
           <button
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               toggleFavorite(card.id);
             }}
             className={`p-1 rounded ${favorites.has(card.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
           >
-            <Heart size={16} fill={favorites.has(card.id) ? 'currentColor' : 'none'} />
+            <Heart
+              size={16}
+              fill={favorites.has(card.id) ? 'currentColor' : 'none'}
+            />
           </button>
         </div>
       </div>
@@ -230,7 +255,7 @@ const CardDatabase = () => {
               type="text"
               placeholder="Search cards by name, text, or keywords..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
             />
           </div>
@@ -256,7 +281,7 @@ const CardDatabase = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
           <select
             value={filters.rarity}
-            onChange={(e) => setFilters({...filters, rarity: e.target.value})}
+            onChange={e => setFilters({ ...filters, rarity: e.target.value })}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
           >
             <option value="all">All Rarities</option>
@@ -269,18 +294,20 @@ const CardDatabase = () => {
 
           <select
             value={filters.type}
-            onChange={(e) => setFilters({...filters, type: e.target.value})}
+            onChange={e => setFilters({ ...filters, type: e.target.value })}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
           >
             <option value="all">All Types</option>
             {uniqueValues.types.map(type => (
-              <option key={type} value={type} className="text-black">{type}</option>
+              <option key={type} value={type} className="text-black">
+                {type}
+              </option>
             ))}
           </select>
 
           <select
             value={filters.element}
-            onChange={(e) => setFilters({...filters, element: e.target.value})}
+            onChange={e => setFilters({ ...filters, element: e.target.value })}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
           >
             <option value="all">All Elements</option>
@@ -296,12 +323,14 @@ const CardDatabase = () => {
 
           <select
             value={filters.set}
-            onChange={(e) => setFilters({...filters, set: e.target.value})}
+            onChange={e => setFilters({ ...filters, set: e.target.value })}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
           >
             <option value="all">All Sets</option>
             {uniqueValues.sets.map(set => (
-              <option key={set} value={set} className="text-black">{set}</option>
+              <option key={set} value={set} className="text-black">
+                {set}
+              </option>
             ))}
           </select>
         </div>
@@ -313,23 +342,25 @@ const CardDatabase = () => {
           Showing {filteredCards.length} of {cards.length} cards
         </span>
         {favorites.size > 0 && (
-          <span className="text-red-400">
-            {favorites.size} favorites
-          </span>
+          <span className="text-red-400">{favorites.size} favorites</span>
         )}
       </div>
 
       {/* Cards Display */}
-      <div className={
-        viewMode === 'grid' 
-          ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
-          : 'space-y-3'
-      }>
-        {filteredCards.map(card => (
-          viewMode === 'grid' 
-            ? <CardGridItem key={card.id} card={card} />
-            : <CardListItem key={card.id} card={card} />
-        ))}
+      <div
+        className={
+          viewMode === 'grid'
+            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+            : 'space-y-3'
+        }
+      >
+        {filteredCards.map(card =>
+          viewMode === 'grid' ? (
+            <CardGridItem key={card.id} card={card} />
+          ) : (
+            <CardListItem key={card.id} card={card} />
+          ),
+        )}
       </div>
 
       {/* No Results */}

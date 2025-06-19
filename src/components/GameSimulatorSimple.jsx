@@ -12,7 +12,7 @@ const GameSimulatorSimple = () => {
   const startGame = () => {
     setGameState({
       ...gameState,
-      phase: 'playing'
+      phase: 'playing',
     });
   };
 
@@ -34,7 +34,8 @@ const GameSimulatorSimple = () => {
         >
           <h1 className="text-4xl font-bold mb-4">KONIVRER Game Simulator</h1>
           <p className="text-gray-300">
-            Experience the mystical world of KONIVRER with our interactive game simulator
+            Experience the mystical world of KONIVRER with our interactive game
+            simulator
           </p>
         </motion.div>
 
@@ -46,7 +47,8 @@ const GameSimulatorSimple = () => {
           >
             <h2 className="text-2xl font-bold mb-4">Game Setup</h2>
             <p className="text-gray-300 mb-6">
-              Welcome to the KONIVRER Game Simulator! This is a simplified version to test the integration.
+              Welcome to the KONIVRER Game Simulator! This is a simplified
+              version to test the integration.
             </p>
             <button
               onClick={startGame}
@@ -70,7 +72,7 @@ const GameSimulatorSimple = () => {
                 Turn {gameState.turn} - Player {gameState.currentPlayer}
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-500/30">
                 <h3 className="text-lg font-bold mb-2">Player 1</h3>
@@ -80,7 +82,7 @@ const GameSimulatorSimple = () => {
                   <div>Azoth: 3</div>
                 </div>
               </div>
-              
+
               <div className="bg-red-500/20 rounded-lg p-4 border border-red-500/30">
                 <h3 className="text-lg font-bold mb-2">Player 2</h3>
                 <div className="text-sm text-gray-300">
@@ -93,11 +95,13 @@ const GameSimulatorSimple = () => {
 
             <div className="flex justify-center space-x-4">
               <button
-                onClick={() => setGameState({
-                  ...gameState,
-                  turn: gameState.turn + 1,
-                  currentPlayer: gameState.currentPlayer === 1 ? 2 : 1
-                })}
+                onClick={() =>
+                  setGameState({
+                    ...gameState,
+                    turn: gameState.turn + 1,
+                    currentPlayer: gameState.currentPlayer === 1 ? 2 : 1,
+                  })
+                }
                 className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
               >
                 <RotateCcw size={16} />
