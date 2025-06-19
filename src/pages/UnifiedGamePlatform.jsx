@@ -177,7 +177,6 @@ const UnifiedGamePlatform = () => {
             <section.icon className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">{section.name}</h2>
-          <p className="text-gray-300 text-lg">{section.description}</p>
         </div>
 
         {/* Feature Grid */}
@@ -332,9 +331,6 @@ const UnifiedGamePlatform = () => {
                 <h3 className="font-semibold text-white text-center mb-2">
                   {section.name}
                 </h3>
-                <p className="text-xs text-gray-300 text-center line-clamp-2">
-                  {section.description}
-                </p>
               </div>
             </motion.button>
           ))}
