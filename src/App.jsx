@@ -123,7 +123,10 @@ function App() {
                   path="/commander-recs"
                   element={<CommanderRecommendations />}
                 />
-                <Route path="/commanders" element={<CommanderRecommendations />} />
+                <Route
+                  path="/commanders"
+                  element={<CommanderRecommendations />}
+                />
                 <Route path="/card-synergy" element={<CardSynergy />} />
                 <Route path="/synergy-explorer" element={<CardSynergy />} />
                 <Route path="/synergy" element={<CardSynergy />} />
