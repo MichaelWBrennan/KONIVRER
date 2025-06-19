@@ -3,16 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  BookOpen,
   Search,
   Filter,
   Calendar,
-  Package,
-  TrendingUp,
-  BarChart3,
-  PieChart,
-  LineChart,
-  Activity,
   Star,
   Eye,
   Download,
@@ -32,42 +25,13 @@ import {
   ChevronRight,
   Grid,
   List,
-  Layers,
-  FileText,
-  Image,
-  Video,
-  Headphones,
-  Globe,
-  Zap,
-  Shield,
-  Sword,
-  Crown,
-  Target,
-  Flame,
-  Droplets,
-  Wind,
-  Mountain,
-  Leaf,
-  Sun,
-  Moon,
-  Sparkles,
   Hash,
-  Percent,
-  Award,
-  Trophy,
-  Medal,
-  Users,
-  MapPin,
-  RefreshCw,
   Plus,
   Edit3,
   Trash2,
   Copy,
   Upload,
   Settings,
-  Info,
-  AlertCircle,
-  CheckCircle,
   X,
 } from 'lucide-react';
 
@@ -180,8 +144,7 @@ const UnifiedResources = () => {
         releaseDate: '2024-07-01',
         status: 'upcoming',
         price: '$4.99',
-        description:
-          'The latest expansion featuring new elemental mechanics and 150+ new cards.',
+
         image: '/api/placeholder/300/400',
         cardCount: 156,
         mechanics: ['Convergence', 'Elemental Mastery', 'Fusion'],
@@ -197,8 +160,7 @@ const UnifiedResources = () => {
         releaseDate: '2024-01-15',
         status: 'available',
         price: '$3.99',
-        description:
-          'The foundational set for new players featuring balanced gameplay and classic mechanics.',
+
         image: '/api/placeholder/300/400',
         cardCount: 200,
         mechanics: ['Basic Combat', 'Resource Management', 'Deck Building'],
@@ -214,8 +176,7 @@ const UnifiedResources = () => {
         releaseDate: '2024-03-20',
         status: 'available',
         price: '$9.99',
-        description:
-          'Premium collection featuring legendary heroes and alternate art cards.',
+
         image: '/api/placeholder/300/400',
         cardCount: 75,
         mechanics: ['Legendary', 'Alternate Art', 'Foil Treatment'],
@@ -442,18 +403,7 @@ const UnifiedResources = () => {
   });
 
   const getCategoryIcon = category => {
-    switch (category) {
-      case 'lore':
-        return <BookOpen className="text-purple-400" size={16} />;
-      case 'products':
-        return <Package className="text-blue-400" size={16} />;
-      case 'meta':
-        return <BarChart3 className="text-green-400" size={16} />;
-      case 'guides':
-        return <FileText className="text-yellow-400" size={16} />;
-      default:
-        return <Info className="text-gray-400" size={16} />;
-    }
+    return null;
   };
 
   const getStatusColor = status => {
@@ -722,9 +672,7 @@ const UnifiedResources = () => {
                         {item.title || item.name}
                       </h3>
 
-                      <p className="text-sm text-gray-400 mb-3 line-clamp-3">
-                        {item.excerpt || item.description}
-                      </p>
+
 
                       {/* Category-specific content */}
                       {item.category === 'products' && (
@@ -861,9 +809,7 @@ const UnifiedResources = () => {
                           {item.title || item.name}
                         </h3>
 
-                        <p className="text-sm text-gray-400 mb-2 line-clamp-2">
-                          {item.excerpt || item.description}
-                        </p>
+
 
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center space-x-2">
@@ -915,9 +861,7 @@ const UnifiedResources = () => {
                     <h3 className="font-semibold text-sm mb-1 line-clamp-2">
                       {item.title || item.name}
                     </h3>
-                    <p className="text-xs text-gray-400 line-clamp-2">
-                      {item.excerpt || item.description}
-                    </p>
+
                   </div>
                 ))}
               </div>

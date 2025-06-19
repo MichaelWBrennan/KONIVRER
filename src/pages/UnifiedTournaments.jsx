@@ -15,50 +15,21 @@ import {
   Download,
   BarChart3,
   TrendingUp,
-  Sword,
-  Shield,
-  Zap,
-  Crown,
-  Target,
   ChevronLeft,
   ChevronRight,
   ArrowLeft,
-  Gamepad2,
-  Award,
-  PieChart,
-  Activity,
-  Layers,
-  Percent,
-  Hash,
-  Flame,
-  Droplets,
-  Wind,
-  Mountain,
-  Leaf,
-  Sun,
-  Moon,
-  Sparkles,
   ExternalLink,
   Play,
   CheckCircle,
   AlertCircle,
-  Globe,
-  Video,
   ChevronDown,
   ChevronUp,
   Plus,
   Settings,
-  FileText,
   UserPlus,
   Timer,
-  Wifi,
-  WifiOff,
   RefreshCw,
-  TrendingDown,
-  LineChart,
-  BarChart2,
   DollarSign,
-  Medal,
 } from 'lucide-react';
 
 import LiveTournamentBracket from '../components/LiveTournamentBracket';
@@ -136,8 +107,7 @@ const UnifiedTournaments = () => {
         maxParticipants: 512,
         status: 'Registration Open',
         organizer: 'KONIVRER Official',
-        description:
-          'The premier tournament of the year featuring the best players from around the world.',
+
         rounds: 9,
         type: 'tournament',
         entryFee: '$25',
@@ -156,8 +126,7 @@ const UnifiedTournaments = () => {
         maxParticipants: 256,
         status: 'In Progress',
         organizer: 'East Coast Gaming',
-        description:
-          'Regional championship determining the East Coast representative.',
+
         rounds: 8,
         type: 'tournament',
         entryFee: '$15',
@@ -592,9 +561,7 @@ const UnifiedTournaments = () => {
                         </div>
                       </div>
                     </div>
-                    <p className="text-gray-400 text-sm mb-3">
-                      {tournament.description}
-                    </p>
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 text-sm">
                         <span className="bg-blue-600 px-2 py-1 rounded">

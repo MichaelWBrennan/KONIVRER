@@ -615,7 +615,7 @@ const TournamentCreate = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Create Tournament</h1>
-          <p className="text-secondary">Set up a new KONIVRER tournament</p>
+
         </div>
 
         {/* Progress Steps */}

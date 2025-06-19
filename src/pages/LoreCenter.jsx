@@ -220,7 +220,7 @@ This was the beginning of the end, or perhaps, the beginning of something far wo
                 {item.type}
               </span>
             </div>
-            <p className="text-gray-300 mb-4">{item.description}</p>
+
             <p className="text-gray-400 text-sm">{item.details}</p>
           </div>
           <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors">
@@ -254,9 +254,7 @@ This was the beginning of the end, or perhaps, the beginning of something far wo
               </span>
             </div>
           </div>
-          <p className="text-gray-300 mb-3 text-center">
-            {character.description}
-          </p>
+
           <p className="text-gray-400 text-sm mb-4">{character.background}</p>
           <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition-colors">
             View Profile
@@ -375,11 +373,7 @@ This was the beginning of the end, or perhaps, the beginning of something far wo
           <h1 className="text-4xl font-bold text-white mb-4">
             World of KONIVRER
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Immerse yourself in the rich lore and captivating stories of the
-            KONIVRER universe. Discover the heroes, villains, and epic tales
-            that shape this magical realm.
-          </p>
+
         </div>
 
         {/* Category Tabs */}
