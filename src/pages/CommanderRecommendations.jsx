@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Search, 
-  TrendingUp, 
-  Users, 
-  Star, 
+import {
+  Search,
+  TrendingUp,
+  Users,
+  Star,
   Filter,
   Plus,
   Percent,
   Target,
   Zap,
   Crown,
-  Shuffle
+  Shuffle,
 } from 'lucide-react';
 
 const CommanderRecommendations = () => {
@@ -31,65 +31,78 @@ const CommanderRecommendations = () => {
       deckCount: 15420,
       rank: 1,
       themes: ['Counters', 'Proliferate', 'Value'],
-      powerLevel: 8.2
+      powerLevel: 8.2,
     },
     {
       id: 2,
-      name: "Edgar Markov",
+      name: 'Edgar Markov',
       colors: ['W', 'B', 'R'],
       manaCost: 6,
       deckCount: 12890,
       rank: 2,
       themes: ['Tribal', 'Vampires', 'Aggressive'],
-      powerLevel: 7.8
-    }
+      powerLevel: 7.8,
+    },
   ];
 
   // Mock card recommendations
-  const getCardRecommendations = (commanderId) => {
+  const getCardRecommendations = commanderId => {
     const recommendations = {
       1: [
         {
-          name: "Doubling Season",
-          type: "Enchantment",
+          name: 'Doubling Season',
+          type: 'Enchantment',
           manaCost: 5,
           synergy: 98,
           inclusion: 87,
           price: 45.99,
-          category: "Counters",
-          description: "Doubles all counters placed on permanents"
-        }
-      ]
+          category: 'Counters',
+          description: 'Doubles all counters placed on permanents',
+        },
+      ],
     };
     return recommendations[commanderId] || [];
   };
 
   const filteredCommanders = useMemo(() => {
-    return commanders.filter(commander => {
-      const matchesSearch = commander.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilter = filterBy === 'all' || 
-        (filterBy === 'popular' && commander.rank <= 10) ||
-        (filterBy === 'competitive' && commander.powerLevel >= 8.0);
-      return matchesSearch && matchesFilter;
-    }).sort((a, b) => {
-      switch (sortBy) {
-        case 'popularity': return a.rank - b.rank;
-        case 'power': return b.powerLevel - a.powerLevel;
-        case 'alphabetical': return a.name.localeCompare(b.name);
-        default: return 0;
-      }
-    });
+    return commanders
+      .filter(commander => {
+        const matchesSearch = commander.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const matchesFilter =
+          filterBy === 'all' ||
+          (filterBy === 'popular' && commander.rank <= 10) ||
+          (filterBy === 'competitive' && commander.powerLevel >= 8.0);
+        return matchesSearch && matchesFilter;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case 'popularity':
+            return a.rank - b.rank;
+          case 'power':
+            return b.powerLevel - a.powerLevel;
+          case 'alphabetical':
+            return a.name.localeCompare(b.name);
+          default:
+            return 0;
+        }
+      });
   }, [searchTerm, filterBy, sortBy]);
 
-  const addToClipboard = (card) => {
+  const addToClipboard = card => {
     if (!clipboard.find(c => c.name === card.name)) {
       setClipboard([...clipboard, card]);
     }
   };
 
-  const getColorSymbols = (colors) => {
+  const getColorSymbols = colors => {
     const colorMap = {
-      'W': '⚪', 'U': '🔵', 'B': '⚫', 'R': '🔴', 'G': '🟢'
+      W: '⚪',
+      U: '🔵',
+      B: '⚫',
+      R: '🔴',
+      G: '🟢',
     };
     return colors.map(color => colorMap[color]).join('');
   };
@@ -108,7 +121,8 @@ const CommanderRecommendations = () => {
             Commander Recommendations
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Discover the perfect cards for your commander with data-driven recommendations from thousands of decks
+            Discover the perfect cards for your commander with data-driven
+            recommendations from thousands of decks
           </p>
         </motion.div>
 
@@ -125,14 +139,14 @@ const CommanderRecommendations = () => {
                 type="text"
                 placeholder="Search commanders..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
-            
+
             <select
               value={filterBy}
-              onChange={(e) => setFilterBy(e.target.value)}
+              onChange={e => setFilterBy(e.target.value)}
               className="px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">All Commanders</option>
@@ -142,7 +156,7 @@ const CommanderRecommendations = () => {
 
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
               className="px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="popularity">Sort by Popularity</option>
@@ -170,9 +184,9 @@ const CommanderRecommendations = () => {
               <Users className="text-blue-400" />
               Commanders ({filteredCommanders.length})
             </h2>
-            
+
             <div className="space-y-4 max-h-[800px] overflow-y-auto">
-              {filteredCommanders.map((commander) => (
+              {filteredCommanders.map(commander => (
                 <motion.div
                   key={commander.id}
                   whileHover={{ scale: 1.02 }}
@@ -189,22 +203,31 @@ const CommanderRecommendations = () => {
                       <Crown className="text-yellow-400 w-8 h-8" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-white text-lg">{commander.name}</h3>
+                      <h3 className="font-bold text-white text-lg">
+                        {commander.name}
+                      </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-300 mt-1">
                         <span>{getColorSymbols(commander.colors)}</span>
                         <span>•</span>
                         <span>#{commander.rank}</span>
                         <span>•</span>
-                        <span>{commander.deckCount.toLocaleString()} decks</span>
+                        <span>
+                          {commander.deckCount.toLocaleString()} decks
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 mt-2">
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-yellow-400" />
-                          <span className="text-sm text-gray-300">{commander.powerLevel}</span>
+                          <span className="text-sm text-gray-300">
+                            {commander.powerLevel}
+                          </span>
                         </div>
                         <div className="flex gap-1">
                           {commander.themes.slice(0, 2).map((theme, index) => (
-                            <span key={index} className="px-2 py-1 bg-purple-600/30 text-purple-300 text-xs rounded">
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-purple-600/30 text-purple-300 text-xs rounded"
+                            >
                               {theme}
                             </span>
                           ))}
@@ -232,83 +255,111 @@ const CommanderRecommendations = () => {
                   </h2>
                   <div className="flex items-center gap-2 text-sm text-gray-300">
                     <TrendingUp className="w-4 h-4" />
-                    Based on {selectedCommander.deckCount.toLocaleString()} decks
+                    Based on {selectedCommander.deckCount.toLocaleString()}{' '}
+                    decks
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  {getCardRecommendations(selectedCommander.id).map((card, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-slate-600"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold text-white">{card.name}</h3>
-                            <span className="px-2 py-1 bg-blue-600/30 text-blue-300 text-sm rounded">
-                              {card.type}
-                            </span>
-                            <span className="px-2 py-1 bg-purple-600/30 text-purple-300 text-sm rounded">
-                              {card.category}
-                            </span>
+                  {getCardRecommendations(selectedCommander.id).map(
+                    (card, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-slate-600"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <h3 className="text-xl font-bold text-white">
+                                {card.name}
+                              </h3>
+                              <span className="px-2 py-1 bg-blue-600/30 text-blue-300 text-sm rounded">
+                                {card.type}
+                              </span>
+                              <span className="px-2 py-1 bg-purple-600/30 text-purple-300 text-sm rounded">
+                                {card.category}
+                              </span>
+                            </div>
+
+                            <p className="text-gray-300 mb-4">
+                              {card.description}
+                            </p>
+
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              <div className="text-center">
+                                <div className="flex items-center justify-center gap-1 mb-1">
+                                  <Zap className="w-4 h-4 text-yellow-400" />
+                                  <span className="text-sm text-gray-400">
+                                    Synergy
+                                  </span>
+                                </div>
+                                <div className="text-2xl font-bold text-yellow-400">
+                                  {card.synergy}%
+                                </div>
+                              </div>
+
+                              <div className="text-center">
+                                <div className="flex items-center justify-center gap-1 mb-1">
+                                  <Percent className="w-4 h-4 text-green-400" />
+                                  <span className="text-sm text-gray-400">
+                                    Inclusion
+                                  </span>
+                                </div>
+                                <div className="text-2xl font-bold text-green-400">
+                                  {card.inclusion}%
+                                </div>
+                              </div>
+
+                              <div className="text-center">
+                                <div className="flex items-center justify-center gap-1 mb-1">
+                                  <span className="text-sm text-gray-400">
+                                    Mana Cost
+                                  </span>
+                                </div>
+                                <div className="text-2xl font-bold text-blue-400">
+                                  {card.manaCost}
+                                </div>
+                              </div>
+
+                              <div className="text-center">
+                                <div className="flex items-center justify-center gap-1 mb-1">
+                                  <span className="text-sm text-gray-400">
+                                    Price
+                                  </span>
+                                </div>
+                                <div className="text-2xl font-bold text-green-400">
+                                  ${card.price}
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          
-                          <p className="text-gray-300 mb-4">{card.description}</p>
-                          
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="text-center">
-                              <div className="flex items-center justify-center gap-1 mb-1">
-                                <Zap className="w-4 h-4 text-yellow-400" />
-                                <span className="text-sm text-gray-400">Synergy</span>
-                              </div>
-                              <div className="text-2xl font-bold text-yellow-400">{card.synergy}%</div>
-                            </div>
-                            
-                            <div className="text-center">
-                              <div className="flex items-center justify-center gap-1 mb-1">
-                                <Percent className="w-4 h-4 text-green-400" />
-                                <span className="text-sm text-gray-400">Inclusion</span>
-                              </div>
-                              <div className="text-2xl font-bold text-green-400">{card.inclusion}%</div>
-                            </div>
-                            
-                            <div className="text-center">
-                              <div className="flex items-center justify-center gap-1 mb-1">
-                                <span className="text-sm text-gray-400">Mana Cost</span>
-                              </div>
-                              <div className="text-2xl font-bold text-blue-400">{card.manaCost}</div>
-                            </div>
-                            
-                            <div className="text-center">
-                              <div className="flex items-center justify-center gap-1 mb-1">
-                                <span className="text-sm text-gray-400">Price</span>
-                              </div>
-                              <div className="text-2xl font-bold text-green-400">${card.price}</div>
-                            </div>
-                          </div>
+
+                          <button
+                            onClick={() => addToClipboard(card)}
+                            className="ml-4 p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                          >
+                            <Plus className="w-5 h-5" />
+                          </button>
                         </div>
-                        
-                        <button
-                          onClick={() => addToClipboard(card)}
-                          className="ml-4 p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                        >
-                          <Plus className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    ),
+                  )}
                 </div>
               </div>
             ) : (
               <div className="flex items-center justify-center h-96 bg-slate-800/30 rounded-lg border-2 border-dashed border-slate-600">
                 <div className="text-center">
                   <Shuffle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-gray-400 mb-2">Select a Commander</h3>
-                  <p className="text-gray-500">Choose a commander from the list to see personalized card recommendations</p>
+                  <h3 className="text-xl font-bold text-gray-400 mb-2">
+                    Select a Commander
+                  </h3>
+                  <p className="text-gray-500">
+                    Choose a commander from the list to see personalized card
+                    recommendations
+                  </p>
                 </div>
               </div>
             )}
