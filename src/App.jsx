@@ -154,7 +154,10 @@ function App() {
                   element={<PowerLevelCalculator />}
                 />
                 <Route path="/power" element={<PowerLevelCalculator />} />
-                <Route path="/tournament-results" element={<TournamentResults />} />
+                <Route
+                  path="/tournament-results"
+                  element={<TournamentResults />}
+                />
                 <Route path="/collection" element={<CollectionPortfolio />} />
                 <Route path="/portfolio" element={<CollectionPortfolio />} />
                 <Route path="/format-staples" element={<FormatStaples />} />
