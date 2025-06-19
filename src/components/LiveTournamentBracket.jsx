@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Trophy, 
-  Users, 
-  Clock, 
-  Play, 
-  Pause, 
+import {
+  Trophy,
+  Users,
+  Clock,
+  Play,
+  Pause,
   Eye,
   Crown,
   Star,
@@ -13,7 +13,7 @@ import {
   RefreshCw,
   Settings,
   Download,
-  Share2
+  Share2,
 } from 'lucide-react';
 
 const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
@@ -25,104 +25,182 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
   // Sample tournament data
   const sampleTournament = {
     id: tournamentId,
-    name: "KONIVRER World Championship 2024",
-    format: "Classic Constructed",
-    status: "live",
+    name: 'KONIVRER World Championship 2024',
+    format: 'Classic Constructed',
+    status: 'live',
     currentRound: 3,
     totalRounds: 4,
     participants: 8,
     prizePool: 50000,
-    startTime: "2024-06-19T10:00:00Z",
+    startTime: '2024-06-19T10:00:00Z',
     rounds: [
       {
         round: 1,
-        name: "Quarterfinals",
+        name: 'Quarterfinals',
         matches: [
           {
             id: 1,
-            player1: { name: "Elena Vasquez", seed: 1, hero: "Vynnset", country: "ES", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Marcus Chen", seed: 8, hero: "Briar", country: "US", avatar: "/api/placeholder/40/40" },
-            status: "completed",
-            winner: "player1",
-            score: "2-1",
-            startTime: "10:00",
-            duration: "28:45"
+            player1: {
+              name: 'Elena Vasquez',
+              seed: 1,
+              hero: 'Vynnset',
+              country: 'ES',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Marcus Chen',
+              seed: 8,
+              hero: 'Briar',
+              country: 'US',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'completed',
+            winner: 'player1',
+            score: '2-1',
+            startTime: '10:00',
+            duration: '28:45',
           },
           {
             id: 2,
-            player1: { name: "David Kim", seed: 4, hero: "Kano", country: "KR", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Sarah Johnson", seed: 5, hero: "Prism", country: "CA", avatar: "/api/placeholder/40/40" },
-            status: "completed",
-            winner: "player2",
-            score: "2-0",
-            startTime: "10:00",
-            duration: "22:18"
+            player1: {
+              name: 'David Kim',
+              seed: 4,
+              hero: 'Kano',
+              country: 'KR',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Sarah Johnson',
+              seed: 5,
+              hero: 'Prism',
+              country: 'CA',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'completed',
+            winner: 'player2',
+            score: '2-0',
+            startTime: '10:00',
+            duration: '22:18',
           },
           {
             id: 3,
-            player1: { name: "Alex Rodriguez", seed: 2, hero: "Iyslander", country: "MX", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Lisa Wang", seed: 7, hero: "Lexi", country: "CN", avatar: "/api/placeholder/40/40" },
-            status: "completed",
-            winner: "player1",
-            score: "2-1",
-            startTime: "10:30",
-            duration: "35:12"
+            player1: {
+              name: 'Alex Rodriguez',
+              seed: 2,
+              hero: 'Iyslander',
+              country: 'MX',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Lisa Wang',
+              seed: 7,
+              hero: 'Lexi',
+              country: 'CN',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'completed',
+            winner: 'player1',
+            score: '2-1',
+            startTime: '10:30',
+            duration: '35:12',
           },
           {
             id: 4,
-            player1: { name: "Mike Thompson", seed: 3, hero: "Oldhim", country: "AU", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Emma Wilson", seed: 6, hero: "Katsu", country: "GB", avatar: "/api/placeholder/40/40" },
-            status: "completed",
-            winner: "player2",
-            score: "2-0",
-            startTime: "10:30",
-            duration: "19:33"
-          }
-        ]
+            player1: {
+              name: 'Mike Thompson',
+              seed: 3,
+              hero: 'Oldhim',
+              country: 'AU',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Emma Wilson',
+              seed: 6,
+              hero: 'Katsu',
+              country: 'GB',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'completed',
+            winner: 'player2',
+            score: '2-0',
+            startTime: '10:30',
+            duration: '19:33',
+          },
+        ],
       },
       {
         round: 2,
-        name: "Semifinals",
+        name: 'Semifinals',
         matches: [
           {
             id: 5,
-            player1: { name: "Elena Vasquez", seed: 1, hero: "Vynnset", country: "ES", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Sarah Johnson", seed: 5, hero: "Prism", country: "CA", avatar: "/api/placeholder/40/40" },
-            status: "completed",
-            winner: "player1",
-            score: "2-1",
-            startTime: "14:00",
-            duration: "42:15"
+            player1: {
+              name: 'Elena Vasquez',
+              seed: 1,
+              hero: 'Vynnset',
+              country: 'ES',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Sarah Johnson',
+              seed: 5,
+              hero: 'Prism',
+              country: 'CA',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'completed',
+            winner: 'player1',
+            score: '2-1',
+            startTime: '14:00',
+            duration: '42:15',
           },
           {
             id: 6,
-            player1: { name: "Alex Rodriguez", seed: 2, hero: "Iyslander", country: "MX", avatar: "/api/placeholder/40/40" },
-            player2: { name: "Emma Wilson", seed: 6, hero: "Katsu", country: "GB", avatar: "/api/placeholder/40/40" },
-            status: "live",
+            player1: {
+              name: 'Alex Rodriguez',
+              seed: 2,
+              hero: 'Iyslander',
+              country: 'MX',
+              avatar: '/api/placeholder/40/40',
+            },
+            player2: {
+              name: 'Emma Wilson',
+              seed: 6,
+              hero: 'Katsu',
+              country: 'GB',
+              avatar: '/api/placeholder/40/40',
+            },
+            status: 'live',
             winner: null,
-            score: "1-1",
-            startTime: "14:00",
-            duration: "25:30"
-          }
-        ]
+            score: '1-1',
+            startTime: '14:00',
+            duration: '25:30',
+          },
+        ],
       },
       {
         round: 3,
-        name: "Finals",
+        name: 'Finals',
         matches: [
           {
             id: 7,
-            player1: { name: "Elena Vasquez", seed: 1, hero: "Vynnset", country: "ES", avatar: "/api/placeholder/40/40" },
+            player1: {
+              name: 'Elena Vasquez',
+              seed: 1,
+              hero: 'Vynnset',
+              country: 'ES',
+              avatar: '/api/placeholder/40/40',
+            },
             player2: null, // TBD
-            status: "pending",
+            status: 'pending',
             winner: null,
             score: null,
-            startTime: "16:00",
-            duration: null
-          }
-        ]
-      }
-    ]
+            startTime: '16:00',
+            duration: null,
+          },
+        ],
+      },
+    ],
   };
 
   useEffect(() => {
@@ -140,21 +218,31 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
     }
   }, [autoRefresh, isLive]);
 
-  const getMatchStatusColor = (status) => {
+  const getMatchStatusColor = status => {
     switch (status) {
-      case 'completed': return 'border-green-500 bg-green-500/10';
-      case 'live': return 'border-yellow-500 bg-yellow-500/10 animate-pulse';
-      case 'pending': return 'border-gray-500 bg-gray-500/10';
-      default: return 'border-gray-500 bg-gray-500/10';
+      case 'completed':
+        return 'border-green-500 bg-green-500/10';
+      case 'live':
+        return 'border-yellow-500 bg-yellow-500/10 animate-pulse';
+      case 'pending':
+        return 'border-gray-500 bg-gray-500/10';
+      default:
+        return 'border-gray-500 bg-gray-500/10';
     }
   };
 
   const getPlayerDisplay = (player, isWinner) => {
     if (!player) return <div className="text-gray-500 italic">TBD</div>;
-    
+
     return (
-      <div className={`flex items-center gap-2 ${isWinner ? 'text-yellow-400 font-bold' : ''}`}>
-        <img src={player.avatar} alt={player.name} className="w-6 h-6 rounded-full" />
+      <div
+        className={`flex items-center gap-2 ${isWinner ? 'text-yellow-400 font-bold' : ''}`}
+      >
+        <img
+          src={player.avatar}
+          alt={player.name}
+          className="w-6 h-6 rounded-full"
+        />
         <span className="truncate">{player.name}</span>
         {isWinner && <Crown className="w-4 h-4" />}
       </div>
@@ -235,11 +323,13 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
               </div>
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                <span>Round {bracketData.currentRound}/{bracketData.totalRounds}</span>
+                <span>
+                  Round {bracketData.currentRound}/{bracketData.totalRounds}
+                </span>
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             {isLive && (
               <div className="flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm">
@@ -247,14 +337,18 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
                 LIVE
               </div>
             )}
-            
+
             <button
               onClick={() => setAutoRefresh(!autoRefresh)}
               className={`p-2 rounded-lg transition-colors ${
-                autoRefresh ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-600 hover:bg-gray-700'
+                autoRefresh
+                  ? 'bg-green-600 hover:bg-green-700'
+                  : 'bg-gray-600 hover:bg-gray-700'
               }`}
             >
-              <RefreshCw className={`w-4 h-4 ${autoRefresh ? 'animate-spin' : ''}`} />
+              <RefreshCw
+                className={`w-4 h-4 ${autoRefresh ? 'animate-spin' : ''}`}
+              />
             </button>
           </div>
         </div>
@@ -262,7 +356,7 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
 
       {/* View Mode Tabs */}
       <div className="flex border-b border-gray-700">
-        {['bracket', 'standings', 'schedule'].map((mode) => (
+        {['bracket', 'standings', 'schedule'].map(mode => (
           <button
             key={mode}
             onClick={() => setViewMode(mode)}
@@ -291,14 +385,24 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
               <div className="space-y-8">
                 {bracketData.rounds.map((round, roundIndex) => (
                   <div key={round.round} className="space-y-4">
-                    <h3 className="text-xl font-bold text-center">{round.name}</h3>
-                    <div className={`grid gap-4 ${
-                      round.matches.length === 1 ? 'grid-cols-1 max-w-md mx-auto' :
-                      round.matches.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
-                      'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
-                    }`}>
-                      {round.matches.map((match) => (
-                        <MatchCard key={match.id} match={match} roundIndex={roundIndex} />
+                    <h3 className="text-xl font-bold text-center">
+                      {round.name}
+                    </h3>
+                    <div
+                      className={`grid gap-4 ${
+                        round.matches.length === 1
+                          ? 'grid-cols-1 max-w-md mx-auto'
+                          : round.matches.length === 2
+                            ? 'grid-cols-1 md:grid-cols-2'
+                            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+                      }`}
+                    >
+                      {round.matches.map(match => (
+                        <MatchCard
+                          key={match.id}
+                          match={match}
+                          roundIndex={roundIndex}
+                        />
                       ))}
                     </div>
                   </div>
@@ -331,13 +435,19 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
                       <td className="px-4 py-3">1st</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <img src="/api/placeholder/32/32" alt="Elena" className="w-8 h-8 rounded-full" />
+                          <img
+                            src="/api/placeholder/32/32"
+                            alt="Elena"
+                            className="w-8 h-8 rounded-full"
+                          />
                           Elena Vasquez
                         </div>
                       </td>
                       <td className="px-4 py-3">2-0</td>
                       <td className="px-4 py-3">
-                        <span className="bg-green-500 text-white px-2 py-1 rounded text-xs">Finals</span>
+                        <span className="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                          Finals
+                        </span>
                       </td>
                     </tr>
                     {/* More standings rows... */}
@@ -357,17 +467,25 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
             >
               <h3 className="text-xl font-bold">Tournament Schedule</h3>
               <div className="space-y-3">
-                {bracketData.rounds.map((round) => (
-                  <div key={round.round} className="bg-gray-700/50 rounded-lg p-4">
+                {bracketData.rounds.map(round => (
+                  <div
+                    key={round.round}
+                    className="bg-gray-700/50 rounded-lg p-4"
+                  >
                     <h4 className="font-semibold mb-2">{round.name}</h4>
                     <div className="space-y-2">
-                      {round.matches.map((match) => (
-                        <div key={match.id} className="flex items-center justify-between text-sm">
+                      {round.matches.map(match => (
+                        <div
+                          key={match.id}
+                          className="flex items-center justify-between text-sm"
+                        >
                           <div>
-                            {match.player1?.name || 'TBD'} vs {match.player2?.name || 'TBD'}
+                            {match.player1?.name || 'TBD'} vs{' '}
+                            {match.player2?.name || 'TBD'}
                           </div>
                           <div className="text-gray-400">
-                            {match.startTime} {match.status === 'live' && '(LIVE)'}
+                            {match.startTime}{' '}
+                            {match.status === 'live' && '(LIVE)'}
                           </div>
                         </div>
                       ))}
@@ -394,31 +512,49 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
               className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-700"
             >
               <h3 className="text-xl font-bold mb-4">Match Details</h3>
-              
+
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
-                    <img src={selectedMatch.player1?.avatar} alt="" className="w-16 h-16 rounded-full mx-auto mb-2" />
-                    <div className="font-semibold">{selectedMatch.player1?.name}</div>
-                    <div className="text-sm text-gray-400">{selectedMatch.player1?.hero}</div>
+                    <img
+                      src={selectedMatch.player1?.avatar}
+                      alt=""
+                      className="w-16 h-16 rounded-full mx-auto mb-2"
+                    />
+                    <div className="font-semibold">
+                      {selectedMatch.player1?.name}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      {selectedMatch.player1?.hero}
+                    </div>
                   </div>
                   <div className="text-center">
-                    <img src={selectedMatch.player2?.avatar} alt="" className="w-16 h-16 rounded-full mx-auto mb-2" />
-                    <div className="font-semibold">{selectedMatch.player2?.name || 'TBD'}</div>
-                    <div className="text-sm text-gray-400">{selectedMatch.player2?.hero || ''}</div>
+                    <img
+                      src={selectedMatch.player2?.avatar}
+                      alt=""
+                      className="w-16 h-16 rounded-full mx-auto mb-2"
+                    />
+                    <div className="font-semibold">
+                      {selectedMatch.player2?.name || 'TBD'}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      {selectedMatch.player2?.hero || ''}
+                    </div>
                   </div>
                 </div>
-                
+
                 {selectedMatch.score && (
                   <div className="text-center">
-                    <div className="text-2xl font-bold">{selectedMatch.score}</div>
+                    <div className="text-2xl font-bold">
+                      {selectedMatch.score}
+                    </div>
                   </div>
                 )}
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-gray-400">Start Time:</span>
@@ -431,7 +567,7 @@ const LiveTournamentBracket = ({ tournamentId, isLive = true }) => {
                     </div>
                   )}
                 </div>
-                
+
                 {selectedMatch.status === 'live' && (
                   <div className="flex gap-2">
                     <button className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2">

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Bot, 
-  Lightbulb, 
-  TrendingUp, 
-  Target, 
+import {
+  Bot,
+  Lightbulb,
+  TrendingUp,
+  Target,
   Zap,
   Shield,
   Sword,
@@ -14,7 +14,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   MessageCircle,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 
 const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
@@ -25,16 +25,17 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
     {
       id: 1,
       type: 'ai',
-      message: "Hello! I'm your AI deck building assistant. I can help you optimize your deck, suggest cards, and analyze the meta. What would you like to work on?",
-      timestamp: new Date()
-    }
+      message:
+        "Hello! I'm your AI deck building assistant. I can help you optimize your deck, suggest cards, and analyze the meta. What would you like to work on?",
+      timestamp: new Date(),
+    },
   ]);
   const [userInput, setUserInput] = useState('');
 
   // Simulated AI suggestions based on deck analysis
   const generateSuggestions = () => {
     setIsAnalyzing(true);
-    
+
     // Simulate AI analysis delay
     setTimeout(() => {
       const newSuggestions = [
@@ -42,13 +43,18 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
           id: 1,
           type: 'card_suggestion',
           title: 'Add More Early Game',
-          description: 'Your deck lacks 1-2 mana creatures. Consider adding Lightning Sprite or Fire Imp.',
+          description:
+            'Your deck lacks 1-2 mana creatures. Consider adding Lightning Sprite or Fire Imp.',
           priority: 'high',
           cards: [
-            { name: 'Lightning Sprite', cost: 1, reason: 'Fast aggro pressure' },
-            { name: 'Fire Imp', cost: 2, reason: 'Good stats for cost' }
+            {
+              name: 'Lightning Sprite',
+              cost: 1,
+              reason: 'Fast aggro pressure',
+            },
+            { name: 'Fire Imp', cost: 2, reason: 'Good stats for cost' },
           ],
-          confidence: 85
+          confidence: 85,
         },
         {
           id: 2,
@@ -58,41 +64,51 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
           priority: 'medium',
           cards: [
             { name: 'Flame Bolt', cost: 2, reason: 'Versatile damage spell' },
-            { name: 'Incinerate', cost: 3, reason: 'High damage output' }
+            { name: 'Incinerate', cost: 3, reason: 'High damage output' },
           ],
-          confidence: 78
+          confidence: 78,
         },
         {
           id: 3,
           type: 'curve_optimization',
           title: 'Mana Curve Adjustment',
-          description: 'Your 4-mana slot is overcrowded. Consider moving some cards to 3 or 5 mana.',
+          description:
+            'Your 4-mana slot is overcrowded. Consider moving some cards to 3 or 5 mana.',
           priority: 'medium',
           cards: [
-            { name: 'Elemental Warrior', cost: 3, reason: 'Better curve position' }
+            {
+              name: 'Elemental Warrior',
+              cost: 3,
+              reason: 'Better curve position',
+            },
           ],
-          confidence: 72
+          confidence: 72,
         },
         {
           id: 4,
           type: 'synergy_boost',
           title: 'Enhance Elemental Synergy',
-          description: 'You have several elementals. Adding Elemental Lord would boost the tribal theme.',
+          description:
+            'You have several elementals. Adding Elemental Lord would boost the tribal theme.',
           priority: 'low',
           cards: [
-            { name: 'Elemental Lord', cost: 5, reason: 'Tribal synergy payoff' },
-            { name: 'Elemental Bond', cost: 2, reason: 'Card draw engine' }
+            {
+              name: 'Elemental Lord',
+              cost: 5,
+              reason: 'Tribal synergy payoff',
+            },
+            { name: 'Elemental Bond', cost: 2, reason: 'Card draw engine' },
           ],
-          confidence: 90
-        }
+          confidence: 90,
+        },
       ];
-      
+
       setSuggestions(newSuggestions);
       setIsAnalyzing(false);
     }, 2000);
   };
 
-  const handleChatSubmit = (e) => {
+  const handleChatSubmit = e => {
     e.preventDefault();
     if (!userInput.trim()) return;
 
@@ -101,7 +117,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
       id: Date.now(),
       type: 'user',
       message: userInput,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     setChatMessages(prev => [...prev, userMessage]);
@@ -115,17 +131,22 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
     setUserInput('');
   };
 
-  const generateAIResponse = (input) => {
+  const generateAIResponse = input => {
     const responses = {
-      'meta': "The current meta favors aggressive red decks and control blue builds. Midrange strategies are struggling against the speed of aggro and the inevitability of control.",
-      'budget': "For budget builds, I recommend focusing on common and uncommon cards. Fire Imp, Lightning Bolt, and Elemental Warrior provide great value for their cost.",
-      'aggro': "For aggro decks, prioritize low-cost creatures with high power, direct damage spells, and cards that provide immediate board presence.",
-      'control': "Control decks should focus on card draw, removal spells, and powerful late-game threats. Consider adding more counterspells and board wipes.",
-      'combo': "Combo decks need consistency. Add more card selection and protection spells to ensure you can execute your combo reliably."
+      meta: 'The current meta favors aggressive red decks and control blue builds. Midrange strategies are struggling against the speed of aggro and the inevitability of control.',
+      budget:
+        'For budget builds, I recommend focusing on common and uncommon cards. Fire Imp, Lightning Bolt, and Elemental Warrior provide great value for their cost.',
+      aggro:
+        'For aggro decks, prioritize low-cost creatures with high power, direct damage spells, and cards that provide immediate board presence.',
+      control:
+        'Control decks should focus on card draw, removal spells, and powerful late-game threats. Consider adding more counterspells and board wipes.',
+      combo:
+        'Combo decks need consistency. Add more card selection and protection spells to ensure you can execute your combo reliably.',
     };
 
     const lowerInput = input.toLowerCase();
-    let response = "I understand you're asking about deck building. Could you be more specific about what aspect you'd like help with?";
+    let response =
+      "I understand you're asking about deck building. Could you be more specific about what aspect you'd like help with?";
 
     for (const [key, value] of Object.entries(responses)) {
       if (lowerInput.includes(key)) {
@@ -138,26 +159,35 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
       id: Date.now() + 1,
       type: 'ai',
       message: response,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = priority => {
     switch (priority) {
-      case 'high': return 'text-red-400 border-red-400';
-      case 'medium': return 'text-yellow-400 border-yellow-400';
-      case 'low': return 'text-green-400 border-green-400';
-      default: return 'text-gray-400 border-gray-400';
+      case 'high':
+        return 'text-red-400 border-red-400';
+      case 'medium':
+        return 'text-yellow-400 border-yellow-400';
+      case 'low':
+        return 'text-green-400 border-green-400';
+      default:
+        return 'text-gray-400 border-gray-400';
     }
   };
 
-  const getSuggestionIcon = (type) => {
+  const getSuggestionIcon = type => {
     switch (type) {
-      case 'card_suggestion': return <Lightbulb className="w-5 h-5" />;
-      case 'removal_suggestion': return <Target className="w-5 h-5" />;
-      case 'curve_optimization': return <TrendingUp className="w-5 h-5" />;
-      case 'synergy_boost': return <Sparkles className="w-5 h-5" />;
-      default: return <Star className="w-5 h-5" />;
+      case 'card_suggestion':
+        return <Lightbulb className="w-5 h-5" />;
+      case 'removal_suggestion':
+        return <Target className="w-5 h-5" />;
+      case 'curve_optimization':
+        return <TrendingUp className="w-5 h-5" />;
+      case 'synergy_boost':
+        return <Sparkles className="w-5 h-5" />;
+      default:
+        return <Star className="w-5 h-5" />;
     }
   };
 
@@ -177,7 +207,9 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
           </div>
           <div>
             <h2 className="text-xl font-bold">AI Deck Assistant</h2>
-            <p className="text-purple-100 text-sm">Powered by advanced deck analysis</p>
+            <p className="text-purple-100 text-sm">
+              Powered by advanced deck analysis
+            </p>
           </div>
         </div>
       </div>
@@ -247,7 +279,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
               </button>
 
               {/* Suggestions List */}
-              {suggestions.map((suggestion) => (
+              {suggestions.map(suggestion => (
                 <motion.div
                   key={suggestion.id}
                   initial={{ opacity: 0, x: -20 }}
@@ -263,23 +295,30 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                       {suggestion.confidence}% confidence
                     </div>
                   </div>
-                  
-                  <p className="text-sm text-gray-300 mb-3">{suggestion.description}</p>
-                  
+
+                  <p className="text-sm text-gray-300 mb-3">
+                    {suggestion.description}
+                  </p>
+
                   <div className="space-y-2">
                     {suggestion.cards.map((card, index) => (
-                      <div key={index} className="flex items-center justify-between bg-gray-800/50 p-2 rounded">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between bg-gray-800/50 p-2 rounded"
+                      >
                         <div className="flex items-center gap-2">
                           <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">
                             {card.cost}
                           </div>
                           <span className="font-medium">{card.name}</span>
                         </div>
-                        <div className="text-xs text-gray-400">{card.reason}</div>
+                        <div className="text-xs text-gray-400">
+                          {card.reason}
+                        </div>
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => onSuggestion?.(suggestion)}
@@ -310,7 +349,9 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
               {/* Deck Stats */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-700/50 p-3 rounded-lg text-center">
-                  <div className="text-2xl font-bold text-blue-400">{currentDeck.length}</div>
+                  <div className="text-2xl font-bold text-blue-400">
+                    {currentDeck.length}
+                  </div>
                   <div className="text-xs text-gray-400">Total Cards</div>
                 </div>
                 <div className="bg-gray-700/50 p-3 rounded-lg text-center">
@@ -340,7 +381,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                     <li>• Consistent damage output</li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold text-red-400 mb-2 flex items-center gap-2">
                     <Sword className="w-4 h-4" />
@@ -366,7 +407,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
             >
               {/* Chat Messages */}
               <div className="space-y-3 max-h-64 overflow-y-auto">
-                {chatMessages.map((message) => (
+                {chatMessages.map(message => (
                   <div
                     key={message.id}
                     className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -392,7 +433,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                 <input
                   type="text"
                   value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
+                  onChange={e => setUserInput(e.target.value)}
                   placeholder="Ask about deck building, meta, strategies..."
                   className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                 />
