@@ -271,11 +271,6 @@ const OfficialDecklists = () => {
           <h1 className="text-4xl font-bold text-white mb-4">
             Tournament Decklists
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Top ranking decklists from KONIVRER events, tournaments, and
-            championships. Search by player, hero, event name, country, format,
-            and card names!
-          </p>
         </div>
 
         {/* Search and Filters */}

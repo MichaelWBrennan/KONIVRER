@@ -98,7 +98,7 @@ const TournamentManager = () => {
 
   const renderDashboard = () => (
     <div className="space-y-6">
-      {/* Quick Stats */}
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-secondary border border-color rounded-xl p-6">
           <div className="flex items-center gap-3">
