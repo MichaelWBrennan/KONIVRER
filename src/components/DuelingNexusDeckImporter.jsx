@@ -1,15 +1,15 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Upload, 
-  Download, 
-  FileText, 
-  Check, 
-  X, 
+import {
+  Upload,
+  Download,
+  FileText,
+  Check,
+  X,
   AlertCircle,
   ExternalLink,
   Copy,
-  Shuffle
+  Shuffle,
 } from 'lucide-react';
 import { getCardById, getCardByName, sampleDecks } from '../data/yugiohCards';
 
@@ -25,24 +25,24 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   // Sample Dueling Nexus deck URLs for testing
   const sampleDeckUrls = [
     {
-      name: "Blue-Eyes White Dragon Deck",
-      url: "https://duelingnexus.com/editor/ef5992735661af87b7d7d3c07f610027",
-      description: "Classic Blue-Eyes beatdown deck"
+      name: 'Blue-Eyes White Dragon Deck',
+      url: 'https://duelingnexus.com/editor/ef5992735661af87b7d7d3c07f610027',
+      description: 'Classic Blue-Eyes beatdown deck',
     },
     {
-      name: "Elemental HERO Deck",
-      url: "https://duelingnexus.com/editor/xyz789uvw456rst123opq890lmn567hij",
-      description: "Fusion-based HERO deck"
+      name: 'Elemental HERO Deck',
+      url: 'https://duelingnexus.com/editor/xyz789uvw456rst123opq890lmn567hij',
+      description: 'Fusion-based HERO deck',
     },
     {
-      name: "Dark Magician Deck", 
-      url: "https://duelingnexus.com/editor/abc123def456ghi789jkl012mno345pqr",
-      description: "Spellcaster-focused Dark Magician deck"
-    }
+      name: 'Dark Magician Deck',
+      url: 'https://duelingnexus.com/editor/abc123def456ghi789jkl012mno345pqr',
+      description: 'Spellcaster-focused Dark Magician deck',
+    },
   ];
 
   // Parse Dueling Nexus deck format
-  const parseDuelingNexusDeck = (deckData) => {
+  const parseDuelingNexusDeck = deckData => {
     try {
       // Dueling Nexus deck format structure
       const deck = {
@@ -54,7 +54,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         sideDeck: [],
         totalCards: 0,
         format: deckData.format || 'TCG',
-        created: new Date().toISOString()
+        created: new Date().toISOString(),
       };
 
       // Parse main deck
@@ -62,7 +62,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         deck.mainDeck = deckData.mainDeck.map((card, index) => ({
           ...card,
           uniqueId: `main_${index}_${Date.now()}`,
-          zone: 'main'
+          zone: 'main',
         }));
       }
 
@@ -71,7 +71,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         deck.extraDeck = deckData.extraDeck.map((card, index) => ({
           ...card,
           uniqueId: `extra_${index}_${Date.now()}`,
-          zone: 'extra'
+          zone: 'extra',
         }));
       }
 
@@ -80,11 +80,12 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         deck.sideDeck = deckData.sideDeck.map((card, index) => ({
           ...card,
           uniqueId: `side_${index}_${Date.now()}`,
-          zone: 'side'
+          zone: 'side',
         }));
       }
 
-      deck.totalCards = deck.mainDeck.length + deck.extraDeck.length + deck.sideDeck.length;
+      deck.totalCards =
+        deck.mainDeck.length + deck.extraDeck.length + deck.sideDeck.length;
 
       return deck;
     } catch (error) {
@@ -93,7 +94,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Import deck from URL
-  const importFromUrl = async (url) => {
+  const importFromUrl = async url => {
     setImportStatus('loading');
     setErrorMessage('');
 
@@ -107,11 +108,10 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
       // Simulate API call to Dueling Nexus
       // In a real implementation, you would make an actual API call
       const mockDeckData = await simulateDuelingNexusAPI(deckId);
-      
+
       const parsedDeck = parseDuelingNexusDeck(mockDeckData);
       setImportedDeck(parsedDeck);
       setImportStatus('success');
-      
     } catch (error) {
       setErrorMessage(error.message);
       setImportStatus('error');
@@ -119,7 +119,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Import deck from text
-  const importFromText = (text) => {
+  const importFromText = text => {
     setImportStatus('loading');
     setErrorMessage('');
 
@@ -135,11 +135,11 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Extract deck ID from Dueling Nexus URL
-  const extractDeckId = (url) => {
+  const extractDeckId = url => {
     const patterns = [
       /duelingnexus\.com\/editor\/([a-f0-9]+)/i,
       /duelingnexus\.com\/deck\/([a-f0-9]+)/i,
-      /duelingnexus\.com\/share\/([a-f0-9]+)/i
+      /duelingnexus\.com\/share\/([a-f0-9]+)/i,
     ];
 
     for (const pattern of patterns) {
@@ -152,14 +152,18 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Simulate Dueling Nexus API response
-  const simulateDuelingNexusAPI = async (deckId) => {
+  const simulateDuelingNexusAPI = async deckId => {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Mock deck data based on deck ID
     const mockDecks = {
-      'ef5992735661af87b7d7d3c07f610027': convertSampleDeckToAPI(sampleDecks.blueEyes),
-      'xyz789uvw456rst123opq890lmn567hij': convertSampleDeckToAPI(sampleDecks.elementalHero)
+      ef5992735661af87b7d7d3c07f610027: convertSampleDeckToAPI(
+        sampleDecks.blueEyes,
+      ),
+      xyz789uvw456rst123opq890lmn567hij: convertSampleDeckToAPI(
+        sampleDecks.elementalHero,
+      ),
     };
 
     const deckData = mockDecks[deckId];
@@ -171,8 +175,8 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Convert sample deck format to API format
-  const convertSampleDeckToAPI = (sampleDeck) => {
-    const convertCardList = (cardList) => {
+  const convertSampleDeckToAPI = sampleDeck => {
+    const convertCardList = cardList => {
       const result = [];
       cardList.forEach(({ cardId, count }) => {
         const card = getCardById(cardId);
@@ -189,14 +193,17 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
       ...sampleDeck,
       mainDeck: convertCardList(sampleDeck.mainDeck),
       extraDeck: convertCardList(sampleDeck.extraDeck),
-      sideDeck: convertCardList(sampleDeck.sideDeck)
+      sideDeck: convertCardList(sampleDeck.sideDeck),
     };
   };
 
   // Parse text format (YDK, deck list, etc.)
-  const parseTextFormat = (text) => {
-    const lines = text.split('\n').map(line => line.trim()).filter(line => line);
-    
+  const parseTextFormat = text => {
+    const lines = text
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line);
+
     if (lines.length === 0) {
       throw new Error('Empty deck list');
     }
@@ -211,7 +218,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Parse YDK format
-  const parseYDKFormat = (lines) => {
+  const parseYDKFormat = lines => {
     const deck = {
       name: 'YDK Imported Deck',
       author: 'Unknown',
@@ -219,11 +226,11 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
       mainDeck: [],
       extraDeck: [],
       sideDeck: [],
-      format: 'TCG'
+      format: 'TCG',
     };
 
     let currentSection = 'main';
-    
+
     for (const line of lines) {
       if (line.startsWith('#')) continue;
       if (line === '!side') {
@@ -241,7 +248,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         if (card) {
           deck[currentSection + 'Deck'].push({
             ...card,
-            uniqueId: `${currentSection}_${cardId}_${Date.now()}_${Math.random()}`
+            uniqueId: `${currentSection}_${cardId}_${Date.now()}_${Math.random()}`,
           });
         }
       }
@@ -251,15 +258,15 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Parse simple deck list
-  const parseSimpleDeckList = (lines) => {
+  const parseSimpleDeckList = lines => {
     const deck = {
       name: 'Text Imported Deck',
-      author: 'Unknown', 
+      author: 'Unknown',
       description: 'Imported from text list',
       mainDeck: [],
       extraDeck: [],
       sideDeck: [],
-      format: 'TCG'
+      format: 'TCG',
     };
 
     for (const line of lines) {
@@ -268,13 +275,13 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
       if (match) {
         const count = parseInt(match[1] || match[4]);
         const cardName = (match[2] || match[3]).trim();
-        
+
         const card = getCardByName(cardName);
         if (card) {
           for (let i = 0; i < count; i++) {
             deck.mainDeck.push({
               ...card,
-              uniqueId: `main_${cardName}_${i}_${Date.now()}`
+              uniqueId: `main_${cardName}_${i}_${Date.now()}`,
             });
           }
         }
@@ -287,12 +294,12 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   // Note: getCardById and getCardByName are imported from yugiohCards.js
 
   // Handle file upload
-  const handleFileUpload = (event) => {
+  const handleFileUpload = event => {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       const content = e.target.result;
       importFromText(content);
     };
@@ -300,7 +307,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
   };
 
   // Copy deck URL to clipboard
-  const copyToClipboard = (text) => {
+  const copyToClipboard = text => {
     navigator.clipboard.writeText(text);
   };
 
@@ -317,10 +324,12 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Import Dueling Nexus Deck</h2>
+          <h2 className="text-2xl font-bold text-white">
+            Import Dueling Nexus Deck
+          </h2>
           <button
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-white transition-colors"
@@ -334,7 +343,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
           {[
             { id: 'url', label: 'Deck URL', icon: ExternalLink },
             { id: 'file', label: 'Upload File', icon: Upload },
-            { id: 'text', label: 'Paste Text', icon: FileText }
+            { id: 'text', label: 'Paste Text', icon: FileText },
           ].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -364,7 +373,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
                   <input
                     type="url"
                     value={deckUrl}
-                    onChange={(e) => setDeckUrl(e.target.value)}
+                    onChange={e => setDeckUrl(e.target.value)}
                     placeholder="https://duelingnexus.com/editor/..."
                     className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -380,7 +389,9 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
 
               {/* Sample Decks */}
               <div>
-                <h4 className="text-sm font-medium text-gray-300 mb-2">Sample Decks</h4>
+                <h4 className="text-sm font-medium text-gray-300 mb-2">
+                  Sample Decks
+                </h4>
                 <div className="space-y-2">
                   {sampleDeckUrls.map((deck, index) => (
                     <div
@@ -388,8 +399,12 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
                       className="flex items-center justify-between p-3 bg-gray-700 rounded-lg"
                     >
                       <div>
-                        <div className="font-medium text-white">{deck.name}</div>
-                        <div className="text-sm text-gray-400">{deck.description}</div>
+                        <div className="font-medium text-white">
+                          {deck.name}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {deck.description}
+                        </div>
                       </div>
                       <div className="flex space-x-2">
                         <button
@@ -452,7 +467,7 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
               </label>
               <textarea
                 value={deckText}
-                onChange={(e) => setDeckText(e.target.value)}
+                onChange={e => setDeckText(e.target.value)}
                 placeholder="Paste your deck list here...&#10;Format examples:&#10;3x Blue-Eyes White Dragon&#10;2x Mystical Space Typhoon&#10;1x Mirror Force"
                 rows={10}
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -491,7 +506,9 @@ const DuelingNexusDeckImporter = ({ onDeckImported, onClose }) => {
 
               {/* Deck Preview */}
               <div className="bg-gray-700 rounded-lg p-4">
-                <h4 className="font-bold text-white mb-2">{importedDeck.name}</h4>
+                <h4 className="font-bold text-white mb-2">
+                  {importedDeck.name}
+                </h4>
                 <div className="text-sm text-gray-300 space-y-1">
                   <div>Author: {importedDeck.author}</div>
                   <div>Format: {importedDeck.format}</div>
