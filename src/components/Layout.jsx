@@ -79,9 +79,9 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
-    // Game Hub - unified cards, decks, and market system
+    // Game Platform - unified cards, decks, market, and tools system
     baseNavigation.push({
-      name: 'Game Hub',
+      name: 'Game Platform',
       href: '/hub',
       icon: Database,
     });
@@ -91,13 +91,6 @@ const Layout = ({ children }) => {
       name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
-    });
-
-    // Tools - utilities like commanders, collection, battle pass, card maker
-    baseNavigation.push({
-      name: 'Tools',
-      href: '/tools',
-      icon: Settings,
     });
 
     // Community - social features and interaction
