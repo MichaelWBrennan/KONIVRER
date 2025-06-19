@@ -13,7 +13,7 @@ import AIAssistant from '../components/AIAssistant';
 
 // Import remaining components
 import BattlePass from './BattlePass';
-import CardMaker from './CardMaker';
+
 
 const UnifiedGamePlatform = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -119,29 +119,6 @@ const UnifiedGamePlatform = () => {
           id: 'favorites',
           name: 'Favorites',
           component: CollectionManager,
-        },
-      ],
-    },
-    {
-      id: 'create',
-      name: 'Create',
-
-      color: 'from-pink-500 to-rose-500',
-      features: [
-        {
-          id: 'cardmaker',
-          name: 'Card Maker',
-          component: CardMaker,
-        },
-        {
-          id: 'templates',
-          name: 'Templates',
-          component: CardMaker,
-        },
-        {
-          id: 'share',
-          name: 'Share Creations',
-          component: CardMaker,
         },
       ],
     },
