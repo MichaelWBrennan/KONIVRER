@@ -151,8 +151,8 @@ const GameSimulator = () => {
     
     // Draw a card for the next player
     const nextPlayer = newGameState.players[nextPlayerId];
-    if (nextPlayer.library.length > 0) {
-      nextPlayer.hand.push(nextPlayer.library.shift());
+    if (nextPlayer.deck.length > 0) {
+      nextPlayer.hand.push(nextPlayer.deck.shift());
     }
     
     // Increase max azoth for next player (up to 10)
@@ -163,8 +163,8 @@ const GameSimulator = () => {
     // Restore azoth to max
     nextPlayer.azoth = nextPlayer.maxAzoth;
     
-    // Untap all cards on battlefield
-    nextPlayer.battlefield.forEach(card => {
+    // Untap all cards in field and combat row
+    [...nextPlayer.field, ...nextPlayer.combatRow].forEach(card => {
       card.tapped = false;
     });
 
@@ -195,12 +195,13 @@ const GameSimulator = () => {
     // Pay cost
     player.azoth -= cardCost;
     
-    // Add to battlefield or resolve effect
-    if (card.type.includes('CREATURE') || card.type.includes('AMILIAR')) {
-      player.battlefield.push({ ...card, tapped: false, summoned: true });
-      newGameState.gameLog.unshift(`${player.name} summoned ${card.name}`);
-    } else {
-      // Spell effect - add to graveyard
+    // Add to appropriate zone based on card type
+    if (card.type.includes('AMILIAR')) {
+      // Familiars go to the field first, then can be moved to combat row
+      player.field.push({ ...card, tapped: false, summoned: true });
+      newGameState.gameLog.unshift(`${player.name} summoned ${card.name} to the field`);
+    } else if (card.type.includes('SPELL')) {
+      // Spells resolve and go to graveyard
       player.graveyard.push(card);
       newGameState.gameLog.unshift(`${player.name} cast ${card.name}`);
       
