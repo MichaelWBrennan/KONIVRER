@@ -2,14 +2,24 @@
   {
     "id": "mb001",
     "name": "ABISS",
-    "elements": ["✡︎⃝", "▢", "∇"],
-    "keywords": ["Void", "Submerged"],
+    "elements": [
+      "✡︎⃝",
+      "▢",
+      "∇"
+    ],
+    "keywords": [
+      "Void",
+      "Submerged"
+    ],
     "cost": "1/2",
     "power": 0,
     "rarity": "rare",
     "type": "AZΘΘ/Φ AMILIAR/SPELL",
     "class": "ELEMENTAL",
-    "talents": ["Void", "Water"],
+    "talents": [
+      "Void",
+      "Water"
+    ],
     "set": "MB",
     "setNumber": "1/63",
     "artist": "Unknown",
@@ -20,14 +30,20 @@
   {
     "id": "card001",
     "name": "Gustling Wisp",
-    "elements": ["🜁"],
-    "keywords": ["Gust"],
+    "elements": [
+      "🜁"
+    ],
+    "keywords": [
+      "Gust"
+    ],
     "cost": 1,
     "power": 1,
     "rarity": "common",
     "type": "Creature",
     "class": "Elemental",
-    "talents": ["Wind"],
+    "talents": [
+      "Wind"
+    ],
     "set": "Core Set",
     "artist": "Alex Chen",
     "flavor": "Swift as the morning breeze.",
@@ -37,14 +53,20 @@
   {
     "id": "card002",
     "name": "Infernal Sprinter",
-    "elements": ["🜂"],
-    "keywords": ["Inferno"],
+    "elements": [
+      "🜂"
+    ],
+    "keywords": [
+      "Inferno"
+    ],
     "cost": 2,
     "power": 2,
     "rarity": "uncommon",
     "type": "Creature",
     "class": "Demon",
-    "talents": ["Fire"],
+    "talents": [
+      "Fire"
+    ],
     "set": "Core Set",
     "artist": "Maria Rodriguez",
     "flavor": "Burning trails across the battlefield.",
@@ -54,14 +76,23 @@
   {
     "id": "card003",
     "name": "Brilliant Watcher",
-    "elements": ["🜃", "🜄"],
-    "keywords": ["Brilliance", "Steadfast"],
+    "elements": [
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Steadfast"
+    ],
     "cost": 3,
     "power": 3,
     "rarity": "rare",
     "type": "Creature",
     "class": "Guardian",
-    "talents": ["Light", "Earth"],
+    "talents": [
+      "Light",
+      "Earth"
+    ],
     "set": "Core Set",
     "artist": "David Kim",
     "flavor": "Ever vigilant, ever bright.",
@@ -71,14 +102,20 @@
   {
     "id": "card004",
     "name": "Lightning Bolt",
-    "elements": ["🜁"],
-    "keywords": ["Instant"],
+    "elements": [
+      "🜁"
+    ],
+    "keywords": [
+      "Instant"
+    ],
     "cost": 1,
     "power": 0,
     "rarity": "common",
     "type": "Spell",
     "class": "Elemental",
-    "talents": ["Wind"],
+    "talents": [
+      "Wind"
+    ],
     "set": "Core Set",
     "artist": "Sarah Johnson",
     "flavor": "Quick as lightning, twice as deadly.",
@@ -88,14 +125,20 @@
   {
     "id": "card005",
     "name": "Healing Potion",
-    "elements": ["🜄"],
-    "keywords": ["Instant"],
+    "elements": [
+      "🜄"
+    ],
+    "keywords": [
+      "Instant"
+    ],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Spell",
     "class": "Support",
-    "talents": ["Earth"],
+    "talents": [
+      "Earth"
+    ],
     "set": "Core Set",
     "artist": "Emily Zhang",
     "flavor": "Nature's remedy for all wounds.",
@@ -105,14 +148,20 @@
   {
     "id": "card006",
     "name": "Flame Sword",
-    "elements": ["🜂"],
-    "keywords": ["Equipment"],
+    "elements": [
+      "🜂"
+    ],
+    "keywords": [
+      "Equipment"
+    ],
     "cost": 3,
     "power": 2,
     "rarity": "uncommon",
     "type": "Equipment",
     "class": "Weapon",
-    "talents": ["Fire"],
+    "talents": [
+      "Fire"
+    ],
     "set": "Core Set",
     "artist": "Michael Brown",
     "flavor": "Forged in the heart of a volcano.",
@@ -122,14 +171,21 @@
   {
     "id": "card007",
     "name": "Crystal Shield",
-    "elements": ["🜃"],
-    "keywords": ["Equipment", "Steadfast"],
+    "elements": [
+      "🜃"
+    ],
+    "keywords": [
+      "Equipment",
+      "Steadfast"
+    ],
     "cost": 2,
     "power": 0,
     "rarity": "uncommon",
     "type": "Equipment",
     "class": "Armor",
-    "talents": ["Light"],
+    "talents": [
+      "Light"
+    ],
     "set": "Core Set",
     "artist": "Lisa Wang",
     "flavor": "Reflecting both light and harm.",
@@ -139,14 +195,24 @@
   {
     "id": "card008",
     "name": "Ancient Dragon",
-    "elements": ["🜂", "🜃"],
-    "keywords": ["Flying", "Inferno", "Brilliance"],
+    "elements": [
+      "🜂",
+      "🜃"
+    ],
+    "keywords": [
+      "Flying",
+      "Inferno",
+      "Brilliance"
+    ],
     "cost": 7,
     "power": 7,
     "rarity": "mythic",
     "type": "Creature",
     "class": "Dragon",
-    "talents": ["Fire", "Light"],
+    "talents": [
+      "Fire",
+      "Light"
+    ],
     "set": "Core Set",
     "artist": "Robert Taylor",
     "flavor": "Legends speak of its eternal flame.",
@@ -156,14 +222,21 @@
   {
     "id": "card009",
     "name": "Void Walker",
-    "elements": ["🜅"],
-    "keywords": ["Shadow", "Stealth"],
+    "elements": [
+      "🜅"
+    ],
+    "keywords": [
+      "Shadow",
+      "Stealth"
+    ],
     "cost": 4,
     "power": 3,
     "rarity": "rare",
     "type": "Creature",
     "class": "Assassin",
-    "talents": ["Shadow"],
+    "talents": [
+      "Shadow"
+    ],
     "set": "Core Set",
     "artist": "Anna Lee",
     "flavor": "Moving between worlds unseen.",
@@ -174,7 +247,9 @@
     "id": "card010",
     "name": "Mana Crystal",
     "elements": [],
-    "keywords": ["Artifact"],
+    "keywords": [
+      "Artifact"
+    ],
     "cost": 0,
     "power": 0,
     "rarity": "common",
@@ -190,14 +265,23 @@
   {
     "id": "card011",
     "name": "Storm Caller",
-    "elements": ["🜁", "🜃"],
-    "keywords": ["Flying", "Storm"],
+    "elements": [
+      "🜁",
+      "🜃"
+    ],
+    "keywords": [
+      "Flying",
+      "Storm"
+    ],
     "cost": 5,
     "power": 4,
     "rarity": "rare",
     "type": "Creature",
     "class": "Wizard",
-    "talents": ["Wind", "Light"],
+    "talents": [
+      "Wind",
+      "Light"
+    ],
     "set": "Expansion 1",
     "artist": "Jennifer Adams",
     "flavor": "Master of wind and lightning.",
@@ -207,18 +291,1959 @@
   {
     "id": "card012",
     "name": "Earth Golem",
-    "elements": ["🜄"],
-    "keywords": ["Steadfast", "Defender"],
+    "elements": [
+      "🜄"
+    ],
+    "keywords": [
+      "Steadfast",
+      "Defender"
+    ],
     "cost": 4,
     "power": 2,
     "rarity": "uncommon",
     "type": "Creature",
     "class": "Construct",
-    "talents": ["Earth"],
+    "talents": [
+      "Earth"
+    ],
     "set": "Expansion 1",
     "artist": "Mark Thompson",
     "flavor": "Carved from the living mountain.",
     "text": "Defender, Steadfast. When this enters, gain 3 life.",
     "image": "/images/cards/earth-golem.jpg"
+  },
+  {
+    "id": "gd_001_abiss",
+    "name": "ABISS",
+    "elements": [
+      "✡︎⃝",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Submerged",
+      "Void"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "1/63",
+    "artist": "Unknown",
+    "flavor": "Truth shines brilliantly through all veils, revealing herself despite attempts to hide her from view. ~The Green Dream",
+    "text": "VOID, SUBMERGED",
+    "image": "/images/cards/abiss.jpg"
+  },
+  {
+    "id": "gd_002_angel",
+    "name": "ANGEL",
+    "elements": [
+      "✡︎⃝",
+      "⬢"
+    ],
+    "keywords": [
+      "Brilliance"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "2/63",
+    "artist": "Unknown",
+    "flavor": "In deepest sleep, I beheld a 15-foot statue of a perfectly proportioned old man. ~The Green Dream",
+    "text": "BRILLIANCE",
+    "image": "/images/cards/angel.jpg"
+  },
+  {
+    "id": "gd_003_azoth",
+    "name": "AZOΘ",
+    "elements": [
+      "✡︎⃝"
+    ],
+    "keywords": [
+      "Quintessence"
+    ],
+    "cost": 1,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Quintessence"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "3/63",
+    "artist": "Unknown",
+    "flavor": "His silver hair bore dazzling turquoise and carbuncles, their light too bright to bear. ~The Green Dream",
+    "text": "QUINTESSANCE",
+    "image": "/images/cards/azoth.jpg"
+  },
+  {
+    "id": "gd_004_brigt_dvst",
+    "name": "BRIΓT DVST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Steadfast"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "4/63",
+    "artist": "Unknown",
+    "flavor": "His form had golden lips, oriental pearl teeth, and a body of brilliant ruby. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, STEADFAST",
+    "image": "/images/cards/brigt_dvst.jpg"
+  },
+  {
+    "id": "gd_005_brigt_fvlgvrite",
+    "name": "BRIΓT FVLGVRITE",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "5/63",
+    "artist": "Unknown",
+    "flavor": "His left foot rested upon the Earth Globe, which supported him. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, STEADFAST",
+    "image": "/images/cards/brigt_fvlgvrite.jpg"
+  },
+  {
+    "id": "gd_006_frost",
+    "name": "FROST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "6/63",
+    "artist": "Unknown",
+    "flavor": "His right fingertip held a celestial globe aloft; his left hand gripped a diamond key. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, SUBMERGED",
+    "image": "/images/cards/frost.jpg"
+  },
+  {
+    "id": "gd_007_brigt_thvndersnovv",
+    "name": "BRIΓT THVNDERSNOVV",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Submerged"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "7/63",
+    "artist": "Unknown",
+    "flavor": "Approaching, he said: 'I am the Genius of the Wise. Follow me without fear.' ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, SUBMERGED",
+    "image": "/images/cards/brigt_thvndersnovv.jpg"
+  },
+  {
+    "id": "gd_008_brigt_lava",
+    "name": "BRIΓT LAVA",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "8/63",
+    "artist": "Unknown",
+    "flavor": "Gripping my hair with his key hand, he carried me through regions of Air, Fire, and Planetary Heavens. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, STEADFAST",
+    "image": "/images/cards/brigt_lava.jpg"
+  },
+  {
+    "id": "gd_009_brigt_ligtning",
+    "name": "BRIΓT LIΓTNING",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "9/63",
+    "artist": "Unknown",
+    "flavor": "After wrapping me in a whirlwind, he vanished. I found myself on an isle in a sea of blood. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO",
+    "image": "/images/cards/brigt_ligtning.jpg"
+  },
+  {
+    "id": "gd_010_brigt_lahar",
+    "name": "BRIΓT LAHAR",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "10/63",
+    "artist": "Unknown",
+    "flavor": "Walking the beach of this distant land, I noticed the blood sea was warm and vital. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, STEADFAST, SUBMERGED",
+    "image": "/images/cards/brigt_lahar.jpg"
+  },
+  {
+    "id": "gd_011_brigt_mvd",
+    "name": "BRIΓT MVD",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "11/63",
+    "artist": "Unknown",
+    "flavor": "A constant breeze stirred the sea, maintaining its warmth and causing the isle to pulse gently. ~The Green Dream",
+    "text": "BRILLIANCE, STEADFAST, SUBMERGED",
+    "image": "/images/cards/brigt_mvd.jpg"
+  },
+  {
+    "id": "gd_012_brigt_steam",
+    "name": "BRIΓT STEAM",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "12/63",
+    "artist": "Unknown",
+    "flavor": "Lost in wonder at these marvels, I saw people approaching. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, SUBMERGED",
+    "image": "/images/cards/brigt_steam.jpg"
+  },
+  {
+    "id": "gd_013_brigt_permaphrost",
+    "name": "BRIΓT PERMAΦROST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "13/63",
+    "artist": "Unknown",
+    "flavor": "I hid under jasmine, but its scent made me sleep. They found and caught me. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, STEADFAST, SUBMERGED",
+    "image": "/images/cards/brigt_permaphrost.jpg"
+  },
+  {
+    "id": "gd_014_dark_dvst",
+    "name": "DARK DVST",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Gust",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "14/63",
+    "artist": "Unknown",
+    "flavor": "Their leader demanded why I dared come from Netherlands to their high realm. ~The Green Dream",
+    "text": "GUST, VOID, STEADFAST",
+    "image": "/images/cards/dark_dvst.jpg"
+  },
+  {
+    "id": "gd_015_dark_fvlgvrite",
+    "name": "DARK FVLGVRITE",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "15/63",
+    "artist": "Unknown",
+    "flavor": "After I explained, he welcomed me as one guided by their mighty Genie. ~The Green Dream",
+    "text": "GUST, INFERNO, VOID, STEADFAST",
+    "image": "/images/cards/dark_fvlgvrite.jpg"
+  },
+  {
+    "id": "gd_016_dark_ice",
+    "name": "DARK ICE",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "16/63",
+    "artist": "Unknown",
+    "flavor": "They greeted me by lying back, turning over, then rising - their custom. ~The Green Dream",
+    "text": "GUST, VOID, SUBMERGED",
+    "image": "/images/cards/dark_ice.jpg"
+  },
+  {
+    "id": "gd_017_dark_thvndersnovv",
+    "name": "DARK THVNDERSNOVV",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "17/63",
+    "artist": "Unknown",
+    "flavor": "I returned their greeting in my own way. ~The Green Dream",
+    "text": "GUST, INFERNO, VOID, SUBMERGED",
+    "image": "/images/cards/dark_thvndersnovv.jpg"
+  },
+  {
+    "id": "gd_018_dark_lava",
+    "name": "DARK LAVA",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "18/63",
+    "artist": "Unknown",
+    "flavor": "He offered to present me to Emperor Hagacestaur. ~The Green Dream",
+    "text": "INFERNO, VOID, STEADFAST",
+    "image": "/images/cards/dark_lava.jpg"
+  },
+  {
+    "id": "gd_019_dark_ligtning",
+    "name": "DARK LIΓTNING",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "▢"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "19/63",
+    "artist": "Unknown",
+    "flavor": "He apologized for lacking transport to town, a league away. ~The Green Dream",
+    "text": "GUST, INFERNO, VOID",
+    "image": "/images/cards/dark_ligtning.jpg"
+  },
+  {
+    "id": "gd_020_fog",
+    "name": "FOG",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "20/63",
+    "artist": "Unknown",
+    "flavor": "He told of Hagacestaur's seven realms, ruling from the central one. ~The Green Dream",
+    "text": "GUST, VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/fog.jpg"
+  },
+  {
+    "id": "gd_021_dark_lahar",
+    "name": "DARK LAHAR",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Inferno",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "21/63",
+    "artist": "Unknown",
+    "flavor": "He saw me carefully avoiding the countless flowers growing on the paths. ~The Green Dream",
+    "text": "INFERNO, VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/dark_lahar.jpg"
+  },
+  {
+    "id": "gd_022_embers",
+    "name": "EMBERS",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "▢"
+    ],
+    "keywords": [
+      "Inferno",
+      "Void"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "22/63",
+    "artist": "Unknown",
+    "flavor": "Smiling, he asked if I feared harming the blooms. ~The Green Dream",
+    "text": "INFERNO, VOID",
+    "image": "/images/cards/embers.jpg"
+  },
+  {
+    "id": "gd_023_smoke",
+    "name": "SMOKE",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "23/63",
+    "artist": "Unknown",
+    "flavor": "I explained flowers were rare at home; I hated trampling them. ~The Green Dream",
+    "text": "INFERNO, VOID, SUBMERGED",
+    "image": "/images/cards/smoke.jpg"
+  },
+  {
+    "id": "gd_024_dark_tiphoon",
+    "name": "DARK TIΦOON",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [],
+    "set": "The Green Dream",
+    "setNumber": "24/63",
+    "artist": "Unknown",
+    "flavor": "Seeing only flowers and fruits, I asked where they grew corn. ~The Green Dream",
+    "text": "",
+    "image": "/images/cards/dark_tiphoon.jpg"
+  },
+  {
+    "id": "gd_025_dvst",
+    "name": "DVST",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜃"
+    ],
+    "keywords": [
+      "Gust",
+      "Steadfast"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "25/63",
+    "artist": "Unknown",
+    "flavor": "They send excess corn to Netherlands, keep some for beasts. None planted. ~The Green Dream",
+    "text": "GUST, STEADFAST",
+    "image": "/images/cards/dvst.jpg"
+  },
+  {
+    "id": "gd_026_ash",
+    "name": "ASH",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "🜃"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Steadfast"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "26/63",
+    "artist": "Unknown",
+    "flavor": "Their bread is made from flowers, kneaded with dew and baked in sunlight. ~The Green Dream",
+    "text": "GUST, INFERNO, STEADFAST",
+    "image": "/images/cards/ash.jpg"
+  },
+  {
+    "id": "gd_027_geode",
+    "name": "GEODE",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Steadfast"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "27/63",
+    "artist": "Unknown",
+    "flavor": "He stopped me eating pears, saying they were beast-food, but I tried anyway. ~The Green Dream",
+    "text": "BRILLIANCE, STEADFAST",
+    "image": "/images/cards/geode.jpg"
+  },
+  {
+    "id": "gd_028_gnome",
+    "name": "GNOME",
+    "elements": [
+      "✡︎⃝",
+      "🜃"
+    ],
+    "keywords": [
+      "Steadfast"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "28/63",
+    "artist": "Unknown",
+    "flavor": "The taste was remarkable. ~The Green Dream",
+    "text": "STEADFAST",
+    "image": "/images/cards/gnome.jpg"
+  },
+  {
+    "id": "gd_029_ice",
+    "name": "ICE",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Submerged"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "29/63",
+    "artist": "Unknown",
+    "flavor": "Their peaches, melons, and figs surpassed all fruits of Provence, Italy, and Greece. ~The Green Dream",
+    "text": "GUST, SUBMERGED",
+    "image": "/images/cards/ice.jpg"
+  },
+  {
+    "id": "gd_030_storm",
+    "name": "STORM",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "30/63",
+    "artist": "Unknown",
+    "flavor": "He swore all fruits grew wild; they ate only these with their bread. ~The Green Dream",
+    "text": "GUST, INFERNO, SUBMERGED",
+    "image": "/images/cards/storm.jpg"
+  },
+  {
+    "id": "gd_031_rainbovv",
+    "name": "RAINBOVV",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Submerged"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "31/63",
+    "artist": "Unknown",
+    "flavor": "I asked how they preserved winter food. ~The Green Dream",
+    "text": "BRILLIANCE, SUBMERGED",
+    "image": "/images/cards/rainbovv.jpg"
+  },
+  {
+    "id": "gd_032_magma",
+    "name": "MAGMA",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "🜃"
+    ],
+    "keywords": [
+      "Inferno",
+      "Steadfast"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Steadfast"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "32/63",
+    "artist": "Unknown",
+    "flavor": "No winter exists here - only spring, summer, and autumn holding their essence. ~The Green Dream",
+    "text": "INFERNO, STEADFAST",
+    "image": "/images/cards/magma.jpg"
+  },
+  {
+    "id": "gd_033_light_tiphoon",
+    "name": "LIGHT TIΦOON",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "33/63",
+    "artist": "Unknown",
+    "flavor": "Grapes and pomegranates were their finest fruits. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, STEADFAST, SUBMERGED",
+    "image": "/images/cards/light_tiphoon.jpg"
+  },
+  {
+    "id": "gd_034_ligtning",
+    "name": "LIΓTNING",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "34/63",
+    "artist": "Unknown",
+    "flavor": "He was shocked to learn we eat meat and fish. ~The Green Dream",
+    "text": "GUST, INFERNO",
+    "image": "/images/cards/ligtning.jpg"
+  },
+  {
+    "id": "gd_035_miasma",
+    "name": "MIASMA",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "▢"
+    ],
+    "keywords": [
+      "Gust",
+      "Void"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "35/63",
+    "artist": "Unknown",
+    "flavor": "He claimed such food dulled our minds. ~The Green Dream",
+    "text": "GUST, VOID",
+    "image": "/images/cards/miasma.jpg"
+  },
+  {
+    "id": "gd_036_lahar",
+    "name": "LAHAR",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "36/63",
+    "artist": "Unknown",
+    "flavor": "I listened, enchanted by these sweet tales. ~The Green Dream",
+    "text": "INFERNO, STEADFAST, SUBMERGED",
+    "image": "/images/cards/lahar.jpg"
+  },
+  {
+    "id": "gd_037_mvd",
+    "name": "MVD",
+    "elements": [
+      "✡︎⃝",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "37/63",
+    "artist": "Unknown",
+    "flavor": "They bid me look at their approaching city. ~The Green Dream",
+    "text": "STEADFAST, SUBMERGED",
+    "image": "/images/cards/mvd.jpg"
+  },
+  {
+    "id": "gd_038_nekrosis",
+    "name": "NEKROSIS",
+    "elements": [
+      "✡︎⃝",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "38/63",
+    "artist": "Unknown",
+    "flavor": "The city's brightness blinded me; my guides laughed. ~The Green Dream",
+    "text": "VOID, STEADFAST",
+    "image": "/images/cards/nekrosis.jpg"
+  },
+  {
+    "id": "gd_039_ade",
+    "name": "ΣADE",
+    "elements": [
+      "✡︎⃝",
+      "▢"
+    ],
+    "keywords": [
+      "Void"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "39/63",
+    "artist": "Unknown",
+    "flavor": "Their mockery hurt more than my blindness. ~The Green Dream",
+    "text": "VOID",
+    "image": "/images/cards/ade.jpg"
+  },
+  {
+    "id": "gd_040_solar",
+    "name": "SOLAR",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "40/63",
+    "artist": "Unknown",
+    "flavor": "He soothed me, promising sight would return, and rubbed herbs on my eyes. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO",
+    "image": "/images/cards/solar.jpg"
+  },
+  {
+    "id": "gd_041_salamander",
+    "name": "SALAMANDER",
+    "elements": [
+      "✡︎⃝",
+      "🜂"
+    ],
+    "keywords": [
+      "Inferno"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "41/63",
+    "artist": "Unknown",
+    "flavor": "Through crystal walls I saw the eternal daylight city. ~The Green Dream",
+    "text": "INFERNO",
+    "image": "/images/cards/salamander.jpg"
+  },
+  {
+    "id": "gd_042_silph",
+    "name": "SILΦ",
+    "elements": [
+      "✡︎⃝",
+      "🜁"
+    ],
+    "keywords": [
+      "Gust"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "42/63",
+    "artist": "Unknown",
+    "flavor": "They showed me the houses through transparent walls. ~The Green Dream",
+    "text": "GUST",
+    "image": "/images/cards/silph.jpg"
+  },
+  {
+    "id": "gd_043_avrora",
+    "name": "AVRORA",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "43/63",
+    "artist": "Unknown",
+    "flavor": "Each house shared one design: three apartments with many chambers. ~The Green Dream",
+    "text": "BRILLIANCE, GUST",
+    "image": "/images/cards/avrora.jpg"
+  },
+  {
+    "id": "gd_044_steam",
+    "name": "STEAM",
+    "elements": [
+      "✡︎⃝",
+      "🜂",
+      "🜄"
+    ],
+    "keywords": [
+      "Inferno",
+      "Submerged"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Inferno",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "44/63",
+    "artist": "Unknown",
+    "flavor": "First hall had gold-trimmed damask walls. ~The Green Dream",
+    "text": "INFERNO, SUBMERGED",
+    "image": "/images/cards/steam.jpg"
+  },
+  {
+    "id": "gd_045_tar",
+    "name": "TAR",
+    "elements": [
+      "✡︎⃝",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "45/63",
+    "artist": "Unknown",
+    "flavor": "More rooms followed, adorned with jewels. ~The Green Dream",
+    "text": "VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/tar.jpg"
+  },
+  {
+    "id": "gd_046_tiphoon",
+    "name": "TIΦOON",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜂",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "46/63",
+    "artist": "Unknown",
+    "flavor": "One chamber gleamed in jet-black velvet. ~The Green Dream",
+    "text": "GUST, INFERNO, STEADFAST, SUBMERGED",
+    "image": "/images/cards/tiphoon.jpg"
+  },
+  {
+    "id": "gd_047_vndine",
+    "name": "VNDINE",
+    "elements": [
+      "✡︎⃝",
+      "🜄"
+    ],
+    "keywords": [
+      "Submerged"
+    ],
+    "cost": 2,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "47/63",
+    "artist": "Unknown",
+    "flavor": "Second apartment shone with pearl-white walls. ~The Green Dream",
+    "text": "SUBMERGED",
+    "image": "/images/cards/vndine.jpg"
+  },
+  {
+    "id": "gd_048_xaos",
+    "name": "XAOS",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "▢"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Void"
+    ],
+    "cost": 3,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "48/63",
+    "artist": "Unknown",
+    "flavor": "Rooms in blue, violet, yellow, and scarlet followed. ~The Green Dream",
+    "text": "BRILLIANCE, VOID",
+    "image": "/images/cards/xaos.jpg"
+  },
+  {
+    "id": "gd_049_xaos_dvst",
+    "name": "XAOS DVST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "49/63",
+    "artist": "Unknown",
+    "flavor": "Third apartment glowed in purple and gold. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, VOID, STEADFAST",
+    "image": "/images/cards/xaos_dvst.jpg"
+  },
+  {
+    "id": "gd_050_xaos_fvlgvrite",
+    "name": "XAOS FVLGVRITE",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "50/63",
+    "artist": "Unknown",
+    "flavor": "Masters dwelt hidden in inner chambers. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, VOID, STEADFAST",
+    "image": "/images/cards/xaos_fvlgvrite.jpg"
+  },
+  {
+    "id": "gd_051_xaos_gnome",
+    "name": "XAOS GNOME",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "51/63",
+    "artist": "Unknown",
+    "flavor": "Connecting rooms wore silk of varied hues. ~The Green Dream",
+    "text": "BRILLIANCE, VOID, STEADFAST",
+    "image": "/images/cards/xaos_gnome.jpg"
+  },
+  {
+    "id": "gd_052_xaos_ice",
+    "name": "XAOS ICE",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "52/63",
+    "artist": "Unknown",
+    "flavor": "Fourth room held pure concentrated sunlight. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, VOID, SUBMERGED",
+    "image": "/images/cards/xaos_ice.jpg"
+  },
+  {
+    "id": "gd_053_xaos_thvndersnovv",
+    "name": "XAOS THVNDERSNOVV",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "53/63",
+    "artist": "Unknown",
+    "flavor": "They explained their marriage customs. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, VOID, SUBMERGED",
+    "image": "/images/cards/xaos_thvndersnovv.jpg"
+  },
+  {
+    "id": "gd_054_xaos_lava",
+    "name": "XAOS LAVA",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "▢",
+      "🜃"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "54/63",
+    "artist": "Unknown",
+    "flavor": "Hagacestaur matches pure maids with strong old men. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, VOID, STEADFAST",
+    "image": "/images/cards/xaos_lava.jpg"
+  },
+  {
+    "id": "gd_055_xaos_ligtning",
+    "name": "XAOS LIΓTNING",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "🜂",
+      "▢"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "55/63",
+    "artist": "Unknown",
+    "flavor": "After purification, they join hands in ceremony. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, INFERNO, VOID",
+    "image": "/images/cards/xaos_ligtning.jpg"
+  },
+  {
+    "id": "gd_056_xaos_mist",
+    "name": "XAOS MIST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "56/63",
+    "artist": "Unknown",
+    "flavor": "Nine months sealed away, they create fine furnishings. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/xaos_mist.jpg"
+  },
+  {
+    "id": "gd_057_xaos_mvd",
+    "name": "XAOS MVD",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "57/63",
+    "artist": "Unknown",
+    "flavor": "They emerge as one body, one soul, mighty on Earth. ~The Green Dream",
+    "text": "BRILLIANCE, VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/xaos_mvd.jpg"
+  },
+  {
+    "id": "gd_058_xaos_salamander",
+    "name": "XAOS SALAMANDER",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "▢"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "58/63",
+    "artist": "Unknown",
+    "flavor": "They help convert the wicked throughout seven realms. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, VOID",
+    "image": "/images/cards/xaos_salamander.jpg"
+  },
+  {
+    "id": "gd_059_xaos_silph",
+    "name": "XAOS SILΦ",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "▢"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "59/63",
+    "artist": "Unknown",
+    "flavor": "Four ancient statues await: Séganiségéde centered, three goddesses around. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, VOID",
+    "image": "/images/cards/xaos_silph.jpg"
+  },
+  {
+    "id": "gd_060_xaos_steam",
+    "name": "XAOS STEAM",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜂",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 5,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Inferno",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "60/63",
+    "artist": "Unknown",
+    "flavor": "I would see the ancient statues: Séganiségéde at center with his mighty presence, brought me to this isle. ~The Green Dream",
+    "text": "BRILLIANCE, INFERNO, VOID, SUBMERGED",
+    "image": "/images/cards/xaos_steam.jpg"
+  },
+  {
+    "id": "gd_061_xaos_vndine",
+    "name": "XAOS VNDINE",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "▢",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "61/63",
+    "artist": "Unknown",
+    "flavor": "Three goddesses formed a triangle: Ellugaté, Linémalore, and Tripsarécopsem, ancient as the world. ~The Green Dream",
+    "text": "BRILLIANCE, VOID, SUBMERGED",
+    "image": "/images/cards/xaos_vndine.jpg"
+  },
+  {
+    "id": "gd_062_xaos_permaphrost",
+    "name": "XAOS PERMAΦROST",
+    "elements": [
+      "✡︎⃝",
+      "⬢",
+      "🜁",
+      "▢",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "cost": 6,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Submerged",
+      "Void"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "62/63",
+    "artist": "Unknown",
+    "flavor": "Dawn's noise woke me before seeing their deity Elésel Vassergusine. Yet all I'd seen was nothing to what was promised. ~The Green Dream",
+    "text": "BRILLIANCE, GUST, VOID, STEADFAST, SUBMERGED",
+    "image": "/images/cards/xaos_permaphrost.jpg"
+  },
+  {
+    "id": "gd_063_permaphrost",
+    "name": "PERMAΦROST",
+    "elements": [
+      "✡︎⃝",
+      "🜁",
+      "🜃",
+      "🜄"
+    ],
+    "keywords": [
+      "Gust",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": 4,
+    "power": 0,
+    "rarity": "common",
+    "type": "Familiar",
+    "class": "ELEMENTAL",
+    "talents": [
+      "Gust",
+      "Steadfast",
+      "Submerged"
+    ],
+    "set": "The Green Dream",
+    "setNumber": "63/63",
+    "artist": "Unknown",
+    "flavor": "\"In the Celestial Empire, where God sits in Glory with Angels, Cherubim, and Seraphim, we shall see what no eye has seen. There we'll taste eternal joy promised to the worthy, for God created all to share in His Glory. Thus ends the Green Dream.\" ~The Green Dream",
+    "text": "GUST, STEADFAST, SUBMERGED",
+    "image": "/images/cards/permaphrost.jpg"
   }
 ]
