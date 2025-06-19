@@ -317,7 +317,7 @@ const GameSimulator = () => {
             <span className="text-white">{player.azoth}/{player.maxAzoth}</span>
           </div>
           <div className="text-gray-400">
-            Hand: {player.hand.length} | Library: {player.library.length}
+            Hand: {player.hand.length} | Deck: {player.deck.length} | Life Cards: {player.lifeCards.length}
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ const CardViewer = ({
     }
   };
 
-  const getElementInfo = (element) => {
+  const getElementInfo = element => {
     const elementMap = {
       '🜂': { symbol: '🜂', name: 'Fire' },
       '🜄': { symbol: '🜄', name: 'Water' },
@@ -38,7 +38,7 @@ const CardViewer = ({
       '▢': { symbol: '▢', name: 'Nether' },
       '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
       '∇': { symbol: '∇', name: 'Void' },
-      '🜅': { symbol: '🜅', name: 'Shadow' }
+      '🜅': { symbol: '🜅', name: 'Shadow' },
     };
     return elementMap[element] || { symbol: element, name: element };
   };
@@ -174,7 +174,9 @@ const CardViewer = ({
                     Flavor Text
                   </h3>
                   <div className="bg-tertiary rounded-lg p-3">
-                    <p className="text-sm leading-relaxed italic text-secondary">{card.flavor}</p>
+                    <p className="text-sm leading-relaxed italic text-secondary">
+                      {card.flavor}
+                    </p>
                   </div>
                 </div>
               )}
@@ -208,7 +210,9 @@ const CardViewer = ({
               </div>
               <div>
                 <div className="text-secondary">Set</div>
-                <div>{card.set} {card.setNumber && `(${card.setNumber})`}</div>
+                <div>
+                  {card.set} {card.setNumber && `(${card.setNumber})`}
+                </div>
               </div>
             </div>
           </div>
