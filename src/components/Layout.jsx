@@ -79,40 +79,18 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
-    // Cards - unified card database with spoilers, synergy, and search
+    // Game Hub - unified cards, decks, and market system
     baseNavigation.push({
-      name: 'Cards',
-      href: '/cards',
+      name: 'Game Hub',
+      href: '/hub',
       icon: Database,
     });
-
-    // Decks - unified deck system with building, pricing, budget, and power analysis
-    if (isAuthenticated) {
-      baseNavigation.push({
-        name: 'Decks',
-        href: '/decklists',
-        icon: Layers,
-      });
-    } else {
-      baseNavigation.push({
-        name: 'Decks',
-        href: '/deck-discovery',
-        icon: Layers,
-      });
-    }
 
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
       name: 'Tournaments',
       href: '/tournaments',
       icon: Trophy,
-    });
-
-    // Market - all pricing, metagame analysis, and market trends
-    baseNavigation.push({
-      name: 'Market',
-      href: '/market',
-      icon: TrendingUp,
     });
 
     // Tools - utilities like commanders, collection, battle pass, card maker
@@ -172,8 +150,8 @@ const Layout = ({ children }) => {
   const handleSearch = e => {
     if (e.key === 'Enter' && searchTerm.trim()) {
       analytics.cardSearch(searchTerm.trim());
-      // Navigate to cards page with search
-      window.location.href = `/cards?search=${encodeURIComponent(searchTerm.trim())}`;
+      // Navigate to unified hub with search
+      window.location.href = `/hub?section=explore&tab=cards&search=${encodeURIComponent(searchTerm.trim())}`;
     }
   };
 
@@ -191,14 +169,24 @@ const Layout = ({ children }) => {
     if (path === '/' && location.pathname === '/') return true;
 
     // For grouped navigation items, check if current path matches the group's functionality
-    if (item.name === 'Cards' && location.pathname.startsWith('/cards'))
-      return true;
     if (
-      item.name === 'Decks' &&
-      (location.pathname.startsWith('/decklists') ||
+      item.name === 'Game Hub' &&
+      (location.pathname.startsWith('/hub') ||
+        location.pathname.startsWith('/game-hub') ||
+        location.pathname.startsWith('/cards') ||
+        location.pathname.startsWith('/card-database') ||
+        location.pathname.startsWith('/decklists') ||
         location.pathname.startsWith('/deckbuilder') ||
         location.pathname.startsWith('/deck-discovery') ||
-        location.pathname.startsWith('/official-decklists'))
+        location.pathname.startsWith('/market') ||
+        location.pathname.startsWith('/prices') ||
+        location.pathname.startsWith('/metagame') ||
+        location.pathname.startsWith('/budget') ||
+        location.pathname.startsWith('/pricing') ||
+        location.pathname.startsWith('/spoilers') ||
+        location.pathname.startsWith('/synergy') ||
+        location.pathname.startsWith('/collection') ||
+        location.pathname.startsWith('/portfolio'))
     )
       return true;
     if (
@@ -329,7 +317,7 @@ const Layout = ({ children }) => {
                           Profile
                         </Link>
                         <Link
-                          to="/decklists?view=mydecks"
+                          to="/hub?section=manage&tab=mydecks"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
                           onClick={() => setShowUserDropdown(false)}
                         >
