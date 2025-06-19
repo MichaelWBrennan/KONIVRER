@@ -180,18 +180,36 @@ const GameSimulator = () => {
   };
 
   // Place card as Azoth resource
-  const placeAsAzoth = (card, playerId) => {
+  const placeAsAzoth = (card, playerId, selectedElement = null) => {
     const newGameState = { ...gameState };
     const player = newGameState.players[playerId];
 
     // Remove from hand
     player.hand = player.hand.filter(c => c.id !== card.id);
 
-    // Place face-up in Azoth Row
+    // Create Azoth card
     const azothCard = { ...card, rested: false, isAzoth: true };
-    player.azothRow.push(azothCard);
 
-    newGameState.gameLog.unshift(`${player.name} places ${card.name} as Azoth resource`);
+    // Handle Quintessence - produces any Azoth type
+    if (card.keywords?.includes('Quintessence')) {
+      azothCard.producesAnyType = true;
+      newGameState.gameLog.unshift(`${player.name} places ${card.name} as Quintessence Azoth (produces any type)`);
+    }
+    // Handle Amalgam Azoth selection
+    else if (card.keywords?.some(k => k.includes('Amalgam'))) {
+      // In a real implementation, this would show element selection UI
+      const availableElements = card.elements || [];
+      azothCard.selectedElement = selectedElement || availableElements[0];
+      azothCard.availableElements = availableElements;
+      newGameState.gameLog.unshift(`${player.name} places ${card.name} as Azoth, choosing ${azothCard.selectedElement}`);
+    }
+    else {
+      // Normal Azoth - uses card's elements
+      azothCard.availableElements = card.elements || [];
+      newGameState.gameLog.unshift(`${player.name} places ${card.name} as Azoth resource`);
+    }
+
+    player.azothRow.push(azothCard);
     
     // Remove azoth placement action
     newGameState.currentPhaseActions = newGameState.currentPhaseActions.filter(
@@ -210,8 +228,67 @@ const GameSimulator = () => {
     setGameState(newGameState);
   };
 
+  // Keyword Effects
+  const executeKeywordEffects = (card, playerId, azothUsed = []) => {
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+    const opponentId = playerId === 1 ? 2 : 1;
+    const opponent = newGameState.players[opponentId];
+
+    if (!card.keywords) return newGameState;
+
+    card.keywords.forEach(keyword => {
+      const keywordLower = keyword.toLowerCase();
+      
+      switch (keywordLower) {
+        case 'brilliance':
+          // Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ on bottom of life cards
+          const brillianceStrength = azothUsed.filter(a => a.elements?.includes('⭘')).length;
+          newGameState.gameLog.unshift(`${card.name} activates Brilliance (Strength: ${brillianceStrength})`);
+          break;
+
+        case 'gust':
+          // Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 to hand
+          const gustStrength = azothUsed.filter(a => a.elements?.includes('🜁')).length;
+          newGameState.gameLog.unshift(`${card.name} activates Gust (Strength: ${gustStrength})`);
+          break;
+
+        case 'inferno':
+          // Add damage ≤ 🜂 after damage is dealt
+          const infernoStrength = azothUsed.filter(a => a.elements?.includes('🜂')).length;
+          newGameState.gameLog.unshift(`${card.name} activates Inferno (Additional damage: ${infernoStrength})`);
+          break;
+
+        case 'steadfast':
+          // Redirect damage ≤ 🜃 to this card's Strength
+          const steadfastStrength = azothUsed.filter(a => a.elements?.includes('🜃')).length;
+          newGameState.gameLog.unshift(`${card.name} activates Steadfast (Redirect: ${steadfastStrength})`);
+          break;
+
+        case 'submerged':
+          // Place target cards below top of deck
+          const submergedStrength = azothUsed.filter(a => a.elements?.includes('🜄')).length;
+          newGameState.gameLog.unshift(`${card.name} activates Submerged (Depth: ${submergedStrength})`);
+          break;
+
+        case 'void':
+          // Remove target card from game (simplified for now)
+          newGameState.gameLog.unshift(`${card.name} activates Void`);
+          break;
+
+        default:
+          if (keywordLower.includes('amalgam')) {
+            newGameState.gameLog.unshift(`${card.name} has Amalgam - choose keyword when played`);
+          }
+          break;
+      }
+    });
+
+    return newGameState;
+  };
+
   // Main Phase Actions
-  const summonFamiliar = (card, playerId, azothPaid = 0) => {
+  const summonFamiliar = (card, playerId, azothPaid = 0, selectedAzoth = []) => {
     const newGameState = { ...gameState };
     const player = newGameState.players[playerId];
 
@@ -222,10 +299,17 @@ const GameSimulator = () => {
       return;
     }
 
-    // Rest the required Azoth
-    for (let i = 0; i < azothPaid; i++) {
-      availableAzoth[i].rested = true;
+    // Check for Quintessence restriction
+    if (card.keywords?.includes('Quintessence')) {
+      alert('Quintessence cards cannot be played as Familiars!');
+      return;
     }
+
+    // Rest the required Azoth (use selected or first available)
+    const azothToRest = selectedAzoth.length > 0 ? selectedAzoth : availableAzoth.slice(0, azothPaid);
+    azothToRest.forEach(azoth => {
+      azoth.rested = true;
+    });
 
     // Remove card from hand
     player.hand = player.hand.filter(c => c.id !== card.id);
@@ -235,9 +319,23 @@ const GameSimulator = () => {
       ...card, 
       rested: false, 
       counters: azothPaid,
-      summoned: true 
+      summoned: true,
+      keywordActivated: false
     };
+
+    // Handle Amalgam keyword selection (simplified)
+    if (card.keywords?.some(k => k.includes('Amalgam'))) {
+      // In a real implementation, this would show a selection UI
+      summonedCard.selectedKeyword = 'gust'; // Default selection for demo
+      summonedCard.selectedElement = '🜁';
+      newGameState.gameLog.unshift(`${player.name} chooses Gust for ${card.name}'s Amalgam`);
+    }
+
     player.field.push(summonedCard);
+
+    // Execute keyword effects
+    const updatedGameState = executeKeywordEffects(summonedCard, playerId, azothToRest);
+    Object.assign(newGameState, updatedGameState);
 
     // Draw a card after playing
     if (player.deck.length > 0) {
@@ -302,18 +400,31 @@ const GameSimulator = () => {
     setGameState(newGameState);
   };
 
-  const castSpell = (card, playerId, azothPaid = 0) => {
+  const castSpell = (card, playerId, azothPaid = 0, selectedAzoth = []) => {
     const newGameState = { ...gameState };
     const player = newGameState.players[playerId];
 
     // Rest required Azoth
     const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
-    for (let i = 0; i < azothPaid; i++) {
-      if (availableAzoth[i]) availableAzoth[i].rested = true;
-    }
+    const azothToRest = selectedAzoth.length > 0 ? selectedAzoth : availableAzoth.slice(0, azothPaid);
+    
+    azothToRest.forEach(azoth => {
+      azoth.rested = true;
+    });
 
     // Remove card from hand
     player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // Create spell instance for keyword processing
+    const spellInstance = {
+      ...card,
+      azothPaid: azothPaid,
+      keywordActivated: false
+    };
+
+    // Execute keyword effects for spells
+    const updatedGameState = executeKeywordEffects(spellInstance, playerId, azothToRest);
+    Object.assign(newGameState, updatedGameState);
 
     // Resolve spell effect (simplified - replace ✡︎⃝ with azothPaid)
     // Then put on bottom of deck
@@ -673,11 +784,27 @@ const GameSimulator = () => {
                     className={`rounded px-2 py-1 text-xs text-white transition-all ${
                       card.rested 
                         ? 'bg-gray-500 transform rotate-90 opacity-60' 
+                        : card.producesAnyType
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500'
                         : 'bg-purple-600 hover:bg-purple-500'
                     }`}
-                    title={card.rested ? 'Rested (used this turn)' : 'Available'}
+                    title={
+                      card.rested 
+                        ? 'Rested (used this turn)' 
+                        : card.producesAnyType 
+                        ? 'Quintessence - Produces any Azoth type'
+                        : card.selectedElement
+                        ? `Produces: ${card.selectedElement}`
+                        : `Produces: ${card.availableElements?.join(', ') || 'Unknown'}`
+                    }
                   >
-                    {card.name}
+                    <div>{card.name}</div>
+                    {card.producesAnyType && (
+                      <div className="text-yellow-300 text-xs">★ Any</div>
+                    )}
+                    {card.selectedElement && !card.producesAnyType && (
+                      <div className="text-yellow-300 text-xs">{card.selectedElement}</div>
+                    )}
                   </div>
                 ))
               )}
@@ -708,20 +835,33 @@ const GameSimulator = () => {
                 <div className="text-xs text-gray-300">
                   {card.counters > 0 && `+${card.counters} counters`}
                 </div>
+                {card.keywords && card.keywords.length > 0 && (
+                  <div className="text-xs text-yellow-300 mt-1">
+                    Keywords: {card.keywords.join(', ')}
+                  </div>
+                )}
+                {card.selectedKeyword && (
+                  <div className="text-xs text-green-300">
+                    Active: {card.selectedKeyword}
+                  </div>
+                )}
                 
                 {/* Card Action Buttons */}
                 {isCurrentPlayer && (gameState.phase === 'main' || gameState.phase === 'postCombatMain') && (
                   <div className="flex flex-wrap gap-1 mt-2">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        summonFamiliar(card, playerId, 1);
-                      }}
-                      className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
-                      title="Summon with 1 Azoth"
-                    >
-                      Summon
-                    </button>
+                    {/* Summon button - disabled for Quintessence */}
+                    {!card.keywords?.includes('Quintessence') && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          summonFamiliar(card, playerId, 1);
+                        }}
+                        className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
+                        title="Summon with 1 Azoth"
+                      >
+                        Summon
+                      </button>
+                    )}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -732,6 +872,12 @@ const GameSimulator = () => {
                     >
                       Spell
                     </button>
+                    {/* Show special indicator for Quintessence */}
+                    {card.keywords?.includes('Quintessence') && (
+                      <div className="px-2 py-1 bg-purple-800 text-xs rounded text-purple-200">
+                        Azoth Only
+                      </div>
+                    )}
                   </div>
                 )}
                 
@@ -919,6 +1065,46 @@ const GameSimulator = () => {
     </div>
   );
 
+  const KeywordReference = () => (
+    <div className="bg-gray-800 rounded-lg p-4">
+      <h3 className="text-lg font-bold text-white mb-4">Keyword Reference</h3>
+      <div className="max-h-64 overflow-y-auto space-y-2 text-xs">
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Amalgam:</span>
+          <div className="text-gray-300">Choose keyword/element when played</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Brilliance:</span>
+          <div className="text-gray-300">Place target to bottom of life cards (⭘ strength)</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Gust:</span>
+          <div className="text-gray-300">Return target to hand (🜁 strength)</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Inferno:</span>
+          <div className="text-gray-300">Add damage after dealing damage (🜂 strength)</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Steadfast:</span>
+          <div className="text-gray-300">Redirect damage to this card (🜃 strength)</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Submerged:</span>
+          <div className="text-gray-300">Place target below deck (🜄 strength)</div>
+        </div>
+        <div className="border-b border-gray-600 pb-1">
+          <span className="text-yellow-400 font-medium">Quintessence:</span>
+          <div className="text-gray-300">Azoth only, produces any type</div>
+        </div>
+        <div>
+          <span className="text-yellow-400 font-medium">Void:</span>
+          <div className="text-gray-300">Remove target from game</div>
+        </div>
+      </div>
+    </div>
+  );
+
   const GameLog = () => (
     <div className="bg-gray-800 rounded-lg p-4">
       <h3 className="text-lg font-bold text-white mb-4">Game Log</h3>
@@ -978,8 +1164,11 @@ const GameSimulator = () => {
         </div>
       )}
 
-      {/* Game Log */}
-      <GameLog />
+      {/* Game Information */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <KeywordReference />
+        <GameLog />
+      </div>
 
       {/* Game End Screen */}
       {gameState.phase === 'ended' && (
