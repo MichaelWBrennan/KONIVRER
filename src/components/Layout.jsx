@@ -94,7 +94,6 @@ const Layout = ({ children }) => {
     });
 
 
-
     // Judge Center - only for judges
     if (hasJudgeAccess()) {
       baseNavigation.push({
