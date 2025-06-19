@@ -26,90 +26,58 @@ const Home = () => {
 
   const features = [
     {
-      icon: PlusCircle,
-      title: 'Advanced Deck Builder',
-      description:
-        'Create and customize your decks with our intuitive drag-and-drop interface featuring OpenDyslexic font for enhanced readability and accessibility.',
-      link: '/deckbuilder',
-      gradient: 'from-accent-primary to-accent-secondary',
-      delay: 0.1,
-    },
-    {
       icon: Database,
-      title: 'Complete Card Database',
+      title: 'Card Database',
       description:
         'Browse and search through all KONIVRER cards with advanced filtering options and modern, accessible design.',
       link: '/cards',
-      gradient: 'from-accent-success to-accent-secondary',
-      delay: 0.2,
-    },
-    {
-      icon: BookOpen,
-      title: 'Deck Management',
-      description:
-        'Organize, share, and track your deck collections with ease using our enhanced, dyslexia-friendly interface.',
-      link: '/decks',
-      gradient: 'from-orange-500 to-red-600',
-      delay: 0.3,
-    },
-    {
-      icon: Trophy,
-      title: 'Tournament Center',
-      description:
-        'Join official tournaments, compete with players worldwide, and climb the rankings.',
-      link: '/tournaments',
-      gradient: 'from-yellow-500 to-orange-600',
-      delay: 0.4,
-    },
-    {
-      icon: Target,
-      title: 'Match Database',
-      description:
-        'Analyze competitive matches with detailed statistics and hero matchup data.',
-      link: '/matches',
-      gradient: 'from-purple-500 to-pink-600',
-      delay: 0.5,
-    },
-    {
-      icon: Calendar,
-      title: 'Tournament Events',
-      description:
-        'Discover and participate in tournaments worldwide with comprehensive event listings.',
-      link: '/events',
-      gradient: 'from-cyan-500 to-blue-600',
-      delay: 0.6,
+      gradient: 'from-blue-500 to-cyan-600',
+      delay: 0.1,
     },
     {
       icon: Layers,
-      title: 'Competitive Decklists',
+      title: 'Deck System',
       description:
-        'Explore winning decklists from top tournaments and learn from the best players.',
+        'Build, manage, and discover decks with our comprehensive deck management tools and intuitive interface.',
       link: '/decklists',
-      gradient: 'from-indigo-500 to-purple-600',
-      delay: 0.7,
+      gradient: 'from-purple-500 to-pink-600',
+      delay: 0.2,
     },
     {
-      icon: TrendingUp,
-      title: 'Analytics Dashboard',
+      icon: Trophy,
+      title: 'Competitive Play',
       description:
-        'Track your performance with detailed analytics and insights into your gameplay.',
-      link: '/analytics',
-      gradient: 'from-emerald-500 to-green-600',
-      delay: 0.8,
+        'Join tournaments, compete in events, track your progress on leaderboards, and analyze your performance.',
+      link: '/tournaments',
+      gradient: 'from-yellow-500 to-orange-600',
+      delay: 0.3,
+    },
+    {
+      icon: Users,
+      title: 'Community Hub',
+      description:
+        'Connect with other players, explore the hall of fame, and find local game stores in your area.',
+      link: '/social',
+      gradient: 'from-green-500 to-emerald-600',
+      delay: 0.4,
+    },
+    {
+      icon: BookOpen,
+      title: 'Game Resources',
+      description:
+        'Dive into the lore, stay updated with product releases, and analyze the current meta trends.',
+      link: '/lore',
+      gradient: 'from-indigo-500 to-purple-600',
+      delay: 0.5,
     },
     {
       icon: Shield,
-      title: 'Judge Center',
+      title: 'Administrative Tools',
       description:
-        'Access official rules, manage tournaments, and advance your judge certification.',
+        'Access judge center, tournament management tools, and administrative features for certified users.',
       link: '/judge-center',
-    },
-    {
-      icon: Target,
-      title: 'Tournament Tools',
-      description:
-        'Create and manage tournaments with comprehensive bracket and pairing systems.',
-      link: '/tournaments/create',
+      gradient: 'from-red-500 to-pink-600',
+      delay: 0.6,
     },
   ];
 
@@ -168,28 +136,28 @@ const Home = () => {
                   size={24}
                   className="group-hover:scale-110 transition-transform"
                 />
-                Join Tournament
+                Compete Now
                 <ArrowRight
                   size={20}
                   className="group-hover:translate-x-1 transition-transform"
                 />
               </Link>
               <Link
-                to="/deckbuilder"
+                to="/decklists"
                 className="btn btn-secondary btn-lg group"
               >
-                <PlusCircle
-                  size={24}
-                  className="group-hover:rotate-90 transition-transform"
-                />
-                Build Deck
-              </Link>
-              <Link to="/matches" className="btn btn-outline btn-lg group">
-                <Target
+                <Layers
                   size={24}
                   className="group-hover:scale-110 transition-transform"
                 />
-                Explore Matches
+                Explore Decks
+              </Link>
+              <Link to="/cards" className="btn btn-outline btn-lg group">
+                <Database
+                  size={24}
+                  className="group-hover:scale-110 transition-transform"
+                />
+                Browse Cards
               </Link>
             </div>
           </motion.div>
@@ -394,7 +362,7 @@ const Home = () => {
                 See what the community is building
               </p>
             </div>
-            <Link to="/decks" className="btn btn-ghost">
+            <Link to="/decklists" className="btn btn-ghost">
               View All
               <TrendingUp size={16} />
             </Link>
@@ -469,8 +437,8 @@ const Home = () => {
                   <p className="text-secondary mb-6">
                     Start building decks to see activity here!
                   </p>
-                  <Link to="/deckbuilder" className="btn btn-primary">
-                    <PlusCircle size={16} />
+                  <Link to="/decklists" className="btn btn-primary">
+                    <Layers size={16} />
                     Create Your First Deck
                   </Link>
                 </div>
@@ -507,8 +475,8 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/deckbuilder" className="btn btn-primary btn-lg">
-                <PlusCircle size={24} />
+              <Link to="/decklists" className="btn btn-primary btn-lg">
+                <Layers size={24} />
                 Start Building
                 <ArrowRight size={20} />
               </Link>
@@ -516,9 +484,9 @@ const Home = () => {
                 <Trophy size={24} />
                 Join Tournament
               </Link>
-              <Link to="/matches" className="btn btn-ghost btn-lg">
-                <Target size={24} />
-                Explore Matches
+              <Link to="/social" className="btn btn-ghost btn-lg">
+                <Users size={24} />
+                Join Community
               </Link>
             </div>
 
