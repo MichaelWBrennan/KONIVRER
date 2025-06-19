@@ -294,11 +294,31 @@ const UnifiedCards = () => {
         <div className="bg-gray-800 rounded-lg p-2 mb-6">
           <div className="flex flex-wrap gap-2">
             {[
-              { id: 'database', name: 'Card Database', icon: Database, description: 'Search and browse all cards' },
-              { id: 'spoilers', name: 'Spoilers', icon: Sparkles, description: 'Latest card previews' },
-              { id: 'synergy', name: 'Synergy', icon: Zap, description: 'Card interactions' },
-              { id: 'staples', name: 'Format Staples', icon: Star, description: 'Essential cards by format' },
-            ].map((tab) => (
+              {
+                id: 'database',
+                name: 'Card Database',
+                icon: Database,
+                description: 'Search and browse all cards',
+              },
+              {
+                id: 'spoilers',
+                name: 'Spoilers',
+                icon: Sparkles,
+                description: 'Latest card previews',
+              },
+              {
+                id: 'synergy',
+                name: 'Synergy',
+                icon: Zap,
+                description: 'Card interactions',
+              },
+              {
+                id: 'staples',
+                name: 'Format Staples',
+                icon: Star,
+                description: 'Essential cards by format',
+              },
+            ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -321,341 +341,349 @@ const UnifiedCards = () => {
         {/* Tab Content */}
         {activeTab === 'database' && (
           <>
-        {/* Unified Search and Filters */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Search Section */}
-            <div className="lg:col-span-2">
-              <div className="relative mb-4">
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Search cards by name, description, or effect..."
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            {/* Unified Search and Filters */}
+            <div className="bg-gray-800 rounded-lg p-6 mb-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Search Section */}
+                <div className="lg:col-span-2">
+                  <div className="relative mb-4">
+                    <Search
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      size={20}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Search cards by name, description, or effect..."
+                      value={searchQuery}
+                      onChange={e => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
 
-              {/* Quick Filters */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                <select
-                  value={filters.type[0] || ''}
-                  onChange={e =>
-                    setFilters({
-                      ...filters,
-                      type: e.target.value ? [e.target.value] : [],
-                    })
-                  }
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
-                >
-                  <option value="">All Types</option>
-                  <option value="creature">Creature</option>
-                  <option value="spell">Spell</option>
-                  <option value="artifact">Artifact</option>
-                  <option value="enchantment">Enchantment</option>
-                </select>
-                <select
-                  value={filters.rarity[0] || ''}
-                  onChange={e =>
-                    setFilters({
-                      ...filters,
-                      rarity: e.target.value ? [e.target.value] : [],
-                    })
-                  }
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
-                >
-                  <option value="">All Rarities</option>
-                  <option value="common">Common</option>
-                  <option value="uncommon">Uncommon</option>
-                  <option value="rare">Rare</option>
-                  <option value="mythic">Mythic</option>
-                </select>
-                <select
-                  value={sortBy}
-                  onChange={e => setSortBy(e.target.value)}
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
-                >
-                  <option value="name">Sort by Name</option>
-                  <option value="cost">Sort by Cost</option>
-                  <option value="power">Sort by Power</option>
-                  <option value="rarity">Sort by Rarity</option>
-                  <option value="playRate">Sort by Play Rate</option>
-                  <option value="winRate">Sort by Win Rate</option>
-                </select>
-              </div>
+                  {/* Quick Filters */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <select
+                      value={filters.type[0] || ''}
+                      onChange={e =>
+                        setFilters({
+                          ...filters,
+                          type: e.target.value ? [e.target.value] : [],
+                        })
+                      }
+                      className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
+                    >
+                      <option value="">All Types</option>
+                      <option value="creature">Creature</option>
+                      <option value="spell">Spell</option>
+                      <option value="artifact">Artifact</option>
+                      <option value="enchantment">Enchantment</option>
+                    </select>
+                    <select
+                      value={filters.rarity[0] || ''}
+                      onChange={e =>
+                        setFilters({
+                          ...filters,
+                          rarity: e.target.value ? [e.target.value] : [],
+                        })
+                      }
+                      className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
+                    >
+                      <option value="">All Rarities</option>
+                      <option value="common">Common</option>
+                      <option value="uncommon">Uncommon</option>
+                      <option value="rare">Rare</option>
+                      <option value="mythic">Mythic</option>
+                    </select>
+                    <select
+                      value={sortBy}
+                      onChange={e => setSortBy(e.target.value)}
+                      className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
+                    >
+                      <option value="name">Sort by Name</option>
+                      <option value="cost">Sort by Cost</option>
+                      <option value="power">Sort by Power</option>
+                      <option value="rarity">Sort by Rarity</option>
+                      <option value="playRate">Sort by Play Rate</option>
+                      <option value="winRate">Sort by Win Rate</option>
+                    </select>
+                  </div>
 
-              {/* Advanced Filters Toggle */}
-              <button
-                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                className="flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors"
-              >
-                <Filter size={16} />
-                <span>Advanced Filters</span>
-              </button>
-            </div>
-
-            {/* View Controls */}
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-400">View Mode</span>
-                <div className="flex space-x-2">
+                  {/* Advanced Filters Toggle */}
                   <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-600' : 'bg-gray-700'}`}
+                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                    className="flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    <Grid size={16} />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-600' : 'bg-gray-700'}`}
-                  >
-                    <List size={16} />
+                    <Filter size={16} />
+                    <span>Advanced Filters</span>
                   </button>
                 </div>
-              </div>
-              <div className="text-sm text-gray-400">
-                Showing {sortedCards.length} of {cardsData.length} cards
-              </div>
-            </div>
-          </div>
 
-          {/* Advanced Filters Panel */}
-          {showAdvancedFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-700">
-              <AdvancedCardFilters
-                filters={filters}
-                onFiltersChange={setFilters}
-                cardsData={cardsData}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Cards Display */}
-          <div className="xl:col-span-3">
-            {viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {sortedCards.map(card => {
-                  const collectionItem = getCardInCollection(card.id);
-                  const playRate = metaData.playRates[card.id] || 0;
-                  const winRate = metaData.winRates[card.id] || 0;
-
-                  return (
-                    <div
-                      key={card.id}
-                      className="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-750 transition-colors cursor-pointer group"
-                      onClick={() => setSelectedCard(card)}
-                    >
-                      <div className="relative">
-                        <img
-                          src={card.image || '/api/placeholder/200/280'}
-                          alt={card.name}
-                          className="w-full h-48 object-cover"
-                        />
-                        <div
-                          className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
-                        >
-                          {card.rarity}
-                        </div>
-                        {collectionItem && (
-                          <div className="absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
-                            {collectionItem.quantity}x
-                          </div>
-                        )}
-                        {playRate > 0 && (
-                          <div className="absolute bottom-2 right-2 bg-green-600 px-2 py-1 rounded text-xs">
-                            {(playRate * 100).toFixed(1)}%
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-3">
-                        <h3 className="font-semibold mb-1 group-hover:text-blue-400 transition-colors">
-                          {card.name}
-                        </h3>
-                        <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
-                          <span>{card.type}</span>
-                          <span className="font-bold">{card.cost}</span>
-                        </div>
-                        <p className="text-xs text-gray-500 line-clamp-2">
-                          {card.description}
-                        </p>
-                        {(playRate > 0 || winRate > 0) && (
-                          <div className="flex justify-between text-xs text-gray-400 mt-2 pt-2 border-t border-gray-700">
-                            <span>Play: {(playRate * 100).toFixed(1)}%</span>
-                            <span>Win: {(winRate * 100).toFixed(1)}%</span>
-                          </div>
-                        )}
-                      </div>
+                {/* View Controls */}
+                <div className="flex flex-col space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">View Mode</span>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => setViewMode('grid')}
+                        className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-600' : 'bg-gray-700'}`}
+                      >
+                        <Grid size={16} />
+                      </button>
+                      <button
+                        onClick={() => setViewMode('list')}
+                        className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-600' : 'bg-gray-700'}`}
+                      >
+                        <List size={16} />
+                      </button>
                     </div>
-                  );
-                })}
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    Showing {sortedCards.length} of {cardsData.length} cards
+                  </div>
+                </div>
               </div>
-            ) : (
-              <div className="space-y-2">
-                {sortedCards.map(card => {
-                  const collectionItem = getCardInCollection(card.id);
-                  const playRate = metaData.playRates[card.id] || 0;
-                  const winRate = metaData.winRates[card.id] || 0;
 
-                  return (
-                    <div
-                      key={card.id}
-                      className="bg-gray-800 rounded-lg p-4 hover:bg-gray-750 transition-colors cursor-pointer flex items-center space-x-4"
-                      onClick={() => setSelectedCard(card)}
-                    >
-                      <img
-                        src={card.image || '/api/placeholder/60/84'}
-                        alt={card.name}
-                        className="w-12 h-16 object-cover rounded"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-semibold">{card.name}</h3>
-                          <div className="flex items-center space-x-2">
-                            {collectionItem && (
-                              <span className="bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
-                                {collectionItem.quantity}x
-                              </span>
-                            )}
-                            <span
-                              className={`px-2 py-1 rounded text-xs ${getRarityColor(card.rarity)}`}
+              {/* Advanced Filters Panel */}
+              {showAdvancedFilters && (
+                <div className="mt-6 pt-6 border-t border-gray-700">
+                  <AdvancedCardFilters
+                    filters={filters}
+                    onFiltersChange={setFilters}
+                    cardsData={cardsData}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+              {/* Cards Display */}
+              <div className="xl:col-span-3">
+                {viewMode === 'grid' ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {sortedCards.map(card => {
+                      const collectionItem = getCardInCollection(card.id);
+                      const playRate = metaData.playRates[card.id] || 0;
+                      const winRate = metaData.winRates[card.id] || 0;
+
+                      return (
+                        <div
+                          key={card.id}
+                          className="bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-750 transition-colors cursor-pointer group"
+                          onClick={() => setSelectedCard(card)}
+                        >
+                          <div className="relative">
+                            <img
+                              src={card.image || '/api/placeholder/200/280'}
+                              alt={card.name}
+                              className="w-full h-48 object-cover"
+                            />
+                            <div
+                              className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
                             >
                               {card.rarity}
-                            </span>
+                            </div>
+                            {collectionItem && (
+                              <div className="absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
+                                {collectionItem.quantity}x
+                              </div>
+                            )}
+                            {playRate > 0 && (
+                              <div className="absolute bottom-2 right-2 bg-green-600 px-2 py-1 rounded text-xs">
+                                {(playRate * 100).toFixed(1)}%
+                              </div>
+                            )}
+                          </div>
+                          <div className="p-3">
+                            <h3 className="font-semibold mb-1 group-hover:text-blue-400 transition-colors">
+                              {card.name}
+                            </h3>
+                            <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
+                              <span>{card.type}</span>
+                              <span className="font-bold">{card.cost}</span>
+                            </div>
+                            <p className="text-xs text-gray-500 line-clamp-2">
+                              {card.description}
+                            </p>
+                            {(playRate > 0 || winRate > 0) && (
+                              <div className="flex justify-between text-xs text-gray-400 mt-2 pt-2 border-t border-gray-700">
+                                <span>
+                                  Play: {(playRate * 100).toFixed(1)}%
+                                </span>
+                                <span>Win: {(winRate * 100).toFixed(1)}%</span>
+                              </div>
+                            )}
                           </div>
                         </div>
-                        <div className="flex items-center justify-between text-sm text-gray-400 mt-1">
-                          <span>
-                            {card.type} • Cost: {card.cost}
-                          </span>
-                          {(playRate > 0 || winRate > 0) && (
-                            <span>
-                              Play: {(playRate * 100).toFixed(1)}% • Win:{' '}
-                              {(winRate * 100).toFixed(1)}%
-                            </span>
-                          )}
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {sortedCards.map(card => {
+                      const collectionItem = getCardInCollection(card.id);
+                      const playRate = metaData.playRates[card.id] || 0;
+                      const winRate = metaData.winRates[card.id] || 0;
+
+                      return (
+                        <div
+                          key={card.id}
+                          className="bg-gray-800 rounded-lg p-4 hover:bg-gray-750 transition-colors cursor-pointer flex items-center space-x-4"
+                          onClick={() => setSelectedCard(card)}
+                        >
+                          <img
+                            src={card.image || '/api/placeholder/60/84'}
+                            alt={card.name}
+                            className="w-12 h-16 object-cover rounded"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <h3 className="font-semibold">{card.name}</h3>
+                              <div className="flex items-center space-x-2">
+                                {collectionItem && (
+                                  <span className="bg-yellow-500 text-black px-2 py-1 rounded text-xs font-bold">
+                                    {collectionItem.quantity}x
+                                  </span>
+                                )}
+                                <span
+                                  className={`px-2 py-1 rounded text-xs ${getRarityColor(card.rarity)}`}
+                                >
+                                  {card.rarity}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between text-sm text-gray-400 mt-1">
+                              <span>
+                                {card.type} • Cost: {card.cost}
+                              </span>
+                              {(playRate > 0 || winRate > 0) && (
+                                <span>
+                                  Play: {(playRate * 100).toFixed(1)}% • Win:{' '}
+                                  {(winRate * 100).toFixed(1)}%
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm text-gray-500 mt-1 line-clamp-1">
+                              {card.description}
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-500 mt-1 line-clamp-1">
-                          {card.description}
-                        </p>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Sidebar with Collection & Meta Info */}
+              <div className="space-y-6">
+                {/* Collection Summary */}
+                {isAuthenticated && (
+                  <div className="bg-gray-800 rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center">
+                      <Package className="mr-2" size={16} />
+                      My Collection
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Total Cards:</span>
+                        <span>{collectionStats.total}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Unique Cards:</span>
+                        <span>{collectionStats.unique}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Completion:</span>
+                        <span>{collectionStats.completion.toFixed(1)}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Est. Value:</span>
+                        <span>${collectionStats.value.toFixed(2)}</span>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                  </div>
+                )}
 
-          {/* Sidebar with Collection & Meta Info */}
-          <div className="space-y-6">
-            {/* Collection Summary */}
-            {isAuthenticated && (
-              <div className="bg-gray-800 rounded-lg p-4">
-                <h3 className="font-semibold mb-3 flex items-center">
-                  <Package className="mr-2" size={16} />
-                  My Collection
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Total Cards:</span>
-                    <span>{collectionStats.total}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Unique Cards:</span>
-                    <span>{collectionStats.unique}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Completion:</span>
-                    <span>{collectionStats.completion.toFixed(1)}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Est. Value:</span>
-                    <span>${collectionStats.value.toFixed(2)}</span>
+                {/* Meta Analytics */}
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <h3 className="font-semibold mb-3 flex items-center">
+                    <BarChart3 className="mr-2" size={16} />
+                    Meta Insights
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-300 mb-2">
+                        Popular Cards
+                      </h4>
+                      <div className="space-y-1">
+                        {metaData.popularCards
+                          .slice(0, 5)
+                          .map((card, index) => (
+                            <div
+                              key={card.id}
+                              className="flex items-center justify-between text-xs"
+                            >
+                              <span className="truncate">{card.name}</span>
+                              <span className="text-green-400">
+                                {(card.playRate * 100).toFixed(1)}%
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-300 mb-2">
+                        Trending
+                      </h4>
+                      <div className="space-y-1">
+                        {metaData.trendingCards
+                          .slice(0, 3)
+                          .map((card, index) => (
+                            <div
+                              key={card.id}
+                              className="flex items-center justify-between text-xs"
+                            >
+                              <span className="truncate">{card.name}</span>
+                              <TrendingUp
+                                className="text-green-400"
+                                size={12}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* Meta Analytics */}
-            <div className="bg-gray-800 rounded-lg p-4">
-              <h3 className="font-semibold mb-3 flex items-center">
-                <BarChart3 className="mr-2" size={16} />
-                Meta Insights
-              </h3>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-2">
-                    Popular Cards
-                  </h4>
-                  <div className="space-y-1">
-                    {metaData.popularCards.slice(0, 5).map((card, index) => (
-                      <div
-                        key={card.id}
-                        className="flex items-center justify-between text-xs"
-                      >
-                        <span className="truncate">{card.name}</span>
-                        <span className="text-green-400">
-                          {(card.playRate * 100).toFixed(1)}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-2">
-                    Trending
-                  </h4>
-                  <div className="space-y-1">
-                    {metaData.trendingCards.slice(0, 3).map((card, index) => (
-                      <div
-                        key={card.id}
-                        className="flex items-center justify-between text-xs"
-                      >
-                        <span className="truncate">{card.name}</span>
-                        <TrendingUp className="text-green-400" size={12} />
-                      </div>
-                    ))}
+                {/* Quick Actions */}
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <h3 className="font-semibold mb-3">Quick Actions</h3>
+                  <div className="space-y-2">
+                    <Link
+                      to="/deckbuilder"
+                      className="flex items-center space-x-2 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors text-sm"
+                    >
+                      <Plus size={14} />
+                      <span>Build Deck</span>
+                    </Link>
+                    <Link
+                      to="/official-decklists"
+                      className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
+                    >
+                      <FileText size={14} />
+                      <span>Official Lists</span>
+                    </Link>
+                    <Link
+                      to="/products"
+                      className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
+                    >
+                      <Package size={14} />
+                      <span>Products</span>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Quick Actions */}
-            <div className="bg-gray-800 rounded-lg p-4">
-              <h3 className="font-semibold mb-3">Quick Actions</h3>
-              <div className="space-y-2">
-                <Link
-                  to="/deckbuilder"
-                  className="flex items-center space-x-2 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded transition-colors text-sm"
-                >
-                  <Plus size={14} />
-                  <span>Build Deck</span>
-                </Link>
-                <Link
-                  to="/official-decklists"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <FileText size={14} />
-                  <span>Official Lists</span>
-                </Link>
-                <Link
-                  to="/products"
-                  className="flex items-center space-x-2 w-full p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors text-sm"
-                >
-                  <Package size={14} />
-                  <span>Products</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
           </>
         )}
 
