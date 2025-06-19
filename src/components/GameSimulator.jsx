@@ -31,6 +31,11 @@ const GameSimulator = () => {
     turn: 1,
     currentPlayer: 1,
     gameStarted: false,
+    // Response Stack System
+    responseStack: [], // Stack of actions waiting to resolve
+    awaitingResponse: false, // Whether we're waiting for responses
+    priorityPlayer: null, // Which player has priority to respond
+    stackResolving: false, // Whether the stack is currently resolving
     players: {
       1: {
         name: 'Player 1',
@@ -43,6 +48,7 @@ const GameSimulator = () => {
         removedFromPlay: [], // Zone for cards affected by removal
         graveyard: [],
         selectedDeck: null,
+        canRespond: false, // Whether this player can currently respond
       },
       2: {
         name: 'Player 2',
@@ -55,6 +61,7 @@ const GameSimulator = () => {
         removedFromPlay: [],
         graveyard: [],
         selectedDeck: null,
+        canRespond: false,
       },
     },
     selectedCard: null,
@@ -213,6 +220,169 @@ const GameSimulator = () => {
     setGameState(newGameState);
   };
 
+  // Response Stack System Functions
+  const addToStack = action => {
+    const newGameState = { ...gameState };
+
+    // Add action to the top of the stack
+    newGameState.responseStack.push(action);
+
+    // Determine who gets priority to respond (opponent of the player who just acted)
+    const respondingPlayer = action.playerId === 1 ? 2 : 1;
+    newGameState.priorityPlayer = respondingPlayer;
+    newGameState.awaitingResponse = true;
+
+    // Set response permissions
+    newGameState.players[respondingPlayer].canRespond = true;
+    newGameState.players[action.playerId].canRespond = false;
+
+    newGameState.gameLog.unshift(
+      `${action.description} added to stack. ${newGameState.players[respondingPlayer].name} can respond.`,
+    );
+
+    setGameState(newGameState);
+  };
+
+  const passResponse = playerId => {
+    const newGameState = { ...gameState };
+
+    newGameState.gameLog.unshift(
+      `${newGameState.players[playerId].name} passes response`,
+    );
+
+    // Switch priority to the other player
+    const otherPlayer = playerId === 1 ? 2 : 1;
+
+    // If the other player already passed or it's their action on top of stack, resolve
+    if (
+      !newGameState.players[otherPlayer].canRespond ||
+      (newGameState.responseStack.length > 0 &&
+        newGameState.responseStack[newGameState.responseStack.length - 1]
+          .playerId === otherPlayer)
+    ) {
+      resolveStack(newGameState);
+    } else {
+      // Give priority to other player
+      newGameState.priorityPlayer = otherPlayer;
+      newGameState.players[otherPlayer].canRespond = true;
+      newGameState.players[playerId].canRespond = false;
+
+      newGameState.gameLog.unshift(
+        `${newGameState.players[otherPlayer].name} can respond.`,
+      );
+    }
+
+    setGameState(newGameState);
+  };
+
+  const resolveStack = (gameStateToModify = null) => {
+    const newGameState = gameStateToModify || { ...gameState };
+
+    if (newGameState.responseStack.length === 0) {
+      newGameState.awaitingResponse = false;
+      newGameState.priorityPlayer = null;
+      newGameState.players[1].canRespond = false;
+      newGameState.players[2].canRespond = false;
+      newGameState.stackResolving = false;
+
+      if (!gameStateToModify) setGameState(newGameState);
+      return;
+    }
+
+    newGameState.stackResolving = true;
+    newGameState.gameLog.unshift('Resolving stack...');
+
+    // Resolve actions in reverse order (last in, first out)
+    while (newGameState.responseStack.length > 0) {
+      const action = newGameState.responseStack.pop();
+
+      newGameState.gameLog.unshift(`Resolving: ${action.description}`);
+
+      // Execute the action's effect
+      if (action.effect) {
+        action.effect(newGameState);
+      }
+    }
+
+    // Clear response state
+    newGameState.awaitingResponse = false;
+    newGameState.priorityPlayer = null;
+    newGameState.players[1].canRespond = false;
+    newGameState.players[2].canRespond = false;
+    newGameState.stackResolving = false;
+
+    newGameState.gameLog.unshift('Stack resolved.');
+
+    if (!gameStateToModify) setGameState(newGameState);
+  };
+
+  const canPlayResponse = (card, playerId) => {
+    // Check if player can respond and has a valid response card
+    if (!gameState.players[playerId].canRespond) return false;
+    if (!gameState.awaitingResponse) return false;
+
+    // For now, any card from hand can be played as a response
+    // In a full implementation, you'd check card types, costs, etc.
+    return gameState.players[playerId].hand.some(c => c.id === card.id);
+  };
+
+  const playResponse = (card, playerId) => {
+    if (!canPlayResponse(card, playerId)) {
+      alert('Cannot play response at this time!');
+      return;
+    }
+
+    const newGameState = { ...gameState };
+    const player = newGameState.players[playerId];
+
+    // Remove card from hand
+    player.hand = player.hand.filter(c => c.id !== card.id);
+
+    // Create response action
+    const responseAction = {
+      type: 'response',
+      playerId: playerId,
+      card: card,
+      description: `${player.name} plays ${card.name} in response`,
+      effect: gameState => {
+        // Execute the card's effect
+        if (card.type === 'Spell') {
+          executeSpellEffect(card, playerId, gameState);
+        } else if (card.type === 'Familiar') {
+          // Familiars played as responses might have different effects
+          executeFamiliarResponseEffect(card, playerId, gameState);
+        }
+      },
+    };
+
+    // Add to stack
+    newGameState.responseStack.push(responseAction);
+
+    // Switch priority to opponent
+    const opponent = playerId === 1 ? 2 : 1;
+    newGameState.priorityPlayer = opponent;
+    newGameState.players[opponent].canRespond = true;
+    newGameState.players[playerId].canRespond = false;
+
+    newGameState.gameLog.unshift(
+      `${responseAction.description} added to stack. ${newGameState.players[opponent].name} can respond.`,
+    );
+
+    setGameState(newGameState);
+  };
+
+  // Helper functions for response effects
+  const executeSpellEffect = (card, playerId, gameState) => {
+    // Execute spell effects based on card properties
+    // This would be expanded based on specific spell mechanics
+    gameState.gameLog.unshift(`${card.name} spell effect resolves`);
+  };
+
+  const executeFamiliarResponseEffect = (card, playerId, gameState) => {
+    // Some familiars might have special response effects
+    gameState.gameLog.unshift(`${card.name} response effect resolves`);
+  };
+
   // Move to Main Phase
   const moveToMainPhase = () => {
     const newGameState = { ...gameState };
@@ -230,43 +400,58 @@ const GameSimulator = () => {
 
   // Main Phase Actions
   const summonFamiliar = (card, playerId, azothPaid = 0) => {
-    const newGameState = { ...gameState };
-    const player = newGameState.players[playerId];
-
     // Check if player has enough unrested Azoth
+    const player = gameState.players[playerId];
     const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
     if (availableAzoth.length < azothPaid) {
       alert('Not enough unrested Azoth to pay for this summon!');
       return;
     }
 
-    // Rest the required Azoth
-    for (let i = 0; i < azothPaid; i++) {
-      availableAzoth[i].rested = true;
-    }
+    // Create summon action for the stack
+    const summonAction = {
+      type: 'summon',
+      playerId: playerId,
+      card: card,
+      azothPaid: azothPaid,
+      description: `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
+      effect: gameState => {
+        const player = gameState.players[playerId];
+        const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
 
-    // Remove card from hand
-    player.hand = player.hand.filter(c => c.id !== card.id);
+        // Rest the required Azoth
+        for (let i = 0; i < azothPaid; i++) {
+          availableAzoth[i].rested = true;
+        }
 
-    // Summon with +1 counters equal to Azoth paid
-    const summonedCard = {
-      ...card,
-      rested: false,
-      counters: azothPaid,
-      summoned: true,
+        // Remove card from hand
+        player.hand = player.hand.filter(c => c.id !== card.id);
+
+        // Summon with +1 counters equal to Azoth paid
+        const summonedCard = {
+          ...card,
+          rested: false,
+          counters: azothPaid,
+          summoned: true,
+        };
+        player.field.push(summonedCard);
+
+        // Execute keyword effects
+        executeKeywordEffects(summonedCard, playerId, gameState);
+
+        // Draw a card after playing
+        if (player.deck.length > 0) {
+          player.hand.push(player.deck.shift());
+        }
+
+        gameState.gameLog.unshift(
+          `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
+        );
+      },
     };
-    player.field.push(summonedCard);
 
-    // Draw a card after playing
-    if (player.deck.length > 0) {
-      player.hand.push(player.deck.shift());
-    }
-
-    newGameState.gameLog.unshift(
-      `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
-    );
-
-    setGameState(newGameState);
+    // Add to stack and await responses
+    addToStack(summonAction);
   };
 
   const tributeSummon = (card, playerId, tributedFamiliars, azothPaid = 0) => {
@@ -321,32 +506,53 @@ const GameSimulator = () => {
   };
 
   const castSpell = (card, playerId, azothPaid = 0) => {
-    const newGameState = { ...gameState };
-    const player = newGameState.players[playerId];
-
-    // Rest required Azoth
+    // Check if player has enough unrested Azoth
+    const player = gameState.players[playerId];
     const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
-    for (let i = 0; i < azothPaid; i++) {
-      if (availableAzoth[i]) availableAzoth[i].rested = true;
+    if (availableAzoth.length < azothPaid) {
+      alert('Not enough unrested Azoth to cast this spell!');
+      return;
     }
 
-    // Remove card from hand
-    player.hand = player.hand.filter(c => c.id !== card.id);
+    // Create spell action for the stack
+    const spellAction = {
+      type: 'spell',
+      playerId: playerId,
+      card: card,
+      azothPaid: azothPaid,
+      description: `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
+      effect: gameState => {
+        const player = gameState.players[playerId];
+        const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
 
-    // Resolve spell effect (simplified - replace ✡︎⃝ with azothPaid)
-    // Then put on bottom of deck
-    player.deck.push(card);
+        // Rest required Azoth
+        for (let i = 0; i < azothPaid; i++) {
+          if (availableAzoth[i]) availableAzoth[i].rested = true;
+        }
 
-    // Draw a card after playing
-    if (player.deck.length > 0) {
-      player.hand.push(player.deck.shift());
-    }
+        // Remove card from hand
+        player.hand = player.hand.filter(c => c.id !== card.id);
 
-    newGameState.gameLog.unshift(
-      `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
-    );
+        // Execute keyword effects for spells
+        executeKeywordEffects(card, playerId, gameState, azothPaid);
 
-    setGameState(newGameState);
+        // Resolve spell effect (simplified - replace ✡︎⃝ with azothPaid)
+        // Then put on bottom of deck
+        player.deck.push(card);
+
+        // Draw a card after playing
+        if (player.deck.length > 0) {
+          player.hand.push(player.deck.shift());
+        }
+
+        gameState.gameLog.unshift(
+          `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
+        );
+      },
+    };
+
+    // Add to stack and await responses
+    addToStack(spellAction);
   };
 
   const playBurst = (card, playerId) => {
@@ -539,6 +745,95 @@ const GameSimulator = () => {
       targetMode: false,
       gameLog: [],
     });
+  };
+
+  // Response Stack UI Component
+  const ResponseStackUI = () => {
+    if (!gameState.awaitingResponse && gameState.responseStack.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="bg-gradient-to-r from-purple-900 to-blue-900 rounded-lg p-4 border-2 border-purple-500 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <RefreshCw className="text-purple-400" size={20} />
+            Response Stack
+          </h3>
+          {gameState.stackResolving && (
+            <span className="px-2 py-1 bg-purple-500 text-white text-xs rounded animate-pulse">
+              Resolving...
+            </span>
+          )}
+        </div>
+
+        {/* Stack Display */}
+        <div className="space-y-2 mb-4">
+          {gameState.responseStack.length === 0 ? (
+            <div className="text-gray-400 text-center py-2">Stack is empty</div>
+          ) : (
+            gameState.responseStack.map((action, index) => (
+              <div
+                key={index}
+                className={`p-3 rounded border-l-4 ${
+                  index === gameState.responseStack.length - 1
+                    ? 'border-yellow-400 bg-yellow-900/20'
+                    : 'border-gray-400 bg-gray-800/50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-medium">
+                    {action.description}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {index === gameState.responseStack.length - 1
+                      ? 'Top'
+                      : `${gameState.responseStack.length - index - 1} from top`}
+                  </span>
+                </div>
+                {action.card && (
+                  <div className="text-sm text-gray-300 mt-1">
+                    {action.card.name} - {action.card.type}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Response Controls */}
+        {gameState.awaitingResponse && gameState.priorityPlayer && (
+          <div className="border-t border-purple-400 pt-3">
+            <div className="flex items-center justify-between">
+              <div className="text-white">
+                <span className="font-medium">
+                  {gameState.players[gameState.priorityPlayer].name}
+                </span>
+                <span className="text-gray-300"> can respond</span>
+              </div>
+
+              <div className="flex gap-2">
+                {/* Pass Response Button */}
+                <button
+                  onClick={() => passResponse(gameState.priorityPlayer)}
+                  className="px-3 py-1 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded transition-colors"
+                >
+                  Pass
+                </button>
+
+                {/* Response Cards (if any) */}
+                {gameState.players[gameState.priorityPlayer].hand.length >
+                  0 && (
+                  <div className="text-xs text-gray-400">
+                    Click cards in hand to respond
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   const PlayerZone = ({ player, playerId, isCurrentPlayer }) => (
@@ -734,32 +1029,50 @@ const GameSimulator = () => {
                 </div>
 
                 {/* Card Action Buttons */}
-                {isCurrentPlayer &&
-                  (gameState.phase === 'main' ||
-                    gameState.phase === 'postCombatMain') && (
-                    <div className="flex flex-wrap gap-1 mt-2">
+                {isCurrentPlayer && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {/* Normal Phase Actions */}
+                    {(gameState.phase === 'main' ||
+                      gameState.phase === 'postCombatMain') && (
+                      <>
+                        <button
+                          onClick={e => {
+                            e.stopPropagation();
+                            summonFamiliar(card, playerId, 1);
+                          }}
+                          className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
+                          title="Summon with 1 Azoth"
+                        >
+                          Summon
+                        </button>
+                        <button
+                          onClick={e => {
+                            e.stopPropagation();
+                            castSpell(card, playerId, 1);
+                          }}
+                          className="px-2 py-1 bg-blue-600 text-xs rounded hover:bg-blue-700"
+                          title="Cast as Spell"
+                        >
+                          Spell
+                        </button>
+                      </>
+                    )}
+
+                    {/* Response Actions */}
+                    {canPlayResponse(card, playerId) && (
                       <button
                         onClick={e => {
                           e.stopPropagation();
-                          summonFamiliar(card, playerId, 1);
+                          playResponse(card, playerId);
                         }}
-                        className="px-2 py-1 bg-green-600 text-xs rounded hover:bg-green-700"
-                        title="Summon with 1 Azoth"
+                        className="px-2 py-1 bg-purple-600 text-xs rounded hover:bg-purple-700 animate-pulse"
+                        title="Play as Response"
                       >
-                        Summon
+                        Respond
                       </button>
-                      <button
-                        onClick={e => {
-                          e.stopPropagation();
-                          castSpell(card, playerId, 1);
-                        }}
-                        className="px-2 py-1 bg-blue-600 text-xs rounded hover:bg-blue-700"
-                        title="Cast as Spell"
-                      >
-                        Spell
-                      </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                )}
 
                 {/* Azoth Placement in Start Phase */}
                 {isCurrentPlayer &&
@@ -1003,6 +1316,9 @@ const GameSimulator = () => {
             playerId={2}
             isCurrentPlayer={gameState.currentPlayer === 2}
           />
+
+          {/* Response Stack */}
+          <ResponseStackUI />
 
           {/* Player 1 (You) */}
           <PlayerZone
