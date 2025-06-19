@@ -24,6 +24,10 @@ import TournamentManager from './components/TournamentManager';
 import MetaAnalysis from './components/MetaAnalysis';
 import UnifiedCardDatabase from './components/UnifiedCardDatabase';
 import PlayerProfile from './components/PlayerProfile';
+import UnifiedCards from './pages/UnifiedCards';
+import UnifiedTournaments from './pages/UnifiedTournaments';
+import UnifiedCommunity from './pages/UnifiedCommunity';
+import UnifiedResources from './pages/UnifiedResources';
 
 function App() {
   return (
@@ -37,14 +41,14 @@ function App() {
                 <Route path="/" element={<Home />} />
 
                 {/* Cards - Unified card database with all card-related functionality */}
-                <Route path="/cards" element={<UnifiedCardDatabase />} />
+                <Route path="/cards" element={<UnifiedCards />} />
                 <Route
                   path="/card-database"
-                  element={<UnifiedCardDatabase />}
+                  element={<UnifiedCards />}
                 />
                 <Route
                   path="/advanced-cards"
-                  element={<UnifiedCardDatabase />}
+                  element={<UnifiedCards />}
                 />
 
                 {/* Decks - Unified deck system with all deck-related functionality */}
@@ -63,9 +67,9 @@ function App() {
                 {/* Tournaments & Events - Unified competitive section */}
                 <Route
                   path="/tournaments"
-                  element={<UnifiedTournamentsEvents />}
+                  element={<UnifiedTournaments />}
                 />
-                <Route path="/events" element={<UnifiedTournamentsEvents />} />
+                <Route path="/events" element={<UnifiedTournaments />} />
                 <Route
                   path="/tournaments/create"
                   element={<TournamentCreate />}
@@ -74,18 +78,18 @@ function App() {
                   path="/tournaments/:tournamentId/live"
                   element={<LiveTournament />}
                 />
-                <Route path="/leaderboards" element={<Leaderboards />} />
-                <Route path="/analytics" element={<AnalyticsDashboard />} />
+                <Route path="/leaderboards" element={<UnifiedTournaments />} />
+                <Route path="/analytics" element={<UnifiedTournaments />} />
 
                 {/* Community & Social */}
-                <Route path="/social" element={<SocialHub />} />
-                <Route path="/hall-of-fame" element={<RollOfHonor />} />
-                <Route path="/store-locator" element={<StoreLocator />} />
+                <Route path="/social" element={<UnifiedCommunity />} />
+                <Route path="/hall-of-fame" element={<UnifiedCommunity />} />
+                <Route path="/store-locator" element={<UnifiedCommunity />} />
 
                 {/* Game Resources */}
-                <Route path="/lore" element={<LoreCenter />} />
-                <Route path="/products" element={<ProductReleases />} />
-                <Route path="/meta-analysis" element={<MetaAnalysis />} />
+                <Route path="/lore" element={<UnifiedResources />} />
+                <Route path="/products" element={<UnifiedResources />} />
+                <Route path="/meta-analysis" element={<UnifiedResources />} />
 
                 {/* User Management */}
                 <Route path="/profile" element={<EnhancedProfile />} />
