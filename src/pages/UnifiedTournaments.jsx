@@ -639,7 +639,10 @@ const UnifiedTournaments = () => {
                   LIVE
                 </span>
               </h2>
-              <LiveTournamentBracket tournamentId="world-championship-2024" isLive={true} />
+              <LiveTournamentBracket
+                tournamentId="world-championship-2024"
+                isLive={true}
+              />
             </div>
 
             {/* Community Events */}
