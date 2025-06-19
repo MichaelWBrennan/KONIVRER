@@ -290,13 +290,13 @@ const Home = () => {
 
   // Filtering logic
   const filteredBlogPosts = blogPosts.filter(post => {
-    const matchesSearch = 
+    const matchesSearch =
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.author.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesFilter = activeFilter === 'all' || activeFilter === 'blog';
-    
+
     return matchesSearch && matchesFilter;
   });
 
@@ -305,7 +305,8 @@ const Home = () => {
       post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.user.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesFilter = activeFilter === 'all' || activeFilter === 'community';
+    const matchesFilter =
+      activeFilter === 'all' || activeFilter === 'community';
 
     return matchesSearch && matchesFilter;
   });
@@ -342,7 +343,7 @@ const Home = () => {
           </motion.div>
 
           {/* Community Stats */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-5 gap-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -434,7 +435,8 @@ const Home = () => {
 
               <div className="flex flex-col justify-between">
                 <div className="text-sm text-gray-400 mb-2">
-                  {filteredBlogPosts.length + filteredSocialPosts.length} total posts
+                  {filteredBlogPosts.length + filteredSocialPosts.length} total
+                  posts
                 </div>
                 {isAuthenticated && (
                   <button
@@ -456,205 +458,215 @@ const Home = () => {
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             {/* Left Column - Main Content Feed */}
             <div className="xl:col-span-2 space-y-6">
-              
               {/* Featured Blog Post */}
-              {activeFilter !== 'community' && filteredBlogPosts
-                .filter(post => post.featured)
-                .map((post, index) => (
-                  <motion.article
-                    key={post.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="mb-6"
-                  >
-                    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">
-                      <div className="grid lg:grid-cols-2 gap-0">
-                        <div className="relative">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            className="w-full h-64 lg:h-full object-cover"
-                          />
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-3 py-1 rounded-full font-bold">
-                              FEATURED
-                            </span>
-                          </div>
-                        </div>
-                        <div className="p-8 flex flex-col justify-center">
-                          <div className="flex items-center gap-3 mb-4">
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
-                            >
-                              {post.category}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {post.readTime}
-                            </span>
-                          </div>
-                          <h2 className="text-3xl font-bold mb-4 text-white hover:text-blue-400 transition-colors cursor-pointer">
-                            {post.title}
-                          </h2>
-                          <p className="text-gray-300 mb-6 text-lg leading-relaxed">
-                            {post.excerpt}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                              <div>
-                                <p className="text-white font-medium">
-                                  {post.author}
-                                </p>
-                                <p className="text-gray-400 text-sm">
-                                  {formatDate(post.date)}
-                                </p>
-                              </div>
-                            </div>
-                            <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                              Read More →
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.article>
-                ))}
-
-              {/* Mixed Content Feed */}
-              <div className="space-y-6">
-                {/* Blog Posts */}
-                {activeFilter !== 'community' && filteredBlogPosts
-                  .filter(post => !post.featured)
+              {activeFilter !== 'community' &&
+                filteredBlogPosts
+                  .filter(post => post.featured)
                   .map((post, index) => (
                     <motion.article
-                      key={`blog-${post.id}`}
+                      key={post.id}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.1 * index }}
-                      className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700/50 transition-colors"
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      className="mb-6"
                     >
-                      <div className="flex items-start space-x-4">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
-                            >
-                              {post.category}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {post.readTime}
-                            </span>
-                            <span className="text-gray-400 text-sm">
-                              {formatDate(post.date)}
-                            </span>
+                      <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">
+                        <div className="grid lg:grid-cols-2 gap-0">
+                          <div className="relative">
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              className="w-full h-64 lg:h-full object-cover"
+                            />
+                            <div className="absolute top-4 left-4">
+                              <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs px-3 py-1 rounded-full font-bold">
+                                FEATURED
+                              </span>
+                            </div>
                           </div>
-                          <h3 className="text-xl font-bold mb-2 text-white hover:text-blue-400 transition-colors cursor-pointer">
-                            {post.title}
-                          </h3>
-                          <p className="text-gray-300 mb-3 line-clamp-2">
-                            {post.excerpt}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-gray-400 text-sm">
-                              By {post.author}
-                            </span>
-                            <button className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
-                              Read More →
-                            </button>
+                          <div className="p-8 flex flex-col justify-center">
+                            <div className="flex items-center gap-3 mb-4">
+                              <span
+                                className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
+                              >
+                                {post.category}
+                              </span>
+                              <span className="text-gray-400 text-sm">
+                                {post.readTime}
+                              </span>
+                            </div>
+                            <h2 className="text-3xl font-bold mb-4 text-white hover:text-blue-400 transition-colors cursor-pointer">
+                              {post.title}
+                            </h2>
+                            <p className="text-gray-300 mb-6 text-lg leading-relaxed">
+                              {post.excerpt}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                                <div>
+                                  <p className="text-white font-medium">
+                                    {post.author}
+                                  </p>
+                                  <p className="text-gray-400 text-sm">
+                                    {formatDate(post.date)}
+                                  </p>
+                                </div>
+                              </div>
+                              <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                                Read More →
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </motion.article>
                   ))}
 
-                {/* Social Posts */}
-                {activeFilter !== 'blog' && filteredSocialPosts.map((post, index) => (
-                  <motion.div
-                    key={`social-${post.id}`}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                    className="bg-gray-800 rounded-lg p-6"
-                  >
-                    <div className="flex items-start space-x-3 mb-4">
-                      <img
-                        src={post.user.avatar}
-                        alt={post.user.name}
-                        className="w-10 h-10 rounded-full"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-1">
-                          <span className="font-semibold text-white">{post.user.name}</span>
-                          {post.user.verified && (
-                            <span className="text-blue-400 text-xs">✓</span>
-                          )}
-                          <span className="text-sm text-gray-400">•</span>
-                          <span className="text-sm text-gray-400">{post.user.rank}</span>
-                          <span className="text-sm text-gray-400">•</span>
-                          <span className="text-sm text-gray-400">{post.timestamp}</span>
-                        </div>
-                        {post.location && (
-                          <div className="text-sm text-gray-400 mb-2">📍 {post.location}</div>
-                        )}
-                      </div>
-                    </div>
-
-                    <p className="text-gray-300 mb-4">{post.content}</p>
-
-                    {post.images && (
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        {post.images.map((image, imgIndex) => (
+              {/* Mixed Content Feed */}
+              <div className="space-y-6">
+                {/* Blog Posts */}
+                {activeFilter !== 'community' &&
+                  filteredBlogPosts
+                    .filter(post => !post.featured)
+                    .map((post, index) => (
+                      <motion.article
+                        key={`blog-${post.id}`}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 * index }}
+                        className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700/50 transition-colors"
+                      >
+                        <div className="flex items-start space-x-4">
                           <img
-                            key={imgIndex}
-                            src={image}
-                            alt={`Post image ${imgIndex + 1}`}
-                            className="rounded-lg w-full h-32 object-cover"
+                            src={post.image}
+                            alt={post.title}
+                            className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
                           />
-                        ))}
-                      </div>
-                    )}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}
+                              >
+                                {post.category}
+                              </span>
+                              <span className="text-gray-400 text-sm">
+                                {post.readTime}
+                              </span>
+                              <span className="text-gray-400 text-sm">
+                                {formatDate(post.date)}
+                              </span>
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 text-white hover:text-blue-400 transition-colors cursor-pointer">
+                              {post.title}
+                            </h3>
+                            <p className="text-gray-300 mb-3 line-clamp-2">
+                              {post.excerpt}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-400 text-sm">
+                                By {post.author}
+                              </span>
+                              <button className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
+                                Read More →
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.article>
+                    ))}
 
-                    {post.tags && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {post.tags.map((tag, tagIndex) => (
-                          <span
-                            key={tagIndex}
-                            className="text-blue-400 text-sm hover:text-blue-300 cursor-pointer"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                {/* Social Posts */}
+                {activeFilter !== 'blog' &&
+                  filteredSocialPosts.map((post, index) => (
+                    <motion.div
+                      key={`social-${post.id}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 * index }}
+                      className="bg-gray-800 rounded-lg p-6"
+                    >
+                      <div className="flex items-start space-x-3 mb-4">
+                        <img
+                          src={post.user.avatar}
+                          alt={post.user.name}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <span className="font-semibold text-white">
+                              {post.user.name}
+                            </span>
+                            {post.user.verified && (
+                              <span className="text-blue-400 text-xs">✓</span>
+                            )}
+                            <span className="text-sm text-gray-400">•</span>
+                            <span className="text-sm text-gray-400">
+                              {post.user.rank}
+                            </span>
+                            <span className="text-sm text-gray-400">•</span>
+                            <span className="text-sm text-gray-400">
+                              {post.timestamp}
+                            </span>
+                          </div>
+                          {post.location && (
+                            <div className="text-sm text-gray-400 mb-2">
+                              📍 {post.location}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
 
-                    <div className="flex items-center space-x-6 pt-3 border-t border-gray-700">
-                      <button
-                        onClick={() => handleLike(post.id)}
-                        className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors"
-                      >
-                        <span>❤️</span>
-                        <span>{post.likes}</span>
-                      </button>
-                      <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
-                        <span>💬</span>
-                        <span>{post.comments}</span>
-                      </button>
-                      <button
-                        onClick={() => handleShare(post.id)}
-                        className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors"
-                      >
-                        <span>🔄</span>
-                        <span>{post.shares}</span>
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
+                      <p className="text-gray-300 mb-4">{post.content}</p>
+
+                      {post.images && (
+                        <div className="grid grid-cols-2 gap-2 mb-4">
+                          {post.images.map((image, imgIndex) => (
+                            <img
+                              key={imgIndex}
+                              src={image}
+                              alt={`Post image ${imgIndex + 1}`}
+                              className="rounded-lg w-full h-32 object-cover"
+                            />
+                          ))}
+                        </div>
+                      )}
+
+                      {post.tags && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {post.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className="text-blue-400 text-sm hover:text-blue-300 cursor-pointer"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex items-center space-x-6 pt-3 border-t border-gray-700">
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          className="flex items-center space-x-1 text-gray-400 hover:text-red-400 transition-colors"
+                        >
+                          <span>❤️</span>
+                          <span>{post.likes}</span>
+                        </button>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-blue-400 transition-colors">
+                          <span>💬</span>
+                          <span>{post.comments}</span>
+                        </button>
+                        <button
+                          onClick={() => handleShare(post.id)}
+                          className="flex items-center space-x-1 text-gray-400 hover:text-green-400 transition-colors"
+                        >
+                          <span>🔄</span>
+                          <span>{post.shares}</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
               </div>
             </div>
 
@@ -668,7 +680,9 @@ const Home = () => {
                 className="bg-gray-800 rounded-lg p-6"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-white">Nearby Stores</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    Nearby Stores
+                  </h3>
                   <Link
                     to="/store-locator"
                     className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
@@ -676,7 +690,7 @@ const Home = () => {
                     View All →
                   </Link>
                 </div>
-                
+
                 <div className="space-y-4">
                   {stores.slice(0, 2).map((store, index) => (
                     <div
@@ -709,7 +723,10 @@ const Home = () => {
                         </h5>
                         <div className="space-y-1">
                           {store.events.slice(0, 2).map((event, eventIndex) => (
-                            <div key={eventIndex} className="text-xs text-gray-400">
+                            <div
+                              key={eventIndex}
+                              className="text-xs text-gray-400"
+                            >
                               {event.name} - {event.day} {event.time}
                             </div>
                           ))}
@@ -717,14 +734,16 @@ const Home = () => {
                       </div>
 
                       <div className="flex space-x-1">
-                        {store.amenities.slice(0, 3).map((amenity, amenityIndex) => (
-                          <span
-                            key={amenityIndex}
-                            className="text-xs bg-gray-600 px-2 py-1 rounded"
-                          >
-                            {amenity}
-                          </span>
-                        ))}
+                        {store.amenities
+                          .slice(0, 3)
+                          .map((amenity, amenityIndex) => (
+                            <span
+                              key={amenityIndex}
+                              className="text-xs bg-gray-600 px-2 py-1 rounded"
+                            >
+                              {amenity}
+                            </span>
+                          ))}
                       </div>
                     </div>
                   ))}
@@ -747,10 +766,13 @@ const Home = () => {
                     View All →
                   </Link>
                 </div>
-                
+
                 <div className="space-y-4">
                   {hallOfFame.map(player => (
-                    <div key={player.id} className="bg-gray-700/50 rounded-lg p-4">
+                    <div
+                      key={player.id}
+                      className="bg-gray-700/50 rounded-lg p-4"
+                    >
                       <div className="flex items-start space-x-3 mb-3">
                         <img
                           src={player.image}
@@ -758,7 +780,9 @@ const Home = () => {
                           className="w-12 h-12 rounded-full"
                         />
                         <div className="flex-1">
-                          <h4 className="font-semibold text-white">{player.name}</h4>
+                          <h4 className="font-semibold text-white">
+                            {player.name}
+                          </h4>
                           <p className="text-sm text-yellow-400">
                             {player.title}
                           </p>
@@ -800,8 +824,10 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="bg-gray-800 rounded-lg p-6"
               >
-                <h3 className="text-xl font-bold text-white mb-4">Top Contributors</h3>
-                
+                <h3 className="text-xl font-bold text-white mb-4">
+                  Top Contributors
+                </h3>
+
                 <div className="space-y-3">
                   {communityStats.topContributors?.map((contributor, index) => (
                     <div
@@ -812,7 +838,9 @@ const Home = () => {
                         {index + 1}
                       </div>
                       <div className="flex-1">
-                        <div className="font-semibold text-white">{contributor.name}</div>
+                        <div className="font-semibold text-white">
+                          {contributor.name}
+                        </div>
                         <div className="text-xs text-gray-400">
                           {contributor.posts} posts • {contributor.likes} likes
                         </div>
@@ -842,7 +870,9 @@ const Home = () => {
               className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Create New Post</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Create New Post
+                </h3>
                 <button
                   onClick={() => setShowNewPostModal(false)}
                   className="text-gray-400 hover:text-gray-300"
