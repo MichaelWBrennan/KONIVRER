@@ -31,7 +31,7 @@ import {
   Target,
   Calculator,
   Eye,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';

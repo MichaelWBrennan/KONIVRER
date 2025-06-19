@@ -91,12 +91,15 @@ function App() {
                 />
                 <Route path="/meta-analysis" element={<MetaAnalysis />} />
                 <Route path="/player/:playerId" element={<PlayerProfile />} />
-                
+
                 {/* New MTGGoldfish-inspired routes */}
                 <Route path="/prices" element={<PriceTracker />} />
                 <Route path="/price-tracker" element={<PriceTracker />} />
                 <Route path="/metagame" element={<MetagameAnalysis />} />
-                <Route path="/metagame-analysis" element={<MetagameAnalysis />} />
+                <Route
+                  path="/metagame-analysis"
+                  element={<MetagameAnalysis />}
+                />
                 <Route path="/budget-decks" element={<BudgetDecks />} />
                 <Route path="/budget" element={<BudgetDecks />} />
                 <Route path="/deck-pricing" element={<DeckPricing />} />

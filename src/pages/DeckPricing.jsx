@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Calculator, 
-  DollarSign, 
-  TrendingUp, 
+import {
+  Calculator,
+  DollarSign,
+  TrendingUp,
   TrendingDown,
   Upload,
   Download,
@@ -13,7 +13,7 @@ import {
   ShoppingCart,
   AlertCircle,
   CheckCircle,
-  Clock
+  Clock,
 } from 'lucide-react';
 
 const DeckPricing = () => {
@@ -49,8 +49,8 @@ const DeckPricing = () => {
     uniqueCards: 18,
     priceBreakdown: {
       paper: 245.75,
-      mtgo: 89.50,
-      arena: 0 // Free to play
+      mtgo: 89.5,
+      arena: 0, // Free to play
     },
     cardPrices: [
       {
@@ -59,27 +59,27 @@ const DeckPricing = () => {
         rarity: 'Legendary',
         set: 'Core Set 2024',
         paperPrice: 45.99,
-        mtgoPrice: 12.50,
+        mtgoPrice: 12.5,
         arenaPrice: 0,
         totalPaper: 45.99,
-        totalMtgo: 12.50,
+        totalMtgo: 12.5,
         priceChange: 7.49,
         percentChange: 19.5,
-        availability: 'In Stock'
+        availability: 'In Stock',
       },
       {
         name: 'Lightning Strike',
         quantity: 4,
         rarity: 'Common',
         set: 'Core Set 2024',
-        paperPrice: 2.50,
+        paperPrice: 2.5,
         mtgoPrice: 0.25,
         arenaPrice: 0,
-        totalPaper: 10.00,
-        totalMtgo: 1.00,
-        priceChange: 0.70,
+        totalPaper: 10.0,
+        totalMtgo: 1.0,
+        priceChange: 0.7,
         percentChange: 38.9,
-        availability: 'In Stock'
+        availability: 'In Stock',
       },
       {
         name: 'Flame Burst',
@@ -89,11 +89,11 @@ const DeckPricing = () => {
         paperPrice: 1.25,
         mtgoPrice: 0.15,
         arenaPrice: 0,
-        totalPaper: 5.00,
-        totalMtgo: 0.60,
+        totalPaper: 5.0,
+        totalMtgo: 0.6,
         priceChange: -0.25,
         percentChange: -16.7,
-        availability: 'Low Stock'
+        availability: 'Low Stock',
       },
       {
         name: 'Quick Draw',
@@ -105,23 +105,23 @@ const DeckPricing = () => {
         arenaPrice: 0,
         totalPaper: 26.97,
         totalMtgo: 8.25,
-        priceChange: 1.50,
+        priceChange: 1.5,
         percentChange: 20.0,
-        availability: 'In Stock'
+        availability: 'In Stock',
       },
       {
         name: 'Fire Sword',
         quantity: 2,
         rarity: 'Rare',
         set: 'Artifacts Unleashed',
-        paperPrice: 12.50,
+        paperPrice: 12.5,
         mtgoPrice: 3.25,
         arenaPrice: 0,
-        totalPaper: 25.00,
-        totalMtgo: 6.50,
-        priceChange: -2.00,
+        totalPaper: 25.0,
+        totalMtgo: 6.5,
+        priceChange: -2.0,
         percentChange: -13.8,
-        availability: 'In Stock'
+        availability: 'In Stock',
       },
       {
         name: 'Ancient Fire Spirit',
@@ -129,32 +129,32 @@ const DeckPricing = () => {
         rarity: 'Mythic',
         set: 'Legends of Old',
         paperPrice: 89.99,
-        mtgoPrice: 25.00,
+        mtgoPrice: 25.0,
         arenaPrice: 0,
         totalPaper: 89.99,
-        totalMtgo: 25.00,
-        priceChange: 15.00,
+        totalMtgo: 25.0,
+        priceChange: 15.0,
         percentChange: 20.0,
-        availability: 'Limited'
-      }
+        availability: 'Limited',
+      },
     ],
     priceHistory: [
-      { date: '2024-06-01', price: 220.50 },
+      { date: '2024-06-01', price: 220.5 },
       { date: '2024-06-05', price: 225.75 },
       { date: '2024-06-10', price: 235.25 },
-      { date: '2024-06-15', price: 240.00 },
-      { date: '2024-06-19', price: 245.75 }
+      { date: '2024-06-15', price: 240.0 },
+      { date: '2024-06-19', price: 245.75 },
     ],
     alternatives: [
       {
         name: 'Budget Version',
-        price: 89.50,
+        price: 89.5,
         description: 'Replace expensive cards with budget alternatives',
         changes: [
           'Replace Ancient Fire Spirit with Fire Elemental ($5.99)',
           'Replace Vynnset with Budget Fire Hero ($12.99)',
-          'Use basic lands instead of premium lands'
-        ]
+          'Use basic lands instead of premium lands',
+        ],
       },
       {
         name: 'Mid-Range Version',
@@ -163,10 +163,10 @@ const DeckPricing = () => {
         changes: [
           'Keep Vynnset, replace Ancient Fire Spirit',
           'Use mix of premium and basic lands',
-          'Include 2x Fire Sword instead of 3x'
-        ]
-      }
-    ]
+          'Include 2x Fire Sword instead of 3x',
+        ],
+      },
+    ],
   });
 
   const analyzeDeck = () => {
@@ -184,14 +184,15 @@ const DeckPricing = () => {
 
   const exportPricing = () => {
     if (!priceData) return;
-    
+
     const csvContent = [
       'Card Name,Quantity,Rarity,Set,Paper Price,MTGO Price,Total Paper,Total MTGO,Availability',
-      ...priceData.cardPrices.map(card => 
-        `"${card.name}",${card.quantity},${card.rarity},"${card.set}",${card.paperPrice},${card.mtgoPrice},${card.totalPaper},${card.totalMtgo},${card.availability}`
-      )
+      ...priceData.cardPrices.map(
+        card =>
+          `"${card.name}",${card.quantity},${card.rarity},"${card.set}",${card.paperPrice},${card.mtgoPrice},${card.totalPaper},${card.totalMtgo},${card.availability}`,
+      ),
     ].join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -200,23 +201,33 @@ const DeckPricing = () => {
     a.click();
   };
 
-  const getAvailabilityColor = (availability) => {
+  const getAvailabilityColor = availability => {
     switch (availability) {
-      case 'In Stock': return 'text-green-400';
-      case 'Low Stock': return 'text-yellow-400';
-      case 'Limited': return 'text-orange-400';
-      case 'Out of Stock': return 'text-red-400';
-      default: return 'text-gray-400';
+      case 'In Stock':
+        return 'text-green-400';
+      case 'Low Stock':
+        return 'text-yellow-400';
+      case 'Limited':
+        return 'text-orange-400';
+      case 'Out of Stock':
+        return 'text-red-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
-  const getAvailabilityIcon = (availability) => {
+  const getAvailabilityIcon = availability => {
     switch (availability) {
-      case 'In Stock': return <CheckCircle className="w-4 h-4" />;
-      case 'Low Stock': return <Clock className="w-4 h-4" />;
-      case 'Limited': return <AlertCircle className="w-4 h-4" />;
-      case 'Out of Stock': return <AlertCircle className="w-4 h-4" />;
-      default: return <AlertCircle className="w-4 h-4" />;
+      case 'In Stock':
+        return <CheckCircle className="w-4 h-4" />;
+      case 'Low Stock':
+        return <Clock className="w-4 h-4" />;
+      case 'Limited':
+        return <AlertCircle className="w-4 h-4" />;
+      case 'Out of Stock':
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <AlertCircle className="w-4 h-4" />;
     }
   };
 
@@ -257,7 +268,7 @@ const DeckPricing = () => {
                 </label>
                 <select
                   value={selectedFormat}
-                  onChange={(e) => setSelectedFormat(e.target.value)}
+                  onChange={e => setSelectedFormat(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="paper">Paper (Physical Cards)</option>
@@ -273,7 +284,7 @@ const DeckPricing = () => {
                 </label>
                 <textarea
                   value={deckInput}
-                  onChange={(e) => setDeckInput(e.target.value)}
+                  onChange={e => setDeckInput(e.target.value)}
                   placeholder="Enter your deck list here...&#10;Format: Quantity Card Name&#10;Example:&#10;4 Lightning Strike&#10;1 Vynnset, Iron Maiden"
                   className="w-full h-64 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 resize-none"
                 />
@@ -298,7 +309,7 @@ const DeckPricing = () => {
                     </>
                   )}
                 </button>
-                
+
                 <button
                   onClick={loadSampleDeck}
                   className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors flex items-center justify-center"
@@ -307,9 +318,7 @@ const DeckPricing = () => {
                   Load Sample Deck
                 </button>
 
-                <button
-                  className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors flex items-center justify-center"
-                >
+                <button className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors flex items-center justify-center">
                   <Upload className="w-4 h-4 mr-2" />
                   Import from File
                 </button>
@@ -334,7 +343,11 @@ const DeckPricing = () => {
                     </h2>
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => setViewMode(viewMode === 'detailed' ? 'compact' : 'detailed')}
+                        onClick={() =>
+                          setViewMode(
+                            viewMode === 'detailed' ? 'compact' : 'detailed',
+                          )
+                        }
                         className="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm transition-colors"
                       >
                         {viewMode === 'detailed' ? 'Compact' : 'Detailed'}
@@ -374,16 +387,23 @@ const DeckPricing = () => {
                   {/* Deck Stats */}
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-xl font-bold">{priceData.totalCards}</div>
+                      <div className="text-xl font-bold">
+                        {priceData.totalCards}
+                      </div>
                       <div className="text-gray-400 text-sm">Total Cards</div>
                     </div>
                     <div>
-                      <div className="text-xl font-bold">{priceData.uniqueCards}</div>
+                      <div className="text-xl font-bold">
+                        {priceData.uniqueCards}
+                      </div>
                       <div className="text-gray-400 text-sm">Unique Cards</div>
                     </div>
                     <div>
                       <div className="text-xl font-bold text-green-400">
-                        ${(priceData.totalPrice / priceData.totalCards).toFixed(2)}
+                        $
+                        {(priceData.totalPrice / priceData.totalCards).toFixed(
+                          2,
+                        )}
                       </div>
                       <div className="text-gray-400 text-sm">Avg per Card</div>
                     </div>
@@ -431,18 +451,25 @@ const DeckPricing = () => {
                             </div>
                             <div className="flex items-center">
                               <span className="text-gray-400">Change:</span>
-                              <span className={`ml-2 flex items-center ${
-                                card.percentChange >= 0 ? 'text-green-400' : 'text-red-400'
-                              }`}>
+                              <span
+                                className={`ml-2 flex items-center ${
+                                  card.percentChange >= 0
+                                    ? 'text-green-400'
+                                    : 'text-red-400'
+                                }`}
+                              >
                                 {card.percentChange >= 0 ? (
                                   <TrendingUp className="w-3 h-3 mr-1" />
                                 ) : (
                                   <TrendingDown className="w-3 h-3 mr-1" />
                                 )}
-                                {card.percentChange >= 0 ? '+' : ''}{card.percentChange}%
+                                {card.percentChange >= 0 ? '+' : ''}
+                                {card.percentChange}%
                               </span>
                             </div>
-                            <div className={`flex items-center ${getAvailabilityColor(card.availability)}`}>
+                            <div
+                              className={`flex items-center ${getAvailabilityColor(card.availability)}`}
+                            >
                               {getAvailabilityIcon(card.availability)}
                               <span className="ml-1">{card.availability}</span>
                             </div>
@@ -468,17 +495,25 @@ const DeckPricing = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {priceData.alternatives.map((alt, index) => (
-                      <div key={index} className="bg-gray-700/30 rounded-lg p-4">
+                      <div
+                        key={index}
+                        className="bg-gray-700/30 rounded-lg p-4"
+                      >
                         <div className="flex items-center justify-between mb-3">
                           <h4 className="font-bold">{alt.name}</h4>
                           <div className="text-lg font-bold text-green-400">
                             ${alt.price}
                           </div>
                         </div>
-                        <p className="text-gray-400 text-sm mb-3">{alt.description}</p>
+                        <p className="text-gray-400 text-sm mb-3">
+                          {alt.description}
+                        </p>
                         <div className="space-y-1">
                           {alt.changes.map((change, changeIndex) => (
-                            <div key={changeIndex} className="text-xs text-gray-300">
+                            <div
+                              key={changeIndex}
+                              className="text-xs text-gray-300"
+                            >
                               • {change}
                             </div>
                           ))}
@@ -498,7 +533,8 @@ const DeckPricing = () => {
                   Enter a deck list to get started
                 </h3>
                 <p className="text-gray-500">
-                  Paste your deck list in the input area and click "Calculate Prices" to see detailed pricing information.
+                  Paste your deck list in the input area and click "Calculate
+                  Prices" to see detailed pricing information.
                 </p>
               </div>
             )}
