@@ -19,11 +19,28 @@ const CardViewer = ({
         return 'bg-green-600';
       case 'rare':
         return 'bg-blue-600';
-      case 'legendary':
+      case 'mythic':
         return 'bg-purple-600';
+      case 'legendary':
+        return 'bg-yellow-600';
       default:
         return 'bg-gray-600';
     }
+  };
+
+  const getElementInfo = element => {
+    const elementMap = {
+      '🜂': { symbol: '🜂', name: 'Fire' },
+      '🜄': { symbol: '🜄', name: 'Water' },
+      '🜃': { symbol: '🜃', name: 'Earth' },
+      '🜁': { symbol: '🜁', name: 'Air' },
+      '⭘': { symbol: '⭘', name: 'Aether' },
+      '▢': { symbol: '▢', name: 'Nether' },
+      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
+      '∇': { symbol: '∇', name: 'Void' },
+      '🜅': { symbol: '🜅', name: 'Shadow' },
+    };
+    return elementMap[element] || { symbol: element, name: element };
   };
 
   return (
@@ -93,11 +110,19 @@ const CardViewer = ({
                   Elements
                 </h3>
                 <div className="flex items-center gap-2">
-                  {card.elements.map(element => (
-                    <span key={element} className="text-2xl">
-                      {element}
-                    </span>
-                  ))}
+                  {card.elements.map((element, index) => {
+                    const elementInfo = getElementInfo(element);
+                    return (
+                      <div key={index} className="flex items-center gap-1">
+                        <span className="text-2xl" title={elementInfo.name}>
+                          {elementInfo.symbol}
+                        </span>
+                        <span className="text-xs text-secondary">
+                          {elementInfo.name}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -142,6 +167,20 @@ const CardViewer = ({
                 </div>
               </div>
 
+              {/* Flavor Text */}
+              {card.flavor && (
+                <div>
+                  <h3 className="text-sm font-medium text-secondary mb-2">
+                    Flavor Text
+                  </h3>
+                  <div className="bg-tertiary rounded-lg p-3">
+                    <p className="text-sm leading-relaxed italic text-secondary">
+                      {card.flavor}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Actions */}
               <div className="flex gap-3 pt-4">
                 <button
@@ -167,11 +206,13 @@ const CardViewer = ({
               </div>
               <div>
                 <div className="text-secondary">Type</div>
-                <div>Creature</div>
+                <div>{card.type}</div>
               </div>
               <div>
                 <div className="text-secondary">Set</div>
-                <div>Core Set</div>
+                <div>
+                  {card.set} {card.setNumber && `(${card.setNumber})`}
+                </div>
               </div>
             </div>
           </div>
