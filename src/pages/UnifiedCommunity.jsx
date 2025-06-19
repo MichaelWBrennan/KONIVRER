@@ -3,11 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  Users,
   MessageCircle,
   Heart,
   Share2,
-  MapPin,
   Star,
   Trophy,
   Calendar,
@@ -26,15 +24,6 @@ import {
   Phone,
   ExternalLink,
   Award,
-  Crown,
-  Medal,
-  Target,
-  Zap,
-  Shield,
-  Sword,
-  Gamepad2,
-  Activity,
-  TrendingUp,
   Hash,
   AtSign,
   Image,
@@ -346,10 +335,7 @@ const UnifiedCommunity = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-4xl font-bold mb-2">Community Hub</h1>
-              <p className="text-gray-400">
-                Connect with players, find local stores, and celebrate
-                achievements
-              </p>
+
             </div>
             {isAuthenticated && (
               <button
@@ -367,54 +353,44 @@ const UnifiedCommunity = () => {
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">Total Members</p>
                   <p className="text-2xl font-bold">
                     {communityStats.totalMembers?.toLocaleString()}
                   </p>
                 </div>
-                <Users className="text-blue-400" size={24} />
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">Active Today</p>
                   <p className="text-2xl font-bold">
                     {communityStats.activeToday?.toLocaleString()}
                   </p>
                 </div>
-                <Activity className="text-green-400" size={24} />
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">Posts Today</p>
                   <p className="text-2xl font-bold">
                     {communityStats.postsToday}
                   </p>
                 </div>
-                <MessageCircle className="text-purple-400" size={24} />
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">Events This Week</p>
                   <p className="text-2xl font-bold">
                     {communityStats.eventsThisWeek}
                   </p>
                 </div>
-                <Calendar className="text-yellow-400" size={24} />
               </div>
             </div>
             <div className="bg-gray-800 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">Nearby Stores</p>
                   <p className="text-2xl font-bold">{stores.length}</p>
                 </div>
-                <MapPin className="text-red-400" size={24} />
               </div>
             </div>
           </div>
