@@ -18,18 +18,15 @@ import CardMaker from './CardMaker';
 const UnifiedGamePlatform = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState('discover');
+  const [activeFeature, setActiveFeature] = useState(null);
 
   // Initialize from URL parameters
   useEffect(() => {
     const section = searchParams.get('section') || 'discover';
+    const feature = searchParams.get('feature');
     setActiveSection(section);
+    setActiveFeature(feature);
   }, [searchParams]);
-
-  // Update URL when section changes
-  const updateURL = section => {
-    setSearchParams({ section });
-    setActiveSection(section);
-  };
 
   // Main sections with integrated functionality
   const sections = [
@@ -149,6 +146,23 @@ const UnifiedGamePlatform = () => {
       ],
     },
   ];
+
+  // Update URL when section changes
+  const updateURL = (section, feature = null) => {
+    const params = { section };
+    if (feature) {
+      params.feature = feature;
+    }
+    setSearchParams(params);
+    setActiveSection(section);
+    setActiveFeature(feature);
+  };
+
+  // Get current section data
+  const currentSection = sections.find(section => section.id === activeSection);
+  
+  // Get current feature data
+  const currentFeature = currentSection?.features?.find(feature => feature.id === activeFeature) || currentSection?.features?.[0];
 
   // Platform statistics
   const platformStats = [
@@ -286,6 +300,98 @@ const UnifiedGamePlatform = () => {
             </motion.button>
           ))}
         </motion.div>
+
+        {/* Feature Navigation - Show if current section has multiple features */}
+        {currentSection?.features && currentSection.features.length > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-wrap gap-3 mb-8 justify-center"
+          >
+            {currentSection.features.map((feature, index) => (
+              <motion.button
+                key={feature.id}
+                onClick={() => updateURL(activeSection, feature.id)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                  activeFeature === feature.id || (!activeFeature && index === 0)
+                    ? 'bg-white/20 text-white border border-white/40'
+                    : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/15 hover:text-white'
+                }`}
+              >
+                {feature.name}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Content Area */}
+        {currentFeature?.component && (
+          <motion.div
+            key={`${activeSection}-${activeFeature || 'default'}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">
+                  {currentFeature.name}
+                </h2>
+                <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium rounded-full">
+                  {currentSection.name}
+                </span>
+              </div>
+              
+              {/* Render the component */}
+              <div className="min-h-[400px]">
+                {currentFeature.component && (
+                  <currentFeature.component 
+                    deck={{ name: 'New Deck', cards: [] }}
+                    onDeckChange={() => {}}
+                    cards={[]}
+                  />
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Fallback content if no component is available */}
+        {!currentFeature?.component && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-8 text-center"
+          >
+            <h2 className="text-2xl font-bold text-white mb-4">
+              {currentSection?.name} - Coming Soon
+            </h2>
+            <p className="text-gray-300 mb-6">
+              This feature is currently under development. Check back soon for updates!
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {currentSection?.features?.map((feature, index) => (
+                <div
+                  key={feature.id}
+                  className="bg-white/5 rounded-lg p-4 border border-white/10"
+                >
+                  <h3 className="font-semibold text-white mb-2">{feature.name}</h3>
+                  <p className="text-sm text-gray-400">
+                    {feature.component ? 'Available' : 'Coming Soon'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );
