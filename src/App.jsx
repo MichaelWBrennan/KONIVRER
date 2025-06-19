@@ -22,7 +22,6 @@ import UnifiedResources from './pages/UnifiedResources';
 import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
 import CardDetail from './pages/CardDetail';
 
-
 function App() {
   return (
     <ErrorBoundary>
@@ -36,8 +35,6 @@ function App() {
 
                 {/* Unified Game Platform - All game functionality */}
                 <Route path="/hub" element={<UnifiedGamePlatform />} />
-
-
 
                 {/* Card Detail Pages */}
                 <Route path="/card/:cardId" element={<CardDetail />} />
