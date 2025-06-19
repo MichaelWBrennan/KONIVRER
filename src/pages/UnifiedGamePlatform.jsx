@@ -266,11 +266,10 @@ const UnifiedGamePlatform = () => {
               transition={{ delay: index * 0.1 }}
               className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 cursor-pointer group"
             >
-              <div className="flex items-center space-x-3 mb-3">
+              <div className="flex items-center justify-center mb-3">
                 <div className="p-2 rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
                   <feature.icon className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-semibold text-white">{feature.name}</h3>
               </div>
               <div className="h-32 bg-gray-800/50 rounded-lg flex items-center justify-center">
               </div>
