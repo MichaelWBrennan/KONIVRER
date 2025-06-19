@@ -73,7 +73,7 @@ const GameSimulator = () => {
   const [availableDecks, setAvailableDecks] = useState([]);
   const [showCardDetail, setShowCardDetail] = useState(null);
   const [gameMode, setGameMode] = useState('pvp'); // 'pvp', 'ai', 'tutorial', 'automated'
-  
+
   // Automation state
   const [isAutomated, setIsAutomated] = useState(false);
   const [automationSpeed, setAutomationSpeed] = useState(2000); // ms between actions
@@ -227,93 +227,98 @@ const GameSimulator = () => {
   };
 
   // Response Stack System Functions
-  const addToStack = (action) => {
+  const addToStack = action => {
     const newGameState = { ...gameState };
-    
+
     // Add action to the top of the stack
     newGameState.responseStack.push(action);
-    
+
     // Determine who gets priority to respond (opponent of the player who just acted)
     const respondingPlayer = action.playerId === 1 ? 2 : 1;
     newGameState.priorityPlayer = respondingPlayer;
     newGameState.awaitingResponse = true;
-    
+
     // Set response permissions
     newGameState.players[respondingPlayer].canRespond = true;
     newGameState.players[action.playerId].canRespond = false;
-    
+
     newGameState.gameLog.unshift(
-      `${action.description} added to stack. ${newGameState.players[respondingPlayer].name} can respond.`
+      `${action.description} added to stack. ${newGameState.players[respondingPlayer].name} can respond.`,
     );
-    
+
     setGameState(newGameState);
   };
 
-  const passResponse = (playerId) => {
+  const passResponse = playerId => {
     const newGameState = { ...gameState };
-    
-    newGameState.gameLog.unshift(`${newGameState.players[playerId].name} passes response`);
-    
+
+    newGameState.gameLog.unshift(
+      `${newGameState.players[playerId].name} passes response`,
+    );
+
     // Switch priority to the other player
     const otherPlayer = playerId === 1 ? 2 : 1;
-    
+
     // If the other player already passed or it's their action on top of stack, resolve
-    if (!newGameState.players[otherPlayer].canRespond || 
-        (newGameState.responseStack.length > 0 && 
-         newGameState.responseStack[newGameState.responseStack.length - 1].playerId === otherPlayer)) {
+    if (
+      !newGameState.players[otherPlayer].canRespond ||
+      (newGameState.responseStack.length > 0 &&
+        newGameState.responseStack[newGameState.responseStack.length - 1]
+          .playerId === otherPlayer)
+    ) {
       resolveStack(newGameState);
     } else {
       // Give priority to other player
       newGameState.priorityPlayer = otherPlayer;
       newGameState.players[otherPlayer].canRespond = true;
       newGameState.players[playerId].canRespond = false;
-      
+
       newGameState.gameLog.unshift(
-        `${newGameState.players[otherPlayer].name} can respond.`
+        `${newGameState.players[otherPlayer].name} can respond.`,
       );
     }
-    
+
     setGameState(newGameState);
   };
 
   const resolveStack = (gameStateToModify = null) => {
     const newGameState = gameStateToModify || { ...gameState };
-    
+
     if (newGameState.responseStack.length === 0) {
       newGameState.awaitingResponse = false;
       newGameState.priorityPlayer = null;
       newGameState.players[1].canRespond = false;
       newGameState.players[2].canRespond = false;
       newGameState.stackResolving = false;
-      
+
       if (!gameStateToModify) setGameState(newGameState);
       return;
     }
-    
+
     newGameState.stackResolving = true;
     newGameState.gameLog.unshift('Resolving stack...');
-    
+
     // Resolve actions in reverse order (last in, first out)
     while (newGameState.responseStack.length > 0) {
       const action = newGameState.responseStack.pop();
-      
+
       newGameState.gameLog.unshift(`Resolving: ${action.description}`);
-      
+
       // Execute the action's effect
       if (action.effect) {
         action.effect(newGameState);
       }
     }
-    
+
     // Clear response state
     newGameState.awaitingResponse = false;
     newGameState.priorityPlayer = null;
     newGameState.players[1].canRespond = false;
     newGameState.players[2].canRespond = false;
     newGameState.stackResolving = false;
-    
+
     newGameState.gameLog.unshift('Stack resolved.');
-    
+
     if (!gameStateToModify) setGameState(newGameState);
   };
 
@@ -321,7 +326,7 @@ const GameSimulator = () => {
     // Check if player can respond and has a valid response card
     if (!gameState.players[playerId].canRespond) return false;
     if (!gameState.awaitingResponse) return false;
-    
+
     // For now, any card from hand can be played as a response
     // In a full implementation, you'd check card types, costs, etc.
     return gameState.players[playerId].hand.some(c => c.id === card.id);
@@ -332,20 +337,20 @@ const GameSimulator = () => {
       alert('Cannot play response at this time!');
       return;
     }
-    
+
     const newGameState = { ...gameState };
     const player = newGameState.players[playerId];
-    
+
     // Remove card from hand
     player.hand = player.hand.filter(c => c.id !== card.id);
-    
+
     // Create response action
     const responseAction = {
       type: 'response',
       playerId: playerId,
       card: card,
       description: `${player.name} plays ${card.name} in response`,
-      effect: (gameState) => {
+      effect: gameState => {
         // Execute the card's effect
         if (card.type === 'Spell') {
           executeSpellEffect(card, playerId, gameState);
@@ -353,22 +358,22 @@ const GameSimulator = () => {
           // Familiars played as responses might have different effects
           executeFamiliarResponseEffect(card, playerId, gameState);
         }
-      }
+      },
     };
-    
+
     // Add to stack
     newGameState.responseStack.push(responseAction);
-    
+
     // Switch priority to opponent
     const opponent = playerId === 1 ? 2 : 1;
     newGameState.priorityPlayer = opponent;
     newGameState.players[opponent].canRespond = true;
     newGameState.players[playerId].canRespond = false;
-    
+
     newGameState.gameLog.unshift(
-      `${responseAction.description} added to stack. ${newGameState.players[opponent].name} can respond.`
+      `${responseAction.description} added to stack. ${newGameState.players[opponent].name} can respond.`,
     );
-    
+
     setGameState(newGameState);
   };
 
@@ -416,10 +421,10 @@ const GameSimulator = () => {
       card: card,
       azothPaid: azothPaid,
       description: `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
-      effect: (gameState) => {
+      effect: gameState => {
         const player = gameState.players[playerId];
         const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
-        
+
         // Rest the required Azoth
         for (let i = 0; i < azothPaid; i++) {
           availableAzoth[i].rested = true;
@@ -448,7 +453,7 @@ const GameSimulator = () => {
         gameState.gameLog.unshift(
           `${player.name} summons ${card.name} with ${azothPaid} +1 counters`,
         );
-      }
+      },
     };
 
     // Add to stack and await responses
@@ -522,10 +527,10 @@ const GameSimulator = () => {
       card: card,
       azothPaid: azothPaid,
       description: `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
-      effect: (gameState) => {
+      effect: gameState => {
         const player = gameState.players[playerId];
         const availableAzoth = player.azothRow.filter(azoth => !azoth.rested);
-        
+
         // Rest required Azoth
         for (let i = 0; i < azothPaid; i++) {
           if (availableAzoth[i]) availableAzoth[i].rested = true;
@@ -549,7 +554,7 @@ const GameSimulator = () => {
         gameState.gameLog.unshift(
           `${player.name} casts ${card.name} as spell (✡︎⃝ = ${azothPaid})`,
         );
-      }
+      },
     };
 
     // Add to stack and await responses
@@ -753,96 +758,125 @@ const GameSimulator = () => {
     let value = 0;
     const player = gameState.players[playerId];
     const opponent = gameState.players[playerId === 1 ? 2 : 1];
-    
+
     // Base card value
     if (card.type === 'Familiar') {
       value += (card.attack || 0) + (card.defense || 0);
       value += card.counters * 2; // Counters are valuable
     }
-    
+
     // Element diversity bonus
     if (card.elements) {
-      const uniqueElements = new Set([...card.elements, ...player.field.flatMap(c => c.elements || [])]);
+      const uniqueElements = new Set([
+        ...card.elements,
+        ...player.field.flatMap(c => c.elements || []),
+      ]);
       value += uniqueElements.size * 0.5;
     }
-    
+
     // Keyword bonuses
     if (card.keywords) {
       card.keywords.forEach(keyword => {
         switch (keyword) {
-          case 'Brilliance': value += 3; break;
-          case 'Gust': value += 2; break;
-          case 'Inferno': value += 2.5; break;
-          case 'Steadfast': value += 1.5; break;
-          case 'Submerged': value += 1; break;
-          case 'Void': value += 2; break;
-          case 'Amalgam': value += 1; break;
-          case 'Quintessence': value += 4; break;
+          case 'Brilliance':
+            value += 3;
+            break;
+          case 'Gust':
+            value += 2;
+            break;
+          case 'Inferno':
+            value += 2.5;
+            break;
+          case 'Steadfast':
+            value += 1.5;
+            break;
+          case 'Submerged':
+            value += 1;
+            break;
+          case 'Void':
+            value += 2;
+            break;
+          case 'Amalgam':
+            value += 1;
+            break;
+          case 'Quintessence':
+            value += 4;
+            break;
         }
       });
     }
-    
+
     // Situational modifiers
     if (opponent.field.length > player.field.length) {
       value += 1; // Need board presence
     }
-    
+
     if (player.lifeCards.length <= 2) {
       value += 2; // Desperate situation
     }
-    
+
     return value;
   };
 
-  const aiChooseAction = (playerId) => {
+  const aiChooseAction = playerId => {
     const player = gameState.players[playerId];
     const opponent = gameState.players[playerId === 1 ? 2 : 1];
-    const availableAzoth = player.azothRow.filter(azoth => !azoth.rested).length;
-    
+    const availableAzoth = player.azothRow.filter(
+      azoth => !azoth.rested,
+    ).length;
+
     // Evaluate all possible actions
     const actions = [];
-    
+
     // Evaluate each card in hand
     player.hand.forEach(card => {
       const cardValue = evaluateCardValue(card, playerId, gameState);
-      
+
       // Can summon as familiar?
       if (card.type === 'Familiar' || !card.type) {
-        for (let azothCost = 0; azothCost <= Math.min(availableAzoth, 3); azothCost++) {
+        for (
+          let azothCost = 0;
+          azothCost <= Math.min(availableAzoth, 3);
+          azothCost++
+        ) {
           actions.push({
             type: 'summon',
             card: card,
             azothCost: azothCost,
             value: cardValue + azothCost * 0.5,
-            urgency: opponent.field.length > player.field.length ? 2 : 1
+            urgency: opponent.field.length > player.field.length ? 2 : 1,
           });
         }
       }
-      
+
       // Can cast as spell?
-      for (let azothCost = 0; azothCost <= Math.min(availableAzoth, 3); azothCost++) {
+      for (
+        let azothCost = 0;
+        azothCost <= Math.min(availableAzoth, 3);
+        azothCost++
+      ) {
         actions.push({
           type: 'spell',
           card: card,
           azothCost: azothCost,
           value: cardValue * 0.8 + azothCost * 0.3,
-          urgency: 1
+          urgency: 1,
         });
       }
     });
-    
+
     // Add phase transition actions
     if (gameState.phase === 'start') {
       actions.push({
         type: 'moveToMain',
         value: 1,
-        urgency: 1
+        urgency: 1,
       });
     } else if (gameState.phase === 'main') {
       actions.push({
         type: 'moveToCombat',
         value: player.field.length > 0 ? 2 : 0.5,
-        urgency: 1
+        urgency: 1,
       });
     } else if (gameState.phase === 'combat') {
       // Evaluate attacks
@@ -852,64 +886,75 @@ const GameSimulator = () => {
             type: 'attack',
             familiar: familiar,
             value: (familiar.attack || 0) + familiar.counters + 1,
-            urgency: 3
+            urgency: 3,
           });
         }
       });
-      
+
       actions.push({
         type: 'moveToPostCombat',
         value: 1,
-        urgency: 1
+        urgency: 1,
       });
     } else if (gameState.phase === 'postCombatMain') {
       actions.push({
         type: 'moveToRefresh',
         value: 1,
-        urgency: 1
+        urgency: 1,
       });
     }
-    
+
     // Sort actions by value and urgency
-    actions.sort((a, b) => (b.value * b.urgency) - (a.value * a.urgency));
-    
+    actions.sort((a, b) => b.value * b.urgency - a.value * a.urgency);
+
     // Apply difficulty-based decision making
     let chosenAction;
     switch (aiDifficulty) {
       case 'easy':
         // Random from top 50% of actions
-        const easyActions = actions.slice(0, Math.max(1, Math.floor(actions.length * 0.5)));
-        chosenAction = easyActions[Math.floor(Math.random() * easyActions.length)];
+        const easyActions = actions.slice(
+          0,
+          Math.max(1, Math.floor(actions.length * 0.5)),
+        );
+        chosenAction =
+          easyActions[Math.floor(Math.random() * easyActions.length)];
         break;
       case 'medium':
         // Random from top 25% of actions
-        const mediumActions = actions.slice(0, Math.max(1, Math.floor(actions.length * 0.25)));
-        chosenAction = mediumActions[Math.floor(Math.random() * mediumActions.length)];
+        const mediumActions = actions.slice(
+          0,
+          Math.max(1, Math.floor(actions.length * 0.25)),
+        );
+        chosenAction =
+          mediumActions[Math.floor(Math.random() * mediumActions.length)];
         break;
       case 'hard':
         // Best action with small random factor
-        chosenAction = actions[Math.floor(Math.random() * Math.min(3, actions.length))];
+        chosenAction =
+          actions[Math.floor(Math.random() * Math.min(3, actions.length))];
         break;
       default:
         chosenAction = actions[0];
     }
-    
+
     return chosenAction || { type: 'pass', value: 0, urgency: 1 };
   };
 
-  const aiMakeResponse = (playerId) => {
+  const aiMakeResponse = playerId => {
     const player = gameState.players[playerId];
-    
+
     // Simple response logic - respond with highest value card 30% of the time
     if (Math.random() < 0.3 && player.hand.length > 0) {
       const bestCard = player.hand.reduce((best, card) => {
         const value = evaluateCardValue(card, playerId, gameState);
-        return value > evaluateCardValue(best, playerId, gameState) ? card : best;
+        return value > evaluateCardValue(best, playerId, gameState)
+          ? card
+          : best;
       });
-      
+
       return { type: 'respond', card: bestCard };
     }
-    
+
     return { type: 'pass' };
   };
 
@@ -950,27 +995,32 @@ const GameSimulator = () => {
   // Automatic Turn Progression
   const shouldAutoProgressTurn = () => {
     const currentPlayer = gameState.players[gameState.currentPlayer];
-    
+
     // Auto-progress if no valid actions available
     if (gameState.phase === 'refresh') {
       return true; // Always progress from refresh
     }
-    
-    if (gameState.phase === 'start' && !gameState.currentPhaseActions.includes('azothPlacement')) {
+
+    if (
+      gameState.phase === 'start' &&
+      !gameState.currentPhaseActions.includes('azothPlacement')
+    ) {
       return true; // No azoth placement available
     }
-    
-    if ((gameState.phase === 'main' || gameState.phase === 'postCombatMain')) {
+
+    if (gameState.phase === 'main' || gameState.phase === 'postCombatMain') {
       // Check if player can do anything meaningful
-      const availableAzoth = currentPlayer.azothRow.filter(azoth => !azoth.rested).length;
+      const availableAzoth = currentPlayer.azothRow.filter(
+        azoth => !azoth.rested,
+      ).length;
       const hasPlayableCards = currentPlayer.hand.length > 0;
-      
+
       // If no resources and no cards, auto-progress
       if (availableAzoth === 0 && !hasPlayableCards) {
         return true;
       }
     }
-    
+
     if (gameState.phase === 'combat') {
       // Check if any familiars can attack
       const canAttack = currentPlayer.field.some(familiar => !familiar.rested);
@@ -978,13 +1028,17 @@ const GameSimulator = () => {
         return true;
       }
     }
-    
+
     return false;
   };
 
   // Auto-setup for automation
   useEffect(() => {
-    if (isAutomated && gameState.phase === 'setup' && availableDecks.length >= 2) {
+    if (
+      isAutomated &&
+      gameState.phase === 'setup' &&
+      availableDecks.length >= 2
+    ) {
       // Auto-select decks for both players
       if (!gameState.players[1].selectedDeck) {
         selectDeck(availableDecks[0], 1);
@@ -992,9 +1046,12 @@ const GameSimulator = () => {
       if (!gameState.players[2].selectedDeck) {
         selectDeck(availableDecks[1], 2);
       }
-      
+
       // Auto-start game if both decks selected
-      if (gameState.players[1].selectedDeck && gameState.players[2].selectedDeck) {
+      if (
+        gameState.players[1].selectedDeck &&
+        gameState.players[2].selectedDeck
+      ) {
         setTimeout(() => {
           startPreGame();
         }, 1000);
@@ -1004,7 +1061,12 @@ const GameSimulator = () => {
 
   // Enhanced Automation Engine
   useEffect(() => {
-    if (!isAutomated || automationPaused || gameState.phase === 'setup' || gameState.phase === 'ended') {
+    if (
+      !isAutomated ||
+      automationPaused ||
+      gameState.phase === 'setup' ||
+      gameState.phase === 'ended'
+    ) {
       return;
     }
 
@@ -1022,17 +1084,17 @@ const GameSimulator = () => {
         if (shouldAutoProgressTurn()) {
           const currentPlayerId = gameState.currentPlayer;
           const action = aiChooseAction(currentPlayerId);
-          
+
           if (action && action.type.startsWith('moveTo')) {
             executeAiAction(action, currentPlayerId);
             return;
           }
         }
-        
+
         // Normal AI decision making
         const currentPlayerId = gameState.currentPlayer;
         const action = aiChooseAction(currentPlayerId);
-        
+
         if (action) {
           executeAiAction(action, currentPlayerId);
         }
@@ -1050,25 +1112,27 @@ const GameSimulator = () => {
     // Check life card limits
     Object.keys(newGameState.players).forEach(playerId => {
       const player = newGameState.players[playerId];
-      
+
       // Ensure life cards don't exceed 4
       if (player.lifeCards.length > 4) {
         player.lifeCards = player.lifeCards.slice(0, 4);
         rulesViolated.push(`${player.name} life cards limited to 4`);
       }
-      
+
       // Check for game end condition
       if (player.lifeCards.length === 0 && newGameState.phase !== 'ended') {
         newGameState.phase = 'ended';
         const winner = newGameState.players[playerId === '1' ? '2' : '1'];
-        newGameState.gameLog.unshift(`${winner.name} wins! ${player.name} has no life cards left.`);
+        newGameState.gameLog.unshift(
+          `${winner.name} wins! ${player.name} has no life cards left.`,
+        );
       }
-      
+
       // Validate Azoth row (max reasonable limit)
       if (player.azothRow.length > 10) {
         rulesViolated.push(`${player.name} has too many Azoth resources`);
       }
-      
+
       // Validate field size (reasonable limit)
       if (player.field.length > 8) {
         rulesViolated.push(`${player.name} has too many familiars on field`);
@@ -1134,7 +1198,9 @@ const GameSimulator = () => {
                     {action.description}
                   </span>
                   <span className="text-xs text-gray-400">
-                    {index === gameState.responseStack.length - 1 ? 'Top' : `${gameState.responseStack.length - index - 1} from top`}
+                    {index === gameState.responseStack.length - 1
+                      ? 'Top'
+                      : `${gameState.responseStack.length - index - 1} from top`}
                   </span>
                 </div>
                 {action.card && (
@@ -1157,7 +1223,7 @@ const GameSimulator = () => {
                 </span>
                 <span className="text-gray-300"> can respond</span>
               </div>
-              
+
               <div className="flex gap-2">
                 {/* Pass Response Button */}
                 <button
@@ -1166,9 +1232,10 @@ const GameSimulator = () => {
                 >
                   Pass
                 </button>
-                
+
                 {/* Response Cards (if any) */}
-                {gameState.players[gameState.priorityPlayer].hand.length > 0 && (
+                {gameState.players[gameState.priorityPlayer].hand.length >
+                  0 && (
                   <div className="text-xs text-gray-400">
                     Click cards in hand to respond
                   </div>
@@ -1402,7 +1469,7 @@ const GameSimulator = () => {
                         </button>
                       </>
                     )}
-                    
+
                     {/* Response Actions */}
                     {canPlayResponse(card, playerId) && (
                       <button
@@ -1568,31 +1635,31 @@ const GameSimulator = () => {
             <button
               onClick={() => setIsAutomated(!isAutomated)}
               className={`flex items-center space-x-2 px-3 py-1 rounded text-sm transition-colors ${
-                isAutomated 
-                  ? 'bg-red-600 hover:bg-red-700 text-white' 
+                isAutomated
+                  ? 'bg-red-600 hover:bg-red-700 text-white'
                   : 'bg-green-600 hover:bg-green-700 text-white'
               }`}
             >
               {isAutomated ? <Pause size={14} /> : <Play size={14} />}
               <span>{isAutomated ? 'Stop Auto' : 'Start Auto'}</span>
             </button>
-            
+
             {isAutomated && (
               <>
                 <button
                   onClick={() => setAutomationPaused(!automationPaused)}
                   className={`px-2 py-1 rounded text-sm transition-colors ${
-                    automationPaused 
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                    automationPaused
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
                       : 'bg-yellow-600 hover:bg-yellow-700 text-white'
                   }`}
                 >
                   {automationPaused ? 'Resume' : 'Pause'}
                 </button>
-                
+
                 <select
                   value={automationSpeed}
-                  onChange={(e) => setAutomationSpeed(Number(e.target.value))}
+                  onChange={e => setAutomationSpeed(Number(e.target.value))}
                   className="px-2 py-1 bg-gray-600 text-white text-sm rounded"
                 >
                   <option value={500}>Very Fast</option>
@@ -1601,10 +1668,10 @@ const GameSimulator = () => {
                   <option value={3000}>Slow</option>
                   <option value={5000}>Very Slow</option>
                 </select>
-                
+
                 <select
                   value={aiDifficulty}
-                  onChange={(e) => setAiDifficulty(e.target.value)}
+                  onChange={e => setAiDifficulty(e.target.value)}
                   className="px-2 py-1 bg-gray-600 text-white text-sm rounded"
                 >
                   <option value="easy">Easy AI</option>
@@ -1697,15 +1764,20 @@ const GameSimulator = () => {
           </h2>
           {isAutomated && (
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${automationPaused ? 'bg-yellow-500' : 'bg-green-500 animate-pulse'}`}></div>
+              <div
+                className={`w-3 h-3 rounded-full ${automationPaused ? 'bg-yellow-500' : 'bg-green-500 animate-pulse'}`}
+              ></div>
               <span className="text-sm text-gray-300">
-                {automationPaused ? 'Auto Paused' : `Auto Running (${aiDifficulty})`}
+                {automationPaused
+                  ? 'Auto Paused'
+                  : `Auto Running (${aiDifficulty})`}
               </span>
             </div>
           )}
         </div>
         <p className="text-gray-400">
-          Experience the full KONIVRER gameplay with automated AI opponents and response stack system
+          Experience the full KONIVRER gameplay with automated AI opponents and
+          response stack system
         </p>
       </div>
 
