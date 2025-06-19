@@ -31,8 +31,11 @@ import MetagameAnalysis from './pages/MetagameAnalysis';
 import BudgetDecks from './pages/BudgetDecks';
 import DeckPricing from './pages/DeckPricing';
 import CardSpoilers from './pages/CardSpoilers';
+
+// New EDHREC-inspired features
 import CommanderRecommendations from './pages/CommanderRecommendations';
-import FormatStaples from './pages/FormatStaples';
+import CardSynergy from './pages/CardSynergy';
+import PowerLevelCalculator from './pages/PowerLevelCalculator';
 import TournamentResults from './pages/TournamentResults';
 import CollectionPortfolio from './pages/CollectionPortfolio';
 
@@ -111,24 +114,25 @@ function App() {
                 <Route path="/spoilers" element={<CardSpoilers />} />
                 <Route path="/previews" element={<CardSpoilers />} />
 
-                {/* Additional MTGGoldfish features */}
+                {/* New EDHREC-inspired routes */}
                 <Route
                   path="/commander-recommendations"
                   element={<CommanderRecommendations />}
                 />
                 <Route
-                  path="/commanders"
+                  path="/commander-recs"
                   element={<CommanderRecommendations />}
                 />
-                <Route path="/format-staples" element={<FormatStaples />} />
-                <Route path="/staples" element={<FormatStaples />} />
+                <Route path="/commanders" element={<CommanderRecommendations />} />
+                <Route path="/card-synergy" element={<CardSynergy />} />
+                <Route path="/synergy-explorer" element={<CardSynergy />} />
+                <Route path="/synergy" element={<CardSynergy />} />
+                <Route path="/power-level" element={<PowerLevelCalculator />} />
                 <Route
-                  path="/tournament-results"
-                  element={<TournamentResults />}
+                  path="/power-calculator"
+                  element={<PowerLevelCalculator />}
                 />
-                <Route path="/results" element={<TournamentResults />} />
-                <Route path="/collection" element={<CollectionPortfolio />} />
-                <Route path="/portfolio" element={<CollectionPortfolio />} />
+                <Route path="/power" element={<PowerLevelCalculator />} />
               </Routes>
             </Layout>
           </Router>
