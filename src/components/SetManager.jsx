@@ -1,30 +1,30 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Plus, 
-  Eye, 
-  EyeOff, 
-  Power, 
-  PowerOff, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Eye,
+  EyeOff,
+  Power,
+  PowerOff,
+  Edit,
+  Trash2,
   Save,
   X,
   Package,
   Calendar,
-  Hash
+  Hash,
 } from 'lucide-react';
 import { useSet } from '../contexts/SetContext';
 
 const SetManager = () => {
-  const { 
-    sets, 
-    activeSets, 
-    toggleSetVisibility, 
-    toggleSetActive, 
-    addSet, 
-    removeSet, 
-    updateSet 
+  const {
+    sets,
+    activeSets,
+    toggleSetVisibility,
+    toggleSetActive,
+    addSet,
+    removeSet,
+    updateSet,
   } = useSet();
 
   const [isAddingSet, setIsAddingSet] = useState(false);
@@ -34,7 +34,7 @@ const SetManager = () => {
     code: '',
     description: '',
     releaseDate: '',
-    totalCards: 0
+    totalCards: 0,
   });
 
   const handleAddSet = () => {
@@ -42,20 +42,20 @@ const SetManager = () => {
       addSet({
         ...newSet,
         id: newSet.code.toLowerCase().replace(/\s+/g, '_'),
-        cardIds: []
+        cardIds: [],
       });
       setNewSet({
         name: '',
         code: '',
         description: '',
         releaseDate: '',
-        totalCards: 0
+        totalCards: 0,
       });
       setIsAddingSet(false);
     }
   };
 
-  const handleEditSet = (set) => {
+  const handleEditSet = set => {
     setEditingSet({ ...set });
   };
 
@@ -66,8 +66,12 @@ const SetManager = () => {
     }
   };
 
-  const handleDeleteSet = (setId) => {
-    if (window.confirm('Are you sure you want to delete this set? This action cannot be undone.')) {
+  const handleDeleteSet = setId => {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this set? This action cannot be undone.',
+      )
+    ) {
       removeSet(setId);
     }
   };
@@ -105,7 +109,9 @@ const SetManager = () => {
             <Power className="w-8 h-8 text-green-400" />
             <div>
               <p className="text-gray-400 text-sm">Active Sets</p>
-              <p className="text-2xl font-bold text-white">{activeSets.length}</p>
+              <p className="text-2xl font-bold text-white">
+                {activeSets.length}
+              </p>
             </div>
           </div>
         </div>
@@ -143,7 +149,7 @@ const SetManager = () => {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -152,12 +158,12 @@ const SetManager = () => {
                 <input
                   type="text"
                   value={newSet.name}
-                  onChange={(e) => setNewSet({ ...newSet, name: e.target.value })}
+                  onChange={e => setNewSet({ ...newSet, name: e.target.value })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="Enter set name"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
                   Set Code
@@ -165,25 +171,27 @@ const SetManager = () => {
                 <input
                   type="text"
                   value={newSet.code}
-                  onChange={(e) => setNewSet({ ...newSet, code: e.target.value })}
+                  onChange={e => setNewSet({ ...newSet, code: e.target.value })}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="e.g., PM, EX1"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
                   Description
                 </label>
                 <textarea
                   value={newSet.description}
-                  onChange={(e) => setNewSet({ ...newSet, description: e.target.value })}
+                  onChange={e =>
+                    setNewSet({ ...newSet, description: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   rows="3"
                   placeholder="Set description"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
                   Release Date
@@ -191,11 +199,13 @@ const SetManager = () => {
                 <input
                   type="date"
                   value={newSet.releaseDate}
-                  onChange={(e) => setNewSet({ ...newSet, releaseDate: e.target.value })}
+                  onChange={e =>
+                    setNewSet({ ...newSet, releaseDate: e.target.value })
+                  }
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
                   Total Cards
@@ -203,13 +213,18 @@ const SetManager = () => {
                 <input
                   type="number"
                   value={newSet.totalCards}
-                  onChange={(e) => setNewSet({ ...newSet, totalCards: parseInt(e.target.value) || 0 })}
+                  onChange={e =>
+                    setNewSet({
+                      ...newSet,
+                      totalCards: parseInt(e.target.value) || 0,
+                    })
+                  }
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="0"
                 />
               </div>
             </div>
-            
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={handleAddSet}
@@ -233,11 +248,13 @@ const SetManager = () => {
         {sets.length === 0 ? (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">No Sets Available</h3>
+            <h3 className="text-xl font-semibold text-gray-400 mb-2">
+              No Sets Available
+            </h3>
             <p className="text-gray-500">Add your first set to get started</p>
           </div>
         ) : (
-          sets.map((set) => (
+          sets.map(set => (
             <motion.div
               key={set.id}
               initial={{ opacity: 0, y: 20 }}
@@ -255,7 +272,9 @@ const SetManager = () => {
                       <input
                         type="text"
                         value={editingSet.name}
-                        onChange={(e) => setEditingSet({ ...editingSet, name: e.target.value })}
+                        onChange={e =>
+                          setEditingSet({ ...editingSet, name: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>
@@ -266,24 +285,31 @@ const SetManager = () => {
                       <input
                         type="text"
                         value={editingSet.code}
-                        onChange={(e) => setEditingSet({ ...editingSet, code: e.target.value })}
+                        onChange={e =>
+                          setEditingSet({ ...editingSet, code: e.target.value })
+                        }
                         className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-1">
                       Description
                     </label>
                     <textarea
                       value={editingSet.description}
-                      onChange={(e) => setEditingSet({ ...editingSet, description: e.target.value })}
+                      onChange={e =>
+                        setEditingSet({
+                          ...editingSet,
+                          description: e.target.value,
+                        })
+                      }
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       rows="2"
                     />
                   </div>
-                  
+
                   <div className="flex gap-3">
                     <button
                       onClick={handleSaveEdit}
@@ -307,7 +333,9 @@ const SetManager = () => {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold text-white">{set.name}</h3>
+                        <h3 className="text-xl font-bold text-white">
+                          {set.name}
+                        </h3>
                         <span className="px-2 py-1 bg-gray-700 text-gray-300 text-sm rounded">
                           {set.code}
                         </span>
@@ -334,33 +362,41 @@ const SetManager = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => toggleSetActive(set.id)}
                         className={`p-2 rounded-lg transition-colors ${
-                          set.isActive 
-                            ? 'bg-green-600 hover:bg-green-700 text-white' 
+                          set.isActive
+                            ? 'bg-green-600 hover:bg-green-700 text-white'
                             : 'bg-gray-600 hover:bg-gray-700 text-gray-300'
                         }`}
                         title={set.isActive ? 'Deactivate Set' : 'Activate Set'}
                       >
-                        {set.isActive ? <Power className="w-4 h-4" /> : <PowerOff className="w-4 h-4" />}
+                        {set.isActive ? (
+                          <Power className="w-4 h-4" />
+                        ) : (
+                          <PowerOff className="w-4 h-4" />
+                        )}
                       </button>
-                      
+
                       <button
                         onClick={() => toggleSetVisibility(set.id)}
                         className={`p-2 rounded-lg transition-colors ${
-                          set.isVisible 
-                            ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                          set.isVisible
+                            ? 'bg-blue-600 hover:bg-blue-700 text-white'
                             : 'bg-gray-600 hover:bg-gray-700 text-gray-300'
                         }`}
                         title={set.isVisible ? 'Hide Set' : 'Show Set'}
                         disabled={!set.isActive}
                       >
-                        {set.isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                        {set.isVisible ? (
+                          <Eye className="w-4 h-4" />
+                        ) : (
+                          <EyeOff className="w-4 h-4" />
+                        )}
                       </button>
-                      
+
                       <button
                         onClick={() => handleEditSet(set)}
                         className="p-2 bg-gray-600 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors"
@@ -368,7 +404,7 @@ const SetManager = () => {
                       >
                         <Edit className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         onClick={() => handleDeleteSet(set.id)}
                         className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
