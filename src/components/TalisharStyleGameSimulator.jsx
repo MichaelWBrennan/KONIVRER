@@ -90,7 +90,8 @@ const TalisharStyleGameSimulator = () => {
       cost: 2,
       power: 4,
       defense: 3,
-      image: 'https://images.talishar.net/public/cardsquares/english/smash_up_red.webp',
+      image:
+        'https://images.talishar.net/public/cardsquares/english/smash_up_red.webp',
       text: 'When Smash Up hits, the defending hero discards a card.',
     },
     {
@@ -100,7 +101,8 @@ const TalisharStyleGameSimulator = () => {
       cost: 1,
       power: 3,
       defense: 2,
-      image: 'https://images.talishar.net/public/cardsquares/english/critical_strike_red.webp',
+      image:
+        'https://images.talishar.net/public/cardsquares/english/critical_strike_red.webp',
       text: 'Target attack gains +1 power.',
     },
     {
@@ -110,7 +112,8 @@ const TalisharStyleGameSimulator = () => {
       cost: 1,
       power: 0,
       defense: 3,
-      image: 'https://images.talishar.net/public/cardsquares/english/command_and_conquer.webp',
+      image:
+        'https://images.talishar.net/public/cardsquares/english/command_and_conquer.webp',
       text: 'Prevent the next 2 damage that would be dealt to you.',
     },
     {
@@ -120,7 +123,8 @@ const TalisharStyleGameSimulator = () => {
       cost: 0,
       power: 0,
       defense: 0,
-      image: 'https://images.talishar.net/public/cardsquares/english/anka_drag_under_yellow.webp',
+      image:
+        'https://images.talishar.net/public/cardsquares/english/anka_drag_under_yellow.webp',
       text: 'Once per Turn Action: Target attack action card in your graveyard gains go again.',
     },
   ];
@@ -128,7 +132,7 @@ const TalisharStyleGameSimulator = () => {
   // Initialize game with mock data
   useEffect(() => {
     const initialGameState = { ...gameState };
-    
+
     // Set up Dagg's cards
     initialGameState.players.Dagg.hand = [
       { ...mockCards[0], id: 'smash_up_1', zone: 'hand' },
@@ -137,16 +141,37 @@ const TalisharStyleGameSimulator = () => {
       { ...mockCards[3], id: 'anka_1', zone: 'field', counters: 3 },
     ];
     initialGameState.players.Dagg.equipment = [
-      { id: 'crown_1', name: 'Crown of Dominion', image: 'https://images.talishar.net/public/cardsquares/english/crown_of_dominion.webp' },
+      {
+        id: 'crown_1',
+        name: 'Crown of Dominion',
+        image:
+          'https://images.talishar.net/public/cardsquares/english/crown_of_dominion.webp',
+      },
     ];
 
     // Set up ipMoo's cards
     initialGameState.players.ipMoo.equipment = [
-      { id: 'snapdragon_1', name: 'Snapdragon Scalers', image: 'https://images.talishar.net/public/cardsquares/english/snapdragon_scalers.webp' },
+      {
+        id: 'snapdragon_1',
+        name: 'Snapdragon Scalers',
+        image:
+          'https://images.talishar.net/public/cardsquares/english/snapdragon_scalers.webp',
+      },
     ];
     initialGameState.players.ipMoo.resources = [
-      { id: 'gold_1', name: 'Gold', image: 'https://images.talishar.net/public/cardsquares/english/gold.webp', count: 2 },
-      { id: 'goldkiss_1', name: 'Goldkiss Rum', image: 'https://images.talishar.net/public/cardsquares/english/goldkiss_rum.webp' },
+      {
+        id: 'gold_1',
+        name: 'Gold',
+        image:
+          'https://images.talishar.net/public/cardsquares/english/gold.webp',
+        count: 2,
+      },
+      {
+        id: 'goldkiss_1',
+        name: 'Goldkiss Rum',
+        image:
+          'https://images.talishar.net/public/cardsquares/english/goldkiss_rum.webp',
+      },
     ];
 
     // Game log
@@ -159,8 +184,15 @@ const TalisharStyleGameSimulator = () => {
       { type: 'ability', text: 'Resolving activated ability of Dead Threads.' },
       { type: 'activate', text: 'ipMoo activated Anka, Drag Under' },
       { type: 'choice', text: 'Attack was chosen.' },
-      { type: 'target', text: '🎯 Scurv, Stowaway was chosen as the target.', icon: '🎯' },
-      { type: 'ability', text: 'Resolving activated ability of Anka, Drag Under.' },
+      {
+        type: 'target',
+        text: '🎯 Scurv, Stowaway was chosen as the target.',
+        icon: '🎯',
+      },
+      {
+        type: 'ability',
+        text: 'Resolving activated ability of Anka, Drag Under.',
+      },
       { type: 'block', text: 'Dagg blocked with Command and Conquer' },
       { type: 'block', text: 'Dagg blocked with Critical Strike' },
       { type: 'pass', text: 'Dagg passed' },
@@ -176,7 +208,10 @@ const TalisharStyleGameSimulator = () => {
       { type: 'turn', text: 'ipMoo passed priority. Attempting to end turn.' },
       { type: 'turn', text: "Dagg's turn 4 has begun." },
       { type: 'activate', text: 'Dagg activated Scurv, Stowaway' },
-      { type: 'ability', text: 'Resolving activated ability of Scurv, Stowaway.' },
+      {
+        type: 'ability',
+        text: 'Resolving activated ability of Scurv, Stowaway.',
+      },
       { type: 'play', text: 'Dagg played Smash Up' },
       { type: 'target', text: '🎯 Anka, Drag Under was chosen as the target.' },
     ];
@@ -185,9 +220,15 @@ const TalisharStyleGameSimulator = () => {
   }, []);
 
   // Card component
-  const GameCard = ({ card, zone, onClick, className = '', showCount = false }) => {
+  const GameCard = ({
+    card,
+    zone,
+    onClick,
+    className = '',
+    showCount = false,
+  }) => {
     const isCardBack = !card.name || zone === 'deck';
-    
+
     return (
       <motion.div
         className={`relative cursor-pointer ${className}`}
@@ -196,7 +237,11 @@ const TalisharStyleGameSimulator = () => {
         transition={{ duration: 0.2 }}
       >
         <img
-          src={isCardBack ? 'https://images.talishar.net/public/cardsquares/english/CardBack.webp' : card.image}
+          src={
+            isCardBack
+              ? 'https://images.talishar.net/public/cardsquares/english/CardBack.webp'
+              : card.image
+          }
           alt={card.name || 'Card Back'}
           className="w-full h-full object-cover rounded border border-gray-600"
           onMouseEnter={() => !isCardBack && setShowCardDetail(card)}
@@ -214,7 +259,9 @@ const TalisharStyleGameSimulator = () => {
         )}
         {card.targeted && (
           <div className="absolute inset-0 border-2 border-red-500 rounded bg-red-500 bg-opacity-20">
-            <div className="absolute top-1 left-1 text-red-500 text-xs font-bold">Targeted</div>
+            <div className="absolute top-1 left-1 text-red-500 text-xs font-bold">
+              Targeted
+            </div>
           </div>
         )}
       </motion.div>
@@ -224,9 +271,11 @@ const TalisharStyleGameSimulator = () => {
   // Player area component
   const PlayerArea = ({ player, isOpponent = false }) => {
     const playerData = gameState.players[player];
-    
+
     return (
-      <div className={`flex ${isOpponent ? 'flex-col' : 'flex-col-reverse'} gap-2`}>
+      <div
+        className={`flex ${isOpponent ? 'flex-col' : 'flex-col-reverse'} gap-2`}
+      >
         {/* Player name and life */}
         <div className="flex items-center justify-between bg-gray-800 p-2 rounded">
           <span className="font-bold text-white">{playerData.name}</span>
@@ -268,10 +317,10 @@ const TalisharStyleGameSimulator = () => {
           <div className="flex gap-1">
             {playerData.hand.map((card, index) => (
               <div key={card.id} className="w-12 h-16">
-                <GameCard 
-                  card={card} 
-                  zone="hand" 
-                  onClick={(card) => setSelectedCard(card)}
+                <GameCard
+                  card={card}
+                  zone="hand"
+                  onClick={card => setSelectedCard(card)}
                 />
               </div>
             ))}
@@ -281,9 +330,9 @@ const TalisharStyleGameSimulator = () => {
         {/* Deck */}
         <div className="flex gap-1">
           <div className="w-12 h-16">
-            <GameCard 
-              card={{ count: playerData.deck.count }} 
-              zone="deck" 
+            <GameCard
+              card={{ count: playerData.deck.count }}
+              zone="deck"
               showCount={true}
             />
           </div>
@@ -305,7 +354,7 @@ const TalisharStyleGameSimulator = () => {
             <Settings className="w-4 h-4" />
             Settings Menu
           </button>
-          <button 
+          <button
             className="flex items-center gap-2 px-3 py-1 bg-gray-700 rounded hover:bg-gray-600"
             onClick={() => setFullscreen(!fullscreen)}
           >
@@ -340,14 +389,18 @@ const TalisharStyleGameSimulator = () => {
           <div className="flex justify-center items-center mb-8">
             <div className="bg-gray-800 rounded-lg p-4 min-w-64">
               <div className="text-center">
-                <div className="text-lg font-bold mb-2">{gameState.currentPlayer}'s Turn</div>
-                <div className="text-sm text-gray-400">Turn #{gameState.turn}</div>
+                <div className="text-lg font-bold mb-2">
+                  {gameState.currentPlayer}'s Turn
+                </div>
+                <div className="text-sm text-gray-400">
+                  Turn #{gameState.turn}
+                </div>
                 <div className="flex items-center justify-center gap-2 mt-2">
                   <Clock className="w-4 h-4" />
                   <span>{gameState.timer}</span>
                 </div>
               </div>
-              
+
               {/* Current action/card */}
               {selectedCard && (
                 <div className="mt-4">
@@ -406,19 +459,19 @@ const TalisharStyleGameSimulator = () => {
           <div className="flex-1 flex flex-col">
             <div className="p-4 border-b border-gray-700">
               <div className="flex gap-2 mb-2">
-                <button 
+                <button
                   className={`px-3 py-1 rounded text-sm ${gameLogFilter === 'All' ? 'bg-blue-600' : 'bg-gray-700'}`}
                   onClick={() => setGameLogFilter('All')}
                 >
                   All
                 </button>
-                <button 
+                <button
                   className={`px-3 py-1 rounded text-sm ${gameLogFilter === 'Chat' ? 'bg-blue-600' : 'bg-gray-700'}`}
                   onClick={() => setGameLogFilter('Chat')}
                 >
                   Chat
                 </button>
-                <button 
+                <button
                   className={`px-3 py-1 rounded text-sm ${gameLogFilter === 'Log' ? 'bg-blue-600' : 'bg-gray-700'}`}
                   onClick={() => setGameLogFilter('Log')}
                 >
@@ -462,8 +515,12 @@ const TalisharStyleGameSimulator = () => {
                 alt={showCardDetail.name}
                 className="w-full rounded mb-2"
               />
-              <h3 className="font-bold text-white mb-1">{showCardDetail.name}</h3>
-              <p className="text-sm text-gray-300 mb-2">{showCardDetail.type}</p>
+              <h3 className="font-bold text-white mb-1">
+                {showCardDetail.name}
+              </h3>
+              <p className="text-sm text-gray-300 mb-2">
+                {showCardDetail.type}
+              </p>
               {showCardDetail.text && (
                 <p className="text-xs text-gray-400">{showCardDetail.text}</p>
               )}
