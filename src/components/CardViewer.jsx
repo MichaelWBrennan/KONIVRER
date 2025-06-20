@@ -7,6 +7,7 @@ import {
   Copy,
   Share2,
 } from 'lucide-react';
+import RuleTooltip from './RuleTooltip';
 
 const CardViewer = ({
   card,
@@ -157,12 +158,15 @@ const CardViewer = ({
             {card.keywords.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {card.keywords.map(keyword => (
-                  <span
+                  <RuleTooltip
                     key={keyword}
-                    className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                    ruleId={keyword.toLowerCase()}
+                    showIcon={false}
                   >
-                    {keyword}
-                  </span>
+                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium cursor-help">
+                      {keyword}
+                    </span>
+                  </RuleTooltip>
                 ))}
               </div>
             )}
