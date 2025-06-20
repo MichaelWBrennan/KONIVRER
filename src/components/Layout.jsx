@@ -4,7 +4,6 @@ import {
   BookOpen,
   User,
   Users,
-
   Menu,
   X,
   Trophy,
@@ -125,8 +124,6 @@ const Layout = ({ children }) => {
     }
   };
 
-
-
   // Handle mobile menu toggle
   const handleMobileMenuToggle = () => {
     const newState = !isMobileMenuOpen;
@@ -181,21 +178,21 @@ const Layout = ({ children }) => {
   // Get current page title
   const getCurrentPageTitle = () => {
     const path = location.pathname;
-    
+
     // Home page
     if (path === '/') return 'Home';
-    
+
     // Find matching navigation item
     const activeNavItem = navigation.find(item => isActive(item));
     if (activeNavItem) return activeNavItem.name;
-    
+
     // Fallback to path-based titles
     if (path.startsWith('/hub')) return 'Game Platform';
     if (path.startsWith('/tournaments')) return 'Tournaments';
     if (path.startsWith('/judge-center')) return 'Judge Center';
     if (path.startsWith('/profile')) return 'Profile';
     if (path.startsWith('/settings')) return 'Settings';
-    
+
     // Default fallback
     return 'KONIVRER';
   };
@@ -249,7 +246,6 @@ const Layout = ({ children }) => {
 
             {/* User Menu */}
             <div className="hidden lg:flex items-center gap-4">
-
               {/* User Authentication */}
               {isAuthenticated ? (
                 <div className="relative">
@@ -408,8 +404,6 @@ const Layout = ({ children }) => {
                   );
                 })}
               </nav>
-
-
 
               {/* Mobile User Menu */}
               <div className="mt-4 pt-4 border-t border-color">
