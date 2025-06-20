@@ -413,13 +413,14 @@ const CardDatabase = ({
           <div className="text-gray-400 mb-4">
             <Search size={48} className="mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">
-              {cards.length === 0 ? 'No card sets are currently active' : 'No cards found'}
+              {cards.length === 0
+                ? 'No card sets are currently active'
+                : 'No cards found'}
             </h3>
             <p>
-              {cards.length === 0 
-                ? 'Contact an administrator to activate card sets' 
-                : 'Try adjusting your search terms or filters'
-              }
+              {cards.length === 0
+                ? 'Contact an administrator to activate card sets'
+                : 'Try adjusting your search terms or filters'}
             </p>
           </div>
         </div>
