@@ -17,13 +17,13 @@ class RulesEngine {
   }
 
   // Deck Building Validation
-  validateDeck(deck, format = 'standard') {
+  validateDeck(deck) {
     const validations = [];
 
     // Basic deck size validation
     const totalCards = this.getTotalCards(deck);
-    const minCards = this.getMinDeckSize(format);
-    const maxCards = this.getMaxDeckSize(format);
+    const minCards = this.getMinDeckSize();
+    const maxCards = this.getMaxDeckSize();
 
     if (totalCards < minCards) {
       validations.push({
@@ -216,12 +216,12 @@ class RulesEngine {
     return deck.cards.reduce((sum, card) => sum + (card.quantity || 1), 0);
   }
 
-  getMinDeckSize(format) {
+  getMinDeckSize() {
     // KONIVRER requires exactly 40 cards (excluding flag)
     return 40;
   }
 
-  getMaxDeckSize(format) {
+  getMaxDeckSize() {
     // KONIVRER requires exactly 40 cards (excluding flag)
     return 40;
   }

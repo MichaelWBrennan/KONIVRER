@@ -21,14 +21,14 @@ import {
 
 const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
   const [timeframe, setTimeframe] = useState('all');
-  const [format, setFormat] = useState('all');
+
   const [analysisData, setAnalysisData] = useState(null);
 
   useEffect(() => {
     if (hero1 && hero2) {
       calculateMatchupData();
     }
-  }, [hero1, hero2, timeframe, format, matches]);
+  }, [hero1, hero2, timeframe, matches]);
 
   const calculateMatchupData = () => {
     // Filter matches based on hero matchup and criteria
@@ -36,9 +36,6 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
       const hasHeroes =
         (match.player1.hero === hero1 && match.player2.hero === hero2) ||
         (match.player1.hero === hero2 && match.player2.hero === hero1);
-
-      const matchesFormat =
-        format === 'all' || match.tournament.format === format;
 
       let matchesTimeframe = true;
       if (timeframe !== 'all') {
@@ -52,7 +49,7 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
         matchesTimeframe = matchDate >= cutoffDate;
       }
 
-      return hasHeroes && matchesFormat && matchesTimeframe;
+      return hasHeroes && matchesTimeframe;
     });
 
     if (relevantMatches.length === 0) {
@@ -87,10 +84,7 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
       const [minutes, seconds] = match.duration.split(':').map(Number);
       avgDuration += minutes + seconds / 60;
 
-      // Track tournament types
-      const tournamentType = match.tournament.format;
-      tournamentTypes[tournamentType] =
-        (tournamentTypes[tournamentType] || 0) + 1;
+
 
       // Add to recent trend (last 10 matches)
       recentTrend.push({
@@ -213,17 +207,7 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               <option value="90d">Last 90 Days</option>
               <option value="365d">Last Year</option>
             </select>
-            <select
-              value={format}
-              onChange={e => setFormat(e.target.value)}
-              className="px-3 py-1 bg-gray-700 border border-gray-600 rounded text-sm focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Formats</option>
-              <option value="Classic Constructed">Classic Constructed</option>
-              <option value="Blitz">Blitz</option>
-              <option value="Draft">Draft</option>
-              <option value="Sealed">Sealed</option>
-            </select>
+
           </div>
         </div>
 
@@ -395,35 +379,7 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
         </div>
       </div>
 
-      {/* Tournament Breakdown */}
-      <div className="bg-gray-800 rounded-lg p-6">
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center space-x-2">
-          <BarChart3 size={20} />
-          <span>Format Breakdown</span>
-        </h3>
-        <div className="space-y-3">
-          {Object.entries(analysisData.tournamentTypes).map(
-            ([format, count]) => (
-              <div key={format} className="flex items-center justify-between">
-                <span className="text-white">{format}</span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-32 bg-gray-700 rounded-full h-2">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{
-                        width: `${(count / analysisData.totalMatches) * 100}%`,
-                      }}
-                    />
-                  </div>
-                  <span className="text-gray-400 text-sm w-12 text-right">
-                    {count}
-                  </span>
-                </div>
-              </div>
-            ),
-          )}
-        </div>
-      </div>
+
 
       {/* Win Rate Visualization */}
       <div className="bg-gray-800 rounded-lg p-6">

@@ -100,7 +100,6 @@ const LiveTournament = () => {
       status: 'live',
       currentRound: 'Finals',
       totalRounds: 'Best of 5',
-      format: 'Standard',
       prizePool: '$50,000',
       startTime: new Date(Date.now() - 3600000).toISOString(),
       estimatedEndTime: new Date(Date.now() + 7200000).toISOString(),
@@ -624,10 +623,7 @@ const LiveTournament = () => {
                   <div>
                     <h3 className="font-semibold mb-3">Tournament Details</h3>
                     <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted">Format:</span>
-                        <span>{tournament.format}</span>
-                      </div>
+
                       <div className="flex justify-between">
                         <span className="text-muted">Prize Pool:</span>
                         <span className="text-green-400 font-medium">
