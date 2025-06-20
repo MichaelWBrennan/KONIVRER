@@ -3,25 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Book,
   Search,
-  ChevronRight,
-  ChevronDown,
   Bookmark,
-  ExternalLink,
-  Filter,
   Download,
   Share2,
   Lightbulb,
+  Info,
+  Layers,
+  Play,
   Zap,
   Shield,
-  Target,
-  Layers,
-  Settings,
 } from 'lucide-react';
 
 const RulesCenter = () => {
   const [rulesData, setRulesData] = useState(null);
-  const [activeSection, setActiveSection] = useState('basicRules');
-  const [expandedSections, setExpandedSections] = useState(new Set(['setup']));
+  const [activeSection, setActiveSection] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [bookmarkedRules, setBookmarkedRules] = useState(new Set());
 
@@ -31,16 +26,6 @@ const RulesCenter = () => {
       .then(data => setRulesData(data.default || data))
       .catch(err => console.error('Failed to load rules:', err));
   }, []);
-
-  const toggleSection = sectionId => {
-    const newExpanded = new Set(expandedSections);
-    if (newExpanded.has(sectionId)) {
-      newExpanded.delete(sectionId);
-    } else {
-      newExpanded.add(sectionId);
-    }
-    setExpandedSections(newExpanded);
-  };
 
   const toggleBookmark = ruleId => {
     const newBookmarks = new Set(bookmarkedRules);
@@ -52,17 +37,6 @@ const RulesCenter = () => {
     setBookmarkedRules(newBookmarks);
   };
 
-  const sectionIcons = {
-    gameBasics: Book,
-    deckBuilding: Settings,
-    setup: Layers,
-    gameplay: Target,
-    elements: Zap,
-    keywords: Lightbulb,
-    cardTypes: Shield,
-    alphabet: ExternalLink,
-  };
-
   const elementSymbols = {
     Quintessence: '⚪',
     Inferno: '🔥',
@@ -70,6 +44,15 @@ const RulesCenter = () => {
     Steadfast: '🌱',
     Brilliance: '⚡',
     Void: '🌑',
+  };
+
+  const sectionIcons = {
+    overview: Info,
+    deckBuilding: Layers,
+    howToPlay: Play,
+    elements: Zap,
+    cardsAndAbilities: Shield,
+    lore: Book,
   };
 
   if (!rulesData) {
@@ -82,25 +65,14 @@ const RulesCenter = () => {
 
   const filteredSections = Object.entries(rulesData).filter(
     ([key, section]) => {
+      if (key === 'lastUpdated' || key === 'version') return false;
       if (!searchTerm) return true;
       const searchLower = searchTerm.toLowerCase();
       return (
         section.title?.toLowerCase().includes(searchLower) ||
-        (section.sections &&
-          Object.values(section.sections).some(
-            s =>
-              s.title?.toLowerCase().includes(searchLower) ||
-              s.content?.toLowerCase().includes(searchLower),
-          )) ||
-        section.elements?.some(
-          e =>
-            e.name?.toLowerCase().includes(searchLower) ||
-            e.description?.toLowerCase().includes(searchLower),
-        ) ||
-        section.keywords?.some(
-          k =>
-            k.name?.toLowerCase().includes(searchLower) ||
-            k.description?.toLowerCase().includes(searchLower),
+        section.content?.toLowerCase().includes(searchLower) ||
+        section.keywords?.some(keyword => 
+          keyword.toLowerCase().includes(searchLower)
         )
       );
     },
@@ -166,23 +138,20 @@ const RulesCenter = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 sticky top-8">
               <h3 className="text-xl font-bold text-white mb-4">Sections</h3>
               <nav className="space-y-2">
-                {Object.entries(rulesData).map(([key, section]) => {
-                  const Icon = sectionIcons[key] || Book;
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => setActiveSection(key)}
-                      className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
-                        activeSection === key
-                          ? 'bg-blue-600 text-white'
-                          : 'text-gray-300 hover:bg-white/10'
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      {section.title}
-                    </button>
-                  );
-                })}
+                {filteredSections.map(([key, section]) => (
+                  <button
+                    key={key}
+                    onClick={() => setActiveSection(key)}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 ${
+                      activeSection === key
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-300 hover:bg-white/10'
+                    }`}
+                  >
+                    <span className="text-lg">{section.icon}</span>
+                    {section.title}
+                  </button>
+                ))}
               </nav>
 
               {/* Quick Reference */}
@@ -224,91 +193,54 @@ const RulesCenter = () => {
                   transition={{ duration: 0.3 }}
                 >
                   {/* Section Header */}
-                  <div className="mb-8">
-                    <h2 className="text-3xl font-bold text-white mb-2">
-                      {rulesData[activeSection]?.title}
-                    </h2>
-                    {rulesData[activeSection]?.description && (
-                      <p className="text-gray-300">
-                        {rulesData[activeSection].description}
-                      </p>
-                    )}
+                  <div className="mb-8 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl">{rulesData[activeSection]?.icon}</span>
+                      <h2 className="text-3xl font-bold text-white">
+                        {rulesData[activeSection]?.title}
+                      </h2>
+                    </div>
+                    <button
+                      onClick={() => toggleBookmark(activeSection)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        bookmarkedRules.has(activeSection)
+                          ? 'text-yellow-400 bg-yellow-400/20'
+                          : 'text-gray-400 hover:text-yellow-400 hover:bg-yellow-400/10'
+                      }`}
+                    >
+                      <Bookmark className="w-5 h-5" />
+                    </button>
                   </div>
 
-                  {/* Regular Sections */}
-                  {rulesData[activeSection]?.sections && (
-                    <div className="space-y-6">
-                      {Object.entries(rulesData[activeSection].sections).map(
-                        ([sectionId, section]) => (
-                          <div
-                            key={sectionId}
-                            className="border border-white/20 rounded-lg overflow-hidden"
-                          >
-                            <button
-                              onClick={() => toggleSection(sectionId)}
-                              className="w-full px-6 py-4 bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between"
+                  {/* Section Content */}
+                  <div className="prose prose-invert max-w-none">
+                    <div 
+                      className="text-gray-300 leading-relaxed whitespace-pre-line"
+                      dangerouslySetInnerHTML={{ 
+                        __html: rulesData[activeSection]?.content?.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>') 
+                      }}
+                    />
+                    
+                    {/* Keywords */}
+                    {rulesData[activeSection]?.keywords && (
+                      <div className="mt-6 pt-6 border-t border-white/20">
+                        <div className="text-sm text-blue-300 font-medium mb-3">
+                          Related Keywords:
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {rulesData[activeSection].keywords.map(keyword => (
+                            <span
+                              key={keyword}
+                              className="px-3 py-1 bg-blue-600/30 text-blue-200 rounded-full text-sm hover:bg-blue-600/40 transition-colors cursor-pointer"
+                              onClick={() => setSearchTerm(keyword)}
                             >
-                              <h3 className="text-xl font-semibold text-white text-left">
-                                {section.title}
-                              </h3>
-                              <div className="flex items-center gap-2">
-                                <button
-                                  onClick={e => {
-                                    e.stopPropagation();
-                                    toggleBookmark(sectionId);
-                                  }}
-                                  className={`p-1 rounded ${
-                                    bookmarkedRules.has(sectionId)
-                                      ? 'text-yellow-400'
-                                      : 'text-gray-400 hover:text-yellow-400'
-                                  }`}
-                                >
-                                  <Bookmark className="w-4 h-4" />
-                                </button>
-                                {expandedSections.has(sectionId) ? (
-                                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                                ) : (
-                                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                                )}
-                              </div>
-                            </button>
-                            <AnimatePresence>
-                              {expandedSections.has(sectionId) && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.3 }}
-                                  className="overflow-hidden"
-                                >
-                                  <div className="px-6 py-4 text-gray-300 leading-relaxed">
-                                    {section.content}
-                                    {section.keywords && (
-                                      <div className="mt-4">
-                                        <div className="text-sm text-blue-300 font-medium mb-2">
-                                          Keywords:
-                                        </div>
-                                        <div className="flex flex-wrap gap-2">
-                                          {section.keywords.map(keyword => (
-                                            <span
-                                              key={keyword}
-                                              className="px-2 py-1 bg-blue-600/30 text-blue-200 rounded text-xs"
-                                            >
-                                              {keyword}
-                                            </span>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  )}
+                              {keyword}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
