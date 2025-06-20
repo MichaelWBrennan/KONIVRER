@@ -15,19 +15,42 @@
     "title": "How to Play",
     "icon": "⚔️",
     "content": "**Setup:** Place your Flag in the top left, shuffle your deck and place it top right, then place the top 4 cards face-down as your Life Cards below your Flag.\n\n**Game Zones:**\n• **Field** - Where Familiars and Spells are played\n• **Combat Row** - Area for Familiar battles\n• **Azoth Row** - Where resource cards are placed\n• **Life Cards** - Your 4 face-down cards that determine victory\n• **Hand** - Cards you can play\n• **Removed from Play** - Cards affected by Void\n\n**Game Phases (repeat until victory):**\n1. **Start Phase** - Draw 2 cards (first turn only), optionally place 1 card as Azoth\n2. **Main Phase** - Play cards by resting Azoth to pay costs\n3. **Combat Phase** - Attack with Familiars\n4. **Post-Combat** - Play additional cards if resources allow\n5. **Refresh Phase** - Refresh all rested Azoth\n\n**Ways to Play Cards:**\n• **Summon** - Play as Familiar on Field with +1 counters = Azoth paid for ✡⃝\n• **Spell** - Play from hand, resolve ability, then put on bottom of deck\n• **Azoth** - Place face-up in Azoth Row as resource\n• **Tribute** - Reduce costs by removing your Familiars from game\n• **Burst** - Play for free when drawn as damage from Life Cards",
-    "keywords": ["setup", "zones", "phases", "summon", "spell", "azoth", "tribute", "burst"]
+    "keywords": [
+      "setup",
+      "zones",
+      "phases",
+      "summon",
+      "spell",
+      "azoth",
+      "tribute",
+      "burst"
+    ]
   },
   "cardsAndMechanics": {
     "title": "Cards & Mechanics",
     "icon": "🃏",
     "content": "**Elements & Azoth System:**\n🜂 Fire (Inferno) • 🜄 Water (Submerged) • 🜃 Earth (Steadfast) • 🜁 Air (Gust) • ⭘ Aether (Brilliance) • ▢ Nether (Void) • ✡⃝ Generic (Strength)\n\nAzoth cards generate resources to pay for other cards. Rest Azoth (turn horizontal) to pay costs. The ✡⃝ symbol determines a card's Strength when played.\n\n**Card Types:**\n• **Familiars** - Combat units that can attack and defend\n• **Spells** - Instant effects that go to bottom of deck after use\n• **Flags** - Determine your deck's elemental identity\n\n**Keywords:**\n• **Amalgam** - Choose one of two listed Keywords/Elements when played\n• **Brilliance** - Place target with Strength ≤ ⭘ paid on bottom of owner's life cards\n• **Gust** - Return target with Strength ≤ 🜁 paid to owner's hand\n• **Inferno** - Add damage ≤ 🜂 paid after dealing damage\n• **Steadfast** - Redirect damage ≤ 🜃 paid to this card instead\n• **Submerged** - Place target with Strength ≤ 🜄 paid below owner's deck\n• **Quintessence** - Can't be played as Familiar; produces any Azoth type\n• **Void** - Remove target card from the game\n\n**Element Immunities:**\nBrilliance vs ▢ • Gust vs 🜃 • Inferno vs 🜄 • Steadfast vs 🜂 • Submerged vs 🜁 • Void vs ⭘",
-    "keywords": ["elements", "azoth", "familiar", "spell", "flag", "keywords", "immunity"]
+    "keywords": [
+      "elements",
+      "azoth",
+      "familiar",
+      "spell",
+      "flag",
+      "keywords",
+      "immunity"
+    ]
   },
   "reference": {
     "title": "Reference",
     "icon": "📖",
     "content": "**KONIVRER Alphabet**\n\nIn this alternate history, Rome never came to power, so the alphabet stays in a Latin-derived form similar to Roman Square with heavy Greek influence.\n\n**Vowels:** A /a/, /æ/ • E /e/, /ɛ/ • I /i/, /ɪ/, /j/ • O /o/, /ɔ/ • V (for U) /u/, /ʊ/\n\n**Consonants:** B /b/ • D /d/ • Γ /g/ • H /h/ • K /k/ • L /l/ • M /m/ • N /n/ • P /p/ • R /r/ • T /t/ • Z /s/, /z/ • V /v/ • VV /w/ • Ξ /ks/, /gz/ • Φ /f/\n\n**Replaced Letters:** C → Κ /k/ • Q → KW\n\n**Eliminated:** Y → I • J → I • U → V • C, Q, W removed\n\n**Digraphs:** Χ = CH /x/, /k/ • Σ = SH /ʃ/ • Θ = TH /θ/ • Δ = DH /ð/ • NG /ŋ/ • HL /hl/ • HR /hr/ • KN /kn/ • GN /gn/ • WH /ʍ/, /hw/",
-    "keywords": ["alphabet", "pronunciation", "vowels", "consonants", "digraphs"]
+    "keywords": [
+      "alphabet",
+      "pronunciation",
+      "vowels",
+      "consonants",
+      "digraphs"
+    ]
   },
   "lastUpdated": "2025-06-20",
   "version": "3.0.0"
