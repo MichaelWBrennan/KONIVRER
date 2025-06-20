@@ -15,7 +15,7 @@ export const useData = () => {
 export const DataProvider = ({ children }) => {
   // Get visible cards from set context
   const setContext = useSet?.() || { visibleCards: [] };
-  
+
   // Real-time data state
   const [stats, setStats] = useState({
     totalCards: 0,

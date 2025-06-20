@@ -24,92 +24,92 @@ export const SetProvider = ({ children }) => {
   const initializeSets = () => {
     // Load sets from localStorage or use default data
     const savedSets = JSON.parse(
-      localStorage.getItem('konivrer_sets') || JSON.stringify(setsData)
+      localStorage.getItem('konivrer_sets') || JSON.stringify(setsData),
     );
     setSets(savedSets);
-    
+
     // Filter active sets
     const active = savedSets.filter(set => set.isActive);
     setActiveSets(active);
-    
+
     // Get visible cards from active sets
     updateVisibleCards(active);
   };
 
-  const updateVisibleCards = (activeSets) => {
+  const updateVisibleCards = activeSets => {
     const allVisibleCardIds = activeSets
       .filter(set => set.isVisible)
       .flatMap(set => set.cardIds);
-    
+
     // Here you would fetch the actual card data based on IDs
     // For now, we'll keep it as an empty array since no cards should be visible by default
     setVisibleCards([]);
   };
 
-  const toggleSetVisibility = (setId) => {
-    const updatedSets = sets.map(set => 
-      set.id === setId 
-        ? { ...set, isVisible: !set.isVisible }
-        : set
+  const toggleSetVisibility = setId => {
+    const updatedSets = sets.map(set =>
+      set.id === setId ? { ...set, isVisible: !set.isVisible } : set,
     );
-    
+
     setSets(updatedSets);
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
-    
+
     const active = updatedSets.filter(set => set.isActive);
     setActiveSets(active);
     updateVisibleCards(active);
   };
 
-  const toggleSetActive = (setId) => {
-    const updatedSets = sets.map(set => 
-      set.id === setId 
-        ? { ...set, isActive: !set.isActive, isVisible: set.isActive ? false : set.isVisible }
-        : set
+  const toggleSetActive = setId => {
+    const updatedSets = sets.map(set =>
+      set.id === setId
+        ? {
+            ...set,
+            isActive: !set.isActive,
+            isVisible: set.isActive ? false : set.isVisible,
+          }
+        : set,
     );
-    
+
     setSets(updatedSets);
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
-    
+
     const active = updatedSets.filter(set => set.isActive);
     setActiveSets(active);
     updateVisibleCards(active);
   };
 
-  const addSet = (newSet) => {
+  const addSet = newSet => {
     const setWithId = {
       ...newSet,
       id: newSet.id || `set_${Date.now()}`,
       isActive: false,
       isVisible: false,
-      cardIds: newSet.cardIds || []
+      cardIds: newSet.cardIds || [],
     };
-    
+
     const updatedSets = [...sets, setWithId];
     setSets(updatedSets);
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
   };
 
-  const removeSet = (setId) => {
+  const removeSet = setId => {
     const updatedSets = sets.filter(set => set.id !== setId);
     setSets(updatedSets);
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
-    
+
     const active = updatedSets.filter(set => set.isActive);
     setActiveSets(active);
     updateVisibleCards(active);
   };
 
   const updateSet = (setId, updates) => {
-    const updatedSets = sets.map(set => 
-      set.id === setId 
-        ? { ...set, ...updates }
-        : set
+    const updatedSets = sets.map(set =>
+      set.id === setId ? { ...set, ...updates } : set,
     );
-    
+
     setSets(updatedSets);
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
-    
+
     const active = updatedSets.filter(set => set.isActive);
     setActiveSets(active);
     updateVisibleCards(active);
@@ -124,12 +124,8 @@ export const SetProvider = ({ children }) => {
     addSet,
     removeSet,
     updateSet,
-    initializeSets
+    initializeSets,
   };
 
-  return (
-    <SetContext.Provider value={value}>
-      {children}
-    </SetContext.Provider>
-  );
+  return <SetContext.Provider value={value}>{children}</SetContext.Provider>;
 };
