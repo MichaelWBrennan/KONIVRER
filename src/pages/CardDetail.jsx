@@ -262,7 +262,7 @@ const CardDetail = () => {
               {/* Tabs */}
               <div className="border-b border-gray-700 mb-6">
                 <nav className="flex space-x-8">
-                  {['details', 'legality', 'printings'].map(tab => (
+                  {['details', 'printings'].map(tab => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -357,30 +357,7 @@ const CardDetail = () => {
                   </motion.div>
                 )}
 
-                {activeTab === 'legality' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-gray-800 rounded-xl p-6 border border-gray-700"
-                  >
-                    <h3 className="text-lg font-semibold text-white mb-4">
-                      Format Legality
-                    </h3>
-                    <div className="space-y-1">
-                      {formatLegality('Standard', true)}
-                      {formatLegality('Pioneer', true)}
-                      {formatLegality('Modern', true)}
-                      {formatLegality('Legacy', true)}
-                      {formatLegality('Vintage', true)}
-                      {formatLegality('Commander', true)}
-                      {formatLegality('Brawl', true)}
-                      {formatLegality('Historic', true)}
-                      {formatLegality('Alchemy', false)}
-                      {formatLegality('Pauper', card.rarity === 'common')}
-                    </div>
-                  </motion.div>
-                )}
+
 
                 {activeTab === 'printings' && (
                   <motion.div

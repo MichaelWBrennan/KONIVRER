@@ -23,7 +23,6 @@ const TournamentCreate = () => {
     name: '',
     description: '',
     type: 'standard',
-    format: 'standard',
 
     // Schedule
     date: '',
@@ -128,20 +127,7 @@ const TournamentCreate = () => {
           </select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">Format *</label>
-          <select
-            className="input"
-            value={formData.format}
-            onChange={e => updateFormData('format', e.target.value)}
-          >
-            <option value="standard">Standard</option>
-            <option value="extended">Extended</option>
-            <option value="draft">Draft</option>
-            <option value="sealed">Sealed</option>
-            <option value="legacy">Legacy</option>
-          </select>
-        </div>
+
       </div>
     </div>
   );
@@ -511,10 +497,7 @@ const TournamentCreate = () => {
               <span className="text-sm text-muted">Type:</span>
               <p className="font-medium capitalize">{formData.type}</p>
             </div>
-            <div>
-              <span className="text-sm text-muted">Format:</span>
-              <p className="font-medium capitalize">{formData.format}</p>
-            </div>
+
             <div>
               <span className="text-sm text-muted">Date & Time:</span>
               <p className="font-medium">
