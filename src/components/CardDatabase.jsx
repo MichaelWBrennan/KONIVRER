@@ -412,8 +412,16 @@ const CardDatabase = ({
         <div className="text-center py-12">
           <div className="text-gray-400 mb-4">
             <Search size={48} className="mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No cards found</h3>
-            <p>Try adjusting your search terms or filters</p>
+            <h3 className="text-xl font-semibold mb-2">
+              {cards.length === 0
+                ? 'No card sets are currently active'
+                : 'No cards found'}
+            </h3>
+            <p>
+              {cards.length === 0
+                ? 'Contact an administrator to activate card sets'
+                : 'Try adjusting your search terms or filters'}
+            </p>
           </div>
         </div>
       )}
