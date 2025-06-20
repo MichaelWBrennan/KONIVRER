@@ -38,26 +38,51 @@ function App() {
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />
                   <Route path="/card/:cardId" element={<CardPage />} />
 
-
-
                   {/* All game-related redirects to unified platform */}
-                  <Route path="/cards/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/decks/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/market/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/tools/*" element={<StreamlinedGamePlatform />} />
+                  <Route
+                    path="/cards/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/decks/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/market/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/tools/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
                   <Route
                     path="/collection/*"
                     element={<StreamlinedGamePlatform />}
                   />
-                  <Route path="/prices/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/spoilers/*" element={<StreamlinedGamePlatform />} />
+                  <Route
+                    path="/prices/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/spoilers/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
                   <Route
                     path="/commanders/*"
                     element={<StreamlinedGamePlatform />}
                   />
-                  <Route path="/synergy/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/power/*" element={<StreamlinedGamePlatform />} />
-                  <Route path="/budget/*" element={<StreamlinedGamePlatform />} />
+                  <Route
+                    path="/synergy/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/power/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
+                  <Route
+                    path="/budget/*"
+                    element={<StreamlinedGamePlatform />}
+                  />
 
                   {/* Tournaments */}
                   <Route path="/tournaments" element={<UnifiedTournaments />} />

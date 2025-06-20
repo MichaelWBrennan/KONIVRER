@@ -134,7 +134,9 @@ const CardDatabase = ({
       exit={{ opacity: 0, scale: 0.9 }}
       whileHover={{ scale: 1.02 }}
       className={`relative bg-white rounded-lg border-2 p-4 cursor-pointer transition-all duration-200 hover:shadow-lg ${getRarityColor(card.rarity)}`}
-      onClick={() => onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)}
+      onClick={() =>
+        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)
+      }
     >
       {/* Card Header */}
       <div className="flex items-start justify-between mb-3">
@@ -227,7 +229,9 @@ const CardDatabase = ({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow cursor-pointer"
-      onClick={() => onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)}
+      onClick={() =>
+        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)
+      }
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -508,8 +512,6 @@ const CardDatabase = ({
           </div>
         </div>
       )}
-
-
     </div>
   );
 };
