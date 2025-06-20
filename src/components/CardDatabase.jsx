@@ -185,8 +185,15 @@ const CardDatabase = () => {
       )}
 
       {/* Set Info */}
-      <div className="absolute top-2 right-2 text-xs text-gray-500">
-        {card.setNumber || card.set}
+      <div className="absolute top-2 right-2">
+        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+          {card.set}
+        </div>
+        {card.setNumber && (
+          <div className="text-xs text-gray-500 text-center mt-1">
+            {card.setNumber}
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -218,6 +225,9 @@ const CardDatabase = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+            {card.set}
+          </div>
           <span className="text-sm font-medium">
             {typeof card.cost === 'string' ? card.cost : card.cost}
           </span>
@@ -277,8 +287,33 @@ const CardDatabase = () => {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        {/* Set Selector - Prominent */}
+        <div className="mt-4 mb-4">
+          <label className="block text-sm font-medium text-white mb-2">
+            Card Set Collection
+          </label>
+          <select
+            value={filters.set}
+            onChange={e => setFilters({ ...filters, set: e.target.value })}
+            className="w-full lg:w-1/2 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-2 border-purple-400/50 rounded-lg text-white text-lg font-semibold focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
+          >
+            <option value="all" className="text-black bg-white">
+              All Sets
+            </option>
+            {uniqueValues.sets.map(set => (
+              <option
+                key={set}
+                value={set}
+                className="text-black bg-white font-semibold"
+              >
+                {set}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Other Filters */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
           <select
             value={filters.rarity}
             onChange={e => setFilters({ ...filters, rarity: e.target.value })}
@@ -320,26 +355,26 @@ const CardDatabase = () => {
               );
             })}
           </select>
-
-          <select
-            value={filters.set}
-            onChange={e => setFilters({ ...filters, set: e.target.value })}
-            className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-          >
-            <option value="all">All Sets</option>
-            {uniqueValues.sets.map(set => (
-              <option key={set} value={set} className="text-black">
-                {set}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
+
+      {/* Current Set Display */}
+      {filters.set !== 'all' && (
+        <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/50 rounded-lg p-4 text-center">
+          <h2 className="text-2xl font-bold text-white mb-2">{filters.set}</h2>
+          <p className="text-purple-200">
+            Viewing cards from the {filters.set} collection
+          </p>
+        </div>
+      )}
 
       {/* Results Count */}
       <div className="flex items-center justify-between text-white">
         <span>
           Showing {filteredCards.length} of {cards.length} cards
+          {filters.set !== 'all' && (
+            <span className="ml-2 text-purple-300">from {filters.set}</span>
+          )}
         </span>
         {favorites.size > 0 && (
           <span className="text-red-400">{favorites.size} favorites</span>
