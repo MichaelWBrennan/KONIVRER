@@ -145,70 +145,11 @@ const UnifiedGamePlatform = () => {
     setActiveSearchCriteria(null);
   };
 
-  // Platform statistics
-  const platformStats = [
-    {
-      label: 'Total Cards',
-      value: '12,847',
-      change: '+12 new',
-      color: 'text-blue-400',
-      icon: Database,
-    },
-    {
-      label: 'Active Decks',
-      value: '3,492',
-      change: '+3 this week',
-      color: 'text-green-400',
-      icon: Package,
-    },
-    {
-      label: 'Market Cap',
-      value: '$2.4B',
-      change: '+5.2%',
-      color: 'text-yellow-400',
-      icon: TrendingUp,
-    },
-    {
-      label: 'Community',
-      value: '89.7K',
-      change: '+2.1%',
-      color: 'text-purple-400',
-      icon: Users,
-    },
-  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Platform Overview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {platformStats.map((stat, index) => {
-            const IconComponent = stat.icon;
-            return (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 + index * 0.1 }}
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <IconComponent className={`w-8 h-8 ${stat.color}`} />
-                  <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">
-                    {stat.change}
-                  </span>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-2xl font-bold text-white">{stat.value}</p>
-                  <p className="text-sm text-gray-400">{stat.label}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+
 
         {/* Unified Advanced Search */}
         <motion.div
