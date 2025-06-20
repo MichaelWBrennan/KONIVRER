@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, Grid, List, Eye, Plus, Heart } from 'lucide-react';
+import { Search, Filter, Grid, List, Eye, Plus, Heart, Database } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
@@ -26,11 +26,18 @@ const CardDatabase = ({
   useEffect(() => {
     const cardsToUse = propCards || cardsData;
     setCards(cardsToUse);
-    setFilteredCards(cardsToUse);
+    // Don't show any cards by default - require set selection
+    setFilteredCards([]);
   }, [propCards]);
 
   // Filter and search cards
   useEffect(() => {
+    // Don't show any cards if no set is selected
+    if (filters.set === 'all') {
+      setFilteredCards([]);
+      return;
+    }
+
     let filtered = cards.filter(card => {
       const matchesSearch =
         card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -293,29 +300,45 @@ const CardDatabase = ({
             </div>
           </div>
 
-          {/* Set Selector - Prominent */}
+          {/* Set Selector - Required and Prominent */}
           <div className="mt-4 mb-4">
-            <label className="block text-sm font-medium text-white mb-2">
-              Card Set Collection
+            <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <span className="text-yellow-400">★</span>
+              Choose a Card Set to Begin Exploring
+              <span className="text-yellow-400">★</span>
             </label>
-            <select
-              value={filters.set}
-              onChange={e => setFilters({ ...filters, set: e.target.value })}
-              className="w-full lg:w-1/2 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-2 border-purple-400/50 rounded-lg text-white text-lg font-semibold focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
-            >
-              <option value="all" className="text-black bg-white">
-                All Sets
-              </option>
-              {uniqueValues.sets.map(set => (
-                <option
-                  key={set}
-                  value={set}
-                  className="text-black bg-white font-semibold"
-                >
-                  {set}
+            <div className="relative">
+              <select
+                value={filters.set}
+                onChange={e => setFilters({ ...filters, set: e.target.value })}
+                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border-3 border-yellow-400/70 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/30 shadow-lg"
+              >
+                <option value="all" className="text-black bg-white">
+                  🔍 Select a Card Set to View Cards
                 </option>
-              ))}
-            </select>
+                {uniqueValues.sets.map(set => (
+                  <option
+                    key={set}
+                    value={set}
+                    className="text-black bg-white font-semibold"
+                  >
+                    📚 {set}
+                  </option>
+                ))}
+              </select>
+              {filters.set === 'all' && (
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                  <div className="bg-yellow-400/20 border border-yellow-400/50 rounded-lg px-3 py-1 text-yellow-300 text-sm font-medium animate-pulse">
+                    Required
+                  </div>
+                </div>
+              )}
+            </div>
+            {filters.set === 'all' && (
+              <p className="mt-2 text-yellow-300 text-sm font-medium">
+                💡 Please select a card set above to start browsing cards. This helps organize the vast collection!
+              </p>
+            )}
           </div>
 
           {/* Other Filters */}
@@ -380,9 +403,15 @@ const CardDatabase = ({
       {/* Results Count */}
       <div className="flex items-center justify-between text-white">
         <span>
-          Showing {filteredCards.length} of {cards.length} cards
-          {filters.set !== 'all' && (
-            <span className="ml-2 text-purple-300">from {filters.set}</span>
+          {filters.set === 'all' ? (
+            <span className="text-yellow-300 font-medium">
+              📋 {cards.length} total cards available • Select a set to browse
+            </span>
+          ) : (
+            <>
+              Showing {filteredCards.length} of {cards.filter(card => card.set === filters.set).length} cards
+              <span className="ml-2 text-purple-300">from {filters.set}</span>
+            </>
           )}
         </span>
         {favorites.size > 0 && (
@@ -411,9 +440,36 @@ const CardDatabase = ({
       {filteredCards.length === 0 && (
         <div className="text-center py-12">
           <div className="text-gray-400 mb-4">
-            <Search size={48} className="mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No cards found</h3>
-            <p>Try adjusting your search terms or filters</p>
+            {filters.set === 'all' ? (
+              <>
+                <Database size={64} className="mx-auto mb-6 text-yellow-400" />
+                <h3 className="text-2xl font-bold mb-4 text-white">Welcome to the Card Database!</h3>
+                <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/50 rounded-xl p-8 max-w-2xl mx-auto">
+                  <p className="text-lg text-purple-200 mb-4">
+                    🎯 <strong>Search by Set</strong> is the primary way to explore cards
+                  </p>
+                  <p className="text-purple-300 mb-6">
+                    Choose a card set from the dropdown above to start browsing. Each set contains unique cards with different themes and mechanics.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div className="bg-white/10 rounded-lg p-4">
+                      <h4 className="font-semibold text-white mb-2">📚 Organized Collections</h4>
+                      <p className="text-gray-300">Cards are grouped by sets for easier discovery</p>
+                    </div>
+                    <div className="bg-white/10 rounded-lg p-4">
+                      <h4 className="font-semibold text-white mb-2">🔍 Advanced Filtering</h4>
+                      <p className="text-gray-300">Refine your search within each set</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <Search size={48} className="mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No cards found in {filters.set}</h3>
+                <p>Try adjusting your search terms or other filters</p>
+              </>
+            )}
           </div>
         </div>
       )}
