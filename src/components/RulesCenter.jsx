@@ -28,7 +28,7 @@ const RulesCenter = () => {
   useEffect(() => {
     // Load rules data
     import('../data/rules.json')
-      .then(data => setRulesData(data.gameRules))
+      .then(data => setRulesData(data.default || data))
       .catch(err => console.error('Failed to load rules:', err));
   }, []);
 
