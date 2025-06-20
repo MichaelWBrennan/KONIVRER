@@ -158,7 +158,7 @@ const CardViewer = ({
             {card.keywords.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {card.keywords.map(keyword => (
-                  <RuleTooltip 
+                  <RuleTooltip
                     key={keyword}
                     ruleId={keyword.toLowerCase()}
                     showIcon={false}
