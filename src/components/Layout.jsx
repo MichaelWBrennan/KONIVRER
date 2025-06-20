@@ -93,7 +93,6 @@ const Layout = ({ children }) => {
       icon: Trophy,
     });
 
-
     // Judge Center - only for judges
     if (hasJudgeAccess()) {
       baseNavigation.push({
@@ -178,7 +177,6 @@ const Layout = ({ children }) => {
         location.pathname.startsWith('/analytics'))
     )
       return true;
-
 
     // Check main path for other items
     if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
