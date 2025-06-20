@@ -113,12 +113,7 @@ const Layout = ({ children }) => {
       icon: BarChart3,
     });
 
-    // Community & Tools - unified community functionality
-    baseNavigation.push({
-      name: 'Community',
-      href: '/community',
-      icon: Users,
-    });
+
 
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
