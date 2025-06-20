@@ -388,7 +388,6 @@ const DeckSearch = () => {
               <option value="Void">▢ Void</option>
             </select>
 
-
             {/* Sort */}
             <select
               value={`${sortBy}-${sortOrder}`}
