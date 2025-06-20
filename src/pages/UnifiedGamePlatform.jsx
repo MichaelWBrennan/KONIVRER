@@ -245,19 +245,25 @@ const UnifiedGamePlatform = () => {
           className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
         >
           <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center space-x-3">
-              <Database className="w-6 h-6 text-blue-400" />
-              <h2 className="text-2xl font-bold text-white">Card Discovery</h2>
-              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full">
-                12,847 Cards
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Database className="w-6 h-6 text-blue-400" />
+                <h2 className="text-2xl font-bold text-white">Card Discovery</h2>
+                <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full">
+                  12,847 Cards
+                </span>
+              </div>
+              <div className="text-right">
+                <p className="text-blue-300 text-sm font-medium">🎯 Search by Set Required</p>
+                <p className="text-blue-200 text-xs">Select a card set to begin browsing</p>
+              </div>
             </div>
           </div>
           <div className="p-6">
             <CardDatabase
               cards={searchResults || sampleCards}
               searchCriteria={activeSearchCriteria}
-              showSearchInterface={false}
+              showSearchInterface={true}
             />
           </div>
         </motion.div>
