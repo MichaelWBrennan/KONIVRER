@@ -84,8 +84,6 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
 
   const sets = ['PRIMA MATERIA', 'Core Set', 'Expansion 1', 'Expansion 2'];
 
-
-
   const operators = ['=', '≠', '<', '≤', '>', '≥'];
 
   const updateCriteria = (field, value) => {

@@ -38,7 +38,6 @@ const CardExplorer = () => {
               <Database className="w-8 h-8 text-blue-500" />
               <h1 className="text-4xl font-bold">Card Explorer</h1>
             </div>
-
           </div>
         </div>
       </div>

@@ -126,8 +126,6 @@ const TournamentCreate = () => {
             <option value="sealed">Sealed Event</option>
           </select>
         </div>
-
-
       </div>
     </div>
   );

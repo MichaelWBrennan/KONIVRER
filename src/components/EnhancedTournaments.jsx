@@ -376,8 +376,6 @@ const EnhancedTournaments = () => {
 
     const matchesFilter = filter === 'all' || tournament.status === filter;
 
-
-
     const matchesType =
       selectedTypes.length === 0 || selectedTypes.includes(tournament.type);
 
@@ -773,8 +771,6 @@ const EnhancedTournaments = () => {
                 className="border-t border-color pt-4"
               >
                 <div className="grid md:grid-cols-3 gap-4">
-
-
                   {/* Type Filter */}
                   <div>
                     <label className="block text-sm font-medium mb-2">

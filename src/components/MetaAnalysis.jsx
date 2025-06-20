@@ -24,7 +24,6 @@ import {
 const MetaAnalysis = () => {
   const [timeframe, setTimeframe] = useState('30d');
 
-
   const metaData = {
     topDecks: [
       {
@@ -89,7 +88,6 @@ const MetaAnalysis = () => {
       { name: 'Midrange', percentage: 23.4, color: 'green' },
       { name: 'Combo', percentage: 15.8, color: 'purple' },
     ],
-
   };
 
   const getTrendIcon = trend => {
@@ -149,8 +147,6 @@ const MetaAnalysis = () => {
                 <option value="90d">Last 3 months</option>
                 <option value="1y">Last year</option>
               </select>
-
-
 
               <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
                 <RefreshCw size={16} />
@@ -351,8 +347,6 @@ const MetaAnalysis = () => {
                 ))}
               </div>
             </div>
-
-
           </div>
         </div>
 
