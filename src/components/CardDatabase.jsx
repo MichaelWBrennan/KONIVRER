@@ -317,8 +317,7 @@ const CardDatabase = ({
 
           {/* Set Selector - Required and Prominent */}
           <div className="mt-4 mb-4">
-            <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2">
-            </label>
+            <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2"></label>
             <div className="relative">
               <select
                 value={filters.set}
@@ -346,7 +345,6 @@ const CardDatabase = ({
                 </div>
               )}
             </div>
-
           </div>
 
           {/* Other Filters - Only show when a set is selected */}
