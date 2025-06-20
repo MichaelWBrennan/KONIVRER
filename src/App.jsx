@@ -19,8 +19,8 @@ import TournamentManager from './components/TournamentManager';
 import PlayerProfile from './components/PlayerProfile';
 import UnifiedTournaments from './pages/UnifiedTournaments';
 
-import UnifiedGamePlatform from './pages/UnifiedGamePlatform';
-import CardDetail from './pages/CardDetail';
+import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
+import CardPage from './pages/CardPage';
 
 function App() {
   return (
@@ -35,29 +35,29 @@ function App() {
                   <Route path="/" element={<Home />} />
 
                   {/* Unified Game Platform - All game functionality */}
-                  <Route path="/hub" element={<UnifiedGamePlatform />} />
+                  <Route path="/hub" element={<StreamlinedGamePlatform />} />
+                  <Route path="/card/:cardId" element={<CardPage />} />
 
-                  {/* Card Detail Pages */}
-                  <Route path="/card/:cardId" element={<CardDetail />} />
+
 
                   {/* All game-related redirects to unified platform */}
-                  <Route path="/cards/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/decks/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/market/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/tools/*" element={<UnifiedGamePlatform />} />
+                  <Route path="/cards/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/decks/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/market/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/tools/*" element={<StreamlinedGamePlatform />} />
                   <Route
                     path="/collection/*"
-                    element={<UnifiedGamePlatform />}
+                    element={<StreamlinedGamePlatform />}
                   />
-                  <Route path="/prices/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/spoilers/*" element={<UnifiedGamePlatform />} />
+                  <Route path="/prices/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/spoilers/*" element={<StreamlinedGamePlatform />} />
                   <Route
                     path="/commanders/*"
-                    element={<UnifiedGamePlatform />}
+                    element={<StreamlinedGamePlatform />}
                   />
-                  <Route path="/synergy/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/power/*" element={<UnifiedGamePlatform />} />
-                  <Route path="/budget/*" element={<UnifiedGamePlatform />} />
+                  <Route path="/synergy/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/power/*" element={<StreamlinedGamePlatform />} />
+                  <Route path="/budget/*" element={<StreamlinedGamePlatform />} />
 
                   {/* Tournaments */}
                   <Route path="/tournaments" element={<UnifiedTournaments />} />
