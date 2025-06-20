@@ -357,8 +357,6 @@ const CardDetail = () => {
                   </motion.div>
                 )}
 
-
-
                 {activeTab === 'printings' && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
