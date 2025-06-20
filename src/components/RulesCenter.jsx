@@ -7,11 +7,8 @@ import {
   Download,
   Share2,
   Lightbulb,
-  Info,
-  Layers,
-  Play,
-  Zap,
-  Shield,
+  ChevronRight,
+  ChevronLeft,
 } from 'lucide-react';
 
 const RulesCenter = () => {
@@ -37,23 +34,37 @@ const RulesCenter = () => {
     setBookmarkedRules(newBookmarks);
   };
 
-  const elementSymbols = {
-    Quintessence: '⚪',
-    Inferno: '🔥',
-    Submerged: '💧',
-    Steadfast: '🌱',
-    Brilliance: '⚡',
-    Void: '🌑',
+  // Define the recommended learning order
+  const sectionOrder = [
+    'overview',
+    'setup', 
+    'deckBuilding',
+    'turnStructure',
+    'playingCards',
+    'combat',
+    'elementsAndKeywords',
+    'quickReference'
+  ];
+
+  const getCurrentSectionIndex = () => {
+    return sectionOrder.indexOf(activeSection);
   };
 
-  const sectionIcons = {
-    overview: Info,
-    deckBuilding: Layers,
-    howToPlay: Play,
-    elements: Zap,
-    cardsAndAbilities: Shield,
-    lore: Book,
+  const goToNextSection = () => {
+    const currentIndex = getCurrentSectionIndex();
+    if (currentIndex < sectionOrder.length - 1) {
+      setActiveSection(sectionOrder[currentIndex + 1]);
+    }
   };
+
+  const goToPreviousSection = () => {
+    const currentIndex = getCurrentSectionIndex();
+    if (currentIndex > 0) {
+      setActiveSection(sectionOrder[currentIndex - 1]);
+    }
+  };
+
+
 
   if (!rulesData) {
     return (
@@ -154,22 +165,21 @@ const RulesCenter = () => {
                 ))}
               </nav>
 
-              {/* Quick Reference */}
+              {/* Navigation Help */}
               <div className="mt-8">
                 <h4 className="text-lg font-semibold text-white mb-3">
-                  Quick Reference
+                  Learning Path
                 </h4>
-                <div className="space-y-2">
-                  <div className="text-sm text-gray-300">
-                    <div className="font-medium mb-1">Elements:</div>
-                    <div className="grid grid-cols-2 gap-1">
-                      {Object.entries(elementSymbols).map(([name, symbol]) => (
-                        <div key={name} className="flex items-center gap-1">
-                          <span>{symbol}</span>
-                          <span className="text-xs">{name}</span>
-                        </div>
-                      ))}
-                    </div>
+                <div className="text-sm text-gray-300 space-y-2">
+                  <div className="text-xs text-gray-400">Recommended order for new players:</div>
+                  <div className="space-y-1">
+                    <div className="text-blue-300">1. Game Overview</div>
+                    <div className="text-blue-300">2. Setup & Game Zones</div>
+                    <div className="text-blue-300">3. Deck Building</div>
+                    <div className="text-blue-300">4. Turn Structure</div>
+                    <div className="text-blue-300">5. Playing Cards</div>
+                    <div className="text-blue-300">6. Combat</div>
+                    <div className="text-blue-300">7. Elements & Keywords</div>
                   </div>
                 </div>
               </div>
@@ -245,6 +255,39 @@ const RulesCenter = () => {
                         </div>
                       </div>
                     )}
+
+                    {/* Navigation Buttons */}
+                    <div className="mt-8 pt-6 border-t border-white/20 flex justify-between items-center">
+                      <button
+                        onClick={goToPreviousSection}
+                        disabled={getCurrentSectionIndex() === 0}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                          getCurrentSectionIndex() === 0
+                            ? 'text-gray-500 cursor-not-allowed'
+                            : 'text-blue-300 hover:text-blue-200 hover:bg-blue-600/20'
+                        }`}
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                        Previous
+                      </button>
+                      
+                      <div className="text-sm text-gray-400">
+                        {getCurrentSectionIndex() + 1} of {sectionOrder.length}
+                      </div>
+                      
+                      <button
+                        onClick={goToNextSection}
+                        disabled={getCurrentSectionIndex() === sectionOrder.length - 1}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                          getCurrentSectionIndex() === sectionOrder.length - 1
+                            ? 'text-gray-500 cursor-not-allowed'
+                            : 'text-blue-300 hover:text-blue-200 hover:bg-blue-600/20'
+                        }`}
+                      >
+                        Next
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               </AnimatePresence>
