@@ -53,7 +53,6 @@ const TournamentManager = () => {
     {
       id: 1,
       name: 'KONIVRER Championship Series #1',
-      format: 'Classic Constructed',
       date: '2025-06-15',
       time: '10:00 AM',
       location: 'Central Gaming Hub',
@@ -67,7 +66,6 @@ const TournamentManager = () => {
     {
       id: 2,
       name: 'Weekly Blitz Tournament',
-      format: 'Blitz',
       date: '2025-06-12',
       time: '7:00 PM',
       location: 'Local Game Store',
@@ -82,7 +80,6 @@ const TournamentManager = () => {
     {
       id: 3,
       name: 'Draft Masters Cup',
-      format: 'Booster Draft',
       date: '2025-06-08',
       time: '2:00 PM',
       location: 'Elite Gaming Center',
@@ -241,19 +238,6 @@ const TournamentManager = () => {
               className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="Enter tournament name"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-primary mb-2">
-              Format
-            </label>
-            <select className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent">
-              <option>Classic Constructed</option>
-              <option>Blitz</option>
-              <option>Booster Draft</option>
-              <option>Sealed Deck</option>
-              <option>Legacy</option>
-            </select>
           </div>
 
           <div>
@@ -583,48 +567,6 @@ const TournamentManager = () => {
               $127,500
             </div>
             <div className="text-sm text-secondary">Total Prize Pool</div>
-          </div>
-        </div>
-
-        <div className="bg-primary border border-color rounded-xl p-4">
-          <h4 className="font-semibold text-primary mb-4">Format Popularity</h4>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-secondary">Classic Constructed</span>
-              <div className="flex items-center gap-2">
-                <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-accent-primary to-accent-secondary h-2 rounded-full"
-                    style={{ width: '68%' }}
-                  ></div>
-                </div>
-                <span className="text-sm text-secondary">68%</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-secondary">Blitz</span>
-              <div className="flex items-center gap-2">
-                <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
-                    style={{ width: '45%' }}
-                  ></div>
-                </div>
-                <span className="text-sm text-secondary">45%</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-secondary">Booster Draft</span>
-              <div className="flex items-center gap-2">
-                <div className="w-32 bg-tertiary rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full"
-                    style={{ width: '32%' }}
-                  ></div>
-                </div>
-                <span className="text-sm text-secondary">32%</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -291,7 +291,7 @@ const CardDatabase = ({
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search cards by name, text, or keywords..."
+                placeholder=""
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
@@ -317,11 +317,7 @@ const CardDatabase = ({
 
           {/* Set Selector - Required and Prominent */}
           <div className="mt-4 mb-4">
-            <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2">
-              <span className="text-yellow-400">★</span>
-              Choose a Card Set to Begin Exploring
-              <span className="text-yellow-400">★</span>
-            </label>
+            <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2"></label>
             <div className="relative">
               <select
                 value={filters.set}
@@ -329,7 +325,7 @@ const CardDatabase = ({
                 className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border-3 border-yellow-400/70 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/30 shadow-lg"
               >
                 <option value="all" className="text-black bg-white">
-                  🔍 Select a Card Set to View Cards
+                  Select a Card Set
                 </option>
                 {uniqueValues.sets.map(set => (
                   <option
@@ -337,7 +333,7 @@ const CardDatabase = ({
                     value={set}
                     className="text-black bg-white font-semibold"
                   >
-                    📚 {set}
+                    {set}
                   </option>
                 ))}
               </select>
@@ -349,12 +345,6 @@ const CardDatabase = ({
                 </div>
               )}
             </div>
-            {filters.set === 'all' && (
-              <p className="mt-2 text-yellow-300 text-sm font-medium">
-                💡 Please select a card set above to start browsing cards. This
-                helps organize the vast collection!
-              </p>
-            )}
           </div>
 
           {/* Other Filters - Only show when a set is selected */}
@@ -429,7 +419,7 @@ const CardDatabase = ({
         <span>
           {filters.set === 'all' ? (
             <span className="text-yellow-300 font-medium">
-              📋 {cards.length} total cards available • Select a set to browse
+              {cards.length} total cards available
             </span>
           ) : (
             <>
@@ -476,38 +466,6 @@ const CardDatabase = ({
             ) : filters.set === 'all' ? (
               <>
                 <Database size={64} className="mx-auto mb-6 text-yellow-400" />
-                <h3 className="text-2xl font-bold mb-4 text-white">
-                  Welcome to the Card Database!
-                </h3>
-                <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/50 rounded-xl p-8 max-w-2xl mx-auto">
-                  <p className="text-lg text-purple-200 mb-4">
-                    🎯 <strong>Search by Set</strong> is the primary way to
-                    explore cards
-                  </p>
-                  <p className="text-purple-300 mb-6">
-                    Choose a card set from the dropdown above to start browsing.
-                    Each set contains unique cards with different themes and
-                    mechanics.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="bg-white/10 rounded-lg p-4">
-                      <h4 className="font-semibold text-white mb-2">
-                        📚 Organized Collections
-                      </h4>
-                      <p className="text-gray-300">
-                        Cards are grouped by sets for easier discovery
-                      </p>
-                    </div>
-                    <div className="bg-white/10 rounded-lg p-4">
-                      <h4 className="font-semibold text-white mb-2">
-                        🔍 Advanced Filtering
-                      </h4>
-                      <p className="text-gray-300">
-                        Refine your search within each set
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </>
             ) : (
               <>

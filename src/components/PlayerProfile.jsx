@@ -162,7 +162,6 @@ const PlayerProfile = ({ playerId = 'player123' }) => {
         id: 3,
         name: 'Draft Masters Cup',
         date: '2025-05-20',
-        format: 'Booster Draft',
         placement: 5,
         participants: 24,
         deck: 'Draft Special',
@@ -348,8 +347,6 @@ const PlayerProfile = ({ playerId = 'player123' }) => {
                 <div className="flex items-center gap-2 text-sm text-secondary">
                   <Calendar size={14} />
                   <span>{tournament.date}</span>
-                  <span>•</span>
-                  <span>{tournament.format}</span>
                 </div>
               </div>
               <div className="text-right">
