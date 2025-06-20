@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter } from 'lucide-react';
+import { Search, TrendingUp, Users, Zap, Database, Gamepad2, BarChart3, Package, Star, Trophy } from 'lucide-react';
 
 // Import existing components
 import CardViewer from '../components/CardViewer';
@@ -17,145 +16,25 @@ import AIAssistant from '../components/AIAssistant';
 import BattlePass from './BattlePass';
 
 const UnifiedGamePlatform = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [activeSection, setActiveSection] = useState('discover');
-  const [activeFeature, setActiveFeature] = useState(null);
-
-  // Initialize from URL parameters
-  useEffect(() => {
-    const section = searchParams.get('section') || 'discover';
-    const feature = searchParams.get('feature');
-    setActiveSection(section);
-    setActiveFeature(feature);
-  }, [searchParams]);
-
-  // Main sections with integrated functionality
-  const sections = [
-    {
-      id: 'discover',
-      name: 'Discover',
-
-      color: 'from-blue-500 to-cyan-500',
-      features: [
-        {
-          id: 'cards',
-          name: 'Card Database',
-          component: CardDatabase,
-        },
-        {
-          id: 'spoilers',
-          name: 'Spoilers & Previews',
-          component: CardViewer,
-        },
-        {
-          id: 'commanders',
-          name: 'Commander Hub',
-          component: null,
-        },
-      ],
-    },
-    {
-      id: 'build',
-      name: 'Build',
-
-      color: 'from-green-500 to-emerald-500',
-      features: [
-        {
-          id: 'builder',
-          name: 'Deck Builder',
-          component: VisualDeckBuilder,
-        },
-        {
-          id: 'stats',
-          name: 'Deck Analytics',
-          component: DeckStats,
-        },
-      ],
-    },
-    {
-      id: 'play',
-      name: 'Play',
-
-      color: 'from-red-500 to-pink-500',
-      features: [
-        {
-          id: 'simulator',
-          name: 'Game Simulator',
-          component: GameSimulatorSimple,
-        },
-      ],
-    },
-    {
-      id: 'analyze',
-      name: 'Analyze',
-
-      color: 'from-purple-500 to-violet-500',
-      features: [
-        {
-          id: 'meta',
-          name: 'Metagame',
-          component: MetaAnalysis,
-        },
-        {
-          id: 'prices',
-          name: 'Price Tracker',
-          component: MetaAnalysis,
-        },
-        {
-          id: 'trends',
-          name: 'Market Trends',
-          component: MetaAnalysis,
-        },
-        {
-          id: 'tournaments',
-          name: 'Tournament Data',
-          component: MetaAnalysis,
-        },
-      ],
-    },
-    {
-      id: 'manage',
-      name: 'Manage',
-
-      color: 'from-orange-500 to-red-500',
-      features: [
-        {
-          id: 'collection',
-          name: 'Collection',
-          component: CollectionManager,
-        },
-        {
-          id: 'battlepass',
-          name: 'Battle Pass',
-          component: BattlePass,
-        },
-        {
-          id: 'favorites',
-          name: 'Favorites',
-          component: CollectionManager,
-        },
-      ],
-    },
-  ];
-
-  // Update URL when section changes
-  const updateURL = (section, feature = null) => {
-    const params = { section };
-    if (feature) {
-      params.feature = feature;
-    }
-    setSearchParams(params);
-    setActiveSection(section);
-    setActiveFeature(feature);
+  const [globalSearch, setGlobalSearch] = useState('');
+  const [selectedFormat, setSelectedFormat] = useState('all');
+  
+  // Sample deck data for components that need it
+  const sampleDeck = {
+    name: 'Sample Deck',
+    cards: [
+      { id: 1, name: 'Lightning Bolt', cost: 1, elements: ['Fire'], rarity: 'Common', count: 4 },
+      { id: 2, name: 'Forest Guardian', cost: 3, elements: ['Nature'], rarity: 'Rare', count: 2 },
+      { id: 3, name: 'Mystic Shield', cost: 2, elements: ['Water'], rarity: 'Uncommon', count: 3 },
+    ]
   };
-
-  // Get current section data
-  const currentSection = sections.find(section => section.id === activeSection);
-
-  // Get current feature data
-  const currentFeature =
-    currentSection?.features?.find(feature => feature.id === activeFeature) ||
-    currentSection?.features?.[0];
+  
+  // Sample cards data
+  const sampleCards = [
+    { id: 1, name: 'Lightning Bolt', cost: 1, elements: ['Fire'], rarity: 'Common' },
+    { id: 2, name: 'Forest Guardian', cost: 3, elements: ['Nature'], rarity: 'Rare' },
+    { id: 3, name: 'Mystic Shield', cost: 2, elements: ['Water'], rarity: 'Uncommon' },
+  ];
 
   // Platform statistics
   const platformStats = [
@@ -164,231 +43,264 @@ const UnifiedGamePlatform = () => {
       value: '12,847',
       change: '+12 new',
       color: 'text-blue-400',
+      icon: Database,
     },
     {
       label: 'Active Decks',
       value: '3,492',
       change: '+3 this week',
       color: 'text-green-400',
+      icon: Package,
     },
     {
       label: 'Market Cap',
       value: '$2.4B',
       change: '+5.2%',
       color: 'text-yellow-400',
+      icon: TrendingUp,
     },
     {
       label: 'Community',
       value: '89.7K',
       change: '+2.1%',
       color: 'text-purple-400',
+      icon: Users,
     },
   ];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+      <div className="container mx-auto px-4 py-8 space-y-8">
+        
+        {/* Platform Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Game Platform
-            <span className="ml-3 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium rounded-full">
-              UNIFIED
-            </span>
-          </h1>
+          {platformStats.map((stat, index) => {
+            const IconComponent = stat.icon;
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 + index * 0.1 }}
+                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <IconComponent className={`w-8 h-8 ${stat.color}`} />
+                  <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">
+                    {stat.change}
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-2xl font-bold text-white">{stat.value}</p>
+                  <p className="text-sm text-gray-400">{stat.label}</p>
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
-        {/* Platform Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-        >
-          {platformStats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 + index * 0.1 }}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-xs text-green-400 bg-green-400/20 px-2 py-1 rounded-full">
-                  {stat.change}
-                </span>
-              </div>
-              <div className="space-y-1">
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Global Search */}
+        {/* Global Search & Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-8 border border-white/20"
+          className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20"
         >
-          <div className="flex items-center space-x-4">
-            <div className="flex-1 relative">
+          <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
+            <div className="flex-1 relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search cards, decks, players, or anything..."
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                placeholder="Search cards, decks, players, or anything across all tools..."
                 className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
               />
             </div>
-            <select className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400">
+            <select 
+              value={selectedFormat}
+              onChange={(e) => setSelectedFormat(e.target.value)}
+              className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+            >
               <option value="all">All Formats</option>
               <option value="standard">Standard</option>
               <option value="legacy">Legacy</option>
               <option value="limited">Limited</option>
             </select>
-            <select className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400">
-              <option value="30">Last 30 days</option>
-              <option value="7">Last 7 days</option>
-              <option value="90">Last 90 days</option>
-              <option value="365">Last year</option>
-            </select>
           </div>
         </motion.div>
 
-        {/* Section Navigation */}
+        {/* Card Discovery & Database */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"
+          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
         >
-          {sections.map((section, index) => (
-            <motion.button
-              key={section.id}
-              onClick={() => updateURL(section.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              className={`relative overflow-hidden rounded-xl p-6 border transition-all duration-300 ${
-                activeSection === section.id
-                  ? 'border-white/40 bg-white/20 shadow-lg'
-                  : 'border-white/20 bg-white/10 hover:border-white/30 hover:bg-white/15'
-              }`}
-            >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-10`}
-              />
-              <div className="relative z-10">
-                <div className="flex items-center justify-center mb-3"></div>
-                <h3 className="font-semibold text-white text-center mb-2">
-                  {section.name}
-                </h3>
-              </div>
-            </motion.button>
-          ))}
+          <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-6 border-b border-white/20">
+            <div className="flex items-center space-x-3">
+              <Database className="w-6 h-6 text-blue-400" />
+              <h2 className="text-2xl font-bold text-white">Card Discovery</h2>
+              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full">
+                12,847 Cards
+              </span>
+            </div>
+          </div>
+          <div className="p-6">
+            <CardDatabase searchTerm={globalSearch} format={selectedFormat} cards={sampleCards} />
+          </div>
         </motion.div>
 
-        {/* Feature Navigation - Show if current section has multiple features */}
-        {currentSection?.features && currentSection.features.length > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-wrap gap-3 mb-8 justify-center"
-          >
-            {currentSection.features.map((feature, index) => (
-              <motion.button
-                key={feature.id}
-                onClick={() => updateURL(activeSection, feature.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                  activeFeature === feature.id ||
-                  (!activeFeature && index === 0)
-                    ? 'bg-white/20 text-white border border-white/40'
-                    : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/15 hover:text-white'
-                }`}
-              >
-                {feature.name}
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-
-        {/* Content Area */}
-        {currentFeature?.component && (
-          <motion.div
-            key={`${activeSection}-${activeFeature || 'default'}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-white">
-                  {currentFeature.name}
-                </h2>
-                <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium rounded-full">
-                  {currentSection.name}
+        {/* Deck Building Suite */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+        >
+          {/* Deck Builder */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
+              <div className="flex items-center space-x-3">
+                <Package className="w-6 h-6 text-green-400" />
+                <h2 className="text-2xl font-bold text-white">Deck Builder</h2>
+                <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
+                  Visual
                 </span>
               </div>
+            </div>
+            <div className="p-6">
+              <VisualDeckBuilder 
+                deck={sampleDeck}
+                onDeckChange={() => {}}
+                cards={sampleCards}
+              />
+            </div>
+          </div>
 
-              {/* Render the component */}
-              <div className="min-h-[400px]">
-                {currentFeature.component && (
-                  <currentFeature.component
-                    deck={{ name: 'New Deck', cards: [] }}
-                    onDeckChange={() => {}}
-                    cards={[]}
-                  />
-                )}
+          {/* Deck Analytics */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
+              <div className="flex items-center space-x-3">
+                <BarChart3 className="w-6 h-6 text-green-400" />
+                <h2 className="text-2xl font-bold text-white">Deck Analytics</h2>
+                <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
+                  Live Stats
+                </span>
               </div>
             </div>
-          </motion.div>
-        )}
-
-        {/* Fallback content if no component is available */}
-        {!currentFeature?.component && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-8 text-center"
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">
-              {currentSection?.name} - Coming Soon
-            </h2>
-            <p className="text-gray-300 mb-6">
-              This feature is currently under development. Check back soon for
-              updates!
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {currentSection?.features?.map((feature, index) => (
-                <div
-                  key={feature.id}
-                  className="bg-white/5 rounded-lg p-4 border border-white/10"
-                >
-                  <h3 className="font-semibold text-white mb-2">
-                    {feature.name}
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    {feature.component ? 'Available' : 'Coming Soon'}
-                  </p>
-                </div>
-              ))}
+            <div className="p-6">
+              <DeckStats deck={sampleDeck} />
             </div>
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
+
+        {/* Game Simulator */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
+        >
+          <div className="bg-gradient-to-r from-red-500/20 to-pink-500/20 p-6 border-b border-white/20">
+            <div className="flex items-center space-x-3">
+              <Gamepad2 className="w-6 h-6 text-red-400" />
+              <h2 className="text-2xl font-bold text-white">Game Simulator</h2>
+              <span className="px-3 py-1 bg-red-500/20 text-red-300 text-sm font-medium rounded-full">
+                Interactive
+              </span>
+            </div>
+          </div>
+          <div className="p-6">
+            <GameSimulatorSimple />
+          </div>
+        </motion.div>
+
+        {/* Meta Analysis & Market Data */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
+        >
+          <div className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 p-6 border-b border-white/20">
+            <div className="flex items-center space-x-3">
+              <TrendingUp className="w-6 h-6 text-purple-400" />
+              <h2 className="text-2xl font-bold text-white">Meta Analysis & Market Data</h2>
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
+                Real-time
+              </span>
+            </div>
+          </div>
+          <div className="p-6">
+            <MetaAnalysis />
+          </div>
+        </motion.div>
+
+        {/* Collection & Personal Management */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+        >
+          {/* Collection Manager */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
+              <div className="flex items-center space-x-3">
+                <Star className="w-6 h-6 text-orange-400" />
+                <h2 className="text-2xl font-bold text-white">Collection Manager</h2>
+                <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
+                  Personal
+                </span>
+              </div>
+            </div>
+            <div className="p-6">
+              <CollectionManager />
+            </div>
+          </div>
+
+          {/* Battle Pass */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
+              <div className="flex items-center space-x-3">
+                <Trophy className="w-6 h-6 text-orange-400" />
+                <h2 className="text-2xl font-bold text-white">Battle Pass</h2>
+                <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
+                  Season 3
+                </span>
+              </div>
+            </div>
+            <div className="p-6">
+              <BattlePass />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* AI Assistant */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
+        >
+          <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-6 border-b border-white/20">
+            <div className="flex items-center space-x-3">
+              <Zap className="w-6 h-6 text-indigo-400" />
+              <h2 className="text-2xl font-bold text-white">AI Assistant</h2>
+              <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-sm font-medium rounded-full">
+                Smart Help
+              </span>
+            </div>
+          </div>
+          <div className="p-6">
+            <AIAssistant />
+          </div>
+        </motion.div>
+
       </div>
     </div>
   );
