@@ -113,8 +113,6 @@ const Layout = ({ children }) => {
       icon: BarChart3,
     });
 
-
-
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
       name: 'Tournaments',

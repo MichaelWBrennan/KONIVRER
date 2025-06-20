@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Search, 
-  Filter, 
-  SortAsc, 
-  SortDesc, 
-  Grid, 
-  List, 
-  Eye, 
-  Download, 
-  Heart, 
+import {
+  Search,
+  Filter,
+  SortAsc,
+  SortDesc,
+  Grid,
+  List,
+  Eye,
+  Download,
+  Heart,
   Star,
   User,
   Calendar,
   BarChart3,
   Zap,
   Trophy,
-  Target
+  Target,
 } from 'lucide-react';
 
 const DeckSearch = () => {
@@ -27,7 +27,7 @@ const DeckSearch = () => {
   const [filters, setFilters] = useState({
     element: 'all',
     rarity: 'all',
-    author: 'all'
+    author: 'all',
   });
 
   // Sample deck data
@@ -44,7 +44,7 @@ const DeckSearch = () => {
       description: 'Fast-paced aggressive deck focusing on early game pressure',
       cardCount: 40,
       winRate: 68.5,
-      featured: true
+      featured: true,
     },
     {
       id: 2,
@@ -58,7 +58,7 @@ const DeckSearch = () => {
       description: 'Control-oriented deck with powerful late-game threats',
       cardCount: 40,
       winRate: 72.3,
-      featured: false
+      featured: false,
     },
     {
       id: 3,
@@ -72,7 +72,7 @@ const DeckSearch = () => {
       description: 'Balanced midrange strategy with defensive capabilities',
       cardCount: 40,
       winRate: 65.2,
-      featured: false
+      featured: false,
     },
     {
       id: 4,
@@ -86,7 +86,7 @@ const DeckSearch = () => {
       description: 'High-tempo deck with bounce and evasion tactics',
       cardCount: 40,
       winRate: 70.1,
-      featured: true
+      featured: true,
     },
     {
       id: 5,
@@ -100,7 +100,7 @@ const DeckSearch = () => {
       description: 'Intricate combo deck with powerful synergies',
       cardCount: 40,
       winRate: 63.8,
-      featured: false
+      featured: false,
     },
     {
       id: 6,
@@ -114,8 +114,8 @@ const DeckSearch = () => {
       description: 'Disruptive strategy focusing on removal and exile',
       cardCount: 40,
       winRate: 61.9,
-      featured: false
-    }
+      featured: false,
+    },
   ]);
 
   const [filteredDecks, setFilteredDecks] = useState(decks);
@@ -123,12 +123,15 @@ const DeckSearch = () => {
   // Filter and sort decks
   useEffect(() => {
     let filtered = decks.filter(deck => {
-      const matchesSearch = deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           deck.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           deck.description.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesElement = filters.element === 'all' || deck.element === filters.element;
-      const matchesAuthor = filters.author === 'all' || deck.author === filters.author;
+      const matchesSearch =
+        deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        deck.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        deck.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesElement =
+        filters.element === 'all' || deck.element === filters.element;
+      const matchesAuthor =
+        filters.author === 'all' || deck.author === filters.author;
 
       return matchesSearch && matchesElement && matchesAuthor;
     });
@@ -136,7 +139,7 @@ const DeckSearch = () => {
     // Sort decks
     filtered.sort((a, b) => {
       let aValue, bValue;
-      
+
       switch (sortBy) {
         case 'popularity':
           aValue = a.likes;
@@ -173,26 +176,26 @@ const DeckSearch = () => {
     setFilteredDecks(filtered);
   }, [searchTerm, filters, sortBy, sortOrder, decks]);
 
-  const getElementColor = (element) => {
+  const getElementColor = element => {
     const colors = {
-      'Inferno': 'text-red-400',
-      'Submerged': 'text-blue-400',
-      'Steadfast': 'text-yellow-400',
-      'Gust': 'text-green-400',
-      'Brilliance': 'text-purple-400',
-      'Void': 'text-gray-400'
+      Inferno: 'text-red-400',
+      Submerged: 'text-blue-400',
+      Steadfast: 'text-yellow-400',
+      Gust: 'text-green-400',
+      Brilliance: 'text-purple-400',
+      Void: 'text-gray-400',
     };
     return colors[element] || 'text-gray-400';
   };
 
-  const getElementIcon = (element) => {
+  const getElementIcon = element => {
     const icons = {
-      'Inferno': '🜂',
-      'Submerged': '🜄',
-      'Steadfast': '🜃',
-      'Gust': '🜁',
-      'Brilliance': '⭘',
-      'Void': '▢'
+      Inferno: '🜂',
+      Submerged: '🜄',
+      Steadfast: '🜃',
+      Gust: '🜁',
+      Brilliance: '⭘',
+      Void: '▢',
     };
     return icons[element] || '✡⃝';
   };
@@ -210,7 +213,7 @@ const DeckSearch = () => {
           <span className="text-xs font-medium text-yellow-400">Featured</span>
         </div>
       )}
-      
+
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold mb-1">{deck.name}</h3>
@@ -299,7 +302,7 @@ const DeckSearch = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-6 text-sm">
           <div className="flex items-center gap-1">
             <BarChart3 className="w-4 h-4 text-green-400" />
@@ -363,7 +366,7 @@ const DeckSearch = () => {
                 type="text"
                 placeholder="Search decks..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -371,7 +374,9 @@ const DeckSearch = () => {
             {/* Element Filter */}
             <select
               value={filters.element}
-              onChange={(e) => setFilters({...filters, element: e.target.value})}
+              onChange={e =>
+                setFilters({ ...filters, element: e.target.value })
+              }
               className="px-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Elements</option>
@@ -383,12 +388,10 @@ const DeckSearch = () => {
               <option value="Void">▢ Void</option>
             </select>
 
-
-
             {/* Sort */}
             <select
               value={`${sortBy}-${sortOrder}`}
-              onChange={(e) => {
+              onChange={e => {
                 const [newSortBy, newSortOrder] = e.target.value.split('-');
                 setSortBy(newSortBy);
                 setSortOrder(newSortOrder);
@@ -407,14 +410,15 @@ const DeckSearch = () => {
           {/* View Mode Toggle */}
           <div className="flex items-center justify-between">
             <div className="text-sm text-secondary">
-              Showing {filteredDecks.length} deck{filteredDecks.length !== 1 ? 's' : ''}
+              Showing {filteredDecks.length} deck
+              {filteredDecks.length !== 1 ? 's' : ''}
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid' 
-                    ? 'bg-blue-600 text-white' 
+                  viewMode === 'grid'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
@@ -423,8 +427,8 @@ const DeckSearch = () => {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list' 
-                    ? 'bg-blue-600 text-white' 
+                  viewMode === 'list'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
@@ -437,13 +441,13 @@ const DeckSearch = () => {
         {/* Deck Results */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDecks.map((deck) => (
+            {filteredDecks.map(deck => (
               <DeckCard key={deck.id} deck={deck} />
             ))}
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredDecks.map((deck) => (
+            {filteredDecks.map(deck => (
               <DeckListItem key={deck.id} deck={deck} />
             ))}
           </div>
