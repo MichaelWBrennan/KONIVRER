@@ -207,7 +207,6 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
           </div>
           <div>
             <h2 className="text-xl font-bold">AI Deck Assistant</h2>
-
           </div>
         </div>
       </div>
