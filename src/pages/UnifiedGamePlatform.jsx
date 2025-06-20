@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, TrendingUp, Users, Zap, Database, Gamepad2, BarChart3, Package, Star, Trophy } from 'lucide-react';
+import {
+  Search,
+  TrendingUp,
+  Users,
+  Zap,
+  Database,
+  Gamepad2,
+  BarChart3,
+  Package,
+  Star,
+  Trophy,
+} from 'lucide-react';
 
 // Import existing components
 import CardViewer from '../components/CardViewer';
@@ -18,22 +29,61 @@ import BattlePass from './BattlePass';
 const UnifiedGamePlatform = () => {
   const [globalSearch, setGlobalSearch] = useState('');
   const [selectedFormat, setSelectedFormat] = useState('all');
-  
+
   // Sample deck data for components that need it
   const sampleDeck = {
     name: 'Sample Deck',
     cards: [
-      { id: 1, name: 'Lightning Bolt', cost: 1, elements: ['Fire'], rarity: 'Common', count: 4 },
-      { id: 2, name: 'Forest Guardian', cost: 3, elements: ['Nature'], rarity: 'Rare', count: 2 },
-      { id: 3, name: 'Mystic Shield', cost: 2, elements: ['Water'], rarity: 'Uncommon', count: 3 },
-    ]
+      {
+        id: 1,
+        name: 'Lightning Bolt',
+        cost: 1,
+        elements: ['Fire'],
+        rarity: 'Common',
+        count: 4,
+      },
+      {
+        id: 2,
+        name: 'Forest Guardian',
+        cost: 3,
+        elements: ['Nature'],
+        rarity: 'Rare',
+        count: 2,
+      },
+      {
+        id: 3,
+        name: 'Mystic Shield',
+        cost: 2,
+        elements: ['Water'],
+        rarity: 'Uncommon',
+        count: 3,
+      },
+    ],
   };
-  
+
   // Sample cards data
   const sampleCards = [
-    { id: 1, name: 'Lightning Bolt', cost: 1, elements: ['Fire'], rarity: 'Common' },
-    { id: 2, name: 'Forest Guardian', cost: 3, elements: ['Nature'], rarity: 'Rare' },
-    { id: 3, name: 'Mystic Shield', cost: 2, elements: ['Water'], rarity: 'Uncommon' },
+    {
+      id: 1,
+      name: 'Lightning Bolt',
+      cost: 1,
+      elements: ['Fire'],
+      rarity: 'Common',
+    },
+    {
+      id: 2,
+      name: 'Forest Guardian',
+      cost: 3,
+      elements: ['Nature'],
+      rarity: 'Rare',
+    },
+    {
+      id: 3,
+      name: 'Mystic Shield',
+      cost: 2,
+      elements: ['Water'],
+      rarity: 'Uncommon',
+    },
   ];
 
   // Platform statistics
@@ -70,7 +120,6 @@ const UnifiedGamePlatform = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8 space-y-8">
-        
         {/* Platform Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -115,14 +164,14 @@ const UnifiedGamePlatform = () => {
               <input
                 type="text"
                 value={globalSearch}
-                onChange={(e) => setGlobalSearch(e.target.value)}
+                onChange={e => setGlobalSearch(e.target.value)}
                 placeholder="Search cards, decks, players, or anything across all tools..."
                 className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
               />
             </div>
-            <select 
+            <select
               value={selectedFormat}
-              onChange={(e) => setSelectedFormat(e.target.value)}
+              onChange={e => setSelectedFormat(e.target.value)}
               className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
             >
               <option value="all">All Formats</option>
@@ -150,7 +199,11 @@ const UnifiedGamePlatform = () => {
             </div>
           </div>
           <div className="p-6">
-            <CardDatabase searchTerm={globalSearch} format={selectedFormat} cards={sampleCards} />
+            <CardDatabase
+              searchTerm={globalSearch}
+              format={selectedFormat}
+              cards={sampleCards}
+            />
           </div>
         </motion.div>
 
@@ -173,7 +226,7 @@ const UnifiedGamePlatform = () => {
               </div>
             </div>
             <div className="p-6">
-              <VisualDeckBuilder 
+              <VisualDeckBuilder
                 deck={sampleDeck}
                 onDeckChange={() => {}}
                 cards={sampleCards}
@@ -186,7 +239,9 @@ const UnifiedGamePlatform = () => {
             <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
               <div className="flex items-center space-x-3">
                 <BarChart3 className="w-6 h-6 text-green-400" />
-                <h2 className="text-2xl font-bold text-white">Deck Analytics</h2>
+                <h2 className="text-2xl font-bold text-white">
+                  Deck Analytics
+                </h2>
                 <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
                   Live Stats
                 </span>
@@ -229,7 +284,9 @@ const UnifiedGamePlatform = () => {
           <div className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 p-6 border-b border-white/20">
             <div className="flex items-center space-x-3">
               <TrendingUp className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-bold text-white">Meta Analysis & Market Data</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Meta Analysis & Market Data
+              </h2>
               <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
                 Real-time
               </span>
@@ -252,7 +309,9 @@ const UnifiedGamePlatform = () => {
             <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
               <div className="flex items-center space-x-3">
                 <Star className="w-6 h-6 text-orange-400" />
-                <h2 className="text-2xl font-bold text-white">Collection Manager</h2>
+                <h2 className="text-2xl font-bold text-white">
+                  Collection Manager
+                </h2>
                 <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
                   Personal
                 </span>
@@ -300,7 +359,6 @@ const UnifiedGamePlatform = () => {
             <AIAssistant />
           </div>
         </motion.div>
-
       </div>
     </div>
   );
