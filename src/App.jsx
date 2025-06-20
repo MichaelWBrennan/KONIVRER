@@ -20,6 +20,11 @@ import PlayerProfile from './components/PlayerProfile';
 import UnifiedTournaments from './pages/UnifiedTournaments';
 
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
+import GameSimulator from './pages/GameSimulator';
+import CardExplorer from './pages/CardExplorer';
+import DeckWorkshop from './pages/DeckWorkshop';
+import AnalyticsHub from './pages/AnalyticsHub';
+import CommunityTools from './pages/CommunityTools';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 
@@ -36,54 +41,51 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/rules" element={<Rules />} />
 
-                  {/* Unified Game Platform - All game functionality */}
+                  {/* Game Simulator - Direct link */}
+                  <Route path="/simulator" element={<GameSimulator />} />
+
+                  {/* Section Pages */}
+                  <Route path="/cards" element={<CardExplorer />} />
+                  <Route path="/cards/*" element={<CardExplorer />} />
+                  <Route path="/spoilers" element={<CardExplorer />} />
+                  
+                  <Route path="/decks" element={<DeckWorkshop />} />
+                  <Route path="/decks/*" element={<DeckWorkshop />} />
+                  <Route path="/collection" element={<DeckWorkshop />} />
+                  
+                  <Route path="/analytics" element={<AnalyticsHub />} />
+                  <Route path="/analytics/*" element={<AnalyticsHub />} />
+                  <Route path="/prices" element={<AnalyticsHub />} />
+                  
+                  <Route path="/battle-pass" element={<CommunityTools />} />
+                  <Route path="/ai-assistant" element={<CommunityTools />} />
+                  <Route path="/community" element={<CommunityTools />} />
+                  <Route path="/tools" element={<CommunityTools />} />
+
+                  {/* Legacy Game Platform - redirect to sections */}
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />
                   <Route path="/card/:cardId" element={<CardPage />} />
 
-                  {/* All game-related redirects to unified platform */}
-                  <Route
-                    path="/cards/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
-                  <Route
-                    path="/decks/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
+                  {/* Legacy redirects for backward compatibility */}
                   <Route
                     path="/market/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
-                  <Route
-                    path="/tools/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
-                  <Route
-                    path="/collection/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
-                  <Route
-                    path="/prices/*"
-                    element={<StreamlinedGamePlatform />}
-                  />
-                  <Route
-                    path="/spoilers/*"
-                    element={<StreamlinedGamePlatform />}
+                    element={<AnalyticsHub />}
                   />
                   <Route
                     path="/commanders/*"
-                    element={<StreamlinedGamePlatform />}
+                    element={<CardExplorer />}
                   />
                   <Route
                     path="/synergy/*"
-                    element={<StreamlinedGamePlatform />}
+                    element={<AnalyticsHub />}
                   />
                   <Route
                     path="/power/*"
-                    element={<StreamlinedGamePlatform />}
+                    element={<AnalyticsHub />}
                   />
                   <Route
                     path="/budget/*"
-                    element={<StreamlinedGamePlatform />}
+                    element={<AnalyticsHub />}
                   />
 
                   {/* Tournaments */}
