@@ -4,7 +4,6 @@ import {
   BookOpen,
   User,
   Users,
-  Search,
   Menu,
   X,
   Trophy,
@@ -47,7 +46,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const { user, logout, isAuthenticated, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
@@ -125,15 +124,6 @@ const Layout = ({ children }) => {
     }
   };
 
-  // Handle search
-  const handleSearch = e => {
-    if (e.key === 'Enter' && searchTerm.trim()) {
-      analytics.cardSearch(searchTerm.trim());
-      // Navigate to unified hub with search
-      window.location.href = `/hub?section=explore&tab=cards&search=${encodeURIComponent(searchTerm.trim())}`;
-    }
-  };
-
   // Handle mobile menu toggle
   const handleMobileMenuToggle = () => {
     const newState = !isMobileMenuOpen;
@@ -185,6 +175,28 @@ const Layout = ({ children }) => {
     return false;
   };
 
+  // Get current page title
+  const getCurrentPageTitle = () => {
+    const path = location.pathname;
+
+    // Home page
+    if (path === '/') return 'Home';
+
+    // Find matching navigation item
+    const activeNavItem = navigation.find(item => isActive(item));
+    if (activeNavItem) return activeNavItem.name;
+
+    // Fallback to path-based titles
+    if (path.startsWith('/hub')) return 'Game Platform';
+    if (path.startsWith('/tournaments')) return 'Tournaments';
+    if (path.startsWith('/judge-center')) return 'Judge Center';
+    if (path.startsWith('/profile')) return 'Profile';
+    if (path.startsWith('/settings')) return 'Settings';
+
+    // Default fallback
+    return 'KONIVRER';
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       {/* Header */}
@@ -232,23 +244,8 @@ const Layout = ({ children }) => {
               })}
             </nav>
 
-            {/* Search Bar & User Menu */}
+            {/* User Menu */}
             <div className="hidden lg:flex items-center gap-4">
-              <div className="relative">
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
-                  size={16}
-                />
-                <input
-                  type="text"
-                  placeholder="Search cards..."
-                  className="input pl-10 w-64 bg-tertiary border-secondary focus:border-accent-primary focus:shadow-lg focus:shadow-accent-primary/25 transition-all duration-200"
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                  onKeyDown={handleSearch}
-                />
-              </div>
-
               {/* User Authentication */}
               {isAuthenticated ? (
                 <div className="relative">
@@ -408,22 +405,6 @@ const Layout = ({ children }) => {
                 })}
               </nav>
 
-              {/* Mobile Search */}
-              <div className="mt-4 relative">
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
-                  size={16}
-                />
-                <input
-                  type="text"
-                  placeholder="Search cards..."
-                  className="input pl-10"
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                  onKeyDown={handleSearch}
-                />
-              </div>
-
               {/* Mobile User Menu */}
               <div className="mt-4 pt-4 border-t border-color">
                 {isAuthenticated ? (
@@ -487,6 +468,15 @@ const Layout = ({ children }) => {
           </div>
         )}
       </header>
+
+      {/* Page Header */}
+      <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 py-6">
+        <div className="container">
+          <h1 className="text-2xl md:text-3xl font-bold text-white">
+            {getCurrentPageTitle()}
+          </h1>
+        </div>
+      </div>
 
       {/* Main Content */}
       <main className="flex-1">{children}</main>
