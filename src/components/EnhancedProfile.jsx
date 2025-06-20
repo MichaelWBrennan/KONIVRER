@@ -508,7 +508,8 @@ const EnhancedProfile = () => {
               bgColor: 'bg-green-400/10',
               title: 'Created new deck: "Elemental Storm"',
               time: '5 days ago',
-              description: 'Fire/Water synergy deck for Standard format',
+              description:
+                'Fire/Water synergy deck with powerful elemental combinations',
             },
             {
               icon: Shield,
@@ -757,7 +758,6 @@ const EnhancedProfile = () => {
               deck={{
                 name: 'New Deck',
                 cards: [],
-                format: 'Standard',
                 element: 'Inferno',
               }}
               onDeckChange={newDeck => {
