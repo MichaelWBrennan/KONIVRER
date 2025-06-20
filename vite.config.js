@@ -135,6 +135,8 @@ export default defineConfig({
     open: false,
     cors: true,
     allowedHosts: [
+      'work-1-zdxxpwggngiwtevf.prod-runtime.all-hands.dev',
+      'work-2-zdxxpwggngiwtevf.prod-runtime.all-hands.dev',
       'work-1-aftjuljotnzzjgnm.prod-runtime.all-hands.dev',
       'work-2-aftjuljotnzzjgnm.prod-runtime.all-hands.dev',
       'work-1-qbftlrhmkqoatdem.prod-runtime.all-hands.dev',
@@ -181,6 +183,8 @@ export default defineConfig({
       'work-2-hhatbducqjfgault.prod-runtime.all-hands.dev',
       'work-1-xntztokfncmdkcut.prod-runtime.all-hands.dev',
       'work-2-xntztokfncmdkcut.prod-runtime.all-hands.dev',
+      'work-1-pqxcqixynhupwekz.prod-runtime.all-hands.dev',
+      'work-2-pqxcqixynhupwekz.prod-runtime.all-hands.dev',
       'localhost',
       '127.0.0.1'
     ]
