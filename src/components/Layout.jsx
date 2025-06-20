@@ -93,12 +93,7 @@ const Layout = ({ children }) => {
       icon: Trophy,
     });
 
-    // Community - social features and interaction
-    baseNavigation.push({
-      name: 'Community',
-      href: '/social',
-      icon: Users,
-    });
+
     // Judge Center - only for judges
     if (hasJudgeAccess()) {
       baseNavigation.push({
@@ -183,13 +178,7 @@ const Layout = ({ children }) => {
         location.pathname.startsWith('/analytics'))
     )
       return true;
-    if (
-      item.name === 'Community' &&
-      (location.pathname.startsWith('/social') ||
-        location.pathname.startsWith('/hall-of-fame') ||
-        location.pathname.startsWith('/store-locator'))
-    )
-      return true;
+
 
     // Check main path for other items
     if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
