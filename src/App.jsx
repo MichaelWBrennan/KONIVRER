@@ -21,6 +21,7 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
 import CardPage from './pages/CardPage';
+import Rules from './pages/Rules';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 <Routes>
                   {/* Core Pages */}
                   <Route path="/" element={<Home />} />
+                  <Route path="/rules" element={<Rules />} />
 
                   {/* Unified Game Platform - All game functionality */}
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />

@@ -78,6 +78,13 @@ const Layout = ({ children }) => {
       baseNavigation.push({ name: 'Home', href: '/', icon: Home });
     }
 
+    // Rules - game rules and reference
+    baseNavigation.push({
+      name: 'Rules',
+      href: '/rules',
+      icon: BookOpen,
+    });
+
     // Game Platform - unified cards, decks, market, and tools system
     baseNavigation.push({
       name: 'Game Platform',

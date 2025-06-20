@@ -1,8 +1,16 @@
-import { useState } from 'react';
-import { CheckCircle, XCircle, AlertTriangle, Info } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { CheckCircle, XCircle, AlertTriangle, Info, Book } from 'lucide-react';
 
 const DeckValidator = ({ deck, format = 'standard' }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [rulesData, setRulesData] = useState(null);
+
+  useEffect(() => {
+    // Load rules data for validation
+    import('../data/rules.json')
+      .then(data => setRulesData(data.gameRules))
+      .catch(err => console.error('Failed to load rules:', err));
+  }, []);
 
   // Format rules
   const formatRules = {
