@@ -205,58 +205,67 @@ const DeckSearch = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
-      className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all duration-300"
+      className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all duration-300 relative"
     >
+      {/* Featured Badge */}
       {deck.featured && (
-        <div className="flex items-center gap-2 mb-3">
-          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-          <span className="text-xs font-medium text-yellow-400">Featured</span>
+        <div className="absolute top-4 right-4">
+          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1">
+            <Star className="w-3 h-3 text-yellow-400 fill-current" />
+            <span className="text-xs font-medium text-yellow-400">
+              Featured
+            </span>
+          </div>
         </div>
       )}
 
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <h3 className="text-lg font-bold mb-1">{deck.name}</h3>
-          <div className="flex items-center gap-2 text-sm text-secondary">
-            <User className="w-4 h-4" />
-            <span>{deck.author}</span>
+      {/* Header with Element and Stats */}
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <div className={`text-2xl ${getElementColor(deck.element)}`}>
+              {getElementIcon(deck.element)}
+            </div>
+            <div>
+              <h3 className="text-lg font-bold">{deck.name}</h3>
+              <div className="flex items-center gap-2 text-sm text-secondary">
+                <User className="w-3 h-3" />
+                <span>{deck.author}</span>
+                <span>•</span>
+                <Calendar className="w-3 h-3" />
+                <span>{deck.lastUpdated}</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className={`text-2xl ${getElementColor(deck.element)}`}>
-          {getElementIcon(deck.element)}
         </div>
       </div>
 
+      {/* Stats Row - Integrated into card */}
+      <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg">
+        <div className="flex items-center gap-1 text-sm">
+          <BarChart3 className="w-4 h-4 text-green-400" />
+          <span className="font-medium text-green-400">{deck.winRate}%</span>
+        </div>
+        <div className="flex items-center gap-1 text-sm">
+          <Star className="w-4 h-4 text-yellow-400" />
+          <span className="font-medium">{deck.rating}/5</span>
+        </div>
+        <div className="flex items-center gap-1 text-sm">
+          <Heart className="w-4 h-4 text-red-400" />
+          <span className="font-medium">{deck.likes}</span>
+        </div>
+        <div className="flex items-center gap-1 text-sm">
+          <Eye className="w-4 h-4 text-blue-400" />
+          <span className="font-medium">{deck.views}</span>
+        </div>
+      </div>
+
+      {/* Description */}
       <p className="text-secondary text-sm mb-4 line-clamp-2">
         {deck.description}
       </p>
 
-      <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-        <div className="flex items-center gap-2">
-          <BarChart3 className="w-4 h-4 text-green-400" />
-          <span>{deck.winRate}% WR</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Star className="w-4 h-4 text-yellow-400" />
-          <span>{deck.rating}/5</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Heart className="w-4 h-4 text-red-400" />
-          <span>{deck.likes}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Eye className="w-4 h-4 text-blue-400" />
-          <span>{deck.views}</span>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between text-xs text-secondary mb-4">
-        <span className="flex items-center gap-1">
-          <Calendar className="w-3 h-3" />
-          {deck.lastUpdated}
-        </span>
-      </div>
-
+      {/* Action Buttons */}
       <div className="flex gap-2">
         <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
           <Eye className="w-4 h-4" />
@@ -279,18 +288,18 @@ const DeckSearch = () => {
       className="bg-card rounded-lg p-4 border border-color hover:border-blue-500/50 transition-all duration-300"
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-1">
           <div className={`text-2xl ${getElementColor(deck.element)}`}>
             {getElementIcon(deck.element)}
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
               <h3 className="font-bold">{deck.name}</h3>
               {deck.featured && (
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
               )}
             </div>
-            <div className="flex items-center gap-4 text-sm text-secondary">
+            <div className="flex items-center gap-4 text-sm text-secondary mb-2">
               <span className="flex items-center gap-1">
                 <User className="w-3 h-3" />
                 {deck.author}
@@ -300,29 +309,31 @@ const DeckSearch = () => {
                 {deck.lastUpdated}
               </span>
             </div>
+            {/* Stats integrated into the card */}
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded">
+                <BarChart3 className="w-3 h-3 text-green-400" />
+                <span className="font-medium text-green-400">
+                  {deck.winRate}%
+                </span>
+              </div>
+              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded">
+                <Star className="w-3 h-3 text-yellow-400" />
+                <span className="font-medium">{deck.rating}/5</span>
+              </div>
+              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-1 rounded">
+                <Heart className="w-3 h-3 text-red-400" />
+                <span className="font-medium">{deck.likes}</span>
+              </div>
+              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-1 rounded">
+                <Eye className="w-3 h-3 text-blue-400" />
+                <span className="font-medium">{deck.views}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 text-sm">
-          <div className="flex items-center gap-1">
-            <BarChart3 className="w-4 h-4 text-green-400" />
-            <span>{deck.winRate}%</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-400" />
-            <span>{deck.rating}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Heart className="w-4 h-4 text-red-400" />
-            <span>{deck.likes}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Eye className="w-4 h-4 text-blue-400" />
-            <span>{deck.views}</span>
-          </div>
-        </div>
-
-        <div className="flex gap-2">
+        <div className="flex gap-2 ml-4">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
             <Eye className="w-4 h-4" />
             View
@@ -348,9 +359,6 @@ const DeckSearch = () => {
               <Search className="w-8 h-8 text-blue-500" />
               <h1 className="text-4xl font-bold">Deck Search</h1>
             </div>
-            <p className="text-secondary text-lg">
-              Discover and explore community-created decks
-            </p>
           </div>
         </div>
       </div>
