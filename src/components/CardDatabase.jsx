@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, Grid, List, Eye, Plus, Heart, Database } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Grid,
+  List,
+  Eye,
+  Plus,
+  Heart,
+  Database,
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
@@ -336,7 +345,8 @@ const CardDatabase = ({
             </div>
             {filters.set === 'all' && (
               <p className="mt-2 text-yellow-300 text-sm font-medium">
-                💡 Please select a card set above to start browsing cards. This helps organize the vast collection!
+                💡 Please select a card set above to start browsing cards. This
+                helps organize the vast collection!
               </p>
             )}
           </div>
@@ -409,7 +419,8 @@ const CardDatabase = ({
             </span>
           ) : (
             <>
-              Showing {filteredCards.length} of {cards.filter(card => card.set === filters.set).length} cards
+              Showing {filteredCards.length} of{' '}
+              {cards.filter(card => card.set === filters.set).length} cards
               <span className="ml-2 text-purple-300">from {filters.set}</span>
             </>
           )}
@@ -443,22 +454,35 @@ const CardDatabase = ({
             {filters.set === 'all' ? (
               <>
                 <Database size={64} className="mx-auto mb-6 text-yellow-400" />
-                <h3 className="text-2xl font-bold mb-4 text-white">Welcome to the Card Database!</h3>
+                <h3 className="text-2xl font-bold mb-4 text-white">
+                  Welcome to the Card Database!
+                </h3>
                 <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/50 rounded-xl p-8 max-w-2xl mx-auto">
                   <p className="text-lg text-purple-200 mb-4">
-                    🎯 <strong>Search by Set</strong> is the primary way to explore cards
+                    🎯 <strong>Search by Set</strong> is the primary way to
+                    explore cards
                   </p>
                   <p className="text-purple-300 mb-6">
-                    Choose a card set from the dropdown above to start browsing. Each set contains unique cards with different themes and mechanics.
+                    Choose a card set from the dropdown above to start browsing.
+                    Each set contains unique cards with different themes and
+                    mechanics.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="bg-white/10 rounded-lg p-4">
-                      <h4 className="font-semibold text-white mb-2">📚 Organized Collections</h4>
-                      <p className="text-gray-300">Cards are grouped by sets for easier discovery</p>
+                      <h4 className="font-semibold text-white mb-2">
+                        📚 Organized Collections
+                      </h4>
+                      <p className="text-gray-300">
+                        Cards are grouped by sets for easier discovery
+                      </p>
                     </div>
                     <div className="bg-white/10 rounded-lg p-4">
-                      <h4 className="font-semibold text-white mb-2">🔍 Advanced Filtering</h4>
-                      <p className="text-gray-300">Refine your search within each set</p>
+                      <h4 className="font-semibold text-white mb-2">
+                        🔍 Advanced Filtering
+                      </h4>
+                      <p className="text-gray-300">
+                        Refine your search within each set
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -466,7 +490,9 @@ const CardDatabase = ({
             ) : (
               <>
                 <Search size={48} className="mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No cards found in {filters.set}</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  No cards found in {filters.set}
+                </h3>
                 <p>Try adjusting your search terms or other filters</p>
               </>
             )}
