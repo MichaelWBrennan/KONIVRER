@@ -1,0 +1,118 @@
+{
+  "gameRules": {
+    "basicRules": {
+      "title": "Basic Game Rules",
+      "sections": [
+        {
+          "id": "setup",
+          "title": "Game Setup",
+          "content": "Rules for setting up a game will be added here based on the provided document."
+        },
+        {
+          "id": "turn-structure",
+          "title": "Turn Structure",
+          "content": "Turn structure rules will be added here based on the provided document."
+        },
+        {
+          "id": "winning",
+          "title": "Winning the Game",
+          "content": "Win conditions will be added here based on the provided document."
+        }
+      ]
+    },
+    "cardTypes": {
+      "title": "Card Types & Mechanics",
+      "sections": [
+        {
+          "id": "elementals",
+          "title": "Elemental Cards",
+          "content": "Rules for Elemental cards will be added here."
+        },
+        {
+          "id": "flags",
+          "title": "Flag Cards",
+          "content": "Rules for Flag cards will be added here."
+        },
+        {
+          "id": "keywords",
+          "title": "Keywords",
+          "content": "Keyword abilities will be defined here."
+        }
+      ]
+    },
+    "deckBuilding": {
+      "title": "Deck Building Rules",
+      "sections": [
+        {
+          "id": "deck-size",
+          "title": "Deck Size Requirements",
+          "content": "Minimum and maximum deck size rules will be added here."
+        },
+        {
+          "id": "element-restrictions",
+          "title": "Element Restrictions",
+          "content": "Rules about element combinations and restrictions will be added here."
+        },
+        {
+          "id": "card-limits",
+          "title": "Card Copy Limits",
+          "content": "Rules about how many copies of each card are allowed will be added here."
+        }
+      ]
+    },
+    "elements": {
+      "title": "Elements System",
+      "elements": [
+        {
+          "name": "Quintessence",
+          "symbol": "⚪",
+          "description": "The pure element that can combine with others."
+        },
+        {
+          "name": "Inferno",
+          "symbol": "🔥",
+          "description": "Fire-based element representing destruction and power."
+        },
+        {
+          "name": "Submerged",
+          "symbol": "💧",
+          "description": "Water-based element representing flow and adaptation."
+        },
+        {
+          "name": "Steadfast",
+          "symbol": "🌱",
+          "description": "Earth-based element representing growth and stability."
+        },
+        {
+          "name": "Brilliance",
+          "symbol": "⚡",
+          "description": "Light-based element representing speed and clarity."
+        },
+        {
+          "name": "Void",
+          "symbol": "🌑",
+          "description": "Dark-based element representing mystery and negation."
+        }
+      ]
+    },
+    "keywords": {
+      "title": "Keyword Abilities",
+      "keywords": [
+        {
+          "name": "VOID",
+          "description": "Keyword ability description will be added here."
+        },
+        {
+          "name": "SUBMERGED",
+          "description": "Keyword ability description will be added here."
+        },
+        {
+          "name": "BRILLIANCE",
+          "description": "Keyword ability description will be added here."
+        }
+      ]
+    }
+  },
+  "lastUpdated": "2025-06-20",
+  "version": "1.0.0"
+}
