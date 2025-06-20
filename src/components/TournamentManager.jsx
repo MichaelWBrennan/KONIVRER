@@ -240,8 +240,6 @@ const TournamentManager = () => {
             />
           </div>
 
-
-
           <div>
             <label className="block text-sm font-medium text-primary mb-2">
               Date
@@ -571,8 +569,6 @@ const TournamentManager = () => {
             <div className="text-sm text-secondary">Total Prize Pool</div>
           </div>
         </div>
-
-
       </div>
     </div>
   );

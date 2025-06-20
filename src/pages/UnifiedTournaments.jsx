@@ -449,7 +449,6 @@ const UnifiedTournaments = () => {
               </div>
 
               <div className="flex flex-wrap gap-2">
-
                 <select
                   value={filters.status}
                   onChange={e =>
@@ -765,8 +764,6 @@ const UnifiedTournaments = () => {
                     ))}
                   </div>
                 </div>
-
-
               </div>
               <div className="mt-4 text-center">
                 <Link

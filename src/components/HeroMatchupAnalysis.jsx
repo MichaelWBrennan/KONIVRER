@@ -84,8 +84,6 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
       const [minutes, seconds] = match.duration.split(':').map(Number);
       avgDuration += minutes + seconds / 60;
 
-
-
       // Add to recent trend (last 10 matches)
       recentTrend.push({
         date: match.tournament.date,
@@ -207,7 +205,6 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
               <option value="90d">Last 90 Days</option>
               <option value="365d">Last Year</option>
             </select>
-
           </div>
         </div>
 
@@ -378,8 +375,6 @@ const HeroMatchupAnalysis = ({ hero1, hero2, matches = [] }) => {
           ))}
         </div>
       </div>
-
-
 
       {/* Win Rate Visualization */}
       <div className="bg-gray-800 rounded-lg p-6">

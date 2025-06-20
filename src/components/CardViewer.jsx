@@ -55,8 +55,6 @@ const CardViewer = ({
     return elementMap[element] || { symbol: element, name: element };
   };
 
-
-
   // Mock pricing data
   const pricing = {
     USD: '$0.25',
@@ -167,8 +165,6 @@ const CardViewer = ({
                 Unknown Artist
               </span>
             </div>
-
-
 
             {/* Set Information */}
             <div className="bg-gray-50 rounded-lg p-4">
