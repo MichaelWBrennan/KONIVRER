@@ -37,13 +37,13 @@ const RulesCenter = () => {
   // Define the recommended learning order
   const sectionOrder = [
     'overview',
-    'setup', 
+    'setup',
     'deckBuilding',
     'turnStructure',
     'playingCards',
     'combat',
     'elementsAndKeywords',
-    'quickReference'
+    'quickReference',
   ];
 
   const getCurrentSectionIndex = () => {
@@ -63,8 +63,6 @@ const RulesCenter = () => {
       setActiveSection(sectionOrder[currentIndex - 1]);
     }
   };
-
-
 
   if (!rulesData) {
     return (
@@ -171,7 +169,9 @@ const RulesCenter = () => {
                   Learning Path
                 </h4>
                 <div className="text-sm text-gray-300 space-y-2">
-                  <div className="text-xs text-gray-400">Recommended order for new players:</div>
+                  <div className="text-xs text-gray-400">
+                    Recommended order for new players:
+                  </div>
                   <div className="space-y-1">
                     <div className="text-blue-300">1. Game Overview</div>
                     <div className="text-blue-300">2. Setup & Game Zones</div>
@@ -270,14 +270,16 @@ const RulesCenter = () => {
                         <ChevronLeft className="w-4 h-4" />
                         Previous
                       </button>
-                      
+
                       <div className="text-sm text-gray-400">
                         {getCurrentSectionIndex() + 1} of {sectionOrder.length}
                       </div>
-                      
+
                       <button
                         onClick={goToNextSection}
-                        disabled={getCurrentSectionIndex() === sectionOrder.length - 1}
+                        disabled={
+                          getCurrentSectionIndex() === sectionOrder.length - 1
+                        }
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                           getCurrentSectionIndex() === sectionOrder.length - 1
                             ? 'text-gray-500 cursor-not-allowed'

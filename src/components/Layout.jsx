@@ -34,6 +34,8 @@ import {
   Link as LinkIcon,
   AlertTriangle,
   Activity,
+  Gamepad2,
+  Wrench,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -49,6 +51,12 @@ const Layout = ({ children }) => {
 
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showCardExplorerDropdown, setShowCardExplorerDropdown] =
+    useState(false);
+  const [showDeckWorkshopDropdown, setShowDeckWorkshopDropdown] =
+    useState(false);
+  const [showAnalyticsDropdown, setShowAnalyticsDropdown] = useState(false);
+  const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
 
   // Helper functions for role-based access
   const hasJudgeAccess = () => {
@@ -69,7 +77,7 @@ const Layout = ({ children }) => {
     return location.pathname === '/';
   };
 
-  // Simplified flat navigation structure
+  // Navigation structure with dropdowns
   const getNavigation = () => {
     const baseNavigation = [];
 
@@ -85,11 +93,63 @@ const Layout = ({ children }) => {
       icon: BookOpen,
     });
 
-    // Game Platform - unified cards, decks, market, and tools system
+    // Card Explorer dropdown
     baseNavigation.push({
-      name: 'Game Platform',
-      href: '/hub',
+      name: 'Card Explorer',
       icon: Database,
+      dropdown: true,
+      items: [
+        { name: 'Card Database', href: '/cards' },
+        { name: 'Advanced Search', href: '/cards/search' },
+        { name: 'Card Sets', href: '/cards/sets' },
+        { name: 'Spoilers', href: '/spoilers' },
+      ],
+    });
+
+    // Deck Workshop dropdown
+    baseNavigation.push({
+      name: 'Deck Workshop',
+      icon: Wrench,
+      dropdown: true,
+      items: [
+        { name: 'Deck Builder', href: '/decks/builder' },
+        { name: 'My Decks', href: '/decks' },
+        { name: 'Deck Stats', href: '/decks/stats' },
+        { name: 'Collection', href: '/collection' },
+      ],
+    });
+
+    // Use Simulator - direct link
+    baseNavigation.push({
+      name: 'use simulator',
+      href: '/simulator',
+      icon: Gamepad2,
+    });
+
+    // Analytics Hub dropdown
+    baseNavigation.push({
+      name: 'Analytics Hub',
+      icon: BarChart3,
+      dropdown: true,
+      items: [
+        { name: 'Meta Analysis', href: '/analytics/meta' },
+        { name: 'Market Data', href: '/analytics/market' },
+        { name: 'Price Trends', href: '/prices' },
+        { name: 'Tournament Stats', href: '/analytics/tournaments' },
+      ],
+    });
+
+    // Community & Tools dropdown
+    baseNavigation.push({
+      name: 'Community & Tools',
+      icon: Users,
+      dropdown: true,
+      items: [
+        { name: 'Battle Pass', href: '/battle-pass' },
+        { name: 'AI Assistant', href: '/ai-assistant' },
+        { name: 'Community', href: '/community' },
+        { name: 'Tools', href: '/tools' },
+      ],
     });
 
     // Tournaments - competitive play with live brackets, results, and replays
@@ -139,45 +199,24 @@ const Layout = ({ children }) => {
   };
 
   const isActive = item => {
-    const path = item.href;
+    // For dropdown items, check if any of their sub-items match
+    if (item.dropdown && item.items) {
+      return item.items.some(subItem =>
+        location.pathname.startsWith(subItem.href.split('?')[0]),
+      );
+    }
 
-    // Exact match for home
-    if (path === '/' && location.pathname === '/') return true;
+    // For regular items with href
+    if (item.href) {
+      const path = item.href;
 
-    // For grouped navigation items, check if current path matches the group's functionality
-    if (
-      item.name === 'Game Hub' &&
-      (location.pathname.startsWith('/hub') ||
-        location.pathname.startsWith('/game-hub') ||
-        location.pathname.startsWith('/cards') ||
-        location.pathname.startsWith('/card-database') ||
-        location.pathname.startsWith('/decklists') ||
-        location.pathname.startsWith('/deckbuilder') ||
-        location.pathname.startsWith('/deck-discovery') ||
-        location.pathname.startsWith('/market') ||
-        location.pathname.startsWith('/prices') ||
-        location.pathname.startsWith('/metagame') ||
-        location.pathname.startsWith('/budget') ||
-        location.pathname.startsWith('/pricing') ||
-        location.pathname.startsWith('/spoilers') ||
-        location.pathname.startsWith('/synergy') ||
-        location.pathname.startsWith('/collection') ||
-        location.pathname.startsWith('/portfolio'))
-    )
-      return true;
+      // Exact match for home
+      if (path === '/' && location.pathname === '/') return true;
 
-    if (
-      item.name === 'Tournaments' &&
-      (location.pathname.startsWith('/tournaments') ||
-        location.pathname.startsWith('/events') ||
-        location.pathname.startsWith('/leaderboards') ||
-        location.pathname.startsWith('/analytics'))
-    )
-      return true;
-
-    // Check main path for other items
-    if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
-      return true;
+      // Check main path for other items
+      if (path !== '/' && location.pathname.startsWith(path.split('?')[0]))
+        return true;
+    }
 
     return false;
   };
@@ -194,7 +233,19 @@ const Layout = ({ children }) => {
     if (activeNavItem) return activeNavItem.name;
 
     // Fallback to path-based titles
-    if (path.startsWith('/hub')) return 'Game Platform';
+    if (path.startsWith('/simulator')) return 'use simulator';
+    if (path.startsWith('/cards')) return 'Card Explorer';
+    if (path.startsWith('/decks') || path.startsWith('/collection'))
+      return 'Deck Workshop';
+    if (path.startsWith('/analytics') || path.startsWith('/prices'))
+      return 'Analytics Hub';
+    if (
+      path.startsWith('/battle-pass') ||
+      path.startsWith('/ai-assistant') ||
+      path.startsWith('/community') ||
+      path.startsWith('/tools')
+    )
+      return 'Community & Tools';
     if (path.startsWith('/tournaments')) return 'Tournaments';
     if (path.startsWith('/judge-center')) return 'Judge Center';
     if (path.startsWith('/profile')) return 'Profile';
@@ -230,6 +281,104 @@ const Layout = ({ children }) => {
                 const Icon = item.icon;
                 const isItemActive = isActive(item);
 
+                // Handle dropdown items
+                if (item.dropdown) {
+                  return (
+                    <div key={item.name} className="relative">
+                      <button
+                        className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                          isItemActive
+                            ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
+                            : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
+                        }`}
+                        onMouseEnter={() => {
+                          if (item.name === 'Card Explorer')
+                            setShowCardExplorerDropdown(true);
+                          if (item.name === 'Deck Workshop')
+                            setShowDeckWorkshopDropdown(true);
+                          if (item.name === 'Analytics Hub')
+                            setShowAnalyticsDropdown(true);
+                          if (item.name === 'Community & Tools')
+                            setShowCommunityDropdown(true);
+                        }}
+                        onMouseLeave={() => {
+                          setTimeout(() => {
+                            if (item.name === 'Card Explorer')
+                              setShowCardExplorerDropdown(false);
+                            if (item.name === 'Deck Workshop')
+                              setShowDeckWorkshopDropdown(false);
+                            if (item.name === 'Analytics Hub')
+                              setShowAnalyticsDropdown(false);
+                            if (item.name === 'Community & Tools')
+                              setShowCommunityDropdown(false);
+                          }, 150);
+                        }}
+                      >
+                        <Icon
+                          size={16}
+                          className="transition-transform duration-200 group-hover:scale-110"
+                        />
+                        {item.name}
+                        <ChevronDown size={12} />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {((item.name === 'Card Explorer' &&
+                        showCardExplorerDropdown) ||
+                        (item.name === 'Deck Workshop' &&
+                          showDeckWorkshopDropdown) ||
+                        (item.name === 'Analytics Hub' &&
+                          showAnalyticsDropdown) ||
+                        (item.name === 'Community & Tools' &&
+                          showCommunityDropdown)) && (
+                        <div
+                          className="absolute top-full left-0 mt-1 w-48 bg-card border border-color rounded-lg shadow-lg z-50"
+                          onMouseEnter={() => {
+                            if (item.name === 'Card Explorer')
+                              setShowCardExplorerDropdown(true);
+                            if (item.name === 'Deck Workshop')
+                              setShowDeckWorkshopDropdown(true);
+                            if (item.name === 'Analytics Hub')
+                              setShowAnalyticsDropdown(true);
+                            if (item.name === 'Community & Tools')
+                              setShowCommunityDropdown(true);
+                          }}
+                          onMouseLeave={() => {
+                            if (item.name === 'Card Explorer')
+                              setShowCardExplorerDropdown(false);
+                            if (item.name === 'Deck Workshop')
+                              setShowDeckWorkshopDropdown(false);
+                            if (item.name === 'Analytics Hub')
+                              setShowAnalyticsDropdown(false);
+                            if (item.name === 'Community & Tools')
+                              setShowCommunityDropdown(false);
+                          }}
+                        >
+                          <div className="py-2">
+                            {item.items.map(subItem => (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.href}
+                                className="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-hover transition-colors"
+                                onClick={() => {
+                                  handleNavClick(subItem.name, subItem.href);
+                                  setShowCardExplorerDropdown(false);
+                                  setShowDeckWorkshopDropdown(false);
+                                  setShowAnalyticsDropdown(false);
+                                  setShowCommunityDropdown(false);
+                                }}
+                              >
+                                {subItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                // Handle regular items
                 return (
                   <Link
                     key={item.name}
@@ -391,6 +540,40 @@ const Layout = ({ children }) => {
                   const Icon = item.icon;
                   const isItemActive = isActive(item);
 
+                  // Handle dropdown items in mobile
+                  if (item.dropdown) {
+                    return (
+                      <div key={item.name} className="space-y-1">
+                        <div
+                          className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium ${
+                            isItemActive
+                              ? 'bg-accent-primary text-white'
+                              : 'text-secondary'
+                          }`}
+                        >
+                          <Icon size={16} />
+                          {item.name}
+                        </div>
+                        <div className="ml-6 space-y-1">
+                          {item.items.map(subItem => (
+                            <Link
+                              key={subItem.name}
+                              to={subItem.href}
+                              className="block px-3 py-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-md transition-colors"
+                              onClick={() => {
+                                handleNavClick(subItem.name, subItem.href);
+                                setIsMobileMenuOpen(false);
+                              }}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Handle regular items
                   return (
                     <Link
                       key={item.name}
