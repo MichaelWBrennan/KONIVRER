@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showCardExplorerDropdown, setShowCardExplorerDropdown] = useState(false);
   const [showDeckWorkshopDropdown, setShowDeckWorkshopDropdown] = useState(false);
-  const [showMyCollectionDropdown, setShowMyCollectionDropdown] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showAnalyticsDropdown, setShowAnalyticsDropdown] = useState(false);
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
 
@@ -123,15 +123,17 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
     });
 
-    // My Collection dropdown - combines personal features
+    // Profile dropdown - combines personal features and profile management
     baseNavigation.push({
-      name: 'My Collection',
-      icon: Package,
+      name: 'Profile',
+      icon: User,
       dropdown: true,
       items: [
+        { name: 'My Profile', href: '/profile' },
         { name: 'My Decks', href: '/decks' },
         { name: 'Collection', href: '/collection' },
         { name: 'Battle Pass', href: '/battle-pass' },
+        { name: 'Settings', href: '/profile?tab=settings' },
       ]
     });
 
@@ -294,7 +296,7 @@ const Layout = ({ children }) => {
                         onMouseEnter={() => {
                           if (item.name === 'Card Explorer') setShowCardExplorerDropdown(true);
                           if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(true);
-                          if (item.name === 'My Collection') setShowMyCollectionDropdown(true);
+                          if (item.name === 'Profile') setShowProfileDropdown(true);
                           if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(true);
                           if (item.name === 'Community & Tools') setShowCommunityDropdown(true);
                         }}
@@ -302,7 +304,7 @@ const Layout = ({ children }) => {
                           setTimeout(() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(false);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(false);
-                            if (item.name === 'My Collection') setShowMyCollectionDropdown(false);
+                            if (item.name === 'Profile') setShowProfileDropdown(false);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(false);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(false);
                           }, 150);
@@ -319,7 +321,7 @@ const Layout = ({ children }) => {
                       {/* Dropdown Menu */}
                       {((item.name === 'Card Explorer' && showCardExplorerDropdown) ||
                         (item.name === 'Deck Workshop' && showDeckWorkshopDropdown) ||
-                        (item.name === 'My Collection' && showMyCollectionDropdown) ||
+                        (item.name === 'Profile' && showProfileDropdown) ||
                         (item.name === 'Analytics Hub' && showAnalyticsDropdown) ||
                         (item.name === 'Community & Tools' && showCommunityDropdown)) && (
                         <div 
@@ -327,14 +329,14 @@ const Layout = ({ children }) => {
                           onMouseEnter={() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(true);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(true);
-                            if (item.name === 'My Collection') setShowMyCollectionDropdown(true);
+                            if (item.name === 'Profile') setShowProfileDropdown(true);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(true);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(true);
                           }}
                           onMouseLeave={() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(false);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(false);
-                            if (item.name === 'My Collection') setShowMyCollectionDropdown(false);
+                            if (item.name === 'Profile') setShowProfileDropdown(false);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(false);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(false);
                           }}
