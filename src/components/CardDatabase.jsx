@@ -315,14 +315,14 @@ const CardDatabase = ({
             </div>
           </div>
 
-          {/* Set Selector - Required and Prominent */}
+          {/* Set Selector - Prominent */}
           <div className="mt-4 mb-4">
             <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2"></label>
             <div className="relative">
               <select
                 value={filters.set}
                 onChange={e => setFilters({ ...filters, set: e.target.value })}
-                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border-3 border-yellow-400/70 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/30 shadow-lg"
+                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border border-blue-400/50 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/30 shadow-lg"
               >
                 <option value="all" className="text-black bg-white">
                   Select a Card Set
@@ -337,13 +337,7 @@ const CardDatabase = ({
                   </option>
                 ))}
               </select>
-              {filters.set === 'all' && (
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                  <div className="bg-yellow-400/20 border border-yellow-400/50 rounded-lg px-3 py-1 text-yellow-300 text-sm font-medium animate-pulse">
-                    Required
-                  </div>
-                </div>
-              )}
+              {/* "Required" text and yellow image removed */}
             </div>
           </div>
 
