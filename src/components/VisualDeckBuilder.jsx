@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Plus,
   Minus,
@@ -8,14 +8,28 @@ import {
   Download,
   Upload,
   Share2,
+  AlertTriangle,
+  CheckCircle,
+  Book,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import rulesEngine from '../utils/rulesEngine';
+import RuleTooltip from './RuleTooltip';
 
 const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
   const [viewMode, setViewMode] = useState('gallery'); // 'gallery' or 'list'
   const [showStats, setShowStats] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [deckTest, setDeckTest] = useState({ hand: [], library: [] });
+  const [deckValidation, setDeckValidation] = useState(null);
+
+  // Validate deck whenever it changes
+  useEffect(() => {
+    if (deck && deck.cards) {
+      const validation = rulesEngine.validateDeck(deck);
+      setDeckValidation(validation);
+    }
+  }, [deck]);
 
   const addCardToDeck = card => {
     const existingCard = deck.cards.find(c => c.id === card.id);
