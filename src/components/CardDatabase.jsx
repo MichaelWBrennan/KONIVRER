@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
   Filter,
@@ -10,18 +11,18 @@ import {
   Database,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
 
 const CardDatabase = ({
   cards: propCards,
   searchCriteria,
   showSearchInterface = true,
+  onCardClick,
 }) => {
+  const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCard, setSelectedCard] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
   const [filters, setFilters] = useState({
     rarity: 'all',
@@ -133,7 +134,9 @@ const CardDatabase = ({
       exit={{ opacity: 0, scale: 0.9 }}
       whileHover={{ scale: 1.02 }}
       className={`relative bg-white rounded-lg border-2 p-4 cursor-pointer transition-all duration-200 hover:shadow-lg ${getRarityColor(card.rarity)}`}
-      onClick={() => setSelectedCard(card)}
+      onClick={() =>
+        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)
+      }
     >
       {/* Card Header */}
       <div className="flex items-start justify-between mb-3">
@@ -226,7 +229,9 @@ const CardDatabase = ({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow cursor-pointer"
-      onClick={() => setSelectedCard(card)}
+      onClick={() =>
+        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)
+      }
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -506,20 +511,6 @@ const CardDatabase = ({
             )}
           </div>
         </div>
-      )}
-
-      {/* Card Detail Modal */}
-      {selectedCard && (
-        <CardViewer
-          card={selectedCard}
-          onClose={() => setSelectedCard(null)}
-          onAddToDeck={() => {
-            // Handle add to deck
-            console.log('Add to deck:', selectedCard.name);
-          }}
-          isFavorite={favorites.has(selectedCard.id)}
-          onToggleFavorite={() => toggleFavorite(selectedCard.id)}
-        />
       )}
     </div>
   );
