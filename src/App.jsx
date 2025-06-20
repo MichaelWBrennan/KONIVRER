@@ -7,6 +7,7 @@ import {
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
+import { SetProvider } from './contexts/SetContext';
 import { Layout } from './components/Layout';
 import Home from './pages/Home';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -25,8 +26,9 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <DataProvider>
-          <Router>
+        <SetProvider>
+          <DataProvider>
+            <Router>
             <Layout>
               <Routes>
                 {/* Core Pages */}
@@ -77,8 +79,9 @@ function App() {
                 <Route path="/admin" element={<AdminPanel />} />
               </Routes>
             </Layout>
-          </Router>
-        </DataProvider>
+            </Router>
+          </DataProvider>
+        </SetProvider>
       </AuthProvider>
     </ErrorBoundary>
   );
