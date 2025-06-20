@@ -15,7 +15,13 @@
       "construction": {
         "title": "Deck Construction",
         "content": "Every deck must contain exactly 40 cards plus 1 Flag. The Flag determines your deck's elemental identity and doesn't count toward the 40-card limit. Deck composition: 25 Common (🜠) cards, 13 Uncommon (☽) cards, 2 Rare (☉) cards. Maximum 1 copy of any card (singleton format).",
-        "keywords": ["deck size", "flag", "rarity distribution", "singleton", "elemental identity"]
+        "keywords": [
+          "deck size",
+          "flag",
+          "rarity distribution",
+          "singleton",
+          "elemental identity"
+        ]
       }
     }
   },
@@ -30,7 +36,15 @@
       "gameFlow": {
         "title": "Game Flow & Card Play",
         "content": "Game Phases: 1. Start Phase (draw 2 cards first turn only, optionally place 1 Azoth), 2. Main Phase (play cards by resting Azoth), 3. Combat Phase (attack with Familiars), 4. Post-Combat Main Phase (play more cards), 5. Refresh Phase (refresh all Azoth). Card Play Methods: Summon (play as Familiar with +1 counters), Tribute (reduce cost by removing Familiars), Azoth (place as resource), Spell (play then put on bottom of deck), Burst (play for free when drawn from Life Cards).",
-        "keywords": ["phases", "summon", "tribute", "azoth", "spell", "burst", "combat"]
+        "keywords": [
+          "phases",
+          "summon",
+          "tribute",
+          "azoth",
+          "spell",
+          "burst",
+          "combat"
+        ]
       }
     }
   },
@@ -40,7 +54,14 @@
       "elementSystem": {
         "title": "Elements & Azoth System",
         "content": "Six Elements: 🜂 Fire (Inferno), 🜄 Water (Submerged), 🜃 Earth (Steadfast), 🜁 Air (Gust), ⭘ Aether (Brilliance), ▢ Nether (Void). Generic cost ✡⃝ determines Strength. Azoth System: Place cards face-up in your Azoth Row as resources. Rest Azoth (turn horizontally) to pay costs. Each Azoth generates 1 element type at a time. Element Immunity: Each keyword cannot affect its opposing element (Brilliance vs Nether, Gust vs Earth, Inferno vs Water, Steadfast vs Fire, Submerged vs Air, Void vs Aether).",
-        "keywords": ["elements", "azoth", "resources", "strength", "immunity", "opposing elements"]
+        "keywords": [
+          "elements",
+          "azoth",
+          "resources",
+          "strength",
+          "immunity",
+          "opposing elements"
+        ]
       }
     }
   },
@@ -50,12 +71,29 @@
       "cardTypes": {
         "title": "Card Types",
         "content": "Familiars: Played on the Field for combat. Enter with +1 counters equal to Azoth paid for ✡⃝. Can be used for Tribute. Spells: Played from hand, then put on bottom of deck after resolving. Use Azoth paid for ✡⃝ as Strength. Flags: Determine deck's elemental identity and bonus damage. Required 1 per deck, doesn't count toward 40-card limit. Card Anatomy: Element cost, Name, Type, Abilities, Flavor text, Set/Rarity symbol, Set number.",
-        "keywords": ["familiar", "spell", "flag", "tribute", "strength", "anatomy"]
+        "keywords": [
+          "familiar",
+          "spell",
+          "flag",
+          "tribute",
+          "strength",
+          "anatomy"
+        ]
       },
       "keywords": {
         "title": "Keywords",
         "content": "All keywords activate once per play. Amalgam: Choose one of two listed options when played. Brilliance: Place target (Strength ≤ ⭘ paid) on bottom of owner's life cards (doesn't affect ▢). Gust: Return target (Strength ≤ 🜁 paid) to owner's hand (doesn't affect 🜃). Inferno: Add damage ≤ 🜂 paid after dealing damage (doesn't affect 🜄). Steadfast: Redirect damage ≤ 🜃 paid to this card (doesn't affect 🜂). Submerged: Place target (Strength ≤ 🜄 paid) that many cards below owner's deck (doesn't affect 🜁). Quintessence: Can't be played as Familiar; produces any Azoth type. Void: Remove target from game (doesn't affect ⭘).",
-        "keywords": ["amalgam", "brilliance", "gust", "inferno", "steadfast", "submerged", "quintessence", "void", "immunity"]
+        "keywords": [
+          "amalgam",
+          "brilliance",
+          "gust",
+          "inferno",
+          "steadfast",
+          "submerged",
+          "quintessence",
+          "void",
+          "immunity"
+        ]
       }
     }
   },
@@ -65,7 +103,12 @@
       "alphabet": {
         "title": "KONIVRER Alphabet",
         "content": "In this alternate history where Rome never rose to power, the alphabet retains a Latin-derived form with heavy Greek influence. Key changes: Y→I, J→I, U→V, C/Q/W removed. Greek letters used: Γ (G), Ξ (X), Φ (F), plus digraphs Χ (CH), Σ (SH), Θ (TH), Δ (DH). This creates the unique spelling 'KONIVRER' instead of 'Conjurer'.",
-        "keywords": ["alphabet", "alternate history", "greek influence", "pronunciation"]
+        "keywords": [
+          "alphabet",
+          "alternate history",
+          "greek influence",
+          "pronunciation"
+        ]
       }
     }
   },

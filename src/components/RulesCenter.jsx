@@ -71,8 +71,8 @@ const RulesCenter = () => {
       return (
         section.title?.toLowerCase().includes(searchLower) ||
         section.content?.toLowerCase().includes(searchLower) ||
-        section.keywords?.some(keyword => 
-          keyword.toLowerCase().includes(searchLower)
+        section.keywords?.some(keyword =>
+          keyword.toLowerCase().includes(searchLower),
         )
       );
     },
@@ -195,7 +195,9 @@ const RulesCenter = () => {
                   {/* Section Header */}
                   <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl">{rulesData[activeSection]?.icon}</span>
+                      <span className="text-3xl">
+                        {rulesData[activeSection]?.icon}
+                      </span>
                       <h2 className="text-3xl font-bold text-white">
                         {rulesData[activeSection]?.title}
                       </h2>
@@ -214,13 +216,16 @@ const RulesCenter = () => {
 
                   {/* Section Content */}
                   <div className="prose prose-invert max-w-none">
-                    <div 
+                    <div
                       className="text-gray-300 leading-relaxed whitespace-pre-line"
-                      dangerouslySetInnerHTML={{ 
-                        __html: rulesData[activeSection]?.content?.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>') 
+                      dangerouslySetInnerHTML={{
+                        __html: rulesData[activeSection]?.content?.replace(
+                          /\*\*(.*?)\*\*/g,
+                          '<strong class="text-white font-semibold">$1</strong>',
+                        ),
                       }}
                     />
-                    
+
                     {/* Keywords */}
                     {rulesData[activeSection]?.keywords && (
                       <div className="mt-6 pt-6 border-t border-white/20">
