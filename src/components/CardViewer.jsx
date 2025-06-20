@@ -1,4 +1,4 @@
-import { X, Plus, Heart, Bookmark } from 'lucide-react';
+import { X, Plus, Heart, Bookmark, ExternalLink, Copy, Share2 } from 'lucide-react';
 
 const CardViewer = ({
   card,
@@ -14,17 +14,17 @@ const CardViewer = ({
   const getRarityColor = rarity => {
     switch (rarity) {
       case 'common':
-        return 'bg-gray-600';
+        return 'text-gray-600';
       case 'uncommon':
-        return 'bg-green-600';
+        return 'text-green-600';
       case 'rare':
-        return 'bg-blue-600';
+        return 'text-blue-600';
       case 'mythic':
-        return 'bg-purple-600';
+        return 'text-purple-600';
       case 'legendary':
-        return 'bg-yellow-600';
+        return 'text-yellow-600';
       default:
-        return 'bg-gray-600';
+        return 'text-gray-600';
     }
   };
 
@@ -39,180 +39,255 @@ const CardViewer = ({
       '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
       '∇': { symbol: '∇', name: 'Void' },
       '🜅': { symbol: '🜅', name: 'Shadow' },
+      'Inferno': { symbol: '🔥', name: 'Inferno' },
+      'Steadfast': { symbol: '🛡️', name: 'Steadfast' },
+      'Submerged': { symbol: '🌊', name: 'Submerged' },
     };
     return elementMap[element] || { symbol: element, name: element };
   };
 
+  // Mock format legality data
+  const formatLegality = {
+    'Standard': 'Not Legal',
+    'Pioneer': 'Not Legal', 
+    'Modern': 'Legal',
+    'Legacy': 'Legal',
+    'Vintage': 'Legal',
+    'Commander': 'Legal',
+    'Brawl': 'Not Legal',
+    'Historic': 'Legal',
+    'Pauper': card.rarity === 'common' ? 'Legal' : 'Not Legal',
+  };
+
+  // Mock pricing data
+  const pricing = {
+    USD: '$0.25',
+    EUR: '€0.20',
+    TIX: '0.15'
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-card border border-color rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-color">
-          <h2 className="text-2xl font-bold">{card.name}</h2>
-          <div className="flex items-center gap-2">
-            {onToggleFavorite && (
-              <button
-                onClick={onToggleFavorite}
-                className={`btn ${isFavorite ? 'btn-primary' : 'btn-ghost'}`}
-                title={
-                  isFavorite ? 'Remove from favorites' : 'Add to favorites'
-                }
-              >
-                <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
-              </button>
-            )}
-            {onToggleBookmark && (
-              <button
-                onClick={onToggleBookmark}
-                className={`btn ${isBookmarked ? 'btn-primary' : 'btn-ghost'}`}
-                title={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
-              >
-                <Bookmark
-                  size={16}
-                  fill={isBookmarked ? 'currentColor' : 'none'}
-                />
-              </button>
-            )}
-            <button onClick={onClose} className="btn btn-ghost">
-              <X size={20} />
-            </button>
-          </div>
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-6xl w-full max-h-[95vh] overflow-y-auto shadow-2xl">
+        {/* Close Button */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-end z-10">
+          <button 
+            onClick={onClose} 
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <X size={24} className="text-gray-600" />
+          </button>
         </div>
 
-        {/* Card Content */}
-        <div className="p-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Card Image Placeholder */}
-            <div className="aspect-[3/4] bg-tertiary rounded-lg flex items-center justify-center">
+        <div className="flex flex-col lg:flex-row">
+          {/* Left Column - Card Image */}
+          <div className="lg:w-1/3 p-6">
+            <div className="aspect-[3/4] bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg">
               <div className="text-center">
-                <div className="text-4xl mb-2">🎴</div>
-                <div className="text-sm text-secondary">Card Artwork</div>
+                <div className="text-6xl mb-4">🎴</div>
+                <div className="text-lg font-medium text-gray-600">{card.name}</div>
+                <div className="text-sm text-gray-500 mt-2">Card Artwork</div>
               </div>
             </div>
+          </div>
 
-            {/* Card Details */}
-            <div className="space-y-4">
-              {/* Cost and Power */}
-              <div className="flex items-center gap-4">
-                <div className="bg-tertiary rounded-lg p-3 text-center">
-                  <div className="text-sm text-secondary">Cost</div>
-                  <div className="text-xl font-bold">{card.cost}</div>
-                </div>
-                <div className="bg-tertiary rounded-lg p-3 text-center">
-                  <div className="text-sm text-secondary">Power</div>
-                  <div className="text-xl font-bold">{card.power}</div>
-                </div>
-              </div>
-
-              {/* Elements */}
-              <div>
-                <h3 className="text-sm font-medium text-secondary mb-2">
-                  Elements
-                </h3>
+          {/* Right Column - Card Details */}
+          <div className="lg:w-2/3 p-6 space-y-6">
+            {/* Card Header */}
+            <div className="border-b border-gray-200 pb-4">
+              <div className="flex items-center justify-between mb-2">
+                <h1 className="text-3xl font-bold text-gray-900">{card.name}</h1>
                 <div className="flex items-center gap-2">
                   {card.elements.map((element, index) => {
                     const elementInfo = getElementInfo(element);
                     return (
-                      <div key={index} className="flex items-center gap-1">
-                        <span className="text-2xl" title={elementInfo.name}>
-                          {elementInfo.symbol}
-                        </span>
-                        <span className="text-xs text-secondary">
-                          {elementInfo.name}
-                        </span>
-                      </div>
+                      <span key={index} className="text-2xl" title={elementInfo.name}>
+                        {elementInfo.symbol}
+                      </span>
                     );
                   })}
+                  <span className="ml-2 text-xl font-bold text-gray-700">{card.cost}</span>
                 </div>
               </div>
+              <div className="text-lg text-gray-700 font-medium">{card.type}</div>
+            </div>
 
-              {/* Rarity */}
-              <div>
-                <h3 className="text-sm font-medium text-secondary mb-2">
-                  Rarity
-                </h3>
-                <span
-                  className={`px-3 py-1 rounded text-sm font-medium ${getRarityColor(card.rarity)}`}
-                >
-                  {card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)}
-                </span>
+            {/* Card Text */}
+            <div className="space-y-3">
+              <div className="text-gray-800 leading-relaxed">
+                {card.text.split('\n').map((line, index) => (
+                  <p key={index} className="mb-2">
+                    {line.trim().startsWith('•') ? (
+                      <span className="block ml-4">{line}</span>
+                    ) : (
+                      line
+                    )}
+                  </p>
+                ))}
               </div>
-
-              {/* Keywords */}
-              {card.keywords.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium text-secondary mb-2">
-                    Keywords
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {card.keywords.map(keyword => (
-                      <span
-                        key={keyword}
-                        className="px-2 py-1 bg-tertiary rounded text-sm"
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
+              
+              {card.power !== undefined && (
+                <div className="text-gray-700 font-medium">
+                  Power: {card.power}
                 </div>
               )}
+            </div>
 
-              {/* Card Text */}
-              <div>
-                <h3 className="text-sm font-medium text-secondary mb-2">
-                  Card Text
-                </h3>
-                <div className="bg-tertiary rounded-lg p-3">
-                  <p className="text-sm leading-relaxed">{card.text}</p>
-                </div>
+            {/* Keywords */}
+            {card.keywords.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {card.keywords.map(keyword => (
+                  <span
+                    key={keyword}
+                    className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                  >
+                    {keyword}
+                  </span>
+                ))}
               </div>
+            )}
 
-              {/* Flavor Text */}
-              {card.flavor && (
-                <div>
-                  <h3 className="text-sm font-medium text-secondary mb-2">
-                    Flavor Text
-                  </h3>
-                  <div className="bg-tertiary rounded-lg p-3">
-                    <p className="text-sm leading-relaxed italic text-secondary">
-                      {card.flavor}
-                    </p>
+            {/* Artist */}
+            <div className="text-sm text-gray-600">
+              Illustrated by <span className="text-blue-600 hover:underline cursor-pointer">Unknown Artist</span>
+            </div>
+
+            {/* Format Legality */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Format Legality</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                {Object.entries(formatLegality).map(([format, legality]) => (
+                  <div key={format} className="flex justify-between">
+                    <span className="text-gray-700">{format}:</span>
+                    <span className={legality === 'Legal' ? 'text-green-600 font-medium' : 'text-red-600'}>
+                      {legality}
+                    </span>
                   </div>
-                </div>
-              )}
-
-              {/* Actions */}
-              <div className="flex gap-3 pt-4">
-                <button
-                  onClick={onAddToDeck}
-                  className="btn btn-primary flex-1"
-                >
-                  <Plus size={16} />
-                  Add to Deck
-                </button>
-                <button onClick={onClose} className="btn btn-secondary">
-                  Close
-                </button>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* Additional Info */}
-          <div className="mt-6 pt-6 border-t border-color">
-            <div className="grid md:grid-cols-3 gap-4 text-sm">
-              <div>
-                <div className="text-secondary">Card ID</div>
-                <div className="font-mono">{card.id}</div>
+            {/* Set Information */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Set Information</h3>
+              <div className="flex items-center gap-4">
+                <span className="text-blue-600 hover:underline cursor-pointer font-medium">
+                  {card.set}
+                </span>
+                <span className="text-gray-600">#{card.setNumber || '001'}</span>
+                <span className={`font-medium ${getRarityColor(card.rarity)}`}>
+                  {card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)}
+                </span>
+                <span className="text-gray-600">English</span>
+                <span className="text-gray-600">Nonfoil</span>
               </div>
-              <div>
-                <div className="text-secondary">Type</div>
-                <div>{card.type}</div>
+            </div>
+
+            {/* Pricing Table */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Market Prices</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-2 text-gray-700">Print</th>
+                      <th className="text-left py-2 text-gray-700">USD</th>
+                      <th className="text-left py-2 text-gray-700">EUR</th>
+                      <th className="text-left py-2 text-gray-700">TIX</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer">
+                        {card.set} #{card.setNumber || '001'}
+                      </td>
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer">{pricing.USD}</td>
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer">{pricing.EUR}</td>
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer">{pricing.TIX}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div>
-                <div className="text-secondary">Set</div>
-                <div>
-                  {card.set} {card.setNumber && `(${card.setNumber})`}
+            </div>
+
+            {/* Toolbox */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Toolbox</h3>
+              <div className="space-y-2 text-sm">
+                <a href="#" className="flex items-center gap-2 text-blue-600 hover:underline">
+                  <ExternalLink size={14} />
+                  Search for decks with this card
+                </a>
+                <a href="#" className="flex items-center gap-2 text-blue-600 hover:underline">
+                  <ExternalLink size={14} />
+                  Card analysis and statistics
+                </a>
+                <a href="#" className="flex items-center gap-2 text-blue-600 hover:underline">
+                  <ExternalLink size={14} />
+                  View card in collection manager
+                </a>
+                <div className="flex gap-2 mt-3">
+                  <button className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors">
+                    <Copy size={14} />
+                    Copy Link
+                  </button>
+                  <button className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors">
+                    <Share2 size={14} />
+                    Share
+                  </button>
                 </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 border-t border-gray-200">
+              {onAddToDeck && (
+                <button
+                  onClick={onAddToDeck}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                >
+                  <Plus size={18} />
+                  Add to Deck
+                </button>
+              )}
+              {onToggleFavorite && (
+                <button
+                  onClick={onToggleFavorite}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors font-medium ${
+                    isFavorite 
+                      ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
+                  {isFavorite ? 'Favorited' : 'Favorite'}
+                </button>
+              )}
+              {onToggleBookmark && (
+                <button
+                  onClick={onToggleBookmark}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors font-medium ${
+                    isBookmarked 
+                      ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' 
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <Bookmark size={16} fill={isBookmarked ? 'currentColor' : 'none'} />
+                  {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+                </button>
+              )}
+            </div>
+
+            {/* Rules and Notes */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Notes and Rules Information</h3>
+              <div className="space-y-2 text-sm text-gray-700">
+                <p>• This card follows standard KONIVRER game rules.</p>
+                <p>• Element costs must be paid from matching element sources.</p>
+                <p>• Power represents the card's combat effectiveness.</p>
+                {card.keywords.length > 0 && (
+                  <p>• Keywords provide additional abilities and interactions.</p>
+                )}
               </div>
             </div>
           </div>
