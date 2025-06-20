@@ -8,10 +8,13 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
+  Package,
 } from 'lucide-react';
 import cardsService from '../services/cardsService';
+import SetManager from '../components/SetManager';
 
 const AdminPanel = () => {
+  const [activeTab, setActiveTab] = useState('database');
   const [connectionStatus, setConnectionStatus] = useState(null);
   const [cacheStatus, setCacheStatus] = useState(null);
   const [syncing, setSyncing] = useState(false);
@@ -130,6 +133,12 @@ const AdminPanel = () => {
     }
   };
 
+  const tabs = [
+    { id: 'database', label: 'Database', icon: Database },
+    { id: 'sets', label: 'Set Management', icon: Package },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
+
   return (
     <div className="min-h-screen bg-primary">
       <div className="container py-6">
@@ -137,11 +146,35 @@ const AdminPanel = () => {
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Admin Panel</h1>
           <p className="text-secondary">
-            Manage Google Sheets integration and card database
+            Manage Google Sheets integration, card database, and sets
           </p>
         </div>
 
-        {/* Status Cards */}
+        {/* Tab Navigation */}
+        <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${
+                  activeTab === tab.id
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'database' && (
+          <div>
+            {/* Status Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {/* Connection Status */}
           <div className="card">
@@ -294,6 +327,19 @@ const AdminPanel = () => {
             </div>
           </div>
         </div>
+          </div>
+        )}
+
+        {activeTab === 'sets' && (
+          <SetManager />
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="bg-gray-800 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-white mb-4">Settings</h2>
+            <p className="text-gray-400">Additional settings will be available here.</p>
+          </div>
+        )}
       </div>
     </div>
   );
