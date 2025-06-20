@@ -19,7 +19,7 @@ import {
 import CardViewer from '../components/CardViewer';
 import CardDatabase from '../components/CardDatabase';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
-import GameSimulatorSimple from '../components/GameSimulatorSimple';
+import TalisharStyleGameSimulator from '../components/TalisharStyleGameSimulator';
 import DeckStats from '../components/DeckStats';
 import MetaAnalysis from '../components/MetaAnalysis';
 import CollectionManager from '../components/CollectionManager';
@@ -337,7 +337,7 @@ const UnifiedGamePlatform = () => {
             </div>
           </div>
           <div className="p-6">
-            <GameSimulatorSimple />
+            <TalisharStyleGameSimulator />
           </div>
         </motion.div>
 
