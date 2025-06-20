@@ -297,9 +297,15 @@ const CardDatabase = () => {
             onChange={e => setFilters({ ...filters, set: e.target.value })}
             className="w-full lg:w-1/2 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-2 border-purple-400/50 rounded-lg text-white text-lg font-semibold focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
           >
-            <option value="all" className="text-black bg-white">All Sets</option>
+            <option value="all" className="text-black bg-white">
+              All Sets
+            </option>
             {uniqueValues.sets.map(set => (
-              <option key={set} value={set} className="text-black bg-white font-semibold">
+              <option
+                key={set}
+                value={set}
+                className="text-black bg-white font-semibold"
+              >
                 {set}
               </option>
             ))}
@@ -355,9 +361,7 @@ const CardDatabase = () => {
       {/* Current Set Display */}
       {filters.set !== 'all' && (
         <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/50 rounded-lg p-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-2">
-            {filters.set}
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{filters.set}</h2>
           <p className="text-purple-200">
             Viewing cards from the {filters.set} collection
           </p>
@@ -369,9 +373,7 @@ const CardDatabase = () => {
         <span>
           Showing {filteredCards.length} of {cards.length} cards
           {filters.set !== 'all' && (
-            <span className="ml-2 text-purple-300">
-              from {filters.set}
-            </span>
+            <span className="ml-2 text-purple-300">from {filters.set}</span>
           )}
         </span>
         {favorites.size > 0 && (
