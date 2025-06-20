@@ -4,7 +4,11 @@ import { motion } from 'framer-motion';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
 
-const CardDatabase = () => {
+const CardDatabase = ({
+  cards: propCards,
+  searchCriteria,
+  showSearchInterface = true,
+}) => {
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,9 +24,10 @@ const CardDatabase = () => {
 
   // Load cards data
   useEffect(() => {
-    setCards(cardsData);
-    setFilteredCards(cardsData);
-  }, []);
+    const cardsToUse = propCards || cardsData;
+    setCards(cardsToUse);
+    setFilteredCards(cardsToUse);
+  }, [propCards]);
 
   // Filter and search cards
   useEffect(() => {
@@ -256,107 +261,111 @@ const CardDatabase = () => {
   return (
     <div className="space-y-6">
       {/* Search and Filters */}
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search cards by name, text, or keywords..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
-            />
-          </div>
+      {showSearchInterface && (
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search cards by name, text, or keywords..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+              />
+            </div>
 
-          {/* View Mode Toggle */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
-            >
-              <Grid size={20} />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
-            >
-              <List size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* Set Selector - Prominent */}
-        <div className="mt-4 mb-4">
-          <label className="block text-sm font-medium text-white mb-2">
-            Card Set Collection
-          </label>
-          <select
-            value={filters.set}
-            onChange={e => setFilters({ ...filters, set: e.target.value })}
-            className="w-full lg:w-1/2 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-2 border-purple-400/50 rounded-lg text-white text-lg font-semibold focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
-          >
-            <option value="all" className="text-black bg-white">
-              All Sets
-            </option>
-            {uniqueValues.sets.map(set => (
-              <option
-                key={set}
-                value={set}
-                className="text-black bg-white font-semibold"
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
               >
-                {set}
-              </option>
-            ))}
-          </select>
-        </div>
+                <Grid size={20} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
+              >
+                <List size={20} />
+              </button>
+            </div>
+          </div>
 
-        {/* Other Filters */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
-          <select
-            value={filters.rarity}
-            onChange={e => setFilters({ ...filters, rarity: e.target.value })}
-            className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-          >
-            <option value="all">All Rarities</option>
-            {uniqueValues.rarities.map(rarity => (
-              <option key={rarity} value={rarity} className="text-black">
-                {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
+          {/* Set Selector - Prominent */}
+          <div className="mt-4 mb-4">
+            <label className="block text-sm font-medium text-white mb-2">
+              Card Set Collection
+            </label>
+            <select
+              value={filters.set}
+              onChange={e => setFilters({ ...filters, set: e.target.value })}
+              className="w-full lg:w-1/2 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-2 border-purple-400/50 rounded-lg text-white text-lg font-semibold focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20"
+            >
+              <option value="all" className="text-black bg-white">
+                All Sets
               </option>
-            ))}
-          </select>
-
-          <select
-            value={filters.type}
-            onChange={e => setFilters({ ...filters, type: e.target.value })}
-            className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-          >
-            <option value="all">All Types</option>
-            {uniqueValues.types.map(type => (
-              <option key={type} value={type} className="text-black">
-                {type}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={filters.element}
-            onChange={e => setFilters({ ...filters, element: e.target.value })}
-            className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-          >
-            <option value="all">All Elements</option>
-            {uniqueValues.elements.map(element => {
-              const elementInfo = getElementSymbol(element);
-              return (
-                <option key={element} value={element} className="text-black">
-                  {elementInfo.name}
+              {uniqueValues.sets.map(set => (
+                <option
+                  key={set}
+                  value={set}
+                  className="text-black bg-white font-semibold"
+                >
+                  {set}
                 </option>
-              );
-            })}
-          </select>
+              ))}
+            </select>
+          </div>
+
+          {/* Other Filters */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+            <select
+              value={filters.rarity}
+              onChange={e => setFilters({ ...filters, rarity: e.target.value })}
+              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+            >
+              <option value="all">All Rarities</option>
+              {uniqueValues.rarities.map(rarity => (
+                <option key={rarity} value={rarity} className="text-black">
+                  {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filters.type}
+              onChange={e => setFilters({ ...filters, type: e.target.value })}
+              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+            >
+              <option value="all">All Types</option>
+              {uniqueValues.types.map(type => (
+                <option key={type} value={type} className="text-black">
+                  {type}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={filters.element}
+              onChange={e =>
+                setFilters({ ...filters, element: e.target.value })
+              }
+              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+            >
+              <option value="all">All Elements</option>
+              {uniqueValues.elements.map(element => {
+                const elementInfo = getElementSymbol(element);
+                return (
+                  <option key={element} value={element} className="text-black">
+                    {elementInfo.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Current Set Display */}
       {filters.set !== 'all' && (
