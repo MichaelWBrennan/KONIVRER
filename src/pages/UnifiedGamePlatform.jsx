@@ -79,7 +79,7 @@ const UnifiedGamePlatformReorganized = () => {
     setActiveSearchCriteria(criteria);
   };
 
-  const handleAdvancedSearch = (criteria) => {
+  const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
     setSearchResults([]);
     setShowAdvancedSearch(false);
@@ -92,7 +92,8 @@ const UnifiedGamePlatformReorganized = () => {
       title: 'Card Explorer',
       subtitle: 'Browse & Search',
       icon: Database,
-      description: 'Discover cards, advanced search, and detailed card information',
+      description:
+        'Discover cards, advanced search, and detailed card information',
       color: 'from-blue-600 to-purple-600',
     },
     {
@@ -100,7 +101,8 @@ const UnifiedGamePlatformReorganized = () => {
       title: 'Deck Workshop',
       subtitle: 'Build & Analyze',
       icon: Target,
-      description: 'Deck builder, statistics, validation, and optimization tools',
+      description:
+        'Deck builder, statistics, validation, and optimization tools',
       color: 'from-green-600 to-blue-600',
     },
     {
@@ -151,7 +153,9 @@ const UnifiedGamePlatformReorganized = () => {
                       <Database className="w-8 h-8 text-blue-400" />
                       Card Explorer
                     </h2>
-                    <p className="text-gray-400 mt-1">Discover and explore the complete card database</p>
+                    <p className="text-gray-400 mt-1">
+                      Discover and explore the complete card database
+                    </p>
                   </div>
                   <button
                     onClick={() => setShowAdvancedSearch(true)}
@@ -163,8 +167,8 @@ const UnifiedGamePlatformReorganized = () => {
                 </div>
               </div>
               <div className="p-6">
-                <CardDatabase 
-                  onCardClick={(card) => navigate(`/card/${card.id}`)}
+                <CardDatabase
+                  onCardClick={card => navigate(`/card/${card.id}`)}
                   showAdvancedSearch={showAdvancedSearch}
                   onAdvancedSearch={handleAdvancedSearch}
                 />
@@ -185,7 +189,9 @@ const UnifiedGamePlatformReorganized = () => {
                     <Target className="w-8 h-8 text-green-400" />
                     Deck Workshop
                   </h2>
-                  <p className="text-gray-400 mt-1">Build and optimize your decks</p>
+                  <p className="text-gray-400 mt-1">
+                    Build and optimize your decks
+                  </p>
                 </div>
                 <div className="p-6">
                   <VisualDeckBuilder deck={sampleDeck} />
@@ -199,7 +205,9 @@ const UnifiedGamePlatformReorganized = () => {
                     <BarChart3 className="w-6 h-6 text-blue-400" />
                     Analytics
                   </h2>
-                  <p className="text-gray-400 mt-1 text-sm">Live deck statistics</p>
+                  <p className="text-gray-400 mt-1 text-sm">
+                    Live deck statistics
+                  </p>
                 </div>
                 <div className="p-6">
                   <DeckStats deck={sampleDeck} />
@@ -214,7 +222,9 @@ const UnifiedGamePlatformReorganized = () => {
                   <Bot className="w-6 h-6 text-purple-400" />
                   AI Deck Assistant
                 </h2>
-                <p className="text-gray-400 mt-1">Get intelligent suggestions and deck analysis</p>
+                <p className="text-gray-400 mt-1">
+                  Get intelligent suggestions and deck analysis
+                </p>
               </div>
               <div className="p-6">
                 <AIAssistant />
@@ -235,7 +245,9 @@ const UnifiedGamePlatformReorganized = () => {
                       <Gamepad2 className="w-8 h-8 text-purple-400" />
                       Game Simulator
                     </h2>
-                    <p className="text-gray-400 mt-1">Professional tournament-style gameplay</p>
+                    <p className="text-gray-400 mt-1">
+                      Professional tournament-style gameplay
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
@@ -272,7 +284,9 @@ const UnifiedGamePlatformReorganized = () => {
                       <TrendingUp className="w-8 h-8 text-yellow-400" />
                       Meta Analysis & Market Data
                     </h2>
-                    <p className="text-gray-400 mt-1">Competitive insights and market trends</p>
+                    <p className="text-gray-400 mt-1">
+                      Competitive insights and market trends
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
@@ -305,7 +319,9 @@ const UnifiedGamePlatformReorganized = () => {
                       <Package className="w-8 h-8 text-indigo-400" />
                       Collection Hub
                     </h2>
-                    <p className="text-gray-400 mt-1">Manage your card collection and wishlists</p>
+                    <p className="text-gray-400 mt-1">
+                      Manage your card collection and wishlists
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
@@ -338,7 +354,9 @@ const UnifiedGamePlatformReorganized = () => {
                       <Trophy className="w-8 h-8 text-yellow-400" />
                       Battle Pass & Progression
                     </h2>
-                    <p className="text-gray-400 mt-1">Seasonal rewards and achievement tracking</p>
+                    <p className="text-gray-400 mt-1">
+                      Seasonal rewards and achievement tracking
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button className="flex items-center gap-2 px-4 py-2 bg-yellow-600 rounded-lg hover:bg-yellow-700 transition-colors">
@@ -370,7 +388,9 @@ const UnifiedGamePlatformReorganized = () => {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Game Platform
               </h1>
-              <p className="text-gray-400 mt-1">Your complete KONIVRER gaming experience</p>
+              <p className="text-gray-400 mt-1">
+                Your complete KONIVRER gaming experience
+              </p>
             </div>
 
             {/* Global Search */}
@@ -406,7 +426,9 @@ const UnifiedGamePlatformReorganized = () => {
                   onClick={() => setActiveSection(section.id)}
                   className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
                     activeSection === section.id
-                      ? 'bg-gradient-to-r ' + section.color + ' text-white shadow-lg'
+                      ? 'bg-gradient-to-r ' +
+                        section.color +
+                        ' text-white shadow-lg'
                       : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
                   }`}
                   whileHover={{ scale: 1.02 }}
@@ -416,7 +438,9 @@ const UnifiedGamePlatformReorganized = () => {
                     <section.icon className="w-6 h-6" />
                     <div>
                       <div className="font-bold">{section.title}</div>
-                      <div className="text-sm opacity-80">{section.subtitle}</div>
+                      <div className="text-sm opacity-80">
+                        {section.subtitle}
+                      </div>
                     </div>
                   </div>
                   <p className="text-sm opacity-70">{section.description}</p>

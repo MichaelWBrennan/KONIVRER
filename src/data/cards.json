@@ -174,7 +174,13 @@
     "id": "pm-010",
     "name": "BRIΓT LAHAR",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Inferno", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
     "cost": ["Quintessence", "Brilliance", "Inferno", "Steadfast", "Submerged"],
     "attack": null,
     "defense": null,
@@ -225,7 +231,13 @@
     "id": "pm-013",
     "name": "BRIΓT PERMAΦROST",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Gust", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Steadfast",
+      "Submerged"
+    ],
     "cost": ["Quintessence", "Brilliance", "Gust", "Steadfast", "Submerged"],
     "attack": null,
     "defense": null,
@@ -412,8 +424,22 @@
     "id": "pm-024",
     "name": "DARK TIΦOON",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Gust", "Inferno", "Void", "Steadfast", "Submerged"],
-    "cost": ["Quintessence", "Gust", "Inferno", "Void", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": [
+      "Quintessence",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
@@ -565,8 +591,22 @@
     "id": "pm-033",
     "name": "LIGHT TIΦOON",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Gust", "Inferno", "Steadfast", "Submerged"],
-    "cost": ["Quintessence", "Brilliance", "Gust", "Inferno", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Steadfast",
+      "Submerged"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
@@ -854,8 +894,22 @@
     "id": "pm-050",
     "name": "XAOS FVLGVRITE",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Gust", "Inferno", "Void", "Steadfast"],
-    "cost": ["Quintessence", "Brilliance", "Gust", "Inferno", "Void", "Steadfast"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Steadfast"
+    ],
+    "cost": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Steadfast"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
@@ -905,8 +959,22 @@
     "id": "pm-053",
     "name": "XAOS THVNDERSNOVV",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Gust", "Inferno", "Void", "Submerged"],
-    "cost": ["Quintessence", "Brilliance", "Gust", "Inferno", "Void", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Submerged"
+    ],
+    "cost": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Inferno",
+      "Void",
+      "Submerged"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
@@ -956,8 +1024,22 @@
     "id": "pm-056",
     "name": "XAOS MIST",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Inferno", "Void", "Steadfast", "Submerged"],
-    "cost": ["Quintessence", "Brilliance", "Inferno", "Void", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Inferno",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": [
+      "Quintessence",
+      "Brilliance",
+      "Inferno",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
@@ -973,7 +1055,13 @@
     "id": "pm-057",
     "name": "XAOS MVD",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Void", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
     "cost": ["Quintessence", "Brilliance", "Void", "Steadfast", "Submerged"],
     "attack": null,
     "defense": null,
@@ -1058,8 +1146,22 @@
     "id": "pm-062",
     "name": "XAOS PERMAΦROST",
     "type": "ELEMENTAL",
-    "elements": ["Quintessence", "Brilliance", "Gust", "Void", "Steadfast", "Submerged"],
-    "cost": ["Quintessence", "Brilliance", "Gust", "Void", "Steadfast", "Submerged"],
+    "elements": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
+    "cost": [
+      "Quintessence",
+      "Brilliance",
+      "Gust",
+      "Void",
+      "Steadfast",
+      "Submerged"
+    ],
     "attack": null,
     "defense": null,
     "rarity": "Mythic",
