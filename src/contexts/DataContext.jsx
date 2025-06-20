@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import cardsData from '../data/cards.json';
+import { useSet } from './SetContext';
 
 const DataContext = createContext();
 
@@ -12,6 +13,9 @@ export const useData = () => {
 };
 
 export const DataProvider = ({ children }) => {
+  // Get visible cards from set context
+  const setContext = useSet?.() || { visibleCards: [] };
+
   // Real-time data state
   const [stats, setStats] = useState({
     totalCards: 0,
@@ -68,7 +72,7 @@ export const DataProvider = ({ children }) => {
     currentUsers = users,
   ) => {
     const newStats = {
-      totalCards: cardsData.length,
+      totalCards: setContext.visibleCards?.length || 0,
       activePlayers: currentUsers.length + Math.floor(Math.random() * 10), // Add some variance
       tournaments: currentTournaments.length,
       certifiedJudges: Math.floor(currentUsers.length * 0.1) + 5, // 10% of users + base
@@ -252,7 +256,7 @@ export const DataProvider = ({ children }) => {
     tournaments,
     recentActivity,
     users,
-    cards: cardsData,
+    cards: setContext.visibleCards || [],
 
     // Deck management
     addDeck,
