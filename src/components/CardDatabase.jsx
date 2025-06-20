@@ -451,7 +451,15 @@ const CardDatabase = ({
       {filteredCards.length === 0 && (
         <div className="text-center py-12">
           <div className="text-gray-400 mb-4">
-            {filters.set === 'all' ? (
+            {cards.length === 0 ? (
+              <>
+                <Search size={48} className="mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">
+                  No card sets are currently active
+                </h3>
+                <p>Contact an administrator to activate card sets</p>
+              </>
+            ) : filters.set === 'all' ? (
               <>
                 <Database size={64} className="mx-auto mb-6 text-yellow-400" />
                 <h3 className="text-2xl font-bold mb-4 text-white">
