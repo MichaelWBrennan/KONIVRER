@@ -86,11 +86,12 @@ const RulesCenter = () => {
       const searchLower = searchTerm.toLowerCase();
       return (
         section.title?.toLowerCase().includes(searchLower) ||
-        (section.sections && Object.values(section.sections).some(
-          s =>
-            s.title?.toLowerCase().includes(searchLower) ||
-            s.content?.toLowerCase().includes(searchLower),
-        )) ||
+        (section.sections &&
+          Object.values(section.sections).some(
+            s =>
+              s.title?.toLowerCase().includes(searchLower) ||
+              s.content?.toLowerCase().includes(searchLower),
+          )) ||
         section.elements?.some(
           e =>
             e.name?.toLowerCase().includes(searchLower) ||
@@ -194,10 +195,7 @@ const RulesCenter = () => {
                     <div className="font-medium mb-1">Elements:</div>
                     <div className="grid grid-cols-2 gap-1">
                       {Object.entries(elementSymbols).map(([name, symbol]) => (
-                        <div
-                          key={name}
-                          className="flex items-center gap-1"
-                        >
+                        <div key={name} className="flex items-center gap-1">
                           <span>{symbol}</span>
                           <span className="text-xs">{name}</span>
                         </div>
@@ -240,74 +238,77 @@ const RulesCenter = () => {
                   {/* Regular Sections */}
                   {rulesData[activeSection]?.sections && (
                     <div className="space-y-6">
-                      {Object.entries(rulesData[activeSection].sections).map(([sectionId, section]) => (
-                        <div
-                          key={sectionId}
-                          className="border border-white/20 rounded-lg overflow-hidden"
-                        >
-                          <button
-                            onClick={() => toggleSection(sectionId)}
-                            className="w-full px-6 py-4 bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between"
+                      {Object.entries(rulesData[activeSection].sections).map(
+                        ([sectionId, section]) => (
+                          <div
+                            key={sectionId}
+                            className="border border-white/20 rounded-lg overflow-hidden"
                           >
-                            <h3 className="text-xl font-semibold text-white text-left">
-                              {section.title}
-                            </h3>
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  toggleBookmark(sectionId);
-                                }}
-                                className={`p-1 rounded ${
-                                  bookmarkedRules.has(sectionId)
-                                    ? 'text-yellow-400'
-                                    : 'text-gray-400 hover:text-yellow-400'
-                                }`}
-                              >
-                                <Bookmark className="w-4 h-4" />
-                              </button>
-                              {expandedSections.has(sectionId) ? (
-                                <ChevronDown className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <ChevronRight className="w-5 h-5 text-gray-400" />
-                              )}
-                            </div>
-                          </button>
-                          <AnimatePresence>
-                            {expandedSections.has(sectionId) && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="px-6 py-4 text-gray-300 leading-relaxed">
-                                  {section.content}
-                                  {section.keywords && (
-                                    <div className="mt-4">
-                                      <div className="text-sm text-blue-300 font-medium mb-2">Keywords:</div>
-                                      <div className="flex flex-wrap gap-2">
-                                        {section.keywords.map(keyword => (
-                                          <span key={keyword} className="px-2 py-1 bg-blue-600/30 text-blue-200 rounded text-xs">
-                                            {keyword}
-                                          </span>
-                                        ))}
+                            <button
+                              onClick={() => toggleSection(sectionId)}
+                              className="w-full px-6 py-4 bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between"
+                            >
+                              <h3 className="text-xl font-semibold text-white text-left">
+                                {section.title}
+                              </h3>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    toggleBookmark(sectionId);
+                                  }}
+                                  className={`p-1 rounded ${
+                                    bookmarkedRules.has(sectionId)
+                                      ? 'text-yellow-400'
+                                      : 'text-gray-400 hover:text-yellow-400'
+                                  }`}
+                                >
+                                  <Bookmark className="w-4 h-4" />
+                                </button>
+                                {expandedSections.has(sectionId) ? (
+                                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                                ) : (
+                                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                                )}
+                              </div>
+                            </button>
+                            <AnimatePresence>
+                              {expandedSections.has(sectionId) && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="px-6 py-4 text-gray-300 leading-relaxed">
+                                    {section.content}
+                                    {section.keywords && (
+                                      <div className="mt-4">
+                                        <div className="text-sm text-blue-300 font-medium mb-2">
+                                          Keywords:
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                          {section.keywords.map(keyword => (
+                                            <span
+                                              key={keyword}
+                                              className="px-2 py-1 bg-blue-600/30 text-blue-200 rounded text-xs"
+                                            >
+                                              {keyword}
+                                            </span>
+                                          ))}
+                                        </div>
                                       </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      ))}
+                                    )}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        ),
+                      )}
                     </div>
                   )}
-
-
-
-
                 </motion.div>
               </AnimatePresence>
             </div>
