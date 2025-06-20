@@ -82,11 +82,15 @@ import {
   Square,
   Circle,
   Triangle,
+  Bot,
+  Plus,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import VisualDeckBuilder from './VisualDeckBuilder';
+import AIAssistant from './AIAssistant';
 
 const EnhancedProfile = () => {
   const { user, updateProfile, applyForJudge, applyForOrganizer } = useAuth();
@@ -191,6 +195,7 @@ const EnhancedProfile = () => {
       color: 'text-yellow-400',
     },
     { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
+    { id: 'deckbuilder', label: 'Deck Builder', icon: Plus, color: 'text-emerald-400' },
     {
       id: 'achievements',
       label: 'Achievements',
@@ -616,6 +621,141 @@ const EnhancedProfile = () => {
     </motion.div>
   );
 
+  const renderDecks = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-bold flex items-center gap-2">
+          <BookOpen className="text-green-400" size={28} />
+          My Decks
+        </h3>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+          <Plus size={16} />
+          New Deck
+        </button>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Sample deck cards */}
+        {[
+          { name: 'Inferno Aggro', element: 'Inferno', wins: 15, losses: 8, lastPlayed: '2025-06-19' },
+          { name: 'Control Blue', element: 'Submerged', wins: 12, losses: 6, lastPlayed: '2025-06-18' },
+          { name: 'Midrange Green', element: 'Steadfast', wins: 18, losses: 10, lastPlayed: '2025-06-17' }
+        ].map((deck, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 }}
+            whileHover={{ scale: 1.02 }}
+            className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all"
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h4 className="font-bold text-lg">{deck.name}</h4>
+                <p className="text-secondary text-sm">{deck.element}</p>
+              </div>
+              <div className="text-2xl">
+                {deck.element === 'Inferno' ? '🜂' : deck.element === 'Submerged' ? '🜄' : '🜃'}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+              <div>
+                <span className="text-green-400 font-medium">{deck.wins}W</span>
+                <span className="text-gray-400 mx-1">/</span>
+                <span className="text-red-400 font-medium">{deck.losses}L</span>
+              </div>
+              <div className="text-secondary">
+                {Math.round((deck.wins / (deck.wins + deck.losses)) * 100)}% WR
+              </div>
+            </div>
+            
+            <div className="text-xs text-secondary mb-4">
+              Last played: {deck.lastPlayed}
+            </div>
+            
+            <div className="flex gap-2">
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors">
+                Edit
+              </button>
+              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm transition-colors">
+                Export
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  const renderDeckBuilder = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-bold flex items-center gap-2">
+          <Plus className="text-emerald-400" size={28} />
+          Deck Builder
+        </h3>
+        <div className="flex items-center gap-2">
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+            Load Template
+          </button>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+            Save Deck
+          </button>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Deck Builder */}
+        <div className="lg:col-span-2">
+          <div className="bg-card rounded-lg p-6 border border-color">
+            <div className="flex items-center gap-3 mb-6">
+              <Plus className="w-6 h-6 text-emerald-400" />
+              <div>
+                <h4 className="text-xl font-bold">Visual Deck Builder</h4>
+                <p className="text-secondary">Drag and drop cards to build your deck</p>
+              </div>
+            </div>
+            <VisualDeckBuilder 
+              deck={{
+                name: 'New Deck',
+                cards: [],
+                format: 'Standard',
+                element: 'Inferno'
+              }}
+              onDeckChange={(newDeck) => {
+                // Handle deck changes here
+                console.log('Deck updated:', newDeck);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* AI Assistant */}
+        <div className="space-y-6">
+          <div className="bg-card rounded-lg p-6 border border-color">
+            <div className="flex items-center gap-3 mb-6">
+              <Bot className="w-6 h-6 text-blue-400" />
+              <div>
+                <h4 className="text-lg font-bold">AI Assistant</h4>
+                <p className="text-secondary text-sm">Get deck building suggestions</p>
+              </div>
+            </div>
+            <AIAssistant />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <div className="min-h-screen py-8">
       <div className="container max-w-7xl">
@@ -649,6 +789,8 @@ const EnhancedProfile = () => {
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'achievements' && renderAchievements()}
+          {activeTab === 'decks' && renderDecks()}
+          {activeTab === 'deckbuilder' && renderDeckBuilder()}
           {/* Add other tab renderers here */}
         </AnimatePresence>
       </div>

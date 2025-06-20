@@ -22,9 +22,8 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
 import GameSimulator from './pages/GameSimulator';
 import CardExplorer from './pages/CardExplorer';
-import DeckWorkshop from './pages/DeckWorkshop';
+import DeckSearch from './pages/DeckSearch';
 import AnalyticsHub from './pages/AnalyticsHub';
-import CommunityTools from './pages/CommunityTools';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 
@@ -49,18 +48,12 @@ function App() {
                   <Route path="/cards/*" element={<CardExplorer />} />
                   <Route path="/spoilers" element={<CardExplorer />} />
 
-                  <Route path="/decks" element={<DeckWorkshop />} />
-                  <Route path="/decks/*" element={<DeckWorkshop />} />
-                  <Route path="/collection" element={<DeckWorkshop />} />
+                  <Route path="/decks" element={<DeckSearch />} />
+                  <Route path="/decks/*" element={<DeckSearch />} />
 
                   <Route path="/analytics" element={<AnalyticsHub />} />
                   <Route path="/analytics/*" element={<AnalyticsHub />} />
                   <Route path="/prices" element={<AnalyticsHub />} />
-
-                  <Route path="/battle-pass" element={<CommunityTools />} />
-                  <Route path="/ai-assistant" element={<CommunityTools />} />
-                  <Route path="/community" element={<CommunityTools />} />
-                  <Route path="/tools" element={<CommunityTools />} />
 
                   {/* Legacy Game Platform - redirect to sections */}
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />
