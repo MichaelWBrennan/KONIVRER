@@ -767,8 +767,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-
-
       {/* Search and Filters */}
       <section className="py-8 bg-gray-900">
         <div className="container mx-auto px-4">
