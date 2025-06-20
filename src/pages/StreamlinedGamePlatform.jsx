@@ -66,7 +66,7 @@ const StreamlinedGamePlatform = () => {
     ],
   };
 
-  const handleAdvancedSearch = (criteria) => {
+  const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
     setShowAdvancedSearch(false);
     // Mock search results
@@ -83,7 +83,8 @@ const StreamlinedGamePlatform = () => {
       subtitle: 'Discover & Browse',
       icon: Database,
       color: 'from-blue-500 to-cyan-500',
-      description: 'Search, filter, and explore the complete card database with advanced tools',
+      description:
+        'Search, filter, and explore the complete card database with advanced tools',
     },
     {
       id: 'deck-workshop',
@@ -91,7 +92,8 @@ const StreamlinedGamePlatform = () => {
       subtitle: 'Build & Analyze',
       icon: Wrench,
       color: 'from-green-500 to-emerald-500',
-      description: 'Build decks, analyze statistics, and manage your collection',
+      description:
+        'Build decks, analyze statistics, and manage your collection',
     },
     {
       id: 'game-simulator',
@@ -99,7 +101,8 @@ const StreamlinedGamePlatform = () => {
       subtitle: 'Play & Practice',
       icon: Gamepad2,
       color: 'from-purple-500 to-violet-500',
-      description: 'Experience tournament-quality gameplay with our Talishar-style simulator',
+      description:
+        'Experience tournament-quality gameplay with our Talishar-style simulator',
     },
     {
       id: 'analytics-hub',
@@ -107,7 +110,8 @@ const StreamlinedGamePlatform = () => {
       subtitle: 'Meta & Market',
       icon: BarChart3,
       color: 'from-orange-500 to-red-500',
-      description: 'Real-time meta analysis, market data, and competitive insights',
+      description:
+        'Real-time meta analysis, market data, and competitive insights',
     },
     {
       id: 'community-tools',
@@ -115,7 +119,8 @@ const StreamlinedGamePlatform = () => {
       subtitle: 'Social & AI',
       icon: Users,
       color: 'from-pink-500 to-rose-500',
-      description: 'Battle pass progression, AI assistance, and community features',
+      description:
+        'Battle pass progression, AI assistance, and community features',
     },
   ];
 
@@ -221,7 +226,9 @@ const StreamlinedGamePlatform = () => {
                 <Gamepad2 className="w-6 h-6 text-purple-500" />
                 <div>
                   <h2 className="text-xl font-bold">Game Simulator</h2>
-                  <p className="text-secondary">Tournament-quality gameplay experience</p>
+                  <p className="text-secondary">
+                    Tournament-quality gameplay experience
+                  </p>
                 </div>
               </div>
             </div>
@@ -237,8 +244,12 @@ const StreamlinedGamePlatform = () => {
               <div className="flex items-center gap-3 mb-6">
                 <TrendingUp className="w-6 h-6 text-orange-500" />
                 <div>
-                  <h2 className="text-xl font-bold">Meta Analysis & Market Data</h2>
-                  <p className="text-secondary">Real-time competitive landscape insights</p>
+                  <h2 className="text-xl font-bold">
+                    Meta Analysis & Market Data
+                  </h2>
+                  <p className="text-secondary">
+                    Real-time competitive landscape insights
+                  </p>
                 </div>
               </div>
               <MetaAnalysis />
@@ -255,7 +266,9 @@ const StreamlinedGamePlatform = () => {
                 <Trophy className="w-6 h-6 text-yellow-500" />
                 <div>
                   <h2 className="text-xl font-bold">Battle Pass</h2>
-                  <p className="text-secondary">Season 3: Elemental Convergence</p>
+                  <p className="text-secondary">
+                    Season 3: Elemental Convergence
+                  </p>
                 </div>
               </div>
               <BattlePass />
@@ -267,7 +280,9 @@ const StreamlinedGamePlatform = () => {
                 <Bot className="w-6 h-6 text-blue-500" />
                 <div>
                   <h2 className="text-xl font-bold">AI Assistant</h2>
-                  <p className="text-secondary">Smart deck analysis and suggestions</p>
+                  <p className="text-secondary">
+                    Smart deck analysis and suggestions
+                  </p>
                 </div>
               </div>
               <AIAssistant />
@@ -294,37 +309,47 @@ const StreamlinedGamePlatform = () => {
 
           {/* Platform Sections Navigation */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {platformSections.map((section) => {
+            {platformSections.map(section => {
               const Icon = section.icon;
               const isActive = activeSection === section.id;
-              
+
               return (
                 <motion.button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
                   className={`relative p-6 rounded-xl text-left transition-all duration-300 ${
                     isActive
-                      ? 'bg-gradient-to-br ' + section.color + ' text-white shadow-lg scale-105'
+                      ? 'bg-gradient-to-br ' +
+                        section.color +
+                        ' text-white shadow-lg scale-105'
                       : 'bg-tertiary hover:bg-card border border-color hover:shadow-md'
                   }`}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <Icon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`} />
+                    <Icon
+                      className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`}
+                    />
                     <div>
-                      <h3 className={`font-bold ${isActive ? 'text-white' : 'text-primary'}`}>
+                      <h3
+                        className={`font-bold ${isActive ? 'text-white' : 'text-primary'}`}
+                      >
                         {section.title}
                       </h3>
-                      <p className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}>
+                      <p
+                        className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}
+                      >
                         {section.subtitle}
                       </p>
                     </div>
                   </div>
-                  <p className={`text-sm ${isActive ? 'text-white/90' : 'text-secondary'}`}>
+                  <p
+                    className={`text-sm ${isActive ? 'text-white/90' : 'text-secondary'}`}
+                  >
                     {section.description}
                   </p>
-                  
+
                   {isActive && (
                     <motion.div
                       className="absolute inset-0 rounded-xl border-2 border-white/30"
@@ -370,7 +395,7 @@ const StreamlinedGamePlatform = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <AdvancedSearch
                 onSearch={handleAdvancedSearch}
