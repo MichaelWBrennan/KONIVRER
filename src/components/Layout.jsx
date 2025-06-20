@@ -419,7 +419,7 @@ const Layout = ({ children }) => {
                     />
                     <span className="hidden xl:block">{user.displayName}</span>
                   </Link>
-                  
+
                   {/* Logout Button */}
                   <button
                     onClick={logout}
@@ -623,8 +623,6 @@ const Layout = ({ children }) => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
-
-
     </div>
   );
 };
