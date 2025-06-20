@@ -185,8 +185,18 @@ const EnhancedProfile = () => {
   const tabs = [
     { id: 'overview', label: 'Overview', icon: User, color: 'text-blue-400' },
     { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
-    { id: 'collection', label: 'Collection', icon: Database, color: 'text-indigo-400' },
-    { id: 'battlepass', label: 'Battle Pass', icon: Sparkles, color: 'text-pink-400' },
+    {
+      id: 'collection',
+      label: 'Collection',
+      icon: Database,
+      color: 'text-indigo-400',
+    },
+    {
+      id: 'battlepass',
+      label: 'Battle Pass',
+      icon: Sparkles,
+      color: 'text-pink-400',
+    },
     {
       id: 'tournaments',
       label: 'Tournaments',
@@ -633,11 +643,10 @@ const EnhancedProfile = () => {
         <div className="text-center py-12 text-secondary">
           <BookOpen size={48} className="mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-2">No decks created yet</p>
-          <p className="text-sm mb-4">Start building your first deck to see it here</p>
-          <Link
-            to="/decks/builder"
-            className="btn btn-primary"
-          >
+          <p className="text-sm mb-4">
+            Start building your first deck to see it here
+          </p>
+          <Link to="/decks/builder" className="btn btn-primary">
             Create Deck
           </Link>
         </div>
@@ -660,11 +669,10 @@ const EnhancedProfile = () => {
         <div className="text-center py-12 text-secondary">
           <Database size={48} className="mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-2">Collection tracking coming soon</p>
-          <p className="text-sm mb-4">Track your card collection and manage your inventory</p>
-          <Link
-            to="/cards"
-            className="btn btn-primary"
-          >
+          <p className="text-sm mb-4">
+            Track your card collection and manage your inventory
+          </p>
+          <Link to="/cards" className="btn btn-primary">
             Browse Cards
           </Link>
         </div>
@@ -687,7 +695,9 @@ const EnhancedProfile = () => {
         <div className="text-center py-12 text-secondary">
           <Sparkles size={48} className="mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-2">Battle Pass system coming soon</p>
-          <p className="text-sm mb-4">Earn rewards and unlock exclusive content</p>
+          <p className="text-sm mb-4">
+            Earn rewards and unlock exclusive content
+          </p>
           <button className="btn btn-primary" disabled>
             Coming Soon
           </button>
@@ -711,11 +721,10 @@ const EnhancedProfile = () => {
         <div className="text-center py-12 text-secondary">
           <Trophy size={48} className="mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-2">No tournament history yet</p>
-          <p className="text-sm mb-4">Participate in tournaments to see your history here</p>
-          <Link
-            to="/tournaments"
-            className="btn btn-primary"
-          >
+          <p className="text-sm mb-4">
+            Participate in tournaments to see your history here
+          </p>
+          <Link to="/tournaments" className="btn btn-primary">
             Browse Tournaments
           </Link>
         </div>
@@ -738,7 +747,9 @@ const EnhancedProfile = () => {
         <div className="text-center py-12 text-secondary">
           <BarChart3 size={48} className="mx-auto mb-4 opacity-50" />
           <p className="text-lg mb-2">Analytics coming soon</p>
-          <p className="text-sm mb-4">Track your performance and improvement over time</p>
+          <p className="text-sm mb-4">
+            Track your performance and improvement over time
+          </p>
           <button className="btn btn-primary" disabled>
             Coming Soon
           </button>
@@ -759,7 +770,7 @@ const EnhancedProfile = () => {
           <Target className="text-orange-400" size={24} />
           <h2 className="text-xl font-bold">Role Applications</h2>
         </div>
-        
+
         {/* Judge Application */}
         <div className="bg-tertiary rounded-lg p-4 mb-4">
           <h3 className="font-semibold mb-2 flex items-center gap-2">
@@ -809,7 +820,7 @@ const EnhancedProfile = () => {
           <Shield className="text-red-400" size={24} />
           <h2 className="text-xl font-bold">Security Settings</h2>
         </div>
-        
+
         {/* Two-Factor Authentication */}
         <div className="bg-tertiary rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
@@ -817,11 +828,13 @@ const EnhancedProfile = () => {
               <ShieldCheck size={18} />
               Two-Factor Authentication
             </h3>
-            <span className={`px-2 py-1 rounded text-xs ${
-              user?.twoFactorEnabled 
-                ? 'bg-green-500/20 text-green-400' 
-                : 'bg-red-500/20 text-red-400'
-            }`}>
+            <span
+              className={`px-2 py-1 rounded text-xs ${
+                user?.twoFactorEnabled
+                  ? 'bg-green-500/20 text-green-400'
+                  : 'bg-red-500/20 text-red-400'
+              }`}
+            >
               {user?.twoFactorEnabled ? 'Enabled' : 'Disabled'}
             </span>
           </div>
@@ -845,9 +858,7 @@ const EnhancedProfile = () => {
           <p className="text-sm text-secondary mb-3">
             Update your account password
           </p>
-          <button className="btn btn-primary btn-sm">
-            Change Password
-          </button>
+          <button className="btn btn-primary btn-sm">Change Password</button>
         </div>
 
         {/* Login History */}
@@ -857,7 +868,10 @@ const EnhancedProfile = () => {
             Login History
           </h3>
           <p className="text-sm text-secondary mb-3">
-            Last login: {user?.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}
+            Last login:{' '}
+            {user?.lastLogin
+              ? new Date(user.lastLogin).toLocaleString()
+              : 'Never'}
           </p>
           <button className="btn btn-secondary btn-sm">
             View Full History
@@ -879,7 +893,7 @@ const EnhancedProfile = () => {
           <Settings className="text-gray-400" size={24} />
           <h2 className="text-xl font-bold">Account Settings</h2>
         </div>
-        
+
         {/* Theme Settings */}
         <div className="bg-tertiary rounded-lg p-4 mb-4">
           <h3 className="font-semibold mb-2 flex items-center gap-2">
@@ -901,15 +915,24 @@ const EnhancedProfile = () => {
           </h3>
           <div className="space-y-2">
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked={user?.preferences?.emailNotifications} />
+              <input
+                type="checkbox"
+                defaultChecked={user?.preferences?.emailNotifications}
+              />
               <span className="text-sm">Email notifications</span>
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked={user?.preferences?.pushNotifications} />
+              <input
+                type="checkbox"
+                defaultChecked={user?.preferences?.pushNotifications}
+              />
               <span className="text-sm">Push notifications</span>
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" defaultChecked={user?.preferences?.tournamentReminders} />
+              <input
+                type="checkbox"
+                defaultChecked={user?.preferences?.tournamentReminders}
+              />
               <span className="text-sm">Tournament reminders</span>
             </label>
           </div>
