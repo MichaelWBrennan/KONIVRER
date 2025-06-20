@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
-  TrendingUp,
-  Users,
-  Zap,
   Database,
   Gamepad2,
   BarChart3,
@@ -13,23 +11,33 @@ import {
   Trophy,
   Filter,
   Sparkles,
+  Settings,
+  Users,
+  Bot,
+  TrendingUp,
+  DollarSign,
+  Target,
+  Zap,
+  Eye,
+  Plus,
+  Grid3X3,
+  List,
 } from 'lucide-react';
 
 // Import existing components
-import CardViewer from '../components/CardViewer';
 import CardDatabase from '../components/CardDatabase';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
-import GameSimulatorSimple from '../components/GameSimulatorSimple';
+import TalisharStyleGameSimulator from '../components/TalisharStyleGameSimulator';
 import DeckStats from '../components/DeckStats';
 import MetaAnalysis from '../components/MetaAnalysis';
 import CollectionManager from '../components/CollectionManager';
 import AIAssistant from '../components/AIAssistant';
 import AdvancedSearch from '../components/AdvancedSearch';
-
-// Import remaining components
 import BattlePass from './BattlePass';
 
-const UnifiedGamePlatform = () => {
+const UnifiedGamePlatformReorganized = () => {
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('cards');
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
@@ -65,370 +73,415 @@ const UnifiedGamePlatform = () => {
     ],
   };
 
-  // Sample cards data
-  const sampleCards = [
-    {
-      id: 1,
-      name: 'Lightning Bolt',
-      cost: 1,
-      elements: ['Inferno'],
-      rarity: 'Common',
-      type: 'Spell',
-      set: 'PRIMA MATERIA',
-      text: 'Deal 3 damage to any target.',
-      keywords: ['Instant'],
-      power: null,
-      toughness: null,
-    },
-    {
-      id: 2,
-      name: 'Forest Guardian',
-      cost: 3,
-      elements: ['Steadfast'],
-      rarity: 'Rare',
-      type: 'Familiar',
-      set: 'PRIMA MATERIA',
-      text: 'When Forest Guardian enters play, gain 3 life.',
-      keywords: ['Vigilance'],
-      power: 2,
-      toughness: 4,
-    },
-    {
-      id: 3,
-      name: 'Mystic Shield',
-      cost: 2,
-      elements: ['Submerged'],
-      rarity: 'Uncommon',
-      type: 'Enchantment',
-      set: 'PRIMA MATERIA',
-      text: 'Prevent the next 2 damage that would be dealt to you each turn.',
-      keywords: ['Protection'],
-      power: null,
-      toughness: null,
-    },
-  ];
-
-  // Handle advanced search
-  const handleAdvancedSearch = criteria => {
+  const handleSearch = (query, criteria) => {
+    // Mock search functionality
+    setSearchResults([]);
     setActiveSearchCriteria(criteria);
-    // Here you would typically make an API call with the search criteria
-    // For now, we'll simulate filtering the sample cards
-    const filteredCards = sampleCards.filter(card => {
-      if (
-        criteria.cardName &&
-        !card.name.toLowerCase().includes(criteria.cardName.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        criteria.colors &&
-        criteria.colors.length > 0 &&
-        !criteria.colors.some(color => card.elements.includes(color))
-      ) {
-        return false;
-      }
-      if (
-        criteria.rarity &&
-        criteria.rarity.length > 0 &&
-        !criteria.rarity.includes(card.rarity)
-      ) {
-        return false;
-      }
-      return true;
-    });
-    setSearchResults(filteredCards);
+  };
+
+  const handleAdvancedSearch = (criteria) => {
+    setActiveSearchCriteria(criteria);
+    setSearchResults([]);
     setShowAdvancedSearch(false);
   };
 
-  const clearSearch = () => {
-    setSearchResults(null);
-    setActiveSearchCriteria(null);
+  // Navigation sections with combined tools
+  const sections = [
+    {
+      id: 'cards',
+      title: 'Card Explorer',
+      subtitle: 'Browse & Search',
+      icon: Database,
+      description: 'Discover cards, advanced search, and detailed card information',
+      color: 'from-blue-600 to-purple-600',
+    },
+    {
+      id: 'deckbuilding',
+      title: 'Deck Workshop',
+      subtitle: 'Build & Analyze',
+      icon: Target,
+      description: 'Deck builder, statistics, validation, and optimization tools',
+      color: 'from-green-600 to-blue-600',
+    },
+    {
+      id: 'gameplay',
+      title: 'Game Simulator',
+      subtitle: 'Play & Practice',
+      icon: Gamepad2,
+      description: 'Interactive game simulator with AI opponents and tutorials',
+      color: 'from-purple-600 to-pink-600',
+    },
+    {
+      id: 'analytics',
+      title: 'Meta & Market',
+      subtitle: 'Data & Trends',
+      icon: BarChart3,
+      description: 'Meta analysis, market prices, and competitive insights',
+      color: 'from-yellow-600 to-red-600',
+    },
+    {
+      id: 'collection',
+      title: 'Collection Hub',
+      subtitle: 'Manage & Track',
+      icon: Package,
+      description: 'Collection management, wishlists, and progress tracking',
+      color: 'from-indigo-600 to-purple-600',
+    },
+    {
+      id: 'progression',
+      title: 'Battle Pass',
+      subtitle: 'Rewards & Goals',
+      icon: Trophy,
+      description: 'Seasonal rewards, achievements, and progression tracking',
+      color: 'from-orange-600 to-yellow-600',
+    },
+  ];
+
+  const renderSectionContent = () => {
+    switch (activeSection) {
+      case 'cards':
+        return (
+          <div className="space-y-6">
+            {/* Enhanced Card Database with integrated search */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <Database className="w-8 h-8 text-blue-400" />
+                      Card Explorer
+                    </h2>
+                    <p className="text-gray-400 mt-1">Discover and explore the complete card database</p>
+                  </div>
+                  <button
+                    onClick={() => setShowAdvancedSearch(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Filter className="w-4 h-4" />
+                    Advanced Search
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                <CardDatabase 
+                  onCardClick={(card) => navigate(`/card/${card.id}`)}
+                  showAdvancedSearch={showAdvancedSearch}
+                  onAdvancedSearch={handleAdvancedSearch}
+                />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'deckbuilding':
+        return (
+          <div className="space-y-6">
+            {/* Combined Deck Builder and Analytics */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              {/* Deck Builder */}
+              <div className="xl:col-span-2 bg-gray-800 rounded-xl border border-gray-700">
+                <div className="p-6 border-b border-gray-700">
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <Target className="w-8 h-8 text-green-400" />
+                    Deck Workshop
+                  </h2>
+                  <p className="text-gray-400 mt-1">Build and optimize your decks</p>
+                </div>
+                <div className="p-6">
+                  <VisualDeckBuilder deck={sampleDeck} />
+                </div>
+              </div>
+
+              {/* Deck Analytics */}
+              <div className="bg-gray-800 rounded-xl border border-gray-700">
+                <div className="p-6 border-b border-gray-700">
+                  <h2 className="text-xl font-bold text-white flex items-center gap-3">
+                    <BarChart3 className="w-6 h-6 text-blue-400" />
+                    Analytics
+                  </h2>
+                  <p className="text-gray-400 mt-1 text-sm">Live deck statistics</p>
+                </div>
+                <div className="p-6">
+                  <DeckStats deck={sampleDeck} />
+                </div>
+              </div>
+            </div>
+
+            {/* AI Assistant for Deck Building */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <h2 className="text-xl font-bold text-white flex items-center gap-3">
+                  <Bot className="w-6 h-6 text-purple-400" />
+                  AI Deck Assistant
+                </h2>
+                <p className="text-gray-400 mt-1">Get intelligent suggestions and deck analysis</p>
+              </div>
+              <div className="p-6">
+                <AIAssistant />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'gameplay':
+        return (
+          <div className="space-y-6">
+            {/* Game Simulator */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <Gamepad2 className="w-8 h-8 text-purple-400" />
+                      Game Simulator
+                    </h2>
+                    <p className="text-gray-400 mt-1">Professional tournament-style gameplay</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
+                      <Users className="w-4 h-4" />
+                      Multiplayer
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                      <Bot className="w-4 h-4" />
+                      vs AI
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-gray-600 rounded-lg hover:bg-gray-700 transition-colors">
+                      <Settings className="w-4 h-4" />
+                      Settings
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <TalisharStyleGameSimulator />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'analytics':
+        return (
+          <div className="space-y-6">
+            {/* Meta Analysis */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <TrendingUp className="w-8 h-8 text-yellow-400" />
+                      Meta Analysis & Market Data
+                    </h2>
+                    <p className="text-gray-400 mt-1">Competitive insights and market trends</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                      <Eye className="w-4 h-4" />
+                      Live Data
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
+                      <DollarSign className="w-4 h-4" />
+                      Price Alerts
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <MetaAnalysis />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'collection':
+        return (
+          <div className="space-y-6">
+            {/* Collection Manager */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <Package className="w-8 h-8 text-indigo-400" />
+                      Collection Hub
+                    </h2>
+                    <p className="text-gray-400 mt-1">Manage your card collection and wishlists</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
+                      <Plus className="w-4 h-4" />
+                      Add Cards
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                      <Star className="w-4 h-4" />
+                      Wishlist
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <CollectionManager />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'progression':
+        return (
+          <div className="space-y-6">
+            {/* Battle Pass */}
+            <div className="bg-gray-800 rounded-xl border border-gray-700">
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <Trophy className="w-8 h-8 text-yellow-400" />
+                      Battle Pass & Progression
+                    </h2>
+                    <p className="text-gray-400 mt-1">Seasonal rewards and achievement tracking</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-yellow-600 rounded-lg hover:bg-yellow-700 transition-colors">
+                      <Sparkles className="w-4 h-4" />
+                      Premium Pass
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <BattlePass />
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Unified Advanced Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-4"
-        >
-          {/* Quick Search Bar */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
-              <div className="flex-1 relative w-full">
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Header */}
+      <div className="bg-gray-800 border-b border-gray-700 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Game Platform
+              </h1>
+              <p className="text-gray-400 mt-1">Your complete KONIVRER gaming experience</p>
+            </div>
+
+            {/* Global Search */}
+            <div className="flex items-center gap-4">
+              <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Quick search cards, decks, players... or use Advanced Search for detailed filtering"
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
-                  onFocus={() => setShowAdvancedSearch(true)}
+                  placeholder="Quick search cards, decks, players..."
+                  className="pl-10 pr-4 py-2 w-80 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <button
                 onClick={() => setShowAdvancedSearch(true)}
-                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                <Filter className="w-5 h-5" />
-                <span>Advanced Search</span>
+                <Filter className="w-4 h-4" />
+                Advanced Search
               </button>
-              {activeSearchCriteria && (
-                <button
-                  onClick={clearSearch}
-                  className="px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                >
-                  Clear Filters
-                </button>
-              )}
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Active Search Summary */}
-            {activeSearchCriteria && (
-              <div className="mt-4 p-4 bg-purple-500/20 rounded-lg border border-purple-400/30">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Filter className="w-4 h-4 text-purple-300" />
-                    <span className="text-purple-300 font-medium">
-                      Active Search:
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {activeSearchCriteria.cardName && (
-                        <span className="px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded">
-                          Name: {activeSearchCriteria.cardName}
-                        </span>
-                      )}
-                      {activeSearchCriteria.colors.length > 0 && (
-                        <span className="px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded">
-                          Elements: {activeSearchCriteria.colors.join(', ')}
-                        </span>
-                      )}
-                      {activeSearchCriteria.rarity.length > 0 && (
-                        <span className="px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded">
-                          Rarity: {activeSearchCriteria.rarity.join(', ')}
-                        </span>
-                      )}
-                      {activeSearchCriteria.sets.length > 0 && (
-                        <span className="px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded">
-                          Sets: {activeSearchCriteria.sets.join(', ')}
-                        </span>
-                      )}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex gap-8">
+          {/* Sidebar Navigation */}
+          <div className="w-80 flex-shrink-0">
+            <div className="sticky top-32 space-y-2">
+              {sections.map(section => (
+                <motion.button
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
+                    activeSection === section.id
+                      ? 'bg-gradient-to-r ' + section.color + ' text-white shadow-lg'
+                      : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <section.icon className="w-6 h-6" />
+                    <div>
+                      <div className="font-bold">{section.title}</div>
+                      <div className="text-sm opacity-80">{section.subtitle}</div>
                     </div>
                   </div>
-                  <span className="text-purple-300 text-sm">
-                    {searchResults
-                      ? `${searchResults.length} results`
-                      : 'Searching...'}
-                  </span>
+                  <p className="text-sm opacity-70">{section.description}</p>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderSectionContent()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Search Modal */}
+      <AnimatePresence>
+        {showAdvancedSearch && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowAdvancedSearch(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-gray-800 rounded-xl border border-gray-700 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="p-6 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold">Advanced Search</h2>
+                  <button
+                    onClick={() => setShowAdvancedSearch(false)}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
-            )}
-          </div>
-
-          {/* Advanced Search Modal */}
-          <AnimatePresence>
-            {showAdvancedSearch && (
-              <AdvancedSearch
-                onSearch={handleAdvancedSearch}
-                onClose={() => setShowAdvancedSearch(false)}
-              />
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Card Discovery & Database */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-        >
-          <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Database className="w-6 h-6 text-blue-400" />
-                <h2 className="text-2xl font-bold text-white">
-                  Card Discovery
-                </h2>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-medium rounded-full">
-                  12,847 Cards
-                </span>
+              <div className="p-6">
+                <AdvancedSearch
+                  onSearch={handleAdvancedSearch}
+                  onClose={() => setShowAdvancedSearch(false)}
+                />
               </div>
-              <div className="text-right">
-                <p className="text-blue-300 text-sm font-medium">
-                  🎯 Search by Set Required
-                </p>
-                <p className="text-blue-200 text-xs">
-                  Select a card set to begin browsing
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-6">
-            <CardDatabase
-              cards={searchResults || sampleCards}
-              searchCriteria={activeSearchCriteria}
-              showSearchInterface={true}
-            />
-          </div>
-        </motion.div>
-
-        {/* Deck Building Suite */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-1 xl:grid-cols-2 gap-8"
-        >
-          {/* Deck Builder */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
-              <div className="flex items-center space-x-3">
-                <Package className="w-6 h-6 text-green-400" />
-                <h2 className="text-2xl font-bold text-white">Deck Builder</h2>
-                <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
-                  Visual
-                </span>
-              </div>
-            </div>
-            <div className="p-6">
-              <VisualDeckBuilder
-                deck={sampleDeck}
-                onDeckChange={() => {}}
-                cards={sampleCards}
-              />
-            </div>
-          </div>
-
-          {/* Deck Analytics */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
-              <div className="flex items-center space-x-3">
-                <BarChart3 className="w-6 h-6 text-green-400" />
-                <h2 className="text-2xl font-bold text-white">
-                  Deck Analytics
-                </h2>
-                <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
-                  Live Stats
-                </span>
-              </div>
-            </div>
-            <div className="p-6">
-              <DeckStats deck={sampleDeck} />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Game Simulator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-        >
-          <div className="bg-gradient-to-r from-red-500/20 to-pink-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center space-x-3">
-              <Gamepad2 className="w-6 h-6 text-red-400" />
-              <h2 className="text-2xl font-bold text-white">Game Simulator</h2>
-              <span className="px-3 py-1 bg-red-500/20 text-red-300 text-sm font-medium rounded-full">
-                Interactive
-              </span>
-            </div>
-          </div>
-          <div className="p-6">
-            <GameSimulatorSimple />
-          </div>
-        </motion.div>
-
-        {/* Meta Analysis & Market Data */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-        >
-          <div className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center space-x-3">
-              <TrendingUp className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-bold text-white">
-                Meta Analysis & Market Data
-              </h2>
-              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
-                Real-time
-              </span>
-            </div>
-          </div>
-          <div className="p-6">
-            <MetaAnalysis />
-          </div>
-        </motion.div>
-
-        {/* Collection & Personal Management */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="grid grid-cols-1 xl:grid-cols-2 gap-8"
-        >
-          {/* Collection Manager */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
-              <div className="flex items-center space-x-3">
-                <Star className="w-6 h-6 text-orange-400" />
-                <h2 className="text-2xl font-bold text-white">
-                  Collection Manager
-                </h2>
-                <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
-                  Personal
-                </span>
-              </div>
-            </div>
-            <div className="p-6">
-              <CollectionManager />
-            </div>
-          </div>
-
-          {/* Battle Pass */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
-              <div className="flex items-center space-x-3">
-                <Trophy className="w-6 h-6 text-orange-400" />
-                <h2 className="text-2xl font-bold text-white">Battle Pass</h2>
-                <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
-                  Season 3
-                </span>
-              </div>
-            </div>
-            <div className="p-6">
-              <BattlePass />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* AI Assistant */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-        >
-          <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center space-x-3">
-              <Zap className="w-6 h-6 text-indigo-400" />
-              <h2 className="text-2xl font-bold text-white">AI Assistant</h2>
-              <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-sm font-medium rounded-full">
-                Smart Help
-              </span>
-            </div>
-          </div>
-          <div className="p-6">
-            <AIAssistant />
-          </div>
-        </motion.div>
-      </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default UnifiedGamePlatform;
+export default UnifiedGamePlatformReorganized;
