@@ -1,0 +1,13 @@
+[
+  {
+    "id": "prima_materia",
+    "name": "PRIMA MATERIA",
+    "code": "PM",
+    "releaseDate": "2024-01-01",
+    "totalCards": 63,
+    "description": "The foundational set of KONIVRER, featuring the core elements and mechanics.",
+    "isActive": false,
+    "isVisible": false,
+    "cardIds": []
+  }
+]
