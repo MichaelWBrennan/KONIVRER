@@ -55,6 +55,10 @@ class RulesEngine {
     const flagValidation = this.validateFlagCards(deck);
     validations.push(...flagValidation);
 
+    // Rarity distribution validation
+    const rarityValidation = this.validateRarityDistribution(deck);
+    validations.push(...rarityValidation);
+
     return {
       isValid: validations.filter(v => v.type === 'error').length === 0,
       validations,
@@ -152,36 +156,78 @@ class RulesEngine {
     return validations;
   }
 
+  validateRarityDistribution(deck) {
+    const validations = [];
+    const rarityCounts = {
+      common: 0,
+      uncommon: 0,
+      rare: 0
+    };
+
+    // Count cards by rarity (excluding flag)
+    deck.cards.forEach(card => {
+      if (card.type === 'ΦLAG') return;
+      
+      const quantity = card.quantity || 1;
+      switch (card.rarity) {
+        case 'Common':
+        case 'common':
+        case '🜠':
+          rarityCounts.common += quantity;
+          break;
+        case 'Uncommon':
+        case 'uncommon':
+        case '☽':
+          rarityCounts.uncommon += quantity;
+          break;
+        case 'Rare':
+        case 'rare':
+        case '☉':
+          rarityCounts.rare += quantity;
+          break;
+      }
+    });
+
+    // Validate against KONIVRER requirements
+    const requirements = {
+      common: 25,
+      uncommon: 13,
+      rare: 2
+    };
+
+    Object.entries(requirements).forEach(([rarity, required]) => {
+      const actual = rarityCounts[rarity];
+      if (actual !== required) {
+        validations.push({
+          type: 'error',
+          rule: 'rarity-distribution',
+          message: `Incorrect ${rarity} card count: ${actual}/${required}`,
+          severity: 'high'
+        });
+      }
+    });
+
+    return validations;
+  }
+
   // Helper functions
   getTotalCards(deck) {
     return deck.cards.reduce((sum, card) => sum + (card.quantity || 1), 0);
   }
 
   getMinDeckSize(format) {
-    const formatRules = {
-      'standard': 40,
-      'limited': 40,
-      'eternal': 40
-    };
-    return formatRules[format] || 40;
+    // KONIVRER requires exactly 40 cards (excluding flag)
+    return 40;
   }
 
   getMaxDeckSize(format) {
-    const formatRules = {
-      'standard': 60,
-      'limited': 40,
-      'eternal': 60
-    };
-    return formatRules[format] || 60;
+    // KONIVRER requires exactly 40 cards (excluding flag)
+    return 40;
   }
 
   getMaxCopies(format) {
-    const formatRules = {
-      'standard': 4,
-      'limited': 4,
-      'eternal': 4
-    };
-    return formatRules[format] || 4;
+    // KONIVRER allows maximum 1 copy per card
+    return 1;
   }
 
   getAllowedElements(flagCard) {
@@ -208,51 +254,83 @@ class RulesEngine {
     };
   }
 
-  // Keyword ability definitions
+  // Keyword ability definitions based on official KONIVRER rules
   getKeywordDefinition(keyword) {
     const keywords = {
-      'VOID': {
-        name: 'VOID',
-        description: 'This ability allows the card to bypass certain defenses and effects.',
-        rulesText: 'Cards with VOID cannot be targeted by certain protective effects.'
-      },
-      'SUBMERGED': {
-        name: 'SUBMERGED',
-        description: 'This ability relates to water-based mechanics and flow effects.',
-        rulesText: 'SUBMERGED cards have enhanced interaction with water-element effects.'
+      'AMALGAM': {
+        name: 'AMALGAM',
+        description: 'Choose one of two listed Keywords/Elements when played.',
+        rulesText: 'Summoned: Choose one of the two listed Keywords when you play the card. Azoth: Choose one of the two listed Elements when you play the card as an Azoth Source.'
       },
       'BRILLIANCE': {
         name: 'BRILLIANCE',
-        description: 'This ability represents speed, clarity, and light-based effects.',
-        rulesText: 'BRILLIANCE cards can activate certain effects more quickly.'
+        description: 'Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card\'s Strength on the bottom of its owner\'s life cards.',
+        rulesText: 'Doesn\'t affect ▢ (Nether) cards. Activates only once on play.'
+      },
+      'GUST': {
+        name: 'GUST',
+        description: 'Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card\'s Strength to its owner\'s hand.',
+        rulesText: 'Doesn\'t affect 🜃 (Earth) cards. Activates only once on play.'
+      },
+      'INFERNO': {
+        name: 'INFERNO',
+        description: 'After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card\'s Strength.',
+        rulesText: 'Doesn\'t affect 🜄 (Water) cards. Activates only once on play.'
+      },
+      'STEADFAST': {
+        name: 'STEADFAST',
+        description: 'Redirect damage ≤ 🜃 used to pay for this card\'s Strength, that would be done to you or cards you control, to this card\'s Strength.',
+        rulesText: 'Doesn\'t affect 🜂 (Fire) cards. Activates only once on play.'
+      },
+      'SUBMERGED': {
+        name: 'SUBMERGED',
+        description: 'Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card\'s Strength, that many cards below the top of its owner\'s deck.',
+        rulesText: 'Doesn\'t affect 🜁 (Air) cards. Activates only once on play.'
+      },
+      'QUINTESSENCE': {
+        name: 'QUINTESSENCE',
+        description: 'This card can\'t be played as a Familiar. While in the Azoth row, it produces any Azoth type.',
+        rulesText: 'Universal Azoth source when used as resource.'
+      },
+      'VOID': {
+        name: 'VOID',
+        description: 'Remove target card from the game.',
+        rulesText: 'Doesn\'t affect ⭘ (Aether) cards. Removed cards go to the "Removed from Play" zone.'
       }
     };
 
     return keywords[keyword.toUpperCase()];
   }
 
-  // Element interaction rules
+  // Element interaction rules based on keyword restrictions
   getElementInteractions(element1, element2) {
-    // Define element interaction matrix
-    const interactions = {
-      'Inferno': {
-        'Submerged': 'opposed',
-        'Steadfast': 'neutral',
-        'Brilliance': 'synergy',
-        'Void': 'neutral',
-        'Quintessence': 'neutral'
-      },
-      'Submerged': {
-        'Inferno': 'opposed',
-        'Steadfast': 'synergy',
-        'Brilliance': 'neutral',
-        'Void': 'neutral',
-        'Quintessence': 'neutral'
-      }
-      // Add more interactions as defined in the rules
+    // Define element immunity matrix based on official KONIVRER rules
+    const immunities = {
+      'Brilliance': ['Nether'], // Brilliance doesn't affect ▢ (Nether) cards
+      'Gust': ['Earth'], // Gust doesn't affect 🜃 (Earth) cards  
+      'Inferno': ['Water'], // Inferno doesn't affect 🜄 (Water) cards
+      'Steadfast': ['Fire'], // Steadfast doesn't affect 🜂 (Fire) cards
+      'Submerged': ['Air'], // Submerged doesn't affect 🜁 (Air) cards
+      'Void': ['Aether'] // Void doesn't affect ⭘ (Aether) cards
     };
 
-    return interactions[element1]?.[element2] || 'neutral';
+    // Check if element2 is immune to element1's effects
+    if (immunities[element1]?.includes(element2)) {
+      return 'immune';
+    }
+
+    // Element symbols mapping
+    const elementSymbols = {
+      'Fire': '🜂',
+      'Water': '🜄', 
+      'Earth': '🜃',
+      'Air': '🜁',
+      'Aether': '⭘',
+      'Nether': '▢',
+      'Generic': '✡⃝'
+    };
+
+    return 'neutral';
   }
 }
 

@@ -1,118 +1,164 @@
 {
-  "gameRules": {
-    "basicRules": {
-      "title": "Basic Game Rules",
-      "sections": [
-        {
-          "id": "setup",
-          "title": "Game Setup",
-          "content": "Rules for setting up a game will be added here based on the provided document."
-        },
-        {
-          "id": "turn-structure",
-          "title": "Turn Structure",
-          "content": "Turn structure rules will be added here based on the provided document."
-        },
-        {
-          "id": "winning",
-          "title": "Winning the Game",
-          "content": "Win conditions will be added here based on the provided document."
-        }
-      ]
-    },
-    "cardTypes": {
-      "title": "Card Types & Mechanics",
-      "sections": [
-        {
-          "id": "elementals",
-          "title": "Elemental Cards",
-          "content": "Rules for Elemental cards will be added here."
-        },
-        {
-          "id": "flags",
-          "title": "Flag Cards",
-          "content": "Rules for Flag cards will be added here."
-        },
-        {
-          "id": "keywords",
-          "title": "Keywords",
-          "content": "Keyword abilities will be defined here."
-        }
-      ]
-    },
-    "deckBuilding": {
-      "title": "Deck Building Rules",
-      "sections": [
-        {
-          "id": "deck-size",
-          "title": "Deck Size Requirements",
-          "content": "Minimum and maximum deck size rules will be added here."
-        },
-        {
-          "id": "element-restrictions",
-          "title": "Element Restrictions",
-          "content": "Rules about element combinations and restrictions will be added here."
-        },
-        {
-          "id": "card-limits",
-          "title": "Card Copy Limits",
-          "content": "Rules about how many copies of each card are allowed will be added here."
-        }
-      ]
-    },
-    "elements": {
-      "title": "Elements System",
-      "elements": [
-        {
-          "name": "Quintessence",
-          "symbol": "⚪",
-          "description": "The pure element that can combine with others."
-        },
-        {
-          "name": "Inferno",
-          "symbol": "🔥",
-          "description": "Fire-based element representing destruction and power."
-        },
-        {
-          "name": "Submerged",
-          "symbol": "💧",
-          "description": "Water-based element representing flow and adaptation."
-        },
-        {
-          "name": "Steadfast",
-          "symbol": "🌱",
-          "description": "Earth-based element representing growth and stability."
-        },
-        {
-          "name": "Brilliance",
-          "symbol": "⚡",
-          "description": "Light-based element representing speed and clarity."
-        },
-        {
-          "name": "Void",
-          "symbol": "🌑",
-          "description": "Dark-based element representing mystery and negation."
-        }
-      ]
-    },
-    "keywords": {
-      "title": "Keyword Abilities",
-      "keywords": [
-        {
-          "name": "VOID",
-          "description": "Keyword ability description will be added here."
-        },
-        {
-          "name": "SUBMERGED",
-          "description": "Keyword ability description will be added here."
-        },
-        {
-          "name": "BRILLIANCE",
-          "description": "Keyword ability description will be added here."
-        }
-      ]
+  "gameBasics": {
+    "title": "Game Basics",
+    "sections": {
+      "introduction": {
+        "title": "What is KONIVRER?",
+        "content": "Set within an alternate history parallel to our own, KONIVRER (pronounced Conjurer) is a strategic, expandable card game made to simulate head-to-head battles where players take on the role of powerful magic users aptly named \"Conjurers,\" of which this game takes its name. Build powerful decks representing your grimoire, the cards, and the pages within. Gods and monsters of legend inhabit this familiar yet new world.",
+        "keywords": ["conjurer", "grimoire", "alternate history"]
+      },
+      "objective": {
+        "title": "Objective",
+        "content": "Winning: Reduce your opponent's Life Cards to 0 by attacking with Familiars and Spells. Players can defend with their own Familiar to protect their Life Cards. The last player or team standing wins.",
+        "keywords": ["victory", "life cards", "win condition", "combat"]
+      },
+      "gameDetails": {
+        "title": "Game Details",
+        "content": "Playtime: 30–60 minutes. Age: 12+. Players: 2 or more (supports multiple game modes, including 1v1, 2v2, 3v3, and free-for-all). Required: A flat playing surface (e.g., table).",
+        "keywords": ["playtime", "multiplayer", "game modes"]
+      },
+      "components": {
+        "title": "Components",
+        "content": "6x 5 Element Flags, 2x sets of the 63-card intro set, Rulebook, Optional: Dice to track counters (not included).",
+        "keywords": ["components", "flags", "intro set"]
+      }
+    }
+  },
+  "deckBuilding": {
+    "title": "Deck Building",
+    "sections": {
+      "deckConstruction": {
+        "title": "Deck Construction Rules",
+        "content": "Each deck follows strict building rules: 1 \"Flag\" to anchor your deck's Azoth identity (does not count toward deck total), 40 cards total, 1 copy per card maximum, 25 Common (🜠) cards, 13 Uncommon (☽) cards, 2 Rare (☉) cards.",
+        "keywords": ["deck size", "flag", "rarity distribution", "copy limit"]
+      },
+      "rarityBreakdown": {
+        "title": "Rarity Distribution",
+        "content": "Common (🜠): 25 cards, Uncommon (☽): 13 cards, Rare (☉): 2 cards. Total deck size: 40 cards plus 1 Flag.",
+        "keywords": ["common", "uncommon", "rare", "distribution"]
+      },
+      "flagRequirement": {
+        "title": "Flag Requirement",
+        "content": "Every deck must include exactly 1 Flag card that determines your deck's elemental identity and provides bonus damage against certain elements. The Flag does not count toward your 40-card deck limit.",
+        "keywords": ["flag", "identity", "elemental", "bonus damage"]
+      }
+    }
+  },
+  "setup": {
+    "title": "Setup & Zones",
+    "sections": {
+      "gameZones": {
+        "title": "Game Zones",
+        "content": "1. Field: Where Familiars and Spells are played. 2. Combat Row: Designated area for Familiar battles. 3. Azoth Row: Where Azoth cards are placed as resources. 4. Deck: Your draw pile for the duration of the game. 5. Life: Before the game, shuffle your deck and place the top 4 cards face down in a separate stack. These are your Life Cards and remain hidden until revealed as damage is taken. 6. Flag: Place your Flag here so everyone can see what elements your deck abides by and has bonus damage against. 7. Removed from Play: A zone for cards affected by the Void keyword. These cards are visible to all players but cannot be interacted with. 8. Player's Hand: Cards not yet played.",
+        "keywords": ["zones", "field", "combat", "azoth", "life cards", "flag"]
+      },
+      "preGameSetup": {
+        "title": "Pre-Game Setup",
+        "content": "Place your Flag on the top left corner of your play area. Thoroughly shuffle your Deck and place it in the top right corner of your play area. Take the top 4 cards of your Deck and place them in a stack below your Flag. Do not look at these cards.",
+        "keywords": ["setup", "flag placement", "deck shuffle", "life cards"]
+      }
+    }
+  },
+  "gameplay": {
+    "title": "Gameplay",
+    "sections": {
+      "gamePhases": {
+        "title": "Game Phases",
+        "content": "The game is divided into several phases, repeated until one player or team remains: 1. Start Phase: Draw 2 cards from your deck (only at the start of the game). Optionally place 1 card face up in your Azoth Row as a resource. 2. Main Phase: Play cards from your hand by resting Azoth (turning horizontally) to pay the costs of cards. 3. Combat Phase: Attack with Familiars individually. 4. Post-Combat Main Phase: Play additional cards if resources allow. 5. Refresh Phase: Refresh all rested Azoth sources (turning vertical).",
+        "keywords": ["phases", "start", "main", "combat", "refresh"]
+      },
+      "cardPlayMethods": {
+        "title": "Ways to Play Cards",
+        "content": "Summon: Cards enter with +1 counters = the amount of Azoth paid for ✡⃝ if placed on the Field as a Familiar. Tribute: If a card is Summoned, you may reduce the cost by the combined Elements costs and +1 counters of any number of Familiars you control, by removing them from the game. Azoth: Place a card face-up in your Azoth Row. Each Azoth can only generate 1 type at a time. Spell: Play a card from your hand but put it onto the bottom of your deck after resolving one of the abilities on the card. Burst: You may play a card for free or put it in your hand when it's drawn from your life cards after you take damage.",
+        "keywords": ["summon", "tribute", "azoth", "spell", "burst"]
+      }
+    }
+  },
+  "elements": {
+    "title": "Element System",
+    "sections": {
+      "elementTypes": {
+        "title": "Element Types",
+        "content": "🜂: Fire (Inferno), 🜄: Water (Submerged), 🜃: Earth (Steadfast), 🜁: Air (Gust), ⭘: Aether (Brilliance), ▢: Nether (Void), ✡⃝: Generic (used for Strength determination).",
+        "keywords": ["fire", "water", "earth", "air", "aether", "nether", "generic"]
+      },
+      "azothSystem": {
+        "title": "Azoth System",
+        "content": "Azoth cards are placed face-up in your Azoth Row as resources. Each Azoth can only generate 1 type at a time. Rest Azoth (turn horizontally) to pay for card costs. The symbol ✡⃝ determines the card's initial Strength on play, which is the amount of Azoth spent beyond the required elemental cost.",
+        "keywords": ["azoth", "resources", "strength", "generic cost"]
+      },
+      "elementInteractions": {
+        "title": "Element Interactions",
+        "content": "Each keyword has specific element restrictions: Brilliance doesn't affect ▢ cards, Gust doesn't affect 🜃 cards, Inferno doesn't affect 🜄 cards, Steadfast doesn't affect 🜂 cards, Submerged doesn't affect 🜁 cards, Void doesn't affect ⭘ cards.",
+        "keywords": ["interactions", "restrictions", "immunity"]
+      }
+    }
+  },
+  "keywords": {
+    "title": "Keywords & Abilities",
+    "sections": {
+      "keywordDefinitions": {
+        "title": "Keyword Definitions",
+        "content": "Each keyword activates only once on the play of the respective Spell/Familiar. Amalgam: Choose one of two listed Keywords/Elements when played. Brilliance: Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card's Strength on the bottom of its owner's life cards. Gust: Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card's Strength to its owner's hand. Inferno: After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card's Strength. Steadfast: Redirect damage ≤ 🜃 used to pay for this card's Strength, that would be done to you or cards you control, to this card's Strength. Submerged: Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card's Strength, that many cards below the top of its owner's deck. Quintessence: This card can't be played as a Familiar. While in the Azoth row, it produces any Azoth type. Void: Remove target card from the game.",
+        "keywords": ["amalgam", "brilliance", "gust", "inferno", "steadfast", "submerged", "quintessence", "void"]
+      },
+      "keywordRestrictions": {
+        "title": "Keyword Restrictions",
+        "content": "Brilliance doesn't affect ▢ (Nether) cards. Gust doesn't affect 🜃 (Earth) cards. Inferno doesn't affect 🜄 (Water) cards. Steadfast doesn't affect 🜂 (Fire) cards. Submerged doesn't affect 🜁 (Air) cards. Void doesn't affect ⭘ (Aether) cards.",
+        "keywords": ["restrictions", "immunity", "element protection"]
+      }
+    }
+  },
+  "cardTypes": {
+    "title": "Card Types & Anatomy",
+    "sections": {
+      "cardAnatomy": {
+        "title": "Parts of a Card",
+        "content": "1. Element(s): The cost and elemental alignment of a card. 2. Name: The card's title. 3. Lesser type: What type of card it is when on the Field. 4. Ability(s): Effect(s) when played as a Familiar or Spell. 5. Flavor text: Adds narrative context to the game world. 6. Set and rarity symbol: Indicates the card's set and rarity level. 7. Set number: Identifies the card's place within its set.",
+        "keywords": ["anatomy", "elements", "name", "type", "abilities"]
+      },
+      "familiarCards": {
+        "title": "Familiar Cards",
+        "content": "Familiars are played on the Field and can attack opponents or defend. When Summoned, they enter with +1 counters equal to the amount of Azoth paid for ✡⃝. Familiars can be used for Tribute to reduce the cost of other cards.",
+        "keywords": ["familiar", "field", "combat", "counters", "tribute"]
+      },
+      "spellCards": {
+        "title": "Spell Cards",
+        "content": "Spells are played from your hand and put onto the bottom of your deck after resolving one of their abilities. Use the amount of Azoth paid for ✡⃝ in place of the Element symbol in the ability's text.",
+        "keywords": ["spell", "instant", "bottom deck", "strength"]
+      },
+      "flagCards": {
+        "title": "Flag Cards",
+        "content": "Each deck must include exactly 1 Flag card that anchors your deck's Azoth identity. Flags determine what elements your deck can use and provide bonus damage against certain elements. The Flag does not count toward your 40-card deck total.",
+        "keywords": ["flag", "identity", "azoth", "bonus damage"]
+      }
+    }
+  },
+  "alphabet": {
+    "title": "KONIVRER Alphabet",
+    "sections": {
+      "worldBuilding": {
+        "title": "Alternative History",
+        "content": "In this alternative history, Rome never came to power. Because of this, the modern-day alphabet doesn't have the structure of our world and stays in a Latin-derived form very similar to Roman Square but with heavier Greek influence.",
+        "keywords": ["rome", "alphabet", "greek", "latin"]
+      },
+      "vowels": {
+        "title": "Vowels",
+        "content": "A /a/, /æ/, E /e/, /ɛ/, I /i/, /ɪ/, /j/, O /o/, /ɔ/, V (for U) /u/, /ʊ/",
+        "keywords": ["vowels", "pronunciation"]
+      },
+      "consonants": {
+        "title": "Consonants",
+        "content": "B /b/, D /d/, G → Γ /g/, H /h/, K /k/, L /l/, M /m/, N /n/, P /p/, R /r/, T /t/, Z /s/, /z/, V /v/, VV (for W) /w/, Ξ /ks/, /gz/, Φ /f/, C replaced by Κ /k/, Q replaced by KW",
+        "keywords": ["consonants", "greek letters", "replacements"]
+      },
+      "specialCharacters": {
+        "title": "Special Characters & Digraphs",
+        "content": "Merged/Eliminated: Y → I, J → I, U → V, C, Q, W removed. Digraphs: Χ = CH /x/, /k/, Σ = SH /ʃ/, Θ = TH /θ/, Δ = DH /ð/, NG /ŋ/, HL /hl/, HR /hr/, KN /kn/, GN /gn/, WH /ʍ/, /hw/",
+        "keywords": ["digraphs", "special characters", "merged letters"]
+      }
     }
   },
   "lastUpdated": "2025-06-20",
-  "version": "1.0.0"
+  "version": "2.0.0"
 }
