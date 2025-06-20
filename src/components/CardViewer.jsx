@@ -55,18 +55,7 @@ const CardViewer = ({
     return elementMap[element] || { symbol: element, name: element };
   };
 
-  // Mock format legality data
-  const formatLegality = {
-    Standard: 'Not Legal',
-    Pioneer: 'Not Legal',
-    Modern: 'Legal',
-    Legacy: 'Legal',
-    Vintage: 'Legal',
-    Commander: 'Legal',
-    Brawl: 'Not Legal',
-    Historic: 'Legal',
-    Pauper: card.rarity === 'common' ? 'Legal' : 'Not Legal',
-  };
+
 
   // Mock pricing data
   const pricing = {
@@ -179,28 +168,7 @@ const CardViewer = ({
               </span>
             </div>
 
-            {/* Format Legality */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">
-                Format Legality
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-                {Object.entries(formatLegality).map(([format, legality]) => (
-                  <div key={format} className="flex justify-between">
-                    <span className="text-gray-700">{format}:</span>
-                    <span
-                      className={
-                        legality === 'Legal'
-                          ? 'text-green-600 font-medium'
-                          : 'text-red-600'
-                      }
-                    >
-                      {legality}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+
 
             {/* Set Information */}
             <div className="bg-gray-50 rounded-lg p-4">

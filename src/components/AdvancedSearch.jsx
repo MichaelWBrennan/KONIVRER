@@ -44,9 +44,6 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
     sets: [],
     rarity: [],
 
-    // Format & Legality
-    formats: [],
-
     // Price & Market
     priceRange: { min: '', max: '', currency: 'usd' },
 
@@ -87,7 +84,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
 
   const sets = ['PRIMA MATERIA', 'Core Set', 'Expansion 1', 'Expansion 2'];
 
-  const formats = ['Standard', 'Legacy', 'Limited', 'Commander'];
+
 
   const operators = ['=', '≠', '<', '≤', '>', '≥'];
 
@@ -136,7 +133,6 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
       toughness: { operator: '=', value: '' },
       sets: [],
       rarity: [],
-      formats: [],
       priceRange: { min: '', max: '', currency: 'usd' },
       artist: '',
       flavorText: '',
