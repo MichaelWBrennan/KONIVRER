@@ -414,19 +414,15 @@ const CardDatabase = ({
         </div>
       )}
 
-      {/* Results Count */}
+      {/* Results Count - Icon removed */}
       <div className="flex items-center justify-between text-white">
         <span>
           {filters.set === 'all' ? (
             <span className="text-yellow-300 font-medium">
-              {cards.length} total cards available
+              {/* "64 cards total" text removed */}
             </span>
           ) : (
-            <>
-              Showing {filteredCards.length} of{' '}
-              {cards.filter(card => card.set === filters.set).length} cards
-              <span className="ml-2 text-purple-300">from {filters.set}</span>
-            </>
+            <>{/* "Showing 64 of 64 cards" text removed */}</>
           )}
         </span>
         {favorites.size > 0 && (
