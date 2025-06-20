@@ -9,43 +9,104 @@
     "title": "Setup & Game Zones",
     "icon": "🏗️",
     "content": "**Initial Setup:**\n1. Place your Flag in the top left corner\n2. Shuffle your 40-card deck and place it top right\n3. Draw the top 4 cards face-down as your Life Cards (place below Flag)\n4. Draw your starting hand (7 cards)\n\n**Game Zones:**\n• **Flag Zone** - Your elemental identity (top left)\n• **Deck** - Your remaining cards (top right)\n• **Life Cards** - 4 face-down cards that determine victory (below Flag)\n• **Hand** - Cards you can play (in your hand)\n• **Field** - Where Familiars are summoned and remain\n• **Azoth Row** - Where resource cards are placed\n• **Removed Zone** - Cards affected by Void abilities",
-    "keywords": ["setup", "zones", "flag", "deck", "life cards", "hand", "field", "azoth"]
+    "keywords": [
+      "setup",
+      "zones",
+      "flag",
+      "deck",
+      "life cards",
+      "hand",
+      "field",
+      "azoth"
+    ]
   },
   "deckBuilding": {
     "title": "Deck Building",
     "icon": "📚",
     "content": "**Deck Construction Rules:**\n• **1 Flag** - Determines your elemental identity (doesn't count toward deck size)\n• **40 cards exactly** - No more, no less\n• **1 copy maximum** - Only one copy of each card allowed\n• **Rarity limits:**\n  - 25 Common (🜠) cards maximum\n  - 13 Uncommon (☽) cards maximum\n  - 2 Rare (☉) cards maximum\n\n**Flag Benefits:**\nYour Flag determines which elements you can use and provides bonus damage against opposing elements.",
-    "keywords": ["deck building", "flag", "rarity", "common", "uncommon", "rare", "construction"]
+    "keywords": [
+      "deck building",
+      "flag",
+      "rarity",
+      "common",
+      "uncommon",
+      "rare",
+      "construction"
+    ]
   },
   "turnStructure": {
     "title": "Turn Structure",
     "icon": "🔄",
     "content": "Each turn follows these phases in order:\n\n**1. Start Phase**\n• Draw 2 cards (first turn of the game only)\n• Optionally place 1 card face-up as Azoth\n\n**2. Main Phase**\n• Play cards by resting (turning horizontal) Azoth to pay costs\n• Summon Familiars, cast Spells, or place more Azoth\n\n**3. Combat Phase**\n• Attack with your Familiars\n• Opponent may block with their Familiars\n• Resolve damage\n\n**4. Post-Combat Phase**\n• Play additional cards if you have resources\n\n**5. Refresh Phase**\n• Refresh (turn vertical) all rested Azoth\n• Pass turn to opponent",
-    "keywords": ["turn", "phases", "start", "main", "combat", "refresh", "azoth"]
+    "keywords": [
+      "turn",
+      "phases",
+      "start",
+      "main",
+      "combat",
+      "refresh",
+      "azoth"
+    ]
   },
   "playingCards": {
     "title": "Playing Cards",
     "icon": "🃏",
     "content": "**Ways to Play Cards:**\n\n**Summon (as Familiar):**\n• Pay Azoth costs by resting Azoth cards\n• Place on Field with +1 counters equal to ✡⃝ (Strength) paid\n• Can attack and defend\n\n**Cast (as Spell):**\n• Pay Azoth costs, resolve ability immediately\n• Card goes to bottom of your deck after use\n\n**Place as Azoth:**\n• Place any card face-up in Azoth Row as a resource\n• Can be rested to pay for other cards\n\n**Tribute:**\n• Remove your own Familiars from the game to reduce costs\n\n**Burst:**\n• When drawn as damage from Life Cards, play for free\n• Resolve ability immediately",
-    "keywords": ["summon", "spell", "azoth", "tribute", "burst", "familiar", "strength"]
+    "keywords": [
+      "summon",
+      "spell",
+      "azoth",
+      "tribute",
+      "burst",
+      "familiar",
+      "strength"
+    ]
   },
   "combat": {
     "title": "Combat",
     "icon": "⚔️",
     "content": "**Combat Steps:**\n\n**1. Declare Attacks**\n• Choose which Familiars attack\n• Attacking Familiars rest (turn horizontal)\n\n**2. Declare Blocks**\n• Opponent may block with their Familiars\n• Each attacking Familiar can be blocked by one defending Familiar\n\n**3. Resolve Damage**\n• Blocked attacks: Both Familiars take damage equal to opponent's Strength\n• Unblocked attacks: Damage goes to opponent's Life Cards\n• Remove Familiars with damage ≥ their Strength\n\n**Damage to Life Cards:**\n• Draw cards from Life Cards equal to damage taken\n• If Burst ability, play immediately for free\n• Otherwise, add to hand\n• When all 4 Life Cards are gone, you lose",
-    "keywords": ["combat", "attack", "block", "damage", "strength", "life cards", "burst"]
+    "keywords": [
+      "combat",
+      "attack",
+      "block",
+      "damage",
+      "strength",
+      "life cards",
+      "burst"
+    ]
   },
   "elementsAndKeywords": {
     "title": "Elements & Keywords",
     "icon": "🌟",
     "content": "**Elements:**\n🜂 **Inferno** - Add extra damage after dealing damage\n🜄 **Submerged** - Place targets below owner's deck\n🜃 **Steadfast** - Redirect damage to this card instead\n🜁 **Gust** - Return targets to owner's hand\n⭘ **Brilliance** - Place targets on bottom of owner's Life Cards\n▢ **Void** - Remove targets from the game permanently\n✡⃝ **Strength** - Generic resource/power level\n\n**Special Keywords:**\n• **Amalgam** - Choose one of two listed abilities when played\n• **Quintessence** - Can't be summoned; produces any Azoth type\n\n**Element Interactions:**\nEach element is immune to one other:\nBrilliance ⭘ immune to Void ▢\nGust 🜁 immune to Steadfast 🜃\nInferno 🜂 immune to Submerged 🜄\nSteadfast 🜃 immune to Inferno 🜂\nSubmerged 🜄 immune to Gust 🜁\nVoid ▢ immune to Brilliance ⭘",
-    "keywords": ["elements", "keywords", "inferno", "submerged", "steadfast", "gust", "brilliance", "void", "immunity", "amalgam", "quintessence"]
+    "keywords": [
+      "elements",
+      "keywords",
+      "inferno",
+      "submerged",
+      "steadfast",
+      "gust",
+      "brilliance",
+      "void",
+      "immunity",
+      "amalgam",
+      "quintessence"
+    ]
   },
   "quickReference": {
     "title": "Quick Reference",
     "icon": "📋",
     "content": "**Card Types:**\n• **Familiars** - Combat units (summon to Field)\n• **Spells** - One-time effects (cast then to bottom of deck)\n• **Flags** - Elemental identity (determines deck elements)\n\n**Rarity Symbols:**\n🜠 Common • ☽ Uncommon • ☉ Rare\n\n**Element Symbols:**\n🜂 Inferno • 🜄 Submerged • 🜃 Steadfast • 🜁 Gust • ⭘ Brilliance • ▢ Void • ✡⃝ Strength\n\n**Key Terms:**\n• **Azoth** - Resources used to pay costs\n• **Rest** - Turn card horizontal (can't use until refreshed)\n• **Refresh** - Turn card vertical (ready to use)\n• **Strength** - Power level of cards (✡⃝ symbol)\n• **Life Cards** - Your 4 face-down cards; lose when all are gone",
-    "keywords": ["reference", "symbols", "terms", "rarity", "elements", "azoth", "strength"]
+    "keywords": [
+      "reference",
+      "symbols",
+      "terms",
+      "rarity",
+      "elements",
+      "azoth",
+      "strength"
+    ]
   },
   "lastUpdated": "2025-06-20",
   "version": "3.1.0"
