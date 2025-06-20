@@ -50,7 +50,6 @@ const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showCardExplorerDropdown, setShowCardExplorerDropdown] =
     useState(false);
   const [showDeckWorkshopDropdown, setShowDeckWorkshopDropdown] =
@@ -159,7 +158,7 @@ const Layout = ({ children }) => {
       icon: Trophy,
     });
 
-    // Judge Center - only for judges
+    // Judge Center - only for judges (keep as separate navigation item)
     if (hasJudgeAccess()) {
       baseNavigation.push({
         name: 'Judge Center',
@@ -300,6 +299,8 @@ const Layout = ({ children }) => {
                             setShowAnalyticsDropdown(true);
                           if (item.name === 'Community & Tools')
                             setShowCommunityDropdown(true);
+                          if (item.name === 'Accounts')
+                            setShowAccountsDropdown(true);
                         }}
                         onMouseLeave={() => {
                           setTimeout(() => {
@@ -404,10 +405,12 @@ const Layout = ({ children }) => {
             <div className="hidden lg:flex items-center gap-4">
               {/* User Authentication */}
               {isAuthenticated ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                <div className="flex items-center gap-3">
+                  {/* User Profile Link */}
+                  <Link
+                    to="/profile"
                     className="flex items-center gap-2 btn btn-ghost"
+                    title="Go to Profile"
                   >
                     <img
                       src={user.avatar}
@@ -415,100 +418,17 @@ const Layout = ({ children }) => {
                       className="w-6 h-6 rounded-full bg-tertiary"
                     />
                     <span className="hidden xl:block">{user.displayName}</span>
-                    <ChevronDown size={14} />
+                  </Link>
+                  
+                  {/* Logout Button */}
+                  <button
+                    onClick={logout}
+                    className="btn btn-ghost text-red-400 hover:text-red-300"
+                    title="Logout"
+                  >
+                    <LogOut size={16} />
+                    <span className="hidden xl:block">Logout</span>
                   </button>
-
-                  {showUserDropdown && (
-                    <div className="absolute right-0 mt-2 w-48 bg-card border border-color rounded-lg shadow-lg z-50">
-                      <div className="p-3 border-b border-color">
-                        <p className="font-medium">{user.displayName}</p>
-                        <p className="text-sm text-secondary">
-                          @{user.username}
-                        </p>
-                      </div>
-                      <div className="py-2">
-                        <Link
-                          to="/profile"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <User size={16} />
-                          Profile
-                        </Link>
-                        <Link
-                          to="/hub?section=manage&tab=mydecks"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <BookOpen size={16} />
-                          My Decks
-                        </Link>
-                        <Link
-                          to="/battle-pass"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <Sparkles size={16} />
-                          Battle Pass
-                        </Link>
-                        <Link
-                          to="/card-maker"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <Palette size={16} />
-                          Card Maker
-                        </Link>
-                        <Link
-                          to="/replays"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <Play size={16} />
-                          Replays
-                        </Link>
-                        {hasJudgeAccess() && (
-                          <Link
-                            to="/judge-center"
-                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                            onClick={() => setShowUserDropdown(false)}
-                          >
-                            <Shield size={16} />
-                            Judge Center
-                          </Link>
-                        )}
-                        {hasOrganizerAccess() && (
-                          <Link
-                            to="/tournament-manager"
-                            className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                            onClick={() => setShowUserDropdown(false)}
-                          >
-                            <Trophy size={16} />
-                            Tournament Manager
-                          </Link>
-                        )}
-                        <Link
-                          to="/profile?tab=settings"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <Settings size={16} />
-                          Settings
-                        </Link>
-                        <hr className="my-2 border-color" />
-                        <button
-                          onClick={() => {
-                            logout();
-                            setShowUserDropdown(false);
-                          }}
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover w-full text-left text-red-400"
-                        >
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
               ) : (
                 <button
@@ -599,19 +519,21 @@ const Layout = ({ children }) => {
               <div className="mt-4 pt-4 border-t border-color">
                 {isAuthenticated ? (
                   <div className="space-y-2">
-                    <div className="flex items-center gap-3 px-3 py-2">
-                      <img
-                        src={user.avatar}
-                        alt={user.displayName}
-                        className="w-8 h-8 rounded-full bg-tertiary"
-                      />
-                      <div>
-                        <p className="font-medium text-sm">
-                          {user.displayName}
-                        </p>
-                        <p className="text-xs text-secondary">
-                          @{user.username}
-                        </p>
+                    <div className="flex items-center justify-between px-3 py-2">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={user.avatar}
+                          alt={user.displayName}
+                          className="w-8 h-8 rounded-full bg-tertiary"
+                        />
+                        <div>
+                          <p className="font-medium text-sm">
+                            {user.displayName}
+                          </p>
+                          <p className="text-xs text-secondary">
+                            @{user.username}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <Link
@@ -621,14 +543,6 @@ const Layout = ({ children }) => {
                     >
                       <User size={16} />
                       Profile
-                    </Link>
-                    <Link
-                      to="/decklists?view=mydecks"
-                      className="flex items-center gap-3 px-3 py-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-md"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <BookOpen size={16} />
-                      My Decks
                     </Link>
                     <button
                       onClick={() => {
@@ -710,13 +624,7 @@ const Layout = ({ children }) => {
         onClose={() => setShowAuthModal(false)}
       />
 
-      {/* Click outside to close dropdown */}
-      {showUserDropdown && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setShowUserDropdown(false)}
-        />
-      )}
+
     </div>
   );
 };
