@@ -30,7 +30,7 @@ class RulesEngine {
         type: 'error',
         rule: 'deck-size',
         message: `Deck must have at least ${minCards} cards (currently ${totalCards})`,
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -39,7 +39,7 @@ class RulesEngine {
         type: 'error',
         rule: 'deck-size',
         message: `Deck cannot exceed ${maxCards} cards (currently ${totalCards})`,
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -58,34 +58,34 @@ class RulesEngine {
     return {
       isValid: validations.filter(v => v.type === 'error').length === 0,
       validations,
-      summary: this.generateValidationSummary(validations)
+      summary: this.generateValidationSummary(validations),
     };
   }
 
   validateElements(deck) {
     const validations = [];
     const flagCard = deck.cards.find(card => card.type === 'ΦLAG');
-    
+
     if (!flagCard) {
       validations.push({
         type: 'error',
         rule: 'flag-required',
         message: 'Deck must include exactly one Flag card',
-        severity: 'high'
+        severity: 'high',
       });
       return validations;
     }
 
     // Get allowed elements from flag card
     const allowedElements = this.getAllowedElements(flagCard);
-    
+
     // Check each card's elements
     deck.cards.forEach(card => {
       if (card.type === 'ΦLAG') return; // Skip flag cards
-      
+
       const cardElements = card.elements || [];
-      const invalidElements = cardElements.filter(element => 
-        !allowedElements.includes(element) && element !== 'Neutral'
+      const invalidElements = cardElements.filter(
+        element => !allowedElements.includes(element) && element !== 'Neutral',
       );
 
       if (invalidElements.length > 0) {
@@ -94,7 +94,7 @@ class RulesEngine {
           rule: 'element-restriction',
           message: `${card.name} contains forbidden elements: ${invalidElements.join(', ')}`,
           severity: 'medium',
-          cardId: card.id
+          cardId: card.id,
         });
       }
     });
@@ -110,8 +110,9 @@ class RulesEngine {
     // Count card copies
     deck.cards.forEach(card => {
       if (card.type === 'ΦLAG') return; // Flag cards have different rules
-      
-      cardCounts[card.name] = (cardCounts[card.name] || 0) + (card.quantity || 1);
+
+      cardCounts[card.name] =
+        (cardCounts[card.name] || 0) + (card.quantity || 1);
     });
 
     // Check limits
@@ -121,7 +122,7 @@ class RulesEngine {
           type: 'error',
           rule: 'copy-limit',
           message: `Too many copies of ${cardName} (${count}/${maxCopies})`,
-          severity: 'medium'
+          severity: 'medium',
         });
       }
     });
@@ -138,14 +139,14 @@ class RulesEngine {
         type: 'error',
         rule: 'flag-required',
         message: 'Deck must include exactly one Flag card',
-        severity: 'high'
+        severity: 'high',
       });
     } else if (flagCards.length > 1) {
       validations.push({
         type: 'error',
         rule: 'flag-limit',
         message: 'Deck can only include one Flag card',
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -159,27 +160,27 @@ class RulesEngine {
 
   getMinDeckSize(format) {
     const formatRules = {
-      'standard': 40,
-      'limited': 40,
-      'eternal': 40
+      standard: 40,
+      limited: 40,
+      eternal: 40,
     };
     return formatRules[format] || 40;
   }
 
   getMaxDeckSize(format) {
     const formatRules = {
-      'standard': 60,
-      'limited': 40,
-      'eternal': 60
+      standard: 60,
+      limited: 40,
+      eternal: 60,
     };
     return formatRules[format] || 60;
   }
 
   getMaxCopies(format) {
     const formatRules = {
-      'standard': 4,
-      'limited': 4,
-      'eternal': 4
+      standard: 4,
+      limited: 4,
+      eternal: 4,
     };
     return formatRules[format] || 4;
   }
@@ -189,43 +190,62 @@ class RulesEngine {
     // For now, return a default set
     if (flagCard.name === 'ΦIVE ELEMENT ΦLAG') {
       // Player chooses 5 of 6 elements
-      return ['Quintessence', 'Inferno', 'Submerged', 'Steadfast', 'Brilliance']; // Example selection
+      return [
+        'Quintessence',
+        'Inferno',
+        'Submerged',
+        'Steadfast',
+        'Brilliance',
+      ]; // Example selection
     }
-    
+
     // Default to all elements if flag not recognized
-    return ['Quintessence', 'Inferno', 'Submerged', 'Steadfast', 'Brilliance', 'Void'];
+    return [
+      'Quintessence',
+      'Inferno',
+      'Submerged',
+      'Steadfast',
+      'Brilliance',
+      'Void',
+    ];
   }
 
   generateValidationSummary(validations) {
     const errors = validations.filter(v => v.type === 'error');
     const warnings = validations.filter(v => v.type === 'warning');
-    
+
     return {
       errorCount: errors.length,
       warningCount: warnings.length,
       isLegal: errors.length === 0,
-      highSeverityIssues: validations.filter(v => v.severity === 'high').length
+      highSeverityIssues: validations.filter(v => v.severity === 'high').length,
     };
   }
 
   // Keyword ability definitions
   getKeywordDefinition(keyword) {
     const keywords = {
-      'VOID': {
+      VOID: {
         name: 'VOID',
-        description: 'This ability allows the card to bypass certain defenses and effects.',
-        rulesText: 'Cards with VOID cannot be targeted by certain protective effects.'
+        description:
+          'This ability allows the card to bypass certain defenses and effects.',
+        rulesText:
+          'Cards with VOID cannot be targeted by certain protective effects.',
       },
-      'SUBMERGED': {
+      SUBMERGED: {
         name: 'SUBMERGED',
-        description: 'This ability relates to water-based mechanics and flow effects.',
-        rulesText: 'SUBMERGED cards have enhanced interaction with water-element effects.'
+        description:
+          'This ability relates to water-based mechanics and flow effects.',
+        rulesText:
+          'SUBMERGED cards have enhanced interaction with water-element effects.',
       },
-      'BRILLIANCE': {
+      BRILLIANCE: {
         name: 'BRILLIANCE',
-        description: 'This ability represents speed, clarity, and light-based effects.',
-        rulesText: 'BRILLIANCE cards can activate certain effects more quickly.'
-      }
+        description:
+          'This ability represents speed, clarity, and light-based effects.',
+        rulesText:
+          'BRILLIANCE cards can activate certain effects more quickly.',
+      },
     };
 
     return keywords[keyword.toUpperCase()];
@@ -235,20 +255,20 @@ class RulesEngine {
   getElementInteractions(element1, element2) {
     // Define element interaction matrix
     const interactions = {
-      'Inferno': {
-        'Submerged': 'opposed',
-        'Steadfast': 'neutral',
-        'Brilliance': 'synergy',
-        'Void': 'neutral',
-        'Quintessence': 'neutral'
+      Inferno: {
+        Submerged: 'opposed',
+        Steadfast: 'neutral',
+        Brilliance: 'synergy',
+        Void: 'neutral',
+        Quintessence: 'neutral',
       },
-      'Submerged': {
-        'Inferno': 'opposed',
-        'Steadfast': 'synergy',
-        'Brilliance': 'neutral',
-        'Void': 'neutral',
-        'Quintessence': 'neutral'
-      }
+      Submerged: {
+        Inferno: 'opposed',
+        Steadfast: 'synergy',
+        Brilliance: 'neutral',
+        Void: 'neutral',
+        Quintessence: 'neutral',
+      },
       // Add more interactions as defined in the rules
     };
 
