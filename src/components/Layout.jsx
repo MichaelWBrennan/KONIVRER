@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showCardExplorerDropdown, setShowCardExplorerDropdown] = useState(false);
   const [showDeckWorkshopDropdown, setShowDeckWorkshopDropdown] = useState(false);
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
   const [showAnalyticsDropdown, setShowAnalyticsDropdown] = useState(false);
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
 
@@ -123,19 +123,8 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
     });
 
-    // Profile dropdown - combines personal features and profile management
-    baseNavigation.push({
-      name: 'Profile',
-      icon: User,
-      dropdown: true,
-      items: [
-        { name: 'My Profile', href: '/profile' },
-        { name: 'My Decks', href: '/decks' },
-        { name: 'Collection', href: '/collection' },
-        { name: 'Battle Pass', href: '/battle-pass' },
-        { name: 'Settings', href: '/profile?tab=settings' },
-      ]
-    });
+    // Account sections are now integrated into the user account system
+    // No separate dropdown needed in main navigation
 
     // Analytics Hub dropdown
     baseNavigation.push({
@@ -250,7 +239,7 @@ const Layout = ({ children }) => {
     if (path.startsWith('/battle-pass') || path.startsWith('/ai-assistant') || path.startsWith('/community') || path.startsWith('/tools')) return 'Community & Tools';
     if (path.startsWith('/tournaments')) return 'Tournaments';
     if (path.startsWith('/judge-center')) return 'Judge Center';
-    if (path.startsWith('/profile')) return 'Profile';
+    // Profile pages are now handled through user account system
     if (path.startsWith('/settings')) return 'Settings';
 
     // Default fallback
@@ -296,7 +285,6 @@ const Layout = ({ children }) => {
                         onMouseEnter={() => {
                           if (item.name === 'Card Explorer') setShowCardExplorerDropdown(true);
                           if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(true);
-                          if (item.name === 'Profile') setShowProfileDropdown(true);
                           if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(true);
                           if (item.name === 'Community & Tools') setShowCommunityDropdown(true);
                         }}
@@ -304,7 +292,6 @@ const Layout = ({ children }) => {
                           setTimeout(() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(false);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(false);
-                            if (item.name === 'Profile') setShowProfileDropdown(false);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(false);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(false);
                           }, 150);
@@ -321,7 +308,6 @@ const Layout = ({ children }) => {
                       {/* Dropdown Menu */}
                       {((item.name === 'Card Explorer' && showCardExplorerDropdown) ||
                         (item.name === 'Deck Workshop' && showDeckWorkshopDropdown) ||
-                        (item.name === 'Profile' && showProfileDropdown) ||
                         (item.name === 'Analytics Hub' && showAnalyticsDropdown) ||
                         (item.name === 'Community & Tools' && showCommunityDropdown)) && (
                         <div 
@@ -329,14 +315,12 @@ const Layout = ({ children }) => {
                           onMouseEnter={() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(true);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(true);
-                            if (item.name === 'Profile') setShowProfileDropdown(true);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(true);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(true);
                           }}
                           onMouseLeave={() => {
                             if (item.name === 'Card Explorer') setShowCardExplorerDropdown(false);
                             if (item.name === 'Deck Workshop') setShowDeckWorkshopDropdown(false);
-                            if (item.name === 'Profile') setShowProfileDropdown(false);
                             if (item.name === 'Analytics Hub') setShowAnalyticsDropdown(false);
                             if (item.name === 'Community & Tools') setShowCommunityDropdown(false);
                           }}
@@ -414,21 +398,66 @@ const Layout = ({ children }) => {
                         </p>
                       </div>
                       <div className="py-2">
+                        {/* Profile & Account Management */}
                         <Link
                           to="/profile"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
                           onClick={() => setShowUserDropdown(false)}
                         >
                           <User size={16} />
-                          Profile
+                          My Profile
                         </Link>
                         <Link
-                          to="/hub?section=manage&tab=mydecks"
+                          to="/profile?tab=settings"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Settings size={16} />
+                          Account Settings
+                        </Link>
+                        <Link
+                          to="/profile?tab=security"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Shield size={16} />
+                          Security
+                        </Link>
+                        <Link
+                          to="/profile?tab=billing"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <DollarSign size={16} />
+                          Billing
+                        </Link>
+                        <Link
+                          to="/profile?tab=privacy"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Globe size={16} />
+                          Privacy
+                        </Link>
+                        
+                        <hr className="my-2 border-color" />
+                        
+                        {/* Personal Content */}
+                        <Link
+                          to="/decks"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
                           onClick={() => setShowUserDropdown(false)}
                         >
                           <BookOpen size={16} />
                           My Decks
+                        </Link>
+                        <Link
+                          to="/collection"
+                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <Package size={16} />
+                          Collection
                         </Link>
                         <Link
                           to="/battle-pass"
@@ -438,6 +467,10 @@ const Layout = ({ children }) => {
                           <Sparkles size={16} />
                           Battle Pass
                         </Link>
+                        
+                        <hr className="my-2 border-color" />
+                        
+                        {/* Tools & Features */}
                         <Link
                           to="/card-maker"
                           className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
@@ -454,13 +487,15 @@ const Layout = ({ children }) => {
                           <Play size={16} />
                           Replays
                         </Link>
+                        
+                        {/* Role-based Access */}
                         {hasJudgeAccess() && (
                           <Link
                             to="/judge-center"
                             className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
                             onClick={() => setShowUserDropdown(false)}
                           >
-                            <Shield size={16} />
+                            <Scale size={16} />
                             Judge Center
                           </Link>
                         )}
@@ -474,15 +509,9 @@ const Layout = ({ children }) => {
                             Tournament Manager
                           </Link>
                         )}
-                        <Link
-                          to="/profile?tab=settings"
-                          className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-hover"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <Settings size={16} />
-                          Settings
-                        </Link>
+                        
                         <hr className="my-2 border-color" />
+                        
                         <button
                           onClick={() => {
                             logout();

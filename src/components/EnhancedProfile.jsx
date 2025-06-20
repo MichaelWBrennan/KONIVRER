@@ -184,13 +184,15 @@ const EnhancedProfile = () => {
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: User, color: 'text-blue-400' },
+    { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
+    { id: 'collection', label: 'Collection', icon: Database, color: 'text-indigo-400' },
+    { id: 'battlepass', label: 'Battle Pass', icon: Sparkles, color: 'text-pink-400' },
     {
       id: 'tournaments',
       label: 'Tournaments',
       icon: Trophy,
       color: 'text-yellow-400',
     },
-    { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
     {
       id: 'achievements',
       label: 'Achievements',
@@ -198,16 +200,16 @@ const EnhancedProfile = () => {
       color: 'text-purple-400',
     },
     {
-      id: 'applications',
-      label: 'Applications',
-      icon: Target,
-      color: 'text-orange-400',
-    },
-    {
       id: 'analytics',
       label: 'Analytics',
       icon: BarChart3,
       color: 'text-cyan-400',
+    },
+    {
+      id: 'applications',
+      label: 'Applications',
+      icon: Target,
+      color: 'text-orange-400',
     },
     { id: 'security', label: 'Security', icon: Shield, color: 'text-red-400' },
     {
@@ -616,6 +618,332 @@ const EnhancedProfile = () => {
     </motion.div>
   );
 
+  const renderDecks = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <BookOpen className="text-green-400" size={24} />
+          <h2 className="text-xl font-bold">My Decks</h2>
+        </div>
+        <div className="text-center py-12 text-secondary">
+          <BookOpen size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg mb-2">No decks created yet</p>
+          <p className="text-sm mb-4">Start building your first deck to see it here</p>
+          <Link
+            to="/decks/builder"
+            className="btn btn-primary"
+          >
+            Create Deck
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderCollection = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Database className="text-indigo-400" size={24} />
+          <h2 className="text-xl font-bold">Card Collection</h2>
+        </div>
+        <div className="text-center py-12 text-secondary">
+          <Database size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg mb-2">Collection tracking coming soon</p>
+          <p className="text-sm mb-4">Track your card collection and manage your inventory</p>
+          <Link
+            to="/cards"
+            className="btn btn-primary"
+          >
+            Browse Cards
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderBattlePass = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Sparkles className="text-pink-400" size={24} />
+          <h2 className="text-xl font-bold">Battle Pass</h2>
+        </div>
+        <div className="text-center py-12 text-secondary">
+          <Sparkles size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg mb-2">Battle Pass system coming soon</p>
+          <p className="text-sm mb-4">Earn rewards and unlock exclusive content</p>
+          <button className="btn btn-primary" disabled>
+            Coming Soon
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderTournaments = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Trophy className="text-yellow-400" size={24} />
+          <h2 className="text-xl font-bold">Tournament History</h2>
+        </div>
+        <div className="text-center py-12 text-secondary">
+          <Trophy size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg mb-2">No tournament history yet</p>
+          <p className="text-sm mb-4">Participate in tournaments to see your history here</p>
+          <Link
+            to="/tournaments"
+            className="btn btn-primary"
+          >
+            Browse Tournaments
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderAnalytics = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <BarChart3 className="text-cyan-400" size={24} />
+          <h2 className="text-xl font-bold">Personal Analytics</h2>
+        </div>
+        <div className="text-center py-12 text-secondary">
+          <BarChart3 size={48} className="mx-auto mb-4 opacity-50" />
+          <p className="text-lg mb-2">Analytics coming soon</p>
+          <p className="text-sm mb-4">Track your performance and improvement over time</p>
+          <button className="btn btn-primary" disabled>
+            Coming Soon
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderApplications = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Target className="text-orange-400" size={24} />
+          <h2 className="text-xl font-bold">Role Applications</h2>
+        </div>
+        
+        {/* Judge Application */}
+        <div className="bg-tertiary rounded-lg p-4 mb-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Gavel size={18} />
+            Judge Application
+          </h3>
+          <p className="text-sm text-secondary mb-3">
+            Apply to become a certified judge and help run tournaments
+          </p>
+          <button
+            onClick={() => handleApplyForJudge(1)}
+            className="btn btn-primary btn-sm"
+          >
+            Apply for Judge Level 1
+          </button>
+        </div>
+
+        {/* Organizer Application */}
+        <div className="bg-tertiary rounded-lg p-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Users size={18} />
+            Organizer Application
+          </h3>
+          <p className="text-sm text-secondary mb-3">
+            Apply to become a tournament organizer and host events
+          </p>
+          <button
+            onClick={() => handleApplyForOrganizer(1)}
+            className="btn btn-primary btn-sm"
+          >
+            Apply for Organizer Level 1
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderSecurity = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Shield className="text-red-400" size={24} />
+          <h2 className="text-xl font-bold">Security Settings</h2>
+        </div>
+        
+        {/* Two-Factor Authentication */}
+        <div className="bg-tertiary rounded-lg p-4 mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold flex items-center gap-2">
+              <ShieldCheck size={18} />
+              Two-Factor Authentication
+            </h3>
+            <span className={`px-2 py-1 rounded text-xs ${
+              user?.twoFactorEnabled 
+                ? 'bg-green-500/20 text-green-400' 
+                : 'bg-red-500/20 text-red-400'
+            }`}>
+              {user?.twoFactorEnabled ? 'Enabled' : 'Disabled'}
+            </span>
+          </div>
+          <p className="text-sm text-secondary mb-3">
+            Add an extra layer of security to your account
+          </p>
+          <button
+            onClick={() => setShowTwoFactorSetup(!showTwoFactorSetup)}
+            className="btn btn-primary btn-sm"
+          >
+            {user?.twoFactorEnabled ? 'Manage 2FA' : 'Enable 2FA'}
+          </button>
+        </div>
+
+        {/* Password Change */}
+        <div className="bg-tertiary rounded-lg p-4 mb-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Key size={18} />
+            Change Password
+          </h3>
+          <p className="text-sm text-secondary mb-3">
+            Update your account password
+          </p>
+          <button className="btn btn-primary btn-sm">
+            Change Password
+          </button>
+        </div>
+
+        {/* Login History */}
+        <div className="bg-tertiary rounded-lg p-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Activity size={18} />
+            Login History
+          </h3>
+          <p className="text-sm text-secondary mb-3">
+            Last login: {user?.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}
+          </p>
+          <button className="btn btn-secondary btn-sm">
+            View Full History
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderSettings = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="space-y-6"
+    >
+      <div className="bg-card rounded-xl p-6 border border-color">
+        <div className="flex items-center gap-3 mb-6">
+          <Settings className="text-gray-400" size={24} />
+          <h2 className="text-xl font-bold">Account Settings</h2>
+        </div>
+        
+        {/* Theme Settings */}
+        <div className="bg-tertiary rounded-lg p-4 mb-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Palette size={18} />
+            Theme Preferences
+          </h3>
+          <div className="flex gap-2">
+            <button className="btn btn-sm btn-secondary">Dark</button>
+            <button className="btn btn-sm btn-ghost">Light</button>
+            <button className="btn btn-sm btn-ghost">Auto</button>
+          </div>
+        </div>
+
+        {/* Notification Settings */}
+        <div className="bg-tertiary rounded-lg p-4 mb-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Bell size={18} />
+            Notifications
+          </h3>
+          <div className="space-y-2">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked={user?.preferences?.emailNotifications} />
+              <span className="text-sm">Email notifications</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked={user?.preferences?.pushNotifications} />
+              <span className="text-sm">Push notifications</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked={user?.preferences?.tournamentReminders} />
+              <span className="text-sm">Tournament reminders</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Privacy Settings */}
+        <div className="bg-tertiary rounded-lg p-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2">
+            <Eye size={18} />
+            Privacy
+          </h3>
+          <div className="space-y-2">
+            <div>
+              <label className="block text-sm mb-1">Profile Visibility</label>
+              <select className="w-full p-2 rounded bg-card border border-color">
+                <option value="public">Public</option>
+                <option value="friends">Friends Only</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm mb-1">Deck Sharing</label>
+              <select className="w-full p-2 rounded bg-card border border-color">
+                <option value="public">Public</option>
+                <option value="friends">Friends Only</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <div className="min-h-screen py-8">
       <div className="container max-w-7xl">
@@ -648,8 +976,15 @@ const EnhancedProfile = () => {
         {/* Tab Content */}
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && renderOverview()}
+          {activeTab === 'decks' && renderDecks()}
+          {activeTab === 'collection' && renderCollection()}
+          {activeTab === 'battlepass' && renderBattlePass()}
+          {activeTab === 'tournaments' && renderTournaments()}
           {activeTab === 'achievements' && renderAchievements()}
-          {/* Add other tab renderers here */}
+          {activeTab === 'analytics' && renderAnalytics()}
+          {activeTab === 'applications' && renderApplications()}
+          {activeTab === 'security' && renderSecurity()}
+          {activeTab === 'settings' && renderSettings()}
         </AnimatePresence>
       </div>
     </div>
