@@ -129,7 +129,6 @@ const CardExplorer = () => {
                   <Bot className="w-6 h-6 text-blue-400" />
                   <div>
                     <h3 className="text-lg font-bold">AI Assistant</h3>
-
                   </div>
                 </div>
                 <AIAssistant />
