@@ -48,15 +48,15 @@ function App() {
                   <Route path="/cards" element={<CardExplorer />} />
                   <Route path="/cards/*" element={<CardExplorer />} />
                   <Route path="/spoilers" element={<CardExplorer />} />
-                  
+
                   <Route path="/decks" element={<DeckWorkshop />} />
                   <Route path="/decks/*" element={<DeckWorkshop />} />
                   <Route path="/collection" element={<DeckWorkshop />} />
-                  
+
                   <Route path="/analytics" element={<AnalyticsHub />} />
                   <Route path="/analytics/*" element={<AnalyticsHub />} />
                   <Route path="/prices" element={<AnalyticsHub />} />
-                  
+
                   <Route path="/battle-pass" element={<CommunityTools />} />
                   <Route path="/ai-assistant" element={<CommunityTools />} />
                   <Route path="/community" element={<CommunityTools />} />
@@ -67,26 +67,11 @@ function App() {
                   <Route path="/card/:cardId" element={<CardPage />} />
 
                   {/* Legacy redirects for backward compatibility */}
-                  <Route
-                    path="/market/*"
-                    element={<AnalyticsHub />}
-                  />
-                  <Route
-                    path="/commanders/*"
-                    element={<CardExplorer />}
-                  />
-                  <Route
-                    path="/synergy/*"
-                    element={<AnalyticsHub />}
-                  />
-                  <Route
-                    path="/power/*"
-                    element={<AnalyticsHub />}
-                  />
-                  <Route
-                    path="/budget/*"
-                    element={<AnalyticsHub />}
-                  />
+                  <Route path="/market/*" element={<AnalyticsHub />} />
+                  <Route path="/commanders/*" element={<CardExplorer />} />
+                  <Route path="/synergy/*" element={<AnalyticsHub />} />
+                  <Route path="/power/*" element={<AnalyticsHub />} />
+                  <Route path="/budget/*" element={<AnalyticsHub />} />
 
                   {/* Tournaments */}
                   <Route path="/tournaments" element={<UnifiedTournaments />} />
