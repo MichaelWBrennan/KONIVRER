@@ -195,7 +195,8 @@ const Layout = ({ children }) => {
 
     // Fallback to path-based titles
     if (path.startsWith('/simulator')) return 'Simulator';
-    if (path.startsWith('/cards') || path.startsWith('/spoilers')) return 'Cards';
+    if (path.startsWith('/cards') || path.startsWith('/spoilers'))
+      return 'Cards';
     if (path.startsWith('/decks') || path.startsWith('/collection'))
       return 'Decks';
     if (path.startsWith('/analytics') || path.startsWith('/prices'))
