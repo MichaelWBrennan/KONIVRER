@@ -26,7 +26,6 @@ const DeckSearch = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [filters, setFilters] = useState({
     element: 'all',
-    format: 'all',
     rarity: 'all',
     author: 'all'
   });
@@ -38,7 +37,6 @@ const DeckSearch = () => {
       name: 'Inferno Aggro',
       author: 'FireMaster',
       element: 'Inferno',
-      format: 'Standard',
       likes: 245,
       views: 1520,
       rating: 4.8,
@@ -53,7 +51,6 @@ const DeckSearch = () => {
       name: 'Submerged Control',
       author: 'AquaStrategist',
       element: 'Submerged',
-      format: 'Standard',
       likes: 189,
       views: 980,
       rating: 4.6,
@@ -68,7 +65,6 @@ const DeckSearch = () => {
       name: 'Steadfast Midrange',
       author: 'RockSolid',
       element: 'Steadfast',
-      format: 'Standard',
       likes: 156,
       views: 743,
       rating: 4.4,
@@ -83,7 +79,6 @@ const DeckSearch = () => {
       name: 'Gust Tempo',
       author: 'WindRider',
       element: 'Gust',
-      format: 'Standard',
       likes: 203,
       views: 1234,
       rating: 4.7,
@@ -98,7 +93,6 @@ const DeckSearch = () => {
       name: 'Brilliance Combo',
       author: 'LightWeaver',
       element: 'Brilliance',
-      format: 'Standard',
       likes: 178,
       views: 892,
       rating: 4.5,
@@ -113,7 +107,6 @@ const DeckSearch = () => {
       name: 'Void Disruption',
       author: 'VoidWalker',
       element: 'Void',
-      format: 'Standard',
       likes: 134,
       views: 567,
       rating: 4.3,
@@ -135,10 +128,9 @@ const DeckSearch = () => {
                            deck.description.toLowerCase().includes(searchTerm.toLowerCase());
       
       const matchesElement = filters.element === 'all' || deck.element === filters.element;
-      const matchesFormat = filters.format === 'all' || deck.format === filters.format;
       const matchesAuthor = filters.author === 'all' || deck.author === filters.author;
 
-      return matchesSearch && matchesElement && matchesFormat && matchesAuthor;
+      return matchesSearch && matchesElement && matchesAuthor;
     });
 
     // Sort decks
@@ -260,7 +252,6 @@ const DeckSearch = () => {
           <Calendar className="w-3 h-3" />
           {deck.lastUpdated}
         </span>
-        <span>{deck.format}</span>
       </div>
 
       <div className="flex gap-2">
@@ -301,7 +292,6 @@ const DeckSearch = () => {
                 <User className="w-3 h-3" />
                 {deck.author}
               </span>
-              <span>{deck.format}</span>
               <span className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 {deck.lastUpdated}
@@ -393,17 +383,7 @@ const DeckSearch = () => {
               <option value="Void">▢ Void</option>
             </select>
 
-            {/* Format Filter */}
-            <select
-              value={filters.format}
-              onChange={(e) => setFilters({...filters, format: e.target.value})}
-              className="px-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Formats</option>
-              <option value="Standard">Standard</option>
-              <option value="Extended">Extended</option>
-              <option value="Legacy">Legacy</option>
-            </select>
+
 
             {/* Sort */}
             <select

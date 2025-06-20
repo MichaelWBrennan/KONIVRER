@@ -85,8 +85,7 @@ const CardDatabase = ({
         return 'border-green-400 bg-green-50';
       case 'rare':
         return 'border-blue-400 bg-blue-50';
-      case 'mythic':
-        return 'border-purple-400 bg-purple-50';
+
       case 'legendary':
         return 'border-yellow-400 bg-yellow-50';
       default:
@@ -120,7 +119,7 @@ const CardDatabase = ({
   };
 
   const uniqueValues = {
-    rarities: [...new Set(cards.map(card => card.rarity))],
+    rarities: [...new Set(cards.map(card => card.rarity))].filter(rarity => rarity.toLowerCase() !== 'mythic'),
     types: [...new Set(cards.map(card => card.type))],
     elements: [...new Set(cards.flatMap(card => card.elements))],
     sets: [...new Set(cards.map(card => card.set))],
@@ -356,52 +355,54 @@ const CardDatabase = ({
             )}
           </div>
 
-          {/* Other Filters */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
-            <select
-              value={filters.rarity}
-              onChange={e => setFilters({ ...filters, rarity: e.target.value })}
-              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-            >
-              <option value="all">All Rarities</option>
-              {uniqueValues.rarities.map(rarity => (
-                <option key={rarity} value={rarity} className="text-black">
-                  {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={filters.type}
-              onChange={e => setFilters({ ...filters, type: e.target.value })}
-              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-            >
-              <option value="all">All Types</option>
-              {uniqueValues.types.map(type => (
-                <option key={type} value={type} className="text-black">
-                  {type}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={filters.element}
-              onChange={e =>
-                setFilters({ ...filters, element: e.target.value })
-              }
-              className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
-            >
-              <option value="all">All Elements</option>
-              {uniqueValues.elements.map(element => {
-                const elementInfo = getElementSymbol(element);
-                return (
-                  <option key={element} value={element} className="text-black">
-                    {elementInfo.name}
+          {/* Other Filters - Only show when a set is selected */}
+          {filters.set !== 'all' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+              <select
+                value={filters.rarity}
+                onChange={e => setFilters({ ...filters, rarity: e.target.value })}
+                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+              >
+                <option value="all">All Rarities</option>
+                {uniqueValues.rarities.map(rarity => (
+                  <option key={rarity} value={rarity} className="text-black">
+                    {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
                   </option>
-                );
-              })}
-            </select>
-          </div>
+                ))}
+              </select>
+
+              <select
+                value={filters.type}
+                onChange={e => setFilters({ ...filters, type: e.target.value })}
+                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+              >
+                <option value="all">All Types</option>
+                {uniqueValues.types.map(type => (
+                  <option key={type} value={type} className="text-black">
+                    {type}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={filters.element}
+                onChange={e =>
+                  setFilters({ ...filters, element: e.target.value })
+                }
+                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+              >
+                <option value="all">All Elements</option>
+                {uniqueValues.elements.map(element => {
+                  const elementInfo = getElementSymbol(element);
+                  return (
+                    <option key={element} value={element} className="text-black">
+                      {elementInfo.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
         </div>
       )}
 
