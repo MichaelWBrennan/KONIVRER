@@ -195,7 +195,12 @@ const EnhancedProfile = () => {
       color: 'text-yellow-400',
     },
     { id: 'decks', label: 'My Decks', icon: BookOpen, color: 'text-green-400' },
-    { id: 'deckbuilder', label: 'Deck Builder', icon: Plus, color: 'text-emerald-400' },
+    {
+      id: 'deckbuilder',
+      label: 'Deck Builder',
+      icon: Plus,
+      color: 'text-emerald-400',
+    },
     {
       id: 'achievements',
       label: 'Achievements',
@@ -641,9 +646,27 @@ const EnhancedProfile = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Sample deck cards */}
         {[
-          { name: 'Inferno Aggro', element: 'Inferno', wins: 15, losses: 8, lastPlayed: '2025-06-19' },
-          { name: 'Control Blue', element: 'Submerged', wins: 12, losses: 6, lastPlayed: '2025-06-18' },
-          { name: 'Midrange Green', element: 'Steadfast', wins: 18, losses: 10, lastPlayed: '2025-06-17' }
+          {
+            name: 'Inferno Aggro',
+            element: 'Inferno',
+            wins: 15,
+            losses: 8,
+            lastPlayed: '2025-06-19',
+          },
+          {
+            name: 'Control Blue',
+            element: 'Submerged',
+            wins: 12,
+            losses: 6,
+            lastPlayed: '2025-06-18',
+          },
+          {
+            name: 'Midrange Green',
+            element: 'Steadfast',
+            wins: 18,
+            losses: 10,
+            lastPlayed: '2025-06-17',
+          },
         ].map((deck, index) => (
           <motion.div
             key={index}
@@ -659,10 +682,14 @@ const EnhancedProfile = () => {
                 <p className="text-secondary text-sm">{deck.element}</p>
               </div>
               <div className="text-2xl">
-                {deck.element === 'Inferno' ? '🜂' : deck.element === 'Submerged' ? '🜄' : '🜃'}
+                {deck.element === 'Inferno'
+                  ? '🜂'
+                  : deck.element === 'Submerged'
+                    ? '🜄'
+                    : '🜃'}
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
               <div>
                 <span className="text-green-400 font-medium">{deck.wins}W</span>
@@ -673,11 +700,11 @@ const EnhancedProfile = () => {
                 {Math.round((deck.wins / (deck.wins + deck.losses)) * 100)}% WR
               </div>
             </div>
-            
+
             <div className="text-xs text-secondary mb-4">
               Last played: {deck.lastPlayed}
             </div>
-            
+
             <div className="flex gap-2">
               <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors">
                 Edit
@@ -721,17 +748,19 @@ const EnhancedProfile = () => {
               <Plus className="w-6 h-6 text-emerald-400" />
               <div>
                 <h4 className="text-xl font-bold">Visual Deck Builder</h4>
-                <p className="text-secondary">Drag and drop cards to build your deck</p>
+                <p className="text-secondary">
+                  Drag and drop cards to build your deck
+                </p>
               </div>
             </div>
-            <VisualDeckBuilder 
+            <VisualDeckBuilder
               deck={{
                 name: 'New Deck',
                 cards: [],
                 format: 'Standard',
-                element: 'Inferno'
+                element: 'Inferno',
               }}
-              onDeckChange={(newDeck) => {
+              onDeckChange={newDeck => {
                 // Handle deck changes here
                 console.log('Deck updated:', newDeck);
               }}
@@ -746,7 +775,9 @@ const EnhancedProfile = () => {
               <Bot className="w-6 h-6 text-blue-400" />
               <div>
                 <h4 className="text-lg font-bold">AI Assistant</h4>
-                <p className="text-secondary text-sm">Get deck building suggestions</p>
+                <p className="text-secondary text-sm">
+                  Get deck building suggestions
+                </p>
               </div>
             </div>
             <AIAssistant />
