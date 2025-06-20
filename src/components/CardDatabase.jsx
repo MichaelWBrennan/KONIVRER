@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import CardViewer from './CardViewer';
 import cardsData from '../data/cards.json';
 
-const CardDatabase = ({ 
-  cards: propCards, 
-  searchCriteria, 
-  showSearchInterface = true 
+const CardDatabase = ({
+  cards: propCards,
+  searchCriteria,
+  showSearchInterface = true,
 }) => {
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
@@ -348,7 +348,9 @@ const CardDatabase = ({
 
             <select
               value={filters.element}
-              onChange={e => setFilters({ ...filters, element: e.target.value })}
+              onChange={e =>
+                setFilters({ ...filters, element: e.target.value })
+              }
               className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
             >
               <option value="all">All Elements</option>

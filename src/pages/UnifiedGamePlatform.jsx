@@ -1,6 +1,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, TrendingUp, Users, Zap, Database, Gamepad2, BarChart3, Package, Star, Trophy, Filter, Sparkles } from 'lucide-react';
+import {
+  Search,
+  TrendingUp,
+  Users,
+  Zap,
+  Database,
+  Gamepad2,
+  BarChart3,
+  Package,
+  Star,
+  Trophy,
+  Filter,
+  Sparkles,
+} from 'lucide-react';
 
 // Import existing components
 import CardViewer from '../components/CardViewer';
@@ -20,73 +33,105 @@ const UnifiedGamePlatform = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
-  
+
   // Sample deck data for components that need it
   const sampleDeck = {
     name: 'Sample Deck',
     cards: [
-      { id: 1, name: 'Lightning Bolt', cost: 1, elements: ['Inferno'], rarity: 'Common', count: 4 },
-      { id: 2, name: 'Forest Guardian', cost: 3, elements: ['Steadfast'], rarity: 'Rare', count: 2 },
-      { id: 3, name: 'Mystic Shield', cost: 2, elements: ['Submerged'], rarity: 'Uncommon', count: 3 },
-    ]
+      {
+        id: 1,
+        name: 'Lightning Bolt',
+        cost: 1,
+        elements: ['Inferno'],
+        rarity: 'Common',
+        count: 4,
+      },
+      {
+        id: 2,
+        name: 'Forest Guardian',
+        cost: 3,
+        elements: ['Steadfast'],
+        rarity: 'Rare',
+        count: 2,
+      },
+      {
+        id: 3,
+        name: 'Mystic Shield',
+        cost: 2,
+        elements: ['Submerged'],
+        rarity: 'Uncommon',
+        count: 3,
+      },
+    ],
   };
-  
+
   // Sample cards data
   const sampleCards = [
-    { 
-      id: 1, 
-      name: 'Lightning Bolt', 
-      cost: 1, 
-      elements: ['Inferno'], 
+    {
+      id: 1,
+      name: 'Lightning Bolt',
+      cost: 1,
+      elements: ['Inferno'],
       rarity: 'Common',
       type: 'Spell',
       set: 'PRIMA MATERIA',
       text: 'Deal 3 damage to any target.',
       keywords: ['Instant'],
       power: null,
-      toughness: null
+      toughness: null,
     },
-    { 
-      id: 2, 
-      name: 'Forest Guardian', 
-      cost: 3, 
-      elements: ['Steadfast'], 
+    {
+      id: 2,
+      name: 'Forest Guardian',
+      cost: 3,
+      elements: ['Steadfast'],
       rarity: 'Rare',
       type: 'Familiar',
       set: 'PRIMA MATERIA',
       text: 'When Forest Guardian enters play, gain 3 life.',
       keywords: ['Vigilance'],
       power: 2,
-      toughness: 4
+      toughness: 4,
     },
-    { 
-      id: 3, 
-      name: 'Mystic Shield', 
-      cost: 2, 
-      elements: ['Submerged'], 
+    {
+      id: 3,
+      name: 'Mystic Shield',
+      cost: 2,
+      elements: ['Submerged'],
       rarity: 'Uncommon',
       type: 'Enchantment',
       set: 'PRIMA MATERIA',
       text: 'Prevent the next 2 damage that would be dealt to you each turn.',
       keywords: ['Protection'],
       power: null,
-      toughness: null
+      toughness: null,
     },
   ];
 
   // Handle advanced search
-  const handleAdvancedSearch = (criteria) => {
+  const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
     // Here you would typically make an API call with the search criteria
     // For now, we'll simulate filtering the sample cards
     const filteredCards = sampleCards.filter(card => {
-      if (criteria.cardName && !card.name.toLowerCase().includes(criteria.cardName.toLowerCase())) {
+      if (
+        criteria.cardName &&
+        !card.name.toLowerCase().includes(criteria.cardName.toLowerCase())
+      ) {
         return false;
       }
-      if (criteria.colors && criteria.colors.length > 0 && !criteria.colors.some(color => card.elements.includes(color))) {
+      if (
+        criteria.colors &&
+        criteria.colors.length > 0 &&
+        !criteria.colors.some(color => card.elements.includes(color))
+      ) {
         return false;
       }
-      if (criteria.rarity && criteria.rarity.length > 0 && !criteria.rarity.includes(card.rarity)) {
+      if (
+        criteria.rarity &&
+        criteria.rarity.length > 0 &&
+        !criteria.rarity.includes(card.rarity)
+      ) {
         return false;
       }
       return true;
@@ -134,7 +179,6 @@ const UnifiedGamePlatform = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8 space-y-8">
-        
         {/* Platform Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -201,14 +245,16 @@ const UnifiedGamePlatform = () => {
                 </button>
               )}
             </div>
-            
+
             {/* Active Search Summary */}
             {activeSearchCriteria && (
               <div className="mt-4 p-4 bg-purple-500/20 rounded-lg border border-purple-400/30">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Filter className="w-4 h-4 text-purple-300" />
-                    <span className="text-purple-300 font-medium">Active Search:</span>
+                    <span className="text-purple-300 font-medium">
+                      Active Search:
+                    </span>
                     <div className="flex flex-wrap gap-2">
                       {activeSearchCriteria.cardName && (
                         <span className="px-2 py-1 bg-purple-500/30 text-purple-200 text-xs rounded">
@@ -233,7 +279,9 @@ const UnifiedGamePlatform = () => {
                     </div>
                   </div>
                   <span className="text-purple-300 text-sm">
-                    {searchResults ? `${searchResults.length} results` : 'Searching...'}
+                    {searchResults
+                      ? `${searchResults.length} results`
+                      : 'Searching...'}
                   </span>
                 </div>
               </div>
@@ -268,8 +316,8 @@ const UnifiedGamePlatform = () => {
             </div>
           </div>
           <div className="p-6">
-            <CardDatabase 
-              cards={searchResults || sampleCards} 
+            <CardDatabase
+              cards={searchResults || sampleCards}
               searchCriteria={activeSearchCriteria}
               showSearchInterface={false}
             />
@@ -295,7 +343,7 @@ const UnifiedGamePlatform = () => {
               </div>
             </div>
             <div className="p-6">
-              <VisualDeckBuilder 
+              <VisualDeckBuilder
                 deck={sampleDeck}
                 onDeckChange={() => {}}
                 cards={sampleCards}
@@ -308,7 +356,9 @@ const UnifiedGamePlatform = () => {
             <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/20">
               <div className="flex items-center space-x-3">
                 <BarChart3 className="w-6 h-6 text-green-400" />
-                <h2 className="text-2xl font-bold text-white">Deck Analytics</h2>
+                <h2 className="text-2xl font-bold text-white">
+                  Deck Analytics
+                </h2>
                 <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-medium rounded-full">
                   Live Stats
                 </span>
@@ -351,7 +401,9 @@ const UnifiedGamePlatform = () => {
           <div className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 p-6 border-b border-white/20">
             <div className="flex items-center space-x-3">
               <TrendingUp className="w-6 h-6 text-purple-400" />
-              <h2 className="text-2xl font-bold text-white">Meta Analysis & Market Data</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Meta Analysis & Market Data
+              </h2>
               <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
                 Real-time
               </span>
@@ -374,7 +426,9 @@ const UnifiedGamePlatform = () => {
             <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 p-6 border-b border-white/20">
               <div className="flex items-center space-x-3">
                 <Star className="w-6 h-6 text-orange-400" />
-                <h2 className="text-2xl font-bold text-white">Collection Manager</h2>
+                <h2 className="text-2xl font-bold text-white">
+                  Collection Manager
+                </h2>
                 <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-sm font-medium rounded-full">
                   Personal
                 </span>
@@ -422,7 +476,6 @@ const UnifiedGamePlatform = () => {
             <AIAssistant />
           </div>
         </motion.div>
-
       </div>
     </div>
   );
