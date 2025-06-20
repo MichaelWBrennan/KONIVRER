@@ -23,7 +23,6 @@ import {
 
 const MetaAnalysis = () => {
   const [timeframe, setTimeframe] = useState('30d');
-  const [format, setFormat] = useState('all');
 
   const metaData = {
     topDecks: [
@@ -89,15 +88,6 @@ const MetaAnalysis = () => {
       { name: 'Midrange', percentage: 23.4, color: 'green' },
       { name: 'Combo', percentage: 15.8, color: 'purple' },
     ],
-    formatStats: {
-      'Classic Constructed': {
-        tournaments: 45,
-        players: 1247,
-        avgDeckCost: 450,
-      },
-      Blitz: { tournaments: 32, players: 892, avgDeckCost: 180 },
-      Limited: { tournaments: 18, players: 534, avgDeckCost: 45 },
-    },
   };
 
   const getTrendIcon = trend => {
@@ -156,17 +146,6 @@ const MetaAnalysis = () => {
                 <option value="30d">Last 30 days</option>
                 <option value="90d">Last 3 months</option>
                 <option value="1y">Last year</option>
-              </select>
-
-              <select
-                value={format}
-                onChange={e => setFormat(e.target.value)}
-                className="px-4 py-2 bg-secondary border border-color rounded-xl text-primary"
-              >
-                <option value="all">All Formats</option>
-                <option value="constructed">Classic Constructed</option>
-                <option value="blitz">Blitz</option>
-                <option value="limited">Limited</option>
               </select>
 
               <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
@@ -363,46 +342,6 @@ const MetaAnalysis = () => {
                         }`}
                         style={{ width: `${archetype.percentage}%` }}
                       ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Format Stats */}
-            <div className="bg-secondary border border-color rounded-xl p-6">
-              <h3 className="text-xl font-bold text-primary mb-6">
-                Format Statistics
-              </h3>
-
-              <div className="space-y-4">
-                {Object.entries(metaData.formatStats).map(([format, stats]) => (
-                  <div
-                    key={format}
-                    className="border border-color rounded-lg p-4"
-                  >
-                    <h4 className="font-semibold text-primary mb-3">
-                      {format}
-                    </h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-secondary">Tournaments</span>
-                        <span className="text-primary font-medium">
-                          {stats.tournaments}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-secondary">Players</span>
-                        <span className="text-primary font-medium">
-                          {stats.players}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-secondary">Avg Deck Cost</span>
-                        <span className="text-primary font-medium">
-                          ${stats.avgDeckCost}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 ))}

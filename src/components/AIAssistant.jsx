@@ -207,9 +207,6 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
           </div>
           <div>
             <h2 className="text-xl font-bold">AI Deck Assistant</h2>
-            <p className="text-purple-100 text-sm">
-              Powered by advanced deck analysis
-            </p>
           </div>
         </div>
       </div>
@@ -434,7 +431,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                   type="text"
                   value={userInput}
                   onChange={e => setUserInput(e.target.value)}
-                  placeholder="Ask about deck building, meta, strategies..."
+                  placeholder=""
                   className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                 />
                 <button

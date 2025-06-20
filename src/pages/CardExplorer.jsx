@@ -38,9 +38,6 @@ const CardExplorer = () => {
               <Database className="w-8 h-8 text-blue-500" />
               <h1 className="text-4xl font-bold">Card Explorer</h1>
             </div>
-            <p className="text-secondary text-lg">
-              Discover, search, and explore the complete KONIVRER card database
-            </p>
           </div>
         </div>
       </div>
@@ -62,7 +59,7 @@ const CardExplorer = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Quick search cards, decks, players... or use Advanced Search for detailed filtering"
+                    placeholder=""
                     className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
@@ -132,9 +129,6 @@ const CardExplorer = () => {
                   <Bot className="w-6 h-6 text-blue-400" />
                   <div>
                     <h3 className="text-lg font-bold">AI Assistant</h3>
-                    <p className="text-secondary text-sm">
-                      Get card recommendations and insights
-                    </p>
                   </div>
                 </div>
                 <AIAssistant />

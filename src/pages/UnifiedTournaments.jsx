@@ -41,7 +41,6 @@ const UnifiedTournaments = () => {
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
-    format: '',
     status: '',
     dateRange: '',
     location: '',
@@ -98,7 +97,6 @@ const UnifiedTournaments = () => {
       {
         id: 1,
         name: 'KONIVRER World Championship 2024',
-        format: 'Standard',
         date: '2024-07-15',
         time: '10:00 AM',
         location: 'Los Angeles Convention Center',
@@ -117,7 +115,6 @@ const UnifiedTournaments = () => {
       {
         id: 2,
         name: 'Regional Championship - East Coast',
-        format: 'Standard',
         date: '2024-06-20',
         time: '9:00 AM',
         location: 'New York Gaming Center',
@@ -142,7 +139,6 @@ const UnifiedTournaments = () => {
       {
         id: 1,
         name: 'Weekly Draft Night',
-        type: 'Draft',
         date: '2024-06-22',
         time: '7:00 PM',
         location: 'Local Game Store',
@@ -156,7 +152,6 @@ const UnifiedTournaments = () => {
       {
         id: 2,
         name: 'Casual Commander Night',
-        type: 'Casual',
         date: '2024-06-23',
         time: '6:00 PM',
         location: 'Community Center',
@@ -260,11 +255,7 @@ const UnifiedTournaments = () => {
       totalPlayers: 12450,
       averageParticipation: 78,
       totalPrizePool: '$245,000',
-      popularFormats: [
-        { name: 'Standard', percentage: 65 },
-        { name: 'Draft', percentage: 25 },
-        { name: 'Casual', percentage: 10 },
-      ],
+
       metaBreakdown: [
         { archetype: 'Aggro Red', percentage: 28, winRate: 52 },
         { archetype: 'Control Blue', percentage: 22, winRate: 58 },
@@ -331,7 +322,6 @@ const UnifiedTournaments = () => {
       tournament.location.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesFilters =
-      (!filters.format || tournament.format === filters.format) &&
       (!filters.status || tournament.status === filters.status) &&
       (!filters.location ||
         tournament.location
@@ -460,18 +450,6 @@ const UnifiedTournaments = () => {
 
               <div className="flex flex-wrap gap-2">
                 <select
-                  value={filters.format}
-                  onChange={e =>
-                    setFilters({ ...filters, format: e.target.value })
-                  }
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-sm"
-                >
-                  <option value="">All Formats</option>
-                  <option value="Standard">Standard</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Casual">Casual</option>
-                </select>
-                <select
                   value={filters.status}
                   onChange={e =>
                     setFilters({ ...filters, status: e.target.value })
@@ -563,9 +541,6 @@ const UnifiedTournaments = () => {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 text-sm">
-                        <span className="bg-blue-600 px-2 py-1 rounded">
-                          {tournament.format}
-                        </span>
                         <span>Entry: {tournament.entryFee}</span>
                         {tournament.currentRound && (
                           <span>
@@ -642,9 +617,6 @@ const UnifiedTournaments = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2 text-xs">
-                        <span className="bg-green-600 px-2 py-1 rounded">
-                          {event.type}
-                        </span>
                         <span>{event.entryFee}</span>
                       </div>
                       <button className="text-blue-400 hover:text-blue-300 text-sm">
@@ -786,31 +758,6 @@ const UnifiedTournaments = () => {
                           </div>
                           <span className="text-xs text-gray-400 w-8">
                             {archetype.percentage}%
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Format Popularity</h3>
-                  <div className="space-y-2">
-                    {analytics.popularFormats?.map(format => (
-                      <div
-                        key={format.name}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="text-sm">{format.name}</span>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-16 bg-gray-700 rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${format.percentage}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-xs text-gray-400 w-8">
-                            {format.percentage}%
                           </span>
                         </div>
                       </div>
