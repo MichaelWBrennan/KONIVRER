@@ -35,7 +35,6 @@ const CardExplorer = () => {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <Database className="w-8 h-8 text-blue-500" />
               <h1 className="text-4xl font-bold">Card Explorer</h1>
             </div>
           </div>
@@ -65,10 +64,10 @@ const CardExplorer = () => {
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
-                  className="btn btn-primary flex items-center gap-2"
+                  className="btn btn-primary flex items-center gap-1 px-3 py-2 text-sm"
                 >
-                  <Filter className="w-4 h-4" />
-                  Advanced Search
+                  <Filter className="w-3 h-3" />
+                  <span>Advanced</span>
                 </button>
                 <button
                   onClick={() => setShowAIAssistant(!showAIAssistant)}
