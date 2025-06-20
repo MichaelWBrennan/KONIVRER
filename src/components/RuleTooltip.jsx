@@ -2,47 +2,52 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle, Book, ExternalLink } from 'lucide-react';
 
-const RuleTooltip = ({ 
-  ruleId, 
-  children, 
+const RuleTooltip = ({
+  ruleId,
+  children,
   position = 'top',
   showIcon = true,
-  customContent = null 
+  customContent = null,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Rule definitions - these would be loaded from the rules data
   const ruleDefinitions = {
-    'void': {
+    void: {
       title: 'VOID',
-      description: 'This keyword ability allows the card to bypass certain defenses and effects.',
-      category: 'Keyword Ability'
+      description:
+        'This keyword ability allows the card to bypass certain defenses and effects.',
+      category: 'Keyword Ability',
     },
-    'submerged': {
+    submerged: {
       title: 'SUBMERGED',
-      description: 'This keyword ability relates to water-based mechanics and flow effects.',
-      category: 'Keyword Ability'
+      description:
+        'This keyword ability relates to water-based mechanics and flow effects.',
+      category: 'Keyword Ability',
     },
-    'brilliance': {
+    brilliance: {
       title: 'BRILLIANCE',
-      description: 'This keyword ability represents speed, clarity, and light-based effects.',
-      category: 'Keyword Ability'
+      description:
+        'This keyword ability represents speed, clarity, and light-based effects.',
+      category: 'Keyword Ability',
     },
-    'elements': {
+    elements: {
       title: 'Elements',
-      description: 'Cards have elemental affinities that determine deck building restrictions and interactions.',
-      category: 'Core Mechanic'
+      description:
+        'Cards have elemental affinities that determine deck building restrictions and interactions.',
+      category: 'Core Mechanic',
     },
     'deck-size': {
       title: 'Deck Size',
       description: 'Decks must contain between 40-60 cards in most formats.',
-      category: 'Deck Building'
+      category: 'Deck Building',
     },
     'flag-cards': {
       title: 'Flag Cards',
-      description: 'Special cards that determine your deck\'s elemental identity and restrictions.',
-      category: 'Card Type'
-    }
+      description:
+        "Special cards that determine your deck's elemental identity and restrictions.",
+      category: 'Card Type',
+    },
   };
 
   const rule = ruleDefinitions[ruleId];
@@ -54,11 +59,11 @@ const RuleTooltip = ({
     top: 'bottom-full left-1/2 transform -translate-x-1/2 mb-2',
     bottom: 'top-full left-1/2 transform -translate-x-1/2 mt-2',
     left: 'right-full top-1/2 transform -translate-y-1/2 mr-2',
-    right: 'left-full top-1/2 transform -translate-y-1/2 ml-2'
+    right: 'left-full top-1/2 transform -translate-y-1/2 ml-2',
   };
 
   return (
-    <div 
+    <div
       className="relative inline-block"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
@@ -81,18 +86,25 @@ const RuleTooltip = ({
           >
             <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl max-w-xs">
               {/* Arrow */}
-              <div className={`absolute w-2 h-2 bg-gray-900 border-gray-700 transform rotate-45 ${
-                position === 'top' ? 'top-full left-1/2 -translate-x-1/2 -mt-1 border-r border-b' :
-                position === 'bottom' ? 'bottom-full left-1/2 -translate-x-1/2 -mb-1 border-l border-t' :
-                position === 'left' ? 'left-full top-1/2 -translate-y-1/2 -ml-1 border-t border-r' :
-                'right-full top-1/2 -translate-y-1/2 -mr-1 border-b border-l'
-              }`} />
-              
+              <div
+                className={`absolute w-2 h-2 bg-gray-900 border-gray-700 transform rotate-45 ${
+                  position === 'top'
+                    ? 'top-full left-1/2 -translate-x-1/2 -mt-1 border-r border-b'
+                    : position === 'bottom'
+                      ? 'bottom-full left-1/2 -translate-x-1/2 -mb-1 border-l border-t'
+                      : position === 'left'
+                        ? 'left-full top-1/2 -translate-y-1/2 -ml-1 border-t border-r'
+                        : 'right-full top-1/2 -translate-y-1/2 -mr-1 border-b border-l'
+                }`}
+              />
+
               {/* Content */}
               <div className="relative">
                 <div className="flex items-center gap-2 mb-2">
                   <Book className="w-4 h-4 text-blue-400" />
-                  <h4 className="font-semibold text-white text-sm">{content.title}</h4>
+                  <h4 className="font-semibold text-white text-sm">
+                    {content.title}
+                  </h4>
                   {content.category && (
                     <span className="text-xs px-2 py-1 bg-blue-600/20 text-blue-300 rounded">
                       {content.category}
@@ -108,7 +120,7 @@ const RuleTooltip = ({
                   </div>
                 )}
                 <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-700">
-                  <button 
+                  <button
                     onClick={() => window.open('/rules', '_blank')}
                     className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
                   >

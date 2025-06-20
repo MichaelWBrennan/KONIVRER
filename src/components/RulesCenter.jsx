@@ -32,7 +32,7 @@ const RulesCenter = () => {
       .catch(err => console.error('Failed to load rules:', err));
   }, []);
 
-  const toggleSection = (sectionId) => {
+  const toggleSection = sectionId => {
     const newExpanded = new Set(expandedSections);
     if (newExpanded.has(sectionId)) {
       newExpanded.delete(sectionId);
@@ -42,7 +42,7 @@ const RulesCenter = () => {
     setExpandedSections(newExpanded);
   };
 
-  const toggleBookmark = (ruleId) => {
+  const toggleBookmark = ruleId => {
     const newBookmarks = new Set(bookmarkedRules);
     if (newBookmarks.has(ruleId)) {
       newBookmarks.delete(ruleId);
@@ -61,12 +61,12 @@ const RulesCenter = () => {
   };
 
   const elementSymbols = {
-    'Quintessence': '⚪',
-    'Inferno': '🔥',
-    'Submerged': '💧',
-    'Steadfast': '🌱',
-    'Brilliance': '⚡',
-    'Void': '🌑',
+    Quintessence: '⚪',
+    Inferno: '🔥',
+    Submerged: '💧',
+    Steadfast: '🌱',
+    Brilliance: '⚡',
+    Void: '🌑',
   };
 
   if (!rulesData) {
@@ -77,25 +77,30 @@ const RulesCenter = () => {
     );
   }
 
-  const filteredSections = Object.entries(rulesData).filter(([key, section]) => {
-    if (!searchTerm) return true;
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      section.title?.toLowerCase().includes(searchLower) ||
-      section.sections?.some(s => 
-        s.title.toLowerCase().includes(searchLower) ||
-        s.content.toLowerCase().includes(searchLower)
-      ) ||
-      section.elements?.some(e => 
-        e.name.toLowerCase().includes(searchLower) ||
-        e.description.toLowerCase().includes(searchLower)
-      ) ||
-      section.keywords?.some(k => 
-        k.name.toLowerCase().includes(searchLower) ||
-        k.description.toLowerCase().includes(searchLower)
-      )
-    );
-  });
+  const filteredSections = Object.entries(rulesData).filter(
+    ([key, section]) => {
+      if (!searchTerm) return true;
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        section.title?.toLowerCase().includes(searchLower) ||
+        section.sections?.some(
+          s =>
+            s.title.toLowerCase().includes(searchLower) ||
+            s.content.toLowerCase().includes(searchLower),
+        ) ||
+        section.elements?.some(
+          e =>
+            e.name.toLowerCase().includes(searchLower) ||
+            e.description.toLowerCase().includes(searchLower),
+        ) ||
+        section.keywords?.some(
+          k =>
+            k.name.toLowerCase().includes(searchLower) ||
+            k.description.toLowerCase().includes(searchLower),
+        )
+      );
+    },
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -129,7 +134,7 @@ const RulesCenter = () => {
                 type="text"
                 placeholder="Search rules, keywords, or mechanics..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -178,13 +183,18 @@ const RulesCenter = () => {
 
               {/* Quick Reference */}
               <div className="mt-8">
-                <h4 className="text-lg font-semibold text-white mb-3">Quick Reference</h4>
+                <h4 className="text-lg font-semibold text-white mb-3">
+                  Quick Reference
+                </h4>
                 <div className="space-y-2">
                   <div className="text-sm text-gray-300">
                     <div className="font-medium mb-1">Elements:</div>
                     <div className="grid grid-cols-2 gap-1">
                       {rulesData.elements?.elements?.map(element => (
-                        <div key={element.name} className="flex items-center gap-1">
+                        <div
+                          key={element.name}
+                          className="flex items-center gap-1"
+                        >
                           <span>{elementSymbols[element.name] || '⚪'}</span>
                           <span className="text-xs">{element.name}</span>
                         </div>
@@ -227,8 +237,11 @@ const RulesCenter = () => {
                   {/* Regular Sections */}
                   {rulesData[activeSection]?.sections && (
                     <div className="space-y-6">
-                      {rulesData[activeSection].sections.map((section) => (
-                        <div key={section.id} className="border border-white/20 rounded-lg overflow-hidden">
+                      {rulesData[activeSection].sections.map(section => (
+                        <div
+                          key={section.id}
+                          className="border border-white/20 rounded-lg overflow-hidden"
+                        >
                           <button
                             onClick={() => toggleSection(section.id)}
                             className="w-full px-6 py-4 bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between"
@@ -238,7 +251,7 @@ const RulesCenter = () => {
                             </h3>
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={(e) => {
+                                onClick={e => {
                                   e.stopPropagation();
                                   toggleBookmark(section.id);
                                 }}
@@ -280,15 +293,19 @@ const RulesCenter = () => {
                   {/* Elements Section */}
                   {rulesData[activeSection]?.elements && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {rulesData[activeSection].elements.map((element) => (
+                      {rulesData[activeSection].elements.map(element => (
                         <motion.div
                           key={element.name}
                           whileHover={{ scale: 1.02 }}
                           className="bg-white/5 border border-white/20 rounded-lg p-6"
                         >
                           <div className="flex items-center gap-3 mb-3">
-                            <span className="text-3xl">{elementSymbols[element.name] || '⚪'}</span>
-                            <h3 className="text-xl font-bold text-white">{element.name}</h3>
+                            <span className="text-3xl">
+                              {elementSymbols[element.name] || '⚪'}
+                            </span>
+                            <h3 className="text-xl font-bold text-white">
+                              {element.name}
+                            </h3>
                           </div>
                           <p className="text-gray-300">{element.description}</p>
                         </motion.div>
@@ -299,7 +316,7 @@ const RulesCenter = () => {
                   {/* Keywords Section */}
                   {rulesData[activeSection]?.keywords && (
                     <div className="space-y-4">
-                      {rulesData[activeSection].keywords.map((keyword) => (
+                      {rulesData[activeSection].keywords.map(keyword => (
                         <motion.div
                           key={keyword.name}
                           whileHover={{ scale: 1.01 }}
@@ -307,7 +324,9 @@ const RulesCenter = () => {
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <Target className="w-5 h-5 text-blue-400" />
-                            <h3 className="text-lg font-bold text-white">{keyword.name}</h3>
+                            <h3 className="text-lg font-bold text-white">
+                              {keyword.name}
+                            </h3>
                           </div>
                           <p className="text-gray-300">{keyword.description}</p>
                         </motion.div>
@@ -333,7 +352,8 @@ const RulesCenter = () => {
               <span>Need help understanding a rule?</span>
             </div>
             <p className="text-sm text-gray-400">
-              Join our community Discord or check out the tutorial videos for detailed explanations.
+              Join our community Discord or check out the tutorial videos for
+              detailed explanations.
             </p>
           </div>
         </motion.div>
