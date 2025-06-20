@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, AlertTriangle, Info, Book } from 'lucide-react';
 
-const DeckValidator = ({ deck, format = 'standard' }) => {
+const DeckValidator = ({ deck }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [rulesData, setRulesData] = useState(null);
 
@@ -12,35 +12,14 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
       .catch(err => console.error('Failed to load rules:', err));
   }, []);
 
-  // Format rules
-  const formatRules = {
-    standard: {
-      minCards: 40,
-      maxCards: 60,
-      maxCopies: 4,
-      bannedCards: ['Ancient Dragon'], // Example banned card
-      restrictedCards: { 'Lightning Bolt': 1 }, // Example restricted card
-      requiredSets: ['Core Set', 'Expansion 1'],
-    },
-    limited: {
-      minCards: 40,
-      maxCards: 40,
-      maxCopies: 4,
-      bannedCards: [],
-      restrictedCards: {},
-      requiredSets: [],
-    },
-    eternal: {
-      minCards: 40,
-      maxCards: 60,
-      maxCopies: 4,
-      bannedCards: [],
-      restrictedCards: {},
-      requiredSets: [],
-    },
+  // Deck rules
+  const rules = {
+    minCards: 40,
+    maxCards: 60,
+    maxCopies: 4,
+    bannedCards: ['Ancient Dragon'], // Example banned card
+    restrictedCards: { 'Lightning Bolt': 1 }, // Example restricted card
   };
-
-  const rules = formatRules[format] || formatRules.standard;
   const totalCards = deck.cards.reduce((sum, card) => sum + card.quantity, 0);
 
   // Validation checks
@@ -129,7 +108,7 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
           ) : (
             <XCircle className="text-red-500" size={20} />
           )}
-          <span>Deck Validation ({format})</span>
+          <span>Deck Validation</span>
         </h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -252,9 +231,9 @@ const DeckValidator = ({ deck, format = 'standard' }) => {
             </div>
           )}
 
-          {/* Format Info */}
+          {/* Deck Rules Info */}
           <div className="bg-gray-700 rounded p-3">
-            <h4 className="text-white font-medium mb-2">Format Rules</h4>
+            <h4 className="text-white font-medium mb-2">Deck Rules</h4>
             <div className="text-sm text-gray-300 space-y-1">
               <div>
                 Cards: {rules.minCards}-{rules.maxCards}

@@ -38,9 +38,7 @@ const CardExplorer = () => {
               <Database className="w-8 h-8 text-blue-500" />
               <h1 className="text-4xl font-bold">Card Explorer</h1>
             </div>
-            <p className="text-secondary text-lg">
-              Discover, search, and explore the complete KONIVRER card database
-            </p>
+
           </div>
         </div>
       </div>

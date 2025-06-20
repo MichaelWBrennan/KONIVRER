@@ -55,7 +55,7 @@ const EnhancedTournaments = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('date');
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedFormats, setSelectedFormats] = useState([]);
+
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [prizeRange, setPrizeRange] = useState([0, 10000]);
 
@@ -71,11 +71,10 @@ const EnhancedTournaments = () => {
           id: 1,
           name: 'Friday Night KONIVRER Championship',
           description:
-            'Weekly competitive tournament featuring the latest Standard format with exciting prizes and professional coverage.',
+            'Weekly competitive tournament with exciting prizes and professional coverage.',
           date: '2024-06-07',
           time: '19:00',
           location: 'GameHub Arena, Los Angeles',
-          format: 'Standard',
           type: 'Competitive',
           status: 'upcoming',
           participants: 24,
@@ -112,7 +111,6 @@ const EnhancedTournaments = () => {
           date: '2024-06-15',
           time: '10:00',
           location: 'Convention Center, San Francisco',
-          format: 'Standard',
           type: 'Qualifier',
           status: 'upcoming',
           participants: 89,
@@ -232,7 +230,6 @@ const EnhancedTournaments = () => {
           date: '2024-06-10',
           time: '16:00',
           location: 'Online - Global',
-          format: 'Standard',
           type: 'Online',
           status: 'live',
           participants: 256,
@@ -277,7 +274,6 @@ const EnhancedTournaments = () => {
           date: '2024-05-30',
           time: '13:00',
           location: 'Community Center, Austin',
-          format: 'Standard',
           type: 'Charity',
           status: 'completed',
           participants: 64,
@@ -380,14 +376,12 @@ const EnhancedTournaments = () => {
 
     const matchesFilter = filter === 'all' || tournament.status === filter;
 
-    const matchesFormat =
-      selectedFormats.length === 0 ||
-      selectedFormats.includes(tournament.format);
+
 
     const matchesType =
       selectedTypes.length === 0 || selectedTypes.includes(tournament.type);
 
-    return matchesSearch && matchesFilter && matchesFormat && matchesType;
+    return matchesSearch && matchesFilter && matchesType;
   });
 
   const sortedTournaments = [...filteredTournaments].sort((a, b) => {
@@ -512,11 +506,8 @@ const EnhancedTournaments = () => {
           </div>
         </div>
 
-        {/* Format and Difficulty */}
+        {/* Difficulty */}
         <div className="flex items-center gap-2 mb-4">
-          <span className="px-2 py-1 bg-accent-primary/20 text-accent-primary rounded text-xs font-medium">
-            {tournament.format}
-          </span>
           <span
             className={`px-2 py-1 bg-gray-500/20 rounded text-xs font-medium ${getDifficultyColor(tournament.difficulty)}`}
           >
@@ -782,36 +773,7 @@ const EnhancedTournaments = () => {
                 className="border-t border-color pt-4"
               >
                 <div className="grid md:grid-cols-3 gap-4">
-                  {/* Format Filter */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Format
-                    </label>
-                    <div className="space-y-2">
-                      {['Standard', 'Draft', 'Legacy', 'Modern'].map(format => (
-                        <label key={format} className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={selectedFormats.includes(format)}
-                            onChange={e => {
-                              if (e.target.checked) {
-                                setSelectedFormats([
-                                  ...selectedFormats,
-                                  format,
-                                ]);
-                              } else {
-                                setSelectedFormats(
-                                  selectedFormats.filter(f => f !== format),
-                                );
-                              }
-                            }}
-                            className="w-4 h-4"
-                          />
-                          <span className="text-sm">{format}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+
 
                   {/* Type Filter */}
                   <div>
@@ -911,7 +873,7 @@ const EnhancedTournaments = () => {
                 onClick={() => {
                   setSearchTerm('');
                   setFilter('all');
-                  setSelectedFormats([]);
+
                   setSelectedTypes([]);
                 }}
                 className="btn btn-primary"
