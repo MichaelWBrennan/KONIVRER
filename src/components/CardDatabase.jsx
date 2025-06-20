@@ -119,7 +119,9 @@ const CardDatabase = ({
   };
 
   const uniqueValues = {
-    rarities: [...new Set(cards.map(card => card.rarity))].filter(rarity => rarity.toLowerCase() !== 'mythic'),
+    rarities: [...new Set(cards.map(card => card.rarity))].filter(
+      rarity => rarity.toLowerCase() !== 'mythic',
+    ),
     types: [...new Set(cards.map(card => card.type))],
     elements: [...new Set(cards.flatMap(card => card.elements))],
     sets: [...new Set(cards.map(card => card.set))],
@@ -360,7 +362,9 @@ const CardDatabase = ({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
               <select
                 value={filters.rarity}
-                onChange={e => setFilters({ ...filters, rarity: e.target.value })}
+                onChange={e =>
+                  setFilters({ ...filters, rarity: e.target.value })
+                }
                 className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Rarities</option>
@@ -395,7 +399,11 @@ const CardDatabase = ({
                 {uniqueValues.elements.map(element => {
                   const elementInfo = getElementSymbol(element);
                   return (
-                    <option key={element} value={element} className="text-black">
+                    <option
+                      key={element}
+                      value={element}
+                      className="text-black"
+                    >
                       {elementInfo.name}
                     </option>
                   );
