@@ -767,71 +767,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <section className="py-16 bg-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              KONIVRER Hub
-            </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Your unified hub for community, news, lore, guides, and everything
-              KONIVRER
-            </p>
-          </motion.div>
 
-          {/* Unified Stats */}
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-6 gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-400">
-                {unifiedStats.totalMembers?.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Total Members</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-400">
-                {unifiedStats.activeToday?.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Active Today</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-400">
-                {unifiedStats.totalContent}
-              </div>
-              <div className="text-sm text-gray-400">Total Content</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-orange-400">
-                {unifiedStats.totalViews?.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Total Views</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-cyan-400">
-                {unifiedStats.eventsThisWeek}
-              </div>
-              <div className="text-sm text-gray-400">Events This Week</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-pink-400">
-                {unifiedStats.engagementRate}%
-              </div>
-              <div className="text-sm text-gray-400">Engagement Rate</div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Search and Filters */}
       <section className="py-8 bg-gray-900">

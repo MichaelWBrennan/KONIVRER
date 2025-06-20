@@ -345,64 +345,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <section className="py-16 bg-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              KONIVRER Hub
-            </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Your central hub for news, community, and everything KONIVRER
-            </p>
-          </motion.div>
 
-          {/* Community Stats */}
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-5 gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-400">
-                {communityStats.totalMembers?.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Total Members</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-400">
-                {communityStats.activeToday?.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Active Today</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-400">
-                {communityStats.postsToday}
-              </div>
-              <div className="text-sm text-gray-400">Posts Today</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-orange-400">
-                {communityStats.eventsThisWeek}
-              </div>
-              <div className="text-sm text-gray-400">Events This Week</div>
-            </div>
-            <div className="bg-gray-700/50 backdrop-blur-sm rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-cyan-400">
-                {stores.length}
-              </div>
-              <div className="text-sm text-gray-400">Stores Nearby</div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Search and Filters */}
       <section className="py-8 bg-gray-900">
@@ -636,38 +579,7 @@ const Home = () => {
             </p>
           </motion.div>
 
-          {/* Community Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
-          >
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">
-                {communityStats.totalMembers?.toLocaleString()}
-              </div>
-              <div className="text-gray-400 text-sm">Total Members</div>
-            </div>
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">
-                {communityStats.activeToday?.toLocaleString()}
-              </div>
-              <div className="text-gray-400 text-sm">Active Today</div>
-            </div>
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-2">
-                {communityStats.postsToday}
-              </div>
-              <div className="text-gray-400 text-sm">Posts Today</div>
-            </div>
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 text-center">
-              <div className="text-3xl font-bold text-orange-400 mb-2">
-                {communityStats.eventsThisWeek}
-              </div>
-              <div className="text-gray-400 text-sm">Events This Week</div>
-            </div>
-          </motion.div>
+
 
           {/* Main Community Grid */}
           <div className="grid lg:grid-cols-3 gap-8">
