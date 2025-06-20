@@ -416,9 +416,7 @@ const CardDatabase = ({
               {/* "64 cards total" text removed */}
             </span>
           ) : (
-            <>
-              {/* "Showing 64 of 64 cards" text removed */}
-            </>
+            <>{/* "Showing 64 of 64 cards" text removed */}</>
           )}
         </span>
         {favorites.size > 0 && (
