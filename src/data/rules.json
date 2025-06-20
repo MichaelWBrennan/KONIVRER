@@ -80,7 +80,15 @@
       "elementTypes": {
         "title": "Element Types",
         "content": "🜂: Fire (Inferno), 🜄: Water (Submerged), 🜃: Earth (Steadfast), 🜁: Air (Gust), ⭘: Aether (Brilliance), ▢: Nether (Void), ✡⃝: Generic (used for Strength determination).",
-        "keywords": ["fire", "water", "earth", "air", "aether", "nether", "generic"]
+        "keywords": [
+          "fire",
+          "water",
+          "earth",
+          "air",
+          "aether",
+          "nether",
+          "generic"
+        ]
       },
       "azothSystem": {
         "title": "Azoth System",
@@ -100,7 +108,16 @@
       "keywordDefinitions": {
         "title": "Keyword Definitions",
         "content": "Each keyword activates only once on the play of the respective Spell/Familiar. Amalgam: Choose one of two listed Keywords/Elements when played. Brilliance: Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card's Strength on the bottom of its owner's life cards. Gust: Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card's Strength to its owner's hand. Inferno: After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card's Strength. Steadfast: Redirect damage ≤ 🜃 used to pay for this card's Strength, that would be done to you or cards you control, to this card's Strength. Submerged: Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card's Strength, that many cards below the top of its owner's deck. Quintessence: This card can't be played as a Familiar. While in the Azoth row, it produces any Azoth type. Void: Remove target card from the game.",
-        "keywords": ["amalgam", "brilliance", "gust", "inferno", "steadfast", "submerged", "quintessence", "void"]
+        "keywords": [
+          "amalgam",
+          "brilliance",
+          "gust",
+          "inferno",
+          "steadfast",
+          "submerged",
+          "quintessence",
+          "void"
+        ]
       },
       "keywordRestrictions": {
         "title": "Keyword Restrictions",
