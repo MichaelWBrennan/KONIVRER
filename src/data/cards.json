@@ -2,24 +2,14 @@
   {
     "id": "gd_001_abiss",
     "name": "ABISS",
-    "elements": [
-      "✡︎⃝",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "▢", "🜄"],
+    "keywords": ["Submerged", "Void"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "1/63",
     "artist": "Unknown",
@@ -30,21 +20,14 @@
   {
     "id": "gd_002_angel",
     "name": "ANGEL",
-    "elements": [
-      "✡︎⃝",
-      "⬢"
-    ],
-    "keywords": [
-      "Brilliance"
-    ],
+    "elements": ["✡︎⃝", "⬢"],
+    "keywords": ["Brilliance"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance"
-    ],
+    "talents": ["Brilliance"],
     "set": "The Green Dream",
     "setNumber": "2/63",
     "artist": "Unknown",
@@ -55,20 +38,14 @@
   {
     "id": "gd_003_azoth",
     "name": "AZOΘ",
-    "elements": [
-      "✡︎⃝"
-    ],
-    "keywords": [
-      "Quintessence"
-    ],
+    "elements": ["✡︎⃝"],
+    "keywords": ["Quintessence"],
     "cost": 1,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Quintessence"
-    ],
+    "talents": ["Quintessence"],
     "set": "The Green Dream",
     "setNumber": "3/63",
     "artist": "Unknown",
@@ -79,27 +56,14 @@
   {
     "id": "gd_004_brigt_dvst",
     "name": "BRIΓT DVST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜃"],
+    "keywords": ["Brilliance", "Gust", "Steadfast"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Steadfast"
-    ],
+    "talents": ["Brilliance", "Gust", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "4/63",
     "artist": "Unknown",
@@ -110,30 +74,14 @@
   {
     "id": "gd_005_brigt_fvlgvrite",
     "name": "BRIΓT FVLGVRITE",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "🜃"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Steadfast"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "5/63",
     "artist": "Unknown",
@@ -144,27 +92,14 @@
   {
     "id": "gd_006_frost",
     "name": "FROST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Gust", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "6/63",
     "artist": "Unknown",
@@ -175,30 +110,14 @@
   {
     "id": "gd_007_brigt_thvndersnovv",
     "name": "BRIΓT THVNDERSNOVV",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Submerged"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "7/63",
     "artist": "Unknown",
@@ -209,27 +128,14 @@
   {
     "id": "gd_008_brigt_lava",
     "name": "BRIΓT LAVA",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "🜃"],
+    "keywords": ["Brilliance", "Inferno", "Steadfast"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast"
-    ],
+    "talents": ["Brilliance", "Inferno", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "8/63",
     "artist": "Unknown",
@@ -240,27 +146,14 @@
   {
     "id": "gd_009_brigt_ligtning",
     "name": "BRIΓT LIΓTNING",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂"],
+    "keywords": ["Brilliance", "Gust", "Inferno"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno"],
     "set": "The Green Dream",
     "setNumber": "9/63",
     "artist": "Unknown",
@@ -271,30 +164,14 @@
   {
     "id": "gd_010_brigt_lahar",
     "name": "BRIΓT LAHAR",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Inferno", "Steadfast", "Submerged"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Inferno", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "10/63",
     "artist": "Unknown",
@@ -305,27 +182,14 @@
   {
     "id": "gd_011_brigt_mvd",
     "name": "BRIΓT MVD",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Steadfast", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "11/63",
     "artist": "Unknown",
@@ -336,27 +200,14 @@
   {
     "id": "gd_012_brigt_steam",
     "name": "BRIΓT STEAM",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "🜄"],
+    "keywords": ["Brilliance", "Inferno", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Inferno", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "12/63",
     "artist": "Unknown",
@@ -367,30 +218,14 @@
   {
     "id": "gd_013_brigt_permaphrost",
     "name": "BRIΓT PERMAΦROST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Steadfast", "Submerged"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Gust", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "13/63",
     "artist": "Unknown",
@@ -401,27 +236,14 @@
   {
     "id": "gd_014_dark_dvst",
     "name": "DARK DVST",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Gust",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "▢", "🜃"],
+    "keywords": ["Gust", "Steadfast", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Gust", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "14/63",
     "artist": "Unknown",
@@ -432,30 +254,14 @@
   {
     "id": "gd_015_dark_fvlgvrite",
     "name": "DARK FVLGVRITE",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "▢", "🜃"],
+    "keywords": ["Gust", "Inferno", "Steadfast", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Gust", "Inferno", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "15/63",
     "artist": "Unknown",
@@ -466,27 +272,14 @@
   {
     "id": "gd_016_dark_ice",
     "name": "DARK ICE",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "▢", "🜄"],
+    "keywords": ["Gust", "Submerged", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Gust", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "16/63",
     "artist": "Unknown",
@@ -497,30 +290,14 @@
   {
     "id": "gd_017_dark_thvndersnovv",
     "name": "DARK THVNDERSNOVV",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "▢", "🜄"],
+    "keywords": ["Gust", "Inferno", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Gust", "Inferno", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "17/63",
     "artist": "Unknown",
@@ -531,27 +308,14 @@
   {
     "id": "gd_018_dark_lava",
     "name": "DARK LAVA",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜂", "▢", "🜃"],
+    "keywords": ["Inferno", "Steadfast", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Inferno", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "18/63",
     "artist": "Unknown",
@@ -562,27 +326,14 @@
   {
     "id": "gd_019_dark_ligtning",
     "name": "DARK LIΓTNING",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "▢"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "▢"],
+    "keywords": ["Gust", "Inferno", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Void"
-    ],
+    "talents": ["Gust", "Inferno", "Void"],
     "set": "The Green Dream",
     "setNumber": "19/63",
     "artist": "Unknown",
@@ -593,30 +344,14 @@
   {
     "id": "gd_020_fog",
     "name": "FOG",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "▢", "🜃", "🜄"],
+    "keywords": ["Gust", "Steadfast", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Gust", "Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "20/63",
     "artist": "Unknown",
@@ -627,30 +362,14 @@
   {
     "id": "gd_021_dark_lahar",
     "name": "DARK LAHAR",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Inferno",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜂", "▢", "🜃", "🜄"],
+    "keywords": ["Inferno", "Steadfast", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Inferno", "Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "21/63",
     "artist": "Unknown",
@@ -661,24 +380,14 @@
   {
     "id": "gd_022_embers",
     "name": "EMBERS",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "▢"
-    ],
-    "keywords": [
-      "Inferno",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜂", "▢"],
+    "keywords": ["Inferno", "Void"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Void"
-    ],
+    "talents": ["Inferno", "Void"],
     "set": "The Green Dream",
     "setNumber": "22/63",
     "artist": "Unknown",
@@ -689,27 +398,14 @@
   {
     "id": "gd_023_smoke",
     "name": "SMOKE",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜂", "▢", "🜄"],
+    "keywords": ["Inferno", "Submerged", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Inferno", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "23/63",
     "artist": "Unknown",
@@ -720,14 +416,7 @@
   {
     "id": "gd_024_dark_tiphoon",
     "name": "DARK TIΦOON",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "▢", "🜃", "🜄"],
     "keywords": [],
     "cost": 6,
     "power": 0,
@@ -745,24 +434,14 @@
   {
     "id": "gd_025_dvst",
     "name": "DVST",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜃"
-    ],
-    "keywords": [
-      "Gust",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜃"],
+    "keywords": ["Gust", "Steadfast"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Steadfast"
-    ],
+    "talents": ["Gust", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "25/63",
     "artist": "Unknown",
@@ -773,27 +452,14 @@
   {
     "id": "gd_026_ash",
     "name": "ASH",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "🜃"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "🜃"],
+    "keywords": ["Gust", "Inferno", "Steadfast"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Steadfast"
-    ],
+    "talents": ["Gust", "Inferno", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "26/63",
     "artist": "Unknown",
@@ -804,24 +470,14 @@
   {
     "id": "gd_027_geode",
     "name": "GEODE",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜃"],
+    "keywords": ["Brilliance", "Steadfast"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Steadfast"
-    ],
+    "talents": ["Brilliance", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "27/63",
     "artist": "Unknown",
@@ -832,21 +488,14 @@
   {
     "id": "gd_028_gnome",
     "name": "GNOME",
-    "elements": [
-      "✡︎⃝",
-      "🜃"
-    ],
-    "keywords": [
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "🜃"],
+    "keywords": ["Steadfast"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Steadfast"
-    ],
+    "talents": ["Steadfast"],
     "set": "The Green Dream",
     "setNumber": "28/63",
     "artist": "Unknown",
@@ -857,24 +506,14 @@
   {
     "id": "gd_029_ice",
     "name": "ICE",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜄"],
+    "keywords": ["Gust", "Submerged"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Submerged"
-    ],
+    "talents": ["Gust", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "29/63",
     "artist": "Unknown",
@@ -885,27 +524,14 @@
   {
     "id": "gd_030_storm",
     "name": "STORM",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "🜄"],
+    "keywords": ["Gust", "Inferno", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Submerged"
-    ],
+    "talents": ["Gust", "Inferno", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "30/63",
     "artist": "Unknown",
@@ -916,24 +542,14 @@
   {
     "id": "gd_031_rainbovv",
     "name": "RAINBOVV",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜄"],
+    "keywords": ["Brilliance", "Submerged"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "31/63",
     "artist": "Unknown",
@@ -944,24 +560,14 @@
   {
     "id": "gd_032_magma",
     "name": "MAGMA",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "🜃"
-    ],
-    "keywords": [
-      "Inferno",
-      "Steadfast"
-    ],
+    "elements": ["✡︎⃝", "🜂", "🜃"],
+    "keywords": ["Inferno", "Steadfast"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Steadfast"
-    ],
+    "talents": ["Inferno", "Steadfast"],
     "set": "The Green Dream",
     "setNumber": "32/63",
     "artist": "Unknown",
@@ -972,33 +578,14 @@
   {
     "id": "gd_033_light_tiphoon",
     "name": "LIGHT TIΦOON",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Steadfast", "Submerged"],
     "cost": 6,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "33/63",
     "artist": "Unknown",
@@ -1009,24 +596,14 @@
   {
     "id": "gd_034_ligtning",
     "name": "LIΓTNING",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂"],
+    "keywords": ["Gust", "Inferno"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno"
-    ],
+    "talents": ["Gust", "Inferno"],
     "set": "The Green Dream",
     "setNumber": "34/63",
     "artist": "Unknown",
@@ -1037,24 +614,14 @@
   {
     "id": "gd_035_miasma",
     "name": "MIASMA",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "▢"
-    ],
-    "keywords": [
-      "Gust",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "🜁", "▢"],
+    "keywords": ["Gust", "Void"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Void"
-    ],
+    "talents": ["Gust", "Void"],
     "set": "The Green Dream",
     "setNumber": "35/63",
     "artist": "Unknown",
@@ -1065,27 +632,14 @@
   {
     "id": "gd_036_lahar",
     "name": "LAHAR",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜂", "🜃", "🜄"],
+    "keywords": ["Inferno", "Steadfast", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Inferno", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "36/63",
     "artist": "Unknown",
@@ -1096,24 +650,14 @@
   {
     "id": "gd_037_mvd",
     "name": "MVD",
-    "elements": [
-      "✡︎⃝",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜃", "🜄"],
+    "keywords": ["Steadfast", "Submerged"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "37/63",
     "artist": "Unknown",
@@ -1124,24 +668,14 @@
   {
     "id": "gd_038_nekrosis",
     "name": "NEKROSIS",
-    "elements": [
-      "✡︎⃝",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "▢", "🜃"],
+    "keywords": ["Steadfast", "Void"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "38/63",
     "artist": "Unknown",
@@ -1152,21 +686,14 @@
   {
     "id": "gd_039_ade",
     "name": "ΣADE",
-    "elements": [
-      "✡︎⃝",
-      "▢"
-    ],
-    "keywords": [
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "▢"],
+    "keywords": ["Void"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Void"
-    ],
+    "talents": ["Void"],
     "set": "The Green Dream",
     "setNumber": "39/63",
     "artist": "Unknown",
@@ -1177,24 +704,14 @@
   {
     "id": "gd_040_solar",
     "name": "SOLAR",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂"],
+    "keywords": ["Brilliance", "Inferno"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno"
-    ],
+    "talents": ["Brilliance", "Inferno"],
     "set": "The Green Dream",
     "setNumber": "40/63",
     "artist": "Unknown",
@@ -1205,21 +722,14 @@
   {
     "id": "gd_041_salamander",
     "name": "SALAMANDER",
-    "elements": [
-      "✡︎⃝",
-      "🜂"
-    ],
-    "keywords": [
-      "Inferno"
-    ],
+    "elements": ["✡︎⃝", "🜂"],
+    "keywords": ["Inferno"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno"
-    ],
+    "talents": ["Inferno"],
     "set": "The Green Dream",
     "setNumber": "41/63",
     "artist": "Unknown",
@@ -1230,21 +740,14 @@
   {
     "id": "gd_042_silph",
     "name": "SILΦ",
-    "elements": [
-      "✡︎⃝",
-      "🜁"
-    ],
-    "keywords": [
-      "Gust"
-    ],
+    "elements": ["✡︎⃝", "🜁"],
+    "keywords": ["Gust"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust"
-    ],
+    "talents": ["Gust"],
     "set": "The Green Dream",
     "setNumber": "42/63",
     "artist": "Unknown",
@@ -1255,24 +758,14 @@
   {
     "id": "gd_043_avrora",
     "name": "AVRORA",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁"],
+    "keywords": ["Brilliance", "Gust"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust"
-    ],
+    "talents": ["Brilliance", "Gust"],
     "set": "The Green Dream",
     "setNumber": "43/63",
     "artist": "Unknown",
@@ -1283,24 +776,14 @@
   {
     "id": "gd_044_steam",
     "name": "STEAM",
-    "elements": [
-      "✡︎⃝",
-      "🜂",
-      "🜄"
-    ],
-    "keywords": [
-      "Inferno",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜂", "🜄"],
+    "keywords": ["Inferno", "Submerged"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Inferno",
-      "Submerged"
-    ],
+    "talents": ["Inferno", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "44/63",
     "artist": "Unknown",
@@ -1311,27 +794,14 @@
   {
     "id": "gd_045_tar",
     "name": "TAR",
-    "elements": [
-      "✡︎⃝",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "▢", "🜃", "🜄"],
+    "keywords": ["Steadfast", "Submerged", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "45/63",
     "artist": "Unknown",
@@ -1342,30 +812,14 @@
   {
     "id": "gd_046_tiphoon",
     "name": "TIΦOON",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜂",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜂", "🜃", "🜄"],
+    "keywords": ["Gust", "Inferno", "Steadfast", "Submerged"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Gust", "Inferno", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "46/63",
     "artist": "Unknown",
@@ -1376,21 +830,14 @@
   {
     "id": "gd_047_vndine",
     "name": "VNDINE",
-    "elements": [
-      "✡︎⃝",
-      "🜄"
-    ],
-    "keywords": [
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜄"],
+    "keywords": ["Submerged"],
     "cost": 2,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Submerged"
-    ],
+    "talents": ["Submerged"],
     "set": "The Green Dream",
     "setNumber": "47/63",
     "artist": "Unknown",
@@ -1401,24 +848,14 @@
   {
     "id": "gd_048_xaos",
     "name": "XAOS",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "▢"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "▢"],
+    "keywords": ["Brilliance", "Void"],
     "cost": 3,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Void"],
     "set": "The Green Dream",
     "setNumber": "48/63",
     "artist": "Unknown",
@@ -1429,30 +866,14 @@
   {
     "id": "gd_049_xaos_dvst",
     "name": "XAOS DVST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "▢", "🜃"],
+    "keywords": ["Brilliance", "Gust", "Steadfast", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "49/63",
     "artist": "Unknown",
@@ -1463,33 +884,14 @@
   {
     "id": "gd_050_xaos_fvlgvrite",
     "name": "XAOS FVLGVRITE",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "▢", "🜃"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Steadfast", "Void"],
     "cost": 6,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "50/63",
     "artist": "Unknown",
@@ -1500,27 +902,14 @@
   {
     "id": "gd_051_xaos_gnome",
     "name": "XAOS GNOME",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "▢", "🜃"],
+    "keywords": ["Brilliance", "Steadfast", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "51/63",
     "artist": "Unknown",
@@ -1531,30 +920,14 @@
   {
     "id": "gd_052_xaos_ice",
     "name": "XAOS ICE",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "▢", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "52/63",
     "artist": "Unknown",
@@ -1565,33 +938,14 @@
   {
     "id": "gd_053_xaos_thvndersnovv",
     "name": "XAOS THVNDERSNOVV",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "▢", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Submerged", "Void"],
     "cost": 6,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "53/63",
     "artist": "Unknown",
@@ -1602,30 +956,14 @@
   {
     "id": "gd_054_xaos_lava",
     "name": "XAOS LAVA",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "▢",
-      "🜃"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "▢", "🜃"],
+    "keywords": ["Brilliance", "Inferno", "Steadfast", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Inferno", "Steadfast", "Void"],
     "set": "The Green Dream",
     "setNumber": "54/63",
     "artist": "Unknown",
@@ -1636,30 +974,14 @@
   {
     "id": "gd_055_xaos_ligtning",
     "name": "XAOS LIΓTNING",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "🜂",
-      "▢"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "🜂", "▢"],
+    "keywords": ["Brilliance", "Gust", "Inferno", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Inferno",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Inferno", "Void"],
     "set": "The Green Dream",
     "setNumber": "55/63",
     "artist": "Unknown",
@@ -1670,33 +992,14 @@
   {
     "id": "gd_056_xaos_mist",
     "name": "XAOS MIST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "▢", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Inferno", "Steadfast", "Submerged", "Void"],
     "cost": 6,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Inferno", "Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "56/63",
     "artist": "Unknown",
@@ -1707,30 +1010,14 @@
   {
     "id": "gd_057_xaos_mvd",
     "name": "XAOS MVD",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "▢", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Steadfast", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "57/63",
     "artist": "Unknown",
@@ -1741,27 +1028,14 @@
   {
     "id": "gd_058_xaos_salamander",
     "name": "XAOS SALAMANDER",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "▢"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "▢"],
+    "keywords": ["Brilliance", "Inferno", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Inferno", "Void"],
     "set": "The Green Dream",
     "setNumber": "58/63",
     "artist": "Unknown",
@@ -1772,27 +1046,14 @@
   {
     "id": "gd_059_xaos_silph",
     "name": "XAOS SILΦ",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "▢"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "▢"],
+    "keywords": ["Brilliance", "Gust", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Void"],
     "set": "The Green Dream",
     "setNumber": "59/63",
     "artist": "Unknown",
@@ -1803,30 +1064,14 @@
   {
     "id": "gd_060_xaos_steam",
     "name": "XAOS STEAM",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜂",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜂", "▢", "🜄"],
+    "keywords": ["Brilliance", "Inferno", "Submerged", "Void"],
     "cost": 5,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Inferno",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Inferno", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "60/63",
     "artist": "Unknown",
@@ -1837,27 +1082,14 @@
   {
     "id": "gd_061_xaos_vndine",
     "name": "XAOS VNDINE",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "▢",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "▢", "🜄"],
+    "keywords": ["Brilliance", "Submerged", "Void"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "61/63",
     "artist": "Unknown",
@@ -1868,33 +1100,14 @@
   {
     "id": "gd_062_xaos_permaphrost",
     "name": "XAOS PERMAΦROST",
-    "elements": [
-      "✡︎⃝",
-      "⬢",
-      "🜁",
-      "▢",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "elements": ["✡︎⃝", "⬢", "🜁", "▢", "🜃", "🜄"],
+    "keywords": ["Brilliance", "Gust", "Steadfast", "Submerged", "Void"],
     "cost": 6,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Brilliance",
-      "Gust",
-      "Steadfast",
-      "Submerged",
-      "Void"
-    ],
+    "talents": ["Brilliance", "Gust", "Steadfast", "Submerged", "Void"],
     "set": "The Green Dream",
     "setNumber": "62/63",
     "artist": "Unknown",
@@ -1905,27 +1118,14 @@
   {
     "id": "gd_063_permaphrost",
     "name": "PERMAΦROST",
-    "elements": [
-      "✡︎⃝",
-      "🜁",
-      "🜃",
-      "🜄"
-    ],
-    "keywords": [
-      "Gust",
-      "Steadfast",
-      "Submerged"
-    ],
+    "elements": ["✡︎⃝", "🜁", "🜃", "🜄"],
+    "keywords": ["Gust", "Steadfast", "Submerged"],
     "cost": 4,
     "power": 0,
     "rarity": "common",
     "type": "Familiar",
     "class": "ELEMENTAL",
-    "talents": [
-      "Gust",
-      "Steadfast",
-      "Submerged"
-    ],
+    "talents": ["Gust", "Steadfast", "Submerged"],
     "set": "The Green Dream",
     "setNumber": "63/63",
     "artist": "Unknown",
