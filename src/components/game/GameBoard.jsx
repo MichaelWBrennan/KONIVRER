@@ -12,7 +12,12 @@ import { Settings, Menu, MessageSquare } from 'lucide-react';
  * Main game board component that renders the entire game interface
  * and connects to the game engine
  */
-const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }) => {
+const GameBoard = ({
+  gameEngine,
+  playerData,
+  opponentData,
+  isSpectator = false,
+}) => {
   const [gameState, setGameState] = useState(null);
   const [showLog, setShowLog] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -31,17 +36,17 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
     setGameState(gameEngine.getState());
 
     // Set up event listeners
-    const handleStateUpdate = (newState) => {
+    const handleStateUpdate = newState => {
       setGameState(newState);
     };
 
-    const handleTargetRequest = (data) => {
+    const handleTargetRequest = data => {
       setTargetMode(true);
       // Reset targets when a new target request comes in
       setTargets([]);
     };
 
-    const handleAnimation = (animation) => {
+    const handleAnimation = animation => {
       setAnimations(prev => [...prev, animation]);
     };
 
@@ -63,7 +68,7 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
     if (animations.length === 0) return;
 
     const currentAnimation = animations[0];
-    
+
     // Play the animation
     const animationTimer = setTimeout(() => {
       // Remove the animation from the queue when it's done
@@ -87,7 +92,7 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
   };
 
   // Handle card hover
-  const handleCardHover = (card) => {
+  const handleCardHover = card => {
     setHoveredCard(card);
   };
 
@@ -161,14 +166,14 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
   }
 
   return (
-    <div 
+    <div
       ref={boardRef}
       className="relative h-screen w-full overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800"
     >
       {/* Game Header */}
       <div className="absolute top-0 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm z-10 flex items-center justify-between px-4">
         <div className="flex items-center space-x-2">
-          <button 
+          <button
             onClick={() => setShowMenu(true)}
             className="p-2 rounded-full hover:bg-white/10"
           >
@@ -176,16 +181,16 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
           </button>
           <h1 className="text-white font-bold">KONIVRER</h1>
         </div>
-        
-        <PhaseIndicator 
-          currentPhase={gameState.phase} 
+
+        <PhaseIndicator
+          currentPhase={gameState.phase}
           activePlayer={gameState.activePlayer}
           playerName={playerData?.name}
           opponentName={opponentData?.name}
         />
-        
+
         <div className="flex items-center space-x-2">
-          <button 
+          <button
             onClick={() => setShowLog(!showLog)}
             className={`p-2 rounded-full ${showLog ? 'bg-purple-700/50' : 'hover:bg-white/10'}`}
           >
@@ -198,7 +203,7 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
       </div>
 
       {/* Opponent Zone */}
-      <PlayerZone 
+      <PlayerZone
         player={opponentData}
         gameState={gameState.players[1]}
         isOpponent={true}
@@ -213,11 +218,8 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
       <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 h-1/4 flex justify-center items-center">
         <div className="w-full max-w-5xl flex justify-between items-center px-4">
           {/* Stack */}
-          <CardStack 
-            stack={gameState.stack} 
-            onCardHover={handleCardHover}
-          />
-          
+          <CardStack stack={gameState.stack} onCardHover={handleCardHover} />
+
           {/* Current Animation */}
           {animations.length > 0 && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -235,7 +237,7 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
       </div>
 
       {/* Player Zone */}
-      <PlayerZone 
+      <PlayerZone
         player={playerData}
         gameState={gameState.players[0]}
         isOpponent={false}
@@ -247,7 +249,7 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
       />
 
       {/* Game Controls */}
-      <GameControls 
+      <GameControls
         gameState={gameState}
         selectedCard={selectedCard}
         targetMode={targetMode}
@@ -269,7 +271,9 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
             {/* Card preview would be rendered here */}
             <div className="w-full h-full bg-gray-800 border-2 border-gray-700 rounded-lg flex items-center justify-center">
               <div className="text-center p-4">
-                <h3 className="text-white text-lg font-bold">{hoveredCard.name}</h3>
+                <h3 className="text-white text-lg font-bold">
+                  {hoveredCard.name}
+                </h3>
                 <p className="text-gray-300 text-sm">{hoveredCard.type}</p>
                 <p className="text-gray-400 mt-2 text-sm">{hoveredCard.text}</p>
                 {hoveredCard.type === 'Familiar' && (
@@ -285,38 +289,38 @@ const GameBoard = ({ gameEngine, playerData, opponentData, isSpectator = false }
 
       {/* Game Log */}
       {showLog && (
-        <GameLog 
-          logs={gameState.logs || []} 
+        <GameLog
+          logs={gameState.logs || []}
           onClose={() => setShowLog(false)}
         />
       )}
 
       {/* Game Menu */}
       {showMenu && (
-        <GameMenu 
-          onClose={() => setShowMenu(false)}
-          onAction={handleAction}
-        />
+        <GameMenu onClose={() => setShowMenu(false)} onAction={handleAction} />
       )}
 
       {/* Target Mode Overlay */}
       {targetMode && (
         <div className="absolute inset-0 bg-blue-900/30 pointer-events-none flex items-center justify-center">
           <div className="bg-black/70 text-white px-6 py-3 rounded-lg text-xl font-bold pointer-events-auto">
-            <p>Select targets ({targets.length}/{gameEngine.getRequiredTargets()})</p>
+            <p>
+              Select targets ({targets.length}/{gameEngine.getRequiredTargets()}
+              )
+            </p>
             <div className="flex justify-center mt-4 space-x-4">
-              <button 
+              <button
                 onClick={() => handleAction('confirmTargets')}
                 disabled={targets.length < gameEngine.getRequiredTargets()}
                 className={`px-4 py-2 rounded-lg ${
-                  targets.length >= gameEngine.getRequiredTargets() 
-                    ? 'bg-green-600 hover:bg-green-700' 
+                  targets.length >= gameEngine.getRequiredTargets()
+                    ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-gray-600 cursor-not-allowed'
                 }`}
               >
                 Confirm
               </button>
-              <button 
+              <button
                 onClick={() => handleAction('cancelTargets')}
                 className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700"
               >

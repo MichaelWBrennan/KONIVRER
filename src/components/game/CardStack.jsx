@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  */
 const CardStack = ({ stack = [], onCardHover }) => {
   if (!stack || stack.length === 0) return null;
-  
+
   return (
     <div className="relative w-32 h-40">
       <AnimatePresence>
@@ -13,12 +13,12 @@ const CardStack = ({ stack = [], onCardHover }) => {
           <motion.div
             key={`stack-${index}-${item.id}`}
             initial={{ opacity: 0, scale: 0.8, y: -20 }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               scale: 1,
               y: 0,
               x: index * 5,
-              zIndex: index
+              zIndex: index,
             }}
             exit={{ opacity: 0, scale: 0.8, y: -20 }}
             transition={{ duration: 0.3 }}
@@ -30,18 +30,16 @@ const CardStack = ({ stack = [], onCardHover }) => {
               <div className="text-white text-xs font-bold truncate mb-1">
                 {item.card.name}
               </div>
-              
+
               <div className="flex-grow bg-black/30 rounded mb-1"></div>
-              
-              <div className="text-white text-[8px]">
-                {item.card.type}
-              </div>
-              
+
+              <div className="text-white text-[8px]">{item.card.type}</div>
+
               {/* Stack position indicator */}
               <div className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                 {index + 1}
               </div>
-              
+
               {/* Owner indicator */}
               <div className="absolute -bottom-2 -right-2 bg-gray-800 text-white text-[8px] font-bold rounded-full px-1.5 py-0.5">
                 {item.controller === 0 ? 'You' : 'Opp'}
@@ -50,7 +48,7 @@ const CardStack = ({ stack = [], onCardHover }) => {
           </motion.div>
         ))}
       </AnimatePresence>
-      
+
       {/* Stack count */}
       {stack.length > 0 && (
         <div className="absolute -top-6 left-0 bg-purple-900 text-white text-xs font-bold rounded-lg px-2 py-1">

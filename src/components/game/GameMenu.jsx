@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion';
-import { X, Home, Settings, Volume2, VolumeX, Flag, HelpCircle } from 'lucide-react';
+import {
+  X,
+  Home,
+  Settings,
+  Volume2,
+  VolumeX,
+  Flag,
+  HelpCircle,
+} from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +16,7 @@ import { Link } from 'react-router-dom';
  */
 const GameMenu = ({ onClose, onAction }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -24,17 +32,14 @@ const GameMenu = ({ onClose, onAction }) => {
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-white text-xl font-bold">Game Menu</h2>
-          <button 
-            onClick={onClose}
-            className="text-gray-400 hover:text-white"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-white">
             <X className="w-6 h-6" />
           </button>
         </div>
-        
+
         <div className="space-y-4">
           {/* Sound Toggle */}
-          <button 
+          <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             className="w-full flex items-center justify-between p-3 bg-gray-800 hover:bg-gray-700 rounded-lg"
           >
@@ -46,25 +51,27 @@ const GameMenu = ({ onClose, onAction }) => {
               )}
               <span className="text-white">Sound Effects</span>
             </div>
-            <div className={`w-10 h-6 rounded-full flex items-center ${soundEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'}`}>
+            <div
+              className={`w-10 h-6 rounded-full flex items-center ${soundEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'}`}
+            >
               <div className="w-4 h-4 bg-white rounded-full mx-1"></div>
             </div>
           </button>
-          
+
           {/* Settings */}
           <button className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg">
             <Settings className="w-5 h-5 text-purple-400" />
             <span className="text-white">Game Settings</span>
           </button>
-          
+
           {/* Help */}
           <button className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg">
             <HelpCircle className="w-5 h-5 text-green-400" />
             <span className="text-white">Game Rules</span>
           </button>
-          
+
           {/* Concede */}
-          <button 
+          <button
             onClick={() => {
               onAction('concede');
               onClose();
@@ -74,9 +81,9 @@ const GameMenu = ({ onClose, onAction }) => {
             <Flag className="w-5 h-5 text-red-300" />
             <span className="text-white">Concede Game</span>
           </button>
-          
+
           {/* Return to Home */}
-          <Link 
+          <Link
             to="/"
             className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg"
           >
