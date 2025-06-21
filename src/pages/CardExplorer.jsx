@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Bot, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Search, Filter, Bot, ChevronRight, ChevronLeft, Grid, TrendingUp } from 'lucide-react';
 import CardDatabase from '../components/CardDatabase';
 import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
@@ -11,6 +11,7 @@ const CardExplorer = () => {
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [activeTab, setActiveTab] = useState('all'); // 'all' or 'trending'
 
   const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
@@ -101,15 +102,44 @@ const CardExplorer = () => {
               )}
             </div>
 
-            {/* Card Meta Analysis - Added from Analytics Hub */}
-            <CardMetaAnalysis />
-
-            {/* Card Database */}
-            <CardDatabase
-              cards={searchResults}
-              searchCriteria={activeSearchCriteria}
-              showSearchInterface={true}
-            />
+            {/* Tabs */}
+            <div className="flex border-b border-color mb-6">
+              <button
+                onClick={() => setActiveTab('all')}
+                className={`flex items-center gap-2 px-4 py-3 font-medium transition-colors ${
+                  activeTab === 'all'
+                    ? 'text-primary border-b-2 border-primary'
+                    : 'text-secondary hover:text-primary'
+                }`}
+              >
+                <Grid className="w-4 h-4" />
+                All Cards
+              </button>
+              <button
+                onClick={() => setActiveTab('trending')}
+                className={`flex items-center gap-2 px-4 py-3 font-medium transition-colors ${
+                  activeTab === 'trending'
+                    ? 'text-primary border-b-2 border-primary'
+                    : 'text-secondary hover:text-primary'
+                }`}
+              >
+                <TrendingUp className="w-4 h-4" />
+                Trending Cards
+              </button>
+            </div>
+            
+            {/* Tab Content */}
+            {activeTab === 'all' ? (
+              /* Card Database */
+              <CardDatabase
+                cards={searchResults}
+                searchCriteria={activeSearchCriteria}
+                showSearchInterface={true}
+              />
+            ) : (
+              /* Trending Cards */
+              <CardMetaAnalysis />
+            )}
           </motion.div>
 
           {/* AI Assistant Panel */}
