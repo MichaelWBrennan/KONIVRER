@@ -30,7 +30,7 @@ import DeckSearch from './pages/DeckSearch';
 import AnalyticsHub from './pages/AnalyticsHub';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
-import DeckBuilder from './pages/DeckBuilder';
+
 import BattlePass from './pages/BattlePass';
 import DeckSelectionPage from './pages/DeckSelectionPage';
 import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
@@ -63,8 +63,8 @@ function App() {
                   <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/advanced-game/:mode/:gameId" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/deck-selection" element={<DeckSelectionPage />} />
-                  <Route path="/deck-builder" element={<DeckBuilder />} />
-                  <Route path="/deck-builder/:deckId" element={<DeckBuilder />} />
+                  <Route path="/deck-builder" element={<EnhancedDeckBuilder />} />
+                  <Route path="/deck-builder/:deckId" element={<EnhancedDeckBuilder />} />
                   <Route path="/enhanced-deck-builder" element={<EnhancedDeckBuilder />} />
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
