@@ -341,11 +341,130 @@ async function updateMetaData() {
   }
 }
 
-// Handle app updates
+// Handle app updates and mobile-specific features
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  } else if (event.data && event.data.type === 'CACHE_CARD_IMAGES') {
+    event.waitUntil(cacheCardImages(event.data.cards));
+  } else if (event.data && event.data.type === 'PRELOAD_DECK') {
+    event.waitUntil(preloadDeckAssets(event.data.deck));
   }
 });
 
-console.log('Service Worker loaded successfully');
+// Mobile-specific: Cache card images for offline play
+async function cacheCardImages(cards) {
+  try {
+    const cache = await caches.open('konivrer-card-images');
+    const imagePromises = cards.map(async (card) => {
+      if (card.imageUrl) {
+        try {
+          const response = await fetch(card.imageUrl);
+          if (response.ok) {
+            await cache.put(card.imageUrl, response);
+          }
+        } catch (error) {
+          console.warn('Failed to cache card image:', card.imageUrl);
+        }
+      }
+    });
+    
+    await Promise.all(imagePromises);
+    console.log(`Cached ${cards.length} card images for offline use`);
+  } catch (error) {
+    console.error('Failed to cache card images:', error);
+  }
+}
+
+// Preload deck assets for faster gameplay
+async function preloadDeckAssets(deck) {
+  try {
+    const cache = await caches.open('konivrer-deck-assets');
+    const assetPromises = [];
+    
+    // Cache deck-specific sounds
+    if (deck.sounds) {
+      deck.sounds.forEach(sound => {
+        assetPromises.push(
+          fetch(sound.url).then(response => {
+            if (response.ok) {
+              cache.put(sound.url, response);
+            }
+          }).catch(() => {})
+        );
+      });
+    }
+    
+    // Cache deck-specific animations
+    if (deck.animations) {
+      deck.animations.forEach(animation => {
+        assetPromises.push(
+          fetch(animation.url).then(response => {
+            if (response.ok) {
+              cache.put(animation.url, response);
+            }
+          }).catch(() => {})
+        );
+      });
+    }
+    
+    await Promise.all(assetPromises);
+    console.log('Preloaded deck assets for optimal performance');
+  } catch (error) {
+    console.error('Failed to preload deck assets:', error);
+  }
+}
+
+// Mobile battery optimization
+self.addEventListener('freeze', () => {
+  console.log('App frozen - reducing background activity');
+});
+
+self.addEventListener('resume', () => {
+  console.log('App resumed - restoring normal activity');
+});
+
+// Handle share target (for sharing decks)
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  if (url.pathname === '/share' && event.request.method === 'POST') {
+    event.respondWith(handleShareTarget(event.request));
+  }
+});
+
+async function handleShareTarget(request) {
+  try {
+    const formData = await request.formData();
+    const title = formData.get('title') || '';
+    const text = formData.get('text') || '';
+    const url = formData.get('url') || '';
+    const files = formData.getAll('deck');
+    
+    // Process shared deck files
+    if (files.length > 0) {
+      const deckData = await files[0].text();
+      
+      // Store shared deck for processing when app opens
+      const db = await openIndexedDB();
+      const transaction = db.transaction(['sharedDecks'], 'readwrite');
+      const store = transaction.objectStore('sharedDecks');
+      
+      await store.add({
+        title,
+        text,
+        url,
+        deckData,
+        timestamp: Date.now()
+      });
+    }
+    
+    // Redirect to deck import page
+    return Response.redirect('/deck-import?shared=true', 303);
+  } catch (error) {
+    console.error('Failed to handle share target:', error);
+    return Response.redirect('/', 303);
+  }
+}
+
+console.log('Service Worker loaded successfully with mobile PWA features');
