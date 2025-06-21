@@ -13,22 +13,22 @@ const GameCard = ({
   onClick,
   onHover,
   targetMode = false,
-  zone
+  zone,
 }) => {
   // Determine if card is a valid target in target mode
   const isValidTarget = targetMode && card.isValidTarget;
-  
+
   // Determine card status indicators
   const isTapped = card.tapped;
   const isAttacking = card.attacking;
   const isBlocking = card.blocking;
   const hasCounters = card.counters && card.counters > 0;
   const hasDamage = card.damage && card.damage > 0;
-  
+
   // Card appearance based on type
   const getCardBackground = () => {
     if (faceDown) return 'bg-blue-900';
-    
+
     switch (card.type) {
       case 'Familiar':
         return 'bg-green-900 border-green-700';
@@ -48,7 +48,11 @@ const GameCard = ({
         y: isSelected ? -20 : 0,
         rotate: isTapped ? 90 : 0,
         scale: isTargeted ? 1.1 : 1,
-        borderColor: isTargeted ? '#f59e0b' : isValidTarget ? '#10b981' : undefined
+        borderColor: isTargeted
+          ? '#f59e0b'
+          : isValidTarget
+            ? '#10b981'
+            : undefined,
       }}
       transition={{ duration: 0.2 }}
       onClick={onClick}
@@ -67,16 +71,14 @@ const GameCard = ({
           <div className="text-white text-xs font-bold truncate mb-1">
             {card.name}
           </div>
-          
+
           {/* Card Image/Placeholder */}
           <div className="flex-grow bg-black/30 rounded mb-1"></div>
-          
+
           {/* Card Type and Stats */}
           <div className="flex justify-between items-center">
-            <div className="text-white text-[8px]">
-              {card.type}
-            </div>
-            
+            <div className="text-white text-[8px]">{card.type}</div>
+
             {card.type === 'Familiar' && (
               <div className="text-white text-xs font-bold">
                 {card.power}/{card.toughness}
@@ -91,7 +93,7 @@ const GameCard = ({
           </div>
         </div>
       )}
-      
+
       {/* Status Indicators */}
       <div className="absolute top-0 right-0 flex flex-col items-end p-0.5 space-y-0.5">
         {isAttacking && (
@@ -99,27 +101,27 @@ const GameCard = ({
             <Sword className="w-3 h-3 text-white" />
           </div>
         )}
-        
+
         {isBlocking && (
           <div className="bg-blue-600 rounded-full p-0.5">
             <Shield className="w-3 h-3 text-white" />
           </div>
         )}
-        
+
         {hasCounters && (
           <div className="bg-purple-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
             {card.counters}
           </div>
         )}
       </div>
-      
+
       {/* Damage Indicator */}
       {hasDamage && (
         <div className="absolute bottom-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center m-0.5">
           {card.damage}
         </div>
       )}
-      
+
       {/* Azoth Cost Indicator (for cards in hand) */}
       {!faceDown && card.azothCost && zone === 'hand' && (
         <div className="absolute top-0 left-0 bg-yellow-600 text-white text-xs font-bold rounded-br-lg px-1 py-0.5 flex items-center">
