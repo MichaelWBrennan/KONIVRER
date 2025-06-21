@@ -1663,3 +1663,6 @@ button[type='reset'] {
     font-size: var(--font-size-xl);
   }
 }
+
+/* Import Industry-Leading Features CSS */
+@import './styles/industry-leading-features.css';
