@@ -17,7 +17,6 @@ import {
   Play,
   Bot,
   MapPin,
-  Crown,
   Package,
   Scale,
   Award,
@@ -173,12 +172,7 @@ const Layout = ({ children }) => {
       icon: Users,
     });
     
-    // Battle Pass
-    baseNavigation.push({
-      name: 'Battle Pass',
-      href: '/battle-pass',
-      icon: Crown,
-    });
+
 
     // Analytics Hub removed - stats moved to respective pages
 
@@ -244,40 +238,7 @@ const Layout = ({ children }) => {
     return false;
   };
 
-  // Get current page title
-  const getCurrentPageTitle = () => {
-    const path = location.pathname;
 
-    // Home page
-    if (path === '/') return 'Home';
-
-    // Find matching navigation item
-    const activeNavItem = navigation.find(item => isActive(item));
-    if (activeNavItem) return activeNavItem.name;
-
-    // Fallback to path-based titles
-    if (path.startsWith('/play')) return 'Online Sim';
-    if (path.startsWith('/cards') || path.startsWith('/spoilers'))
-      return 'Cards';
-    if (path.startsWith('/decks') || path.startsWith('/collection'))
-      return 'Decks';
-    if (path.startsWith('/analytics') || path.startsWith('/prices'))
-      return 'Analytics';
-    if (
-      path.startsWith('/battle-pass') ||
-      path.startsWith('/ai-assistant') ||
-      path.startsWith('/community') ||
-      path.startsWith('/tools')
-    )
-      return 'Community';
-    if (path.startsWith('/tournaments')) return 'Tournaments';
-    if (path.startsWith('/judge-center')) return 'Judge Center';
-    if (path.startsWith('/profile')) return 'Profile';
-    if (path.startsWith('/settings')) return 'Settings';
-
-    // Default fallback
-    return 'KONIVRER';
-  };
 
   return (
     <div className="min-h-screen bg-primary">
@@ -309,7 +270,7 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    className={`group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                       isItemActive
                         ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/25'
                         : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
@@ -318,9 +279,11 @@ const Layout = ({ children }) => {
                   >
                     <Icon
                       size={16}
-                      className="transition-transform duration-200 group-hover:scale-110"
+                      className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'relative z-10' : ''}`}
                     />
-                    {item.name}
+                    <span className={isItemActive ? 'relative z-10' : ''}>
+                      {item.name}
+                    </span>
                   </Link>
                 );
               })}
@@ -389,7 +352,7 @@ const Layout = ({ children }) => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      className={`relative flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                         isItemActive
                           ? 'bg-accent-primary text-white'
                           : 'text-secondary hover:text-primary hover:bg-tertiary'
@@ -399,8 +362,10 @@ const Layout = ({ children }) => {
                         setIsMobileMenuOpen(false);
                       }}
                     >
-                      <Icon size={16} />
-                      {item.name}
+                      <Icon size={16} className={isItemActive ? 'relative z-10' : ''} />
+                      <span className={isItemActive ? 'relative z-10' : ''}>
+                        {item.name}
+                      </span>
                     </Link>
                   );
                 })}
@@ -464,14 +429,7 @@ const Layout = ({ children }) => {
         )}
       </header>
 
-      {/* Page Header */}
-      <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 py-6">
-        <div className="container">
-          <h1 className="text-2xl md:text-3xl font-bold text-white">
-            {getCurrentPageTitle()}
-          </h1>
-        </div>
-      </div>
+
 
       {/* Main Content */}
       <main className="flex-1">{children}</main>
