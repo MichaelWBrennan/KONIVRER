@@ -8,6 +8,10 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
 import { SetProvider } from './contexts/SetContext';
+import { DeckProvider } from './contexts/DeckContext';
+import { BattlePassProvider } from './contexts/BattlePassContext';
+import { GameEngineProvider } from './contexts/GameEngineContext';
+import { SocialProvider } from './contexts/SocialContext';
 import { Layout } from './components/Layout';
 import Home from './pages/Home';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -26,6 +30,12 @@ import DeckSearch from './pages/DeckSearch';
 import AnalyticsHub from './pages/AnalyticsHub';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
+import DeckBuilder from './pages/DeckBuilder';
+import BattlePass from './pages/BattlePass';
+import DeckSelectionPage from './pages/DeckSelectionPage';
+import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
+import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
+import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
 
 function App() {
   return (
@@ -33,9 +43,13 @@ function App() {
       <AuthProvider>
         <SetProvider>
           <DataProvider>
-            <Router>
-              <Layout>
-                <Routes>
+            <BattlePassProvider>
+              <DeckProvider>
+                <GameEngineProvider>
+                  <SocialProvider>
+                  <Router>
+                    <Layout>
+                      <Routes>
                   {/* Core Pages */}
                   <Route path="/" element={<Home />} />
                   <Route path="/rules" element={<Rules />} />
@@ -43,6 +57,12 @@ function App() {
                   {/* Game Page */}
                   <Route path="/game/:mode" element={<GamePage />} />
                   <Route path="/game/:mode/:gameId" element={<GamePage />} />
+                  <Route path="/deck-selection" element={<DeckSelectionPage />} />
+                  <Route path="/deck-builder" element={<DeckBuilder />} />
+                  <Route path="/deck-builder/:deckId" element={<DeckBuilder />} />
+                  <Route path="/enhanced-deck-builder" element={<EnhancedDeckBuilder />} />
+                  <Route path="/battle-pass" element={<BattlePass />} />
+                  <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
                   {/* Redirect for old play URL */}
                   <Route
@@ -120,8 +140,11 @@ function App() {
                   />
                   <Route path="/admin" element={<AdminPanel />} />
                 </Routes>
-              </Layout>
-            </Router>
+                    </Layout>
+                  </Router>
+                </GameEngineProvider>
+              </DeckProvider>
+            </BattlePassProvider>
           </DataProvider>
         </SetProvider>
       </AuthProvider>
