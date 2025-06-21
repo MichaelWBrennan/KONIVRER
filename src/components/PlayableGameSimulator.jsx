@@ -41,7 +41,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   const gameEngineRef = useRef(null);
   const aiPlayerRef = useRef(null);
   const networkManagerRef = useRef(null);
-  
+
   // Game state
   const [gameState, setGameState] = useState(null);
   const [gamePhase, setGamePhase] = useState('setup'); // setup, playing, paused, ended
@@ -70,35 +70,38 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Initialize game engine
   useEffect(() => {
     gameEngineRef.current = new GameEngine();
-    
+
     // Set up event listeners
     gameEngineRef.current.on('gameStateUpdate', handleGameStateUpdate);
     gameEngineRef.current.on('gameInitialized', handleGameInitialized);
     gameEngineRef.current.on('gameStarted', handleGameStarted);
     gameEngineRef.current.on('gameOver', handleGameOver);
-    
+
     // If AI mode, initialize AI player
     if (mode === 'ai') {
       aiPlayerRef.current = new AIPlayer({ difficulty: aiDifficulty });
       aiPlayerRef.current.setGameEngine(gameEngineRef.current);
     }
-    
+
     // If online mode, initialize network manager
     if (mode === 'online') {
       networkManagerRef.current = new NetworkManager();
-      
+
       // Set up network event listeners
       networkManagerRef.current.on('playerConnected', handlePlayerConnected);
       networkManagerRef.current.on('gameCreated', handleGameCreated);
       networkManagerRef.current.on('gameJoined', handleGameJoined);
-      networkManagerRef.current.on('gameStateUpdate', handleNetworkGameStateUpdate);
+      networkManagerRef.current.on(
+        'gameStateUpdate',
+        handleNetworkGameStateUpdate,
+      );
       networkManagerRef.current.on('playerAction', handlePlayerAction);
       networkManagerRef.current.on('chatMessage', handleChatMessage);
       networkManagerRef.current.on('error', handleNetworkError);
       networkManagerRef.current.on('disconnected', handleDisconnected);
       networkManagerRef.current.on('reconnected', handleReconnected);
     }
-    
+
     return () => {
       // Clean up
       if (mode === 'online' && networkManagerRef.current) {
@@ -115,18 +118,18 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   }, [aiDifficulty, mode]);
 
   // Handle game state updates
-  const handleGameStateUpdate = (newGameState) => {
+  const handleGameStateUpdate = newGameState => {
     setGameState(newGameState);
   };
 
   // Handle game initialized event
-  const handleGameInitialized = (initialGameState) => {
+  const handleGameInitialized = initialGameState => {
     setGameState(initialGameState);
     setGamePhase('setup');
   };
 
   // Handle game started event
-  const handleGameStarted = (startedGameState) => {
+  const handleGameStarted = startedGameState => {
     setGameState(startedGameState);
     setGamePhase('playing');
   };
@@ -134,36 +137,36 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Handle game over event
   const handleGameOver = ({ winner }) => {
     setGamePhase('ended');
-    
+
     // Show winner message
     const winnerName = winner === 0 ? playerName : opponentName;
     addChatMessage('system', `Game Over! ${winnerName} has won the game.`);
   };
 
   // Network event handlers
-  const handlePlayerConnected = (data) => {
+  const handlePlayerConnected = data => {
     console.log('Connected as player:', data.playerId);
     setIsConnecting(false);
   };
 
-  const handleGameCreated = (data) => {
+  const handleGameCreated = data => {
     console.log('Game created:', data.gameId);
     addChatMessage('system', `Game created with ID: ${data.gameId}`);
   };
 
-  const handleGameJoined = (data) => {
+  const handleGameJoined = data => {
     console.log('Game joined:', data.gameId);
     addChatMessage('system', `Joined game with ID: ${data.gameId}`);
-    
+
     // Update opponent name if provided
     if (data.opponentName) {
       setOpponentName(data.opponentName);
     }
   };
 
-  const handleNetworkGameStateUpdate = (newGameState) => {
+  const handleNetworkGameStateUpdate = newGameState => {
     setGameState(newGameState);
-    
+
     // Update game phase based on state
     if (newGameState.phase === 'setup') {
       setGamePhase('setup');
@@ -174,21 +177,21 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
     }
   };
 
-  const handlePlayerAction = (data) => {
+  const handlePlayerAction = data => {
     // This is handled by the game state update
     console.log('Player action:', data);
   };
 
-  const handleChatMessage = (data) => {
+  const handleChatMessage = data => {
     addChatMessage(data.playerName, data.message);
   };
 
-  const handleNetworkError = (data) => {
+  const handleNetworkError = data => {
     setErrorMessage(data.message);
     console.error('Network error:', data.message);
   };
 
-  const handleDisconnected = (data) => {
+  const handleDisconnected = data => {
     addChatMessage('system', `Disconnected from server: ${data.reason}`);
     setErrorMessage('Disconnected from server. Attempting to reconnect...');
   };
@@ -200,39 +203,43 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
 
   // Add a chat message
   const addChatMessage = (sender, message) => {
-    setChatMessages(prev => [...prev, {
-      sender,
-      message,
-      timestamp: new Date().toISOString(),
-    }]);
+    setChatMessages(prev => [
+      ...prev,
+      {
+        sender,
+        message,
+        timestamp: new Date().toISOString(),
+      },
+    ]);
   };
 
   // Send a chat message
   const sendChatMessage = () => {
     if (!chatInput.trim()) return;
-    
+
     if (mode === 'online' && networkManagerRef.current) {
       networkManagerRef.current.sendChatMessage(chatInput);
     }
-    
+
     // In AI mode, just add the message locally
     addChatMessage(playerName, chatInput);
-    
+
     // Add AI response in AI mode
     if (mode === 'ai') {
       setTimeout(() => {
         const aiResponses = [
           "I'm thinking about my next move...",
-          "Interesting play!",
+          'Interesting play!',
           "You won't defeat me that easily.",
-          "I see your strategy.",
+          'I see your strategy.',
           "Hmm, that's a challenge.",
         ];
-        const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+        const randomResponse =
+          aiResponses[Math.floor(Math.random() * aiResponses.length)];
         addChatMessage(opponentName, randomResponse);
       }, 1000);
     }
-    
+
     setChatInput('');
   };
 
@@ -241,7 +248,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
     // Generate sample decks
     const playerDeck = generateSampleDeck(gameOptions.deckSize);
     const opponentDeck = generateSampleDeck(gameOptions.deckSize);
-    
+
     // Initialize game
     gameEngineRef.current.initializeGame({
       players: [
@@ -251,10 +258,10 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       isOnline: mode === 'online',
       isAI: mode === 'ai',
     });
-    
+
     // Start game
     gameEngineRef.current.startGame();
-    
+
     // Reset UI state
     setSelectedCard(null);
     setSelectedAzoth([]);
@@ -262,7 +269,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
     setTargets([]);
     setChatMessages([]);
     setErrorMessage(null);
-    
+
     // Add initial message
     addChatMessage('system', 'Game started! Good luck!');
   };
@@ -270,13 +277,14 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Connect to online server
   const connectToServer = () => {
     if (!networkManagerRef.current) return;
-    
+
     setIsConnecting(true);
     setErrorMessage(null);
-    
+
     const { serverUrl } = onlineOptions;
-    
-    networkManagerRef.current.connect(serverUrl, playerName)
+
+    networkManagerRef.current
+      .connect(serverUrl, playerName)
       .then(() => {
         addChatMessage('system', 'Connected to server');
       })
@@ -288,11 +296,14 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
 
   // Create an online game
   const createOnlineGame = () => {
-    if (!networkManagerRef.current || !networkManagerRef.current.isConnected()) {
+    if (
+      !networkManagerRef.current ||
+      !networkManagerRef.current.isConnected()
+    ) {
       setErrorMessage('Not connected to server');
       return;
     }
-    
+
     networkManagerRef.current.createGame({
       deckSize: gameOptions.deckSize,
       startingLife: gameOptions.startingLife,
@@ -301,12 +312,15 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   };
 
   // Join an online game
-  const joinOnlineGame = (gameId) => {
-    if (!networkManagerRef.current || !networkManagerRef.current.isConnected()) {
+  const joinOnlineGame = gameId => {
+    if (
+      !networkManagerRef.current ||
+      !networkManagerRef.current.isConnected()
+    ) {
       setErrorMessage('Not connected to server');
       return;
     }
-    
+
     networkManagerRef.current.joinGame(gameId);
   };
 
@@ -320,7 +334,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
         // Process locally
         gameEngineRef.current.processAction(0, actionType, actionData);
       }
-      
+
       // Reset UI state after action
       if (actionType !== 'passPriority') {
         setSelectedCard(null);
@@ -338,20 +352,23 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   const handleCardClick = (card, zone) => {
     // If in target mode, add as target
     if (targetMode) {
-      setTargets(prev => [...prev, {
-        type: zone === 'field' ? 'creature' : zone,
-        cardId: card.id,
-        playerId: card.controller || 0, // Default to player 0 if not specified
-      }]);
+      setTargets(prev => [
+        ...prev,
+        {
+          type: zone === 'field' ? 'creature' : zone,
+          cardId: card.id,
+          playerId: card.controller || 0, // Default to player 0 if not specified
+        },
+      ]);
       return;
     }
-    
+
     // If card is in hand, select it
     if (zone === 'hand') {
       setSelectedCard(card);
       return;
     }
-    
+
     // If card is in Azoth row and not tapped, toggle selection
     if (zone === 'azoth' && !card.tapped) {
       if (selectedAzoth.some(a => a.id === card.id)) {
@@ -361,7 +378,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       }
       return;
     }
-    
+
     // If card is on field, select for ability or attack
     if (zone === 'field') {
       setSelectedCard(card);
@@ -372,7 +389,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Place a card as Azoth
   const placeAsAzoth = () => {
     if (!selectedCard) return;
-    
+
     processAction('placeAzoth', {
       cardId: selectedCard.id,
     });
@@ -382,10 +399,12 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   const summonFamiliar = () => {
     if (!selectedCard || selectedCard.type !== 'Familiar') return;
     if (selectedAzoth.length < selectedCard.cost) {
-      setErrorMessage(`Not enough Azoth selected. Need ${selectedCard.cost}, selected ${selectedAzoth.length}`);
+      setErrorMessage(
+        `Not enough Azoth selected. Need ${selectedCard.cost}, selected ${selectedAzoth.length}`,
+      );
       return;
     }
-    
+
     processAction('summonFamiliar', {
       cardId: selectedCard.id,
       azothPaid: selectedAzoth.map(a => a.id),
@@ -396,16 +415,18 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   const castSpell = () => {
     if (!selectedCard || selectedCard.type !== 'Spell') return;
     if (selectedAzoth.length < selectedCard.cost) {
-      setErrorMessage(`Not enough Azoth selected. Need ${selectedCard.cost}, selected ${selectedAzoth.length}`);
+      setErrorMessage(
+        `Not enough Azoth selected. Need ${selectedCard.cost}, selected ${selectedAzoth.length}`,
+      );
       return;
     }
-    
+
     // If spell requires targets, enter target mode
     if (selectedCard.requiresTarget && targets.length === 0) {
       setTargetMode(true);
       return;
     }
-    
+
     processAction('castSpell', {
       cardId: selectedCard.id,
       azothPaid: selectedAzoth.map(a => a.id),
@@ -419,7 +440,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       setErrorMessage('No creature selected for attack');
       return;
     }
-    
+
     processAction('declareAttack', {
       attackers: [selectedCard.id],
     });
@@ -431,40 +452,46 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       setErrorMessage('No creature selected for blocking');
       return;
     }
-    
+
     // Find an attacking creature to block
     const attackingPlayer = gameState.players[1 - gameState.activePlayer];
     const attackers = attackingPlayer.field.filter(card => card.attacking);
-    
+
     if (attackers.length === 0) {
       setErrorMessage('No attackers to block');
       return;
     }
-    
+
     // For simplicity, just block the first attacker
     processAction('declareBlock', {
-      blockers: [{
-        blocker: selectedCard.id,
-        attacker: attackers[0].id,
-      }],
+      blockers: [
+        {
+          blocker: selectedCard.id,
+          attacker: attackers[0].id,
+        },
+      ],
     });
   };
 
   // Activate ability
-  const activateAbility = (abilityIndex) => {
-    if (!selectedCard || !selectedCard.abilities || !selectedCard.abilities[abilityIndex]) {
+  const activateAbility = abilityIndex => {
+    if (
+      !selectedCard ||
+      !selectedCard.abilities ||
+      !selectedCard.abilities[abilityIndex]
+    ) {
       setErrorMessage('No valid ability selected');
       return;
     }
-    
+
     const ability = selectedCard.abilities[abilityIndex];
-    
+
     // If ability requires targets, enter target mode
     if (ability.requiresTarget && targets.length === 0) {
       setTargetMode(true);
       return;
     }
-    
+
     processAction('activateAbility', {
       cardId: selectedCard.id,
       abilityIndex,
@@ -499,15 +526,17 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       setErrorMessage('No targets selected');
       return;
     }
-    
+
     setTargetMode(false);
-    
+
     // Continue with the action that required targets
     if (selectedCard.type === 'Spell') {
       castSpell();
     } else if (selectedCard.abilities) {
       // Find the ability that requires targets
-      const abilityIndex = selectedCard.abilities.findIndex(a => a.requiresTarget);
+      const abilityIndex = selectedCard.abilities.findIndex(
+        a => a.requiresTarget,
+      );
       if (abilityIndex !== -1) {
         activateAbility(abilityIndex);
       }
@@ -517,18 +546,19 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Generate a sample deck
   const generateSampleDeck = (size = 40) => {
     const deck = [];
-    
+
     // Use cards from cardsData
     const availableCards = cardsData.slice(0, 20); // Use first 20 cards
-    
+
     for (let i = 0; i < size; i++) {
-      const randomCard = availableCards[Math.floor(Math.random() * availableCards.length)];
+      const randomCard =
+        availableCards[Math.floor(Math.random() * availableCards.length)];
       deck.push({
         ...randomCard,
         id: `${randomCard.id}_${i}`, // Make ID unique
       });
     }
-    
+
     return deck;
   };
 
@@ -542,7 +572,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
     isSelected = false,
   }) => {
     const isCardBack = !card.name || zone === 'deck';
-    
+
     return (
       <motion.div
         className={`relative cursor-pointer ${className} ${isSelected ? 'ring-2 ring-yellow-400' : ''}`}
@@ -554,7 +584,8 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
           src={
             isCardBack
               ? 'https://images.talishar.net/public/cardsquares/english/CardBack.webp'
-              : card.image || 'https://images.talishar.net/public/cardsquares/english/CardBack.webp'
+              : card.image ||
+                'https://images.talishar.net/public/cardsquares/english/CardBack.webp'
           }
           alt={card.name || 'Card Back'}
           className="w-full h-full object-cover rounded border border-gray-600"
@@ -600,9 +631,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
   // Player area component
   const PlayerArea = ({ player, isOpponent = false }) => {
     if (!gameState || !player) return null;
-    
+
     const playerData = gameState.players[isOpponent ? 1 : 0];
-    
+
     return (
       <div
         className={`flex ${isOpponent ? 'flex-col' : 'flex-col-reverse'} gap-2`}
@@ -612,7 +643,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
           <span className="font-bold text-white">{playerData.name}</span>
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-red-500" />
-            <span className="text-white font-bold">{playerData.lifeCards.length}</span>
+            <span className="text-white font-bold">
+              {playerData.lifeCards.length}
+            </span>
           </div>
         </div>
 
@@ -620,9 +653,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
         <div className="flex gap-1 min-h-16">
           {playerData.azothRow.map((card, index) => (
             <div key={card.id} className="w-12 h-16">
-              <GameCard 
-                card={card} 
-                zone="azoth" 
+              <GameCard
+                card={card}
+                zone="azoth"
                 onClick={!isOpponent ? handleCardClick : undefined}
                 isSelected={selectedAzoth.some(a => a.id === card.id)}
               />
@@ -634,9 +667,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
         <div className="flex gap-1 min-h-16">
           {playerData.field.map((card, index) => (
             <div key={card.id} className="w-12 h-16">
-              <GameCard 
-                card={card} 
-                zone="field" 
+              <GameCard
+                card={card}
+                zone="field"
                 onClick={!isOpponent ? handleCardClick : undefined}
                 isSelected={selectedCard && selectedCard.id === card.id}
               />
@@ -679,9 +712,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
           {playerData.graveyard.length > 0 && (
             <div className="w-12 h-16">
               <GameCard
-                card={{ 
+                card={{
                   ...playerData.graveyard[playerData.graveyard.length - 1],
-                  count: playerData.graveyard.length 
+                  count: playerData.graveyard.length,
                 }}
                 zone="graveyard"
                 showCount={true}
@@ -701,28 +734,28 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       className="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center"
     >
       <h2 className="text-2xl font-bold mb-4">Game Setup</h2>
-      
+
       {mode === 'ai' ? (
         <>
           <p className="text-gray-300 mb-6">
             Play against an AI opponent with adjustable difficulty.
           </p>
-          
+
           <div className="mb-6">
             <label className="block text-gray-300 mb-2">Your Name</label>
             <input
               type="text"
               value={playerName}
-              onChange={(e) => setPlayerName(e.target.value)}
+              onChange={e => setPlayerName(e.target.value)}
               className="bg-gray-700 text-white px-4 py-2 rounded w-full max-w-xs"
             />
           </div>
-          
+
           <div className="mb-6">
             <label className="block text-gray-300 mb-2">AI Difficulty</label>
             <select
               value={aiDifficulty}
-              onChange={(e) => setAiDifficulty(e.target.value)}
+              onChange={e => setAiDifficulty(e.target.value)}
               className="bg-gray-700 text-white px-4 py-2 rounded w-full max-w-xs"
             >
               <option value="easy">Easy</option>
@@ -730,7 +763,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
               <option value="hard">Hard</option>
             </select>
           </div>
-          
+
           <button
             onClick={startNewGame}
             className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
@@ -744,17 +777,17 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
           <p className="text-gray-300 mb-6">
             Play against other players online.
           </p>
-          
+
           <div className="mb-6">
             <label className="block text-gray-300 mb-2">Your Name</label>
             <input
               type="text"
               value={playerName}
-              onChange={(e) => setPlayerName(e.target.value)}
+              onChange={e => setPlayerName(e.target.value)}
               className="bg-gray-700 text-white px-4 py-2 rounded w-full max-w-xs"
             />
           </div>
-          
+
           {!networkManagerRef.current?.isConnected() ? (
             <button
               onClick={connectToServer}
@@ -762,7 +795,9 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
               className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto disabled:bg-gray-600"
             >
               <Users size={20} />
-              <span>{isConnecting ? 'Connecting...' : 'Connect to Server'}</span>
+              <span>
+                {isConnecting ? 'Connecting...' : 'Connect to Server'}
+              </span>
             </button>
           ) : (
             <div className="space-y-4">
@@ -774,7 +809,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                   <Plus size={20} />
                   <span>Create Game</span>
                 </button>
-                
+
                 <button
                   onClick={() => joinOnlineGame(prompt('Enter Game ID:'))}
                   className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -783,7 +818,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                   <span>Join Game</span>
                 </button>
               </div>
-              
+
               <p className="text-green-400">Connected to server</p>
             </div>
           )}
@@ -798,7 +833,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       {/* Top UI Bar */}
       <div className="bg-gray-800 p-2 flex items-center justify-between border-b border-gray-700">
         <div className="flex items-center gap-4">
-          <button 
+          <button
             className="flex items-center gap-2 px-3 py-1 bg-gray-700 rounded hover:bg-gray-600"
             onClick={() => setShowSettings(true)}
           >
@@ -850,7 +885,8 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
             <div className="bg-gray-800 rounded-lg p-4 min-w-64">
               <div className="text-center">
                 <div className="text-lg font-bold mb-2">
-                  {gameState && `${gameState.players[gameState.currentPlayer].name}'s Turn`}
+                  {gameState &&
+                    `${gameState.players[gameState.currentPlayer].name}'s Turn`}
                 </div>
                 <div className="text-sm text-gray-400">
                   {gameState && `Phase: ${gameState.phase}`}
@@ -874,66 +910,70 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                 {gameState && gameState.activePlayer === 0 && (
                   <>
                     {selectedCard && selectedCard.type === 'Familiar' && (
-                      <button 
+                      <button
                         onClick={summonFamiliar}
                         className="w-full px-3 py-2 bg-green-600 rounded hover:bg-green-700"
                       >
                         Summon Familiar
                       </button>
                     )}
-                    
+
                     {selectedCard && selectedCard.type === 'Spell' && (
-                      <button 
+                      <button
                         onClick={castSpell}
                         className="w-full px-3 py-2 bg-blue-600 rounded hover:bg-blue-700"
                       >
                         Cast Spell
                       </button>
                     )}
-                    
+
                     {selectedCard && selectedCard.zone === 'hand' && (
-                      <button 
+                      <button
                         onClick={placeAsAzoth}
                         className="w-full px-3 py-2 bg-purple-600 rounded hover:bg-purple-700"
                       >
                         Place as Azoth
                       </button>
                     )}
-                    
-                    {gameState.phase === 'combat' && selectedCard && selectedCard.zone === 'field' && (
-                      <button 
-                        onClick={declareAttack}
-                        className="w-full px-3 py-2 bg-red-600 rounded hover:bg-red-700"
-                      >
-                        Declare Attack
-                      </button>
-                    )}
-                    
-                    {gameState.phase === 'combat-blocks' && selectedCard && selectedCard.zone === 'field' && (
-                      <button 
-                        onClick={declareBlock}
-                        className="w-full px-3 py-2 bg-blue-600 rounded hover:bg-blue-700"
-                      >
-                        Declare Block
-                      </button>
-                    )}
-                    
-                    <button 
+
+                    {gameState.phase === 'combat' &&
+                      selectedCard &&
+                      selectedCard.zone === 'field' && (
+                        <button
+                          onClick={declareAttack}
+                          className="w-full px-3 py-2 bg-red-600 rounded hover:bg-red-700"
+                        >
+                          Declare Attack
+                        </button>
+                      )}
+
+                    {gameState.phase === 'combat-blocks' &&
+                      selectedCard &&
+                      selectedCard.zone === 'field' && (
+                        <button
+                          onClick={declareBlock}
+                          className="w-full px-3 py-2 bg-blue-600 rounded hover:bg-blue-700"
+                        >
+                          Declare Block
+                        </button>
+                      )}
+
+                    <button
                       onClick={passPriority}
                       className="w-full px-3 py-2 bg-gray-600 rounded hover:bg-gray-700"
                     >
                       Pass Priority
                     </button>
-                    
-                    <button 
+
+                    <button
                       onClick={endPhase}
                       className="w-full px-3 py-2 bg-yellow-600 rounded hover:bg-yellow-700"
                     >
                       End Phase
                     </button>
-                    
+
                     {gameState.currentPlayer === 0 && (
-                      <button 
+                      <button
                         onClick={endTurn}
                         className="w-full px-3 py-2 bg-red-600 rounded hover:bg-red-700"
                       >
@@ -942,7 +982,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                     )}
                   </>
                 )}
-                
+
                 {gameState && gameState.activePlayer !== 0 && (
                   <div className="text-center text-yellow-400 py-2">
                     Waiting for opponent...
@@ -966,13 +1006,13 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                   Click on cards to target them
                 </p>
                 <div className="flex justify-center space-x-4">
-                  <button 
+                  <button
                     onClick={confirmTargets}
                     className="px-4 py-2 bg-green-600 rounded hover:bg-green-700"
                   >
                     Confirm ({targets.length})
                   </button>
-                  <button 
+                  <button
                     onClick={cancelTargetMode}
                     className="px-4 py-2 bg-red-600 rounded hover:bg-red-700"
                   >
@@ -1012,27 +1052,34 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-1">
-              {gameState && gameLogFilter !== 'Chat' && gameState.gameLog.map((entry, index) => (
-                <div key={`log-${index}`} className="text-sm">
-                  <span className={`
+              {gameState &&
+                gameLogFilter !== 'Chat' &&
+                gameState.gameLog.map((entry, index) => (
+                  <div key={`log-${index}`} className="text-sm">
+                    <span
+                      className={`
                     ${entry.type === 'game' ? 'text-yellow-400' : ''}
                     ${entry.type === 'phase' ? 'text-blue-400' : ''}
                     ${entry.type === 'action' ? 'text-green-400' : ''}
                     ${entry.type === 'damage' ? 'text-red-400' : ''}
-                  `}>
-                    {entry.text}
-                  </span>
-                </div>
-              ))}
-              
-              {gameLogFilter !== 'Log' && chatMessages.map((msg, index) => (
-                <div key={`chat-${index}`} className="text-sm">
-                  <span className={`font-bold ${msg.sender === 'system' ? 'text-yellow-400' : 'text-blue-400'}`}>
-                    {msg.sender}:
-                  </span>{' '}
-                  <span className="text-gray-300">{msg.message}</span>
-                </div>
-              ))}
+                  `}
+                    >
+                      {entry.text}
+                    </span>
+                  </div>
+                ))}
+
+              {gameLogFilter !== 'Log' &&
+                chatMessages.map((msg, index) => (
+                  <div key={`chat-${index}`} className="text-sm">
+                    <span
+                      className={`font-bold ${msg.sender === 'system' ? 'text-yellow-400' : 'text-blue-400'}`}
+                    >
+                      {msg.sender}:
+                    </span>{' '}
+                    <span className="text-gray-300">{msg.message}</span>
+                  </div>
+                ))}
             </div>
 
             {/* Chat Input */}
@@ -1041,8 +1088,8 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                 <input
                   type="text"
                   value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
+                  onChange={e => setChatInput(e.target.value)}
+                  onKeyPress={e => e.key === 'Enter' && sendChatMessage()}
                   placeholder="Type a message..."
                   className="flex-1 bg-gray-700 text-white px-3 py-2 rounded"
                 />
@@ -1069,13 +1116,18 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
           >
             <h3 className="font-bold text-lg mb-1">{showCardDetail.name}</h3>
             <div className="text-sm text-gray-300 mb-2">
-              {showCardDetail.type} {showCardDetail.cost && `- Cost: ${showCardDetail.cost}`}
+              {showCardDetail.type}{' '}
+              {showCardDetail.cost && `- Cost: ${showCardDetail.cost}`}
             </div>
             {showCardDetail.power !== undefined && (
               <div className="text-sm mb-2">
-                <span className="text-red-400">Power: {showCardDetail.power}</span>
+                <span className="text-red-400">
+                  Power: {showCardDetail.power}
+                </span>
                 {showCardDetail.toughness !== undefined && (
-                  <span className="text-blue-400 ml-2">Toughness: {showCardDetail.toughness}</span>
+                  <span className="text-blue-400 ml-2">
+                    Toughness: {showCardDetail.toughness}
+                  </span>
                 )}
               </div>
             )}
@@ -1099,7 +1151,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-gray-800 rounded-lg p-6 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Game Settings</h2>
@@ -1107,7 +1159,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-gray-300 mb-2">Sound</label>
@@ -1126,13 +1178,15 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                     </button>
                   </div>
                 </div>
-                
+
                 {mode === 'ai' && (
                   <div>
-                    <label className="block text-gray-300 mb-2">AI Difficulty</label>
+                    <label className="block text-gray-300 mb-2">
+                      AI Difficulty
+                    </label>
                     <select
                       value={aiDifficulty}
-                      onChange={(e) => setAiDifficulty(e.target.value)}
+                      onChange={e => setAiDifficulty(e.target.value)}
                       className="bg-gray-700 text-white px-4 py-2 rounded w-full"
                     >
                       <option value="easy">Easy</option>
@@ -1141,7 +1195,7 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
                     </select>
                   </div>
                 )}
-                
+
                 <div className="pt-4 border-t border-gray-700">
                   <button
                     onClick={() => {
@@ -1187,13 +1241,13 @@ const PlayableGameSimulator = ({ mode = 'ai', onlineOptions = {} }) => {
       className="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center"
     >
       <h2 className="text-2xl font-bold mb-4">Game Over</h2>
-      
+
       {gameState && gameState.winner !== null && (
         <p className="text-2xl text-yellow-400 mb-6">
           {gameState.players[gameState.winner].name} Wins!
         </p>
       )}
-      
+
       <div className="flex justify-center space-x-4">
         <button
           onClick={() => setGamePhase('setup')}
