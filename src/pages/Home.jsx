@@ -772,31 +772,31 @@ const Home = () => {
       <section className="py-10 bg-gradient-to-r from-indigo-900 via-purple-900 to-blue-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-10 mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
-        
+
         {/* Animated particles */}
         <div className="absolute inset-0">
           {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 rounded-full bg-blue-400"
-              initial={{ 
-                x: Math.random() * 100 + "%", 
-                y: Math.random() * 100 + "%", 
-                opacity: 0.2 + Math.random() * 0.5 
+              initial={{
+                x: Math.random() * 100 + '%',
+                y: Math.random() * 100 + '%',
+                opacity: 0.2 + Math.random() * 0.5,
               }}
-              animate={{ 
-                y: [null, "-20%", null], 
-                opacity: [null, 0.8, null] 
+              animate={{
+                y: [null, '-20%', null],
+                opacity: [null, 0.8, null],
               }}
-              transition={{ 
-                duration: 3 + Math.random() * 5, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+              transition={{
+                duration: 3 + Math.random() * 5,
+                repeat: Infinity,
+                ease: 'easeInOut',
               }}
             />
           ))}
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between">
             <div className="mb-10 lg:mb-0 lg:mr-6 max-w-2xl">
@@ -804,10 +804,16 @@ const Home = () => {
                 State-of-the-Art Gaming Experience
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">KONIVRER</span> Premium Online Simulator
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  KONIVRER
+                </span>{' '}
+                Premium Online Simulator
               </h2>
               <p className="text-gray-300 text-lg mb-6 leading-relaxed">
-                Experience the most advanced card game platform ever created. Our MTG Arena-quality simulator delivers stunning visuals, smooth gameplay, and cross-device compatibility that puts every competitor to shame.
+                Experience the most advanced card game platform ever created.
+                Our MTG Arena-quality simulator delivers stunning visuals,
+                smooth gameplay, and cross-device compatibility that puts every
+                competitor to shame.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -825,7 +831,7 @@ const Home = () => {
                   See Features
                 </Link>
               </div>
-              
+
               {/* Feature badges */}
               <div className="flex flex-wrap gap-3 mt-6">
                 <div className="px-3 py-1 bg-gray-800/30 backdrop-blur-sm rounded-full text-gray-300 text-xs flex items-center">
@@ -842,13 +848,20 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* 3D Card Display */}
             <div className="w-full lg:w-1/3 flex justify-center">
-              <motion.div 
+              <motion.div
                 className="relative w-72 h-96"
-                animate={{ rotateY: [0, 5, 0, -5, 0], rotateX: [0, -5, 0, 5, 0] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                animate={{
+                  rotateY: [0, 5, 0, -5, 0],
+                  rotateX: [0, -5, 0, 5, 0],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl shadow-2xl transform rotate-3 scale-95 opacity-70"></div>
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-2xl transform -rotate-3 scale-95 opacity-70"></div>

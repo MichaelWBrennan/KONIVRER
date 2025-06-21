@@ -195,70 +195,100 @@ const optimizeForMobile = () => {
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent,
     );
-    
+
   // Add device type to document for CSS targeting
-  document.documentElement.classList.add(isMobile ? 'mobile-device' : 'desktop-device');
-  
+  document.documentElement.classList.add(
+    isMobile ? 'mobile-device' : 'desktop-device',
+  );
+
   // Detect device capabilities
   const deviceCapabilities = {
     memory: navigator.deviceMemory || 4, // Default to 4GB if not available
     cores: navigator.hardwareConcurrency || 4, // Default to 4 cores if not available
-    connection: navigator.connection ? navigator.connection.effectiveType : '4g', // Default to 4g if not available
+    connection: navigator.connection
+      ? navigator.connection.effectiveType
+      : '4g', // Default to 4g if not available
     touchScreen: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-    screenSize: window.innerWidth < 768 ? 'small' : window.innerWidth < 1024 ? 'medium' : 'large',
-    highEndGPU: false // Will be determined below
+    screenSize:
+      window.innerWidth < 768
+        ? 'small'
+        : window.innerWidth < 1024
+          ? 'medium'
+          : 'large',
+    highEndGPU: false, // Will be determined below
   };
-  
+
   // Try to detect GPU capabilities
   try {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl =
+      canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (gl) {
       const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
       if (debugInfo) {
         const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
         // Check for high-end GPU indicators
-        deviceCapabilities.highEndGPU = /(nvidia|amd|radeon|geforce|intel iris)/i.test(renderer);
+        deviceCapabilities.highEndGPU =
+          /(nvidia|amd|radeon|geforce|intel iris)/i.test(renderer);
       }
     }
   } catch (e) {
     console.log('GPU detection failed:', e);
   }
-  
+
   // Set performance mode based on device capabilities
   let performanceMode = 'high'; // Default to high
-  
+
   if (isMobile) {
     // Mobile device optimizations
-    if (deviceCapabilities.memory <= 2 || deviceCapabilities.cores <= 2 || deviceCapabilities.connection === '2g') {
+    if (
+      deviceCapabilities.memory <= 2 ||
+      deviceCapabilities.cores <= 2 ||
+      deviceCapabilities.connection === '2g'
+    ) {
       performanceMode = 'low';
-      document.documentElement.classList.add('reduce-animations', 'reduce-effects');
-      console.log('🔧 Low-end device detected: Applied performance optimizations');
-    } else if (deviceCapabilities.memory <= 4 || deviceCapabilities.cores <= 4 || deviceCapabilities.connection === '3g') {
+      document.documentElement.classList.add(
+        'reduce-animations',
+        'reduce-effects',
+      );
+      console.log(
+        '🔧 Low-end device detected: Applied performance optimizations',
+      );
+    } else if (
+      deviceCapabilities.memory <= 4 ||
+      deviceCapabilities.cores <= 4 ||
+      deviceCapabilities.connection === '3g'
+    ) {
       performanceMode = 'medium';
       document.documentElement.classList.add('reduce-animations');
       console.log('🔧 Mid-range device detected: Reduced animations');
     }
-    
+
     // Add touch-specific event listeners with passive flag for better scrolling
     document.addEventListener('touchstart', () => {}, { passive: true });
     document.addEventListener('touchmove', () => {}, { passive: true });
-    
+
     // Add specific classes for different screen sizes
     if (deviceCapabilities.screenSize === 'small') {
       document.documentElement.classList.add('mobile-small');
     } else {
       document.documentElement.classList.add('mobile-large');
     }
-    
+
     console.log('🔧 Applied MTG Arena-like mobile optimizations');
   } else {
     // Desktop optimizations
-    if (!deviceCapabilities.highEndGPU || deviceCapabilities.memory <= 4 || deviceCapabilities.cores <= 2) {
+    if (
+      !deviceCapabilities.highEndGPU ||
+      deviceCapabilities.memory <= 4 ||
+      deviceCapabilities.cores <= 2
+    ) {
       performanceMode = 'medium';
-      console.log('🔧 Lower-end desktop detected: Applied medium performance mode');
+      console.log(
+        '🔧 Lower-end desktop detected: Applied medium performance mode',
+      );
     }
-    
+
     // Add desktop-specific classes
     if (deviceCapabilities.screenSize === 'large') {
       document.documentElement.classList.add('desktop-large');
@@ -266,14 +296,16 @@ const optimizeForMobile = () => {
       document.documentElement.classList.add('desktop-small');
     }
   }
-  
+
   // Store performance mode in a global variable for the game engine
   window.KONIVRER_PERFORMANCE_MODE = performanceMode;
-  
+
   // Add performance mode class to document
   document.documentElement.classList.add(`performance-${performanceMode}`);
-  
-  console.log(`🎮 MTG Arena-like experience initialized in ${performanceMode} performance mode`);
+
+  console.log(
+    `🎮 MTG Arena-like experience initialized in ${performanceMode} performance mode`,
+  );
 };
 
 // Execute mobile optimizations
