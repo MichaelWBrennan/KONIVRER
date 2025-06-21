@@ -30,6 +30,7 @@ import DeckSearch from './pages/DeckSearch';
 import AnalyticsHub from './pages/AnalyticsHub';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
+import Matchmaking from './pages/Matchmaking';
 
 import BattlePass from './pages/BattlePass';
 import DeckSelectionPage from './pages/DeckSelectionPage';
@@ -71,8 +72,11 @@ function App() {
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
+                  {/* Matchmaking System */}
+                  <Route path="/matchmaking" element={<Matchmaking />} />
+                  
                   {/* Physical Matchmaking System */}
-                  <Route path="/matchmaking" element={<PhysicalMatchmaking />} />
+                  <Route path="/physical-matchmaking" element={<PhysicalMatchmaking />} />
                   
                   {/* Standalone PWA Matchmaking */}
                   <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
