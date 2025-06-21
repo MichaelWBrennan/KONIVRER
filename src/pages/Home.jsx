@@ -777,8 +777,8 @@ const Home = () => {
                 Play KONIVRER Online
               </h2>
               <p className="text-gray-300 mb-4">
-                Experience the full game with our new interactive game simulator. 
-                Challenge AI opponents or play against friends!
+                Experience the full game with our new interactive game
+                simulator. Challenge AI opponents or play against friends!
               </p>
               <div className="flex space-x-4">
                 <Link
