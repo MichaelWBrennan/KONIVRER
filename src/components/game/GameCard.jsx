@@ -1,5 +1,13 @@
 import { motion } from 'framer-motion';
-import { Shield, Sword, Zap, Star, Clock, Sparkles, AlertCircle } from 'lucide-react';
+import {
+  Shield,
+  Sword,
+  Zap,
+  Star,
+  Clock,
+  Sparkles,
+  AlertCircle,
+} from 'lucide-react';
 
 /**
  * Renders a single card in the game with animations and status indicators
@@ -48,7 +56,7 @@ const GameCard = ({
   // Get card rarity styling
   const getRarityStyle = () => {
     if (!card.rarity) return '';
-    
+
     switch (card.rarity.toLowerCase()) {
       case 'common':
         return 'border-gray-400';
@@ -67,7 +75,7 @@ const GameCard = ({
   // Get card frame styling based on card color
   const getCardFrameStyle = () => {
     if (faceDown) return '';
-    
+
     switch (card.color) {
       case 'white':
         return 'from-yellow-100/20 to-yellow-200/10';
@@ -91,27 +99,27 @@ const GameCard = ({
   // Get hover animation based on card rarity
   const getHoverAnimation = () => {
     if (!isInteractive) return {};
-    
+
     const baseHover = { scale: 1.1, zIndex: 50 };
-    
+
     if (!card.rarity || faceDown) return baseHover;
-    
+
     switch (card.rarity.toLowerCase()) {
       case 'mythic':
       case 'legendary':
-        return { 
+        return {
           ...baseHover,
-          boxShadow: '0 0 15px rgba(255, 165, 0, 0.7)'
+          boxShadow: '0 0 15px rgba(255, 165, 0, 0.7)',
         };
       case 'rare':
-        return { 
+        return {
           ...baseHover,
-          boxShadow: '0 0 12px rgba(255, 215, 0, 0.6)'
+          boxShadow: '0 0 12px rgba(255, 215, 0, 0.6)',
         };
       case 'uncommon':
-        return { 
+        return {
           ...baseHover,
-          boxShadow: '0 0 10px rgba(173, 216, 230, 0.5)'
+          boxShadow: '0 0 10px rgba(173, 216, 230, 0.5)',
         };
       default:
         return baseHover;
@@ -125,9 +133,9 @@ const GameCard = ({
         y: isSelected ? -20 : 0,
         rotate: isTapped ? 90 : 0,
         scale: isTargeted ? 1.1 : 1,
-        boxShadow: isSelected 
-          ? '0 0 15px rgba(59, 130, 246, 0.8)' 
-          : isTargeted 
+        boxShadow: isSelected
+          ? '0 0 15px rgba(59, 130, 246, 0.8)'
+          : isTargeted
             ? '0 0 15px rgba(245, 158, 11, 0.8)'
             : isValidTarget
               ? '0 0 15px rgba(16, 185, 129, 0.8)'
@@ -157,12 +165,18 @@ const GameCard = ({
           {/* Card Image/Placeholder with gradient overlay */}
           <div className="flex-grow bg-black/40 rounded mb-1 relative overflow-hidden">
             {/* Simulated card art with gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}></div>
-            
+            <div
+              className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}
+            ></div>
+
             {/* Card type icon overlay */}
             <div className="absolute inset-0 flex items-center justify-center opacity-30">
-              {card.type === 'Familiar' && <Shield className="w-8 h-8 text-white" />}
-              {card.type === 'Spell' && <Sparkles className="w-8 h-8 text-white" />}
+              {card.type === 'Familiar' && (
+                <Shield className="w-8 h-8 text-white" />
+              )}
+              {card.type === 'Spell' && (
+                <Sparkles className="w-8 h-8 text-white" />
+              )}
               {card.type === 'Azoth' && <Zap className="w-8 h-8 text-white" />}
             </div>
           </div>
@@ -177,7 +191,7 @@ const GameCard = ({
               </div>
             )}
           </div>
-          
+
           {/* Ability indicator */}
           {hasAbility && (
             <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-3 h-3">
@@ -235,7 +249,7 @@ const GameCard = ({
           {card.azothCost}
         </div>
       )}
-      
+
       {/* Foil overlay effect for premium cards */}
       {!faceDown && card.isPremium && (
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none rounded-lg"></div>

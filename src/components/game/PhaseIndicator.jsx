@@ -13,12 +13,42 @@ const PhaseIndicator = ({
 }) => {
   // Define phases and their display names and icons
   const phases = [
-    { id: 'untap', name: 'Untap', icon: Sunrise, color: 'from-blue-500 to-blue-600' },
-    { id: 'upkeep', name: 'Upkeep', icon: Sun, color: 'from-yellow-500 to-yellow-600' },
-    { id: 'draw', name: 'Draw', icon: ArrowRight, color: 'from-green-500 to-green-600' },
-    { id: 'main', name: 'Main', icon: Sun, color: 'from-purple-500 to-purple-600' },
-    { id: 'combat', name: 'Combat', icon: Swords, color: 'from-red-500 to-red-600' },
-    { id: 'end', name: 'End', icon: Moon, color: 'from-indigo-500 to-indigo-600' },
+    {
+      id: 'untap',
+      name: 'Untap',
+      icon: Sunrise,
+      color: 'from-blue-500 to-blue-600',
+    },
+    {
+      id: 'upkeep',
+      name: 'Upkeep',
+      icon: Sun,
+      color: 'from-yellow-500 to-yellow-600',
+    },
+    {
+      id: 'draw',
+      name: 'Draw',
+      icon: ArrowRight,
+      color: 'from-green-500 to-green-600',
+    },
+    {
+      id: 'main',
+      name: 'Main',
+      icon: Sun,
+      color: 'from-purple-500 to-purple-600',
+    },
+    {
+      id: 'combat',
+      name: 'Combat',
+      icon: Swords,
+      color: 'from-red-500 to-red-600',
+    },
+    {
+      id: 'end',
+      name: 'End',
+      icon: Moon,
+      color: 'from-indigo-500 to-indigo-600',
+    },
   ];
 
   // Find the current phase index
@@ -29,7 +59,7 @@ const PhaseIndicator = ({
   // Get active player name
   const activeName =
     activePlayer === 0 ? playerName || 'You' : opponentName || 'Opponent';
-    
+
   // Get turn number (simulated)
   const turnNumber = Math.floor(Math.random() * 10) + 1; // This would normally come from game state
 
@@ -41,7 +71,7 @@ const PhaseIndicator = ({
         </span>
         <span className="text-white">{activeName}'s Turn</span>
       </div>
-      
+
       {/* MTG Arena style phase indicator */}
       <div className="flex items-center bg-black/40 backdrop-blur-sm rounded-full p-1 shadow-lg">
         {phases.map((phase, index) => {
@@ -49,7 +79,7 @@ const PhaseIndicator = ({
           const isActive = currentPhaseIndex === index;
           const isPast = index < currentPhaseIndex;
           const isFuture = index > currentPhaseIndex;
-          
+
           return (
             <motion.div
               key={phase.id}
@@ -61,26 +91,30 @@ const PhaseIndicator = ({
             >
               <motion.div
                 className={`w-7 h-7 rounded-full flex items-center justify-center ${
-                  isActive 
-                    ? `bg-gradient-to-br ${phase.color} shadow-lg` 
-                    : isPast 
-                      ? 'bg-gray-600' 
+                  isActive
+                    ? `bg-gradient-to-br ${phase.color} shadow-lg`
+                    : isPast
+                      ? 'bg-gray-600'
                       : 'bg-gray-800'
                 }`}
                 animate={{
-                  boxShadow: isActive ? '0 0 8px rgba(255,255,255,0.5)' : 'none',
+                  boxShadow: isActive
+                    ? '0 0 8px rgba(255,255,255,0.5)'
+                    : 'none',
                 }}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-gray-300'}`} />
+                <Icon
+                  className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-gray-300'}`}
+                />
               </motion.div>
-              
+
               {/* Phase name tooltip on hover */}
               <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 <div className="bg-black/80 text-white text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap">
                   {phase.name}
                 </div>
               </div>
-              
+
               {/* Active phase indicator */}
               {isActive && (
                 <motion.div
