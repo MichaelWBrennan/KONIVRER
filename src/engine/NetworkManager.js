@@ -1,6 +1,6 @@
 /**
  * KONIVRER Network Manager
- * 
+ *
  * This class handles network communication for multiplayer games.
  * It manages WebSocket connections, game state synchronization, and player matchmaking.
  */
@@ -26,34 +26,44 @@ class NetworkManager {
     return new Promise((resolve, reject) => {
       try {
         this.socket = new WebSocket(serverUrl);
-        
+
         this.socket.onopen = () => {
           console.log('Connected to game server');
-          
+
           // Send player info
           this.send('player_connect', {
             name: playerName,
           });
-          
+
           resolve();
         };
-        
-        this.socket.onmessage = (event) => {
+
+        this.socket.onmessage = event => {
           this.handleMessage(event.data);
         };
-        
-        this.socket.onclose = (event) => {
-          console.log('Disconnected from game server', event.code, event.reason);
-          
+
+        this.socket.onclose = event => {
+          console.log(
+            'Disconnected from game server',
+            event.code,
+            event.reason,
+          );
+
           // Attempt to reconnect if not a clean close
-          if (!event.wasClean && this.reconnectAttempts < this.maxReconnectAttempts) {
+          if (
+            !event.wasClean &&
+            this.reconnectAttempts < this.maxReconnectAttempts
+          ) {
             this.attemptReconnect(serverUrl, playerName);
           }
-          
-          this.emitEvent('disconnected', { code: event.code, reason: event.reason });
+
+          this.emitEvent('disconnected', {
+            code: event.code,
+            reason: event.reason,
+          });
         };
-        
-        this.socket.onerror = (error) => {
+
+        this.socket.onerror = error => {
           console.error('WebSocket error:', error);
           reject(error);
         };
@@ -72,9 +82,11 @@ class NetworkManager {
   attemptReconnect(serverUrl, playerName) {
     this.reconnectAttempts++;
     const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1); // Exponential backoff
-    
-    console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay}ms...`);
-    
+
+    console.log(
+      `Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay}ms...`,
+    );
+
     setTimeout(() => {
       this.connect(serverUrl, playerName)
         .then(() => {
@@ -85,7 +97,7 @@ class NetworkManager {
               playerId: this.playerId,
             });
           }
-          
+
           this.reconnectAttempts = 0;
           this.emitEvent('reconnected', {});
         })
@@ -114,12 +126,12 @@ class NetworkManager {
       console.error('Cannot send message, socket is not open');
       return;
     }
-    
+
     const message = JSON.stringify({
       type,
       data,
     });
-    
+
     this.socket.send(message);
   }
 
@@ -131,42 +143,42 @@ class NetworkManager {
     try {
       const message = JSON.parse(messageData);
       const { type, data } = message;
-      
+
       console.log('Received message:', type, data);
-      
+
       switch (type) {
         case 'player_connected':
           this.playerId = data.playerId;
           this.emitEvent('playerConnected', data);
           break;
-          
+
         case 'game_created':
           this.gameId = data.gameId;
           this.emitEvent('gameCreated', data);
           break;
-          
+
         case 'game_joined':
           this.gameId = data.gameId;
           this.emitEvent('gameJoined', data);
           break;
-          
+
         case 'game_state_update':
           this.emitEvent('gameStateUpdate', data);
           break;
-          
+
         case 'player_action':
           this.emitEvent('playerAction', data);
           break;
-          
+
         case 'chat_message':
           this.emitEvent('chatMessage', data);
           break;
-          
+
         case 'error':
           console.error('Server error:', data.message);
           this.emitEvent('error', data);
           break;
-          
+
         default:
           console.warn('Unknown message type:', type);
       }

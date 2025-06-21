@@ -105,7 +105,7 @@ const Layout = ({ children }) => {
       href: '/simulator',
       icon: Gamepad2,
     });
-    
+
     // Playable Game Simulator
     baseNavigation.push({
       name: 'Play Game',
