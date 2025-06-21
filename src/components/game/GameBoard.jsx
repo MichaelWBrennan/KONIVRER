@@ -242,13 +242,13 @@ const GameBoard = ({
               transition={{
                 duration: 3 + Math.random() * 7,
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: 'easeInOut',
                 delay: Math.random() * 5,
               }}
             />
           ))}
         </div>
-        
+
         {/* Floating cards in background */}
         <div className="absolute inset-0 overflow-hidden opacity-20">
           {[...Array(6)].map((_, i) => (
@@ -261,31 +261,31 @@ const GameBoard = ({
                 rotate: Math.random() * 20 - 10,
               }}
               animate={{
-                y: [null, "-10%", null],
+                y: [null, '-10%', null],
                 rotate: [null, Math.random() * 10 - 5, null],
                 opacity: [0.3, 0.5, 0.3],
               }}
               transition={{
                 duration: 10 + Math.random() * 10,
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: 'easeInOut',
                 delay: Math.random() * 5,
               }}
             />
           ))}
         </div>
-        
+
         <div className="relative z-10 text-white text-center px-4 max-w-md">
           {/* Premium logo animation */}
-          <motion.div 
+          <motion.div
             className="relative mx-auto mb-8 w-32 h-32"
-            animate={{ 
+            animate={{
               rotateY: [0, 360],
-              scale: [1, 1.05, 1]
+              scale: [1, 1.05, 1],
             }}
-            transition={{ 
-              rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
-              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            transition={{
+              rotateY: { duration: 20, repeat: Infinity, ease: 'linear' },
+              scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
             }}
           >
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
@@ -294,27 +294,37 @@ const GameBoard = ({
                 <Sparkles className="w-12 h-12 text-white" />
               </div>
             </div>
-            
+
             {/* Orbiting elements */}
             {[...Array(3)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center shadow-lg"
-                style={{ 
-                  top: "50%", 
-                  left: "50%",
-                  marginTop: "-12px",
-                  marginLeft: "-12px"
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
                 }}
                 animate={{
-                  x: Math.cos(i * (Math.PI * 2 / 3)) * 60,
-                  y: Math.sin(i * (Math.PI * 2 / 3)) * 60,
-                  rotate: [0, 360]
+                  x: Math.cos(i * ((Math.PI * 2) / 3)) * 60,
+                  y: Math.sin(i * ((Math.PI * 2) / 3)) * 60,
+                  rotate: [0, 360],
                 }}
                 transition={{
-                  x: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
-                  y: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
-                  rotate: { duration: 3, repeat: Infinity, ease: "linear" }
+                  x: {
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: 'linear',
+                    delay: i * 2,
+                  },
+                  y: {
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: 'linear',
+                    delay: i * 2,
+                  },
+                  rotate: { duration: 3, repeat: Infinity, ease: 'linear' },
                 }}
               >
                 <div className="w-4 h-4 rounded-full bg-white/80"></div>
@@ -322,7 +332,7 @@ const GameBoard = ({
             ))}
           </motion.div>
 
-          <motion.h2 
+          <motion.h2
             className="text-2xl md:text-3xl font-bold mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -333,7 +343,7 @@ const GameBoard = ({
             </span>
           </motion.h2>
 
-          <motion.div 
+          <motion.div
             className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -342,7 +352,7 @@ const GameBoard = ({
             <p className="text-gray-300 text-sm md:text-base mb-4">
               Initializing state-of-the-art game engine...
             </p>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between text-xs text-gray-400">
                 <span>Loading game assets</span>
@@ -356,7 +366,7 @@ const GameBoard = ({
                   transition={{ duration: 1.5 }}
                 />
               </div>
-              
+
               <div className="flex justify-between text-xs text-gray-400">
                 <span>Optimizing for your device</span>
                 <span>82%</span>
@@ -369,7 +379,7 @@ const GameBoard = ({
                   transition={{ duration: 2.2 }}
                 />
               </div>
-              
+
               <div className="flex justify-between text-xs text-gray-400">
                 <span>Connecting to network</span>
                 <span>65%</span>
@@ -385,7 +395,7 @@ const GameBoard = ({
             </div>
           </motion.div>
 
-          <motion.p 
+          <motion.p
             className="text-gray-400 text-xs mt-6 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -410,30 +420,33 @@ const GameBoard = ({
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-5 mix-blend-overlay"></div>
-        
+
         {/* Dynamic light effects */}
         {showEffects && (
           <>
             <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-900/20 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
-            <motion.div 
+            <motion.div
               className="absolute top-0 left-0 w-full h-full opacity-30"
-              initial={{ background: "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)" }}
-              animate={{ 
-                background: [
-                  "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)",
-                  "radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.15), transparent 70%)",
-                  "radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.15), transparent 70%)",
-                  "radial-gradient(circle at 70% 30%, rgba(139, 92, 246, 0.15), transparent 70%)",
-                  "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)"
-                ]
+              initial={{
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)',
               }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              animate={{
+                background: [
+                  'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)',
+                  'radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.15), transparent 70%)',
+                  'radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.15), transparent 70%)',
+                  'radial-gradient(circle at 70% 30%, rgba(139, 92, 246, 0.15), transparent 70%)',
+                  'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)',
+                ],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             />
           </>
         )}
       </div>
-      
+
       {/* Game Header - Enhanced MTG Arena style */}
       <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-lg border-b border-blue-900/50">
         <div className="flex items-center space-x-3">
@@ -444,9 +457,9 @@ const GameBoard = ({
           >
             <Menu className="w-5 h-5 text-blue-400" />
           </motion.button>
-          
+
           <div className="flex items-center">
-            <motion.h1 
+            <motion.h1
               className="text-white font-bold text-lg hidden md:block"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -456,7 +469,7 @@ const GameBoard = ({
                 KONIVRER
               </span>
             </motion.h1>
-            <motion.h1 
+            <motion.h1
               className="text-white font-bold text-lg md:hidden"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -466,7 +479,7 @@ const GameBoard = ({
                 KON
               </span>
             </motion.h1>
-            
+
             <div className="ml-2 px-2 py-0.5 bg-blue-900/30 rounded-md border border-blue-800/50 hidden md:block">
               <span className="text-xs text-blue-300 font-medium">PREMIUM</span>
             </div>
@@ -485,7 +498,9 @@ const GameBoard = ({
           <motion.button
             onClick={() => setShowLog(!showLog)}
             className={`p-2 rounded-full transition-all hover:scale-105 shadow-md ${
-              showLog ? 'bg-purple-700/80' : 'bg-gray-800/80 hover:bg-gray-700/80'
+              showLog
+                ? 'bg-purple-700/80'
+                : 'bg-gray-800/80 hover:bg-gray-700/80'
             }`}
             aria-label="Game Log"
             whileTap={{ scale: 0.95 }}
@@ -513,7 +528,9 @@ const GameBoard = ({
           <motion.button
             onClick={toggleEffects}
             className={`p-2 rounded-full transition-all hover:scale-105 shadow-md ${
-              showEffects ? 'bg-gray-800/80 hover:bg-gray-700/80' : 'bg-gray-700/80 border border-red-500/50'
+              showEffects
+                ? 'bg-gray-800/80 hover:bg-gray-700/80'
+                : 'bg-gray-700/80 border border-red-500/50'
             }`}
             aria-label={showEffects ? 'Disable Effects' : 'Enable Effects'}
             whileTap={{ scale: 0.95 }}
