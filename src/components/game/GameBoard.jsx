@@ -160,7 +160,9 @@ const GameBoard = ({
         <div className="text-white text-center px-4">
           <div className="animate-spin rounded-full h-12 w-12 md:h-16 md:w-16 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <h2 className="text-lg md:text-xl font-bold">Loading Game...</h2>
-          <p className="text-gray-400 text-sm mt-2">Optimized for all devices</p>
+          <p className="text-gray-400 text-sm mt-2">
+            Optimized for all devices
+          </p>
         </div>
       </div>
     );
@@ -275,8 +277,12 @@ const GameBoard = ({
                 <h3 className="text-white text-base md:text-lg font-bold">
                   {hoveredCard.name}
                 </h3>
-                <p className="text-gray-300 text-xs md:text-sm">{hoveredCard.type}</p>
-                <p className="text-gray-400 mt-1 md:mt-2 text-xs md:text-sm">{hoveredCard.text}</p>
+                <p className="text-gray-300 text-xs md:text-sm">
+                  {hoveredCard.type}
+                </p>
+                <p className="text-gray-400 mt-1 md:mt-2 text-xs md:text-sm">
+                  {hoveredCard.text}
+                </p>
                 {hoveredCard.type === 'Familiar' && (
                   <p className="text-white mt-1 md:mt-2">
                     {hoveredCard.power}/{hoveredCard.toughness}
@@ -306,7 +312,8 @@ const GameBoard = ({
         <div className="absolute inset-0 bg-blue-900/30 pointer-events-none flex items-center justify-center z-40">
           <div className="bg-black/80 text-white px-4 md:px-6 py-3 rounded-lg text-base md:text-xl font-bold pointer-events-auto max-w-[90%] md:max-w-md">
             <p className="text-center">
-              Select targets ({targets.length}/{gameEngine.getRequiredTargets()})
+              Select targets ({targets.length}/{gameEngine.getRequiredTargets()}
+              )
             </p>
             <div className="flex justify-center mt-3 md:mt-4 space-x-3 md:space-x-4">
               <button
