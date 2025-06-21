@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useData } from '../contexts/DataContext';
+import CardDetailMetaAnalysis from '../components/CardDetailMetaAnalysis';
 
 const CardDetail = () => {
   const { cardId } = useParams();
@@ -262,7 +263,7 @@ const CardDetail = () => {
               {/* Tabs */}
               <div className="border-b border-gray-700 mb-6">
                 <nav className="flex space-x-8">
-                  {['details', 'printings'].map(tab => (
+                  {['details', 'meta', 'printings'].map(tab => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -355,6 +356,10 @@ const CardDetail = () => {
                       </div>
                     </div>
                   </motion.div>
+                )}
+
+                {activeTab === 'meta' && (
+                  <CardDetailMetaAnalysis cardName={card.name} />
                 )}
 
                 {activeTab === 'printings' && (
