@@ -106,12 +106,7 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
     });
 
-    // Analytics Hub - unified analytics functionality
-    baseNavigation.push({
-      name: 'Analytics',
-      href: '/analytics',
-      icon: BarChart3,
-    });
+    // Analytics Hub removed - stats moved to respective pages
 
     // Tournaments - competitive play with live brackets, results, and replays
     baseNavigation.push({
