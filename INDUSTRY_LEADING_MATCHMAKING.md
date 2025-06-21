@@ -9,7 +9,7 @@ The KONIVRER Matchmaking System is a comprehensive solution for both online and 
 ### Online Matchmaking
 
 - **Skill-Based Matchmaking**: Advanced algorithm that matches players based on rating, experience, and play style
-- **Format Selection**: Support for Standard, Extended, Legacy, and Draft formats
+- **KONIVRER Format**: Optimized for the single KONIVRER format
 - **Preference Controls**: Fine-tune your matchmaking experience with skill range, region, and game mode settings
 - **Real-Time Queue Status**: Live updates on queue position, estimated wait time, and player count
 - **Cross-Platform Play**: Seamless matching between desktop, mobile, and tablet players
@@ -94,10 +94,11 @@ The KONIVRER Matchmaking System is a comprehensive solution for both online and 
 - Better social features and friend integration
 - Physical card game support in the same application
 - More transparent matchmaking algorithm
+- Streamlined single format experience
 
 ### Compared to Hearthstone
 
-- More format options
+- Focused single format for balanced gameplay
 - Better tournament integration
 - More detailed player statistics
 - Physical card game support
@@ -208,7 +209,7 @@ The KONIVRER Matchmaking System is a comprehensive solution for both online and 
 ## 🎮 Getting Started
 
 1. **Navigate to Matchmaking**: Click the "Matchmaking" option in the main navigation
-2. **Select Format**: Choose from Standard, Extended, Legacy, or Draft
+2. **KONIVRER Format**: All matches use the standard KONIVRER format
 3. **Choose Deck**: Select a deck from your collection or create a new one
 4. **Set Preferences**: Adjust skill range, region, and other settings
 5. **Find Match**: Click "Find Match" to enter the queue
