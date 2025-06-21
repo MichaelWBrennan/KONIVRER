@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Book,
   Search,
   Download,
   Share2,
@@ -103,17 +102,7 @@ const RulesCenter = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-            <Book className="text-blue-400" />
-            KONIVRER Rules Center
-          </h1>
-        </motion.div>
+
 
         {/* Search and Controls */}
         <motion.div
@@ -158,21 +147,26 @@ const RulesCenter = () => {
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl" aria-hidden="true">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl" aria-hidden="true">
                     {section.icon || '📖'}
                   </span>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-2xl font-bold text-white tracking-wide">
                     {section.title || 'Rules Section'}
                   </h2>
                 </div>
-                {expandedSections.has(key) ? (
-                  <ChevronUp className="w-5 h-5 text-gray-400" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                )}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-400 hidden sm:block">
+                    {expandedSections.has(key) ? 'Collapse' : 'Expand'}
+                  </span>
+                  {expandedSections.has(key) ? (
+                    <ChevronUp className="w-6 h-6 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-400" />
+                  )}
+                </div>
               </button>
 
               {/* Section Content - Collapsible */}
@@ -185,18 +179,82 @@ const RulesCenter = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6">
-                      <div className="prose prose-invert max-w-none">
+                    <div className="px-8 py-6 bg-white/5">
+                      <div className="max-w-none">
                         {section?.content ? (
-                          <div
-                            className="text-gray-300 leading-relaxed whitespace-pre-line"
-                            dangerouslySetInnerHTML={{
-                              __html: section.content.replace(
-                                /\*\*(.*?)\*\*/g,
-                                '<strong class="text-white font-semibold">$1</strong>',
-                              ),
-                            }}
-                          />
+                          <div className="text-gray-200 leading-relaxed space-y-6">
+                            {section.content.split('\n\n').map((paragraph, index) => {
+                              // Skip empty paragraphs
+                              if (!paragraph.trim()) return null;
+                              
+                              // Handle headers (lines that start with #)
+                              if (paragraph.startsWith('#')) {
+                                const headerLevel = paragraph.match(/^#+/)[0].length;
+                                const headerText = paragraph.replace(/^#+\s*/, '');
+                                const HeaderTag = `h${Math.min(headerLevel + 2, 6)}`;
+                                
+                                return (
+                                  <div key={index} className={`${headerLevel === 1 ? 'text-2xl' : headerLevel === 2 ? 'text-xl' : 'text-lg'} font-bold text-white mt-8 mb-4 first:mt-0`}>
+                                    {headerText}
+                                  </div>
+                                );
+                              }
+                              
+                              // Handle lists (lines that start with - or *)
+                              if (paragraph.includes('\n-') || paragraph.includes('\n*') || paragraph.startsWith('-') || paragraph.startsWith('*')) {
+                                const listItems = paragraph.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('*'));
+                                if (listItems.length > 0) {
+                                  return (
+                                    <ul key={index} className="list-disc list-inside space-y-3 ml-6 text-base">
+                                      {listItems.map((item, itemIndex) => (
+                                        <li key={itemIndex} className="text-gray-200 leading-relaxed">
+                                          <span dangerouslySetInnerHTML={{
+                                            __html: item.replace(/^[-*]\s*/, '').replace(
+                                              /\*\*(.*?)\*\*/g,
+                                              '<strong class="text-white font-semibold">$1</strong>'
+                                            )
+                                          }} />
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  );
+                                }
+                              }
+                              
+                              // Handle numbered lists
+                              if (paragraph.match(/^\d+\./)) {
+                                const listItems = paragraph.split('\n').filter(line => line.trim().match(/^\d+\./));
+                                if (listItems.length > 0) {
+                                  return (
+                                    <ol key={index} className="list-decimal list-inside space-y-3 ml-6 text-base">
+                                      {listItems.map((item, itemIndex) => (
+                                        <li key={itemIndex} className="text-gray-200 leading-relaxed">
+                                          <span dangerouslySetInnerHTML={{
+                                            __html: item.replace(/^\d+\.\s*/, '').replace(
+                                              /\*\*(.*?)\*\*/g,
+                                              '<strong class="text-white font-semibold">$1</strong>'
+                                            )
+                                          }} />
+                                        </li>
+                                      ))}
+                                    </ol>
+                                  );
+                                }
+                              }
+                              
+                              // Regular paragraphs
+                              return (
+                                <p key={index} className="text-gray-200 leading-relaxed text-base">
+                                  <span dangerouslySetInnerHTML={{
+                                    __html: paragraph.replace(
+                                      /\*\*(.*?)\*\*/g,
+                                      '<strong class="text-white font-semibold">$1</strong>'
+                                    )
+                                  }} />
+                                </p>
+                              );
+                            }).filter(Boolean)}
+                          </div>
                         ) : (
                           <div className="text-gray-300 leading-relaxed">
                             <p>Content for this section is not available.</p>
