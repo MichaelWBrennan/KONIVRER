@@ -408,17 +408,9 @@ const CardDatabase = ({
         </div>
       )}
 
-      {/* Results Count - Icon removed */}
+      {/* Results Count - completely removed */}
       <div className="flex items-center justify-between text-white">
-        <span>
-          {filters.set === 'all' ? (
-            <span className="text-yellow-300 font-medium">
-              {/* "64 cards total" text removed */}
-            </span>
-          ) : (
-            <>{/* "Showing 64 of 64 cards" text removed */}</>
-          )}
-        </span>
+        <span></span>
         {favorites.size > 0 && (
           <span className="text-red-400">{favorites.size} favorites</span>
         )}
