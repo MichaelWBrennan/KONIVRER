@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Bot, ChevronRight, ChevronLeft, Grid, TrendingUp } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Bot,
+  ChevronRight,
+  ChevronLeft,
+  Grid,
+  TrendingUp,
+} from 'lucide-react';
 import CardDatabase from '../components/CardDatabase';
 import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
@@ -127,7 +135,7 @@ const CardExplorer = () => {
                 Trending Cards
               </button>
             </div>
-            
+
             {/* Tab Content */}
             {activeTab === 'all' ? (
               /* Card Database */
