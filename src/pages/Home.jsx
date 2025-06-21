@@ -13,6 +13,7 @@ import {
   Clock,
   Tag,
   User,
+  Users,
   Heart,
   MessageCircle,
   Share2,
@@ -767,6 +768,48 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      {/* Play Game Banner */}
+      <section className="py-6 bg-gradient-to-r from-purple-900 to-blue-900">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg">
+            <div className="mb-6 md:mb-0 md:mr-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                Play KONIVRER Online
+              </h2>
+              <p className="text-gray-300 mb-4">
+                Experience the full game with our new interactive game simulator. 
+                Challenge AI opponents or play against friends!
+              </p>
+              <div className="flex space-x-4">
+                <Link
+                  to="/game/ai"
+                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg flex items-center"
+                >
+                  <Gamepad2 className="mr-2 h-5 w-5" />
+                  Play vs AI
+                </Link>
+                <Link
+                  to="/game/online"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center"
+                >
+                  <Users className="mr-2 h-5 w-5" />
+                  Play Online
+                </Link>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 flex justify-center">
+              <div className="relative w-64 h-64">
+                <div className="absolute inset-0 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
+                <div className="absolute inset-4 bg-blue-500 rounded-full opacity-20 animate-pulse delay-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Zap className="h-24 w-24 text-white opacity-80" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Search and Filters */}
       <section className="py-8 bg-gray-900">
         <div className="container mx-auto px-4">
