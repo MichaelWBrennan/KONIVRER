@@ -37,6 +37,8 @@ import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
 import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatform';
+import PhysicalMatchmaking from './components/PhysicalMatchmaking';
+import StandaloneMatchmaking from './components/StandaloneMatchmaking';
 
 function App() {
   return (
@@ -68,6 +70,12 @@ function App() {
                   <Route path="/enhanced-deck-builder" element={<EnhancedDeckBuilder />} />
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
+
+                  {/* Physical Matchmaking System */}
+                  <Route path="/matchmaking" element={<PhysicalMatchmaking />} />
+                  
+                  {/* Standalone PWA Matchmaking */}
+                  <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
 
                   {/* Redirect for old play URL */}
                   <Route
