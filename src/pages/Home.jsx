@@ -42,6 +42,7 @@ import {
   BookOpen,
   Gamepad2,
   Zap,
+  Sparkles,
 } from 'lucide-react';
 
 const Home = () => {
@@ -807,7 +808,7 @@ const Home = () => {
                 <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                   KONIVRER
                 </span>{' '}
-                Premium Online Simulator
+                Online Simulator
               </h2>
               <p className="text-gray-300 text-lg mb-6 leading-relaxed">
                 Experience the most advanced card game platform ever created.
@@ -821,7 +822,7 @@ const Home = () => {
                   className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg flex items-center shadow-lg shadow-blue-700/30 transform transition hover:scale-105"
                 >
                   <Gamepad2 className="mr-2 h-5 w-5" />
-                  Play Now
+                  Online Sim
                 </Link>
                 <Link
                   to="/game/features"
