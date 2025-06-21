@@ -7,6 +7,9 @@ import AIPlayer from '../engine/AIPlayer';
 import NetworkManager from '../engine/NetworkManager';
 import CardAnimationSystem from '../animations/CardAnimations';
 import RulesEngine from '../rules/RulesEngine';
+import DeckService from '../services/DeckService';
+import { useDeck } from '../contexts/DeckContext';
+import { useBattlePass } from '../contexts/BattlePassContext';
 
 // Create a mock motion component until we can use the real framer-motion
 const motion = {
@@ -24,6 +27,8 @@ const GamePage = () => {
   const navigate = useNavigate();
   const animationSystemRef = useRef(null);
   const rulesEngineRef = useRef(null);
+  const { activeDeck, loadDecks } = useDeck();
+  const battlePass = useBattlePass();
 
   const [gameEngine, setGameEngine] = useState(null);
   const [playerData, setPlayerData] = useState({
@@ -35,6 +40,7 @@ const GamePage = () => {
     avatarUrl: null,
   });
   const [isSpectator, setIsSpectator] = useState(false);
+  const [gameResult, setGameResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Initializing');
@@ -93,7 +99,20 @@ const GamePage = () => {
           animationLevel: graphicsQuality === 'low' ? 'minimal' : 
                          graphicsQuality === 'medium' ? 'reduced' : 'full',
           enableBattlefield3D: graphicsQuality !== 'low',
-          enableParticleEffects: graphicsQuality !== 'low'
+          enableParticleEffects: graphicsQuality !== 'low',
+          onGameComplete: (result) => {
+            console.log('Game completed:', result);
+            setGameResult(result);
+            
+            // Award battle pass experience
+            if (battlePass) {
+              if (result.winner === 'player') {
+                battlePass.gainExperience('gameWin');
+              } else {
+                battlePass.gainExperience('gameLoss');
+              }
+            }
+          }
         };
         const engine = new GameEngine(engineOptions);
         
@@ -131,11 +150,13 @@ const GamePage = () => {
             setLoadingStage('Loading Player Deck');
             
             // Load player deck
-            const playerDeck =
-              JSON.parse(localStorage.getItem('playerDeck')) || [];
+            const playerDeck = JSON.parse(
+              localStorage.getItem(DeckService.STORAGE_KEYS.PLAYER_DECK)
+            )?.cards || [];
+            
             if (playerDeck.length === 0) {
               throw new Error(
-                'No player deck found. Please create a deck first.',
+                'No player deck found. Please create a deck first and set it as active.',
               );
             }
 
