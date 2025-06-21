@@ -157,8 +157,8 @@ const RulesCenter = () => {
                         : 'text-gray-300 hover:bg-white/10'
                     }`}
                   >
-                    <span className="text-lg">{section.icon}</span>
-                    {section.title}
+                    <span className="text-lg" aria-hidden="true">{section.icon || '📖'}</span>
+                    {section.title || 'Rules Section'}
                   </button>
                 ))}
               </nav>
@@ -205,11 +205,11 @@ const RulesCenter = () => {
                   {/* Section Header */}
                   <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl">
-                        {rulesData[activeSection]?.icon}
+                      <span className="text-3xl" aria-hidden="true">
+                        {rulesData[activeSection]?.icon || '📖'}
                       </span>
                       <h2 className="text-3xl font-bold text-white">
-                        {rulesData[activeSection]?.title}
+                        {rulesData[activeSection]?.title || 'Rules Section'}
                       </h2>
                     </div>
                     <button
@@ -226,15 +226,21 @@ const RulesCenter = () => {
 
                   {/* Section Content */}
                   <div className="prose prose-invert max-w-none">
-                    <div
-                      className="text-gray-300 leading-relaxed whitespace-pre-line"
-                      dangerouslySetInnerHTML={{
-                        __html: rulesData[activeSection]?.content?.replace(
-                          /\*\*(.*?)\*\*/g,
-                          '<strong class="text-white font-semibold">$1</strong>',
-                        ),
-                      }}
-                    />
+                    {rulesData[activeSection]?.content ? (
+                      <div
+                        className="text-gray-300 leading-relaxed whitespace-pre-line"
+                        dangerouslySetInnerHTML={{
+                          __html: rulesData[activeSection].content.replace(
+                            /\*\*(.*?)\*\*/g,
+                            '<strong class="text-white font-semibold">$1</strong>',
+                          ),
+                        }}
+                      />
+                    ) : (
+                      <div className="text-gray-300 leading-relaxed">
+                        <p>Content for this section is not available.</p>
+                      </div>
+                    )}
 
                     {/* Keywords */}
                     {rulesData[activeSection]?.keywords && (
@@ -260,9 +266,9 @@ const RulesCenter = () => {
                     <div className="mt-8 pt-6 border-t border-white/20 flex justify-between items-center">
                       <button
                         onClick={goToPreviousSection}
-                        disabled={getCurrentSectionIndex() === 0}
+                        disabled={getCurrentSectionIndex() <= 0}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                          getCurrentSectionIndex() === 0
+                          getCurrentSectionIndex() <= 0
                             ? 'text-gray-500 cursor-not-allowed'
                             : 'text-blue-300 hover:text-blue-200 hover:bg-blue-600/20'
                         }`}
@@ -272,16 +278,16 @@ const RulesCenter = () => {
                       </button>
 
                       <div className="text-sm text-gray-400">
-                        {getCurrentSectionIndex() + 1} of {sectionOrder.length}
+                        {getCurrentSectionIndex() >= 0 ? getCurrentSectionIndex() + 1 : 1} of {sectionOrder.length}
                       </div>
 
                       <button
                         onClick={goToNextSection}
                         disabled={
-                          getCurrentSectionIndex() === sectionOrder.length - 1
+                          getCurrentSectionIndex() < 0 || getCurrentSectionIndex() >= sectionOrder.length - 1
                         }
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                          getCurrentSectionIndex() === sectionOrder.length - 1
+                          getCurrentSectionIndex() < 0 || getCurrentSectionIndex() >= sectionOrder.length - 1
                             ? 'text-gray-500 cursor-not-allowed'
                             : 'text-blue-300 hover:text-blue-200 hover:bg-blue-600/20'
                         }`}
