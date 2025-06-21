@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import TournamentMetaAnalysis from '../components/TournamentMetaAnalysis';
 import {
   Calendar,
   Trophy,
@@ -429,6 +430,9 @@ const UnifiedTournaments = () => {
             </div>
           </div>
         </div>
+
+        {/* Tournament Meta Analysis - Added from Analytics Hub */}
+        <TournamentMetaAnalysis />
 
         {/* Unified Search and Filters */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
