@@ -276,7 +276,7 @@ const Layout = ({ children }) => {
                       size={16}
                       className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'relative z-10' : ''}`}
                     />
-                    <span className={isItemActive ? 'relative z-10' : ''}>
+                    <span className={isItemActive ? 'relative z-10 font-bold text-white' : ''}>
                       {item.name}
                     </span>
                   </Link>
@@ -358,7 +358,7 @@ const Layout = ({ children }) => {
                       }}
                     >
                       <Icon size={16} className={isItemActive ? 'relative z-10' : ''} />
-                      <span className={isItemActive ? 'relative z-10' : ''}>
+                      <span className={isItemActive ? 'relative z-10 font-bold text-white' : ''}>
                         {item.name}
                       </span>
                     </Link>
