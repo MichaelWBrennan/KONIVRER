@@ -176,12 +176,7 @@ const Layout = ({ children }) => {
 
     // Analytics Hub removed - stats moved to respective pages
 
-    // Tournaments - competitive play with live brackets, results, and replays
-    baseNavigation.push({
-      name: 'Tournaments',
-      href: '/tournaments',
-      icon: Trophy,
-    });
+    // Tournaments removed - now integrated as a tab in the Matchmaking page
 
     // Judge Center - only for judges (keep as separate navigation item)
     if (hasJudgeAccess()) {
