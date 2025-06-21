@@ -42,11 +42,13 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/rules" element={<Rules />} />
 
-                  {/* Game Simulator - Direct link */}
-                  <Route path="/simulator" element={<GameSimulator />} />
-                  <Route path="/play" element={<PlayableGameSimulatorPage />} />
+                  {/* Game Page */}
                   <Route path="/game/:mode" element={<GamePage />} />
                   <Route path="/game/:mode/:gameId" element={<GamePage />} />
+                  
+                  {/* Redirects for old simulator URLs */}
+                  <Route path="/simulator" element={<Navigate to="/game/ai" replace />} />
+                  <Route path="/play" element={<Navigate to="/game/ai" replace />} />
 
                   {/* Section Pages */}
                   <Route path="/cards" element={<CardExplorer />} />
