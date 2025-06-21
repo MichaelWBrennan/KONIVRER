@@ -165,6 +165,13 @@ const Layout = ({ children }) => {
       href: '/game/online',
       icon: Gamepad2,
     });
+
+    // Physical Matchmaking - for organizing physical card game matches
+    baseNavigation.push({
+      name: 'Matchmaking',
+      href: '/matchmaking',
+      icon: Users,
+    });
     
     // Battle Pass
     baseNavigation.push({
