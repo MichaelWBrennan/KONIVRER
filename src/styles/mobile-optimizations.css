@@ -1,5 +1,10 @@
 /* Mobile Optimizations CSS */
 
+/* Custom utilities for MTG Arena-like experience */
+.bg-gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
 /* Base optimizations for all mobile devices */
 .mobile-device {
   /* Improve touch targets */
@@ -37,6 +42,39 @@
 .reduce-animations .animate-pulse,
 .reduce-animations .animate-bounce {
   animation: none !important;
+}
+
+/* Reduce visual effects for performance */
+.reduce-effects {
+  --effect-opacity: 0.3;
+}
+
+.reduce-effects .shadow-lg,
+.reduce-effects .shadow-xl,
+.reduce-effects .shadow-2xl {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.reduce-effects .backdrop-blur-sm,
+.reduce-effects .backdrop-blur-md,
+.reduce-effects .backdrop-blur-lg {
+  backdrop-filter: blur(2px) !important;
+}
+
+/* MTG Arena-like card styles */
+.game-card {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game-card:hover {
+  transform: scale(1.08) translateY(-5px);
+  z-index: 50;
+}
+
+/* MTG Arena-like battlefield glow */
+.battlefield-glow {
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 /* Game-specific optimizations */
