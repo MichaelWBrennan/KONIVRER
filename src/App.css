@@ -1,6 +1,9 @@
 /* Import fonts first */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+/* Import Industry-Leading Features CSS */
+@import './styles/industry-leading-features.css';
+
 /* Import OpenDyslexic Font - Local Files */
 @font-face {
   font-family: 'OpenDyslexic';
@@ -1663,6 +1666,3 @@ button[type='reset'] {
     font-size: var(--font-size-xl);
   }
 }
-
-/* Import Industry-Leading Features CSS */
-@import './styles/industry-leading-features.css';
