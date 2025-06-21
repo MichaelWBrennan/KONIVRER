@@ -153,7 +153,10 @@ const CardMetaAnalysis = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {trendingCards.map((card, index) => (
-            <div key={index} className="border border-color rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div
+              key={index}
+              className="border border-color rounded-lg p-4 hover:shadow-md transition-shadow"
+            >
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold">{card.name}</h4>
                 <div className="flex items-center gap-1 text-xs">
@@ -179,14 +182,14 @@ const CardMetaAnalysis = () => {
                     card.color === 'yellow'
                       ? 'from-yellow-500 to-yellow-600'
                       : card.color === 'red'
-                      ? 'from-red-500 to-red-600'
-                      : card.color === 'green'
-                      ? 'from-green-500 to-green-600'
-                      : card.color === 'blue'
-                      ? 'from-blue-500 to-blue-600'
-                      : card.color === 'purple'
-                      ? 'from-purple-500 to-purple-600'
-                      : 'from-yellow-500 to-yellow-600'
+                        ? 'from-red-500 to-red-600'
+                        : card.color === 'green'
+                          ? 'from-green-500 to-green-600'
+                          : card.color === 'blue'
+                            ? 'from-blue-500 to-blue-600'
+                            : card.color === 'purple'
+                              ? 'from-purple-500 to-purple-600'
+                              : 'from-yellow-500 to-yellow-600'
                   } h-2 rounded-full`}
                   style={{ width: `${card.playRate}%` }}
                 ></div>

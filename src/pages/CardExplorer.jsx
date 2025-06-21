@@ -135,7 +135,7 @@ const CardExplorer = () => {
                 Trending Cards
               </button>
             </div>
-            
+
             {/* Tab Content */}
             {activeTab === 'all' ? (
               /* Card Database */
