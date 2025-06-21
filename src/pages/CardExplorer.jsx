@@ -13,8 +13,10 @@ import CardDatabase from '../components/CardDatabase';
 import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
 import CardMetaAnalysis from '../components/CardMetaAnalysis';
+import { useAuth } from '../contexts/AuthContext';
 
 const CardExplorer = () => {
+  const { isAuthenticated } = useAuth();
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
@@ -71,22 +73,24 @@ const CardExplorer = () => {
                 >
                   <Filter className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setShowAIAssistant(!showAIAssistant)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    showAIAssistant
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-600 hover:bg-gray-700 text-white'
-                  }`}
-                >
-                  <Bot className="w-4 h-4" />
-                  AI Assistant
-                  {showAIAssistant ? (
-                    <ChevronLeft className="w-4 h-4" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4" />
-                  )}
-                </button>
+                {isAuthenticated && (
+                  <button
+                    onClick={() => setShowAIAssistant(!showAIAssistant)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                      showAIAssistant
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-600 hover:bg-gray-700 text-white'
+                    }`}
+                  >
+                    <Bot className="w-4 h-4" />
+                    AI Assistant
+                    {showAIAssistant ? (
+                      <ChevronLeft className="w-4 h-4" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4" />
+                    )}
+                  </button>
+                )}
               </div>
 
               {activeSearchCriteria && (
@@ -150,7 +154,7 @@ const CardExplorer = () => {
           </motion.div>
 
           {/* AI Assistant Panel */}
-          {showAIAssistant && (
+          {isAuthenticated && showAIAssistant && (
             <motion.div
               initial={{ opacity: 0, x: 300 }}
               animate={{ opacity: 1, x: 0 }}

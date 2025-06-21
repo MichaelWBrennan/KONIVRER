@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Search,
   TrendingUp,
@@ -30,6 +31,7 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import BattlePass from './BattlePass';
 
 const UnifiedGamePlatform = () => {
+  const { isAuthenticated } = useAuth();
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
@@ -407,25 +409,27 @@ const UnifiedGamePlatform = () => {
         </motion.div>
 
         {/* AI Assistant */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-        >
-          <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-6 border-b border-white/20">
-            <div className="flex items-center space-x-3">
-              <Zap className="w-6 h-6 text-indigo-400" />
-              <h2 className="text-2xl font-bold text-white">AI Assistant</h2>
-              <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-sm font-medium rounded-full">
-                Smart Help
-              </span>
+        {isAuthenticated && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
+          >
+            <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-6 border-b border-white/20">
+              <div className="flex items-center space-x-3">
+                <Zap className="w-6 h-6 text-indigo-400" />
+                <h2 className="text-2xl font-bold text-white">AI Assistant</h2>
+                <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-sm font-medium rounded-full">
+                  Smart Help
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="p-6">
-            <AIAssistant />
-          </div>
-        </motion.div>
+            <div className="p-6">
+              <AIAssistant />
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );
