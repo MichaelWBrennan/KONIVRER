@@ -774,26 +774,20 @@ const Home = () => {
           <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg">
             <div className="mb-6 md:mb-0 md:mr-6">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                Play KONIVRER Online
+                KONIVRER Online Simulator
               </h2>
               <p className="text-gray-300 mb-4">
-                Experience the full game with our new interactive game
-                simulator. Challenge AI opponents or play against friends!
+                Experience the full game with our high-performance online
+                simulator. Play against friends on any device with a modern
+                browser!
               </p>
               <div className="flex space-x-4">
-                <Link
-                  to="/game/ai"
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg flex items-center"
-                >
-                  <Gamepad2 className="mr-2 h-5 w-5" />
-                  Play vs AI
-                </Link>
                 <Link
                   to="/game/online"
                   className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center"
                 >
-                  <Users className="mr-2 h-5 w-5" />
-                  Play Online
+                  <Gamepad2 className="mr-2 h-5 w-5" />
+                  Online Sim
                 </Link>
               </div>
             </div>
