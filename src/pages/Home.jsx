@@ -778,7 +778,8 @@ const Home = () => {
               </h2>
               <p className="text-gray-300 mb-4">
                 Experience the full game with our high-performance online
-                simulator. Play against friends on any device with a modern browser!
+                simulator. Play against friends on any device with a modern
+                browser!
               </p>
               <div className="flex space-x-4">
                 <Link
