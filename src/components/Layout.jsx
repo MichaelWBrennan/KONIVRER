@@ -165,11 +165,11 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
     });
 
-    // Physical Matchmaking - for organizing physical card game matches
+    // Matchmaking - online and physical matchmaking system
     baseNavigation.push({
       name: 'Matchmaking',
       href: '/matchmaking',
-      icon: Users,
+      icon: Target,
     });
     
 
