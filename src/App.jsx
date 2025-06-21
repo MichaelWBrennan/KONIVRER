@@ -45,10 +45,16 @@ function App() {
                   {/* Game Page */}
                   <Route path="/game/:mode" element={<GamePage />} />
                   <Route path="/game/:mode/:gameId" element={<GamePage />} />
-                  
+
                   {/* Redirects for old simulator URLs */}
-                  <Route path="/simulator" element={<Navigate to="/game/ai" replace />} />
-                  <Route path="/play" element={<Navigate to="/game/ai" replace />} />
+                  <Route
+                    path="/simulator"
+                    element={<Navigate to="/game/ai" replace />}
+                  />
+                  <Route
+                    path="/play"
+                    element={<Navigate to="/game/ai" replace />}
+                  />
 
                   {/* Section Pages */}
                   <Route path="/cards" element={<CardExplorer />} />
