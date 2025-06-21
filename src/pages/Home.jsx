@@ -7,6 +7,7 @@ import {
   Filter,
   Calendar,
   Star,
+  Eye,
   Download,
   ExternalLink,
   Clock,
