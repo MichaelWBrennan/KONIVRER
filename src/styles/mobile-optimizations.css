@@ -1,0 +1,106 @@
+/* Mobile Optimizations CSS */
+
+/* Base optimizations for all mobile devices */
+.mobile-device {
+  /* Improve touch targets */
+  --touch-target-size: 44px;
+  
+  /* Optimize scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Buttons and interactive elements */
+.mobile-device button,
+.mobile-device a,
+.mobile-device [role="button"],
+.mobile-device input[type="button"],
+.mobile-device input[type="submit"] {
+  min-height: var(--touch-target-size);
+  min-width: var(--touch-target-size);
+  padding: 8px 16px;
+  touch-action: manipulation;
+}
+
+/* Improve tap targets spacing */
+.mobile-device .btn {
+  margin: 4px;
+}
+
+/* Reduce animations for low-end devices */
+.reduce-animations * {
+  transition-duration: 0.1s !important;
+  animation-duration: 0.1s !important;
+}
+
+.reduce-animations .animate-spin,
+.reduce-animations .animate-pulse,
+.reduce-animations .animate-bounce {
+  animation: none !important;
+}
+
+/* Game-specific optimizations */
+.mobile-device .game-card {
+  transform: scale(0.9);
+  transition: transform 0.1s ease-out;
+}
+
+.mobile-device .game-card:active {
+  transform: scale(1.05);
+}
+
+/* Responsive text sizes */
+@media (max-width: 640px) {
+  .mobile-device h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .mobile-device h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  .mobile-device h3 {
+    font-size: 1.125rem !important;
+  }
+  
+  .mobile-device p, 
+  .mobile-device span, 
+  .mobile-device button {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* MTG Arena-like card hover effect */
+.mobile-device .game-card:hover {
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(66, 153, 225, 0.6) !important;
+}
+
+/* Optimize for landscape mode */
+@media (orientation: landscape) and (max-height: 500px) {
+  .mobile-device .game-board {
+    height: 100vh;
+    overflow: auto;
+  }
+  
+  .mobile-device .player-zone {
+    padding: 5px !important;
+  }
+  
+  .mobile-device .card-preview {
+    max-height: 80vh;
+    right: 5px;
+  }
+}
+
+/* Optimize for iOS devices */
+@supports (-webkit-touch-callout: none) {
+  .mobile-device {
+    /* Fix for iOS 100vh issue */
+    height: -webkit-fill-available;
+  }
+  
+  .mobile-device .game-board {
+    height: -webkit-fill-available;
+  }
+}
