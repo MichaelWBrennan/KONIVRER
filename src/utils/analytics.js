@@ -2,7 +2,10 @@
  * Analytics utilities for tracking user interactions and performance
  */
 
-import { track } from '@vercel/analytics';
+// Mock track function since we don't have Vercel analytics
+const track = (eventName, properties) => {
+  console.log('Analytics Event:', eventName, properties);
+};
 
 import { env } from '../config/env';
 

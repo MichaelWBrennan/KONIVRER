@@ -6,8 +6,20 @@
  * for different actions like playing, attacking, activating abilities, etc.
  */
 
-import { gsap } from 'gsap';
+// import { gsap } from 'gsap';
 import { createParticleSystem } from './ParticleSystem';
+
+// Create a mock gsap object until we can install the real one
+const gsap = {
+  set: () => {},
+  timeline: () => ({
+    to: () => ({}),
+    onStart: () => ({}),
+    onComplete: () => ({}),
+    onUpdate: () => ({})
+  }),
+  to: () => ({})
+};
 
 // Card animation registry
 const cardAnimations = new Map();
