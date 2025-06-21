@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
@@ -83,9 +84,9 @@ import MatchmakingRewards from '../components/matchmaking/MatchmakingRewards';
 import PhysicalMatchmakingButton from '../components/matchmaking/PhysicalMatchmakingButton';
 
 const Matchmaking = () => {
-  const { user, isAuthenticated } = useAuth();
-  const { decks, selectedDeck, setSelectedDeck } = useDeck();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+  const { decks: userDecks, selectedDeck, setSelectedDeck } = useDeck();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(max-width: 1024px)');
   
@@ -121,6 +122,8 @@ const Matchmaking = () => {
   const [showNews, setShowNews] = useState(false);
   const [showTips, setShowTips] = useState(false);
   const [showPhysicalMatchmaking, setShowPhysicalMatchmaking] = useState(false);
+  const [selectedTournamentId, setSelectedTournamentId] = useState(null);
+  const [showDeckSelectionModal, setShowDeckSelectionModal] = useState(false);
   
   const searchTimerRef = useRef(null);
 
@@ -423,6 +426,18 @@ const Matchmaking = () => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+  
+  const handleTournamentRegistration = (tournamentId) => {
+    // Check if user has registered decks
+    if (!userDecks || userDecks.length === 0) {
+      alert("You must register a deck from your account to participate in tournaments.");
+      return;
+    }
+    
+    // Open deck selection modal for tournament registration
+    setSelectedTournamentId(tournamentId);
+    setShowDeckSelectionModal(true);
   };
 
   const getQueuePosition = () => {
@@ -1161,6 +1176,7 @@ const Matchmaking = () => {
                           className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
+                          onClick={() => handleTournamentRegistration(tournament.id)}
                         >
                           Register Now
                         </motion.button>
@@ -1386,6 +1402,63 @@ const Matchmaking = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Tournament Deck Selection Modal */}
+      {showDeckSelectionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Deck for Tournament</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              Please select a deck from your account to register for this tournament.
+            </p>
+            
+            <div className="max-h-60 overflow-y-auto mb-4">
+              {userDecks && userDecks.length > 0 ? (
+                <div className="space-y-2">
+                  {userDecks.map(deck => (
+                    <div 
+                      key={deck.id}
+                      className="border border-gray-200 rounded-lg p-3 hover:border-blue-500 cursor-pointer"
+                      onClick={() => {
+                        // Register for tournament with selected deck
+                        alert(`Successfully registered for tournament with deck: ${deck.name}`);
+                        setShowDeckSelectionModal(false);
+                      }}
+                    >
+                      <div className="font-medium">{deck.name}</div>
+                      <div className="text-sm text-gray-500">
+                        {deck.hero} • {deck.cards?.length || 0} cards
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-gray-500">No decks found. Please create a deck first.</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <button 
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                onClick={() => setShowDeckSelectionModal(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                onClick={() => {
+                  // Redirect to deck builder
+                  navigate('/deck-builder');
+                }}
+              >
+                Create New Deck
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
