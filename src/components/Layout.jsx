@@ -40,15 +40,75 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ModernAuthModal from './ModernAuthModal';
+import PWAInstallPrompt from './PWAInstallPrompt';
+import MobileLayout from './MobileLayout';
+import MobileTouchControls from './MobileTouchControls';
 
 import { analytics } from '../utils/analytics';
+import pwaManager from '../utils/pwaUtils';
+import '../styles/mobile.css';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const { user, logout, isAuthenticated, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const [showAuthModal, setShowAuthModal] = useState(false);
+  
+  // Mobile and PWA state
+  const [isMobile, setIsMobile] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [showTouchControls, setShowTouchControls] = useState(false);
+
+  // Detect mobile device and PWA status
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+      
+      // Show touch controls on mobile game pages
+      const gamePages = ['/game', '/play', '/tournament'];
+      setShowTouchControls(mobile && gamePages.some(page => location.pathname.startsWith(page)));
+    };
+
+    const checkPWAStatus = () => {
+      const installed = window.matchMedia('(display-mode: standalone)').matches || 
+                       window.navigator.standalone === true;
+      setIsInstalled(installed);
+    };
+
+    const handleOnlineStatus = () => setIsOnline(navigator.onLine);
+    const handleOfflineStatus = () => setIsOnline(false);
+
+    // Initial checks
+    checkMobile();
+    checkPWAStatus();
+
+    // Event listeners
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOfflineStatus);
+
+    // PWA manager event overrides
+    pwaManager.notifyInstallAvailable = () => {
+      console.log('PWA install available');
+    };
+
+    pwaManager.notifyAppInstalled = () => {
+      setIsInstalled(true);
+    };
+
+    pwaManager.notifyOnlineStatus = (online) => {
+      setIsOnline(online);
+    };
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOfflineStatus);
+    };
+  }, [location.pathname]);
 
   // Helper functions for role-based access
   const hasJudgeAccess = () => {
@@ -447,9 +507,75 @@ const Layout = ({ children }) => {
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+
+      {/* PWA Install Prompt */}
+      {!isInstalled && <PWAInstallPrompt />}
+
+      {/* Mobile Touch Controls */}
+      {showTouchControls && (
+        <MobileTouchControls
+          onCardAction={(action) => {
+            console.log('Card action:', action);
+            // Handle card actions for mobile gameplay
+          }}
+          onZoom={(factor) => {
+            console.log('Zoom:', factor);
+            // Handle zoom for mobile
+          }}
+          onRotate={(angle) => {
+            console.log('Rotate:', angle);
+            // Handle rotation for mobile
+          }}
+          onPan={(deltaX, deltaY) => {
+            console.log('Pan:', deltaX, deltaY);
+            // Handle panning for mobile
+          }}
+          gameState={{}}
+          isPlayerTurn={true}
+        />
+      )}
     </div>
   );
 };
 
-export { Layout };
-export default Layout;
+// If mobile, wrap with MobileLayout
+const LayoutWrapper = ({ children }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const getCurrentPage = () => {
+    const path = location.pathname;
+    if (path === '/') return 'home';
+    if (path.startsWith('/cards')) return 'cards';
+    if (path.startsWith('/tournament')) return 'tournaments';
+    if (path.startsWith('/social')) return 'social';
+    if (path.startsWith('/analytics')) return 'analytics';
+    if (path.startsWith('/settings')) return 'settings';
+    return 'home';
+  };
+
+  if (isMobile) {
+    return (
+      <MobileLayout currentPage={getCurrentPage()}>
+        <Layout>{children}</Layout>
+      </MobileLayout>
+    );
+  }
+
+  return <Layout>{children}</Layout>;
+};
+
+export { Layout, LayoutWrapper };
+export default LayoutWrapper;
