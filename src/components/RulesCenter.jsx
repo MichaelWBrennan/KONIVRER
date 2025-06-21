@@ -23,21 +23,25 @@ const RulesCenter = () => {
       try {
         const data = await import('../data/rules.json');
         console.log('Rules data loaded in component:', data);
-        
+
         // Check if data is valid
-        if (!data || (typeof data === 'object' && Object.keys(data).length === 0)) {
+        if (
+          !data ||
+          (typeof data === 'object' && Object.keys(data).length === 0)
+        ) {
           console.error('Rules data is empty or invalid');
           setRulesData({
             overview: {
               title: 'Game Overview',
               icon: '📖',
-              content: 'Rules data is currently unavailable. Please check back later.',
-              keywords: ['overview']
-            }
+              content:
+                'Rules data is currently unavailable. Please check back later.',
+              keywords: ['overview'],
+            },
           });
           return;
         }
-        
+
         setRulesData(data.default || data);
       } catch (err) {
         console.error('Failed to load rules:', err);
@@ -46,13 +50,14 @@ const RulesCenter = () => {
           overview: {
             title: 'Game Overview',
             icon: '📖',
-            content: 'Rules data is currently unavailable. Please check back later.',
-            keywords: ['overview']
-          }
+            content:
+              'Rules data is currently unavailable. Please check back later.',
+            keywords: ['overview'],
+          },
         });
       }
     };
-    
+
     loadRulesData();
   }, []);
 
@@ -104,32 +109,37 @@ const RulesCenter = () => {
     );
   }
 
-  const filteredSections = rulesData ? Object.entries(rulesData).filter(
-    ([key, section]) => {
-      try {
-        // Skip metadata fields
-        if (key === 'lastUpdated' || key === 'version') return false;
-        
-        // If no search term, include all sections
-        if (!searchTerm) return true;
-        
-        // Search in title, content, and keywords
-        const searchLower = searchTerm.toLowerCase();
-        return (
-          (section.title && section.title.toLowerCase().includes(searchLower)) ||
-          (section.content && section.content.toLowerCase().includes(searchLower)) ||
-          (section.keywords && Array.isArray(section.keywords) && 
-            section.keywords.some(keyword => 
-              keyword && typeof keyword === 'string' && keyword.toLowerCase().includes(searchLower)
-            )
-          )
-        );
-      } catch (error) {
-        console.error(`Error filtering section ${key}:`, error);
-        return false;
-      }
-    }
-  ) : [];
+  const filteredSections = rulesData
+    ? Object.entries(rulesData).filter(([key, section]) => {
+        try {
+          // Skip metadata fields
+          if (key === 'lastUpdated' || key === 'version') return false;
+
+          // If no search term, include all sections
+          if (!searchTerm) return true;
+
+          // Search in title, content, and keywords
+          const searchLower = searchTerm.toLowerCase();
+          return (
+            (section.title &&
+              section.title.toLowerCase().includes(searchLower)) ||
+            (section.content &&
+              section.content.toLowerCase().includes(searchLower)) ||
+            (section.keywords &&
+              Array.isArray(section.keywords) &&
+              section.keywords.some(
+                keyword =>
+                  keyword &&
+                  typeof keyword === 'string' &&
+                  keyword.toLowerCase().includes(searchLower),
+              ))
+          );
+        } catch (error) {
+          console.error(`Error filtering section ${key}:`, error);
+          return false;
+        }
+      })
+    : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
