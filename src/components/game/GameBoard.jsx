@@ -156,10 +156,13 @@ const GameBoard = ({
   // If game state is not loaded yet, show loading
   if (!gameState) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-white text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-500 mx-auto mb-4"></div>
-          <h2 className="text-xl font-bold">Loading Game...</h2>
+      <div className="flex items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+        <div className="text-white text-center px-4">
+          <div className="animate-spin rounded-full h-12 w-12 md:h-16 md:w-16 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <h2 className="text-lg md:text-xl font-bold">Loading Game...</h2>
+          <p className="text-gray-400 text-sm mt-2">
+            Optimized for all devices
+          </p>
         </div>
       </div>
     );
@@ -168,7 +171,7 @@ const GameBoard = ({
   return (
     <div
       ref={boardRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 touch-manipulation"
     >
       {/* Game Header */}
       <div className="absolute top-0 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm z-10 flex items-center justify-between px-4">
@@ -258,9 +261,9 @@ const GameBoard = ({
         isSpectator={isSpectator}
       />
 
-      {/* Card Preview */}
+      {/* Card Preview - Responsive for all devices */}
       {hoveredCard && (
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-64 h-96 pointer-events-none">
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-48 md:w-64 h-72 md:h-96 pointer-events-none z-30">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -268,16 +271,20 @@ const GameBoard = ({
             transition={{ duration: 0.2 }}
             className="w-full h-full rounded-lg overflow-hidden shadow-xl"
           >
-            {/* Card preview would be rendered here */}
+            {/* Card preview with responsive text */}
             <div className="w-full h-full bg-gray-800 border-2 border-gray-700 rounded-lg flex items-center justify-center">
-              <div className="text-center p-4">
-                <h3 className="text-white text-lg font-bold">
+              <div className="text-center p-2 md:p-4">
+                <h3 className="text-white text-base md:text-lg font-bold">
                   {hoveredCard.name}
                 </h3>
-                <p className="text-gray-300 text-sm">{hoveredCard.type}</p>
-                <p className="text-gray-400 mt-2 text-sm">{hoveredCard.text}</p>
+                <p className="text-gray-300 text-xs md:text-sm">
+                  {hoveredCard.type}
+                </p>
+                <p className="text-gray-400 mt-1 md:mt-2 text-xs md:text-sm">
+                  {hoveredCard.text}
+                </p>
                 {hoveredCard.type === 'Familiar' && (
-                  <p className="text-white mt-2">
+                  <p className="text-white mt-1 md:mt-2">
                     {hoveredCard.power}/{hoveredCard.toughness}
                   </p>
                 )}
@@ -300,21 +307,21 @@ const GameBoard = ({
         <GameMenu onClose={() => setShowMenu(false)} onAction={handleAction} />
       )}
 
-      {/* Target Mode Overlay */}
+      {/* Target Mode Overlay - Responsive for all devices */}
       {targetMode && (
-        <div className="absolute inset-0 bg-blue-900/30 pointer-events-none flex items-center justify-center">
-          <div className="bg-black/70 text-white px-6 py-3 rounded-lg text-xl font-bold pointer-events-auto">
-            <p>
+        <div className="absolute inset-0 bg-blue-900/30 pointer-events-none flex items-center justify-center z-40">
+          <div className="bg-black/80 text-white px-4 md:px-6 py-3 rounded-lg text-base md:text-xl font-bold pointer-events-auto max-w-[90%] md:max-w-md">
+            <p className="text-center">
               Select targets ({targets.length}/{gameEngine.getRequiredTargets()}
               )
             </p>
-            <div className="flex justify-center mt-4 space-x-4">
+            <div className="flex justify-center mt-3 md:mt-4 space-x-3 md:space-x-4">
               <button
                 onClick={() => handleAction('confirmTargets')}
                 disabled={targets.length < gameEngine.getRequiredTargets()}
-                className={`px-4 py-2 rounded-lg ${
+                className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base ${
                   targets.length >= gameEngine.getRequiredTargets()
-                    ? 'bg-green-600 hover:bg-green-700'
+                    ? 'bg-green-600 hover:bg-green-700 active:bg-green-800'
                     : 'bg-gray-600 cursor-not-allowed'
                 }`}
               >
@@ -322,7 +329,7 @@ const GameBoard = ({
               </button>
               <button
                 onClick={() => handleAction('cancelTargets')}
-                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700"
+                className="px-3 md:px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 active:bg-red-800 text-sm md:text-base"
               >
                 Cancel
               </button>
