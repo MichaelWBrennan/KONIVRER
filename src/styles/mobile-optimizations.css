@@ -1,8 +1,36 @@
-/* Mobile Optimizations CSS */
+/**
+ * KONIVRER Premium Mobile Optimizations
+ * 
+ * Enhanced CSS for MTG Arena-quality experience across all devices
+ * Optimized for performance, touch interactions, and visual quality
+ */
 
 /* Custom utilities for MTG Arena-like experience */
 .bg-gradient-radial {
   background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
+/* Premium visual effects */
+.premium-card-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  animation: premium-pulse 3s infinite;
+}
+
+@keyframes premium-pulse {
+  0% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.6); }
+  100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+}
+
+/* 3D card perspective effects */
+.card-3d-effect {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-3d-effect .card-inner {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: rotateY(0deg) rotateX(0deg);
 }
 
 /* Base optimizations for all mobile devices */
@@ -13,6 +41,11 @@
   /* Optimize scrolling */
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  
+  /* MTG Arena-like responsiveness */
+  --card-scale-factor: 1;
+  --animation-speed: 0.3s;
+  --battlefield-perspective: 1200px;
 }
 
 /* Buttons and interactive elements */
@@ -63,22 +96,94 @@
 
 /* MTG Arena-like card styles */
 .game-card {
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backface-visibility: hidden;
+  transform-origin: center bottom;
+  will-change: transform, box-shadow, filter;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .game-card:hover {
-  transform: scale(1.08) translateY(-5px);
+  transform: scale(1.12) translateY(-8px) rotateX(5deg);
   z-index: 50;
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.3));
+}
+
+.game-card.premium {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.game-card.premium:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+}
+
+/* Card tap animation - MTG Arena style */
+.game-card.tapped {
+  transform: rotate(90deg) translateX(15%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.game-card.tapped:hover {
+  transform: rotate(90deg) translateX(15%) scale(1.08);
+}
+
+/* Card selection highlight - MTG Arena style */
+.game-card.selected {
+  outline: 2px solid rgba(59, 130, 246, 0.8);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+  animation: card-selected-pulse 2s infinite;
+}
+
+@keyframes card-selected-pulse {
+  0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
+  50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.8); }
+  100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
 }
 
 /* MTG Arena-like battlefield glow */
 .battlefield-glow {
   background: radial-gradient(
-    circle at center,
-    rgba(59, 130, 246, 0.1) 0%,
+    ellipse at center,
+    rgba(59, 130, 246, 0.15) 0%,
+    rgba(139, 92, 246, 0.08) 40%,
     transparent 70%
   );
   pointer-events: none;
+  filter: blur(20px);
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+/* Card draw animation */
+.card-draw {
+  animation: card-draw-animation 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes card-draw-animation {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Card play animation */
+.card-play {
+  animation: card-play-animation 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes card-play-animation {
+  0% {
+    opacity: 0.8;
+    transform: translateY(-30px) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Game-specific optimizations */
