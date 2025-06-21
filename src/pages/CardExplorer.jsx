@@ -67,9 +67,9 @@ const CardExplorer = () => {
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-4 py-2"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-3 py-2 text-sm font-medium"
                 >
-                  <Filter className="w-4 h-4" />
+                  <Filter className="w-3.5 h-3.5" />
                   Advanced
                 </button>
                 <button
