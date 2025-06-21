@@ -40,6 +40,10 @@ class GameEngine {
     this.mulligan = options.mulligan || 'london'; // 'london', 'paris', 'vancouver'
     this.startingHandSize = options.startingHandSize || 7;
 
+    // Animation and rules systems
+    this.animationSystem = null;
+    this.rulesEngine = null;
+
     // Performance monitoring
     this.lastFrameTime = performance.now();
     this.frameCount = 0;
@@ -49,6 +53,26 @@ class GameEngine {
 
     // Initialize performance monitoring
     this.initPerformanceMonitoring();
+  }
+  
+  /**
+   * Set the animation system for the game engine
+   * @param {Object} animationSystem - The animation system to use
+   */
+  setAnimationSystem(animationSystem) {
+    this.animationSystem = animationSystem;
+    console.log('Animation system connected to game engine');
+    return this;
+  }
+  
+  /**
+   * Set the rules engine for the game engine
+   * @param {Object} rulesEngine - The rules engine to use
+   */
+  setRulesEngine(rulesEngine) {
+    this.rulesEngine = rulesEngine;
+    console.log('Rules engine connected to game engine');
+    return this;
   }
 
   /**
