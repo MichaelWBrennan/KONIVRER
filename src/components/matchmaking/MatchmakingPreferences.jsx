@@ -106,6 +106,15 @@ const MatchmakingPreferences = ({
                     </select>
                   </div>
                 </div>
+                
+                {/* Note: KONIVRER is always best of 1, so this dropdown is not needed */}
+                <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                  <div className="flex items-center space-x-2">
+                    <Trophy className="w-4 h-4 text-blue-500" />
+                    <span className="text-sm font-medium text-gray-700">Match Format: Best of 1</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1 ml-6">KONIVRER matches are always played as best of 1</p>
+                </div>
 
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">

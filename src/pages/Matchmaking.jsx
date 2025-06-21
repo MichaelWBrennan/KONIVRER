@@ -14,10 +14,7 @@ import {
   Wifi,
   WifiOff,
   Star,
-  Target,
   Shield,
-  Swords,
-  Crown,
   Timer,
   MapPin,
   Globe,
@@ -74,7 +71,7 @@ import LeaderboardPreview from '../components/matchmaking/LeaderboardPreview';
 import MatchmakingStats from '../components/matchmaking/MatchmakingStats';
 import DeckSelector from '../components/matchmaking/DeckSelector';
 import RegionSelector from '../components/matchmaking/RegionSelector';
-import FormatSelector from '../components/matchmaking/FormatSelector';
+// Note: FormatSelector removed as KONIVRER only has one format
 import MatchmakingPreferences from '../components/matchmaking/MatchmakingPreferences';
 import TournamentBrowser from '../components/matchmaking/TournamentBrowser';
 import FriendsList from '../components/matchmaking/FriendsList';
@@ -93,7 +90,7 @@ const Matchmaking = () => {
   const isTablet = useMediaQuery('(max-width: 1024px)');
   
   // State
-  const [activeTab, setActiveTab] = useState('quickMatch');
+  const [activeTab, setActiveTab] = useState('play');
   const [isSearching, setIsSearching] = useState(false);
   const [searchTime, setSearchTime] = useState(0);
   const [matchFound, setMatchFound] = useState(false);
@@ -107,7 +104,8 @@ const Matchmaking = () => {
     voiceChat: true,
     showRank: true
   });
-  const [selectedFormat, setSelectedFormat] = useState('standard');
+  // KONIVRER only has one format
+  const selectedFormat = 'konivrer';
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [recentMatches, setRecentMatches] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
@@ -195,7 +193,7 @@ const Matchmaking = () => {
         },
         result: 'win',
         score: '2-1',
-        format: 'standard',
+        format: 'konivrer',
         date: new Date(Date.now() - 3600000),
         ratingChange: +15
       },
@@ -210,7 +208,7 @@ const Matchmaking = () => {
         },
         result: 'loss',
         score: '1-2',
-        format: 'standard',
+        format: 'konivrer',
         date: new Date(Date.now() - 7200000),
         ratingChange: -12
       },
@@ -225,7 +223,7 @@ const Matchmaking = () => {
         },
         result: 'win',
         score: '2-0',
-        format: 'draft',
+        format: 'konivrer',
         date: new Date(Date.now() - 86400000),
         ratingChange: +18
       }
@@ -245,7 +243,7 @@ const Matchmaking = () => {
       {
         id: 'tournament_1',
         name: 'KONIVRER World Championship Qualifier',
-        format: 'standard',
+        format: 'konivrer',
         startDate: new Date(Date.now() + 86400000 * 3),
         entryFee: 1000,
         prizePool: 50000,
@@ -254,8 +252,8 @@ const Matchmaking = () => {
       },
       {
         id: 'tournament_2',
-        name: 'Weekly Draft Challenge',
-        format: 'draft',
+        name: 'Weekly KONIVRER Challenge',
+        format: 'konivrer',
         startDate: new Date(Date.now() + 86400000),
         entryFee: 500,
         prizePool: 10000,
@@ -264,8 +262,8 @@ const Matchmaking = () => {
       },
       {
         id: 'tournament_3',
-        name: 'Legacy Masters',
-        format: 'legacy',
+        name: 'KONIVRER Masters',
+        format: 'konivrer',
         startDate: new Date(Date.now() + 86400000 * 7),
         entryFee: 2000,
         prizePool: 25000,
@@ -338,7 +336,7 @@ const Matchmaking = () => {
   const getEstimatedSearchTime = () => {
     const baseTime = 5; // 5 seconds base
     const ratingModifier = Math.abs(playerStats?.rating - 1500) / 100; // Higher rating = longer search
-    const formatModifier = selectedFormat === 'draft' ? 2 : 1;
+    const formatModifier = 1; // KONIVRER only has one format
     const skillRangeModifier = preferences.skillRange === 'strict' ? 1.5 : 1;
     
     return baseTime + ratingModifier + formatModifier + skillRangeModifier;
@@ -431,12 +429,7 @@ const Matchmaking = () => {
     return Math.floor(Math.random() * 50) + 1; // Simulated queue position
   };
 
-  const formats = [
-    { id: 'standard', name: 'Standard', description: 'Current rotation cards only', icon: <Shield className="w-4 h-4" /> },
-    { id: 'extended', name: 'Extended', description: 'Last 2 years of cards', icon: <Swords className="w-4 h-4" /> },
-    { id: 'legacy', name: 'Legacy', description: 'All cards allowed', icon: <Crown className="w-4 h-4" /> },
-    { id: 'draft', name: 'Draft', description: 'Pick cards during match', icon: <Target className="w-4 h-4" /> }
-  ];
+  // KONIVRER only has one format, so no format selection needed
 
   const skillRanges = [
     { id: 'strict', name: 'Strict', description: '±50 rating', waitTime: 'Longer' },
@@ -506,34 +499,110 @@ const Matchmaking = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Matchmaking Panel */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Format Selection */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Game Format</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {formats.map((format) => (
-                  <motion.button
-                    key={format.id}
-                    onClick={() => setSelectedFormat(format.id)}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      selectedFormat === format.id
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex items-center space-x-3 mb-2">
-                      {format.icon}
-                      <span className="font-medium text-gray-900">{format.name}</span>
-                    </div>
-                    <p className="text-sm text-gray-600 text-left">{format.description}</p>
-                  </motion.button>
-                ))}
+      {/* Tab Navigation */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex space-x-1 overflow-x-auto">
+            <button
+              onClick={() => setActiveTab('play')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'play' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Play className="w-4 h-4" />
+                <span>Play</span>
               </div>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('tournaments')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'tournaments' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Trophy className="w-4 h-4" />
+                <span>Tournaments</span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('stats')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'stats' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <BarChart className="w-4 h-4" />
+                <span>Stats</span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'history' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Clock className="w-4 h-4" />
+                <span>History</span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('friends')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'friends' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Users className="w-4 h-4" />
+                <span>Friends</span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('settings')}
+              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'settings' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'play' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Matchmaking Panel */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Format note - KONIVRER only has one format */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center space-x-3 mb-2">
+                <Shield className="w-5 h-5 text-blue-600" />
+                <h2 className="text-lg font-semibold text-gray-900">KONIVRER Format</h2>
+              </div>
+              <p className="text-sm text-gray-600">KONIVRER uses a single standardized format for all matches.</p>
             </div>
 
             {/* Deck Selection */}
@@ -934,43 +1003,7 @@ const Matchmaking = () => {
               </div>
             </div>
 
-            {/* Upcoming Tournaments */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">Tournaments</h2>
-                <button 
-                  onClick={() => setShowTournaments(!showTournaments)}
-                  className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
-                >
-                  <span>View All</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-              
-              <div className="space-y-3">
-                {tournaments.slice(0, 2).map(tournament => (
-                  <div key={tournament.id} className="border border-gray-200 rounded-lg p-3">
-                    <div className="font-medium text-gray-900 mb-1">{tournament.name}</div>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="text-gray-500">
-                        {tournament.format} • {tournament.participants} players
-                      </div>
-                      <div className="text-blue-600 font-medium">
-                        ${tournament.prizePool.toLocaleString()}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="text-xs text-gray-500">
-                        {new Date(tournament.startDate).toLocaleDateString()}
-                      </div>
-                      <button className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-medium">
-                        Register
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Tournament section moved to dedicated Tournaments tab */}
 
             {/* Friends Online */}
             <div className="bg-white rounded-xl shadow-sm p-6">
@@ -1036,6 +1069,109 @@ const Matchmaking = () => {
             </div>
           </div>
         </div>
+        )}
+
+        {activeTab === 'tournaments' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <Trophy className="w-8 h-8 text-yellow-500" />
+                <h2 className="text-2xl font-bold text-gray-900">Tournaments</h2>
+              </div>
+              
+              <div className="mb-6">
+                <p className="text-gray-600 mb-4">
+                  Join official KONIVRER tournaments to compete for prizes, glory, and qualification points.
+                  Register for upcoming events or browse past tournament results.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-blue-50 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-blue-600 mb-1">{tournaments.length}</div>
+                    <div className="text-sm text-blue-700">Upcoming Tournaments</div>
+                  </div>
+                  <div className="bg-green-50 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-green-600 mb-1">$75,000</div>
+                    <div className="text-sm text-green-700">Total Prize Pool</div>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-purple-600 mb-1">3</div>
+                    <div className="text-sm text-purple-700">Your Registrations</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Upcoming Tournaments</h3>
+                
+                <div className="space-y-4">
+                  {tournaments.map(tournament => (
+                    <motion.div 
+                      key={tournament.id} 
+                      className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+                      whileHover={{ y: -2 }}
+                    >
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="font-medium text-gray-900 text-lg">{tournament.name}</h3>
+                          <div className="flex items-center space-x-2 text-sm text-gray-500 mt-1">
+                            <div className="flex items-center space-x-1">
+                              <Shield className="w-4 h-4 text-blue-500" />
+                              <span>KONIVRER Format</span>
+                            </div>
+                            <span>•</span>
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="w-4 h-4" />
+                              <span>{new Date(tournament.startDate).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Registration Open</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-2 mt-3">
+                        <div className="bg-gray-50 rounded p-2 text-center">
+                          <div className="text-xs text-gray-500">Entry Fee</div>
+                          <div className="font-medium text-gray-900 flex items-center justify-center">
+                            <DollarSign className="w-3 h-3 mr-0.5" />
+                            {tournament.entryFee}
+                          </div>
+                        </div>
+                        <div className="bg-gray-50 rounded p-2 text-center">
+                          <div className="text-xs text-gray-500">Prize Pool</div>
+                          <div className="font-medium text-gray-900 flex items-center justify-center">
+                            <DollarSign className="w-3 h-3 mr-0.5" />
+                            {tournament.prizePool.toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="bg-gray-50 rounded p-2 text-center">
+                          <div className="text-xs text-gray-500">Players</div>
+                          <div className="font-medium text-gray-900 flex items-center justify-center">
+                            <Users className="w-3 h-3 mr-0.5" />
+                            {tournament.participants}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-2 border-t border-gray-100 flex justify-between items-center">
+                        <div className="text-sm text-gray-500">
+                          KONIVRER Format • Best of 1 • Single Elimination
+                        </div>
+                        <motion.button 
+                          className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          Register Now
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Match Found Modal */}
