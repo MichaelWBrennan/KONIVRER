@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Search,
-  Filter,
-  Bot,
-  ChevronRight,
-  ChevronLeft,
-} from 'lucide-react';
+import { Search, Filter, Bot, ChevronRight, ChevronLeft } from 'lucide-react';
 import CardDatabase from '../components/CardDatabase';
 import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
@@ -109,7 +103,7 @@ const CardExplorer = () => {
 
             {/* Card Meta Analysis - Added from Analytics Hub */}
             <CardMetaAnalysis />
-            
+
             {/* Card Database */}
             <CardDatabase
               cards={searchResults}

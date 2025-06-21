@@ -242,9 +242,7 @@ const DeckMetaAnalysis = () => {
                         #{index + 1}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-sm">
-                          {deck.name}
-                        </h4>
+                        <h4 className="font-semibold text-sm">{deck.name}</h4>
                         <div className="flex items-center gap-1 text-xs text-secondary">
                           {getArchetypeIcon(deck.archetype)}
                           <span>{deck.archetype}</span>
@@ -263,15 +261,11 @@ const DeckMetaAnalysis = () => {
                   <div className="grid grid-cols-4 gap-2 text-xs">
                     <div>
                       <p className="text-secondary">Win Rate</p>
-                      <p className="font-semibold">
-                        {deck.winRate}%
-                      </p>
+                      <p className="font-semibold">{deck.winRate}%</p>
                     </div>
                     <div>
                       <p className="text-secondary">Games</p>
-                      <p className="font-semibold">
-                        {deck.games}
-                      </p>
+                      <p className="font-semibold">{deck.games}</p>
                     </div>
                     <div>
                       <p className="text-secondary">Avg Finish</p>
@@ -307,9 +301,7 @@ const DeckMetaAnalysis = () => {
         {/* Archetype Breakdown */}
         <div>
           <div className="bg-background border border-color rounded-xl p-4">
-            <h3 className="text-lg font-bold mb-4">
-              Archetype Distribution
-            </h3>
+            <h3 className="text-lg font-bold mb-4">Archetype Distribution</h3>
 
             <div className="space-y-3">
               {metaData.archetypeBreakdown.map((archetype, index) => (

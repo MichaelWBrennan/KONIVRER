@@ -367,7 +367,7 @@ const DeckSearch = () => {
       {/* Meta Analysis - Added from Analytics Hub */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         <DeckMetaAnalysis />
-        
+
         {/* Search and Filters */}
         <div className="bg-card rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">

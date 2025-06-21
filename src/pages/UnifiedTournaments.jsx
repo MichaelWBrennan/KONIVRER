@@ -433,7 +433,7 @@ const UnifiedTournaments = () => {
 
         {/* Tournament Meta Analysis - Added from Analytics Hub */}
         <TournamentMetaAnalysis />
-        
+
         {/* Unified Search and Filters */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
