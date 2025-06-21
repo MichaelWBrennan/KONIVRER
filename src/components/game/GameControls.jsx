@@ -46,17 +46,17 @@ const GameControls = ({
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // If in spectator mode, show minimal controls
   if (isSpectator) {
     return (
-      <motion.div 
+      <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm rounded-lg p-2 z-10 shadow-lg"
@@ -91,18 +91,28 @@ const GameControls = ({
   const canPassPriority = true;
 
   // Get tooltip text for buttons
-  const getTooltipText = (action) => {
-    switch(action) {
-      case 'play': return 'Play the selected card (Drag to battlefield)';
-      case 'attack': return 'Attack with the selected creature';
-      case 'block': return 'Block with the selected creature';
-      case 'ability': return 'Activate ability of the selected card';
-      case 'nextPhase': return `Advance to next phase (${getNextPhaseName()})`;
-      case 'pass': return 'Pass priority to opponent';
-      case 'concede': return 'Concede the game';
-      case 'autoPass': return `${autoPassEnabled ? 'Disable' : 'Enable'} auto-pass priority`;
-      case 'fullControl': return `${fullControlMode ? 'Disable' : 'Enable'} full control mode`;
-      default: return '';
+  const getTooltipText = action => {
+    switch (action) {
+      case 'play':
+        return 'Play the selected card (Drag to battlefield)';
+      case 'attack':
+        return 'Attack with the selected creature';
+      case 'block':
+        return 'Block with the selected creature';
+      case 'ability':
+        return 'Activate ability of the selected card';
+      case 'nextPhase':
+        return `Advance to next phase (${getNextPhaseName()})`;
+      case 'pass':
+        return 'Pass priority to opponent';
+      case 'concede':
+        return 'Concede the game';
+      case 'autoPass':
+        return `${autoPassEnabled ? 'Disable' : 'Enable'} auto-pass priority`;
+      case 'fullControl':
+        return `${fullControlMode ? 'Disable' : 'Enable'} full control mode`;
+      default:
+        return '';
     }
   };
 
@@ -110,22 +120,23 @@ const GameControls = ({
   const getNextPhaseName = () => {
     const phases = ['untap', 'upkeep', 'draw', 'main', 'combat', 'end'];
     const currentIndex = phases.indexOf(gameState.phase);
-    if (currentIndex === -1 || currentIndex === phases.length - 1) return 'untap';
+    if (currentIndex === -1 || currentIndex === phases.length - 1)
+      return 'untap';
     return phases[currentIndex + 1];
   };
 
   // Get button style based on state
-  const getButtonStyle = (isEnabled) => {
+  const getButtonStyle = isEnabled => {
     return isEnabled
       ? 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 active:from-blue-700 active:to-blue-800 shadow-md'
       : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed';
   };
 
   // Get special button styles
-  const getSpecialButtonStyle = (type) => {
-    switch(type) {
+  const getSpecialButtonStyle = type => {
+    switch (type) {
       case 'play':
-        return canPlayCard 
+        return canPlayCard
           ? 'bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 active:from-green-700 active:to-green-800 shadow-md'
           : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed';
       case 'attack':
@@ -162,7 +173,12 @@ const GameControls = ({
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: expanded ? 0 : isMobile ? 40 : 60 }}
-        transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 30 }}
+        transition={{
+          duration: 0.3,
+          type: 'spring',
+          stiffness: 300,
+          damping: 30,
+        }}
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-md rounded-t-lg p-2 z-10 shadow-xl border border-gray-700/50"
         style={{ width: isMobile ? '95%' : 'auto', maxWidth: '800px' }}
       >
@@ -177,9 +193,15 @@ const GameControls = ({
           )}
         </button>
 
-        <div className={`flex ${isMobile ? 'flex-wrap justify-center gap-2' : 'items-center space-x-2'}`}>
+        <div
+          className={`flex ${isMobile ? 'flex-wrap justify-center gap-2' : 'items-center space-x-2'}`}
+        >
           {/* Play Card */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('play')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('play')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => canPlayCard && onAction('playCard')}
               disabled={!canPlayCard}
@@ -196,7 +218,11 @@ const GameControls = ({
           </div>
 
           {/* Attack */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('attack')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('attack')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => canAttack && onAction('attack')}
               disabled={!canAttack}
@@ -213,7 +239,11 @@ const GameControls = ({
           </div>
 
           {/* Block */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('block')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('block')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => canBlock && onAction('block')}
               disabled={!canBlock}
@@ -230,7 +260,11 @@ const GameControls = ({
           </div>
 
           {/* Activate Ability */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('ability')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('ability')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() =>
                 canActivateAbility &&
@@ -250,7 +284,11 @@ const GameControls = ({
           </div>
 
           {/* Next Phase */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('nextPhase')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('nextPhase')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => canNextPhase && onAction('nextPhase')}
               disabled={!canNextPhase}
@@ -267,7 +305,11 @@ const GameControls = ({
           </div>
 
           {/* Pass Priority */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('pass')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('pass')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => canPassPriority && onAction('passPriority')}
               disabled={!canPassPriority}
@@ -286,12 +328,18 @@ const GameControls = ({
           {/* Advanced Controls (Auto-Pass, Full Control) */}
           {!isMobile && (
             <>
-              <div className="relative" onMouseEnter={() => setShowTooltip('autoPass')} onMouseLeave={() => setShowTooltip(null)}>
+              <div
+                className="relative"
+                onMouseEnter={() => setShowTooltip('autoPass')}
+                onMouseLeave={() => setShowTooltip(null)}
+              >
                 <button
                   onClick={() => setAutoPassEnabled(!autoPassEnabled)}
                   className={`flex items-center space-x-1 px-2 py-2 rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
-                  <Hourglass className={`w-4 h-4 ${autoPassEnabled ? 'text-white' : 'text-gray-400'}`} />
+                  <Hourglass
+                    className={`w-4 h-4 ${autoPassEnabled ? 'text-white' : 'text-gray-400'}`}
+                  />
                 </button>
                 {showTooltip === 'autoPass' && (
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
@@ -300,12 +348,18 @@ const GameControls = ({
                 )}
               </div>
 
-              <div className="relative" onMouseEnter={() => setShowTooltip('fullControl')} onMouseLeave={() => setShowTooltip(null)}>
+              <div
+                className="relative"
+                onMouseEnter={() => setShowTooltip('fullControl')}
+                onMouseLeave={() => setShowTooltip(null)}
+              >
                 <button
                   onClick={() => setFullControlMode(!fullControlMode)}
                   className={`flex items-center space-x-1 px-2 py-2 rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
-                  <Settings className={`w-4 h-4 ${fullControlMode ? 'text-white' : 'text-gray-400'}`} />
+                  <Settings
+                    className={`w-4 h-4 ${fullControlMode ? 'text-white' : 'text-gray-400'}`}
+                  />
                 </button>
                 {showTooltip === 'fullControl' && (
                   <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
@@ -317,7 +371,11 @@ const GameControls = ({
           )}
 
           {/* Concede */}
-          <div className="relative" onMouseEnter={() => setShowTooltip('concede')} onMouseLeave={() => setShowTooltip(null)}>
+          <div
+            className="relative"
+            onMouseEnter={() => setShowTooltip('concede')}
+            onMouseLeave={() => setShowTooltip(null)}
+          >
             <button
               onClick={() => onAction('concede')}
               className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('concede')}`}
@@ -332,7 +390,7 @@ const GameControls = ({
             )}
           </div>
         </div>
-        
+
         {/* Mobile-only settings button */}
         {isMobile && expanded && (
           <div className="mt-2 flex justify-center">
@@ -345,7 +403,7 @@ const GameControls = ({
             </button>
           </div>
         )}
-        
+
         {/* Mobile settings panel */}
         <AnimatePresence>
           {isMobile && showSettings && (
@@ -363,7 +421,7 @@ const GameControls = ({
                   <Hourglass className="w-3 h-3 text-white mr-1" />
                   <span className="text-white text-xs">Auto-Pass</span>
                 </button>
-                
+
                 <button
                   onClick={() => setFullControlMode(!fullControlMode)}
                   className={`flex items-center space-x-1 px-3 py-1 rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
@@ -375,23 +433,38 @@ const GameControls = ({
             </motion.div>
           )}
         </AnimatePresence>
-        
+
         {/* Phase indicator - MTG Arena style */}
         {expanded && (
           <div className="mt-2 flex justify-center">
             <div className="flex items-center space-x-1 bg-black/50 rounded-full px-3 py-1">
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'untap' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'upkeep' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'draw' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'main' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'combat' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div className={`w-2 h-2 rounded-full ${gameState.phase === 'end' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <span className="text-white text-xs ml-2">{gameState.phase.charAt(0).toUpperCase() + gameState.phase.slice(1)}</span>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'untap' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'upkeep' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'draw' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'main' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'combat' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <div
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'end' ? 'bg-yellow-400' : 'bg-gray-600'}`}
+              ></div>
+              <span className="text-white text-xs ml-2">
+                {gameState.phase.charAt(0).toUpperCase() +
+                  gameState.phase.slice(1)}
+              </span>
             </div>
           </div>
         )}
       </motion.div>
-      
+
       {/* Timer - MTG Arena style */}
       <motion.div
         initial={{ opacity: 0 }}

@@ -7,7 +7,16 @@ import GameLog from './GameLog';
 import PhaseIndicator from './PhaseIndicator';
 import GameMenu from './GameMenu';
 import CardPreview from './CardPreview';
-import { Settings, Menu, MessageSquare, Maximize2, Volume2, VolumeX, Eye, Sparkles } from 'lucide-react';
+import {
+  Settings,
+  Menu,
+  MessageSquare,
+  Maximize2,
+  Volume2,
+  VolumeX,
+  Eye,
+  Sparkles,
+} from 'lucide-react';
 
 /**
  * Main game board component that renders the entire game interface
@@ -202,10 +211,10 @@ const GameBoard = ({
         setPreviewPosition('right');
       }
     };
-    
+
     handleResize();
     window.addEventListener('resize', handleResize);
-    
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -220,23 +229,25 @@ const GameBoard = ({
               <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
             </div>
           </div>
-          
+
           <h2 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
             Loading KONIVRER Online Sim
           </h2>
-          
+
           <div className="mt-4 bg-black/30 rounded-lg p-3 backdrop-blur-sm">
-            <p className="text-gray-300 text-sm">Preparing your game experience...</p>
+            <p className="text-gray-300 text-sm">
+              Preparing your game experience...
+            </p>
             <div className="w-full bg-gray-700 rounded-full h-1.5 mt-2">
-              <motion.div 
+              <motion.div
                 className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
+                initial={{ width: '0%' }}
+                animate={{ width: '100%' }}
                 transition={{ duration: 2.5 }}
               />
             </div>
           </div>
-          
+
           <p className="text-gray-400 text-xs mt-4">
             Optimized for all devices • MTG Arena-like experience
           </p>
@@ -261,7 +272,9 @@ const GameBoard = ({
           >
             <Menu className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-white font-bold text-lg hidden md:block">KONIVRER</h1>
+          <h1 className="text-white font-bold text-lg hidden md:block">
+            KONIVRER
+          </h1>
           <h1 className="text-white font-bold text-lg md:hidden">KON</h1>
         </div>
 
@@ -283,12 +296,12 @@ const GameBoard = ({
           >
             <MessageSquare className="w-5 h-5 text-white" />
           </button>
-          
+
           {/* Sound Toggle Button */}
           <button
             onClick={toggleSound}
             className="p-2 rounded-full hover:bg-white/10 transition-colors"
-            aria-label={isMuted ? "Unmute" : "Mute"}
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted ? (
               <VolumeX className="w-5 h-5 text-white" />
@@ -296,23 +309,23 @@ const GameBoard = ({
               <Volume2 className="w-5 h-5 text-white" />
             )}
           </button>
-          
+
           {/* Visual Effects Toggle Button */}
           <button
             onClick={toggleEffects}
             className={`p-2 rounded-full transition-colors ${
               showEffects ? 'hover:bg-white/10' : 'bg-gray-700/50'
             }`}
-            aria-label={showEffects ? "Disable Effects" : "Enable Effects"}
+            aria-label={showEffects ? 'Disable Effects' : 'Enable Effects'}
           >
             <Sparkles className="w-5 h-5 text-white" />
           </button>
-          
+
           {/* Fullscreen Toggle Button */}
           <button
             onClick={toggleFullscreen}
             className="p-2 rounded-full hover:bg-white/10 transition-colors"
-            aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
           >
             <Maximize2 className="w-5 h-5 text-white" />
           </button>
@@ -398,13 +411,13 @@ const GameBoard = ({
       {/* Target Mode Overlay - MTG Arena style */}
       <AnimatePresence>
         {targetMode && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-gradient-radial from-blue-900/40 to-blue-900/10 pointer-events-none flex items-center justify-center z-40"
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -412,32 +425,40 @@ const GameBoard = ({
               className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md text-white px-5 md:px-7 py-4 rounded-xl shadow-2xl border border-blue-500/30 pointer-events-auto max-w-[90%] md:max-w-md"
             >
               <div className="text-center mb-3">
-                <h3 className="text-lg md:text-xl font-bold text-blue-300">Select Targets</h3>
+                <h3 className="text-lg md:text-xl font-bold text-blue-300">
+                  Select Targets
+                </h3>
                 <div className="flex items-center justify-center mt-1 space-x-1">
                   {[...Array(gameEngine.getRequiredTargets())].map((_, i) => (
-                    <div 
+                    <div
                       key={i}
                       className={`w-3 h-3 rounded-full ${
-                        i < targets.length 
-                          ? 'bg-gradient-to-r from-blue-400 to-blue-500' 
+                        i < targets.length
+                          ? 'bg-gradient-to-r from-blue-400 to-blue-500'
                           : 'bg-gray-600'
                       }`}
                     />
                   ))}
                 </div>
                 <p className="text-gray-300 text-sm mt-2">
-                  {targets.length}/{gameEngine.getRequiredTargets()} targets selected
+                  {targets.length}/{gameEngine.getRequiredTargets()} targets
+                  selected
                 </p>
               </div>
-              
+
               {/* Selected targets list */}
               {targets.length > 0 && (
                 <div className="bg-black/30 rounded-lg p-2 mb-3 max-h-24 overflow-y-auto">
                   {targets.map((target, index) => (
-                    <div key={index} className="text-sm text-gray-200 flex justify-between items-center">
+                    <div
+                      key={index}
+                      className="text-sm text-gray-200 flex justify-between items-center"
+                    >
                       <span>{target.card.name}</span>
-                      <button 
-                        onClick={() => setTargets(prev => prev.filter((_, i) => i !== index))}
+                      <button
+                        onClick={() =>
+                          setTargets(prev => prev.filter((_, i) => i !== index))
+                        }
                         className="text-red-400 hover:text-red-300"
                       >
                         <X className="w-4 h-4" />
@@ -446,7 +467,7 @@ const GameBoard = ({
                   ))}
                 </div>
               )}
-              
+
               <div className="flex justify-center space-x-4">
                 <motion.button
                   whileHover={{ scale: 1.05 }}

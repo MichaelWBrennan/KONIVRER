@@ -7,7 +7,7 @@
  * - Optimized state management
  * - Cross-platform compatibility
  * - Enhanced AI opponent
- * 
+ *
  * The engine manages game state, enforces rules, and processes player actions
  * while providing a smooth, responsive experience on any browser.
  */
@@ -18,32 +18,35 @@ class GameEngine {
     this.gameState = null;
     this.eventListeners = {};
     this.gameId = this.generateGameId();
-    
+
     // Performance options
     this.performanceMode = options.performanceMode || 'auto'; // 'high', 'medium', 'low', 'auto'
     this.animationLevel = options.animationLevel || 'full'; // 'full', 'reduced', 'minimal', 'none'
     this.deviceType = options.deviceType || this.detectDeviceType();
-    
+
     // MTG Arena-like features
-    this.enableBattlefield3D = options.enableBattlefield3D !== false && this.canSupport3D();
+    this.enableBattlefield3D =
+      options.enableBattlefield3D !== false && this.canSupport3D();
     this.enableCardHovers = options.enableCardHovers !== false;
     this.enableSoundEffects = options.enableSoundEffects !== false;
-    this.enableVoiceLines = options.enableVoiceLines !== false && this.canSupportAudio();
-    this.enableParticleEffects = options.enableParticleEffects !== false && this.canSupportParticles();
-    
+    this.enableVoiceLines =
+      options.enableVoiceLines !== false && this.canSupportAudio();
+    this.enableParticleEffects =
+      options.enableParticleEffects !== false && this.canSupportParticles();
+
     // Advanced game options
     this.timerEnabled = options.timerEnabled || false;
     this.timerDuration = options.timerDuration || 45; // seconds per turn
     this.mulligan = options.mulligan || 'london'; // 'london', 'paris', 'vancouver'
     this.startingHandSize = options.startingHandSize || 7;
-    
+
     // Performance monitoring
     this.lastFrameTime = performance.now();
     this.frameCount = 0;
     this.frameRate = 0;
     this.frameRateHistory = [];
     this.performanceIssues = false;
-    
+
     // Initialize performance monitoring
     this.initPerformanceMonitoring();
   }
@@ -59,13 +62,13 @@ class GameEngine {
    * @param {Object} options.settings Additional game settings
    */
   initializeGame(options) {
-    const { 
-      players, 
-      isOnline = false, 
+    const {
+      players,
+      isOnline = false,
       isAI = false,
       gameMode = 'standard',
       ranked = false,
-      settings = {}
+      settings = {},
     } = options;
 
     if (!players || players.length !== 2) {
@@ -76,15 +79,26 @@ class GameEngine {
     const gameSettings = {
       startingHandSize: settings.startingHandSize || this.startingHandSize,
       mulliganType: settings.mulliganType || this.mulligan,
-      timerEnabled: settings.timerEnabled !== undefined ? settings.timerEnabled : this.timerEnabled,
+      timerEnabled:
+        settings.timerEnabled !== undefined
+          ? settings.timerEnabled
+          : this.timerEnabled,
       timerDuration: settings.timerDuration || this.timerDuration,
-      allowTakebacks: settings.allowTakebacks !== undefined ? settings.allowTakebacks : false,
+      allowTakebacks:
+        settings.allowTakebacks !== undefined ? settings.allowTakebacks : false,
       showHints: settings.showHints !== undefined ? settings.showHints : true,
-      autoPassPriority: settings.autoPassPriority !== undefined ? settings.autoPassPriority : true,
-      autoTapAzoth: settings.autoTapAzoth !== undefined ? settings.autoTapAzoth : true,
-      enableEmotes: settings.enableEmotes !== undefined ? settings.enableEmotes : true,
-      enableBattlefield3D: settings.enableBattlefield3D !== undefined ? 
-        settings.enableBattlefield3D : this.enableBattlefield3D,
+      autoPassPriority:
+        settings.autoPassPriority !== undefined
+          ? settings.autoPassPriority
+          : true,
+      autoTapAzoth:
+        settings.autoTapAzoth !== undefined ? settings.autoTapAzoth : true,
+      enableEmotes:
+        settings.enableEmotes !== undefined ? settings.enableEmotes : true,
+      enableBattlefield3D:
+        settings.enableBattlefield3D !== undefined
+          ? settings.enableBattlefield3D
+          : this.enableBattlefield3D,
     };
 
     // Initialize game state with MTG Arena-like structure
@@ -94,13 +108,13 @@ class GameEngine {
       gameMode,
       ranked,
       settings: gameSettings,
-      
+
       // Game state
       turn: 1,
       phase: 'setup', // setup, start, main, combat, post-combat, refresh, end
       currentPlayer: 0, // Index of the current player (0 or 1)
       activePlayer: 0, // Player with priority
-      
+
       // Players
       players: players.map((player, index) => ({
         // Basic player info
@@ -109,7 +123,7 @@ class GameEngine {
         avatar: player.avatar || null,
         rank: player.rank || 'Bronze',
         rankTier: player.rankTier || 4,
-        
+
         // Game zones
         deck: this.shuffleDeck([...player.deck]),
         hand: [],
@@ -118,34 +132,36 @@ class GameEngine {
         azothRow: [],
         graveyard: [],
         removedZone: [],
-        
+
         // Player state
         life: 20, // For visual display only - actual life is tracked via life cards
         azothAvailable: 0,
         azothPlacedThisTurn: false,
         passedPriority: false,
         mulligans: 0,
-        timeRemaining: gameSettings.timerEnabled ? gameSettings.timerDuration : null,
-        
+        timeRemaining: gameSettings.timerEnabled
+          ? gameSettings.timerDuration
+          : null,
+
         // Cosmetics
         flag: player.flag || null,
         cardBack: player.cardBack || 'default',
         avatarFrame: player.avatarFrame || 'default',
         emotes: player.emotes || [],
-        
+
         // Stats
         cardsDrawn: 0,
         damageDealt: 0,
         creaturesSummoned: 0,
         spellsCast: 0,
       })),
-      
+
       // Game elements
       stack: [], // For resolving abilities and effects
       animations: [], // Visual animations queue
       triggers: [], // Waiting triggered abilities
       gameLog: [],
-      
+
       // Game status
       isOnline,
       isAI,
@@ -154,7 +170,7 @@ class GameEngine {
       timer: 0,
       startTime: Date.now(),
       lastActionTime: Date.now(),
-      
+
       // Performance metrics
       performanceData: {
         deviceType: this.deviceType,
@@ -1195,7 +1211,7 @@ class GameEngine {
       Math.random().toString(36).substring(2, 15)
     );
   }
-  
+
   /**
    * Detect the device type based on user agent and screen size
    * @returns {string} Device type: 'desktop', 'tablet', or 'mobile'
@@ -1205,43 +1221,50 @@ class GameEngine {
     if (typeof window === 'undefined' || typeof navigator === 'undefined') {
       return 'desktop'; // Default to desktop for SSR
     }
-    
+
     const userAgent = navigator.userAgent.toLowerCase();
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    
+    const isMobile =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent,
+      );
+
     if (!isMobile) return 'desktop';
-    
+
     // Determine if tablet or mobile based on screen size
     const isTablet = Math.min(window.innerWidth, window.innerHeight) > 768;
     return isTablet ? 'tablet' : 'mobile';
   }
-  
+
   /**
    * Check if the device can support 3D effects
    * @returns {boolean} Whether the device can support 3D effects
    */
   canSupport3D() {
     if (this.deviceType === 'mobile') return false;
-    
+
     // Check for WebGL support
     try {
       const canvas = document.createElement('canvas');
-      return !!(window.WebGLRenderingContext && 
-        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+      return !!(
+        window.WebGLRenderingContext &&
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      );
     } catch (e) {
       return false;
     }
   }
-  
+
   /**
    * Check if the device can support advanced audio features
    * @returns {boolean} Whether the device can support advanced audio
    */
   canSupportAudio() {
-    return typeof window !== 'undefined' && 
-      typeof window.AudioContext !== 'undefined';
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.AudioContext !== 'undefined'
+    );
   }
-  
+
   /**
    * Check if the device can support particle effects
    * @returns {boolean} Whether the device can support particle effects
@@ -1249,53 +1272,58 @@ class GameEngine {
   canSupportParticles() {
     if (this.deviceType === 'mobile') return false;
     if (this.performanceMode === 'low') return false;
-    
+
     // Basic check for decent performance
-    return typeof window !== 'undefined' && 
-      window.devicePixelRatio <= 2 && 
-      navigator.hardwareConcurrency > 2;
+    return (
+      typeof window !== 'undefined' &&
+      window.devicePixelRatio <= 2 &&
+      navigator.hardwareConcurrency > 2
+    );
   }
-  
+
   /**
    * Initialize performance monitoring
    */
   initPerformanceMonitoring() {
     if (typeof window === 'undefined') return;
-    
+
     // Set up frame rate monitoring
     const monitorFrameRate = () => {
       const now = performance.now();
       const elapsed = now - this.lastFrameTime;
-      
-      if (elapsed >= 1000) { // Update every second
+
+      if (elapsed >= 1000) {
+        // Update every second
         this.frameRate = this.frameCount;
         this.frameRateHistory.push(this.frameRate);
-        
+
         // Keep only the last 10 measurements
         if (this.frameRateHistory.length > 10) {
           this.frameRateHistory.shift();
         }
-        
+
         // Check for performance issues
-        const avgFrameRate = this.frameRateHistory.reduce((a, b) => a + b, 0) / this.frameRateHistory.length;
+        const avgFrameRate =
+          this.frameRateHistory.reduce((a, b) => a + b, 0) /
+          this.frameRateHistory.length;
         this.performanceIssues = avgFrameRate < 30;
-        
+
         // Auto-adjust performance settings if needed
         if (this.performanceMode === 'auto' && this.performanceIssues) {
           this.adjustPerformanceSettings();
         }
-        
+
         this.frameCount = 0;
         this.lastFrameTime = now;
       }
-      
+
       this.frameCount++;
       requestAnimationFrame(monitorFrameRate);
     };
-    
+
     requestAnimationFrame(monitorFrameRate);
   }
-  
+
   /**
    * Adjust performance settings based on detected issues
    */
@@ -1306,14 +1334,14 @@ class GameEngine {
       console.log('Performance: Reducing animations and disabling particles');
       return;
     }
-    
+
     if (this.animationLevel === 'reduced') {
       this.animationLevel = 'minimal';
       this.enableBattlefield3D = false;
       console.log('Performance: Setting minimal animations and disabling 3D');
       return;
     }
-    
+
     if (this.animationLevel === 'minimal') {
       this.animationLevel = 'none';
       this.enableCardHovers = false;

@@ -8,7 +8,7 @@
  * - Realistic timing and "thinking" delays
  * - Deck archetype recognition and counter-play
  * - Advanced combat decision making
- * 
+ *
  * The AI analyzes the game state and makes decisions based on sophisticated
  * strategies while simulating human-like behavior.
  */
@@ -20,18 +20,21 @@ class AIPlayer {
     this.playerId = options.playerId || 1; // AI is usually player 2 (index 1)
     this.gameEngine = null;
     this.gameState = null;
-    
+
     // AI personality traits (0-100 scale)
     this.personality = options.personality || this.generatePersonality();
-    
+
     // Decision making parameters
     this.decisionDelay = this.getDecisionDelay();
     this.thinkingTimeMultiplier = options.thinkingTimeMultiplier || 1.0;
-    this.variabilityFactor = options.variabilityFactor || this.getVariabilityFactor();
+    this.variabilityFactor =
+      options.variabilityFactor || this.getVariabilityFactor();
     this.mistakeChance = options.mistakeChance || this.getMistakeChance();
-    this.aggressiveness = options.aggressiveness || this.personality.aggressiveness;
-    this.riskTolerance = options.riskTolerance || this.personality.riskTolerance;
-    
+    this.aggressiveness =
+      options.aggressiveness || this.personality.aggressiveness;
+    this.riskTolerance =
+      options.riskTolerance || this.personality.riskTolerance;
+
     // Game analysis
     this.opponentDeckArchetype = null;
     this.opponentPlayStyle = null;
@@ -40,19 +43,19 @@ class AIPlayer {
     this.threatAssessment = {};
     this.playHistory = [];
     this.currentPlan = null;
-    
+
     // Emote behavior
     this.emoteFrequency = options.emoteFrequency || this.getEmoteFrequency();
     this.lastEmoteTime = 0;
     this.emotePool = options.emotePool || [
-      'Hello!', 
-      'Good game!', 
-      'Nice play!', 
-      'Thinking...', 
-      'Oops!', 
-      'Thanks!'
+      'Hello!',
+      'Good game!',
+      'Nice play!',
+      'Thinking...',
+      'Oops!',
+      'Thanks!',
     ];
-    
+
     // Performance optimization
     this.cachedDecisions = new Map();
     this.decisionTimeout = null;
@@ -512,7 +515,7 @@ class AIPlayer {
       emotionality: Math.floor(Math.random() * 100), // Random for all difficulties
     };
   }
-  
+
   /**
    * Get a personality trait value based on difficulty
    * @param {string} trait The personality trait
@@ -523,74 +526,110 @@ class AIPlayer {
     const getBaseValue = (min, max) => {
       return Math.floor(min + Math.random() * (max - min));
     };
-    
+
     // Different traits have different ranges based on difficulty
     switch (this.difficulty) {
       case 'beginner':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(10, 30);
-          case 'riskTolerance': return getBaseValue(10, 30);
-          case 'creativity': return getBaseValue(5, 20);
-          case 'patience': return getBaseValue(20, 40);
-          case 'adaptability': return getBaseValue(10, 30);
-          default: return getBaseValue(10, 30);
+          case 'aggressiveness':
+            return getBaseValue(10, 30);
+          case 'riskTolerance':
+            return getBaseValue(10, 30);
+          case 'creativity':
+            return getBaseValue(5, 20);
+          case 'patience':
+            return getBaseValue(20, 40);
+          case 'adaptability':
+            return getBaseValue(10, 30);
+          default:
+            return getBaseValue(10, 30);
         }
-      
+
       case 'easy':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(20, 40);
-          case 'riskTolerance': return getBaseValue(20, 40);
-          case 'creativity': return getBaseValue(15, 35);
-          case 'patience': return getBaseValue(30, 50);
-          case 'adaptability': return getBaseValue(20, 40);
-          default: return getBaseValue(20, 40);
+          case 'aggressiveness':
+            return getBaseValue(20, 40);
+          case 'riskTolerance':
+            return getBaseValue(20, 40);
+          case 'creativity':
+            return getBaseValue(15, 35);
+          case 'patience':
+            return getBaseValue(30, 50);
+          case 'adaptability':
+            return getBaseValue(20, 40);
+          default:
+            return getBaseValue(20, 40);
         }
-        
+
       case 'normal':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(40, 60);
-          case 'riskTolerance': return getBaseValue(40, 60);
-          case 'creativity': return getBaseValue(40, 60);
-          case 'patience': return getBaseValue(40, 60);
-          case 'adaptability': return getBaseValue(40, 60);
-          default: return getBaseValue(40, 60);
+          case 'aggressiveness':
+            return getBaseValue(40, 60);
+          case 'riskTolerance':
+            return getBaseValue(40, 60);
+          case 'creativity':
+            return getBaseValue(40, 60);
+          case 'patience':
+            return getBaseValue(40, 60);
+          case 'adaptability':
+            return getBaseValue(40, 60);
+          default:
+            return getBaseValue(40, 60);
         }
-        
+
       case 'hard':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(50, 70);
-          case 'riskTolerance': return getBaseValue(50, 70);
-          case 'creativity': return getBaseValue(60, 80);
-          case 'patience': return getBaseValue(60, 80);
-          case 'adaptability': return getBaseValue(60, 80);
-          default: return getBaseValue(60, 80);
+          case 'aggressiveness':
+            return getBaseValue(50, 70);
+          case 'riskTolerance':
+            return getBaseValue(50, 70);
+          case 'creativity':
+            return getBaseValue(60, 80);
+          case 'patience':
+            return getBaseValue(60, 80);
+          case 'adaptability':
+            return getBaseValue(60, 80);
+          default:
+            return getBaseValue(60, 80);
         }
-        
+
       case 'expert':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(60, 80);
-          case 'riskTolerance': return getBaseValue(60, 80);
-          case 'creativity': return getBaseValue(70, 90);
-          case 'patience': return getBaseValue(70, 90);
-          case 'adaptability': return getBaseValue(70, 90);
-          default: return getBaseValue(70, 90);
+          case 'aggressiveness':
+            return getBaseValue(60, 80);
+          case 'riskTolerance':
+            return getBaseValue(60, 80);
+          case 'creativity':
+            return getBaseValue(70, 90);
+          case 'patience':
+            return getBaseValue(70, 90);
+          case 'adaptability':
+            return getBaseValue(70, 90);
+          default:
+            return getBaseValue(70, 90);
         }
-        
+
       case 'mythic':
         switch (trait) {
-          case 'aggressiveness': return getBaseValue(70, 95);
-          case 'riskTolerance': return getBaseValue(70, 95);
-          case 'creativity': return getBaseValue(80, 100);
-          case 'patience': return getBaseValue(80, 100);
-          case 'adaptability': return getBaseValue(80, 100);
-          default: return getBaseValue(80, 100);
+          case 'aggressiveness':
+            return getBaseValue(70, 95);
+          case 'riskTolerance':
+            return getBaseValue(70, 95);
+          case 'creativity':
+            return getBaseValue(80, 100);
+          case 'patience':
+            return getBaseValue(80, 100);
+          case 'adaptability':
+            return getBaseValue(80, 100);
+          default:
+            return getBaseValue(80, 100);
         }
-        
+
       default:
         return getBaseValue(40, 60);
     }
   }
-  
+
   /**
    * Get the variability factor based on difficulty
    * Higher values mean more random/unpredictable play
@@ -598,32 +637,46 @@ class AIPlayer {
    */
   getVariabilityFactor() {
     switch (this.difficulty) {
-      case 'beginner': return 0.8;
-      case 'easy': return 0.6;
-      case 'normal': return 0.4;
-      case 'hard': return 0.3;
-      case 'expert': return 0.2;
-      case 'mythic': return 0.1;
-      default: return 0.4;
+      case 'beginner':
+        return 0.8;
+      case 'easy':
+        return 0.6;
+      case 'normal':
+        return 0.4;
+      case 'hard':
+        return 0.3;
+      case 'expert':
+        return 0.2;
+      case 'mythic':
+        return 0.1;
+      default:
+        return 0.4;
     }
   }
-  
+
   /**
    * Get the chance of making a mistake based on difficulty
    * @returns {number} Mistake chance (0-1)
    */
   getMistakeChance() {
     switch (this.difficulty) {
-      case 'beginner': return 0.25;
-      case 'easy': return 0.15;
-      case 'normal': return 0.08;
-      case 'hard': return 0.04;
-      case 'expert': return 0.02;
-      case 'mythic': return 0.01;
-      default: return 0.08;
+      case 'beginner':
+        return 0.25;
+      case 'easy':
+        return 0.15;
+      case 'normal':
+        return 0.08;
+      case 'hard':
+        return 0.04;
+      case 'expert':
+        return 0.02;
+      case 'mythic':
+        return 0.01;
+      default:
+        return 0.08;
     }
   }
-  
+
   /**
    * Get the emote frequency based on personality
    * @returns {number} Emote frequency (0-1)
@@ -632,22 +685,35 @@ class AIPlayer {
     // Base frequency by difficulty
     let baseFrequency;
     switch (this.difficulty) {
-      case 'beginner': baseFrequency = 0.4; break;
-      case 'easy': baseFrequency = 0.3; break;
-      case 'normal': baseFrequency = 0.2; break;
-      case 'hard': baseFrequency = 0.15; break;
-      case 'expert': baseFrequency = 0.1; break;
-      case 'mythic': baseFrequency = 0.05; break;
-      default: baseFrequency = 0.2;
+      case 'beginner':
+        baseFrequency = 0.4;
+        break;
+      case 'easy':
+        baseFrequency = 0.3;
+        break;
+      case 'normal':
+        baseFrequency = 0.2;
+        break;
+      case 'hard':
+        baseFrequency = 0.15;
+        break;
+      case 'expert':
+        baseFrequency = 0.1;
+        break;
+      case 'mythic':
+        baseFrequency = 0.05;
+        break;
+      default:
+        baseFrequency = 0.2;
     }
-    
+
     // Adjust based on emotionality if personality exists
     if (this.personality && this.personality.emotionality !== undefined) {
       // Emotionality affects frequency (0-100 scale)
       const emotionalityFactor = this.personality.emotionality / 100;
       return baseFrequency * (0.5 + emotionalityFactor);
     }
-    
+
     return baseFrequency;
   }
 
@@ -660,32 +726,56 @@ class AIPlayer {
     // Base delay by difficulty
     let baseDelay;
     switch (this.difficulty) {
-      case 'beginner': baseDelay = 2500; break;
-      case 'easy': baseDelay = 2000; break;
-      case 'normal': baseDelay = 1500; break;
-      case 'hard': baseDelay = 1200; break;
-      case 'expert': baseDelay = 1000; break;
-      case 'mythic': baseDelay = 800; break;
-      default: baseDelay = 1500;
+      case 'beginner':
+        baseDelay = 2500;
+        break;
+      case 'easy':
+        baseDelay = 2000;
+        break;
+      case 'normal':
+        baseDelay = 1500;
+        break;
+      case 'hard':
+        baseDelay = 1200;
+        break;
+      case 'expert':
+        baseDelay = 1000;
+        break;
+      case 'mythic':
+        baseDelay = 800;
+        break;
+      default:
+        baseDelay = 1500;
     }
-    
+
     // Adjust based on decision type
     let typeMultiplier = 1.0;
     switch (decisionType) {
-      case 'simple': typeMultiplier = 0.7; break;
-      case 'normal': typeMultiplier = 1.0; break;
-      case 'complex': typeMultiplier = 1.5; break;
-      case 'critical': typeMultiplier = 2.0; break;
-      default: typeMultiplier = 1.0;
+      case 'simple':
+        typeMultiplier = 0.7;
+        break;
+      case 'normal':
+        typeMultiplier = 1.0;
+        break;
+      case 'complex':
+        typeMultiplier = 1.5;
+        break;
+      case 'critical':
+        typeMultiplier = 2.0;
+        break;
+      default:
+        typeMultiplier = 1.0;
     }
-    
+
     // Add some randomness to seem more human-like
-    const randomFactor = 0.8 + (Math.random() * 0.4); // 0.8 to 1.2
-    
+    const randomFactor = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
+
     // Apply thinking time multiplier from options
-    return Math.floor(baseDelay * typeMultiplier * randomFactor * this.thinkingTimeMultiplier);
+    return Math.floor(
+      baseDelay * typeMultiplier * randomFactor * this.thinkingTimeMultiplier,
+    );
   }
-  
+
   /**
    * Maybe send an emote based on game state and personality
    * @param {string} trigger What triggered the potential emote
@@ -694,22 +784,37 @@ class AIPlayer {
     // Check if enough time has passed since last emote
     const now = Date.now();
     if (now - this.lastEmoteTime < 10000) return; // At least 10 seconds between emotes
-    
+
     // Calculate chance based on frequency and trigger
     let chance = this.emoteFrequency;
-    
+
     // Adjust chance based on trigger
     switch (trigger) {
-      case 'gameStart': chance *= 3.0; break;
-      case 'goodPlay': chance *= 2.0; break;
-      case 'badPlay': chance *= 1.5; break;
-      case 'takingDamage': chance *= 1.2; break;
-      case 'winningPosition': chance *= 1.5; break;
-      case 'losingPosition': chance *= 1.0; break;
-      case 'gameEnd': chance *= 5.0; break;
-      default: chance *= 1.0;
+      case 'gameStart':
+        chance *= 3.0;
+        break;
+      case 'goodPlay':
+        chance *= 2.0;
+        break;
+      case 'badPlay':
+        chance *= 1.5;
+        break;
+      case 'takingDamage':
+        chance *= 1.2;
+        break;
+      case 'winningPosition':
+        chance *= 1.5;
+        break;
+      case 'losingPosition':
+        chance *= 1.0;
+        break;
+      case 'gameEnd':
+        chance *= 5.0;
+        break;
+      default:
+        chance *= 1.0;
     }
-    
+
     // Roll for emote
     if (Math.random() < chance) {
       // Choose appropriate emote for the trigger
@@ -739,18 +844,19 @@ class AIPlayer {
         default:
           emoteOptions = this.emotePool;
       }
-      
+
       // Select a random emote from the options
-      const emote = emoteOptions[Math.floor(Math.random() * emoteOptions.length)];
-      
+      const emote =
+        emoteOptions[Math.floor(Math.random() * emoteOptions.length)];
+
       // Send the emote
       this.sendEmote(emote);
-      
+
       // Update last emote time
       this.lastEmoteTime = now;
     }
   }
-  
+
   /**
    * Send an emote to the game
    * @param {string} emote The emote text
@@ -769,13 +875,13 @@ class AIPlayer {
    */
   setDifficulty(difficulty) {
     this.difficulty = difficulty;
-    
+
     // Update related parameters
     this.decisionDelay = this.getDecisionDelay();
     this.variabilityFactor = this.getVariabilityFactor();
     this.mistakeChance = this.getMistakeChance();
     this.emoteFrequency = this.getEmoteFrequency();
-    
+
     // Regenerate personality for the new difficulty
     this.personality = this.generatePersonality();
     this.aggressiveness = this.personality.aggressiveness;
