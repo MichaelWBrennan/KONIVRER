@@ -105,6 +105,13 @@ const Layout = ({ children }) => {
       href: '/game/online',
       icon: Gamepad2,
     });
+    
+    // Battle Pass
+    baseNavigation.push({
+      name: 'Battle Pass',
+      href: '/battle-pass',
+      icon: Crown,
+    });
 
     // Analytics Hub removed - stats moved to respective pages
 
