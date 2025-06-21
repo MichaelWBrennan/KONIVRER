@@ -67,10 +67,9 @@ const CardExplorer = () => {
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-3 py-2 text-sm font-medium"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-2 text-sm font-medium"
                 >
                   <Filter className="w-4 h-4" />
-                  Adv
                 </button>
                 <button
                   onClick={() => setShowAIAssistant(!showAIAssistant)}
