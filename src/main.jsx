@@ -191,25 +191,26 @@ const clearAllCaches = async () => {
 // Mobile device optimizations
 const optimizeForMobile = () => {
   // Check if we're on a mobile device
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
-  
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+
   if (isMobile) {
     // Add mobile-specific optimizations
     document.documentElement.classList.add('mobile-device');
-    
+
     // Disable animations on low-end devices for better performance
     const isLowEndDevice = navigator.hardwareConcurrency <= 4;
     if (isLowEndDevice) {
       document.documentElement.classList.add('reduce-animations');
       console.log('🔧 Reduced animations for low-end mobile device');
     }
-    
+
     // Add touch-specific event listeners
     document.addEventListener('touchstart', () => {}, { passive: true });
     document.addEventListener('touchmove', () => {}, { passive: true });
-    
+
     console.log('🔧 Applied mobile optimizations');
   }
 };

@@ -51,7 +51,7 @@ const CardZone = ({
   const getCardStyles = index => {
     const totalCards = Math.min(cards.length, maxCards);
     const isMobile = window.innerWidth < 768;
-    
+
     // Adjust spacing for mobile
     const mobileScaleFactor = isMobile ? 0.8 : 1;
 
@@ -62,7 +62,7 @@ const CardZone = ({
         const fanSpread = Math.min(18, 180 / totalCards) * mobileScaleFactor;
         const baseRotation = -((totalCards - 1) * fanAngle) / 2;
         const baseTranslation = -((totalCards - 1) * fanSpread) / 2;
-        
+
         // MTG Arena style: cards rise up when hovered
         const hoverLift = isHovering ? -10 : 0;
 
@@ -132,21 +132,21 @@ const CardZone = ({
           initial: { scale: 0.8, opacity: 0, y: 50 },
           animate: { scale: 1, opacity: 1, y: 0 },
           exit: { scale: 0.8, opacity: 0, y: 50 },
-          transition: { duration: 0.3 }
+          transition: { duration: 0.3 },
         };
       case 'field':
         return {
           initial: { scale: 0.8, opacity: 0 },
           animate: { scale: 1, opacity: 1 },
           exit: { scale: 0.8, opacity: 0 },
-          transition: { duration: 0.3 }
+          transition: { duration: 0.3 },
         };
       default:
         return {
           initial: { opacity: 0 },
           animate: { opacity: 1 },
           exit: { opacity: 0 },
-          transition: { duration: 0.2 }
+          transition: { duration: 0.2 },
         };
     }
   };
@@ -171,8 +171,8 @@ const CardZone = ({
     >
       <AnimatePresence>
         {cards.slice(0, maxCards).map((card, index) => (
-          <motion.div 
-            key={card.id} 
+          <motion.div
+            key={card.id}
             className="absolute"
             style={getCardStyles(index)}
             {...getEnterAnimation()}
@@ -194,7 +194,7 @@ const CardZone = ({
 
       {/* Show count if there are more cards than maxCards - MTG Arena style */}
       {cards.length > maxCards && (
-        <motion.div 
+        <motion.div
           className="absolute top-0 right-0 bg-gradient-to-br from-black/80 to-gray-800/80 text-white text-xs font-bold rounded-full px-2 py-1 shadow-lg"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -203,7 +203,7 @@ const CardZone = ({
           +{cards.length - maxCards}
         </motion.div>
       )}
-      
+
       {/* Zone label - MTG Arena style */}
       {cards.length > 0 && (
         <motion.div
