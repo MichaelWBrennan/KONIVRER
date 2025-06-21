@@ -129,7 +129,9 @@ const TournamentMetaAnalysis = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs font-medium">{tournament.prizePool}</div>
+                  <div className="text-xs font-medium">
+                    {tournament.prizePool}
+                  </div>
                   <div className="flex items-center gap-1 text-xs text-secondary mt-1">
                     <Users className="w-3 h-3" />
                     <span>{tournament.players} players</span>
