@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Database,
   Search,
   Filter,
   Bot,
@@ -11,6 +10,7 @@ import {
 import CardDatabase from '../components/CardDatabase';
 import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
+import CardMetaAnalysis from '../components/CardMetaAnalysis';
 
 const CardExplorer = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -107,6 +107,9 @@ const CardExplorer = () => {
               )}
             </div>
 
+            {/* Card Meta Analysis - Added from Analytics Hub */}
+            <CardMetaAnalysis />
+            
             {/* Card Database */}
             <CardDatabase
               cards={searchResults}
