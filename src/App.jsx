@@ -20,8 +20,6 @@ import PlayerProfile from './components/PlayerProfile';
 import UnifiedTournaments from './pages/UnifiedTournaments';
 
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
-import GameSimulator from './pages/GameSimulator';
-import PlayableGameSimulatorPage from './pages/PlayableGameSimulatorPage';
 import GamePage from './pages/GamePage';
 import CardExplorer from './pages/CardExplorer';
 import DeckSearch from './pages/DeckSearch';
@@ -46,14 +44,10 @@ function App() {
                   <Route path="/game/:mode" element={<GamePage />} />
                   <Route path="/game/:mode/:gameId" element={<GamePage />} />
 
-                  {/* Redirects for old simulator URLs */}
-                  <Route
-                    path="/simulator"
-                    element={<Navigate to="/game/ai" replace />}
-                  />
+                  {/* Redirect for old play URL */}
                   <Route
                     path="/play"
-                    element={<Navigate to="/game/ai" replace />}
+                    element={<Navigate to="/game/online" replace />}
                   />
 
                   {/* Section Pages */}
