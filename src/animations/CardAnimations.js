@@ -10,14 +10,31 @@
  * - Cross-device compatibility
  */
 
-import { gsap } from 'gsap';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { PixiPlugin } from 'gsap/PixiPlugin';
+// Import dependencies - commented out until we install them
+// import { gsap } from 'gsap';
+// import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+// import { PixiPlugin } from 'gsap/PixiPlugin';
 import { createParticleSystem } from './ParticleSystem';
 import { getCardSpecificAnimations } from './CardSpecificAnimations';
 
-// Register GSAP plugins
-gsap.registerPlugin(MotionPathPlugin, PixiPlugin);
+// Create a mock gsap object until we can install the real one
+const gsap = {
+  registerPlugin: () => {},
+  set: () => {},
+  timeline: () => ({
+    to: () => ({}),
+    onStart: () => ({}),
+    onComplete: () => ({}),
+    onUpdate: () => ({})
+  }),
+  to: () => ({})
+};
+
+// Register GSAP plugins - commented out until we install the real plugins
+// gsap.registerPlugin(MotionPathPlugin, PixiPlugin);
+// Mock plugins
+const MotionPathPlugin = {};
+const PixiPlugin = {};
 
 // Animation quality settings based on device performance
 const QUALITY_LEVELS = {
