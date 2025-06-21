@@ -25,7 +25,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "vite": "^5.0.10"
+    "vite": "^6.3.5"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
