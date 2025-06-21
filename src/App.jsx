@@ -73,6 +73,7 @@ function App() {
                   {/* Section Pages */}
                   <Route path="/cards" element={<CardExplorer />} />
                   <Route path="/cards/*" element={<CardExplorer />} />
+                  <Route path="/enhanced-card-search" element={<EnhancedCardSearch />} />
                   <Route path="/spoilers" element={<CardExplorer />} />
 
                   <Route path="/decks" element={<DeckSearch />} />
@@ -142,6 +143,7 @@ function App() {
                 </Routes>
                     </Layout>
                   </Router>
+                  </SocialProvider>
                 </GameEngineProvider>
               </DeckProvider>
             </BattlePassProvider>
