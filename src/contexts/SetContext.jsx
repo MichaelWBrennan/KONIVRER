@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import setsData from '../data/sets.json';
+import cardsData from '../data/cards.json';
 
 const SetContext = createContext();
 
@@ -37,13 +38,9 @@ export const SetProvider = ({ children }) => {
   };
 
   const updateVisibleCards = activeSets => {
-    const allVisibleCardIds = activeSets
-      .filter(set => set.isVisible)
-      .flatMap(set => set.cardIds);
-
-    // Here you would fetch the actual card data based on IDs
-    // For now, we'll keep it as an empty array since no cards should be visible by default
-    setVisibleCards([]);
+    // For demo purposes, we'll just load all cards from the cards.json file
+    // In a real app, you would filter based on active sets
+    setVisibleCards(cardsData);
   };
 
   const toggleSetVisibility = setId => {
