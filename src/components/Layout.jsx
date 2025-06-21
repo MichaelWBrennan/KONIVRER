@@ -99,7 +99,7 @@ const Layout = ({ children }) => {
       icon: Wrench,
     });
 
-    // Online Simulator - direct link
+    // Premium Online Simulator - direct link
     baseNavigation.push({
       name: 'Online Sim',
       href: '/game/online',
@@ -182,8 +182,7 @@ const Layout = ({ children }) => {
     if (activeNavItem) return activeNavItem.name;
 
     // Fallback to path-based titles
-    if (path.startsWith('/simulator')) return 'Simulator';
-    if (path.startsWith('/play')) return 'Play Game';
+    if (path.startsWith('/play')) return 'Online Sim';
     if (path.startsWith('/cards') || path.startsWith('/spoilers'))
       return 'Cards';
     if (path.startsWith('/decks') || path.startsWith('/collection'))
