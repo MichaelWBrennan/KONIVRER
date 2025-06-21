@@ -157,7 +157,9 @@ const RulesCenter = () => {
                         : 'text-gray-300 hover:bg-white/10'
                     }`}
                   >
-                    <span className="text-lg" aria-hidden="true">{section.icon || '📖'}</span>
+                    <span className="text-lg" aria-hidden="true">
+                      {section.icon || '📖'}
+                    </span>
                     {section.title || 'Rules Section'}
                   </button>
                 ))}
@@ -278,16 +280,21 @@ const RulesCenter = () => {
                       </button>
 
                       <div className="text-sm text-gray-400">
-                        {getCurrentSectionIndex() >= 0 ? getCurrentSectionIndex() + 1 : 1} of {sectionOrder.length}
+                        {getCurrentSectionIndex() >= 0
+                          ? getCurrentSectionIndex() + 1
+                          : 1}{' '}
+                        of {sectionOrder.length}
                       </div>
 
                       <button
                         onClick={goToNextSection}
                         disabled={
-                          getCurrentSectionIndex() < 0 || getCurrentSectionIndex() >= sectionOrder.length - 1
+                          getCurrentSectionIndex() < 0 ||
+                          getCurrentSectionIndex() >= sectionOrder.length - 1
                         }
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                          getCurrentSectionIndex() < 0 || getCurrentSectionIndex() >= sectionOrder.length - 1
+                          getCurrentSectionIndex() < 0 ||
+                          getCurrentSectionIndex() >= sectionOrder.length - 1
                             ? 'text-gray-500 cursor-not-allowed'
                             : 'text-blue-300 hover:text-blue-200 hover:bg-blue-600/20'
                         }`}
