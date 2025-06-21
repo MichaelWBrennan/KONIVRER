@@ -106,6 +106,13 @@ const Layout = ({ children }) => {
       icon: Gamepad2,
     });
 
+    // Playable Game Simulator
+    baseNavigation.push({
+      name: 'Play Game',
+      href: '/play',
+      icon: Play,
+    });
+
     // Analytics Hub removed - stats moved to respective pages
 
     // Tournaments - competitive play with live brackets, results, and replays
@@ -183,6 +190,7 @@ const Layout = ({ children }) => {
 
     // Fallback to path-based titles
     if (path.startsWith('/simulator')) return 'Simulator';
+    if (path.startsWith('/play')) return 'Play Game';
     if (path.startsWith('/cards') || path.startsWith('/spoilers'))
       return 'Cards';
     if (path.startsWith('/decks') || path.startsWith('/collection'))
