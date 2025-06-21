@@ -36,6 +36,7 @@ import DeckSelectionPage from './pages/DeckSelectionPage';
 import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
+import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatform';
 
 function App() {
   return (
@@ -57,6 +58,10 @@ function App() {
                   {/* Game Page */}
                   <Route path="/game/:mode" element={<GamePage />} />
                   <Route path="/game/:mode/:gameId" element={<GamePage />} />
+                  
+                  {/* Industry-Leading Game Platform */}
+                  <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
+                  <Route path="/advanced-game/:mode/:gameId" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/deck-selection" element={<DeckSelectionPage />} />
                   <Route path="/deck-builder" element={<DeckBuilder />} />
                   <Route path="/deck-builder/:deckId" element={<DeckBuilder />} />
