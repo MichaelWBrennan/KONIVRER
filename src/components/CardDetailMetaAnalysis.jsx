@@ -58,7 +58,9 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
       {/* Card Usage Stats */}
       <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-white">Card Meta Analysis</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Card Meta Analysis
+          </h3>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-gray-400">Last updated:</span>
             <span className="text-white">June 19, 2025</span>
@@ -70,11 +72,15 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-400">Play Rate</p>
-                <p className="text-2xl font-bold text-white">{cardUsageData.playRate}%</p>
+                <p className="text-2xl font-bold text-white">
+                  {cardUsageData.playRate}%
+                </p>
               </div>
               <div className="flex items-center gap-1 text-green-500">
                 <TrendingUp size={20} />
-                <span className="font-medium">+{cardUsageData.trendValue}%</span>
+                <span className="font-medium">
+                  +{cardUsageData.trendValue}%
+                </span>
               </div>
             </div>
           </div>
@@ -83,7 +89,9 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-400">Decks Using</p>
-                <p className="text-2xl font-bold text-white">{cardUsageData.deckUsage.length}</p>
+                <p className="text-2xl font-bold text-white">
+                  {cardUsageData.deckUsage.length}
+                </p>
               </div>
               <Target className="text-purple-400" size={20} />
             </div>
@@ -100,16 +108,23 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
           </div>
         </div>
 
-        <h4 className="text-md font-semibold text-white mb-3">Top Decks Using This Card</h4>
+        <h4 className="text-md font-semibold text-white mb-3">
+          Top Decks Using This Card
+        </h4>
         <div className="space-y-3 mb-6">
           {cardUsageData.deckUsage.map((deck, index) => (
             <div key={index} className="bg-gray-700/30 rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="font-medium text-white">{deck.deck}</div>
-                <div className="text-sm text-gray-300">{deck.percentage}% include</div>
+                <div className="text-sm text-gray-300">
+                  {deck.percentage}% include
+                </div>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <div className="text-gray-400">Win rate: <span className="text-green-400">{deck.winRate}%</span></div>
+                <div className="text-gray-400">
+                  Win rate:{' '}
+                  <span className="text-green-400">{deck.winRate}%</span>
+                </div>
                 <div className="text-gray-400">{deck.games} games</div>
               </div>
             </div>
@@ -128,8 +143,15 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
                   ) : (
                     <TrendingDown size={14} className="text-red-500" />
                   )}
-                  <span className={card.trend === 'up' ? "text-green-500 text-xs" : "text-red-500 text-xs"}>
-                    {card.trend === 'up' ? '+' : '-'}{card.trendValue}%
+                  <span
+                    className={
+                      card.trend === 'up'
+                        ? 'text-green-500 text-xs'
+                        : 'text-red-500 text-xs'
+                    }
+                  >
+                    {card.trend === 'up' ? '+' : '-'}
+                    {card.trendValue}%
                   </span>
                 </div>
               </div>
@@ -155,15 +177,19 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
           <div className="text-center text-gray-400">
             <BarChart3 size={32} className="mx-auto mb-2" />
             <p>Usage trend chart would appear here</p>
-            <p className="text-sm">Data shows increasing popularity over the last 30 days</p>
+            <p className="text-sm">
+              Data shows increasing popularity over the last 30 days
+            </p>
           </div>
         </div>
       </div>
 
       {/* Community Feedback */}
       <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4">Community Rating</h3>
-        
+        <h3 className="text-lg font-semibold text-white mb-4">
+          Community Rating
+        </h3>
+
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white text-2xl font-bold">
@@ -171,29 +197,37 @@ const CardDetailMetaAnalysis = ({ cardName }) => {
             </div>
             <div>
               <div className="text-white font-medium">Very Good</div>
-              <div className="text-sm text-gray-400">Based on 1,847 ratings</div>
+              <div className="text-sm text-gray-400">
+                Based on 1,847 ratings
+              </div>
             </div>
           </div>
-          
+
           <div className="text-right">
             <div className="text-white font-medium">Power Level</div>
             <div className="flex items-center gap-1">
               <div className="w-20 h-2 bg-gray-700 rounded-full">
-                <div className="h-2 rounded-full bg-gradient-to-r from-green-500 to-green-600" style={{ width: '85%' }}></div>
+                <div
+                  className="h-2 rounded-full bg-gradient-to-r from-green-500 to-green-600"
+                  style={{ width: '85%' }}
+                ></div>
               </div>
               <span className="text-sm text-white">4.5</span>
             </div>
-            
+
             <div className="text-white font-medium mt-2">Versatility</div>
             <div className="flex items-center gap-1">
               <div className="w-20 h-2 bg-gray-700 rounded-full">
-                <div className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600" style={{ width: '76%' }}></div>
+                <div
+                  className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"
+                  style={{ width: '76%' }}
+                ></div>
               </div>
               <span className="text-sm text-white">3.8</span>
             </div>
           </div>
         </div>
-        
+
         <button className="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors">
           <Eye className="inline-block mr-2 w-4 h-4" />
           View All Reviews

@@ -157,9 +157,7 @@ const OfficialDeckMetaAnalysis = () => {
                     </div>
                     <div>
                       <p className="text-gray-400">Games</p>
-                      <p className="font-semibold text-white">
-                        {deck.games}
-                      </p>
+                      <p className="font-semibold text-white">{deck.games}</p>
                     </div>
                     <div>
                       <p className="text-gray-400">Avg Finish</p>

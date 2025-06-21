@@ -52,20 +52,41 @@ function App() {
                   <Route path="/decks/*" element={<DeckSearch />} />
 
                   {/* Analytics redirected to decks */}
-                  <Route path="/analytics" element={<Navigate to="/decks" replace />} />
-                  <Route path="/analytics/*" element={<Navigate to="/decks" replace />} />
-                  <Route path="/prices" element={<Navigate to="/decks" replace />} />
+                  <Route
+                    path="/analytics"
+                    element={<Navigate to="/decks" replace />}
+                  />
+                  <Route
+                    path="/analytics/*"
+                    element={<Navigate to="/decks" replace />}
+                  />
+                  <Route
+                    path="/prices"
+                    element={<Navigate to="/decks" replace />}
+                  />
 
                   {/* Legacy Game Platform - redirect to sections */}
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />
                   <Route path="/card/:cardId" element={<CardPage />} />
 
                   {/* Legacy redirects for backward compatibility */}
-                  <Route path="/market/*" element={<Navigate to="/decks" replace />} />
+                  <Route
+                    path="/market/*"
+                    element={<Navigate to="/decks" replace />}
+                  />
                   <Route path="/commanders/*" element={<CardExplorer />} />
-                  <Route path="/synergy/*" element={<Navigate to="/decks" replace />} />
-                  <Route path="/power/*" element={<Navigate to="/decks" replace />} />
-                  <Route path="/budget/*" element={<Navigate to="/decks" replace />} />
+                  <Route
+                    path="/synergy/*"
+                    element={<Navigate to="/decks" replace />}
+                  />
+                  <Route
+                    path="/power/*"
+                    element={<Navigate to="/decks" replace />}
+                  />
+                  <Route
+                    path="/budget/*"
+                    element={<Navigate to="/decks" replace />}
+                  />
 
                   {/* Tournaments */}
                   <Route path="/tournaments" element={<UnifiedTournaments />} />
