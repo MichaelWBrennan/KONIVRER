@@ -9,7 +9,7 @@
 .mobile-device {
   /* Improve touch targets */
   --touch-target-size: 44px;
-  
+
   /* Optimize scrolling */
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -18,9 +18,9 @@
 /* Buttons and interactive elements */
 .mobile-device button,
 .mobile-device a,
-.mobile-device [role="button"],
-.mobile-device input[type="button"],
-.mobile-device input[type="submit"] {
+.mobile-device [role='button'],
+.mobile-device input[type='button'],
+.mobile-device input[type='submit'] {
   min-height: var(--touch-target-size);
   min-width: var(--touch-target-size);
   padding: 8px 16px;
@@ -73,7 +73,11 @@
 
 /* MTG Arena-like battlefield glow */
 .battlefield-glow {
-  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(59, 130, 246, 0.1) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -92,17 +96,17 @@
   .mobile-device h1 {
     font-size: 1.5rem !important;
   }
-  
+
   .mobile-device h2 {
     font-size: 1.25rem !important;
   }
-  
+
   .mobile-device h3 {
     font-size: 1.125rem !important;
   }
-  
-  .mobile-device p, 
-  .mobile-device span, 
+
+  .mobile-device p,
+  .mobile-device span,
   .mobile-device button {
     font-size: 0.875rem !important;
   }
@@ -120,11 +124,11 @@
     height: 100vh;
     overflow: auto;
   }
-  
+
   .mobile-device .player-zone {
     padding: 5px !important;
   }
-  
+
   .mobile-device .card-preview {
     max-height: 80vh;
     right: 5px;
@@ -137,7 +141,7 @@
     /* Fix for iOS 100vh issue */
     height: -webkit-fill-available;
   }
-  
+
   .mobile-device .game-board {
     height: -webkit-fill-available;
   }
