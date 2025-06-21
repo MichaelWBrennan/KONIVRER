@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Search,
   Database,
@@ -37,6 +38,7 @@ import BattlePass from './BattlePass';
 
 const UnifiedGamePlatformReorganized = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [activeSection, setActiveSection] = useState('cards');
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
@@ -216,20 +218,22 @@ const UnifiedGamePlatformReorganized = () => {
             </div>
 
             {/* AI Assistant for Deck Building */}
-            <div className="bg-gray-800 rounded-xl border border-gray-700">
-              <div className="p-6 border-b border-gray-700">
-                <h2 className="text-xl font-bold text-white flex items-center gap-3">
-                  <Bot className="w-6 h-6 text-purple-400" />
-                  AI Deck Assistant
-                </h2>
-                <p className="text-gray-400 mt-1">
-                  Get intelligent suggestions and deck analysis
-                </p>
+            {isAuthenticated && (
+              <div className="bg-gray-800 rounded-xl border border-gray-700">
+                <div className="p-6 border-b border-gray-700">
+                  <h2 className="text-xl font-bold text-white flex items-center gap-3">
+                    <Bot className="w-6 h-6 text-purple-400" />
+                    AI Deck Assistant
+                  </h2>
+                  <p className="text-gray-400 mt-1">
+                    Get intelligent suggestions and deck analysis
+                  </p>
+                </div>
+                <div className="p-6">
+                  <AIAssistant />
+                </div>
               </div>
-              <div className="p-6">
-                <AIAssistant />
-              </div>
-            </div>
+            )}
           </div>
         );
 
