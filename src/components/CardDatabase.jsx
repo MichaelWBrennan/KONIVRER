@@ -408,13 +408,12 @@ const CardDatabase = ({
         </div>
       )}
 
-      {/* Results Count - completely removed */}
-      <div className="flex items-center justify-between text-white">
-        <span></span>
-        {favorites.size > 0 && (
+      {/* Favorites Count */}
+      {favorites.size > 0 && (
+        <div className="flex justify-end text-white">
           <span className="text-red-400">{favorites.size} favorites</span>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Cards Display */}
       <div
