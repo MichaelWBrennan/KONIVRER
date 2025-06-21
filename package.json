@@ -30,7 +30,11 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@rollup/rollup-linux-x64-gnu": "^4.44.0",
+    "@react-spring/web": "^9.7.3",
+    "@tensorflow/tfjs": "^4.15.0",
+    "@types/three": "^0.160.0",
     "axios": "^1.10.0",
+    "cannon-es": "^0.20.0",
     "cssnano": "^7.0.7",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.519.0",
@@ -38,6 +42,11 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.58.1",
     "react-router-dom": "^6.21.1",
+    "react-spring": "^9.7.3",
+    "socket.io-client": "^4.7.4",
+    "three": "^0.160.0",
+    "tone": "^14.7.77",
+    "workbox-window": "^7.0.0",
     "zod": "^3.25.67"
   }
 }
