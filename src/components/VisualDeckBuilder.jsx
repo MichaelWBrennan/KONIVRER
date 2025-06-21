@@ -11,10 +11,15 @@ import {
   AlertTriangle,
   CheckCircle,
   Book,
+  Gamepad2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import rulesEngine from '../utils/rulesEngine';
 import RuleTooltip from './RuleTooltip';
+import { useDeck } from '../contexts/DeckContext';
+import DeckService from '../services/DeckService';
+import DeckExportModal from './DeckExportModal';
+import DeckImportModal from './DeckImportModal';
 
 const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
   const [viewMode, setViewMode] = useState('gallery'); // 'gallery' or 'list'
@@ -22,11 +27,14 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [deckTest, setDeckTest] = useState({ hand: [], library: [] });
   const [deckValidation, setDeckValidation] = useState(null);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const { setActivePlayerDeck } = useDeck();
 
   // Validate deck whenever it changes
   useEffect(() => {
     if (deck && deck.cards) {
-      const validation = rulesEngine.validateDeck(deck);
+      const validation = DeckService.validateDeck(deck);
       setDeckValidation(validation);
     }
   }, [deck]);
@@ -284,6 +292,25 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
 
   return (
     <div className="space-y-6">
+      {/* Export/Import Modals */}
+      <DeckExportModal 
+        isOpen={showExportModal} 
+        onClose={() => setShowExportModal(false)} 
+        deck={deck} 
+      />
+      
+      <DeckImportModal 
+        isOpen={showImportModal} 
+        onClose={() => setShowImportModal(false)} 
+        onImportSuccess={(deckId) => {
+          // Reload deck after import
+          const importedDeck = DeckService.loadDeck(deckId);
+          if (importedDeck && onDeckChange) {
+            onDeckChange(importedDeck);
+          }
+        }} 
+      />
+      
       {/* Deck Header */}
       <div className="bg-gray-800 rounded-lg p-4">
         <div className="flex items-center justify-between mb-4">
@@ -307,18 +334,31 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               <span>Stats</span>
             </button>
             <button
-              onClick={importDeck}
+              onClick={() => setShowImportModal(true)}
               className="flex items-center space-x-2 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
             >
               <Upload size={16} />
               <span>Import</span>
             </button>
             <button
-              onClick={exportDeck}
+              onClick={() => setShowExportModal(true)}
               className="flex items-center space-x-2 px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
             >
               <Download size={16} />
               <span>Export</span>
+            </button>
+            <button
+              onClick={() => {
+                // Set as active player deck
+                const deckToSave = { ...deck, lastUpdated: Date.now() };
+                localStorage.setItem(DeckService.STORAGE_KEYS.PLAYER_DECK, JSON.stringify(deckToSave));
+                alert('Deck set as active for gameplay!');
+              }}
+              className="flex items-center space-x-2 px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+              title="Use this deck in the game"
+            >
+              <Gamepad2 size={16} />
+              <span>Use in Game</span>
             </button>
             <button className="btn btn-sm btn-primary">
               <Share2 size={16} />
@@ -362,6 +402,19 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
               className={`px-3 py-1 rounded ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}`}
             >
               List
+            </button>
+            <button
+              onClick={() => {
+                // Set as active player deck
+                const deckToSave = { ...deck, lastUpdated: Date.now() };
+                localStorage.setItem(DeckService.STORAGE_KEYS.PLAYER_DECK, JSON.stringify(deckToSave));
+                alert('Deck set as active for gameplay!');
+              }}
+              className="px-3 py-1 rounded bg-green-600 text-white flex items-center"
+              title="Use this deck in the game"
+            >
+              <Gamepad2 size={14} className="mr-1" />
+              Use in Game
             </button>
           </div>
         </div>
