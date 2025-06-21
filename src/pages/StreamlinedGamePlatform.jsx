@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../contexts/AuthContext';
 import {
   Search,
   TrendingUp,
@@ -31,6 +32,7 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import BattlePass from './BattlePass';
 
 const StreamlinedGamePlatform = () => {
+  const { isAuthenticated } = useAuth();
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
@@ -275,18 +277,20 @@ const StreamlinedGamePlatform = () => {
             </div>
 
             {/* AI Assistant */}
-            <div className="bg-card rounded-lg p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Bot className="w-6 h-6 text-blue-500" />
-                <div>
-                  <h2 className="text-xl font-bold">AI Assistant</h2>
-                  <p className="text-secondary">
-                    Smart deck analysis and suggestions
-                  </p>
+            {isAuthenticated && (
+              <div className="bg-card rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <Bot className="w-6 h-6 text-blue-500" />
+                  <div>
+                    <h2 className="text-xl font-bold">AI Assistant</h2>
+                    <p className="text-secondary">
+                      Smart deck analysis and suggestions
+                    </p>
+                  </div>
                 </div>
+                <AIAssistant />
               </div>
-              <AIAssistant />
-            </div>
+            )}
           </div>
         );
 
