@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import PlayerZone from './PlayerZone';
 import GameControls from './GameControls';
 import CardStack from './CardStack';
 import GameLog from './GameLog';
 import PhaseIndicator from './PhaseIndicator';
 import GameMenu from './GameMenu';
-import { Settings, Menu, MessageSquare } from 'lucide-react';
+import CardPreview from './CardPreview';
+import { Settings, Menu, MessageSquare, Maximize2, Volume2, VolumeX, Eye, Sparkles } from 'lucide-react';
 
 /**
  * Main game board component that renders the entire game interface
  * and connects to the game engine
+ * Enhanced to be more like MTG Arena
  */
 const GameBoard = ({
   gameEngine,
@@ -26,6 +28,10 @@ const GameBoard = ({
   const [targetMode, setTargetMode] = useState(false);
   const [targets, setTargets] = useState([]);
   const [animations, setAnimations] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showEffects, setShowEffects] = useState(true);
+  const [previewPosition, setPreviewPosition] = useState('right');
   const boardRef = useRef(null);
 
   // Connect to game engine and set up event listeners
@@ -153,14 +159,87 @@ const GameBoard = ({
     }
   };
 
+  // Toggle fullscreen mode
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    }
+  };
+
+  // Toggle sound
+  const toggleSound = () => {
+    setIsMuted(!isMuted);
+    // Here you would also mute/unmute actual game sounds
+  };
+
+  // Toggle visual effects
+  const toggleEffects = () => {
+    setShowEffects(!showEffects);
+    // Apply or remove effects class from the game board
+    if (boardRef.current) {
+      if (showEffects) {
+        boardRef.current.classList.add('reduce-effects');
+      } else {
+        boardRef.current.classList.remove('reduce-effects');
+      }
+    }
+  };
+
+  // Detect screen size and set preview position
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setPreviewPosition('center');
+      } else {
+        setPreviewPosition('right');
+      }
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // If game state is not loaded yet, show loading
   if (!gameState) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-gray-800">
-        <div className="text-white text-center px-4">
-          <div className="animate-spin rounded-full h-12 w-12 md:h-16 md:w-16 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <h2 className="text-lg md:text-xl font-bold">Loading Game...</h2>
-          <p className="text-gray-400 text-sm mt-2">Optimized for all devices</p>
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
+        <div className="text-white text-center px-4 max-w-md">
+          <div className="relative mx-auto mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 md:h-20 md:w-20 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+            </div>
+          </div>
+          
+          <h2 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            Loading KONIVRER Online Sim
+          </h2>
+          
+          <div className="mt-4 bg-black/30 rounded-lg p-3 backdrop-blur-sm">
+            <p className="text-gray-300 text-sm">Preparing your game experience...</p>
+            <div className="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+              <motion.div 
+                className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 2.5 }}
+              />
+            </div>
+          </div>
+          
+          <p className="text-gray-400 text-xs mt-4">
+            Optimized for all devices • MTG Arena-like experience
+          </p>
         </div>
       </div>
     );
@@ -169,18 +248,21 @@ const GameBoard = ({
   return (
     <div
       ref={boardRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 touch-manipulation"
+      className={`relative h-screen w-full overflow-hidden bg-gradient-to-br from-gray-900 via-blue-950/30 to-gray-800 touch-manipulation ${
+        showEffects ? '' : 'reduce-effects'
+      }`}
     >
-      {/* Game Header */}
-      <div className="absolute top-0 left-0 right-0 h-12 bg-black/50 backdrop-blur-sm z-10 flex items-center justify-between px-4">
-        <div className="flex items-center space-x-2">
+      {/* Game Header - MTG Arena style */}
+      <div className="absolute top-0 left-0 right-0 h-14 bg-black/70 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-md border-b border-gray-800/50">
+        <div className="flex items-center space-x-3">
           <button
             onClick={() => setShowMenu(true)}
-            className="p-2 rounded-full hover:bg-white/10"
+            className="p-2 rounded-full hover:bg-white/10 transition-colors"
           >
             <Menu className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-white font-bold">KONIVRER</h1>
+          <h1 className="text-white font-bold text-lg hidden md:block">KONIVRER</h1>
+          <h1 className="text-white font-bold text-lg md:hidden">KON</h1>
         </div>
 
         <PhaseIndicator
@@ -191,14 +273,48 @@ const GameBoard = ({
         />
 
         <div className="flex items-center space-x-2">
+          {/* Game Log Button */}
           <button
             onClick={() => setShowLog(!showLog)}
-            className={`p-2 rounded-full ${showLog ? 'bg-purple-700/50' : 'hover:bg-white/10'}`}
+            className={`p-2 rounded-full transition-colors ${
+              showLog ? 'bg-purple-700/50' : 'hover:bg-white/10'
+            }`}
+            aria-label="Game Log"
           >
             <MessageSquare className="w-5 h-5 text-white" />
           </button>
-          <button className="p-2 rounded-full hover:bg-white/10">
-            <Settings className="w-5 h-5 text-white" />
+          
+          {/* Sound Toggle Button */}
+          <button
+            onClick={toggleSound}
+            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-5 h-5 text-white" />
+            ) : (
+              <Volume2 className="w-5 h-5 text-white" />
+            )}
+          </button>
+          
+          {/* Visual Effects Toggle Button */}
+          <button
+            onClick={toggleEffects}
+            className={`p-2 rounded-full transition-colors ${
+              showEffects ? 'hover:bg-white/10' : 'bg-gray-700/50'
+            }`}
+            aria-label={showEffects ? "Disable Effects" : "Enable Effects"}
+          >
+            <Sparkles className="w-5 h-5 text-white" />
+          </button>
+          
+          {/* Fullscreen Toggle Button */}
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          >
+            <Maximize2 className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
@@ -259,34 +375,12 @@ const GameBoard = ({
         isSpectator={isSpectator}
       />
 
-      {/* Card Preview - Responsive for all devices */}
-      {hoveredCard && (
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-48 md:w-64 h-72 md:h-96 pointer-events-none z-30">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-            className="w-full h-full rounded-lg overflow-hidden shadow-xl"
-          >
-            {/* Card preview with responsive text */}
-            <div className="w-full h-full bg-gray-800 border-2 border-gray-700 rounded-lg flex items-center justify-center">
-              <div className="text-center p-2 md:p-4">
-                <h3 className="text-white text-base md:text-lg font-bold">
-                  {hoveredCard.name}
-                </h3>
-                <p className="text-gray-300 text-xs md:text-sm">{hoveredCard.type}</p>
-                <p className="text-gray-400 mt-1 md:mt-2 text-xs md:text-sm">{hoveredCard.text}</p>
-                {hoveredCard.type === 'Familiar' && (
-                  <p className="text-white mt-1 md:mt-2">
-                    {hoveredCard.power}/{hoveredCard.toughness}
-                  </p>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
+      {/* Card Preview - MTG Arena style with enhanced visuals */}
+      <AnimatePresence>
+        {hoveredCard && (
+          <CardPreview card={hoveredCard} position={previewPosition} />
+        )}
+      </AnimatePresence>
 
       {/* Game Log */}
       {showLog && (
@@ -301,35 +395,85 @@ const GameBoard = ({
         <GameMenu onClose={() => setShowMenu(false)} onAction={handleAction} />
       )}
 
-      {/* Target Mode Overlay - Responsive for all devices */}
-      {targetMode && (
-        <div className="absolute inset-0 bg-blue-900/30 pointer-events-none flex items-center justify-center z-40">
-          <div className="bg-black/80 text-white px-4 md:px-6 py-3 rounded-lg text-base md:text-xl font-bold pointer-events-auto max-w-[90%] md:max-w-md">
-            <p className="text-center">
-              Select targets ({targets.length}/{gameEngine.getRequiredTargets()})
-            </p>
-            <div className="flex justify-center mt-3 md:mt-4 space-x-3 md:space-x-4">
-              <button
-                onClick={() => handleAction('confirmTargets')}
-                disabled={targets.length < gameEngine.getRequiredTargets()}
-                className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base ${
-                  targets.length >= gameEngine.getRequiredTargets()
-                    ? 'bg-green-600 hover:bg-green-700 active:bg-green-800'
-                    : 'bg-gray-600 cursor-not-allowed'
-                }`}
-              >
-                Confirm
-              </button>
-              <button
-                onClick={() => handleAction('cancelTargets')}
-                className="px-3 md:px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 active:bg-red-800 text-sm md:text-base"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Target Mode Overlay - MTG Arena style */}
+      <AnimatePresence>
+        {targetMode && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-gradient-radial from-blue-900/40 to-blue-900/10 pointer-events-none flex items-center justify-center z-40"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md text-white px-5 md:px-7 py-4 rounded-xl shadow-2xl border border-blue-500/30 pointer-events-auto max-w-[90%] md:max-w-md"
+            >
+              <div className="text-center mb-3">
+                <h3 className="text-lg md:text-xl font-bold text-blue-300">Select Targets</h3>
+                <div className="flex items-center justify-center mt-1 space-x-1">
+                  {[...Array(gameEngine.getRequiredTargets())].map((_, i) => (
+                    <div 
+                      key={i}
+                      className={`w-3 h-3 rounded-full ${
+                        i < targets.length 
+                          ? 'bg-gradient-to-r from-blue-400 to-blue-500' 
+                          : 'bg-gray-600'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="text-gray-300 text-sm mt-2">
+                  {targets.length}/{gameEngine.getRequiredTargets()} targets selected
+                </p>
+              </div>
+              
+              {/* Selected targets list */}
+              {targets.length > 0 && (
+                <div className="bg-black/30 rounded-lg p-2 mb-3 max-h-24 overflow-y-auto">
+                  {targets.map((target, index) => (
+                    <div key={index} className="text-sm text-gray-200 flex justify-between items-center">
+                      <span>{target.card.name}</span>
+                      <button 
+                        onClick={() => setTargets(prev => prev.filter((_, i) => i !== index))}
+                        className="text-red-400 hover:text-red-300"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              <div className="flex justify-center space-x-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleAction('confirmTargets')}
+                  disabled={targets.length < gameEngine.getRequiredTargets()}
+                  className={`px-4 md:px-5 py-2 rounded-lg text-sm md:text-base font-medium transition-colors ${
+                    targets.length >= gameEngine.getRequiredTargets()
+                      ? 'bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 shadow-md'
+                      : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed'
+                  }`}
+                >
+                  Confirm
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleAction('cancelTargets')}
+                  className="px-4 md:px-5 py-2 rounded-lg bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-sm md:text-base font-medium shadow-md transition-colors"
+                >
+                  Cancel
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
