@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  TrendingUp,
-  TrendingDown,
-  Eye,
-  Download,
-} from 'lucide-react';
+import { TrendingUp, TrendingDown, Eye, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const CardMetaAnalysis = () => {
@@ -96,14 +91,14 @@ const CardMetaAnalysis = () => {
                   card.color === 'yellow'
                     ? 'from-yellow-500 to-yellow-600'
                     : card.color === 'red'
-                    ? 'from-red-500 to-red-600'
-                    : card.color === 'green'
-                    ? 'from-green-500 to-green-600'
-                    : card.color === 'blue'
-                    ? 'from-blue-500 to-blue-600'
-                    : card.color === 'purple'
-                    ? 'from-purple-500 to-purple-600'
-                    : 'from-yellow-500 to-yellow-600'
+                      ? 'from-red-500 to-red-600'
+                      : card.color === 'green'
+                        ? 'from-green-500 to-green-600'
+                        : card.color === 'blue'
+                          ? 'from-blue-500 to-blue-600'
+                          : card.color === 'purple'
+                            ? 'from-purple-500 to-purple-600'
+                            : 'from-yellow-500 to-yellow-600'
                 } h-2 rounded-full`}
                 style={{ width: `${card.playRate}%` }}
               ></div>
