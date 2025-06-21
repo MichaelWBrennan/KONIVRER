@@ -1,5 +1,3 @@
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -94,14 +92,6 @@ try {
   root.render(
     <StrictMode>
       <App />
-      {analyticsConfig.vercel.enabled && (
-        <>
-          <Analytics />
-          <SpeedInsights
-            sampleRate={analyticsConfig.vercel.speedInsights.sampleRate}
-          />
-        </>
-      )}
     </StrictMode>,
   );
 } catch (error) {

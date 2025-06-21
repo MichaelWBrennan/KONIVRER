@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import GameBoard from '../components/game/GameBoard';
 import GameEngine from '../engine/GameEngine';
 import AIPlayer from '../engine/AIPlayer';
 import NetworkManager from '../engine/NetworkManager';
 import CardAnimationSystem from '../animations/CardAnimations';
 import RulesEngine from '../rules/RulesEngine';
+
+// Create a mock motion component until we can use the real framer-motion
+const motion = {
+  div: (props) => <div {...props}>{props.children}</div>,
+  h2: (props) => <h2 {...props}>{props.children}</h2>,
+  p: (props) => <p {...props}>{props.children}</p>,
+  button: (props) => <button {...props}>{props.children}</button>
+};
 
 /**
  * Game page that initializes the game engine and renders the game board
@@ -377,133 +385,28 @@ const GamePage = () => {
     ];
   };
 
-  // Show loading screen with progress
+  // Show loading screen with progress - simplified version without animations
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: Math.random() * 300 + 50,
-                height: Math.random() * 300 + 50,
-                background: `radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 70%)`,
-                x: `${Math.random() * 100}%`,
-                y: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.1, 0.3, 0.1],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 7,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 5,
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Floating cards in background */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-32 h-44 md:w-40 md:h-56 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 shadow-xl"
-              style={{
-                x: `${Math.random() * 100}%`,
-                y: `${Math.random() * 100}%`,
-                rotate: Math.random() * 20 - 10,
-              }}
-              animate={{
-                y: [null, "-10%", null],
-                rotate: [null, Math.random() * 10 - 5, null],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 10 + Math.random() * 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 5,
-              }}
-            />
-          ))}
-        </div>
-        
         <div className="relative z-10 text-white text-center px-4 max-w-md">
-          {/* Premium logo animation */}
-          <motion.div 
-            className="relative mx-auto mb-8 w-32 h-32"
-            animate={{ 
-              rotateY: [0, 360],
-              scale: [1, 1.05, 1]
-            }}
-            transition={{ 
-              rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
-              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-            }}
-          >
+          {/* Logo */}
+          <div className="relative mx-auto mb-8 w-32 h-32">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <motion.div
-                  className="text-white text-3xl font-bold"
-                  animate={{ rotateY: [0, 360] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                >
-                  K
-                </motion.div>
+                <div className="text-white text-3xl font-bold">K</div>
               </div>
             </div>
-            
-            {/* Orbiting elements */}
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center shadow-lg"
-                style={{ 
-                  top: "50%", 
-                  left: "50%",
-                  marginTop: "-12px",
-                  marginLeft: "-12px"
-                }}
-                animate={{
-                  x: Math.cos(i * (Math.PI * 2 / 3)) * 60,
-                  y: Math.sin(i * (Math.PI * 2 / 3)) * 60,
-                  rotate: [0, 360]
-                }}
-                transition={{
-                  x: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
-                  y: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
-                  rotate: { duration: 3, repeat: Infinity, ease: "linear" }
-                }}
-              >
-                <div className="w-4 h-4 rounded-full bg-white/80"></div>
-              </motion.div>
-            ))}
-          </motion.div>
+          </div>
 
-          <motion.h2 
-            className="text-2xl md:text-3xl font-bold mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
               KONIVRER Premium Simulator
             </span>
-          </motion.h2>
+          </h2>
 
-          <motion.div 
-            className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
+          <div className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl">
             <p className="text-gray-300 text-sm md:text-base mb-4">
               {loadingStage}...
             </p>
@@ -514,11 +417,9 @@ const GamePage = () => {
                 <span>{loadingProgress}%</span>
               </div>
               <div className="w-full bg-gray-800/50 rounded-full h-1.5">
-                <motion.div
+                <div 
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
-                  initial={{ width: '0%' }}
-                  animate={{ width: `${loadingProgress}%` }}
-                  transition={{ duration: 0.5 }}
+                  style={{ width: `${loadingProgress}%` }}
                 />
               </div>
               
@@ -542,17 +443,12 @@ const GamePage = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.p 
-            className="text-gray-400 text-xs mt-6 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-          >
+          <p className="text-gray-400 text-xs mt-6 flex items-center justify-center">
             <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
             State-of-the-art 3D animations • Automated rules • Cross-device compatible
-          </motion.p>
+          </p>
         </div>
       </div>
     );
