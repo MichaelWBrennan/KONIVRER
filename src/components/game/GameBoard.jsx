@@ -218,39 +218,182 @@ const GameBoard = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // If game state is not loaded yet, show loading
+  // If game state is not loaded yet, show MTG Arena-style loading screen
   if (!gameState) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
-        <div className="text-white text-center px-4 max-w-md">
-          <div className="relative mx-auto mb-6">
-            <div className="animate-spin rounded-full h-16 w-16 md:h-20 md:w-20 border-t-2 border-b-2 border-blue-500"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(30)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: Math.random() * 300 + 50,
+                height: Math.random() * 300 + 50,
+                background: `radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 70%)`,
+                x: `${Math.random() * 100}%`,
+                y: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.3, 0.1],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 5,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Floating cards in background */}
+        <div className="absolute inset-0 overflow-hidden opacity-20">
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-32 h-44 md:w-40 md:h-56 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 shadow-xl"
+              style={{
+                x: `${Math.random() * 100}%`,
+                y: `${Math.random() * 100}%`,
+                rotate: Math.random() * 20 - 10,
+              }}
+              animate={{
+                y: [null, "-10%", null],
+                rotate: [null, Math.random() * 10 - 5, null],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 10 + Math.random() * 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 5,
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="relative z-10 text-white text-center px-4 max-w-md">
+          {/* Premium logo animation */}
+          <motion.div 
+            className="relative mx-auto mb-8 w-32 h-32"
+            animate={{ 
+              rotateY: [0, 360],
+              scale: [1, 1.05, 1]
+            }}
+            transition={{ 
+              rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
+              scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+          >
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Sparkles className="w-12 h-12 text-white" />
+              </div>
             </div>
-          </div>
-
-          <h2 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            Loading KONIVRER Online Sim
-          </h2>
-
-          <div className="mt-4 bg-black/30 rounded-lg p-3 backdrop-blur-sm">
-            <p className="text-gray-300 text-sm">
-              Preparing your game experience...
-            </p>
-            <div className="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+            
+            {/* Orbiting elements */}
+            {[...Array(3)].map((_, i) => (
               <motion.div
-                className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 2.5 }}
-              />
-            </div>
-          </div>
+                key={i}
+                className="absolute w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center shadow-lg"
+                style={{ 
+                  top: "50%", 
+                  left: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px"
+                }}
+                animate={{
+                  x: Math.cos(i * (Math.PI * 2 / 3)) * 60,
+                  y: Math.sin(i * (Math.PI * 2 / 3)) * 60,
+                  rotate: [0, 360]
+                }}
+                transition={{
+                  x: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
+                  y: { duration: 6, repeat: Infinity, ease: "linear", delay: i * 2 },
+                  rotate: { duration: 3, repeat: Infinity, ease: "linear" }
+                }}
+              >
+                <div className="w-4 h-4 rounded-full bg-white/80"></div>
+              </motion.div>
+            ))}
+          </motion.div>
 
-          <p className="text-gray-400 text-xs mt-4">
-            Optimized for all devices • MTG Arena-like experience
-          </p>
+          <motion.h2 
+            className="text-2xl md:text-3xl font-bold mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+              KONIVRER Premium Simulator
+            </span>
+          </motion.h2>
+
+          <motion.div 
+            className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
+          >
+            <p className="text-gray-300 text-sm md:text-base mb-4">
+              Initializing state-of-the-art game engine...
+            </p>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>Loading game assets</span>
+                <span>100%</span>
+              </div>
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5">
+                <motion.div
+                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 1.5 }}
+                />
+              </div>
+              
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>Optimizing for your device</span>
+                <span>82%</span>
+              </div>
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5">
+                <motion.div
+                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '82%' }}
+                  transition={{ duration: 2.2 }}
+                />
+              </div>
+              
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>Connecting to network</span>
+                <span>65%</span>
+              </div>
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5">
+                <motion.div
+                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '65%' }}
+                  transition={{ duration: 3 }}
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.p 
+            className="text-gray-400 text-xs mt-6 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+          >
+            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+            Optimized for all devices • MTG Arena-quality experience
+          </motion.p>
         </div>
       </div>
     );
@@ -259,23 +402,75 @@ const GameBoard = ({
   return (
     <div
       ref={boardRef}
-      className={`relative h-screen w-full overflow-hidden bg-gradient-to-br from-gray-900 via-blue-950/30 to-gray-800 touch-manipulation ${
+      className={`relative h-screen w-full overflow-hidden bg-gradient-to-br from-gray-950 via-blue-950/30 to-gray-900 touch-manipulation ${
         showEffects ? '' : 'reduce-effects'
       }`}
     >
-      {/* Game Header - MTG Arena style */}
-      <div className="absolute top-0 left-0 right-0 h-14 bg-black/70 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-md border-b border-gray-800/50">
+      {/* Dynamic background elements - MTG Arena style */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-5 mix-blend-overlay"></div>
+        
+        {/* Dynamic light effects */}
+        {showEffects && (
+          <>
+            <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-900/20 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
+            <motion.div 
+              className="absolute top-0 left-0 w-full h-full opacity-30"
+              initial={{ background: "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)" }}
+              animate={{ 
+                background: [
+                  "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)",
+                  "radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.15), transparent 70%)",
+                  "radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.15), transparent 70%)",
+                  "radial-gradient(circle at 70% 30%, rgba(139, 92, 246, 0.15), transparent 70%)",
+                  "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.15), transparent 70%)"
+                ]
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+          </>
+        )}
+      </div>
+      
+      {/* Game Header - Enhanced MTG Arena style */}
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-lg border-b border-blue-900/50">
         <div className="flex items-center space-x-3">
-          <button
+          <motion.button
             onClick={() => setShowMenu(true)}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            className="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all hover:scale-105 shadow-md"
+            whileTap={{ scale: 0.95 }}
           >
-            <Menu className="w-5 h-5 text-white" />
-          </button>
-          <h1 className="text-white font-bold text-lg hidden md:block">
-            KONIVRER
-          </h1>
-          <h1 className="text-white font-bold text-lg md:hidden">KON</h1>
+            <Menu className="w-5 h-5 text-blue-400" />
+          </motion.button>
+          
+          <div className="flex items-center">
+            <motion.h1 
+              className="text-white font-bold text-lg hidden md:block"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                KONIVRER
+              </span>
+            </motion.h1>
+            <motion.h1 
+              className="text-white font-bold text-lg md:hidden"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                KON
+              </span>
+            </motion.h1>
+            
+            <div className="ml-2 px-2 py-0.5 bg-blue-900/30 rounded-md border border-blue-800/50 hidden md:block">
+              <span className="text-xs text-blue-300 font-medium">PREMIUM</span>
+            </div>
+          </div>
         </div>
 
         <PhaseIndicator
@@ -287,48 +482,54 @@ const GameBoard = ({
 
         <div className="flex items-center space-x-2">
           {/* Game Log Button */}
-          <button
+          <motion.button
             onClick={() => setShowLog(!showLog)}
-            className={`p-2 rounded-full transition-colors ${
-              showLog ? 'bg-purple-700/50' : 'hover:bg-white/10'
+            className={`p-2 rounded-full transition-all hover:scale-105 shadow-md ${
+              showLog ? 'bg-purple-700/80' : 'bg-gray-800/80 hover:bg-gray-700/80'
             }`}
             aria-label="Game Log"
+            whileTap={{ scale: 0.95 }}
           >
             <MessageSquare className="w-5 h-5 text-white" />
-          </button>
+          </motion.button>
 
           {/* Sound Toggle Button */}
-          <button
+          <motion.button
             onClick={toggleSound}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            className={`p-2 rounded-full transition-all hover:scale-105 shadow-md bg-gray-800/80 hover:bg-gray-700/80 ${
+              isMuted ? 'border border-red-500/50' : ''
+            }`}
             aria-label={isMuted ? 'Unmute' : 'Mute'}
+            whileTap={{ scale: 0.95 }}
           >
             {isMuted ? (
-              <VolumeX className="w-5 h-5 text-white" />
+              <VolumeX className="w-5 h-5 text-red-400" />
             ) : (
-              <Volume2 className="w-5 h-5 text-white" />
+              <Volume2 className="w-5 h-5 text-blue-400" />
             )}
-          </button>
+          </motion.button>
 
           {/* Visual Effects Toggle Button */}
-          <button
+          <motion.button
             onClick={toggleEffects}
-            className={`p-2 rounded-full transition-colors ${
-              showEffects ? 'hover:bg-white/10' : 'bg-gray-700/50'
+            className={`p-2 rounded-full transition-all hover:scale-105 shadow-md ${
+              showEffects ? 'bg-gray-800/80 hover:bg-gray-700/80' : 'bg-gray-700/80 border border-red-500/50'
             }`}
             aria-label={showEffects ? 'Disable Effects' : 'Enable Effects'}
+            whileTap={{ scale: 0.95 }}
           >
-            <Sparkles className="w-5 h-5 text-white" />
-          </button>
+            <Sparkles className="w-5 h-5 text-blue-400" />
+          </motion.button>
 
           {/* Fullscreen Toggle Button */}
-          <button
+          <motion.button
             onClick={toggleFullscreen}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            className="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all hover:scale-105 shadow-md"
             aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+            whileTap={{ scale: 0.95 }}
           >
-            <Maximize2 className="w-5 h-5 text-white" />
-          </button>
+            <Maximize2 className="w-5 h-5 text-blue-400" />
+          </motion.button>
         </div>
       </div>
 

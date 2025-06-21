@@ -768,37 +768,99 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Play Game Banner */}
-      <section className="py-6 bg-gradient-to-r from-purple-900 to-blue-900">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between p-6 rounded-lg">
-            <div className="mb-6 md:mb-0 md:mr-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                KONIVRER Online Simulator
+      {/* Premium Online Simulator Banner */}
+      <section className="py-10 bg-gradient-to-r from-indigo-900 via-purple-900 to-blue-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
+        
+        {/* Animated particles */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-blue-400"
+              initial={{ 
+                x: Math.random() * 100 + "%", 
+                y: Math.random() * 100 + "%", 
+                opacity: 0.2 + Math.random() * 0.5 
+              }}
+              animate={{ 
+                y: [null, "-20%", null], 
+                opacity: [null, 0.8, null] 
+              }}
+              transition={{ 
+                duration: 3 + Math.random() * 5, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="mb-10 lg:mb-0 lg:mr-6 max-w-2xl">
+              <div className="inline-block px-3 py-1 bg-blue-600/30 backdrop-blur-sm rounded-full text-blue-300 text-sm font-medium mb-4 border border-blue-500/20">
+                State-of-the-Art Gaming Experience
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">KONIVRER</span> Premium Online Simulator
               </h2>
-              <p className="text-gray-300 mb-4">
-                Experience the full game with our high-performance online
-                simulator. Play against friends on any device with a modern
-                browser!
+              <p className="text-gray-300 text-lg mb-6 leading-relaxed">
+                Experience the most advanced card game platform ever created. Our MTG Arena-quality simulator delivers stunning visuals, smooth gameplay, and cross-device compatibility that puts every competitor to shame.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap gap-4">
                 <Link
                   to="/game/online"
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center"
+                  className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg flex items-center shadow-lg shadow-blue-700/30 transform transition hover:scale-105"
                 >
                   <Gamepad2 className="mr-2 h-5 w-5" />
-                  Online Sim
+                  Play Now
+                </Link>
+                <Link
+                  to="/game/features"
+                  className="px-8 py-4 bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700/50 text-white font-medium rounded-lg flex items-center border border-gray-700/50 transform transition hover:scale-105"
+                >
+                  <Eye className="mr-2 h-5 w-5" />
+                  See Features
                 </Link>
               </div>
-            </div>
-            <div className="w-full md:w-1/3 flex justify-center">
-              <div className="relative w-64 h-64">
-                <div className="absolute inset-0 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
-                <div className="absolute inset-4 bg-blue-500 rounded-full opacity-20 animate-pulse delay-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Zap className="h-24 w-24 text-white opacity-80" />
+              
+              {/* Feature badges */}
+              <div className="flex flex-wrap gap-3 mt-6">
+                <div className="px-3 py-1 bg-gray-800/30 backdrop-blur-sm rounded-full text-gray-300 text-xs flex items-center">
+                  <Zap className="h-3 w-3 mr-1 text-yellow-400" />
+                  MTG Arena Quality
+                </div>
+                <div className="px-3 py-1 bg-gray-800/30 backdrop-blur-sm rounded-full text-gray-300 text-xs flex items-center">
+                  <Globe className="h-3 w-3 mr-1 text-green-400" />
+                  Cross-Device
+                </div>
+                <div className="px-3 py-1 bg-gray-800/30 backdrop-blur-sm rounded-full text-gray-300 text-xs flex items-center">
+                  <Sparkles className="h-3 w-3 mr-1 text-purple-400" />
+                  Premium Effects
                 </div>
               </div>
+            </div>
+            
+            {/* 3D Card Display */}
+            <div className="w-full lg:w-1/3 flex justify-center">
+              <motion.div 
+                className="relative w-72 h-96"
+                animate={{ rotateY: [0, 5, 0, -5, 0], rotateX: [0, -5, 0, 5, 0] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl shadow-2xl transform rotate-3 scale-95 opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-2xl transform -rotate-3 scale-95 opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl shadow-2xl border-2 border-blue-400/30 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-[url('/assets/card-texture.png')] opacity-20 mix-blend-overlay"></div>
+                  <div className="absolute top-4 left-4 right-4 h-1/2 bg-gradient-to-br from-blue-400/20 to-purple-400/5 rounded-lg"></div>
+                  <Zap className="h-24 w-24 text-blue-300 opacity-80" />
+                  <div className="absolute bottom-6 w-full text-center text-white font-bold text-xl">
+                    Premium Experience
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
