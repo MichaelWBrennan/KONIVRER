@@ -25,7 +25,7 @@ const CardPreview = ({ card, position = 'right' }) => {
   // Get card rarity styling
   const getRarityStyle = () => {
     if (!card.rarity) return '';
-    
+
     switch (card.rarity.toLowerCase()) {
       case 'common':
         return 'border-gray-400';
@@ -86,36 +86,48 @@ const CardPreview = ({ card, position = 'right' }) => {
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         className={`absolute ${getPositionStyle()} top-1/2 transform -translate-y-1/2 z-50 pointer-events-none`}
       >
-        <div 
+        <div
           className={`w-48 md:w-64 aspect-[2.5/3.5] rounded-xl shadow-2xl border-2 ${getCardBackground()} ${getRarityStyle()} overflow-hidden`}
         >
           {/* Card Header */}
           <div className="bg-black/50 p-2">
-            <h3 className="text-white text-sm md:text-base font-bold">{card.name}</h3>
+            <h3 className="text-white text-sm md:text-base font-bold">
+              {card.name}
+            </h3>
             <div className="flex justify-between items-center mt-1">
               <div className="text-gray-300 text-xs">{card.type}</div>
               {card.azothCost && (
                 <div className="flex items-center bg-yellow-600/80 rounded-full px-1.5 py-0.5">
                   <Zap className="w-3 h-3 text-white mr-0.5" />
-                  <span className="text-white text-xs font-bold">{card.azothCost}</span>
+                  <span className="text-white text-xs font-bold">
+                    {card.azothCost}
+                  </span>
                 </div>
               )}
             </div>
           </div>
-          
+
           {/* Card Art */}
           <div className="h-24 md:h-32 bg-black/40 relative overflow-hidden">
             {/* Simulated card art with gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}></div>
-            
+            <div
+              className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}
+            ></div>
+
             {/* Card type icon overlay */}
             <div className="absolute inset-0 flex items-center justify-center opacity-30">
-              {card.type === 'Familiar' && <Shield className="w-16 h-16 text-white" />}
-              {card.type === 'Spell' && <Zap className="w-16 h-16 text-white" />}
-              {card.type === 'Azoth' && <Zap className="w-16 h-16 text-white" />}
+              {card.type === 'Familiar' && (
+                <Shield className="w-16 h-16 text-white" />
+              )}
+              {card.type === 'Spell' && (
+                <Zap className="w-16 h-16 text-white" />
+              )}
+              {card.type === 'Azoth' && (
+                <Zap className="w-16 h-16 text-white" />
+              )}
             </div>
           </div>
-          
+
           {/* Card Text */}
           <div className="p-2 bg-black/70">
             {/* Card abilities */}
@@ -123,12 +135,12 @@ const CardPreview = ({ card, position = 'right' }) => {
               <div className="mb-2">
                 {card.abilities.map((ability, index) => (
                   <div key={index} className="text-gray-200 text-xs mb-1">
-                    {ability.description || "Ability description"}
+                    {ability.description || 'Ability description'}
                   </div>
                 ))}
               </div>
             )}
-            
+
             {/* Card description/flavor text */}
             {card.description && (
               <div className="text-gray-400 text-xs italic mt-1">
@@ -136,42 +148,51 @@ const CardPreview = ({ card, position = 'right' }) => {
               </div>
             )}
           </div>
-          
+
           {/* Card Footer */}
           <div className="bg-black/50 p-2 flex justify-between items-center">
             {card.type === 'Familiar' && (
               <div className="flex items-center space-x-2">
                 <div className="flex items-center bg-red-600/80 rounded-full px-1.5 py-0.5">
                   <Sword className="w-3 h-3 text-white mr-0.5" />
-                  <span className="text-white text-xs font-bold">{card.power}</span>
+                  <span className="text-white text-xs font-bold">
+                    {card.power}
+                  </span>
                 </div>
                 <div className="flex items-center bg-blue-600/80 rounded-full px-1.5 py-0.5">
                   <Shield className="w-3 h-3 text-white mr-0.5" />
-                  <span className="text-white text-xs font-bold">{card.toughness}</span>
+                  <span className="text-white text-xs font-bold">
+                    {card.toughness}
+                  </span>
                 </div>
               </div>
             )}
-            
+
             {/* Card set/rarity indicator */}
             <div className="text-gray-400 text-xs flex items-center">
-              <span className="mr-1">{card.set || "KON"}</span>
-              <div className={`w-3 h-3 rounded-full bg-${
-                card.rarity === 'common' ? 'gray-400' :
-                card.rarity === 'uncommon' ? 'blue-400' :
-                card.rarity === 'rare' ? 'yellow-400' :
-                'orange-500'
-              }`}></div>
+              <span className="mr-1">{card.set || 'KON'}</span>
+              <div
+                className={`w-3 h-3 rounded-full bg-${
+                  card.rarity === 'common'
+                    ? 'gray-400'
+                    : card.rarity === 'uncommon'
+                      ? 'blue-400'
+                      : card.rarity === 'rare'
+                        ? 'yellow-400'
+                        : 'orange-500'
+                }`}
+              ></div>
             </div>
           </div>
-          
+
           {/* Premium/Foil overlay effect */}
           {card.isPremium && (
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none"></div>
           )}
         </div>
-        
+
         {/* Card info button */}
-        <motion.div 
+        <motion.div
           className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 rounded-full p-1 shadow-lg"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
