@@ -99,7 +99,7 @@ const Layout = ({ children }) => {
       icon: Wrench,
     });
 
-    // Premium Online Simulator - direct link
+    // Online Sim - direct link
     baseNavigation.push({
       name: 'Online Sim',
       href: '/game/online',
