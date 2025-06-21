@@ -23,7 +23,7 @@ export default defineConfig({
     cssCodeSplit: true,
     assetsDir: 'assets',
     minify: 'terser',
-    target: ['es2022', 'chrome91', 'firefox90', 'safari15'], // Ultra-modern browsers only
+    target: ['es2020', 'chrome80', 'firefox78', 'safari13', 'edge79', 'ios13'], // Support for wider range of browsers
     terserOptions: {
       compress: {
         drop_console: true,
@@ -113,7 +113,7 @@ export default defineConfig({
     assetsInlineLimit: 4096, // Inline small assets
   },
   esbuild: {
-    target: 'es2022',
+    target: 'es2020',
     legalComments: 'none',
     treeShaking: true,
     minifyIdentifiers: true,

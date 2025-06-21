@@ -99,18 +99,11 @@ const Layout = ({ children }) => {
       icon: Wrench,
     });
 
-    // Game Simulator - direct link
+    // Online Simulator - direct link
     baseNavigation.push({
-      name: 'Simulator',
-      href: '/simulator',
+      name: 'Online Sim',
+      href: '/game/online',
       icon: Gamepad2,
-    });
-
-    // Playable Game Simulator
-    baseNavigation.push({
-      name: 'Play Game',
-      href: '/play',
-      icon: Play,
     });
 
     // Analytics Hub removed - stats moved to respective pages
