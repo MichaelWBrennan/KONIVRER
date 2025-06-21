@@ -22,6 +22,7 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
 import GameSimulator from './pages/GameSimulator';
 import PlayableGameSimulatorPage from './pages/PlayableGameSimulatorPage';
+import GamePage from './pages/GamePage';
 import CardExplorer from './pages/CardExplorer';
 import DeckSearch from './pages/DeckSearch';
 import AnalyticsHub from './pages/AnalyticsHub';
@@ -44,6 +45,8 @@ function App() {
                   {/* Game Simulator - Direct link */}
                   <Route path="/simulator" element={<GameSimulator />} />
                   <Route path="/play" element={<PlayableGameSimulatorPage />} />
+                  <Route path="/game/:mode" element={<GamePage />} />
+                  <Route path="/game/:mode/:gameId" element={<GamePage />} />
 
                   {/* Section Pages */}
                   <Route path="/cards" element={<CardExplorer />} />
