@@ -1,0 +1,691 @@
+/* Esoteric/Ancient/Mystical/Forbidden Knowledge Theme with Open Dyslexic Font */
+
+/* Font Face Declarations */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Esoteric/Ancient/Mystical Color Scheme Variables */
+:root {
+  /* Primary Colors */
+  --esoteric-dark: #1a0b2e;         /* Deep mystical purple */
+  --esoteric-primary: #4a154b;      /* Rich forbidden purple */
+  --esoteric-secondary: #7b2cbf;    /* Magical violet */
+  --esoteric-accent: #e9a72f;       /* Ancient gold */
+  --esoteric-highlight: #ff6b6b;    /* Forbidden red */
+  
+  /* Background Colors */
+  --esoteric-bg-dark: #0f0a1e;      /* Deep void background */
+  --esoteric-bg-medium: #1a1625;    /* Mystical dark background */
+  --esoteric-bg-light: #2d2640;     /* Lighter mystical background */
+  
+  /* Text Colors */
+  --esoteric-text-primary: #f8f4e3; /* Ancient parchment */
+  --esoteric-text-secondary: #c8b8db; /* Faded mystical text */
+  --esoteric-text-accent: #e9a72f;  /* Golden knowledge */
+  
+  /* Border Colors */
+  --esoteric-border-light: #3a2b58; /* Mystical border */
+  --esoteric-border-accent: #e9a72f; /* Ancient gold border */
+  
+  /* Special Effect Colors */
+  --esoteric-glow: rgba(123, 44, 191, 0.5); /* Magical glow */
+  --esoteric-shadow: rgba(10, 5, 20, 0.8);  /* Forbidden shadow */
+  
+  /* Gradients */
+  --esoteric-gradient-primary: linear-gradient(135deg, #1a0b2e 0%, #4a154b 100%);
+  --esoteric-gradient-accent: linear-gradient(135deg, #7b2cbf 0%, #e9a72f 100%);
+  --esoteric-gradient-dark: linear-gradient(135deg, #0f0a1e 0%, #1a1625 100%);
+  
+  /* Spacing */
+  --esoteric-spacing-xs: 0.25rem;
+  --esoteric-spacing-sm: 0.5rem;
+  --esoteric-spacing-md: 1rem;
+  --esoteric-spacing-lg: 1.5rem;
+  --esoteric-spacing-xl: 2rem;
+  
+  /* Border Radius */
+  --esoteric-radius-sm: 0.25rem;
+  --esoteric-radius-md: 0.5rem;
+  --esoteric-radius-lg: 1rem;
+  --esoteric-radius-full: 9999px;
+  
+  /* Transitions */
+  --esoteric-transition-fast: 150ms ease;
+  --esoteric-transition-normal: 300ms ease;
+  --esoteric-transition-slow: 500ms ease;
+  
+  /* Shadows */
+  --esoteric-shadow-sm: 0 2px 4px var(--esoteric-shadow);
+  --esoteric-shadow-md: 0 4px 8px var(--esoteric-shadow);
+  --esoteric-shadow-lg: 0 8px 16px var(--esoteric-shadow);
+  --esoteric-shadow-glow: 0 0 8px var(--esoteric-glow);
+}
+
+/* Global Styles */
+html, body {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  background: var(--esoteric-bg-dark);
+  color: var(--esoteric-text-primary);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'OpenDyslexic', serif !important;
+  color: var(--esoteric-text-accent);
+  font-weight: bold;
+  margin-bottom: var(--esoteric-spacing-md);
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px var(--esoteric-glow);
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p, li, span, div, button, input, textarea, select {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+a {
+  color: var(--esoteric-accent);
+  text-decoration: none;
+  transition: color var(--esoteric-transition-fast);
+  position: relative;
+}
+
+a:hover {
+  color: var(--esoteric-highlight);
+}
+
+a:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--esoteric-accent);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform var(--esoteric-transition-normal);
+}
+
+a:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Layout Components */
+.esoteric-container {
+  background: var(--esoteric-bg-medium);
+  border-radius: var(--esoteric-radius-md);
+  border: 1px solid var(--esoteric-border-light);
+  padding: var(--esoteric-spacing-lg);
+  margin-bottom: var(--esoteric-spacing-lg);
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.esoteric-card {
+  background: var(--esoteric-gradient-dark);
+  border-radius: var(--esoteric-radius-md);
+  border: 1px solid var(--esoteric-border-light);
+  padding: var(--esoteric-spacing-md);
+  margin-bottom: var(--esoteric-spacing-md);
+  box-shadow: var(--esoteric-shadow-md);
+  transition: transform var(--esoteric-transition-normal), box-shadow var(--esoteric-transition-normal);
+}
+
+.esoteric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--esoteric-shadow-lg), 0 0 15px var(--esoteric-glow);
+  border-color: var(--esoteric-border-accent);
+}
+
+.esoteric-card-title {
+  color: var(--esoteric-text-accent);
+  font-size: 1.5rem;
+  margin-bottom: var(--esoteric-spacing-sm);
+  border-bottom: 1px solid var(--esoteric-border-light);
+  padding-bottom: var(--esoteric-spacing-sm);
+}
+
+.esoteric-card-content {
+  color: var(--esoteric-text-primary);
+}
+
+/* Buttons */
+.esoteric-btn {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  background: var(--esoteric-primary);
+  color: var(--esoteric-text-primary);
+  border: 1px solid var(--esoteric-border-light);
+  border-radius: var(--esoteric-radius-md);
+  padding: var(--esoteric-spacing-sm) var(--esoteric-spacing-md);
+  cursor: pointer;
+  transition: all var(--esoteric-transition-normal);
+  font-weight: bold;
+  box-shadow: var(--esoteric-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.esoteric-btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all var(--esoteric-transition-normal);
+}
+
+.esoteric-btn:hover {
+  background: var(--esoteric-secondary);
+  box-shadow: var(--esoteric-shadow-md), 0 0 10px var(--esoteric-glow);
+  transform: translateY(-2px);
+}
+
+.esoteric-btn:hover:before {
+  left: 100%;
+}
+
+.esoteric-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--esoteric-shadow-sm);
+}
+
+.esoteric-btn-primary {
+  background: var(--esoteric-gradient-primary);
+  border-color: var(--esoteric-secondary);
+}
+
+.esoteric-btn-accent {
+  background: var(--esoteric-accent);
+  color: var(--esoteric-dark);
+  border-color: var(--esoteric-accent);
+}
+
+.esoteric-btn-outline {
+  background: transparent;
+  border: 2px solid var(--esoteric-border-accent);
+  color: var(--esoteric-text-accent);
+}
+
+.esoteric-btn-outline:hover {
+  background: rgba(233, 167, 47, 0.1);
+}
+
+/* Form Elements */
+.esoteric-input {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  background: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border-light);
+  border-radius: var(--esoteric-radius-md);
+  padding: var(--esoteric-spacing-sm) var(--esoteric-spacing-md);
+  color: var(--esoteric-text-primary);
+  width: 100%;
+  transition: all var(--esoteric-transition-normal);
+}
+
+.esoteric-input:focus {
+  outline: none;
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 0 2px var(--esoteric-glow);
+}
+
+.esoteric-input::placeholder {
+  color: var(--esoteric-text-secondary);
+  opacity: 0.7;
+}
+
+.esoteric-label {
+  display: block;
+  margin-bottom: var(--esoteric-spacing-sm);
+  color: var(--esoteric-text-accent);
+  font-weight: bold;
+}
+
+.esoteric-form-group {
+  margin-bottom: var(--esoteric-spacing-md);
+}
+
+/* Navigation */
+.esoteric-nav {
+  background: var(--esoteric-bg-dark);
+  border-bottom: 1px solid var(--esoteric-border-light);
+  padding: var(--esoteric-spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.esoteric-nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--esoteric-text-accent);
+  text-shadow: 0 0 5px var(--esoteric-glow);
+}
+
+.esoteric-nav-links {
+  display: flex;
+  gap: var(--esoteric-spacing-md);
+}
+
+.esoteric-nav-link {
+  color: var(--esoteric-text-primary);
+  position: relative;
+  padding: var(--esoteric-spacing-xs) var(--esoteric-spacing-sm);
+}
+
+.esoteric-nav-link:hover {
+  color: var(--esoteric-text-accent);
+}
+
+.esoteric-nav-link.active {
+  color: var(--esoteric-text-accent);
+}
+
+.esoteric-nav-link.active:after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--esoteric-accent);
+  box-shadow: 0 0 5px var(--esoteric-glow);
+}
+
+/* Tables */
+.esoteric-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: var(--esoteric-spacing-lg);
+}
+
+.esoteric-table th,
+.esoteric-table td {
+  padding: var(--esoteric-spacing-sm) var(--esoteric-spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--esoteric-border-light);
+}
+
+.esoteric-table th {
+  background: var(--esoteric-bg-dark);
+  color: var(--esoteric-text-accent);
+  font-weight: bold;
+}
+
+.esoteric-table tr:nth-child(even) {
+  background: rgba(58, 43, 88, 0.1);
+}
+
+.esoteric-table tr:hover {
+  background: rgba(123, 44, 191, 0.1);
+}
+
+/* Utilities */
+.esoteric-text-center {
+  text-align: center;
+}
+
+.esoteric-text-right {
+  text-align: right;
+}
+
+.esoteric-text-accent {
+  color: var(--esoteric-text-accent);
+}
+
+.esoteric-text-highlight {
+  color: var(--esoteric-highlight);
+}
+
+.esoteric-bg-dark {
+  background: var(--esoteric-bg-dark);
+}
+
+.esoteric-bg-medium {
+  background: var(--esoteric-bg-medium);
+}
+
+.esoteric-bg-light {
+  background: var(--esoteric-bg-light);
+}
+
+.esoteric-border {
+  border: 1px solid var(--esoteric-border-light);
+}
+
+.esoteric-border-accent {
+  border: 1px solid var(--esoteric-border-accent);
+}
+
+.esoteric-rounded {
+  border-radius: var(--esoteric-radius-md);
+}
+
+.esoteric-shadow {
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.esoteric-glow {
+  box-shadow: 0 0 10px var(--esoteric-glow);
+}
+
+.esoteric-p {
+  padding: var(--esoteric-spacing-md);
+}
+
+.esoteric-m {
+  margin: var(--esoteric-spacing-md);
+}
+
+.esoteric-mt {
+  margin-top: var(--esoteric-spacing-md);
+}
+
+.esoteric-mb {
+  margin-bottom: var(--esoteric-spacing-md);
+}
+
+.esoteric-ml {
+  margin-left: var(--esoteric-spacing-md);
+}
+
+.esoteric-mr {
+  margin-right: var(--esoteric-spacing-md);
+}
+
+/* Special Effects */
+.esoteric-rune {
+  position: relative;
+}
+
+.esoteric-rune:before {
+  content: '✧';
+  position: absolute;
+  left: -15px;
+  color: var(--esoteric-accent);
+  opacity: 0.7;
+}
+
+.esoteric-rune:after {
+  content: '✧';
+  position: absolute;
+  right: -15px;
+  color: var(--esoteric-accent);
+  opacity: 0.7;
+}
+
+.esoteric-scroll {
+  background: var(--esoteric-bg-medium);
+  border: 1px solid var(--esoteric-border-accent);
+  border-radius: var(--esoteric-radius-md);
+  padding: var(--esoteric-spacing-md);
+  position: relative;
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.esoteric-scroll:before,
+.esoteric-scroll:after {
+  content: '';
+  position: absolute;
+  height: 20px;
+  width: 100%;
+  left: 0;
+  background: var(--esoteric-gradient-accent);
+  opacity: 0.1;
+}
+
+.esoteric-scroll:before {
+  top: 0;
+  border-top-left-radius: var(--esoteric-radius-md);
+  border-top-right-radius: var(--esoteric-radius-md);
+}
+
+.esoteric-scroll:after {
+  bottom: 0;
+  border-bottom-left-radius: var(--esoteric-radius-md);
+  border-bottom-right-radius: var(--esoteric-radius-md);
+}
+
+/* Animations */
+@keyframes esoteric-glow-pulse {
+  0% {
+    box-shadow: 0 0 5px var(--esoteric-glow);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--esoteric-glow), 0 0 30px var(--esoteric-glow);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--esoteric-glow);
+  }
+}
+
+.esoteric-glow-pulse {
+  animation: esoteric-glow-pulse 2s infinite;
+}
+
+@keyframes esoteric-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.esoteric-float {
+  animation: esoteric-float 3s ease-in-out infinite;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .esoteric-container {
+    padding: var(--esoteric-spacing-md);
+  }
+  
+  .esoteric-nav {
+    flex-direction: column;
+    gap: var(--esoteric-spacing-sm);
+  }
+  
+  .esoteric-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --esoteric-shadow: rgba(0, 0, 0, 0.9);
+  }
+  
+  .esoteric-card {
+    box-shadow: var(--esoteric-shadow-md), 0 0 5px var(--esoteric-glow);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ancient Symbols and Decorations */
+.esoteric-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--esoteric-spacing-lg) 0;
+}
+
+.esoteric-divider::before,
+.esoteric-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--esoteric-border-light);
+}
+
+.esoteric-divider::before {
+  margin-right: var(--esoteric-spacing-md);
+}
+
+.esoteric-divider::after {
+  margin-left: var(--esoteric-spacing-md);
+}
+
+.esoteric-divider-symbol {
+  color: var(--esoteric-text-accent);
+  font-size: 1.5rem;
+  padding: 0 var(--esoteric-spacing-sm);
+}
+
+/* Apply to mobile-first classes */
+.mobile-card {
+  background: var(--esoteric-gradient-dark);
+  border: 1px solid var(--esoteric-border-light);
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.mobile-btn {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  background: var(--esoteric-primary);
+  color: var(--esoteric-text-primary);
+  border: 1px solid var(--esoteric-border-light);
+}
+
+.mobile-btn-primary {
+  background: var(--esoteric-gradient-primary);
+  border-color: var(--esoteric-secondary);
+}
+
+.mobile-input {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  background: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border-light);
+  color: var(--esoteric-text-primary);
+}
+
+.mobile-nav {
+  background: var(--esoteric-bg-dark);
+  border-top: 1px solid var(--esoteric-border-light);
+}
+
+.mobile-nav-link {
+  color: var(--esoteric-text-primary);
+}
+
+.mobile-nav-link.active {
+  color: var(--esoteric-text-accent);
+}
+
+.mobile-header {
+  background: var(--esoteric-gradient-dark);
+  border-bottom: 1px solid var(--esoteric-border-light);
+}
+
+.mobile-game-card {
+  background: var(--esoteric-gradient-dark);
+  border: 1px solid var(--esoteric-border-light);
+  box-shadow: var(--esoteric-shadow-md);
+}
+
+.mobile-game-card-cost {
+  background-color: var(--esoteric-accent);
+  color: var(--esoteric-dark);
+}
+
+.mobile-game-log {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border-light);
+}
+
+.mobile-game-log-turn {
+  color: var(--esoteric-text-accent);
+}
+
+.mobile-loading-spinner {
+  border-top-color: var(--esoteric-accent);
+}
+
+.mobile-qr-placeholder {
+  border: 2px dashed var(--esoteric-border-accent);
+}
