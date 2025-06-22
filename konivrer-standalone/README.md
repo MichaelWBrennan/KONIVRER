@@ -1,6 +1,6 @@
-# KONIVRER Physical Matchmaking Component
+# KONIVRER Advanced TCG Platform
 
-A standalone implementation of the Physical Matchmaking component for the KONIVRER Deck Database, featuring QR code generation for physical matches and tournaments with Bayesian rating system and ancient-esoteric theme styling.
+A comprehensive TCG platform featuring physical matchmaking, AI card verification, blockchain integration, ML deck analysis, and augmented reality card viewing. This bleeding-edge implementation showcases the future of trading card game technology.
 
 ## Build Status
 
@@ -8,6 +8,7 @@ A standalone implementation of the Physical Matchmaking component for the KONIVR
 
 ## Features
 
+### Core Features
 - **Physical Match Management**: Create and manage physical matches between players
 - **Tournament Organization**: Set up and track tournaments with various formats
 - **QR Code Generation**: Generate QR codes for matches and tournaments
@@ -16,6 +17,12 @@ A standalone implementation of the Physical Matchmaking component for the KONIVR
 - **Responsive Design**: Works on all screen sizes from mobile to desktop
 - **Offline Support**: All data is stored locally in the browser
 - **Performance Optimized**: Lazy loading, code splitting, and memoization for optimal performance
+
+### Bleeding-Edge Technology
+- **AI Card Verification**: Use your device camera to scan and verify physical cards with TensorFlow.js
+- **Blockchain Integration**: Secure tournament results and card ownership with blockchain verification
+- **Machine Learning Deck Analysis**: Analyze deck compositions, predict win rates, and get optimization suggestions
+- **Augmented Reality Card Viewer**: Experience your cards in AR with 3D models and animations
 
 ## Table of Contents
 
@@ -120,9 +127,16 @@ konivrer-standalone/
 
 ### Components
 
+#### Core Components
 1. **PhysicalMatchmaking**: Main component that displays matches, tournaments, and player statistics
 2. **QRCodeGenerator**: Standard QR code generator component
 3. **AncientThemeQRCodeGenerator**: QR code generator with ancient-esoteric styling
+
+#### Bleeding-Edge Components
+4. **AICardVerification**: AI-powered card verification using TensorFlow.js and device camera
+5. **BlockchainVerification**: Blockchain integration for secure tournament results and card ownership
+6. **MLDeckAnalysis**: Machine learning deck analysis with archetype identification and win rate prediction
+7. **AugmentedRealityViewer**: AR card viewer with 3D models and animations
 
 ### Hooks
 
@@ -172,7 +186,15 @@ To integrate this component with the main KONIVRER Deck Database:
 
 ## Dependencies
 
+### Core Dependencies
 - **React**: UI library
 - **React DOM**: React renderer for the DOM
 - **qrcode.react**: QR code generation library
 - **web-vitals**: Performance monitoring library
+
+### Bleeding-Edge Dependencies
+- **TensorFlow.js**: Machine learning library for AI card verification
+- **Ethers.js**: Ethereum library for blockchain integration
+- **Chart.js & React-ChartJS-2**: Data visualization for ML deck analysis
+- **Three.js & React-Three-Fiber**: 3D rendering for augmented reality card viewing
+- **Vite Plugin PWA**: Progressive Web App capabilities

@@ -2,12 +2,24 @@
 :root {
   /* Color palette */
   --color-primary: #646cff;
+  --color-primary-rgb: 100, 108, 255; /* RGB values for rgba() usage */
   --color-primary-dark: #535bf2;
+  --color-primary-dark-rgb: 83, 91, 242;
   --color-text: rgba(255, 255, 255, 0.87);
   --color-background: #242424;
   --color-surface: #1a1a1a;
   --color-border: #3a3a3a;
   --color-muted: #888;
+  
+  /* Semantic colors */
+  --color-success: #4caf50;
+  --color-success-rgb: 76, 175, 80;
+  --color-warning: #ff9800;
+  --color-warning-rgb: 255, 152, 0;
+  --color-error: #f44336;
+  --color-error-rgb: 244, 67, 54;
+  --color-info: #2196f3;
+  --color-info-rgb: 33, 150, 243;
   
   /* Ancient theme colors */
   --ancient-bg-primary: #2c1e0e;
@@ -15,6 +27,12 @@
   --ancient-text: #e6cc9c;
   --ancient-border: #8b7355;
   --ancient-accent: rgba(255, 215, 0, 0.3);
+  --ancient-primary: #8a7e55;
+  --ancient-primary-rgb: 138, 126, 85;
+  --ancient-success: #5d7a4e;
+  --ancient-warning: #7a7a4e;
+  --ancient-error: #7a4e4e;
+  --ancient-info: #4e7a7a;
   
   /* Typography */
   --font-family-base: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
