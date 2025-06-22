@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRCode from 'qrcode.react';
+import '../styles/ancient-esoteric-theme.css';
 import {
   Users,
   Trophy,
@@ -34,7 +35,15 @@ import {
   ArrowLeft,
   ArrowRight,
   Shuffle,
-  RefreshCw
+  RefreshCw,
+  Brain,
+  Award,
+  TrendingUp,
+  Gauge,
+  Sparkles,
+  Dices,
+  Swords,
+  Shield
 } from 'lucide-react';
 
 const EnhancedPhysicalMatchmaking = () => {
@@ -43,6 +52,7 @@ const EnhancedPhysicalMatchmaking = () => {
     tournaments,
     matches,
     isOfflineMode,
+    rankingEngine,
     addPlayer,
     updatePlayer,
     deletePlayer,
@@ -55,12 +65,18 @@ const EnhancedPhysicalMatchmaking = () => {
     generateMatchQRData,
     generateTournamentQRData,
     exportData,
-    importData
+    importData,
+    calculateMatchQuality,
+    recordMatchResult,
+    getPlayerTier
   } = usePhysicalMatchmaking();
 
   const [activeTab, setActiveTab] = useState('quickMatch');
   const [playerProfile, setPlayerProfile] = useState(null);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const [matchQuality, setMatchQuality] = useState(null);
+  const [showBayesianDetails, setShowBayesianDetails] = useState(false);
   const [showTournamentModal, setShowTournamentModal] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [qrData, setQrData] = useState(null);
@@ -72,6 +88,51 @@ const EnhancedPhysicalMatchmaking = () => {
     status: 'all',
     sortBy: 'date'
   });
+  
+  // Bayesian matchmaking functions
+  useEffect(() => {
+    if (selectedPlayers.length === 2) {
+      const quality = calculateMatchQuality(selectedPlayers[0], selectedPlayers[1]);
+      setMatchQuality(quality);
+    } else {
+      setMatchQuality(null);
+    }
+  }, [selectedPlayers, calculateMatchQuality]);
+  
+  const togglePlayerSelection = (playerId) => {
+    if (selectedPlayers.includes(playerId)) {
+      setSelectedPlayers(selectedPlayers.filter(id => id !== playerId));
+    } else {
+      // If already have 2 players, replace the second one
+      if (selectedPlayers.length >= 2) {
+        setSelectedPlayers([selectedPlayers[0], playerId]);
+      } else {
+        setSelectedPlayers([...selectedPlayers, playerId]);
+      }
+    }
+  };
+  
+  const handleRecordMatch = (result, matchDetails = {}) => {
+    if (selectedPlayers.length !== 2) return;
+    
+    const matchResult = recordMatchResult(
+      selectedPlayers[0],
+      selectedPlayers[1],
+      result,
+      matchDetails
+    );
+    
+    // Reset selection after recording
+    setSelectedPlayers([]);
+    setMatchQuality(null);
+    
+    return matchResult;
+  };
+  
+  const getPlayerTierDisplay = (player) => {
+    if (!player || !player.conservativeRating) return { tier: 'bronze', division: 4, name: 'Bronze', color: '#CD7F32' };
+    return getPlayerTier(player.conservativeRating);
+  };
 
   // QR Code generation
   const openQRModal = (type, id) => {
