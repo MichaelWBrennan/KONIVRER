@@ -34,6 +34,7 @@ import DeckSearch from './pages/DeckSearch';
 import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
+import MobileRules from './pages/MobileRules';
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
 
@@ -124,6 +125,7 @@ function App() {
                   {/* Legacy Game Platform - redirect to sections */}
                   <Route path="/hub" element={<StreamlinedGamePlatform />} />
                   <Route path="/card/:cardId" element={<CardPage />} />
+                  <Route path="/rules" element={<MobileRules />} />
 
                   {/* Legacy redirects for backward compatibility */}
                   <Route

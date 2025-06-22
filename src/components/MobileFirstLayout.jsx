@@ -68,7 +68,8 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Cards', path: '/cards' },
     { name: 'Decks', path: '/decks' },
     { name: 'Play', path: '/game/online' },
-    { name: 'Match', path: '/matchmaking' }
+    { name: 'Match', path: '/matchmaking' },
+    { name: 'Rules', path: '/rules' }
   ];
 
   // Get page title based on current path
@@ -122,16 +123,19 @@ const MobileFirstLayout = ({ children }) => {
       {/* Mobile Navigation */}
       <nav className="mobile-nav esoteric-bg-dark">
         {navigationItems.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}
-            onClick={() => analytics.navigationClick(item.path, location.pathname)}
-          >
-            <div className="mobile-nav-item-text">
-              {item.name}
-            </div>
-          </Link>
+          // Only show Home when not on the home page
+          (item.name !== 'Home' || location.pathname !== '/') && (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}
+              onClick={() => analytics.navigationClick(item.path, location.pathname)}
+            >
+              <div className="mobile-nav-item-text">
+                {item.name}
+              </div>
+            </Link>
+          )
         ))}
       </nav>
 
