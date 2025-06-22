@@ -509,6 +509,429 @@ html, body {
   overflow-y: auto;
 }
 
+/* Mobile Auth Notification */
+.mobile-auth-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+}
+
+.mobile-auth-notification {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-auth-notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.mobile-auth-notification-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* SSO Buttons */
+.mobile-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+.mobile-divider::before,
+.mobile-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+}
+
+.mobile-divider span {
+  padding: 0 var(--spacing-sm);
+  font-size: 0.875rem;
+}
+
+.mobile-sso-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.mobile-sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  background-color: transparent;
+  color: var(--color-text, #fff);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.mobile-sso-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-sso-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--color-primary, #4f46e5);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin-left: auto;
+}
+
+.mobile-spinner-small {
+  width: 12px;
+  height: 12px;
+  border-width: 1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* OAuth Pages */
+.mobile-auth-processing,
+.mobile-auth-error,
+.mobile-auth-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.mobile-auth-processing h2,
+.mobile-auth-error h2,
+.mobile-auth-success h2 {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.mobile-auth-processing p,
+.mobile-auth-error p,
+.mobile-auth-success p {
+  margin-bottom: var(--spacing-md);
+  max-width: 400px;
+}
+
+/* Physical Matchmaking App */
+.mobile-physical-matchmaking {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobile-tab-content {
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.mobile-player-list,
+.mobile-tournament-list,
+.mobile-match-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+}
+
+.mobile-player-item,
+.mobile-tournament-item,
+.mobile-match-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-player-info,
+.mobile-tournament-info,
+.mobile-match-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.mobile-player-name,
+.mobile-tournament-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.mobile-player-deck,
+.mobile-tournament-date,
+.mobile-tournament-location,
+.mobile-match-details {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.mobile-match-players {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.mobile-match-result {
+  margin-top: var(--spacing-xs);
+}
+
+.mobile-player-rating,
+.mobile-tournament-players,
+.mobile-match-actions {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-empty-state {
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.mobile-form-container {
+  margin-top: var(--spacing-lg);
+}
+
+.mobile-form-title {
+  margin-bottom: var(--spacing-md);
+  font-size: 1.2rem;
+}
+
+.mobile-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.mobile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.mobile-select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  background-color: var(--color-bg-input, rgba(0, 0, 0, 0.2));
+  color: var(--color-text, #fff);
+  font-size: 1rem;
+  width: 100%;
+}
+
+.mobile-textarea {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  background-color: var(--color-bg-input, rgba(0, 0, 0, 0.2));
+  color: var(--color-text, #fff);
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
+}
+
+.mobile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+}
+
+.mobile-modal-content {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-card, #1a1a1a);
+}
+
+.mobile-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+}
+
+.mobile-modal-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.mobile-btn-close {
+  background: none;
+  border: none;
+  color: var(--color-text, #fff);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.mobile-modal-body {
+  padding: var(--spacing-md);
+}
+
+.mobile-player-detail,
+.mobile-tournament-detail,
+.mobile-match-detail {
+  margin-bottom: var(--spacing-md);
+}
+
+.mobile-modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.mobile-tournament-players {
+  margin-top: var(--spacing-md);
+}
+
+.mobile-player-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.mobile-player-chip {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-chip, rgba(255, 255, 255, 0.1));
+  font-size: 0.8rem;
+}
+
+.mobile-match-players-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.mobile-player-card {
+  flex: 1;
+  padding: var(--spacing-sm);
+  text-align: center;
+}
+
+.mobile-vs-badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.mobile-match-meta {
+  margin-bottom: var(--spacing-md);
+}
+
+.mobile-match-result-form {
+  margin-top: var(--spacing-md);
+}
+
+.mobile-result-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.mobile-settings-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mobile-settings-title {
+  margin-bottom: var(--spacing-md);
+  font-size: 1.2rem;
+}
+
+.mobile-settings-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.mobile-import-form {
+  margin-top: var(--spacing-md);
+}
+
+.mobile-import-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.mobile-about-content {
+  line-height: 1.6;
+}
+
+.mobile-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.mobile-qr-code {
+  background-color: white;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.mobile-btn-icon {
+  background: none;
+  border: none;
+  color: var(--color-text, #fff);
+  font-size: 0.9rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-button, rgba(255, 255, 255, 0.1));
+  cursor: pointer;
+}
+
 .mobile-tabs {
   display: flex;
   border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
