@@ -15,6 +15,8 @@ import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
 import MobileFirstLayout from './components/MobileFirstLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+import OAuthCallback from './components/OAuthCallback';
+import OAuthComplete from './components/OAuthComplete';
 import Home from './pages/Home';
 import MobileHome from './pages/MobileHome';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -171,6 +173,10 @@ function App() {
                     element={<TournamentManager />}
                   />
                   <Route path="/admin" element={<AdminPanel />} />
+                  
+                  {/* OAuth Routes */}
+                  <Route path="/oauth/callback" element={<OAuthCallback />} />
+                  <Route path="/oauth/complete" element={<OAuthComplete />} />
                 </Routes>
                         </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>
