@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { useNavigate } from 'react-router-dom';
 import { RankingEngine } from '../engine/RankingEngine';
 import { TournamentEngine } from '../engine/TournamentEngine';
+import { AnalyticsEngine } from '../engine/AnalyticsEngine';
 
 // Advanced analytics and ML utilities
 class AdvancedAnalytics {
@@ -606,6 +607,13 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     enableMetaBalancingIncentives: true,
     enableTieredEntrySystems: true,
     enableParallelBracketSystems: true
+  }));
+  const [analyticsEngine] = useState(() => new AnalyticsEngine({
+    enableCardSynergyAnalysis: true,
+    enableDecisionPointIdentification: true,
+    enablePerformanceVarianceAnalysis: true,
+    enableMetagameCyclePrediction: true,
+    enablePersonalizedWeaknessDetection: true
   }));
   const [analytics] = useState(() => new AdvancedAnalytics());
   const navigate = useNavigate();
@@ -1697,12 +1705,27 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     analyzePlayerPerformance: (playerId) => analytics.analyzePlayerPerformance(players, matches),
     predictMetaEvolution: () => analytics.predictMetaEvolution(analytics.analyzeMetaBreakdown(matches, players)),
     
+    // Advanced analytics methods
+    analyzeCardSynergies: (decks) => analyticsEngine.analyzeCardSynergies(decks, matches),
+    identifyDecisionPoints: () => analyticsEngine.identifyDecisionPoints(matches),
+    analyzePerformanceVariance: () => analyticsEngine.analyzePerformanceVariance(players, matches),
+    predictMetagameCycles: (metaSnapshots) => analyticsEngine.predictMetagameCycles(metaSnapshots),
+    detectPlayerWeaknesses: (playerId) => {
+      const player = players.find(p => p.id === playerId);
+      if (!player) return null;
+      return analyticsEngine.detectPlayerWeaknesses(player, matches);
+    },
+    getCardSynergyRecommendations: (deck, topN = 5) => analyticsEngine.getCardSynergyRecommendations(deck, topN),
+    getPlayerImprovementRecommendations: (playerId) => analyticsEngine.getPlayerImprovementRecommendations(playerId),
+    getMetaPrediction: (daysInFuture = 14) => analyticsEngine.getMetaPrediction(daysInFuture),
+    
     // Data methods
     exportData,
     importData,
     
     // Bayesian matchmaking methods
     calculateMatchQuality,
+    calculateAdvancedMatchQuality,
     recordMatchResult,
     getPlayerTier,
     
