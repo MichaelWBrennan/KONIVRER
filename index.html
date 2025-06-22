@@ -11,10 +11,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="KONIVRER" />
     <meta name="application-name" content="KONIVRER" />
-    <meta name="msapplication-TileColor" content="#1a1a2e" />
+    <meta name="msapplication-TileColor" content="#1a0b2e" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
-    <meta name="theme-color" content="#16213e" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1a0b2e" />
+    <meta name="color-scheme" content="dark" />
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -82,10 +82,26 @@
         box-sizing: border-box;
       }
       
+      @font-face {
+        font-family: 'OpenDyslexic';
+        src: url('/fonts/opendyslexic/OpenDyslexic-Regular.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      
+      @font-face {
+        font-family: 'OpenDyslexic';
+        src: url('/fonts/opendyslexic/OpenDyslexic-Bold.otf') format('opentype');
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+      }
+      
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-        background: #0f0f0f;
-        color: #ffffff;
+        font-family: 'OpenDyslexic', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        background: #1a0b2e; /* Deep mystical purple background */
+        color: #f8f4e3; /* Ancient parchment text color */
         line-height: 1.6;
         overflow-x: hidden;
       }
@@ -100,7 +116,7 @@
       /* All loading spinner CSS has been permanently removed */
     </style>
     
-    <title>KONIVRER Deck Database</title>
+    <title>KONIVRER | Ancient Knowledge Card Database</title>
   </head>
   <body>
     <div id="root">
