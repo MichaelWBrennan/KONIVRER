@@ -13,8 +13,9 @@ import { BattlePassProvider } from './contexts/BattlePassContext';
 import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
-import { Layout } from './components/Layout';
+import MobileFirstLayout from './components/MobileFirstLayout';
 import Home from './pages/Home';
+import MobileHome from './pages/MobileHome';
 import { JudgeCenter } from './pages/JudgeCenter';
 import { TournamentCreate } from './pages/TournamentCreate';
 import EnhancedProfile from './components/EnhancedProfile';
@@ -26,11 +27,15 @@ import UnifiedTournaments from './pages/UnifiedTournaments';
 
 import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
 import GamePage from './pages/GamePage';
+import MobileGamePage from './pages/MobileGamePage';
 import CardExplorer from './pages/CardExplorer';
+import MobileCardExplorer from './pages/MobileCardExplorer';
 import DeckSearch from './pages/DeckSearch';
+import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 import Matchmaking from './pages/Matchmaking';
+import MobileMatchmaking from './pages/MobileMatchmaking';
 
 import BattlePass from './pages/BattlePass';
 import DeckSelectionPage from './pages/DeckSelectionPage';
@@ -56,15 +61,15 @@ function App() {
                   <SocialProvider>
                     <Router>
                       <PhysicalMatchmakingProvider>
-                        <Layout>
+                        <MobileFirstLayout>
                           <Routes>
                   {/* Core Pages */}
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<MobileHome />} />
                   <Route path="/rules" element={<Rules />} />
 
                   {/* Game Page */}
-                  <Route path="/game/:mode" element={<GamePage />} />
-                  <Route path="/game/:mode/:gameId" element={<GamePage />} />
+                  <Route path="/game/:mode" element={<MobileGamePage />} />
+                  <Route path="/game/:mode/:gameId" element={<MobileGamePage />} />
                   
                   {/* Industry-Leading Game Platform */}
                   <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
@@ -77,7 +82,7 @@ function App() {
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
                   {/* Matchmaking System */}
-                  <Route path="/matchmaking" element={<Matchmaking />} />
+                  <Route path="/matchmaking" element={<MobileMatchmaking />} />
                   
                   {/* Physical Matchmaking System */}
                   <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
@@ -94,13 +99,13 @@ function App() {
                   />
 
                   {/* Section Pages */}
-                  <Route path="/cards" element={<CardExplorer />} />
-                  <Route path="/cards/*" element={<CardExplorer />} />
+                  <Route path="/cards" element={<MobileCardExplorer />} />
+                  <Route path="/cards/*" element={<MobileCardExplorer />} />
                   <Route path="/enhanced-card-search" element={<EnhancedCardSearch />} />
                   <Route path="/spoilers" element={<CardExplorer />} />
 
-                  <Route path="/decks" element={<DeckSearch />} />
-                  <Route path="/decks/*" element={<DeckSearch />} />
+                  <Route path="/decks" element={<MobileDeckSearch />} />
+                  <Route path="/decks/*" element={<MobileDeckSearch />} />
 
                   {/* Analytics redirected to decks */}
                   <Route
@@ -164,7 +169,7 @@ function App() {
                   />
                   <Route path="/admin" element={<AdminPanel />} />
                 </Routes>
-                        </Layout>
+                        </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>
                     </Router>
                   </SocialProvider>
