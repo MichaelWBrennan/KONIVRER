@@ -14,10 +14,14 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
+import TournamentTemplates from '../components/tournaments/TournamentTemplates';
 
 const TournamentCreate = () => {
   const navigate = useNavigate();
+  const physicalMatchmaking = usePhysicalMatchmaking();
   const [step, setStep] = useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [formData, setFormData] = useState({
     // Basic Information
     name: '',
@@ -83,6 +87,12 @@ const TournamentCreate = () => {
     return 8;
   };
 
+  const renderTemplateSelection = () => (
+    <div className="space-y-6">
+      <TournamentTemplates onSelectTemplate={handleTemplateSelect} />
+    </div>
+  );
+  
   const renderBasicInfo = () => (
     <div className="space-y-6">
       <div>
@@ -577,13 +587,37 @@ const TournamentCreate = () => {
   );
 
   const steps = [
-    { id: 1, title: 'Basic Information', icon: Info },
-    { id: 2, title: 'Schedule & Location', icon: Calendar },
-    { id: 3, title: 'Participants & Structure', icon: Users },
-    { id: 4, title: 'Judge & Settings', icon: Settings },
-    { id: 5, title: 'Review & Create', icon: Eye },
+    { id: 1, title: 'Template Selection', icon: Trophy },
+    { id: 2, title: 'Basic Information', icon: Info },
+    { id: 3, title: 'Schedule & Location', icon: Calendar },
+    { id: 4, title: 'Participants & Structure', icon: Users },
+    { id: 5, title: 'Judge & Settings', icon: Settings },
+    { id: 6, title: 'Review & Create', icon: Eye },
   ];
 
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    
+    // Update form data based on template
+    setFormData({
+      ...formData,
+      type: template.id,
+      format: template.id === 'swiss' ? 'swiss' : 
+              template.id === 'adaptive' ? 'adaptive' :
+              template.id === 'meta-balanced' ? 'swiss' :
+              template.id === 'tiered' ? 'tiered' :
+              template.id === 'parallel' ? 'double-elimination' : 'standard',
+      maxParticipants: template.participantCount,
+      metaBalanceEnabled: template.metaBalance,
+      parallelBracketsEnabled: template.parallelBrackets,
+      tieredEntryEnabled: template.tieredEntry,
+      timeConstraint: template.timeConstraint
+    });
+    
+    // Move to next step
+    setStep(2);
+  };
+  
   const handleSubmit = () => {
     // Here you would submit the tournament data
     console.log('Creating tournament:', formData);
@@ -636,11 +670,12 @@ const TournamentCreate = () => {
 
         {/* Form Content */}
         <div className="card mb-8">
-          {step === 1 && renderBasicInfo()}
-          {step === 2 && renderScheduleLocation()}
-          {step === 3 && renderParticipantsStructure()}
-          {step === 4 && renderJudgeSettings()}
-          {step === 5 && renderReview()}
+          {step === 1 && renderTemplateSelection()}
+          {step === 2 && renderBasicInfo()}
+          {step === 3 && renderScheduleLocation()}
+          {step === 4 && renderParticipantsStructure()}
+          {step === 5 && renderJudgeSettings()}
+          {step === 6 && renderReview()}
         </div>
 
         {/* Navigation */}
@@ -661,9 +696,9 @@ const TournamentCreate = () => {
               Cancel
             </button>
 
-            {step < 5 ? (
+            {step < 6 ? (
               <button
-                onClick={() => setStep(Math.min(5, step + 1))}
+                onClick={() => setStep(Math.min(6, step + 1))}
                 className="btn btn-primary"
               >
                 Next
