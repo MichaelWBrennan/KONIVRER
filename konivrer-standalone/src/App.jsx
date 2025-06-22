@@ -1,16 +1,58 @@
-import React, { memo, Suspense, lazy } from 'react';
+import React, { memo, Suspense, lazy, useState, useCallback } from 'react';
 import './App.css';
 
-// Lazy load the PhysicalMatchmaking component for better performance
+// Lazy load components for better performance
 const PhysicalMatchmaking = lazy(() => import('./components/PhysicalMatchmaking'));
+const AICardVerification = lazy(() => import('./components/AICardVerification'));
+const BlockchainVerification = lazy(() => import('./components/BlockchainVerification'));
+const MLDeckAnalysis = lazy(() => import('./components/MLDeckAnalysis'));
+const AugmentedRealityViewer = lazy(() => import('./components/AugmentedRealityViewer'));
 
 // Memoized header component
 const Header = memo(() => (
   <header className="app-header">
     <h1>KONIVRER Physical Matchmaking</h1>
-    <p className="app-subtitle">Generate QR codes for physical matches and tournaments</p>
+    <p className="app-subtitle">Advanced TCG platform with bleeding-edge technology</p>
   </header>
 ));
+
+// Memoized navigation component
+const Navigation = memo(({ activeTab, onTabChange }) => {
+  return (
+    <nav className="app-navigation">
+      <button 
+        className={`nav-button ${activeTab === 'matchmaking' ? 'active' : ''}`}
+        onClick={() => onTabChange('matchmaking')}
+      >
+        Physical Matchmaking
+      </button>
+      <button 
+        className={`nav-button ${activeTab === 'ai-verification' ? 'active' : ''}`}
+        onClick={() => onTabChange('ai-verification')}
+      >
+        AI Card Verification
+      </button>
+      <button 
+        className={`nav-button ${activeTab === 'blockchain' ? 'active' : ''}`}
+        onClick={() => onTabChange('blockchain')}
+      >
+        Blockchain Verification
+      </button>
+      <button 
+        className={`nav-button ${activeTab === 'ml-analysis' ? 'active' : ''}`}
+        onClick={() => onTabChange('ml-analysis')}
+      >
+        ML Deck Analysis
+      </button>
+      <button 
+        className={`nav-button ${activeTab === 'ar-viewer' ? 'active' : ''}`}
+        onClick={() => onTabChange('ar-viewer')}
+      >
+        AR Card Viewer
+      </button>
+    </nav>
+  );
+});
 
 // Memoized footer component
 const Footer = memo(() => {
@@ -32,7 +74,7 @@ const Footer = memo(() => {
 const LoadingFallback = memo(() => (
   <div className="loading-fallback">
     <div className="loading-spinner"></div>
-    <p>Loading KONIVRER Physical Matchmaking...</p>
+    <p>Loading KONIVRER components...</p>
   </div>
 ));
 
@@ -70,13 +112,38 @@ class ErrorBoundary extends React.Component {
 
 // Main App component
 const App = () => {
+  const [activeTab, setActiveTab] = useState('matchmaking');
+  
+  const handleTabChange = useCallback((tab) => {
+    setActiveTab(tab);
+  }, []);
+  
+  // Render the active component based on the selected tab
+  const renderActiveComponent = () => {
+    switch (activeTab) {
+      case 'matchmaking':
+        return <PhysicalMatchmaking />;
+      case 'ai-verification':
+        return <AICardVerification />;
+      case 'blockchain':
+        return <BlockchainVerification />;
+      case 'ml-analysis':
+        return <MLDeckAnalysis />;
+      case 'ar-viewer':
+        return <AugmentedRealityViewer />;
+      default:
+        return <PhysicalMatchmaking />;
+    }
+  };
+  
   return (
     <div className="app">
       <Header />
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       <main className="app-content">
         <ErrorBoundary>
           <Suspense fallback={<LoadingFallback />}>
-            <PhysicalMatchmaking />
+            {renderActiveComponent()}
           </Suspense>
         </ErrorBoundary>
       </main>
