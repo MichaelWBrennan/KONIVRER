@@ -14,7 +14,7 @@ import {
   Target,
   Settings,
   Save,
-  Load,
+  Download, // Replaced Load with Download
   Users,
   Bot,
   Flag,
@@ -712,7 +712,7 @@ const GameSimulator = () => {
     setGameState(newGameState);
   };
 
-  const selectDeck = (deck, playerId) => {
+  const assignDeck = (deck, playerId) => {
     const newGameState = { ...gameState };
     newGameState.players[playerId].deck = deck;
     setGameState(newGameState);

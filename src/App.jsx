@@ -27,7 +27,6 @@ import StreamlinedGamePlatform from './pages/StreamlinedGamePlatform';
 import GamePage from './pages/GamePage';
 import CardExplorer from './pages/CardExplorer';
 import DeckSearch from './pages/DeckSearch';
-import AnalyticsHub from './pages/AnalyticsHub';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 import Matchmaking from './pages/Matchmaking';

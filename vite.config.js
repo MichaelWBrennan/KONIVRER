@@ -20,8 +20,7 @@ export default defineConfig({
           'three': ['three'],
           'tensorflow': ['@tensorflow/tfjs'],
           'audio': ['tone'],
-          'social': ['socket.io-client'],
-          'physics': ['cannon-es']
+          'social': ['socket.io-client']
         }
       }
     },
@@ -58,7 +57,6 @@ export default defineConfig({
       '@tensorflow/tfjs',
       'tone',
       'socket.io-client',
-      'cannon-es',
       'framer-motion',
       'react-spring'
     ],
