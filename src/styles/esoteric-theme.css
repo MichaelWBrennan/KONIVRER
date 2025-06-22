@@ -689,3 +689,30 @@ a:hover:after {
 .mobile-qr-placeholder {
   border: 2px dashed var(--esoteric-border-accent);
 }
+
+/* Esoteric Auth Modal */
+.esoteric-tab-active {
+  border-bottom-color: var(--esoteric-accent) !important;
+  color: var(--esoteric-accent) !important;
+  text-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
+
+.esoteric-progress-weak {
+  background-color: var(--esoteric-danger);
+  box-shadow: 0 0 5px var(--esoteric-danger);
+}
+
+.esoteric-progress-fair {
+  background-color: var(--esoteric-warning);
+  box-shadow: 0 0 5px var(--esoteric-warning);
+}
+
+.esoteric-progress-good {
+  background-color: var(--esoteric-success);
+  box-shadow: 0 0 5px var(--esoteric-success);
+}
+
+.esoteric-progress-strong {
+  background-color: var(--esoteric-accent);
+  box-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
