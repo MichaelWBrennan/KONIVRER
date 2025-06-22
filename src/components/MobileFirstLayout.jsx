@@ -80,17 +80,7 @@ const MobileFirstLayout = ({ children }) => {
       (item.path !== '/' && location.pathname.startsWith(item.path))
     );
     
-    if (!currentRoute) return 'KONIVRER';
-    
-    // Return esoteric names for pages
-    switch (currentRoute.name) {
-      case 'Home': return 'The Sanctum';
-      case 'Cards': return 'Ancient Tomes';
-      case 'Decks': return 'Mystical Grimoires';
-      case 'Play': return 'Arcane Summoning';
-      case 'Match': return 'Ritual Circle';
-      default: return currentRoute.name;
-    }
+    return currentRoute ? currentRoute.name : 'KONIVRER';
   };
 
   // Check if a navigation item is active
@@ -119,7 +109,7 @@ const MobileFirstLayout = ({ children }) => {
             onClick={() => setShowAuthModal(true)}
             className="mobile-btn mobile-btn-primary esoteric-btn esoteric-btn-primary"
           >
-            Commune
+            Login
           </button>
         )}
       </header>
@@ -139,11 +129,7 @@ const MobileFirstLayout = ({ children }) => {
             onClick={() => analytics.navigationClick(item.path, location.pathname)}
           >
             <div className="mobile-nav-item-text">
-              {item.name === 'Home' && 'Sanctum'}
-              {item.name === 'Cards' && 'Tomes'}
-              {item.name === 'Decks' && 'Grimoires'}
-              {item.name === 'Play' && 'Summon'}
-              {item.name === 'Match' && 'Ritual'}
+              {item.name}
             </div>
           </Link>
         ))}
