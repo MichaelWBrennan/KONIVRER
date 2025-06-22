@@ -1,20 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Smartphone, Tablet, Laptop } from 'lucide-react';
+import { Users, Smartphone, Tablet, Laptop, Trophy, QrCode } from 'lucide-react';
+import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 
-const PhysicalMatchmakingButton = ({ onClick }) => {
+const PhysicalMatchmakingButton = () => {
+  const { goToPhysicalMatchmaking } = usePhysicalMatchmaking();
+
   return (
     <motion.div
       className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-sm p-6 text-white"
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <h2 className="text-lg font-semibold mb-2">Physical Card Game?</h2>
+      <div className="flex items-center space-x-2 mb-2">
+        <Trophy className="w-5 h-5 text-yellow-300" />
+        <h2 className="text-lg font-semibold">Physical Card Game?</h2>
+      </div>
       <p className="text-sm text-purple-200 mb-4">
-        Use our physical matchmaking system for in-person tournaments and casual play.
+        Use our enhanced physical matchmaking system for in-person tournaments, quick matches, and player tracking.
       </p>
       <motion.button
-        onClick={onClick}
+        onClick={goToPhysicalMatchmaking}
         className="w-full bg-white text-purple-700 py-2 px-4 rounded-lg font-medium hover:bg-purple-50 transition-colors flex items-center justify-center space-x-2"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -24,7 +30,7 @@ const PhysicalMatchmakingButton = ({ onClick }) => {
       </motion.button>
       
       <div className="mt-3 pt-3 border-t border-purple-500 border-opacity-30">
-        <div className="flex justify-around">
+        <div className="grid grid-cols-4 gap-2">
           <div className="text-center">
             <Smartphone className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">Mobile</p>
@@ -37,6 +43,13 @@ const PhysicalMatchmakingButton = ({ onClick }) => {
             <Laptop className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">Desktop</p>
           </div>
+          <div className="text-center">
+            <QrCode className="w-5 h-5 mx-auto mb-1" />
+            <p className="text-xs text-purple-200">QR Codes</p>
+          </div>
+        </div>
+        <div className="mt-2 text-xs text-center text-purple-200">
+          <p>Works offline! Perfect for tournaments and game stores.</p>
         </div>
       </div>
     </motion.div>
