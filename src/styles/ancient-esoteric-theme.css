@@ -12,45 +12,45 @@
   --bg-glass: rgba(26, 20, 9, 0.85); /* Translucent aged glass */
   --bg-overlay: rgba(10, 8, 4, 0.75); /* Mystical overlay */
 
-  /* Text Colors for Ancient Manuscripts */
-  --text-primary: #e8d7b0; /* Faded ink on parchment */
-  --text-secondary: #c4b795; /* Aged ink */
-  --text-tertiary: #a69b7b; /* Very old ink */
-  --text-muted: #7a7057; /* Nearly invisible ancient text */
-  --text-disabled: #4d4636; /* Worn away text */
+  /* Text Colors for Ancient Manuscripts - Enhanced contrast for better readability */
+  --text-primary: #f0e6cc; /* Faded ink on parchment - Brightened for better contrast */
+  --text-secondary: #d8cba9; /* Aged ink - Brightened for better contrast */
+  --text-tertiary: #b8ad8d; /* Very old ink - Brightened for better contrast */
+  --text-muted: #8c8269; /* Nearly invisible ancient text - Brightened for better contrast */
+  --text-disabled: #5d5646; /* Worn away text - Brightened for better contrast */
   --text-inverse: #1a1409; /* Text on light backgrounds */
 
-  /* Mystical Accent Colors */
-  --accent-primary: #9b7e46; /* Ancient gold */
-  --accent-primary-hover: #b39451; /* Polished ancient gold */
-  --accent-primary-active: #7c6537; /* Tarnished gold */
-  --accent-primary-light: rgba(155, 126, 70, 0.15); /* Gold dust */
+  /* Mystical Accent Colors - Enhanced for better visibility */
+  --accent-primary: #c9a95c; /* Ancient gold - Brightened for better visibility */
+  --accent-primary-hover: #d9b96c; /* Polished ancient gold - Brightened */
+  --accent-primary-active: #a68a47; /* Tarnished gold - Brightened */
+  --accent-primary-light: rgba(201, 169, 92, 0.15); /* Gold dust */
 
-  --accent-secondary: #5a7e8c; /* Mystical blue */
-  --accent-secondary-hover: #4a6a78; /* Deep mystical blue */
-  --accent-secondary-light: rgba(90, 126, 140, 0.15); /* Ethereal blue mist */
+  --accent-secondary: #6a8e9c; /* Mystical blue - Brightened */
+  --accent-secondary-hover: #5a7a88; /* Deep mystical blue - Brightened */
+  --accent-secondary-light: rgba(106, 142, 156, 0.15); /* Ethereal blue mist */
 
-  --accent-success: #6b8c5a; /* Alchemical green */
-  --accent-success-hover: #5a7849; /* Deep alchemical green */
-  --accent-success-light: rgba(107, 140, 90, 0.15); /* Alchemical mist */
+  --accent-success: #7b9c6a; /* Alchemical green - Brightened */
+  --accent-success-hover: #6a8859; /* Deep alchemical green - Brightened */
+  --accent-success-light: rgba(123, 156, 106, 0.15); /* Alchemical mist */
 
-  --accent-warning: #c2843a; /* Amber crystal */
-  --accent-warning-hover: #a36f31; /* Deep amber */
-  --accent-warning-light: rgba(194, 132, 58, 0.15); /* Amber glow */
+  --accent-warning: #d2944a; /* Amber crystal - Brightened */
+  --accent-warning-hover: #b37f41; /* Deep amber - Brightened */
+  --accent-warning-light: rgba(210, 148, 74, 0.15); /* Amber glow */
 
-  --accent-danger: #a34c37; /* Ancient red ochre */
-  --accent-danger-hover: #8c4130; /* Deep red ochre */
-  --accent-danger-light: rgba(163, 76, 55, 0.15); /* Red ochre dust */
+  --accent-danger: #b35c47; /* Ancient red ochre - Brightened */
+  --accent-danger-hover: #9c5140; /* Deep red ochre - Brightened */
+  --accent-danger-light: rgba(179, 92, 71, 0.15); /* Red ochre dust */
 
-  --accent-info: #4a6e8c; /* Celestial blue */
-  --accent-info-hover: #3d5c75; /* Deep celestial blue */
-  --accent-info-light: rgba(74, 110, 140, 0.15); /* Celestial mist */
+  --accent-info: #5a7e9c; /* Celestial blue - Brightened */
+  --accent-info-hover: #4d6c85; /* Deep celestial blue - Brightened */
+  --accent-info-light: rgba(90, 126, 156, 0.15); /* Celestial mist */
 
   /* Mystical Gradients */
-  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%); /* Gold to mystical blue */
-  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%); /* Alchemical to celestial */
-  --gradient-tertiary: linear-gradient(135deg, #c2843a 0%, #a34c37 100%); /* Amber to red ochre */
-  --gradient-danger: linear-gradient(135deg, #a34c37 0%, #8c4130 100%); /* Red ochre variations */
+  --gradient-primary: linear-gradient(135deg, #c9a95c 0%, #6a8e9c 100%); /* Gold to mystical blue */
+  --gradient-secondary: linear-gradient(135deg, #7b9c6a 0%, #5a7e9c 100%); /* Alchemical to celestial */
+  --gradient-tertiary: linear-gradient(135deg, #d2944a 0%, #b35c47 100%); /* Amber to red ochre */
+  --gradient-danger: linear-gradient(135deg, #b35c47 0%, #9c5140 100%); /* Red ochre variations */
   --gradient-hero: linear-gradient(
     135deg,
     #1a1409 0%,
@@ -63,10 +63,10 @@
   --border-primary: #3a3120; /* Aged parchment edge */
   --border-secondary: #453a26; /* Scroll binding */
   --border-hover: #574a2f; /* Illuminated border */
-  --border-focus: #9b7e46; /* Golden focus */
-  --border-success: #6b8c5a; /* Alchemical border */
-  --border-warning: #c2843a; /* Amber border */
-  --border-danger: #a34c37; /* Red ochre border */
+  --border-focus: #c9a95c; /* Golden focus - Brightened */
+  --border-success: #7b9c6a; /* Alchemical border - Brightened */
+  --border-warning: #d2944a; /* Amber border - Brightened */
+  --border-danger: #b35c47; /* Red ochre border - Brightened */
   --border-transparent: transparent;
 
   /* Mystical Shadows */
@@ -80,10 +80,17 @@
     0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 20px rgba(155, 126, 70, 0.3); /* Golden glow */
-  --shadow-glow-success: 0 0 20px rgba(107, 140, 90, 0.3); /* Alchemical glow */
-  --shadow-glow-warning: 0 0 20px rgba(194, 132, 58, 0.3); /* Amber glow */
-  --shadow-glow-danger: 0 0 20px rgba(163, 76, 55, 0.3); /* Red ochre glow */
+  --shadow-glow: 0 0 20px rgba(201, 169, 92, 0.3); /* Golden glow - Brightened */
+  --shadow-glow-success: 0 0 20px rgba(123, 156, 106, 0.3); /* Alchemical glow - Brightened */
+  --shadow-glow-warning: 0 0 20px rgba(210, 148, 74, 0.3); /* Amber glow - Brightened */
+  --shadow-glow-danger: 0 0 20px rgba(179, 92, 71, 0.3); /* Red ochre glow - Brightened */
+  
+  /* Mobile-specific variables */
+  --touch-target-size: 44px;
+  --mobile-padding: 16px;
+  --mobile-border-radius: 12px;
+  --mobile-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --mobile-transition: all 0.2s ease;
 }
 
 /* Ancient Scrollwork and Decorative Elements */
@@ -175,6 +182,18 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-primary-hover);
+}
+
+/* Mobile-optimized scrollbar */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-width: 0;
+  }
 }
 
 /* Mystical Selection */
