@@ -32,40 +32,40 @@
 }
 
 :root {
-  /* Ancient and Esoteric Theme with Modern Design Principles */
-  --bg-primary: #1a1409; /* Dark aged parchment */
-  --bg-secondary: #221b10; /* Slightly lighter aged parchment */
-  --bg-tertiary: #2a2214; /* Textured stone */
-  --bg-card: #241e12; /* Weathered scroll */
-  --bg-hover: #3a3120; /* Highlighted text on ancient scroll */
-  --bg-accent: #332a1a; /* Ancient tablet */
-  --bg-glass: rgba(26, 20, 9, 0.85); /* Translucent aged glass */
+  /* Ancient and Esoteric Theme with Modern Design Principles - FORCED OVERRIDE */
+  --bg-primary: #1a1409 !important; /* Dark aged parchment */
+  --bg-secondary: #221b10 !important; /* Slightly lighter aged parchment */
+  --bg-tertiary: #2a2214 !important; /* Textured stone */
+  --bg-card: #241e12 !important; /* Weathered scroll */
+  --bg-hover: #3a3120 !important; /* Highlighted text on ancient scroll */
+  --bg-accent: #332a1a !important; /* Ancient tablet */
+  --bg-glass: rgba(26, 20, 9, 0.85) !important; /* Translucent aged glass */
 
-  --text-primary: #e8d7b0; /* Faded ink on parchment */
-  --text-secondary: #c4b795; /* Aged ink */
-  --text-muted: #7a7057; /* Nearly invisible ancient text */
-  --text-accent: #a69b7b; /* Very old ink */
+  --text-primary: #e8d7b0 !important; /* Faded ink on parchment */
+  --text-secondary: #c4b795 !important; /* Aged ink */
+  --text-muted: #7a7057 !important; /* Nearly invisible ancient text */
+  --text-accent: #a69b7b !important; /* Very old ink */
 
   /* Mystical Color Palette */
-  --accent-primary: #9b7e46; /* Ancient gold */
-  --accent-secondary: #5a7e8c; /* Mystical blue */
-  --accent-success: #6b8c5a; /* Alchemical green */
-  --accent-warning: #c2843a; /* Amber crystal */
-  --accent-danger: #a34c37; /* Ancient red ochre */
-  --accent-purple: #7a5a8c; /* Mystical purple */
-  --accent-cyan: #4a6e8c; /* Celestial blue */
-  --accent-pink: #a3637a; /* Ancient rose */
+  --accent-primary: #9b7e46 !important; /* Ancient gold */
+  --accent-secondary: #5a7e8c !important; /* Mystical blue */
+  --accent-success: #6b8c5a !important; /* Alchemical green */
+  --accent-warning: #c2843a !important; /* Amber crystal */
+  --accent-danger: #a34c37 !important; /* Ancient red ochre */
+  --accent-purple: #7a5a8c !important; /* Mystical purple */
+  --accent-cyan: #4a6e8c !important; /* Celestial blue */
+  --accent-pink: #a3637a !important; /* Ancient rose */
 
   /* Mystical Gradients */
-  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%); /* Gold to mystical blue */
-  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%); /* Alchemical to celestial */
-  --gradient-success: linear-gradient(135deg, #6b8c5a 0%, #5a7849 100%); /* Alchemical variations */
-  --gradient-card: linear-gradient(145deg, #241e12 0%, #2a2214 100%); /* Weathered scroll texture */
+  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%) !important; /* Gold to mystical blue */
+  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%) !important; /* Alchemical to celestial */
+  --gradient-success: linear-gradient(135deg, #6b8c5a 0%, #5a7849 100%) !important; /* Alchemical variations */
+  --gradient-card: linear-gradient(145deg, #241e12 0%, #2a2214 100%) !important; /* Weathered scroll texture */
 
   /* Ancient Borders */
-  --border-color: #3a3120; /* Aged parchment edge */
-  --border-hover: #574a2f; /* Illuminated border */
-  --border-accent: #453a26; /* Scroll binding */
+  --border-color: #3a3120 !important; /* Aged parchment edge */
+  --border-hover: #574a2f !important; /* Illuminated border */
+  --border-accent: #453a26 !important; /* Scroll binding */
 
   /* Modern Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
