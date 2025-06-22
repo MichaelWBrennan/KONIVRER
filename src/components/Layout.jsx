@@ -276,7 +276,7 @@ const Layout = ({ children }) => {
                       size={16}
                       className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'relative z-10' : ''}`}
                     />
-                    <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 3px rgba(0,0,0,0.8)'} : {}}>
+                    <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 5px rgba(0,0,0,0.9)', color: 'white'} : {}}>
                       {item.name}
                     </span>
                   </Link>
@@ -347,10 +347,10 @@ const Layout = ({ children }) => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`relative flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      className={`relative flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         isItemActive
-                          ? 'bg-accent-primary'
-                          : 'text-secondary hover:text-primary hover:bg-tertiary'
+                          ? 'bg-gradient-to-r from-accent-primary to-accent-secondary shadow-lg shadow-accent-primary/25'
+                          : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md'
                       }`}
                       onClick={() => {
                         handleNavClick(item.name, item.href);
@@ -358,7 +358,7 @@ const Layout = ({ children }) => {
                       }}
                     >
                       <Icon size={16} className={isItemActive ? 'relative z-10' : ''} />
-                      <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 3px rgba(0,0,0,0.8)'} : {}}>
+                      <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 5px rgba(0,0,0,0.9)', color: 'white'} : {}}>
                         {item.name}
                       </span>
                     </Link>
