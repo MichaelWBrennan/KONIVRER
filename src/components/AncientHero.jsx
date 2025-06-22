@@ -4,13 +4,13 @@ import { Sparkles, Scroll, Book, Compass } from 'lucide-react';
 
 const AncientHero = () => {
   return (
-    <div className="ancient-section py-16">
+    <div className="ancient-section py-16 content-area">
       <div className="container mx-auto px-4">
         <div className="scroll-header">
           <h1 className="text-4xl font-bold mb-2">
-            <span className="ancient-rune rune-fehu"></span>
+            <span className="ancient-rune rune-fehu hidden md:inline"></span>
             The Ancient Archives of KONIVRER
-            <span className="ancient-rune rune-ansuz"></span>
+            <span className="ancient-rune rune-ansuz hidden md:inline"></span>
           </h1>
           <p className="text-xl text-secondary mb-8">Discover the mystical knowledge of forgotten realms</p>
         </div>
