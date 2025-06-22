@@ -38,6 +38,7 @@ import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 import MobileRules from './pages/MobileRules';
+import MobilePhysicalMatchmakingPage from './pages/MobilePhysicalMatchmakingPage';
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
 
@@ -89,8 +90,9 @@ function App() {
                   <Route path="/matchmaking" element={<MobileMatchmaking />} />
                   
                   {/* Physical Matchmaking System */}
-                  <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
+                  <Route path="/physical-matchmaking" element={<MobilePhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmaking />} />
+                  <Route path="/physical-matchmaking-page" element={<PhysicalMatchmakingPage />} />
                   <Route path="/advanced-physical-matchmaking" element={<AdvancedPhysicalMatchmakingPage />} />
                   
                   {/* Standalone PWA Matchmaking */}
