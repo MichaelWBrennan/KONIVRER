@@ -36,7 +36,7 @@ import {
   PieChart,
   TrendingUp
 } from 'lucide-react';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 
 // Tournament bracket visualization component with advanced features
 const InteractiveTournamentBracket = ({ tournamentId }) => {
@@ -758,7 +758,7 @@ const InteractiveTournamentBracket = ({ tournamentId }) => {
                                 }}
                                 className="text-xs text-amber-400 hover:text-amber-300 flex items-center justify-center"
                               >
-                                <QRCode className="w-3 h-3 mr-1" />
+                                <QRCodeSVG className="w-3 h-3 mr-1" />
                                 <span>Generate QR</span>
                               </button>
                             </div>
@@ -980,7 +980,7 @@ const InteractiveTournamentBracket = ({ tournamentId }) => {
               
               <div className="flex flex-col items-center">
                 <div className="bg-white p-4 rounded-lg mb-4">
-                  <QRCode value={qrData} size={200} />
+                  <QRCodeSVG value={qrData} size={200} />
                 </div>
                 
                 <p className="text-sm text-gray-300 text-center mb-4">
