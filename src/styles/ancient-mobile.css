@@ -1,44 +1,159 @@
-/* Ancient and Esoteric Mobile Styles */
+/* Ancient and Esoteric Mobile Styles - Enhanced */
+
+/* Force OpenDyslexic Font on All Elements */
+* {
+  font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+}
 
 /* Mobile-optimized ancient theme */
 @media (max-width: 768px) {
-  /* Ensure OpenDyslexic font is properly applied */
+  /* Ensure OpenDyslexic font is properly applied with enhanced specificity */
   body, 
   h1, h2, h3, h4, h5, h6,
-  p, span, a, button, input, textarea, select, option {
+  p, span, a, button, input, textarea, select, option, div, section, article, nav, header, footer, main {
     font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-weight: 400 !important;
   }
   
   /* Increase base font size for better readability on mobile */
   body {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    line-height: 1.6 !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
   }
   
-  /* Adjust heading sizes for mobile */
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.75rem; }
-  h3 { font-size: 1.5rem; }
-  h4 { font-size: 1.25rem; }
-  h5 { font-size: 1.1rem; }
-  h6 { font-size: 1rem; }
+  /* Adjust heading sizes for mobile with enhanced ancient styling */
+  h1 { 
+    font-size: 1.875rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(155, 126, 70, 0.3) !important;
+    margin-bottom: 1rem !important;
+  }
+  h2 { 
+    font-size: 1.625rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(155, 126, 70, 0.2) !important;
+    margin-bottom: 0.875rem !important;
+  }
+  h3 { 
+    font-size: 1.375rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+    margin-bottom: 0.75rem !important;
+  }
+  h4 { 
+    font-size: 1.125rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 600 !important;
+  }
+  h5 { 
+    font-size: 1rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 600 !important;
+  }
+  h6 { 
+    font-size: 0.875rem !important; 
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 600 !important;
+  }
   
-  /* Ensure touch targets are large enough */
+  /* Enhanced touch targets with ancient theme styling */
   button, 
   .btn,
   a.btn,
   .nav-link,
   input[type="button"],
   input[type="submit"] {
-    min-height: var(--touch-target-size);
-    padding: 12px 16px;
-    font-size: 1rem;
+    min-height: 48px !important;
+    min-width: 48px !important;
+    padding: 14px 20px !important;
+    font-size: 1rem !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
+    color: white !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(155, 126, 70, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  button:hover,
+  .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 
+      0 6px 8px -1px rgba(0, 0, 0, 0.4),
+      0 4px 6px -1px rgba(155, 126, 70, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  }
+
+  button:active,
+  .btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 
+      0 2px 4px -1px rgba(0, 0, 0, 0.3),
+      0 1px 2px -1px rgba(155, 126, 70, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   }
   
-  /* Adjust card padding for mobile */
+  /* Enhanced card styling for mobile with ancient theme */
   .card {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 20px !important;
+    margin-bottom: 16px !important;
+    border-radius: 12px !important;
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(155, 126, 70, 0.1),
+      inset 0 1px 0 rgba(155, 126, 70, 0.1) !important;
+  }
+
+  /* Mobile form elements with ancient styling */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 14px 18px !important;
+    border-radius: 8px !important;
+    min-height: 48px !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+    line-height: 1.5 !important;
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid var(--accent-primary) !important;
+    outline-offset: 2px !important;
+    border-color: var(--accent-primary) !important;
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(155, 126, 70, 0.2) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-secondary) !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
   }
   
   /* Simplify some decorative elements on mobile */
