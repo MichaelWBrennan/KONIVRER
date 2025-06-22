@@ -133,6 +133,256 @@ const EnhancedPhysicalMatchmaking = () => {
     if (!player || !player.conservativeRating) return { tier: 'bronze', division: 4, name: 'Bronze', color: '#CD7F32' };
     return getPlayerTier(player.conservativeRating);
   };
+  
+  // Tournament functions with Bayesian matchmaking
+  const [selectedTournament, setSelectedTournament] = useState(null);
+  const [tournamentPairings, setTournamentPairings] = useState([]);
+  const [showPairingsModal, setShowPairingsModal] = useState(false);
+  const [newTournament, setNewTournament] = useState({
+    name: '',
+    format: 'swiss',
+    description: '',
+    players: [],
+    useBayesianPairings: true,
+    bayesianSettings: {
+      prioritizeMatchQuality: 0.7,
+      avoidRematches: 0.9,
+      balanceWhiteBlack: 0.5
+    }
+  });
+  
+  const handleGeneratePairings = (tournamentId) => {
+    const pairings = generateTournamentPairings(tournamentId);
+    setTournamentPairings(pairings);
+    setShowPairingsModal(true);
+    
+    // Find the tournament
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    setSelectedTournament(tournament);
+  };
+  
+  const handleSavePairings = () => {
+    if (!selectedTournament || !tournamentPairings.length) return;
+    
+    // Create matches from pairings
+    const newMatches = tournamentPairings.map(pairing => {
+      const matchData = {
+        tournamentId: selectedTournament.id,
+        round: pairing.round,
+        status: 'active',
+        result: pairing.result || 'pending', // For byes
+        bracket: pairing.bracket || 'main'
+      };
+      
+      if (pairing.player1Id) {
+        matchData.player1 = {
+          id: pairing.player1Id,
+          name: players.find(p => p.id === pairing.player1Id)?.name || 'Unknown'
+        };
+      }
+      
+      if (pairing.player2Id) {
+        matchData.player2 = {
+          id: pairing.player2Id,
+          name: players.find(p => p.id === pairing.player2Id)?.name || 'Unknown'
+        };
+      }
+      
+      if (pairing.quality) {
+        matchData.matchQuality = pairing.quality;
+      }
+      
+      return matchData;
+    });
+    
+    // Add matches to tournament
+    const updatedTournament = {
+      ...selectedTournament,
+      rounds: [...(selectedTournament.rounds || []), tournamentPairings],
+      matches: [...(selectedTournament.matches || []), ...newMatches],
+      status: 'active'
+    };
+    
+    updateTournament(selectedTournament.id, updatedTournament);
+    setShowPairingsModal(false);
+  };
+  
+  const getTournamentStandings = (tournamentId) => {
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    if (!tournament) return [];
+    
+    // Get all players in tournament with their points
+    const standings = tournament.players.map(playerId => {
+      const player = players.find(p => p.id === playerId);
+      if (!player) return null;
+      
+      const points = getPlayerTournamentPoints(playerId, tournamentId);
+      const matches = tournament.matches.filter(m => 
+        m.player1?.id === playerId || m.player2?.id === playerId
+      );
+      
+      const wins = matches.filter(m => 
+        (m.player1?.id === playerId && m.result === 'player1') || 
+        (m.player2?.id === playerId && m.result === 'player2')
+      ).length;
+      
+      const losses = matches.filter(m => 
+        (m.player1?.id === playerId && m.result === 'player2') || 
+        (m.player2?.id === playerId && m.result === 'player1')
+      ).length;
+      
+      const draws = matches.filter(m => m.result === 'draw').length;
+      const byes = matches.filter(m => m.result === 'bye' && m.player1?.id === playerId).length;
+      
+      // Calculate tiebreakers
+      const opponentMatchWinPercentage = calculateOpponentMatchWinPercentage(playerId, tournamentId);
+      
+      return {
+        id: playerId,
+        name: player.name,
+        points,
+        wins,
+        losses,
+        draws,
+        byes,
+        matchesPlayed: wins + losses + draws + byes,
+        winPercentage: wins / (wins + losses + draws) || 0,
+        opponentMatchWinPercentage,
+        rating: player.rating,
+        tier: getPlayerTierDisplay(player)
+      };
+    }).filter(Boolean);
+    
+    // Sort by points, then by tiebreakers
+    return standings.sort((a, b) => {
+      if (a.points !== b.points) return b.points - a.points;
+      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) 
+        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+      return b.rating - a.rating;
+    });
+  };
+  
+  const calculateOpponentMatchWinPercentage = (playerId, tournamentId) => {
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    if (!tournament) return 0;
+    
+    // Get all opponents this player has faced
+    const matches = tournament.matches.filter(m => 
+      m.player1?.id === playerId || m.player2?.id === playerId
+    );
+    
+    const opponents = matches.map(m => {
+      if (m.player1?.id === playerId) return m.player2?.id;
+      return m.player1?.id;
+    }).filter(Boolean);
+    
+    if (opponents.length === 0) return 0;
+    
+    // Calculate each opponent's win percentage
+    const opponentWinPercentages = opponents.map(opponentId => {
+      const opponentMatches = tournament.matches.filter(m => 
+        m.player1?.id === opponentId || m.player2?.id === opponentId
+      );
+      
+      const wins = opponentMatches.filter(m => 
+        (m.player1?.id === opponentId && m.result === 'player1') || 
+        (m.player2?.id === opponentId && m.result === 'player2')
+      ).length;
+      
+      const total = opponentMatches.length;
+      return total > 0 ? wins / total : 0;
+    });
+    
+    // Average of opponent win percentages
+    return opponentWinPercentages.reduce((sum, pct) => sum + pct, 0) / opponentWinPercentages.length;
+  };
+  
+  // Tournament creation and management
+  const handleCreateTournament = () => {
+    if (!newTournament.name) return;
+    
+    const tournament = createTournament({
+      ...newTournament,
+      createdAt: new Date(),
+      status: 'registration'
+    });
+    
+    setShowTournamentModal(false);
+    setNewTournament({
+      name: '',
+      format: 'swiss',
+      description: '',
+      players: [],
+      useBayesianPairings: true,
+      bayesianSettings: {
+        prioritizeMatchQuality: 0.7,
+        avoidRematches: 0.9,
+        balanceWhiteBlack: 0.5
+      }
+    });
+    
+    return tournament;
+  };
+  
+  const handleAddPlayerToTournament = (playerId) => {
+    if (newTournament.players.includes(playerId)) {
+      // Remove player if already added
+      setNewTournament({
+        ...newTournament,
+        players: newTournament.players.filter(id => id !== playerId)
+      });
+    } else {
+      // Add player
+      setNewTournament({
+        ...newTournament,
+        players: [...newTournament.players, playerId]
+      });
+    }
+  };
+  
+  const handleStartTournament = (tournamentId) => {
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    if (!tournament || tournament.players.length < 2) return;
+    
+    // Generate first round pairings
+    const pairings = generateTournamentPairings(tournamentId);
+    
+    // Update tournament status
+    updateTournament(tournamentId, {
+      status: 'active',
+      rounds: [...(tournament.rounds || []), pairings]
+    });
+    
+    // Create matches from pairings
+    pairings.forEach(pairing => {
+      const matchData = {
+        tournamentId,
+        round: 1,
+        status: 'active',
+        result: pairing.result || 'pending'
+      };
+      
+      if (pairing.player1Id) {
+        matchData.player1 = {
+          id: pairing.player1Id,
+          name: players.find(p => p.id === pairing.player1Id)?.name || 'Unknown'
+        };
+      }
+      
+      if (pairing.player2Id) {
+        matchData.player2 = {
+          id: pairing.player2Id,
+          name: players.find(p => p.id === pairing.player2Id)?.name || 'Unknown'
+        };
+      }
+      
+      if (pairing.quality) {
+        matchData.matchQuality = pairing.quality;
+      }
+      
+      createMatch(matchData);
+    });
+  };
 
   // QR Code generation
   const openQRModal = (type, id) => {
@@ -350,39 +600,143 @@ const EnhancedPhysicalMatchmaking = () => {
           </div>
         </div>
 
+        {/* Bayesian Match Quality */}
+        {matchQuality && selectedPlayers.length === 2 && (
+          <motion.div 
+            className="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-xl shadow-md p-6 mb-6 text-white ancient-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <Brain className="w-5 h-5 text-purple-300" />
+                <h3 className="text-lg font-semibold">Bayesian Match Analysis</h3>
+              </div>
+              <motion.button
+                onClick={() => setShowBayesianDetails(!showBayesianDetails)}
+                className="text-purple-300 hover:text-white"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                {showBayesianDetails ? <ChevronUp /> : <ChevronDown />}
+              </motion.button>
+            </div>
+            
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-purple-200">Match Quality</span>
+                <span className="text-sm font-medium">
+                  {Math.round(matchQuality.score * 100)}%
+                </span>
+              </div>
+              <div className="w-full bg-purple-900 rounded-full h-2.5">
+                <div 
+                  className="bg-gradient-to-r from-purple-400 to-indigo-400 h-2.5 rounded-full" 
+                  style={{ width: `${Math.round(matchQuality.score * 100)}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex items-center space-x-1">
+                <Gauge className="w-4 h-4 text-purple-300" />
+                <span className="text-sm text-purple-200">Win Probability:</span>
+              </div>
+              <span className="text-sm font-medium">
+                {Math.round(matchQuality.winProbability * 100)}%
+              </span>
+            </div>
+            
+            {showBayesianDetails && (
+              <motion.div 
+                className="mt-4 pt-4 border-t border-purple-800"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="text-sm font-medium text-purple-300 mb-2">Player 1</h4>
+                    <div className="space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-xs text-purple-200">Rating:</span>
+                        <span className="text-xs">{Math.round(matchQuality.player1Rating)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-xs text-purple-200">Uncertainty:</span>
+                        <span className="text-xs">{Math.round(matchQuality.player1Uncertainty)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-sm font-medium text-purple-300 mb-2">Player 2</h4>
+                    <div className="space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-xs text-purple-200">Rating:</span>
+                        <span className="text-xs">{Math.round(matchQuality.player2Rating)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-xs text-purple-200">Uncertainty:</span>
+                        <span className="text-xs">{Math.round(matchQuality.player2Uncertainty)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <div className="flex justify-between">
+                    <span className="text-xs text-purple-200">Skill Difference:</span>
+                    <span className="text-xs">{Math.round(matchQuality.skillDifference)}</span>
+                  </div>
+                  <div className="mt-2 text-xs text-purple-300">
+                    <p>The Bayesian TrueSkill algorithm predicts this match quality based on player ratings and uncertainty.</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+        
         {/* Match Settings */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Match Settings</h3>
+        <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl shadow-sm p-6 text-white ancient-card">
+          <h3 className="text-lg font-semibold mb-4 flex items-center">
+            <Sparkles className="w-5 h-5 mr-2 text-amber-400" />
+            Mystical Match Settings
+          </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Format
+              <label className="block text-sm font-medium text-amber-300 mb-2 flex items-center">
+                <Scroll className="w-4 h-4 mr-1" />
+                Arcane Format
               </label>
               <select
                 value={matchFormat}
                 onChange={(e) => setMatchFormat(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-purple-500 ancient-select"
               >
-                <option value="standard">Standard</option>
-                <option value="extended">Extended</option>
-                <option value="legacy">Legacy</option>
-                <option value="draft">Draft</option>
+                <option value="standard">Standard Grimoire</option>
+                <option value="extended">Extended Arcana</option>
+                <option value="legacy">Legacy Enchantment</option>
+                <option value="draft">Mystical Draft</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Best of
+              <label className="block text-sm font-medium text-amber-300 mb-2 flex items-center">
+                <Dices className="w-4 h-4 mr-1" />
+                Trial of Fate
               </label>
               <select
                 value={rounds}
                 onChange={(e) => setRounds(parseInt(e.target.value))}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-purple-500 ancient-select"
               >
-                <option value={1}>Best of 1</option>
-                <option value={3}>Best of 3</option>
-                <option value={5}>Best of 5</option>
+                <option value={1}>Single Trial</option>
+                <option value={3}>Triple Trial</option>
+                <option value={5}>Quintuple Trial</option>
               </select>
             </div>
 
@@ -390,11 +744,14 @@ const EnhancedPhysicalMatchmaking = () => {
               <motion.button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ancient-button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Create Matches
+                <div className="flex items-center justify-center space-x-2">
+                  <Swords className="w-5 h-5" />
+                  <span>Create Mystical Match</span>
+                </div>
               </motion.button>
             </div>
           </div>
@@ -1522,12 +1879,227 @@ const EnhancedPhysicalMatchmaking = () => {
     );
   };
 
-  // Tournament Modal Component
+  // Tournament Modal Component with Ancient Theme
   const TournamentModal = () => {
-    const [formData, setFormData] = useState({
-      name: '',
-      format: 'standard',
-      type: 'single-elimination',
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <motion.div 
+          className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-xl shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-amber-700 ancient-card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6 border-b border-amber-700 pb-4">
+              <h2 className="text-xl font-semibold text-amber-300 flex items-center">
+                <Trophy className="w-6 h-6 mr-2 text-amber-400" />
+                Create Mystical Tournament
+              </h2>
+              <button 
+                onClick={() => setShowTournamentModal(false)}
+                className="text-gray-400 hover:text-amber-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Tournament Form */}
+            <div className="space-y-6 text-white">
+              <div>
+                <label className="block text-sm font-medium text-amber-300 mb-1 flex items-center">
+                  <Crown className="w-4 h-4 mr-1" />
+                  Tournament Name
+                </label>
+                <input 
+                  type="text" 
+                  className="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 text-white"
+                  value={newTournament.name}
+                  onChange={(e) => setNewTournament({...newTournament, name: e.target.value})}
+                  placeholder="Enter the mystical name of your tournament"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-amber-300 mb-1 flex items-center">
+                  <Scroll className="w-4 h-4 mr-1" />
+                  Tournament Format
+                </label>
+                <select 
+                  className="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 text-white ancient-select"
+                  value={newTournament.format}
+                  onChange={(e) => setNewTournament({...newTournament, format: e.target.value})}
+                >
+                  <option value="swiss">Swiss Trials</option>
+                  <option value="singleElimination">Single Elimination Ritual</option>
+                  <option value="doubleElimination">Double Elimination Ceremony</option>
+                  <option value="roundRobin">Round Robin Divination</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-amber-300 mb-1 flex items-center">
+                  <FileText className="w-4 h-4 mr-1" />
+                  Ancient Description
+                </label>
+                <textarea 
+                  className="w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 text-white"
+                  rows={3}
+                  value={newTournament.description}
+                  onChange={(e) => setNewTournament({...newTournament, description: e.target.value})}
+                  placeholder="Describe the mystical purpose of this tournament..."
+                ></textarea>
+              </div>
+              
+              {/* Bayesian Settings */}
+              <div className="border border-amber-800 rounded-lg p-4 bg-gray-800 bg-opacity-50">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-medium text-amber-300 flex items-center">
+                    <Brain className="w-4 h-4 mr-1" />
+                    Bayesian Matchmaking
+                  </h3>
+                  <div className="flex items-center">
+                    <input 
+                      type="checkbox"
+                      id="useBayesian"
+                      checked={newTournament.useBayesianPairings}
+                      onChange={(e) => setNewTournament({
+                        ...newTournament, 
+                        useBayesianPairings: e.target.checked
+                      })}
+                      className="h-4 w-4 text-amber-600 rounded focus:ring-amber-500"
+                    />
+                    <label htmlFor="useBayesian" className="ml-2 text-xs text-amber-200">
+                      Enable Mystical Pairings
+                    </label>
+                  </div>
+                </div>
+                
+                {newTournament.useBayesianPairings && (
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-xs text-amber-200">Match Quality Priority</label>
+                        <span className="text-xs text-amber-200">
+                          {Math.round(newTournament.bayesianSettings.prioritizeMatchQuality * 100)}%
+                        </span>
+                      </div>
+                      <input 
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={newTournament.bayesianSettings.prioritizeMatchQuality}
+                        onChange={(e) => setNewTournament({
+                          ...newTournament,
+                          bayesianSettings: {
+                            ...newTournament.bayesianSettings,
+                            prioritizeMatchQuality: parseFloat(e.target.value)
+                          }
+                        })}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-xs text-amber-200">Avoid Rematches</label>
+                        <span className="text-xs text-amber-200">
+                          {Math.round(newTournament.bayesianSettings.avoidRematches * 100)}%
+                        </span>
+                      </div>
+                      <input 
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={newTournament.bayesianSettings.avoidRematches}
+                        onChange={(e) => setNewTournament({
+                          ...newTournament,
+                          bayesianSettings: {
+                            ...newTournament.bayesianSettings,
+                            avoidRematches: parseFloat(e.target.value)
+                          }
+                        })}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-amber-300 mb-1 flex items-center">
+                  <Users className="w-4 h-4 mr-1" />
+                  Tournament Participants
+                </label>
+                <div className="max-h-40 overflow-y-auto border border-gray-600 rounded-lg p-2 bg-gray-800">
+                  {players.map(player => {
+                    const isSelected = newTournament.players.includes(player.id);
+                    const tierInfo = getPlayerTierDisplay(player);
+                    
+                    return (
+                      <div 
+                        key={player.id}
+                        className={`flex items-center justify-between p-2 hover:bg-gray-700 rounded transition-colors ${
+                          isSelected ? 'bg-gray-700 border-l-4 border-amber-500' : ''
+                        }`}
+                        onClick={() => handleAddPlayerToTournament(player.id)}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <input 
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => {}}
+                            className="h-4 w-4 text-amber-600 rounded focus:ring-amber-500"
+                          />
+                          <span>{player.name}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs" style={{ color: tierInfo.color }}>
+                            {tierInfo.name} {tierInfo.division}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {player.rating}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-1 text-xs text-amber-200 flex items-center">
+                  <Info className="w-3 h-3 mr-1" />
+                  Selected: {newTournament.players.length} players
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-6 flex justify-end space-x-3 border-t border-amber-800 pt-4">
+              <motion.button
+                onClick={() => setShowTournamentModal(false)}
+                className="px-4 py-2 border border-amber-700 rounded-lg text-amber-300 hover:bg-gray-700"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Cancel
+              </motion.button>
+              <motion.button
+                onClick={handleCreateTournament}
+                disabled={!newTournament.name || newTournament.players.length < 2}
+                className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-lg hover:from-amber-700 hover:to-amber-800 disabled:opacity-50 ancient-button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="flex items-center space-x-1">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Conjure Tournament</span>
+                </div>
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
       maxPlayers: 8,
       startDate: new Date().toISOString().split('T')[0]
     });
