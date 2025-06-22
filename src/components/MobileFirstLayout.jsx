@@ -79,6 +79,7 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Decks', path: '/decks' },
     { name: 'Play', path: '/game/online' },
     { name: 'Match', path: '/matchmaking' },
+    { name: 'Physical', path: '/physical-matchmaking' },
     { name: 'Rules', path: '/rules' }
   ];
 

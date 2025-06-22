@@ -811,3 +811,142 @@ a:hover:after {
   color: var(--esoteric-success);
   text-shadow: 0 0 5px var(--esoteric-success);
 }
+
+/* Esoteric Physical Matchmaking Styling */
+.esoteric-list-item {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  transition: all 0.3s ease;
+}
+
+.esoteric-list-item:hover {
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 10px var(--esoteric-accent-glow);
+  background-color: rgba(var(--esoteric-accent-rgb), 0.1);
+}
+
+.esoteric-badge {
+  background-color: var(--esoteric-bg-dark);
+  color: var(--esoteric-accent);
+  border: 1px solid var(--esoteric-accent);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  box-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
+
+.esoteric-badge-neutral {
+  color: var(--esoteric-text-muted);
+  border-color: var(--esoteric-border);
+  box-shadow: none;
+}
+
+.esoteric-empty-state {
+  color: var(--esoteric-text-muted);
+  border: 1px dashed var(--esoteric-border);
+  border-radius: var(--radius-md);
+}
+
+.esoteric-section-title {
+  color: var(--esoteric-accent);
+  text-shadow: 0 0 5px var(--esoteric-accent-glow);
+  font-family: var(--esoteric-font-display);
+  letter-spacing: 0.05em;
+}
+
+.esoteric-form input,
+.esoteric-form select,
+.esoteric-form textarea {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  color: var(--esoteric-text);
+  transition: all 0.3s ease;
+}
+
+.esoteric-form input:focus,
+.esoteric-form select:focus,
+.esoteric-form textarea:focus {
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 8px var(--esoteric-accent-glow);
+  outline: none;
+}
+
+.esoteric-select {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  color: var(--esoteric-text);
+}
+
+.esoteric-textarea {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  color: var(--esoteric-text);
+}
+
+.esoteric-modal {
+  backdrop-filter: blur(4px);
+}
+
+.esoteric-modal-content {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.esoteric-modal-header {
+  border-bottom: 1px solid var(--esoteric-border);
+  background-color: rgba(var(--esoteric-bg-dark-rgb), 0.8);
+}
+
+.esoteric-btn-close {
+  color: var(--esoteric-text);
+  transition: all 0.3s ease;
+}
+
+.esoteric-btn-close:hover {
+  color: var(--esoteric-accent);
+  text-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
+
+.esoteric-chip {
+  background-color: rgba(var(--esoteric-accent-rgb), 0.1);
+  border: 1px solid var(--esoteric-border);
+  color: var(--esoteric-text);
+}
+
+.esoteric-player-card {
+  background-color: rgba(var(--esoteric-bg-dark-rgb), 0.5);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+.esoteric-vs-badge {
+  background-color: rgba(var(--esoteric-accent-rgb), 0.2);
+  color: var(--esoteric-accent);
+  border: 1px solid var(--esoteric-accent);
+  box-shadow: 0 0 10px var(--esoteric-accent-glow);
+}
+
+.esoteric-btn-active {
+  background-color: rgba(var(--esoteric-accent-rgb), 0.2);
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 10px var(--esoteric-accent-glow);
+}
+
+.esoteric-btn-icon {
+  color: var(--esoteric-accent);
+  background-color: rgba(var(--esoteric-accent-rgb), 0.1);
+  border: 1px solid var(--esoteric-border);
+  transition: all 0.3s ease;
+}
+
+.esoteric-btn-icon:hover {
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
+
+.esoteric-qr-code {
+  border: 1px solid var(--esoteric-border);
+  box-shadow: 0 0 15px var(--esoteric-accent-glow);
+}
