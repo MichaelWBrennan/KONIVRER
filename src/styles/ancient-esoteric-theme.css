@@ -1,0 +1,391 @@
+/* Ancient and Esoteric Theme - Keeping OpenDyslexic as the font */
+
+:root {
+  /* Ancient Parchment and Stone Theme */
+  --bg-primary: #1a1409; /* Dark aged parchment */
+  --bg-secondary: #221b10; /* Slightly lighter aged parchment */
+  --bg-tertiary: #2a2214; /* Textured stone */
+  --bg-quaternary: #332a1a; /* Ancient tablet */
+  --bg-card: #241e12; /* Weathered scroll */
+  --bg-hover: #3a3120; /* Highlighted text on ancient scroll */
+  --bg-active: #453a26; /* Selected text on ancient scroll */
+  --bg-glass: rgba(26, 20, 9, 0.85); /* Translucent aged glass */
+  --bg-overlay: rgba(10, 8, 4, 0.75); /* Mystical overlay */
+
+  /* Text Colors for Ancient Manuscripts */
+  --text-primary: #e8d7b0; /* Faded ink on parchment */
+  --text-secondary: #c4b795; /* Aged ink */
+  --text-tertiary: #a69b7b; /* Very old ink */
+  --text-muted: #7a7057; /* Nearly invisible ancient text */
+  --text-disabled: #4d4636; /* Worn away text */
+  --text-inverse: #1a1409; /* Text on light backgrounds */
+
+  /* Mystical Accent Colors */
+  --accent-primary: #9b7e46; /* Ancient gold */
+  --accent-primary-hover: #b39451; /* Polished ancient gold */
+  --accent-primary-active: #7c6537; /* Tarnished gold */
+  --accent-primary-light: rgba(155, 126, 70, 0.15); /* Gold dust */
+
+  --accent-secondary: #5a7e8c; /* Mystical blue */
+  --accent-secondary-hover: #4a6a78; /* Deep mystical blue */
+  --accent-secondary-light: rgba(90, 126, 140, 0.15); /* Ethereal blue mist */
+
+  --accent-success: #6b8c5a; /* Alchemical green */
+  --accent-success-hover: #5a7849; /* Deep alchemical green */
+  --accent-success-light: rgba(107, 140, 90, 0.15); /* Alchemical mist */
+
+  --accent-warning: #c2843a; /* Amber crystal */
+  --accent-warning-hover: #a36f31; /* Deep amber */
+  --accent-warning-light: rgba(194, 132, 58, 0.15); /* Amber glow */
+
+  --accent-danger: #a34c37; /* Ancient red ochre */
+  --accent-danger-hover: #8c4130; /* Deep red ochre */
+  --accent-danger-light: rgba(163, 76, 55, 0.15); /* Red ochre dust */
+
+  --accent-info: #4a6e8c; /* Celestial blue */
+  --accent-info-hover: #3d5c75; /* Deep celestial blue */
+  --accent-info-light: rgba(74, 110, 140, 0.15); /* Celestial mist */
+
+  /* Mystical Gradients */
+  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%); /* Gold to mystical blue */
+  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%); /* Alchemical to celestial */
+  --gradient-tertiary: linear-gradient(135deg, #c2843a 0%, #a34c37 100%); /* Amber to red ochre */
+  --gradient-danger: linear-gradient(135deg, #a34c37 0%, #8c4130 100%); /* Red ochre variations */
+  --gradient-hero: linear-gradient(
+    135deg,
+    #1a1409 0%,
+    #2a2214 50%,
+    #1a1409 100%
+  ); /* Ancient stone texture */
+  --gradient-card: linear-gradient(145deg, #241e12 0%, #2a2214 100%); /* Weathered scroll texture */
+
+  /* Ancient Border Colors */
+  --border-primary: #3a3120; /* Aged parchment edge */
+  --border-secondary: #453a26; /* Scroll binding */
+  --border-hover: #574a2f; /* Illuminated border */
+  --border-focus: #9b7e46; /* Golden focus */
+  --border-success: #6b8c5a; /* Alchemical border */
+  --border-warning: #c2843a; /* Amber border */
+  --border-danger: #a34c37; /* Red ochre border */
+  --border-transparent: transparent;
+
+  /* Mystical Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 20px rgba(155, 126, 70, 0.3); /* Golden glow */
+  --shadow-glow-success: 0 0 20px rgba(107, 140, 90, 0.3); /* Alchemical glow */
+  --shadow-glow-warning: 0 0 20px rgba(194, 132, 58, 0.3); /* Amber glow */
+  --shadow-glow-danger: 0 0 20px rgba(163, 76, 55, 0.3); /* Red ochre glow */
+}
+
+/* Ancient Scrollwork and Decorative Elements */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  opacity: 0.7;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  opacity: 0.4;
+}
+
+/* Mystical Button Styling */
+.btn {
+  background: var(--gradient-primary);
+  border: 1px solid var(--accent-primary);
+  box-shadow: 
+    var(--shadow-md),
+    0 0 10px rgba(155, 126, 70, 0.2);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b39451 0%, #6a8e9c 100%);
+  border-color: var(--accent-primary-hover);
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 15px rgba(155, 126, 70, 0.4);
+}
+
+/* Ancient Input Styling */
+.input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(155, 126, 70, 0.2);
+}
+
+/* Mystical Card Styling */
+.card {
+  background: var(--gradient-card);
+  border: 1px solid var(--border-primary);
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 
+    var(--shadow-xl),
+    0 0 20px rgba(155, 126, 70, 0.2);
+}
+
+/* Ancient Scrollbar */
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 0;
+  border-left: 1px solid var(--border-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 0;
+  border: 1px solid var(--border-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary-hover);
+}
+
+/* Mystical Selection */
+::selection {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Ancient Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(155, 126, 70, 0.2);
+}
+
+/* Esoteric Link Styling */
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-primary-hover);
+}
+
+a:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transform: scaleX(0.7);
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+a:hover:after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Mystical Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+h1:after, h2:after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--gradient-primary);
+}
+
+/* Ancient Navigation */
+nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+nav a.active {
+  background: var(--gradient-primary) !important;
+  border: 1px solid var(--accent-primary-hover) !important;
+  box-shadow: 
+    var(--shadow-md),
+    0 0 15px rgba(155, 126, 70, 0.3) !important;
+}
+
+nav a.active span {
+  color: var(--text-primary) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+nav a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+nav a:hover:before {
+  opacity: 0.1;
+}
+
+/* Esoteric Badge Styling */
+.badge {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-secondary);
+}
+
+.badge-primary {
+  background: var(--accent-primary-light);
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary);
+}
+
+/* Ancient Alert Styling */
+.alert {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.alert-primary {
+  background: var(--accent-primary-light);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Mystical Modal Styling */
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-secondary);
+  box-shadow: 
+    var(--shadow-2xl),
+    0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-primary);
+}
+
+/* Ancient Loading States */
+.spinner {
+  border: 2px solid var(--border-primary);
+  border-top-color: var(--accent-primary);
+}
+
+/* Esoteric Progress Bar */
+.progress {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-inner);
+}
+
+.progress-bar {
+  background: var(--gradient-primary);
+}
+
+/* Mystical Tooltip */
+.tooltip-content {
+  background: var(--bg-quaternary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Ancient Dropdown */
+.dropdown-menu {
+  background: var(--bg-card);
+  border: 1px solid var(--border-secondary);
+  box-shadow: 
+    var(--shadow-xl),
+    0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Esoteric Animations */
+@keyframes mysticalPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(155, 126, 70, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(155, 126, 70, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(155, 126, 70, 0);
+  }
+}
+
+.mystical-pulse {
+  animation: mysticalPulse 2s infinite;
+}
+
+/* Ancient Scrollwork Background */
+body:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239b7e46' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: -1;
+  pointer-events: none;
+}
