@@ -303,7 +303,7 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     return { tier: 'bronze', division: 4, name: 'Bronze', color: '#CD7F32' };
   };
 
-  // Tournament management
+  // Tournament management with Bayesian matchmaking
   const createTournament = (tournamentData) => {
     const newTournament = {
       id: `tournament_${Date.now()}`,
@@ -312,11 +312,362 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
       matches: [],
       rounds: [],
       status: tournamentData.status || 'registration',
-      createdAt: new Date()
+      createdAt: new Date(),
+      useBayesianPairings: tournamentData.useBayesianPairings !== false, // Default to true
+      bayesianSettings: {
+        prioritizeMatchQuality: tournamentData.bayesianSettings?.prioritizeMatchQuality || 0.7,
+        avoidRematches: tournamentData.bayesianSettings?.avoidRematches || 0.9,
+        balanceWhiteBlack: tournamentData.bayesianSettings?.balanceWhiteBlack || 0.5
+      }
     };
     
     setTournaments(prev => [...prev, newTournament]);
     return newTournament;
+  };
+  
+  // Generate optimal pairings for a tournament round using Bayesian matchmaking
+  const generateTournamentPairings = (tournamentId) => {
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    if (!tournament) return null;
+    
+    // Get tournament players
+    const tournamentPlayers = tournament.players.map(playerId => 
+      players.find(p => p.id === playerId)
+    ).filter(Boolean);
+    
+    if (tournamentPlayers.length < 2) return [];
+    
+    // Different pairing strategies based on tournament type
+    switch (tournament.format) {
+      case 'swiss':
+        return generateSwissPairings(tournament, tournamentPlayers);
+      case 'singleElimination':
+        return generateEliminationPairings(tournament, tournamentPlayers, false);
+      case 'doubleElimination':
+        return generateEliminationPairings(tournament, tournamentPlayers, true);
+      case 'roundRobin':
+        return generateRoundRobinPairings(tournament, tournamentPlayers);
+      default:
+        return generateSwissPairings(tournament, tournamentPlayers);
+    }
+  };
+  
+  // Generate Swiss tournament pairings
+  const generateSwissPairings = (tournament, tournamentPlayers) => {
+    // Sort players by points, then by tiebreakers
+    const sortedPlayers = [...tournamentPlayers].sort((a, b) => {
+      // First by points
+      const aPoints = getPlayerTournamentPoints(a.id, tournament.id);
+      const bPoints = getPlayerTournamentPoints(b.id, tournament.id);
+      
+      if (aPoints !== bPoints) return bPoints - aPoints;
+      
+      // Then by rating
+      return b.rating - a.rating;
+    });
+    
+    const pairings = [];
+    const paired = new Set();
+    
+    // Try to pair players with same points first
+    const pointGroups = {};
+    sortedPlayers.forEach(player => {
+      const points = getPlayerTournamentPoints(player.id, tournament.id);
+      if (!pointGroups[points]) pointGroups[points] = [];
+      pointGroups[points].push(player);
+    });
+    
+    // For each point group, pair players optimally
+    Object.values(pointGroups).forEach(group => {
+      // Skip already paired players
+      const availablePlayers = group.filter(p => !paired.has(p.id));
+      
+      // If odd number, move lowest rated player to next group
+      if (availablePlayers.length % 2 === 1 && Object.keys(pointGroups).length > 1) {
+        const lowestRated = availablePlayers.sort((a, b) => a.rating - b.rating)[0];
+        availablePlayers.splice(availablePlayers.indexOf(lowestRated), 1);
+      }
+      
+      // Generate all possible pairings in this group
+      const possiblePairings = [];
+      for (let i = 0; i < availablePlayers.length; i++) {
+        for (let j = i + 1; j < availablePlayers.length; j++) {
+          const player1 = availablePlayers[i];
+          const player2 = availablePlayers[j];
+          
+          // Check if they've already played
+          const alreadyPlayed = tournament.matches.some(match => 
+            (match.player1Id === player1.id && match.player2Id === player2.id) ||
+            (match.player1Id === player2.id && match.player2Id === player1.id)
+          );
+          
+          // Calculate match quality
+          const quality = calculateMatchQuality(player1.id, player2.id);
+          
+          // Score this pairing (higher is better)
+          let score = quality.score;
+          
+          // Penalize rematches if tournament settings prioritize avoiding them
+          if (alreadyPlayed) {
+            score *= (1 - tournament.bayesianSettings.avoidRematches);
+          }
+          
+          possiblePairings.push({
+            player1Id: player1.id,
+            player2Id: player2.id,
+            quality: quality.score,
+            score
+          });
+        }
+      }
+      
+      // Sort by score (best pairings first)
+      possiblePairings.sort((a, b) => b.score - a.score);
+      
+      // Create pairings greedily
+      while (possiblePairings.length > 0 && paired.size < sortedPlayers.length) {
+        const bestPairing = possiblePairings.shift();
+        
+        // Skip if either player already paired
+        if (paired.has(bestPairing.player1Id) || paired.has(bestPairing.player2Id)) {
+          continue;
+        }
+        
+        // Add this pairing
+        pairings.push({
+          player1Id: bestPairing.player1Id,
+          player2Id: bestPairing.player2Id,
+          quality: bestPairing.quality,
+          round: tournament.rounds.length + 1
+        });
+        
+        paired.add(bestPairing.player1Id);
+        paired.add(bestPairing.player2Id);
+      }
+    });
+    
+    // Handle odd number of players with a bye
+    if (sortedPlayers.length % 2 === 1) {
+      // Find player with lowest points who hasn't had a bye yet
+      const playersWithoutBye = sortedPlayers
+        .filter(p => !paired.has(p.id))
+        .filter(p => !tournament.matches.some(m => 
+          (m.player1Id === p.id || m.player2Id === p.id) && m.result === 'bye'
+        ))
+        .sort((a, b) => {
+          const aPoints = getPlayerTournamentPoints(a.id, tournament.id);
+          const bPoints = getPlayerTournamentPoints(b.id, tournament.id);
+          return aPoints - bPoints;
+        });
+      
+      if (playersWithoutBye.length > 0) {
+        const byePlayer = playersWithoutBye[0];
+        pairings.push({
+          player1Id: byePlayer.id,
+          result: 'bye',
+          round: tournament.rounds.length + 1
+        });
+        paired.add(byePlayer.id);
+      }
+    }
+    
+    return pairings;
+  };
+  
+  // Generate elimination tournament pairings
+  const generateEliminationPairings = (tournament, tournamentPlayers, isDouble) => {
+    // If this is the first round, seed players by rating
+    if (tournament.rounds.length === 0) {
+      const seededPlayers = [...tournamentPlayers].sort((a, b) => 
+        b.conservativeRating - a.conservativeRating
+      );
+      
+      // Create balanced bracket pairings (1 vs 16, 8 vs 9, etc.)
+      const pairings = [];
+      const n = seededPlayers.length;
+      
+      // Calculate number of byes needed to get to next power of 2
+      const nextPowerOf2 = Math.pow(2, Math.ceil(Math.log2(n)));
+      const numByes = nextPowerOf2 - n;
+      
+      // Create first round pairings with byes
+      for (let i = 0; i < nextPowerOf2 / 2; i++) {
+        const highSeed = i;
+        const lowSeed = nextPowerOf2 - 1 - i;
+        
+        // If lowSeed >= n, highSeed gets a bye
+        if (lowSeed >= n) {
+          pairings.push({
+            player1Id: seededPlayers[highSeed].id,
+            result: 'bye',
+            round: 1,
+            bracket: 'winners'
+          });
+        } else {
+          pairings.push({
+            player1Id: seededPlayers[highSeed].id,
+            player2Id: seededPlayers[lowSeed].id,
+            round: 1,
+            bracket: 'winners'
+          });
+        }
+      }
+      
+      return pairings;
+    } else {
+      // For subsequent rounds, pair winners against winners
+      const pairings = [];
+      const lastRound = tournament.rounds[tournament.rounds.length - 1];
+      
+      // Get winners from last round
+      const winners = lastRound
+        .filter(match => match.result && match.result !== 'pending')
+        .map(match => {
+          if (match.result === 'player1') return match.player1Id;
+          if (match.result === 'player2') return match.player2Id;
+          if (match.result === 'bye') return match.player1Id;
+          return null;
+        })
+        .filter(Boolean);
+      
+      // Pair winners
+      for (let i = 0; i < winners.length; i += 2) {
+        if (i + 1 < winners.length) {
+          pairings.push({
+            player1Id: winners[i],
+            player2Id: winners[i + 1],
+            round: tournament.rounds.length + 1,
+            bracket: 'winners'
+          });
+        } else {
+          // Odd number of winners, give bye to the last one
+          pairings.push({
+            player1Id: winners[i],
+            result: 'bye',
+            round: tournament.rounds.length + 1,
+            bracket: 'winners'
+          });
+        }
+      }
+      
+      // For double elimination, also handle losers bracket
+      if (isDouble) {
+        // Get losers from last round
+        const losers = lastRound
+          .filter(match => match.result && match.result !== 'pending' && match.result !== 'bye')
+          .map(match => {
+            if (match.result === 'player1') return match.player2Id;
+            if (match.result === 'player2') return match.player1Id;
+            return null;
+          })
+          .filter(Boolean);
+        
+        // Pair losers
+        for (let i = 0; i < losers.length; i += 2) {
+          if (i + 1 < losers.length) {
+            pairings.push({
+              player1Id: losers[i],
+              player2Id: losers[i + 1],
+              round: tournament.rounds.length + 1,
+              bracket: 'losers'
+            });
+          } else {
+            // Odd number of losers, give bye to the last one
+            pairings.push({
+              player1Id: losers[i],
+              result: 'bye',
+              round: tournament.rounds.length + 1,
+              bracket: 'losers'
+            });
+          }
+        }
+      }
+      
+      return pairings;
+    }
+  };
+  
+  // Generate round robin tournament pairings
+  const generateRoundRobinPairings = (tournament, tournamentPlayers) => {
+    const n = tournamentPlayers.length;
+    const pairings = [];
+    
+    // Round robin algorithm (circle method)
+    // For each round, player 0 stays fixed and others rotate
+    const currentRound = tournament.rounds.length + 1;
+    
+    // Create a copy of players that we can rotate
+    let rotatingPlayers = [...tournamentPlayers];
+    if (n % 2 === 1) {
+      // Add a dummy player for bye if odd number
+      rotatingPlayers.push({ id: 'bye' });
+    }
+    
+    // Rotate players for the current round
+    // In round 1, no rotation
+    // In round 2, rotate once, etc.
+    for (let i = 0; i < currentRound - 1; i++) {
+      rotatingPlayers = [
+        rotatingPlayers[0],
+        ...rotatingPlayers.slice(2),
+        rotatingPlayers[1]
+      ];
+    }
+    
+    // Create pairings for this round
+    for (let i = 0; i < rotatingPlayers.length / 2; i++) {
+      const player1 = rotatingPlayers[i];
+      const player2 = rotatingPlayers[rotatingPlayers.length - 1 - i];
+      
+      // Skip if either player is the dummy bye player
+      if (player1.id === 'bye') {
+        pairings.push({
+          player1Id: player2.id,
+          result: 'bye',
+          round: currentRound
+        });
+      } else if (player2.id === 'bye') {
+        pairings.push({
+          player1Id: player1.id,
+          result: 'bye',
+          round: currentRound
+        });
+      } else {
+        // Calculate match quality for these players
+        const quality = calculateMatchQuality(player1.id, player2.id);
+        
+        pairings.push({
+          player1Id: player1.id,
+          player2Id: player2.id,
+          quality: quality.score,
+          round: currentRound
+        });
+      }
+    }
+    
+    return pairings;
+  };
+  
+  // Get player's points in a tournament
+  const getPlayerTournamentPoints = (playerId, tournamentId) => {
+    const tournament = tournaments.find(t => t.id === tournamentId);
+    if (!tournament) return 0;
+    
+    let points = 0;
+    
+    // Count points from matches
+    tournament.matches.forEach(match => {
+      if (match.player1Id === playerId) {
+        if (match.result === 'player1') points += 3; // Win
+        else if (match.result === 'draw') points += 1; // Draw
+        else if (match.result === 'bye') points += 3; // Bye
+      } else if (match.player2Id === playerId) {
+        if (match.result === 'player2') points += 3; // Win
+        else if (match.result === 'draw') points += 1; // Draw
+      }
+    });
+    
+    return points;
   };
 
   const updateTournament = (tournamentId, tournamentData) => {
@@ -441,6 +792,8 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     createTournament,
     updateTournament,
     deleteTournament,
+    generateTournamentPairings,
+    getPlayerTournamentPoints,
     
     // Match methods
     createMatch,
