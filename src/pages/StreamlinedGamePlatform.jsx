@@ -23,7 +23,7 @@ import {
 // Import existing components
 import CardDatabase from '../components/CardDatabase';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
-import TalisharStyleGameSimulator from '../components/TalisharStyleGameSimulator';
+import GameSimulator from '../components/GameSimulator';
 import DeckStats from '../components/DeckStats';
 import MetaAnalysis from '../components/MetaAnalysis';
 import CollectionManager from '../components/CollectionManager';
@@ -234,7 +234,7 @@ const StreamlinedGamePlatform = () => {
                 </div>
               </div>
             </div>
-            <TalisharStyleGameSimulator />
+            <GameSimulator />
           </div>
         );
 
