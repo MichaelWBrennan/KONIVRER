@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth, AuthContext } from '../contexts/AuthContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import { analytics } from '../utils/analytics';
@@ -14,6 +14,16 @@ const MobileFirstLayout = ({ children }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  
+  // Get the AuthContext directly to modify its value
+  const authContext = useContext(AuthContext);
+  
+  // Update the setShowAuthModal function in the AuthContext
+  useEffect(() => {
+    if (authContext) {
+      authContext.setShowAuthModal = setShowAuthModal;
+    }
+  }, [authContext]);
 
   // Detect PWA status
   useEffect(() => {

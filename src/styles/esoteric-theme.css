@@ -727,3 +727,87 @@ a:hover:after {
 .mobile-auth-notification .esoteric-text-accent {
   text-shadow: 0 0 5px var(--esoteric-accent-glow);
 }
+
+/* Esoteric SSO Styling */
+.esoteric-divider {
+  color: var(--esoteric-text-muted);
+}
+
+.esoteric-divider::before,
+.esoteric-divider::after {
+  border-color: var(--esoteric-border);
+}
+
+.esoteric-sso-btn {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border);
+  color: var(--esoteric-text);
+  transition: all 0.3s ease;
+}
+
+.esoteric-sso-btn:hover {
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 8px var(--esoteric-accent-glow);
+  background-color: rgba(var(--esoteric-accent-rgb), 0.1);
+}
+
+.esoteric-sso-btn:focus {
+  outline: none;
+  border-color: var(--esoteric-accent);
+  box-shadow: 0 0 12px var(--esoteric-accent-glow);
+}
+
+.esoteric-sso-btn .mobile-sso-icon {
+  color: var(--esoteric-accent);
+}
+
+.esoteric-spinner-small {
+  border-top-color: var(--esoteric-accent);
+}
+
+/* Esoteric OAuth Pages */
+.esoteric-spinner {
+  border: 3px solid rgba(var(--esoteric-bg-dark-rgb), 0.3);
+  border-top-color: var(--esoteric-accent);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 15px var(--esoteric-accent-glow);
+}
+
+.esoteric-error-icon,
+.esoteric-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.esoteric-error-icon {
+  background-color: rgba(var(--esoteric-error-rgb), 0.2);
+  color: var(--esoteric-error);
+  border: 2px solid var(--esoteric-error);
+  box-shadow: 0 0 15px var(--esoteric-error);
+}
+
+.esoteric-success-icon {
+  background-color: rgba(var(--esoteric-success-rgb), 0.2);
+  color: var(--esoteric-success);
+  border: 2px solid var(--esoteric-success);
+  box-shadow: 0 0 15px var(--esoteric-success);
+}
+
+.esoteric-text-error {
+  color: var(--esoteric-error);
+  text-shadow: 0 0 5px var(--esoteric-error);
+}
+
+.esoteric-text-success {
+  color: var(--esoteric-success);
+  text-shadow: 0 0 5px var(--esoteric-success);
+}
