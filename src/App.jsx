@@ -41,6 +41,7 @@ import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatfor
 import PhysicalMatchmaking from './components/PhysicalMatchmaking';
 import EnhancedPhysicalMatchmaking from './components/EnhancedPhysicalMatchmaking';
 import PhysicalMatchmakingPage from './pages/PhysicalMatchmakingPage';
+import AdvancedPhysicalMatchmakingPage from './pages/AdvancedPhysicalMatchmakingPage';
 import StandaloneMatchmaking from './components/StandaloneMatchmaking';
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
                   {/* Physical Matchmaking System */}
                   <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmaking />} />
+                  <Route path="/advanced-physical-matchmaking" element={<AdvancedPhysicalMatchmakingPage />} />
                   
                   {/* Standalone PWA Matchmaking */}
                   <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
