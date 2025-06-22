@@ -633,10 +633,57 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
   };
 
+  // Method to login with OAuth user data (for redirect flow)
+  const loginWithOAuthUser = async userData => {
+    try {
+      if (!userData) {
+        return { success: false, error: 'Invalid OAuth user data' };
+      }
+
+      // Generate session token
+      const token = generateSessionToken();
+      const sessionData = {
+        token,
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent,
+        ipAddress: '127.0.0.1',
+        provider: userData.provider,
+      };
+
+      // Create full user object with OAuth data
+      const fullUser = {
+        ...userData,
+        lastLogin: new Date().toISOString(),
+        loginAttempts: 0,
+        accountLocked: false,
+      };
+
+      setUser(fullUser);
+      setSessionToken(token);
+
+      // Store session data
+      localStorage.setItem('konivrer_user', JSON.stringify(fullUser));
+      localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
+
+      // Log security event
+      console.log(
+        `[SECURITY] OAuth login success for ${userData.email} via ${userData.provider} at ${new Date().toISOString()}`,
+      );
+
+      return { success: true, user: fullUser };
+    } catch (error) {
+      console.error('[SECURITY] OAuth login error:', error);
+      return { success: false, error: 'OAuth login failed. Please try again.' };
+    }
+  };
+
   // SSO Login method
   const loginWithSSO = async provider => {
     try {
       console.log(`[SSO] Initiating ${provider} OAuth flow`);
+      
+      // Store provider for redirect flow
+      localStorage.setItem('oauth_provider', provider);
 
       const ssoUser = await initiateOAuth(provider);
 
@@ -693,6 +740,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     loginWithSSO,
+    loginWithOAuthUser,
     updateProfile,
     applyForJudge,
     applyForOrganizer,
@@ -704,6 +752,7 @@ export const AuthProvider = ({ children }) => {
     hasRole: role => user?.roles?.includes(role) || false,
     isJudge: () => user?.roles?.includes('judge') || false,
     isOrganizer: () => user?.roles?.includes('organizer') || false,
+    setShowAuthModal: () => {}, // Will be implemented in MobileFirstLayout
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
