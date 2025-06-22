@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import AncientHero from '../components/AncientHero';
 import {
   Search,
   Filter,
@@ -766,7 +767,10 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen">
+      
+      {/* Ancient Hero Section */}
+      <AncientHero />
 
       {/* Search and Filters */}
       <section className="py-8 bg-gray-900">
