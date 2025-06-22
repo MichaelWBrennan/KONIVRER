@@ -42,6 +42,7 @@ import MobilePhysicalMatchmakingPage from './pages/MobilePhysicalMatchmakingPage
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
 import EnhancedMatchmakingPage from './pages/EnhancedMatchmakingPage';
+import IndustryLeadingFeaturesPage from './pages/IndustryLeadingFeaturesPage';
 
 import BattlePass from './pages/BattlePass';
 import DeckSelectionPage from './pages/DeckSelectionPage';
@@ -90,6 +91,11 @@ function App() {
                   {/* Matchmaking System */}
                   <Route path="/matchmaking" element={<MobileMatchmaking />} />
                   <Route path="/enhanced-matchmaking" element={<EnhancedMatchmakingPage />} />
+                  
+                  {/* Industry-Leading Features - All Free */}
+                  <Route path="/industry-features" element={<IndustryLeadingFeaturesPage />} />
+                  <Route path="/premium-features" element={<IndustryLeadingFeaturesPage />} />
+                  <Route path="/advanced-features" element={<IndustryLeadingFeaturesPage />} />
                   
                   {/* Physical Matchmaking System - All Features Free */}
                   <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
