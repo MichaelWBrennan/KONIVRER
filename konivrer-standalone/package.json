@@ -60,7 +60,7 @@
     "ipfs-http-client": "^60.0.1",
     "jose": "^5.1.1",
     "jotai": "^2.5.1",
-    "langchain": "^0.0.200",
+    "langchain": "^0.3.29",
     "leva": "^0.9.35",
     "lucia": "^2.7.1",
     "lucide-react": "^0.292.0",
@@ -145,7 +145,7 @@
     "autoprefixer": "^10.4.16",
     "changesets": "^0.1.0",
     "commitlint": "^18.4.3",
-    "esbuild": "^0.19.5",
+    "esbuild": "^0.25.5",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
@@ -169,7 +169,7 @@
     "storybook": "^7.5.3",
     "storybook-dark-mode": "^3.0.1",
     "tailwindcss": "^3.3.5",
-    "tsup": "^7.2.0",
+    "tsup": "^8.5.0",
     "turbo": "^1.10.16",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
@@ -190,7 +190,7 @@
     "wasm-pack": "^0.12.1",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.2.2"
   },
   "browserslist": {
     "production": [
