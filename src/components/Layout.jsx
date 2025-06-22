@@ -236,9 +236,13 @@ const Layout = ({ children }) => {
 
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <header className="bg-secondary border-b border-color sticky top-0 z-50">
+      <header className="sticky top-0 z-50" style={{ 
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border-primary)',
+        boxShadow: 'var(--shadow-md)'
+      }}>
         <div className="container">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
@@ -247,10 +251,14 @@ const Layout = ({ children }) => {
               className="flex items-center gap-3 transition-all duration-200 hover:scale-105"
               onClick={() => analytics.navigationClick('/', location.pathname)}
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">K</span>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-mystical-glow" 
+                style={{ background: 'var(--gradient-primary)' }}>
+                <span style={{ color: 'var(--text-primary)' }} className="font-bold text-xl">K</span>
               </div>
-              <span className="text-2xl font-bold text-primary bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+              <span className="text-2xl font-bold animate-text-reveal" style={{ 
+                color: 'var(--text-primary)',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+              }}>
                 KONIVRER
               </span>
             </Link>
@@ -266,17 +274,25 @@ const Layout = ({ children }) => {
                     key={item.name}
                     to={item.href}
                     className={`group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                      isItemActive
-                        ? 'bg-gradient-to-r from-accent-primary to-accent-secondary shadow-lg shadow-accent-primary/25'
-                        : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md hover:scale-105'
+                      isItemActive ? 'animate-border-glow' : 'hover:scale-105'
                     }`}
+                    style={{
+                      background: isItemActive ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
+                      color: isItemActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                      border: `1px solid ${isItemActive ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
+                      boxShadow: isItemActive ? 'var(--shadow-md)' : 'none'
+                    }}
                     onClick={() => handleNavClick(item.name, item.href)}
                   >
                     <Icon
                       size={16}
-                      className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'relative z-10' : ''}`}
+                      className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'animate-mystical-glow' : ''}`}
                     />
-                    <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 5px rgba(0,0,0,0.9)', color: 'white'} : {}}>
+                    <span className={isItemActive ? 'font-extrabold' : ''} 
+                      style={isItemActive ? {
+                        textShadow: '0 1px 2px rgba(0,0,0,0.5)', 
+                        color: 'var(--text-primary)'
+                      } : {}}>
                       {item.name}
                     </span>
                   </Link>
@@ -292,21 +308,43 @@ const Layout = ({ children }) => {
                   {/* User Profile Link */}
                   <Link
                     to="/profile"
-                    className="flex items-center gap-2 btn btn-ghost"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200"
+                    style={{
+                      background: 'var(--bg-tertiary)',
+                      color: 'var(--text-secondary)',
+                      border: '1px solid var(--border-primary)'
+                    }}
                     title="Go to Profile"
                   >
-                    <img
-                      src={user.avatar}
-                      alt={user.displayName}
-                      className="w-6 h-6 rounded-full bg-tertiary"
-                    />
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center"
+                      style={{
+                        background: 'var(--gradient-primary)',
+                        boxShadow: 'var(--shadow-sm)'
+                      }}>
+                      {user.avatar ? (
+                        <img
+                          src={user.avatar}
+                          alt={user.displayName}
+                          className="w-6 h-6 rounded-full"
+                        />
+                      ) : (
+                        <span style={{ color: 'var(--text-primary)', fontSize: '10px' }}>
+                          {user.displayName?.charAt(0) || 'U'}
+                        </span>
+                      )}
+                    </div>
                     <span className="hidden xl:block">{user.displayName}</span>
                   </Link>
 
                   {/* Logout Button */}
                   <button
                     onClick={logout}
-                    className="btn btn-ghost text-red-400 hover:text-red-300"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200"
+                    style={{
+                      background: 'var(--bg-tertiary)',
+                      color: 'var(--accent-danger)',
+                      border: '1px solid var(--border-danger)'
+                    }}
                     title="Logout"
                   >
                     <LogOut size={16} />
@@ -316,17 +354,28 @@ const Layout = ({ children }) => {
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="btn btn-primary"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 animate-mystical-glow"
+                  style={{
+                    background: 'var(--gradient-primary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--accent-primary)',
+                    boxShadow: 'var(--shadow-md)'
+                  }}
                 >
                   <LogIn size={16} />
-                  Login
+                  <span>Login</span>
                 </button>
               )}
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden btn btn-ghost"
+              className="md:hidden p-2 rounded-lg transition-all duration-200"
+              style={{ 
+                background: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border-primary)'
+              }}
               onClick={handleMobileMenuToggle}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -336,9 +385,13 @@ const Layout = ({ children }) => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-secondary border-t border-color">
+          <div className="md:hidden" style={{ 
+            background: 'var(--bg-secondary)',
+            borderTop: '1px solid var(--border-primary)'
+          }}>
             <div className="container py-4">
-              <nav className="flex flex-col gap-1">
+              <div className="ancient-divider mb-4"></div>
+              <nav className="flex flex-col gap-2">
                 {navigation.map(item => {
                   const Icon = item.icon;
                   const isItemActive = isActive(item);
@@ -347,18 +400,26 @@ const Layout = ({ children }) => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`relative flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                        isItemActive
-                          ? 'bg-gradient-to-r from-accent-primary to-accent-secondary shadow-lg shadow-accent-primary/25'
-                          : 'text-secondary hover:text-primary hover:bg-tertiary hover:shadow-md'
+                      className={`relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                        isItemActive ? 'animate-border-glow' : ''
                       }`}
+                      style={{
+                        background: isItemActive ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
+                        color: isItemActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        border: `1px solid ${isItemActive ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
+                        boxShadow: isItemActive ? 'var(--shadow-md)' : 'none'
+                      }}
                       onClick={() => {
                         handleNavClick(item.name, item.href);
                         setIsMobileMenuOpen(false);
                       }}
                     >
-                      <Icon size={16} className={isItemActive ? 'relative z-10' : ''} />
-                      <span className={isItemActive ? 'relative z-10 font-extrabold text-white' : ''} style={isItemActive ? {textShadow: '0 0 5px rgba(0,0,0,0.9)', color: 'white'} : {}}>
+                      <Icon size={16} className={isItemActive ? 'animate-mystical-glow' : ''} />
+                      <span className={isItemActive ? 'font-extrabold' : ''} 
+                        style={isItemActive ? {
+                          textShadow: '0 1px 2px rgba(0,0,0,0.5)', 
+                          color: 'var(--text-primary)'
+                        } : {}}>
                         {item.name}
                       </span>
                     </Link>
@@ -367,21 +428,38 @@ const Layout = ({ children }) => {
               </nav>
 
               {/* Mobile User Menu */}
-              <div className="mt-4 pt-4 border-t border-color">
+              <div className="mt-6 pt-4" style={{ borderTop: '1px solid var(--border-primary)' }}>
+                <div className="ancient-divider mb-4"></div>
                 {isAuthenticated ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between px-3 py-2">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between px-3 py-3 rounded-xl"
+                      style={{ 
+                        background: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-primary)'
+                      }}>
                       <div className="flex items-center gap-3">
-                        <img
-                          src={user.avatar}
-                          alt={user.displayName}
-                          className="w-8 h-8 rounded-full bg-tertiary"
-                        />
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center animate-mystical-glow"
+                          style={{ 
+                            background: 'var(--gradient-primary)',
+                            boxShadow: 'var(--shadow-md)'
+                          }}>
+                          {user.avatar ? (
+                            <img
+                              src={user.avatar}
+                              alt={user.displayName}
+                              className="w-10 h-10 rounded-full"
+                            />
+                          ) : (
+                            <span style={{ color: 'var(--text-primary)', fontSize: '14px' }}>
+                              {user.displayName?.charAt(0) || 'U'}
+                            </span>
+                          )}
+                        </div>
                         <div>
-                          <p className="font-medium text-sm">
+                          <p className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
                             {user.displayName}
                           </p>
-                          <p className="text-xs text-secondary">
+                          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                             @{user.username}
                           </p>
                         </div>
@@ -389,21 +467,31 @@ const Layout = ({ children }) => {
                     </div>
                     <Link
                       to="/profile"
-                      className="flex items-center gap-3 px-3 py-2 text-sm text-secondary hover:text-primary hover:bg-tertiary rounded-md"
+                      className="flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200"
+                      style={{
+                        background: 'var(--bg-tertiary)',
+                        color: 'var(--text-secondary)',
+                        border: '1px solid var(--border-primary)'
+                      }}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <User size={16} />
-                      Profile
+                      <span>Profile</span>
                     </Link>
                     <button
                       onClick={() => {
                         logout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="flex items-center gap-3 px-3 py-2 text-sm text-red-400 hover:bg-tertiary rounded-md w-full text-left"
+                      className="flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200 w-full text-left"
+                      style={{
+                        background: 'var(--bg-tertiary)',
+                        color: 'var(--accent-danger)',
+                        border: '1px solid var(--border-danger)'
+                      }}
                     >
                       <LogOut size={16} />
-                      Logout
+                      <span>Logout</span>
                     </button>
                   </div>
                 ) : (
@@ -412,10 +500,16 @@ const Layout = ({ children }) => {
                       setShowAuthModal(true);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="btn btn-primary w-full"
+                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 w-full animate-mystical-glow"
+                    style={{
+                      background: 'var(--gradient-primary)',
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--accent-primary)',
+                      boxShadow: 'var(--shadow-md)'
+                    }}
                   >
-                    <LogIn size={16} />
-                    Login
+                    <LogIn size={18} />
+                    <span className="font-bold">Login to Ancient Archives</span>
                   </button>
                 )}
               </div>
@@ -427,35 +521,48 @@ const Layout = ({ children }) => {
 
 
       {/* Main Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 content-area" style={{ 
+        background: 'var(--bg-primary)',
+        minHeight: 'calc(100vh - 64px - 80px)' // Subtract header and footer heights
+      }}>
+        {children}
+      </main>
 
       {/* Footer */}
-      <footer className="bg-secondary border-t border-color mt-auto">
+      <footer style={{ 
+        background: 'var(--bg-secondary)',
+        borderTop: '1px solid var(--border-primary)',
+        marginTop: 'auto'
+      }}>
         <div className="container py-6">
+          <div className="ancient-divider mb-4"></div>
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted">
-                © 2024 KONIVRER Deck Database. Built with ❤️ for the community.
+              <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                © 2024 KONIVRER Ancient Archives. Built with <span className="animate-mystical-glow">✧</span> for the community.
               </span>
             </div>
             <div className="flex items-center gap-4">
               <Link
                 to="/about"
-                className="text-sm text-secondary hover:text-primary"
+                className="text-sm transition-all duration-200 hover:scale-105"
+                style={{ color: 'var(--text-secondary)' }}
               >
-                About
+                About the Archives
               </Link>
               <Link
                 to="/contact"
-                className="text-sm text-secondary hover:text-primary"
+                className="text-sm transition-all duration-200 hover:scale-105"
+                style={{ color: 'var(--text-secondary)' }}
               >
-                Contact
+                Contact the Archivists
               </Link>
               <Link
                 to="/how-to-play"
-                className="text-sm text-secondary hover:text-primary"
+                className="text-sm transition-all duration-200 hover:scale-105"
+                style={{ color: 'var(--text-secondary)' }}
               >
-                How to Play
+                Ancient Teachings
               </Link>
             </div>
           </div>
