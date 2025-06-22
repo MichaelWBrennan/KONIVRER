@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import ModernAuthModal from './ModernAuthModal';
+import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
@@ -140,7 +140,7 @@ const MobileFirstLayout = ({ children }) => {
       </nav>
 
       {/* Auth Modal */}
-      <ModernAuthModal
+      <MobileAuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
