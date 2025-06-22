@@ -19,7 +19,7 @@ const BattlePass = () => {
     level: 12,
     xp: 2450,
     xpToNext: 500,
-    premiumUnlocked: false,
+    premiumUnlocked: true, // Premium is now free for everyone
   });
 
   const battlePassData = {
@@ -271,11 +271,9 @@ const BattlePass = () => {
               </button>
             </div>
 
-            {!userProgress.premiumUnlocked && (
-              <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105">
-                Unlock Premium - $9.99
-              </button>
-            )}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-2 rounded-lg font-semibold">
+              Premium Included
+            </div>
           </div>
         </motion.div>
 
