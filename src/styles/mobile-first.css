@@ -499,6 +499,16 @@ html, body {
 }
 
 /* Mobile Auth Modal */
+.mobile-auth-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-top: 60px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .mobile-tabs {
   display: flex;
   border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
