@@ -41,11 +41,14 @@
   --esoteric-secondary: #7b2cbf;    /* Magical violet */
   --esoteric-accent: #e9a72f;       /* Ancient gold */
   --esoteric-highlight: #ff6b6b;    /* Forbidden red */
+  --esoteric-wisdom: #9B59B6;       /* Wisdom purple */
+  --esoteric-insight: #4ECDC4;      /* Insight teal */
   
   /* Background Colors */
   --esoteric-bg-dark: #0f0a1e;      /* Deep void background */
   --esoteric-bg-medium: #1a1625;    /* Mystical dark background */
   --esoteric-bg-light: #2d2640;     /* Lighter mystical background */
+  --esoteric-bg-card: rgba(30, 30, 40, 0.7); /* Card background */
   
   /* Text Colors */
   --esoteric-text-primary: #f8f4e3; /* Ancient parchment */
@@ -949,4 +952,62 @@ a:hover:after {
 .esoteric-qr-code {
   border: 1px solid var(--esoteric-border);
   box-shadow: 0 0 15px var(--esoteric-accent-glow);
+}
+
+/* Enhanced Matchmaking Styles */
+.esoteric-matchmaking-container {
+  background-color: var(--esoteric-bg-medium);
+  color: var(--esoteric-text-primary);
+}
+
+.esoteric-matchmaking-card {
+  background-color: var(--esoteric-bg-card);
+  border: 1px solid var(--esoteric-wisdom);
+  box-shadow: 0 0 12px rgba(155, 89, 182, 0.4);
+  border-radius: 8px;
+}
+
+.esoteric-vs-badge {
+  color: var(--esoteric-wisdom);
+  text-shadow: 0 0 8px rgba(155, 89, 182, 0.6);
+  font-family: 'OpenDyslexic', sans-serif;
+}
+
+.esoteric-player-card {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-wisdom);
+  border-radius: 8px;
+}
+
+.esoteric-spinner {
+  border-top-color: var(--esoteric-wisdom);
+}
+
+.esoteric-visualization-canvas {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-wisdom);
+  border-radius: 8px;
+}
+
+.esoteric-match-details {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-wisdom);
+  border-radius: 8px;
+}
+
+.esoteric-factor-buttons .esoteric-btn {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-wisdom);
+  color: var(--esoteric-text-primary);
+}
+
+.esoteric-factor-buttons .esoteric-btn.active {
+  background-color: var(--esoteric-wisdom);
+  color: var(--esoteric-bg-dark);
+}
+
+.esoteric-recommendations {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-wisdom);
+  border-radius: 8px;
 }
