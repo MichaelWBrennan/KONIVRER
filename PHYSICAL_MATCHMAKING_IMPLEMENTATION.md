@@ -8,23 +8,27 @@ This document outlines the implementation of the Physical Matchmaking component 
    - Created `PhysicalMatchmakingContext.jsx` for centralized state management
    - Implemented data persistence using localStorage
    - Added import/export functionality for data backup and transfer
+   - Integrated Bayesian matchmaking algorithms
 
 2. **Enhanced Physical Matchmaking Component**
    - Created `EnhancedPhysicalMatchmaking.jsx` with modern UI
    - Implemented tabs for Quick Match, Tournaments, Players, and Statistics
    - Added QR code generation for matches and tournaments
    - Implemented responsive design for all screen sizes
+   - Applied ancient-esoteric theme for visual consistency
 
 3. **Player Management System**
-   - Player profiles with ratings and statistics
-   - Win/loss tracking
+   - Player profiles with Bayesian TrueSkill ratings and uncertainty
+   - Win/loss tracking with rating adjustments
    - Player search and filtering
+   - Tier and division placement based on conservative ratings
 
 4. **Quick Match Creation**
    - Random pairing of selected players
    - Match format selection
    - Best-of-X match configuration
-   - Match result recording
+   - Match result recording with Bayesian rating updates
+   - Match quality calculation for optimal pairings
 
 5. **Tournament Organization**
    - Tournament creation with various formats
@@ -144,29 +148,55 @@ This document outlines the implementation of the Physical Matchmaking component 
    - Works fully offline with localStorage
    - Provides visual indication of connection status
 
+## Bayesian Matchmaking System
+
+1. **TrueSkill Algorithm:**
+   - Implemented Microsoft's TrueSkill algorithm adapted for TCGs
+   - Player skill represented as a normal distribution with mean (μ) and standard deviation (σ)
+   - Conservative rating (μ - 3σ) used for tier placement
+   - Uncertainty reduction over time as more matches are played
+
+2. **Match Quality Calculation:**
+   - Calculates probability of a close, interesting match
+   - Considers skill difference and uncertainty of both players
+   - Provides win probability predictions
+   - Identifies optimal pairings for tournaments
+
+3. **Rating Updates:**
+   - Dynamic rating adjustments based on match outcomes
+   - Larger adjustments for unexpected results
+   - Smaller adjustments for expected outcomes
+   - Uncertainty reduction with each match played
+
+4. **Tier System:**
+   - Players assigned to tiers based on conservative rating
+   - Multiple divisions within each tier
+   - Visual indicators for player skill level
+   - Promotion/demotion between tiers based on performance
+
 ## Future Enhancements
 
-1. **Bayesian Matchmaking Algorithm:**
-   - Implement advanced matchmaking based on player skill levels
-   - Adjust ratings based on match outcomes
-   - Predict match outcomes
-
-2. **Enhanced Tournament Formats:**
+1. **Enhanced Tournament Formats:**
    - Add support for more tournament formats (Swiss, Round Robin)
    - Implement tiebreakers
    - Add support for team tournaments
 
-3. **Integration with Online System:**
+2. **Integration with Online System:**
    - Sync physical match data with online database
    - Allow players to claim physical match results online
    - Integrate with global leaderboards
 
-4. **Advanced Statistics:**
+3. **Advanced Statistics:**
    - Deck performance analytics
    - Player improvement tracking
    - Meta analysis
 
-5. **Mobile App:**
+4. **Mobile App:**
    - Convert to Progressive Web App
    - Add push notifications
    - Optimize for mobile-first experience
+
+5. **Enhanced Ancient Theme:**
+   - Add more thematic animations and transitions
+   - Implement sound effects for actions
+   - Create custom iconography for different tiers and divisions
