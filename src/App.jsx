@@ -14,6 +14,7 @@ import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
 import MobileFirstLayout from './components/MobileFirstLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import MobileHome from './pages/MobileHome';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -76,9 +77,9 @@ function App() {
                   <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/advanced-game/:mode/:gameId" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/deck-selection" element={<DeckSelectionPage />} />
-                  <Route path="/deck-builder" element={<EnhancedDeckBuilder />} />
-                  <Route path="/deck-builder/:deckId" element={<EnhancedDeckBuilder />} />
-                  <Route path="/enhanced-deck-builder" element={<EnhancedDeckBuilder />} />
+                  <Route path="/deck-builder" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
+                  <Route path="/deck-builder/:deckId" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
+                  <Route path="/enhanced-deck-builder" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
@@ -150,7 +151,7 @@ function App() {
                   <Route path="/tournaments" element={<UnifiedTournaments />} />
                   <Route
                     path="/tournaments/create"
-                    element={<TournamentCreate />}
+                    element={<ProtectedRoute><TournamentCreate /></ProtectedRoute>}
                   />
                   <Route
                     path="/tournaments/:tournamentId/live"
