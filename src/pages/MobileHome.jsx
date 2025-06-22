@@ -36,7 +36,7 @@ const MobileHome = () => {
           KONIVRER
         </h1>
         <p className="esoteric-rune">
-          Ancient Knowledge Card Game
+          Trading Card Game
         </p>
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>
@@ -50,23 +50,23 @@ const MobileHome = () => {
         </div>
         <div className="mobile-grid">
           <Link to="/game/online" className="mobile-btn mobile-btn-primary mobile-p esoteric-btn esoteric-btn-primary">
-            Summon Battle
+            Play Now
           </Link>
           <Link to="/deck-builder" className="mobile-btn mobile-p esoteric-btn">
-            Craft Grimoire
+            Build Deck
           </Link>
           <Link to="/cards" className="mobile-btn mobile-p esoteric-btn">
-            Ancient Tomes
+            Browse Cards
           </Link>
           <Link to="/matchmaking" className="mobile-btn mobile-p esoteric-btn">
-            Seek Opponent
+            Find Match
           </Link>
         </div>
       </section>
 
       {/* Featured Cards */}
       <section className="mobile-mb">
-        <h2 className="mobile-card-title esoteric-rune">Mystical Artifacts</h2>
+        <h2 className="mobile-card-title esoteric-rune">Featured Cards</h2>
         <div className="mobile-card esoteric-card">
           <div className="mobile-grid">
             {featuredCards.map(card => (
@@ -89,7 +89,7 @@ const MobileHome = () => {
       {/* Recent Decks (for logged in users) */}
       {isAuthenticated && recentDecks && recentDecks.length > 0 && (
         <section className="mobile-mb">
-          <h2 className="mobile-card-title esoteric-rune">Your Grimoires</h2>
+          <h2 className="mobile-card-title esoteric-rune">Your Recent Decks</h2>
           <div className="mobile-card esoteric-card">
             <ul className="mobile-list">
               {recentDecks.slice(0, 3).map(deck => (
@@ -101,7 +101,7 @@ const MobileHome = () => {
               ))}
             </ul>
             <Link to="/decks" className="mobile-btn mobile-btn-block mobile-mt esoteric-btn esoteric-btn-outline">
-              View All Grimoires
+              View All Decks
             </Link>
           </div>
         </section>
@@ -109,7 +109,7 @@ const MobileHome = () => {
 
       {/* Upcoming Tournaments */}
       <section className="mobile-mb">
-        <h2 className="mobile-card-title esoteric-rune">Arcane Gatherings</h2>
+        <h2 className="mobile-card-title esoteric-rune">Upcoming Tournaments</h2>
         <div className="mobile-card esoteric-card">
           <ul className="mobile-list">
             {latestTournaments.map(tournament => (
@@ -117,35 +117,35 @@ const MobileHome = () => {
                 <div>
                   <strong className="esoteric-text-accent">{tournament.name}</strong>
                   <div>
-                    Celestial Date: {new Date(tournament.date).toLocaleDateString()}
+                    Date: {new Date(tournament.date).toLocaleDateString()}
                   </div>
                   <div>
-                    Summoners: {tournament.players}
+                    Players: {tournament.players}
                   </div>
                 </div>
               </li>
             ))}
           </ul>
           <Link to="/tournaments" className="mobile-btn mobile-btn-block mobile-mt esoteric-btn esoteric-btn-outline">
-            View All Gatherings
+            View All Tournaments
           </Link>
         </div>
       </section>
 
       {/* News & Updates */}
       <section className="mobile-mb">
-        <h2 className="mobile-card-title esoteric-rune">Forbidden Scrolls</h2>
+        <h2 className="mobile-card-title esoteric-rune">Latest News</h2>
         <div className="mobile-card esoteric-card">
           <div className="mobile-card-content">
-            <h3 className="esoteric-text-accent">Ancient Wisdom Revealed</h3>
-            <p>We've transcribed the ancient texts for mobile vessels of knowledge!</p>
+            <h3 className="esoteric-text-accent">New Mobile Experience</h3>
+            <p>We've completely redesigned our app for a better mobile experience!</p>
           </div>
           <div className="esoteric-divider">
             <span className="esoteric-divider-symbol">✦</span>
           </div>
           <div className="mobile-card-content">
-            <h3 className="esoteric-text-accent">The Great Convergence Begins</h3>
-            <p>Join our weekly rituals for a chance to obtain mystical artifacts of power.</p>
+            <h3 className="esoteric-text-accent">Tournament Season Begins</h3>
+            <p>Join our weekly tournaments for a chance to win exclusive prizes.</p>
           </div>
         </div>
       </section>
