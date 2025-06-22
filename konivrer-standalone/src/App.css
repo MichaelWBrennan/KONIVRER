@@ -87,6 +87,102 @@
   color: var(--color-primary);
 }
 
+.tech-stack {
+  margin-top: var(--spacing-md);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  opacity: 0.8;
+}
+
+/* System requirements checker */
+.system-requirements-checker {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.system-requirements-checker.checking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}
+
+.system-requirements-checker h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-primary);
+}
+
+.support-summary {
+  margin-bottom: var(--spacing-md);
+  font-weight: 500;
+}
+
+.requirements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.requirement {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.requirement.supported {
+  background-color: rgba(var(--color-success-rgb), 0.1);
+}
+
+.requirement.not-supported {
+  background-color: rgba(var(--color-error-rgb), 0.1);
+}
+
+.requirement-name {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.requirement-status {
+  font-weight: bold;
+}
+
+.requirement.supported .requirement-status {
+  color: var(--color-success);
+}
+
+.requirement.not-supported .requirement-status {
+  color: var(--color-error);
+}
+
+.loading-spinner.small {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.error-details {
+  font-family: monospace;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin: var(--spacing-md) 0;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* Loading fallback */
 .loading-fallback {
   display: flex;
