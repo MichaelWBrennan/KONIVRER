@@ -1,6 +1,7 @@
 /**
- * Competitive Ranking Engine for KONIVRER
+ * Advanced Competitive Ranking Engine for KONIVRER
  * Handles Bayesian TrueSkill system, seasonal rankings, matchmaking, and rewards
+ * Includes multi-factor matchmaking, confidence-based matching, and time-weighted performance
  */
 export class RankingEngine {
   constructor(options = {}) {
@@ -10,6 +11,11 @@ export class RankingEngine {
       enableRewards: true,
       enableDecaySystem: true,
       enablePlacementMatches: true,
+      enableMultiFactorMatchmaking: true,
+      enableConfidenceBasedMatching: true,
+      enableTimeWeightedPerformance: true,
+      enablePlaystyleCompatibility: true,
+      enableDynamicKFactor: true,
       ...options
     };
 
@@ -33,7 +39,14 @@ export class RankingEngine {
       INITIAL_RATING: 1500, // mu (mean skill)
       INITIAL_UNCERTAINTY: 350, // sigma (uncertainty)
       MIN_UNCERTAINTY: 25, // Minimum uncertainty
-      MAX_UNCERTAINTY: 350 // Maximum uncertainty
+      MAX_UNCERTAINTY: 350, // Maximum uncertainty
+      TIME_DECAY_FACTOR: 0.95, // Factor for time-weighted performance (per month)
+      DYNAMIC_K_FACTOR_BASE: 32, // Base K-factor for rating adjustments
+      DYNAMIC_K_FACTOR_MIN: 16, // Minimum K-factor
+      DYNAMIC_K_FACTOR_MAX: 64, // Maximum K-factor
+      TOURNAMENT_IMPORTANCE_MULTIPLIER: 1.5, // Multiplier for tournament matches
+      HIGH_STAKES_MULTIPLIER: 1.25, // Multiplier for high-stakes matches
+      EXPERIENCE_DIVISOR: 100 // Divisor for experience-based K-factor adjustment
     };
 
     // Player data (Bayesian model)
@@ -57,7 +70,24 @@ export class RankingEngine {
       deckArchetypes: [], // Deck archetype performance
       matchHistory: [], // Match history for learning
       confidence: 0.1, // How confident we are in the rating
-      volatility: 0.06 // How much the rating changes
+      volatility: 0.06, // How much the rating changes
+      playstyle: {
+        aggression: 0.5, // 0 = defensive, 1 = aggressive
+        consistency: 0.5, // 0 = high variance, 1 = consistent
+        complexity: 0.5, // 0 = straightforward, 1 = complex
+        adaptability: 0.5, // 0 = rigid, 1 = adaptable
+        riskTaking: 0.5 // 0 = risk-averse, 1 = risk-seeking
+      },
+      preferences: {
+        preferredArchetypes: [], // List of preferred deck archetypes
+        preferredOpponents: [], // List of preferred opponent types
+        preferredFormats: [], // List of preferred formats
+        matchDifficulty: 0.5, // 0 = easier matches, 1 = challenging matches
+        varietyPreference: 0.5 // 0 = consistent opponents, 1 = varied opponents
+      },
+      experienceLevel: 0, // Experience level (increases with matches played)
+      recentPerformance: [], // Recent match results for time-weighted performance
+      lastActive: new Date() // Last active date for time decay
     };
 
     // Season system
@@ -69,7 +99,7 @@ export class RankingEngine {
       leaderboard: new Map()
     };
 
-    // Matchmaking (Bayesian-based)
+    // Advanced Matchmaking (Multi-factor Bayesian)
     this.matchmaking = {
       queue: [],
       activeMatches: new Map(),
@@ -79,7 +109,41 @@ export class RankingEngine {
       averageWaitTime: 60000, // 1 minute
       qualityThreshold: 0.7, // Minimum match quality
       maxSkillDifference: 500, // Maximum allowed skill difference
-      minSkillDifference: 100 // Minimum desired skill difference
+      minSkillDifference: 100, // Minimum desired skill difference
+      
+      // Multi-factor matchmaking weights
+      weights: {
+        skillRating: 0.4, // Weight for skill rating similarity
+        uncertainty: 0.15, // Weight for uncertainty similarity
+        deckArchetype: 0.15, // Weight for deck archetype considerations
+        playHistory: 0.1, // Weight for play history considerations
+        playstyleCompatibility: 0.1, // Weight for playstyle compatibility
+        playerPreferences: 0.1 // Weight for player preferences
+      },
+      
+      // Confidence-based matching parameters
+      confidenceMatching: {
+        enabled: true,
+        preferSimilarConfidence: true, // Match players with similar confidence levels
+        confidenceWeight: 0.2, // Weight for confidence similarity in matchmaking
+        minConfidenceForRanked: 0.3 // Minimum confidence level for ranked play
+      },
+      
+      // Time-weighted performance parameters
+      timeWeighting: {
+        enabled: true,
+        recentMatchesWindow: 20, // Number of recent matches to consider
+        decayFactor: 0.95, // Decay factor for older matches
+        halfLifeDays: 30 // Half-life in days for match importance
+      },
+      
+      // Playstyle compatibility parameters
+      playstyleCompatibility: {
+        enabled: true,
+        complementaryMatching: true, // Match complementary playstyles (e.g., aggressive vs. control)
+        similarityWeight: 0.3, // Weight for playstyle similarity
+        complementaryWeight: 0.7 // Weight for complementary playstyles
+      }
     };
 
     // Deck archetype matchup matrix (win rates)
@@ -90,6 +154,16 @@ export class RankingEngine {
       'Combo': { 'Aggro': 0.3, 'Control': 0.6, 'Midrange': 0.35, 'Combo': 0.5, 'Tempo': 0.4, 'Ramp': 0.8 },
       'Tempo': { 'Aggro': 0.55, 'Control': 0.45, 'Midrange': 0.4, 'Combo': 0.6, 'Tempo': 0.5, 'Ramp': 0.65 },
       'Ramp': { 'Aggro': 0.25, 'Control': 0.55, 'Midrange': 0.5, 'Combo': 0.2, 'Tempo': 0.35, 'Ramp': 0.5 }
+    };
+
+    // Playstyle compatibility matrix
+    this.playstyleCompatibility = {
+      'Aggro': { 'Aggro': 0.5, 'Control': 0.8, 'Midrange': 0.6, 'Combo': 0.7, 'Tempo': 0.5, 'Ramp': 0.7 },
+      'Control': { 'Aggro': 0.8, 'Control': 0.4, 'Midrange': 0.6, 'Combo': 0.7, 'Tempo': 0.6, 'Ramp': 0.5 },
+      'Midrange': { 'Aggro': 0.6, 'Control': 0.6, 'Midrange': 0.5, 'Combo': 0.6, 'Tempo': 0.7, 'Ramp': 0.6 },
+      'Combo': { 'Aggro': 0.7, 'Control': 0.7, 'Midrange': 0.6, 'Combo': 0.4, 'Tempo': 0.6, 'Ramp': 0.7 },
+      'Tempo': { 'Aggro': 0.5, 'Control': 0.6, 'Midrange': 0.7, 'Combo': 0.6, 'Tempo': 0.5, 'Ramp': 0.6 },
+      'Ramp': { 'Aggro': 0.7, 'Control': 0.5, 'Midrange': 0.6, 'Combo': 0.7, 'Tempo': 0.6, 'Ramp': 0.5 }
     };
 
     // Rewards system
@@ -118,9 +192,9 @@ export class RankingEngine {
   }
 
   /**
-   * Bayesian TrueSkill Rating System
+   * Enhanced Bayesian TrueSkill Rating System with Dynamic K-Factor
    */
-  calculateTrueSkillUpdate(playerRating, playerUncertainty, opponentRating, opponentUncertainty, gameResult, format = null) {
+  calculateTrueSkillUpdate(playerRating, playerUncertainty, opponentRating, opponentUncertainty, gameResult, kFactor = null, format = null) {
     // TrueSkill calculations
     const c = Math.sqrt(2 * this.bayesianParams.BETA * this.bayesianParams.BETA + 
                        playerUncertainty * playerUncertainty + 
@@ -136,19 +210,38 @@ export class RankingEngine {
     const v = this.vFunction(winProbability, drawProbability, actualOutcome);
     const w = this.wFunction(winProbability, drawProbability, actualOutcome);
     
-    // Update ratings
-    const newPlayerRating = playerRating + (playerUncertainty * playerUncertainty / c) * v;
-    const newOpponentRating = opponentRating - (opponentUncertainty * opponentUncertainty / c) * v;
+    // Apply dynamic K-factor if provided
+    let kFactorMultiplier = 1.0;
+    if (kFactor !== null) {
+      // Convert the K-factor to a multiplier relative to the base K-factor
+      kFactorMultiplier = kFactor / this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
+    }
     
-    // Update uncertainties
+    // Update ratings with dynamic K-factor
+    const ratingUpdateFactor = (playerUncertainty * playerUncertainty / c) * v * kFactorMultiplier;
+    const newPlayerRating = playerRating + ratingUpdateFactor;
+    const newOpponentRating = opponentRating - (opponentUncertainty * opponentUncertainty / c) * v * kFactorMultiplier;
+    
+    // Update uncertainties (uncertainty reduction is affected by K-factor too)
+    // Higher K-factor means more confidence in the result, so slightly more uncertainty reduction
+    const uncertaintyFactor = kFactorMultiplier > 1.0 ? Math.sqrt(kFactorMultiplier) : 1.0;
+    
     const newPlayerUncertainty = Math.sqrt(Math.max(
-      playerUncertainty * playerUncertainty * (1 - (playerUncertainty * playerUncertainty / (c * c)) * w),
+      playerUncertainty * playerUncertainty * (1 - (playerUncertainty * playerUncertainty / (c * c)) * w * uncertaintyFactor),
       this.bayesianParams.MIN_UNCERTAINTY
     ));
+    
     const newOpponentUncertainty = Math.sqrt(Math.max(
-      opponentUncertainty * opponentUncertainty * (1 - (opponentUncertainty * opponentUncertainty / (c * c)) * w),
+      opponentUncertainty * opponentUncertainty * (1 - (opponentUncertainty * opponentUncertainty / (c * c)) * w * uncertaintyFactor),
       this.bayesianParams.MIN_UNCERTAINTY
     ));
+    
+    // Calculate surprise factor (how unexpected the result was)
+    const surpriseFactor = Math.abs(actualOutcome - winProbability);
+    
+    // Calculate confidence change
+    // Confidence increases more for expected results and decreases for surprising results
+    const confidenceChange = (1 - surpriseFactor) * 0.05;
     
     return {
       player: {
@@ -156,18 +249,22 @@ export class RankingEngine {
         newRating: newPlayerRating,
         oldUncertainty: playerUncertainty,
         newUncertainty: newPlayerUncertainty,
-        ratingChange: newPlayerRating - playerRating
+        ratingChange: newPlayerRating - playerRating,
+        confidenceChange: confidenceChange
       },
       opponent: {
         oldRating: opponentRating,
         newRating: newOpponentRating,
         oldUncertainty: opponentUncertainty,
         newUncertainty: newOpponentUncertainty,
-        ratingChange: newOpponentRating - opponentRating
+        ratingChange: newOpponentRating - opponentRating,
+        confidenceChange: confidenceChange
       },
       winProbability,
       actualOutcome,
-      surpriseFactor: Math.abs(actualOutcome - winProbability)
+      surpriseFactor,
+      kFactor: kFactor || this.bayesianParams.DYNAMIC_K_FACTOR_BASE,
+      kFactorMultiplier
     };
   }
 
@@ -269,6 +366,9 @@ export class RankingEngine {
     return rating - (3 * uncertainty);
   }
 
+  /**
+   * Process game result with dynamic K-factor and time-weighted performance
+   */
   processGameResult(opponentData, gameResult, gameDuration, performanceMetrics = {}) {
     const isPlacement = this.playerData.isPlacement;
     
@@ -284,13 +384,20 @@ export class RankingEngine {
       opponentUncertainty = opponentData.uncertainty || this.bayesianParams.INITIAL_UNCERTAINTY;
     }
     
-    // Calculate Bayesian TrueSkill update
+    // Calculate dynamic K-factor if enabled
+    let kFactor = this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
+    if (this.options.enableDynamicKFactor) {
+      kFactor = this.calculateDynamicKFactor(performanceMetrics);
+    }
+    
+    // Calculate Bayesian TrueSkill update with dynamic K-factor
     const skillUpdate = this.calculateTrueSkillUpdate(
       this.playerData.rating,
       this.playerData.uncertainty,
       opponentRating,
       opponentUncertainty,
-      gameResult
+      gameResult,
+      kFactor
     );
 
     // Apply performance modifiers to rating change
@@ -299,6 +406,11 @@ export class RankingEngine {
     
     // Apply streak bonuses/penalties
     ratingChange = this.applyStreakModifiers(ratingChange, gameResult);
+    
+    // Apply time-weighted performance adjustment if enabled
+    if (this.options.enableTimeWeightedPerformance) {
+      ratingChange = this.applyTimeWeightedAdjustment(ratingChange, gameResult);
+    }
     
     // Update player rating and uncertainty
     const oldRating = this.playerData.rating;
@@ -330,8 +442,14 @@ export class RankingEngine {
       this.updateDeckArchetypePerformance(performanceMetrics.deckArchetype, gameResult, skillUpdate);
     }
     
+    // Update playstyle data if available
+    if (performanceMetrics.playstyleMetrics) {
+      this.updatePlaystyleData(performanceMetrics.playstyleMetrics);
+    }
+    
     // Store match in history
-    this.addMatchToHistory({
+    const matchData = {
+      opponentId: opponentData.id,
       opponentRating,
       opponentUncertainty,
       gameResult,
@@ -341,8 +459,25 @@ export class RankingEngine {
       uncertaintyAfter: this.playerData.uncertainty,
       winProbability: skillUpdate.winProbability,
       surpriseFactor: skillUpdate.surpriseFactor,
-      performanceMetrics
+      kFactor,
+      performanceMetrics,
+      date: new Date()
+    };
+    
+    this.addMatchToHistory(matchData);
+    
+    // Update recent performance for time-weighted calculations
+    this.updateRecentPerformance({
+      result: gameResult,
+      ratingChange,
+      date: new Date()
     });
+    
+    // Update experience level
+    this.playerData.experienceLevel = Math.min(100, this.playerData.experienceLevel + 1);
+    
+    // Update last active date
+    this.playerData.lastActive = new Date();
     
     // Check for achievements
     this.checkAchievements(gameResult, performanceMetrics);
@@ -362,8 +497,175 @@ export class RankingEngine {
       winProbability: skillUpdate.winProbability,
       surpriseFactor: skillUpdate.surpriseFactor,
       skillUpdate: skillUpdate,
+      kFactor,
       achievements: tierChange.achievements || []
     };
+  }
+  
+  /**
+   * Calculate dynamic K-factor based on tournament importance, match stakes, and player experience
+   */
+  calculateDynamicKFactor(performanceMetrics = {}) {
+    const baseKFactor = this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
+    let kFactor = baseKFactor;
+    
+    // Adjust for tournament importance
+    if (performanceMetrics.isTournament) {
+      kFactor *= this.bayesianParams.TOURNAMENT_IMPORTANCE_MULTIPLIER;
+      
+      // Further adjust based on tournament round/stage
+      if (performanceMetrics.tournamentStage === 'finals') {
+        kFactor *= 1.2; // Finals are more important
+      } else if (performanceMetrics.tournamentStage === 'semifinals') {
+        kFactor *= 1.1; // Semifinals are somewhat more important
+      }
+    }
+    
+    // Adjust for match stakes
+    if (performanceMetrics.isHighStakes) {
+      kFactor *= this.bayesianParams.HIGH_STAKES_MULTIPLIER;
+    }
+    
+    // Adjust for player experience (less experienced players have higher K-factor)
+    const experienceLevel = this.playerData.experienceLevel || 0;
+    const experienceMultiplier = Math.max(0.5, 1.0 - (experienceLevel / this.bayesianParams.EXPERIENCE_DIVISOR));
+    kFactor *= experienceMultiplier;
+    
+    // Adjust for player uncertainty (higher uncertainty = higher K-factor)
+    const uncertaintyRatio = this.playerData.uncertainty / this.bayesianParams.INITIAL_UNCERTAINTY;
+    kFactor *= Math.min(1.5, Math.max(0.5, uncertaintyRatio));
+    
+    // Clamp to min/max values
+    return Math.min(
+      this.bayesianParams.DYNAMIC_K_FACTOR_MAX,
+      Math.max(this.bayesianParams.DYNAMIC_K_FACTOR_MIN, kFactor)
+    );
+  }
+  
+  /**
+   * Apply time-weighted adjustment to rating change
+   */
+  applyTimeWeightedAdjustment(ratingChange, gameResult) {
+    if (!this.playerData.recentPerformance || this.playerData.recentPerformance.length === 0) {
+      return ratingChange;
+    }
+    
+    // Calculate time since last activity
+    const lastActive = new Date(this.playerData.lastActive);
+    const now = new Date();
+    const daysSinceLastActive = (now - lastActive) / (1000 * 60 * 60 * 24);
+    
+    // Apply time decay if inactive for a while
+    if (daysSinceLastActive > 30) {
+      // Calculate decay factor (more decay for longer inactivity)
+      const decayMonths = daysSinceLastActive / 30;
+      const decayFactor = Math.pow(this.bayesianParams.TIME_DECAY_FACTOR, decayMonths);
+      
+      // Increase rating change magnitude for returning players
+      return ratingChange * (1 + (1 - decayFactor));
+    }
+    
+    // Get recent performance trend
+    const recentMatches = [...this.playerData.recentPerformance]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, this.matchmaking.timeWeighting.recentMatchesWindow);
+    
+    if (recentMatches.length < 3) return ratingChange;
+    
+    // Calculate recent win rate
+    const recentWins = recentMatches.filter(m => m.result === 'win').length;
+    const recentWinRate = recentWins / recentMatches.length;
+    
+    // Adjust rating change based on recent performance
+    if (gameResult === 'win') {
+      // If on a winning streak, slightly reduce rating gain (regression to mean)
+      if (recentWinRate > 0.7) {
+        return ratingChange * 0.9;
+      }
+      // If breaking a losing streak, slightly increase rating gain (comeback bonus)
+      else if (recentWinRate < 0.3) {
+        return ratingChange * 1.1;
+      }
+    } else if (gameResult === 'loss') {
+      // If on a losing streak, slightly reduce rating loss (mercy factor)
+      if (recentWinRate < 0.3) {
+        return ratingChange * 0.9;
+      }
+      // If breaking a winning streak, slightly increase rating loss (fall from grace)
+      else if (recentWinRate > 0.7) {
+        return ratingChange * 1.1;
+      }
+    }
+    
+    return ratingChange;
+  }
+  
+  /**
+   * Update recent performance data for time-weighted calculations
+   */
+  updateRecentPerformance(matchData) {
+    if (!this.playerData.recentPerformance) {
+      this.playerData.recentPerformance = [];
+    }
+    
+    // Add new match to recent performance
+    this.playerData.recentPerformance.push(matchData);
+    
+    // Keep only the most recent matches
+    const maxRecentMatches = this.matchmaking.timeWeighting.recentMatchesWindow * 2;
+    if (this.playerData.recentPerformance.length > maxRecentMatches) {
+      this.playerData.recentPerformance = this.playerData.recentPerformance
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, maxRecentMatches);
+    }
+  }
+  
+  /**
+   * Update player's playstyle data based on performance metrics
+   */
+  updatePlaystyleData(playstyleMetrics) {
+    if (!this.playerData.playstyle) {
+      this.playerData.playstyle = {
+        aggression: 0.5,
+        consistency: 0.5,
+        complexity: 0.5,
+        adaptability: 0.5,
+        riskTaking: 0.5
+      };
+    }
+    
+    // Gradually update playstyle metrics (80% existing, 20% new data)
+    const learningRate = 0.2;
+    
+    if (playstyleMetrics.aggression !== undefined) {
+      this.playerData.playstyle.aggression = (this.playerData.playstyle.aggression * (1 - learningRate)) + 
+                                            (playstyleMetrics.aggression * learningRate);
+    }
+    
+    if (playstyleMetrics.consistency !== undefined) {
+      this.playerData.playstyle.consistency = (this.playerData.playstyle.consistency * (1 - learningRate)) + 
+                                             (playstyleMetrics.consistency * learningRate);
+    }
+    
+    if (playstyleMetrics.complexity !== undefined) {
+      this.playerData.playstyle.complexity = (this.playerData.playstyle.complexity * (1 - learningRate)) + 
+                                            (playstyleMetrics.complexity * learningRate);
+    }
+    
+    if (playstyleMetrics.adaptability !== undefined) {
+      this.playerData.playstyle.adaptability = (this.playerData.playstyle.adaptability * (1 - learningRate)) + 
+                                              (playstyleMetrics.adaptability * learningRate);
+    }
+    
+    if (playstyleMetrics.riskTaking !== undefined) {
+      this.playerData.playstyle.riskTaking = (this.playerData.playstyle.riskTaking * (1 - learningRate)) + 
+                                            (playstyleMetrics.riskTaking * learningRate);
+    }
+    
+    // Ensure all values are in the 0-1 range
+    Object.keys(this.playerData.playstyle).forEach(key => {
+      this.playerData.playstyle[key] = Math.min(1.0, Math.max(0.0, this.playerData.playstyle[key]));
+    });
   }
 
   // Update deck archetype performance
@@ -1085,13 +1387,17 @@ export class RankingEngine {
   }
 
   // Calculate match quality between two players
+  /**
+   * Advanced multi-factor match quality calculation
+   * Considers skill rating, uncertainty, deck archetypes, play history, playstyle compatibility, and player preferences
+   */
   calculateMatchQuality(opponentData) {
     const myRating = this.playerData.rating;
     const myUncertainty = this.playerData.uncertainty;
     const oppRating = opponentData.rating || opponentData.overallRating;
     const oppUncertainty = opponentData.uncertainty || opponentData.overallUncertainty;
     
-    // Calculate skill difference
+    // Basic skill difference calculation
     const skillDifference = Math.abs(myRating - oppRating);
     const maxAllowedDifference = this.matchmaking.maxSkillDifference;
     const minDesiredDifference = this.matchmaking.minSkillDifference;
@@ -1107,26 +1413,316 @@ export class RankingEngine {
       skillScore = 1.0 - (skillDifference / maxAllowedDifference) * 0.5;
     }
     
-    // Uncertainty consideration (prefer matches with lower combined uncertainty)
+    // Uncertainty consideration (confidence-based matching)
     const combinedUncertainty = myUncertainty + oppUncertainty;
-    const uncertaintyScore = Math.max(0.1, 1.0 - (combinedUncertainty / 700));
+    const uncertaintyDifference = Math.abs(myUncertainty - oppUncertainty);
+    
+    // If confidence-based matching is enabled, prefer players with similar uncertainty levels
+    let uncertaintyScore;
+    if (this.options.enableConfidenceBasedMatching && this.matchmaking.confidenceMatching.enabled) {
+      // Calculate uncertainty similarity (higher score for similar uncertainty)
+      const uncertaintySimilarity = Math.max(0.1, 1.0 - (uncertaintyDifference / this.bayesianParams.MAX_UNCERTAINTY));
+      
+      // Calculate overall uncertainty level (higher score for lower combined uncertainty)
+      const uncertaintyLevel = Math.max(0.1, 1.0 - (combinedUncertainty / 700));
+      
+      // Combine both factors with configurable weights
+      const similarityWeight = this.matchmaking.confidenceMatching.preferSimilarConfidence ? 
+        this.matchmaking.confidenceMatching.confidenceWeight : 0.1;
+      const levelWeight = 1.0 - similarityWeight;
+      
+      uncertaintyScore = (uncertaintySimilarity * similarityWeight) + (uncertaintyLevel * levelWeight);
+    } else {
+      // Traditional uncertainty scoring (prefer lower combined uncertainty)
+      uncertaintyScore = Math.max(0.1, 1.0 - (combinedUncertainty / 700));
+    }
     
     // Win probability (prefer matches close to 50/50)
     const winProbability = this.calculateWinProbability(myRating, myUncertainty, oppRating, oppUncertainty);
     const balanceScore = 1.0 - Math.abs(0.5 - winProbability);
     
-    // Combine scores
-    const finalScore = (skillScore * 0.4 + uncertaintyScore * 0.3 + balanceScore * 0.3);
+    // Initialize additional factors
+    let deckArchetypeScore = 0.5;
+    let playHistoryScore = 0.5;
+    let playstyleScore = 0.5;
+    let preferencesScore = 0.5;
+    
+    // Deck archetype compatibility (if available)
+    if (this.options.enableMultiFactorMatchmaking && 
+        opponentData.deckArchetype && 
+        this.playerData.deckArchetypes && 
+        this.playerData.deckArchetypes.length > 0) {
+      
+      deckArchetypeScore = this.calculateDeckArchetypeCompatibility(
+        this.playerData.deckArchetypes[0]?.archetype || 'Midrange',
+        opponentData.deckArchetype
+      );
+    }
+    
+    // Play history consideration (avoid recent rematches, consider historical performance)
+    if (this.options.enableMultiFactorMatchmaking && opponentData.id) {
+      playHistoryScore = this.calculatePlayHistoryScore(opponentData.id);
+    }
+    
+    // Playstyle compatibility
+    if (this.options.enablePlaystyleCompatibility && 
+        this.matchmaking.playstyleCompatibility.enabled && 
+        opponentData.playstyle) {
+      
+      playstyleScore = this.calculatePlaystyleCompatibility(
+        this.playerData.playstyle,
+        opponentData.playstyle
+      );
+    }
+    
+    // Player preferences
+    if (this.options.enableMultiFactorMatchmaking && 
+        this.playerData.preferences && 
+        opponentData.deckArchetype) {
+      
+      preferencesScore = this.calculatePreferencesScore(opponentData);
+    }
+    
+    // Time-weighted performance adjustment
+    let timeWeightingFactor = 1.0;
+    if (this.options.enableTimeWeightedPerformance && 
+        this.matchmaking.timeWeighting.enabled) {
+      
+      timeWeightingFactor = this.calculateTimeWeightingFactor();
+    }
+    
+    // Combine all factors with their respective weights
+    const weights = this.matchmaking.weights;
+    const finalScore = (
+      (skillScore * weights.skillRating) +
+      (uncertaintyScore * weights.uncertainty) +
+      (deckArchetypeScore * weights.deckArchetype) +
+      (playHistoryScore * weights.playHistory) +
+      (playstyleScore * weights.playstyleCompatibility) +
+      (preferencesScore * weights.playerPreferences)
+    ) * timeWeightingFactor;
     
     return {
       score: finalScore,
       skillDifference,
       combinedUncertainty,
+      uncertaintyDifference,
       winProbability,
       skillScore,
       uncertaintyScore,
+      deckArchetypeScore,
+      playHistoryScore,
+      playstyleScore,
+      preferencesScore,
+      timeWeightingFactor,
       balanceScore
     };
+  }
+  
+  /**
+   * Calculate deck archetype compatibility score
+   * Higher score means better matchup (more interesting/balanced)
+   */
+  calculateDeckArchetypeCompatibility(playerArchetype, opponentArchetype) {
+    // If archetypes are not defined, return neutral score
+    if (!playerArchetype || !opponentArchetype) return 0.5;
+    
+    // If archetypes are the same, slightly reduce score to encourage diversity
+    if (playerArchetype === opponentArchetype) return 0.7;
+    
+    // Check if we have matchup data for these archetypes
+    if (this.deckMatchups[playerArchetype] && this.deckMatchups[playerArchetype][opponentArchetype]) {
+      const winRate = this.deckMatchups[playerArchetype][opponentArchetype];
+      
+      // Score is highest when matchup is balanced (close to 50%)
+      // and lower when extremely lopsided (close to 0% or 100%)
+      return 1.0 - Math.abs(winRate - 0.5) * 2;
+    }
+    
+    // If we have compatibility data, use that instead
+    if (this.playstyleCompatibility[playerArchetype] && this.playstyleCompatibility[playerArchetype][opponentArchetype]) {
+      return this.playstyleCompatibility[playerArchetype][opponentArchetype];
+    }
+    
+    // Default to neutral score
+    return 0.5;
+  }
+  
+  /**
+   * Calculate play history score
+   * Considers recent matches against this opponent and historical performance
+   */
+  calculatePlayHistoryScore(opponentId) {
+    // Default score if no history
+    if (!opponentId || !this.playerData.matchHistory) return 0.5;
+    
+    // Find matches against this opponent
+    const matchesAgainstOpponent = this.playerData.matchHistory.filter(match => 
+      match.opponentId === opponentId
+    );
+    
+    // If no matches against this opponent, return slightly higher score to encourage new matchups
+    if (matchesAgainstOpponent.length === 0) return 0.6;
+    
+    // Check how recently we played against this opponent
+    const mostRecentMatch = matchesAgainstOpponent.sort((a, b) => 
+      new Date(b.date) - new Date(a.date)
+    )[0];
+    
+    const daysSinceLastMatch = (new Date() - new Date(mostRecentMatch.date)) / (1000 * 60 * 60 * 24);
+    
+    // Penalize very recent rematches, but favor opponents we haven't played in a while
+    let recencyScore;
+    if (daysSinceLastMatch < 1) {
+      // Played today, significant penalty
+      recencyScore = 0.3;
+    } else if (daysSinceLastMatch < 7) {
+      // Played this week, moderate penalty
+      recencyScore = 0.4 + (daysSinceLastMatch / 7) * 0.3;
+    } else {
+      // Haven't played in over a week, favor this matchup
+      recencyScore = 0.7 + Math.min(0.3, (daysSinceLastMatch - 7) / 30 * 0.3);
+    }
+    
+    // Calculate historical performance (win rate against this opponent)
+    const wins = matchesAgainstOpponent.filter(m => m.gameResult === 'win').length;
+    const winRate = wins / matchesAgainstOpponent.length;
+    
+    // Score is highest when historical matchup is balanced (close to 50%)
+    const balanceScore = 1.0 - Math.abs(winRate - 0.5) * 2;
+    
+    // Combine recency and balance scores
+    return (recencyScore * 0.7) + (balanceScore * 0.3);
+  }
+  
+  /**
+   * Calculate playstyle compatibility score
+   * Higher score means more complementary playstyles for interesting matches
+   */
+  calculatePlaystyleCompatibility(playerPlaystyle, opponentPlaystyle) {
+    if (!playerPlaystyle || !opponentPlaystyle) return 0.5;
+    
+    // Calculate similarity between playstyles (0 = completely different, 1 = identical)
+    const aggressionDiff = Math.abs(playerPlaystyle.aggression - opponentPlaystyle.aggression);
+    const consistencyDiff = Math.abs(playerPlaystyle.consistency - opponentPlaystyle.consistency);
+    const complexityDiff = Math.abs(playerPlaystyle.complexity - opponentPlaystyle.complexity);
+    const adaptabilityDiff = Math.abs(playerPlaystyle.adaptability - opponentPlaystyle.adaptability);
+    const riskTakingDiff = Math.abs(playerPlaystyle.riskTaking - opponentPlaystyle.riskTaking);
+    
+    // Average difference (0 = identical, 1 = completely different)
+    const avgDifference = (aggressionDiff + consistencyDiff + complexityDiff + adaptabilityDiff + riskTakingDiff) / 5;
+    
+    // Calculate similarity score (1 = identical, 0 = completely different)
+    const similarityScore = 1 - avgDifference;
+    
+    // Calculate complementary score (1 = perfectly complementary, 0 = not complementary)
+    // We consider aggression and risk-taking as dimensions where opposites complement each other
+    const aggressionComplement = 1 - Math.abs(playerPlaystyle.aggression + opponentPlaystyle.aggression - 1);
+    const riskTakingComplement = 1 - Math.abs(playerPlaystyle.riskTaking + opponentPlaystyle.riskTaking - 1);
+    
+    // For consistency, complexity, and adaptability, we consider similarity as complementary
+    const consistencyComplement = 1 - consistencyDiff;
+    const complexityComplement = 1 - complexityDiff;
+    const adaptabilityComplement = 1 - adaptabilityDiff;
+    
+    // Average complementary score
+    const complementaryScore = (aggressionComplement + riskTakingComplement + 
+                               consistencyComplement + complexityComplement + adaptabilityComplement) / 5;
+    
+    // Combine scores based on configuration
+    const { similarityWeight, complementaryWeight } = this.matchmaking.playstyleCompatibility;
+    
+    if (this.matchmaking.playstyleCompatibility.complementaryMatching) {
+      // Prefer complementary playstyles
+      return (similarityScore * similarityWeight) + (complementaryScore * complementaryWeight);
+    } else {
+      // Prefer similar playstyles
+      return similarityScore;
+    }
+  }
+  
+  /**
+   * Calculate preferences score based on player preferences
+   */
+  calculatePreferencesScore(opponentData) {
+    if (!this.playerData.preferences) return 0.5;
+    
+    const preferences = this.playerData.preferences;
+    let score = 0.5; // Default neutral score
+    
+    // Check if opponent's deck archetype is in player's preferred archetypes
+    if (preferences.preferredArchetypes && preferences.preferredArchetypes.length > 0 && opponentData.deckArchetype) {
+      if (preferences.preferredArchetypes.includes(opponentData.deckArchetype)) {
+        score += 0.2;
+      }
+    }
+    
+    // Check if opponent is in player's preferred opponents
+    if (preferences.preferredOpponents && preferences.preferredOpponents.length > 0 && opponentData.id) {
+      if (preferences.preferredOpponents.includes(opponentData.id)) {
+        score += 0.2;
+      }
+    }
+    
+    // Adjust based on match difficulty preference
+    if (opponentData.rating && preferences.matchDifficulty !== undefined) {
+      const ratingDifference = opponentData.rating - this.playerData.rating;
+      
+      // If player prefers easier matches (matchDifficulty < 0.5) and opponent is lower rated
+      if (preferences.matchDifficulty < 0.5 && ratingDifference < 0) {
+        score += 0.1;
+      }
+      
+      // If player prefers challenging matches (matchDifficulty > 0.5) and opponent is higher rated
+      if (preferences.matchDifficulty > 0.5 && ratingDifference > 0) {
+        score += 0.1;
+      }
+    }
+    
+    // Normalize score to 0-1 range
+    return Math.min(1.0, Math.max(0.0, score));
+  }
+  
+  /**
+   * Calculate time-weighting factor based on recent performance
+   */
+  calculateTimeWeightingFactor() {
+    if (!this.playerData.recentPerformance || this.playerData.recentPerformance.length === 0) {
+      return 1.0;
+    }
+    
+    const recentMatches = [...this.playerData.recentPerformance]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, this.matchmaking.timeWeighting.recentMatchesWindow);
+    
+    if (recentMatches.length === 0) return 1.0;
+    
+    // Calculate weighted performance
+    let weightedSum = 0;
+    let weightSum = 0;
+    
+    recentMatches.forEach((match, index) => {
+      // Calculate days since match
+      const daysSinceMatch = (new Date() - new Date(match.date)) / (1000 * 60 * 60 * 24);
+      
+      // Calculate weight based on recency (more recent = higher weight)
+      const weight = Math.pow(this.matchmaking.timeWeighting.decayFactor, 
+                             daysSinceMatch / this.matchmaking.timeWeighting.halfLifeDays);
+      
+      // Convert result to numeric value (win = 1, draw = 0.5, loss = 0)
+      const resultValue = match.result === 'win' ? 1 : match.result === 'draw' ? 0.5 : 0;
+      
+      weightedSum += resultValue * weight;
+      weightSum += weight;
+    });
+    
+    // Calculate weighted average (0-1 range)
+    const weightedAverage = weightSum > 0 ? weightedSum / weightSum : 0.5;
+    
+    // Convert to factor (0.8-1.2 range)
+    // Players on winning streaks get slightly higher quality matches
+    // Players on losing streaks get slightly easier matches
+    return 0.8 + weightedAverage * 0.4;
   }
 
   /**

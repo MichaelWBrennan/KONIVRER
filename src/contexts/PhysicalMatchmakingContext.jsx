@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RankingEngine } from '../engine/RankingEngine';
+import { TournamentEngine } from '../engine/TournamentEngine';
 
 // Advanced analytics and ML utilities
 class AdvancedAnalytics {
@@ -592,7 +593,20 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
   const [tournaments, setTournaments] = useState([]);
   const [matches, setMatches] = useState([]);
   const [isOfflineMode, setIsOfflineMode] = useState(!navigator.onLine);
-  const [rankingEngine] = useState(() => new RankingEngine());
+  const [rankingEngine] = useState(() => new RankingEngine({
+    enableMultiFactorMatchmaking: true,
+    enableConfidenceBasedMatching: true,
+    enableTimeWeightedPerformance: true,
+    enablePlaystyleCompatibility: true,
+    enableDynamicKFactor: true
+  }));
+  const [tournamentEngine] = useState(() => new TournamentEngine({
+    enableDynamicSwissPairings: true,
+    enableAdaptiveTournamentStructures: true,
+    enableMetaBalancingIncentives: true,
+    enableTieredEntrySystems: true,
+    enableParallelBracketSystems: true
+  }));
   const [analytics] = useState(() => new AdvancedAnalytics());
   const navigate = useNavigate();
 
@@ -659,6 +673,24 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
       draws: parseInt(playerData.draws || 0),
       deckArchetypes: playerData.deckArchetypes || [],
       matchHistory: playerData.matchHistory || [],
+      // Advanced matchmaking fields
+      playstyle: playerData.playstyle || {
+        aggression: 0.5, // 0 = defensive, 1 = aggressive
+        consistency: 0.5, // 0 = high variance, 1 = consistent
+        complexity: 0.5, // 0 = straightforward, 1 = complex
+        adaptability: 0.5, // 0 = rigid, 1 = adaptable
+        riskTaking: 0.5 // 0 = risk-averse, 1 = risk-seeking
+      },
+      preferences: playerData.preferences || {
+        preferredArchetypes: [], // List of preferred deck archetypes
+        preferredOpponents: [], // List of preferred opponent types
+        preferredFormats: [], // List of preferred formats
+        matchDifficulty: 0.5, // 0 = easier matches, 1 = challenging matches
+        varietyPreference: 0.5 // 0 = consistent opponents, 1 = varied opponents
+      },
+      experienceLevel: playerData.experienceLevel || 0, // Experience level (increases with matches played)
+      recentPerformance: playerData.recentPerformance || [], // Recent match results for time-weighted performance
+      lastActive: new Date(), // Last active date for time decay
       createdAt: new Date()
     };
     
@@ -681,12 +713,25 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
   };
   
   // Bayesian matchmaking functions
+  // Basic match quality calculation (by player IDs)
   const calculateMatchQuality = (player1Id, player2Id) => {
     const player1 = players.find(p => p.id === player1Id);
     const player2 = players.find(p => p.id === player2Id);
     
     if (!player1 || !player2) return { score: 0, winProbability: 0.5, skillDifference: 0 };
     
+    // Use the enhanced match quality calculation if available
+    if (rankingEngine.options.enableMultiFactorMatchmaking) {
+      return rankingEngine.calculateMatchQuality({
+        id: player2.id,
+        rating: player2.rating,
+        uncertainty: player2.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
+        deckArchetype: player2.deckArchetype,
+        playstyle: player2.playstyle
+      });
+    }
+    
+    // Fall back to basic calculation
     const winProbability = rankingEngine.calculateWinProbability(
       player1.rating, 
       player1.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY, 
@@ -717,47 +762,155 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     };
   };
   
+  // Advanced match quality calculation (by player objects)
+  const calculateAdvancedMatchQuality = (player1, player2) => {
+    if (!player1 || !player2) return { score: 0 };
+    
+    // Use the enhanced match quality calculation
+    if (rankingEngine.options.enableMultiFactorMatchmaking) {
+      // Set player data for calculation
+      rankingEngine.playerData = {
+        ...rankingEngine.playerData,
+        id: player1.id,
+        rating: player1.rating,
+        uncertainty: player1.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
+        deckArchetypes: player1.deckArchetypes || [],
+        playstyle: player1.playstyle,
+        preferences: player1.preferences,
+        matchHistory: player1.matchHistory || []
+      };
+      
+      // Calculate match quality
+      const quality = rankingEngine.calculateMatchQuality({
+        id: player2.id,
+        rating: player2.rating,
+        uncertainty: player2.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
+        deckArchetype: player2.deckArchetypes?.[0]?.archetype,
+        playstyle: player2.playstyle,
+        matchHistory: player2.matchHistory
+      });
+      
+      return quality;
+    }
+    
+    // Fall back to basic calculation
+    const winProbability = rankingEngine.calculateWinProbability(
+      player1.rating, 
+      player1.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY, 
+      player2.rating, 
+      player2.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY
+    );
+    
+    const skillDifference = Math.abs(player1.rating - player2.rating);
+    const score = 1 - Math.abs(winProbability - 0.5) * 2;
+    
+    return {
+      score,
+      winProbability,
+      skillDifference
+    };
+  };
+  
   const recordMatchResult = (player1Id, player2Id, result, matchDetails = {}) => {
     const player1 = players.find(p => p.id === player1Id);
     const player2 = players.find(p => p.id === player2Id);
     
     if (!player1 || !player2) return null;
     
-    // Calculate rating updates using Bayesian TrueSkill
+    // Prepare performance metrics for dynamic K-factor
+    const performanceMetrics = {
+      isTournament: matchDetails.isTournament || false,
+      tournamentStage: matchDetails.tournamentStage || null,
+      isHighStakes: matchDetails.isHighStakes || false,
+      player1Deck: matchDetails.player1Deck || null,
+      player2Deck: matchDetails.player2Deck || null,
+      gameDuration: matchDetails.gameDuration || 0,
+      gameCount: matchDetails.gameCount || 1,
+      playstyleMetrics: matchDetails.playstyleMetrics || null
+    };
+    
+    // Calculate dynamic K-factor if enabled
+    let kFactor = null;
+    if (rankingEngine.options.enableDynamicKFactor) {
+      kFactor = rankingEngine.calculateDynamicKFactor(performanceMetrics);
+    }
+    
+    // Calculate rating updates using enhanced Bayesian TrueSkill
     const skillUpdate = rankingEngine.calculateTrueSkillUpdate(
       player1.rating,
       player1.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
       player2.rating,
       player2.uncertainty || rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
-      result === 'player1' ? 'win' : result === 'draw' ? 'draw' : 'loss'
+      result === 'player1' ? 'win' : result === 'draw' ? 'draw' : 'loss',
+      kFactor
     );
+    
+    // Apply time-weighted performance adjustment if enabled
+    let player1RatingChange = skillUpdate.player.ratingChange;
+    let player2RatingChange = skillUpdate.opponent.ratingChange;
+    
+    if (rankingEngine.options.enableTimeWeightedPerformance) {
+      // Create temporary player data objects for time-weighted calculations
+      const tempPlayer1Data = {
+        ...rankingEngine.playerData,
+        rating: player1.rating,
+        uncertainty: player1.uncertainty,
+        recentPerformance: player1.recentPerformance || [],
+        lastActive: player1.lastActive || new Date()
+      };
+      
+      const tempPlayer2Data = {
+        ...rankingEngine.playerData,
+        rating: player2.rating,
+        uncertainty: player2.uncertainty,
+        recentPerformance: player2.recentPerformance || [],
+        lastActive: player2.lastActive || new Date()
+      };
+      
+      // Apply time-weighted adjustments
+      player1RatingChange = rankingEngine.applyTimeWeightedAdjustment.call(
+        { playerData: tempPlayer1Data, bayesianParams: rankingEngine.bayesianParams, matchmaking: rankingEngine.matchmaking },
+        player1RatingChange, 
+        result === 'player1' ? 'win' : result === 'draw' ? 'draw' : 'loss'
+      );
+      
+      player2RatingChange = rankingEngine.applyTimeWeightedAdjustment.call(
+        { playerData: tempPlayer2Data, bayesianParams: rankingEngine.bayesianParams, matchmaking: rankingEngine.matchmaking },
+        player2RatingChange,
+        result === 'player2' ? 'win' : result === 'draw' ? 'draw' : 'loss'
+      );
+    }
     
     // Update player1
     const updatedPlayer1 = {
       ...player1,
-      rating: skillUpdate.player.newRating,
+      rating: player1.rating + player1RatingChange,
       uncertainty: skillUpdate.player.newUncertainty,
       conservativeRating: rankingEngine.getConservativeRating(
-        skillUpdate.player.newRating,
+        player1.rating + player1RatingChange,
         skillUpdate.player.newUncertainty
       ),
       wins: result === 'player1' ? player1.wins + 1 : player1.wins,
       losses: result === 'player2' ? player1.losses + 1 : player1.losses,
-      draws: result === 'draw' ? player1.draws + 1 : player1.draws
+      draws: result === 'draw' ? player1.draws + 1 : player1.draws,
+      experienceLevel: Math.min(100, (player1.experienceLevel || 0) + 1),
+      lastActive: new Date()
     };
     
     // Update player2
     const updatedPlayer2 = {
       ...player2,
-      rating: skillUpdate.opponent.newRating,
+      rating: player2.rating + player2RatingChange,
       uncertainty: skillUpdate.opponent.newUncertainty,
       conservativeRating: rankingEngine.getConservativeRating(
-        skillUpdate.opponent.newRating,
+        player2.rating + player2RatingChange,
         skillUpdate.opponent.newUncertainty
       ),
       wins: result === 'player2' ? player2.wins + 1 : player2.wins,
       losses: result === 'player1' ? player2.losses + 1 : player2.losses,
-      draws: result === 'draw' ? player2.draws + 1 : player2.draws
+      draws: result === 'draw' ? player2.draws + 1 : player2.draws,
+      experienceLevel: Math.min(100, (player2.experienceLevel || 0) + 1),
+      lastActive: new Date()
     };
     
     // Update deck archetype performance if available
@@ -775,7 +928,66 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
       );
     }
     
-    // Create match record
+    // Update recent performance data for time-weighted calculations
+    if (!updatedPlayer1.recentPerformance) updatedPlayer1.recentPerformance = [];
+    if (!updatedPlayer2.recentPerformance) updatedPlayer2.recentPerformance = [];
+    
+    updatedPlayer1.recentPerformance.push({
+      result: result === 'player1' ? 'win' : result === 'draw' ? 'draw' : 'loss',
+      ratingChange: player1RatingChange,
+      date: new Date()
+    });
+    
+    updatedPlayer2.recentPerformance.push({
+      result: result === 'player2' ? 'win' : result === 'draw' ? 'draw' : 'loss',
+      ratingChange: player2RatingChange,
+      date: new Date()
+    });
+    
+    // Keep only the most recent matches for performance calculations
+    const maxRecentMatches = 20;
+    if (updatedPlayer1.recentPerformance.length > maxRecentMatches) {
+      updatedPlayer1.recentPerformance = updatedPlayer1.recentPerformance
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, maxRecentMatches);
+    }
+    
+    if (updatedPlayer2.recentPerformance.length > maxRecentMatches) {
+      updatedPlayer2.recentPerformance = updatedPlayer2.recentPerformance
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, maxRecentMatches);
+    }
+    
+    // Update playstyle data if available
+    if (matchDetails.playstyleMetrics) {
+      if (matchDetails.playstyleMetrics.player1) {
+        updatedPlayer1.playstyle = updatePlaystyleData(
+          updatedPlayer1.playstyle || {
+            aggression: 0.5,
+            consistency: 0.5,
+            complexity: 0.5,
+            adaptability: 0.5,
+            riskTaking: 0.5
+          },
+          matchDetails.playstyleMetrics.player1
+        );
+      }
+      
+      if (matchDetails.playstyleMetrics.player2) {
+        updatedPlayer2.playstyle = updatePlaystyleData(
+          updatedPlayer2.playstyle || {
+            aggression: 0.5,
+            consistency: 0.5,
+            complexity: 0.5,
+            adaptability: 0.5,
+            riskTaking: 0.5
+          },
+          matchDetails.playstyleMetrics.player2
+        );
+      }
+    }
+    
+    // Create enhanced match record
     const match = {
       id: `match_${Date.now()}`,
       player1Id,
@@ -786,16 +998,20 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
         name: player1.name,
         oldRating: player1.rating,
         newRating: updatedPlayer1.rating,
-        ratingChange: skillUpdate.player.ratingChange
+        ratingChange: player1RatingChange,
+        deckArchetype: matchDetails.player1Deck
       },
       player2: {
         name: player2.name,
         oldRating: player2.rating,
         newRating: updatedPlayer2.rating,
-        ratingChange: skillUpdate.opponent.ratingChange
+        ratingChange: player2RatingChange,
+        deckArchetype: matchDetails.player2Deck
       },
       winProbability: skillUpdate.winProbability,
       surpriseFactor: skillUpdate.surpriseFactor,
+      kFactor: skillUpdate.kFactor,
+      matchQuality: matchDetails.matchQuality || calculateMatchQuality(player1, player2).score,
       ...matchDetails
     };
     
@@ -854,6 +1070,46 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
         }
       ];
     }
+  };
+  
+  // Update player playstyle data based on performance metrics
+  const updatePlaystyleData = (currentPlaystyle, newMetrics) => {
+    // Gradually update playstyle metrics (80% existing, 20% new data)
+    const learningRate = 0.2;
+    const updatedPlaystyle = { ...currentPlaystyle };
+    
+    // Update each dimension if provided
+    if (newMetrics.aggression !== undefined) {
+      updatedPlaystyle.aggression = (currentPlaystyle.aggression * (1 - learningRate)) + 
+                                   (newMetrics.aggression * learningRate);
+    }
+    
+    if (newMetrics.consistency !== undefined) {
+      updatedPlaystyle.consistency = (currentPlaystyle.consistency * (1 - learningRate)) + 
+                                    (newMetrics.consistency * learningRate);
+    }
+    
+    if (newMetrics.complexity !== undefined) {
+      updatedPlaystyle.complexity = (currentPlaystyle.complexity * (1 - learningRate)) + 
+                                   (newMetrics.complexity * learningRate);
+    }
+    
+    if (newMetrics.adaptability !== undefined) {
+      updatedPlaystyle.adaptability = (currentPlaystyle.adaptability * (1 - learningRate)) + 
+                                     (newMetrics.adaptability * learningRate);
+    }
+    
+    if (newMetrics.riskTaking !== undefined) {
+      updatedPlaystyle.riskTaking = (currentPlaystyle.riskTaking * (1 - learningRate)) + 
+                                   (newMetrics.riskTaking * learningRate);
+    }
+    
+    // Ensure all values are in the 0-1 range
+    Object.keys(updatedPlaystyle).forEach(key => {
+      updatedPlaystyle[key] = Math.min(1.0, Math.max(0.0, updatedPlaystyle[key]));
+    });
+    
+    return updatedPlaystyle;
   };
   
   const getPlayerTier = (conservativeRating) => {
@@ -1388,6 +1644,8 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     matches,
     isOfflineMode,
     rankingEngine,
+    tournamentEngine,
+    analytics,
     
     // Player methods
     addPlayer,
@@ -1401,6 +1659,29 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     generateTournamentPairings,
     getPlayerTournamentPoints,
     
+    // Advanced tournament methods
+    createAdvancedTournament: (options) => tournamentEngine.createTournament(options),
+    startTournament: () => tournamentEngine.startTournament(),
+    createPairings: () => tournamentEngine.createPairings(),
+    recordMatchResult: (matchId, result, gameResults) => tournamentEngine.recordMatchResult(matchId, result, gameResults),
+    getTournamentStandings: () => tournamentEngine.getStandings(),
+    getTournamentBrackets: () => tournamentEngine.getBrackets(),
+    dropPlayer: (playerId) => tournamentEngine.dropPlayer(playerId),
+    
+    // Advanced matchmaking methods
+    calculateMatchQuality: (player1, player2) => rankingEngine.calculateMatchQuality({
+      id: player2.id,
+      rating: player2.rating,
+      uncertainty: player2.uncertainty,
+      deckArchetype: player2.deckArchetype,
+      playstyle: player2.playstyle
+    }),
+    calculateDynamicKFactor: (performanceMetrics) => rankingEngine.calculateDynamicKFactor(performanceMetrics),
+    calculatePlaystyleCompatibility: (player1, player2) => rankingEngine.calculatePlaystyleCompatibility(
+      player1.playstyle,
+      player2.playstyle
+    ),
+    
     // Match methods
     createMatch,
     updateMatch,
@@ -1409,6 +1690,12 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     // QR code methods
     generateMatchQRData,
     generateTournamentQRData,
+    
+    // Analytics methods
+    analyzeMetaBreakdown: (matchData) => analytics.analyzeMetaBreakdown(matches, players),
+    generateMatchupMatrix: () => analytics.generateMatchupMatrix(matches),
+    analyzePlayerPerformance: (playerId) => analytics.analyzePlayerPerformance(players, matches),
+    predictMetaEvolution: () => analytics.predictMetaEvolution(analytics.analyzeMetaBreakdown(matches, players)),
     
     // Data methods
     exportData,
