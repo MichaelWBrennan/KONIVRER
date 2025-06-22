@@ -716,3 +716,14 @@ a:hover:after {
   background-color: var(--esoteric-accent);
   box-shadow: 0 0 5px var(--esoteric-accent-glow);
 }
+
+/* Esoteric Auth Notification */
+.mobile-auth-notification.esoteric-card {
+  background-color: var(--esoteric-bg-dark);
+  border: 1px solid var(--esoteric-border-accent);
+  box-shadow: 0 0 15px var(--esoteric-accent-glow);
+}
+
+.mobile-auth-notification .esoteric-text-accent {
+  text-shadow: 0 0 5px var(--esoteric-accent-glow);
+}
