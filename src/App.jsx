@@ -41,6 +41,7 @@ import MobileRules from './pages/MobileRules';
 import MobilePhysicalMatchmakingPage from './pages/MobilePhysicalMatchmakingPage';
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
+import EnhancedMatchmakingPage from './pages/EnhancedMatchmakingPage';
 
 import BattlePass from './pages/BattlePass';
 import DeckSelectionPage from './pages/DeckSelectionPage';
@@ -88,6 +89,7 @@ function App() {
 
                   {/* Matchmaking System */}
                   <Route path="/matchmaking" element={<MobileMatchmaking />} />
+                  <Route path="/enhanced-matchmaking" element={<EnhancedMatchmakingPage />} />
                   
                   {/* Physical Matchmaking System */}
                   <Route path="/physical-matchmaking" element={<MobilePhysicalMatchmakingPage />} />
