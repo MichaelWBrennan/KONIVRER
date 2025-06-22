@@ -7,6 +7,9 @@
 /* Import Ancient Esoteric Theme */
 @import './styles/ancient-esoteric-theme.css';
 
+/* Import Esoteric Decorations */
+@import './styles/esoteric-decorations.css';
+
 /* Import OpenDyslexic Font - Local Files */
 @font-face {
   font-family: 'OpenDyslexic';
