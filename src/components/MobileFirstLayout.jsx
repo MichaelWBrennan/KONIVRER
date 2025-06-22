@@ -6,6 +6,7 @@ import PWAInstallPrompt from './PWAInstallPrompt';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
 import '../styles/mobile-first.css';
+import '../styles/esoteric-theme.css';
 
 const MobileFirstLayout = ({ children }) => {
   const location = useLocation();
@@ -79,7 +80,17 @@ const MobileFirstLayout = ({ children }) => {
       (item.path !== '/' && location.pathname.startsWith(item.path))
     );
     
-    return currentRoute ? currentRoute.name : 'KONIVRER';
+    if (!currentRoute) return 'KONIVRER';
+    
+    // Return esoteric names for pages
+    switch (currentRoute.name) {
+      case 'Home': return 'The Sanctum';
+      case 'Cards': return 'Ancient Tomes';
+      case 'Decks': return 'Mystical Grimoires';
+      case 'Play': return 'Arcane Summoning';
+      case 'Match': return 'Ritual Circle';
+      default: return currentRoute.name;
+    }
   };
 
   // Check if a navigation item is active
@@ -92,23 +103,23 @@ const MobileFirstLayout = ({ children }) => {
   return (
     <div className="mobile-app">
       {/* Mobile Header */}
-      <header className="mobile-header">
-        <div className="mobile-header-title">{getPageTitle()}</div>
+      <header className="mobile-header esoteric-bg-dark">
+        <div className="mobile-header-title esoteric-text-accent">{getPageTitle()}</div>
         
         {/* User Profile / Login Button */}
         {isAuthenticated ? (
           <button 
             onClick={() => window.location.href = '/profile'}
-            className="mobile-btn"
+            className="mobile-btn esoteric-btn"
           >
-            {user.displayName?.charAt(0) || 'U'}
+            {user.displayName?.charAt(0) || '⦿'}
           </button>
         ) : (
           <button 
             onClick={() => setShowAuthModal(true)}
-            className="mobile-btn mobile-btn-primary"
+            className="mobile-btn mobile-btn-primary esoteric-btn esoteric-btn-primary"
           >
-            Login
+            Commune
           </button>
         )}
       </header>
@@ -119,7 +130,7 @@ const MobileFirstLayout = ({ children }) => {
       </main>
 
       {/* Mobile Navigation */}
-      <nav className="mobile-nav">
+      <nav className="mobile-nav esoteric-bg-dark">
         {navigationItems.map((item) => (
           <Link
             key={item.name}
@@ -127,7 +138,13 @@ const MobileFirstLayout = ({ children }) => {
             className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}
             onClick={() => analytics.navigationClick(item.path, location.pathname)}
           >
-            <div className="mobile-nav-item-text">{item.name}</div>
+            <div className="mobile-nav-item-text">
+              {item.name === 'Home' && 'Sanctum'}
+              {item.name === 'Cards' && 'Tomes'}
+              {item.name === 'Decks' && 'Grimoires'}
+              {item.name === 'Play' && 'Summon'}
+              {item.name === 'Match' && 'Ritual'}
+            </div>
           </Link>
         ))}
       </nav>
@@ -143,8 +160,8 @@ const MobileFirstLayout = ({ children }) => {
 
       {/* Offline Indicator */}
       {!isOnline && (
-        <div className="offline-indicator">
-          You are currently offline
+        <div className="offline-indicator esoteric-glow-pulse">
+          ⚠ The mystical connection has been severed ⚠
         </div>
       )}
     </div>
