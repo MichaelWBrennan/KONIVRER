@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, ChevronRight, Medal, Award, Star } from 'lucide-react';
+import { Trophy, ChevronRight, Medal, Award, Star, AlertCircle, CheckCircle, Zap } from 'lucide-react';
+import ConfidenceBandedTier from './ConfidenceBandedTier';
 
 const LeaderboardPreview = ({ players, onViewAll, maxItems = 5, showViewAll = true, highlightCurrentUser = false, currentUserId = null }) => {
   const getRankColor = (index) => {
@@ -21,15 +22,14 @@ const LeaderboardPreview = ({ players, onViewAll, maxItems = 5, showViewAll = tr
     }
   };
 
-  const getTierColor = (tier) => {
-    switch (tier?.toLowerCase()) {
-      case 'mythic': return 'text-purple-600';
-      case 'diamond': return 'text-blue-600';
-      case 'platinum': return 'text-cyan-600';
-      case 'gold': return 'text-yellow-600';
-      case 'silver': return 'text-gray-600';
-      case 'bronze': return 'text-amber-700';
-      default: return 'text-gray-600';
+  // Get confidence band icon
+  const getConfidenceBandIcon = (band) => {
+    switch (band?.toLowerCase()) {
+      case 'uncertain': return <AlertCircle className="w-3 h-3 text-gray-500" />;
+      case 'developing': return <Zap className="w-3 h-3 text-blue-500" />;
+      case 'established': return <CheckCircle className="w-3 h-3 text-green-500" />;
+      case 'proven': return <Star className="w-3 h-3 text-yellow-500" />;
+      default: return <AlertCircle className="w-3 h-3 text-gray-500" />;
     }
   };
 
@@ -65,8 +65,27 @@ const LeaderboardPreview = ({ players, onViewAll, maxItems = 5, showViewAll = tr
             <div className="font-medium flex items-center space-x-1">
               <Star className="w-3 h-3 text-yellow-500" />
               <span>{player.rating}</span>
+              {player.confidenceBand && (
+                <span className="ml-1">{getConfidenceBandIcon(player.confidenceBand)}</span>
+              )}
             </div>
-            <div className={`text-xs ${getTierColor(player.tier)}`}>{player.tier}</div>
+            <div className="flex items-center justify-end">
+              {player.confidenceBand ? (
+                <ConfidenceBandedTier 
+                  tier={player.tier} 
+                  confidenceBand={player.confidenceBand}
+                  lp={player.lp || 0}
+                  size="sm"
+                  showProgress={false}
+                  showDetails={false}
+                  animate={false}
+                />
+              ) : (
+                <div className="text-xs font-medium" style={{ color: getTierColor(player.tier) }}>
+                  {player.tier}
+                </div>
+              )}
+            </div>
           </div>
         </motion.div>
       ))}
@@ -84,6 +103,19 @@ const LeaderboardPreview = ({ players, onViewAll, maxItems = 5, showViewAll = tr
       )}
     </div>
   );
+};
+
+// Helper function to get tier color (for backward compatibility)
+const getTierColor = (tier) => {
+  switch (tier?.toLowerCase()) {
+    case 'mythic': return '#9B59B6';
+    case 'diamond': return '#B9F2FF';
+    case 'platinum': return '#E5E4E2';
+    case 'gold': return '#FFD700';
+    case 'silver': return '#C0C0C0';
+    case 'bronze': return '#CD7F32';
+    default: return '#C0C0C0';
+  }
 };
 
 export default LeaderboardPreview;

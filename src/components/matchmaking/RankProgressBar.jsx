@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { AlertCircle, CheckCircle, Zap, Star, Shield } from 'lucide-react';
 
 const RankProgressBar = ({ 
   currentRank, 
   nextRank, 
   progress, 
+  currentBand = null,
+  nextBand = null,
   showLabels = true,
   animate = true,
   height = 'h-2.5'
@@ -32,9 +35,44 @@ const RankProgressBar = ({
       default: return '🎮';
     }
   };
+  
+  const getBandIcon = (band) => {
+    switch (band?.toLowerCase()) {
+      case 'uncertain': return <AlertCircle className="w-3 h-3 text-gray-500" />;
+      case 'developing': return <Zap className="w-3 h-3 text-blue-500" />;
+      case 'established': return <CheckCircle className="w-3 h-3 text-green-500" />;
+      case 'proven': return <Star className="w-3 h-3 text-yellow-500" />;
+      default: return null;
+    }
+  };
+  
+  const getBandName = (band) => {
+    switch (band?.toLowerCase()) {
+      case 'uncertain': return 'Uncertain';
+      case 'developing': return 'Developing';
+      case 'established': return 'Established';
+      case 'proven': return 'Proven';
+      default: return '';
+    }
+  };
 
   const currentRankColor = getRankColor(currentRank);
   const nextRankColor = getRankColor(nextRank);
+  
+  // Determine if we're progressing to next tier or next band
+  const isNextTier = currentRank !== nextRank;
+  const isNextBand = !isNextTier && currentBand !== nextBand;
+  
+  // Determine what to display in the progress text
+  const getProgressTarget = () => {
+    if (isNextTier) {
+      return nextRank;
+    } else if (isNextBand) {
+      return `${currentRank} ${getBandName(nextBand)}`;
+    } else {
+      return nextRank;
+    }
+  };
 
   return (
     <div className="space-y-1">
@@ -43,10 +81,25 @@ const RankProgressBar = ({
           <div className="flex items-center space-x-1">
             <span>{getRankIcon(currentRank)}</span>
             <span>{currentRank}</span>
+            {currentBand && getBandIcon(currentBand)}
           </div>
           <div className="flex items-center space-x-1">
-            <span>{nextRank}</span>
-            <span>{getRankIcon(nextRank)}</span>
+            {isNextTier ? (
+              <>
+                <span>{nextRank}</span>
+                <span>{getRankIcon(nextRank)}</span>
+              </>
+            ) : isNextBand ? (
+              <>
+                <span>{getBandName(nextBand)}</span>
+                {getBandIcon(nextBand)}
+              </>
+            ) : (
+              <>
+                <span>{nextRank}</span>
+                <span>{getRankIcon(nextRank)}</span>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -69,7 +122,7 @@ const RankProgressBar = ({
       
       {showLabels && (
         <div className="text-right text-xs font-medium text-gray-700">
-          {progress}% to {nextRank}
+          {progress}% to {getProgressTarget()}
         </div>
       )}
     </div>
