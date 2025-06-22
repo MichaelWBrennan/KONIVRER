@@ -19,16 +19,97 @@ export class RankingEngine {
       ...options
     };
 
-    // Ranking tiers (based on conservative skill estimate)
+    // Confidence-Banded Tier System
+    // Each tier has multiple confidence bands (Uncertain, Developing, Established, Proven)
     this.tiers = {
-      bronze: { name: 'Bronze', divisions: 4, skillRange: [0, 1199], color: '#CD7F32' },
-      silver: { name: 'Silver', divisions: 4, skillRange: [1200, 1599], color: '#C0C0C0' },
-      gold: { name: 'Gold', divisions: 4, skillRange: [1600, 1999], color: '#FFD700' },
-      platinum: { name: 'Platinum', divisions: 4, skillRange: [2000, 2399], color: '#E5E4E2' },
-      diamond: { name: 'Diamond', divisions: 4, skillRange: [2400, 2799], color: '#B9F2FF' },
-      master: { name: 'Master', divisions: 1, skillRange: [2800, 3199], color: '#FF6B6B' },
-      grandmaster: { name: 'Grandmaster', divisions: 1, skillRange: [3200, 3599], color: '#4ECDC4' },
-      mythic: { name: 'Mythic', divisions: 1, skillRange: [3600, Infinity], color: '#9B59B6' }
+      bronze: { 
+        name: 'Bronze', 
+        skillRange: [0, 1199], 
+        color: '#CD7F32',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      silver: { 
+        name: 'Silver', 
+        skillRange: [1200, 1599], 
+        color: '#C0C0C0',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      gold: { 
+        name: 'Gold', 
+        skillRange: [1600, 1999], 
+        color: '#FFD700',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      platinum: { 
+        name: 'Platinum', 
+        skillRange: [2000, 2399], 
+        color: '#E5E4E2',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      diamond: { 
+        name: 'Diamond', 
+        skillRange: [2400, 2799], 
+        color: '#B9F2FF',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      master: { 
+        name: 'Master', 
+        skillRange: [2800, 3199], 
+        color: '#FF6B6B',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      grandmaster: { 
+        name: 'Grandmaster', 
+        skillRange: [3200, 3599], 
+        color: '#4ECDC4',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      },
+      mythic: { 
+        name: 'Mythic', 
+        skillRange: [3600, Infinity], 
+        color: '#9B59B6',
+        bands: {
+          uncertain: { name: 'Uncertain', confidenceRange: [0, 0.3], icon: '❓' },
+          developing: { name: 'Developing', confidenceRange: [0.3, 0.6], icon: '🌱' },
+          established: { name: 'Established', confidenceRange: [0.6, 0.85], icon: '✓' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' }
+        }
+      }
     };
 
     // Bayesian TrueSkill parameters
@@ -55,8 +136,8 @@ export class RankingEngine {
       uncertainty: this.bayesianParams.INITIAL_UNCERTAINTY, // sigma (skill uncertainty)
       conservativeRating: 0, // rating - 3 * uncertainty
       tier: 'bronze',
-      division: 1,
-      lp: 0, // League Points within division
+      confidenceBand: 'uncertain', // Confidence band within tier
+      lp: 0, // League Points within tier
       wins: 0,
       losses: 0,
       draws: 0,
@@ -851,91 +932,176 @@ export class RankingEngine {
     }
   }
 
+  /**
+   * Update player tier and LP based on skill change
+   * @param {number} skillChange - Change in conservative skill rating
+   * @returns {Object} Information about tier changes
+   */
   updateTierAndLP(skillChange) {
     const oldTier = this.playerData.tier;
-    const oldDivision = this.playerData.division;
-    
-    // Determine new tier based on conservative skill rating
-    const newTierData = this.getTierFromSkill(this.playerData.conservativeRating);
-    
-    let lpChange = 0;
+    const oldConfidenceBand = this.playerData.confidenceBand;
+    const oldLp = this.playerData.lp;
+
+    // Determine new tier based on conservative skill rating and confidence
+    const newTierData = this.getTierFromSkill(this.playerData.conservativeRating, this.playerData.confidence);
+
+    let lpChange = newTierData.lp - oldLp;
     let tierChanged = false;
+    let bandChanged = false;
     const achievements = [];
 
-    if (newTierData.tier !== oldTier || newTierData.division !== oldDivision) {
-      // Tier or division changed
+    if (newTierData.tier !== oldTier) {
+      // Tier changed
       tierChanged = true;
-      
-      if (this.compareTiers(newTierData.tier, newTierData.division, oldTier, oldDivision) > 0) {
-        // Promotion
+
+      // Check if it's a promotion or demotion
+      const tierOrder = Object.keys(this.tiers);
+      const oldTierIndex = tierOrder.indexOf(oldTier);
+      const newTierIndex = tierOrder.indexOf(newTierData.tier);
+
+      if (newTierIndex > oldTierIndex) {
+        // Promotion to higher tier
         achievements.push({
           type: 'promotion',
-          message: `Promoted to ${this.tiers[newTierData.tier].name} ${newTierData.division}!`,
+          message: `Promoted to ${newTierData.tierName}!`,
           tier: newTierData.tier,
-          division: newTierData.division
+          confidenceBand: newTierData.confidenceBand
         });
-        
+
         // Award promotion rewards
-        this.awardPromotionRewards(newTierData.tier, newTierData.division);
+        this.awardPromotionRewards(newTierData.tier, newTierData.confidenceBand);
       } else {
-        // Demotion
+        // Demotion to lower tier
         achievements.push({
           type: 'demotion',
-          message: `Demoted to ${this.tiers[newTierData.tier].name} ${newTierData.division}`,
+          message: `Demoted to ${newTierData.tierName}`,
           tier: newTierData.tier,
-          division: newTierData.division
+          confidenceBand: newTierData.confidenceBand
+        });
+      }
+    } else if (newTierData.confidenceBand !== oldConfidenceBand) {
+      // Confidence band changed within same tier
+      bandChanged = true;
+
+      // Check if it's a band promotion or demotion
+      const bandOrder = ['uncertain', 'developing', 'established', 'proven'];
+      const oldBandIndex = bandOrder.indexOf(oldConfidenceBand);
+      const newBandIndex = bandOrder.indexOf(newTierData.confidenceBand);
+
+      if (newBandIndex > oldBandIndex) {
+        // Band promotion
+        achievements.push({
+          type: 'band_promotion',
+          message: `Advanced to ${newTierData.tierName} ${newTierData.bandName}! ${newTierData.bandIcon}`,
+          tier: newTierData.tier,
+          confidenceBand: newTierData.confidenceBand
+        });
+      } else {
+        // Band demotion
+        achievements.push({
+          type: 'band_demotion',
+          message: `Moved to ${newTierData.tierName} ${newTierData.bandName} ${newTierData.bandIcon}`,
+          tier: newTierData.tier,
+          confidenceBand: newTierData.confidenceBand
         });
       }
     }
 
-    // Calculate LP change within division
-    const tierInfo = this.tiers[newTierData.tier];
-    const mmrRange = tierInfo.mmrRange[1] - tierInfo.mmrRange[0];
-    const divisionRange = mmrRange / tierInfo.divisions;
-    const divisionStart = tierInfo.mmrRange[0] + (newTierData.division - 1) * divisionRange;
-    
-    this.playerData.lp = Math.round(((this.playerData.mmr - divisionStart) / divisionRange) * 100);
+    // Update player data
     this.playerData.tier = newTierData.tier;
-    this.playerData.division = newTierData.division;
-    
-    lpChange = mmrChange; // Simplified LP change
+    this.playerData.confidenceBand = newTierData.confidenceBand;
+    this.playerData.lp = newTierData.lp;
 
     return {
       lpChange,
       tierChanged,
+      bandChanged,
       achievements
     };
   }
 
-  getTierFromSkill(conservativeRating) {
+  /**
+   * Get tier and confidence band from skill rating and confidence level
+   * @param {number} conservativeRating - Conservative skill rating
+   * @param {number} confidence - Confidence level (0-1)
+   * @returns {Object} Tier and confidence band information
+   */
+  getTierFromSkill(conservativeRating, confidence = this.playerData.confidence) {
     for (const [tierKey, tierData] of Object.entries(this.tiers)) {
       if (conservativeRating >= tierData.skillRange[0] && conservativeRating < tierData.skillRange[1]) {
-        // Calculate division within tier
-        const skillRange = tierData.skillRange[1] - tierData.skillRange[0];
-        const divisionRange = skillRange / tierData.divisions;
-        const division = Math.min(
-          tierData.divisions,
-          Math.floor((conservativeRating - tierData.skillRange[0]) / divisionRange) + 1
-        );
+        // Determine confidence band within tier
+        let confidenceBand = "uncertain";
         
-        return { tier: tierKey, division };
+        for (const [bandKey, bandData] of Object.entries(tierData.bands)) {
+          if (confidence >= bandData.confidenceRange[0] && confidence < bandData.confidenceRange[1]) {
+            confidenceBand = bandKey;
+            break;
+          }
+        }
+        
+        // Calculate LP within tier (0-100)
+        const skillRange = tierData.skillRange[1] - tierData.skillRange[0];
+        const lpPercentage = (conservativeRating - tierData.skillRange[0]) / skillRange;
+        const lp = Math.min(100, Math.max(0, Math.floor(lpPercentage * 100)));
+        
+        return { 
+          tier: tierKey, 
+          confidenceBand,
+          bandName: tierData.bands[confidenceBand].name,
+          bandIcon: tierData.bands[confidenceBand].icon,
+          lp,
+          tierName: tierData.name,
+          color: tierData.color
+        };
+      }
+    }
+
+    // Default to highest tier if skill exceeds all ranges
+    const mythicTier = this.tiers.mythic;
+    let confidenceBand = "uncertain";
+    
+    for (const [bandKey, bandData] of Object.entries(mythicTier.bands)) {
+      if (confidence >= bandData.confidenceRange[0] && confidence < bandData.confidenceRange[1]) {
+        confidenceBand = bandKey;
+        break;
       }
     }
     
-    // Default to highest tier if skill exceeds all ranges
-    return { tier: 'mythic', division: 1 };
+    return { 
+      tier: "mythic", 
+      confidenceBand,
+      bandName: mythicTier.bands[confidenceBand].name,
+      bandIcon: mythicTier.bands[confidenceBand].icon,
+      lp: 100,
+      tierName: mythicTier.name,
+      color: mythicTier.color
+    };
   }
 
-  compareTiers(tier1, division1, tier2, division2) {
+/**
+   * Compare tiers and confidence bands to determine relative ranking
+   * @param {string} tier1 - First tier
+   * @param {string} band1 - First confidence band
+   * @param {string} tier2 - Second tier
+   * @param {string} band2 - Second confidence band
+   * @returns {number} Positive if tier1/band1 is higher, negative if tier2/band2 is higher
+   */
+  compareTiers(tier1, band1, tier2, band2) {
     const tierOrder = Object.keys(this.tiers);
     const tier1Index = tierOrder.indexOf(tier1);
     const tier2Index = tierOrder.indexOf(tier2);
-    
+
+    // Compare tiers first
     if (tier1Index !== tier2Index) {
       return tier1Index - tier2Index;
     }
+
+    // If tiers are the same, compare confidence bands
+    const bandOrder = ['uncertain', 'developing', 'established', 'proven'];
+    const band1Index = bandOrder.indexOf(band1);
+    const band2Index = bandOrder.indexOf(band2);
     
-    return division1 - division2;
+    return band1Index - band2Index;
   }
 
   /**
@@ -1220,13 +1386,37 @@ export class RankingEngine {
     console.log('Rewards awarded:', rewards);
   }
 
-  awardPromotionRewards(tier, division) {
+  /**
+   * Award rewards for tier or confidence band promotion
+   * @param {string} tier - Player's tier
+   * @param {string} confidenceBand - Player's confidence band
+   */
+  awardPromotionRewards(tier, confidenceBand) {
+    const tierLevel = this.getTierLevel(tier);
+    const bandBonus = this.getConfidenceBandBonus(confidenceBand);
+    
     const promotionRewards = {
-      currency: 100 * this.getTierLevel(tier),
-      experience: 200 * this.getTierLevel(tier)
+      currency: 100 * tierLevel * bandBonus,
+      experience: 200 * tierLevel * bandBonus
     };
 
     this.awardRewards(promotionRewards);
+  }
+  
+  /**
+   * Get bonus multiplier based on confidence band
+   * @param {string} confidenceBand - Confidence band
+   * @returns {number} Bonus multiplier
+   */
+  getConfidenceBandBonus(confidenceBand) {
+    const bonuses = {
+      'uncertain': 0.8,
+      'developing': 1.0,
+      'established': 1.2,
+      'proven': 1.5
+    };
+    
+    return bonuses[confidenceBand] || 1.0;
   }
 
   awardSeasonRewards(rewards) {
