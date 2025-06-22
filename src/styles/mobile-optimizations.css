@@ -264,13 +264,133 @@
 
 @keyframes ancient-pulse {
   0% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px rgba(155, 126, 70, 0.4);
   }
   50% {
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 30px rgba(155, 126, 70, 0.6);
   }
   100% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px rgba(155, 126, 70, 0.4);
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .card {
+    padding: 20px !important;
+  }
+
+  button,
+  .btn {
+    padding: 12px 24px !important;
+    font-size: 0.95rem !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+  }
+
+  h1 {
+    font-size: 2rem !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+  }
+
+  h2 {
+    font-size: 1.75rem !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+  }
+}
+
+/* Large Mobile/Small Tablet */
+@media (max-width: 640px) {
+  /* Extra mobile-specific adjustments */
+  .mobile-stack {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .mobile-full-width {
+    width: 100% !important;
+  }
+
+  .mobile-center {
+    text-align: center !important;
+  }
+
+  /* Mobile Header Adjustments */
+  .mobile-header {
+    padding: 12px 16px !important;
+    min-height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+  }
+
+  .mobile-logo {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+    color: var(--accent-primary) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  .mobile-menu-button {
+    padding: 10px !important;
+    border-radius: 6px !important;
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}
+
+/* High DPI/Retina Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Enhance text rendering on high-DPI displays */
+  body {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+  }
+
+  /* Sharper borders and shadows */
+  .card,
+  button,
+  input {
+    border-width: 0.5px !important;
+  }
+}
+
+/* Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  button,
+  .btn {
+    border: 2px solid var(--text-primary) !important;
+    font-family: 'OpenDyslexic', sans-serif !important;
+  }
+
+  .card {
+    border: 2px solid var(--border-color) !important;
+  }
+
+  * {
+    font-family: 'OpenDyslexic', sans-serif !important;
   }
 }
 
