@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useGameEngine } from '../../contexts/GameEngineContext';
+import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
+import CardSynergyRecommendations from './CardSynergyRecommendations';
 import { 
   Search, 
   Filter, 
@@ -38,6 +40,7 @@ const EnhancedDeckBuilder = () => {
   const { user } = useAuth();
   const battlePass = useBattlePass();
   const gameEngine = useGameEngine();
+  const physicalMatchmaking = usePhysicalMatchmaking();
   
   // Deck State
   const [currentDeck, setCurrentDeck] = useState({
@@ -522,7 +525,15 @@ const EnhancedDeckBuilder = () => {
             )}
             
             {activeTab === 'meta' && (
-              <DeckMetaAnalysis deck={currentDeck} />
+              <>
+                <DeckMetaAnalysis deck={currentDeck} />
+                <div className="mt-6">
+                  <CardSynergyRecommendations 
+                    currentDeck={currentDeck} 
+                    onAddCard={addCardToDeck}
+                  />
+                </div>
+              </>
             )}
             
             {activeTab === 'export' && (
