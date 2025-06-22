@@ -1,0 +1,221 @@
+/* Ancient and Esoteric Mobile Styles */
+
+/* Mobile-optimized ancient theme */
+@media (max-width: 768px) {
+  /* Ensure OpenDyslexic font is properly applied */
+  body, 
+  h1, h2, h3, h4, h5, h6,
+  p, span, a, button, input, textarea, select, option {
+    font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  }
+  
+  /* Increase base font size for better readability on mobile */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  /* Adjust heading sizes for mobile */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.1rem; }
+  h6 { font-size: 1rem; }
+  
+  /* Ensure touch targets are large enough */
+  button, 
+  .btn,
+  a.btn,
+  .nav-link,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: var(--touch-target-size);
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+  
+  /* Adjust card padding for mobile */
+  .card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Simplify some decorative elements on mobile */
+  .card::before,
+  .card::after {
+    height: 1px;
+  }
+  
+  /* Adjust grid layouts for mobile */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  /* Ancient mobile navigation */
+  .mobile-nav {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-primary);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .mobile-nav-item {
+    color: var(--text-secondary);
+  }
+  
+  .mobile-nav-item.active {
+    color: var(--text-primary);
+    background: var(--gradient-primary);
+  }
+  
+  /* Ancient mobile header */
+  .mobile-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Adjust ancient hero section for mobile */
+  .ancient-section {
+    padding: 2rem 1rem;
+  }
+  
+  .scroll-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .scroll-header p {
+    font-size: 1rem;
+  }
+  
+  /* Simplify decorative elements on mobile */
+  .scroll-header::before,
+  .scroll-header::after,
+  .ancient-header::before,
+  .ancient-header::after {
+    display: none;
+  }
+  
+  /* Adjust ancient divider for mobile */
+  .ancient-divider {
+    margin: 1.5rem 0;
+  }
+  
+  .ancient-divider::before {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  /* Adjust esoteric quote for mobile */
+  .esoteric-quote {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .esoteric-quote::before,
+  .esoteric-quote::after {
+    font-size: 2rem;
+  }
+  
+  /* Adjust mystical corners for mobile */
+  .card.mystical::before,
+  .card.mystical::after {
+    width: 15px;
+    height: 15px;
+  }
+  
+  /* Optimize touch interactions */
+  a, button, .btn, .card {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Ensure proper spacing in mobile layouts */
+  .container {
+    padding-left: var(--mobile-padding);
+    padding-right: var(--mobile-padding);
+  }
+  
+  /* Adjust ancient scrollwork background for mobile */
+  body:before {
+    background-size: 50px 50px;
+  }
+  
+  /* Mobile-optimized inputs */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+  }
+  
+  /* Mobile-friendly ancient modal */
+  .modal {
+    padding: 1rem;
+  }
+  
+  /* Ensure OpenDyslexic is applied to all form elements */
+  input::placeholder,
+  textarea::placeholder {
+    font-family: 'OpenDyslexic', sans-serif;
+  }
+  
+  /* Adjust spacing for mobile */
+  .py-16 { padding-top: 2rem; padding-bottom: 2rem; }
+  .py-12 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-8 { padding-top: 1rem; padding-bottom: 1rem; }
+  .gap-8 { gap: 1rem; }
+  .gap-6 { gap: 0.75rem; }
+  
+  /* Ensure proper spacing at the bottom to account for mobile navigation */
+  .content-area {
+    padding-bottom: calc(var(--touch-target-size) + 1rem);
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .ancient-section {
+    padding: 1rem;
+  }
+  
+  .scroll-header {
+    margin-bottom: 1rem;
+  }
+  
+  .ancient-divider {
+    margin: 1rem 0;
+  }
+  
+  /* Adjust grid for landscape */
+  .grid-cols-1.md\\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Ensure OpenDyslexic is properly loaded and applied */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font loading indicator */
+.fonts-loaded body {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Font loading state */
+body:not(.fonts-loaded) {
+  opacity: 0.95;
+}

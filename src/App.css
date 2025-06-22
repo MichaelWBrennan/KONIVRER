@@ -10,6 +10,9 @@
 /* Import Esoteric Decorations */
 @import './styles/esoteric-decorations.css';
 
+/* Import Ancient Mobile Styles */
+@import './styles/ancient-mobile.css';
+
 /* Import OpenDyslexic Font - Local Files */
 @font-face {
   font-family: 'OpenDyslexic';
