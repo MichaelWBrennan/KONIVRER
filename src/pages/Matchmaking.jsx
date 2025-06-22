@@ -59,7 +59,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
-import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
 // Components
