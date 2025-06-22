@@ -91,11 +91,11 @@ function App() {
                   <Route path="/matchmaking" element={<MobileMatchmaking />} />
                   <Route path="/enhanced-matchmaking" element={<EnhancedMatchmakingPage />} />
                   
-                  {/* Physical Matchmaking System */}
-                  <Route path="/physical-matchmaking" element={<MobilePhysicalMatchmakingPage />} />
-                  <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmaking />} />
+                  {/* Physical Matchmaking System - All Features Free */}
+                  <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
+                  <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-page" element={<PhysicalMatchmakingPage />} />
-                  <Route path="/advanced-physical-matchmaking" element={<AdvancedPhysicalMatchmakingPage />} />
+                  <Route path="/advanced-physical-matchmaking" element={<PhysicalMatchmakingPage />} />
                   
                   {/* Standalone PWA Matchmaking */}
                   <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
