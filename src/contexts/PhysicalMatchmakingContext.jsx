@@ -1,6 +1,581 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RankingEngine } from '../engine/RankingEngine';
+
+// Advanced analytics and ML utilities
+class AdvancedAnalytics {
+  constructor() {
+    this.metaBreakdown = {};
+    this.playerPerformance = {};
+    this.matchupMatrix = {};
+    this.confidenceIntervals = {};
+    this.trendData = {};
+  }
+
+  // Analyze meta breakdown by deck archetype
+  analyzeMetaBreakdown(matches, players) {
+    const deckCounts = {};
+    const deckWins = {};
+    const deckLosses = {};
+    let totalDecks = 0;
+
+    // Count deck occurrences and results
+    matches.forEach(match => {
+      if (!match.player1Deck || !match.player2Deck) return;
+      
+      // Count player 1 deck
+      deckCounts[match.player1Deck] = (deckCounts[match.player1Deck] || 0) + 1;
+      totalDecks++;
+      
+      // Count player 2 deck
+      deckCounts[match.player2Deck] = (deckCounts[match.player2Deck] || 0) + 1;
+      totalDecks++;
+      
+      // Track wins/losses
+      if (match.result === 'player1') {
+        deckWins[match.player1Deck] = (deckWins[match.player1Deck] || 0) + 1;
+        deckLosses[match.player2Deck] = (deckLosses[match.player2Deck] || 0) + 1;
+      } else if (match.result === 'player2') {
+        deckWins[match.player2Deck] = (deckWins[match.player2Deck] || 0) + 1;
+        deckLosses[match.player1Deck] = (deckLosses[match.player1Deck] || 0) + 1;
+      }
+    });
+
+    // Calculate meta percentages and win rates
+    const metaBreakdown = Object.keys(deckCounts).map(deck => {
+      const count = deckCounts[deck];
+      const wins = deckWins[deck] || 0;
+      const losses = deckLosses[deck] || 0;
+      const metaPercentage = totalDecks > 0 ? (count / totalDecks) * 100 : 0;
+      const winRate = (wins + losses) > 0 ? (wins / (wins + losses)) * 100 : 0;
+      
+      return {
+        archetype: deck,
+        count,
+        metaPercentage,
+        wins,
+        losses,
+        winRate,
+        adjustedWinRate: this.calculateBayesianWinRate(wins, losses),
+        trend: this.calculateTrend(deck, matches)
+      };
+    });
+
+    // Sort by meta percentage
+    metaBreakdown.sort((a, b) => b.metaPercentage - a.metaPercentage);
+    
+    this.metaBreakdown = metaBreakdown;
+    return metaBreakdown;
+  }
+
+  // Calculate Bayesian-adjusted win rate to account for small sample sizes
+  calculateBayesianWinRate(wins, losses) {
+    const alpha = 1; // Prior alpha (pseudo-wins)
+    const beta = 1;  // Prior beta (pseudo-losses)
+    
+    return ((wins + alpha) / (wins + losses + alpha + beta)) * 100;
+  }
+
+  // Calculate trend over time for a deck
+  calculateTrend(deck, matches) {
+    // Sort matches by date
+    const deckMatches = matches
+      .filter(m => m.player1Deck === deck || m.player2Deck === deck)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    if (deckMatches.length < 5) return 'neutral'; // Not enough data
+    
+    // Split into two halves to compare performance
+    const halfIndex = Math.floor(deckMatches.length / 2);
+    const firstHalf = deckMatches.slice(0, halfIndex);
+    const secondHalf = deckMatches.slice(halfIndex);
+    
+    // Calculate win rates for both halves
+    const firstHalfWins = firstHalf.filter(m => 
+      (m.player1Deck === deck && m.result === 'player1') || 
+      (m.player2Deck === deck && m.result === 'player2')
+    ).length;
+    
+    const secondHalfWins = secondHalf.filter(m => 
+      (m.player1Deck === deck && m.result === 'player1') || 
+      (m.player2Deck === deck && m.result === 'player2')
+    ).length;
+    
+    const firstHalfWinRate = firstHalfWins / firstHalf.length;
+    const secondHalfWinRate = secondHalfWins / secondHalf.length;
+    
+    // Determine trend
+    const difference = secondHalfWinRate - firstHalfWinRate;
+    if (difference > 0.1) return 'rising';
+    if (difference < -0.1) return 'falling';
+    return 'neutral';
+  }
+
+  // Generate matchup matrix between archetypes
+  generateMatchupMatrix(matches) {
+    const matchups = {};
+    const totalMatchups = {};
+    
+    // Count wins for each matchup
+    matches.forEach(match => {
+      if (!match.player1Deck || !match.player2Deck || !match.result) return;
+      
+      const deck1 = match.player1Deck;
+      const deck2 = match.player2Deck;
+      
+      // Initialize matchup counters if needed
+      if (!matchups[deck1]) matchups[deck1] = {};
+      if (!matchups[deck2]) matchups[deck2] = {};
+      if (!totalMatchups[deck1]) totalMatchups[deck1] = {};
+      if (!totalMatchups[deck2]) totalMatchups[deck2] = {};
+      
+      if (!matchups[deck1][deck2]) matchups[deck1][deck2] = 0;
+      if (!matchups[deck2][deck1]) matchups[deck2][deck1] = 0;
+      if (!totalMatchups[deck1][deck2]) totalMatchups[deck1][deck2] = 0;
+      if (!totalMatchups[deck2][deck1]) totalMatchups[deck2][deck1] = 0;
+      
+      // Increment win counters based on result
+      if (match.result === 'player1') {
+        matchups[deck1][deck2]++;
+      } else if (match.result === 'player2') {
+        matchups[deck2][deck1]++;
+      }
+      
+      // Increment total matchup counters
+      totalMatchups[deck1][deck2]++;
+      totalMatchups[deck2][deck1]++;
+    });
+    
+    // Calculate win percentages
+    const archetypes = Object.keys(matchups);
+    const matrix = {};
+    
+    archetypes.forEach(deck1 => {
+      matrix[deck1] = {};
+      
+      archetypes.forEach(deck2 => {
+        if (deck1 === deck2) {
+          matrix[deck1][deck2] = 50; // Mirror match is always 50%
+        } else {
+          const wins = matchups[deck1][deck2] || 0;
+          const total = totalMatchups[deck1][deck2] || 0;
+          
+          // Use Bayesian adjustment for small sample sizes
+          matrix[deck1][deck2] = this.calculateBayesianWinRate(wins, total - wins);
+        }
+      });
+    });
+    
+    this.matchupMatrix = matrix;
+    return matrix;
+  }
+
+  // Analyze player performance and generate insights
+  analyzePlayerPerformance(players, matches) {
+    const performance = {};
+    
+    players.forEach(player => {
+      const playerMatches = matches.filter(m => 
+        m.player1Id === player.id || m.player2Id === player.id
+      );
+      
+      if (playerMatches.length === 0) return;
+      
+      // Calculate basic stats
+      const wins = playerMatches.filter(m => 
+        (m.player1Id === player.id && m.result === 'player1') || 
+        (m.player2Id === player.id && m.result === 'player2')
+      ).length;
+      
+      const losses = playerMatches.filter(m => 
+        (m.player1Id === player.id && m.result === 'player2') || 
+        (m.player2Id === player.id && m.result === 'player1')
+      ).length;
+      
+      const draws = playerMatches.filter(m => m.result === 'draw').length;
+      
+      // Calculate advanced stats
+      const winRate = (wins / playerMatches.length) * 100;
+      const consistency = this.calculateConsistency(playerMatches, player.id);
+      const improvementRate = this.calculateImprovementRate(playerMatches, player.id);
+      const preferredArchetypes = this.getPreferredArchetypes(playerMatches, player.id);
+      const bestMatchups = this.getBestMatchups(playerMatches, player.id);
+      const worstMatchups = this.getWorstMatchups(playerMatches, player.id);
+      
+      // Store performance data
+      performance[player.id] = {
+        id: player.id,
+        name: player.name,
+        matches: playerMatches.length,
+        wins,
+        losses,
+        draws,
+        winRate,
+        consistency,
+        improvementRate,
+        preferredArchetypes,
+        bestMatchups,
+        worstMatchups,
+        rating: player.rating,
+        uncertainty: player.uncertainty,
+        conservativeRating: player.conservativeRating
+      };
+    });
+    
+    this.playerPerformance = performance;
+    return performance;
+  }
+
+  // Calculate player consistency (lower standard deviation = more consistent)
+  calculateConsistency(matches, playerId) {
+    if (matches.length < 5) return 50; // Default for small sample size
+    
+    // Extract match results as win (1) or loss (0)
+    const results = matches.map(match => {
+      if ((match.player1Id === playerId && match.result === 'player1') ||
+          (match.player2Id === playerId && match.result === 'player2')) {
+        return 1; // Win
+      } else if (match.result === 'draw') {
+        return 0.5; // Draw
+      } else {
+        return 0; // Loss
+      }
+    });
+    
+    // Calculate standard deviation
+    const mean = results.reduce((sum, val) => sum + val, 0) / results.length;
+    const squaredDiffs = results.map(val => Math.pow(val - mean, 2));
+    const variance = squaredDiffs.reduce((sum, val) => sum + val, 0) / results.length;
+    const stdDev = Math.sqrt(variance);
+    
+    // Convert to consistency score (0-100, higher is more consistent)
+    // Max standard deviation for binary outcomes is 0.5, so normalize
+    const consistencyScore = 100 - (stdDev / 0.5) * 100;
+    return Math.max(0, Math.min(100, consistencyScore));
+  }
+
+  // Calculate improvement rate over time
+  calculateImprovementRate(matches, playerId) {
+    if (matches.length < 10) return 0; // Not enough data
+    
+    // Sort matches by date
+    const sortedMatches = [...matches].sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    // Split into three segments to analyze trend
+    const segmentSize = Math.floor(sortedMatches.length / 3);
+    const segments = [
+      sortedMatches.slice(0, segmentSize),
+      sortedMatches.slice(segmentSize, segmentSize * 2),
+      sortedMatches.slice(segmentSize * 2)
+    ];
+    
+    // Calculate win rate for each segment
+    const winRates = segments.map(segment => {
+      const wins = segment.filter(m => 
+        (m.player1Id === playerId && m.result === 'player1') || 
+        (m.player2Id === playerId && m.result === 'player2')
+      ).length;
+      
+      return segment.length > 0 ? wins / segment.length : 0;
+    });
+    
+    // Calculate linear regression slope
+    const x = [0, 1, 2];
+    const y = winRates;
+    
+    const n = x.length;
+    const sumX = x.reduce((a, b) => a + b, 0);
+    const sumY = y.reduce((a, b) => a + b, 0);
+    const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+    const sumXX = x.reduce((sum, xi) => sum + xi * xi, 0);
+    
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    
+    // Convert slope to improvement rate (-100 to 100)
+    return Math.max(-100, Math.min(100, slope * 200));
+  }
+
+  // Get player's preferred archetypes
+  getPreferredArchetypes(matches, playerId) {
+    const archetypeCounts = {};
+    const archetypeWins = {};
+    
+    matches.forEach(match => {
+      let deck = null;
+      
+      if (match.player1Id === playerId && match.player1Deck) {
+        deck = match.player1Deck;
+        if (match.result === 'player1') {
+          archetypeWins[deck] = (archetypeWins[deck] || 0) + 1;
+        }
+      } else if (match.player2Id === playerId && match.player2Deck) {
+        deck = match.player2Deck;
+        if (match.result === 'player2') {
+          archetypeWins[deck] = (archetypeWins[deck] || 0) + 1;
+        }
+      }
+      
+      if (deck) {
+        archetypeCounts[deck] = (archetypeCounts[deck] || 0) + 1;
+      }
+    });
+    
+    // Calculate win rates and sort by usage
+    const archetypes = Object.keys(archetypeCounts).map(archetype => {
+      const count = archetypeCounts[archetype];
+      const wins = archetypeWins[archetype] || 0;
+      const winRate = count > 0 ? (wins / count) * 100 : 0;
+      
+      return {
+        archetype,
+        count,
+        percentage: (count / matches.length) * 100,
+        wins,
+        winRate
+      };
+    });
+    
+    // Sort by usage
+    archetypes.sort((a, b) => b.count - a.count);
+    
+    return archetypes.slice(0, 3); // Return top 3
+  }
+
+  // Get player's best matchups
+  getBestMatchups(matches, playerId) {
+    const matchupCounts = {};
+    const matchupWins = {};
+    
+    matches.forEach(match => {
+      let opponentDeck = null;
+      let playerDeck = null;
+      
+      if (match.player1Id === playerId) {
+        playerDeck = match.player1Deck;
+        opponentDeck = match.player2Deck;
+        if (match.result === 'player1') {
+          matchupWins[opponentDeck] = (matchupWins[opponentDeck] || 0) + 1;
+        }
+      } else if (match.player2Id === playerId) {
+        playerDeck = match.player2Deck;
+        opponentDeck = match.player1Deck;
+        if (match.result === 'player2') {
+          matchupWins[opponentDeck] = (matchupWins[opponentDeck] || 0) + 1;
+        }
+      }
+      
+      if (opponentDeck && playerDeck) {
+        if (!matchupCounts[opponentDeck]) matchupCounts[opponentDeck] = 0;
+        matchupCounts[opponentDeck]++;
+      }
+    });
+    
+    // Calculate win rates and sort
+    const matchups = Object.keys(matchupCounts)
+      .filter(deck => matchupCounts[deck] >= 3) // Minimum sample size
+      .map(deck => {
+        const count = matchupCounts[deck];
+        const wins = matchupWins[deck] || 0;
+        const winRate = (wins / count) * 100;
+        
+        return { deck, count, wins, winRate };
+      });
+    
+    // Sort by win rate
+    matchups.sort((a, b) => b.winRate - a.winRate);
+    
+    return matchups.slice(0, 3); // Return top 3
+  }
+
+  // Get player's worst matchups
+  getWorstMatchups(matches, playerId) {
+    const matchupCounts = {};
+    const matchupWins = {};
+    
+    matches.forEach(match => {
+      let opponentDeck = null;
+      let playerDeck = null;
+      
+      if (match.player1Id === playerId) {
+        playerDeck = match.player1Deck;
+        opponentDeck = match.player2Deck;
+        if (match.result === 'player1') {
+          matchupWins[opponentDeck] = (matchupWins[opponentDeck] || 0) + 1;
+        }
+      } else if (match.player2Id === playerId) {
+        playerDeck = match.player2Deck;
+        opponentDeck = match.player1Deck;
+        if (match.result === 'player2') {
+          matchupWins[opponentDeck] = (matchupWins[opponentDeck] || 0) + 1;
+        }
+      }
+      
+      if (opponentDeck && playerDeck) {
+        if (!matchupCounts[opponentDeck]) matchupCounts[opponentDeck] = 0;
+        matchupCounts[opponentDeck]++;
+      }
+    });
+    
+    // Calculate win rates and sort
+    const matchups = Object.keys(matchupCounts)
+      .filter(deck => matchupCounts[deck] >= 3) // Minimum sample size
+      .map(deck => {
+        const count = matchupCounts[deck];
+        const wins = matchupWins[deck] || 0;
+        const winRate = (wins / count) * 100;
+        
+        return { deck, count, wins, winRate };
+      });
+    
+    // Sort by win rate (ascending)
+    matchups.sort((a, b) => a.winRate - b.winRate);
+    
+    return matchups.slice(0, 3); // Return bottom 3
+  }
+
+  // Predict meta evolution based on current trends
+  predictMetaEvolution(currentMeta) {
+    if (!currentMeta || currentMeta.length === 0) return [];
+    
+    // Simple prediction model based on current trends
+    const prediction = currentMeta.map(deck => {
+      let predictedChange = 0;
+      
+      // Decks with high win rates tend to increase in popularity
+      if (deck.adjustedWinRate > 55) {
+        predictedChange += (deck.adjustedWinRate - 55) * 0.2;
+      } else if (deck.adjustedWinRate < 45) {
+        predictedChange -= (45 - deck.adjustedWinRate) * 0.2;
+      }
+      
+      // Trending decks continue their trend
+      if (deck.trend === 'rising') {
+        predictedChange += 2;
+      } else if (deck.trend === 'falling') {
+        predictedChange -= 2;
+      }
+      
+      // Very popular decks tend to attract counter-strategies
+      if (deck.metaPercentage > 15) {
+        predictedChange -= (deck.metaPercentage - 15) * 0.1;
+      }
+      
+      return {
+        archetype: deck.archetype,
+        currentPercentage: deck.metaPercentage,
+        predictedPercentage: Math.max(0, deck.metaPercentage + predictedChange),
+        predictedChange,
+        reason: this.getPredictionReason(deck, predictedChange)
+      };
+    });
+    
+    // Sort by predicted percentage
+    prediction.sort((a, b) => b.predictedPercentage - a.predictedPercentage);
+    
+    return prediction;
+  }
+
+  // Generate explanation for meta prediction
+  getPredictionReason(deck, change) {
+    if (change > 2) {
+      if (deck.adjustedWinRate > 55) {
+        return "High win rate driving increased adoption";
+      } else if (deck.trend === 'rising') {
+        return "Strong recent performance trend continuing";
+      } else {
+        return "Favorable positioning against popular decks";
+      }
+    } else if (change < -2) {
+      if (deck.adjustedWinRate < 45) {
+        return "Poor win rate causing players to switch decks";
+      } else if (deck.trend === 'falling') {
+        return "Declining performance trend continuing";
+      } else if (deck.metaPercentage > 15) {
+        return "High meta share attracting counter-strategies";
+      } else {
+        return "Unfavorable matchups against rising decks";
+      }
+    } else {
+      return "Stable position in the meta";
+    }
+  }
+
+  // Generate tournament recommendations based on player pool
+  generateTournamentRecommendations(players, matches) {
+    if (players.length < 4) {
+      return {
+        recommendedFormat: 'roundRobin',
+        reason: 'Small player pool is ideal for round robin format',
+        expectedDuration: players.length * 30, // minutes
+        optimalRounds: 1
+      };
+    }
+    
+    // Calculate skill disparity
+    const ratings = players.map(p => p.rating);
+    const maxRating = Math.max(...ratings);
+    const minRating = Math.min(...ratings);
+    const ratingRange = maxRating - minRating;
+    
+    // Calculate player experience
+    const avgMatches = players.reduce((sum, p) => {
+      const playerMatches = matches.filter(m => 
+        m.player1Id === p.id || m.player2Id === p.id
+      ).length;
+      return sum + playerMatches;
+    }, 0) / players.length;
+    
+    // Make recommendations
+    if (players.length >= 32) {
+      return {
+        recommendedFormat: 'swiss',
+        reason: 'Large player pool ideal for Swiss format',
+        expectedDuration: Math.ceil(Math.log2(players.length)) * 45, // minutes per round
+        optimalRounds: Math.ceil(Math.log2(players.length))
+      };
+    } else if (players.length >= 16) {
+      if (ratingRange > 300) {
+        return {
+          recommendedFormat: 'swiss',
+          reason: 'Wide skill range benefits from Swiss pairing',
+          expectedDuration: Math.ceil(Math.log2(players.length)) * 45,
+          optimalRounds: Math.ceil(Math.log2(players.length))
+        };
+      } else {
+        return {
+          recommendedFormat: 'doubleElimination',
+          reason: 'Competitive field with similar skill levels',
+          expectedDuration: Math.ceil(Math.log2(players.length) * 2) * 40,
+          optimalRounds: Math.ceil(Math.log2(players.length) * 2)
+        };
+      }
+    } else if (players.length >= 8) {
+      if (avgMatches < 10) {
+        return {
+          recommendedFormat: 'swiss',
+          reason: 'Less experienced players benefit from playing more matches',
+          expectedDuration: 4 * 40, // 4 rounds
+          optimalRounds: 4
+        };
+      } else {
+        return {
+          recommendedFormat: 'doubleElimination',
+          reason: 'Experienced players in a medium-sized tournament',
+          expectedDuration: 6 * 35, // 6 rounds
+          optimalRounds: 6
+        };
+      }
+    } else {
+      // 4-7 players
+      return {
+        recommendedFormat: 'roundRobin',
+        reason: 'Small player pool allows everyone to play against each other',
+        expectedDuration: players.length * 35,
+        optimalRounds: players.length - 1
+      };
+    }
+  }
+};
 
 const PhysicalMatchmakingContext = createContext();
 
@@ -18,6 +593,7 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
   const [matches, setMatches] = useState([]);
   const [isOfflineMode, setIsOfflineMode] = useState(!navigator.onLine);
   const [rankingEngine] = useState(() => new RankingEngine());
+  const [analytics] = useState(() => new AdvancedAnalytics());
   const navigate = useNavigate();
 
   // Load data from localStorage on initial load
@@ -717,14 +1293,28 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     const match = matches.find(m => m.id === matchId);
     if (!match) return null;
     
+    // Get player information
+    const player1 = players.find(p => p.id === match.player1.id);
+    const player2 = players.find(p => p.id === match.player2.id);
+    
     return {
       type: 'match',
       id: match.id,
-      player1: match.player1.id,
-      player2: match.player2.id,
+      player1: {
+        id: match.player1.id,
+        name: player1?.name || 'Unknown',
+        rating: player1?.rating || 1500
+      },
+      player2: {
+        id: match.player2.id,
+        name: player2?.name || 'Unknown',
+        rating: player2?.rating || 1500
+      },
       format: match.format,
       maxRounds: match.maxRounds,
-      timestamp: new Date().toISOString()
+      status: match.status,
+      timestamp: new Date().toISOString(),
+      appVersion: '1.0.0'
     };
   };
 
@@ -732,13 +1322,27 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     const tournament = tournaments.find(t => t.id === tournamentId);
     if (!tournament) return null;
     
+    // Get participants information
+    const participantDetails = tournament.players?.map(playerId => {
+      const player = players.find(p => p.id === playerId);
+      return {
+        id: playerId,
+        name: player?.name || 'Unknown',
+        rating: player?.rating || 1500
+      };
+    }) || [];
+    
     return {
       type: 'tournament',
       id: tournament.id,
       name: tournament.name,
       format: tournament.format,
-      type: tournament.type,
-      timestamp: new Date().toISOString()
+      tournamentType: tournament.type,
+      participants: participantDetails,
+      rounds: tournament.rounds || 0,
+      status: tournament.status || 'registration',
+      timestamp: new Date().toISOString(),
+      appVersion: '1.0.0'
     };
   };
 
@@ -774,6 +1378,8 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
   const goToPhysicalMatchmaking = () => {
     navigate('/physical-matchmaking');
   };
+
+
 
   const value = {
     // State
