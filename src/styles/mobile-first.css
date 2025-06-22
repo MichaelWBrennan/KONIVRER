@@ -539,6 +539,112 @@ html, body {
   margin-top: var(--spacing-md);
 }
 
+/* SSO Buttons */
+.mobile-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+.mobile-divider::before,
+.mobile-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+}
+
+.mobile-divider span {
+  padding: 0 var(--spacing-sm);
+  font-size: 0.875rem;
+}
+
+.mobile-sso-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.mobile-sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  background-color: transparent;
+  color: var(--color-text, #fff);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.mobile-sso-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-sso-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--color-primary, #4f46e5);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin-left: auto;
+}
+
+.mobile-spinner-small {
+  width: 12px;
+  height: 12px;
+  border-width: 1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* OAuth Pages */
+.mobile-auth-processing,
+.mobile-auth-error,
+.mobile-auth-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+  text-align: center;
+  gap: var(--spacing-md);
+}
+
+.mobile-auth-processing h2,
+.mobile-auth-error h2,
+.mobile-auth-success h2 {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.mobile-auth-processing p,
+.mobile-auth-error p,
+.mobile-auth-success p {
+  margin-bottom: var(--spacing-md);
+  max-width: 400px;
+}
+
 .mobile-tabs {
   display: flex;
   border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
