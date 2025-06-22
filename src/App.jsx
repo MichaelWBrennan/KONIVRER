@@ -12,6 +12,7 @@ import { DeckProvider } from './contexts/DeckContext';
 import { BattlePassProvider } from './contexts/BattlePassContext';
 import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
+import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
 import { Layout } from './components/Layout';
 import Home from './pages/Home';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -38,6 +39,8 @@ import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
 import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatform';
 import PhysicalMatchmaking from './components/PhysicalMatchmaking';
+import EnhancedPhysicalMatchmaking from './components/EnhancedPhysicalMatchmaking';
+import PhysicalMatchmakingPage from './pages/PhysicalMatchmakingPage';
 import StandaloneMatchmaking from './components/StandaloneMatchmaking';
 
 function App() {
@@ -50,9 +53,10 @@ function App() {
               <DeckProvider>
                 <GameEngineProvider>
                   <SocialProvider>
-                  <Router>
-                    <Layout>
-                      <Routes>
+                    <Router>
+                      <PhysicalMatchmakingProvider>
+                        <Layout>
+                          <Routes>
                   {/* Core Pages */}
                   <Route path="/" element={<Home />} />
                   <Route path="/rules" element={<Rules />} />
@@ -75,7 +79,8 @@ function App() {
                   <Route path="/matchmaking" element={<Matchmaking />} />
                   
                   {/* Physical Matchmaking System */}
-                  <Route path="/physical-matchmaking" element={<PhysicalMatchmaking />} />
+                  <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
+                  <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmaking />} />
                   
                   {/* Standalone PWA Matchmaking */}
                   <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
@@ -157,8 +162,9 @@ function App() {
                   />
                   <Route path="/admin" element={<AdminPanel />} />
                 </Routes>
-                    </Layout>
-                  </Router>
+                        </Layout>
+                      </PhysicalMatchmakingProvider>
+                    </Router>
                   </SocialProvider>
                 </GameEngineProvider>
               </DeckProvider>
