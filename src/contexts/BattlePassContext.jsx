@@ -52,8 +52,8 @@ const initialState = {
     level: 1,
     experience: 0,
     experienceToNext: 1000,
-    passType: PASS_TYPES.FREE,
-    purchaseDate: null,
+    passType: PASS_TYPES.PREMIUM_PLUS, // All players get premium+ for free
+    purchaseDate: new Date().toISOString(),
     claimedRewards: [],
     premiumClaimed: []
   },
