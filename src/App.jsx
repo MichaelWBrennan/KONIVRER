@@ -14,6 +14,9 @@ import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
 import MobileFirstLayout from './components/MobileFirstLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+import OAuthCallback from './components/OAuthCallback';
+import OAuthComplete from './components/OAuthComplete';
 import Home from './pages/Home';
 import MobileHome from './pages/MobileHome';
 import { JudgeCenter } from './pages/JudgeCenter';
@@ -35,6 +38,7 @@ import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import Rules from './pages/Rules';
 import MobileRules from './pages/MobileRules';
+import MobilePhysicalMatchmakingPage from './pages/MobilePhysicalMatchmakingPage';
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
 
@@ -76,9 +80,9 @@ function App() {
                   <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/advanced-game/:mode/:gameId" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/deck-selection" element={<DeckSelectionPage />} />
-                  <Route path="/deck-builder" element={<EnhancedDeckBuilder />} />
-                  <Route path="/deck-builder/:deckId" element={<EnhancedDeckBuilder />} />
-                  <Route path="/enhanced-deck-builder" element={<EnhancedDeckBuilder />} />
+                  <Route path="/deck-builder" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
+                  <Route path="/deck-builder/:deckId" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
+                  <Route path="/enhanced-deck-builder" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
@@ -86,8 +90,9 @@ function App() {
                   <Route path="/matchmaking" element={<MobileMatchmaking />} />
                   
                   {/* Physical Matchmaking System */}
-                  <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
+                  <Route path="/physical-matchmaking" element={<MobilePhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmaking />} />
+                  <Route path="/physical-matchmaking-page" element={<PhysicalMatchmakingPage />} />
                   <Route path="/advanced-physical-matchmaking" element={<AdvancedPhysicalMatchmakingPage />} />
                   
                   {/* Standalone PWA Matchmaking */}
@@ -150,7 +155,7 @@ function App() {
                   <Route path="/tournaments" element={<UnifiedTournaments />} />
                   <Route
                     path="/tournaments/create"
-                    element={<TournamentCreate />}
+                    element={<ProtectedRoute><TournamentCreate /></ProtectedRoute>}
                   />
                   <Route
                     path="/tournaments/:tournamentId/live"
@@ -170,6 +175,10 @@ function App() {
                     element={<TournamentManager />}
                   />
                   <Route path="/admin" element={<AdminPanel />} />
+                  
+                  {/* OAuth Routes */}
+                  <Route path="/oauth/callback" element={<OAuthCallback />} />
+                  <Route path="/oauth/complete" element={<OAuthComplete />} />
                 </Routes>
                         </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>
