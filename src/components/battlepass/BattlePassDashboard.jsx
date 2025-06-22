@@ -133,12 +133,8 @@ const BattlePassDashboard = () => {
               <div className="text-2xl font-bold text-white">FREE</div>
             </div>
 
-            {/* Premium Pass */}
-            <div className={`p-4 rounded-lg border-2 ${
-              battlePass.playerProgress.passType === 'premium' 
-                ? 'border-yellow-500 bg-yellow-500/20' 
-                : 'border-gray-600 bg-gray-800/50'
-            }`}>
+            {/* Premium Pass - Now Free */}
+            <div className="p-4 rounded-lg border-2 border-yellow-500 bg-yellow-500/20">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-lg font-bold text-white">Premium Pass</h3>
                 <Star className="w-5 h-5 text-yellow-400" />
@@ -148,25 +144,14 @@ const BattlePassDashboard = () => {
               </p>
               <div className="flex items-center justify-between">
                 <div className="text-2xl font-bold text-yellow-400">
-                  {battlePass.currentSeason.premiumPrice} <Gem className="w-5 h-5 inline" />
+                  FREE
                 </div>
-                {battlePass.playerProgress.passType === 'free' && (
-                  <button
-                    onClick={() => setShowPurchaseModal(true)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded-lg font-medium transition-colors"
-                  >
-                    Upgrade
-                  </button>
-                )}
+                <div className="text-sm text-green-400">Included</div>
               </div>
             </div>
 
-            {/* Premium Plus Pass */}
-            <div className={`p-4 rounded-lg border-2 ${
-              battlePass.playerProgress.passType === 'premium_plus' 
-                ? 'border-purple-500 bg-purple-500/20' 
-                : 'border-gray-600 bg-gray-800/50'
-            }`}>
+            {/* Premium Plus Pass - Now Free */}
+            <div className="p-4 rounded-lg border-2 border-purple-500 bg-purple-500/20">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-lg font-bold text-white">Premium+</h3>
                 <Crown className="w-5 h-5 text-purple-400" />
@@ -176,16 +161,9 @@ const BattlePassDashboard = () => {
               </p>
               <div className="flex items-center justify-between">
                 <div className="text-2xl font-bold text-purple-400">
-                  {battlePass.currentSeason.premiumPlusPrice} <Gem className="w-5 h-5 inline" />
+                  FREE
                 </div>
-                {battlePass.playerProgress.passType !== 'premium_plus' && (
-                  <button
-                    onClick={() => setShowPurchaseModal(true)}
-                    className="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg font-medium transition-colors"
-                  >
-                    Upgrade
-                  </button>
-                )}
+                <div className="text-sm text-green-400">Included</div>
               </div>
             </div>
           </div>
@@ -429,10 +407,10 @@ const PurchaseModal = ({
         onClick={(e) => e.stopPropagation()}
         className="bg-gray-800 rounded-xl p-6 max-w-md w-full"
       >
-        <h3 className="text-2xl font-bold text-white mb-4">Upgrade Battle Pass</h3>
+        <h3 className="text-2xl font-bold text-white mb-4">Premium Features</h3>
         
         <div className="space-y-4">
-          {/* Premium Option */}
+          {/* Premium Option - Now Free */}
           <div className="border border-yellow-500 rounded-lg p-4 bg-yellow-500/10">
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-lg font-bold text-yellow-400">Premium Pass</h4>
@@ -444,15 +422,12 @@ const PurchaseModal = ({
               <li>• 2x XP boost</li>
               <li>• Priority matchmaking</li>
             </ul>
-            <button
-              onClick={onPurchasePremium}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-2 rounded-lg font-medium transition-colors"
-            >
-              Purchase for {currentSeason.premiumPrice} <Gem className="w-4 h-4 inline" />
-            </button>
+            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center">
+              FREE FOR EVERYONE
+            </div>
           </div>
 
-          {/* Premium Plus Option */}
+          {/* Premium Plus Option - Now Free */}
           <div className="border border-purple-500 rounded-lg p-4 bg-purple-500/10">
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-lg font-bold text-purple-400">Premium+ Pass</h4>
@@ -464,12 +439,9 @@ const PurchaseModal = ({
               <li>• Exclusive legendary rewards</li>
               <li>• VIP support</li>
             </ul>
-            <button
-              onClick={onPurchasePremiumPlus}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-medium transition-colors"
-            >
-              Purchase for {currentSeason.premiumPlusPrice} <Gem className="w-4 h-4 inline" />
-            </button>
+            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center">
+              FREE FOR EVERYONE
+            </div>
           </div>
         </div>
 
