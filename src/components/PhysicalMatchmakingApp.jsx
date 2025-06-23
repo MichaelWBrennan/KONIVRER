@@ -41,7 +41,7 @@ const PhysicalMatchmakingApp = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [qrCodeData, setQRCodeData] = useState('');
   const [isImporting, setIsImporting] = useState(false);
-  const [importData, setImportData] = useState('');
+  const [importDataText, setImportDataText] = useState('');
   const [importError, setImportError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -254,13 +254,13 @@ const PhysicalMatchmakingApp = () => {
 
   // Handle data import with improved error handling
   const handleImport = useCallback(() => {
-    if (!importData || importData.trim() === '') {
+    if (!importDataText || importDataText.trim() === '') {
       setImportError('Please enter JSON data to import');
       return;
     }
     
     try {
-      const data = JSON.parse(importData);
+      const data = JSON.parse(importDataText);
       
       // Validate data structure
       if (!data || typeof data !== 'object') {
@@ -276,13 +276,13 @@ const PhysicalMatchmakingApp = () => {
       
       importData(data);
       setIsImporting(false);
-      setImportData('');
+      setImportDataText('');
       setImportError('');
     } catch (error) {
       console.error('Error importing data:', error);
       setImportError(`Invalid JSON data: ${error.message || 'Unknown error'}`);
     }
-  }, [importData]);
+  }, [importDataText, importData]);
 
   // Handle player deletion with confirmation
   const handleDeletePlayer = useCallback((player) => {
@@ -1112,8 +1112,8 @@ const PhysicalMatchmakingApp = () => {
                 <textarea
                   id="importData"
                   className="mobile-textarea esoteric-textarea"
-                  value={importData || ''}
-                  onChange={(e) => setImportData(e.target.value)}
+                  value={importDataText || ''}
+                  onChange={(e) => setImportDataText(e.target.value)}
                   rows={10}
                   placeholder="Paste JSON data here..."
                   aria-label="Import data JSON"
@@ -1124,7 +1124,7 @@ const PhysicalMatchmakingApp = () => {
                 <button
                   onClick={handleImport}
                   className="mobile-btn mobile-btn-primary esoteric-btn"
-                  disabled={!importData}
+                  disabled={!importDataText}
                 >
                   Import
                 </button>
@@ -1144,7 +1144,7 @@ const PhysicalMatchmakingApp = () => {
         </div>
       </div>
     );
-  }, [isImporting, importData, importError, handleImport]);
+  }, [isImporting, importDataText, importError, handleImport]);
 
   // Render QR code modal
   const renderQRCodeModal = useCallback(() => {
