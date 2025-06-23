@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import CardArtDisplay from './CardArtDisplay';
 import { getArtNameFromCardData, cardDataHasArt } from '../../utils/cardArtMapping';
+import cardsData from '../../data/cards.json';
 import { 
   Search, 
   Filter, 
@@ -85,9 +86,14 @@ const EnhancedCardSearch = () => {
   }, []);
 
   const loadCardCollection = async () => {
-    // Mock card data - in production this would be an API call
-    const mockCards = generateEnhancedMockCards();
-    setCardCollection(mockCards);
+    try {
+      // Use imported KONIVRER card data
+      setCardCollection(cardsData);
+    } catch (error) {
+      console.error('Failed to load card data:', error);
+      // Fallback to empty array
+      setCardCollection([]);
+    }
   };
 
   const loadUserCollection = () => {
@@ -121,9 +127,13 @@ const EnhancedCardSearch = () => {
       // Basic search
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        if (!card.name.toLowerCase().includes(query) &&
-            !card.text.toLowerCase().includes(query) &&
-            !card.type.toLowerCase().includes(query)) {
+        const cardText = (card.description || '').toLowerCase();
+        const cardName = (card.name || '').toLowerCase();
+        const cardType = (card.type || '').toLowerCase();
+        
+        if (!cardName.includes(query) &&
+            !cardText.includes(query) &&
+            !cardType.includes(query)) {
           return false;
         }
       }
@@ -133,7 +143,7 @@ const EnhancedCardSearch = () => {
         return false;
       }
 
-      if (advancedSearch.text && !card.text.toLowerCase().includes(advancedSearch.text.toLowerCase())) {
+      if (advancedSearch.text && !(card.description || '').toLowerCase().includes(advancedSearch.text.toLowerCase())) {
         return false;
       }
 
@@ -142,37 +152,43 @@ const EnhancedCardSearch = () => {
       }
 
       if (advancedSearch.colors.length > 0) {
-        const hasColor = advancedSearch.colors.some(color => card.colors.includes(color));
-        if (!hasColor) return false;
+        const cardElements = card.elements || [];
+        const hasElement = advancedSearch.colors.some(color => 
+          cardElements.some(element => element.toLowerCase().includes(color.toLowerCase()))
+        );
+        if (!hasElement) return false;
       }
 
       if (advancedSearch.rarity.length > 0) {
-        if (!advancedSearch.rarity.includes(card.rarity)) return false;
+        if (!advancedSearch.rarity.includes(card.rarity?.toLowerCase())) return false;
       }
 
-      // Cost filter
+      // Cost filter (KONIVRER cards have cost arrays)
+      const cardCost = Array.isArray(card.cost) ? card.cost.length : (card.cost || 0);
       if (advancedSearch.cost.exact !== null) {
-        if (card.cost !== advancedSearch.cost.exact) return false;
+        if (cardCost !== advancedSearch.cost.exact) return false;
       } else {
-        if (card.cost < advancedSearch.cost.min || card.cost > advancedSearch.cost.max) {
+        if (cardCost < advancedSearch.cost.min || cardCost > advancedSearch.cost.max) {
           return false;
         }
       }
 
-      // Power/Toughness filters (for creatures)
-      if (card.type === 'creature') {
+      // Attack/Defense filters (KONIVRER equivalent of power/toughness)
+      if (card.attack !== null && card.attack !== undefined) {
         if (advancedSearch.power.exact !== null) {
-          if (card.power !== advancedSearch.power.exact) return false;
+          if (card.attack !== advancedSearch.power.exact) return false;
         } else {
-          if (card.power < advancedSearch.power.min || card.power > advancedSearch.power.max) {
+          if (card.attack < advancedSearch.power.min || card.attack > advancedSearch.power.max) {
             return false;
           }
         }
+      }
 
+      if (card.defense !== null && card.defense !== undefined) {
         if (advancedSearch.toughness.exact !== null) {
-          if (card.toughness !== advancedSearch.toughness.exact) return false;
+          if (card.defense !== advancedSearch.toughness.exact) return false;
         } else {
-          if (card.toughness < advancedSearch.toughness.min || card.toughness > advancedSearch.toughness.max) {
+          if (card.defense < advancedSearch.toughness.min || card.defense > advancedSearch.toughness.max) {
             return false;
           }
         }
@@ -190,20 +206,33 @@ const EnhancedCardSearch = () => {
           comparison = a.name.localeCompare(b.name);
           break;
         case 'cost':
-          comparison = a.cost - b.cost;
+          const aCost = Array.isArray(a.cost) ? a.cost.length : (a.cost || 0);
+          const bCost = Array.isArray(b.cost) ? b.cost.length : (b.cost || 0);
+          comparison = aCost - bCost;
           break;
         case 'type':
           comparison = a.type.localeCompare(b.type);
           break;
         case 'rarity':
-          const rarityOrder = { common: 0, uncommon: 1, rare: 2, mythic: 3 };
-          comparison = rarityOrder[a.rarity] - rarityOrder[b.rarity];
+          const rarityOrder = { 
+            common: 0, 
+            uncommon: 1, 
+            rare: 2, 
+            mythic: 3, 
+            special: 4,
+            'Common': 0,
+            'Uncommon': 1, 
+            'Rare': 2, 
+            'Mythic': 3,
+            'Special': 4
+          };
+          comparison = (rarityOrder[a.rarity] || 0) - (rarityOrder[b.rarity] || 0);
           break;
         case 'power':
-          comparison = (a.power || 0) - (b.power || 0);
+          comparison = (a.attack || 0) - (b.attack || 0);
           break;
         case 'toughness':
-          comparison = (a.toughness || 0) - (b.toughness || 0);
+          comparison = (a.defense || 0) - (b.defense || 0);
           break;
         case 'owned':
           const aOwned = ownedCards.has(a.id) ? 1 : 0;
@@ -677,11 +706,13 @@ const CardGridItem = ({
   onAddToDeck 
 }) => {
   const getRarityColor = (rarity) => {
-    switch (rarity) {
+    const rarityLower = (rarity || '').toLowerCase();
+    switch (rarityLower) {
       case 'common': return 'border-gray-400';
       case 'uncommon': return 'border-green-400';
       case 'rare': return 'border-blue-400';
       case 'mythic': return 'border-orange-400';
+      case 'special': return 'border-purple-400';
       default: return 'border-gray-400';
     }
   };
@@ -716,9 +747,17 @@ const CardGridItem = ({
         <div className="text-white text-sm font-medium truncate">{card.name}</div>
         <div className="text-gray-400 text-xs">{card.type}</div>
         
-        {card.type === 'creature' && (
+        {/* Show cost */}
+        {card.cost && Array.isArray(card.cost) && card.cost.length > 0 && (
           <div className="text-gray-300 text-xs">
-            {card.power}/{card.toughness}
+            Cost: {card.cost.length}
+          </div>
+        )}
+        
+        {/* Show attack/defense for creatures */}
+        {(card.attack !== null && card.attack !== undefined) && (
+          <div className="text-gray-300 text-xs">
+            {card.attack}/{card.defense || 0}
           </div>
         )}
       </div>
@@ -963,45 +1002,5 @@ const CardDetailModal = ({
     </motion.div>
   );
 };
-
-// Enhanced mock card generation
-function generateEnhancedMockCards() {
-  const cards = [];
-  const types = ['creature', 'instant', 'sorcery', 'artifact', 'land', 'planeswalker'];
-  const rarities = ['common', 'uncommon', 'rare', 'mythic'];
-  const colors = ['white', 'blue', 'black', 'red', 'green'];
-  const sets = ['Core Set 2024', 'Elemental Convergence', 'Shadow Realms'];
-
-  for (let i = 1; i <= 500; i++) {
-    const type = types[Math.floor(Math.random() * types.length)];
-    const rarity = rarities[Math.floor(Math.random() * rarities.length)];
-    const cardColors = [colors[Math.floor(Math.random() * colors.length)]];
-    
-    // Sometimes add a second color
-    if (Math.random() > 0.7) {
-      const secondColor = colors[Math.floor(Math.random() * colors.length)];
-      if (!cardColors.includes(secondColor)) {
-        cardColors.push(secondColor);
-      }
-    }
-
-    cards.push({
-      id: `card_${i}`,
-      name: `${type === 'creature' ? 'Creature' : 'Spell'} ${i}`,
-      cost: Math.floor(Math.random() * 12),
-      type,
-      rarity,
-      colors: cardColors,
-      text: `This is the rules text for card ${i}. It has various abilities and effects that make it unique in gameplay.`,
-      power: type === 'creature' ? Math.floor(Math.random() * 10) + 1 : null,
-      toughness: type === 'creature' ? Math.floor(Math.random() * 10) + 1 : null,
-      set: sets[Math.floor(Math.random() * sets.length)],
-      artist: `Artist ${Math.floor(Math.random() * 20) + 1}`,
-      flavorText: `Flavor text for card ${i} that adds lore and atmosphere.`
-    });
-  }
-
-  return cards;
-}
 
 export default EnhancedCardSearch;
