@@ -1108,12 +1108,12 @@ const PhysicalMatchmakingApp = () => {
               )}
               
               <div className="mobile-form-group">
-                <label htmlFor="importData" className="esoteric-text-muted">JSON Data</label>
+                <label htmlFor="importDataText" className="esoteric-text-muted">JSON Data</label>
                 <textarea
-                  id="importData"
+                  id="importDataText"
                   className="mobile-textarea esoteric-textarea"
-                  value={importData || ''}
-                  onChange={(e) => setImportData(e.target.value)}
+                  value={importDataText || ''}
+                  onChange={(e) => setImportDataText(e.target.value)}
                   rows={10}
                   placeholder="Paste JSON data here..."
                   aria-label="Import data JSON"
@@ -1124,7 +1124,7 @@ const PhysicalMatchmakingApp = () => {
                 <button
                   onClick={handleImport}
                   className="mobile-btn mobile-btn-primary esoteric-btn"
-                  disabled={!importData}
+                  disabled={!importDataText}
                 >
                   Import
                 </button>
