@@ -28,9 +28,9 @@ const CardArtDisplay = ({
 
   // Generate the image path based on card name
   const getCardImagePath = (name) => {
-    // Most cards follow the pattern: CARDNAME[face,1].png
-    // Special case for the flag card which is [face,6]
-    const suffix = name === 'PhVE_ELEMENT_PhLAG' ? '[face,6].png' : '[face,1].png';
+    // Most cards follow the pattern: CARDNAME_face_1.png
+    // Special case for the flag card which is _face_6
+    const suffix = name === 'PhVE_ELEMENT_PhLAG' ? '_face_6.png' : '_face_1.png';
     return `/assets/cards/${name}${suffix}`;
   };
 
