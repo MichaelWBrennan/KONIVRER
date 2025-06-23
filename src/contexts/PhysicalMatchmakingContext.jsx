@@ -1724,9 +1724,7 @@ export const PhysicalMatchmakingProvider = ({ children }) => {
     importData,
     
     // Bayesian matchmaking methods
-    calculateMatchQuality,
     calculateAdvancedMatchQuality,
-    recordMatchResult,
     getPlayerTier,
     
     // Navigation

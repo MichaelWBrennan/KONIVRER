@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth, AuthContext } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import { analytics } from '../utils/analytics';
