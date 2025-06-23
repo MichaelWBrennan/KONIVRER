@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ExternalLink, Eye } from 'lucide-react';
+import { getCardDetailUrl, hasCardData, getCardDisplayName } from '../../utils/cardArtMapping';
 
 /**
  * CardArtDisplay - Component to display KONIVRER card arts
@@ -7,15 +10,27 @@ import { motion } from 'framer-motion';
  * This component demonstrates how to use the card art assets
  * that were added to public/assets/cards/
  */
-const CardArtDisplay = ({ cardName, className = '', showFallback = true }) => {
+const CardArtDisplay = ({ 
+  cardName, 
+  className = '', 
+  showFallback = true, 
+  clickable = true,
+  showCardInfo = false 
+}) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Get card information
+  const detailUrl = getCardDetailUrl(cardName);
+  const hasData = hasCardData(cardName);
+  const displayName = getCardDisplayName(cardName);
 
   // Generate the image path based on card name
   const getCardImagePath = (name) => {
-    // Most cards follow the pattern: CARDNAME[face,1].png
-    // Special case for the flag card which is [face,6]
-    const suffix = name === 'PhVE_ELEMENT_PhLAG' ? '[face,6].png' : '[face,1].png';
+    // Most cards follow the pattern: CARDNAME_face_1.png
+    // Special case for the flag card which is _face_6
+    const suffix = name === 'PhVE_ELEMENT_PhLAG' ? '_face_6.png' : '_face_1.png';
     return `/assets/cards/${name}${suffix}`;
   };
 
@@ -32,7 +47,7 @@ const CardArtDisplay = ({ cardName, className = '', showFallback = true }) => {
     <div className={`bg-gradient-to-br from-purple-800 to-blue-900 rounded-lg flex items-center justify-center text-white font-bold text-center p-4 ${className}`}>
       <div>
         <div className="text-lg mb-2">KONIVRER</div>
-        <div className="text-sm opacity-75">{cardName}</div>
+        <div className="text-sm opacity-75">{displayName}</div>
       </div>
     </div>
   );
@@ -42,36 +57,100 @@ const CardArtDisplay = ({ cardName, className = '', showFallback = true }) => {
   }
 
   if (imageError) {
-    return <FallbackCard />;
+    return clickable && hasData && detailUrl ? (
+      <Link to={detailUrl}>
+        <FallbackCard />
+      </Link>
+    ) : (
+      <FallbackCard />
+    );
   }
 
-  return (
+  const cardContent = (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: imageLoaded ? 1 : 0.5, scale: 1 }}
       transition={{ duration: 0.3 }}
-      className={`relative overflow-hidden rounded-lg ${className}`}
+      className={`relative overflow-hidden rounded-lg ${className} ${
+        clickable && hasData ? 'cursor-pointer' : ''
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <img
         src={getCardImagePath(cardName)}
-        alt={`${cardName} card art`}
+        alt={`${displayName} card art`}
         onError={handleImageError}
         onLoad={handleImageLoad}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover transition-transform duration-300"
         loading="lazy"
       />
       
       {!imageLoaded && (
         <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" />
       )}
+
+      {/* Hover overlay for clickable cards */}
+      {clickable && hasData && isHovered && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="absolute inset-0 bg-black/50 flex items-center justify-center"
+        >
+          <div className="text-white text-center">
+            <Eye className="w-8 h-8 mx-auto mb-2" />
+            <div className="text-sm font-medium">View Details</div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Card info overlay */}
+      {showCardInfo && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+          <div className="text-white">
+            <div className="font-bold text-sm">{displayName}</div>
+            {hasData && (
+              <div className="flex items-center space-x-1 text-xs text-green-400">
+                <ExternalLink className="w-3 h-3" />
+                <span>View Details</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Indicator for cards without data */}
+      {!hasData && showCardInfo && (
+        <div className="absolute top-2 right-2">
+          <div className="bg-yellow-500 text-black text-xs px-2 py-1 rounded">
+            Art Only
+          </div>
+        </div>
+      )}
     </motion.div>
   );
+
+  // Wrap with Link if clickable and has data
+  if (clickable && hasData && detailUrl) {
+    return (
+      <Link to={detailUrl} className="block">
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 };
 
 /**
  * CardArtGallery - Component to display multiple card arts
  */
-export const CardArtGallery = ({ cards = [], columns = 4 }) => {
+export const CardArtGallery = ({ 
+  cards = [], 
+  columns = 4, 
+  showCardInfo = false,
+  clickable = true 
+}) => {
   // Available card names from the extracted assets
   const availableCards = [
     'ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH',
@@ -93,23 +172,41 @@ export const CardArtGallery = ({ cards = [], columns = 4 }) => {
 
   return (
     <div className={`grid grid-cols-${columns} gap-4 p-4`}>
-      {cardsToDisplay.map((cardName, index) => (
-        <motion.div
-          key={cardName}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.1 }}
-          className="group cursor-pointer"
-        >
-          <CardArtDisplay
-            cardName={cardName}
-            className="aspect-[3/4] group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
-          />
-          <div className="mt-2 text-center text-sm text-gray-300 group-hover:text-white transition-colors">
-            {cardName.replace(/_/g, ' ')}
-          </div>
-        </motion.div>
-      ))}
+      {cardsToDisplay.map((cardName, index) => {
+        const displayName = getCardDisplayName(cardName);
+        const hasData = hasCardData(cardName);
+        
+        return (
+          <motion.div
+            key={cardName}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            className="group"
+          >
+            <CardArtDisplay
+              cardName={cardName}
+              className="aspect-[3/4] group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+              showCardInfo={showCardInfo}
+              clickable={clickable}
+            />
+            <div className="mt-2 text-center">
+              <div className={`text-sm transition-colors ${
+                hasData && clickable 
+                  ? 'text-gray-300 group-hover:text-white' 
+                  : 'text-gray-400'
+              }`}>
+                {displayName}
+              </div>
+              {hasData && (
+                <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to view details
+                </div>
+              )}
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
   );
 };
@@ -117,22 +214,44 @@ export const CardArtGallery = ({ cards = [], columns = 4 }) => {
 /**
  * CardArtPreview - Component for previewing a single card with details
  */
-export const CardArtPreview = ({ cardName, showDetails = true }) => {
+export const CardArtPreview = ({ cardName, showDetails = true, clickable = true }) => {
+  const displayName = getCardDisplayName(cardName);
+  const hasData = hasCardData(cardName);
+  const detailUrl = getCardDetailUrl(cardName);
+
   return (
     <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto">
       <CardArtDisplay
         cardName={cardName}
         className="aspect-[3/4] mb-4 shadow-2xl"
+        clickable={clickable}
+        showCardInfo={false}
       />
       
       {showDetails && (
         <div className="text-center">
           <h3 className="text-xl font-bold text-white mb-2">
-            {cardName.replace(/_/g, ' ')}
+            {displayName}
           </h3>
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-gray-400 mb-3">
             KONIVRER Card Art
           </div>
+          
+          {hasData && clickable && detailUrl && (
+            <Link 
+              to={detailUrl}
+              className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <Eye className="w-4 h-4" />
+              <span>View Card Details</span>
+            </Link>
+          )}
+          
+          {!hasData && (
+            <div className="text-yellow-400 text-sm">
+              Card art only - No database entry available
+            </div>
+          )}
         </div>
       )}
     </div>
