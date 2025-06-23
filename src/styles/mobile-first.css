@@ -96,12 +96,19 @@ html, body {
   left: 0;
   right: 0;
   background-color: var(--color-secondary);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-xs);
   padding-bottom: calc(var(--spacing-sm) + var(--safe-area-inset-bottom));
   display: flex;
-  justify-content: space-around;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: var(--z-above);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.mobile-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-nav-item {
@@ -109,12 +116,13 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-sm);
-  min-width: var(--touch-target-size);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-width: 60px; /* Ensure minimum width for touch targets */
   min-height: var(--touch-target-size);
   color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast);
+  flex-shrink: 0; /* Prevent items from shrinking */
 }
 
 .mobile-nav-item.active {
@@ -122,8 +130,13 @@ html, body {
 }
 
 .mobile-nav-item-text {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   margin-top: var(--spacing-xs);
+  text-align: center;
+  white-space: nowrap;
+  max-width: 70px; /* Limit text width */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Mobile header */
