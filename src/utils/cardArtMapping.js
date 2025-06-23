@@ -38,7 +38,10 @@ export const getCardIdFromArtName = (cardArtName) => {
   // Remove file extension and face notation if present
   const cleanName = cardArtName
     .replace(/\[face,\d+\]\.png$/i, '')
-    .replace(/\.png$/i, '');
+    .replace(/_face_\d+\.png$/i, '')  // Handle _face_1.png format
+    .replace(/_face_\d+$/i, '')  // Handle _face_6 without .png
+    .replace(/\.png$/i, '')
+    .replace(/_+$/, '');  // Remove trailing underscores
   
   // Try direct lookup first
   if (CARD_NAME_TO_ID_MAP.has(cleanName)) {
@@ -56,7 +59,7 @@ export const getCardIdFromArtName = (cardArtName) => {
     'PhVE_ELEMENT_PhLAG': 'ΦIVE ELEMENT ΦLAG',
     'FIVE_ELEMENT_FLAG': 'ΦIVE ELEMENT ΦLAG',
     'AZOTH': 'AZOΘ',
-    'SOLAR_': 'SOLAR ☉',
+    'SOLAR': 'SOLAR ☉',
   };
   
   if (specialMappings[cleanName]) {
@@ -70,6 +73,7 @@ export const getCardIdFromArtName = (cardArtName) => {
     .replace(/TH/g, 'Θ')
     .replace(/BRIGT/g, 'BRIΓT')  // Handle BRIGT -> BRIΓT
     .replace(/LIGTNING/g, 'LIΓTNING')  // Handle LIGTNING -> LIΓTNING specifically
+    .replace(/THVNDERSNOVV/g, 'THVNDERSNOVV')  // Keep THVNDERSNOVV as is
     .replace(/_/g, ' ');
   
   if (CARD_NAME_TO_ID_MAP.has(greekConversion)) {
@@ -91,9 +95,10 @@ export const getCardIdFromArtName = (cardArtName) => {
       
       const greekBaseCard = baseCardName
         .replace(/Ph/g, 'Φ')
-        .replace(/TH/g, 'Θ')
         .replace(/LIGTNING/g, 'LIΓTNING')
         .replace(/_/g, ' ');
+      
+      // Don't convert TH to Θ in THVNDERSNOVV - it stays as TH
       
       const fullGreekName = `${greekPrefix} ${greekBaseCard}`;
       
