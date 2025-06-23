@@ -50,6 +50,7 @@ import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
 import CardArtShowcase from './pages/CardArtShowcase';
+import CardMaker from './pages/CardMaker';
 import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatform';
 import PhysicalMatchmaking from './components/PhysicalMatchmaking';
 import EnhancedPhysicalMatchmaking from './components/EnhancedPhysicalMatchmaking';
@@ -117,6 +118,7 @@ function App() {
                   <Route path="/cards/*" element={<MobileCardExplorer />} />
                   <Route path="/enhanced-card-search" element={<EnhancedCardSearch />} />
                   <Route path="/card-art-showcase" element={<CardArtShowcase />} />
+                  <Route path="/card-maker" element={<CardMaker />} />
                   <Route path="/spoilers" element={<CardExplorer />} />
 
                   <Route path="/decks" element={<MobileDeckSearch />} />
