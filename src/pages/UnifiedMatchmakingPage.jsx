@@ -10,13 +10,14 @@ import '../styles/mobile-first.css';
 import '../styles/esoteric-theme.css';
 
 /**
- * Enhanced Matchmaking Page
- * Provides state-of-the-art Bayesian matchmaking with advanced analytics
+ * Unified Matchmaking Page
+ * Provides both basic and advanced matchmaking options with Bayesian matchmaking and analytics
  */
-const EnhancedMatchmakingPage = () => {
+const UnifiedMatchmakingPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState('matchmaking');
+  const [activeTab, setActiveTab] = useState('basic');
+  const [matchmakingMode, setMatchmakingMode] = useState('basic'); // 'basic' or 'advanced'
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const [searchTime, setSearchTime] = useState(0);
@@ -242,7 +243,11 @@ const EnhancedMatchmakingPage = () => {
       }
       
       // Simulate finding a match after a random time
-      if (elapsed > 3 && Math.random() > 0.7) {
+      // Basic mode finds matches faster but with less precision
+      const matchProbability = matchmakingMode === 'basic' ? 0.4 : 0.3;
+      const minWaitTime = matchmakingMode === 'basic' ? 2 : 3;
+      
+      if (elapsed > minWaitTime && Math.random() > matchProbability) {
         clearInterval(searchTimer);
         findMatch();
       }
@@ -262,8 +267,9 @@ const EnhancedMatchmakingPage = () => {
       // In a real implementation, this would call the ranking engine's findMatch method
       // For now, we'll simulate a match
       
-      // Generate opponent data
-      const opponentRating = playerData.rating + (Math.random() * searchRange * 2 - searchRange);
+      // Generate opponent data - basic mode has wider rating range
+      const ratingVariance = matchmakingMode === 'basic' ? searchRange * 1.5 : searchRange;
+      const opponentRating = playerData.rating + (Math.random() * ratingVariance * 2 - ratingVariance);
       const opponentUncertainty = Math.max(100, Math.min(350, playerData.uncertainty + (Math.random() * 100 - 50)));
       
       // Generate opponent playstyle
@@ -291,21 +297,25 @@ const EnhancedMatchmakingPage = () => {
         playstyleCompatibility
       );
       
-      // Calculate match quality factors
+      // Calculate match quality factors - advanced mode considers more factors
       const matchFactors = {
         skill: 1 - (Math.abs(playerData.rating - opponentRating) / 1000),
-        uncertainty: 1 - (Math.abs(playerData.uncertainty - opponentUncertainty) / 350),
-        playstyle: matchPreferences.preferComplementaryPlaystyles ? 
-                  1 - playstyleCompatibility.compatibility : 
-                  playstyleCompatibility.compatibility,
-        deckMatchup: 0.7 + (Math.random() * 0.3),
-        contextual: matchPreferences.considerContextualFactors ? 
-                   0.6 + (Math.random() * 0.4) : 
-                   0.5,
-        meta: matchPreferences.considerMetaPosition ? 
-              0.7 + (Math.random() * 0.3) : 
-              0.5
+        uncertainty: 1 - (Math.abs(playerData.uncertainty - opponentUncertainty) / 350)
       };
+      
+      // Add advanced factors only in advanced mode
+      if (matchmakingMode === 'advanced') {
+        matchFactors.playstyle = matchPreferences.preferComplementaryPlaystyles ? 
+                  1 - playstyleCompatibility.compatibility : 
+                  playstyleCompatibility.compatibility;
+        matchFactors.deckMatchup = 0.7 + (Math.random() * 0.3);
+        matchFactors.contextual = matchPreferences.considerContextualFactors ? 
+                   0.6 + (Math.random() * 0.4) : 
+                   0.5;
+        matchFactors.meta = matchPreferences.considerMetaPosition ? 
+              0.7 + (Math.random() * 0.3) : 
+              0.5;
+      }
       
       // Calculate overall match quality
       const matchQuality = Object.values(matchFactors).reduce((sum, val) => sum + val, 0) / Object.keys(matchFactors).length;
@@ -329,7 +339,8 @@ const EnhancedMatchmakingPage = () => {
         matchFactors,
         playstyleCompatibility,
         searchTime: searchTime,
-        searchRange
+        searchRange,
+        matchmakingMode
       };
       
       setMatchData(match);
@@ -470,18 +481,24 @@ const EnhancedMatchmakingPage = () => {
       )}
       
       <div className="mobile-page-header esoteric-page-header">
-        <h1 className="mobile-page-title esoteric-page-title">Enhanced Matchmaking</h1>
+        <h1 className="mobile-page-title esoteric-page-title">Matchmaking</h1>
         <p className="mobile-page-subtitle esoteric-text-muted">
-          State-of-the-art Bayesian matchmaking system
+          Find your next opponent
         </p>
       </div>
       
       <div className="mobile-tabs esoteric-tabs">
         <button
-          className={`mobile-tab-button ${activeTab === 'matchmaking' ? 'active esoteric-btn-active' : ''}`}
-          onClick={() => setActiveTab('matchmaking')}
+          className={`mobile-tab-button ${activeTab === 'basic' ? 'active esoteric-btn-active' : ''}`}
+          onClick={() => setActiveTab('basic')}
         >
-          Matchmaking
+          Basic
+        </button>
+        <button
+          className={`mobile-tab-button ${activeTab === 'advanced' ? 'active esoteric-btn-active' : ''}`}
+          onClick={() => setActiveTab('advanced')}
+        >
+          Advanced
         </button>
         <button
           className={`mobile-tab-button ${activeTab === 'analytics' ? 'active esoteric-btn-active' : ''}`}
@@ -492,11 +509,40 @@ const EnhancedMatchmakingPage = () => {
       </div>
       
       <ErrorBoundary onError={handleError}>
-        {activeTab === 'matchmaking' && (
+        {(activeTab === 'basic' || activeTab === 'advanced') && (
           <div className="mobile-matchmaking-container">
             {!isSearching && !matchFound && (
               <div className="mobile-matchmaking-form esoteric-card">
                 <h2 className="esoteric-rune">Find a Match</h2>
+                
+                {/* Mode selector */}
+                <div className="mobile-form-group">
+                  <label className="esoteric-text-muted">Matchmaking Mode</label>
+                  <div className="mobile-radio-group">
+                    <label className="mobile-radio-label">
+                      <input
+                        type="radio"
+                        name="matchmakingMode"
+                        value="basic"
+                        checked={matchmakingMode === 'basic'}
+                        onChange={() => setMatchmakingMode('basic')}
+                        className="mobile-radio esoteric-radio"
+                      />
+                      <span className="esoteric-text-muted">Basic</span>
+                    </label>
+                    <label className="mobile-radio-label">
+                      <input
+                        type="radio"
+                        name="matchmakingMode"
+                        value="advanced"
+                        checked={matchmakingMode === 'advanced'}
+                        onChange={() => setMatchmakingMode('advanced')}
+                        className="mobile-radio esoteric-radio"
+                      />
+                      <span className="esoteric-text-muted">Advanced</span>
+                    </label>
+                  </div>
+                </div>
                 
                 <div className="mobile-form-group">
                   <label htmlFor="deckArchetype" className="esoteric-text-muted">Deck Archetype</label>
@@ -515,65 +561,68 @@ const EnhancedMatchmakingPage = () => {
                   </select>
                 </div>
                 
-                <div className="mobile-form-group">
-                  <label className="esoteric-text-muted">Matchmaking Preferences</label>
-                  
-                  <div className="mobile-checkbox-group">
-                    <input
-                      type="checkbox"
-                      id="preferSimilarSkill"
-                      name="preferSimilarSkill"
-                      checked={matchPreferences.preferSimilarSkill}
-                      onChange={handlePreferenceChange}
-                      className="mobile-checkbox esoteric-checkbox"
-                    />
-                    <label htmlFor="preferSimilarSkill" className="esoteric-text-muted">
-                      Prefer opponents with similar skill level
-                    </label>
+                {/* Show advanced options only in advanced mode */}
+                {matchmakingMode === 'advanced' && (
+                  <div className="mobile-form-group">
+                    <label className="esoteric-text-muted">Advanced Matchmaking Preferences</label>
+                    
+                    <div className="mobile-checkbox-group">
+                      <input
+                        type="checkbox"
+                        id="preferSimilarSkill"
+                        name="preferSimilarSkill"
+                        checked={matchPreferences.preferSimilarSkill}
+                        onChange={handlePreferenceChange}
+                        className="mobile-checkbox esoteric-checkbox"
+                      />
+                      <label htmlFor="preferSimilarSkill" className="esoteric-text-muted">
+                        Prefer opponents with similar skill level
+                      </label>
+                    </div>
+                    
+                    <div className="mobile-checkbox-group">
+                      <input
+                        type="checkbox"
+                        id="preferComplementaryPlaystyles"
+                        name="preferComplementaryPlaystyles"
+                        checked={matchPreferences.preferComplementaryPlaystyles}
+                        onChange={handlePreferenceChange}
+                        className="mobile-checkbox esoteric-checkbox"
+                      />
+                      <label htmlFor="preferComplementaryPlaystyles" className="esoteric-text-muted">
+                        Prefer opponents with complementary playstyles
+                      </label>
+                    </div>
+                    
+                    <div className="mobile-checkbox-group">
+                      <input
+                        type="checkbox"
+                        id="considerContextualFactors"
+                        name="considerContextualFactors"
+                        checked={matchPreferences.considerContextualFactors}
+                        onChange={handlePreferenceChange}
+                        className="mobile-checkbox esoteric-checkbox"
+                      />
+                      <label htmlFor="considerContextualFactors" className="esoteric-text-muted">
+                        Consider contextual factors (time of day, session length)
+                      </label>
+                    </div>
+                    
+                    <div className="mobile-checkbox-group">
+                      <input
+                        type="checkbox"
+                        id="considerMetaPosition"
+                        name="considerMetaPosition"
+                        checked={matchPreferences.considerMetaPosition}
+                        onChange={handlePreferenceChange}
+                        className="mobile-checkbox esoteric-checkbox"
+                      />
+                      <label htmlFor="considerMetaPosition" className="esoteric-text-muted">
+                        Consider meta positioning and diversity
+                      </label>
+                    </div>
                   </div>
-                  
-                  <div className="mobile-checkbox-group">
-                    <input
-                      type="checkbox"
-                      id="preferComplementaryPlaystyles"
-                      name="preferComplementaryPlaystyles"
-                      checked={matchPreferences.preferComplementaryPlaystyles}
-                      onChange={handlePreferenceChange}
-                      className="mobile-checkbox esoteric-checkbox"
-                    />
-                    <label htmlFor="preferComplementaryPlaystyles" className="esoteric-text-muted">
-                      Prefer opponents with complementary playstyles
-                    </label>
-                  </div>
-                  
-                  <div className="mobile-checkbox-group">
-                    <input
-                      type="checkbox"
-                      id="considerContextualFactors"
-                      name="considerContextualFactors"
-                      checked={matchPreferences.considerContextualFactors}
-                      onChange={handlePreferenceChange}
-                      className="mobile-checkbox esoteric-checkbox"
-                    />
-                    <label htmlFor="considerContextualFactors" className="esoteric-text-muted">
-                      Consider contextual factors (time of day, session length)
-                    </label>
-                  </div>
-                  
-                  <div className="mobile-checkbox-group">
-                    <input
-                      type="checkbox"
-                      id="considerMetaPosition"
-                      name="considerMetaPosition"
-                      checked={matchPreferences.considerMetaPosition}
-                      onChange={handlePreferenceChange}
-                      className="mobile-checkbox esoteric-checkbox"
-                    />
-                    <label htmlFor="considerMetaPosition" className="esoteric-text-muted">
-                      Consider meta positioning and diversity
-                    </label>
-                  </div>
-                </div>
+                )}
                 
                 <button 
                   className="mobile-btn mobile-btn-primary esoteric-btn"
@@ -638,6 +687,46 @@ const EnhancedMatchmakingPage = () => {
                   Win Probability: {Math.round(matchData.winProbability * 100)}%
                 </p>
                 
+                {/* Show advanced match details only in advanced mode */}
+                {matchData.matchmakingMode === 'advanced' && (
+                  <div className="mobile-match-details">
+                    <h3 className="esoteric-text-accent">Match Details</h3>
+                    <div className="mobile-match-factors">
+                      <div className="mobile-match-factor">
+                        <span className="esoteric-text-muted">Skill Match:</span>
+                        <div className="mobile-progress-bar">
+                          <div 
+                            className="mobile-progress-fill esoteric-progress-fill" 
+                            style={{width: `${Math.round(matchData.matchFactors.skill * 100)}%`}}
+                          ></div>
+                        </div>
+                      </div>
+                      
+                      <div className="mobile-match-factor">
+                        <span className="esoteric-text-muted">Playstyle Compatibility:</span>
+                        <div className="mobile-progress-bar">
+                          <div 
+                            className="mobile-progress-fill esoteric-progress-fill" 
+                            style={{width: `${Math.round(matchData.matchFactors.playstyle * 100)}%`}}
+                          ></div>
+                        </div>
+                      </div>
+                      
+                      {matchData.matchFactors.deckMatchup && (
+                        <div className="mobile-match-factor">
+                          <span className="esoteric-text-muted">Deck Matchup:</span>
+                          <div className="mobile-progress-bar">
+                            <div 
+                              className="mobile-progress-fill esoteric-progress-fill" 
+                              style={{width: `${Math.round(matchData.matchFactors.deckMatchup * 100)}%`}}
+                            ></div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
                 <div className="mobile-match-actions">
                   <button 
                     className="mobile-btn mobile-btn-primary esoteric-btn"
@@ -655,7 +744,7 @@ const EnhancedMatchmakingPage = () => {
               </div>
             )}
             
-            {matchData && (
+            {matchData && matchData.matchmakingMode === 'advanced' && (
               <EnhancedMatchmakingVisualizer 
                 rankingEngine={rankingEngine}
                 matchData={matchData}
@@ -664,15 +753,37 @@ const EnhancedMatchmakingPage = () => {
           </div>
         )}
         
-        {activeTab === 'analytics' && playerData && (
-          <PlayerPerformanceAnalytics 
-            rankingEngine={rankingEngine}
-            playerData={playerData}
-          />
+        {activeTab === 'analytics' && (
+          <div className="mobile-analytics-container">
+            {!isAuthenticated ? (
+              <div className="mobile-auth-notification esoteric-card">
+                <h2 className="esoteric-rune">Authentication Required</h2>
+                <p className="esoteric-text-muted">
+                  You need to be logged in to view your performance analytics.
+                </p>
+                <button 
+                  className="mobile-btn mobile-btn-primary esoteric-btn"
+                  onClick={() => navigate('/login')}
+                >
+                  Log In
+                </button>
+              </div>
+            ) : playerData ? (
+              <PlayerPerformanceAnalytics 
+                rankingEngine={rankingEngine}
+                playerData={playerData}
+              />
+            ) : (
+              <div className="mobile-loading">
+                <div className="mobile-spinner esoteric-spinner"></div>
+                <p className="esoteric-text-muted">Loading analytics data...</p>
+              </div>
+            )}
+          </div>
         )}
       </ErrorBoundary>
     </div>
   );
 };
 
-export default EnhancedMatchmakingPage;
+export default UnifiedMatchmakingPage;

@@ -41,7 +41,7 @@ import MobileRules from './pages/MobileRules';
 import MobilePhysicalMatchmakingPage from './pages/MobilePhysicalMatchmakingPage';
 import Matchmaking from './pages/Matchmaking';
 import MobileMatchmaking from './pages/MobileMatchmaking';
-import EnhancedMatchmakingPage from './pages/EnhancedMatchmakingPage';
+import UnifiedMatchmakingPage from './pages/UnifiedMatchmakingPage';
 import IndustryLeadingFeaturesPage from './pages/IndustryLeadingFeaturesPage';
 
 import BattlePass from './pages/BattlePass';
@@ -88,9 +88,8 @@ function App() {
                   <Route path="/battle-pass" element={<BattlePass />} />
                   <Route path="/battle-pass-dashboard" element={<BattlePassDashboard />} />
 
-                  {/* Matchmaking System */}
-                  <Route path="/matchmaking" element={<MobileMatchmaking />} />
-                  <Route path="/enhanced-matchmaking" element={<EnhancedMatchmakingPage />} />
+                  {/* Unified Matchmaking System */}
+                  <Route path="/matchmaking" element={<UnifiedMatchmakingPage />} />
                   
                   {/* Industry-Leading Features - All Free */}
                   <Route path="/industry-features" element={<IndustryLeadingFeaturesPage />} />
