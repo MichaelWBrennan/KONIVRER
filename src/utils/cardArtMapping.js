@@ -53,23 +53,61 @@ export const getCardIdFromArtName = (cardArtName) => {
   
   // Try with special character handling for specific cases
   const specialMappings = {
-    'PhVE_ELEMENT_PhLAG': 'pm-flag',
-    'FIVE_ELEMENT_FLAG': 'pm-flag',
-    'SOLAR_': 'SOLAR', // Handle trailing underscore
+    'PhVE_ELEMENT_PhLAG': 'ΦIVE ELEMENT ΦLAG',
+    'FIVE_ELEMENT_FLAG': 'ΦIVE ELEMENT ΦLAG',
+    'AZOTH': 'AZOΘ',
+    'SOLAR_': 'SOLAR ☉',
   };
   
   if (specialMappings[cleanName]) {
     const mappedName = specialMappings[cleanName];
-    return CARD_NAME_TO_ID_MAP.get(mappedName) || mappedName;
+    return CARD_NAME_TO_ID_MAP.get(mappedName);
+  }
+  
+  // Try converting art name back to database format with Greek letters
+  const greekConversion = cleanName
+    .replace(/Ph/g, 'Φ')
+    .replace(/TH/g, 'Θ')
+    .replace(/BRIGT/g, 'BRIΓT')  // Handle BRIGT -> BRIΓT
+    .replace(/LIGTNING/g, 'LIΓTNING')  // Handle LIGTNING -> LIΓTNING specifically
+    .replace(/_/g, ' ');
+  
+  if (CARD_NAME_TO_ID_MAP.has(greekConversion)) {
+    return CARD_NAME_TO_ID_MAP.get(greekConversion);
   }
   
   // For variant cards (BRIGT_, DARK_, XAOS_), try to find the base card
   if (cleanName.includes('_')) {
     const parts = cleanName.split('_');
     if (parts.length >= 2) {
+      const prefix = parts[0];
       const baseCardName = parts.slice(1).join('_'); // Remove prefix
+      
+      // Convert prefix to Greek letters and try with space
+      const greekPrefix = prefix
+        .replace(/Ph/g, 'Φ')
+        .replace(/TH/g, 'Θ')
+        .replace(/BRIGT/g, 'BRIΓT');
+      
+      const greekBaseCard = baseCardName
+        .replace(/Ph/g, 'Φ')
+        .replace(/TH/g, 'Θ')
+        .replace(/LIGTNING/g, 'LIΓTNING')
+        .replace(/_/g, ' ');
+      
+      const fullGreekName = `${greekPrefix} ${greekBaseCard}`;
+      
+      if (CARD_NAME_TO_ID_MAP.has(fullGreekName)) {
+        return CARD_NAME_TO_ID_MAP.get(fullGreekName);
+      }
+      
+      // Try just the base card name
       if (CARD_NAME_TO_ID_MAP.has(baseCardName)) {
         return CARD_NAME_TO_ID_MAP.get(baseCardName);
+      }
+      
+      if (CARD_NAME_TO_ID_MAP.has(greekBaseCard)) {
+        return CARD_NAME_TO_ID_MAP.get(greekBaseCard);
       }
     }
   }
