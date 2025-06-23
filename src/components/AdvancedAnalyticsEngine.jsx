@@ -814,9 +814,7 @@ function predictMetagameShifts(matches, timeRange) {
         name: "Tempo Aggro",
         growthRate: 15,
         reason: "Effective against current control meta",
-        timeToP
-
-eak: 3
+        timeToPeak: 3
       }
     ],
     decliningArchetypes: [
