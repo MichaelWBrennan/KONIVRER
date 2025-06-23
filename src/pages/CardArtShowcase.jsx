@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CardArtGallery, CardArtPreview } from '../components/cards/CardArtDisplay';
-import { Grid, List, Search, Filter, Eye } from 'lucide-react';
+import { getAllCardArtsWithData } from '../utils/cardArtMapping';
+import { Grid, List, Search, Filter, Eye, ExternalLink, Database } from 'lucide-react';
 
 /**
  * CardArtShowcase - Demo page to showcase the KONIVRER card arts
@@ -11,23 +12,11 @@ const CardArtShowcase = () => {
   const [selectedCard, setSelectedCard] = useState('ABISS');
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [showOnlyLinked, setShowOnlyLinked] = useState(false);
 
-  // All available card names
-  const allCards = [
-    'ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH',
-    'BRIGT_DVST', 'BRIGT_FVLGVRITE', 'BRIGT_LAHAR', 'BRIGT_LAVA', 'BRIGT_LIGTNING',
-    'BRIGT_MVD', 'BRIGT_PERMAPhROST', 'BRIGT_STEAM', 'BRIGT_THVNDERSNOVV',
-    'DARK_DVST', 'DARK_FVLGVRITE', 'DARK_ICE', 'DARK_LAHAR', 'DARK_LAVA',
-    'DARK_LIGTNING', 'DARK_THVNDERSNOVV', 'DARK_TIPhOON',
-    'DVST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
-    'LIGHT_TIPhOON', 'LIGTNING', 'MAGMA', 'MIASMA', 'MVD', 'NEKROSIS',
-    'PERMAPhROST', 'RAINBOVV', 'SALAMANDER', 'SILPh', 'SMOKE', 'SOLAR_',
-    'STEAM', 'STORM', 'TAR', 'TIPhOON', 'VNDINE', 'XAOS',
-    'XAOS_DVST', 'XAOS_FVLGVRITE', 'XAOS_GNOME', 'XAOS_ICE', 'XAOS_LAVA',
-    'XAOS_LIGTNING', 'XAOS_MIST', 'XAOS_MVD', 'XAOS_PERMAPhROST',
-    'XAOS_SALAMANDER', 'XAOS_SILPh', 'XAOS_STEAM', 'XAOS_THVNDERSNOVV',
-    'XAOS_VNDINE', 'SADE', 'PhVE_ELEMENT_PhLAG'
-  ];
+  // Get all card arts with their database status
+  const allCardArts = getAllCardArtsWithData();
+  const allCards = allCardArts.map(art => art.artName);
 
   // Categorize cards
   const categories = {
@@ -45,10 +34,22 @@ const CardArtShowcase = () => {
     special: ['PhVE_ELEMENT_PhLAG']
   };
 
-  // Filter cards based on search and category
-  const filteredCards = categories[categoryFilter].filter(card =>
-    card.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter cards based on search, category, and database status
+  const filteredCards = categories[categoryFilter].filter(card => {
+    const matchesSearch = card.toLowerCase().includes(searchQuery.toLowerCase());
+    if (!matchesSearch) return false;
+    
+    if (showOnlyLinked) {
+      const cardArt = allCardArts.find(art => art.artName === card);
+      return cardArt && cardArt.hasData;
+    }
+    
+    return true;
+  });
+
+  // Get statistics
+  const linkedCards = allCardArts.filter(art => art.hasData).length;
+  const artOnlyCards = allCardArts.length - linkedCards;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -60,9 +61,21 @@ const CardArtShowcase = () => {
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"
         >
           <h1 className="text-4xl font-bold text-white mb-2">KONIVRER Card Art Showcase</h1>
-          <p className="text-gray-300">
+          <p className="text-gray-300 mb-4">
             Explore the complete collection of {allCards.length} card arts for the KONIVRER deck database.
           </p>
+          
+          {/* Statistics */}
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="bg-green-600/20 text-green-400 px-3 py-1 rounded-full">
+              <Database className="w-4 h-4 inline mr-1" />
+              {linkedCards} Linked to Database
+            </div>
+            <div className="bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full">
+              <ExternalLink className="w-4 h-4 inline mr-1" />
+              {artOnlyCards} Art Only
+            </div>
+          </div>
         </motion.div>
 
         {/* Controls */}
@@ -103,6 +116,20 @@ const CardArtShowcase = () => {
               </select>
             </div>
 
+            {/* Database Filter */}
+            <div className="flex items-center space-x-2">
+              <label className="flex items-center space-x-2 text-gray-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showOnlyLinked}
+                  onChange={(e) => setShowOnlyLinked(e.target.checked)}
+                  className="rounded border-gray-600 bg-gray-800 text-purple-600 focus:ring-purple-500"
+                />
+                <Database className="w-4 h-4" />
+                <span className="text-sm">Linked only</span>
+              </label>
+            </div>
+
             {/* View Mode */}
             <div className="flex items-center space-x-2">
               <button
@@ -138,7 +165,12 @@ const CardArtShowcase = () => {
         >
           {viewMode === 'gallery' ? (
             <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6">
-              <CardArtGallery cards={filteredCards} columns={5} />
+              <CardArtGallery 
+                cards={filteredCards} 
+                columns={5} 
+                showCardInfo={true}
+                clickable={true}
+              />
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -147,26 +179,34 @@ const CardArtShowcase = () => {
                 <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 max-h-96 overflow-y-auto">
                   <h3 className="text-lg font-bold text-white mb-4">Select Card</h3>
                   <div className="space-y-2">
-                    {filteredCards.map(card => (
-                      <button
-                        key={card}
-                        onClick={() => setSelectedCard(card)}
-                        className={`w-full text-left px-3 py-2 rounded transition-colors ${
-                          selectedCard === card
-                            ? 'bg-purple-600 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                        }`}
-                      >
-                        {card.replace(/_/g, ' ')}
-                      </button>
-                    ))}
+                    {filteredCards.map(card => {
+                      const cardArt = allCardArts.find(art => art.artName === card);
+                      return (
+                        <button
+                          key={card}
+                          onClick={() => setSelectedCard(card)}
+                          className={`w-full text-left px-3 py-2 rounded transition-colors ${
+                            selectedCard === card
+                              ? 'bg-purple-600 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>{cardArt?.displayName || card.replace(/_/g, ' ')}</span>
+                            {cardArt?.hasData && (
+                              <Database className="w-4 h-4 text-green-400" />
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
 
               {/* Card Preview */}
               <div className="lg:col-span-2">
-                <CardArtPreview cardName={selectedCard} />
+                <CardArtPreview cardName={selectedCard} clickable={true} />
               </div>
             </div>
           )}
@@ -180,15 +220,30 @@ const CardArtShowcase = () => {
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mt-6"
         >
           <h2 className="text-2xl font-bold text-white mb-4">Usage Instructions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-300">
             <div>
-              <h3 className="text-lg font-semibold text-white mb-2">In React Components</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">Clickable Card Art</h3>
               <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto">
 {`import CardArtDisplay from './CardArtDisplay';
 
 <CardArtDisplay 
   cardName="ABISS" 
-  className="w-48 h-64" 
+  className="w-48 h-64"
+  clickable={true}
+  showCardInfo={true}
+/>`}
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">Card Art Gallery</h3>
+              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto">
+{`import { CardArtGallery } from './CardArtDisplay';
+
+<CardArtGallery 
+  cards={['ABISS', 'ANGEL']}
+  columns={4}
+  clickable={true}
+  showCardInfo={true}
 />`}
               </pre>
             </div>
@@ -200,6 +255,20 @@ const CardArtShowcase = () => {
 /assets/cards/PhVE_ELEMENT_PhLAG[face,6].png`}
               </pre>
             </div>
+          </div>
+          
+          <div className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30">
+            <h3 className="text-lg font-semibold text-blue-400 mb-2 flex items-center">
+              <ExternalLink className="w-5 h-5 mr-2" />
+              Card Linking Features
+            </h3>
+            <ul className="text-sm text-gray-300 space-y-1">
+              <li>• Cards with database entries are automatically clickable</li>
+              <li>• Hover over cards to see "View Details" overlay</li>
+              <li>• Green database icon indicates linked cards</li>
+              <li>• Yellow "Art Only" badge for cards without database entries</li>
+              <li>• Use the "Linked only" filter to show only cards with database entries</li>
+            </ul>
           </div>
         </motion.div>
       </div>

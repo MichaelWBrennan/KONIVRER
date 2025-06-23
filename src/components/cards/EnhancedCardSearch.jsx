@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
+import CardArtDisplay from './CardArtDisplay';
+import { getArtNameFromCardData, cardDataHasArt } from '../../utils/cardArtMapping';
 import { 
   Search, 
   Filter, 
@@ -690,12 +692,23 @@ const CardGridItem = ({
       className={`relative bg-gray-800 rounded-lg border-2 ${getRarityColor(card.rarity)} overflow-hidden cursor-pointer`}
       onClick={onView}
     >
-      {/* Card Image Placeholder */}
-      <div className="aspect-[3/4] bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-        <div className="text-white text-center p-2">
-          <div className="font-bold text-sm mb-1">{card.name}</div>
-          <div className="text-xs opacity-75">{card.cost}</div>
-        </div>
+      {/* Card Image */}
+      <div className="aspect-[3/4] relative">
+        {cardDataHasArt(card) ? (
+          <CardArtDisplay
+            cardName={getArtNameFromCardData(card)}
+            className="w-full h-full"
+            clickable={false}
+            showFallback={true}
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
+            <div className="text-white text-center p-2">
+              <div className="font-bold text-sm mb-1">{card.name}</div>
+              <div className="text-xs opacity-75">{card.cost}</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Card Info */}
