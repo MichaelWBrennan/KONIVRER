@@ -10,20 +10,18 @@ import '../styles/esoteric-theme.css';
 
 const MobileFirstLayout = ({ children }) => {
   const location = useLocation();
-  const { user, logout, isAuthenticated, loading } = useAuth();
+  const auth = useAuth();
+  const { user, logout, isAuthenticated, loading } = auth;
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
-  // Get the AuthContext directly to modify its value
-  const authContext = useContext(AuthContext);
-  
-  // Update the setShowAuthModal function in the AuthContext
+  // Update the setShowAuthModal function in the auth object
   useEffect(() => {
-    if (authContext) {
-      authContext.setShowAuthModal = setShowAuthModal;
+    if (auth) {
+      auth.setShowAuthModal = setShowAuthModal;
     }
-  }, [authContext]);
+  }, [auth]);
 
   // Detect PWA status
   useEffect(() => {
