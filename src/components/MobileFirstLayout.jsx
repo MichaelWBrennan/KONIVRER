@@ -75,8 +75,7 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Home', path: '/' },
     { name: 'Cards', path: '/cards' },
     { name: 'Decks', path: '/decks' },
-    { name: 'Play', path: '/game/online' },
-    { name: 'Match', path: '/matchmaking' },
+    { name: 'Play', path: '/game/online', altPaths: ['/matchmaking'] }, // Combined Play and Match
     { name: 'Enhanced', path: '/enhanced-matchmaking' },
     { name: 'Rules', path: '/rules' }
   ];
@@ -87,16 +86,26 @@ const MobileFirstLayout = ({ children }) => {
     
     const currentRoute = navigationItems.find(item => 
       location.pathname === item.path || 
-      (item.path !== '/' && location.pathname.startsWith(item.path))
+      (item.path !== '/' && location.pathname.startsWith(item.path)) ||
+      (item.altPaths && item.altPaths.some(altPath => location.pathname.startsWith(altPath)))
     );
+    
+    // Special case for matchmaking
+    if (location.pathname.startsWith('/matchmaking')) {
+      return 'Play';
+    }
     
     return currentRoute ? currentRoute.name : 'KONIVRER';
   };
 
   // Check if a navigation item is active
-  const isActive = (path) => {
+  const isActive = (path, altPaths = []) => {
     if (path === '/' && location.pathname === '/') return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
+    // Check alternative paths
+    if (altPaths && altPaths.length > 0) {
+      return altPaths.some(altPath => location.pathname.startsWith(altPath));
+    }
     return false;
   };
 
@@ -137,7 +146,7 @@ const MobileFirstLayout = ({ children }) => {
             <Link
               key={item.name}
               to={item.path}
-              className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}
+              className={`mobile-nav-item ${isActive(item.path, item.altPaths) ? 'active' : ''}`}
               onClick={() => analytics.navigationClick(item.path, location.pathname)}
             >
               <div className="mobile-nav-item-text">

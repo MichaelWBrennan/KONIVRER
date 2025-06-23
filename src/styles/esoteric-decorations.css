@@ -122,7 +122,6 @@
 
 .esoteric-quote::before,
 .esoteric-quote::after {
-  content: """;
   font-size: 4rem;
   font-family: serif;
   position: absolute;
@@ -131,12 +130,13 @@
 }
 
 .esoteric-quote::before {
+  content: "\201C"; /* Left double quotation mark */
   top: -1rem;
   left: 0.5rem;
 }
 
 .esoteric-quote::after {
-  content: """;
+  content: "\201D"; /* Right double quotation mark */
   bottom: -2rem;
   right: 0.5rem;
 }
