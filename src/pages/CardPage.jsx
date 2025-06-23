@@ -24,6 +24,8 @@ import {
   Upload,
 } from 'lucide-react';
 import cardsData from '../data/cards.json';
+import { getArtNameFromCardData, cardDataHasArt } from '../utils/cardArtMapping';
+import CardArtDisplay from '../components/cards/CardArtDisplay';
 
 const CardPage = () => {
   const { cardId } = useParams();
@@ -236,17 +238,26 @@ const CardPage = () => {
             <div className="sticky top-32">
               {/* Card Image */}
               <div className="bg-card rounded-lg p-6 mb-6">
-                <div className="aspect-[3/4] bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg mb-4">
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">🎴</div>
-                    <div className="text-lg font-medium text-gray-600">
-                      {card.name}
-                    </div>
-                    <div className="text-sm text-gray-500 mt-2">
-                      Card Artwork
+                {cardDataHasArt(card) ? (
+                  <CardArtDisplay
+                    cardName={getArtNameFromCardData(card)}
+                    className="aspect-[3/4] shadow-lg"
+                    clickable={false}
+                    showFallback={true}
+                  />
+                ) : (
+                  <div className="aspect-[3/4] bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg">
+                    <div className="text-center">
+                      <div className="text-6xl mb-4">🎴</div>
+                      <div className="text-lg font-medium text-gray-600">
+                        {card.name}
+                      </div>
+                      <div className="text-sm text-gray-500 mt-2">
+                        Card Artwork Coming Soon
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
