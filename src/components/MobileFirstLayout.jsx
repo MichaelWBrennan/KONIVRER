@@ -76,7 +76,6 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Cards', path: '/cards' },
     { name: 'Decks', path: '/decks' },
     { name: 'Play', path: '/game/online', altPaths: ['/matchmaking'] }, // Combined Play and Match
-    { name: 'Enhanced', path: '/enhanced-matchmaking' },
     { name: 'Rules', path: '/rules' }
   ];
 
