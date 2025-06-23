@@ -7,6 +7,8 @@ A professional deck building and card database application for the KONIVRER trad
 - **Modern React Frontend**: Built with React 18 and modern hooks
 - **Professional Deck Builder**: Drag-and-drop interface with real-time validation
 - **Comprehensive Card Database**: Search, filter, and browse all cards
+- **Complete Card Art Collection**: 64 high-quality card arts (825x1125px RGBA)
+- **Card Art Display Components**: Ready-to-use React components for card visualization
 - **Responsive Design**: Works seamlessly on desktop and mobile
 - **Fast Performance**: Optimized with Vite for lightning-fast development and builds
 - **Type Safety**: TypeScript support for better development experience
@@ -40,10 +42,13 @@ A professional deck building and card database application for the KONIVRER trad
 ```
 konivrer-deck-database/
 ├── public/                 # Static assets
+│   ├── assets/
+│   │   └── cards/         # KONIVRER card art collection (64 PNG files)
 │   └── index.html         # Main HTML template
 ├── src/                   # Source code
 │   ├── components/        # Reusable React components
-│   ├── pages/            # Page components
+│   │   └── cards/         # Card-related components (CardArtDisplay, etc.)
+│   ├── pages/            # Page components (CardArtShowcase, etc.)
 │   ├── config/           # Configuration files
 │   ├── utils/            # Utility functions
 │   ├── hooks/            # Custom React hooks
@@ -127,6 +132,50 @@ npm run quality:full
 # Security audit
 npm run security:audit
 ```
+
+## 🎨 Card Arts
+
+The repository includes a complete collection of 64 high-quality KONIVRER card arts located in `public/assets/cards/`.
+
+### Card Categories
+
+- **Characters**: ABISS, ANGEL, ASH, AVRORA, AZOTH, GNOME, SALAMANDER, SILPh, VNDINE, SADE
+- **Elemental**: DVST, ICE, LAHAR, LAVA, LIGTNING, STEAM, FOG, FROST, etc.
+- **Bright Variants**: BRIGT_DVST, BRIGT_FVLGVRITE, BRIGT_LAHAR, etc.
+- **Dark Variants**: DARK_DVST, DARK_FVLGVRITE, DARK_ICE, etc.
+- **Chaos Variants**: XAOS_DVST, XAOS_LAVA, XAOS_GNOME, etc.
+- **Special**: PhVE_ELEMENT_PhLAG
+
+### Using Card Arts
+
+#### React Components
+
+```jsx
+import CardArtDisplay from './components/cards/CardArtDisplay';
+
+// Display a single card
+<CardArtDisplay cardName="ABISS" className="w-48 h-64" />
+
+// Display multiple cards
+import { CardArtGallery } from './components/cards/CardArtDisplay';
+<CardArtGallery cards={['ABISS', 'ANGEL', 'ASH']} columns={3} />
+```
+
+#### Direct Image Paths
+
+```
+/assets/cards/ABISS[face,1].png
+/assets/cards/XAOS_LAVA[face,1].png
+/assets/cards/PhVE_ELEMENT_PhLAG[face,6].png
+```
+
+### Card Art Showcase
+
+Visit the `CardArtShowcase` page to explore all card arts with:
+- Search and filter functionality
+- Category-based filtering
+- Gallery and preview modes
+- Usage examples
 
 ## 🌐 Deployment
 
