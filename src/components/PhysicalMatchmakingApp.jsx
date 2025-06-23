@@ -1144,7 +1144,7 @@ const PhysicalMatchmakingApp = () => {
         </div>
       </div>
     );
-  }, [isImporting, importData, importError, handleImport]);
+  }, [isImporting, importDataText, importError, handleImport]);
 
   // Render QR code modal
   const renderQRCodeModal = useCallback(() => {
