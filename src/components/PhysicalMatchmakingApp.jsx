@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { PhysicalMatchmakingContext } from '../contexts/PhysicalMatchmakingContext';
+import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import QRCode from 'react-qr-code';
 import '../styles/mobile-first.css';
 import '../styles/esoteric-theme.css';
@@ -30,7 +30,7 @@ const PhysicalMatchmakingApp = () => {
     exportData,
     importData,
     analytics
-  } = useContext(PhysicalMatchmakingContext);
+  } = usePhysicalMatchmaking();
 
   // UI state
   const [activeTab, setActiveTab] = useState('players');
@@ -41,7 +41,7 @@ const PhysicalMatchmakingApp = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [qrCodeData, setQRCodeData] = useState('');
   const [isImporting, setIsImporting] = useState(false);
-  const [importData, setImportData] = useState('');
+  const [importDataText, setImportDataText] = useState('');
   const [importError, setImportError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -254,13 +254,13 @@ const PhysicalMatchmakingApp = () => {
 
   // Handle data import with improved error handling
   const handleImport = useCallback(() => {
-    if (!importData || importData.trim() === '') {
+    if (!importDataText || importDataText.trim() === '') {
       setImportError('Please enter JSON data to import');
       return;
     }
     
     try {
-      const data = JSON.parse(importData);
+      const data = JSON.parse(importDataText);
       
       // Validate data structure
       if (!data || typeof data !== 'object') {
@@ -276,13 +276,13 @@ const PhysicalMatchmakingApp = () => {
       
       importData(data);
       setIsImporting(false);
-      setImportData('');
+      setImportDataText('');
       setImportError('');
     } catch (error) {
       console.error('Error importing data:', error);
       setImportError(`Invalid JSON data: ${error.message || 'Unknown error'}`);
     }
-  }, [importData]);
+  }, [importDataText, importData]);
 
   // Handle player deletion with confirmation
   const handleDeletePlayer = useCallback((player) => {
