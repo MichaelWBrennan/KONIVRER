@@ -32,10 +32,18 @@ const CardArtDisplay = ({
   // Set up the image source when the component mounts or cardName changes
   useEffect(() => {
     if (cardName) {
-      setImageSrc(getCardImagePath(cardName));
-      setImageError(false);
-      setImageLoaded(false);
-      setFallbackAttempted(false);
+      const imagePath = getCardImagePath(cardName);
+      if (imagePath) {
+        setImageSrc(imagePath);
+        setImageError(false);
+        setImageLoaded(false);
+        setFallbackAttempted(false);
+      } else {
+        // No image path available, show fallback immediately
+        setImageError(true);
+        setImageLoaded(false);
+        setFallbackAttempted(false);
+      }
     }
   }, [cardName]);
 

@@ -53,7 +53,7 @@ export const preloadCardImages = (cardNames) => {
  * @returns {string|null} - Image path or null if name is invalid
  */
 export const getCardImagePath = (name) => {
-  if (!name) return '/assets/card-back.jpg';
+  if (!name) return null;
   
   // Check if we have a direct mapping
   const filename = CARD_FILENAME_MAP[name];
@@ -61,9 +61,9 @@ export const getCardImagePath = (name) => {
     return `/assets/cards/${filename}`;
   }
   
-  // Fallback to card-back.jpg for any unmapped cards
-  console.log(`No mapping found for card: ${name}, using card-back.jpg`);
-  return '/assets/card-back.jpg';
+  // Return null for unmapped cards - let the component handle the fallback
+  console.log(`No mapping found for card: ${name}, will use component fallback`);
+  return null;
 };
 
 /**
@@ -72,8 +72,8 @@ export const getCardImagePath = (name) => {
  * @returns {Array} - Array of fallback paths to try
  */
 export const getFallbackImagePaths = (imagePath) => {
-  // Always return card-back.jpg as the only fallback
-  return ['/assets/card-back.jpg'];
+  // No external fallbacks - let the component handle it
+  return [];
 };
 
 export default {
