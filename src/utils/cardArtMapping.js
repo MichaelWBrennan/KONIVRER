@@ -29,7 +29,7 @@ const CARD_NAME_TO_ID_MAP = createCardNameToIdMap();
 
 /**
  * Convert card art filename to card database ID
- * @param {string} cardArtName - The card art name (e.g., "ABISS", "XAOS_LAVA")
+ * @param {string} cardArtName - The card art name (e.g., "ABISS", "CHAOSLAVA")
  * @returns {string|null} - The card database ID or null if not found
  */
 export const getCardIdFromArtName = (cardArtName) => {
@@ -80,7 +80,7 @@ export const getCardIdFromArtName = (cardArtName) => {
     return CARD_NAME_TO_ID_MAP.get(greekConversion);
   }
   
-  // For variant cards (BRIGT_, DARK_, XAOS_), try to find the base card
+  // For variant cards (BRIGHT*, DARK*, CHAOS*), try to find the base card
   if (cleanName.includes('_')) {
     const parts = cleanName.split('_');
     if (parts.length >= 2) {
