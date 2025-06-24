@@ -62,7 +62,7 @@ export const getCardImagePath = (name) => {
   }
   
   // Return null for unmapped cards - let the component handle the fallback
-  console.log(`No mapping found for card: ${name}, will use component fallback`);
+  console.log(`🚫 imageLoader: No mapping found for card: "${name}", will use CSS fallback`);
   return null;
 };
 
