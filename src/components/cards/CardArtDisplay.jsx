@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink, Eye } from 'lucide-react';
 import { getCardDetailUrl, hasCardData, getCardDisplayName } from '../../utils/cardArtMapping';
+import { getCardImagePath, getFallbackImagePaths } from '../../utils/imageLoader';
 
 /**
  * CardArtDisplay - Component to display KONIVRER card arts
@@ -38,51 +39,6 @@ const CardArtDisplay = ({
     }
   }, [cardName]);
 
-  // Generate the image path based on card name
-  const getCardImagePath = (name) => {
-    if (!name) return null;
-    
-    // Convert card name to ASCII filename format
-    let filename = name
-      // Convert Greek letters to ASCII equivalents
-      .replace(/Γ/g, 'G')
-      .replace(/Φ/g, 'Ph')
-      .replace(/Θ/g, 'TH')
-      .replace(/Σ/g, 'S')
-      // Replace spaces with underscores for variant cards
-      .replace(/\s+/g, '_');
-    
-    // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
-    if (name === 'ΦIVE ELEMENT ΦLAG') {
-      filename = 'PhVE_ELEMENT_PhLAG';
-      const path = `/assets/cards/${filename}_face_6.png`;
-      console.log(`CardArtDisplay: ${name} -> ${path}`);
-      return `${path}?t=${Date.now()}`;
-    }
-    
-    // Handle specific filename corrections for production environment
-    if (filename.includes('PERMAPHROST')) {
-      filename = filename.replace('PERMAPHROST', 'PERMAPhROST');
-    }
-    
-    if (filename.includes('TIPHOON')) {
-      filename = filename.replace('TIPHOON', 'TIPhOON');
-    }
-    
-    if (filename.includes('SILPH')) {
-      filename = filename.replace('SILPH', 'SILPh');
-    }
-    
-    // Create the path with the corrected filename
-    const path = `/assets/cards/${filename}_face_1.png`;
-    
-    // Log the path for debugging
-    console.log(`CardArtDisplay: ${name} -> ${path}`);
-    
-    // Add a timestamp to prevent caching issues
-    return `${path}?t=${Date.now()}`;
-  };
-
   const handleImageError = (e) => {
     console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
     
@@ -101,27 +57,50 @@ const CardArtDisplay = ({
     if (!fallbackAttempted) {
       setFallbackAttempted(true);
       
-      // Try lowercase version of the filename
-      const currentPath = e.target.src.split('?')[0]; // Remove query params
-      const filename = currentPath.split('/').pop().split('_face_')[0];
-      const lowercaseFilename = filename.toLowerCase();
+      // Get all fallback paths to try
+      const fallbackPaths = getFallbackImagePaths(e.target.src);
       
-      if (filename !== lowercaseFilename) {
-        // Try lowercase version
-        const newPath = `/assets/cards/${lowercaseFilename}_face_1.png?t=${Date.now()}`;
-        console.log(`Trying lowercase fallback: ${newPath}`);
-        setImageSrc(newPath);
+      if (fallbackPaths.length > 0) {
+        // Try the first fallback path
+        const fallbackPath = fallbackPaths[0];
+        console.log(`Trying fallback: ${fallbackPath}`);
+        
+        // Store the remaining fallbacks in a data attribute for future attempts
+        e.target.dataset.fallbacks = JSON.stringify(fallbackPaths.slice(1));
+        
+        setImageSrc(fallbackPath);
         return;
       }
       
-      // Try with different face number
-      const alternateFacePath = `/assets/cards/${filename}_face_2.png?t=${Date.now()}`;
-      console.log(`Trying alternate face: ${alternateFacePath}`);
-      setImageSrc(alternateFacePath);
-      return;
+      // Special case for ΦIVE ELEMENT ΦLAG
+      if (cardName === 'ΦIVE ELEMENT ΦLAG') {
+        const specialFallback = `/assets/cards/PHIVE_ELEMENT_PHLAG_face_6.png?t=${Date.now()}`;
+        console.log(`Trying special fallback for ΦIVE ELEMENT ΦLAG: ${specialFallback}`);
+        setImageSrc(specialFallback);
+        return;
+      }
+    } else {
+      // Check if we have more fallbacks to try
+      try {
+        const remainingFallbacks = JSON.parse(e.target.dataset.fallbacks || '[]');
+        
+        if (remainingFallbacks.length > 0) {
+          // Try the next fallback
+          const nextFallback = remainingFallbacks.shift();
+          console.log(`Trying next fallback: ${nextFallback}`);
+          
+          // Update the remaining fallbacks
+          e.target.dataset.fallbacks = JSON.stringify(remainingFallbacks);
+          
+          setImageSrc(nextFallback);
+          return;
+        }
+      } catch (error) {
+        console.error('Error parsing fallbacks:', error);
+      }
     }
     
-    // If we've already tried fallbacks, show the error state
+    // If we've exhausted all fallbacks, show the error state
     setImageError(true);
   };
 
