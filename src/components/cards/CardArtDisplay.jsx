@@ -31,14 +31,30 @@ const CardArtDisplay = ({
     // Most cards follow the pattern: CARDNAME_face_1.png
     // Special case for the flag card which is _face_6
     const suffix = name === 'PhVE_ELEMENT_PhLAG' ? '_face_6.png' : '_face_1.png';
-    return `/assets/cards/${name}${suffix}`;
+    const path = `/assets/cards/${name}${suffix}`;
+    
+    // Debug logging for production issues
+    if (process.env.NODE_ENV === 'production') {
+      console.log(`CardArtDisplay: Generating path for "${name}" -> "${path}"`);
+    }
+    
+    return path;
   };
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
+    console.error(`CardArtDisplay: Image failed to load for "${cardName}"`, {
+      src: e.target.src,
+      error: e.type,
+      cardName
+    });
     setImageError(true);
   };
 
-  const handleImageLoad = () => {
+  const handleImageLoad = (e) => {
+    console.log(`CardArtDisplay: Image loaded successfully for "${cardName}"`, {
+      src: e.target.src,
+      cardName
+    });
     setImageLoaded(true);
   };
 
