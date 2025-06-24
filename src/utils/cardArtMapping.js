@@ -211,8 +211,13 @@ export const getAllCardArtsWithData = () => {
 export const getArtNameFromCardData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  // Simply convert database name to filename format
-  return cardData.name.replace(/ /g, '_');
+  // Convert database name to URL-safe filename format
+  return cardData.name
+    .replace(/Θ/g, 'TH')   // Theta
+    .replace(/Γ/g, 'G')    // Gamma  
+    .replace(/Φ/g, 'PH')   // Phi
+    .replace(/Σ/g, 'S')    // Sigma
+    .replace(/ /g, '_');   // Spaces to underscores
 };
 
 /**
@@ -223,9 +228,15 @@ export const getArtNameFromCardData = (cardData) => {
 export const getCardArtPathFromData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  // Create filename directly from database name
-  const filename = cardData.name.replace(/ /g, '_') + '_face_1.png';
-  return `/assets/cards/${filename}`;
+  // Convert database name to URL-safe filename
+  let filename = cardData.name
+    .replace(/Θ/g, 'TH')   // Theta
+    .replace(/Γ/g, 'G')    // Gamma  
+    .replace(/Φ/g, 'PH')   // Phi
+    .replace(/Σ/g, 'S')    // Sigma
+    .replace(/ /g, '_');   // Spaces to underscores
+  
+  return `/assets/cards/${filename}_face_1.png`;
 };
 
 /**
