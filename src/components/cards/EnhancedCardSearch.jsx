@@ -727,7 +727,7 @@ const CardGridItem = ({
       <div className="aspect-[3/4] relative">
         {cardDataHasArt(card) ? (
           <CardArtDisplay
-            cardName={getArtNameFromCardData(card)}
+            cardName={card.name}
             className="w-full h-full"
             clickable={false}
             showFallback={true}
