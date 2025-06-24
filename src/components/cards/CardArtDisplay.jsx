@@ -57,11 +57,23 @@ const CardArtDisplay = ({
       filename = 'PhVE_ELEMENT_PhLAG';
       const path = `/assets/cards/${filename}_face_6.png`;
       console.log(`CardArtDisplay: ${name} -> ${path}`);
-      return path;
+      return `${path}?t=${Date.now()}`;
     }
     
-    // Try both uppercase and lowercase versions of the filename
-    // This helps with case sensitivity issues in different environments
+    // Handle specific filename corrections for production environment
+    if (filename.includes('PERMAPHROST')) {
+      filename = filename.replace('PERMAPHROST', 'PERMAPhROST');
+    }
+    
+    if (filename.includes('TIPHOON')) {
+      filename = filename.replace('TIPHOON', 'TIPhOON');
+    }
+    
+    if (filename.includes('SILPH')) {
+      filename = filename.replace('SILPH', 'SILPh');
+    }
+    
+    // Create the path with the corrected filename
     const path = `/assets/cards/${filename}_face_1.png`;
     
     // Log the path for debugging
