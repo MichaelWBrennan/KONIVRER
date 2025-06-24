@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
+import { getCardArtPathFromData } from '../utils/cardArtMapping';
 
 const MobileCardExplorer = () => {
   const { cards, loading, error } = useData();
@@ -131,7 +132,7 @@ const MobileCardExplorer = () => {
             className="mobile-game-card mobile-mb"
           >
             <img 
-              src={card.imageUrl} 
+              src={getCardArtPathFromData(card) || '/assets/card-back.jpg'} 
               alt={card.name} 
               className="mobile-game-card-img"
               onError={(e) => {
