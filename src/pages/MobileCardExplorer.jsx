@@ -136,8 +136,12 @@ const MobileCardExplorer = () => {
               alt={card.name} 
               className="mobile-game-card-img"
               onError={(e) => {
+                console.log(`Failed to load image for ${card.name}: ${getCardArtPathFromData(card)}`);
                 e.target.onerror = null;
                 e.target.src = '/assets/card-back-new.png';
+              }}
+              onLoad={(e) => {
+                console.log(`Successfully loaded image for ${card.name}: ${e.target.src}`);
               }}
             />
           </Link>
