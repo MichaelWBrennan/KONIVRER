@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import CardArtDisplay from './CardArtDisplay';
-import { getArtNameFromCardData, cardDataHasArt } from '../../utils/cardArtMapping';
+import { cardDataHasArt } from '../../utils/cardArtMapping';
 import cardsData from '../../data/cards.json';
 import { 
   Search, 
