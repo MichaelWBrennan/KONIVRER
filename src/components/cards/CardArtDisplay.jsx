@@ -41,29 +41,22 @@ const CardArtDisplay = ({
         setImageLoaded(false);
         setFallbackAttempted(false);
       } else {
-        // No image path available, use card-back as fallback
-        console.log(`🎨 CardArtDisplay v2.1: No image mapping for "${cardName}", using card-back fallback`);
-        setImageSrc('/assets/cards/card-back.png');
-        setImageError(false);
+        // No image path available, show CSS fallback immediately
+        console.log(`🎨 CardArtDisplay v2.2: No image mapping for "${cardName}", using CSS fallback`);
+        setImageSrc(null);
+        setImageError(true);
         setImageLoaded(false);
-        setFallbackAttempted(true);
+        setFallbackAttempted(false);
       }
     }
   }, [cardName]);
 
   const handleImageError = (e) => {
-    console.error(`CardArtDisplay v2.1: Image failed to load for ${cardName}:`, e.target.src);
+    console.error(`CardArtDisplay v2.2: Image failed to load for ${cardName}:`, e.target.src);
     
-    // If the failed image wasn't the card-back, try card-back as fallback
-    if (e.target.src && !e.target.src.includes('card-back.png') && !fallbackAttempted) {
-      console.log(`🔄 CardArtDisplay v2.1: Trying card-back fallback for ${cardName}`);
-      setImageSrc('/assets/cards/card-back.png');
-      setFallbackAttempted(true);
-    } else {
-      // If card-back also failed or already tried, show CSS fallback
-      console.log(`🎨 CardArtDisplay v2.1: Using CSS fallback for ${cardName}`);
-      setImageError(true);
-    }
+    // Go straight to CSS fallback for reliability
+    console.log(`🎨 CardArtDisplay v2.2: Using CSS fallback for ${cardName}`);
+    setImageError(true);
   };
 
   const handleImageLoad = (e) => {
