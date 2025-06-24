@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink, Eye } from 'lucide-react';
@@ -20,11 +20,23 @@ const CardArtDisplay = ({
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imageSrc, setImageSrc] = useState('');
+  const [fallbackAttempted, setFallbackAttempted] = useState(false);
 
   // Get card information
   const detailUrl = getCardDetailUrl(cardName);
   const hasData = hasCardData(cardName);
   const displayName = getCardDisplayName(cardName);
+  
+  // Set up the image source when the component mounts or cardName changes
+  useEffect(() => {
+    if (cardName) {
+      setImageSrc(getCardImagePath(cardName));
+      setImageError(false);
+      setImageLoaded(false);
+      setFallbackAttempted(false);
+    }
+  }, [cardName]);
 
   // Generate the image path based on card name
   const getCardImagePath = (name) => {
@@ -48,13 +60,56 @@ const CardArtDisplay = ({
       return path;
     }
     
+    // Try both uppercase and lowercase versions of the filename
+    // This helps with case sensitivity issues in different environments
     const path = `/assets/cards/${filename}_face_1.png`;
+    
+    // Log the path for debugging
     console.log(`CardArtDisplay: ${name} -> ${path}`);
-    return path;
+    
+    // Add a timestamp to prevent caching issues
+    return `${path}?t=${Date.now()}`;
   };
 
   const handleImageError = (e) => {
     console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
+    
+    // Try to fetch the image directly to get more error information
+    fetch(e.target.src)
+      .then(response => {
+        if (!response.ok) {
+          console.error(`Image fetch failed with status: ${response.status} ${response.statusText}`);
+        }
+      })
+      .catch(error => {
+        console.error('Image fetch error:', error);
+      });
+    
+    // Try alternative paths if this is the first error
+    if (!fallbackAttempted) {
+      setFallbackAttempted(true);
+      
+      // Try lowercase version of the filename
+      const currentPath = e.target.src.split('?')[0]; // Remove query params
+      const filename = currentPath.split('/').pop().split('_face_')[0];
+      const lowercaseFilename = filename.toLowerCase();
+      
+      if (filename !== lowercaseFilename) {
+        // Try lowercase version
+        const newPath = `/assets/cards/${lowercaseFilename}_face_1.png?t=${Date.now()}`;
+        console.log(`Trying lowercase fallback: ${newPath}`);
+        setImageSrc(newPath);
+        return;
+      }
+      
+      // Try with different face number
+      const alternateFacePath = `/assets/cards/${filename}_face_2.png?t=${Date.now()}`;
+      console.log(`Trying alternate face: ${alternateFacePath}`);
+      setImageSrc(alternateFacePath);
+      return;
+    }
+    
+    // If we've already tried fallbacks, show the error state
     setImageError(true);
   };
 
@@ -98,7 +153,7 @@ const CardArtDisplay = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <img
-        src={getCardImagePath(cardName)}
+        src={imageSrc}
         alt={`${displayName} card art`}
         onError={handleImageError}
         onLoad={handleImageLoad}
