@@ -49,6 +49,7 @@ import DeckSelectionPage from './pages/DeckSelectionPage';
 import BattlePassDashboard from './components/battlepass/BattlePassDashboard';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import EnhancedCardSearch from './components/cards/EnhancedCardSearch';
+import ImageTest from './components/debug/ImageTest';
 import CardArtShowcase from './pages/CardArtShowcase';
 import CardMaker from './pages/CardMaker';
 import IndustryLeadingGamePlatform from './components/IndustryLeadingGamePlatform';
@@ -116,6 +117,7 @@ function App() {
                   {/* Section Pages */}
                   <Route path="/cards" element={<MobileCardExplorer />} />
                   <Route path="/cards/*" element={<MobileCardExplorer />} />
+                  <Route path="/image-test" element={<ImageTest />} />
                   <Route path="/enhanced-card-search" element={<EnhancedCardSearch />} />
                   <Route path="/card-art-showcase" element={<CardArtShowcase />} />
                   <Route path="/card-maker" element={<CardMaker />} />
