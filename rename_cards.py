@@ -1,187 +1,124 @@
 #!/usr/bin/env python3
 """
-Script to rename card art files to match exact database card names
+Script to rename all card image files to single words
 """
 
 import os
-import json
 import shutil
-from pathlib import Path
 
-# Load card names from database
-with open('src/data/cards.json', 'r', encoding='utf-8') as f:
-    cards_data = json.load(f)
-
-# Extract all card names
-db_card_names = [card['name'] for card in cards_data]
-print(f"Found {len(db_card_names)} cards in database")
-
-# Current card files directory
-cards_dir = Path('public/assets/cards')
-current_files = list(cards_dir.glob('*.png'))
-
-print(f"Found {len(current_files)} PNG files")
-
-# Create mapping from current filenames to database names
-filename_to_db_name = {
-    # Direct matches (no changes needed)
-    'ABISS': 'ABISS',
-    'ANGEL': 'ANGEL', 
-    'ASH': 'ASH',
-    'AVRORA': 'AVRORA',
-    'FROST': 'FROST',
-    'DVST': 'DVST',
-    'EMBERS': 'EMBERS',
-    'FOG': 'FOG',
-    'GEODE': 'GEODE',
-    'GNOME': 'GNOME',
-    'ICE': 'ICE',
-    'LAHAR': 'LAHAR',
-    'MAGMA': 'MAGMA',
-    'MIASMA': 'MIASMA',
-    'MVD': 'MVD',
-    'NEKROSIS': 'NEKROSIS',
-    'RAINBOVV': 'RAINBOVV',
-    'SALAMANDER': 'SALAMANDER',
-    'SMOKE': 'SMOKE',
-    'STEAM': 'STEAM',
-    'STORM': 'STORM',
-    'TAR': 'TAR',
-    'VNDINE': 'VNDINE',
-    'XAOS': 'XAOS',
+# Mapping from current filename to new single-word filename
+RENAME_MAP = {
+    'ABISS_face_1.png': 'ABISS.png',
+    'ANGEL_face_1.png': 'ANGEL.png',
+    'ASH_face_1.png': 'ASH.png',
+    'AVRORA_face_1.png': 'AURORA.png',
+    'AZOTH_face_1.png': 'AZOTH.png',
     
-    # Greek letter conversions
-    'AZOTH': 'AZOΘ',
-    'SADE': 'ΣADE',
-    'SOLAR_': 'SOLAR ☉',
+    # Bright variants
+    'BRIGT_DVST_face_1.png': 'BRIGHTDUST.png',
+    'BRIGT_FVLGVRITE_face_1.png': 'BRIGHTFULGURITE.png',
+    'BRIGT_LAHAR_face_1.png': 'BRIGHTLAHAR.png',
+    'BRIGT_LAVA_face_1.png': 'BRIGHTLAVA.png',
+    'BRIGT_LIGTNING_face_1.png': 'BRIGHTLIGHTNING.png',
+    'BRIGT_MVD_face_1.png': 'BRIGHTMUD.png',
+    'BRIGT_PERMAPHROST_face_1.png': 'BRIGHTPERMAFROST.png',
+    'BRIGT_PERMAPhROST_face_1.png': 'BRIGHTPERMAFROST2.png',  # duplicate
+    'BRIGT_STEAM_face_1.png': 'BRIGHTSTEAM.png',
+    'BRIGT_THVNDERSNOVV_face_1.png': 'BRIGHTTHUNDERSNOW.png',
     
-    # Phi conversions
-    'PhVE_ELEMENT_PhLAG': 'ΦIVE ELEMENT ΦLAG',
-    'SILPh': 'SILΦ',
-    'TIPhOON': 'TIΦOON',
-    'DARK_TIPhOON': 'DARK TIΦOON',
-    'LIGHT_TIPhOON': 'LIGHT TIΦOON',
-    'PERMAPhROST': 'PERMAΦROST',
-    'BRIGT_PERMAPhROST': 'BRIΓT PERMAΦROST',
-    'XAOS_PERMAPhROST': 'XAOS PERMAΦROST',
-    'XAOS_SILPh': 'XAOS SILΦ',
+    # Dark variants
+    'DARK_DVST_face_1.png': 'DARKDUST.png',
+    'DARK_FVLGVRITE_face_1.png': 'DARKFULGURITE.png',
+    'DARK_ICE_face_1.png': 'DARKICE.png',
+    'DARK_LAHAR_face_1.png': 'DARKLAHAR.png',
+    'DARK_LAVA_face_1.png': 'DARKLAVA.png',
+    'DARK_LIGTNING_face_1.png': 'DARKLIGHTNING.png',
+    'DARK_THVNDERSNOVV_face_1.png': 'DARKTHUNDERSNOW.png',
+    'DARK_TIPHOON_face_1.png': 'DARKTYPHOON.png',
+    'DARK_TIPhOON_face_1.png': 'DARKTYPHOON2.png',  # duplicate
     
-    # BRIGT -> BRIΓT conversions (with spaces)
-    'BRIGT_DVST': 'BRIΓT DVST',
-    'BRIGT_FVLGVRITE': 'BRIΓT FVLGVRITE', 
-    'BRIGT_LAHAR': 'BRIΓT LAHAR',
-    'BRIGT_LAVA': 'BRIΓT LAVA',
-    'BRIGT_LIGTNING': 'BRIΓT LIΓTNING',
-    'BRIGT_MVD': 'BRIΓT MVD',
-    'BRIGT_STEAM': 'BRIΓT STEAM',
-    'BRIGT_THVNDERSNOVV': 'BRIΓT THVNDERSNOVV',
+    # Basic elements
+    'DVST_face_1.png': 'DUST.png',
+    'EMBERS_face_1.png': 'EMBERS.png',
+    'FOG_face_1.png': 'FOG.png',
+    'FROST_face_1.png': 'FROST.png',
+    'GEODE_face_1.png': 'GEODE.png',
+    'GNOME_face_1.png': 'GNOME.png',
+    'ICE_face_1.png': 'ICE.png',
+    'LAHAR_face_1.png': 'LAHAR.png',
+    'LIGHT_TIPHOON_face_1.png': 'LIGHTTYPHOON.png',
+    'LIGHT_TIPhOON_face_1.png': 'LIGHTTYPHOON2.png',  # duplicate
+    'LIGTNING_face_1.png': 'LIGHTNING.png',
+    'MAGMA_face_1.png': 'MAGMA.png',
+    'MIASMA_face_1.png': 'MIASMA.png',
+    'MVD_face_1.png': 'MUD.png',
+    'NEKROSIS_face_1.png': 'NECROSIS.png',
+    'PERMAPHROST_face_1.png': 'PERMAFROST.png',
+    'PERMAPhROST_face_1.png': 'PERMAFROST2.png',  # duplicate
+    'PHIVE_ELEMENT_PHLAG_face_1.png': 'FLAG.png',
+    'PhVE_ELEMENT_PhLAG_face_6.png': 'FLAG2.png',  # duplicate
+    'RAINBOVV_face_1.png': 'RAINBOW.png',
+    'SADE_face_1.png': 'SHADE.png',
+    'SALAMANDER_face_1.png': 'SALAMANDER.png',
+    'SILPH_face_1.png': 'SYLPH.png',
+    'SMOKE_face_1.png': 'SMOKE.png',
+    'SOLAR_face_1.png': 'SOLAR.png',
+    'STEAM_face_1.png': 'STEAM.png',
+    'STORM_face_1.png': 'STORM.png',
+    'TAR_face_1.png': 'TAR.png',
+    'TIPHOON_face_1.png': 'TYPHOON.png',
+    'TIPhOON_face_1.png': 'TYPHOON2.png',  # duplicate
+    'VNDINE_face_1.png': 'UNDINE.png',
     
-    # Files that already have Greek letters
-    'BRIΓT_DVST': 'BRIΓT DVST',
-    'BRIΓT_FVLGVRITE': 'BRIΓT FVLGVRITE',
-    'BRIΓT_LAHAR': 'BRIΓT LAHAR',
-    'BRIΓT_LAVA': 'BRIΓT LAVA',
-    'BRIΓT_LIΓTNING': 'BRIΓT LIΓTNING',
-    'BRIΓT_MVD': 'BRIΓT MVD',
-    'BRIΓT_STEAM': 'BRIΓT STEAM',
-    'BRIΓT_THVNDERSNOVV': 'BRIΓT THVNDERSNOVV',
-    'BRIΓT_PERMAΦROST': 'BRIΓT PERMAΦROST',
-    
-    # DARK conversions (with spaces)
-    'DARK_DVST': 'DARK DVST',
-    'DARK_FVLGVRITE': 'DARK FVLGVRITE',
-    'DARK_ICE': 'DARK ICE',
-    'DARK_LAHAR': 'DARK LAHAR',
-    'DARK_LAVA': 'DARK LAVA',
-    'DARK_LIGTNING': 'DARK LIΓTNING',
-    'DARK_THVNDERSNOVV': 'DARK THVNDERSNOVV',
-    'DARK_LIΓTNING': 'DARK LIΓTNING',
-    'DARK_TIΦOON': 'DARK TIΦOON',
-    
-    # LIGTNING -> LIΓTNING
-    'LIGTNING': 'LIΓTNING',
-    'LIΓTNING': 'LIΓTNING',
-    
-    # Other Greek letter files
-    'AZOΘ': 'AZOΘ',
-    'ΣADE': 'ΣADE',
-    'TIΦOON': 'TIΦOON',
-    'LIGHT_TIΦOON': 'LIGHT TIΦOON',
-    'PERMAΦROST': 'PERMAΦROST',
-    'SILΦ': 'SILΦ',
-    
-    # XAOS conversions (with spaces)
-    'XAOS_DVST': 'XAOS DVST',
-    'XAOS_FVLGVRITE': 'XAOS FVLGVRITE',
-    'XAOS_GNOME': 'XAOS GNOME',
-    'XAOS_ICE': 'XAOS ICE',
-    'XAOS_LAVA': 'XAOS LAVA',
-    'XAOS_LIGTNING': 'XAOS LIΓTNING',
-    'XAOS_MIST': 'XAOS MIST',
-    'XAOS_MVD': 'XAOS MVD',
-    'XAOS_SALAMANDER': 'XAOS SALAMANDER',
-    'XAOS_STEAM': 'XAOS STEAM',
-    'XAOS_THVNDERSNOVV': 'XAOS THVNDERSNOVV',
-    'XAOS_VNDINE': 'XAOS VNDINE',
-    'XAOS_LIΓTNING': 'XAOS LIΓTNING',
-    'XAOS_SILΦ': 'XAOS SILΦ',
-    'XAOS_PERMAΦROST': 'XAOS PERMAΦROST',
+    # Chaos variants
+    'XAOS_DVST_face_1.png': 'CHAOSDUST.png',
+    'XAOS_FVLGVRITE_face_1.png': 'CHAOSFULGURITE.png',
+    'XAOS_GNOME_face_1.png': 'CHAOSGNOME.png',
+    'XAOS_ICE_face_1.png': 'CHAOSICE.png',
+    'XAOS_LAVA_face_1.png': 'CHAOSLAVA.png',
+    'XAOS_LIGTNING_face_1.png': 'CHAOSLIGHTNING.png',
+    'XAOS_MIST_face_1.png': 'CHAOSMIST.png',
+    'XAOS_MVD_face_1.png': 'CHAOSMUD.png',
+    'XAOS_PERMAPHROST_face_1.png': 'CHAOSPERMAFROST.png',
+    'XAOS_PERMAPhROST_face_1.png': 'CHAOSPERMAFROST2.png',  # duplicate
+    'XAOS_SALAMANDER_face_1.png': 'CHAOSSALAMANDER.png',
+    'XAOS_SILPH_face_1.png': 'CHAOSSYLPH.png',
+    'XAOS_STEAM_face_1.png': 'CHAOSSTEAM.png',
+    'XAOS_THVNDERSNOVV_face_1.png': 'CHAOSTHUNDERSNOW.png',
+    'XAOS_VNDINE_face_1.png': 'CHAOSUNDINE.png',
+    'XAOS_face_1.png': 'CHAOS.png',
 }
 
-# Function to sanitize filename (replace invalid characters)
-def sanitize_filename(name):
-    """Convert database name to valid filename"""
-    # Replace characters that are problematic in filenames
-    sanitized = name.replace('/', '_').replace('\\', '_').replace(':', '_')
-    sanitized = sanitized.replace('*', '_').replace('?', '_').replace('"', '_')
-    sanitized = sanitized.replace('<', '_').replace('>', '_').replace('|', '_')
-    return sanitized
-
-# Perform the renaming
-renamed_count = 0
-for png_file in current_files:
-    if png_file.name == 'README.md':
-        continue
-        
-    # Extract base name (remove _face_X.png)
-    base_name = png_file.stem
-    if '_face_' in base_name:
-        base_name = base_name.split('_face_')[0]
-        face_suffix = '_face_' + png_file.stem.split('_face_')[1]
-    else:
-        face_suffix = '_face_1'  # default
+def rename_card_files():
+    """Rename all card files according to the mapping"""
+    cards_dir = 'public/assets/cards'
     
-    if base_name in filename_to_db_name:
-        new_db_name = filename_to_db_name[base_name]
-        new_filename = sanitize_filename(new_db_name) + face_suffix + '.png'
-        new_path = cards_dir / new_filename
+    if not os.path.exists(cards_dir):
+        print(f"Error: {cards_dir} directory not found")
+        return
+    
+    renamed_count = 0
+    skipped_count = 0
+    
+    for old_filename, new_filename in RENAME_MAP.items():
+        old_path = os.path.join(cards_dir, old_filename)
+        new_path = os.path.join(cards_dir, new_filename)
         
-        if png_file.name != new_filename:
-            print(f"Renaming: {png_file.name} -> {new_filename}")
-            shutil.move(str(png_file), str(new_path))
-            renamed_count += 1
+        if os.path.exists(old_path):
+            if os.path.exists(new_path):
+                print(f"⚠️  Skipping {old_filename} → {new_filename} (target exists)")
+                skipped_count += 1
+            else:
+                shutil.move(old_path, new_path)
+                print(f"✅ Renamed {old_filename} → {new_filename}")
+                renamed_count += 1
         else:
-            print(f"No change needed: {png_file.name}")
-    else:
-        print(f"WARNING: No mapping found for {base_name}")
-
-print(f"\nRenamed {renamed_count} files")
-
-# Verify all database cards have corresponding files
-print("\nVerifying coverage:")
-missing_files = []
-for card_name in db_card_names:
-    sanitized_name = sanitize_filename(card_name)
-    expected_file = cards_dir / f"{sanitized_name}_face_1.png"
-    if card_name == 'ΦIVE ELEMENT ΦLAG':
-        expected_file = cards_dir / f"{sanitized_name}_face_6.png"
+            print(f"❌ File not found: {old_filename}")
     
-    if not expected_file.exists():
-        missing_files.append(card_name)
+    print(f"\n📊 Summary:")
+    print(f"   Renamed: {renamed_count} files")
+    print(f"   Skipped: {skipped_count} files")
+    print(f"   Total processed: {len(RENAME_MAP)} mappings")
 
-if missing_files:
-    print(f"Missing files for {len(missing_files)} cards:")
-    for card in missing_files:
-        print(f"  - {card}")
-else:
-    print("✅ All database cards have corresponding image files!")
+if __name__ == "__main__":
+    rename_card_files()
