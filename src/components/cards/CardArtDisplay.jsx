@@ -50,14 +50,8 @@ const CardArtDisplay = ({
   const handleImageError = (e) => {
     console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
     
-    // Try to load the card-back.png directly (corrected extension)
-    if (!e.target.src.includes('card-back.png')) {
-      console.log(`Trying card-back.png fallback for ${cardName}`);
-      e.target.src = '/assets/card-back.png';
-      return;
-    }
-    
-    // If card-back.png also fails, show error state
+    // Instead of trying fallback images that might have issues,
+    // immediately show our CSS-based fallback which is guaranteed to work
     setImageError(true);
   };
 
