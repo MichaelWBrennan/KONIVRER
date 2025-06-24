@@ -21,17 +21,17 @@ const CardArtShowcase = () => {
   // Categorize cards
   const categories = {
     all: allCards,
-    characters: ['ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH', 'GNOME', 'SALAMANDER', 'SILPh', 'VNDINE', 'SADE'],
-    bright: allCards.filter(card => card.startsWith('BRIGT_')),
-    dark: allCards.filter(card => card.startsWith('DARK_')),
-    chaos: allCards.filter(card => card.startsWith('XAOS')),
+    characters: ['ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH', 'GNOME', 'SALAMANDER', 'SYLPH', 'UNDINE', 'SHADE'],
+    bright: allCards.filter(card => card.startsWith('BRIGHT')),
+    dark: allCards.filter(card => card.startsWith('DARK')),
+    chaos: allCards.filter(card => card.startsWith('CHAOS')),
     elemental: allCards.filter(card => 
-      !card.startsWith('BRIGT_') && 
-      !card.startsWith('DARK_') && 
-      !card.startsWith('XAOS') &&
-      !['ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH', 'GNOME', 'SALAMANDER', 'SILPh', 'VNDINE', 'SADE', 'PhVE_ELEMENT_PhLAG'].includes(card)
+      !card.startsWith('BRIGHT') && 
+      !card.startsWith('DARK') && 
+      !card.startsWith('CHAOS') &&
+      !['ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH', 'GNOME', 'SALAMANDER', 'SYLPH', 'UNDINE', 'SHADE', 'FLAG'].includes(card)
     ),
-    special: ['PhVE_ELEMENT_PhLAG']
+    special: ['FLAG']
   };
 
   // Filter cards based on search, category, and database status
@@ -250,9 +250,9 @@ const CardArtShowcase = () => {
             <div>
               <h3 className="text-lg font-semibold text-white mb-2">Direct Image Path</h3>
               <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto">
-{`/assets/cards/ABISS[face,1].png
-/assets/cards/XAOS_LAVA[face,1].png
-/assets/cards/PhVE_ELEMENT_PhLAG[face,6].png`}
+{`/assets/cards/ABISS.png
+/assets/cards/CHAOSLAVA.png
+/assets/cards/FLAG.png`}
               </pre>
             </div>
           </div>
