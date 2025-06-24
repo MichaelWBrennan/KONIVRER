@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
+import CardArtDisplay from '../components/cards/CardArtDisplay';
 import { getCardArtPathFromData } from '../utils/cardArtMapping';
 
 const MobileCardExplorer = () => {
