@@ -3,32 +3,82 @@
  */
 
 /**
- * Simple mapping of card names to their actual filenames
+ * Simple mapping of card names to their actual filenames (now single words)
  */
 const CARD_FILENAME_MAP = {
-  'ΦIVE ELEMENT ΦLAG': 'PHIVE_ELEMENT_PHLAG_face_1.png',
-  'ABISS': 'ABISS_face_1.png',
-  'ANGEL': 'ANGEL_face_1.png',
-  'ASH': 'ASH_face_1.png',
-  'AVRORA': 'AVRORA_face_1.png',
-  'AZOΘ': 'AZOTH_face_1.png',
-  'BRIΓT DVST': 'BRIGT_DVST_face_1.png',
-  'BRIΓT FVLGVRITE': 'BRIGT_FVLGVRITE_face_1.png',
-  'BRIΓT LAHAR': 'BRIGT_LAHAR_face_1.png',
-  'BRIΓT LAVA': 'BRIGT_LAVA_face_1.png',
-  'BRIΓT LIΓTNING': 'BRIGT_LIGTNING_face_1.png',
-  'BRIΓT MVD': 'BRIGT_MVD_face_1.png',
-  'BRIΓT PERMAΦROST': 'BRIGT_PERMAPhROST_face_1.png',
-  'BRIΓT STEAM': 'BRIGT_STEAM_face_1.png',
-  'BRIΓT THVNDERSNOVV': 'BRIGT_THVNDERSNOVV_face_1.png',
-  'DARK DVST': 'DARK_DVST_face_1.png',
-  'DARK FVLGVRITE': 'DARK_FVLGVRITE_face_1.png',
-  'DARK ICE': 'DARK_ICE_face_1.png',
-  'DARK LAHAR': 'DARK_LAHAR_face_1.png',
-  'DARK LAVA': 'DARK_LAVA_face_1.png',
-  'DARK LIΓTNING': 'DARK_LIGTNING_face_1.png',
-  'DARK THVNDERSNOVV': 'DARK_THVNDERSNOVV_face_1.png',
-  'FROST': 'FROST_face_1.png'
+  // Basic elements
+  'ABISS': 'ABISS.png',
+  'ANGEL': 'ANGEL.png',
+  'ASH': 'ASH.png',
+  'AVRORA': 'AURORA.png',
+  'AZOΘ': 'AZOTH.png',
+  'DVST': 'DUST.png',
+  'EMBERS': 'EMBERS.png',
+  'FOG': 'FOG.png',
+  'FROST': 'FROST.png',
+  'GEODE': 'GEODE.png',
+  'GNOME': 'GNOME.png',
+  'ICE': 'ICE.png',
+  'LAHAR': 'LAHAR.png',
+  'LIΓTNING': 'LIGHTNING.png',
+  'MAGMA': 'MAGMA.png',
+  'MIASMA': 'MIASMA.png',
+  'MVD': 'MUD.png',
+  'NEKROSIS': 'NECROSIS.png',
+  'PERMAΦROST': 'PERMAFROST.png',
+  'ΦIVE ELEMENT ΦLAG': 'FLAG.png',
+  'RAINBOVV': 'RAINBOW.png',
+  'SADE': 'SHADE.png',
+  'SALAMANDER': 'SALAMANDER.png',
+  'SILPH': 'SYLPH.png',
+  'SMOKE': 'SMOKE.png',
+  'SOLAR': 'SOLAR.png',
+  'STEAM': 'STEAM.png',
+  'STORM': 'STORM.png',
+  'TAR': 'TAR.png',
+  'TIΦOON': 'TYPHOON.png',
+  'VNDINE': 'UNDINE.png',
+  
+  // Bright variants
+  'BRIΓT DVST': 'BRIGHTDUST.png',
+  'BRIΓT FVLGVRITE': 'BRIGHTFULGURITE.png',
+  'BRIΓT LAHAR': 'BRIGHTLAHAR.png',
+  'BRIΓT LAVA': 'BRIGHTLAVA.png',
+  'BRIΓT LIΓTNING': 'BRIGHTLIGHTNING.png',
+  'BRIΓT MVD': 'BRIGHTMUD.png',
+  'BRIΓT PERMAΦROST': 'BRIGHTPERMAFROST.png',
+  'BRIΓT STEAM': 'BRIGHTSTEAM.png',
+  'BRIΓT THVNDERSNOVV': 'BRIGHTTHUNDERSNOW.png',
+  
+  // Dark variants
+  'DARK DVST': 'DARKDUST.png',
+  'DARK FVLGVRITE': 'DARKFULGURITE.png',
+  'DARK ICE': 'DARKICE.png',
+  'DARK LAHAR': 'DARKLAHAR.png',
+  'DARK LAVA': 'DARKLAVA.png',
+  'DARK LIΓTNING': 'DARKLIGHTNING.png',
+  'DARK THVNDERSNOVV': 'DARKTHUNDERSNOW.png',
+  'DARK TIΦOON': 'DARKTYPHOON.png',
+  
+  // Light variants
+  'LIGHT TIΦOON': 'LIGHTTYPHOON.png',
+  
+  // Chaos variants
+  'XAOS': 'CHAOS.png',
+  'XAOS DVST': 'CHAOSDUST.png',
+  'XAOS FVLGVRITE': 'CHAOSFULGURITE.png',
+  'XAOS GNOME': 'CHAOSGNOME.png',
+  'XAOS ICE': 'CHAOSICE.png',
+  'XAOS LAVA': 'CHAOSLAVA.png',
+  'XAOS LIΓTNING': 'CHAOSLIGHTNING.png',
+  'XAOS MIST': 'CHAOSMIST.png',
+  'XAOS MVD': 'CHAOSMUD.png',
+  'XAOS PERMAΦROST': 'CHAOSPERMAFROST.png',
+  'XAOS SALAMANDER': 'CHAOSSALAMANDER.png',
+  'XAOS SILPH': 'CHAOSSYLPH.png',
+  'XAOS STEAM': 'CHAOSSTEAM.png',
+  'XAOS THVNDERSNOVV': 'CHAOSTHUNDERSNOW.png',
+  'XAOS VNDINE': 'CHAOSUNDINE.png'
 };
 
 /**
