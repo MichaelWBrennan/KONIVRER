@@ -4,11 +4,11 @@
 import { apiClient } from '../config/api.js';
 import { env } from '../config/env.js';
 
-// Fallback data in case API is unavailable
+// Fallback data in case API is unavailable - using cards we have images for
 const fallbackCards = [
   {
     id: 'card001',
-    name: 'Gustling Wisp',
+    name: 'ABISS',
     elements: ['🜁'],
     keywords: ['Gust'],
     cost: 1,
@@ -18,7 +18,7 @@ const fallbackCards = [
   },
   {
     id: 'card002',
-    name: 'Infernal Sprinter',
+    name: 'ANGEL',
     elements: ['🜂'],
     keywords: ['Inferno'],
     cost: 2,
@@ -28,7 +28,7 @@ const fallbackCards = [
   },
   {
     id: 'card003',
-    name: 'Brilliant Watcher',
+    name: 'ASH',
     elements: ['🜃', '🜄'],
     keywords: ['Brilliance', 'Steadfast'],
     cost: 3,
