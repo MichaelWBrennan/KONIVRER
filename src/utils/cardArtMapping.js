@@ -211,69 +211,8 @@ export const getAllCardArtsWithData = () => {
 export const getArtNameFromCardData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  const cardName = cardData.name;
-  
-  // Direct mappings for special cases
-  const reverseSpecialMappings = {
-    'ΦIVE ELEMENT ΦLAG': 'PhVE_ELEMENT_PhLAG',
-    'AZOΘ': 'AZOTH',
-    'SOLAR ☉': 'SOLAR_',
-    'BRIΓT PERMAΦROST': 'BRIGT_PERMAPhROST',
-    'DARK TIΦOON': 'DARK_TIPhOON',
-    'LIGHT TIΦOON': 'LIGHT_TIPhOON',
-    'SILΦ': 'SILPh',
-    'TIΦOON': 'TIPhOON',
-    'XAOS SILΦ': 'XAOS_SILPh',
-    'XAOS PERMAΦROST': 'XAOS_PERMAPhROST',
-    'PERMAΦROST': 'PERMAPhROST'
-  };
-  
-  if (reverseSpecialMappings[cardName]) {
-    return reverseSpecialMappings[cardName];
-  }
-  
-  // Handle Greek letter replacements
-  let artName = cardName
-    .replace(/Φ/g, 'Ph')
-    .replace(/Θ/g, 'TH')
-    .replace(/Γ/g, 'G')
-    .replace(/☉/g, '_');
-  
-  // Convert to art filename format
-  artName = artName
-    .replace(/[^\w\s]/g, '') // Remove special characters except spaces
-    .replace(/\s+/g, '_')    // Replace spaces with underscores
-    .toUpperCase();
-  
-  // Check if this art name exists
-  const availableArts = [
-    'ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH',
-    'BRIGT_DVST', 'BRIGT_FVLGVRITE', 'BRIGT_LAHAR', 'BRIGT_LAVA', 'BRIGT_LIGTNING',
-    'BRIGT_MVD', 'BRIGT_PERMAPhROST', 'BRIGT_STEAM', 'BRIGT_THVNDERSNOVV',
-    'DARK_DVST', 'DARK_FVLGVRITE', 'DARK_ICE', 'DARK_LAHAR', 'DARK_LAVA',
-    'DARK_LIGTNING', 'DARK_THVNDERSNOVV', 'DARK_TIPhOON',
-    'DVST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
-    'LIGHT_TIPhOON', 'LIGTNING', 'MAGMA', 'MIASMA', 'MVD', 'NEKROSIS',
-    'PERMAPhROST', 'RAINBOVV', 'SALAMANDER', 'SILPh', 'SMOKE', 'SOLAR_',
-    'STEAM', 'STORM', 'TAR', 'TIPhOON', 'VNDINE', 'XAOS',
-    'XAOS_DVST', 'XAOS_FVLGVRITE', 'XAOS_GNOME', 'XAOS_ICE', 'XAOS_LAVA',
-    'XAOS_LIGTNING', 'XAOS_MIST', 'XAOS_MVD', 'XAOS_PERMAPhROST',
-    'XAOS_SALAMANDER', 'XAOS_SILPh', 'XAOS_STEAM', 'XAOS_THVNDERSNOVV',
-    'XAOS_VNDINE', 'SADE', 'PhVE_ELEMENT_PhLAG'
-  ];
-  
-  if (availableArts.includes(artName)) {
-    return artName;
-  }
-  
-  // Try partial matches
-  const partialMatch = availableArts.find(art => {
-    const artBase = art.replace(/^(BRIGT_|DARK_|XAOS_)/, '');
-    const cardBase = artName.replace(/^(BRIGT_|DARK_|XAOS_)/, '');
-    return artBase === cardBase || art.includes(cardBase) || cardBase.includes(artBase);
-  });
-  
-  return partialMatch || null;
+  // Simply convert database name to filename format
+  return cardData.name.replace(/ /g, '_');
 };
 
 /**
@@ -282,11 +221,11 @@ export const getArtNameFromCardData = (cardData) => {
  * @returns {string|null} - The card art path or null if not found
  */
 export const getCardArtPathFromData = (cardData) => {
-  const artName = getArtNameFromCardData(cardData);
-  if (!artName) return null;
+  if (!cardData || !cardData.name) return null;
   
-  const suffix = artName === 'PhVE_ELEMENT_PhLAG' ? '[face,6].png' : '[face,1].png';
-  return `/assets/cards/${artName}${suffix}`;
+  // Create filename directly from database name
+  const filename = cardData.name.replace(/ /g, '_') + '_face_1.png';
+  return `/assets/cards/${filename}`;
 };
 
 /**
