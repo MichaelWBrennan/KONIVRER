@@ -3,6 +3,35 @@
  */
 
 /**
+ * Simple mapping of card names to their actual filenames
+ */
+const CARD_FILENAME_MAP = {
+  'ΦIVE ELEMENT ΦLAG': 'PHIVE_ELEMENT_PHLAG_face_1.png',
+  'ABISS': 'ABISS_face_1.png',
+  'ANGEL': 'ANGEL_face_1.png',
+  'ASH': 'ASH_face_1.png',
+  'AVRORA': 'AVRORA_face_1.png',
+  'AZOΘ': 'AZOTH_face_1.png',
+  'BRIΓT DVST': 'BRIGT_DVST_face_1.png',
+  'BRIΓT FVLGVRITE': 'BRIGT_FVLGVRITE_face_1.png',
+  'BRIΓT LAHAR': 'BRIGT_LAHAR_face_1.png',
+  'BRIΓT LAVA': 'BRIGT_LAVA_face_1.png',
+  'BRIΓT LIΓTNING': 'BRIGT_LIGTNING_face_1.png',
+  'BRIΓT MVD': 'BRIGT_MVD_face_1.png',
+  'BRIΓT PERMAΦROST': 'BRIGT_PERMAPhROST_face_1.png',
+  'BRIΓT STEAM': 'BRIGT_STEAM_face_1.png',
+  'BRIΓT THVNDERSNOVV': 'BRIGT_THVNDERSNOVV_face_1.png',
+  'DARK DVST': 'DARK_DVST_face_1.png',
+  'DARK FVLGVRITE': 'DARK_FVLGVRITE_face_1.png',
+  'DARK ICE': 'DARK_ICE_face_1.png',
+  'DARK LAHAR': 'DARK_LAHAR_face_1.png',
+  'DARK LAVA': 'DARK_LAVA_face_1.png',
+  'DARK LIΓTNING': 'DARK_LIGTNING_face_1.png',
+  'DARK THVNDERSNOVV': 'DARK_THVNDERSNOVV_face_1.png',
+  'FROST': 'FROST_face_1.png'
+};
+
+/**
  * Preload card images to ensure they're available
  * @param {Array} cardNames - Array of card names to preload
  */
@@ -24,39 +53,17 @@ export const preloadCardImages = (cardNames) => {
  * @returns {string|null} - Image path or null if name is invalid
  */
 export const getCardImagePath = (name) => {
-  if (!name) return null;
+  if (!name) return '/assets/card-back.jpg';
   
-  // Convert card name to ASCII filename format
-  let filename = name
-    // Convert Greek letters to ASCII equivalents
-    .replace(/Γ/g, 'G')
-    .replace(/Φ/g, 'Ph')
-    .replace(/Θ/g, 'TH')
-    .replace(/Σ/g, 'S')
-    // Replace spaces with underscores for variant cards
-    .replace(/\s+/g, '_');
-  
-  // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
-  if (name === 'ΦIVE ELEMENT ΦLAG') {
-    filename = 'PhVE_ELEMENT_PhLAG';
-    return `/assets/cards/${filename}_face_6.png?t=${Date.now()}`;
+  // Check if we have a direct mapping
+  const filename = CARD_FILENAME_MAP[name];
+  if (filename) {
+    return `/assets/cards/${filename}`;
   }
   
-  // Handle specific filename corrections for production environment
-  if (filename.includes('PERMAPHROST')) {
-    filename = filename.replace('PERMAPHROST', 'PERMAPhROST');
-  }
-  
-  if (filename.includes('TIPHOON')) {
-    filename = filename.replace('TIPHOON', 'TIPhOON');
-  }
-  
-  if (filename.includes('SILPH')) {
-    filename = filename.replace('SILPH', 'SILPh');
-  }
-  
-  // Create the path with the corrected filename
-  return `/assets/cards/${filename}_face_1.png?t=${Date.now()}`;
+  // Fallback to card-back.jpg for any unmapped cards
+  console.log(`No mapping found for card: ${name}, using card-back.jpg`);
+  return '/assets/card-back.jpg';
 };
 
 /**
@@ -65,53 +72,8 @@ export const getCardImagePath = (name) => {
  * @returns {Array} - Array of fallback paths to try
  */
 export const getFallbackImagePaths = (imagePath) => {
-  if (!imagePath) return [];
-  
-  const fallbacks = [];
-  
-  // Remove query params
-  const cleanPath = imagePath.split('?')[0];
-  
-  // Extract filename without face number and extension
-  const pathParts = cleanPath.split('/');
-  const filename = pathParts[pathParts.length - 1].split('_face_')[0];
-  
-  // Try lowercase version
-  const lowercaseFilename = filename.toLowerCase();
-  if (filename !== lowercaseFilename) {
-    fallbacks.push(`/assets/cards/${lowercaseFilename}_face_1.png?t=${Date.now()}`);
-  }
-  
-  // Try with different face numbers
-  for (let i = 1; i <= 6; i++) {
-    if (!cleanPath.includes(`_face_${i}.png`)) {
-      fallbacks.push(`/assets/cards/${filename}_face_${i}.png?t=${Date.now()}`);
-    }
-  }
-  
-  // Try with different case combinations for special characters
-  if (filename.includes('Ph')) {
-    fallbacks.push(`/assets/cards/${filename.replace('Ph', 'PH')}_face_1.png?t=${Date.now()}`);
-    fallbacks.push(`/assets/cards/${filename.replace('Ph', 'ph')}_face_1.png?t=${Date.now()}`);
-  }
-  
-  if (filename.includes('TH')) {
-    fallbacks.push(`/assets/cards/${filename.replace('TH', 'Th')}_face_1.png?t=${Date.now()}`);
-    fallbacks.push(`/assets/cards/${filename.replace('TH', 'th')}_face_1.png?t=${Date.now()}`);
-  }
-  
-  // Try with PHIVE instead of PhVE for the special flag card
-  if (filename.includes('PhVE_ELEMENT_PhLAG')) {
-    fallbacks.push(`/assets/cards/PHIVE_ELEMENT_PHLAG_face_1.png?t=${Date.now()}`);
-    fallbacks.push(`/assets/cards/PHIVE_ELEMENT_PHLAG_face_6.png?t=${Date.now()}`);
-    fallbacks.push(`/assets/cards/phive_element_phlag_face_1.png?t=${Date.now()}`);
-    fallbacks.push(`/assets/cards/phive_element_phlag_face_6.png?t=${Date.now()}`);
-  }
-  
-  // Always add card-back.jpg as the last fallback option
-  fallbacks.push(`/assets/card-back.jpg?t=${Date.now()}`);
-  
-  return fallbacks;
+  // Always return card-back.jpg as the only fallback
+  return ['/assets/card-back.jpg'];
 };
 
 export default {

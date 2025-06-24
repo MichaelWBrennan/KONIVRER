@@ -42,97 +42,30 @@ const CardArtDisplay = ({
   const handleImageError = (e) => {
     console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
     
-    // Try to fetch the image directly to get more error information
-    fetch(e.target.src)
-      .then(response => {
-        if (!response.ok) {
-          console.error(`Image fetch failed with status: ${response.status} ${response.statusText}`);
-        }
-      })
-      .catch(error => {
-        console.error('Image fetch error:', error);
-      });
-    
-    // Try alternative paths if this is the first error
-    if (!fallbackAttempted) {
-      setFallbackAttempted(true);
-      
-      // Get all fallback paths to try
-      const fallbackPaths = getFallbackImagePaths(e.target.src);
-      
-      if (fallbackPaths.length > 0) {
-        // Try the first fallback path
-        const fallbackPath = fallbackPaths[0];
-        console.log(`Trying fallback: ${fallbackPath}`);
-        
-        // Store the remaining fallbacks in a data attribute for future attempts
-        e.target.dataset.fallbacks = JSON.stringify(fallbackPaths.slice(1));
-        
-        setImageSrc(fallbackPath);
-        return;
-      }
-      
-      // Special case for ΦIVE ELEMENT ΦLAG
-      if (cardName === 'ΦIVE ELEMENT ΦLAG') {
-        const specialFallback = `/assets/cards/PHIVE_ELEMENT_PHLAG_face_6.png?t=${Date.now()}`;
-        console.log(`Trying special fallback for ΦIVE ELEMENT ΦLAG: ${specialFallback}`);
-        setImageSrc(specialFallback);
-        return;
-      }
-    } else {
-      // Check if we have more fallbacks to try
-      try {
-        const remainingFallbacks = JSON.parse(e.target.dataset.fallbacks || '[]');
-        
-        if (remainingFallbacks.length > 0) {
-          // Try the next fallback
-          const nextFallback = remainingFallbacks.shift();
-          console.log(`Trying next fallback: ${nextFallback}`);
-          
-          // Update the remaining fallbacks
-          e.target.dataset.fallbacks = JSON.stringify(remainingFallbacks);
-          
-          setImageSrc(nextFallback);
-          return;
-        }
-      } catch (error) {
-        console.error('Error parsing fallbacks:', error);
-      }
+    // Try to load the card-back.jpg directly
+    if (!e.target.src.includes('card-back.jpg')) {
+      console.log(`Trying card-back.jpg fallback for ${cardName}`);
+      e.target.src = '/assets/card-back.jpg';
+      return;
     }
     
-    // If we've exhausted all fallbacks, try the card-back.jpg as a last resort
-    const cardBackPath = `/assets/card-back.jpg?t=${Date.now()}`;
-    console.log(`Trying card back fallback: ${cardBackPath}`);
-    setImageSrc(cardBackPath);
-    
-    // Only set error state if card-back.jpg also fails
-    // This will be handled by the next onError event if card-back.jpg fails to load
-    // setImageError(true);
+    // If card-back.jpg also fails, show error state
+    setImageError(true);
   };
 
   const handleImageLoad = (e) => {
-    // Check if the loaded image is the card-back.jpg fallback
-    const isCardBackFallback = e.target.src.includes('card-back.jpg');
-    
-    // Set loaded state
     setImageLoaded(true);
-    
-    // Log the successful load
-    console.log(`Image loaded successfully: ${e.target.src}`);
-    
-    // If this is the card-back fallback, we'll still show it but log it
-    if (isCardBackFallback) {
-      console.log(`Using card-back.jpg fallback for ${cardName}`);
-    }
+    console.log(`Image loaded successfully for ${cardName}: ${e.target.src}`);
   };
 
   // Fallback placeholder when image fails to load
   const FallbackCard = () => (
-    <div className={`bg-gradient-to-br from-purple-800 to-blue-900 rounded-lg flex items-center justify-center text-white font-bold text-center p-4 ${className}`}>
-      <div>
-        <div className="text-lg mb-2">KONIVRER</div>
-        <div className="text-sm opacity-75">{displayName}</div>
+    <div className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}>
+      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+        <span className="text-purple-900 text-xl font-black">K</span>
       </div>
+      <div className="text-sm mb-1 text-purple-200">KONIVRER</div>
+      <div className="text-xs opacity-75 text-center leading-tight">{displayName}</div>
     </div>
   );
 
