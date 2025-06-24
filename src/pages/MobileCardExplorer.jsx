@@ -132,12 +132,12 @@ const MobileCardExplorer = () => {
             className="mobile-game-card mobile-mb"
           >
             <img 
-              src={getCardArtPathFromData(card) || '/assets/card-back.jpg'} 
+              src={getCardArtPathFromData(card) || '/assets/card-back-new.png'} 
               alt={card.name} 
               className="mobile-game-card-img"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/assets/card-back.jpg';
+                e.target.src = '/assets/card-back-new.png';
               }}
             />
           </Link>

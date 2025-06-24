@@ -312,7 +312,7 @@ const MobileGamePage = () => {
                   className="mobile-game-card-img"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/assets/card-back.jpg';
+                    e.target.src = '/assets/card-back-new.png';
                   }}
                 />
               </div>
@@ -335,7 +335,7 @@ const MobileGamePage = () => {
                   className="mobile-game-card-img"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/assets/card-back.jpg';
+                    e.target.src = '/assets/card-back-new.png';
                   }}
                 />
               </div>
@@ -426,7 +426,7 @@ const MobileGamePage = () => {
                 className="mobile-game-card-img"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/assets/card-back.jpg';
+                  e.target.src = '/assets/card-back-new.png';
                 }}
               />
               <div className="mobile-game-card-cost">{card.cost}</div>
