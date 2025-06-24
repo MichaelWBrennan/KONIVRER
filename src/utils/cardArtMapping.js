@@ -228,13 +228,18 @@ export const getArtNameFromCardData = (cardData) => {
 export const getCardArtPathFromData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  // Convert database name to URL-safe filename
+  // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
+  if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
+    return '/assets/cards/PhVE_ELEMENT_PhLAG_face_6.png';
+  }
+  
+  // Convert database name to ASCII filename format
   let filename = cardData.name
-    .replace(/Θ/g, 'TH')   // Theta
-    .replace(/Γ/g, 'G')    // Gamma  
-    .replace(/Φ/g, 'PH')   // Phi
-    .replace(/Σ/g, 'S')    // Sigma
-    .replace(/ /g, '_');   // Spaces to underscores
+    .replace(/Γ/g, 'G')     // Gamma
+    .replace(/Φ/g, 'Ph')    // Phi (lowercase h to match our files)
+    .replace(/Θ/g, 'TH')    // Theta
+    .replace(/Σ/g, 'S')     // Sigma
+    .replace(/\s+/g, '_');  // Spaces to underscores
   
   return `/assets/cards/${filename}_face_1.png`;
 };
