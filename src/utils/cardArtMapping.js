@@ -180,17 +180,17 @@ export const getAllCardArtsWithData = () => {
   const cardArts = [
     'ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH',
     'BRIGT_DVST', 'BRIGT_FVLGVRITE', 'BRIGT_LAHAR', 'BRIGT_LAVA', 'BRIGT_LIGTNING',
-    'BRIGT_MVD', 'BRIGT_PERMAPHROST', 'BRIGT_STEAM', 'BRIGT_THVNDERSNOVV',
+    'BRIGT_MVD', 'BRIGT_PERMAPhROST', 'BRIGT_STEAM', 'BRIGT_THVNDERSNOVV',
     'DARK_DVST', 'DARK_FVLGVRITE', 'DARK_ICE', 'DARK_LAHAR', 'DARK_LAVA',
-    'DARK_LIGTNING', 'DARK_THVNDERSNOVV', 'DARK_TIPHOON',
+    'DARK_LIGTNING', 'DARK_THVNDERSNOVV', 'DARK_TIPhOON',
     'DVST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
-    'LIGHT_TIPHOON', 'LIGTNING', 'MAGMA', 'MIASMA', 'MVD', 'NEKROSIS',
-    'PERMAPHROST', 'RAINBOVV', 'SALAMANDER', 'SILPH', 'SMOKE', 'SOLAR_',
-    'STEAM', 'STORM', 'TAR', 'TIPHOON', 'VNDINE', 'XAOS',
+    'LIGHT_TIPhOON', 'LIGTNING', 'MAGMA', 'MIASMA', 'MVD', 'NEKROSIS',
+    'PERMAPhROST', 'RAINBOVV', 'SALAMANDER', 'SILPh', 'SMOKE', 'SOLAR_',
+    'STEAM', 'STORM', 'TAR', 'TIPhOON', 'VNDINE', 'XAOS',
     'XAOS_DVST', 'XAOS_FVLGVRITE', 'XAOS_GNOME', 'XAOS_ICE', 'XAOS_LAVA',
-    'XAOS_LIGTNING', 'XAOS_MIST', 'XAOS_MVD', 'XAOS_PERMAPHROST',
-    'XAOS_SALAMANDER', 'XAOS_SILPH', 'XAOS_STEAM', 'XAOS_THVNDERSNOVV',
-    'XAOS_VNDINE', 'SADE', 'PHIVE_ELEMENT_PHLAG'
+    'XAOS_LIGTNING', 'XAOS_MIST', 'XAOS_MVD', 'XAOS_PERMAPhROST',
+    'XAOS_SALAMANDER', 'XAOS_SILPh', 'XAOS_STEAM', 'XAOS_THVNDERSNOVV',
+    'XAOS_VNDINE', 'SADE', 'PhVE_ELEMENT_PhLAG'
   ];
   
   return cardArts.map(artName => ({
@@ -230,7 +230,7 @@ export const getCardArtPathFromData = (cardData) => {
   
   // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
-    return '/assets/cards/PhVE_ELEMENT_PhLAG_face_6.png';
+    return '/assets/cards/PhVE_ELEMENT_PhLAG_face_6.png?t=' + Date.now();
   }
   
   // Convert database name to ASCII filename format
@@ -241,7 +241,21 @@ export const getCardArtPathFromData = (cardData) => {
     .replace(/Σ/g, 'S')     // Sigma
     .replace(/\s+/g, '_');  // Spaces to underscores
   
-  return `/assets/cards/${filename}_face_1.png`;
+  // Handle specific filename corrections for production environment
+  if (filename.includes('PERMAPHROST')) {
+    filename = filename.replace('PERMAPHROST', 'PERMAPhROST');
+  }
+  
+  if (filename.includes('TIPHOON')) {
+    filename = filename.replace('TIPHOON', 'TIPhOON');
+  }
+  
+  if (filename.includes('SILPH')) {
+    filename = filename.replace('SILPH', 'SILPh');
+  }
+  
+  // Add a timestamp to prevent caching issues
+  return `/assets/cards/${filename}_face_1.png?t=${Date.now()}`;
 };
 
 /**
