@@ -230,7 +230,7 @@ export const getCardArtPathFromData = (cardData) => {
   
   // Special case for ΦIVE ELEMENT ΦLAG
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
-    return '/assets/cards/FLAG.png?t=' + Date.now();
+    return '/assets/cards/FLAG.png';
   }
   
   // Convert database name to single-word filename format
@@ -295,8 +295,7 @@ export const getCardArtPathFromData = (cardData) => {
     filename = compoundMappings[filename];
   }
   
-  // Add a timestamp to prevent caching issues
-  return `/assets/cards/${filename}.png?t=${Date.now()}`;
+  return `/assets/cards/${filename}.png`;
 };
 
 /**
