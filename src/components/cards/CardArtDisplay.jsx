@@ -100,12 +100,30 @@ const CardArtDisplay = ({
       }
     }
     
-    // If we've exhausted all fallbacks, show the error state
-    setImageError(true);
+    // If we've exhausted all fallbacks, try the card-back.jpg as a last resort
+    const cardBackPath = `/assets/card-back.jpg?t=${Date.now()}`;
+    console.log(`Trying card back fallback: ${cardBackPath}`);
+    setImageSrc(cardBackPath);
+    
+    // Only set error state if card-back.jpg also fails
+    // This will be handled by the next onError event if card-back.jpg fails to load
+    // setImageError(true);
   };
 
   const handleImageLoad = (e) => {
+    // Check if the loaded image is the card-back.jpg fallback
+    const isCardBackFallback = e.target.src.includes('card-back.jpg');
+    
+    // Set loaded state
     setImageLoaded(true);
+    
+    // Log the successful load
+    console.log(`Image loaded successfully: ${e.target.src}`);
+    
+    // If this is the card-back fallback, we'll still show it but log it
+    if (isCardBackFallback) {
+      console.log(`Using card-back.jpg fallback for ${cardName}`);
+    }
   };
 
   // Fallback placeholder when image fails to load

@@ -108,6 +108,9 @@ export const getFallbackImagePaths = (imagePath) => {
     fallbacks.push(`/assets/cards/phive_element_phlag_face_6.png?t=${Date.now()}`);
   }
   
+  // Always add card-back.jpg as the last fallback option
+  fallbacks.push(`/assets/card-back.jpg?t=${Date.now()}`);
+  
   return fallbacks;
 };
 
