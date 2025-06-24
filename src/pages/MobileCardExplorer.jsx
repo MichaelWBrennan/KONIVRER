@@ -132,13 +132,13 @@ const MobileCardExplorer = () => {
             className="mobile-game-card mobile-mb"
           >
             <img 
-              src={getCardArtPathFromData(card) || '/assets/card-back-new.png'} 
+              src={getCardArtPathFromData(card) || 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png'} 
               alt={card.name} 
               className="mobile-game-card-img"
               onError={(e) => {
                 console.log(`Failed to load image for ${card.name}: ${getCardArtPathFromData(card)}`);
                 e.target.onerror = null;
-                e.target.src = '/assets/card-back-new.png';
+                e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
               }}
               onLoad={(e) => {
                 console.log(`Successfully loaded image for ${card.name}: ${e.target.src}`);

@@ -228,9 +228,12 @@ export const getArtNameFromCardData = (cardData) => {
 export const getCardArtPathFromData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
+  // Base CDN URL for GitHub raw content
+  const CDN_BASE_URL = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards';
+  
   // Special case for ΦIVE ELEMENT ΦLAG
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
-    return '/assets/cards/FLAG.png';
+    return `${CDN_BASE_URL}/FLAG.png`;
   }
   
   // Convert database name to single-word filename format
@@ -295,7 +298,7 @@ export const getCardArtPathFromData = (cardData) => {
     filename = compoundMappings[filename];
   }
   
-  return `/assets/cards/${filename}.png`;
+  return `${CDN_BASE_URL}/${filename}.png`;
 };
 
 /**
