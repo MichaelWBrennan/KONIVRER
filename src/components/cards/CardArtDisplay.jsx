@@ -43,13 +43,18 @@ const CardArtDisplay = ({
     // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
     if (name === 'ΦIVE ELEMENT ΦLAG') {
       filename = 'PhVE_ELEMENT_PhLAG';
-      return `/assets/cards/${filename}_face_6.png`;
+      const path = `/assets/cards/${filename}_face_6.png`;
+      console.log(`CardArtDisplay: ${name} -> ${path}`);
+      return path;
     }
     
-    return `/assets/cards/${filename}_face_1.png`;
+    const path = `/assets/cards/${filename}_face_1.png`;
+    console.log(`CardArtDisplay: ${name} -> ${path}`);
+    return path;
   };
 
   const handleImageError = (e) => {
+    console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
     setImageError(true);
   };
 
