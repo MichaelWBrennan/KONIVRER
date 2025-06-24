@@ -42,7 +42,7 @@ const CardArtDisplay = ({
         setFallbackAttempted(false);
       } else {
         // No image path available, show CSS fallback immediately
-        console.log(`🎨 CardArtDisplay v2.3: No image mapping for "${cardName}", using CSS fallback`);
+        console.log(`🎨 CardArtDisplay v2.4: No image mapping for "${cardName}", using CSS fallback`);
         setImageSrc(null);
         setImageError(true);
         setImageLoaded(false);
@@ -52,10 +52,10 @@ const CardArtDisplay = ({
   }, [cardName]);
 
   const handleImageError = (e) => {
-    console.error(`CardArtDisplay v2.3: Image failed to load for ${cardName}:`, e.target.src);
+    console.error(`CardArtDisplay v2.4: Image failed to load for ${cardName}:`, e.target.src);
     
     // Go straight to CSS fallback for reliability
-    console.log(`🎨 CardArtDisplay v2.3: Using CSS fallback for ${cardName}`);
+    console.log(`🎨 CardArtDisplay v2.4: Using CSS fallback for ${cardName}`);
     setImageError(true);
   };
 

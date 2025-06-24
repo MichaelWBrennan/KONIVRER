@@ -38,8 +38,8 @@ export const getCardIdFromArtName = (cardArtName) => {
   // Remove file extension and face notation if present
   const cleanName = cardArtName
     .replace(/\[face,\d+\]\.png$/i, '')
-    .replace(/_face_\d+\.png$/i, '')  // Handle _face_1.png format
-    .replace(/_face_\d+$/i, '')  // Handle _face_6 without .png
+    .replace(/_face_\d+\.png$/i, '')  // Handle old _face_1.png format (legacy)
+    .replace(/_face_\d+$/i, '')  // Handle _face_6 without .png (legacy)
     .replace(/\.png$/i, '')
     .replace(/_+$/, '');  // Remove trailing underscores
   
@@ -178,19 +178,19 @@ export const getCardDisplayName = (cardArtName) => {
  */
 export const getAllCardArtsWithData = () => {
   const cardArts = [
-    'ABISS', 'ANGEL', 'ASH', 'AVRORA', 'AZOTH',
-    'BRIGT_DVST', 'BRIGT_FVLGVRITE', 'BRIGT_LAHAR', 'BRIGT_LAVA', 'BRIGT_LIGTNING',
-    'BRIGT_MVD', 'BRIGT_PERMAPhROST', 'BRIGT_STEAM', 'BRIGT_THVNDERSNOVV',
-    'DARK_DVST', 'DARK_FVLGVRITE', 'DARK_ICE', 'DARK_LAHAR', 'DARK_LAVA',
-    'DARK_LIGTNING', 'DARK_THVNDERSNOVV', 'DARK_TIPhOON',
-    'DVST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
-    'LIGHT_TIPhOON', 'LIGTNING', 'MAGMA', 'MIASMA', 'MVD', 'NEKROSIS',
-    'PERMAPhROST', 'RAINBOVV', 'SALAMANDER', 'SILPh', 'SMOKE', 'SOLAR_',
-    'STEAM', 'STORM', 'TAR', 'TIPhOON', 'VNDINE', 'XAOS',
-    'XAOS_DVST', 'XAOS_FVLGVRITE', 'XAOS_GNOME', 'XAOS_ICE', 'XAOS_LAVA',
-    'XAOS_LIGTNING', 'XAOS_MIST', 'XAOS_MVD', 'XAOS_PERMAPhROST',
-    'XAOS_SALAMANDER', 'XAOS_SILPh', 'XAOS_STEAM', 'XAOS_THVNDERSNOVV',
-    'XAOS_VNDINE', 'SADE', 'PhVE_ELEMENT_PhLAG'
+    'ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH',
+    'BRIGHTDUST', 'BRIGHTFULGURITE', 'BRIGHTLAHAR', 'BRIGHTLAVA', 'BRIGHTLIGHTNING',
+    'BRIGHTMUD', 'BRIGHTPERMAFROST', 'BRIGHTSTEAM', 'BRIGHTTHUNDERSNOW',
+    'DARKDUST', 'DARKFULGURITE', 'DARKICE', 'DARKLAHAR', 'DARKLAVA',
+    'DARKLIGHTNING', 'DARKTHUNDERSNOW', 'DARKTYPHOON',
+    'DUST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
+    'LIGHTTYPHOON', 'LIGHTNING', 'MAGMA', 'MIASMA', 'MUD', 'NECROSIS',
+    'PERMAFROST', 'RAINBOW', 'SALAMANDER', 'SYLPH', 'SMOKE', 'SOLAR',
+    'STEAM', 'STORM', 'TAR', 'TYPHOON', 'UNDINE', 'CHAOS',
+    'CHAOSDUST', 'CHAOSFULGURITE', 'CHAOSGNOME', 'CHAOSICE', 'CHAOSLAVA',
+    'CHAOSLIGHTNING', 'CHAOSMIST', 'CHAOSMUD', 'CHAOSPERMAFROST',
+    'CHAOSSALAMANDER', 'CHAOSSYLPH', 'CHAOSSTEAM', 'CHAOSTHUNDERSNOW',
+    'CHAOSUNDINE', 'SHADE', 'FLAG'
   ];
   
   return cardArts.map(artName => ({
@@ -228,34 +228,75 @@ export const getArtNameFromCardData = (cardData) => {
 export const getCardArtPathFromData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  // Special case for ΦIVE ELEMENT ΦLAG which uses _face_6.png and Ph format
+  // Special case for ΦIVE ELEMENT ΦLAG
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
-    return '/assets/cards/PhVE_ELEMENT_PhLAG_face_6.png?t=' + Date.now();
+    return '/assets/cards/FLAG.png?t=' + Date.now();
   }
   
-  // Convert database name to ASCII filename format
+  // Convert database name to single-word filename format
   let filename = cardData.name
     .replace(/Γ/g, 'G')     // Gamma
-    .replace(/Φ/g, 'Ph')    // Phi (lowercase h to match our files)
+    .replace(/Φ/g, 'PH')    // Phi (uppercase to match new format)
     .replace(/Θ/g, 'TH')    // Theta
     .replace(/Σ/g, 'S')     // Sigma
-    .replace(/\s+/g, '_');  // Spaces to underscores
+    .replace(/\s+/g, '');   // Remove spaces (combine words)
   
-  // Handle specific filename corrections for production environment
-  if (filename.includes('PERMAPHROST')) {
-    filename = filename.replace('PERMAPHROST', 'PERMAPhROST');
-  }
+  // Handle specific mappings for compound words
+  const compoundMappings = {
+    'BRIGTDVST': 'BRIGHTDUST',
+    'BRIGTFVLGVRITE': 'BRIGHTFULGURITE',
+    'BRIGTLAHAR': 'BRIGHTLAHAR',
+    'BRIGTLAVA': 'BRIGHTLAVA',
+    'BRIGTLIGTNING': 'BRIGHTLIGHTNING',
+    'BRIGTMVD': 'BRIGHTMUD',
+    'BRIGTPERMAPHROST': 'BRIGHTPERMAFROST',
+    'BRIGTSTEAM': 'BRIGHTSTEAM',
+    'BRIGTTHVNDERSNOVV': 'BRIGHTTHUNDERSNOW',
+    'DARKDVST': 'DARKDUST',
+    'DARKFVLGVRITE': 'DARKFULGURITE',
+    'DARKICE': 'DARKICE',
+    'DARKLAHAR': 'DARKLAHAR',
+    'DARKLAVA': 'DARKLAVA',
+    'DARKLIGTNING': 'DARKLIGHTNING',
+    'DARKTHVNDERSNOVV': 'DARKTHUNDERSNOW',
+    'DARKTIPHOON': 'DARKTYPHOON',
+    'LIGHTTIPHOON': 'LIGHTTYPHOON',
+    'XAOSDVST': 'CHAOSDUST',
+    'XAOSFVLGVRITE': 'CHAOSFULGURITE',
+    'XAOSGNOME': 'CHAOSGNOME',
+    'XAOSICE': 'CHAOSICE',
+    'XAOSLAVA': 'CHAOSLAVA',
+    'XAOSLIGTNING': 'CHAOSLIGHTNING',
+    'XAOSMIST': 'CHAOSMIST',
+    'XAOSMVD': 'CHAOSMUD',
+    'XAOSPERMAPHROST': 'CHAOSPERMAFROST',
+    'XAOSSALAMANDER': 'CHAOSSALAMANDER',
+    'XAOSSILPH': 'CHAOSSYLPH',
+    'XAOSSTEAM': 'CHAOSSTEAM',
+    'XAOSTHVNDERSNOVV': 'CHAOSTHUNDERSNOW',
+    'XAOSVNDINE': 'CHAOSUNDINE',
+    'XAOS': 'CHAOS',
+    'AVRORA': 'AURORA',
+    'AZOTH': 'AZOTH',
+    'DVST': 'DUST',
+    'LIGTNING': 'LIGHTNING',
+    'MVD': 'MUD',
+    'NEKROSIS': 'NECROSIS',
+    'PERMAPHROST': 'PERMAFROST',
+    'RAINBOVV': 'RAINBOW',
+    'SADE': 'SHADE',
+    'SILPH': 'SYLPH',
+    'TIPHOON': 'TYPHOON',
+    'VNDINE': 'UNDINE'
+  };
   
-  if (filename.includes('TIPHOON')) {
-    filename = filename.replace('TIPHOON', 'TIPhOON');
-  }
-  
-  if (filename.includes('SILPH')) {
-    filename = filename.replace('SILPH', 'SILPh');
+  // Apply compound mapping if exists
+  if (compoundMappings[filename]) {
+    filename = compoundMappings[filename];
   }
   
   // Add a timestamp to prevent caching issues
-  return `/assets/cards/${filename}_face_1.png?t=${Date.now()}`;
+  return `/assets/cards/${filename}.png?t=${Date.now()}`;
 };
 
 /**
