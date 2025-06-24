@@ -33,13 +33,17 @@ const CardArtDisplay = ({
   useEffect(() => {
     if (cardName) {
       const imagePath = getCardImagePath(cardName);
+      console.log(`🖼️ CardArtDisplay: Processing "${cardName}", imagePath: ${imagePath}`);
+      
       if (imagePath) {
         setImageSrc(imagePath);
         setImageError(false);
         setImageLoaded(false);
         setFallbackAttempted(false);
       } else {
-        // No image path available, show fallback immediately
+        // No image path available, show CSS fallback immediately
+        console.log(`🎨 CardArtDisplay: No image mapping for "${cardName}", showing CSS fallback`);
+        setImageSrc(null); // Explicitly set to null
         setImageError(true);
         setImageLoaded(false);
         setFallbackAttempted(false);
@@ -96,14 +100,16 @@ const CardArtDisplay = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
-        src={imageSrc}
-        alt={`${displayName} card art`}
-        onError={handleImageError}
-        onLoad={handleImageLoad}
-        className="w-full h-full object-cover transition-transform duration-300"
-        loading="lazy"
-      />
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={`${displayName} card art`}
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          className="w-full h-full object-cover transition-transform duration-300"
+          loading="lazy"
+        />
+      )}
       
       {!imageLoaded && (
         <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" />
