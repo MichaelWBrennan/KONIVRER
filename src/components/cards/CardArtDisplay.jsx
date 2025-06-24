@@ -33,7 +33,7 @@ const CardArtDisplay = ({
   useEffect(() => {
     if (cardName) {
       const imagePath = getCardImagePath(cardName);
-      console.log(`🖼️ CardArtDisplay: Processing "${cardName}", imagePath: ${imagePath}`);
+      console.log(`🖼️ CardArtDisplay v2.1: Processing "${cardName}", imagePath: ${imagePath}`);
       
       if (imagePath) {
         setImageSrc(imagePath);
