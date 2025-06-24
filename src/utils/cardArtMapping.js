@@ -228,8 +228,8 @@ export const getArtNameFromCardData = (cardData) => {
 export const getCardArtPathFromData = (cardData) => {
   if (!cardData || !cardData.name) return null;
   
-  // Base CDN URL for GitHub raw content
-  const CDN_BASE_URL = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards';
+  // Base CDN URL for GitHub raw content (using commit with card images)
+  const CDN_BASE_URL = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/f4f27f27/public/assets/cards';
   
   // Special case for ΦIVE ELEMENT ΦLAG
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
