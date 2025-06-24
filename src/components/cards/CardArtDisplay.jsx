@@ -42,15 +42,14 @@ const CardArtDisplay = ({
   const handleImageError = (e) => {
     console.error(`CardArtDisplay: Image failed to load for ${cardName}:`, e.target.src);
     
-    // If this is not already the card-back.jpg, try it as fallback
+    // Try to load the card-back.jpg directly
     if (!e.target.src.includes('card-back.jpg')) {
       console.log(`Trying card-back.jpg fallback for ${cardName}`);
-      setImageSrc('/assets/card-back.jpg');
+      e.target.src = '/assets/card-back.jpg';
       return;
     }
     
-    // If even card-back.jpg fails, show error state
-    console.error(`Even card-back.jpg failed to load for ${cardName}`);
+    // If card-back.jpg also fails, show error state
     setImageError(true);
   };
 
@@ -61,11 +60,12 @@ const CardArtDisplay = ({
 
   // Fallback placeholder when image fails to load
   const FallbackCard = () => (
-    <div className={`bg-gradient-to-br from-purple-800 to-blue-900 rounded-lg flex items-center justify-center text-white font-bold text-center p-4 ${className}`}>
-      <div>
-        <div className="text-lg mb-2">KONIVRER</div>
-        <div className="text-sm opacity-75">{displayName}</div>
+    <div className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}>
+      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+        <span className="text-purple-900 text-xl font-black">K</span>
       </div>
+      <div className="text-sm mb-1 text-purple-200">KONIVRER</div>
+      <div className="text-xs opacity-75 text-center leading-tight">{displayName}</div>
     </div>
   );
 
