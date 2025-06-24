@@ -96,7 +96,7 @@ const MobileFirstLayout = ({ children }) => {
     
     const title = currentRoute ? currentRoute.name : 'KONIVRER';
     // Add version indicator for debugging deployment
-    return title === 'Cards' ? 'Cards v2.2' : title;
+    return title === 'Cards' ? 'Cards v2.3' : title;
   };
 
   // Check if a navigation item is active
