@@ -73,6 +73,15 @@ mode = "sequential"
 task = "shell.exec"
 args = "node scripts/hyperspace-deployment.js --deploy-hyperspace"
 
+[[workflows.workflow]]
+name = "Optimized Deployment"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/optimize-and-deploy.js"
+
 [[ports]]
 localPort = 12000
 externalPort = 80
