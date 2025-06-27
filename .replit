@@ -27,3 +27,11 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
+
+[[ports]]
+localPort = 12000
+externalPort = 80
+
+[[ports]]
+localPort = 12001
+externalPort = 3000
