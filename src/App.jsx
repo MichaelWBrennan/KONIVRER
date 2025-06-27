@@ -57,6 +57,7 @@ import EnhancedPhysicalMatchmaking from './components/EnhancedPhysicalMatchmakin
 import PhysicalMatchmakingPage from './pages/PhysicalMatchmakingPage';
 import AdvancedPhysicalMatchmakingPage from './pages/AdvancedPhysicalMatchmakingPage';
 import StandaloneMatchmaking from './components/StandaloneMatchmaking';
+import SingularityControlCenter from './pages/SingularityControlCenter.jsx';
 
 function App() {
   return (
@@ -79,7 +80,7 @@ function App() {
                   {/* Game Page */}
                   <Route path="/game/:mode" element={<MobileGamePage />} />
                   <Route path="/game/:mode/:gameId" element={<MobileGamePage />} />
-                  
+
                   {/* Industry-Leading Game Platform */}
                   <Route path="/advanced-game/:mode" element={<IndustryLeadingGamePlatform />} />
                   <Route path="/advanced-game/:mode/:gameId" element={<IndustryLeadingGamePlatform />} />
@@ -92,18 +93,18 @@ function App() {
 
                   {/* Unified Matchmaking System */}
                   <Route path="/matchmaking" element={<UnifiedMatchmakingPage />} />
-                  
+
                   {/* Industry-Leading Features - All Free */}
                   <Route path="/industry-features" element={<IndustryLeadingFeaturesPage />} />
                   <Route path="/premium-features" element={<IndustryLeadingFeaturesPage />} />
                   <Route path="/advanced-features" element={<IndustryLeadingFeaturesPage />} />
-                  
+
                   {/* Physical Matchmaking System - All Features Free */}
                   <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-legacy" element={<PhysicalMatchmakingPage />} />
                   <Route path="/physical-matchmaking-page" element={<PhysicalMatchmakingPage />} />
                   <Route path="/advanced-physical-matchmaking" element={<PhysicalMatchmakingPage />} />
-                  
+
                   {/* Standalone PWA Matchmaking */}
                   <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
 
@@ -185,11 +186,15 @@ function App() {
                     path="/tournament-manager"
                     element={<TournamentManager />}
                   />
-                  <Route path="/admin" element={<AdminPanel />} />
-                  
-                  {/* OAuth Routes */}
-                  <Route path="/oauth/callback" element={<OAuthCallback />} />
-                  <Route path="/oauth/complete" element={<OAuthComplete />} />
+                  <Route 
+              path="/admin" 
+              element={
+                <ProtectedRoute requireAdmin>
+                  <AdminPanel />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/singularity" element={<SingularityControlCenter />} />
                 </Routes>
                         </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>
