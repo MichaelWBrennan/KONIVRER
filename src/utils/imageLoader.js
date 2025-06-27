@@ -108,6 +108,7 @@ export const getCardImagePath = (name) => {
   // Check if we have a direct mapping
   const filename = CARD_FILENAME_MAP[name];
   if (filename) {
+    console.log(`✅ imageLoader: Found mapping for "${name}" -> "${filename}"`);
     return `/assets/cards/${filename}`;
   }
   
