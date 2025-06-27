@@ -82,6 +82,19 @@ mode = "sequential"
 task = "shell.exec"
 args = "node scripts/optimize-and-deploy.js"
 
+[[workflows.workflow]]
+name = "Safe Git Deploy"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/git-automation.js --clean"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/git-automation.js --push"
+
 [[ports]]
 localPort = 12000
 externalPort = 80
