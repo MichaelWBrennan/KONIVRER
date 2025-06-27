@@ -28,6 +28,24 @@ mode = "sequential"
 task = "shell.exec"
 args = "npm run dev"
 
+[[workflows.workflow]]
+name = "AI Deployment Pipeline"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/ai-powered-deployment.js --deploy"
+
+[[workflows.workflow]]
+name = "Quantum Automation Suite"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/quantum-automation-orchestrator.js --dominate-industry"
+
 [[ports]]
 localPort = 12000
 externalPort = 80
