@@ -111,9 +111,10 @@ export const getCardImagePath = (name) => {
     return `/assets/cards/${filename}`;
   }
   
-  // Return null for unmapped cards - let the component handle the fallback
-  console.log(`🚫 imageLoader: No mapping found for card: "${name}", will use CSS fallback`);
-  return null;
+  // Try direct filename approach for unmapped cards
+  const directPath = `/assets/cards/${name}.png`;
+  console.log(`🔍 imageLoader: Trying direct path for "${name}": ${directPath}`);
+  return directPath;
 };
 
 /**
