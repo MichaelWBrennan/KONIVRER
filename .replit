@@ -6,3 +6,27 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
+
+[[ports]]
+localPort = 12000
+externalPort = 80
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Comprehensive Optimization"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/comprehensive-optimization.js"
+
+[[workflows.workflow]]
+name = "Ultra Deployment"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/ultra-deployment.js"
