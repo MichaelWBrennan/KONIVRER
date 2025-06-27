@@ -6,3 +6,14 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Enterprise Automation"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/enterprise-automation.js --run"

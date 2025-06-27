@@ -1,0 +1,73 @@
+
+{
+  "automation": {
+    "enableScheduledOptimizations": true,
+    "enableAutoDeployment": true,
+    "enablePerformanceMonitoring": true,
+    "enableSecurityScanning": true,
+    "enableDependencyUpdates": true,
+    "enableCodeQualityChecks": true,
+    "enableInfrastructureValidation": true,
+    "enableAdvancedTesting": true
+  },
+  "thresholds": {
+    "bundleSize": 500000,
+    "performanceScore": 90,
+    "securityScore": 95,
+    "testCoverage": 80,
+    "codeQuality": 85,
+    "vulnerabilityLevel": "moderate",
+    "duplicateCodePercentage": 10
+  },
+  "scheduling": {
+    "securityScan": "0 2 * * *",
+    "performanceOptimization": "0 3 * * 0",
+    "dependencyUpdate": "0 4 * * 1",
+    "codeQualityCheck": "0 1 * * *"
+  },
+  "notifications": {
+    "enableSlack": true,
+    "enableEmail": false,
+    "enableTeams": false,
+    "onlyOnFailure": false,
+    "includeMetrics": true
+  },
+  "deployment": {
+    "autoDeployOnMain": true,
+    "requireAllChecks": true,
+    "enableRollback": true,
+    "environmentPromotion": true
+  },
+  "testing": {
+    "parallelExecution": true,
+    "failFast": false,
+    "retryOnFailure": 2,
+    "coverageThreshold": 80
+  },
+  "codeQuality": {
+    "enforceFormatting": true,
+    "enforceTypeScript": true,
+    "enforceESLint": true,
+    "allowWarnings": true,
+    "maxComplexity": 10
+  },
+  "security": {
+    "scanDependencies": true,
+    "scanCode": true,
+    "scanInfrastructure": true,
+    "blockOnVulnerabilities": false,
+    "autoFixEnabled": true
+  },
+  "performance": {
+    "bundleAnalysis": true,
+    "lighthouseCI": true,
+    "performanceBudget": true,
+    "coreWebVitals": true
+  },
+  "monitoring": {
+    "enableHealthChecks": true,
+    "enableMetricsCollection": true,
+    "enableErrorTracking": true,
+    "enablePerformanceTracking": true
+  }
+}
