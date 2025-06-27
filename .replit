@@ -8,6 +8,7 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run dev"]
 
 [workflows]
+runButton = "Run Development Server"
 
 [[workflows.workflow]]
 name = "Enterprise Automation"
@@ -17,3 +18,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node scripts/enterprise-automation.js --run"
+
+[[workflows.workflow]]
+name = "Run Development Server"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
