@@ -46,6 +46,33 @@ mode = "sequential"
 task = "shell.exec"
 args = "node scripts/quantum-automation-orchestrator.js --dominate-industry"
 
+[[workflows.workflow]]
+name = "Singularity Automation"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/singularity-automation-engine.js --achieve-singularity"
+
+[[workflows.workflow]]
+name = "Neural Network Optimization"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/neural-network-automation.js --neural-optimize"
+
+[[workflows.workflow]]
+name = "Hyperspace Deployment"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/hyperspace-deployment.js --deploy-hyperspace"
+
 [[ports]]
 localPort = 12000
 externalPort = 80
