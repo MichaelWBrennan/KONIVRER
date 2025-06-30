@@ -57,7 +57,7 @@ jobs:
           
       - name: Create security report PR
         if: always()
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: automated security maintenance'
@@ -148,7 +148,7 @@ jobs:
           npm run build
 
       - name: Create dependency update PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore: automated dependency updates'
@@ -206,7 +206,7 @@ jobs:
           echo "📋 Code quality analysis completed"
 
       - name: Create code quality PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'style: automated code quality improvements'
