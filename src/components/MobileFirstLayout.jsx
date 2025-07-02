@@ -150,7 +150,7 @@ const MobileFirstLayout = ({ children }) => {
       <main className="mobile-content">{children}</main>
 
       {/* Mobile Navigation */}
-      <nav className="mobile-nav esoteric-bg-dark">
+      <nav className={`mobile-nav esoteric-bg-dark ${location.pathname !== '/' ? 'mobile-nav-five-items' : 'mobile-nav-four-items'}`}>
         {navigationItems.map(
           item =>
             // Only show Home when not on the home page
