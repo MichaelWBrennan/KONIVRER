@@ -1,0 +1,76 @@
+# ZAP Security Scanning Rules for KONIVRER
+# Format: RULE_ID	THRESHOLD	[IGNORE/WARN/FAIL]
+
+# Ignore false positives for development
+10021	OFF	# X-Content-Type-Options header missing (handled by Vercel)
+10020	OFF	# X-Frame-Options header missing (handled by Vercel)
+10016	OFF	# Web Browser XSS Protection Not Enabled (handled by Vercel)
+
+# Security headers (warn level for development)
+10035	WARN	# Strict-Transport-Security Header Not Set
+10038	WARN	# Content Security Policy (CSP) Header Not Set
+
+# High priority security issues (fail on these)
+40012	FAIL	# Cross Site Scripting (Reflected)
+40014	FAIL	# Cross Site Scripting (Persistent)
+40016	FAIL	# Cross Site Scripting (Persistent) - Prime
+40017	FAIL	# Cross Site Scripting (Persistent) - Spider
+40018	FAIL	# Cross Site Scripting (Persistent) - OData
+40019	FAIL	# Cross Site Scripting (DOM Based)
+40020	FAIL	# Cross Site Scripting (Headers)
+90019	FAIL	# Server Side Code Injection
+90020	FAIL	# Remote OS Command Injection
+
+# SQL Injection
+40018	FAIL	# SQL Injection
+40019	FAIL	# SQL Injection - MySQL
+40020	FAIL	# SQL Injection - Hypersonic SQL
+40021	FAIL	# SQL Injection - Oracle
+40022	FAIL	# SQL Injection - PostgreSQL
+
+# Authentication and session management
+10040	WARN	# Secure Pages Include Mixed Content
+10041	WARN	# HTTP to HTTPS Insecure Transition in Form Post
+10042	WARN	# HTTPS to HTTP Insecure Transition in Form Post
+10043	WARN	# User Controllable JavaScript Event (XSS)
+
+# Information disclosure
+10045	WARN	# Source Code Disclosure - /WEB-INF folder
+10046	WARN	# Source Code Disclosure - CVE-2012-1823
+10047	WARN	# Source Code Disclosure - File Inclusion
+
+# Directory traversal
+10048	FAIL	# Remote File Inclusion
+10049	FAIL	# Source Code Disclosure - Git
+
+# Weak cryptography
+10050	WARN	# Retrieved from Cache
+10051	WARN	# Relative Path Confusion
+10052	WARN	# X-ChromeLogger-Data (XCOLD) Header Information Leak
+
+# Application logic flaws
+10053	WARN	# Apache Range Header DoS (CVE-2011-3192)
+10054	WARN	# Cookie No HttpOnly Flag
+10055	WARN	# Cookie No Secure Flag
+10056	WARN	# Cookie SameSite Attribute Missing
+
+# Modern web application security
+10057	WARN	# Username Hash Found
+10058	WARN	# GET for POST
+10059	WARN	# X-AspNet-Version Response Header
+10060	WARN	# X-Powered-By Response Header
+
+# API security
+10061	WARN	# X-Debug-Token Information Leak
+10062	WARN	# PII Disclosure
+10063	WARN	# Feature Policy Header Not Set
+10064	WARN	# Permissions Policy Header Missing
+
+# Content security
+10065	WARN	# Dangerous JS Functions
+10066	WARN	# Critical JS Libraries
+10067	WARN	# Timestamp Disclosure
+10068	WARN	# Modern Web Application
+
+# Default to WARN for unknown rules
+*	WARN

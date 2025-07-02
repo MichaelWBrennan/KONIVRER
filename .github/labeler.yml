@@ -1,0 +1,74 @@
+# MIT License
+# 
+# Copyright (c) 2025 KONIVRER Team
+
+# Automatic labeling configuration for GitHub Actions
+
+# Frontend changes
+frontend:
+  - 'src/**'
+  - 'public/**'
+  - 'index.html'
+  - 'vite.config.js'
+
+# Backend changes
+backend:
+  - 'Backend/**'
+  - 'api/**'
+  - 'server/**'
+
+# Documentation changes
+documentation:
+  - '*.md'
+  - 'docs/**'
+  - '.github/**/*.md'
+
+# Configuration changes
+configuration:
+  - '*.json'
+  - '*.yml'
+  - '*.yaml'
+  - '*.toml'
+  - '.github/workflows/**'
+  - 'vercel.json'
+
+# Dependencies
+dependencies:
+  - 'package*.json'
+  - 'Backend/package*.json'
+  - 'yarn.lock'
+  - 'pnpm-lock.yaml'
+
+# Security related
+security:
+  - '**/*security*'
+  - '**/*auth*'
+  - '.github/workflows/*security*'
+
+# Testing
+testing:
+  - '**/*.test.*'
+  - '**/*.spec.*'
+  - 'test/**'
+  - 'tests/**'
+  - '__tests__/**'
+
+# Styling
+css:
+  - '**/*.css'
+  - '**/*.scss'
+  - '**/*.sass'
+  - '**/*.less'
+
+# JavaScript/TypeScript
+javascript:
+  - '**/*.js'
+  - '**/*.jsx'
+  - '**/*.ts'
+  - '**/*.tsx'
+
+# CI/CD
+ci/cd:
+  - '.github/workflows/**'
+  - '.github/actions/**'
+  - 'scripts/**'

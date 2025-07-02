@@ -1,0 +1,53 @@
+# MIT License
+# 
+# Copyright (c) 2025 KONIVRER Team
+
+# Auto-assign configuration for pull requests
+
+# Default reviewers for all PRs
+reviewers:
+  - MichaelWBrennan
+
+# Team-based assignments (customize based on your team structure)
+teams:
+  - frontend-team
+  - security-team
+
+# Number of reviewers to assign
+numberOfReviewers: 1
+
+# Number of assignees to assign
+numberOfAssignees: 0
+
+# Skip draft PRs
+skipDraftPR: true
+
+# Skip PRs with specific labels
+skipLabels:
+  - work-in-progress
+  - do-not-review
+
+# Include specific labels for assignment
+includeLabels:
+  - ready-for-review
+
+# Custom assignment rules based on file patterns
+assignees:
+  - MichaelWBrennan
+
+# Review assignment based on file changes
+fileAssignees:
+  '**/*.js':
+    - MichaelWBrennan
+  '**/*.jsx':
+    - MichaelWBrennan
+  '**/*.ts':
+    - MichaelWBrennan
+  '**/*.tsx':
+    - MichaelWBrennan
+  '.github/workflows/**':
+    - MichaelWBrennan
+  'Backend/**':
+    - MichaelWBrennan
+  '**/*security*':
+    - MichaelWBrennan
