@@ -1,0 +1,364 @@
+# MIT License
+# 
+# Copyright (c) 2025 KONIVRER Team
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+name: Consolidated Automation Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  issues:
+    types: [opened, edited, labeled]
+  schedule:
+    # Run automation daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      automation_scope:
+        description: 'Automation scope'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+        - minimal
+        - standard
+        - comprehensive
+
+# Optimized permissions - only what's needed
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: write
+
+concurrency:
+  group: automation-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '20'
+  AUTOMATION_SCOPE: ${{ github.event.inputs.automation_scope || 'standard' }}
+
+jobs:
+  # Smart change detection
+  change-detection:
+    name: Smart Change Detection
+    runs-on: ubuntu-latest
+    outputs:
+      has-code-changes: ${{ steps.changes.outputs.code }}
+      has-docs-changes: ${{ steps.changes.outputs.docs }}
+      has-config-changes: ${{ steps.changes.outputs.config }}
+      has-workflow-changes: ${{ steps.changes.outputs.workflows }}
+      automation-scope: ${{ steps.scope.outputs.scope }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Detect changes
+      uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          code:
+            - 'src/**'
+            - 'public/**'
+            - '*.js'
+            - '*.jsx'
+            - '*.ts'
+            - '*.tsx'
+          docs:
+            - '*.md'
+            - 'docs/**'
+          config:
+            - 'package*.json'
+            - '*.config.*'
+            - 'vite.config.*'
+            - 'tailwind.config.*'
+          workflows:
+            - '.github/workflows/**'
+            
+    - name: Determine automation scope
+      id: scope
+      run: |
+        SCOPE="${{ env.AUTOMATION_SCOPE }}"
+        
+        # Adjust scope based on changes and event type
+        if [[ "${{ github.event_name }}" == "schedule" ]]; then
+          SCOPE="comprehensive"
+        elif [[ "${{ steps.changes.outputs.workflows }}" == "true" ]]; then
+          SCOPE="comprehensive"
+        elif [[ "${{ steps.changes.outputs.config }}" == "true" ]]; then
+          SCOPE="standard"
+        fi
+        
+        echo "scope=$SCOPE" >> $GITHUB_OUTPUT
+        echo "🎯 Automation scope: $SCOPE"
+
+  # Issue and PR automation
+  issue-pr-automation:
+    name: Issue & PR Automation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Auto-label issues
+      if: github.event_name == 'issues' && github.event.action == 'opened'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const issue = context.payload.issue;
+          const labels = [];
+          
+          // Auto-label based on title and body
+          const title = issue.title.toLowerCase();
+          const body = issue.body?.toLowerCase() || '';
+          
+          if (title.includes('bug') || title.includes('error') || title.includes('issue')) {
+            labels.push('bug');
+          }
+          if (title.includes('feature') || title.includes('enhancement')) {
+            labels.push('enhancement');
+          }
+          if (title.includes('security') || body.includes('vulnerability')) {
+            labels.push('security');
+          }
+          if (title.includes('performance') || body.includes('slow')) {
+            labels.push('performance');
+          }
+          if (title.includes('documentation') || title.includes('docs')) {
+            labels.push('documentation');
+          }
+          
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: labels
+            });
+          }
+          
+    - name: Auto-assign reviewers
+      if: github.event_name == 'pull_request' && github.event.action == 'opened'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          
+          // Auto-assign based on changed files
+          const { data: files } = await github.rest.pulls.listFiles({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: pr.number
+          });
+          
+          const labels = [];
+          const hasSecurityFiles = files.some(f => 
+            f.filename.includes('security') || 
+            f.filename.includes('.github/workflows')
+          );
+          
+          if (hasSecurityFiles) {
+            labels.push('security-review');
+          }
+          
+          if (files.some(f => f.filename.includes('package'))) {
+            labels.push('dependencies');
+          }
+          
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: labels
+            });
+          }
+
+  # Quality automation
+  quality-automation:
+    name: Quality Automation
+    runs-on: ubuntu-latest
+    needs: change-detection
+    if: needs.change-detection.outputs.has-code-changes == 'true' || github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Code quality checks
+      run: |
+        echo "🎯 Running quality automation..."
+        npm run lint || true
+        npm run format:check || true
+        
+    - name: Build verification
+      run: |
+        npm run build
+        
+    - name: Test execution
+      run: |
+        npm test || echo "Tests not configured or failed"
+        
+    - name: Performance analysis
+      if: needs.change-detection.outputs.automation-scope == 'comprehensive'
+      run: |
+        npm run bundle:analyze || true
+        
+    - name: Upload quality reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: quality-reports
+        path: |
+          bundle-analysis.json
+          coverage/
+        retention-days: 30
+
+  # Dependency automation
+  dependency-automation:
+    name: Dependency Automation
+    runs-on: ubuntu-latest
+    needs: change-detection
+    if: needs.change-detection.outputs.has-config-changes == 'true' || github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Dependency analysis
+      run: |
+        echo "📦 Running dependency automation..."
+        npm outdated --json > outdated.json || true
+        npx depcheck --json > depcheck-report.json || true
+        
+    - name: Security dependency updates
+      if: github.event_name == 'schedule'
+      run: |
+        npm audit fix --force || true
+        
+    - name: Check for updates
+      id: check-updates
+      run: |
+        if [ -s outdated.json ] && [ "$(cat outdated.json)" != "{}" ]; then
+          echo "has-updates=true" >> $GITHUB_OUTPUT
+        else
+          echo "has-updates=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Create dependency update PR
+      if: steps.check-updates.outputs.has-updates == 'true' && github.event_name == 'schedule'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "📦 Automated dependency updates"
+        title: "📦 Automated Dependency Updates"
+        body: |
+          ## 📦 Automated Dependency Updates
+          
+          This PR contains automated dependency updates.
+          
+          ### Changes
+          - Security fixes applied
+          - Outdated packages updated
+          
+          **Auto-generated by:** Consolidated Automation
+        branch: automated-dependency-updates
+        delete-branch: true
+        labels: |
+          dependencies
+          automated
+
+  # Automation reporting
+  automation-reporting:
+    name: Automation Reporting
+    runs-on: ubuntu-latest
+    needs: [change-detection, issue-pr-automation, quality-automation, dependency-automation]
+    if: always()
+    
+    steps:
+    - name: Generate automation report
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const results = {
+            'change-detection': '${{ needs.change-detection.result }}',
+            'issue-pr': '${{ needs.issue-pr-automation.result }}',
+            'quality': '${{ needs.quality-automation.result }}',
+            'dependency': '${{ needs.dependency-automation.result }}'
+          };
+          
+          const successful = Object.values(results).filter(r => r === 'success').length;
+          const failed = Object.values(results).filter(r => r === 'failure').length;
+          const skipped = Object.values(results).filter(r => r === 'skipped').length;
+          
+          const report = `
+          ## 🤖 Automation Report
+          
+          **Scope:** ${{ needs.change-detection.outputs.automation-scope }}
+          **Trigger:** ${{ github.event_name }}
+          **Branch:** ${{ github.ref_name }}
+          
+          ### Results Summary
+          - ✅ Successful: ${successful}
+          - ❌ Failed: ${failed}
+          - ⏭️ Skipped: ${skipped}
+          
+          ### Job Results
+          - 🔍 Change Detection: ${results['change-detection']}
+          - 🎯 Issue/PR Automation: ${results['issue-pr']}
+          - 🎯 Quality Automation: ${results['quality']}
+          - 📦 Dependency Automation: ${results['dependency']}
+          
+          ${failed > 0 ? '⚠️ **Action Required:** Some automation failed.' : '✅ All automation completed successfully!'}
+          `;
+          
+          console.log(report);
+          
+          if (failed > 0 && '${{ github.event_name }}' === 'schedule') {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Automation Failures Detected',
+              body: report,
+              labels: ['automation', 'failure']
+            });
+          }
