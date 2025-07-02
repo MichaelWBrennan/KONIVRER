@@ -286,7 +286,7 @@ const Layout = ({ children }) => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2">
+            <nav className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-4">
               {navigation.map(item => {
                 const Icon = item.icon;
                 const isItemActive = isActive(item);
@@ -295,7 +295,7 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    className={`group relative flex items-center gap-2 px-2 md:px-3 lg:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                       isItemActive ? 'animate-border-glow' : 'hover:scale-105'
                     }`}
                     style={{
@@ -315,7 +315,7 @@ const Layout = ({ children }) => {
                       className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'animate-mystical-glow' : ''}`}
                     />
                     <span
-                      className={isItemActive ? 'font-extrabold' : ''}
+                      className={`${isItemActive ? 'font-extrabold' : ''} hidden sm:inline`}
                       style={
                         isItemActive
                           ? {

@@ -114,6 +114,33 @@ body {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   z-index: var(--z-above);
   border-top: 1px solid #333333; /* Add subtle border */
+  overflow: hidden; /* Prevent any overflow */
+}
+
+/* Ensure navigation works well with 5 items */
+.mobile-nav-five-items {
+  gap: 0; /* Remove any gaps when 5 items are present */
+}
+
+.mobile-nav-five-items .mobile-nav-item {
+  flex: 1 1 20%; /* Each item takes exactly 20% when 5 items */
+  max-width: 20%;
+  padding: var(--spacing-xs) 1px; /* Tighter padding for 5 items */
+}
+
+.mobile-nav-five-items .mobile-nav-item-text {
+  font-size: 0.65rem; /* Smaller font for 5 items */
+}
+
+/* Better spacing for 4 items */
+.mobile-nav-four-items .mobile-nav-item {
+  flex: 1 1 25%; /* Each item takes exactly 25% when 4 items */
+  max-width: 25%;
+  padding: var(--spacing-xs) var(--spacing-sm); /* More comfortable padding for 4 items */
+}
+
+.mobile-nav-four-items .mobile-nav-item-text {
+  font-size: 0.75rem; /* Larger font for 4 items */
 }
 
 /* Remove scrollbar styles since we're not scrolling anymore */
@@ -126,13 +153,14 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-xs) 2px; /* Reduced horizontal padding for better fit */
   flex: 1; /* Make each item take equal space */
   min-height: var(--touch-target-size);
   color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast);
   text-align: center;
+  min-width: 0; /* Allow items to shrink below their content size */
 }
 
 .mobile-nav-item.active {
@@ -140,7 +168,7 @@ body {
 }
 
 .mobile-nav-item-text {
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* Slightly smaller font for better fit */
   margin-top: var(--spacing-xs);
   text-align: center;
   white-space: nowrap;
@@ -148,6 +176,28 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
+  line-height: 1.2; /* Tighter line height */
+}
+
+/* Responsive font sizing for navigation */
+@media (max-width: 360px) {
+  .mobile-nav-item-text {
+    font-size: 0.65rem; /* Even smaller on very small screens */
+  }
+  
+  .mobile-nav-item {
+    padding: var(--spacing-xs) 1px; /* Even tighter padding on small screens */
+  }
+}
+
+@media (min-width: 480px) {
+  .mobile-nav-item-text {
+    font-size: 0.8rem; /* Larger font on bigger screens */
+  }
+  
+  .mobile-nav-item {
+    padding: var(--spacing-xs) var(--spacing-sm); /* More padding on larger screens */
+  }
 }
 
 /* Mobile header */
