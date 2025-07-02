@@ -54,7 +54,7 @@
     "axios": "^1.10.0",
     "cannon-es": "^0.20.0",
     "cssnano": "^7.0.7",
-    "framer-motion": "^10.16.4",
+    "framer-motion": "^12.19.2",
     "lru-cache": "^11.1.0",
     "lucide-react": "^0.292.0",
     "qrcode.react": "^4.2.0",
