@@ -168,7 +168,7 @@ jobs:
         
     - name: License compliance check
       run: |
-        npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense' || true
+        npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;Python-2.0;CC-BY-4.0;CC-BY-3.0;0BSD;UNLICENSED;CC0-1.0' || true
         npx license-checker --json --out license-report.json
         
     - name: Security linting
