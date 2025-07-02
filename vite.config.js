@@ -3,32 +3,12 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
 
-// Custom plugin to exclude card images from build
-const excludeCardImages = () => {
-  return {
-    name: 'exclude-card-images',
-    generateBundle(options, bundle) {
-      // Remove card images from the bundle
-      Object.keys(bundle).forEach(fileName => {
-        if (fileName.includes('assets/cards/') && fileName.endsWith('.png')) {
-          delete bundle[fileName];
-        }
-      });
-    },
-    writeBundle() {
-      // Remove card images directory from dist after build
-      const cardsDir = path.join('dist', 'assets', 'cards');
-      if (fs.existsSync(cardsDir)) {
-        fs.rmSync(cardsDir, { recursive: true, force: true });
-        console.log('🗑️  Removed card images from dist (served via CDN)');
-      }
-    },
-  };
-};
+// Custom plugin to include card images in build (removed CDN exclusion)
+// Card images are now served locally instead of via CDN
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), excludeCardImages()],
+  plugins: [react()],
   build: {
     outDir: 'dist',
     chunkSizeWarningLimit: 1500,
