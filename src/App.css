@@ -44,14 +44,14 @@
 }
 
 :root {
-  /* Ancient and Esoteric Theme with Modern Design Principles - FORCED OVERRIDE */
-  --bg-primary: #1a1409 !important; /* Dark aged parchment */
-  --bg-secondary: #221b10 !important; /* Slightly lighter aged parchment */
-  --bg-tertiary: #2a2214 !important; /* Textured stone */
-  --bg-card: #241e12 !important; /* Weathered scroll */
-  --bg-hover: #3a3120 !important; /* Highlighted text on ancient scroll */
-  --bg-accent: #332a1a !important; /* Ancient tablet */
-  --bg-glass: rgba(26, 20, 9, 0.85) !important; /* Translucent aged glass */
+  /* Modern Black Theme - FORCED OVERRIDE */
+  --bg-primary: #000000 !important; /* Solid black background */
+  --bg-secondary: #111111 !important; /* Slightly lighter black */
+  --bg-tertiary: #1a1a1a !important; /* Dark gray */
+  --bg-card: #0f0f0f !important; /* Card background */
+  --bg-hover: #222222 !important; /* Hover state */
+  --bg-accent: #1f1f1f !important; /* Accent background */
+  --bg-glass: rgba(0, 0, 0, 0.85) !important; /* Translucent black glass */
 
   --text-primary: #e8d7b0 !important; /* Faded ink on parchment */
   --text-secondary: #c4b795 !important; /* Aged ink */
