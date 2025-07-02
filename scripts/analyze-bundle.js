@@ -14,8 +14,12 @@
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Bundle analysis script for KONIVRER project
@@ -321,9 +325,9 @@ class BundleAnalyzer {
 }
 
 // Run bundle analysis if this script is executed directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const analyzer = new BundleAnalyzer();
   analyzer.run();
 }
 
-module.exports = BundleAnalyzer;
+export default BundleAnalyzer;
