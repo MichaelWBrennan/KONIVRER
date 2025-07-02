@@ -57,13 +57,19 @@ html, body {
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
-  background-color: var(--color-primary);
+  background-color: #000000 !important; /* Force solid black background */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Mobile-first layout */
+.mobile-app {
+  min-height: 100vh;
+  background-color: #000000 !important; /* Force black background for entire app */
+  color: #ffffff;
+}
+
 .container {
   width: 100%;
   padding-left: calc(var(--spacing-md) + var(--safe-area-inset-left));
@@ -95,18 +101,19 @@ html, body {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--color-secondary);
-  padding: var(--spacing-sm) var(--spacing-xs);
+  width: 100%;
+  background-color: #111111 !important; /* Dark background for nav */
+  padding: var(--spacing-sm) 0; /* Remove horizontal padding */
   padding-bottom: calc(var(--spacing-sm) + var(--safe-area-inset-bottom));
   display: flex;
-  overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  justify-content: space-evenly; /* Evenly distribute items */
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   z-index: var(--z-above);
+  border-top: 1px solid #333333; /* Add subtle border */
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+/* Remove scrollbar styles since we're not scrolling anymore */
 .mobile-nav::-webkit-scrollbar {
   display: none;
 }
@@ -117,12 +124,12 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: var(--spacing-xs) var(--spacing-sm);
-  min-width: 60px; /* Ensure minimum width for touch targets */
+  flex: 1; /* Make each item take equal space */
   min-height: var(--touch-target-size);
   color: var(--color-text-muted);
   text-decoration: none;
   transition: color var(--transition-fast);
-  flex-shrink: 0; /* Prevent items from shrinking */
+  text-align: center;
 }
 
 .mobile-nav-item.active {
@@ -130,27 +137,29 @@ html, body {
 }
 
 .mobile-nav-item-text {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   margin-top: var(--spacing-xs);
   text-align: center;
   white-space: nowrap;
-  max-width: 70px; /* Limit text width */
+  width: 100%; /* Take full width of parent */
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 /* Mobile header */
 .mobile-header {
   position: sticky;
   top: 0;
-  background-color: var(--color-secondary);
+  background-color: #111111 !important; /* Dark header background */
   padding: var(--spacing-md);
   padding-top: calc(var(--spacing-md) + var(--safe-area-inset-top));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   z-index: var(--z-above);
+  border-bottom: 1px solid #333333; /* Add subtle border */
 }
 
 .mobile-header-title {
@@ -164,6 +173,7 @@ html, body {
   padding: var(--spacing-md);
   padding-bottom: calc(var(--touch-target-size) * 2);
   min-height: calc(100vh - var(--touch-target-size) * 2);
+  background-color: #000000 !important; /* Force black background */
 }
 
 /* Cards */
