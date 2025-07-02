@@ -9,6 +9,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 ## Features
 
 ### Core Features
+
 - **Physical Match Management**: Create and manage physical matches between players
 - **Tournament Organization**: Set up and track tournaments with various formats
 - **QR Code Generation**: Generate QR codes for matches and tournaments
@@ -21,6 +22,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 ### State-of-the-Art Technology
 
 #### AI & Machine Learning
+
 - **AI Card Verification**: Use your device camera to scan and verify physical cards with TensorFlow.js
 - **Machine Learning Deck Analysis**: Analyze deck compositions, predict win rates, and get optimization suggestions
 - **Transformer-Based Card Recognition**: Utilize Hugging Face transformers for advanced card recognition
@@ -28,6 +30,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 - **LangChain Integration**: Advanced language processing for card descriptions and rules
 
 #### Graphics & Visualization
+
 - **WebGPU Card Renderer**: Hardware-accelerated graphics with compute shaders for photorealistic card rendering
 - **Augmented Reality Card Viewer**: Experience your cards in AR with 3D models and animations
 - **Three.js Integration**: Advanced 3D rendering with React Three Fiber, Drei, and Rapier physics
@@ -35,6 +38,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 - **WebCodecs Support**: Hardware-accelerated video encoding/decoding for streaming matches
 
 #### Blockchain & Web3
+
 - **Multi-Chain Support**: Blockchain integration with Ethereum, Solana, and NEAR
 - **Smart Contract Integration**: Secure tournament results and card ownership verification
 - **IPFS Integration**: Decentralized storage for card data and match results
@@ -42,6 +46,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 - **NFT Support**: Create and verify non-fungible tokens for digital cards
 
 #### Performance & Infrastructure
+
 - **WebAssembly Acceleration**: Critical algorithms compiled to WASM for near-native performance
 - **Web Workers**: Multi-threaded processing for intensive computations
 - **Service Workers**: Advanced caching and offline support
@@ -49,6 +54,7 @@ A state-of-the-art TCG platform leveraging cutting-edge web technologies includi
 - **Edge Computing**: Distributed computing capabilities for reduced latency
 
 #### Developer Experience
+
 - **TypeScript**: Full type safety throughout the codebase
 - **React 19**: Latest React features including concurrent rendering
 - **Vite**: Lightning-fast build tooling with HMR
@@ -184,11 +190,13 @@ konivrer-standalone/
 ### Components
 
 #### Core Components
+
 1. **PhysicalMatchmaking**: Main component that displays matches, tournaments, and player statistics
 2. **QRCodeGenerator**: Standard QR code generator component
 3. **AncientThemeQRCodeGenerator**: QR code generator with ancient-esoteric styling
 
 #### Bleeding-Edge Components
+
 4. **AICardVerification**: AI-powered card verification using TensorFlow.js and device camera
 5. **BlockchainVerification**: Blockchain integration for secure tournament results and card ownership
 6. **MLDeckAnalysis**: Machine learning deck analysis with archetype identification and win rate prediction
@@ -219,12 +227,14 @@ konivrer-standalone/
 The QR codes contain structured JSON data that includes:
 
 ### Match QR Codes
+
 - Match ID and type
 - Player information (names, IDs, Bayesian ratings)
 - Match format and status
 - Timestamp and app version
 
 ### Tournament QR Codes
+
 - Tournament ID, name, and type
 - Format and status
 - Participant details with Bayesian ratings
@@ -249,12 +259,14 @@ To integrate this component with the main KONIVRER Deck Database:
 ## Dependencies
 
 ### Core Dependencies
+
 - **React**: UI library
 - **React DOM**: React renderer for the DOM
 - **qrcode.react**: QR code generation library
 - **web-vitals**: Performance monitoring library
 
 ### Bleeding-Edge Dependencies
+
 - **TensorFlow.js**: Machine learning library for AI card verification
 - **Ethers.js**: Ethereum library for blockchain integration
 - **Chart.js & React-ChartJS-2**: Data visualization for ML deck analysis

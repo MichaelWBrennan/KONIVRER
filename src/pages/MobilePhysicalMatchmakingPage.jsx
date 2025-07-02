@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -34,7 +34,7 @@ const MobilePhysicalMatchmakingPage = () => {
   }, [error]);
 
   // Error handler for component errors
-  const handleError = (error) => {
+  const handleError = error => {
     console.error('Physical Matchmaking Error:', error);
     setError(error.message || 'An unexpected error occurred');
   };
@@ -71,7 +71,7 @@ const MobilePhysicalMatchmakingPage = () => {
       {error && (
         <div className="mobile-error-banner esoteric-error-message">
           <p>{error}</p>
-          <button 
+          <button
             onClick={() => setError(null)}
             className="mobile-btn-close esoteric-btn-close"
             aria-label="Dismiss error"
@@ -80,14 +80,16 @@ const MobilePhysicalMatchmakingPage = () => {
           </button>
         </div>
       )}
-      
+
       <div className="mobile-page-header esoteric-page-header">
-        <h1 className="mobile-page-title esoteric-page-title">Physical Matchmaking</h1>
+        <h1 className="mobile-page-title esoteric-page-title">
+          Physical Matchmaking
+        </h1>
         <p className="mobile-page-subtitle esoteric-text-muted">
           Organize physical matches and tournaments
         </p>
       </div>
-      
+
       <ErrorBoundary onError={handleError}>
         <PhysicalMatchmakingApp />
       </ErrorBoundary>

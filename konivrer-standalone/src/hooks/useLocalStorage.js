@@ -28,14 +28,15 @@ const useLocalStorage = (key, initialValue) => {
   const [storedValue, setStoredValue] = useState(readValue);
 
   // Return a wrapped version of useState's setter function that persists the new value to localStorage
-  const setValue = (value) => {
+  const setValue = value => {
     try {
       // Allow value to be a function so we have same API as useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+
       // Save state
       setStoredValue(valueToStore);
-      
+
       // Save to localStorage
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(key, safeStringify(valueToStore));
@@ -47,17 +48,17 @@ const useLocalStorage = (key, initialValue) => {
 
   // Listen for changes to this localStorage key in other tabs/windows
   useEffect(() => {
-    const handleStorageChange = (e) => {
+    const handleStorageChange = e => {
       if (e.key === key && e.newValue) {
         setStoredValue(safeParse(e.newValue, initialValue));
       }
     };
-    
+
     // Add event listener
     if (typeof window !== 'undefined') {
       window.addEventListener('storage', handleStorageChange);
     }
-    
+
     // Remove event listener on cleanup
     return () => {
       if (typeof window !== 'undefined') {

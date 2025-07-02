@@ -87,14 +87,14 @@ This document outlines the optimizations made to the KONIVRER Physical Matchmaki
 
 ## Performance Metrics
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Bundle Size | ~180KB | ~168KB | ~7% reduction |
-| Initial Load Time | ~800ms | ~600ms | ~25% faster |
-| Time to Interactive | ~1200ms | ~900ms | ~25% faster |
-| Render Performance | Medium | High | Significant improvement |
-| Code Splitting | None | Implemented | Multiple smaller chunks |
-| Web Vitals Monitoring | None | Implemented | Added performance tracking |
+| Metric                | Before  | After       | Improvement                |
+| --------------------- | ------- | ----------- | -------------------------- |
+| Bundle Size           | ~180KB  | ~168KB      | ~7% reduction              |
+| Initial Load Time     | ~800ms  | ~600ms      | ~25% faster                |
+| Time to Interactive   | ~1200ms | ~900ms      | ~25% faster                |
+| Render Performance    | Medium  | High        | Significant improvement    |
+| Code Splitting        | None    | Implemented | Multiple smaller chunks    |
+| Web Vitals Monitoring | None    | Implemented | Added performance tracking |
 
 ## Implemented Optimizations (Latest Updates)
 

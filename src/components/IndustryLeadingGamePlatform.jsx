@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -38,14 +38,24 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
     turn: 1,
     activePlayer: 1,
     players: {
-      1: { health: 100, mana: { current: 1, max: 1 }, hand: [], battlefield: [] },
-      2: { health: 100, mana: { current: 1, max: 1 }, hand: [], battlefield: [] }
+      1: {
+        health: 100,
+        mana: { current: 1, max: 1 },
+        hand: [],
+        battlefield: [],
+      },
+      2: {
+        health: 100,
+        mana: { current: 1, max: 1 },
+        hand: [],
+        battlefield: [],
+      },
     },
     stack: [],
     battlefield: [],
     selectedCard: null,
     selectedTargets: [],
-    availableActions: []
+    availableActions: [],
   });
 
   // UI state
@@ -56,7 +66,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
     showTutorial: false,
     notifications: [],
     loading: true,
-    error: null
+    error: null,
   });
 
   // Performance monitoring
@@ -64,7 +74,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
     fps: 60,
     renderTime: 0,
     memoryUsage: 0,
-    networkLatency: 0
+    networkLatency: 0,
   });
 
   // Accessibility state
@@ -73,7 +83,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
     colorBlindMode: 'none',
     fontSize: 1.0,
     reducedMotion: false,
-    keyboardNavigation: true
+    keyboardNavigation: true,
   });
 
   // Initialize all engines
@@ -87,7 +97,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           enableTouchGestures: true,
           enableHapticFeedback: true,
           enableOfflineMode: true,
-          adaptiveQuality: true
+          adaptiveQuality: true,
         });
 
         // Initialize Accessibility Engine
@@ -95,7 +105,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           enableScreenReader: true,
           enableColorBlindSupport: true,
           enableMotorSupport: true,
-          enableKeyboardNavigation: true
+          enableKeyboardNavigation: true,
         });
 
         // Initialize Render Engine
@@ -103,7 +113,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           renderEngineRef.current = new RenderEngine(canvasRef.current, {
             antialias: true,
             alpha: true,
-            powerPreference: 'high-performance'
+            powerPreference: 'high-performance',
           });
         }
 
@@ -112,7 +122,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           masterVolume: 0.7,
           musicVolume: 0.5,
           sfxVolume: 0.8,
-          enableSpatialAudio: true
+          enableSpatialAudio: true,
         });
 
         // Initialize Rules Engine
@@ -123,7 +133,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           difficulty: 'intermediate',
           personality: 'balanced',
           learningEnabled: true,
-          tutorialMode: gameMode === 'tutorial'
+          tutorialMode: gameMode === 'tutorial',
         });
 
         // Initialize Social Engine
@@ -131,14 +141,14 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           enableChat: true,
           enableSpectating: true,
           enableReplays: true,
-          enableFriends: true
+          enableFriends: true,
         });
 
         // Initialize Ranking Engine
         rankingEngineRef.current = new RankingEngine({
           enableRankedPlay: gameMode === 'ranked',
           enableSeasons: true,
-          enableRewards: true
+          enableRewards: true,
         });
 
         // Setup event listeners
@@ -151,14 +161,15 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
         setGameState(prev => ({ ...prev, phase: 'setup' }));
 
         // Announce game start for accessibility
-        accessibilityEngineRef.current?.announce('Game initialized. Starting new match.');
-
+        accessibilityEngineRef.current?.announce(
+          'Game initialized. Starting new match.',
+        );
       } catch (error) {
         console.error('Failed to initialize engines:', error);
-        setUiState(prev => ({ 
-          ...prev, 
-          loading: false, 
-          error: 'Failed to initialize game systems' 
+        setUiState(prev => ({
+          ...prev,
+          loading: false,
+          error: 'Failed to initialize game systems',
         }));
       }
     };
@@ -183,15 +194,24 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
 
     // Accessibility events
     document.addEventListener('accessibility:voiceCommand', handleVoiceCommand);
-    document.addEventListener('accessibility:accessibilityArrow', handleAccessibilityNavigation);
+    document.addEventListener(
+      'accessibility:accessibilityArrow',
+      handleAccessibilityNavigation,
+    );
 
     // Social events
-    document.addEventListener('social:friendRequestReceived', handleFriendRequest);
+    document.addEventListener(
+      'social:friendRequestReceived',
+      handleFriendRequest,
+    );
     document.addEventListener('social:gameInviteReceived', handleGameInvite);
     document.addEventListener('social:chatMessage', handleChatMessage);
 
     // Ranking events
-    document.addEventListener('ranking:achievementUnlocked', handleAchievementUnlocked);
+    document.addEventListener(
+      'ranking:achievementUnlocked',
+      handleAchievementUnlocked,
+    );
     document.addEventListener('ranking:mmrDecay', handleMMRDecay);
 
     // Performance monitoring
@@ -201,53 +221,71 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
       document.removeEventListener('cardTap', handleCardTap);
       document.removeEventListener('cardSwipe', handleCardSwipe);
       document.removeEventListener('cardPinch', handleCardPinch);
-      document.removeEventListener('orientationChanged', handleOrientationChange);
-      document.removeEventListener('accessibility:voiceCommand', handleVoiceCommand);
-      document.removeEventListener('accessibility:accessibilityArrow', handleAccessibilityNavigation);
-      document.removeEventListener('social:friendRequestReceived', handleFriendRequest);
-      document.removeEventListener('social:gameInviteReceived', handleGameInvite);
+      document.removeEventListener(
+        'orientationChanged',
+        handleOrientationChange,
+      );
+      document.removeEventListener(
+        'accessibility:voiceCommand',
+        handleVoiceCommand,
+      );
+      document.removeEventListener(
+        'accessibility:accessibilityArrow',
+        handleAccessibilityNavigation,
+      );
+      document.removeEventListener(
+        'social:friendRequestReceived',
+        handleFriendRequest,
+      );
+      document.removeEventListener(
+        'social:gameInviteReceived',
+        handleGameInvite,
+      );
       document.removeEventListener('social:chatMessage', handleChatMessage);
-      document.removeEventListener('ranking:achievementUnlocked', handleAchievementUnlocked);
+      document.removeEventListener(
+        'ranking:achievementUnlocked',
+        handleAchievementUnlocked,
+      );
       document.removeEventListener('ranking:mmrDecay', handleMMRDecay);
       clearInterval(performanceInterval);
     };
   }, []);
 
   // Event handlers
-  const handleCardTap = useCallback((event) => {
+  const handleCardTap = useCallback(event => {
     const { target, position } = event.detail;
     const cardElement = target.closest('.game-card');
-    
+
     if (cardElement) {
       const cardId = cardElement.dataset.cardId;
       handleCardSelection(cardId);
-      
+
       // Haptic feedback
       mobileOptimizationRef.current?.triggerHapticFeedback('light');
-      
+
       // Audio feedback
       audioEngineRef.current?.playSFX('card_hover');
     }
   }, []);
 
-  const handleCardSwipe = useCallback((event) => {
+  const handleCardSwipe = useCallback(event => {
     const { direction, target } = event.detail;
     const cardElement = target.closest('.game-card');
-    
+
     if (cardElement && direction === 'up') {
       // Swipe up to play card
       const cardId = cardElement.dataset.cardId;
       handleCardPlay(cardId);
-      
+
       mobileOptimizationRef.current?.triggerHapticFeedback('medium');
       audioEngineRef.current?.playSFX('card_play');
     }
   }, []);
 
-  const handleCardPinch = useCallback((event) => {
+  const handleCardPinch = useCallback(event => {
     const { scale, target } = event.detail;
     const cardElement = target.closest('.game-card');
-    
+
     if (cardElement && scale > 1.5) {
       // Pinch to zoom - show card details
       const cardId = cardElement.dataset.cardId;
@@ -255,198 +293,222 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
     }
   }, []);
 
-  const handleVoiceCommand = useCallback((event) => {
-    const { command } = event.detail;
-    
-    switch (command) {
-      case 'playCard':
-        if (gameState.selectedCard) {
-          handleCardPlay(gameState.selectedCard);
-        } else {
-          accessibilityEngineRef.current?.announce('No card selected. Please select a card first.');
-        }
-        break;
-      case 'attack':
-        handleAttackCommand();
-        break;
-      case 'endTurn':
-        handleEndTurn();
-        break;
-    }
-  }, [gameState.selectedCard]);
+  const handleVoiceCommand = useCallback(
+    event => {
+      const { command } = event.detail;
 
-  const handleAccessibilityNavigation = useCallback((event) => {
+      switch (command) {
+        case 'playCard':
+          if (gameState.selectedCard) {
+            handleCardPlay(gameState.selectedCard);
+          } else {
+            accessibilityEngineRef.current?.announce(
+              'No card selected. Please select a card first.',
+            );
+          }
+          break;
+        case 'attack':
+          handleAttackCommand();
+          break;
+        case 'endTurn':
+          handleEndTurn();
+          break;
+      }
+    },
+    [gameState.selectedCard],
+  );
+
+  const handleAccessibilityNavigation = useCallback(event => {
     const { direction } = event.detail;
     navigateCards(direction);
   }, []);
 
-  const handleFriendRequest = useCallback((event) => {
+  const handleFriendRequest = useCallback(event => {
     const { from } = event.detail;
     addNotification({
       type: 'friend_request',
       message: `${from.username} wants to be your friend`,
-      actions: ['Accept', 'Decline']
+      actions: ['Accept', 'Decline'],
     });
   }, []);
 
-  const handleGameInvite = useCallback((event) => {
+  const handleGameInvite = useCallback(event => {
     const { from, gameMode } = event.detail;
     addNotification({
       type: 'game_invite',
       message: `${from.username} invited you to a ${gameMode} game`,
-      actions: ['Accept', 'Decline']
+      actions: ['Accept', 'Decline'],
     });
   }, []);
 
-  const handleChatMessage = useCallback((event) => {
+  const handleChatMessage = useCallback(event => {
     const { user, message } = event.detail;
     // Update chat UI
     console.log(`${user.username}: ${message}`);
   }, []);
 
-  const handleAchievementUnlocked = useCallback((event) => {
+  const handleAchievementUnlocked = useCallback(event => {
     const { achievement } = event.detail;
-    
+
     addNotification({
       type: 'achievement',
       message: `Achievement unlocked: ${achievement.name}!`,
-      duration: 5000
+      duration: 5000,
     });
 
     // Play achievement sound
     audioEngineRef.current?.playSFX('notification');
-    
+
     // Show achievement animation
     showAchievementAnimation(achievement);
   }, []);
 
-  const handleMMRDecay = useCallback((event) => {
+  const handleMMRDecay = useCallback(event => {
     const { oldMMR, newMMR, decayAmount } = event.detail;
-    
+
     addNotification({
       type: 'warning',
       message: `MMR decayed by ${decayAmount} due to inactivity. New MMR: ${newMMR}`,
-      duration: 8000
+      duration: 8000,
     });
   }, []);
 
-  const handleOrientationChange = useCallback((event) => {
+  const handleOrientationChange = useCallback(event => {
     const { orientation } = event.detail;
-    
+
     // Adjust UI layout for orientation
     setUiState(prev => ({
       ...prev,
-      orientation
+      orientation,
     }));
-    
+
     // Announce orientation change for accessibility
-    accessibilityEngineRef.current?.announce(`Screen orientation changed to ${orientation}`);
+    accessibilityEngineRef.current?.announce(
+      `Screen orientation changed to ${orientation}`,
+    );
   }, []);
 
   // Game logic handlers
-  const handleCardSelection = useCallback(async (cardId) => {
-    setGameState(prev => ({
-      ...prev,
-      selectedCard: cardId
-    }));
+  const handleCardSelection = useCallback(
+    async cardId => {
+      setGameState(prev => ({
+        ...prev,
+        selectedCard: cardId,
+      }));
 
-    // Get available actions for selected card
-    const availableActions = await rulesEngineRef.current?.getAvailableActions(cardId, gameState);
-    
-    setGameState(prev => ({
-      ...prev,
-      availableActions: availableActions || []
-    }));
+      // Get available actions for selected card
+      const availableActions =
+        await rulesEngineRef.current?.getAvailableActions(cardId, gameState);
 
-    // Announce card selection for accessibility
-    const cardName = getCardName(cardId);
-    accessibilityEngineRef.current?.announce(`Selected ${cardName}`);
-  }, [gameState]);
+      setGameState(prev => ({
+        ...prev,
+        availableActions: availableActions || [],
+      }));
 
-  const handleCardPlay = useCallback(async (cardId) => {
-    if (!cardId) return;
+      // Announce card selection for accessibility
+      const cardName = getCardName(cardId);
+      accessibilityEngineRef.current?.announce(`Selected ${cardName}`);
+    },
+    [gameState],
+  );
 
-    try {
-      const action = {
-        type: 'play_card',
-        card: getCardData(cardId),
-        targets: gameState.selectedTargets,
-        player: gameState.activePlayer
-      };
+  const handleCardPlay = useCallback(
+    async cardId => {
+      if (!cardId) return;
 
-      const result = await rulesEngineRef.current?.processAction(action, gameState.activePlayer);
-      
-      if (result.success) {
-        // Update game state
-        setGameState(prev => ({
-          ...prev,
-          ...result.gameState,
-          selectedCard: null,
-          selectedTargets: []
-        }));
+      try {
+        const action = {
+          type: 'play_card',
+          card: getCardData(cardId),
+          targets: gameState.selectedTargets,
+          player: gameState.activePlayer,
+        };
 
-        // Play card animation
-        const cardElement = document.querySelector(`[data-card-id="${cardId}"]`);
-        if (cardElement && renderEngineRef.current) {
+        const result = await rulesEngineRef.current?.processAction(
+          action,
+          gameState.activePlayer,
+        );
+
+        if (result.success) {
+          // Update game state
+          setGameState(prev => ({
+            ...prev,
+            ...result.gameState,
+            selectedCard: null,
+            selectedTargets: [],
+          }));
+
+          // Play card animation
+          const cardElement = document.querySelector(
+            `[data-card-id="${cardId}"]`,
+          );
+          if (cardElement && renderEngineRef.current) {
+            const cardData = getCardData(cardId);
+            renderEngineRef.current.animateCardEntrance(cardElement, cardData);
+          }
+
+          // Play appropriate sound effect
           const cardData = getCardData(cardId);
-          renderEngineRef.current.animateCardEntrance(cardElement, cardData);
-        }
+          if (cardData.rarity === 'legendary') {
+            audioEngineRef.current?.playSFX('legendary_summon');
+          } else if (cardData.rarity === 'mythic') {
+            audioEngineRef.current?.playSFX('mythic_summon');
+          } else {
+            audioEngineRef.current?.playSFX('card_play');
+          }
 
-        // Play appropriate sound effect
-        const cardData = getCardData(cardId);
-        if (cardData.rarity === 'legendary') {
-          audioEngineRef.current?.playSFX('legendary_summon');
-        } else if (cardData.rarity === 'mythic') {
-          audioEngineRef.current?.playSFX('mythic_summon');
+          // Update adaptive music based on game state
+          updateAdaptiveMusic();
+
+          // Check for AI response if playing against AI
+          if (gameMode === 'ai' || gameMode === 'tutorial') {
+            setTimeout(() => {
+              handleAITurn();
+            }, 1000);
+          }
         } else {
-          audioEngineRef.current?.playSFX('card_play');
+          // Show error message
+          addNotification({
+            type: 'error',
+            message: result.error,
+            duration: 3000,
+          });
+
+          audioEngineRef.current?.playSFX('error');
         }
-
-        // Update adaptive music based on game state
-        updateAdaptiveMusic();
-
-        // Check for AI response if playing against AI
-        if (gameMode === 'ai' || gameMode === 'tutorial') {
-          setTimeout(() => {
-            handleAITurn();
-          }, 1000);
-        }
-
-      } else {
-        // Show error message
+      } catch (error) {
+        console.error('Error playing card:', error);
         addNotification({
           type: 'error',
-          message: result.error,
-          duration: 3000
+          message: 'Failed to play card',
+          duration: 3000,
         });
-
-        audioEngineRef.current?.playSFX('error');
       }
-
-    } catch (error) {
-      console.error('Error playing card:', error);
-      addNotification({
-        type: 'error',
-        message: 'Failed to play card',
-        duration: 3000
-      });
-    }
-  }, [gameState, gameMode]);
+    },
+    [gameState, gameMode],
+  );
 
   const handleAITurn = useCallback(async () => {
     if (!aiEngineRef.current) return;
 
     try {
-      const availableActions = await rulesEngineRef.current?.getAvailableActions(null, gameState);
-      const aiDecision = await aiEngineRef.current.makeDecision(gameState, availableActions);
+      const availableActions =
+        await rulesEngineRef.current?.getAvailableActions(null, gameState);
+      const aiDecision = await aiEngineRef.current.makeDecision(
+        gameState,
+        availableActions,
+      );
 
       if (aiDecision.action) {
-        const result = await rulesEngineRef.current?.processAction(aiDecision.action, 2);
-        
+        const result = await rulesEngineRef.current?.processAction(
+          aiDecision.action,
+          2,
+        );
+
         if (result.success) {
           setGameState(prev => ({
             ...prev,
-            ...result.gameState
+            ...result.gameState,
           }));
 
           // Show AI reasoning if in tutorial mode
@@ -454,12 +516,11 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
             addNotification({
               type: 'tutorial',
               message: `AI played: ${aiDecision.reasoning}`,
-              duration: 5000
+              duration: 5000,
             });
           }
         }
       }
-
     } catch (error) {
       console.error('AI turn error:', error);
     }
@@ -468,14 +529,17 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
   const handleEndTurn = useCallback(async () => {
     try {
       const action = { type: 'end_turn', player: gameState.activePlayer };
-      const result = await rulesEngineRef.current?.processAction(action, gameState.activePlayer);
-      
+      const result = await rulesEngineRef.current?.processAction(
+        action,
+        gameState.activePlayer,
+      );
+
       if (result.success) {
         setGameState(prev => ({
           ...prev,
           ...result.gameState,
           selectedCard: null,
-          selectedTargets: []
+          selectedTargets: [],
         }));
 
         // Update adaptive music
@@ -483,9 +547,10 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
 
         // Announce turn change for accessibility
         const newActivePlayer = result.gameState.activePlayer;
-        accessibilityEngineRef.current?.announce(`Turn ${result.gameState.turn}. Player ${newActivePlayer}'s turn.`);
+        accessibilityEngineRef.current?.announce(
+          `Turn ${result.gameState.turn}. Player ${newActivePlayer}'s turn.`,
+        );
       }
-
     } catch (error) {
       console.error('Error ending turn:', error);
     }
@@ -499,7 +564,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
       opponentHealth: gameState.players[2].health,
       turnNumber: gameState.turn,
       cardsInHand: gameState.players[gameState.activePlayer].hand.length,
-      gamePhase: gameState.phase
+      gamePhase: gameState.phase,
     };
 
     audioEngineRef.current.updateGameState(musicState);
@@ -512,29 +577,29 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
         ...prev,
         fps: Math.round(1000 / stats.frameTime),
         renderTime: stats.frameTime,
-        memoryUsage: stats.memory
+        memoryUsage: stats.memory,
       }));
     }
   }, []);
 
   // Utility functions
-  const addNotification = useCallback((notification) => {
+  const addNotification = useCallback(notification => {
     const id = Date.now() + Math.random();
     setUiState(prev => ({
       ...prev,
-      notifications: [...prev.notifications, { id, ...notification }]
+      notifications: [...prev.notifications, { id, ...notification }],
     }));
 
     // Auto-remove notification after duration
     setTimeout(() => {
       setUiState(prev => ({
         ...prev,
-        notifications: prev.notifications.filter(n => n.id !== id)
+        notifications: prev.notifications.filter(n => n.id !== id),
       }));
     }, notification.duration || 4000);
   }, []);
 
-  const getCardData = useCallback((cardId) => {
+  const getCardData = useCallback(cardId => {
     // Mock card data - in real implementation, this would fetch from game state
     return {
       id: cardId,
@@ -544,26 +609,29 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
       power: 2,
       toughness: 3,
       rarity: 'common',
-      abilities: []
+      abilities: [],
     };
   }, []);
 
-  const getCardName = useCallback((cardId) => {
-    const cardData = getCardData(cardId);
-    return cardData.name;
-  }, [getCardData]);
+  const getCardName = useCallback(
+    cardId => {
+      const cardData = getCardData(cardId);
+      return cardData.name;
+    },
+    [getCardData],
+  );
 
-  const showCardDetails = useCallback((cardId) => {
+  const showCardDetails = useCallback(cardId => {
     // Show detailed card view
     console.log('Showing details for card:', cardId);
   }, []);
 
-  const showAchievementAnimation = useCallback((achievement) => {
+  const showAchievementAnimation = useCallback(achievement => {
     // Trigger achievement animation
     console.log('Achievement unlocked:', achievement);
   }, []);
 
-  const navigateCards = useCallback((direction) => {
+  const navigateCards = useCallback(direction => {
     // Navigate through cards using keyboard/accessibility
     console.log('Navigating cards:', direction);
   }, []);
@@ -618,7 +686,10 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
       />
 
       {/* Game UI Overlay */}
-      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 2 }}>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ zIndex: 2 }}
+      >
         {/* Player 2 (Opponent) Area */}
         <div className="absolute top-4 left-4 right-4 h-32 pointer-events-auto">
           <PlayerArea
@@ -652,8 +723,15 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
         <div className="absolute top-4 right-4 pointer-events-auto">
           <GameControls
             gameState={gameState}
-            onSettingsClick={() => setUiState(prev => ({ ...prev, showSettings: !prev.showSettings }))}
-            onChatClick={() => setUiState(prev => ({ ...prev, showChat: !prev.showChat }))}
+            onSettingsClick={() =>
+              setUiState(prev => ({
+                ...prev,
+                showSettings: !prev.showSettings,
+              }))
+            }
+            onChatClick={() =>
+              setUiState(prev => ({ ...prev, showChat: !prev.showChat }))
+            }
           />
         </div>
 
@@ -662,14 +740,16 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded text-sm pointer-events-auto">
             <div>FPS: {performance.fps}</div>
             <div>Render: {performance.renderTime.toFixed(1)}ms</div>
-            <div>Memory: {(performance.memoryUsage / 1024 / 1024).toFixed(1)}MB</div>
+            <div>
+              Memory: {(performance.memoryUsage / 1024 / 1024).toFixed(1)}MB
+            </div>
           </div>
         )}
       </div>
 
       {/* Notifications */}
       <AnimatePresence>
-        {uiState.notifications.map((notification) => (
+        {uiState.notifications.map(notification => (
           <motion.div
             key={notification.id}
             initial={{ opacity: 0, y: -50, x: '50%' }}
@@ -686,13 +766,15 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
       <AnimatePresence>
         {uiState.showSettings && (
           <SettingsModal
-            onClose={() => setUiState(prev => ({ ...prev, showSettings: false }))}
+            onClose={() =>
+              setUiState(prev => ({ ...prev, showSettings: false }))
+            }
             accessibility={accessibility}
             onAccessibilityChange={setAccessibility}
             engines={{
               audio: audioEngineRef.current,
               accessibility: accessibilityEngineRef.current,
-              mobile: mobileOptimizationRef.current
+              mobile: mobileOptimizationRef.current,
             }}
           />
         )}
@@ -712,17 +794,27 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
 };
 
 // Sub-components
-const PlayerArea = ({ player, isActive, isOpponent, onCardPlay, onEndTurn }) => (
-  <div className={`w-full h-full bg-gradient-to-r ${
-    isActive ? 'from-blue-600 to-blue-800' : 'from-gray-600 to-gray-800'
-  } rounded-lg p-4 flex items-center justify-between`}>
+const PlayerArea = ({
+  player,
+  isActive,
+  isOpponent,
+  onCardPlay,
+  onEndTurn,
+}) => (
+  <div
+    className={`w-full h-full bg-gradient-to-r ${
+      isActive ? 'from-blue-600 to-blue-800' : 'from-gray-600 to-gray-800'
+    } rounded-lg p-4 flex items-center justify-between`}
+  >
     <div className="flex items-center space-x-4">
       <div className="text-white">
         <div className="text-lg font-bold">Health: {player.health}</div>
-        <div className="text-sm">Mana: {player.mana.current}/{player.mana.max}</div>
+        <div className="text-sm">
+          Mana: {player.mana.current}/{player.mana.max}
+        </div>
       </div>
     </div>
-    
+
     {!isOpponent && (
       <div className="flex space-x-2">
         <button
@@ -765,12 +857,17 @@ const GameControls = ({ gameState, onSettingsClick, onChatClick }) => (
 );
 
 const NotificationCard = ({ notification }) => (
-  <div className={`p-4 rounded-lg shadow-lg max-w-md ${
-    notification.type === 'error' ? 'bg-red-600' :
-    notification.type === 'warning' ? 'bg-yellow-600' :
-    notification.type === 'achievement' ? 'bg-purple-600' :
-    'bg-blue-600'
-  } text-white`}>
+  <div
+    className={`p-4 rounded-lg shadow-lg max-w-md ${
+      notification.type === 'error'
+        ? 'bg-red-600'
+        : notification.type === 'warning'
+          ? 'bg-yellow-600'
+          : notification.type === 'achievement'
+            ? 'bg-purple-600'
+            : 'bg-blue-600'
+    } text-white`}
+  >
     <p className="font-medium">{notification.message}</p>
     {notification.actions && (
       <div className="mt-2 flex space-x-2">
@@ -787,7 +884,12 @@ const NotificationCard = ({ notification }) => (
   </div>
 );
 
-const SettingsModal = ({ onClose, accessibility, onAccessibilityChange, engines }) => (
+const SettingsModal = ({
+  onClose,
+  accessibility,
+  onAccessibilityChange,
+  engines,
+}) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -800,10 +902,10 @@ const SettingsModal = ({ onClose, accessibility, onAccessibilityChange, engines 
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
       className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4"
-      onClick={(e) => e.stopPropagation()}
+      onClick={e => e.stopPropagation()}
     >
       <h2 className="text-xl font-bold text-white mb-4">Settings</h2>
-      
+
       {/* Audio Settings */}
       <div className="mb-4">
         <h3 className="text-white font-medium mb-2">Audio</h3>
@@ -816,7 +918,9 @@ const SettingsModal = ({ onClose, accessibility, onAccessibilityChange, engines 
               max="1"
               step="0.1"
               defaultValue="0.7"
-              onChange={(e) => engines.audio?.setMasterVolume(parseFloat(e.target.value))}
+              onChange={e =>
+                engines.audio?.setMasterVolume(parseFloat(e.target.value))
+              }
               className="ml-2"
             />
           </label>
@@ -831,8 +935,11 @@ const SettingsModal = ({ onClose, accessibility, onAccessibilityChange, engines 
             <input
               type="checkbox"
               checked={accessibility.reducedMotion}
-              onChange={(e) => {
-                onAccessibilityChange(prev => ({ ...prev, reducedMotion: e.target.checked }));
+              onChange={e => {
+                onAccessibilityChange(prev => ({
+                  ...prev,
+                  reducedMotion: e.target.checked,
+                }));
                 engines.accessibility?.enableReducedMotion(e.target.checked);
               }}
               className="mr-2"
@@ -861,15 +968,14 @@ const ChatPanel = ({ onClose, socialEngine }) => (
   >
     <div className="p-4 border-b border-gray-700 flex items-center justify-between">
       <h3 className="text-white font-bold">Chat</h3>
-      <button
-        onClick={onClose}
-        className="text-white hover:text-gray-300"
-      >
+      <button onClick={onClose} className="text-white hover:text-gray-300">
         ✕
       </button>
     </div>
     <div className="flex-1 p-4">
-      <p className="text-gray-400 text-center">Chat functionality coming soon...</p>
+      <p className="text-gray-400 text-center">
+        Chat functionality coming soon...
+      </p>
     </div>
   </motion.div>
 );

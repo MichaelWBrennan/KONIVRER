@@ -1,43 +1,80 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Calendar, Clock, Users, DollarSign, ChevronRight, Target, Shield, Swords, Crown } from 'lucide-react';
+import {
+  Trophy,
+  Calendar,
+  Clock,
+  Users,
+  DollarSign,
+  ChevronRight,
+  Target,
+  Shield,
+  Swords,
+  Crown,
+} from 'lucide-react';
 
-const TournamentBrowser = ({ tournaments, onViewAll, maxItems = 3, showViewAll = true }) => {
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString(undefined, { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
+const TournamentBrowser = ({
+  tournaments,
+  onViewAll,
+  maxItems = 3,
+  showViewAll = true,
+}) => {
+  const formatDate = date => {
+    return new Date(date).toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
-  const getFormatIcon = (format) => {
+  const getFormatIcon = format => {
     switch (format?.toLowerCase()) {
-      case 'standard': return <Shield className="w-4 h-4 text-blue-500" />;
-      case 'extended': return <Swords className="w-4 h-4 text-green-500" />;
-      case 'legacy': return <Crown className="w-4 h-4 text-purple-500" />;
-      case 'draft': return <Target className="w-4 h-4 text-amber-500" />;
-      default: return <Shield className="w-4 h-4 text-gray-500" />;
+      case 'standard':
+        return <Shield className="w-4 h-4 text-blue-500" />;
+      case 'extended':
+        return <Swords className="w-4 h-4 text-green-500" />;
+      case 'legacy':
+        return <Crown className="w-4 h-4 text-purple-500" />;
+      case 'draft':
+        return <Target className="w-4 h-4 text-amber-500" />;
+      default:
+        return <Shield className="w-4 h-4 text-gray-500" />;
     }
   };
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = status => {
     switch (status) {
       case 'registration':
-        return <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Registration Open</span>;
+        return (
+          <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+            Registration Open
+          </span>
+        );
       case 'announced':
-        return <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Announced</span>;
+        return (
+          <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">
+            Announced
+          </span>
+        );
       case 'live':
-        return <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">Live</span>;
+        return (
+          <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
+            Live
+          </span>
+        );
       case 'completed':
-        return <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Completed</span>;
+        return (
+          <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+            Completed
+          </span>
+        );
       default:
         return null;
     }
@@ -56,8 +93,8 @@ const TournamentBrowser = ({ tournaments, onViewAll, maxItems = 3, showViewAll =
   return (
     <div className="space-y-3">
       {tournaments.slice(0, maxItems).map(tournament => (
-        <motion.div 
-          key={tournament.id} 
+        <motion.div
+          key={tournament.id}
           className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
           whileHover={{ y: -2 }}
         >
@@ -78,7 +115,7 @@ const TournamentBrowser = ({ tournaments, onViewAll, maxItems = 3, showViewAll =
             </div>
             {getStatusBadge(tournament.status)}
           </div>
-          
+
           <div className="grid grid-cols-3 gap-2 mt-3">
             <div className="bg-gray-50 rounded p-2 text-center">
               <div className="text-xs text-gray-500">Entry Fee</div>
@@ -102,9 +139,9 @@ const TournamentBrowser = ({ tournaments, onViewAll, maxItems = 3, showViewAll =
               </div>
             </div>
           </div>
-          
+
           <div className="mt-3 pt-2 border-t border-gray-100 flex justify-end">
-            <motion.button 
+            <motion.button
               className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
               whileHover={{ x: 2 }}
             >
@@ -114,7 +151,7 @@ const TournamentBrowser = ({ tournaments, onViewAll, maxItems = 3, showViewAll =
           </div>
         </motion.div>
       ))}
-      
+
       {showViewAll && tournaments.length > maxItems && (
         <motion.button
           onClick={onViewAll}

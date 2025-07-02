@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -10,19 +10,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, Clock } from 'lucide-react';
 import PlayerCard from './PlayerCard';
 
-const MatchFoundModal = ({ 
-  isOpen, 
-  match, 
-  player, 
-  onAccept, 
+const MatchFoundModal = ({
+  isOpen,
+  match,
+  player,
+  onAccept,
   onDecline,
-  timeLimit = 30
+  timeLimit = 30,
 }) => {
   const [timeLeft, setTimeLeft] = useState(timeLimit);
-  
+
   useEffect(() => {
     if (!isOpen) return;
-    
+
     setTimeLeft(timeLimit);
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -34,12 +34,12 @@ const MatchFoundModal = ({
         return prev - 1;
       });
     }, 1000);
-    
+
     return () => clearInterval(timer);
   }, [isOpen, timeLimit, onDecline]);
-  
+
   if (!isOpen || !match) return null;
-  
+
   return (
     <AnimatePresence>
       <motion.div
@@ -55,11 +55,11 @@ const MatchFoundModal = ({
           className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden"
         >
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center relative">
-            <motion.div 
+            <motion.div
               className="absolute top-0 left-0 h-1 bg-white bg-opacity-30"
-              initial={{ width: "100%" }}
-              animate={{ width: "0%" }}
-              transition={{ duration: timeLimit, ease: "linear" }}
+              initial={{ width: '100%' }}
+              animate={{ width: '0%' }}
+              transition={{ duration: timeLimit, ease: 'linear' }}
             />
             <h3 className="text-xl font-bold">Match Found!</h3>
             <div className="flex items-center justify-center space-x-2 text-blue-100">
@@ -67,24 +67,32 @@ const MatchFoundModal = ({
               <p>Accept or decline within {timeLeft} seconds</p>
             </div>
           </div>
-          
+
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="text-center flex-1">
                 <div className="text-sm text-gray-500 mb-2">You</div>
                 <PlayerCard player={player} size="small" showStats={false} />
-                <div className="text-sm text-gray-500 mt-1">{player?.tier} {player?.division}</div>
+                <div className="text-sm text-gray-500 mt-1">
+                  {player?.tier} {player?.division}
+                </div>
               </div>
-              
+
               <div className="text-2xl font-bold text-gray-400 px-4">VS</div>
-              
+
               <div className="text-center flex-1">
                 <div className="text-sm text-gray-500 mb-2">Opponent</div>
-                <PlayerCard player={match.opponent} size="small" showStats={false} />
-                <div className="text-sm text-gray-500 mt-1">{match.opponent?.tier}</div>
+                <PlayerCard
+                  player={match.opponent}
+                  size="small"
+                  showStats={false}
+                />
+                <div className="text-sm text-gray-500 mt-1">
+                  {match.opponent?.tier}
+                </div>
               </div>
             </div>
-            
+
             <div className="space-y-3 mb-6">
               <div className="flex items-center justify-between text-sm">
                 <div className="text-gray-500">Format</div>
@@ -101,13 +109,15 @@ const MatchFoundModal = ({
               {match.opponent.ping && (
                 <div className="flex items-center justify-between text-sm">
                   <div className="text-gray-500">Ping</div>
-                  <div className={`font-medium ${match.opponent.ping < 50 ? 'text-green-600' : match.opponent.ping < 100 ? 'text-yellow-600' : 'text-red-600'}`}>
+                  <div
+                    className={`font-medium ${match.opponent.ping < 50 ? 'text-green-600' : match.opponent.ping < 100 ? 'text-yellow-600' : 'text-red-600'}`}
+                  >
                     {match.opponent.ping} ms
                   </div>
                 </div>
               )}
             </div>
-            
+
             <div className="flex space-x-3">
               <motion.button
                 onClick={onDecline}

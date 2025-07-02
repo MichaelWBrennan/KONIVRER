@@ -1,65 +1,87 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Plus, Edit, Star, Shield, Swords } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  Plus,
+  Edit,
+  Star,
+  Shield,
+  Swords,
+} from 'lucide-react';
 
-const DeckSelector = ({ 
-  selectedDeck, 
-  decks = [], 
-  onSelectDeck, 
-  onCreateDeck, 
-  onEditDeck 
+const DeckSelector = ({
+  selectedDeck,
+  decks = [],
+  onSelectDeck,
+  onCreateDeck,
+  onEditDeck,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const toggleDropdown = () => setIsOpen(!isOpen);
-  
-  const handleSelectDeck = (deck) => {
+
+  const handleSelectDeck = deck => {
     onSelectDeck(deck);
     setIsOpen(false);
   };
-  
-  const getDeckTypeIcon = (type) => {
+
+  const getDeckTypeIcon = type => {
     switch (type?.toLowerCase()) {
-      case 'aggro': return <Swords className="w-4 h-4 text-red-500" />;
-      case 'control': return <Shield className="w-4 h-4 text-blue-500" />;
-      case 'midrange': return <Star className="w-4 h-4 text-green-500" />;
-      default: return <Star className="w-4 h-4 text-gray-500" />;
+      case 'aggro':
+        return <Swords className="w-4 h-4 text-red-500" />;
+      case 'control':
+        return <Shield className="w-4 h-4 text-blue-500" />;
+      case 'midrange':
+        return <Star className="w-4 h-4 text-green-500" />;
+      default:
+        return <Star className="w-4 h-4 text-gray-500" />;
     }
   };
 
   return (
     <div className="relative">
       {selectedDeck ? (
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer" onClick={toggleDropdown}>
+        <div
+          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer"
+          onClick={toggleDropdown}
+        >
           <div className="flex items-center space-x-3">
             <div className="w-12 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-sm">
               {selectedDeck.name?.[0] || 'D'}
             </div>
             <div>
-              <div className="font-medium text-gray-900">{selectedDeck.name || 'My Deck'}</div>
+              <div className="font-medium text-gray-900">
+                {selectedDeck.name || 'My Deck'}
+              </div>
               <div className="text-sm text-gray-500">
-                {selectedDeck.cards?.length || 60} cards • {selectedDeck.archetype || 'Custom'}
+                {selectedDeck.cards?.length || 60} cards •{' '}
+                {selectedDeck.archetype || 'Custom'}
               </div>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <button 
+            <button
               className="text-blue-600 hover:text-blue-700"
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 onEditDeck(selectedDeck);
               }}
             >
               <Edit className="w-4 h-4" />
             </button>
-            {isOpen ? <ChevronUp className="w-5 h-5 text-gray-500" /> : <ChevronDown className="w-5 h-5 text-gray-500" />}
+            {isOpen ? (
+              <ChevronUp className="w-5 h-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-500" />
+            )}
           </div>
         </div>
       ) : (
@@ -87,7 +109,7 @@ const DeckSelector = ({
           </div>
         </div>
       )}
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -100,7 +122,7 @@ const DeckSelector = ({
             {decks.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 <p>No decks available</p>
-                <button 
+                <button
                   onClick={onCreateDeck}
                   className="mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
                 >
@@ -122,7 +144,9 @@ const DeckSelector = ({
                           {deck.name?.[0] || 'D'}
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900">{deck.name}</div>
+                          <div className="font-medium text-gray-900">
+                            {deck.name}
+                          </div>
                           <div className="text-xs text-gray-500 flex items-center space-x-1">
                             {getDeckTypeIcon(deck.type)}
                             <span>{deck.archetype || 'Custom'}</span>
@@ -135,7 +159,7 @@ const DeckSelector = ({
                     </div>
                   </motion.div>
                 ))}
-                
+
                 <div className="border-t border-gray-100 mt-1 pt-1">
                   <motion.button
                     onClick={onCreateDeck}

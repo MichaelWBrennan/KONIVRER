@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -25,7 +25,8 @@ const OAuthCallback = () => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
         const state = params.get('state');
-        const provider = params.get('provider') || localStorage.getItem('oauth_provider');
+        const provider =
+          params.get('provider') || localStorage.getItem('oauth_provider');
         const error = params.get('error');
 
         if (error) {
@@ -50,9 +51,9 @@ const OAuthCallback = () => {
               type: 'OAUTH_SUCCESS',
               user: userData,
             },
-            window.location.origin
+            window.location.origin,
           );
-          
+
           // Close popup after sending message
           window.close();
         } else {
@@ -74,9 +75,9 @@ const OAuthCallback = () => {
               type: 'OAUTH_ERROR',
               error: error.message || 'Authentication failed',
             },
-            window.location.origin
+            window.location.origin,
           );
-          
+
           // Close popup after sending error
           window.close();
         }
@@ -92,7 +93,9 @@ const OAuthCallback = () => {
         <div className="mobile-auth-processing">
           <div className="mobile-spinner esoteric-spinner"></div>
           <h2 className="esoteric-text-accent">Authenticating...</h2>
-          <p className="esoteric-text-muted">Please wait while we complete your authentication</p>
+          <p className="esoteric-text-muted">
+            Please wait while we complete your authentication
+          </p>
         </div>
       </div>
     );
@@ -105,7 +108,7 @@ const OAuthCallback = () => {
           <div className="esoteric-error-icon">!</div>
           <h2 className="esoteric-text-error">Authentication Failed</h2>
           <p className="esoteric-text-muted">{error}</p>
-          <button 
+          <button
             onClick={() => navigate('/', { replace: true })}
             className="mobile-btn esoteric-btn"
           >
@@ -121,7 +124,9 @@ const OAuthCallback = () => {
       <div className="mobile-auth-success">
         <div className="esoteric-success-icon">✓</div>
         <h2 className="esoteric-text-success">Authentication Successful</h2>
-        <p className="esoteric-text-muted">You have successfully authenticated</p>
+        <p className="esoteric-text-muted">
+          You have successfully authenticated
+        </p>
       </div>
     </div>
   );

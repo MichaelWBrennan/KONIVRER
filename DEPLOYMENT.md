@@ -47,6 +47,7 @@ This guide covers deploying the KONIVRER Deck Database with frontend on Vercel a
    - **Start Command**: `npm start`
 
 3. **Environment Variables**:
+
    ```
    NODE_ENV=production
    MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/konivrer?retryWrites=true&w=majority
@@ -86,12 +87,14 @@ Before deploying, you'll need your backend URL from Render.
 #### Option A: Using Vercel CLI
 
 1. **Install and Login**:
+
    ```bash
    npm install -g vercel
    vercel login
    ```
 
 2. **Deploy**:
+
    ```bash
    vercel
    ```
@@ -160,22 +163,22 @@ curl https://your-backend.onrender.com/api/decks
 
 ### Frontend (Vercel)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `VITE_API_BASE_URL` | Backend API URL | `https://backend.onrender.com/api` |
-| `VITE_BACKEND_URL` | Backend base URL | `https://backend.onrender.com` |
-| `VITE_APP_NAME` | Application name | `KONIVRER Deck Database` |
-| `VITE_ENABLE_DEBUG` | Debug mode | `false` |
+| Variable            | Description      | Example                            |
+| ------------------- | ---------------- | ---------------------------------- |
+| `VITE_API_BASE_URL` | Backend API URL  | `https://backend.onrender.com/api` |
+| `VITE_BACKEND_URL`  | Backend base URL | `https://backend.onrender.com`     |
+| `VITE_APP_NAME`     | Application name | `KONIVRER Deck Database`           |
+| `VITE_ENABLE_DEBUG` | Debug mode       | `false`                            |
 
 ### Backend (Render)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NODE_ENV` | Environment | `production` |
-| `PORT` | Server port | `10000` |
-| `MONGO_URI` | MongoDB connection | `mongodb+srv://...` |
-| `JWT_SECRET` | JWT signing secret | `your-secret-key` |
-| `FRONTEND_URL` | Frontend URL | `https://app.vercel.app` |
+| Variable       | Description        | Example                  |
+| -------------- | ------------------ | ------------------------ |
+| `NODE_ENV`     | Environment        | `production`             |
+| `PORT`         | Server port        | `10000`                  |
+| `MONGO_URI`    | MongoDB connection | `mongodb+srv://...`      |
+| `JWT_SECRET`   | JWT signing secret | `your-secret-key`        |
+| `FRONTEND_URL` | Frontend URL       | `https://app.vercel.app` |
 
 ## Troubleshooting
 
@@ -238,6 +241,7 @@ curl https://your-backend.onrender.com/api/decks
 ### Upgrade Path
 
 For production applications, consider:
+
 - **Vercel Pro**: Custom domains, more bandwidth, team features
 - **Render Paid Plans**: Always-on services, more resources
 - **MongoDB Atlas Dedicated**: Better performance, more storage

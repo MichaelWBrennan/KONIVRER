@@ -3,30 +3,26 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended'
+    'plugin:jsx-a11y/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'react-hooks',
-    'jsx-a11y'
-  ],
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   rules: {
     // React specific
@@ -35,22 +31,25 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/jsx-no-target-blank': ['error', { allowReferrer: false }],
     'react/jsx-key': ['error', { checkFragmentShorthand: true }],
-    
+
     // React Hooks
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    
+
     // General JavaScript
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-debugger': 'error',
-    'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    'no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
     'no-var': 'error',
     'prefer-const': 'error',
-    
+
     // Accessibility
     'jsx-a11y/alt-text': 'error',
     'jsx-a11y/anchor-has-content': 'error',
-    'jsx-a11y/anchor-is-valid': 'error'
+    'jsx-a11y/anchor-is-valid': 'error',
   },
   ignorePatterns: [
     'dist/**',
@@ -59,6 +58,6 @@ module.exports = {
     'coverage/**',
     '*.config.js',
     'legacy/**',
-    'Backend/**'
-  ]
+    'Backend/**',
+  ],
 };

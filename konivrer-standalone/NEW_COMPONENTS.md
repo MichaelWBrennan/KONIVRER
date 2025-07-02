@@ -29,7 +29,7 @@ The AR Card Scanner component uses the device camera to scan physical cards, ide
 import { ARCardScanner } from './components/ARCardScanner';
 
 // Basic usage
-<ARCardScanner 
+<ARCardScanner
   onCardDetected={(card) => console.log('Card detected:', card)}
   onCardVerified={(result) => console.log('Verification result:', result)}
   enableAR={true}
@@ -38,7 +38,7 @@ import { ARCardScanner } from './components/ARCardScanner';
 />
 
 // With all options
-<ARCardScanner 
+<ARCardScanner
   onCardDetected={(card) => handleCardDetection(card)}
   onCardVerified={(result) => handleCardVerification(result)}
   enableAR={true}
@@ -50,14 +50,14 @@ import { ARCardScanner } from './components/ARCardScanner';
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onCardDetected` | Function | - | Callback function called when a card is detected |
-| `onCardVerified` | Function | - | Callback function called when a card is verified |
-| `enableAR` | Boolean | `true` | Enable or disable AR overlays |
-| `showDebugInfo` | Boolean | `false` | Show or hide debug information |
-| `scanMode` | String | `'auto'` | Scanning mode: 'auto', 'manual', or 'continuous' |
-| `cardDatabase` | Array | `[]` | Array of card data for recognition |
+| Prop             | Type     | Default  | Description                                      |
+| ---------------- | -------- | -------- | ------------------------------------------------ |
+| `onCardDetected` | Function | -        | Callback function called when a card is detected |
+| `onCardVerified` | Function | -        | Callback function called when a card is verified |
+| `enableAR`       | Boolean  | `true`   | Enable or disable AR overlays                    |
+| `showDebugInfo`  | Boolean  | `false`  | Show or hide debug information                   |
+| `scanMode`       | String   | `'auto'` | Scanning mode: 'auto', 'manual', or 'continuous' |
+| `cardDatabase`   | Array    | `[]`     | Array of card data for recognition               |
 
 ## Tournament Bracket
 
@@ -78,14 +78,14 @@ The Tournament Bracket component visualizes tournament brackets with interactive
 import { TournamentBracket } from './components/TournamentBracket';
 
 // Basic usage
-<TournamentBracket 
+<TournamentBracket
   tournamentData={tournamentData}
   onMatchClick={(match) => console.log('Match clicked:', match)}
   onPlayerClick={(player) => console.log('Player clicked:', player)}
 />
 
 // With all options
-<TournamentBracket 
+<TournamentBracket
   tournamentData={tournamentData}
   onMatchClick={(match) => handleMatchClick(match)}
   onPlayerClick={(player) => handlePlayerClick(player)}
@@ -102,19 +102,19 @@ import { TournamentBracket } from './components/TournamentBracket';
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `tournamentData` | Object | - | Tournament data object |
-| `onMatchClick` | Function | - | Callback function called when a match is clicked |
-| `onPlayerClick` | Function | - | Callback function called when a player is clicked |
-| `highlightedMatch` | String | `null` | ID of the match to highlight |
-| `highlightedPlayer` | String | `null` | ID of the player to highlight |
-| `layout` | String | `'horizontal'` | Layout orientation: 'horizontal' or 'vertical' |
-| `showScores` | Boolean | `true` | Show or hide match scores |
-| `showPlayerStats` | Boolean | `true` | Show or hide player statistics |
-| `animateProgress` | Boolean | `true` | Enable or disable animations for in-progress matches |
-| `bracketType` | String | `'single'` | Bracket type: 'single', 'double', 'swiss', or 'round-robin' |
-| `theme` | String | `'default'` | Theme: 'default', 'minimal', 'classic', or 'ancient' |
+| Prop                | Type     | Default        | Description                                                 |
+| ------------------- | -------- | -------------- | ----------------------------------------------------------- |
+| `tournamentData`    | Object   | -              | Tournament data object                                      |
+| `onMatchClick`      | Function | -              | Callback function called when a match is clicked            |
+| `onPlayerClick`     | Function | -              | Callback function called when a player is clicked           |
+| `highlightedMatch`  | String   | `null`         | ID of the match to highlight                                |
+| `highlightedPlayer` | String   | `null`         | ID of the player to highlight                               |
+| `layout`            | String   | `'horizontal'` | Layout orientation: 'horizontal' or 'vertical'              |
+| `showScores`        | Boolean  | `true`         | Show or hide match scores                                   |
+| `showPlayerStats`   | Boolean  | `true`         | Show or hide player statistics                              |
+| `animateProgress`   | Boolean  | `true`         | Enable or disable animations for in-progress matches        |
+| `bracketType`       | String   | `'single'`     | Bracket type: 'single', 'double', 'swiss', or 'round-robin' |
+| `theme`             | String   | `'default'`    | Theme: 'default', 'minimal', 'classic', or 'ancient'        |
 
 ## Deck Archetype Analysis
 
@@ -135,14 +135,14 @@ The Deck Archetype Analysis component analyzes deck compositions, identifies arc
 import { DeckArchetypeAnalysis } from './components/DeckArchetypeAnalysis';
 
 // Basic usage
-<DeckArchetypeAnalysis 
+<DeckArchetypeAnalysis
   deckData={deckData}
   metaData={metaData}
   onArchetypeSelect={(archetype) => console.log('Archetype selected:', archetype)}
 />
 
 // With all options
-<DeckArchetypeAnalysis 
+<DeckArchetypeAnalysis
   deckData={deckData}
   metaData={metaData}
   onArchetypeSelect={(archetype) => handleArchetypeSelect(archetype)}
@@ -160,20 +160,20 @@ import { DeckArchetypeAnalysis } from './components/DeckArchetypeAnalysis';
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `deckData` | Array | - | Array of deck data objects |
-| `metaData` | Object | - | Meta data object with archetype information |
-| `onArchetypeSelect` | Function | - | Callback function called when an archetype is selected |
-| `onCardSelect` | Function | - | Callback function called when a card is selected |
-| `selectedArchetype` | String | `null` | Currently selected archetype |
-| `selectedCard` | String | `null` | Currently selected card |
-| `timeRange` | String | `'30d'` | Time range: '7d', '30d', '90d', or 'all' |
-| `format` | String | `'standard'` | Format: 'standard', 'modern', 'legacy', 'vintage', or 'commander' |
-| `showWinrates` | Boolean | `true` | Show or hide win rates |
-| `showTrends` | Boolean | `true` | Show or hide trend data |
-| `showCardBreakdown` | Boolean | `true` | Show or hide card breakdown |
-| `showMetaPercentages` | Boolean | `true` | Show or hide meta percentages |
+| Prop                  | Type     | Default      | Description                                                       |
+| --------------------- | -------- | ------------ | ----------------------------------------------------------------- |
+| `deckData`            | Array    | -            | Array of deck data objects                                        |
+| `metaData`            | Object   | -            | Meta data object with archetype information                       |
+| `onArchetypeSelect`   | Function | -            | Callback function called when an archetype is selected            |
+| `onCardSelect`        | Function | -            | Callback function called when a card is selected                  |
+| `selectedArchetype`   | String   | `null`       | Currently selected archetype                                      |
+| `selectedCard`        | String   | `null`       | Currently selected card                                           |
+| `timeRange`           | String   | `'30d'`      | Time range: '7d', '30d', '90d', or 'all'                          |
+| `format`              | String   | `'standard'` | Format: 'standard', 'modern', 'legacy', 'vintage', or 'commander' |
+| `showWinrates`        | Boolean  | `true`       | Show or hide win rates                                            |
+| `showTrends`          | Boolean  | `true`       | Show or hide trend data                                           |
+| `showCardBreakdown`   | Boolean  | `true`       | Show or hide card breakdown                                       |
+| `showMetaPercentages` | Boolean  | `true`       | Show or hide meta percentages                                     |
 
 ## WebAssembly Card Processor
 
@@ -192,7 +192,7 @@ The WebAssembly Card Processor component uses WebAssembly for high-performance c
 import { WasmCardProcessor } from './components/WasmCardProcessor';
 
 // Basic usage
-<WasmCardProcessor 
+<WasmCardProcessor
   cards={cards}
   initialFilters={{}}
   initialSortBy="name"
@@ -200,7 +200,7 @@ import { WasmCardProcessor } from './components/WasmCardProcessor';
 />
 
 // With all options
-<WasmCardProcessor 
+<WasmCardProcessor
   cards={cards}
   initialFilters={{
     types: ['Creature', 'Spell'],
@@ -217,15 +217,15 @@ import { WasmCardProcessor } from './components/WasmCardProcessor';
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `cards` | Array | `[]` | Array of card data objects |
-| `initialFilters` | Object | `{}` | Initial filter settings |
-| `initialSortBy` | String | `'name'` | Initial sort field |
-| `initialSortDirection` | String | `'asc'` | Initial sort direction: 'asc' or 'desc' |
-| `onProcessingComplete` | Function | - | Callback function called when processing is complete |
-| `maxCards` | Number | `1000` | Maximum number of cards to process |
-| `processingMode` | String | `'standard'` | Processing mode: 'standard', 'high-performance', or 'memory-optimized' |
+| Prop                   | Type     | Default      | Description                                                            |
+| ---------------------- | -------- | ------------ | ---------------------------------------------------------------------- |
+| `cards`                | Array    | `[]`         | Array of card data objects                                             |
+| `initialFilters`       | Object   | `{}`         | Initial filter settings                                                |
+| `initialSortBy`        | String   | `'name'`     | Initial sort field                                                     |
+| `initialSortDirection` | String   | `'asc'`      | Initial sort direction: 'asc' or 'desc'                                |
+| `onProcessingComplete` | Function | -            | Callback function called when processing is complete                   |
+| `maxCards`             | Number   | `1000`       | Maximum number of cards to process                                     |
+| `processingMode`       | String   | `'standard'` | Processing mode: 'standard', 'high-performance', or 'memory-optimized' |
 
 ## WebRTC Match
 
@@ -246,13 +246,13 @@ The WebRTC Match component enables real-time peer-to-peer match communication us
 import { WebRTCMatch } from './components/WebRTCMatch';
 
 // Basic usage
-<WebRTCMatch 
+<WebRTCMatch
   isHost={true}
   playerName="Player_1"
 />
 
 // With all options
-<WebRTCMatch 
+<WebRTCMatch
   isHost={true}
   playerName="Player_1"
   roomId="match-123"
@@ -271,15 +271,15 @@ import { WebRTCMatch } from './components/WebRTCMatch';
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isHost` | Boolean | `false` | Whether this client is the host |
-| `playerName` | String | - | Name of the player |
-| `roomId` | String | - | ID of the room to join |
-| `onConnect` | Function | - | Callback function called when connected to a peer |
-| `onDisconnect` | Function | - | Callback function called when disconnected from a peer |
-| `onMessage` | Function | - | Callback function called when a message is received |
-| `enableVideo` | Boolean | `true` | Enable or disable video streaming |
-| `enableAudio` | Boolean | `true` | Enable or disable audio streaming |
-| `signalServer` | String | - | WebSocket URL of the signaling server |
-| `iceServers` | Array | - | Array of ICE server configurations |
+| Prop           | Type     | Default | Description                                            |
+| -------------- | -------- | ------- | ------------------------------------------------------ |
+| `isHost`       | Boolean  | `false` | Whether this client is the host                        |
+| `playerName`   | String   | -       | Name of the player                                     |
+| `roomId`       | String   | -       | ID of the room to join                                 |
+| `onConnect`    | Function | -       | Callback function called when connected to a peer      |
+| `onDisconnect` | Function | -       | Callback function called when disconnected from a peer |
+| `onMessage`    | Function | -       | Callback function called when a message is received    |
+| `enableVideo`  | Boolean  | `true`  | Enable or disable video streaming                      |
+| `enableAudio`  | Boolean  | `true`  | Enable or disable audio streaming                      |
+| `signalServer` | String   | -       | WebSocket URL of the signaling server                  |
+| `iceServers`   | Array    | -       | Array of ICE server configurations                     |

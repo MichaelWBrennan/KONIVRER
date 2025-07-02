@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -14,7 +14,8 @@ import { Zap, TrendingUp, Target, Star, Info } from 'lucide-react';
  * Component that provides card synergy recommendations for the deck builder
  */
 const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
-  const { analyzeCardSynergies, getCardSynergyRecommendations } = usePhysicalMatchmaking();
+  const { analyzeCardSynergies, getCardSynergyRecommendations } =
+    usePhysicalMatchmaking();
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,7 +33,7 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
   const generateRecommendations = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Get recommendations from the analytics engine
       const recs = await getCardSynergyRecommendations(currentDeck, 5);
@@ -55,7 +56,9 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
         </Card.Header>
         <Card.Body className="text-center text-muted">
           <Info size={24} className="mb-2" />
-          <p>Add at least 3 cards to your deck to see synergy recommendations.</p>
+          <p>
+            Add at least 3 cards to your deck to see synergy recommendations.
+          </p>
         </Card.Body>
       </Card>
     );
@@ -68,9 +71,9 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
           <Zap className="me-2" size={18} />
           <span>Card Synergy Recommendations</span>
         </div>
-        <Button 
-          variant="outline-primary" 
-          size="sm" 
+        <Button
+          variant="outline-primary"
+          size="sm"
           onClick={generateRecommendations}
           disabled={loading}
         >
@@ -86,18 +89,24 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
         ) : error ? (
           <div className="text-center text-danger">
             <p>{error}</p>
-            <Button variant="outline-primary" size="sm" onClick={generateRecommendations}>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              onClick={generateRecommendations}
+            >
               Try Again
             </Button>
           </div>
         ) : recommendations.length === 0 ? (
           <div className="text-center text-muted">
-            <p>No recommendations available. Try adding more cards to your deck.</p>
+            <p>
+              No recommendations available. Try adding more cards to your deck.
+            </p>
           </div>
         ) : (
           <ListGroup variant="flush">
             {recommendations.map((rec, index) => (
-              <ListGroup.Item 
+              <ListGroup.Item
                 key={index}
                 className="d-flex justify-content-between align-items-center"
               >
@@ -115,15 +124,20 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
                   </div>
                 </div>
                 <div className="d-flex align-items-center">
-                  <Badge 
-                    bg={rec.synergyScore > 0.15 ? 'success' : 
-                        rec.synergyScore > 0.1 ? 'primary' : 'secondary'}
+                  <Badge
+                    bg={
+                      rec.synergyScore > 0.15
+                        ? 'success'
+                        : rec.synergyScore > 0.1
+                          ? 'primary'
+                          : 'secondary'
+                    }
                     className="me-2"
                   >
                     {(rec.synergyScore * 100).toFixed(0)}% Synergy
                   </Badge>
-                  <Button 
-                    variant="outline-success" 
+                  <Button
+                    variant="outline-success"
                     size="sm"
                     onClick={() => onAddCard(rec.cardId)}
                   >
@@ -137,7 +151,8 @@ const CardSynergyRecommendations = ({ currentDeck, onAddCard }) => {
       </Card.Body>
       <Card.Footer className="text-muted small">
         <Star size={14} className="me-1" />
-        Recommendations are based on win rates and card interactions from previous matches
+        Recommendations are based on win rates and card interactions from
+        previous matches
       </Card.Footer>
     </Card>
   );

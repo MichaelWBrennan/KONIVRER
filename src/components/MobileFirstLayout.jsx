@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -22,7 +22,7 @@ const MobileFirstLayout = ({ children }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  
+
   // Update the setShowAuthModal function in the auth object
   useEffect(() => {
     if (auth) {
@@ -33,8 +33,9 @@ const MobileFirstLayout = ({ children }) => {
   // Detect PWA status
   useEffect(() => {
     const checkPWAStatus = () => {
-      const installed = window.matchMedia('(display-mode: standalone)').matches || 
-                       window.navigator.standalone === true;
+      const installed =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
       setIsInstalled(installed);
     };
 
@@ -57,7 +58,7 @@ const MobileFirstLayout = ({ children }) => {
       setIsInstalled(true);
     };
 
-    pwaManager.notifyOnlineStatus = (online) => {
+    pwaManager.notifyOnlineStatus = online => {
       setIsOnline(online);
     };
 
@@ -83,24 +84,26 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Cards', path: '/cards' },
     { name: 'Decks', path: '/decks' },
     { name: 'Play', path: '/game/online', altPaths: ['/matchmaking'] }, // Combined Play and Match
-    { name: 'Rules', path: '/rules' }
+    { name: 'Rules', path: '/rules' },
   ];
 
   // Get page title based on current path
   const getPageTitle = () => {
     if (location.pathname === '/') return 'KONIVRER';
-    
-    const currentRoute = navigationItems.find(item => 
-      location.pathname === item.path || 
-      (item.path !== '/' && location.pathname.startsWith(item.path)) ||
-      (item.altPaths && item.altPaths.some(altPath => location.pathname.startsWith(altPath)))
+
+    const currentRoute = navigationItems.find(
+      item =>
+        location.pathname === item.path ||
+        (item.path !== '/' && location.pathname.startsWith(item.path)) ||
+        (item.altPaths &&
+          item.altPaths.some(altPath => location.pathname.startsWith(altPath))),
     );
-    
+
     // Special case for matchmaking
     if (location.pathname.startsWith('/matchmaking')) {
       return 'Play';
     }
-    
+
     const title = currentRoute ? currentRoute.name : 'KONIVRER';
     // Add version indicator for debugging deployment
     return title === 'Cards' ? 'Cards v2.4' : title;
@@ -121,18 +124,20 @@ const MobileFirstLayout = ({ children }) => {
     <div className="mobile-app">
       {/* Mobile Header */}
       <header className="mobile-header esoteric-bg-dark">
-        <div className="mobile-header-title esoteric-text-accent">{getPageTitle()}</div>
-        
+        <div className="mobile-header-title esoteric-text-accent">
+          {getPageTitle()}
+        </div>
+
         {/* User Profile / Login Button */}
         {isAuthenticated ? (
-          <button 
-            onClick={() => window.location.href = '/profile'}
+          <button
+            onClick={() => (window.location.href = '/profile')}
             className="mobile-btn esoteric-btn"
           >
             {user.displayName?.charAt(0) || '⦿'}
           </button>
         ) : (
-          <button 
+          <button
             onClick={() => setShowAuthModal(true)}
             className="mobile-btn mobile-btn-primary esoteric-btn esoteric-btn-primary"
           >
@@ -142,27 +147,26 @@ const MobileFirstLayout = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="mobile-content">
-        {children}
-      </main>
+      <main className="mobile-content">{children}</main>
 
       {/* Mobile Navigation */}
       <nav className="mobile-nav esoteric-bg-dark">
-        {navigationItems.map((item) => (
-          // Only show Home when not on the home page
-          (item.name !== 'Home' || location.pathname !== '/') && (
-            <Link
-              key={item.name}
-              to={item.path}
-              className={`mobile-nav-item ${isActive(item.path, item.altPaths) ? 'active' : ''}`}
-              onClick={() => analytics.navigationClick(item.path, location.pathname)}
-            >
-              <div className="mobile-nav-item-text">
-                {item.name}
-              </div>
-            </Link>
-          )
-        ))}
+        {navigationItems.map(
+          item =>
+            // Only show Home when not on the home page
+            (item.name !== 'Home' || location.pathname !== '/') && (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`mobile-nav-item ${isActive(item.path, item.altPaths) ? 'active' : ''}`}
+                onClick={() =>
+                  analytics.navigationClick(item.path, location.pathname)
+                }
+              >
+                <div className="mobile-nav-item-text">{item.name}</div>
+              </Link>
+            ),
+        )}
       </nav>
 
       {/* Auth Modal */}

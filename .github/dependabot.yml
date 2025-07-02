@@ -1,78 +1,78 @@
 version: 2
 updates:
   # Frontend dependencies
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 10
     reviewers:
-      - "Crypto3k"
+      - 'Crypto3k'
     assignees:
-      - "Crypto3k"
+      - 'Crypto3k'
     commit-message:
-      prefix: "deps"
-      include: "scope"
+      prefix: 'deps'
+      include: 'scope'
     labels:
-      - "dependencies"
-      - "frontend"
-      - "security"
+      - 'dependencies'
+      - 'frontend'
+      - 'security'
     # Group security updates for faster merging
     groups:
       security-updates:
         patterns:
-          - "*"
+          - '*'
         update-types:
-          - "security"
+          - 'security'
       minor-updates:
         patterns:
-          - "*"
+          - '*'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
     # Allow auto-merge for security patches
     allow:
-      - dependency-type: "direct"
-        update-type: "security"
-      - dependency-type: "indirect"
-        update-type: "security"
+      - dependency-type: 'direct'
+        update-type: 'security'
+      - dependency-type: 'indirect'
+        update-type: 'security'
 
   # Backend dependencies
-  - package-ecosystem: "npm"
-    directory: "/Backend"
+  - package-ecosystem: 'npm'
+    directory: '/Backend'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 10
     reviewers:
-      - "Crypto3k"
+      - 'Crypto3k'
     assignees:
-      - "Crypto3k"
+      - 'Crypto3k'
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
     labels:
-      - "dependencies"
-      - "backend"
+      - 'dependencies'
+      - 'backend'
 
   # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 5
     reviewers:
-      - "Crypto3k"
+      - 'Crypto3k'
     assignees:
-      - "Crypto3k"
+      - 'Crypto3k'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'
     labels:
-      - "dependencies"
-      - "github-actions"
+      - 'dependencies'
+      - 'github-actions'

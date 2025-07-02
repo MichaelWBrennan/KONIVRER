@@ -2,7 +2,7 @@
 
 /**
  * Script to add MIT license headers to source files
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -24,14 +24,16 @@ const LICENSE_HEADER = `/**
 `;
 
 function hasLicenseHeader(content) {
-  return content.includes('Copyright (c) 2024 KONIVRER Deck Database') || 
-         content.includes('Licensed under the MIT License');
+  return (
+    content.includes('Copyright (c) 2024 KONIVRER Deck Database') ||
+    content.includes('Licensed under the MIT License')
+  );
 }
 
 function addLicenseHeader(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     if (hasLicenseHeader(content)) {
       console.log(`Skipping ${filePath} - already has license header`);
       return;
@@ -47,11 +49,11 @@ function addLicenseHeader(filePath) {
 
 function processDirectory(dirPath) {
   const items = fs.readdirSync(dirPath);
-  
+
   for (const item of items) {
     const fullPath = path.join(dirPath, item);
     const stat = fs.statSync(fullPath);
-    
+
     if (stat.isDirectory()) {
       // Skip node_modules and other build directories
       if (!['node_modules', '.git', 'dist', 'build', '.next'].includes(item)) {
@@ -59,7 +61,11 @@ function processDirectory(dirPath) {
       }
     } else if (stat.isFile()) {
       // Process JavaScript and JSX files
-      if (/\.(js|jsx|ts|tsx)$/.test(item) && !item.includes('.test.') && !item.includes('.spec.')) {
+      if (
+        /\.(js|jsx|ts|tsx)$/.test(item) &&
+        !item.includes('.test.') &&
+        !item.includes('.spec.')
+      ) {
         addLicenseHeader(fullPath);
       }
     }

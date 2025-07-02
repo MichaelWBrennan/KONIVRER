@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -207,10 +207,7 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
             <h2 className="mobile-card-title esoteric-rune">
               {activeTab === 'login' ? 'Login' : 'Create Account'}
             </h2>
-            <button
-              onClick={onClose}
-              className="mobile-btn esoteric-btn-small"
-            >
+            <button onClick={onClose} className="mobile-btn esoteric-btn-small">
               ✕
             </button>
           </div>
@@ -294,15 +291,19 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   disabled={loginForm.formState.isSubmitting}
                   className="mobile-btn mobile-btn-primary mobile-btn-block esoteric-btn esoteric-btn-primary"
                 >
-                  {loginForm.formState.isSubmitting ? 'Signing in...' : 'Sign In'}
+                  {loginForm.formState.isSubmitting
+                    ? 'Signing in...'
+                    : 'Sign In'}
                 </button>
-                
+
                 {/* SSO Login Options */}
                 <div className="mobile-mt mobile-mb">
                   <div className="mobile-divider esoteric-divider">
-                    <span className="esoteric-text-muted">or continue with</span>
+                    <span className="esoteric-text-muted">
+                      or continue with
+                    </span>
                   </div>
-                  
+
                   <div className="mobile-sso-buttons">
                     <button
                       type="button"
@@ -323,7 +324,7 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         <div className="mobile-spinner esoteric-spinner-small"></div>
                       )}
                     </button>
-                    
+
                     <button
                       type="button"
                       onClick={() => handleSSOLogin('github')}
@@ -343,7 +344,7 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                         <div className="mobile-spinner esoteric-spinner-small"></div>
                       )}
                     </button>
-                    
+
                     <button
                       type="button"
                       onClick={() => handleSSOLogin('discord')}
@@ -508,7 +509,10 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                       id="agreeToTerms"
                       className="mobile-checkbox-input"
                     />
-                    <label htmlFor="agreeToTerms" className="mobile-checkbox-label">
+                    <label
+                      htmlFor="agreeToTerms"
+                      className="mobile-checkbox-label"
+                    >
                       I agree to the Terms of Service
                     </label>
                   </div>
@@ -527,7 +531,10 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                       id="agreeToPrivacy"
                       className="mobile-checkbox-input"
                     />
-                    <label htmlFor="agreeToPrivacy" className="mobile-checkbox-label">
+                    <label
+                      htmlFor="agreeToPrivacy"
+                      className="mobile-checkbox-label"
+                    >
                       I agree to the Privacy Policy
                     </label>
                   </div>
@@ -549,7 +556,9 @@ const MobileAuthModal = ({ isOpen, onClose, defaultTab = 'login' }) => {
                   disabled={registerForm.formState.isSubmitting}
                   className="mobile-btn mobile-btn-primary mobile-btn-block esoteric-btn esoteric-btn-primary"
                 >
-                  {registerForm.formState.isSubmitting ? 'Creating Account...' : 'Create Account'}
+                  {registerForm.formState.isSubmitting
+                    ? 'Creating Account...'
+                    : 'Create Account'}
                 </button>
               </motion.form>
             )}

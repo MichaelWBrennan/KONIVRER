@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -44,12 +44,14 @@ const DeckExportModal = ({ isOpen, onClose, deck }) => {
   // Share deck code (if Web Share API is available)
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({
-        title: `KONIVRER Deck: ${deck.name || 'My Deck'}`,
-        text: `Check out my KONIVRER deck! Import it with this code: ${deckCode}`,
-      }).catch(err => {
-        console.error('Error sharing:', err);
-      });
+      navigator
+        .share({
+          title: `KONIVRER Deck: ${deck.name || 'My Deck'}`,
+          text: `Check out my KONIVRER deck! Import it with this code: ${deckCode}`,
+        })
+        .catch(err => {
+          console.error('Error sharing:', err);
+        });
     } else {
       handleCopy();
     }

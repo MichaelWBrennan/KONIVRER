@@ -204,7 +204,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Error boundary */
@@ -375,11 +377,11 @@
   .app {
     padding: var(--spacing-md);
   }
-  
+
   .matchmaking-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .player-list {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }

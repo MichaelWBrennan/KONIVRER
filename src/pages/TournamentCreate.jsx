@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -99,7 +99,7 @@ const TournamentCreate = () => {
       <TournamentTemplates onSelectTemplate={handleTemplateSelect} />
     </div>
   );
-  
+
   const renderBasicInfo = () => (
     <div className="space-y-6">
       <div>
@@ -602,29 +602,36 @@ const TournamentCreate = () => {
     { id: 6, title: 'Review & Create', icon: Eye },
   ];
 
-  const handleTemplateSelect = (template) => {
+  const handleTemplateSelect = template => {
     setSelectedTemplate(template);
-    
+
     // Update form data based on template
     setFormData({
       ...formData,
       type: template.id,
-      format: template.id === 'swiss' ? 'swiss' : 
-              template.id === 'adaptive' ? 'adaptive' :
-              template.id === 'meta-balanced' ? 'swiss' :
-              template.id === 'tiered' ? 'tiered' :
-              template.id === 'parallel' ? 'double-elimination' : 'standard',
+      format:
+        template.id === 'swiss'
+          ? 'swiss'
+          : template.id === 'adaptive'
+            ? 'adaptive'
+            : template.id === 'meta-balanced'
+              ? 'swiss'
+              : template.id === 'tiered'
+                ? 'tiered'
+                : template.id === 'parallel'
+                  ? 'double-elimination'
+                  : 'standard',
       maxParticipants: template.participantCount,
       metaBalanceEnabled: template.metaBalance,
       parallelBracketsEnabled: template.parallelBrackets,
       tieredEntryEnabled: template.tieredEntry,
-      timeConstraint: template.timeConstraint
+      timeConstraint: template.timeConstraint,
     });
-    
+
     // Move to next step
     setStep(2);
   };
-  
+
   const handleSubmit = () => {
     // Here you would submit the tournament data
     console.log('Creating tournament:', formData);

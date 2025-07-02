@@ -19,7 +19,7 @@ jobs:
     name: Lint & Format Check
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [lint-and-format, test]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -101,7 +101,7 @@ jobs:
     name: Security Audit
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -127,7 +127,7 @@ jobs:
     timeout-minutes: 10
     needs: [lint-and-format, test, build, security]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database - Main Application Component
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -78,49 +78,155 @@ function App() {
                             <Route path="/rules" element={<Rules />} />
 
                             {/* Game */}
-                            <Route path="/game/:mode" element={<MobileGamePage />} />
-                            <Route path="/game/:mode/:gameId" element={<MobileGamePage />} />
-                            <Route path="/deck-selection" element={<DeckSelectionPage />} />
-                            <Route path="/deck-builder" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
-                            <Route path="/deck-builder/:deckId" element={<ProtectedRoute><EnhancedDeckBuilder /></ProtectedRoute>} />
-                            <Route path="/battle-pass" element={<BattlePass />} />
+                            <Route
+                              path="/game/:mode"
+                              element={<MobileGamePage />}
+                            />
+                            <Route
+                              path="/game/:mode/:gameId"
+                              element={<MobileGamePage />}
+                            />
+                            <Route
+                              path="/deck-selection"
+                              element={<DeckSelectionPage />}
+                            />
+                            <Route
+                              path="/deck-builder"
+                              element={
+                                <ProtectedRoute>
+                                  <EnhancedDeckBuilder />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/deck-builder/:deckId"
+                              element={
+                                <ProtectedRoute>
+                                  <EnhancedDeckBuilder />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/battle-pass"
+                              element={<BattlePass />}
+                            />
 
                             {/* Cards & Decks */}
-                            <Route path="/cards" element={<MobileCardExplorer />} />
-                            <Route path="/cards/*" element={<MobileCardExplorer />} />
-                            <Route path="/card/:cardId" element={<CardPage />} />
-                            <Route path="/card-art-showcase" element={<CardArtShowcase />} />
+                            <Route
+                              path="/cards"
+                              element={<MobileCardExplorer />}
+                            />
+                            <Route
+                              path="/cards/*"
+                              element={<MobileCardExplorer />}
+                            />
+                            <Route
+                              path="/card/:cardId"
+                              element={<CardPage />}
+                            />
+                            <Route
+                              path="/card-art-showcase"
+                              element={<CardArtShowcase />}
+                            />
                             <Route path="/card-maker" element={<CardMaker />} />
-                            <Route path="/decks" element={<MobileDeckSearch />} />
-                            <Route path="/decks/*" element={<MobileDeckSearch />} />
+                            <Route
+                              path="/decks"
+                              element={<MobileDeckSearch />}
+                            />
+                            <Route
+                              path="/decks/*"
+                              element={<MobileDeckSearch />}
+                            />
 
                             {/* Matchmaking */}
-                            <Route path="/matchmaking" element={<UnifiedMatchmakingPage />} />
-                            <Route path="/physical-matchmaking" element={<PhysicalMatchmakingPage />} />
-                            <Route path="/standalone-matchmaking" element={<StandaloneMatchmaking />} />
+                            <Route
+                              path="/matchmaking"
+                              element={<UnifiedMatchmakingPage />}
+                            />
+                            <Route
+                              path="/physical-matchmaking"
+                              element={<PhysicalMatchmakingPage />}
+                            />
+                            <Route
+                              path="/standalone-matchmaking"
+                              element={<StandaloneMatchmaking />}
+                            />
 
                             {/* Tournaments */}
-                            <Route path="/tournaments" element={<UnifiedTournaments />} />
-                            <Route path="/tournaments/create" element={<ProtectedRoute><TournamentCreate /></ProtectedRoute>} />
-                            <Route path="/tournaments/:tournamentId/live" element={<LiveTournament />} />
-                            <Route path="/judge-center" element={<JudgeCenter />} />
+                            <Route
+                              path="/tournaments"
+                              element={<UnifiedTournaments />}
+                            />
+                            <Route
+                              path="/tournaments/create"
+                              element={
+                                <ProtectedRoute>
+                                  <TournamentCreate />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/tournaments/:tournamentId/live"
+                              element={<LiveTournament />}
+                            />
+                            <Route
+                              path="/judge-center"
+                              element={<JudgeCenter />}
+                            />
 
                             {/* User */}
-                            <Route path="/profile" element={<EnhancedProfile />} />
-                            <Route path="/player/:playerId" element={<PlayerProfile />} />
-                            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminPanel /></ProtectedRoute>} />
+                            <Route
+                              path="/profile"
+                              element={<EnhancedProfile />}
+                            />
+                            <Route
+                              path="/player/:playerId"
+                              element={<PlayerProfile />}
+                            />
+                            <Route
+                              path="/admin"
+                              element={
+                                <ProtectedRoute requireAdmin>
+                                  <AdminPanel />
+                                </ProtectedRoute>
+                              }
+                            />
 
                             {/* OAuth */}
-                            <Route path="/oauth/callback" element={<OAuthCallback />} />
-                            <Route path="/oauth/complete" element={<OAuthComplete />} />
+                            <Route
+                              path="/oauth/callback"
+                              element={<OAuthCallback />}
+                            />
+                            <Route
+                              path="/oauth/complete"
+                              element={<OAuthComplete />}
+                            />
 
                             {/* Redirects */}
-                            <Route path="/play" element={<Navigate to="/game/online" replace />} />
-                            <Route path="/analytics" element={<Navigate to="/decks" replace />} />
-                            <Route path="/analytics/*" element={<Navigate to="/decks" replace />} />
-                            <Route path="/prices" element={<Navigate to="/decks" replace />} />
-                            <Route path="/market/*" element={<Navigate to="/decks" replace />} />
-                            <Route path="/social" element={<Navigate to="/" replace />} />
+                            <Route
+                              path="/play"
+                              element={<Navigate to="/game/online" replace />}
+                            />
+                            <Route
+                              path="/analytics"
+                              element={<Navigate to="/decks" replace />}
+                            />
+                            <Route
+                              path="/analytics/*"
+                              element={<Navigate to="/decks" replace />}
+                            />
+                            <Route
+                              path="/prices"
+                              element={<Navigate to="/decks" replace />}
+                            />
+                            <Route
+                              path="/market/*"
+                              element={<Navigate to="/decks" replace />}
+                            />
+                            <Route
+                              path="/social"
+                              element={<Navigate to="/" replace />}
+                            />
                           </Routes>
                         </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -9,14 +9,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { 
-  Star, 
-  Crown, 
-  Gift, 
-  Lock, 
-  Unlock, 
-  Trophy, 
-  Zap, 
+import {
+  Star,
+  Crown,
+  Gift,
+  Lock,
+  Unlock,
+  Trophy,
+  Zap,
   Calendar,
   Clock,
   Sparkles,
@@ -26,7 +26,7 @@ import {
   Circle,
   ArrowRight,
   Gem,
-  Coins
+  Coins,
 } from 'lucide-react';
 
 // Battle Pass Dashboard - Industry Standard Implementation
@@ -48,9 +48,9 @@ const BattlePassDashboard = () => {
 
   const handleClaimReward = async (level, track) => {
     setClaimingReward(`${level}-${track}`);
-    
+
     const success = battlePass.claimReward(level, track);
-    
+
     if (success) {
       // Add visual feedback
       setTimeout(() => {
@@ -80,10 +80,11 @@ const BattlePassDashboard = () => {
                 {battlePass.currentSeason.name}
               </h1>
               <p className="text-gray-300">
-                Season {battlePass.currentSeason.id} • {battlePass.getDaysRemaining()} days remaining
+                Season {battlePass.currentSeason.id} •{' '}
+                {battlePass.getDaysRemaining()} days remaining
               </p>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">
@@ -91,7 +92,7 @@ const BattlePassDashboard = () => {
                 </div>
                 <div className="text-sm text-gray-300">Level</div>
               </div>
-              
+
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-400">
                   {battlePass.playerProgress.experience}
@@ -112,11 +113,13 @@ const BattlePassDashboard = () => {
                 className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${battlePass.getProgressPercentage()}%` }}
-                transition={{ duration: 1, ease: "easeOut" }}
+                transition={{ duration: 1, ease: 'easeOut' }}
               />
             </div>
             <div className="text-center text-sm text-gray-300 mt-2">
-              {battlePass.playerProgress.experienceToNext - battlePass.playerProgress.experience} XP to next level
+              {battlePass.playerProgress.experienceToNext -
+                battlePass.playerProgress.experience}{' '}
+              XP to next level
             </div>
           </div>
         </div>
@@ -125,11 +128,13 @@ const BattlePassDashboard = () => {
         <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Free Pass */}
-            <div className={`p-4 rounded-lg border-2 ${
-              battlePass.playerProgress.passType === 'free' 
-                ? 'border-blue-500 bg-blue-500/20' 
-                : 'border-gray-600 bg-gray-800/50'
-            }`}>
+            <div
+              className={`p-4 rounded-lg border-2 ${
+                battlePass.playerProgress.passType === 'free'
+                  ? 'border-blue-500 bg-blue-500/20'
+                  : 'border-gray-600 bg-gray-800/50'
+              }`}
+            >
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-lg font-bold text-white">Free Pass</h3>
                 <Circle className="w-5 h-5 text-gray-400" />
@@ -150,9 +155,7 @@ const BattlePassDashboard = () => {
                 Enhanced rewards + exclusive content
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-yellow-400">
-                  FREE
-                </div>
+                <div className="text-2xl font-bold text-yellow-400">FREE</div>
                 <div className="text-sm text-green-400">Included</div>
               </div>
             </div>
@@ -167,9 +170,7 @@ const BattlePassDashboard = () => {
                 Ultimate rewards + instant unlocks
               </p>
               <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-purple-400">
-                  FREE
-                </div>
+                <div className="text-2xl font-bold text-purple-400">FREE</div>
                 <div className="text-sm text-green-400">Included</div>
               </div>
             </div>
@@ -179,56 +180,74 @@ const BattlePassDashboard = () => {
         {/* Rewards Track */}
         <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6">
           <h2 className="text-2xl font-bold text-white mb-6">Rewards Track</h2>
-          
+
           <div className="overflow-x-auto">
             <div className="flex space-x-4 pb-4" style={{ minWidth: '1200px' }}>
-              {Array.from({ length: Math.min(20, battlePass.currentSeason.maxLevel) }, (_, i) => {
-                const level = i + 1;
-                const isUnlocked = level <= battlePass.playerProgress.level;
-                const freeReward = battlePass.rewards.free[level - 1];
-                const premiumReward = battlePass.rewards.premium[level - 1];
-                const isFreeClaimed = battlePass.playerProgress.claimedRewards.includes(level);
-                const isPremiumClaimed = battlePass.playerProgress.premiumClaimed.includes(level);
+              {Array.from(
+                { length: Math.min(20, battlePass.currentSeason.maxLevel) },
+                (_, i) => {
+                  const level = i + 1;
+                  const isUnlocked = level <= battlePass.playerProgress.level;
+                  const freeReward = battlePass.rewards.free[level - 1];
+                  const premiumReward = battlePass.rewards.premium[level - 1];
+                  const isFreeClaimed =
+                    battlePass.playerProgress.claimedRewards.includes(level);
+                  const isPremiumClaimed =
+                    battlePass.playerProgress.premiumClaimed.includes(level);
 
-                return (
-                  <div key={level} className="flex flex-col items-center space-y-2">
-                    {/* Level Number */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      isUnlocked ? 'bg-blue-500 text-white' : 'bg-gray-600 text-gray-400'
-                    }`}>
-                      {level}
+                  return (
+                    <div
+                      key={level}
+                      className="flex flex-col items-center space-y-2"
+                    >
+                      {/* Level Number */}
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                          isUnlocked
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-600 text-gray-400'
+                        }`}
+                      >
+                        {level}
+                      </div>
+
+                      {/* Premium Reward */}
+                      {premiumReward && (
+                        <RewardCard
+                          reward={premiumReward}
+                          level={level}
+                          track="premium"
+                          isUnlocked={isUnlocked}
+                          isClaimed={isPremiumClaimed}
+                          canClaim={
+                            isUnlocked &&
+                            !isPremiumClaimed &&
+                            battlePass.playerProgress.passType !== 'free'
+                          }
+                          onClaim={() => handleClaimReward(level, 'premium')}
+                          isClaimingReward={
+                            claimingReward === `${level}-premium`
+                          }
+                        />
+                      )}
+
+                      {/* Free Reward */}
+                      {freeReward && (
+                        <RewardCard
+                          reward={freeReward}
+                          level={level}
+                          track="free"
+                          isUnlocked={isUnlocked}
+                          isClaimed={isFreeClaimed}
+                          canClaim={isUnlocked && !isFreeClaimed}
+                          onClaim={() => handleClaimReward(level, 'free')}
+                          isClaimingReward={claimingReward === `${level}-free`}
+                        />
+                      )}
                     </div>
-
-                    {/* Premium Reward */}
-                    {premiumReward && (
-                      <RewardCard
-                        reward={premiumReward}
-                        level={level}
-                        track="premium"
-                        isUnlocked={isUnlocked}
-                        isClaimed={isPremiumClaimed}
-                        canClaim={isUnlocked && !isPremiumClaimed && battlePass.playerProgress.passType !== 'free'}
-                        onClaim={() => handleClaimReward(level, 'premium')}
-                        isClaimingReward={claimingReward === `${level}-premium`}
-                      />
-                    )}
-
-                    {/* Free Reward */}
-                    {freeReward && (
-                      <RewardCard
-                        reward={freeReward}
-                        level={level}
-                        track="free"
-                        isUnlocked={isUnlocked}
-                        isClaimed={isFreeClaimed}
-                        canClaim={isUnlocked && !isFreeClaimed}
-                        onClaim={() => handleClaimReward(level, 'free')}
-                        isClaimingReward={claimingReward === `${level}-free`}
-                      />
-                    )}
-                  </div>
-                );
-              })}
+                  );
+                },
+              )}
             </div>
           </div>
         </div>
@@ -242,7 +261,7 @@ const BattlePassDashboard = () => {
               Daily Quests
             </h3>
             <div className="space-y-3">
-              {battlePass.quests.daily.map((quest) => (
+              {battlePass.quests.daily.map(quest => (
                 <QuestCard key={quest.id} quest={quest} />
               ))}
             </div>
@@ -255,7 +274,7 @@ const BattlePassDashboard = () => {
               Weekly Quests
             </h3>
             <div className="space-y-3">
-              {battlePass.quests.weekly.map((quest) => (
+              {battlePass.quests.weekly.map(quest => (
                 <QuestCard key={quest.id} quest={quest} />
               ))}
             </div>
@@ -279,22 +298,26 @@ const BattlePassDashboard = () => {
 };
 
 // Reward Card Component
-const RewardCard = ({ 
-  reward, 
-  level, 
-  track, 
-  isUnlocked, 
-  isClaimed, 
-  canClaim, 
-  onClaim, 
-  isClaimingReward 
+const RewardCard = ({
+  reward,
+  level,
+  track,
+  isUnlocked,
+  isClaimed,
+  canClaim,
+  onClaim,
+  isClaimingReward,
 }) => {
   const getRewardIcon = () => {
     switch (reward.type) {
       case 'wildcards':
         return <Star className="w-4 h-4" />;
       case 'currency':
-        return reward.currency === 'gems' ? <Gem className="w-4 h-4" /> : <Coins className="w-4 h-4" />;
+        return reward.currency === 'gems' ? (
+          <Gem className="w-4 h-4" />
+        ) : (
+          <Coins className="w-4 h-4" />
+        );
       case 'cosmetics':
         return <Sparkles className="w-4 h-4" />;
       case 'animations':
@@ -321,12 +344,8 @@ const RewardCard = ({
       onClick={canClaim ? onClaim : undefined}
     >
       <div className="p-2 text-white text-center">
-        <div className="flex justify-center mb-1">
-          {getRewardIcon()}
-        </div>
-        <div className="text-xs font-medium">
-          {reward.amount || 1}
-        </div>
+        <div className="flex justify-center mb-1">{getRewardIcon()}</div>
+        <div className="text-xs font-medium">{reward.amount || 1}</div>
       </div>
 
       {/* Lock/Unlock Indicator */}
@@ -366,10 +385,12 @@ const QuestCard = ({ quest }) => {
           <span className="text-sm">{quest.experience} XP</span>
         </div>
       </div>
-      
+
       <div className="mb-2">
         <div className="flex justify-between text-sm text-gray-300 mb-1">
-          <span>{quest.progress} / {quest.target}</span>
+          <span>
+            {quest.progress} / {quest.target}
+          </span>
           <span>{Math.round(progressPercentage)}%</span>
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2">
@@ -393,11 +414,11 @@ const QuestCard = ({ quest }) => {
 };
 
 // Purchase Modal Component
-const PurchaseModal = ({ 
-  onClose, 
-  onPurchasePremium, 
-  onPurchasePremiumPlus, 
-  currentSeason 
+const PurchaseModal = ({
+  onClose,
+  onPurchasePremium,
+  onPurchasePremiumPlus,
+  currentSeason,
 }) => {
   return (
     <motion.div
@@ -411,16 +432,18 @@ const PurchaseModal = ({
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         className="bg-gray-800 rounded-xl p-6 max-w-md w-full"
       >
         <h3 className="text-2xl font-bold text-white mb-4">Premium Features</h3>
-        
+
         <div className="space-y-4">
           {/* Premium Option - Now Free */}
           <div className="border border-yellow-500 rounded-lg p-4 bg-yellow-500/10">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-lg font-bold text-yellow-400">Premium Pass</h4>
+              <h4 className="text-lg font-bold text-yellow-400">
+                Premium Pass
+              </h4>
               <Star className="w-5 h-5 text-yellow-400" />
             </div>
             <ul className="text-gray-300 text-sm space-y-1 mb-4">
@@ -437,7 +460,9 @@ const PurchaseModal = ({
           {/* Premium Plus Option - Now Free */}
           <div className="border border-purple-500 rounded-lg p-4 bg-purple-500/10">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-lg font-bold text-purple-400">Premium+ Pass</h4>
+              <h4 className="text-lg font-bold text-purple-400">
+                Premium+ Pass
+              </h4>
               <Crown className="w-5 h-5 text-purple-400" />
             </div>
             <ul className="text-gray-300 text-sm space-y-1 mb-4">

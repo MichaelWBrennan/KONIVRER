@@ -2,11 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import { safeStringify, formatTimestamp } from '../utils';
-import { DEFAULT_QR_SIZE, QR_CODE_TYPES, ERROR_MESSAGES } from '../utils/constants';
+import {
+  DEFAULT_QR_SIZE,
+  QR_CODE_TYPES,
+  ERROR_MESSAGES,
+} from '../utils/constants';
 
 /**
  * Standard QR Code Generator Component
- * 
+ *
  * @param {Object} props - Component props
  * @param {string} [props.matchId] - ID of the match to generate QR code for
  * @param {string} [props.tournamentId] - ID of the tournament to generate QR code for
@@ -15,14 +19,15 @@ import { DEFAULT_QR_SIZE, QR_CODE_TYPES, ERROR_MESSAGES } from '../utils/constan
  * @param {string} [props.className=''] - Additional CSS class names
  * @returns {JSX.Element} QR code component
  */
-const QRCodeGenerator = ({ 
-  matchId, 
-  tournamentId, 
-  size = DEFAULT_QR_SIZE, 
-  includeData = false, 
-  className = '' 
+const QRCodeGenerator = ({
+  matchId,
+  tournamentId,
+  size = DEFAULT_QR_SIZE,
+  includeData = false,
+  className = '',
 }) => {
-  const { generateMatchQRData, generateTournamentQRData } = usePhysicalMatchmaking();
+  const { generateMatchQRData, generateTournamentQRData } =
+    usePhysicalMatchmaking();
   const [qrData, setQrData] = useState(null);
   const [error, setError] = useState(null);
   const [title, setTitle] = useState('');
@@ -32,7 +37,7 @@ const QRCodeGenerator = ({
   useEffect(() => {
     try {
       let data = null;
-      
+
       if (matchId) {
         data = generateMatchQRData(matchId);
         setTitle('Match QR Code');
@@ -42,15 +47,15 @@ const QRCodeGenerator = ({
       } else {
         throw new Error(ERROR_MESSAGES.MISSING_REQUIRED_FIELD);
       }
-      
+
       if (!data) {
         throw new Error(
-          matchId 
-            ? ERROR_MESSAGES.MATCH_NOT_FOUND 
-            : ERROR_MESSAGES.TOURNAMENT_NOT_FOUND
+          matchId
+            ? ERROR_MESSAGES.MATCH_NOT_FOUND
+            : ERROR_MESSAGES.TOURNAMENT_NOT_FOUND,
         );
       }
-      
+
       setQrData(data);
       setTimestamp(formatTimestamp(data.timestamp));
       setError(null);
@@ -85,8 +90,8 @@ const QRCodeGenerator = ({
     <div className={`qr-code-container ${className}`}>
       <h3 className="qr-title">{title}</h3>
       <div className="qr-code">
-        <QRCodeSVG 
-          value={qrValue} 
+        <QRCodeSVG
+          value={qrValue}
           size={size}
           level="H" // High error correction
           includeMargin={true}
@@ -94,21 +99,19 @@ const QRCodeGenerator = ({
           className="standard-qr-code"
         />
       </div>
-      
+
       {includeData && (
         <div className="qr-data">
           <h4>QR Code Data:</h4>
           <pre>{safeStringify(qrData)}</pre>
         </div>
       )}
-      
+
       <p className="qr-instructions">
         Scan this code to access {qrData.type} information
       </p>
-      
-      <div className="qr-timestamp">
-        Generated: {timestamp}
-      </div>
+
+      <div className="qr-timestamp">Generated: {timestamp}</div>
     </div>
   );
 };

@@ -1,13 +1,13 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 /**
  * KONIVRER Advanced Card Animation System
- * 
+ *
  * A state-of-the-art animation system for card interactions that provides:
  * - 3D perspective animations
  * - Particle effects
@@ -32,9 +32,9 @@ const gsap = {
     to: () => ({}),
     onStart: () => ({}),
     onComplete: () => ({}),
-    onUpdate: () => ({})
+    onUpdate: () => ({}),
   }),
-  to: () => ({})
+  to: () => ({}),
 };
 
 // Register GSAP plugins - commented out until we install the real plugins
@@ -51,7 +51,7 @@ const QUALITY_LEVELS = {
     reflections: true,
     postProcessing: true,
     physicsSimulation: true,
-    maxAnimations: Infinity
+    maxAnimations: Infinity,
   },
   HIGH: {
     particleCount: 100,
@@ -59,7 +59,7 @@ const QUALITY_LEVELS = {
     reflections: true,
     postProcessing: true,
     physicsSimulation: true,
-    maxAnimations: 10
+    maxAnimations: 10,
   },
   MEDIUM: {
     particleCount: 50,
@@ -67,7 +67,7 @@ const QUALITY_LEVELS = {
     reflections: false,
     postProcessing: false,
     physicsSimulation: true,
-    maxAnimations: 5
+    maxAnimations: 5,
   },
   LOW: {
     particleCount: 20,
@@ -75,8 +75,8 @@ const QUALITY_LEVELS = {
     reflections: false,
     postProcessing: false,
     physicsSimulation: false,
-    maxAnimations: 3
-  }
+    maxAnimations: 3,
+  },
 };
 
 class CardAnimationSystem {
@@ -84,42 +84,51 @@ class CardAnimationSystem {
     // Initialize with device-appropriate settings
     this.qualityLevel = options.qualityLevel || this.detectQualityLevel();
     this.settings = QUALITY_LEVELS[this.qualityLevel];
-    
+
     // Animation queues and state
     this.animationQueue = [];
     this.activeAnimations = new Map();
     this.particleSystems = new Map();
-    
+
     // Performance monitoring
     this.lastFrameTime = performance.now();
     this.frameCount = 0;
     this.fps = 60;
-    
+
     // Initialize 3D context if supported
     this.has3DSupport = this.detect3DSupport();
-    
-    console.log(`Card Animation System initialized with ${this.qualityLevel} quality`);
+
+    console.log(
+      `Card Animation System initialized with ${this.qualityLevel} quality`,
+    );
   }
-  
+
   /**
    * Detect appropriate quality level based on device capabilities
    */
   detectQualityLevel() {
     // Use global performance mode if available
     if (window.KONIVRER_PERFORMANCE_MODE) {
-      switch(window.KONIVRER_PERFORMANCE_MODE) {
-        case 'high': return 'ULTRA';
-        case 'medium': return 'HIGH';
-        case 'low': return 'MEDIUM';
-        default: return 'HIGH';
+      switch (window.KONIVRER_PERFORMANCE_MODE) {
+        case 'high':
+          return 'ULTRA';
+        case 'medium':
+          return 'HIGH';
+        case 'low':
+          return 'MEDIUM';
+        default:
+          return 'HIGH';
       }
     }
-    
+
     // Otherwise detect based on device capabilities
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
     const memory = navigator.deviceMemory || 4;
     const cores = navigator.hardwareConcurrency || 4;
-    
+
     if (isMobile) {
       if (memory <= 2 || cores <= 2) return 'LOW';
       if (memory <= 4 || cores <= 4) return 'MEDIUM';
@@ -130,21 +139,22 @@ class CardAnimationSystem {
       return 'ULTRA';
     }
   }
-  
+
   /**
    * Detect 3D support in the browser
    */
   detect3DSupport() {
     try {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const gl =
+        canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       return !!gl;
     } catch (e) {
       console.warn('3D support detection failed:', e);
       return false;
     }
   }
-  
+
   /**
    * Play a card draw animation
    * @param {HTMLElement} cardElement - The card DOM element
@@ -152,52 +162,55 @@ class CardAnimationSystem {
    */
   playCardDrawAnimation(cardElement, options = {}) {
     if (!cardElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
-    
+
     // Set up initial state
     gsap.set(cardElement, {
       opacity: 0,
       scale: 0.8,
       rotationY: -90,
       transformPerspective: 1000,
-      transformOrigin: 'center center'
+      transformOrigin: 'center center',
     });
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `draw-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'draw'),
-      onComplete: () => this.onAnimationComplete(cardId, 'draw', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onComplete: () =>
+        this.onAnimationComplete(cardId, 'draw', options.onComplete),
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Add the main card animation
     timeline.to(cardElement, {
       duration: 0.6,
       opacity: 1,
       scale: 1,
       rotationY: 0,
-      ease: "power3.out"
+      ease: 'power3.out',
     });
-    
+
     // Add card-specific effects if available
     if (cardData.rarity === 'mythic' || cardData.rarity === 'rare') {
       this.addRarityEffects(cardElement, timeline, cardData);
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(cardId, {
       element: cardElement,
       timeline,
       type: 'draw',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Play a card play animation (from hand to battlefield)
    * @param {HTMLElement} cardElement - The card DOM element
@@ -205,74 +218,89 @@ class CardAnimationSystem {
    */
   playCardPlayAnimation(cardElement, options = {}) {
     if (!cardElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
     const startPosition = options.startPosition || { x: 0, y: 0 };
     const endPosition = options.endPosition || { x: 0, y: 0 };
-    
+
     // Calculate path
-    const path = this.calculatePath(startPosition, endPosition, options.pathType || 'arc');
-    
+    const path = this.calculatePath(
+      startPosition,
+      endPosition,
+      options.pathType || 'arc',
+    );
+
     // Set up initial state
     gsap.set(cardElement, {
       position: 'absolute',
       zIndex: 100,
       transformPerspective: 1000,
-      transformOrigin: 'center center'
+      transformOrigin: 'center center',
     });
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `play-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'play'),
-      onComplete: () => this.onAnimationComplete(cardId, 'play', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onComplete: () =>
+        this.onAnimationComplete(cardId, 'play', options.onComplete),
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Add the main card animation
-    timeline.to(cardElement, {
-      duration: 0.8,
-      motionPath: {
-        path: path,
-        autoRotate: true,
-        alignOrigin: [0.5, 0.5]
-      },
-      scale: 1.2,
-      ease: "power2.inOut"
-    }).to(cardElement, {
-      duration: 0.3,
-      scale: 1,
-      ease: "elastic.out(1, 0.5)"
-    });
-    
+    timeline
+      .to(cardElement, {
+        duration: 0.8,
+        motionPath: {
+          path: path,
+          autoRotate: true,
+          alignOrigin: [0.5, 0.5],
+        },
+        scale: 1.2,
+        ease: 'power2.inOut',
+      })
+      .to(cardElement, {
+        duration: 0.3,
+        scale: 1,
+        ease: 'elastic.out(1, 0.5)',
+      });
+
     // Add card-specific effects
-    const cardSpecificAnimations = getCardSpecificAnimations(cardData.id, cardData.type);
+    const cardSpecificAnimations = getCardSpecificAnimations(
+      cardData.id,
+      cardData.type,
+    );
     if (cardSpecificAnimations && cardSpecificAnimations.onPlay) {
       cardSpecificAnimations.onPlay(cardElement, timeline, this.settings);
     }
-    
+
     // Add particle effects for special cards
-    if (this.settings.particleCount > 0 && (cardData.rarity === 'mythic' || cardData.rarity === 'rare')) {
+    if (
+      this.settings.particleCount > 0 &&
+      (cardData.rarity === 'mythic' || cardData.rarity === 'rare')
+    ) {
       this.createParticleEffect(cardElement, {
         type: 'play',
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 1.5,
-        count: this.settings.particleCount
+        count: this.settings.particleCount,
       });
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(cardId, {
       element: cardElement,
       timeline,
       type: 'play',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Play a card attack animation
    * @param {HTMLElement} cardElement - The card DOM element
@@ -281,12 +309,14 @@ class CardAnimationSystem {
    */
   playCardAttackAnimation(cardElement, targetElement, options = {}) {
     if (!cardElement || !targetElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
     const originalPosition = this.getElementPosition(cardElement);
     const targetPosition = this.getElementPosition(targetElement);
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `attack-${cardId}`,
@@ -298,51 +328,68 @@ class CardAnimationSystem {
           x: originalPosition.x,
           y: originalPosition.y,
           rotation: 0,
-          ease: "power2.inOut",
-          onComplete: () => this.onAnimationComplete(cardId, 'attack', options.onComplete)
+          ease: 'power2.inOut',
+          onComplete: () =>
+            this.onAnimationComplete(cardId, 'attack', options.onComplete),
         });
       },
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Calculate attack path
     const attackPath = [
       { x: originalPosition.x, y: originalPosition.y },
-      { x: targetPosition.x, y: targetPosition.y }
+      { x: targetPosition.x, y: targetPosition.y },
     ];
-    
+
     // Add the main attack animation
-    timeline.to(cardElement, {
-      duration: 0.3,
-      scale: 1.1,
-      rotation: 5,
-      ease: "power2.out"
-    }).to(cardElement, {
-      duration: 0.4,
-      x: targetPosition.x,
-      y: targetPosition.y,
-      ease: "power3.in"
-    });
-    
+    timeline
+      .to(cardElement, {
+        duration: 0.3,
+        scale: 1.1,
+        rotation: 5,
+        ease: 'power2.out',
+      })
+      .to(cardElement, {
+        duration: 0.4,
+        x: targetPosition.x,
+        y: targetPosition.y,
+        ease: 'power3.in',
+      });
+
     // Add impact effect on target
-    timeline.to(targetElement, {
-      duration: 0.1,
-      scale: 0.95,
-      rotation: -3,
-      ease: "power4.out"
-    }, "-=0.1").to(targetElement, {
-      duration: 0.3,
-      scale: 1,
-      rotation: 0,
-      ease: "elastic.out(1, 0.3)"
-    });
-    
+    timeline
+      .to(
+        targetElement,
+        {
+          duration: 0.1,
+          scale: 0.95,
+          rotation: -3,
+          ease: 'power4.out',
+        },
+        '-=0.1',
+      )
+      .to(targetElement, {
+        duration: 0.3,
+        scale: 1,
+        rotation: 0,
+        ease: 'elastic.out(1, 0.3)',
+      });
+
     // Add card-specific attack effects
-    const cardSpecificAnimations = getCardSpecificAnimations(cardData.id, cardData.type);
+    const cardSpecificAnimations = getCardSpecificAnimations(
+      cardData.id,
+      cardData.type,
+    );
     if (cardSpecificAnimations && cardSpecificAnimations.onAttack) {
-      cardSpecificAnimations.onAttack(cardElement, targetElement, timeline, this.settings);
+      cardSpecificAnimations.onAttack(
+        cardElement,
+        targetElement,
+        timeline,
+        this.settings,
+      );
     }
-    
+
     // Add particle effects for the attack
     if (this.settings.particleCount > 0) {
       this.createParticleEffect(targetElement, {
@@ -350,21 +397,21 @@ class CardAnimationSystem {
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 0.8,
         count: Math.floor(this.settings.particleCount / 2),
-        spread: 0.8
+        spread: 0.8,
       });
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(cardId, {
       element: cardElement,
       timeline,
       type: 'attack',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Play a card tap/untap animation
    * @param {HTMLElement} cardElement - The card DOM element
@@ -373,51 +420,73 @@ class CardAnimationSystem {
    */
   playCardTapAnimation(cardElement, isTapping = true, options = {}) {
     if (!cardElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `tap-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, isTapping ? 'tap' : 'untap'),
-      onComplete: () => this.onAnimationComplete(cardId, isTapping ? 'tap' : 'untap', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onComplete: () =>
+        this.onAnimationComplete(
+          cardId,
+          isTapping ? 'tap' : 'untap',
+          options.onComplete,
+        ),
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Add the main tap/untap animation
     timeline.to(cardElement, {
       duration: 0.3,
       rotation: isTapping ? 90 : 0,
-      transformOrigin: "center center",
-      ease: "power2.inOut"
+      transformOrigin: 'center center',
+      ease: 'power2.inOut',
     });
-    
+
     // Add subtle effects
     if (isTapping) {
-      timeline.to(cardElement, {
-        duration: 0.1,
-        scale: 0.98,
-        ease: "power1.out"
-      }, "-=0.1").to(cardElement, {
-        duration: 0.2,
-        scale: 1,
-        ease: "power1.inOut"
-      });
+      timeline
+        .to(
+          cardElement,
+          {
+            duration: 0.1,
+            scale: 0.98,
+            ease: 'power1.out',
+          },
+          '-=0.1',
+        )
+        .to(cardElement, {
+          duration: 0.2,
+          scale: 1,
+          ease: 'power1.inOut',
+        });
     } else {
-      timeline.to(cardElement, {
-        duration: 0.1,
-        scale: 1.02,
-        ease: "power1.out"
-      }, "-=0.1").to(cardElement, {
-        duration: 0.2,
-        scale: 1,
-        ease: "power1.inOut"
-      });
+      timeline
+        .to(
+          cardElement,
+          {
+            duration: 0.1,
+            scale: 1.02,
+            ease: 'power1.out',
+          },
+          '-=0.1',
+        )
+        .to(cardElement, {
+          duration: 0.2,
+          scale: 1,
+          ease: 'power1.inOut',
+        });
     }
-    
+
     // Add card-specific tap/untap effects
-    const cardSpecificAnimations = getCardSpecificAnimations(cardData.id, cardData.type);
+    const cardSpecificAnimations = getCardSpecificAnimations(
+      cardData.id,
+      cardData.type,
+    );
     if (cardSpecificAnimations) {
       if (isTapping && cardSpecificAnimations.onTap) {
         cardSpecificAnimations.onTap(cardElement, timeline, this.settings);
@@ -425,18 +494,18 @@ class CardAnimationSystem {
         cardSpecificAnimations.onUntap(cardElement, timeline, this.settings);
       }
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(cardId, {
       element: cardElement,
       timeline,
       type: isTapping ? 'tap' : 'untap',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Play a card destruction/removal animation
    * @param {HTMLElement} cardElement - The card DOM element
@@ -444,35 +513,40 @@ class CardAnimationSystem {
    */
   playCardDestroyAnimation(cardElement, options = {}) {
     if (!cardElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
     const targetZone = options.targetZone || 'graveyard';
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `destroy-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'destroy'),
-      onComplete: () => this.onAnimationComplete(cardId, 'destroy', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onComplete: () =>
+        this.onAnimationComplete(cardId, 'destroy', options.onComplete),
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Different animations based on target zone
     if (targetZone === 'graveyard') {
       // Destruction animation
-      timeline.to(cardElement, {
-        duration: 0.2,
-        scale: 1.1,
-        brightness: 1.5,
-        ease: "power2.in"
-      }).to(cardElement, {
-        duration: 0.5,
-        scale: 0,
-        rotation: Math.random() > 0.5 ? 45 : -45,
-        opacity: 0,
-        ease: "power3.in"
-      });
-      
+      timeline
+        .to(cardElement, {
+          duration: 0.2,
+          scale: 1.1,
+          brightness: 1.5,
+          ease: 'power2.in',
+        })
+        .to(cardElement, {
+          duration: 0.5,
+          scale: 0,
+          rotation: Math.random() > 0.5 ? 45 : -45,
+          opacity: 0,
+          ease: 'power3.in',
+        });
+
       // Add particle effects for destruction
       if (this.settings.particleCount > 0) {
         this.createParticleEffect(cardElement, {
@@ -480,24 +554,26 @@ class CardAnimationSystem {
           color: this.getColorForCardType(cardData.type, cardData.color),
           duration: 1.2,
           count: this.settings.particleCount,
-          spread: 1
+          spread: 1,
         });
       }
     } else if (targetZone === 'exile') {
       // Exile animation (more ethereal)
-      timeline.to(cardElement, {
-        duration: 0.3,
-        scale: 1.1,
-        filter: 'brightness(1.7) hue-rotate(90deg)',
-        ease: "power2.in"
-      }).to(cardElement, {
-        duration: 0.7,
-        scale: 0,
-        opacity: 0,
-        filter: 'brightness(2) hue-rotate(180deg) blur(10px)',
-        ease: "power2.inOut"
-      });
-      
+      timeline
+        .to(cardElement, {
+          duration: 0.3,
+          scale: 1.1,
+          filter: 'brightness(1.7) hue-rotate(90deg)',
+          ease: 'power2.in',
+        })
+        .to(cardElement, {
+          duration: 0.7,
+          scale: 0,
+          opacity: 0,
+          filter: 'brightness(2) hue-rotate(180deg) blur(10px)',
+          ease: 'power2.inOut',
+        });
+
       // Add particle effects for exile
       if (this.settings.particleCount > 0) {
         this.createParticleEffect(cardElement, {
@@ -505,7 +581,7 @@ class CardAnimationSystem {
           color: '#FFFFFF',
           duration: 1.5,
           count: this.settings.particleCount,
-          spread: 1.2
+          spread: 1.2,
         });
       }
     } else {
@@ -514,27 +590,35 @@ class CardAnimationSystem {
         duration: 0.5,
         scale: 0,
         opacity: 0,
-        ease: "power3.in"
+        ease: 'power3.in',
       });
     }
-    
+
     // Add card-specific destruction effects
-    const cardSpecificAnimations = getCardSpecificAnimations(cardData.id, cardData.type);
+    const cardSpecificAnimations = getCardSpecificAnimations(
+      cardData.id,
+      cardData.type,
+    );
     if (cardSpecificAnimations && cardSpecificAnimations.onDestroy) {
-      cardSpecificAnimations.onDestroy(cardElement, timeline, this.settings, targetZone);
+      cardSpecificAnimations.onDestroy(
+        cardElement,
+        timeline,
+        this.settings,
+        targetZone,
+      );
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(cardId, {
       element: cardElement,
       timeline,
       type: 'destroy',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Play a card ability activation animation
    * @param {HTMLElement} cardElement - The card DOM element
@@ -542,95 +626,111 @@ class CardAnimationSystem {
    */
   playCardAbilityAnimation(cardElement, options = {}) {
     if (!cardElement) return;
-    
-    const cardId = cardElement.dataset.cardId || `card-${Math.random().toString(36).substr(2, 9)}`;
+
+    const cardId =
+      cardElement.dataset.cardId ||
+      `card-${Math.random().toString(36).substr(2, 9)}`;
     const cardData = options.cardData || {};
     const abilityIndex = options.abilityIndex || 0;
     const targets = options.targets || [];
-    
+
     // Create the animation timeline
     const timeline = gsap.timeline({
       id: `ability-${cardId}-${abilityIndex}`,
       onStart: () => this.onAnimationStart(cardId, 'ability'),
-      onComplete: () => this.onAnimationComplete(cardId, 'ability', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
+      onComplete: () =>
+        this.onAnimationComplete(cardId, 'ability', options.onComplete),
+      onUpdate: () => this.onAnimationUpdate(cardId),
     });
-    
+
     // Add the main ability activation animation
-    timeline.to(cardElement, {
-      duration: 0.2,
-      scale: 1.1,
-      filter: 'brightness(1.3)',
-      ease: "power2.out"
-    }).to(cardElement, {
-      duration: 0.3,
-      scale: 1,
-      filter: 'brightness(1)',
-      ease: "power2.in"
-    });
-    
+    timeline
+      .to(cardElement, {
+        duration: 0.2,
+        scale: 1.1,
+        filter: 'brightness(1.3)',
+        ease: 'power2.out',
+      })
+      .to(cardElement, {
+        duration: 0.3,
+        scale: 1,
+        filter: 'brightness(1)',
+        ease: 'power2.in',
+      });
+
     // If there are targets, animate effects to each target
     if (targets.length > 0) {
       const cardPosition = this.getElementPosition(cardElement);
-      
+
       targets.forEach((target, index) => {
         const targetElement = target.element;
         if (!targetElement) return;
-        
+
         const targetPosition = this.getElementPosition(targetElement);
         const delay = index * 0.1; // Stagger effect for multiple targets
-        
+
         // Create a beam/projectile effect from card to target
         this.createBeamEffect(cardElement, targetElement, {
           color: this.getColorForCardType(cardData.type, cardData.color),
           duration: 0.5,
           delay: delay,
-          timeline: timeline
+          timeline: timeline,
         });
-        
+
         // Add impact effect on target
-        timeline.to(targetElement, {
-          duration: 0.15,
-          scale: 0.95,
-          filter: 'brightness(1.2)',
-          ease: "power2.out",
-          delay: delay + 0.4
-        }).to(targetElement, {
-          duration: 0.3,
-          scale: 1,
-          filter: 'brightness(1)',
-          ease: "elastic.out(1, 0.3)"
-        });
+        timeline
+          .to(targetElement, {
+            duration: 0.15,
+            scale: 0.95,
+            filter: 'brightness(1.2)',
+            ease: 'power2.out',
+            delay: delay + 0.4,
+          })
+          .to(targetElement, {
+            duration: 0.3,
+            scale: 1,
+            filter: 'brightness(1)',
+            ease: 'elastic.out(1, 0.3)',
+          });
       });
     }
-    
+
     // Add card-specific ability effects
-    const cardSpecificAnimations = getCardSpecificAnimations(cardData.id, cardData.type);
+    const cardSpecificAnimations = getCardSpecificAnimations(
+      cardData.id,
+      cardData.type,
+    );
     if (cardSpecificAnimations && cardSpecificAnimations.onAbility) {
-      cardSpecificAnimations.onAbility(cardElement, timeline, this.settings, abilityIndex, targets);
+      cardSpecificAnimations.onAbility(
+        cardElement,
+        timeline,
+        this.settings,
+        abilityIndex,
+        targets,
+      );
     }
-    
+
     // Add particle effects for the ability
     if (this.settings.particleCount > 0) {
       this.createParticleEffect(cardElement, {
         type: 'ability',
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 1,
-        count: Math.floor(this.settings.particleCount / 2)
+        count: Math.floor(this.settings.particleCount / 2),
       });
     }
-    
+
     // Add to active animations
     this.activeAnimations.set(`${cardId}-ability-${abilityIndex}`, {
       element: cardElement,
       timeline,
       type: 'ability',
-      startTime: performance.now()
+      startTime: performance.now(),
     });
-    
+
     return timeline;
   }
-  
+
   /**
    * Create a particle effect
    * @param {HTMLElement} element - The source element
@@ -638,10 +738,13 @@ class CardAnimationSystem {
    */
   createParticleEffect(element, options = {}) {
     if (!element || this.settings.particleCount <= 0) return;
-    
-    const elementId = element.dataset.cardId || element.id || `element-${Math.random().toString(36).substr(2, 9)}`;
+
+    const elementId =
+      element.dataset.cardId ||
+      element.id ||
+      `element-${Math.random().toString(36).substr(2, 9)}`;
     const particleId = `particles-${elementId}-${options.type || 'generic'}-${Date.now()}`;
-    
+
     // Create particle container if it doesn't exist
     let particleContainer = document.getElementById('particle-container');
     if (!particleContainer) {
@@ -656,22 +759,22 @@ class CardAnimationSystem {
       particleContainer.style.zIndex = '1000';
       document.body.appendChild(particleContainer);
     }
-    
+
     // Create particle element
     const particleElement = document.createElement('div');
     particleElement.id = particleId;
     particleElement.style.position = 'absolute';
     particleElement.style.pointerEvents = 'none';
-    
+
     // Position the particle element at the source element
     const elementRect = element.getBoundingClientRect();
     particleElement.style.top = `${elementRect.top}px`;
     particleElement.style.left = `${elementRect.left}px`;
     particleElement.style.width = `${elementRect.width}px`;
     particleElement.style.height = `${elementRect.height}px`;
-    
+
     particleContainer.appendChild(particleElement);
-    
+
     // Create the particle system
     const particleSystem = createParticleSystem(particleElement, {
       type: options.type || 'generic',
@@ -681,28 +784,31 @@ class CardAnimationSystem {
       spread: options.spread || 0.5,
       speed: options.speed || 1,
       size: options.size || 1,
-      gravity: options.gravity || 0.1
+      gravity: options.gravity || 0.1,
     });
-    
+
     // Store the particle system
     this.particleSystems.set(particleId, {
       element: particleElement,
       system: particleSystem,
       startTime: performance.now(),
-      duration: options.duration || 1
+      duration: options.duration || 1,
     });
-    
+
     // Set up cleanup
-    setTimeout(() => {
-      this.particleSystems.delete(particleId);
-      if (particleElement.parentNode) {
-        particleElement.parentNode.removeChild(particleElement);
-      }
-    }, (options.duration || 1) * 1000 + 100);
-    
+    setTimeout(
+      () => {
+        this.particleSystems.delete(particleId);
+        if (particleElement.parentNode) {
+          particleElement.parentNode.removeChild(particleElement);
+        }
+      },
+      (options.duration || 1) * 1000 + 100,
+    );
+
     return particleSystem;
   }
-  
+
   /**
    * Create a beam effect between two elements
    * @param {HTMLElement} sourceElement - The source element
@@ -711,10 +817,10 @@ class CardAnimationSystem {
    */
   createBeamEffect(sourceElement, targetElement, options = {}) {
     if (!sourceElement || !targetElement) return;
-    
+
     const sourceRect = sourceElement.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
-    
+
     // Create beam container if it doesn't exist
     let beamContainer = document.getElementById('beam-container');
     if (!beamContainer) {
@@ -729,7 +835,7 @@ class CardAnimationSystem {
       beamContainer.style.zIndex = '999';
       document.body.appendChild(beamContainer);
     }
-    
+
     // Create beam element
     const beamId = `beam-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const beamElement = document.createElement('div');
@@ -743,45 +849,54 @@ class CardAnimationSystem {
     beamElement.style.filter = 'blur(1px) brightness(1.5)';
     beamElement.style.boxShadow = `0 0 8px ${options.color || '#FFFFFF'}`;
     beamElement.style.opacity = '0';
-    
+
     beamContainer.appendChild(beamElement);
-    
+
     // Calculate beam position and angle
     const sourceX = sourceRect.left + sourceRect.width / 2;
     const sourceY = sourceRect.top + sourceRect.height / 2;
     const targetX = targetRect.left + targetRect.width / 2;
     const targetY = targetRect.top + targetRect.height / 2;
-    
-    const angle = Math.atan2(targetY - sourceY, targetX - sourceX) * (180 / Math.PI);
-    const distance = Math.sqrt(Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2));
-    
+
+    const angle =
+      Math.atan2(targetY - sourceY, targetX - sourceX) * (180 / Math.PI);
+    const distance = Math.sqrt(
+      Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2),
+    );
+
     // Position and rotate the beam
     beamElement.style.top = `${sourceY - 2}px`;
     beamElement.style.left = `${sourceX}px`;
     beamElement.style.width = `${distance}px`;
     beamElement.style.transform = `rotate(${angle}deg)`;
-    
+
     // Animate the beam
     const timeline = options.timeline || gsap.timeline();
-    timeline.to(beamElement, {
-      duration: 0.1,
-      opacity: 1,
-      delay: options.delay || 0,
-      ease: "power1.out"
-    }).to(beamElement, {
-      duration: options.duration || 0.5,
-      opacity: 0,
-      ease: "power1.in",
-      onComplete: () => {
-        if (beamElement.parentNode) {
-          beamElement.parentNode.removeChild(beamElement);
-        }
-      }
-    }, "+=0.1");
-    
+    timeline
+      .to(beamElement, {
+        duration: 0.1,
+        opacity: 1,
+        delay: options.delay || 0,
+        ease: 'power1.out',
+      })
+      .to(
+        beamElement,
+        {
+          duration: options.duration || 0.5,
+          opacity: 0,
+          ease: 'power1.in',
+          onComplete: () => {
+            if (beamElement.parentNode) {
+              beamElement.parentNode.removeChild(beamElement);
+            }
+          },
+        },
+        '+=0.1',
+      );
+
     return timeline;
   }
-  
+
   /**
    * Add special effects for rare/mythic cards
    * @param {HTMLElement} cardElement - The card DOM element
@@ -790,31 +905,37 @@ class CardAnimationSystem {
    */
   addRarityEffects(cardElement, timeline, cardData) {
     const isMythic = cardData.rarity === 'mythic';
-    
+
     // Add glow effect
-    timeline.to(cardElement, {
-      duration: 0.3,
-      boxShadow: `0 0 15px ${isMythic ? '#FFA500' : '#FFD700'}`,
-      filter: `brightness(1.2) ${isMythic ? 'hue-rotate(15deg)' : ''}`,
-      ease: "power2.out"
-    }, "-=0.3").to(cardElement, {
-      duration: 0.5,
-      boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
-      filter: 'brightness(1)',
-      ease: "power2.in"
-    });
-    
+    timeline
+      .to(
+        cardElement,
+        {
+          duration: 0.3,
+          boxShadow: `0 0 15px ${isMythic ? '#FFA500' : '#FFD700'}`,
+          filter: `brightness(1.2) ${isMythic ? 'hue-rotate(15deg)' : ''}`,
+          ease: 'power2.out',
+        },
+        '-=0.3',
+      )
+      .to(cardElement, {
+        duration: 0.5,
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
+        filter: 'brightness(1)',
+        ease: 'power2.in',
+      });
+
     // Add particle effects
     if (this.settings.particleCount > 0) {
       this.createParticleEffect(cardElement, {
         type: 'rarity',
         color: isMythic ? '#FFA500' : '#FFD700',
         duration: 1.2,
-        count: Math.floor(this.settings.particleCount / 2)
+        count: Math.floor(this.settings.particleCount / 2),
       });
     }
   }
-  
+
   /**
    * Calculate a path for card movement
    * @param {Object} start - Start position {x, y}
@@ -827,42 +948,42 @@ class CardAnimationSystem {
       case 'linear':
         return [
           { x: start.x, y: start.y },
-          { x: end.x, y: end.y }
+          { x: end.x, y: end.y },
         ];
-      
+
       case 'arc':
         // Create an arc path
         const midX = (start.x + end.x) / 2;
         const midY = (start.y + end.y) / 2 - 100; // Arc height
-        
+
         return [
           { x: start.x, y: start.y },
           { x: midX, y: midY },
-          { x: end.x, y: end.y }
+          { x: end.x, y: end.y },
         ];
-      
+
       case 'bezier':
         // Create a bezier curve path
         const ctrl1X = start.x + (end.x - start.x) / 3;
         const ctrl1Y = start.y - 100;
-        const ctrl2X = start.x + (end.x - start.x) * 2 / 3;
+        const ctrl2X = start.x + ((end.x - start.x) * 2) / 3;
         const ctrl2Y = end.y - 100;
-        
+
         return [
           { x: start.x, y: start.y },
           { x: ctrl1X, y: ctrl1Y },
           { x: ctrl2X, y: ctrl2Y },
-          { x: end.x, y: end.y }
+          { x: end.x, y: end.y },
         ];
-      
+
       default:
         return [
           { x: start.x, y: start.y },
-          { x: end.x, y: end.y }
+          { x: end.x, y: end.y },
         ];
     }
   }
-  
+
   /**
    * Get the position of an element
    * @param {HTMLElement} element - The DOM element
@@ -872,10 +993,10 @@ class CardAnimationSystem {
     const rect = element.getBoundingClientRect();
     return {
       x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
+      y: rect.top + rect.height / 2,
     };
   }
-  
+
   /**
    * Get color based on card type and color
    * @param {string} type - Card type
@@ -886,26 +1007,37 @@ class CardAnimationSystem {
     // First check card color
     if (color) {
       switch (color.toLowerCase()) {
-        case 'white': return '#FFFFCC';
-        case 'blue': return '#99CCFF';
-        case 'black': return '#9966CC';
-        case 'red': return '#FF6666';
-        case 'green': return '#66CC66';
+        case 'white':
+          return '#FFFFCC';
+        case 'blue':
+          return '#99CCFF';
+        case 'black':
+          return '#9966CC';
+        case 'red':
+          return '#FF6666';
+        case 'green':
+          return '#66CC66';
         case 'gold':
-        case 'multicolor': return '#FFCC66';
-        case 'colorless': return '#CCCCCC';
+        case 'multicolor':
+          return '#FFCC66';
+        case 'colorless':
+          return '#CCCCCC';
       }
     }
-    
+
     // Fallback to type
     switch (type) {
-      case 'Familiar': return '#66CC66';
-      case 'Spell': return '#9966CC';
-      case 'Azoth': return '#FFCC66';
-      default: return '#FFFFFF';
+      case 'Familiar':
+        return '#66CC66';
+      case 'Spell':
+        return '#9966CC';
+      case 'Azoth':
+        return '#FFCC66';
+      default:
+        return '#FFFFFF';
     }
   }
-  
+
   /**
    * Called when an animation starts
    * @param {string} id - Animation ID
@@ -913,20 +1045,20 @@ class CardAnimationSystem {
    */
   onAnimationStart(id, type) {
     console.log(`Animation started: ${type} (${id})`);
-    
+
     // Limit concurrent animations based on quality settings
     if (this.activeAnimations.size > this.settings.maxAnimations) {
       // Find oldest animation and complete it immediately
       let oldestId = null;
       let oldestTime = Infinity;
-      
+
       this.activeAnimations.forEach((anim, animId) => {
         if (anim.startTime < oldestTime) {
           oldestTime = anim.startTime;
           oldestId = animId;
         }
       });
-      
+
       if (oldestId && oldestId !== id) {
         const oldAnim = this.activeAnimations.get(oldestId);
         if (oldAnim && oldAnim.timeline) {
@@ -935,7 +1067,7 @@ class CardAnimationSystem {
       }
     }
   }
-  
+
   /**
    * Called when an animation completes
    * @param {string} id - Animation ID
@@ -945,12 +1077,12 @@ class CardAnimationSystem {
   onAnimationComplete(id, type, callback) {
     console.log(`Animation completed: ${type} (${id})`);
     this.activeAnimations.delete(id);
-    
+
     if (typeof callback === 'function') {
       callback();
     }
   }
-  
+
   /**
    * Called on animation update for performance monitoring
    * @param {string} id - Animation ID
@@ -958,23 +1090,25 @@ class CardAnimationSystem {
   onAnimationUpdate(id) {
     const now = performance.now();
     this.frameCount++;
-    
+
     // Update FPS every second
     if (now - this.lastFrameTime >= 1000) {
       this.fps = this.frameCount;
       this.frameCount = 0;
       this.lastFrameTime = now;
-      
+
       // Adjust quality if performance is poor
       if (this.fps < 30 && this.qualityLevel !== 'LOW') {
         const newLevel = this.fps < 20 ? 'LOW' : 'MEDIUM';
-        console.warn(`Performance issue detected (${this.fps} FPS). Reducing quality to ${newLevel}.`);
+        console.warn(
+          `Performance issue detected (${this.fps} FPS). Reducing quality to ${newLevel}.`,
+        );
         this.qualityLevel = newLevel;
         this.settings = QUALITY_LEVELS[this.qualityLevel];
       }
     }
   }
-  
+
   /**
    * Stop all animations
    */
@@ -984,16 +1118,16 @@ class CardAnimationSystem {
         anim.timeline.kill();
       }
     });
-    
+
     this.activeAnimations.clear();
     this.particleSystems.clear();
-    
+
     // Remove all particle and beam elements
     const particleContainer = document.getElementById('particle-container');
     if (particleContainer) {
       particleContainer.innerHTML = '';
     }
-    
+
     const beamContainer = document.getElementById('beam-container');
     if (beamContainer) {
       beamContainer.innerHTML = '';

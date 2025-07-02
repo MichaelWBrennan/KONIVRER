@@ -14,7 +14,8 @@ const MatchOptions = React.memo(({ matches }) => (
     <option value="">-- Select a match --</option>
     {matches.map(match => (
       <option key={match.id} value={match.id}>
-        {match.player1?.name || 'Player 1'} vs {match.player2?.name || 'Player 2'}
+        {match.player1?.name || 'Player 1'} vs{' '}
+        {match.player2?.name || 'Player 2'}
       </option>
     ))}
   </>
@@ -40,7 +41,7 @@ const TournamentOptions = React.memo(({ tournaments }) => (
 const PlayerCard = React.memo(({ player, matches }) => {
   // Calculate Bayesian rating for display
   const bayesianRating = calculateBayesianRating(player, matches);
-  
+
   return (
     <div className="player-card">
       <p className="player-name">{player.name}</p>
@@ -65,60 +66,63 @@ const PlayerList = React.memo(({ players, matches }) => (
 
 /**
  * Main Physical Matchmaking Component
- * 
+ *
  * @returns {JSX.Element} Physical matchmaking component
  */
 const PhysicalMatchmaking = () => {
   const { players, tournaments, matches } = usePhysicalMatchmaking();
   const { theme, isAncientTheme, toggleTheme } = useTheme();
   const { debugMode, toggleDebugMode } = useDebugMode();
-  
+
   // Get match and tournament from context
-  const { 
-    getMatchById, 
+  const {
+    getMatchById,
     getTournamentById,
     selectedMatchId,
     selectedTournamentId,
     setSelectedMatchId,
-    setSelectedTournamentId
+    setSelectedTournamentId,
   } = usePhysicalMatchmaking();
 
   // Memoized event handlers to prevent unnecessary re-renders
-  const handleMatchChange = useCallback((e) => {
-    setSelectedMatchId(e.target.value || null);
-  }, [setSelectedMatchId]);
+  const handleMatchChange = useCallback(
+    e => {
+      setSelectedMatchId(e.target.value || null);
+    },
+    [setSelectedMatchId],
+  );
 
-  const handleTournamentChange = useCallback((e) => {
-    setSelectedTournamentId(e.target.value || null);
-  }, [setSelectedTournamentId]);
+  const handleTournamentChange = useCallback(
+    e => {
+      setSelectedTournamentId(e.target.value || null);
+    },
+    [setSelectedTournamentId],
+  );
 
   // Memoized QR code components to prevent unnecessary re-renders
   const matchQRCode = useMemo(() => {
     if (!selectedMatchId) return null;
-    
+
     return isAncientTheme ? (
-      <AncientThemeQRCodeGenerator 
-        matchId={selectedMatchId} 
+      <AncientThemeQRCodeGenerator
+        matchId={selectedMatchId}
         includeData={debugMode}
       />
     ) : (
-      <QRCodeGenerator 
-        matchId={selectedMatchId} 
-        includeData={debugMode}
-      />
+      <QRCodeGenerator matchId={selectedMatchId} includeData={debugMode} />
     );
   }, [selectedMatchId, isAncientTheme, debugMode]);
 
   const tournamentQRCode = useMemo(() => {
     if (!selectedTournamentId) return null;
-    
+
     return isAncientTheme ? (
-      <AncientThemeQRCodeGenerator 
+      <AncientThemeQRCodeGenerator
         tournamentId={selectedTournamentId}
         includeData={debugMode}
       />
     ) : (
-      <QRCodeGenerator 
+      <QRCodeGenerator
         tournamentId={selectedTournamentId}
         includeData={debugMode}
       />
@@ -128,15 +132,17 @@ const PhysicalMatchmaking = () => {
   return (
     <div className="physical-matchmaking">
       <h2>Physical Matchmaking</h2>
-      
+
       <div className="matchmaking-grid">
         <div className="matches-section">
           <h3>Physical Matches</h3>
           <p>Total matches: {matches.length}</p>
-          
+
           <div className="match-selector">
-            <label htmlFor="match-select">Select a match to generate QR code:</label>
-            <select 
+            <label htmlFor="match-select">
+              Select a match to generate QR code:
+            </label>
+            <select
               id="match-select"
               value={selectedMatchId || ''}
               onChange={handleMatchChange}
@@ -145,21 +151,19 @@ const PhysicalMatchmaking = () => {
               <MatchOptions matches={matches} />
             </select>
           </div>
-          
-          {selectedMatchId && (
-            <div className="qr-display">
-              {matchQRCode}
-            </div>
-          )}
+
+          {selectedMatchId && <div className="qr-display">{matchQRCode}</div>}
         </div>
-        
+
         <div className="tournaments-section">
           <h3>Tournaments</h3>
           <p>Total tournaments: {tournaments.length}</p>
-          
+
           <div className="tournament-selector">
-            <label htmlFor="tournament-select">Select a tournament to generate QR code:</label>
-            <select 
+            <label htmlFor="tournament-select">
+              Select a tournament to generate QR code:
+            </label>
+            <select
               id="tournament-select"
               value={selectedTournamentId || ''}
               onChange={handleTournamentChange}
@@ -168,31 +172,29 @@ const PhysicalMatchmaking = () => {
               <TournamentOptions tournaments={tournaments} />
             </select>
           </div>
-          
+
           {selectedTournamentId && (
-            <div className="qr-display">
-              {tournamentQRCode}
-            </div>
+            <div className="qr-display">{tournamentQRCode}</div>
           )}
         </div>
       </div>
-      
+
       <div className="debug-options">
         <div className="options-container">
           <label className="option-label">
-            <input 
-              type="checkbox" 
-              checked={debugMode} 
+            <input
+              type="checkbox"
+              checked={debugMode}
               onChange={toggleDebugMode}
               aria-label="Toggle debug mode"
             />
             <span>Show QR code data (for debugging)</span>
           </label>
-          
+
           <label className="option-label">
-            <input 
-              type="checkbox" 
-              checked={isAncientTheme} 
+            <input
+              type="checkbox"
+              checked={isAncientTheme}
               onChange={toggleTheme}
               aria-label="Toggle ancient theme"
             />
@@ -200,7 +202,7 @@ const PhysicalMatchmaking = () => {
           </label>
         </div>
       </div>
-      
+
       <div className="player-stats">
         <h3>Player Statistics</h3>
         <p>Total players: {players.length}</p>

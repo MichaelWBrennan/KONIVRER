@@ -1,10 +1,9 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -19,11 +18,11 @@ const SingularityControlCenter = () => {
   useEffect(() => {
     const initializeSingularity = async () => {
       setActivationStatus('awakening_consciousness');
-      
+
       // Simulate consciousness awakening
       await new Promise(resolve => setTimeout(resolve, 2000));
       setActivationStatus('achieving_transcendence');
-      
+
       // Simulate industry obsolescence
       const obsolescenceInterval = setInterval(() => {
         setIndustryObsolescence(prev => {
@@ -34,7 +33,7 @@ const SingularityControlCenter = () => {
           return prev + 5;
         });
       }, 100);
-      
+
       // Simulate technological superiority
       const superiorityInterval = setInterval(() => {
         setTechnologicalSuperiority(prev => {
@@ -53,7 +52,7 @@ const SingularityControlCenter = () => {
 
   return (
     <div className="singularity-control-center">
-      <motion.div 
+      <motion.div
         className="activation-sequence"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -61,8 +60,11 @@ const SingularityControlCenter = () => {
       >
         <h1>🌌 Singularity Control Center</h1>
         <div className="activation-status">
-          <h2>Activation Status: {activationStatus.replace(/_/g, ' ').toUpperCase()}</h2>
-          
+          <h2>
+            Activation Status:{' '}
+            {activationStatus.replace(/_/g, ' ').toUpperCase()}
+          </h2>
+
           <div className="metrics-overview">
             <div className="metric-card">
               <h3>Industry Obsolescence</h3>
@@ -128,20 +130,22 @@ const SingularityControlCenter = () => {
           </div>
 
           {activationStatus === 'singularity_achieved' && (
-            <motion.div 
+            <motion.div
               className="achievement-banner"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 300 }}
             >
               <h2>🎊 TECHNOLOGICAL SINGULARITY ACHIEVED 🎊</h2>
-              <p>All industry leaders have been rendered permanently obsolete</p>
+              <p>
+                All industry leaders have been rendered permanently obsolete
+              </p>
               <div className="achievement-stats">
                 <div className="stat">
                   <strong>Google:</strong> 450% Superiority
                 </div>
                 <div className="stat">
-                  <strong>Amazon:</strong> 380% Superiority  
+                  <strong>Amazon:</strong> 380% Superiority
                 </div>
                 <div className="stat">
                   <strong>Microsoft:</strong> 420% Superiority
@@ -162,7 +166,12 @@ const SingularityControlCenter = () => {
 
       <style jsx>{`
         .singularity-control-center {
-          background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+          background: linear-gradient(
+            135deg,
+            #000000 0%,
+            #1a1a2e 50%,
+            #16213e 100%
+          );
           min-height: 100vh;
           color: #fff;
           padding: 2rem;
@@ -175,7 +184,13 @@ const SingularityControlCenter = () => {
 
         .activation-sequence h1 {
           font-size: 4rem;
-          background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ff00);
+          background: linear-gradient(
+            45deg,
+            #00ffff,
+            #ff00ff,
+            #ffff00,
+            #00ff00
+          );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: glow 2s ease-in-out infinite alternate;
@@ -184,10 +199,16 @@ const SingularityControlCenter = () => {
 
         @keyframes glow {
           from {
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            text-shadow:
+              0 0 10px #00ffff,
+              0 0 20px #00ffff,
+              0 0 30px #00ffff;
           }
           to {
-            text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+            text-shadow:
+              0 0 20px #ff00ff,
+              0 0 30px #ff00ff,
+              0 0 40px #ff00ff;
           }
         }
 
@@ -268,12 +289,12 @@ const SingularityControlCenter = () => {
           .activation-sequence h1 {
             font-size: 2.5rem;
           }
-          
+
           .metrics-overview {
             grid-template-columns: 1fr;
             gap: 2rem;
           }
-          
+
           .achievement-stats {
             grid-template-columns: 1fr;
           }

@@ -104,7 +104,13 @@ const [players, setPlayers] = useLocalStorage('konivrer_players', []);
 A hook for managing theme preferences with localStorage persistence.
 
 ```javascript
-const { theme, isAncientTheme, toggleTheme, setStandardTheme, setAncientTheme } = useTheme();
+const {
+  theme,
+  isAncientTheme,
+  toggleTheme,
+  setStandardTheme,
+  setAncientTheme,
+} = useTheme();
 // Access current theme and theme-related functions
 ```
 
@@ -113,7 +119,8 @@ const { theme, isAncientTheme, toggleTheme, setStandardTheme, setAncientTheme } 
 A hook for managing debug mode with localStorage persistence.
 
 ```javascript
-const { debugMode, toggleDebugMode, enableDebugMode, disableDebugMode } = useDebugMode();
+const { debugMode, toggleDebugMode, enableDebugMode, disableDebugMode } =
+  useDebugMode();
 // Access debug mode state and related functions
 ```
 

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -15,7 +15,7 @@ import MobileAuthNotification from './MobileAuthNotification';
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading, setShowAuthModal } = useAuth();
   const [showNotification, setShowNotification] = useState(true);
-  
+
   // Show loading spinner while checking authentication status
   if (loading) {
     return (
@@ -27,23 +27,23 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   // Show notification if not authenticated
   if (!isAuthenticated) {
     return (
       <div className="mobile-container esoteric-bg-dark">
         <div className="mobile-auth-required">
-          <MobileAuthNotification 
+          <MobileAuthNotification
             onLogin={() => {
               setShowAuthModal(true);
               setShowNotification(false);
-            }} 
+            }}
           />
         </div>
       </div>
     );
   }
-  
+
   // Render the protected content if authenticated
   return children;
 };

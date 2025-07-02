@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -20,10 +20,10 @@ import { useBattlePass } from '../contexts/BattlePassContext';
 
 // Create a mock motion component until we can use the real framer-motion
 const motion = {
-  div: (props) => <div {...props}>{props.children}</div>,
-  h2: (props) => <h2 {...props}>{props.children}</h2>,
-  p: (props) => <p {...props}>{props.children}</p>,
-  button: (props) => <button {...props}>{props.children}</button>
+  div: props => <div {...props}>{props.children}</div>,
+  h2: props => <h2 {...props}>{props.children}</h2>,
+  p: props => <p {...props}>{props.children}</p>,
+  button: props => <button {...props}>{props.children}</button>,
 };
 
 /**
@@ -66,19 +66,26 @@ const GamePage = () => {
         const determineGraphicsQuality = () => {
           // Use global performance mode if available
           if (window.KONIVRER_PERFORMANCE_MODE) {
-            switch(window.KONIVRER_PERFORMANCE_MODE) {
-              case 'high': return 'ultra';
-              case 'medium': return 'high';
-              case 'low': return 'medium';
-              default: return 'high';
+            switch (window.KONIVRER_PERFORMANCE_MODE) {
+              case 'high':
+                return 'ultra';
+              case 'medium':
+                return 'high';
+              case 'low':
+                return 'medium';
+              default:
+                return 'high';
             }
           }
-          
+
           // Otherwise detect based on device capabilities
-          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          const isMobile =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+              navigator.userAgent,
+            );
           const memory = navigator.deviceMemory || 4;
           const cores = navigator.hardwareConcurrency || 4;
-          
+
           if (isMobile) {
             if (memory <= 2 || cores <= 2) return 'low';
             if (memory <= 4 || cores <= 4) return 'medium';
@@ -101,16 +108,24 @@ const GamePage = () => {
         setLoadingProgress(10);
         setLoadingStage('Creating Game Engine');
         const engineOptions = {
-          performanceMode: graphicsQuality === 'ultra' ? 'high' : 
-                          graphicsQuality === 'low' ? 'low' : 'medium',
-          animationLevel: graphicsQuality === 'low' ? 'minimal' : 
-                         graphicsQuality === 'medium' ? 'reduced' : 'full',
+          performanceMode:
+            graphicsQuality === 'ultra'
+              ? 'high'
+              : graphicsQuality === 'low'
+                ? 'low'
+                : 'medium',
+          animationLevel:
+            graphicsQuality === 'low'
+              ? 'minimal'
+              : graphicsQuality === 'medium'
+                ? 'reduced'
+                : 'full',
           enableBattlefield3D: graphicsQuality !== 'low',
           enableParticleEffects: graphicsQuality !== 'low',
-          onGameComplete: (result) => {
+          onGameComplete: result => {
             console.log('Game completed:', result);
             setGameResult(result);
-            
+
             // Award battle pass experience
             if (battlePass) {
               if (result.winner === 'player') {
@@ -119,32 +134,37 @@ const GamePage = () => {
                 battlePass.gainExperience('gameLoss');
               }
             }
-          }
+          },
         };
         const engine = new GameEngine(engineOptions);
-        
+
         // Initialize animation system
         setLoadingProgress(20);
         setLoadingStage('Initializing Animation System');
         animationSystemRef.current = new CardAnimationSystem({
-          qualityLevel: graphicsQuality === 'ultra' ? 'ULTRA' : 
-                       graphicsQuality === 'high' ? 'HIGH' : 
-                       graphicsQuality === 'medium' ? 'MEDIUM' : 'LOW'
+          qualityLevel:
+            graphicsQuality === 'ultra'
+              ? 'ULTRA'
+              : graphicsQuality === 'high'
+                ? 'HIGH'
+                : graphicsQuality === 'medium'
+                  ? 'MEDIUM'
+                  : 'LOW',
         });
-        
+
         // Initialize rules engine
         setLoadingProgress(30);
         setLoadingStage('Initializing Rules Engine');
         rulesEngineRef.current = new RulesEngine(engine);
-        
+
         // Connect animation system to game engine
         engine.setAnimationSystem(animationSystemRef.current);
-        
+
         // Connect rules engine to game engine
         engine.setRulesEngine(rulesEngineRef.current);
 
         setLoadingProgress(40);
-        
+
         // Initialize based on game mode
         switch (mode) {
           case 'ai':
@@ -155,12 +175,13 @@ const GamePage = () => {
 
             setLoadingProgress(50);
             setLoadingStage('Loading Player Deck');
-            
+
             // Load player deck
-            const playerDeck = JSON.parse(
-              localStorage.getItem(DeckService.STORAGE_KEYS.PLAYER_DECK)
-            )?.cards || [];
-            
+            const playerDeck =
+              JSON.parse(
+                localStorage.getItem(DeckService.STORAGE_KEYS.PLAYER_DECK),
+              )?.cards || [];
+
             if (playerDeck.length === 0) {
               throw new Error(
                 'No player deck found. Please create a deck first and set it as active.',
@@ -169,26 +190,26 @@ const GamePage = () => {
 
             setLoadingProgress(60);
             setLoadingStage('Loading AI Deck');
-            
+
             // Load AI deck
             const aiDeck = await fetchAIDeck();
 
             setLoadingProgress(70);
             setLoadingStage('Initializing Game State');
-            
+
             // Initialize game with decks
             await engine.initializeGame({
               players: [
                 { name: playerData.name, deck: playerDeck },
-                { name: 'AI Opponent', deck: aiDeck }
+                { name: 'AI Opponent', deck: aiDeck },
               ],
               isAI: true,
               gameMode: 'standard',
               settings: {
                 enableBattlefield3D: graphicsQuality !== 'low',
                 enableParticleEffects: graphicsQuality !== 'low',
-                animationLevel: engineOptions.animationLevel
-              }
+                animationLevel: engineOptions.animationLevel,
+              },
             });
 
             // Set opponent data
@@ -206,19 +227,19 @@ const GamePage = () => {
 
             setLoadingProgress(50);
             setLoadingStage('Connecting to Server');
-            
+
             // Create network manager
             const networkManager = new NetworkManager(engine);
 
             setLoadingProgress(60);
             setLoadingStage('Joining Game');
-            
+
             // Connect to game
             await networkManager.connect(gameId);
 
             setLoadingProgress(70);
             setLoadingStage('Loading Game Data');
-            
+
             // Set opponent data from network
             const opponentInfo = networkManager.getOpponentInfo();
             setOpponentData({
@@ -235,19 +256,19 @@ const GamePage = () => {
 
             setLoadingProgress(50);
             setLoadingStage('Connecting to Server');
-            
+
             // Create network manager
             const spectatorNetwork = new NetworkManager(engine);
 
             setLoadingProgress(60);
             setLoadingStage('Joining as Spectator');
-            
+
             // Connect as spectator
             await spectatorNetwork.connectAsSpectator(gameId);
 
             setLoadingProgress(70);
             setLoadingStage('Loading Game Data');
-            
+
             // Set player data
             const players = spectatorNetwork.getPlayerInfo();
             setPlayerData({
@@ -269,91 +290,109 @@ const GamePage = () => {
 
         setLoadingProgress(80);
         setLoadingStage('Setting Up Event Handlers');
-        
+
         // Set up game end handler
         engine.on('gameEnd', result => {
           // Stop all animations
           if (animationSystemRef.current) {
             animationSystemRef.current.stopAllAnimations();
           }
-          
+
           // Navigate to results page after game ends
           navigate(`/game-results/${result.winner === 0 ? 'win' : 'loss'}`, {
             state: { gameData: result },
           });
         });
-        
+
         // Set up animation handlers
         engine.on('cardPlayed', (card, player, targetZone) => {
           if (animationSystemRef.current) {
-            const cardElement = document.querySelector(`[data-card-id="${card.id}"]`);
+            const cardElement = document.querySelector(
+              `[data-card-id="${card.id}"]`,
+            );
             if (cardElement) {
               if (targetZone === 'field') {
                 animationSystemRef.current.playCardPlayAnimation(cardElement, {
                   cardData: card,
                   startPosition: { x: 0, y: 0 }, // Will be calculated by the animation system
-                  endPosition: { x: 0, y: 0 }    // Will be calculated by the animation system
+                  endPosition: { x: 0, y: 0 }, // Will be calculated by the animation system
                 });
               } else if (targetZone === 'azothRow') {
                 animationSystemRef.current.playCardPlayAnimation(cardElement, {
                   cardData: card,
                   startPosition: { x: 0, y: 0 },
-                  endPosition: { x: 0, y: 0 }
+                  endPosition: { x: 0, y: 0 },
                 });
               }
             }
           }
         });
-        
+
         engine.on('cardDrawn', (card, player) => {
           if (animationSystemRef.current) {
-            const cardElement = document.querySelector(`[data-card-id="${card.id}"]`);
+            const cardElement = document.querySelector(
+              `[data-card-id="${card.id}"]`,
+            );
             if (cardElement) {
               animationSystemRef.current.playCardDrawAnimation(cardElement, {
-                cardData: card
+                cardData: card,
               });
             }
           }
         });
-        
+
         engine.on('attackDeclared', (attackers, player) => {
           if (animationSystemRef.current) {
             attackers.forEach(attacker => {
-              const cardElement = document.querySelector(`[data-card-id="${attacker.id}"]`);
+              const cardElement = document.querySelector(
+                `[data-card-id="${attacker.id}"]`,
+              );
               if (cardElement) {
-                animationSystemRef.current.playCardTapAnimation(cardElement, true, {
-                  cardData: attacker
-                });
+                animationSystemRef.current.playCardTapAnimation(
+                  cardElement,
+                  true,
+                  {
+                    cardData: attacker,
+                  },
+                );
               }
             });
           }
         });
-        
+
         engine.on('cardDestroyed', (card, player) => {
           if (animationSystemRef.current) {
-            const cardElement = document.querySelector(`[data-card-id="${card.id}"]`);
+            const cardElement = document.querySelector(
+              `[data-card-id="${card.id}"]`,
+            );
             if (cardElement) {
               animationSystemRef.current.playCardDestroyAnimation(cardElement, {
                 cardData: card,
-                targetZone: 'graveyard'
+                targetZone: 'graveyard',
               });
             }
           }
         });
-        
+
         engine.on('abilityActivated', (card, player, abilityIndex, targets) => {
           if (animationSystemRef.current) {
-            const cardElement = document.querySelector(`[data-card-id="${card.id}"]`);
+            const cardElement = document.querySelector(
+              `[data-card-id="${card.id}"]`,
+            );
             if (cardElement) {
-              const targetElements = targets.map(target => {
-                const targetElement = document.querySelector(`[data-card-id="${target.id}"]`);
-                return { element: targetElement, card: target };
-              }).filter(t => t.element);
-              
+              const targetElements = targets
+                .map(target => {
+                  const targetElement = document.querySelector(
+                    `[data-card-id="${target.id}"]`,
+                  );
+                  return { element: targetElement, card: target };
+                })
+                .filter(t => t.element);
+
               animationSystemRef.current.playCardAbilityAnimation(cardElement, {
                 cardData: card,
                 abilityIndex,
-                targets: targetElements
+                targets: targetElements,
               });
             }
           }
@@ -361,13 +400,13 @@ const GamePage = () => {
 
         setLoadingProgress(90);
         setLoadingStage('Finalizing Setup');
-        
+
         // Set game engine
         setGameEngine(engine);
-        
+
         setLoadingProgress(100);
         setLoadingStage('Ready');
-        
+
         // Short delay to show 100% completion
         setTimeout(() => {
           setLoading(false);
@@ -386,7 +425,7 @@ const GamePage = () => {
       if (gameEngine) {
         gameEngine.cleanup();
       }
-      
+
       // Clean up animation system
       if (animationSystemRef.current) {
         animationSystemRef.current.stopAllAnimations();
@@ -438,19 +477,19 @@ const GamePage = () => {
             <p className="text-gray-300 text-sm md:text-base mb-4">
               {loadingStage}...
             </p>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between text-xs text-gray-400">
                 <span>Loading progress</span>
                 <span>{loadingProgress}%</span>
               </div>
               <div className="w-full bg-gray-800/50 rounded-full h-1.5">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
                   style={{ width: `${loadingProgress}%` }}
                 />
               </div>
-              
+
               <div className="flex justify-between text-xs text-gray-400 mt-2">
                 <span>Graphics Quality</span>
                 <span className="capitalize">{graphicsQuality}</span>
@@ -461,8 +500,8 @@ const GamePage = () => {
                     key={quality}
                     onClick={() => setGraphicsQuality(quality)}
                     className={`text-xs px-2 py-1 rounded ${
-                      graphicsQuality === quality 
-                        ? 'bg-blue-600 text-white' 
+                      graphicsQuality === quality
+                        ? 'bg-blue-600 text-white'
                         : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                     }`}
                   >
@@ -475,7 +514,8 @@ const GamePage = () => {
 
           <p className="text-gray-400 text-xs mt-6 flex items-center justify-center">
             <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-            State-of-the-art 3D animations • Automated rules • Cross-device compatible
+            State-of-the-art 3D animations • Automated rules • Cross-device
+            compatible
           </p>
         </div>
       </div>

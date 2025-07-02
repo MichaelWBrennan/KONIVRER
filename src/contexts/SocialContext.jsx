@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -19,14 +19,14 @@ const FRIEND_STATUS = {
   ONLINE: 'online',
   OFFLINE: 'offline',
   IN_GAME: 'in_game',
-  SPECTATING: 'spectating'
+  SPECTATING: 'spectating',
 };
 
 // Guild Roles
 const GUILD_ROLES = {
   MEMBER: 'member',
   OFFICER: 'officer',
-  LEADER: 'leader'
+  LEADER: 'leader',
 };
 
 // Chat Types
@@ -35,7 +35,7 @@ const CHAT_TYPES = {
   GUILD: 'guild',
   GLOBAL: 'global',
   MATCH: 'match',
-  SPECTATOR: 'spectator'
+  SPECTATOR: 'spectator',
 };
 
 // Initial state
@@ -44,53 +44,53 @@ const initialState = {
   friends: [],
   friendRequests: {
     sent: [],
-    received: []
+    received: [],
   },
   blockedUsers: [],
-  
+
   // Guild System
   guild: null,
   guildMembers: [],
   guildInvites: [],
-  
+
   // Chat System
   chatChannels: {
     global: { messages: [], unread: 0 },
     guild: { messages: [], unread: 0 },
-    friends: {}
+    friends: {},
   },
-  
+
   // Spectator System
   spectatingGame: null,
   spectators: [],
-  
+
   // Social Features
   playerProfiles: {},
   recentPlayers: [],
-  
+
   // Community Events
   events: [],
   tournaments: [],
-  
+
   // Notifications
   notifications: [],
-  
+
   // Privacy Settings
   privacy: {
     allowFriendRequests: true,
     allowGuildInvites: true,
     allowSpectators: true,
     showOnlineStatus: true,
-    allowDirectMessages: true
+    allowDirectMessages: true,
   },
-  
+
   // Analytics
   socialStats: {
     friendsAdded: 0,
     gamesSpectated: 0,
     messagesExchanged: 0,
-    guildsJoined: 0
-  }
+    guildsJoined: 0,
+  },
 };
 
 // Action types
@@ -103,7 +103,7 @@ const ACTIONS = {
   BLOCK_USER: 'BLOCK_USER',
   UNBLOCK_USER: 'UNBLOCK_USER',
   UPDATE_FRIEND_STATUS: 'UPDATE_FRIEND_STATUS',
-  
+
   // Guild
   CREATE_GUILD: 'CREATE_GUILD',
   JOIN_GUILD: 'JOIN_GUILD',
@@ -113,28 +113,28 @@ const ACTIONS = {
   DECLINE_GUILD_INVITE: 'DECLINE_GUILD_INVITE',
   UPDATE_GUILD_ROLE: 'UPDATE_GUILD_ROLE',
   KICK_GUILD_MEMBER: 'KICK_GUILD_MEMBER',
-  
+
   // Chat
   SEND_MESSAGE: 'SEND_MESSAGE',
   RECEIVE_MESSAGE: 'RECEIVE_MESSAGE',
   MARK_CHANNEL_READ: 'MARK_CHANNEL_READ',
-  
+
   // Spectator
   START_SPECTATING: 'START_SPECTATING',
   STOP_SPECTATING: 'STOP_SPECTATING',
   ADD_SPECTATOR: 'ADD_SPECTATOR',
   REMOVE_SPECTATOR: 'REMOVE_SPECTATOR',
-  
+
   // Notifications
   ADD_NOTIFICATION: 'ADD_NOTIFICATION',
   REMOVE_NOTIFICATION: 'REMOVE_NOTIFICATION',
   MARK_NOTIFICATION_READ: 'MARK_NOTIFICATION_READ',
-  
+
   // Privacy
   UPDATE_PRIVACY_SETTINGS: 'UPDATE_PRIVACY_SETTINGS',
-  
+
   // Analytics
-  UPDATE_SOCIAL_STATS: 'UPDATE_SOCIAL_STATS'
+  UPDATE_SOCIAL_STATS: 'UPDATE_SOCIAL_STATS',
 };
 
 // Social Reducer
@@ -145,55 +145,68 @@ function socialReducer(state, action) {
         ...state,
         friendRequests: {
           ...state.friendRequests,
-          sent: [...state.friendRequests.sent, {
-            id: action.payload.requestId,
-            targetUser: action.payload.targetUser,
-            sentAt: Date.now(),
-            status: FRIEND_STATUS.PENDING
-          }]
-        }
+          sent: [
+            ...state.friendRequests.sent,
+            {
+              id: action.payload.requestId,
+              targetUser: action.payload.targetUser,
+              sentAt: Date.now(),
+              status: FRIEND_STATUS.PENDING,
+            },
+          ],
+        },
       };
 
     case ACTIONS.ACCEPT_FRIEND_REQUEST:
       const acceptedRequest = state.friendRequests.received.find(
-        req => req.id === action.payload.requestId
+        req => req.id === action.payload.requestId,
       );
-      
+
       return {
         ...state,
-        friends: [...state.friends, {
-          id: acceptedRequest.fromUser.id,
-          user: acceptedRequest.fromUser,
-          status: FRIEND_STATUS.OFFLINE,
-          addedAt: Date.now()
-        }],
+        friends: [
+          ...state.friends,
+          {
+            id: acceptedRequest.fromUser.id,
+            user: acceptedRequest.fromUser,
+            status: FRIEND_STATUS.OFFLINE,
+            addedAt: Date.now(),
+          },
+        ],
         friendRequests: {
           ...state.friendRequests,
           received: state.friendRequests.received.filter(
-            req => req.id !== action.payload.requestId
-          )
+            req => req.id !== action.payload.requestId,
+          ),
         },
         socialStats: {
           ...state.socialStats,
-          friendsAdded: state.socialStats.friendsAdded + 1
-        }
+          friendsAdded: state.socialStats.friendsAdded + 1,
+        },
       };
 
     case ACTIONS.REMOVE_FRIEND:
       return {
         ...state,
-        friends: state.friends.filter(friend => friend.id !== action.payload.friendId)
+        friends: state.friends.filter(
+          friend => friend.id !== action.payload.friendId,
+        ),
       };
 
     case ACTIONS.BLOCK_USER:
       return {
         ...state,
-        blockedUsers: [...state.blockedUsers, {
-          id: action.payload.userId,
-          user: action.payload.user,
-          blockedAt: Date.now()
-        }],
-        friends: state.friends.filter(friend => friend.id !== action.payload.userId)
+        blockedUsers: [
+          ...state.blockedUsers,
+          {
+            id: action.payload.userId,
+            user: action.payload.user,
+            blockedAt: Date.now(),
+          },
+        ],
+        friends: state.friends.filter(
+          friend => friend.id !== action.payload.userId,
+        ),
       };
 
     case ACTIONS.UPDATE_FRIEND_STATUS:
@@ -202,8 +215,8 @@ function socialReducer(state, action) {
         friends: state.friends.map(friend =>
           friend.id === action.payload.friendId
             ? { ...friend, status: action.payload.status }
-            : friend
-        )
+            : friend,
+        ),
       };
 
     case ACTIONS.CREATE_GUILD:
@@ -216,14 +229,16 @@ function socialReducer(state, action) {
           createdAt: Date.now(),
           memberCount: 1,
           level: 1,
-          experience: 0
+          experience: 0,
         },
-        guildMembers: [{
-          id: action.payload.creatorId,
-          user: action.payload.creator,
-          role: GUILD_ROLES.LEADER,
-          joinedAt: Date.now()
-        }]
+        guildMembers: [
+          {
+            id: action.payload.creatorId,
+            user: action.payload.creator,
+            role: GUILD_ROLES.LEADER,
+            joinedAt: Date.now(),
+          },
+        ],
       };
 
     case ACTIONS.JOIN_GUILD:
@@ -233,8 +248,8 @@ function socialReducer(state, action) {
         guildMembers: action.payload.members,
         socialStats: {
           ...state.socialStats,
-          guildsJoined: state.socialStats.guildsJoined + 1
-        }
+          guildsJoined: state.socialStats.guildsJoined + 1,
+        },
       };
 
     case ACTIONS.LEAVE_GUILD:
@@ -244,49 +259,63 @@ function socialReducer(state, action) {
         guildMembers: [],
         chatChannels: {
           ...state.chatChannels,
-          guild: { messages: [], unread: 0 }
-        }
+          guild: { messages: [], unread: 0 },
+        },
       };
 
     case ACTIONS.SEND_MESSAGE:
       const { channelType, channelId, message } = action.payload;
-      const channelKey = channelType === CHAT_TYPES.FRIEND ? `friend_${channelId}` : channelType;
-      
+      const channelKey =
+        channelType === CHAT_TYPES.FRIEND ? `friend_${channelId}` : channelType;
+
       return {
         ...state,
         chatChannels: {
           ...state.chatChannels,
           [channelKey]: {
             ...state.chatChannels[channelKey],
-            messages: [...(state.chatChannels[channelKey]?.messages || []), {
-              id: Date.now(),
-              content: message.content,
-              sender: message.sender,
-              timestamp: Date.now(),
-              type: message.type || 'text'
-            }]
-          }
+            messages: [
+              ...(state.chatChannels[channelKey]?.messages || []),
+              {
+                id: Date.now(),
+                content: message.content,
+                sender: message.sender,
+                timestamp: Date.now(),
+                type: message.type || 'text',
+              },
+            ],
+          },
         },
         socialStats: {
           ...state.socialStats,
-          messagesExchanged: state.socialStats.messagesExchanged + 1
-        }
+          messagesExchanged: state.socialStats.messagesExchanged + 1,
+        },
       };
 
     case ACTIONS.RECEIVE_MESSAGE:
-      const { channelType: rcvChannelType, channelId: rcvChannelId, message: rcvMessage } = action.payload;
-      const rcvChannelKey = rcvChannelType === CHAT_TYPES.FRIEND ? `friend_${rcvChannelId}` : rcvChannelType;
-      
+      const {
+        channelType: rcvChannelType,
+        channelId: rcvChannelId,
+        message: rcvMessage,
+      } = action.payload;
+      const rcvChannelKey =
+        rcvChannelType === CHAT_TYPES.FRIEND
+          ? `friend_${rcvChannelId}`
+          : rcvChannelType;
+
       return {
         ...state,
         chatChannels: {
           ...state.chatChannels,
           [rcvChannelKey]: {
             ...state.chatChannels[rcvChannelKey],
-            messages: [...(state.chatChannels[rcvChannelKey]?.messages || []), rcvMessage],
-            unread: (state.chatChannels[rcvChannelKey]?.unread || 0) + 1
-          }
-        }
+            messages: [
+              ...(state.chatChannels[rcvChannelKey]?.messages || []),
+              rcvMessage,
+            ],
+            unread: (state.chatChannels[rcvChannelKey]?.unread || 0) + 1,
+          },
+        },
       };
 
     case ACTIONS.START_SPECTATING:
@@ -295,43 +324,50 @@ function socialReducer(state, action) {
         spectatingGame: action.payload.gameId,
         socialStats: {
           ...state.socialStats,
-          gamesSpectated: state.socialStats.gamesSpectated + 1
-        }
+          gamesSpectated: state.socialStats.gamesSpectated + 1,
+        },
       };
 
     case ACTIONS.STOP_SPECTATING:
       return {
         ...state,
-        spectatingGame: null
+        spectatingGame: null,
       };
 
     case ACTIONS.ADD_SPECTATOR:
       return {
         ...state,
-        spectators: [...state.spectators, action.payload.spectator]
+        spectators: [...state.spectators, action.payload.spectator],
       };
 
     case ACTIONS.REMOVE_SPECTATOR:
       return {
         ...state,
-        spectators: state.spectators.filter(spec => spec.id !== action.payload.spectatorId)
+        spectators: state.spectators.filter(
+          spec => spec.id !== action.payload.spectatorId,
+        ),
       };
 
     case ACTIONS.ADD_NOTIFICATION:
       return {
         ...state,
-        notifications: [...state.notifications, {
-          id: Date.now(),
-          ...action.payload.notification,
-          timestamp: Date.now(),
-          read: false
-        }]
+        notifications: [
+          ...state.notifications,
+          {
+            id: Date.now(),
+            ...action.payload.notification,
+            timestamp: Date.now(),
+            read: false,
+          },
+        ],
       };
 
     case ACTIONS.REMOVE_NOTIFICATION:
       return {
         ...state,
-        notifications: state.notifications.filter(notif => notif.id !== action.payload.notificationId)
+        notifications: state.notifications.filter(
+          notif => notif.id !== action.payload.notificationId,
+        ),
       };
 
     case ACTIONS.UPDATE_PRIVACY_SETTINGS:
@@ -339,8 +375,8 @@ function socialReducer(state, action) {
         ...state,
         privacy: {
           ...state.privacy,
-          ...action.payload.settings
-        }
+          ...action.payload.settings,
+        },
       };
 
     default:
@@ -385,14 +421,14 @@ export const SocialProvider = ({ children }) => {
     ...state,
 
     // Friends Management
-    sendFriendRequest: async (targetUser) => {
+    sendFriendRequest: async targetUser => {
       if (!state.privacy.allowFriendRequests) return false;
-      
+
       const requestId = `req_${Date.now()}`;
-      
+
       dispatch({
         type: ACTIONS.SEND_FRIEND_REQUEST,
-        payload: { requestId, targetUser }
+        payload: { requestId, targetUser },
       });
 
       // Send to server
@@ -405,10 +441,10 @@ export const SocialProvider = ({ children }) => {
       }
     },
 
-    acceptFriendRequest: (requestId) => {
+    acceptFriendRequest: requestId => {
       dispatch({
         type: ACTIONS.ACCEPT_FRIEND_REQUEST,
-        payload: { requestId }
+        payload: { requestId },
       });
 
       dispatch({
@@ -418,30 +454,30 @@ export const SocialProvider = ({ children }) => {
             type: 'friend_added',
             title: 'New Friend!',
             message: 'You are now friends!',
-            icon: 'user-plus'
-          }
-        }
+            icon: 'user-plus',
+          },
+        },
       });
     },
 
-    removeFriend: (friendId) => {
+    removeFriend: friendId => {
       dispatch({
         type: ACTIONS.REMOVE_FRIEND,
-        payload: { friendId }
+        payload: { friendId },
       });
     },
 
     blockUser: (userId, user) => {
       dispatch({
         type: ACTIONS.BLOCK_USER,
-        payload: { userId, user }
+        payload: { userId, user },
       });
     },
 
     // Guild Management
     createGuild: (name, description) => {
       const guildId = `guild_${Date.now()}`;
-      
+
       dispatch({
         type: ACTIONS.CREATE_GUILD,
         payload: {
@@ -449,8 +485,8 @@ export const SocialProvider = ({ children }) => {
           name,
           description,
           creatorId: user.id,
-          creator: user
-        }
+          creator: user,
+        },
       });
 
       dispatch({
@@ -460,16 +496,16 @@ export const SocialProvider = ({ children }) => {
             type: 'guild_created',
             title: 'Guild Created!',
             message: `Welcome to ${name}!`,
-            icon: 'users'
-          }
-        }
+            icon: 'users',
+          },
+        },
       });
     },
 
     joinGuild: (guild, members) => {
       dispatch({
         type: ACTIONS.JOIN_GUILD,
-        payload: { guild, members }
+        payload: { guild, members },
       });
     },
 
@@ -477,7 +513,7 @@ export const SocialProvider = ({ children }) => {
       dispatch({ type: ACTIONS.LEAVE_GUILD });
     },
 
-    inviteToGuild: (targetUser) => {
+    inviteToGuild: targetUser => {
       // Send guild invitation
       dispatch({
         type: ACTIONS.ADD_NOTIFICATION,
@@ -486,9 +522,9 @@ export const SocialProvider = ({ children }) => {
             type: 'guild_invite_sent',
             title: 'Guild Invite Sent',
             message: `Invited ${targetUser.username} to join your guild`,
-            icon: 'mail'
-          }
-        }
+            icon: 'mail',
+          },
+        },
       });
     },
 
@@ -497,30 +533,30 @@ export const SocialProvider = ({ children }) => {
       const message = {
         content,
         sender: user,
-        type: messageType
+        type: messageType,
       };
 
       dispatch({
         type: ACTIONS.SEND_MESSAGE,
-        payload: { channelType, channelId, message }
+        payload: { channelType, channelId, message },
       });
 
       // Send to server for real-time delivery
       // await api.sendMessage(channelType, channelId, message);
     },
 
-    markChannelRead: (channelKey) => {
+    markChannelRead: channelKey => {
       dispatch({
         type: ACTIONS.MARK_CHANNEL_READ,
-        payload: { channelKey }
+        payload: { channelKey },
       });
     },
 
     // Spectator System
-    startSpectating: (gameId) => {
+    startSpectating: gameId => {
       dispatch({
         type: ACTIONS.START_SPECTATING,
-        payload: { gameId }
+        payload: { gameId },
       });
     },
 
@@ -528,74 +564,74 @@ export const SocialProvider = ({ children }) => {
       dispatch({ type: ACTIONS.STOP_SPECTATING });
     },
 
-    allowSpectator: (spectator) => {
+    allowSpectator: spectator => {
       if (!state.privacy.allowSpectators) return false;
-      
+
       dispatch({
         type: ACTIONS.ADD_SPECTATOR,
-        payload: { spectator }
+        payload: { spectator },
       });
-      
+
       return true;
     },
 
     // Notifications
-    addNotification: (notification) => {
+    addNotification: notification => {
       dispatch({
         type: ACTIONS.ADD_NOTIFICATION,
-        payload: { notification }
+        payload: { notification },
       });
     },
 
-    removeNotification: (notificationId) => {
+    removeNotification: notificationId => {
       dispatch({
         type: ACTIONS.REMOVE_NOTIFICATION,
-        payload: { notificationId }
+        payload: { notificationId },
       });
     },
 
     // Privacy Settings
-    updatePrivacySettings: (settings) => {
+    updatePrivacySettings: settings => {
       dispatch({
         type: ACTIONS.UPDATE_PRIVACY_SETTINGS,
-        payload: { settings }
+        payload: { settings },
       });
     },
 
     // Utility Functions
-    getFriendStatus: (friendId) => {
+    getFriendStatus: friendId => {
       const friend = state.friends.find(f => f.id === friendId);
       return friend ? friend.status : FRIEND_STATUS.OFFLINE;
     },
 
     getUnreadMessageCount: () => {
       return Object.values(state.chatChannels).reduce(
-        (total, channel) => total + (channel.unread || 0), 0
+        (total, channel) => total + (channel.unread || 0),
+        0,
       );
     },
 
     getOnlineFriends: () => {
-      return state.friends.filter(friend => 
-        friend.status === FRIEND_STATUS.ONLINE || 
-        friend.status === FRIEND_STATUS.IN_GAME
+      return state.friends.filter(
+        friend =>
+          friend.status === FRIEND_STATUS.ONLINE ||
+          friend.status === FRIEND_STATUS.IN_GAME,
       );
     },
 
-    isUserBlocked: (userId) => {
+    isUserBlocked: userId => {
       return state.blockedUsers.some(blocked => blocked.id === userId);
     },
 
-    canSendMessage: (targetUserId) => {
+    canSendMessage: targetUserId => {
       if (social.isUserBlocked(targetUserId)) return false;
       if (!state.privacy.allowDirectMessages) return false;
       return true;
-    }
+    },
   };
 
   return (
-    <SocialContext.Provider value={social}>
-      {children}
-    </SocialContext.Provider>
+    <SocialContext.Provider value={social}>{children}</SocialContext.Provider>
   );
 };
 

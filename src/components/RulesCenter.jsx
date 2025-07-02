@@ -1,24 +1,20 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  Download,
-  Share2,
-  ChevronDown,
-  ChevronUp,
-} from 'lucide-react';
+import { Search, Download, Share2, ChevronDown, ChevronUp } from 'lucide-react';
 
 const RulesCenter = () => {
   const [rulesData, setRulesData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [expandedSections, setExpandedSections] = useState(new Set(['overview']));
+  const [expandedSections, setExpandedSections] = useState(
+    new Set(['overview']),
+  );
 
   useEffect(() => {
     // Load rules data
@@ -64,7 +60,7 @@ const RulesCenter = () => {
     loadRulesData();
   }, []);
 
-  const toggleSection = (sectionId) => {
+  const toggleSection = sectionId => {
     const newExpanded = new Set(expandedSections);
     if (newExpanded.has(sectionId)) {
       newExpanded.delete(sectionId);
@@ -109,8 +105,6 @@ const RulesCenter = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
-
-
         {/* Search and Controls */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -150,7 +144,10 @@ const RulesCenter = () => {
           className="space-y-4"
         >
           {filteredSections.map(([key, section]) => (
-            <div key={key} className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
+            <div
+              key={key}
+              className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden"
+            >
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
@@ -190,77 +187,127 @@ const RulesCenter = () => {
                       <div className="max-w-none">
                         {section?.content ? (
                           <div className="text-gray-200 leading-relaxed space-y-6">
-                            {section.content.split('\n\n').map((paragraph, index) => {
-                              // Skip empty paragraphs
-                              if (!paragraph.trim()) return null;
-                              
-                              // Handle headers (lines that start with #)
-                              if (paragraph.startsWith('#')) {
-                                const headerLevel = paragraph.match(/^#+/)[0].length;
-                                const headerText = paragraph.replace(/^#+\s*/, '');
-                                const HeaderTag = `h${Math.min(headerLevel + 2, 6)}`;
-                                
+                            {section.content
+                              .split('\n\n')
+                              .map((paragraph, index) => {
+                                // Skip empty paragraphs
+                                if (!paragraph.trim()) return null;
+
+                                // Handle headers (lines that start with #)
+                                if (paragraph.startsWith('#')) {
+                                  const headerLevel =
+                                    paragraph.match(/^#+/)[0].length;
+                                  const headerText = paragraph.replace(
+                                    /^#+\s*/,
+                                    '',
+                                  );
+                                  const HeaderTag = `h${Math.min(headerLevel + 2, 6)}`;
+
+                                  return (
+                                    <div
+                                      key={index}
+                                      className={`${headerLevel === 1 ? 'text-2xl' : headerLevel === 2 ? 'text-xl' : 'text-lg'} font-bold text-white mt-8 mb-4 first:mt-0`}
+                                    >
+                                      {headerText}
+                                    </div>
+                                  );
+                                }
+
+                                // Handle lists (lines that start with - or *)
+                                if (
+                                  paragraph.includes('\n-') ||
+                                  paragraph.includes('\n*') ||
+                                  paragraph.startsWith('-') ||
+                                  paragraph.startsWith('*')
+                                ) {
+                                  const listItems = paragraph
+                                    .split('\n')
+                                    .filter(
+                                      line =>
+                                        line.trim().startsWith('-') ||
+                                        line.trim().startsWith('*'),
+                                    );
+                                  if (listItems.length > 0) {
+                                    return (
+                                      <ul
+                                        key={index}
+                                        className="list-disc list-inside space-y-3 ml-6 text-base"
+                                      >
+                                        {listItems.map((item, itemIndex) => (
+                                          <li
+                                            key={itemIndex}
+                                            className="text-gray-200 leading-relaxed"
+                                          >
+                                            <span
+                                              dangerouslySetInnerHTML={{
+                                                __html: item
+                                                  .replace(/^[-*]\s*/, '')
+                                                  .replace(
+                                                    /\*\*(.*?)\*\*/g,
+                                                    '<strong class="text-white font-semibold">$1</strong>',
+                                                  ),
+                                              }}
+                                            />
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    );
+                                  }
+                                }
+
+                                // Handle numbered lists
+                                if (paragraph.match(/^\d+\./)) {
+                                  const listItems = paragraph
+                                    .split('\n')
+                                    .filter(line =>
+                                      line.trim().match(/^\d+\./),
+                                    );
+                                  if (listItems.length > 0) {
+                                    return (
+                                      <ol
+                                        key={index}
+                                        className="list-decimal list-inside space-y-3 ml-6 text-base"
+                                      >
+                                        {listItems.map((item, itemIndex) => (
+                                          <li
+                                            key={itemIndex}
+                                            className="text-gray-200 leading-relaxed"
+                                          >
+                                            <span
+                                              dangerouslySetInnerHTML={{
+                                                __html: item
+                                                  .replace(/^\d+\.\s*/, '')
+                                                  .replace(
+                                                    /\*\*(.*?)\*\*/g,
+                                                    '<strong class="text-white font-semibold">$1</strong>',
+                                                  ),
+                                              }}
+                                            />
+                                          </li>
+                                        ))}
+                                      </ol>
+                                    );
+                                  }
+                                }
+
+                                // Regular paragraphs
                                 return (
-                                  <div key={index} className={`${headerLevel === 1 ? 'text-2xl' : headerLevel === 2 ? 'text-xl' : 'text-lg'} font-bold text-white mt-8 mb-4 first:mt-0`}>
-                                    {headerText}
-                                  </div>
+                                  <p
+                                    key={index}
+                                    className="text-gray-200 leading-relaxed text-base"
+                                  >
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: paragraph.replace(
+                                          /\*\*(.*?)\*\*/g,
+                                          '<strong class="text-white font-semibold">$1</strong>',
+                                        ),
+                                      }}
+                                    />
+                                  </p>
                                 );
-                              }
-                              
-                              // Handle lists (lines that start with - or *)
-                              if (paragraph.includes('\n-') || paragraph.includes('\n*') || paragraph.startsWith('-') || paragraph.startsWith('*')) {
-                                const listItems = paragraph.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('*'));
-                                if (listItems.length > 0) {
-                                  return (
-                                    <ul key={index} className="list-disc list-inside space-y-3 ml-6 text-base">
-                                      {listItems.map((item, itemIndex) => (
-                                        <li key={itemIndex} className="text-gray-200 leading-relaxed">
-                                          <span dangerouslySetInnerHTML={{
-                                            __html: item.replace(/^[-*]\s*/, '').replace(
-                                              /\*\*(.*?)\*\*/g,
-                                              '<strong class="text-white font-semibold">$1</strong>'
-                                            )
-                                          }} />
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  );
-                                }
-                              }
-                              
-                              // Handle numbered lists
-                              if (paragraph.match(/^\d+\./)) {
-                                const listItems = paragraph.split('\n').filter(line => line.trim().match(/^\d+\./));
-                                if (listItems.length > 0) {
-                                  return (
-                                    <ol key={index} className="list-decimal list-inside space-y-3 ml-6 text-base">
-                                      {listItems.map((item, itemIndex) => (
-                                        <li key={itemIndex} className="text-gray-200 leading-relaxed">
-                                          <span dangerouslySetInnerHTML={{
-                                            __html: item.replace(/^\d+\.\s*/, '').replace(
-                                              /\*\*(.*?)\*\*/g,
-                                              '<strong class="text-white font-semibold">$1</strong>'
-                                            )
-                                          }} />
-                                        </li>
-                                      ))}
-                                    </ol>
-                                  );
-                                }
-                              }
-                              
-                              // Regular paragraphs
-                              return (
-                                <p key={index} className="text-gray-200 leading-relaxed text-base">
-                                  <span dangerouslySetInnerHTML={{
-                                    __html: paragraph.replace(
-                                      /\*\*(.*?)\*\*/g,
-                                      '<strong class="text-white font-semibold">$1</strong>'
-                                    )
-                                  }} />
-                                </p>
-                              );
-                            }).filter(Boolean)}
+                              })
+                              .filter(Boolean)}
                           </div>
                         ) : (
                           <div className="text-gray-300 leading-relaxed">
@@ -275,8 +322,6 @@ const RulesCenter = () => {
             </div>
           ))}
         </motion.div>
-
-
       </div>
     </div>
   );

@@ -7,9 +7,9 @@
  * @param {string} timestamp - ISO timestamp string
  * @returns {string} Formatted date and time
  */
-export const formatTimestamp = (timestamp) => {
+export const formatTimestamp = timestamp => {
   if (!timestamp) return 'Unknown';
-  
+
   try {
     const date = new Date(timestamp);
     return new Intl.DateTimeFormat('en-US', {
@@ -17,7 +17,7 @@ export const formatTimestamp = (timestamp) => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     }).format(date);
   } catch (error) {
     console.error('Error formatting timestamp:', error);
@@ -32,20 +32,27 @@ export const formatTimestamp = (timestamp) => {
  * @param {number} confidenceFactor - Confidence factor for Bayesian adjustment (higher = more weight to default rating)
  * @returns {number} Calculated Bayesian rating
  */
-export const calculateBayesianRating = (player, matches, confidenceFactor = 100) => {
+export const calculateBayesianRating = (
+  player,
+  matches,
+  confidenceFactor = 100,
+) => {
   if (!player) return 1500;
-  
+
   const baseRating = player.rating || 1500;
-  
+
   // Count matches involving this player
-  const playerMatches = matches.filter(m => 
-    m.player1?.id === player.id || m.player2?.id === player.id
+  const playerMatches = matches.filter(
+    m => m.player1?.id === player.id || m.player2?.id === player.id,
   );
-  
+
   const totalMatches = playerMatches.length;
-  
+
   // Apply Bayesian adjustment (more matches = more confidence in rating)
-  return Math.round((baseRating * totalMatches + 1500 * confidenceFactor) / (totalMatches + confidenceFactor));
+  return Math.round(
+    (baseRating * totalMatches + 1500 * confidenceFactor) /
+      (totalMatches + confidenceFactor),
+  );
 };
 
 /**
@@ -61,7 +68,7 @@ export const generateId = () => {
  * @param {Object} data - Data to stringify
  * @returns {string} JSON string or error message
  */
-export const safeStringify = (data) => {
+export const safeStringify = data => {
   try {
     return JSON.stringify(data, null, 2);
   } catch (error) {
@@ -93,13 +100,13 @@ export const safeParse = (jsonString, fallback = {}) => {
  */
 export const debounce = (func, wait = 300) => {
   let timeout;
-  
+
   return function executedFunction(...args) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
     };
-    
+
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
@@ -113,7 +120,7 @@ export const debounce = (func, wait = 300) => {
  */
 export const throttle = (func, wait = 300) => {
   let inThrottle;
-  
+
   return function executedFunction(...args) {
     if (!inThrottle) {
       func(...args);
@@ -130,7 +137,7 @@ export const throttle = (func, wait = 300) => {
  * @param {*} value - Value to check
  * @returns {boolean} True if empty, false otherwise
  */
-export const isEmpty = (value) => {
+export const isEmpty = value => {
   if (value === null || value === undefined) return true;
   if (typeof value === 'string' && value.trim() === '') return true;
   if (Array.isArray(value) && value.length === 0) return true;

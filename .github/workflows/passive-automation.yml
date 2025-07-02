@@ -1,14 +1,14 @@
 # MIT License
-# 
+#
 # Copyright (c) 2025 KONIVRER Team
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
 
@@ -16,9 +16,9 @@ name: Passive Workflow Automation
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     # Run comprehensive automation daily at 6 AM UTC
     - cron: '0 6 * * *'
@@ -32,10 +32,10 @@ on:
         default: 'full'
         type: choice
         options:
-        - minimal
-        - standard
-        - full
-        - security-only
+          - minimal
+          - standard
+          - full
+          - security-only
 
 permissions:
   contents: write
@@ -65,73 +65,73 @@ jobs:
       run-dependencies: ${{ steps.determine.outputs.run-dependencies }}
       run-deployment: ${{ steps.determine.outputs.run-deployment }}
       automation-level: ${{ steps.determine.outputs.automation-level }}
-    
+
     steps:
-    - name: Determine automation scope
-      id: determine
-      run: |
-        LEVEL="${{ env.AUTOMATION_LEVEL }}"
-        
-        # Default values
-        RUN_SECURITY="false"
-        RUN_QUALITY="false"
-        RUN_PERFORMANCE="false"
-        RUN_DEPENDENCIES="false"
-        RUN_DEPLOYMENT="false"
-        
-        case "$LEVEL" in
-          "minimal")
-            RUN_SECURITY="true"
-            ;;
-          "standard")
-            RUN_SECURITY="true"
-            RUN_QUALITY="true"
-            RUN_DEPENDENCIES="true"
-            ;;
-          "full")
-            RUN_SECURITY="true"
-            RUN_QUALITY="true"
-            RUN_PERFORMANCE="true"
-            RUN_DEPENDENCIES="true"
-            RUN_DEPLOYMENT="true"
-            ;;
-          "security-only")
-            RUN_SECURITY="true"
-            ;;
-        esac
-        
-        # Override based on event type
-        if [[ "${{ github.event_name }}" == "schedule" ]]; then
-          if [[ "${{ github.event.schedule }}" == "0 */6 * * *" ]]; then
-            # Security-only for 6-hour schedule
-            RUN_SECURITY="true"
-            RUN_QUALITY="false"
-            RUN_PERFORMANCE="false"
-            RUN_DEPENDENCIES="false"
-            RUN_DEPLOYMENT="false"
-          else
-            # Full automation for daily schedule
-            RUN_SECURITY="true"
-            RUN_QUALITY="true"
-            RUN_PERFORMANCE="true"
-            RUN_DEPENDENCIES="true"
-            RUN_DEPLOYMENT="false"
+      - name: Determine automation scope
+        id: determine
+        run: |
+          LEVEL="${{ env.AUTOMATION_LEVEL }}"
+
+          # Default values
+          RUN_SECURITY="false"
+          RUN_QUALITY="false"
+          RUN_PERFORMANCE="false"
+          RUN_DEPENDENCIES="false"
+          RUN_DEPLOYMENT="false"
+
+          case "$LEVEL" in
+            "minimal")
+              RUN_SECURITY="true"
+              ;;
+            "standard")
+              RUN_SECURITY="true"
+              RUN_QUALITY="true"
+              RUN_DEPENDENCIES="true"
+              ;;
+            "full")
+              RUN_SECURITY="true"
+              RUN_QUALITY="true"
+              RUN_PERFORMANCE="true"
+              RUN_DEPENDENCIES="true"
+              RUN_DEPLOYMENT="true"
+              ;;
+            "security-only")
+              RUN_SECURITY="true"
+              ;;
+          esac
+
+          # Override based on event type
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            if [[ "${{ github.event.schedule }}" == "0 */6 * * *" ]]; then
+              # Security-only for 6-hour schedule
+              RUN_SECURITY="true"
+              RUN_QUALITY="false"
+              RUN_PERFORMANCE="false"
+              RUN_DEPENDENCIES="false"
+              RUN_DEPLOYMENT="false"
+            else
+              # Full automation for daily schedule
+              RUN_SECURITY="true"
+              RUN_QUALITY="true"
+              RUN_PERFORMANCE="true"
+              RUN_DEPENDENCIES="true"
+              RUN_DEPLOYMENT="false"
+            fi
           fi
-        fi
-        
-        echo "run-security=$RUN_SECURITY" >> $GITHUB_OUTPUT
-        echo "run-quality=$RUN_QUALITY" >> $GITHUB_OUTPUT
-        echo "run-performance=$RUN_PERFORMANCE" >> $GITHUB_OUTPUT
-        echo "run-dependencies=$RUN_DEPENDENCIES" >> $GITHUB_OUTPUT
-        echo "run-deployment=$RUN_DEPLOYMENT" >> $GITHUB_OUTPUT
-        echo "automation-level=$LEVEL" >> $GITHUB_OUTPUT
-        
-        echo "🤖 Automation Level: $LEVEL"
-        echo "🔒 Security: $RUN_SECURITY"
-        echo "🎯 Quality: $RUN_QUALITY"
-        echo "⚡ Performance: $RUN_PERFORMANCE"
-        echo "📦 Dependencies: $RUN_DEPENDENCIES"
-        echo "🚀 Deployment: $RUN_DEPLOYMENT"
+
+          echo "run-security=$RUN_SECURITY" >> $GITHUB_OUTPUT
+          echo "run-quality=$RUN_QUALITY" >> $GITHUB_OUTPUT
+          echo "run-performance=$RUN_PERFORMANCE" >> $GITHUB_OUTPUT
+          echo "run-dependencies=$RUN_DEPENDENCIES" >> $GITHUB_OUTPUT
+          echo "run-deployment=$RUN_DEPLOYMENT" >> $GITHUB_OUTPUT
+          echo "automation-level=$LEVEL" >> $GITHUB_OUTPUT
+
+          echo "🤖 Automation Level: $LEVEL"
+          echo "🔒 Security: $RUN_SECURITY"
+          echo "🎯 Quality: $RUN_QUALITY"
+          echo "⚡ Performance: $RUN_PERFORMANCE"
+          echo "📦 Dependencies: $RUN_DEPENDENCIES"
+          echo "🚀 Deployment: $RUN_DEPLOYMENT"
 
   # Comprehensive security automation
   security-automation:
@@ -139,53 +139,53 @@ jobs:
     runs-on: ubuntu-latest
     needs: automation-orchestrator
     if: needs.automation-orchestrator.outputs.run-security == 'true'
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run comprehensive security scan
-      run: |
-        echo "🔒 Running comprehensive security automation..."
-        npm run security:full
-        
-    - name: Advanced vulnerability scanning
-      run: |
-        # Run multiple security tools
-        npm audit --audit-level low --json > npm-audit.json || true
-        npx audit-ci --config audit-ci.json || true
-        
-    - name: License compliance check
-      run: |
-        npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;Python-2.0;CC-BY-4.0;CC-BY-3.0;0BSD;UNLICENSED;CC0-1.0' || true
-        npx license-checker --json --out license-report.json
-        
-    - name: Security linting
-      run: |
-        npx eslint . --ext .js,.jsx,.ts,.tsx -c .eslintrc.security.js --format json --output-file security-lint.json || true
-        
-    - name: Upload security reports
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: security-reports
-        path: |
-          security-report.json
-          npm-audit.json
-          license-report.json
-          security-lint.json
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run comprehensive security scan
+        run: |
+          echo "🔒 Running comprehensive security automation..."
+          npm run security:full
+
+      - name: Advanced vulnerability scanning
+        run: |
+          # Run multiple security tools
+          npm audit --audit-level low --json > npm-audit.json || true
+          npx audit-ci --config audit-ci.json || true
+
+      - name: License compliance check
+        run: |
+          npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;Python-2.0;CC-BY-4.0;CC-BY-3.0;0BSD;UNLICENSED;CC0-1.0' || true
+          npx license-checker --json --out license-report.json
+
+      - name: Security linting
+        run: |
+          npx eslint . --ext .js,.jsx,.ts,.tsx -c .eslintrc.security.js --format json --output-file security-lint.json || true
+
+      - name: Upload security reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-reports
+          path: |
+            security-report.json
+            npm-audit.json
+            license-report.json
+            security-lint.json
+          retention-days: 30
 
   # Quality assurance automation
   quality-automation:
@@ -193,49 +193,49 @@ jobs:
     runs-on: ubuntu-latest
     needs: automation-orchestrator
     if: needs.automation-orchestrator.outputs.run-quality == 'true'
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Code quality checks
-      run: |
-        echo "🎯 Running quality automation..."
-        npm run lint || true
-        npm run format:check || true
-        npm run type-check || true
-        
-    - name: Code complexity analysis
-      run: |
-        npx jscpd --reporters json --output jscpd-report.json . || true
-        
-    - name: Test execution
-      run: |
-        npm test || echo "Tests not configured or failed"
-        
-    - name: Build verification
-      run: |
-        npm run build
-        
-    - name: Upload quality reports
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: quality-reports
-        path: |
-          jscpd-report.json
-          coverage/
-          dist/
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Code quality checks
+        run: |
+          echo "🎯 Running quality automation..."
+          npm run lint || true
+          npm run format:check || true
+          npm run type-check || true
+
+      - name: Code complexity analysis
+        run: |
+          npx jscpd --reporters json --output jscpd-report.json . || true
+
+      - name: Test execution
+        run: |
+          npm test || echo "Tests not configured or failed"
+
+      - name: Build verification
+        run: |
+          npm run build
+
+      - name: Upload quality reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-reports
+          path: |
+            jscpd-report.json
+            coverage/
+            dist/
+          retention-days: 30
 
   # Performance optimization automation
   performance-automation:
@@ -245,44 +245,44 @@ jobs:
     if: |
       needs.automation-orchestrator.outputs.run-performance == 'true' &&
       (needs.quality-automation.result == 'success' || needs.quality-automation.result == 'skipped')
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build and optimize
-      run: |
-        echo "⚡ Running performance automation..."
-        npm run build
-        npm run performance:optimize
-        npm run bundle:analyze
-        
-    - name: Lighthouse performance audit
-      uses: treosh/lighthouse-ci-action@v12
-      with:
-        configPath: './lighthouserc.js'
-        uploadArtifacts: true
-        temporaryPublicStorage: true
-        
-    - name: Upload performance reports
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: performance-reports
-        path: |
-          bundle-analysis.json
-          performance-optimization.json
-          .lighthouseci/
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and optimize
+        run: |
+          echo "⚡ Running performance automation..."
+          npm run build
+          npm run performance:optimize
+          npm run bundle:analyze
+
+      - name: Lighthouse performance audit
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: './lighthouserc.js'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Upload performance reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-reports
+          path: |
+            bundle-analysis.json
+            performance-optimization.json
+            .lighthouseci/
+          retention-days: 30
 
   # Dependency management automation
   dependency-automation:
@@ -290,85 +290,91 @@ jobs:
     runs-on: ubuntu-latest
     needs: automation-orchestrator
     if: needs.automation-orchestrator.outputs.run-dependencies == 'true'
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Dependency analysis
-      run: |
-        echo "📦 Running dependency automation..."
-        npm run deps:check || true
-        npx depcheck --json > depcheck-report.json || true
-        
-    - name: Security dependency updates
-      if: github.event_name == 'schedule'
-      run: |
-        npm audit fix --force || true
-        
-    - name: Check for dependency updates
-      id: check-updates
-      run: |
-        npm outdated --json > outdated.json || true
-        if [ -s outdated.json ] && [ "$(cat outdated.json)" != "{}" ]; then
-          echo "has-updates=true" >> $GITHUB_OUTPUT
-        else
-          echo "has-updates=false" >> $GITHUB_OUTPUT
-        fi
-        
-    - name: Create dependency update PR
-      if: steps.check-updates.outputs.has-updates == 'true' && github.event_name == 'schedule'
-      uses: peter-evans/create-pull-request@v6
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "📦 Automated dependency updates"
-        title: "📦 Automated Dependency Updates"
-        body: |
-          ## 📦 Automated Dependency Updates
-          
-          This PR contains automated dependency updates detected by the passive automation system.
-          
-          ### Changes
-          - Security fixes applied via `npm audit fix`
-          - Outdated packages identified for review
-          
-          ### Verification
-          - ✅ Security scan completed
-          - ✅ Build verification passed
-          
-          **Auto-generated by:** Passive Automation System
-        branch: automated-dependency-updates
-        delete-branch: true
-        labels: |
-          dependencies
-          automated
-          
-    - name: Upload dependency reports
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: dependency-reports
-        path: |
-          outdated.json
-          depcheck-report.json
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Dependency analysis
+        run: |
+          echo "📦 Running dependency automation..."
+          npm run deps:check || true
+          npx depcheck --json > depcheck-report.json || true
+
+      - name: Security dependency updates
+        if: github.event_name == 'schedule'
+        run: |
+          npm audit fix --force || true
+
+      - name: Check for dependency updates
+        id: check-updates
+        run: |
+          npm outdated --json > outdated.json || true
+          if [ -s outdated.json ] && [ "$(cat outdated.json)" != "{}" ]; then
+            echo "has-updates=true" >> $GITHUB_OUTPUT
+          else
+            echo "has-updates=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create dependency update PR
+        if: steps.check-updates.outputs.has-updates == 'true' && github.event_name == 'schedule'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: '📦 Automated dependency updates'
+          title: '📦 Automated Dependency Updates'
+          body: |
+            ## 📦 Automated Dependency Updates
+
+            This PR contains automated dependency updates detected by the passive automation system.
+
+            ### Changes
+            - Security fixes applied via `npm audit fix`
+            - Outdated packages identified for review
+
+            ### Verification
+            - ✅ Security scan completed
+            - ✅ Build verification passed
+
+            **Auto-generated by:** Passive Automation System
+          branch: automated-dependency-updates
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+
+      - name: Upload dependency reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-reports
+          path: |
+            outdated.json
+            depcheck-report.json
+          retention-days: 30
 
   # Automated deployment (only for main branch)
   deployment-automation:
     name: Deployment Automation
     runs-on: ubuntu-latest
-    needs: [automation-orchestrator, security-automation, quality-automation, performance-automation]
+    needs:
+      [
+        automation-orchestrator,
+        security-automation,
+        quality-automation,
+        performance-automation,
+      ]
     if: |
       needs.automation-orchestrator.outputs.run-deployment == 'true' &&
       github.ref == 'refs/heads/main' &&
@@ -376,126 +382,134 @@ jobs:
       needs.security-automation.result == 'success' &&
       (needs.quality-automation.result == 'success' || needs.quality-automation.result == 'skipped') &&
       (needs.performance-automation.result == 'success' || needs.performance-automation.result == 'skipped')
-    
+
     environment:
       name: production
       url: https://konivrer-deck-database.vercel.app
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build for production
-      run: |
-        echo "🚀 Running deployment automation..."
-        NODE_ENV=production npm run build
-        npm run performance:optimize
-        
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        vercel-args: '--prod'
-        
-    - name: Post-deployment verification
-      run: |
-        sleep 30  # Wait for deployment
-        curl -f https://konivrer-deck-database.vercel.app/ || exit 1
-        echo "✅ Deployment verification successful"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: |
+          echo "🚀 Running deployment automation..."
+          NODE_ENV=production npm run build
+          npm run performance:optimize
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+      - name: Post-deployment verification
+        run: |
+          sleep 30  # Wait for deployment
+          curl -f https://konivrer-deck-database.vercel.app/ || exit 1
+          echo "✅ Deployment verification successful"
 
   # Automation reporting and monitoring
   automation-reporting:
     name: Automation Reporting
     runs-on: ubuntu-latest
-    needs: [automation-orchestrator, security-automation, quality-automation, performance-automation, dependency-automation, deployment-automation]
+    needs:
+      [
+        automation-orchestrator,
+        security-automation,
+        quality-automation,
+        performance-automation,
+        dependency-automation,
+        deployment-automation,
+      ]
     if: always()
-    
+
     steps:
-    - name: Generate automation report
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const results = {
-            orchestrator: '${{ needs.automation-orchestrator.result }}',
-            security: '${{ needs.security-automation.result }}',
-            quality: '${{ needs.quality-automation.result }}',
-            performance: '${{ needs.performance-automation.result }}',
-            dependencies: '${{ needs.dependency-automation.result }}',
-            deployment: '${{ needs.deployment-automation.result }}'
-          };
-          
-          const level = '${{ needs.automation-orchestrator.outputs.automation-level }}';
-          const successful = Object.values(results).filter(r => r === 'success').length;
-          const failed = Object.values(results).filter(r => r === 'failure').length;
-          const skipped = Object.values(results).filter(r => r === 'skipped').length;
-          
-          const report = `
-          ## 🤖 Passive Automation Report
-          
-          **Automation Level:** ${level}
-          **Trigger:** ${{ github.event_name }}
-          **Branch:** ${{ github.ref_name }}
-          **Commit:** ${{ github.sha }}
-          
-          ### Results Summary
-          - ✅ Successful: ${successful}
-          - ❌ Failed: ${failed}
-          - ⏭️ Skipped: ${skipped}
-          
-          ### Job Results
-          - 🎯 Orchestrator: ${results.orchestrator}
-          - 🔒 Security: ${results.security}
-          - 🎯 Quality: ${results.quality}
-          - ⚡ Performance: ${results.performance}
-          - 📦 Dependencies: ${results.dependencies}
-          - 🚀 Deployment: ${results.deployment}
-          
-          ${failed > 0 ? '⚠️ **Action Required:** Some automation jobs failed. Please review the logs.' : '✅ All automation completed successfully!'}
-          
-          **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          `;
-          
-          console.log(report);
-          
-          // Create issue for failures
-          if (failed > 0) {
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🚨 Passive Automation Failures Detected',
-              body: report,
-              labels: ['automation', 'failure', 'urgent']
-            });
-          }
-          
-    - name: Slack notification
-      if: failure() || (github.event_name == 'schedule' && github.event.schedule == '0 6 * * *')
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-        message: |
-          🤖 KONIVRER Passive Automation Report
-          
-          Level: ${{ needs.automation-orchestrator.outputs.automation-level }}
-          Status: ${{ job.status }}
-          
-          Security: ${{ needs.security-automation.result }}
-          Quality: ${{ needs.quality-automation.result }}
-          Performance: ${{ needs.performance-automation.result }}
-          Dependencies: ${{ needs.dependency-automation.result }}
-          Deployment: ${{ needs.deployment-automation.result }}
+      - name: Generate automation report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = {
+              orchestrator: '${{ needs.automation-orchestrator.result }}',
+              security: '${{ needs.security-automation.result }}',
+              quality: '${{ needs.quality-automation.result }}',
+              performance: '${{ needs.performance-automation.result }}',
+              dependencies: '${{ needs.dependency-automation.result }}',
+              deployment: '${{ needs.deployment-automation.result }}'
+            };
+
+            const level = '${{ needs.automation-orchestrator.outputs.automation-level }}';
+            const successful = Object.values(results).filter(r => r === 'success').length;
+            const failed = Object.values(results).filter(r => r === 'failure').length;
+            const skipped = Object.values(results).filter(r => r === 'skipped').length;
+
+            const report = `
+            ## 🤖 Passive Automation Report
+
+            **Automation Level:** ${level}
+            **Trigger:** ${{ github.event_name }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+
+            ### Results Summary
+            - ✅ Successful: ${successful}
+            - ❌ Failed: ${failed}
+            - ⏭️ Skipped: ${skipped}
+
+            ### Job Results
+            - 🎯 Orchestrator: ${results.orchestrator}
+            - 🔒 Security: ${results.security}
+            - 🎯 Quality: ${results.quality}
+            - ⚡ Performance: ${results.performance}
+            - 📦 Dependencies: ${results.dependencies}
+            - 🚀 Deployment: ${results.deployment}
+
+            ${failed > 0 ? '⚠️ **Action Required:** Some automation jobs failed. Please review the logs.' : '✅ All automation completed successfully!'}
+
+            **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            `;
+
+            console.log(report);
+
+            // Create issue for failures
+            if (failed > 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 Passive Automation Failures Detected',
+                body: report,
+                labels: ['automation', 'failure', 'urgent']
+              });
+            }
+
+      - name: Slack notification
+        if: failure() || (github.event_name == 'schedule' && github.event.schedule == '0 6 * * *')
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          message: |
+            🤖 KONIVRER Passive Automation Report
+
+            Level: ${{ needs.automation-orchestrator.outputs.automation-level }}
+            Status: ${{ job.status }}
+
+            Security: ${{ needs.security-automation.result }}
+            Quality: ${{ needs.quality-automation.result }}
+            Performance: ${{ needs.performance-automation.result }}
+            Dependencies: ${{ needs.dependency-automation.result }}
+            Deployment: ${{ needs.deployment-automation.result }}
 
   # Cleanup and optimization
   automation-cleanup:
@@ -503,19 +517,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: [automation-reporting]
     if: always()
-    
+
     steps:
-    - name: Clean up old artifacts
-      uses: geekyeggo/delete-artifact@v4
-      with:
-        name: |
-          security-reports
-          quality-reports
-          performance-reports
-          dependency-reports
-        failOnError: false
-        
-    - name: Update automation metrics
-      run: |
-        echo "📊 Automation completed at $(date)"
-        echo "Next scheduled run: $(date -d '+1 day' '+%Y-%m-%d 06:00 UTC')"
+      - name: Clean up old artifacts
+        uses: geekyeggo/delete-artifact@v4
+        with:
+          name: |
+            security-reports
+            quality-reports
+            performance-reports
+            dependency-reports
+          failOnError: false
+
+      - name: Update automation metrics
+        run: |
+          echo "📊 Automation completed at $(date)"
+          echo "Next scheduled run: $(date -d '+1 day' '+%Y-%m-%d 06:00 UTC')"

@@ -5,17 +5,20 @@ A modern, mobile-first trading card game platform with advanced matchmaking, tou
 ## Features
 
 ### Core Gameplay
+
 - **Mobile-Optimized Game Engine** - Smooth touch controls and responsive design
 - **Advanced Deck Builder** - Intuitive deck construction with card recommendations
 - **Real-time Multiplayer** - Online matches with instant synchronization
 - **Physical Matchmaking** - Connect with local players for in-person games
 
 ### Tournament System
+
 - **Tournament Management** - Create and manage tournaments of any size
 - **Live Brackets** - Real-time bracket updates and match tracking
 - **Judge Center** - Comprehensive tournament administration tools
 
 ### Card Database
+
 - **Complete Card Explorer** - Browse all cards with advanced filtering
 - **Card Art Showcase** - High-resolution card artwork display
 - **Custom Card Maker** - Create and share custom cards
@@ -23,11 +26,13 @@ A modern, mobile-first trading card game platform with advanced matchmaking, tou
 ## Quick Start
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Start development server:**
+
    ```bash
    npm run dev
    ```
@@ -67,6 +72,7 @@ node scripts/optimize-and-deploy.js
 ```
 
 This will:
+
 - Clean and build the project
 - Run quality checks
 - Deploy to production

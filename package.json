@@ -31,7 +31,14 @@
     "deps:check": "npm outdated",
     "deps:update": "npm update",
     "deps:audit": "npm audit fix",
-    "automation:full": "npm run security:full && npm run quality:check && npm run build:analyze"
+    "automation:full": "npm run security:full && npm run quality:check && npm run build:analyze",
+    "heal": "node scripts/auto-heal.js",
+    "heal:quick": "node scripts/auto-heal.js --quick",
+    "heal:full": "node scripts/auto-heal.js --full",
+    "fix:all": "npm run heal && npm run lint:fix && npm run format",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "health:check": "npm run lint && npm run format:check && npm run deps:audit && npm run build",
+    "self:heal": "npm run heal && npm run fix:all && npm run health:check"
   },
   "keywords": [
     "konivrer",

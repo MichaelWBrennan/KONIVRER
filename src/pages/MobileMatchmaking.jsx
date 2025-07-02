@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -13,7 +13,7 @@ import { useDeck } from '../contexts/DeckContext';
 const MobileMatchmaking = () => {
   const { isAuthenticated, user } = useAuth();
   const { userDecks } = useDeck();
-  
+
   const [activeTab, setActiveTab] = useState('online');
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [matchmakingStatus, setMatchmakingStatus] = useState('idle'); // idle, searching, matched
@@ -26,12 +26,24 @@ const MobileMatchmaking = () => {
     setNearbyPlayers([
       { id: 'player1', name: 'Alex', distance: '0.5 miles', rating: 1850 },
       { id: 'player2', name: 'Jordan', distance: '1.2 miles', rating: 1720 },
-      { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 }
+      { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 },
     ]);
 
     setUpcomingTournaments([
-      { id: 'tourn1', name: 'Weekly Championship', date: '2025-06-25', format: 'Standard', players: 32 },
-      { id: 'tourn2', name: 'Beginner Friendly', date: '2025-06-27', format: 'Casual', players: 16 }
+      {
+        id: 'tourn1',
+        name: 'Weekly Championship',
+        date: '2025-06-25',
+        format: 'Standard',
+        players: 32,
+      },
+      {
+        id: 'tourn2',
+        name: 'Beginner Friendly',
+        date: '2025-06-27',
+        format: 'Casual',
+        players: 16,
+      },
     ]);
   }, []);
 
@@ -41,9 +53,9 @@ const MobileMatchmaking = () => {
       alert('Please select a deck first');
       return;
     }
-    
+
     setMatchmakingStatus('searching');
-    
+
     // Simulate finding a match after 3 seconds
     setTimeout(() => {
       setMatchmakingStatus('matched');
@@ -112,7 +124,10 @@ const MobileMatchmaking = () => {
                     ) : (
                       <div className="mobile-text-center mobile-mb">
                         <p>You don't have any decks yet.</p>
-                        <Link to="/deck-builder" className="mobile-btn mobile-btn-primary mobile-mt">
+                        <Link
+                          to="/deck-builder"
+                          className="mobile-btn mobile-btn-primary mobile-mt"
+                        >
                           Create a Deck
                         </Link>
                       </div>
@@ -146,10 +161,7 @@ const MobileMatchmaking = () => {
                 <div className="mobile-loading-spinner"></div>
                 <p>Looking for opponents...</p>
               </div>
-              <button
-                className="mobile-btn"
-                onClick={cancelMatchmaking}
-              >
+              <button className="mobile-btn" onClick={cancelMatchmaking}>
                 Cancel
               </button>
             </div>
@@ -169,10 +181,7 @@ const MobileMatchmaking = () => {
               >
                 Accept Match
               </button>
-              <button
-                className="mobile-btn"
-                onClick={cancelMatchmaking}
-              >
+              <button className="mobile-btn" onClick={cancelMatchmaking}>
                 Decline
               </button>
             </div>
@@ -196,9 +205,7 @@ const MobileMatchmaking = () => {
                         <div>Rating: {player.rating}</div>
                         <div>{player.distance}</div>
                       </div>
-                      <button className="mobile-btn">
-                        Challenge
-                      </button>
+                      <button className="mobile-btn">Challenge</button>
                     </div>
                   </li>
                 ))}
@@ -235,7 +242,9 @@ const MobileMatchmaking = () => {
                     <div>
                       <strong>{tournament.name}</strong>
                       <div>Format: {tournament.format}</div>
-                      <div>Date: {new Date(tournament.date).toLocaleDateString()}</div>
+                      <div>
+                        Date: {new Date(tournament.date).toLocaleDateString()}
+                      </div>
                       <div>Players: {tournament.players}</div>
                     </div>
                     <button className="mobile-btn mobile-btn-primary mobile-mt">
@@ -251,7 +260,10 @@ const MobileMatchmaking = () => {
 
           {/* Create Tournament */}
           <div className="mobile-text-center mobile-mb">
-            <Link to="/tournaments/create" className="mobile-btn mobile-btn-primary">
+            <Link
+              to="/tournaments/create"
+              className="mobile-btn mobile-btn-primary"
+            >
               Create Tournament
             </Link>
           </div>

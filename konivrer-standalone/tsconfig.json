@@ -36,7 +36,13 @@
     "emitDecoratorMetadata": true,
     "jsxImportSource": "react"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "src/**/*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.d.ts"
+  ],
   "exclude": ["node_modules", "dist", "build", "public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

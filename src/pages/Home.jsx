@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -775,7 +775,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      
       {/* Ancient Hero Section */}
       <AncientHero />
 

@@ -9,9 +9,9 @@ import { execSync } from 'child_process';
 import { writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const log = (message) => console.log(`🚀 ${message}`);
-const error = (message) => console.error(`❌ ${message}`);
-const success = (message) => console.log(`✅ ${message}`);
+const log = message => console.log(`🚀 ${message}`);
+const error = message => console.error(`❌ ${message}`);
+const success = message => console.log(`✅ ${message}`);
 
 async function optimizePerformance() {
   log('Starting comprehensive performance optimization...');
@@ -23,7 +23,10 @@ async function optimizePerformance() {
 
     // 2. Install optimized dependencies
     log('Installing performance dependencies...');
-    execSync('npm install --save-dev @rollup/rollup-linux-x64-gnu cssnano-preset-advanced', { stdio: 'inherit' });
+    execSync(
+      'npm install --save-dev @rollup/rollup-linux-x64-gnu cssnano-preset-advanced',
+      { stdio: 'inherit' },
+    );
 
     // 3. Build with optimizations
     log('Building optimized bundle...');
@@ -46,7 +49,6 @@ async function optimizePerformance() {
     log('1. Deploy to Vercel');
     log('2. Run PageSpeed Insights test');
     log('3. Monitor Core Web Vitals');
-
   } catch (err) {
     error(`Optimization failed: ${err.message}`);
     process.exit(1);
@@ -67,42 +69,65 @@ function analyzeBundleSize() {
 
   try {
     // Analyze JS files
-    const jsFiles = execSync(`find ${jsPath} -name "*.js" -exec ls -la {} \\;`, { encoding: 'utf8' });
-    const gzippedJs = execSync(`find ${jsPath} -name "*.js.gz" -exec ls -la {} \\;`, { encoding: 'utf8' });
+    const jsFiles = execSync(
+      `find ${jsPath} -name "*.js" -exec ls -la {} \\;`,
+      { encoding: 'utf8' },
+    );
+    const gzippedJs = execSync(
+      `find ${jsPath} -name "*.js.gz" -exec ls -la {} \\;`,
+      { encoding: 'utf8' },
+    );
 
     // Analyze CSS files
-    const cssFiles = execSync(`find ${cssPath} -name "*.css" -exec ls -la {} \\;`, { encoding: 'utf8' });
-    const gzippedCss = execSync(`find ${cssPath} -name "*.css.gz" -exec ls -la {} \\;`, { encoding: 'utf8' });
+    const cssFiles = execSync(
+      `find ${cssPath} -name "*.css" -exec ls -la {} \\;`,
+      { encoding: 'utf8' },
+    );
+    const gzippedCss = execSync(
+      `find ${cssPath} -name "*.css.gz" -exec ls -la {} \\;`,
+      { encoding: 'utf8' },
+    );
 
     // Parse file sizes
-    jsFiles.split('\n').filter(line => line.includes('.js')).forEach(line => {
-      const parts = line.split(/\s+/);
-      const size = parseInt(parts[4]) || 0;
-      const name = parts[parts.length - 1];
-      info.js.push({ name: name.split('/').pop(), size });
-      info.totalSize += size;
-    });
+    jsFiles
+      .split('\n')
+      .filter(line => line.includes('.js'))
+      .forEach(line => {
+        const parts = line.split(/\s+/);
+        const size = parseInt(parts[4]) || 0;
+        const name = parts[parts.length - 1];
+        info.js.push({ name: name.split('/').pop(), size });
+        info.totalSize += size;
+      });
 
-    gzippedJs.split('\n').filter(line => line.includes('.js.gz')).forEach(line => {
-      const parts = line.split(/\s+/);
-      const size = parseInt(parts[4]) || 0;
-      info.gzippedSize += size;
-    });
+    gzippedJs
+      .split('\n')
+      .filter(line => line.includes('.js.gz'))
+      .forEach(line => {
+        const parts = line.split(/\s+/);
+        const size = parseInt(parts[4]) || 0;
+        info.gzippedSize += size;
+      });
 
-    cssFiles.split('\n').filter(line => line.includes('.css')).forEach(line => {
-      const parts = line.split(/\s+/);
-      const size = parseInt(parts[4]) || 0;
-      const name = parts[parts.length - 1];
-      info.css.push({ name: name.split('/').pop(), size });
-      info.totalSize += size;
-    });
+    cssFiles
+      .split('\n')
+      .filter(line => line.includes('.css'))
+      .forEach(line => {
+        const parts = line.split(/\s+/);
+        const size = parseInt(parts[4]) || 0;
+        const name = parts[parts.length - 1];
+        info.css.push({ name: name.split('/').pop(), size });
+        info.totalSize += size;
+      });
 
-    gzippedCss.split('\n').filter(line => line.includes('.css.gz')).forEach(line => {
-      const parts = line.split(/\s+/);
-      const size = parseInt(parts[4]) || 0;
-      info.gzippedSize += size;
-    });
-
+    gzippedCss
+      .split('\n')
+      .filter(line => line.includes('.css.gz'))
+      .forEach(line => {
+        const parts = line.split(/\s+/);
+        const size = parseInt(parts[4]) || 0;
+        info.gzippedSize += size;
+      });
   } catch (err) {
     error(`Bundle analysis failed: ${err.message}`);
   }

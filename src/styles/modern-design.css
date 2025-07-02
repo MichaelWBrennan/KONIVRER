@@ -37,11 +37,21 @@
 
   --accent-secondary: #5a7e8c !important; /* Mystical blue */
   --accent-secondary-hover: #4a6a78 !important; /* Deep mystical blue */
-  --accent-secondary-light: rgba(90, 126, 140, 0.15) !important; /* Ethereal blue mist */
+  --accent-secondary-light: rgba(
+    90,
+    126,
+    140,
+    0.15
+  ) !important; /* Ethereal blue mist */
 
   --accent-success: #6b8c5a !important; /* Alchemical green */
   --accent-success-hover: #5a7849 !important; /* Deep alchemical green */
-  --accent-success-light: rgba(107, 140, 90, 0.15) !important; /* Alchemical mist */
+  --accent-success-light: rgba(
+    107,
+    140,
+    90,
+    0.15
+  ) !important; /* Alchemical mist */
 
   --accent-warning: #c2843a !important; /* Amber crystal */
   --accent-warning-hover: #a36f31 !important; /* Deep amber */
@@ -49,24 +59,49 @@
 
   --accent-danger: #a34c37 !important; /* Ancient red ochre */
   --accent-danger-hover: #8c4130 !important; /* Deep red ochre */
-  --accent-danger-light: rgba(163, 76, 55, 0.15) !important; /* Red ochre dust */
+  --accent-danger-light: rgba(
+    163,
+    76,
+    55,
+    0.15
+  ) !important; /* Red ochre dust */
 
   --accent-info: #4a6e8c !important; /* Celestial blue */
   --accent-info-hover: #3d5c75 !important; /* Deep celestial blue */
   --accent-info-light: rgba(74, 110, 140, 0.15) !important; /* Celestial mist */
 
   /* Mystical Gradients */
-  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%) !important; /* Gold to mystical blue */
-  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%) !important; /* Alchemical to celestial */
-  --gradient-tertiary: linear-gradient(135deg, #c2843a 0%, #a34c37 100%) !important; /* Amber to red ochre */
-  --gradient-danger: linear-gradient(135deg, #a34c37 0%, #8c4130 100%) !important; /* Red ochre variations */
+  --gradient-primary: linear-gradient(
+    135deg,
+    #9b7e46 0%,
+    #5a7e8c 100%
+  ) !important; /* Gold to mystical blue */
+  --gradient-secondary: linear-gradient(
+    135deg,
+    #6b8c5a 0%,
+    #4a6e8c 100%
+  ) !important; /* Alchemical to celestial */
+  --gradient-tertiary: linear-gradient(
+    135deg,
+    #c2843a 0%,
+    #a34c37 100%
+  ) !important; /* Amber to red ochre */
+  --gradient-danger: linear-gradient(
+    135deg,
+    #a34c37 0%,
+    #8c4130 100%
+  ) !important; /* Red ochre variations */
   --gradient-hero: linear-gradient(
     135deg,
     #1a1409 0%,
     #2a2214 50%,
     #1a1409 100%
   ) !important; /* Ancient stone texture */
-  --gradient-card: linear-gradient(145deg, #241e12 0%, #2a2214 100%) !important; /* Weathered scroll texture */
+  --gradient-card: linear-gradient(
+    145deg,
+    #241e12 0%,
+    #2a2214 100%
+  ) !important; /* Weathered scroll texture */
 
   /* Ancient Border Colors */
   --border-primary: #3a3120 !important; /* Aged parchment edge */
@@ -80,7 +115,8 @@
 
   /* Mystical Shadows */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
+  --shadow-sm:
+    0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
   --shadow-md:
     0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3) !important;
   --shadow-lg:
@@ -394,7 +430,8 @@ li {
 /* Modern Code Styles */
 code,
 pre {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace !important;
+  font-family:
+    'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace !important;
   font-size: var(--font-size-sm) !important;
 }
 

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -31,20 +31,20 @@ export const DeckProvider = ({ children }) => {
   // Load all deck data
   const loadDecks = async () => {
     setLoading(true);
-    
+
     try {
       // Load deck metadata
       const deckMetadata = DeckService.getAllDeckMetadata();
       setDecks(deckMetadata);
-      
+
       // Load active deck
       const active = DeckService.getActivePlayerDeck();
       setActiveDeck(active);
-      
+
       // Load recent decks
       const recent = DeckService.getRecentDecks();
       setRecentDecks(recent);
-      
+
       // Load battle pass decks
       const bpDecks = DeckService.getBattlePassDecks();
       setBattlePassDecks(bpDecks);
@@ -68,12 +68,12 @@ export const DeckProvider = ({ children }) => {
   };
 
   // Load a specific deck
-  const loadDeck = (deckId) => {
+  const loadDeck = deckId => {
     return DeckService.loadDeck(deckId);
   };
 
   // Delete a deck
-  const deleteDeck = async (deckId) => {
+  const deleteDeck = async deckId => {
     try {
       const success = DeckService.deleteDeck(deckId);
       if (success) {
@@ -87,7 +87,7 @@ export const DeckProvider = ({ children }) => {
   };
 
   // Set active deck for gameplay
-  const setActivePlayerDeck = async (deckId) => {
+  const setActivePlayerDeck = async deckId => {
     try {
       const success = DeckService.setActivePlayerDeck(deckId);
       if (success) {
@@ -102,7 +102,7 @@ export const DeckProvider = ({ children }) => {
   };
 
   // Validate a deck
-  const validateDeck = (deck) => {
+  const validateDeck = deck => {
     return DeckService.validateDeck(deck);
   };
 
@@ -113,7 +113,7 @@ export const DeckProvider = ({ children }) => {
       if (!deck) {
         throw new Error('Invalid deck code');
       }
-      
+
       const deckId = await saveDeck(deck, name);
       return deckId;
     } catch (error) {
@@ -123,13 +123,13 @@ export const DeckProvider = ({ children }) => {
   };
 
   // Export a deck to code
-  const exportDeck = (deckId) => {
+  const exportDeck = deckId => {
     try {
       const deck = loadDeck(deckId);
       if (!deck) {
         throw new Error('Deck not found');
       }
-      
+
       return DeckService.exportDeckToCode(deck);
     } catch (error) {
       console.error('Error exporting deck:', error);
@@ -142,12 +142,12 @@ export const DeckProvider = ({ children }) => {
     try {
       const deckId = DeckService.addBattlePassDeck(deck, source);
       await loadDecks(); // Reload decks to update state
-      
+
       // Notify battle pass system
       if (battlePass) {
         battlePass.unlockCosmetic('decks', deckId);
       }
-      
+
       return deckId;
     } catch (error) {
       console.error('Error adding battle pass deck:', error);
@@ -160,9 +160,9 @@ export const DeckProvider = ({ children }) => {
     const emptyDeck = {
       cards: [],
       sideboard: [],
-      format: 'standard'
+      format: 'standard',
     };
-    
+
     return await saveDeck(emptyDeck, name);
   };
 
@@ -182,14 +182,10 @@ export const DeckProvider = ({ children }) => {
     importDeck,
     exportDeck,
     addBattlePassDeck,
-    createNewDeck
+    createNewDeck,
   };
 
-  return (
-    <DeckContext.Provider value={value}>
-      {children}
-    </DeckContext.Provider>
-  );
+  return <DeckContext.Provider value={value}>{children}</DeckContext.Provider>;
 };
 
 // Custom hook to use the deck context

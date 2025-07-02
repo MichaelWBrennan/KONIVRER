@@ -144,9 +144,7 @@
         "minified": false,
         "hasSourceMap": false,
         "estimatedModules": 1,
-        "potentialIssues": [
-          "Contains console.log statements"
-        ]
+        "potentialIssues": ["Contains console.log statements"]
       }
     }
   ],
