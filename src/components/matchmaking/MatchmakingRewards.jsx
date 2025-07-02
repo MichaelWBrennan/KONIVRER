@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Gift, Trophy, Star, ChevronRight, X, Lock, Unlock, Info } from 'lucide-react';

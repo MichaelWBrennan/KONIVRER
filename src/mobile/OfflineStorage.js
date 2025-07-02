@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * Offline Storage Module
  * 
  * Provides functionality for storing and syncing data when offline

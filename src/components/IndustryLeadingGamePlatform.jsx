@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RenderEngine } from '../engine/RenderEngine';

@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, UserPlus, Clock, X, UserMinus, UserCheck, Gamepad, Search } from 'lucide-react';

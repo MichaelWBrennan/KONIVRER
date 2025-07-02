@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * KONIVRER Game Engine - MTG Arena Edition
  *
  * This enhanced game engine provides an MTG Arena-like experience with:

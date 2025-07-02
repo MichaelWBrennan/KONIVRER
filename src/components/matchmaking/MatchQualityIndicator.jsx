@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React from 'react';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import { ProgressBar, OverlayTrigger, Tooltip, Badge } from 'react-bootstrap';

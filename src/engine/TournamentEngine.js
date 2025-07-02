@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * Advanced Tournament Engine for KONIVRER
  * Implements dynamic Swiss pairings, adaptive tournament structures,
  * meta-balancing incentives, tiered entry systems, and parallel bracket systems

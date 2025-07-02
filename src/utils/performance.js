@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 // Performance monitoring utilities
 export const measurePerformance = () => {
   if (typeof window !== 'undefined' && window.performance) {

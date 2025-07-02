@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * KONIVRER AI Player - MTG Arena Edition
  *
  * This enhanced AI opponent provides an MTG Arena-like experience with:

@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import DeckService from '../services/DeckService';
 import { useBattlePass } from './BattlePassContext';

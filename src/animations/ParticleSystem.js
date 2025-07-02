@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * KONIVRER Particle System
  * 
  * A high-performance particle system for card animations that provides:

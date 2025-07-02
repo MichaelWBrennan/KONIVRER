@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * KONIVRER Card-Specific Rules
  * 
  * This module defines the rules and behaviors for specific cards in the game.

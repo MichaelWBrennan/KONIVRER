@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import { motion } from 'framer-motion';
 import { Sunrise, Sun, Swords, Moon, ArrowRight } from 'lucide-react';
 

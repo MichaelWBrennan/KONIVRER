@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 // Rules Engine for KONIVRER
 // This utility provides functions to validate game rules and deck building constraints
 

@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * Enhanced Font Loading Utility
  * Specialized for OpenDyslexic font with ancient and esoteric theme
  */

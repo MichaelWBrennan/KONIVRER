@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * Advanced Competitive Ranking Engine for KONIVRER
  * Handles Bayesian TrueSkill system, seasonal rankings, matchmaking, and rewards
  * Includes multi-factor matchmaking, confidence-based matching, and time-weighted performance

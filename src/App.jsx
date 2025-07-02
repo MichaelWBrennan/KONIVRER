@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database - Main Application Component
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import {
   BrowserRouter as Router,
   Routes,

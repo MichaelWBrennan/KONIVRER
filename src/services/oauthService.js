@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * OAuth Service for handling SSO authentication
  * Supports Google, GitHub, and Discord OAuth flows
  */

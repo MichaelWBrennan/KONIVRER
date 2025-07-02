@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * PWA Utilities for KONIVRER
  * Handles service worker registration, app installation, and offline functionality
  */

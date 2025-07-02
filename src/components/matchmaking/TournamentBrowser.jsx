@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Calendar, Clock, Users, DollarSign, ChevronRight, Target, Shield, Swords, Crown } from 'lucide-react';

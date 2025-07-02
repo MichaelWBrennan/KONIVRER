@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import React, { useState, useEffect } from 'react';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import { Card, Row, Col, Button, Badge, Form, Alert, Spinner } from 'react-bootstrap';

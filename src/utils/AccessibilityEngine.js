@@ -1,4 +1,11 @@
 /**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
+/**
  * Accessibility Engine for KONIVRER
  * Provides comprehensive accessibility features including screen reader support,
  * color blind accessibility, motor impairment support, and customizable UI

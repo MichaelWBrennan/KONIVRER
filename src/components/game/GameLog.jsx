@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';

@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 // Hashtag tracking service for monitoring social media platforms
 import { announceToScreenReader } from '../utils/modernFeatures';
 

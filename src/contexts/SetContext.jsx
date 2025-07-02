@@ -1,3 +1,10 @@
+/**
+ * KONIVRER Deck Database
+ * 
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
+ */
+
 import { createContext, useContext, useState, useEffect } from 'react';
 import setsData from '../data/sets.json';
 import cardsData from '../data/cards.json';
