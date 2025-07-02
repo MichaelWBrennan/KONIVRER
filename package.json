@@ -63,7 +63,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.59.0",
     "react-qr-code": "^2.0.16",
-    "react-router-dom": "^6.20.0",
+    "react-router-dom": "^7.6.3",
     "react-spring": "^10.0.1",
     "recharts": "^3.0.0",
     "semver": "^7.7.2",
