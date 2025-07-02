@@ -125,11 +125,14 @@ body {
 .mobile-nav-five-items .mobile-nav-item {
   flex: 1 1 20%; /* Each item takes exactly 20% when 5 items */
   max-width: 20%;
-  padding: var(--spacing-xs) 1px; /* Tighter padding for 5 items */
+  padding: var(--spacing-xs) 2px; /* Slightly more padding for better text fit */
+  min-width: 0; /* Allow shrinking */
 }
 
 .mobile-nav-five-items .mobile-nav-item-text {
-  font-size: 0.65rem; /* Smaller font for 5 items */
+  font-size: 0.7rem; /* Slightly larger font for better readability */
+  overflow: visible; /* Ensure no ellipsis */
+  text-overflow: unset; /* Remove ellipsis */
 }
 
 /* Better spacing for 4 items */
@@ -173,8 +176,7 @@ body {
   text-align: center;
   white-space: nowrap;
   width: 100%; /* Take full width of parent */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible; /* Allow text to be fully visible */
   font-weight: 500;
   line-height: 1.2; /* Tighter line height */
 }
@@ -182,21 +184,31 @@ body {
 /* Responsive font sizing for navigation */
 @media (max-width: 360px) {
   .mobile-nav-item-text {
-    font-size: 0.65rem; /* Even smaller on very small screens */
+    font-size: 0.6rem; /* Smaller on very small screens but still readable */
+    overflow: visible; /* Ensure no ellipsis even on small screens */
   }
   
   .mobile-nav-item {
     padding: var(--spacing-xs) 1px; /* Even tighter padding on small screens */
+  }
+  
+  .mobile-nav-five-items .mobile-nav-item-text {
+    font-size: 0.55rem; /* Very small but readable for 5 items on tiny screens */
   }
 }
 
 @media (min-width: 480px) {
   .mobile-nav-item-text {
     font-size: 0.8rem; /* Larger font on bigger screens */
+    overflow: visible; /* Ensure no ellipsis on larger screens */
   }
   
   .mobile-nav-item {
     padding: var(--spacing-xs) var(--spacing-sm); /* More padding on larger screens */
+  }
+  
+  .mobile-nav-five-items .mobile-nav-item-text {
+    font-size: 0.75rem; /* Comfortable size for 5 items on larger screens */
   }
 }
 

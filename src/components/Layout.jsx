@@ -53,6 +53,7 @@ import MobileTouchControls from './MobileTouchControls';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
 import '../styles/mobile.css';
+import '../styles/navigation-fix.css';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -255,27 +256,27 @@ const Layout = ({ children }) => {
           boxShadow: 'var(--shadow-md)',
         }}
       >
-        <div className="container">
-          <div className="flex items-center justify-between py-4">
+        <div className="container max-w-full header-content">
+          <div className="navigation-container py-4">
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-3 transition-all duration-200 hover:scale-105"
+              className="flex items-center gap-2 lg:gap-3 transition-all duration-200 hover:scale-105 flex-shrink-0"
               onClick={() => analytics.navigationClick('/', location.pathname)}
             >
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-mystical-glow"
+                className="w-8 lg:w-10 h-8 lg:h-10 rounded-xl flex items-center justify-center shadow-lg animate-mystical-glow"
                 style={{ background: 'var(--gradient-primary)' }}
               >
                 <span
                   style={{ color: 'var(--text-primary)' }}
-                  className="font-bold text-xl"
+                  className="font-bold text-lg lg:text-xl"
                 >
                   K
                 </span>
               </div>
               <span
-                className="text-2xl font-bold animate-text-reveal"
+                className="logo-text font-bold animate-text-reveal"
                 style={{
                   color: 'var(--text-primary)',
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
@@ -286,7 +287,7 @@ const Layout = ({ children }) => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1 lg:gap-3 xl:gap-4">
+            <nav className="nav-container hidden md:flex items-center flex-shrink-0">
               {navigation.map(item => {
                 const Icon = item.icon;
                 const isItemActive = isActive(item);
@@ -295,7 +296,7 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`group relative flex items-center gap-2 px-2 md:px-3 lg:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                    className={`nav-item nav-link group relative flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-2 rounded-xl font-medium transition-all duration-200 ${
                       isItemActive ? 'animate-border-glow' : 'hover:scale-105'
                     }`}
                     style={{
@@ -315,7 +316,7 @@ const Layout = ({ children }) => {
                       className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'animate-mystical-glow' : ''}`}
                     />
                     <span
-                      className={`${isItemActive ? 'font-extrabold' : ''} hidden sm:inline`}
+                      className={`nav-text ${isItemActive ? 'font-extrabold' : ''}`}
                       style={
                         isItemActive
                           ? {
@@ -333,7 +334,7 @@ const Layout = ({ children }) => {
             </nav>
 
             {/* User Menu */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-4 flex-shrink-0">
               {/* User Authentication */}
               {isAuthenticated ? (
                 <div className="flex items-center gap-3">
