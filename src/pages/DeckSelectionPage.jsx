@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -21,7 +21,7 @@ const DeckSelectionPage = () => {
   const [isCreatingDeck, setIsCreatingDeck] = useState(false);
 
   // Handle deck selection
-  const handleDeckSelected = (deck) => {
+  const handleDeckSelected = deck => {
     // Navigate to game page
     navigate('/game/online');
   };

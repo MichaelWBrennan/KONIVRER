@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -9,21 +9,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink, Eye } from 'lucide-react';
-import { getCardDetailUrl, hasCardData, getCardDisplayName } from '../../utils/cardArtMapping';
-import { getCardImagePath, getFallbackImagePaths } from '../../utils/imageLoader';
+import {
+  getCardDetailUrl,
+  hasCardData,
+  getCardDisplayName,
+} from '../../utils/cardArtMapping';
+import {
+  getCardImagePath,
+  getFallbackImagePaths,
+} from '../../utils/imageLoader';
 
 /**
  * CardArtDisplay - Component to display KONIVRER card arts
- * 
+ *
  * This component demonstrates how to use the card art assets
  * that were added to public/assets/cards/
  */
-const CardArtDisplay = ({ 
-  cardName, 
-  className = '', 
-  showFallback = true, 
+const CardArtDisplay = ({
+  cardName,
+  className = '',
+  showFallback = true,
   clickable = true,
-  showCardInfo = false 
+  showCardInfo = false,
 }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -35,13 +42,15 @@ const CardArtDisplay = ({
   const detailUrl = getCardDetailUrl(cardName);
   const hasData = hasCardData(cardName);
   const displayName = getCardDisplayName(cardName);
-  
+
   // Set up the image source when the component mounts or cardName changes
   useEffect(() => {
     if (cardName) {
       const imagePath = getCardImagePath(cardName);
-      console.log(`🖼️ CardArtDisplay v2.5: Processing "${cardName}", imagePath: ${imagePath}`);
-      
+      console.log(
+        `🖼️ CardArtDisplay v2.5: Processing "${cardName}", imagePath: ${imagePath}`,
+      );
+
       if (imagePath) {
         setImageSrc(imagePath);
         setImageError(false);
@@ -49,7 +58,9 @@ const CardArtDisplay = ({
         setFallbackAttempted(false);
       } else {
         // No image path available, show CSS fallback immediately
-        console.log(`🎨 CardArtDisplay v2.5: No image mapping for "${cardName}", using CSS fallback`);
+        console.log(
+          `🎨 CardArtDisplay v2.5: No image mapping for "${cardName}", using CSS fallback`,
+        );
         setImageSrc(null);
         setImageError(true);
         setImageLoaded(false);
@@ -64,27 +75,34 @@ const CardArtDisplay = ({
     }
   }, [cardName]);
 
-  const handleImageError = (e) => {
-    console.error(`CardArtDisplay v2.4: Image failed to load for ${cardName}:`, e.target.src);
-    
+  const handleImageError = e => {
+    console.error(
+      `CardArtDisplay v2.4: Image failed to load for ${cardName}:`,
+      e.target.src,
+    );
+
     // Go straight to CSS fallback for reliability
     console.log(`🎨 CardArtDisplay v2.4: Using CSS fallback for ${cardName}`);
     setImageError(true);
   };
 
-  const handleImageLoad = (e) => {
+  const handleImageLoad = e => {
     setImageLoaded(true);
     console.log(`Image loaded successfully for ${cardName}: ${e.target.src}`);
   };
 
   // Fallback placeholder when image fails to load
   const FallbackCard = () => (
-    <div className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}>
+    <div
+      className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}
+    >
       <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
         <span className="text-purple-900 text-xl font-black">K</span>
       </div>
       <div className="text-sm mb-1 text-purple-200">KONIVRER</div>
-      <div className="text-xs opacity-75 text-center leading-tight">{displayName}</div>
+      <div className="text-xs opacity-75 text-center leading-tight">
+        {displayName}
+      </div>
     </div>
   );
 
@@ -123,7 +141,7 @@ const CardArtDisplay = ({
           loading="lazy"
         />
       )}
-      
+
       {!imageLoaded && (
         <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" />
       )}
@@ -183,27 +201,78 @@ const CardArtDisplay = ({
 /**
  * CardArtGallery - Component to display multiple card arts
  */
-export const CardArtGallery = ({ 
-  cards = [], 
-  columns = 4, 
+export const CardArtGallery = ({
+  cards = [],
+  columns = 4,
   showCardInfo = false,
-  clickable = true 
+  clickable = true,
 }) => {
   // Available card names from the extracted assets
   const availableCards = [
-    'ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH',
-    'BRIGHTDUST', 'BRIGHTFULGURITE', 'BRIGHTLAHAR', 'BRIGHTLAVA', 'BRIGHTLIGHTNING',
-    'BRIGHTMUD', 'BRIGHTPERMAFROST', 'BRIGHTSTEAM', 'BRIGHTTHUNDERSNOW',
-    'DARKDUST', 'DARKFULGURITE', 'DARKICE', 'DARKLAHAR', 'DARKLAVA',
-    'DARKLIGHTNING', 'DARKTHUNDERSNOW', 'DARKTYPHOON',
-    'DUST', 'EMBERS', 'FOG', 'FROST', 'GEODE', 'GNOME', 'ICE', 'LAHAR',
-    'LIGHTTYPHOON', 'LIGHTNING', 'MAGMA', 'MIASMA', 'MUD', 'NECROSIS',
-    'PERMAFROST', 'RAINBOW', 'SALAMANDER', 'SYLPH', 'SMOKE', 'SOLAR',
-    'STEAM', 'STORM', 'TAR', 'TYPHOON', 'UNDINE', 'CHAOS',
-    'CHAOSDUST', 'CHAOSFULGURITE', 'CHAOSGNOME', 'CHAOSICE', 'CHAOSLAVA',
-    'CHAOSLIGHTNING', 'CHAOSMIST', 'CHAOSMUD', 'CHAOSPERMAFROST',
-    'CHAOSSALAMANDER', 'CHAOSSYLPH', 'CHAOSSTEAM', 'CHAOSTHUNDERSNOW',
-    'CHAOSUNDINE', 'SHADE', 'FLAG'
+    'ABISS',
+    'ANGEL',
+    'ASH',
+    'AURORA',
+    'AZOTH',
+    'BRIGHTDUST',
+    'BRIGHTFULGURITE',
+    'BRIGHTLAHAR',
+    'BRIGHTLAVA',
+    'BRIGHTLIGHTNING',
+    'BRIGHTMUD',
+    'BRIGHTPERMAFROST',
+    'BRIGHTSTEAM',
+    'BRIGHTTHUNDERSNOW',
+    'DARKDUST',
+    'DARKFULGURITE',
+    'DARKICE',
+    'DARKLAHAR',
+    'DARKLAVA',
+    'DARKLIGHTNING',
+    'DARKTHUNDERSNOW',
+    'DARKTYPHOON',
+    'DUST',
+    'EMBERS',
+    'FOG',
+    'FROST',
+    'GEODE',
+    'GNOME',
+    'ICE',
+    'LAHAR',
+    'LIGHTTYPHOON',
+    'LIGHTNING',
+    'MAGMA',
+    'MIASMA',
+    'MUD',
+    'NECROSIS',
+    'PERMAFROST',
+    'RAINBOW',
+    'SALAMANDER',
+    'SYLPH',
+    'SMOKE',
+    'SOLAR',
+    'STEAM',
+    'STORM',
+    'TAR',
+    'TYPHOON',
+    'UNDINE',
+    'CHAOS',
+    'CHAOSDUST',
+    'CHAOSFULGURITE',
+    'CHAOSGNOME',
+    'CHAOSICE',
+    'CHAOSLAVA',
+    'CHAOSLIGHTNING',
+    'CHAOSMIST',
+    'CHAOSMUD',
+    'CHAOSPERMAFROST',
+    'CHAOSSALAMANDER',
+    'CHAOSSYLPH',
+    'CHAOSSTEAM',
+    'CHAOSTHUNDERSNOW',
+    'CHAOSUNDINE',
+    'SHADE',
+    'FLAG',
   ];
 
   const cardsToDisplay = cards.length > 0 ? cards : availableCards.slice(0, 12);
@@ -213,7 +282,7 @@ export const CardArtGallery = ({
       {cardsToDisplay.map((cardName, index) => {
         const displayName = getCardDisplayName(cardName);
         const hasData = hasCardData(cardName);
-        
+
         return (
           <motion.div
             key={cardName}
@@ -229,11 +298,13 @@ export const CardArtGallery = ({
               clickable={clickable}
             />
             <div className="mt-2 text-center">
-              <div className={`text-sm transition-colors ${
-                hasData && clickable 
-                  ? 'text-gray-300 group-hover:text-white' 
-                  : 'text-gray-400'
-              }`}>
+              <div
+                className={`text-sm transition-colors ${
+                  hasData && clickable
+                    ? 'text-gray-300 group-hover:text-white'
+                    : 'text-gray-400'
+                }`}
+              >
                 {displayName}
               </div>
               {hasData && (
@@ -252,7 +323,11 @@ export const CardArtGallery = ({
 /**
  * CardArtPreview - Component for previewing a single card with details
  */
-export const CardArtPreview = ({ cardName, showDetails = true, clickable = true }) => {
+export const CardArtPreview = ({
+  cardName,
+  showDetails = true,
+  clickable = true,
+}) => {
   const displayName = getCardDisplayName(cardName);
   const hasData = hasCardData(cardName);
   const detailUrl = getCardDetailUrl(cardName);
@@ -265,18 +340,14 @@ export const CardArtPreview = ({ cardName, showDetails = true, clickable = true 
         clickable={clickable}
         showCardInfo={false}
       />
-      
+
       {showDetails && (
         <div className="text-center">
-          <h3 className="text-xl font-bold text-white mb-2">
-            {displayName}
-          </h3>
-          <div className="text-sm text-gray-400 mb-3">
-            KONIVRER Card Art
-          </div>
-          
+          <h3 className="text-xl font-bold text-white mb-2">{displayName}</h3>
+          <div className="text-sm text-gray-400 mb-3">KONIVRER Card Art</div>
+
           {hasData && clickable && detailUrl && (
-            <Link 
+            <Link
               to={detailUrl}
               className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
@@ -284,7 +355,7 @@ export const CardArtPreview = ({ cardName, showDetails = true, clickable = true 
               <span>View Card Details</span>
             </Link>
           )}
-          
+
           {!hasData && (
             <div className="text-yellow-400 text-sm">
               Card art only - No database entry available

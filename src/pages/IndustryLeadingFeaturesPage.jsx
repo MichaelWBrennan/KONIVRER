@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -25,7 +25,7 @@ import {
   Video,
   Settings,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
 } from 'lucide-react';
 
 // Import our new components
@@ -48,14 +48,16 @@ const IndustryLeadingFeaturesPage = () => {
     physicalEnhancements: true,
     contentCreation: true,
     bayesianMatchmaking: true,
-    aiAssistance: true
+    aiAssistance: true,
   });
 
   const { players, tournaments, matches } = usePhysicalMatchmaking();
 
   // Initialize engines
   const [bayesianEngine] = useState(() => new EnhancedRankingEngine());
-  const [tournamentEngine] = useState(() => new MetaAdaptiveTournamentEngine(bayesianEngine));
+  const [tournamentEngine] = useState(
+    () => new MetaAdaptiveTournamentEngine(bayesianEngine),
+  );
 
   const features = [
     {
@@ -63,7 +65,7 @@ const IndustryLeadingFeaturesPage = () => {
       name: 'Overview',
       icon: <Star className="w-6 h-6" />,
       description: 'Complete feature overview',
-      color: 'from-purple-500 to-indigo-600'
+      color: 'from-purple-500 to-indigo-600',
     },
     {
       id: 'meta-adaptive',
@@ -71,7 +73,7 @@ const IndustryLeadingFeaturesPage = () => {
       icon: <Brain className="w-6 h-6" />,
       description: 'Dynamic tournament structures with AI optimization',
       color: 'from-blue-500 to-cyan-600',
-      component: 'MetaAdaptiveTournaments'
+      component: 'MetaAdaptiveTournaments',
     },
     {
       id: 'advanced-analytics',
@@ -79,7 +81,7 @@ const IndustryLeadingFeaturesPage = () => {
       icon: <BarChart3 className="w-6 h-6" />,
       description: 'Deep insights beyond basic Bayesian analysis',
       color: 'from-green-500 to-emerald-600',
-      component: 'AdvancedAnalytics'
+      component: 'AdvancedAnalytics',
     },
     {
       id: 'physical-enhancements',
@@ -87,7 +89,7 @@ const IndustryLeadingFeaturesPage = () => {
       icon: <Camera className="w-6 h-6" />,
       description: 'Computer vision, NFC, and venue optimization',
       color: 'from-orange-500 to-red-600',
-      component: 'PhysicalEnhancements'
+      component: 'PhysicalEnhancements',
     },
     {
       id: 'content-creation',
@@ -95,7 +97,7 @@ const IndustryLeadingFeaturesPage = () => {
       icon: <Video className="w-6 h-6" />,
       description: 'Professional streaming and highlight tools',
       color: 'from-pink-500 to-rose-600',
-      component: 'ContentCreation'
+      component: 'ContentCreation',
     },
     {
       id: 'bayesian-ml',
@@ -103,8 +105,8 @@ const IndustryLeadingFeaturesPage = () => {
       icon: <Zap className="w-6 h-6" />,
       description: 'State-of-the-art matchmaking algorithms',
       color: 'from-yellow-500 to-amber-600',
-      component: 'BayesianCore'
-    }
+      component: 'BayesianCore',
+    },
   ];
 
   return (
@@ -123,16 +125,19 @@ const IndustryLeadingFeaturesPage = () => {
             </h1>
             <Crown className="w-12 h-12 text-yellow-400 ml-4" />
           </div>
-          
+
           <p className="text-xl text-gray-300 mb-6 max-w-4xl mx-auto">
-            Experience the most advanced TCG platform ever created. All premium features are now completely free, 
-            powered by state-of-the-art AI, machine learning, and cutting-edge technology.
+            Experience the most advanced TCG platform ever created. All premium
+            features are now completely free, powered by state-of-the-art AI,
+            machine learning, and cutting-edge technology.
           </p>
-          
+
           <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-4 inline-block mb-8">
             <div className="flex items-center">
               <CheckCircle className="w-6 h-6 mr-3" />
-              <span className="text-xl font-bold">All Premium Features Free Forever</span>
+              <span className="text-xl font-bold">
+                All Premium Features Free Forever
+              </span>
             </div>
           </div>
 
@@ -147,7 +152,9 @@ const IndustryLeadingFeaturesPage = () => {
               <div className="text-sm text-gray-400">Advanced Features</div>
             </div>
             <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700">
-              <div className="text-2xl font-bold text-green-400">AI-Powered</div>
+              <div className="text-2xl font-bold text-green-400">
+                AI-Powered
+              </div>
               <div className="text-sm text-gray-400">Machine Learning</div>
             </div>
             <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700">
@@ -174,15 +181,21 @@ const IndustryLeadingFeaturesPage = () => {
                   : 'border-gray-700 bg-gray-800/30 hover:border-gray-600 hover:bg-gray-700/50'
               }`}
             >
-              <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.color} opacity-10`} />
-              
+              <div
+                className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.color} opacity-10`}
+              />
+
               <div className="relative z-10">
                 <div className="flex items-center mb-4">
-                  <div className={`p-3 rounded-lg bg-gradient-to-br ${feature.color} mr-4`}>
+                  <div
+                    className={`p-3 rounded-lg bg-gradient-to-br ${feature.color} mr-4`}
+                  >
                     {feature.icon}
                   </div>
                   <div className="text-left">
-                    <h3 className="text-lg font-bold text-white">{feature.name}</h3>
+                    <h3 className="text-lg font-bold text-white">
+                      {feature.name}
+                    </h3>
                     {activeFeature === feature.id && (
                       <div className="flex items-center text-purple-300 text-sm mt-1">
                         <Sparkles className="w-4 h-4 mr-1" />
@@ -191,9 +204,11 @@ const IndustryLeadingFeaturesPage = () => {
                     )}
                   </div>
                 </div>
-                
-                <p className="text-gray-300 text-sm mb-4">{feature.description}</p>
-                
+
+                <p className="text-gray-300 text-sm mb-4">
+                  {feature.description}
+                </p>
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-green-400 text-sm">
                     <CheckCircle className="w-4 h-4 mr-1" />
@@ -217,47 +232,47 @@ const IndustryLeadingFeaturesPage = () => {
             className="bg-gray-800/30 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden"
           >
             {activeFeature === 'overview' && (
-              <FeatureOverview 
+              <FeatureOverview
                 features={features}
                 featuresEnabled={featuresEnabled}
                 setFeaturesEnabled={setFeaturesEnabled}
               />
             )}
-            
+
             {activeFeature === 'meta-adaptive' && (
-              <MetaAdaptiveFeature 
+              <MetaAdaptiveFeature
                 tournamentEngine={tournamentEngine}
                 tournaments={tournaments}
                 players={players}
               />
             )}
-            
+
             {activeFeature === 'advanced-analytics' && (
-              <AdvancedAnalyticsEngine 
+              <AdvancedAnalyticsEngine
                 players={players}
                 matches={matches}
                 tournaments={tournaments}
               />
             )}
-            
+
             {activeFeature === 'physical-enhancements' && (
-              <PhysicalPlayEnhancements 
+              <PhysicalPlayEnhancements
                 tournament={tournaments[0]}
                 players={players}
                 onUpdateTournament={() => {}}
               />
             )}
-            
+
             {activeFeature === 'content-creation' && (
-              <ContentCreationTools 
+              <ContentCreationTools
                 tournament={tournaments[0]}
                 matches={matches}
                 players={players}
               />
             )}
-            
+
             {activeFeature === 'bayesian-ml' && (
-              <BayesianMLFeature 
+              <BayesianMLFeature
                 bayesianEngine={bayesianEngine}
                 players={players}
                 matches={matches}
@@ -272,10 +287,10 @@ const IndustryLeadingFeaturesPage = () => {
 
 // Feature Overview Component
 const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
-  const toggleFeature = (featureKey) => {
+  const toggleFeature = featureKey => {
     setFeaturesEnabled(prev => ({
       ...prev,
-      [featureKey]: !prev[featureKey]
+      [featureKey]: !prev[featureKey],
     }));
   };
 
@@ -287,8 +302,8 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
         'Confidence-based player matching',
         'Meta-balancing incentive systems',
         'Parallel bracket management',
-        'Adaptive tournament structures'
-      ]
+        'Adaptive tournament structures',
+      ],
     },
     {
       category: 'Advanced Analytics',
@@ -297,8 +312,8 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
         'Decision point identification',
         'Performance variance tracking',
         'Metagame prediction models',
-        'Personalized weakness detection'
-      ]
+        'Personalized weakness detection',
+      ],
     },
     {
       category: 'Physical Play Technology',
@@ -307,8 +322,8 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
         'NFC/QR code integration',
         'Voice-controlled match reporting',
         'Venue optimization algorithms',
-        'Environmental adaptation systems'
-      ]
+        'Environmental adaptation systems',
+      ],
     },
     {
       category: 'Content Creation Suite',
@@ -317,9 +332,9 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
         'Professional streaming tools',
         'Real-time commentary assistance',
         'Interactive viewer features',
-        'Content performance analytics'
-      ]
-    }
+        'Content performance analytics',
+      ],
+    },
   ];
 
   return (
@@ -327,8 +342,9 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold mb-4">Complete Feature Suite</h2>
         <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-          Every feature that would typically cost thousands of dollars in enterprise software, 
-          now available completely free. This represents over $200,000 in development value.
+          Every feature that would typically cost thousands of dollars in
+          enterprise software, now available completely free. This represents
+          over $200,000 in development value.
         </p>
       </div>
 
@@ -342,10 +358,15 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
             transition={{ delay: index * 0.1 }}
             className="bg-gray-700/50 rounded-lg p-6"
           >
-            <h3 className="text-xl font-bold mb-4 text-purple-300">{category.category}</h3>
+            <h3 className="text-xl font-bold mb-4 text-purple-300">
+              {category.category}
+            </h3>
             <ul className="space-y-2">
               {category.features.map((feature, featureIndex) => (
-                <li key={featureIndex} className="flex items-center text-gray-300">
+                <li
+                  key={featureIndex}
+                  className="flex items-center text-gray-300"
+                >
                   <CheckCircle className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" />
                   <span className="text-sm">{feature}</span>
                 </li>
@@ -360,7 +381,10 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
         <h3 className="text-xl font-bold mb-4">Feature Controls</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(featuresEnabled).map(([key, enabled]) => (
-            <div key={key} className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+            <div
+              key={key}
+              className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"
+            >
               <span className="text-sm font-medium capitalize">
                 {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
               </span>
@@ -377,12 +401,13 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
             </div>
           ))}
         </div>
-        
+
         <div className="mt-6 p-4 bg-green-600/20 border border-green-500 rounded-lg">
           <div className="flex items-center">
             <Sparkles className="w-5 h-5 text-green-400 mr-2" />
             <span className="text-green-300 font-medium">
-              All features are permanently free - no subscriptions, no limits, no hidden costs
+              All features are permanently free - no subscriptions, no limits,
+              no hidden costs
             </span>
           </div>
         </div>
@@ -399,13 +424,13 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
 
   const generateOptimalPairings = () => {
     if (!selectedTournament) return;
-    
+
     const pairings = tournamentEngine.generateDynamicSwissPairings(
       players,
       selectedTournament.currentRound || 1,
-      selectedTournament.id
+      selectedTournament.id,
     );
-    
+
     setPairingResults(pairings);
   };
 
@@ -413,21 +438,23 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
     const structure = tournamentEngine.selectOptimalTournamentStructure(
       players.length,
       300, // 5 hours
-      150  // skill variance
+      150, // skill variance
     );
-    
+
     setTournamentStructure(structure);
   };
 
   return (
     <div className="p-8">
-      <h2 className="text-3xl font-bold mb-6">Meta-Adaptive Tournament Engine</h2>
-      
+      <h2 className="text-3xl font-bold mb-6">
+        Meta-Adaptive Tournament Engine
+      </h2>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Tournament Structure Optimization */}
         <div className="bg-gray-700/50 rounded-lg p-6">
           <h3 className="text-xl font-bold mb-4">Structure Optimization</h3>
-          
+
           <div className="space-y-4">
             <div className="p-4 bg-gray-800/50 rounded-lg">
               <h4 className="font-medium mb-2">Current Parameters</h4>
@@ -450,7 +477,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={selectOptimalStructure}
               className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-medium transition-colors"
@@ -458,18 +485,24 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
               <Brain className="w-4 h-4 mr-2 inline" />
               Calculate Optimal Structure
             </button>
-            
+
             {tournamentStructure && (
               <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg">
-                <h4 className="font-medium mb-2 text-green-300">Recommended Structure</h4>
+                <h4 className="font-medium mb-2 text-green-300">
+                  Recommended Structure
+                </h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Format:</span>
-                    <span className="font-medium">{tournamentStructure.name}</span>
+                    <span className="font-medium">
+                      {tournamentStructure.name}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Rounds:</span>
-                    <span className="font-medium">{tournamentStructure.rounds}</span>
+                    <span className="font-medium">
+                      {tournamentStructure.rounds}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Suitability:</span>
@@ -486,14 +519,18 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
         {/* Dynamic Pairings */}
         <div className="bg-gray-700/50 rounded-lg p-6">
           <h3 className="text-xl font-bold mb-4">Dynamic Swiss Pairings</h3>
-          
+
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Select Tournament</label>
+              <label className="block text-sm font-medium mb-2">
+                Select Tournament
+              </label>
               <select
                 value={selectedTournament?.id || ''}
-                onChange={(e) => {
-                  const tournament = tournaments.find(t => t.id === e.target.value);
+                onChange={e => {
+                  const tournament = tournaments.find(
+                    t => t.id === e.target.value,
+                  );
                   setSelectedTournament(tournament);
                 }}
                 className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2"
@@ -506,7 +543,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
                 ))}
               </select>
             </div>
-            
+
             <button
               onClick={generateOptimalPairings}
               disabled={!selectedTournament}
@@ -515,7 +552,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
               <Target className="w-4 h-4 mr-2 inline" />
               Generate Optimal Pairings
             </button>
-            
+
             {pairingResults && (
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {pairingResults.map((pairing, index) => (
@@ -528,7 +565,10 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
                     </div>
                     <div className="text-sm text-gray-400">
                       {pairing.player2 === 'bye' ? (
-                        <span>{players.find(p => p.id === pairing.player1)?.name} - BYE</span>
+                        <span>
+                          {players.find(p => p.id === pairing.player1)?.name} -
+                          BYE
+                        </span>
                       ) : (
                         <span>
                           {players.find(p => p.id === pairing.player1)?.name} vs{' '}
@@ -558,53 +598,64 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
 
   const analyzePlayer = () => {
     if (!selectedPlayer) return;
-    
+
     const analysis = {
       currentRating: selectedPlayer.rating || 1500,
       uncertainty: selectedPlayer.uncertainty || 50,
-      conservativeRating: (selectedPlayer.rating || 1500) - (selectedPlayer.uncertainty || 50),
+      conservativeRating:
+        (selectedPlayer.rating || 1500) - (selectedPlayer.uncertainty || 50),
       recentPerformance: 'Improving',
-      expectedOpponents: bayesianEngine.findOptimalOpponents(selectedPlayer, players),
+      expectedOpponents: bayesianEngine.findOptimalOpponents(
+        selectedPlayer,
+        players,
+      ),
       strengthFactors: {
         consistency: 78,
         adaptability: 85,
         metaKnowledge: 72,
-        technicalSkill: 88
-      }
+        technicalSkill: 88,
+      },
     };
-    
+
     setRatingAnalysis(analysis);
   };
 
   const predictMatch = () => {
     if (!selectedPlayer || players.length < 2) return;
-    
+
     const opponent = players.find(p => p.id !== selectedPlayer.id);
     if (!opponent) return;
-    
-    const prediction = bayesianEngine.predictMatchOutcome(selectedPlayer, opponent);
+
+    const prediction = bayesianEngine.predictMatchOutcome(
+      selectedPlayer,
+      opponent,
+    );
     setMatchPrediction({
       player1: selectedPlayer,
       player2: opponent,
-      ...prediction
+      ...prediction,
     });
   };
 
   return (
     <div className="p-8">
-      <h2 className="text-3xl font-bold mb-6">Bayesian Machine Learning Core</h2>
-      
+      <h2 className="text-3xl font-bold mb-6">
+        Bayesian Machine Learning Core
+      </h2>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Player Analysis */}
         <div className="bg-gray-700/50 rounded-lg p-6">
           <h3 className="text-xl font-bold mb-4">Advanced Player Analysis</h3>
-          
+
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Select Player</label>
+              <label className="block text-sm font-medium mb-2">
+                Select Player
+              </label>
               <select
                 value={selectedPlayer?.id || ''}
-                onChange={(e) => {
+                onChange={e => {
                   const player = players.find(p => p.id === e.target.value);
                   setSelectedPlayer(player);
                 }}
@@ -618,7 +669,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
                 ))}
               </select>
             </div>
-            
+
             <button
               onClick={analyzePlayer}
               disabled={!selectedPlayer}
@@ -627,7 +678,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
               <Brain className="w-4 h-4 mr-2 inline" />
               Analyze Player
             </button>
-            
+
             {ratingAnalysis && (
               <div className="space-y-3">
                 <div className="p-4 bg-gray-800/50 rounded-lg">
@@ -635,40 +686,55 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-gray-400">Current Rating:</span>
-                      <span className="ml-2 font-medium">{Math.round(ratingAnalysis.currentRating)}</span>
+                      <span className="ml-2 font-medium">
+                        {Math.round(ratingAnalysis.currentRating)}
+                      </span>
                     </div>
                     <div>
                       <span className="text-gray-400">Uncertainty:</span>
-                      <span className="ml-2 font-medium">±{Math.round(ratingAnalysis.uncertainty)}</span>
+                      <span className="ml-2 font-medium">
+                        ±{Math.round(ratingAnalysis.uncertainty)}
+                      </span>
                     </div>
                     <div>
                       <span className="text-gray-400">Conservative:</span>
-                      <span className="ml-2 font-medium">{Math.round(ratingAnalysis.conservativeRating)}</span>
+                      <span className="ml-2 font-medium">
+                        {Math.round(ratingAnalysis.conservativeRating)}
+                      </span>
                     </div>
                     <div>
                       <span className="text-gray-400">Trend:</span>
-                      <span className="ml-2 font-medium text-green-400">{ratingAnalysis.recentPerformance}</span>
+                      <span className="ml-2 font-medium text-green-400">
+                        {ratingAnalysis.recentPerformance}
+                      </span>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-4 bg-gray-800/50 rounded-lg">
                   <h4 className="font-medium mb-3">Strength Factors</h4>
                   <div className="space-y-2">
-                    {Object.entries(ratingAnalysis.strengthFactors).map(([factor, value]) => (
-                      <div key={factor} className="flex items-center justify-between">
-                        <span className="text-sm capitalize">{factor}:</span>
-                        <div className="flex items-center">
-                          <div className="w-16 bg-gray-600 rounded-full h-2 mr-2">
-                            <div 
-                              className="bg-purple-500 h-2 rounded-full"
-                              style={{ width: `${value}%` }}
-                            />
+                    {Object.entries(ratingAnalysis.strengthFactors).map(
+                      ([factor, value]) => (
+                        <div
+                          key={factor}
+                          className="flex items-center justify-between"
+                        >
+                          <span className="text-sm capitalize">{factor}:</span>
+                          <div className="flex items-center">
+                            <div className="w-16 bg-gray-600 rounded-full h-2 mr-2">
+                              <div
+                                className="bg-purple-500 h-2 rounded-full"
+                                style={{ width: `${value}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-400">
+                              {value}%
+                            </span>
                           </div>
-                          <span className="text-xs text-gray-400">{value}%</span>
                         </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
               </div>
@@ -679,7 +745,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
         {/* Match Prediction */}
         <div className="bg-gray-700/50 rounded-lg p-6">
           <h3 className="text-xl font-bold mb-4">Match Outcome Prediction</h3>
-          
+
           <div className="space-y-4">
             <button
               onClick={predictMatch}
@@ -689,48 +755,60 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
               <TrendingUp className="w-4 h-4 mr-2 inline" />
               Predict Match Outcome
             </button>
-            
+
             {matchPrediction && (
               <div className="space-y-4">
                 <div className="p-4 bg-gray-800/50 rounded-lg">
                   <h4 className="font-medium mb-3">Match Prediction</h4>
                   <div className="flex items-center justify-between mb-4">
                     <div className="text-center">
-                      <p className="font-medium">{matchPrediction.player1.name}</p>
+                      <p className="font-medium">
+                        {matchPrediction.player1.name}
+                      </p>
                       <p className="text-sm text-gray-400">
                         {Math.round(matchPrediction.player1.rating || 1500)}
                       </p>
                     </div>
                     <div className="text-purple-400 font-bold">VS</div>
                     <div className="text-center">
-                      <p className="font-medium">{matchPrediction.player2.name}</p>
+                      <p className="font-medium">
+                        {matchPrediction.player2.name}
+                      </p>
                       <p className="text-sm text-gray-400">
                         {Math.round(matchPrediction.player2.rating || 1500)}
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4 text-center">
                     <div className="p-3 bg-blue-600/20 rounded-lg">
                       <p className="text-2xl font-bold text-blue-400">
-                        {Math.round(matchPrediction.player1WinProbability * 100)}%
+                        {Math.round(
+                          matchPrediction.player1WinProbability * 100,
+                        )}
+                        %
                       </p>
                       <p className="text-sm text-gray-400">Win Probability</p>
                     </div>
                     <div className="p-3 bg-red-600/20 rounded-lg">
                       <p className="text-2xl font-bold text-red-400">
-                        {Math.round(matchPrediction.player2WinProbability * 100)}%
+                        {Math.round(
+                          matchPrediction.player2WinProbability * 100,
+                        )}
+                        %
                       </p>
                       <p className="text-sm text-gray-400">Win Probability</p>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 p-3 bg-purple-600/20 rounded-lg">
                     <p className="text-sm text-purple-300">
-                      Confidence: {Math.round(matchPrediction.confidence * 100)}%
+                      Confidence: {Math.round(matchPrediction.confidence * 100)}
+                      %
                     </p>
                     <p className="text-xs text-gray-400 mt-1">
-                      Expected rating changes: ±{Math.round(matchPrediction.expectedRatingChange)}
+                      Expected rating changes: ±
+                      {Math.round(matchPrediction.expectedRatingChange)}
                     </p>
                   </div>
                 </div>

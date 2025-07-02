@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -17,7 +17,7 @@ export class MobileOptimization {
       enableOfflineMode: true,
       adaptiveQuality: true,
       lowBandwidthMode: false,
-      ...options
+      ...options,
     };
 
     // Device detection
@@ -27,14 +27,14 @@ export class MobileOptimization {
       hasTouch: 'ontouchstart' in window,
       orientation: this.getOrientation(),
       pixelRatio: window.devicePixelRatio || 1,
-      screenSize: this.getScreenSize()
+      screenSize: this.getScreenSize(),
     };
 
     // Touch gesture system
     this.gestures = {
       active: new Map(),
       recognizers: new Map(),
-      history: []
+      history: [],
     };
 
     // Performance monitoring
@@ -42,7 +42,7 @@ export class MobileOptimization {
       frameRate: 60,
       memoryUsage: 0,
       networkSpeed: 'fast',
-      batteryLevel: 1.0
+      batteryLevel: 1.0,
     };
 
     // Offline capabilities
@@ -50,7 +50,7 @@ export class MobileOptimization {
       isOnline: navigator.onLine,
       cache: new Map(),
       syncQueue: [],
-      lastSync: null
+      lastSync: null,
     };
 
     this.init();
@@ -100,18 +100,34 @@ export class MobileOptimization {
 
     // Register gesture recognizers
     this.registerGestureRecognizer('tap', this.createTapRecognizer());
-    this.registerGestureRecognizer('doubleTap', this.createDoubleTapRecognizer());
-    this.registerGestureRecognizer('longPress', this.createLongPressRecognizer());
+    this.registerGestureRecognizer(
+      'doubleTap',
+      this.createDoubleTapRecognizer(),
+    );
+    this.registerGestureRecognizer(
+      'longPress',
+      this.createLongPressRecognizer(),
+    );
     this.registerGestureRecognizer('swipe', this.createSwipeRecognizer());
     this.registerGestureRecognizer('pinch', this.createPinchRecognizer());
     this.registerGestureRecognizer('rotate', this.createRotateRecognizer());
     this.registerGestureRecognizer('drag', this.createDragRecognizer());
 
     // Add touch event listeners
-    document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
-    document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
-    document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
-    document.addEventListener('touchcancel', this.handleTouchCancel.bind(this), { passive: false });
+    document.addEventListener('touchstart', this.handleTouchStart.bind(this), {
+      passive: false,
+    });
+    document.addEventListener('touchmove', this.handleTouchMove.bind(this), {
+      passive: false,
+    });
+    document.addEventListener('touchend', this.handleTouchEnd.bind(this), {
+      passive: false,
+    });
+    document.addEventListener(
+      'touchcancel',
+      this.handleTouchCancel.bind(this),
+      { passive: false },
+    );
   }
 
   registerGestureRecognizer(name, recognizer) {
@@ -123,36 +139,38 @@ export class MobileOptimization {
       name: 'tap',
       maxDuration: 300,
       maxDistance: 10,
-      recognize: (gesture) => {
-        return gesture.duration < this.maxDuration && 
-               gesture.distance < this.maxDistance &&
-               gesture.touches.length === 1;
+      recognize: gesture => {
+        return (
+          gesture.duration < this.maxDuration &&
+          gesture.distance < this.maxDistance &&
+          gesture.touches.length === 1
+        );
       },
       handler: (gesture, element) => {
         this.triggerHapticFeedback('light');
         this.dispatchCustomEvent(element, 'cardTap', {
           position: gesture.center,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
   createDoubleTapRecognizer() {
     let lastTap = null;
-    
+
     return {
       name: 'doubleTap',
       maxInterval: 300,
-      recognize: (gesture) => {
+      recognize: gesture => {
         if (gesture.type !== 'tap') return false;
-        
+
         const now = Date.now();
-        if (lastTap && (now - lastTap.timestamp) < this.maxInterval) {
+        if (lastTap && now - lastTap.timestamp < this.maxInterval) {
           lastTap = null;
           return true;
         }
-        
+
         lastTap = { timestamp: now, position: gesture.center };
         return false;
       },
@@ -160,9 +178,9 @@ export class MobileOptimization {
         this.triggerHapticFeedback('medium');
         this.dispatchCustomEvent(element, 'cardDoubleTap', {
           position: gesture.center,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -171,18 +189,20 @@ export class MobileOptimization {
       name: 'longPress',
       duration: 500,
       maxDistance: 10,
-      recognize: (gesture) => {
-        return gesture.duration >= this.duration && 
-               gesture.distance < this.maxDistance &&
-               gesture.touches.length === 1;
+      recognize: gesture => {
+        return (
+          gesture.duration >= this.duration &&
+          gesture.distance < this.maxDistance &&
+          gesture.touches.length === 1
+        );
       },
       handler: (gesture, element) => {
         this.triggerHapticFeedback('heavy');
         this.dispatchCustomEvent(element, 'cardLongPress', {
           position: gesture.center,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -191,22 +211,24 @@ export class MobileOptimization {
       name: 'swipe',
       minDistance: 50,
       maxDuration: 500,
-      recognize: (gesture) => {
-        return gesture.distance >= this.minDistance && 
-               gesture.duration < this.maxDuration &&
-               gesture.touches.length === 1;
+      recognize: gesture => {
+        return (
+          gesture.distance >= this.minDistance &&
+          gesture.duration < this.maxDuration &&
+          gesture.touches.length === 1
+        );
       },
       handler: (gesture, element) => {
         const direction = this.getSwipeDirection(gesture.start, gesture.end);
         this.triggerHapticFeedback('light');
-        
+
         this.dispatchCustomEvent(element, 'cardSwipe', {
           direction,
           distance: gesture.distance,
           velocity: gesture.velocity,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -214,16 +236,16 @@ export class MobileOptimization {
     return {
       name: 'pinch',
       minScale: 0.1,
-      recognize: (gesture) => {
+      recognize: gesture => {
         return gesture.touches.length === 2 && gesture.scale !== undefined;
       },
       handler: (gesture, element) => {
         this.dispatchCustomEvent(element, 'cardPinch', {
           scale: gesture.scale,
           center: gesture.center,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -231,17 +253,19 @@ export class MobileOptimization {
     return {
       name: 'rotate',
       minRotation: 5, // degrees
-      recognize: (gesture) => {
-        return gesture.touches.length === 2 && 
-               Math.abs(gesture.rotation) >= this.minRotation;
+      recognize: gesture => {
+        return (
+          gesture.touches.length === 2 &&
+          Math.abs(gesture.rotation) >= this.minRotation
+        );
       },
       handler: (gesture, element) => {
         this.dispatchCustomEvent(element, 'cardRotate', {
           rotation: gesture.rotation,
           center: gesture.center,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -249,16 +273,18 @@ export class MobileOptimization {
     return {
       name: 'drag',
       minDistance: 5,
-      recognize: (gesture) => {
-        return gesture.distance >= this.minDistance && gesture.touches.length === 1;
+      recognize: gesture => {
+        return (
+          gesture.distance >= this.minDistance && gesture.touches.length === 1
+        );
       },
       handler: (gesture, element) => {
         this.dispatchCustomEvent(element, 'cardDrag', {
           delta: gesture.delta,
           position: gesture.current,
-          target: element
+          target: element,
         });
-      }
+      },
     };
   }
 
@@ -272,7 +298,7 @@ export class MobileOptimization {
         start: { x: touch.clientX, y: touch.clientY },
         current: { x: touch.clientX, y: touch.clientY },
         startTime: timestamp,
-        element: document.elementFromPoint(touch.clientX, touch.clientY)
+        element: document.elementFromPoint(touch.clientX, touch.clientY),
       };
 
       this.gestures.active.set(touch.identifier, gesture);
@@ -295,10 +321,10 @@ export class MobileOptimization {
       gesture.current = { x: touch.clientX, y: touch.clientY };
       gesture.delta = {
         x: gesture.current.x - gesture.start.x,
-        y: gesture.current.y - gesture.start.y
+        y: gesture.current.y - gesture.start.y,
       };
       gesture.distance = Math.sqrt(
-        gesture.delta.x * gesture.delta.x + gesture.delta.y * gesture.delta.y
+        gesture.delta.x * gesture.delta.x + gesture.delta.y * gesture.delta.y,
       );
       gesture.duration = timestamp - gesture.startTime;
 
@@ -307,7 +333,7 @@ export class MobileOptimization {
         const timeDelta = timestamp - gesture.lastUpdate.time;
         const distanceDelta = Math.sqrt(
           Math.pow(gesture.current.x - gesture.lastUpdate.x, 2) +
-          Math.pow(gesture.current.y - gesture.lastUpdate.y, 2)
+            Math.pow(gesture.current.y - gesture.lastUpdate.y, 2),
         );
         gesture.velocity = distanceDelta / timeDelta;
       }
@@ -315,7 +341,7 @@ export class MobileOptimization {
       gesture.lastUpdate = {
         x: gesture.current.x,
         y: gesture.current.y,
-        time: timestamp
+        time: timestamp,
       };
 
       // Check for multi-touch gestures
@@ -360,7 +386,7 @@ export class MobileOptimization {
 
   handleTouchCancel(event) {
     const changedTouches = Array.from(event.changedTouches);
-    
+
     changedTouches.forEach(touch => {
       this.gestures.active.delete(touch.identifier);
     });
@@ -371,16 +397,16 @@ export class MobileOptimization {
 
     const touch1 = touches[0];
     const touch2 = touches[1];
-    
+
     const gesture1 = this.gestures.active.get(touch1.identifier);
     const gesture2 = this.gestures.active.get(touch2.identifier);
-    
+
     if (!gesture1 || !gesture2) return;
 
     // Calculate pinch/zoom
     const currentDistance = Math.sqrt(
       Math.pow(touch2.clientX - touch1.clientX, 2) +
-      Math.pow(touch2.clientY - touch1.clientY, 2)
+        Math.pow(touch2.clientY - touch1.clientY, 2),
     );
 
     if (!gesture1.initialDistance) {
@@ -395,7 +421,7 @@ export class MobileOptimization {
     // Calculate rotation
     const currentAngle = Math.atan2(
       touch2.clientY - touch1.clientY,
-      touch2.clientX - touch1.clientX
+      touch2.clientX - touch1.clientX,
     );
 
     if (!gesture1.initialAngle) {
@@ -410,7 +436,7 @@ export class MobileOptimization {
     // Calculate center point
     const center = {
       x: (touch1.clientX + touch2.clientX) / 2,
-      y: (touch1.clientY + touch2.clientY) / 2
+      y: (touch1.clientY + touch2.clientY) / 2,
     };
     gesture1.center = center;
     gesture2.center = center;
@@ -430,31 +456,37 @@ export class MobileOptimization {
       mobile: 480,
       tablet: 768,
       desktop: 1024,
-      large: 1440
+      large: 1440,
     };
 
     // Setup CSS custom properties for dynamic sizing
     this.updateCSSVariables();
 
     // Listen for resize events
-    window.addEventListener('resize', this.debounce(() => {
-      this.updateCSSVariables();
-      this.handleLayoutChange();
-    }, 250));
+    window.addEventListener(
+      'resize',
+      this.debounce(() => {
+        this.updateCSSVariables();
+        this.handleLayoutChange();
+      }, 250),
+    );
   }
 
   updateCSSVariables() {
     const root = document.documentElement;
     const { innerWidth, innerHeight } = window;
-    
+
     // Update viewport dimensions
     root.style.setProperty('--viewport-width', `${innerWidth}px`);
     root.style.setProperty('--viewport-height', `${innerHeight}px`);
-    
+
     // Update safe area insets for notched devices
     if (CSS.supports('padding: env(safe-area-inset-top)')) {
       root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top)');
-      root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom)');
+      root.style.setProperty(
+        '--safe-area-bottom',
+        'env(safe-area-inset-bottom)',
+      );
       root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left)');
       root.style.setProperty('--safe-area-right', 'env(safe-area-inset-right)');
     }
@@ -471,7 +503,7 @@ export class MobileOptimization {
 
   calculateOptimalCardSize(width, height) {
     const orientation = width > height ? 'landscape' : 'portrait';
-    
+
     if (orientation === 'landscape') {
       // In landscape, cards should be smaller to fit more on screen
       return Math.min(width * 0.12, 120);
@@ -486,7 +518,8 @@ export class MobileOptimization {
 
     // Register service worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
+      navigator.serviceWorker
+        .register('/sw.js')
         .then(registration => {
           console.log('Service Worker registered:', registration);
           this.serviceWorker = registration;
@@ -498,19 +531,14 @@ export class MobileOptimization {
 
     // Setup offline data caching
     this.setupOfflineCache();
-    
+
     // Setup background sync
     this.setupBackgroundSync();
   }
 
   setupOfflineCache() {
     // Cache essential game data
-    const essentialData = [
-      'cards',
-      'rules',
-      'decks',
-      'user_preferences'
-    ];
+    const essentialData = ['cards', 'rules', 'decks', 'user_preferences'];
 
     essentialData.forEach(dataType => {
       this.cacheData(dataType);
@@ -523,9 +551,9 @@ export class MobileOptimization {
       this.offline.cache.set(dataType, {
         data,
         timestamp: Date.now(),
-        version: this.getDataVersion(dataType)
+        version: this.getDataVersion(dataType),
       });
-      
+
       // Store in IndexedDB for persistence
       await this.storeInIndexedDB(dataType, data);
     } catch (error) {
@@ -536,13 +564,13 @@ export class MobileOptimization {
   setupPerformanceMonitoring() {
     // Monitor frame rate
     this.monitorFrameRate();
-    
+
     // Monitor memory usage
     this.monitorMemoryUsage();
-    
+
     // Monitor network speed
     this.monitorNetworkSpeed();
-    
+
     // Monitor battery level
     this.monitorBatteryLevel();
   }
@@ -550,22 +578,22 @@ export class MobileOptimization {
   monitorFrameRate() {
     let lastTime = performance.now();
     let frameCount = 0;
-    
-    const measureFPS = (currentTime) => {
+
+    const measureFPS = currentTime => {
       frameCount++;
-      
+
       if (currentTime - lastTime >= 1000) {
         this.performance.frameRate = frameCount;
         frameCount = 0;
         lastTime = currentTime;
-        
+
         // Adjust quality based on frame rate
         this.adjustQualityBasedOnPerformance();
       }
-      
+
       requestAnimationFrame(measureFPS);
     };
-    
+
     requestAnimationFrame(measureFPS);
   }
 
@@ -573,8 +601,9 @@ export class MobileOptimization {
     if ('memory' in performance) {
       setInterval(() => {
         const memory = performance.memory;
-        this.performance.memoryUsage = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
-        
+        this.performance.memoryUsage =
+          memory.usedJSHeapSize / memory.jsHeapSizeLimit;
+
         // Trigger garbage collection hints if memory usage is high
         if (this.performance.memoryUsage > 0.8) {
           this.optimizeMemoryUsage();
@@ -586,12 +615,14 @@ export class MobileOptimization {
   monitorNetworkSpeed() {
     if ('connection' in navigator) {
       const connection = navigator.connection;
-      
+
       const updateNetworkInfo = () => {
-        this.performance.networkSpeed = this.categorizeNetworkSpeed(connection.effectiveType);
+        this.performance.networkSpeed = this.categorizeNetworkSpeed(
+          connection.effectiveType,
+        );
         this.adjustForNetworkSpeed();
       };
-      
+
       connection.addEventListener('change', updateNetworkInfo);
       updateNetworkInfo();
     }
@@ -604,7 +635,7 @@ export class MobileOptimization {
           this.performance.batteryLevel = battery.level;
           this.adjustForBatteryLevel();
         };
-        
+
         battery.addEventListener('levelchange', updateBatteryInfo);
         updateBatteryInfo();
       });
@@ -613,23 +644,23 @@ export class MobileOptimization {
 
   adjustQualityBasedOnPerformance() {
     if (!this.options.adaptiveQuality) return;
-    
+
     const { frameRate, memoryUsage, batteryLevel } = this.performance;
-    
+
     let qualityLevel = 'high';
-    
+
     if (frameRate < 30 || memoryUsage > 0.8 || batteryLevel < 0.2) {
       qualityLevel = 'low';
     } else if (frameRate < 45 || memoryUsage > 0.6 || batteryLevel < 0.4) {
       qualityLevel = 'medium';
     }
-    
+
     this.setQualityLevel(qualityLevel);
   }
 
   setQualityLevel(level) {
     const root = document.documentElement;
-    
+
     switch (level) {
       case 'low':
         root.style.setProperty('--animation-duration', '0.1s');
@@ -650,39 +681,41 @@ export class MobileOptimization {
         root.style.setProperty('--texture-quality', '1.0');
         break;
     }
-    
+
     // Notify other systems of quality change
     this.dispatchCustomEvent(document, 'qualityLevelChanged', { level });
   }
 
   setupHapticFeedback() {
     if (!this.options.enableHapticFeedback) return;
-    
+
     // Check for haptic feedback support
     this.hapticSupport = {
       vibrate: 'vibrate' in navigator,
-      gamepad: 'getGamepads' in navigator
+      gamepad: 'getGamepads' in navigator,
     };
   }
 
   triggerHapticFeedback(intensity = 'light') {
     if (!this.hapticSupport.vibrate) return;
-    
+
     const patterns = {
       light: [10],
       medium: [20],
       heavy: [50],
       success: [10, 50, 10],
-      error: [100, 50, 100]
+      error: [100, 50, 100],
     };
-    
+
     const pattern = patterns[intensity] || patterns.light;
     navigator.vibrate(pattern);
   }
 
   // Utility methods
   detectMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
   }
 
   detectTablet() {
@@ -698,14 +731,14 @@ export class MobileOptimization {
       width: window.screen.width,
       height: window.screen.height,
       availWidth: window.screen.availWidth,
-      availHeight: window.screen.availHeight
+      availHeight: window.screen.availHeight,
     };
   }
 
   getSwipeDirection(start, end) {
     const deltaX = end.x - start.x;
     const deltaY = end.y - start.y;
-    
+
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       return deltaX > 0 ? 'right' : 'left';
     } else {
@@ -714,11 +747,12 @@ export class MobileOptimization {
   }
 
   isCardElement(element) {
-    return element && (
-      element.classList.contains('game-card') ||
-      element.closest('.game-card') ||
-      element.classList.contains('card-zone') ||
-      element.closest('.card-zone')
+    return (
+      element &&
+      (element.classList.contains('game-card') ||
+        element.closest('.game-card') ||
+        element.classList.contains('card-zone') ||
+        element.closest('.card-zone'))
     );
   }
 
@@ -726,7 +760,7 @@ export class MobileOptimization {
     const event = new CustomEvent(eventName, {
       detail,
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     });
     element.dispatchEvent(event);
   }
@@ -748,7 +782,7 @@ export class MobileOptimization {
     this.device.orientation = this.getOrientation();
     this.updateCSSVariables();
     this.dispatchCustomEvent(document, 'orientationChanged', {
-      orientation: this.device.orientation
+      orientation: this.device.orientation,
     });
   }
 
@@ -758,7 +792,7 @@ export class MobileOptimization {
     } else {
       this.enableOfflineMode();
     }
-    
+
     this.dispatchCustomEvent(document, 'networkChanged', { isOnline });
   }
 
@@ -773,7 +807,7 @@ export class MobileOptimization {
   handleLayoutChange() {
     this.dispatchCustomEvent(document, 'layoutChanged', {
       screenSize: this.getScreenSize(),
-      orientation: this.device.orientation
+      orientation: this.device.orientation,
     });
   }
 
@@ -781,10 +815,10 @@ export class MobileOptimization {
   optimizeMemoryUsage() {
     // Clear unused caches
     this.clearUnusedCaches();
-    
+
     // Reduce texture quality temporarily
     this.setQualityLevel('low');
-    
+
     // Suggest garbage collection
     if (window.gc) {
       window.gc();
@@ -794,7 +828,7 @@ export class MobileOptimization {
   pauseNonEssentialOperations() {
     // Pause animations
     document.body.classList.add('paused');
-    
+
     // Reduce update frequency
     this.dispatchCustomEvent(document, 'pauseOperations');
   }
@@ -802,7 +836,7 @@ export class MobileOptimization {
   resumeOperations() {
     // Resume animations
     document.body.classList.remove('paused');
-    
+
     // Restore update frequency
     this.dispatchCustomEvent(document, 'resumeOperations');
   }

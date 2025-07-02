@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -14,7 +14,8 @@ import { useDeck } from '../contexts/DeckContext';
  * Component for selecting a deck to use in the game
  */
 const DeckSelector = ({ onSelect, onClose }) => {
-  const { decks, activeDeck, loadDeck, setActivePlayerDeck, deleteDeck } = useDeck();
+  const { decks, activeDeck, loadDeck, setActivePlayerDeck, deleteDeck } =
+    useDeck();
   const [selectedDeckId, setSelectedDeckId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,12 +28,12 @@ const DeckSelector = ({ onSelect, onClose }) => {
   }, [activeDeck]);
 
   // Filter decks based on search term
-  const filteredDecks = decks.filter(deck => 
-    deck.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredDecks = decks.filter(deck =>
+    deck.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // Handle deck selection
-  const handleSelectDeck = async (deckId) => {
+  const handleSelectDeck = async deckId => {
     setLoading(true);
     try {
       await setActivePlayerDeck(deckId);
@@ -80,7 +81,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
         <input
           type="text"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           placeholder="Search decks..."
           className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -93,7 +94,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredDecks.map((deck) => (
+          {filteredDecks.map(deck => (
             <motion.div
               key={deck.id}
               whileHover={{ scale: 1.02 }}
@@ -108,7 +109,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
                 <h3 className="text-lg font-medium text-white">{deck.name}</h3>
                 <div className="flex space-x-1">
                   <button
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation();
                       // Navigate to edit page
                       window.location.href = `/deck-builder/${deck.id}`;
@@ -119,7 +120,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
                     <Edit size={16} />
                   </button>
                   <button
-                    onClick={(e) => handleDeleteDeck(e, deck.id)}
+                    onClick={e => handleDeleteDeck(e, deck.id)}
                     className="p-1 text-gray-400 hover:text-red-400 transition-colors"
                     title="Delete Deck"
                   >
@@ -134,16 +135,17 @@ const DeckSelector = ({ onSelect, onClose }) => {
               </div>
 
               <div className="flex space-x-2 mt-4">
-                {deck.colors && deck.colors.map((color) => (
-                  <div
-                    key={color}
-                    className="w-6 h-6 rounded-full"
-                    style={{
-                      backgroundColor: getColorHex(color),
-                    }}
-                    title={color}
-                  />
-                ))}
+                {deck.colors &&
+                  deck.colors.map(color => (
+                    <div
+                      key={color}
+                      className="w-6 h-6 rounded-full"
+                      style={{
+                        backgroundColor: getColorHex(color),
+                      }}
+                      title={color}
+                    />
+                  ))}
               </div>
 
               <button
@@ -163,7 +165,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
 };
 
 // Helper function to get color hex code
-const getColorHex = (color) => {
+const getColorHex = color => {
   const colorMap = {
     fire: '#e53e3e',
     water: '#3182ce',

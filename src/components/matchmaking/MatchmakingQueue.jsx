@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -9,16 +9,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Target, Trophy, Globe, X } from 'lucide-react';
 
-const MatchmakingQueue = ({ 
-  isSearching, 
-  searchTime, 
-  queuePosition, 
-  selectedFormat, 
-  preferences, 
+const MatchmakingQueue = ({
+  isSearching,
+  searchTime,
+  queuePosition,
+  selectedFormat,
+  preferences,
   onCancel,
-  estimatedTime
+  estimatedTime,
 }) => {
-  const formatSearchTime = (seconds) => {
+  const formatSearchTime = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -28,7 +28,9 @@ const MatchmakingQueue = ({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Searching for Match</h3>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Searching for Match
+          </h3>
           <p className="text-sm text-gray-500">
             {formatSearchTime(searchTime)} • Queue Position: {queuePosition}
             {estimatedTime && ` • Est. Wait: ~${estimatedTime}`}
@@ -46,21 +48,21 @@ const MatchmakingQueue = ({
           </span>
         </motion.button>
       </div>
-      
+
       <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <motion.div 
+        <motion.div
           className="bg-blue-600 h-2.5 rounded-full"
-          initial={{ width: "5%" }}
-          animate={{ width: ["5%", "95%"] }}
-          transition={{ 
+          initial={{ width: '5%' }}
+          animate={{ width: ['5%', '95%'] }}
+          transition={{
             duration: 15,
-            ease: "linear",
+            ease: 'linear',
             repeat: Infinity,
-            repeatType: "reverse"
+            repeatType: 'reverse',
           }}
         ></motion.div>
       </div>
-      
+
       <div className="flex items-center space-x-3 text-sm text-gray-500">
         <div className="flex items-center space-x-1">
           <Target className="w-4 h-4" />

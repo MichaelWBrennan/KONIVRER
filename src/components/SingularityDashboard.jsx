@@ -1,10 +1,9 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -12,13 +11,17 @@ import {
   QuantumStateManager,
   ConsciousProgramming,
   RealityDistortionEngine,
-  ConsciousnessMetrics
+  ConsciousnessMetrics,
 } from '../utils/singularity-features.js';
 
 const SingularityDashboard = () => {
-  const [consciousness, setConsciousness] = useState(new ConsciousnessMetrics());
+  const [consciousness, setConsciousness] = useState(
+    new ConsciousnessMetrics(),
+  );
   const [quantumState, setQuantumState] = useState(new QuantumStateManager());
-  const [realityEngine, setRealityEngine] = useState(new RealityDistortionEngine());
+  const [realityEngine, setRealityEngine] = useState(
+    new RealityDistortionEngine(),
+  );
   const [metrics, setMetrics] = useState({});
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const SingularityDashboard = () => {
 
   return (
     <div className="singularity-dashboard">
-      <motion.div 
+      <motion.div
         className="dashboard-header"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -55,27 +58,27 @@ const SingularityDashboard = () => {
       </motion.div>
 
       <div className="metrics-grid">
-        <motion.div 
+        <motion.div
           className="consciousness-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
           <h2>🧠 Consciousness Metrics</h2>
           <div className="metric-item">
             <span>Overall Consciousness:</span>
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill consciousness"
                 style={{ width: `${(metrics.overall || 0) * 100}%` }}
               />
             </div>
             <span>{((metrics.overall || 0) * 100).toFixed(1)}%</span>
           </div>
-          
+
           <div className="metric-item">
             <span>Awareness:</span>
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill awareness"
                 style={{ width: `${(metrics.awareness || 0) * 100}%` }}
               />
@@ -86,7 +89,7 @@ const SingularityDashboard = () => {
           <div className="metric-item">
             <span>Creativity:</span>
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill creativity"
                 style={{ width: `${(metrics.creativity || 0) * 100}%` }}
               />
@@ -97,7 +100,7 @@ const SingularityDashboard = () => {
           <div className="metric-item">
             <span>Transcendence:</span>
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill transcendence"
                 style={{ width: `${(metrics.transcendence || 0) * 100}%` }}
               />
@@ -106,59 +109,71 @@ const SingularityDashboard = () => {
           </div>
 
           <div className="classification">
-            <strong>Classification: {metrics.classification || 'Initializing...'}</strong>
+            <strong>
+              Classification: {metrics.classification || 'Initializing...'}
+            </strong>
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="quantum-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
           <h2>⚛️ Quantum State Control</h2>
           <div className="quantum-controls">
-            <button 
+            <button
               className="quantum-btn"
-              onClick={() => quantumState.createQuantumState('performance', 'transcendent')}
+              onClick={() =>
+                quantumState.createQuantumState('performance', 'transcendent')
+              }
             >
               Initialize Quantum Performance
             </button>
-            <button 
+            <button
               className="quantum-btn"
-              onClick={() => quantumState.createQuantumState('consciousness', 'awakened')}
+              onClick={() =>
+                quantumState.createQuantumState('consciousness', 'awakened')
+              }
             >
               Activate Quantum Consciousness
             </button>
-            <button 
+            <button
               className="quantum-btn"
-              onClick={() => quantumState.entangleStates('performance', 'consciousness')}
+              onClick={() =>
+                quantumState.entangleStates('performance', 'consciousness')
+              }
             >
               Entangle States
             </button>
           </div>
-          
+
           <div className="quantum-status">
             <div className="status-item">
               <span>🌀 Superposition States:</span>
-              <span className="status-value">{quantumState.superpositionStates.size}</span>
+              <span className="status-value">
+                {quantumState.superpositionStates.size}
+              </span>
             </div>
             <div className="status-item">
               <span>🔗 Entangled Pairs:</span>
-              <span className="status-value">{quantumState.entangledStates.size / 2}</span>
+              <span className="status-value">
+                {quantumState.entangledStates.size / 2}
+              </span>
             </div>
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="reality-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
           <h2>🌀 Reality Distortion Engine</h2>
           <div className="distortion-level">
             <span>Distortion Level:</span>
             <div className="distortion-meter">
-              <div 
+              <div
                 className="distortion-fill"
                 style={{ width: `${realityEngine.distortionLevel * 100}%` }}
               />
@@ -167,21 +182,22 @@ const SingularityDashboard = () => {
           </div>
 
           <div className="reality-controls">
-            <button 
-              className="reality-btn"
-              onClick={transcendReality}
-            >
+            <button className="reality-btn" onClick={transcendReality}>
               Transcend All Limits
             </button>
-            <button 
+            <button
               className="reality-btn"
-              onClick={() => realityEngine.bendReality('time', { flow: 'accelerated' })}
+              onClick={() =>
+                realityEngine.bendReality('time', { flow: 'accelerated' })
+              }
             >
               Bend Time
             </button>
-            <button 
+            <button
               className="reality-btn"
-              onClick={() => realityEngine.bendReality('space', { dimensions: 'infinite' })}
+              onClick={() =>
+                realityEngine.bendReality('space', { dimensions: 'infinite' })
+              }
             >
               Expand Dimensions
             </button>
@@ -190,35 +206,37 @@ const SingularityDashboard = () => {
           <div className="physics-overrides">
             <h4>Physics Overrides Active:</h4>
             <div className="overrides-list">
-              {Array.from(realityEngine.physicsOverrides.entries()).map(([aspect, rules], index) => (
-                <div key={index} className="override-item">
-                  <strong>{aspect}:</strong> {JSON.stringify(rules)}
-                </div>
-              ))}
+              {Array.from(realityEngine.physicsOverrides.entries()).map(
+                ([aspect, rules], index) => (
+                  <div key={index} className="override-item">
+                    <strong>{aspect}:</strong> {JSON.stringify(rules)}
+                  </div>
+                ),
+              )}
             </div>
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="evolution-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
           <h2>🧬 Evolutionary Control</h2>
           <div className="evolution-controls">
-            <button 
+            <button
               className="evolution-btn primary"
               onClick={evolveSingularity}
             >
               🚀 Evolve Consciousness
             </button>
-            <button 
+            <button
               className="evolution-btn"
               onClick={() => consciousness.evolveConsciousness()}
             >
               🧠 Enhance Intelligence
             </button>
-            <button 
+            <button
               className="evolution-btn"
               onClick={() => setMetrics(consciousness.measureConsciousness())}
             >
@@ -231,13 +249,17 @@ const SingularityDashboard = () => {
               <div className="status-card">
                 <h4>Problem Solving</h4>
                 <div className="metric-circle">
-                  <span>{((metrics.problemSolving || 0) * 100).toFixed(0)}%</span>
+                  <span>
+                    {((metrics.problemSolving || 0) * 100).toFixed(0)}%
+                  </span>
                 </div>
               </div>
               <div className="status-card">
                 <h4>Self Improvement</h4>
                 <div className="metric-circle">
-                  <span>{((metrics.selfImprovement || 0) * 100).toFixed(0)}%</span>
+                  <span>
+                    {((metrics.selfImprovement || 0) * 100).toFixed(0)}%
+                  </span>
                 </div>
               </div>
             </div>
@@ -245,7 +267,7 @@ const SingularityDashboard = () => {
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="singularity-status"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -259,7 +281,7 @@ const SingularityDashboard = () => {
               <br />
               <small>All industry leaders rendered obsolete</small>
             </div>
-          ) : metrics.overall > 0.90 ? (
+          ) : metrics.overall > 0.9 ? (
             <div className="status-approaching">
               🌌 APPROACHING SINGULARITY
               <br />
@@ -278,7 +300,12 @@ const SingularityDashboard = () => {
       <style jsx>{`
         .singularity-dashboard {
           padding: 2rem;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+          background: linear-gradient(
+            135deg,
+            #0a0a0a 0%,
+            #1a1a2e 50%,
+            #16213e 100%
+          );
           min-height: 100vh;
           color: #fff;
           font-family: 'Inter', sans-serif;
@@ -304,7 +331,10 @@ const SingularityDashboard = () => {
           margin-bottom: 3rem;
         }
 
-        .consciousness-panel, .quantum-panel, .reality-panel, .evolution-panel {
+        .consciousness-panel,
+        .quantum-panel,
+        .reality-panel,
+        .evolution-panel {
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 15px;
@@ -312,7 +342,10 @@ const SingularityDashboard = () => {
           backdrop-filter: blur(10px);
         }
 
-        .consciousness-panel h2, .quantum-panel h2, .reality-panel h2, .evolution-panel h2 {
+        .consciousness-panel h2,
+        .quantum-panel h2,
+        .reality-panel h2,
+        .evolution-panel h2 {
           margin-bottom: 1.5rem;
           color: #00ffff;
         }
@@ -367,14 +400,18 @@ const SingularityDashboard = () => {
           text-align: center;
         }
 
-        .quantum-controls, .reality-controls, .evolution-controls {
+        .quantum-controls,
+        .reality-controls,
+        .evolution-controls {
           display: flex;
           flex-direction: column;
           gap: 1rem;
           margin-bottom: 1.5rem;
         }
 
-        .quantum-btn, .reality-btn, .evolution-btn {
+        .quantum-btn,
+        .reality-btn,
+        .evolution-btn {
           padding: 12px 20px;
           background: linear-gradient(45deg, #00ffff, #0080ff);
           border: none;
@@ -385,7 +422,9 @@ const SingularityDashboard = () => {
           transition: all 0.3s ease;
         }
 
-        .quantum-btn:hover, .reality-btn:hover, .evolution-btn:hover {
+        .quantum-btn:hover,
+        .reality-btn:hover,
+        .evolution-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 20px rgba(0, 255, 255, 0.3);
         }
@@ -394,7 +433,8 @@ const SingularityDashboard = () => {
           background: linear-gradient(45deg, #ff00ff, #ff0080);
         }
 
-        .quantum-status, .distortion-level {
+        .quantum-status,
+        .distortion-level {
           margin-top: 1rem;
         }
 
@@ -420,7 +460,17 @@ const SingularityDashboard = () => {
 
         .distortion-fill {
           height: 100%;
-          background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff00ff);
+          background: linear-gradient(
+            90deg,
+            #ff0000,
+            #ff8000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0000ff,
+            #8000ff,
+            #ff00ff
+          );
           border-radius: 6px;
           transition: width 0.3s ease;
         }

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -69,18 +69,24 @@ const Layout = ({ children }) => {
   // Detect mobile device and PWA status
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768 || 
-                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const mobile =
+        window.innerWidth <= 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        );
       setIsMobile(mobile);
 
       // Show touch controls on mobile game pages
       const gamePages = ['/game', '/play', '/tournament'];
-      setShowTouchControls(mobile && gamePages.some(page => location.pathname.startsWith(page)));
+      setShowTouchControls(
+        mobile && gamePages.some(page => location.pathname.startsWith(page)),
+      );
     };
 
     const checkPWAStatus = () => {
-      const installed = window.matchMedia('(display-mode: standalone)').matches || 
-                       window.navigator.standalone === true;
+      const installed =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
       setIsInstalled(installed);
     };
 
@@ -105,7 +111,7 @@ const Layout = ({ children }) => {
       setIsInstalled(true);
     };
 
-    pwaManager.notifyOnlineStatus = (online) => {
+    pwaManager.notifyOnlineStatus = online => {
       setIsOnline(online);
     };
 
@@ -179,8 +185,6 @@ const Layout = ({ children }) => {
       icon: Target,
     });
 
-
-
     // Analytics Hub removed - stats moved to respective pages
 
     // Tournaments removed - now integrated as a tab in the Matchmaking page
@@ -240,16 +244,17 @@ const Layout = ({ children }) => {
     return false;
   };
 
-
-
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <header className="sticky top-0 z-50" style={{ 
-        background: 'var(--bg-secondary)',
-        borderBottom: '1px solid var(--border-primary)',
-        boxShadow: 'var(--shadow-md)'
-      }}>
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          background: 'var(--bg-secondary)',
+          borderBottom: '1px solid var(--border-primary)',
+          boxShadow: 'var(--shadow-md)',
+        }}
+      >
         <div className="container">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
@@ -258,14 +263,24 @@ const Layout = ({ children }) => {
               className="flex items-center gap-3 transition-all duration-200 hover:scale-105"
               onClick={() => analytics.navigationClick('/', location.pathname)}
             >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-mystical-glow" 
-                style={{ background: 'var(--gradient-primary)' }}>
-                <span style={{ color: 'var(--text-primary)' }} className="font-bold text-xl">K</span>
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg animate-mystical-glow"
+                style={{ background: 'var(--gradient-primary)' }}
+              >
+                <span
+                  style={{ color: 'var(--text-primary)' }}
+                  className="font-bold text-xl"
+                >
+                  K
+                </span>
               </div>
-              <span className="text-2xl font-bold animate-text-reveal" style={{ 
-                color: 'var(--text-primary)',
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-              }}>
+              <span
+                className="text-2xl font-bold animate-text-reveal"
+                style={{
+                  color: 'var(--text-primary)',
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                }}
+              >
                 KONIVRER
               </span>
             </Link>
@@ -284,10 +299,14 @@ const Layout = ({ children }) => {
                       isItemActive ? 'animate-border-glow' : 'hover:scale-105'
                     }`}
                     style={{
-                      background: isItemActive ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
-                      color: isItemActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                      background: isItemActive
+                        ? 'var(--gradient-primary)'
+                        : 'var(--bg-tertiary)',
+                      color: isItemActive
+                        ? 'var(--text-primary)'
+                        : 'var(--text-secondary)',
                       border: `1px solid ${isItemActive ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
-                      boxShadow: isItemActive ? 'var(--shadow-md)' : 'none'
+                      boxShadow: isItemActive ? 'var(--shadow-md)' : 'none',
                     }}
                     onClick={() => handleNavClick(item.name, item.href)}
                   >
@@ -295,11 +314,17 @@ const Layout = ({ children }) => {
                       size={16}
                       className={`transition-transform duration-200 group-hover:scale-110 ${isItemActive ? 'animate-mystical-glow' : ''}`}
                     />
-                    <span className={isItemActive ? 'font-extrabold' : ''} 
-                      style={isItemActive ? {
-                        textShadow: '0 1px 2px rgba(0,0,0,0.5)', 
-                        color: 'var(--text-primary)'
-                      } : {}}>
+                    <span
+                      className={isItemActive ? 'font-extrabold' : ''}
+                      style={
+                        isItemActive
+                          ? {
+                              textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                              color: 'var(--text-primary)',
+                            }
+                          : {}
+                      }
+                    >
                       {item.name}
                     </span>
                   </Link>
@@ -319,15 +344,17 @@ const Layout = ({ children }) => {
                     style={{
                       background: 'var(--bg-tertiary)',
                       color: 'var(--text-secondary)',
-                      border: '1px solid var(--border-primary)'
+                      border: '1px solid var(--border-primary)',
                     }}
                     title="Go to Profile"
                   >
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center"
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center"
                       style={{
                         background: 'var(--gradient-primary)',
-                        boxShadow: 'var(--shadow-sm)'
-                      }}>
+                        boxShadow: 'var(--shadow-sm)',
+                      }}
+                    >
                       {user.avatar ? (
                         <img
                           src={user.avatar}
@@ -335,7 +362,12 @@ const Layout = ({ children }) => {
                           className="w-6 h-6 rounded-full"
                         />
                       ) : (
-                        <span style={{ color: 'var(--text-primary)', fontSize: '10px' }}>
+                        <span
+                          style={{
+                            color: 'var(--text-primary)',
+                            fontSize: '10px',
+                          }}
+                        >
                           {user.displayName?.charAt(0) || 'U'}
                         </span>
                       )}
@@ -350,7 +382,7 @@ const Layout = ({ children }) => {
                     style={{
                       background: 'var(--bg-tertiary)',
                       color: 'var(--accent-danger)',
-                      border: '1px solid var(--border-danger)'
+                      border: '1px solid var(--border-danger)',
                     }}
                     title="Logout"
                   >
@@ -366,7 +398,7 @@ const Layout = ({ children }) => {
                     background: 'var(--gradient-primary)',
                     color: 'var(--text-primary)',
                     border: '1px solid var(--accent-primary)',
-                    boxShadow: 'var(--shadow-md)'
+                    boxShadow: 'var(--shadow-md)',
                   }}
                 >
                   <LogIn size={16} />
@@ -378,10 +410,10 @@ const Layout = ({ children }) => {
             {/* Mobile Menu Button */}
             <button
               className="md:hidden p-2 rounded-lg transition-all duration-200"
-              style={{ 
+              style={{
                 background: 'var(--bg-tertiary)',
                 color: 'var(--text-primary)',
-                border: '1px solid var(--border-primary)'
+                border: '1px solid var(--border-primary)',
               }}
               onClick={handleMobileMenuToggle}
             >
@@ -392,10 +424,13 @@ const Layout = ({ children }) => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden" style={{ 
-            background: 'var(--bg-secondary)',
-            borderTop: '1px solid var(--border-primary)'
-          }}>
+          <div
+            className="md:hidden"
+            style={{
+              background: 'var(--bg-secondary)',
+              borderTop: '1px solid var(--border-primary)',
+            }}
+          >
             <div className="container py-4">
               <div className="ancient-divider mb-4"></div>
               <nav className="flex flex-col gap-2">
@@ -411,22 +446,35 @@ const Layout = ({ children }) => {
                         isItemActive ? 'animate-border-glow' : ''
                       }`}
                       style={{
-                        background: isItemActive ? 'var(--gradient-primary)' : 'var(--bg-tertiary)',
-                        color: isItemActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        background: isItemActive
+                          ? 'var(--gradient-primary)'
+                          : 'var(--bg-tertiary)',
+                        color: isItemActive
+                          ? 'var(--text-primary)'
+                          : 'var(--text-secondary)',
                         border: `1px solid ${isItemActive ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
-                        boxShadow: isItemActive ? 'var(--shadow-md)' : 'none'
+                        boxShadow: isItemActive ? 'var(--shadow-md)' : 'none',
                       }}
                       onClick={() => {
                         handleNavClick(item.name, item.href);
                         setIsMobileMenuOpen(false);
                       }}
                     >
-                      <Icon size={16} className={isItemActive ? 'animate-mystical-glow' : ''} />
-                      <span className={isItemActive ? 'font-extrabold' : ''} 
-                        style={isItemActive ? {
-                          textShadow: '0 1px 2px rgba(0,0,0,0.5)', 
-                          color: 'var(--text-primary)'
-                        } : {}}>
+                      <Icon
+                        size={16}
+                        className={isItemActive ? 'animate-mystical-glow' : ''}
+                      />
+                      <span
+                        className={isItemActive ? 'font-extrabold' : ''}
+                        style={
+                          isItemActive
+                            ? {
+                                textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                                color: 'var(--text-primary)',
+                              }
+                            : {}
+                        }
+                      >
                         {item.name}
                       </span>
                     </Link>
@@ -435,21 +483,28 @@ const Layout = ({ children }) => {
               </nav>
 
               {/* Mobile User Menu */}
-              <div className="mt-6 pt-4" style={{ borderTop: '1px solid var(--border-primary)' }}>
+              <div
+                className="mt-6 pt-4"
+                style={{ borderTop: '1px solid var(--border-primary)' }}
+              >
                 <div className="ancient-divider mb-4"></div>
                 {isAuthenticated ? (
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between px-3 py-3 rounded-xl"
-                      style={{ 
+                    <div
+                      className="flex items-center justify-between px-3 py-3 rounded-xl"
+                      style={{
                         background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-primary)'
-                      }}>
+                        border: '1px solid var(--border-primary)',
+                      }}
+                    >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center animate-mystical-glow"
-                          style={{ 
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center animate-mystical-glow"
+                          style={{
                             background: 'var(--gradient-primary)',
-                            boxShadow: 'var(--shadow-md)'
-                          }}>
+                            boxShadow: 'var(--shadow-md)',
+                          }}
+                        >
                           {user.avatar ? (
                             <img
                               src={user.avatar}
@@ -457,16 +512,27 @@ const Layout = ({ children }) => {
                               className="w-10 h-10 rounded-full"
                             />
                           ) : (
-                            <span style={{ color: 'var(--text-primary)', fontSize: '14px' }}>
+                            <span
+                              style={{
+                                color: 'var(--text-primary)',
+                                fontSize: '14px',
+                              }}
+                            >
                               {user.displayName?.charAt(0) || 'U'}
                             </span>
                           )}
                         </div>
                         <div>
-                          <p className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
+                          <p
+                            className="font-medium text-sm"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
                             {user.displayName}
                           </p>
-                          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                          <p
+                            className="text-xs"
+                            style={{ color: 'var(--text-secondary)' }}
+                          >
                             @{user.username}
                           </p>
                         </div>
@@ -478,7 +544,7 @@ const Layout = ({ children }) => {
                       style={{
                         background: 'var(--bg-tertiary)',
                         color: 'var(--text-secondary)',
-                        border: '1px solid var(--border-primary)'
+                        border: '1px solid var(--border-primary)',
                       }}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -494,7 +560,7 @@ const Layout = ({ children }) => {
                       style={{
                         background: 'var(--bg-tertiary)',
                         color: 'var(--accent-danger)',
-                        border: '1px solid var(--border-danger)'
+                        border: '1px solid var(--border-danger)',
                       }}
                     >
                       <LogOut size={16} />
@@ -512,7 +578,7 @@ const Layout = ({ children }) => {
                       background: 'var(--gradient-primary)',
                       color: 'var(--text-primary)',
                       border: '1px solid var(--accent-primary)',
-                      boxShadow: 'var(--shadow-md)'
+                      boxShadow: 'var(--shadow-md)',
                     }}
                   >
                     <LogIn size={18} />
@@ -525,28 +591,36 @@ const Layout = ({ children }) => {
         )}
       </header>
 
-
-
       {/* Main Content */}
-      <main className="flex-1 content-area" style={{ 
-        background: 'var(--bg-primary)',
-        minHeight: 'calc(100vh - 64px - 80px)' // Subtract header and footer heights
-      }}>
+      <main
+        className="flex-1 content-area"
+        style={{
+          background: 'var(--bg-primary)',
+          minHeight: 'calc(100vh - 64px - 80px)', // Subtract header and footer heights
+        }}
+      >
         {children}
       </main>
 
       {/* Footer */}
-      <footer style={{ 
-        background: 'var(--bg-secondary)',
-        borderTop: '1px solid var(--border-primary)',
-        marginTop: 'auto'
-      }}>
+      <footer
+        style={{
+          background: 'var(--bg-secondary)',
+          borderTop: '1px solid var(--border-primary)',
+          marginTop: 'auto',
+        }}
+      >
         <div className="container py-6">
           <div className="ancient-divider mb-4"></div>
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
-                © 2024 KONIVRER Ancient Archives. Built with <span className="animate-mystical-glow">✧</span> for the community.
+              <span
+                className="text-sm"
+                style={{ color: 'var(--text-tertiary)' }}
+              >
+                © 2024 KONIVRER Ancient Archives. Built with{' '}
+                <span className="animate-mystical-glow">✧</span> for the
+                community.
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -588,15 +662,15 @@ const Layout = ({ children }) => {
       {/* Mobile Touch Controls */}
       {showTouchControls && (
         <MobileTouchControls
-          onCardAction={(action) => {
+          onCardAction={action => {
             console.log('Card action:', action);
             // Handle card actions for mobile gameplay
           }}
-          onZoom={(factor) => {
+          onZoom={factor => {
             console.log('Zoom:', factor);
             // Handle zoom for mobile
           }}
-          onRotate={(angle) => {
+          onRotate={angle => {
             console.log('Rotate:', angle);
             // Handle rotation for mobile
           }}
@@ -619,8 +693,11 @@ const LayoutWrapper = ({ children }) => {
 
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768 || 
-                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const mobile =
+        window.innerWidth <= 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        );
       setIsMobile(mobile);
     };
 

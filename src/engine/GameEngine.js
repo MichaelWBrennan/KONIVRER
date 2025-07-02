@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -61,7 +61,7 @@ class GameEngine {
     // Initialize performance monitoring
     this.initPerformanceMonitoring();
   }
-  
+
   /**
    * Set the animation system for the game engine
    * @param {Object} animationSystem - The animation system to use
@@ -71,7 +71,7 @@ class GameEngine {
     console.log('Animation system connected to game engine');
     return this;
   }
-  
+
   /**
    * Set the rules engine for the game engine
    * @param {Object} rulesEngine - The rules engine to use

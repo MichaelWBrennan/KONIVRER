@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -13,23 +13,27 @@ const MobileHome = () => {
     {
       id: 'news1',
       title: 'New Mobile Experience',
-      content: 'We\'ve completely redesigned our app for a better mobile experience with an esoteric theme and improved accessibility!'
+      content:
+        "We've completely redesigned our app for a better mobile experience with an esoteric theme and improved accessibility!",
     },
     {
       id: 'news2',
       title: 'Tournament Season Begins',
-      content: 'Join our weekly tournaments for a chance to win exclusive prizes and earn special rewards.'
+      content:
+        'Join our weekly tournaments for a chance to win exclusive prizes and earn special rewards.',
     },
     {
       id: 'news3',
       title: 'New Card Set Released',
-      content: 'Explore the latest expansion with powerful new cards and exciting mechanics.'
+      content:
+        'Explore the latest expansion with powerful new cards and exciting mechanics.',
     },
     {
       id: 'news4',
       title: 'Community Event This Weekend',
-      content: 'Join us for a special community event with prizes, tournaments, and more!'
-    }
+      content:
+        'Join us for a special community event with prizes, tournaments, and more!',
+    },
   ]);
 
   return (
@@ -42,9 +46,7 @@ const MobileHome = () => {
         <h1 className="mobile-header-title mobile-mb esoteric-glow-pulse">
           KONIVRER
         </h1>
-        <p className="esoteric-rune">
-          Trading Card Game
-        </p>
+        <p className="esoteric-rune">Trading Card Game</p>
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>
         </div>

@@ -1,13 +1,13 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 /**
  * Matchmaking API
- * 
+ *
  * Provides a comprehensive API for matchmaking and tournament management
  */
 
@@ -26,26 +26,26 @@ export class MatchmakingAPI {
       baseURL = '/api',
       timeout = 10000,
       headers = {},
-      authToken = null
+      authToken = null,
     } = config;
-    
+
     this.client = axios.create({
       baseURL,
       timeout,
       headers: {
         'Content-Type': 'application/json',
         ...headers,
-        ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {})
-      }
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+      },
     });
-    
+
     // Add response interceptor for error handling
     this.client.interceptors.response.use(
       response => response,
-      error => this.handleError(error)
+      error => this.handleError(error),
     );
   }
-  
+
   /**
    * Handle API errors
    * @param {Error} error - Error object
@@ -55,11 +55,12 @@ export class MatchmakingAPI {
     let errorMessage = 'An unknown error occurred';
     let errorCode = 'UNKNOWN_ERROR';
     let statusCode = 500;
-    
+
     if (error.response) {
       // Server responded with error
       statusCode = error.response.status;
-      errorMessage = error.response.data?.message || `Server error: ${statusCode}`;
+      errorMessage =
+        error.response.data?.message || `Server error: ${statusCode}`;
       errorCode = error.response.data?.code || `SERVER_ERROR_${statusCode}`;
     } else if (error.request) {
       // Request made but no response
@@ -71,15 +72,15 @@ export class MatchmakingAPI {
       errorMessage = error.message || errorMessage;
       errorCode = 'REQUEST_SETUP_ERROR';
     }
-    
+
     return Promise.reject({
       message: errorMessage,
       code: errorCode,
       status: statusCode,
-      originalError: error
+      originalError: error,
     });
   }
-  
+
   /**
    * Set authentication token
    * @param {string} token - Authentication token
@@ -87,14 +88,14 @@ export class MatchmakingAPI {
   setAuthToken(token) {
     this.client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
-  
+
   /**
    * Clear authentication token
    */
   clearAuthToken() {
     delete this.client.defaults.headers.common['Authorization'];
   }
-  
+
   /**
    * Get player profile
    * @param {string} playerId - Player ID
@@ -104,7 +105,7 @@ export class MatchmakingAPI {
     const response = await this.client.get(`/players/${playerId}`);
     return response.data;
   }
-  
+
   /**
    * Get current player profile
    * @returns {Promise<Object>} Current player data
@@ -113,7 +114,7 @@ export class MatchmakingAPI {
     const response = await this.client.get('/players/me');
     return response.data;
   }
-  
+
   /**
    * Update player profile
    * @param {string} playerId - Player ID
@@ -124,7 +125,7 @@ export class MatchmakingAPI {
     const response = await this.client.patch(`/players/${playerId}`, data);
     return response.data;
   }
-  
+
   /**
    * Get player match history
    * @param {string} playerId - Player ID
@@ -136,16 +137,16 @@ export class MatchmakingAPI {
       limit = 20,
       offset = 0,
       sortBy = 'timestamp',
-      sortOrder = 'desc'
+      sortOrder = 'desc',
     } = options;
-    
+
     const response = await this.client.get(`/players/${playerId}/matches`, {
-      params: { limit, offset, sortBy, sortOrder }
+      params: { limit, offset, sortBy, sortOrder },
     });
-    
+
     return response.data;
   }
-  
+
   /**
    * Get player statistics
    * @param {string} playerId - Player ID
@@ -155,7 +156,7 @@ export class MatchmakingAPI {
     const response = await this.client.get(`/players/${playerId}/stats`);
     return response.data;
   }
-  
+
   /**
    * Find match for player
    * @param {string} playerId - Player ID
@@ -165,12 +166,12 @@ export class MatchmakingAPI {
   async findMatch(playerId, options = {}) {
     const response = await this.client.post(`/matchmaking/find`, {
       playerId,
-      ...options
+      ...options,
     });
-    
+
     return response.data;
   }
-  
+
   /**
    * Accept match
    * @param {string} matchId - Match ID
@@ -178,13 +179,16 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Match data
    */
   async acceptMatch(matchId, playerId) {
-    const response = await this.client.post(`/matchmaking/matches/${matchId}/accept`, {
-      playerId
-    });
-    
+    const response = await this.client.post(
+      `/matchmaking/matches/${matchId}/accept`,
+      {
+        playerId,
+      },
+    );
+
     return response.data;
   }
-  
+
   /**
    * Decline match
    * @param {string} matchId - Match ID
@@ -192,13 +196,16 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Result
    */
   async declineMatch(matchId, playerId) {
-    const response = await this.client.post(`/matchmaking/matches/${matchId}/decline`, {
-      playerId
-    });
-    
+    const response = await this.client.post(
+      `/matchmaking/matches/${matchId}/decline`,
+      {
+        playerId,
+      },
+    );
+
     return response.data;
   }
-  
+
   /**
    * Report match result
    * @param {string} matchId - Match ID
@@ -206,10 +213,13 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Updated match data
    */
   async reportMatchResult(matchId, result) {
-    const response = await this.client.post(`/matchmaking/matches/${matchId}/result`, result);
+    const response = await this.client.post(
+      `/matchmaking/matches/${matchId}/result`,
+      result,
+    );
     return response.data;
   }
-  
+
   /**
    * Get leaderboard
    * @param {Object} options - Query options
@@ -222,18 +232,18 @@ export class MatchmakingAPI {
       tier = null,
       confidenceBand = null,
       region = null,
-      timeFrame = 'season'
+      timeFrame = 'season',
     } = options;
-    
+
     const params = { limit, offset, timeFrame };
     if (tier) params.tier = tier;
     if (confidenceBand) params.confidenceBand = confidenceBand;
     if (region) params.region = region;
-    
+
     const response = await this.client.get('/leaderboard', { params });
     return response.data;
   }
-  
+
   /**
    * Get available tournaments
    * @param {Object} options - Query options
@@ -244,16 +254,16 @@ export class MatchmakingAPI {
       limit = 20,
       offset = 0,
       status = 'active',
-      region = null
+      region = null,
     } = options;
-    
+
     const params = { limit, offset, status };
     if (region) params.region = region;
-    
+
     const response = await this.client.get('/tournaments', { params });
     return response.data;
   }
-  
+
   /**
    * Get tournament details
    * @param {string} tournamentId - Tournament ID
@@ -263,7 +273,7 @@ export class MatchmakingAPI {
     const response = await this.client.get(`/tournaments/${tournamentId}`);
     return response.data;
   }
-  
+
   /**
    * Register for tournament
    * @param {string} tournamentId - Tournament ID
@@ -272,24 +282,29 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Registration result
    */
   async registerForTournament(tournamentId, playerId, registrationData = {}) {
-    const response = await this.client.post(`/tournaments/${tournamentId}/register`, {
-      playerId,
-      ...registrationData
-    });
-    
+    const response = await this.client.post(
+      `/tournaments/${tournamentId}/register`,
+      {
+        playerId,
+        ...registrationData,
+      },
+    );
+
     return response.data;
   }
-  
+
   /**
    * Get tournament standings
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Array>} Tournament standings
    */
   async getTournamentStandings(tournamentId) {
-    const response = await this.client.get(`/tournaments/${tournamentId}/standings`);
+    const response = await this.client.get(
+      `/tournaments/${tournamentId}/standings`,
+    );
     return response.data;
   }
-  
+
   /**
    * Get tournament matches
    * @param {string} tournamentId - Tournament ID
@@ -297,21 +312,20 @@ export class MatchmakingAPI {
    * @returns {Promise<Array>} Tournament matches
    */
   async getTournamentMatches(tournamentId, options = {}) {
-    const {
-      round = null,
-      status = null,
-      playerId = null
-    } = options;
-    
+    const { round = null, status = null, playerId = null } = options;
+
     const params = {};
     if (round !== null) params.round = round;
     if (status) params.status = status;
     if (playerId) params.playerId = playerId;
-    
-    const response = await this.client.get(`/tournaments/${tournamentId}/matches`, { params });
+
+    const response = await this.client.get(
+      `/tournaments/${tournamentId}/matches`,
+      { params },
+    );
     return response.data;
   }
-  
+
   /**
    * Create tournament
    * @param {Object} tournamentData - Tournament data
@@ -321,7 +335,7 @@ export class MatchmakingAPI {
     const response = await this.client.post('/tournaments', tournamentData);
     return response.data;
   }
-  
+
   /**
    * Update tournament
    * @param {string} tournamentId - Tournament ID
@@ -329,20 +343,25 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Updated tournament
    */
   async updateTournament(tournamentId, tournamentData) {
-    const response = await this.client.patch(`/tournaments/${tournamentId}`, tournamentData);
+    const response = await this.client.patch(
+      `/tournaments/${tournamentId}`,
+      tournamentData,
+    );
     return response.data;
   }
-  
+
   /**
    * Start tournament
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Object>} Tournament data
    */
   async startTournament(tournamentId) {
-    const response = await this.client.post(`/tournaments/${tournamentId}/start`);
+    const response = await this.client.post(
+      `/tournaments/${tournamentId}/start`,
+    );
     return response.data;
   }
-  
+
   /**
    * End tournament
    * @param {string} tournamentId - Tournament ID
@@ -352,25 +371,22 @@ export class MatchmakingAPI {
     const response = await this.client.post(`/tournaments/${tournamentId}/end`);
     return response.data;
   }
-  
+
   /**
    * Get meta data
    * @param {Object} options - Query options
    * @returns {Promise<Object>} Meta data
    */
   async getMetaData(options = {}) {
-    const {
-      timeFrame = 'current',
-      region = null
-    } = options;
-    
+    const { timeFrame = 'current', region = null } = options;
+
     const params = { timeFrame };
     if (region) params.region = region;
-    
+
     const response = await this.client.get('/meta', { params });
     return response.data;
   }
-  
+
   /**
    * Get deck archetypes
    * @returns {Promise<Array>} Deck archetypes
@@ -379,17 +395,19 @@ export class MatchmakingAPI {
     const response = await this.client.get('/decks/archetypes');
     return response.data;
   }
-  
+
   /**
    * Get deck matchups
    * @param {string} archetype - Deck archetype
    * @returns {Promise<Object>} Matchup data
    */
   async getDeckMatchups(archetype) {
-    const response = await this.client.get(`/decks/archetypes/${archetype}/matchups`);
+    const response = await this.client.get(
+      `/decks/archetypes/${archetype}/matchups`,
+    );
     return response.data;
   }
-  
+
   /**
    * Get player deck collection
    * @param {string} playerId - Player ID
@@ -399,7 +417,7 @@ export class MatchmakingAPI {
     const response = await this.client.get(`/players/${playerId}/decks`);
     return response.data;
   }
-  
+
   /**
    * Create player deck
    * @param {string} playerId - Player ID
@@ -407,10 +425,13 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Created deck
    */
   async createPlayerDeck(playerId, deckData) {
-    const response = await this.client.post(`/players/${playerId}/decks`, deckData);
+    const response = await this.client.post(
+      `/players/${playerId}/decks`,
+      deckData,
+    );
     return response.data;
   }
-  
+
   /**
    * Update player deck
    * @param {string} playerId - Player ID
@@ -419,10 +440,13 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Updated deck
    */
   async updatePlayerDeck(playerId, deckId, deckData) {
-    const response = await this.client.patch(`/players/${playerId}/decks/${deckId}`, deckData);
+    const response = await this.client.patch(
+      `/players/${playerId}/decks/${deckId}`,
+      deckData,
+    );
     return response.data;
   }
-  
+
   /**
    * Delete player deck
    * @param {string} playerId - Player ID
@@ -430,10 +454,12 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Result
    */
   async deletePlayerDeck(playerId, deckId) {
-    const response = await this.client.delete(`/players/${playerId}/decks/${deckId}`);
+    const response = await this.client.delete(
+      `/players/${playerId}/decks/${deckId}`,
+    );
     return response.data;
   }
-  
+
   /**
    * Get player notifications
    * @param {string} playerId - Player ID
@@ -441,19 +467,18 @@ export class MatchmakingAPI {
    * @returns {Promise<Array>} Notifications
    */
   async getPlayerNotifications(playerId, options = {}) {
-    const {
-      limit = 20,
-      offset = 0,
-      unreadOnly = false
-    } = options;
-    
-    const response = await this.client.get(`/players/${playerId}/notifications`, {
-      params: { limit, offset, unreadOnly }
-    });
-    
+    const { limit = 20, offset = 0, unreadOnly = false } = options;
+
+    const response = await this.client.get(
+      `/players/${playerId}/notifications`,
+      {
+        params: { limit, offset, unreadOnly },
+      },
+    );
+
     return response.data;
   }
-  
+
   /**
    * Mark notification as read
    * @param {string} playerId - Player ID
@@ -461,10 +486,12 @@ export class MatchmakingAPI {
    * @returns {Promise<Object>} Result
    */
   async markNotificationRead(playerId, notificationId) {
-    const response = await this.client.post(`/players/${playerId}/notifications/${notificationId}/read`);
+    const response = await this.client.post(
+      `/players/${playerId}/notifications/${notificationId}/read`,
+    );
     return response.data;
   }
-  
+
   /**
    * Get player achievements
    * @param {string} playerId - Player ID
@@ -474,7 +501,7 @@ export class MatchmakingAPI {
     const response = await this.client.get(`/players/${playerId}/achievements`);
     return response.data;
   }
-  
+
   /**
    * Get player analytics
    * @param {string} playerId - Player ID
@@ -486,20 +513,22 @@ export class MatchmakingAPI {
       timeFrame = 'season',
       includeMatchups = true,
       includePerformance = true,
-      includeSkillDecomposition = true
+      includeSkillDecomposition = true,
     } = options;
-    
-    const params = { 
+
+    const params = {
       timeFrame,
       includeMatchups,
       includePerformance,
-      includeSkillDecomposition
+      includeSkillDecomposition,
     };
-    
-    const response = await this.client.get(`/players/${playerId}/analytics`, { params });
+
+    const response = await this.client.get(`/players/${playerId}/analytics`, {
+      params,
+    });
     return response.data;
   }
-  
+
   /**
    * Get nearby physical events
    * @param {Object} location - Location data
@@ -512,23 +541,23 @@ export class MatchmakingAPI {
       limit = 20,
       offset = 0,
       startDate = null,
-      endDate = null
+      endDate = null,
     } = options;
-    
-    const params = { 
+
+    const params = {
       ...location,
       radius,
       limit,
-      offset
+      offset,
     };
-    
+
     if (startDate) params.startDate = startDate;
     if (endDate) params.endDate = endDate;
-    
+
     const response = await this.client.get('/events/nearby', { params });
     return response.data;
   }
-  
+
   /**
    * Register for physical event
    * @param {string} eventId - Event ID
@@ -539,9 +568,9 @@ export class MatchmakingAPI {
   async registerForEvent(eventId, playerId, registrationData = {}) {
     const response = await this.client.post(`/events/${eventId}/register`, {
       playerId,
-      ...registrationData
+      ...registrationData,
     });
-    
+
     return response.data;
   }
 }

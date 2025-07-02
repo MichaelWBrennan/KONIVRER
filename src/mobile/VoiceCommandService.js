@@ -1,42 +1,53 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 /**
  * Voice Command Service
- * 
+ *
  * Provides functionality for voice command recognition and processing
  */
 
 // Command patterns and their handlers
 const COMMAND_PATTERNS = {
   FIND_MATCH: {
-    patterns: ['find match', 'find a match', 'quick match', 'start match', 'match me'],
-    handler: 'findMatch'
+    patterns: [
+      'find match',
+      'find a match',
+      'quick match',
+      'start match',
+      'match me',
+    ],
+    handler: 'findMatch',
   },
   VIEW_TOURNAMENTS: {
-    patterns: ['tournaments', 'view tournaments', 'show tournaments', 'list tournaments'],
-    handler: 'viewTournaments'
+    patterns: [
+      'tournaments',
+      'view tournaments',
+      'show tournaments',
+      'list tournaments',
+    ],
+    handler: 'viewTournaments',
   },
   VIEW_PROFILE: {
     patterns: ['profile', 'my profile', 'view profile', 'show profile'],
-    handler: 'viewProfile'
+    handler: 'viewProfile',
   },
   REPORT_WIN: {
     patterns: ['report win', 'i won', 'win', 'victory', 'report victory'],
-    handler: 'reportWin'
+    handler: 'reportWin',
   },
   REPORT_LOSS: {
     patterns: ['report loss', 'i lost', 'loss', 'defeat', 'report defeat'],
-    handler: 'reportLoss'
+    handler: 'reportLoss',
   },
   CANCEL: {
     patterns: ['cancel', 'stop', 'exit', 'quit', 'nevermind'],
-    handler: 'cancel'
-  }
+    handler: 'cancel',
+  },
 };
 
 /**
@@ -46,17 +57,18 @@ const COMMAND_PATTERNS = {
 export const initVoiceRecognition = () => {
   try {
     // Check if browser supports speech recognition
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       console.warn('Speech recognition not supported in this browser');
       return null;
     }
-    
+
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
-    
+
     return recognition;
   } catch (error) {
     console.error('Failed to initialize voice recognition:', error);
@@ -77,13 +89,15 @@ export const startListening = (recognition, onResult, onError, onEnd) => {
     onError && onError(new Error('Speech recognition not supported'));
     return false;
   }
-  
-  recognition.onresult = (event) => {
+
+  recognition.onresult = event => {
     const transcript = event.results[0][0].transcript.toLowerCase().trim();
     const confidence = event.results[0][0].confidence;
-    
-    console.log(`Voice command recognized: "${transcript}" (confidence: ${confidence.toFixed(2)})`);
-    
+
+    console.log(
+      `Voice command recognized: "${transcript}" (confidence: ${confidence.toFixed(2)})`,
+    );
+
     // Process command
     const command = parseCommand(transcript);
     if (command) {
@@ -92,16 +106,16 @@ export const startListening = (recognition, onResult, onError, onEnd) => {
       onError && onError(new Error(`Command not recognized: ${transcript}`));
     }
   };
-  
-  recognition.onerror = (event) => {
+
+  recognition.onerror = event => {
     console.error('Speech recognition error:', event.error);
     onError && onError(new Error(event.error));
   };
-  
+
   recognition.onend = () => {
     onEnd && onEnd();
   };
-  
+
   try {
     recognition.start();
     return true;
@@ -116,7 +130,7 @@ export const startListening = (recognition, onResult, onError, onEnd) => {
  * Stop listening for voice commands
  * @param {SpeechRecognition} recognition - Speech recognition object
  */
-export const stopListening = (recognition) => {
+export const stopListening = recognition => {
   if (recognition) {
     try {
       recognition.stop();
@@ -131,19 +145,19 @@ export const stopListening = (recognition) => {
  * @param {string} transcript - Voice transcript
  * @returns {Object|null} Command object or null if not recognized
  */
-const parseCommand = (transcript) => {
+const parseCommand = transcript => {
   for (const [commandType, config] of Object.entries(COMMAND_PATTERNS)) {
     for (const pattern of config.patterns) {
       if (transcript.includes(pattern)) {
         return {
           type: commandType,
           handler: config.handler,
-          pattern
+          pattern,
         };
       }
     }
   }
-  
+
   return null;
 };
 
@@ -158,7 +172,7 @@ export const executeCommand = async (command, handlers, context = {}) => {
   if (!command || !command.handler || !handlers[command.handler]) {
     throw new Error(`Handler not found for command: ${command?.type}`);
   }
-  
+
   try {
     return await handlers[command.handler](context);
   } catch (error) {
@@ -174,7 +188,7 @@ export const executeCommand = async (command, handlers, context = {}) => {
 export const getAvailableCommands = () => {
   return Object.entries(COMMAND_PATTERNS).map(([type, config]) => ({
     type,
-    examples: config.patterns
+    examples: config.patterns,
   }));
 };
 

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -12,15 +12,15 @@ import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useGameEngine } from '../../contexts/GameEngineContext';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import CardSynergyRecommendations from './CardSynergyRecommendations';
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Minus, 
-  Save, 
-  Play, 
-  Share2, 
-  Download, 
+import {
+  Search,
+  Filter,
+  Plus,
+  Minus,
+  Save,
+  Play,
+  Share2,
+  Download,
   Upload,
   Star,
   Zap,
@@ -39,7 +39,7 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  Info
+  Info,
 } from 'lucide-react';
 
 // Enhanced Deck Builder with Game Integration
@@ -48,7 +48,7 @@ const EnhancedDeckBuilder = () => {
   const battlePass = useBattlePass();
   const gameEngine = useGameEngine();
   const physicalMatchmaking = usePhysicalMatchmaking();
-  
+
   // Deck State
   const [currentDeck, setCurrentDeck] = useState({
     id: null,
@@ -60,7 +60,7 @@ const EnhancedDeckBuilder = () => {
     tags: [],
     isPublic: true,
     createdAt: Date.now(),
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   });
 
   // UI State
@@ -70,7 +70,7 @@ const EnhancedDeckBuilder = () => {
     types: [],
     rarity: [],
     cost: { min: 0, max: 20 },
-    owned: false
+    owned: false,
   });
   const [viewMode, setViewMode] = useState('grid'); // grid, list, spoiler
   const [sortBy, setSortBy] = useState('name'); // name, cost, type, rarity
@@ -85,7 +85,7 @@ const EnhancedDeckBuilder = () => {
     common: 10,
     uncommon: 5,
     rare: 3,
-    mythic: 1
+    mythic: 1,
   });
 
   // Load card collection
@@ -104,7 +104,8 @@ const EnhancedDeckBuilder = () => {
     // Mock owned cards - would come from user's collection
     const owned = new Set();
     cardCollection.forEach(card => {
-      if (Math.random() > 0.3) { // 70% chance to own each card
+      if (Math.random() > 0.3) {
+        // 70% chance to own each card
         owned.add(card.id);
       }
     });
@@ -115,15 +116,18 @@ const EnhancedDeckBuilder = () => {
   const filteredCards = useMemo(() => {
     let filtered = cardCollection.filter(card => {
       // Search query
-      if (searchQuery && !card.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          !card.text.toLowerCase().includes(searchQuery.toLowerCase())) {
+      if (
+        searchQuery &&
+        !card.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        !card.text.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
         return false;
       }
 
       // Color filter
       if (selectedFilters.colors.length > 0) {
-        const hasColor = selectedFilters.colors.some(color => 
-          card.colors.includes(color)
+        const hasColor = selectedFilters.colors.some(color =>
+          card.colors.includes(color),
         );
         if (!hasColor) return false;
       }
@@ -139,7 +143,10 @@ const EnhancedDeckBuilder = () => {
       }
 
       // Cost filter
-      if (card.cost < selectedFilters.cost.min || card.cost > selectedFilters.cost.max) {
+      if (
+        card.cost < selectedFilters.cost.min ||
+        card.cost > selectedFilters.cost.max
+      ) {
         return false;
       }
 
@@ -181,7 +188,7 @@ const EnhancedDeckBuilder = () => {
       colorDistribution: {},
       rarityDistribution: { common: 0, uncommon: 0, rare: 0, mythic: 0 },
       isLegal: true,
-      legalityIssues: []
+      legalityIssues: [],
     };
 
     let totalCost = 0;
@@ -210,7 +217,8 @@ const EnhancedDeckBuilder = () => {
 
       // Color distribution
       card.colors.forEach(color => {
-        stats.colorDistribution[color] = (stats.colorDistribution[color] || 0) + deckCard.quantity;
+        stats.colorDistribution[color] =
+          (stats.colorDistribution[color] || 0) + deckCard.quantity;
       });
 
       // Rarity distribution
@@ -223,7 +231,8 @@ const EnhancedDeckBuilder = () => {
       }
     });
 
-    stats.averageCost = nonLandCards > 0 ? (totalCost / nonLandCards).toFixed(1) : 0;
+    stats.averageCost =
+      nonLandCards > 0 ? (totalCost / nonLandCards).toFixed(1) : 0;
 
     // Legality checks
     if (stats.totalCards < 60) {
@@ -254,27 +263,25 @@ const EnhancedDeckBuilder = () => {
   // Add card to deck
   const addCardToDeck = (card, quantity = 1) => {
     const existingCard = currentDeck.cards.find(c => c.cardId === card.id);
-    
+
     if (existingCard) {
       const newQuantity = existingCard.quantity + quantity;
       const maxQuantity = card.type === 'land' ? 20 : 4;
-      
+
       if (newQuantity <= maxQuantity) {
         setCurrentDeck(prev => ({
           ...prev,
-          cards: prev.cards.map(c => 
-            c.cardId === card.id 
-              ? { ...c, quantity: newQuantity }
-              : c
+          cards: prev.cards.map(c =>
+            c.cardId === card.id ? { ...c, quantity: newQuantity } : c,
           ),
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         }));
       }
     } else {
       setCurrentDeck(prev => ({
         ...prev,
         cards: [...prev.cards, { cardId: card.id, quantity }],
-        updatedAt: Date.now()
+        updatedAt: Date.now(),
       }));
     }
 
@@ -286,14 +293,16 @@ const EnhancedDeckBuilder = () => {
   const removeCardFromDeck = (cardId, quantity = 1) => {
     setCurrentDeck(prev => ({
       ...prev,
-      cards: prev.cards.map(c => {
-        if (c.cardId === cardId) {
-          const newQuantity = c.quantity - quantity;
-          return newQuantity > 0 ? { ...c, quantity: newQuantity } : null;
-        }
-        return c;
-      }).filter(Boolean),
-      updatedAt: Date.now()
+      cards: prev.cards
+        .map(c => {
+          if (c.cardId === cardId) {
+            const newQuantity = c.quantity - quantity;
+            return newQuantity > 0 ? { ...c, quantity: newQuantity } : null;
+          }
+          return c;
+        })
+        .filter(Boolean),
+      updatedAt: Date.now(),
     }));
   };
 
@@ -304,25 +313,27 @@ const EnhancedDeckBuilder = () => {
       const savedDeck = {
         ...currentDeck,
         id: currentDeck.id || `deck_${Date.now()}`,
-        updatedAt: Date.now()
+        updatedAt: Date.now(),
       };
 
       // Save to localStorage for demo
-      const savedDecks = JSON.parse(localStorage.getItem('konivrer_decks') || '[]');
+      const savedDecks = JSON.parse(
+        localStorage.getItem('konivrer_decks') || '[]',
+      );
       const existingIndex = savedDecks.findIndex(d => d.id === savedDeck.id);
-      
+
       if (existingIndex >= 0) {
         savedDecks[existingIndex] = savedDeck;
       } else {
         savedDecks.push(savedDeck);
       }
-      
+
       localStorage.setItem('konivrer_decks', JSON.stringify(savedDecks));
       setCurrentDeck(savedDeck);
 
       // Award experience for saving deck
       battlePass.gainExperience('deck_saved', 25);
-      
+
       console.log('Deck saved successfully!');
     } catch (error) {
       console.error('Failed to save deck:', error);
@@ -334,15 +345,17 @@ const EnhancedDeckBuilder = () => {
     const gameReadyDeck = {
       id: currentDeck.id,
       name: currentDeck.name,
-      cards: currentDeck.cards.map(deckCard => {
-        const card = cardCollection.find(c => c.id === deckCard.cardId);
-        return {
-          ...card,
-          quantity: deckCard.quantity
-        };
-      }).filter(Boolean),
+      cards: currentDeck.cards
+        .map(deckCard => {
+          const card = cardCollection.find(c => c.id === deckCard.cardId);
+          return {
+            ...card,
+            quantity: deckCard.quantity,
+          };
+        })
+        .filter(Boolean),
       format: currentDeck.format,
-      isLegal: deckStats.isLegal
+      isLegal: deckStats.isLegal,
     };
 
     // This would integrate with the game engine
@@ -358,10 +371,10 @@ const EnhancedDeckBuilder = () => {
     }
 
     const gameReadyDeck = exportDeckForGame();
-    
+
     // Award experience for playing with custom deck
     battlePass.gainExperience('play_custom_deck', 50);
-    
+
     // This would start a game with the deck
     console.log('Starting game with deck:', gameReadyDeck);
     // gameEngine.startGame({ playerDeck: gameReadyDeck });
@@ -387,7 +400,7 @@ const EnhancedDeckBuilder = () => {
                     type="text"
                     placeholder="Search cards..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
                   />
                 </div>
@@ -395,20 +408,22 @@ const EnhancedDeckBuilder = () => {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-white font-medium">Filters</h3>
                   <button
-                    onClick={() => setSelectedFilters({
-                      colors: [],
-                      types: [],
-                      rarity: [],
-                      cost: { min: 0, max: 20 },
-                      owned: false
-                    })}
+                    onClick={() =>
+                      setSelectedFilters({
+                        colors: [],
+                        types: [],
+                        rarity: [],
+                        cost: { min: 0, max: 20 },
+                        owned: false,
+                      })
+                    }
                     className="text-purple-400 hover:text-purple-300 text-sm"
                   >
                     Clear All
                   </button>
                 </div>
 
-                <FilterPanel 
+                <FilterPanel
                   filters={selectedFilters}
                   onFiltersChange={setSelectedFilters}
                 />
@@ -422,7 +437,7 @@ const EnhancedDeckBuilder = () => {
                   </span>
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={e => setSortBy(e.target.value)}
                     className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white text-sm"
                   >
                     <option value="name">Name</option>
@@ -439,7 +454,10 @@ const EnhancedDeckBuilder = () => {
                       card={card}
                       owned={ownedCards.has(card.id)}
                       onAddToDeck={addCardToDeck}
-                      inDeck={currentDeck.cards.find(c => c.cardId === card.id)?.quantity || 0}
+                      inDeck={
+                        currentDeck.cards.find(c => c.cardId === card.id)
+                          ?.quantity || 0
+                      }
                     />
                   ))}
                 </div>
@@ -460,20 +478,24 @@ const EnhancedDeckBuilder = () => {
                 >
                   <Filter className="w-5 h-5 text-white" />
                 </button>
-                
+
                 <input
                   type="text"
                   value={currentDeck.name}
-                  onChange={(e) => setCurrentDeck(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={e =>
+                    setCurrentDeck(prev => ({ ...prev, name: e.target.value }))
+                  }
                   className="text-2xl font-bold bg-transparent text-white border-none outline-none"
                   placeholder="Deck Name"
                 />
-                
-                <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  deckStats.isLegal 
-                    ? 'bg-green-500/20 text-green-400' 
-                    : 'bg-red-500/20 text-red-400'
-                }`}>
+
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    deckStats.isLegal
+                      ? 'bg-green-500/20 text-green-400'
+                      : 'bg-red-500/20 text-red-400'
+                  }`}
+                >
                   {deckStats.isLegal ? 'Legal' : 'Illegal'}
                 </div>
               </div>
@@ -486,7 +508,7 @@ const EnhancedDeckBuilder = () => {
                   <Save className="w-4 h-4" />
                   <span>Save</span>
                 </button>
-                
+
                 <button
                   onClick={startGameWithDeck}
                   disabled={!deckStats.isLegal}
@@ -526,25 +548,23 @@ const EnhancedDeckBuilder = () => {
                 onAddCard={addCardToDeck}
               />
             )}
-            
-            {activeTab === 'stats' && (
-              <DeckStatsPanel stats={deckStats} />
-            )}
-            
+
+            {activeTab === 'stats' && <DeckStatsPanel stats={deckStats} />}
+
             {activeTab === 'meta' && (
               <>
                 <DeckMetaAnalysis deck={currentDeck} />
                 <div className="mt-6">
-                  <CardSynergyRecommendations 
-                    currentDeck={currentDeck} 
+                  <CardSynergyRecommendations
+                    currentDeck={currentDeck}
                     onAddCard={addCardToDeck}
                   />
                 </div>
               </>
             )}
-            
+
             {activeTab === 'export' && (
-              <DeckExportPanel 
+              <DeckExportPanel
                 deck={currentDeck}
                 onExport={exportDeckForGame}
               />
@@ -567,10 +587,10 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
     const updated = current.includes(value)
       ? current.filter(v => v !== value)
       : [...current, value];
-    
+
     onFiltersChange({
       ...filters,
-      [category]: updated
+      [category]: updated,
     });
   };
 
@@ -642,7 +662,9 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
           <input
             type="checkbox"
             checked={filters.owned}
-            onChange={(e) => onFiltersChange({ ...filters, owned: e.target.checked })}
+            onChange={e =>
+              onFiltersChange({ ...filters, owned: e.target.checked })
+            }
             className="rounded border-gray-600 bg-gray-800 text-purple-600 focus:ring-purple-500"
           />
           <span className="text-white text-sm">Owned cards only</span>
@@ -654,13 +676,18 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
 
 // Card List Item Component
 const CardListItem = ({ card, owned, onAddToDeck, inDeck }) => {
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity) {
-      case 'common': return 'text-gray-400';
-      case 'uncommon': return 'text-green-400';
-      case 'rare': return 'text-blue-400';
-      case 'mythic': return 'text-orange-400';
-      default: return 'text-gray-400';
+      case 'common':
+        return 'text-gray-400';
+      case 'uncommon':
+        return 'text-green-400';
+      case 'rare':
+        return 'text-blue-400';
+      case 'mythic':
+        return 'text-orange-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
@@ -668,8 +695,8 @@ const CardListItem = ({ card, owned, onAddToDeck, inDeck }) => {
     <motion.div
       whileHover={{ scale: 1.02 }}
       className={`p-3 rounded-lg border transition-all cursor-pointer ${
-        owned 
-          ? 'bg-gray-800/50 border-gray-600 hover:border-purple-500' 
+        owned
+          ? 'bg-gray-800/50 border-gray-600 hover:border-purple-500'
           : 'bg-gray-900/50 border-gray-700 opacity-60'
       }`}
       onClick={() => owned && onAddToDeck(card)}
@@ -692,12 +719,8 @@ const CardListItem = ({ card, owned, onAddToDeck, inDeck }) => {
             </span>
           </div>
         </div>
-        
-        {!owned && (
-          <div className="text-gray-500 text-xs">
-            Not owned
-          </div>
-        )}
+
+        {!owned && <div className="text-gray-500 text-xs">Not owned</div>}
       </div>
     </motion.div>
   );
@@ -708,7 +731,7 @@ const DeckCardsList = ({ deck, cardCollection, onRemoveCard, onAddCard }) => {
   const groupedCards = deck.cards.reduce((groups, deckCard) => {
     const card = cardCollection.find(c => c.id === deckCard.cardId);
     if (!card) return groups;
-    
+
     if (!groups[card.type]) {
       groups[card.type] = [];
     }
@@ -723,7 +746,7 @@ const DeckCardsList = ({ deck, cardCollection, onRemoveCard, onAddCard }) => {
           <h3 className="text-xl font-bold text-white mb-4 capitalize">
             {type}s ({cards.reduce((sum, card) => sum + card.quantity, 0)})
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cards.map(card => (
               <DeckCardItem
@@ -736,11 +759,13 @@ const DeckCardsList = ({ deck, cardCollection, onRemoveCard, onAddCard }) => {
           </div>
         </div>
       ))}
-      
+
       {deck.cards.length === 0 && (
         <div className="text-center py-12">
           <div className="text-gray-400 text-lg mb-4">Your deck is empty</div>
-          <div className="text-gray-500">Add cards from the collection to get started</div>
+          <div className="text-gray-500">
+            Add cards from the collection to get started
+          </div>
         </div>
       )}
     </div>
@@ -758,7 +783,7 @@ const DeckCardItem = ({ card, onRemove, onAdd }) => {
         <span className="text-white font-medium">{card.name}</span>
         <span className="text-gray-400">{card.cost}</span>
       </div>
-      
+
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <span className="text-gray-400 text-sm">{card.type}</span>
@@ -766,7 +791,7 @@ const DeckCardItem = ({ card, onRemove, onAdd }) => {
             {card.quantity}
           </span>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <button
             onClick={onRemove}
@@ -793,28 +818,28 @@ const DeckStatsPanel = ({ stats }) => {
       {/* Basic Stats */}
       <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6">
         <h3 className="text-xl font-bold text-white mb-4">Deck Overview</h3>
-        
+
         <div className="space-y-4">
           <div className="flex justify-between">
             <span className="text-gray-300">Total Cards:</span>
             <span className="text-white font-medium">{stats.totalCards}</span>
           </div>
-          
+
           <div className="flex justify-between">
             <span className="text-gray-300">Average Cost:</span>
             <span className="text-white font-medium">{stats.averageCost}</span>
           </div>
-          
+
           <div className="flex justify-between">
             <span className="text-gray-300">Creatures:</span>
             <span className="text-white font-medium">{stats.creatures}</span>
           </div>
-          
+
           <div className="flex justify-between">
             <span className="text-gray-300">Spells:</span>
             <span className="text-white font-medium">{stats.spells}</span>
           </div>
-          
+
           <div className="flex justify-between">
             <span className="text-gray-300">Lands:</span>
             <span className="text-white font-medium">{stats.lands}</span>
@@ -825,25 +850,29 @@ const DeckStatsPanel = ({ stats }) => {
       {/* Legality */}
       <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6">
         <h3 className="text-xl font-bold text-white mb-4">Legality</h3>
-        
-        <div className={`p-4 rounded-lg ${
-          stats.isLegal 
-            ? 'bg-green-500/20 border border-green-500' 
-            : 'bg-red-500/20 border border-red-500'
-        }`}>
+
+        <div
+          className={`p-4 rounded-lg ${
+            stats.isLegal
+              ? 'bg-green-500/20 border border-green-500'
+              : 'bg-red-500/20 border border-red-500'
+          }`}
+        >
           <div className="flex items-center space-x-2 mb-2">
             {stats.isLegal ? (
               <CheckCircle className="w-5 h-5 text-green-400" />
             ) : (
               <AlertCircle className="w-5 h-5 text-red-400" />
             )}
-            <span className={`font-medium ${
-              stats.isLegal ? 'text-green-400' : 'text-red-400'
-            }`}>
+            <span
+              className={`font-medium ${
+                stats.isLegal ? 'text-green-400' : 'text-red-400'
+              }`}
+            >
               {stats.isLegal ? 'Legal for Play' : 'Not Legal'}
             </span>
           </div>
-          
+
           {stats.legalityIssues.length > 0 && (
             <div className="space-y-1">
               {stats.legalityIssues.map((issue, index) => (
@@ -864,9 +893,7 @@ const DeckMetaAnalysis = ({ deck }) => {
   return (
     <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6">
       <h3 className="text-xl font-bold text-white mb-4">Meta Analysis</h3>
-      <div className="text-gray-400">
-        Meta analysis features coming soon...
-      </div>
+      <div className="text-gray-400">Meta analysis features coming soon...</div>
     </div>
   );
 };
@@ -876,7 +903,7 @@ const DeckExportPanel = ({ deck, onExport }) => {
   return (
     <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6">
       <h3 className="text-xl font-bold text-white mb-4">Export Deck</h3>
-      
+
       <div className="space-y-4">
         <button
           onClick={onExport}
@@ -884,11 +911,11 @@ const DeckExportPanel = ({ deck, onExport }) => {
         >
           Export for Game
         </button>
-        
+
         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
           Share Deck
         </button>
-        
+
         <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-medium transition-colors">
           Download as Text
         </button>
@@ -914,7 +941,7 @@ function generateMockCards() {
       colors: [colors[Math.floor(Math.random() * colors.length)]],
       text: `This is the text for card ${i}`,
       power: Math.floor(Math.random() * 8) + 1,
-      toughness: Math.floor(Math.random() * 8) + 1
+      toughness: Math.floor(Math.random() * 8) + 1,
     });
   }
 

@@ -3,7 +3,7 @@ export class AnalyticsEngine {
   static track() {
     // Placeholder method
   }
-  
+
   static trackEvent() {
     // Placeholder method
   }

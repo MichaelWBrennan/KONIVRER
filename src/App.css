@@ -69,10 +69,26 @@
   --accent-pink: #a3637a !important; /* Ancient rose */
 
   /* Mystical Gradients */
-  --gradient-primary: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%) !important; /* Gold to mystical blue */
-  --gradient-secondary: linear-gradient(135deg, #6b8c5a 0%, #4a6e8c 100%) !important; /* Alchemical to celestial */
-  --gradient-success: linear-gradient(135deg, #6b8c5a 0%, #5a7849 100%) !important; /* Alchemical variations */
-  --gradient-card: linear-gradient(145deg, #241e12 0%, #2a2214 100%) !important; /* Weathered scroll texture */
+  --gradient-primary: linear-gradient(
+    135deg,
+    #9b7e46 0%,
+    #5a7e8c 100%
+  ) !important; /* Gold to mystical blue */
+  --gradient-secondary: linear-gradient(
+    135deg,
+    #6b8c5a 0%,
+    #4a6e8c 100%
+  ) !important; /* Alchemical to celestial */
+  --gradient-success: linear-gradient(
+    135deg,
+    #6b8c5a 0%,
+    #5a7849 100%
+  ) !important; /* Alchemical variations */
+  --gradient-card: linear-gradient(
+    145deg,
+    #241e12 0%,
+    #2a2214 100%
+  ) !important; /* Weathered scroll texture */
 
   /* Ancient Borders */
   --border-color: #3a3120 !important; /* Aged parchment edge */
@@ -406,7 +422,8 @@ body {
 
 .btn-ghost {
   background: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%);
-  color: var(--text-primary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   box-shadow: var(--shadow-md);
 }
 
@@ -420,7 +437,8 @@ body {
 
 .btn-success {
   background: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%);
-  color: var(--text-primary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   box-shadow: var(--shadow-md);
 }
 
@@ -434,7 +452,8 @@ body {
 
 .btn-danger {
   background: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%);
-  color: var(--text-primary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   box-shadow: var(--shadow-md);
 }
 
@@ -448,7 +467,8 @@ body {
 
 .btn-outline {
   background: linear-gradient(135deg, #9b7e46 0%, #5a7e8c 100%);
-  color: var(--text-primary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   box-shadow: var(--shadow-md);
 }
 
@@ -1267,7 +1287,8 @@ button[type='reset'] {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-primary); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .hero-feature-title {

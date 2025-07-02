@@ -11,32 +11,32 @@
   --color-accent: #e94560;
   --color-text: #f5f5f5;
   --color-text-muted: #a0a0a0;
-  
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  
+
   /* Touch targets */
   --touch-target-size: 44px;
-  
+
   /* Border radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 1rem;
-  
+
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 300ms ease;
-  
+
   /* Safe areas */
   --safe-area-inset-top: env(safe-area-inset-top, 0);
   --safe-area-inset-right: env(safe-area-inset-right, 0);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
   --safe-area-inset-left: env(safe-area-inset-left, 0);
-  
+
   /* Z-index layers */
   --z-base: 1;
   --z-above: 10;
@@ -50,10 +50,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
@@ -301,7 +304,7 @@ html, body {
   .mobile-hidden {
     display: block;
   }
-  
+
   .mobile-visible {
     display: none;
   }
@@ -350,7 +353,9 @@ html, body {
 }
 
 .mobile-game-card.selected {
-  box-shadow: 0 0 0 2px var(--color-accent), 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 0 0 2px var(--color-accent),
+    0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-game-card-img {
@@ -464,7 +469,9 @@ html, body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .mobile-qr-placeholder {
@@ -487,8 +494,12 @@ html, body {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .mobile-fade-in {
@@ -496,8 +507,14 @@ html, body {
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .mobile-slide-up {

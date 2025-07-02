@@ -24,42 +24,60 @@
 
 /* Force OpenDyslexic on All Elements */
 * {
-  font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+  font-family:
+    'OpenDyslexic',
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    sans-serif !important;
 }
 
 /* Ancient Theme Mobile Enhancements */
 @media (max-width: 768px) {
   /* Enhanced Mobile Typography with OpenDyslexic */
   body {
-    font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+    font-family:
+      'OpenDyslexic',
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'Roboto',
+      sans-serif !important;
     font-weight: 400 !important;
     line-height: 1.6 !important;
     font-size: 16px !important; /* Prevents zoom on iOS */
   }
 
   /* Mobile Typography Scale */
-  h1 { 
-    font-size: 1.75rem !important; 
+  h1 {
+    font-size: 1.75rem !important;
     line-height: 1.3 !important;
     margin-bottom: 1rem !important;
     font-family: 'OpenDyslexic', sans-serif !important;
     font-weight: 700 !important;
     color: var(--text-primary) !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(155, 126, 70, 0.3) !important;
+    text-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 8px rgba(155, 126, 70, 0.3) !important;
   }
-  
-  h2 { 
-    font-size: 1.5rem !important; 
+
+  h2 {
+    font-size: 1.5rem !important;
     line-height: 1.4 !important;
     margin-bottom: 0.875rem !important;
     font-family: 'OpenDyslexic', sans-serif !important;
     font-weight: 700 !important;
     color: var(--text-primary) !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(155, 126, 70, 0.2) !important;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.7),
+      0 0 6px rgba(155, 126, 70, 0.2) !important;
   }
-  
-  h3 { 
-    font-size: 1.25rem !important; 
+
+  h3 {
+    font-size: 1.25rem !important;
     line-height: 1.4 !important;
     margin-bottom: 0.75rem !important;
     font-family: 'OpenDyslexic', sans-serif !important;
@@ -71,9 +89,9 @@
   /* Enhanced Mobile Touch Targets with Ancient Theme */
   button,
   .btn,
-  a[role="button"],
-  input[type="button"],
-  input[type="submit"] {
+  a[role='button'],
+  input[type='button'],
+  input[type='submit'] {
     min-height: 48px !important;
     min-width: 48px !important;
     padding: 14px 20px !important;
@@ -83,10 +101,14 @@
     border-radius: 8px !important;
     touch-action: manipulation !important;
     -webkit-tap-highlight-color: transparent !important;
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
+    background: linear-gradient(
+      135deg,
+      var(--accent-primary),
+      var(--accent-secondary)
+    ) !important;
     color: white !important;
     border: 1px solid var(--border-color) !important;
-    box-shadow: 
+    box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.3),
       0 2px 4px -1px rgba(155, 126, 70, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
@@ -97,7 +119,7 @@
   button:hover,
   .btn:hover {
     transform: translateY(-1px) !important;
-    box-shadow: 
+    box-shadow:
       0 6px 8px -1px rgba(0, 0, 0, 0.4),
       0 4px 6px -1px rgba(155, 126, 70, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
@@ -106,7 +128,7 @@
   button:active,
   .btn:active {
     transform: translateY(0) !important;
-    box-shadow: 
+    box-shadow:
       0 2px 4px -1px rgba(0, 0, 0, 0.3),
       0 1px 2px -1px rgba(155, 126, 70, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
@@ -130,7 +152,11 @@
   }
 
   .mobile-nav-item:hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
+    background: linear-gradient(
+      135deg,
+      var(--accent-primary),
+      var(--accent-secondary)
+    ) !important;
     color: white !important;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   }
@@ -150,7 +176,7 @@
     border-radius: 12px !important;
     background: var(--bg-secondary) !important;
     border: 1px solid var(--border-color) !important;
-    box-shadow: 
+    box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.3),
       0 2px 4px -1px rgba(155, 126, 70, 0.1),
       inset 0 1px 0 rgba(155, 126, 70, 0.1) !important;
@@ -204,7 +230,7 @@
     outline: 2px solid var(--accent-primary) !important;
     outline-offset: 2px !important;
     border-color: var(--accent-primary) !important;
-    box-shadow: 
+    box-shadow:
       inset 0 2px 4px rgba(0, 0, 0, 0.2),
       0 0 0 3px rgba(155, 126, 70, 0.2) !important;
   }
@@ -220,8 +246,12 @@
   }
 
   @keyframes ancient-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   /* Mobile Focus States */

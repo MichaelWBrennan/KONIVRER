@@ -13,17 +13,20 @@ Thank you for your interest in contributing to the KONIVRER Deck Database! This 
 ### Development Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Crypto3k/KONIVRER-deck-database.git
    cd KONIVRER-deck-database
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment**
+
    ```bash
    cp .env.example .env.local
    # Configure your local environment variables
@@ -37,18 +40,21 @@ Thank you for your interest in contributing to the KONIVRER Deck Database! This 
 ## 📋 Development Guidelines
 
 ### Code Style
+
 - Follow the existing ESLint configuration
 - Use meaningful variable and function names
 - Write self-documenting code
 - Add comments for complex logic only
 
 ### Component Guidelines
+
 - Use functional components with hooks
 - Keep components small and focused
 - Use TypeScript for type safety
 - Follow the established folder structure
 
 ### File Organization
+
 ```
 src/
 ├── components/     # Reusable UI components
@@ -60,6 +66,7 @@ src/
 ```
 
 ### Naming Conventions
+
 - **Components**: PascalCase (`CardViewer.jsx`)
 - **Files**: camelCase (`apiClient.js`)
 - **Variables**: camelCase (`cardData`)
@@ -68,13 +75,16 @@ src/
 ## 🔧 Development Workflow
 
 ### Branch Naming
+
 - `feature/description` - New features
 - `fix/description` - Bug fixes
 - `docs/description` - Documentation updates
 - `refactor/description` - Code refactoring
 
 ### Commit Messages
+
 Follow conventional commits format:
+
 ```
 type(scope): description
 
@@ -86,6 +96,7 @@ docs(readme): update installation instructions
 ### Pull Request Process
 
 1. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -96,12 +107,14 @@ docs(readme): update installation instructions
    - Update documentation if needed
 
 3. **Test your changes**
+
    ```bash
    npm run lint
    npm run build
    ```
 
 4. **Commit your changes**
+
    ```bash
    git add .
    git commit -m "feat(scope): description of changes"
@@ -115,6 +128,7 @@ docs(readme): update installation instructions
 ## 🧪 Testing
 
 ### Running Tests
+
 ```bash
 # Lint code
 npm run lint
@@ -127,6 +141,7 @@ npm run build
 ```
 
 ### Writing Tests
+
 - Write unit tests for utility functions
 - Test component behavior, not implementation
 - Mock external dependencies
@@ -135,11 +150,13 @@ npm run build
 ## 📝 Documentation
 
 ### Code Documentation
+
 - Document complex functions and algorithms
 - Use JSDoc for function documentation
 - Keep README.md updated with new features
 
 ### API Documentation
+
 - Document all API endpoints
 - Include request/response examples
 - Document error scenarios
@@ -147,6 +164,7 @@ npm run build
 ## 🐛 Bug Reports
 
 When reporting bugs, please include:
+
 - Clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
@@ -154,12 +172,14 @@ When reporting bugs, please include:
 - Screenshots if applicable
 
 ### Bug Report Template
+
 ```markdown
 **Describe the bug**
 A clear description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. See error
@@ -171,6 +191,7 @@ What you expected to happen.
 If applicable, add screenshots.
 
 **Environment:**
+
 - OS: [e.g. iOS]
 - Browser: [e.g. chrome, safari]
 - Version: [e.g. 22]
@@ -179,11 +200,13 @@ If applicable, add screenshots.
 ## 💡 Feature Requests
 
 ### Before Submitting
+
 - Check if the feature already exists
 - Search existing issues and discussions
 - Consider if it fits the project scope
 
 ### Feature Request Template
+
 ```markdown
 **Is your feature request related to a problem?**
 A clear description of what the problem is.
@@ -201,17 +224,20 @@ Any other context or screenshots about the feature request.
 ## 🏗️ Architecture Guidelines
 
 ### State Management
+
 - Use React hooks for local state
 - Use Context API for global state
 - Keep state as close to where it's used as possible
 
 ### Performance
+
 - Use React.memo for expensive components
 - Implement code splitting for large features
 - Optimize images and assets
 - Monitor bundle size
 
 ### Security
+
 - Validate all user inputs
 - Sanitize data before rendering
 - Use HTTPS for all API calls
@@ -220,12 +246,15 @@ Any other context or screenshots about the feature request.
 ## 📦 Release Process
 
 ### Version Numbering
+
 We follow [Semantic Versioning](https://semver.org/):
+
 - **MAJOR**: Breaking changes
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes (backward compatible)
 
 ### Release Checklist
+
 - [ ] Update version in package.json
 - [ ] Update CHANGELOG.md
 - [ ] Test all functionality
@@ -235,12 +264,14 @@ We follow [Semantic Versioning](https://semver.org/):
 ## 🤝 Community
 
 ### Code of Conduct
+
 - Be respectful and inclusive
 - Help others learn and grow
 - Focus on constructive feedback
 - Maintain a professional environment
 
 ### Getting Help
+
 - Check the documentation first
 - Search existing issues
 - Ask questions in discussions

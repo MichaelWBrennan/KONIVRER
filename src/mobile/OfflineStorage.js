@@ -1,13 +1,13 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 /**
  * Offline Storage Module
- * 
+ *
  * Provides functionality for storing and syncing data when offline
  */
 
@@ -18,7 +18,7 @@ const STORAGE_KEYS = {
   CACHED_OPPONENTS: 'offline_cached_opponents',
   CACHED_TOURNAMENTS: 'offline_cached_tournaments',
   SYNC_QUEUE: 'offline_sync_queue',
-  LAST_SYNC: 'offline_last_sync'
+  LAST_SYNC: 'offline_last_sync',
 };
 
 /**
@@ -32,14 +32,17 @@ export const initOfflineStorage = async () => {
       console.error('localStorage is not available');
       return false;
     }
-    
+
     // Initialize storage with empty data if not exists
     Object.values(STORAGE_KEYS).forEach(key => {
       if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, JSON.stringify(key.includes('LAST_SYNC') ? Date.now() : []));
+        localStorage.setItem(
+          key,
+          JSON.stringify(key.includes('LAST_SYNC') ? Date.now() : []),
+        );
       }
     });
-    
+
     return true;
   } catch (error) {
     console.error('Failed to initialize offline storage:', error);
@@ -52,7 +55,7 @@ export const initOfflineStorage = async () => {
  * @param {string} type - Storage type ('localStorage' or 'sessionStorage')
  * @returns {boolean} Whether storage is available
  */
-const isStorageAvailable = (type) => {
+const isStorageAvailable = type => {
   try {
     const storage = window[type];
     const testKey = '__storage_test__';
@@ -69,7 +72,7 @@ const isStorageAvailable = (type) => {
  * @param {Object} playerData - Player data to save
  * @returns {Promise<boolean>} Success status
  */
-export const savePlayerData = async (playerData) => {
+export const savePlayerData = async playerData => {
   try {
     localStorage.setItem(STORAGE_KEYS.PLAYER_DATA, JSON.stringify(playerData));
     return true;
@@ -98,27 +101,31 @@ export const getPlayerData = () => {
  * @param {Object} matchResult - Match result data
  * @returns {Promise<boolean>} Success status
  */
-export const saveMatchResult = async (matchResult) => {
+export const saveMatchResult = async matchResult => {
   try {
     // Add timestamp if not present
     if (!matchResult.timestamp) {
       matchResult.timestamp = new Date().toISOString();
     }
-    
+
     // Add to sync queue
-    const syncQueue = JSON.parse(localStorage.getItem(STORAGE_KEYS.SYNC_QUEUE) || '[]');
+    const syncQueue = JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.SYNC_QUEUE) || '[]',
+    );
     syncQueue.push({
       type: 'MATCH_RESULT',
       data: matchResult,
-      id: Date.now()
+      id: Date.now(),
     });
     localStorage.setItem(STORAGE_KEYS.SYNC_QUEUE, JSON.stringify(syncQueue));
-    
+
     // Also save to match results for local reference
-    const results = JSON.parse(localStorage.getItem(STORAGE_KEYS.MATCH_RESULTS) || '[]');
+    const results = JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.MATCH_RESULTS) || '[]',
+    );
     results.push(matchResult);
     localStorage.setItem(STORAGE_KEYS.MATCH_RESULTS, JSON.stringify(results));
-    
+
     return true;
   } catch (error) {
     console.error('Failed to save match result:', error);
@@ -144,9 +151,12 @@ export const getMatchResults = () => {
  * @param {Array} opponents - Opponents data to cache
  * @returns {Promise<boolean>} Success status
  */
-export const cacheOpponents = async (opponents) => {
+export const cacheOpponents = async opponents => {
   try {
-    localStorage.setItem(STORAGE_KEYS.CACHED_OPPONENTS, JSON.stringify(opponents));
+    localStorage.setItem(
+      STORAGE_KEYS.CACHED_OPPONENTS,
+      JSON.stringify(opponents),
+    );
     return true;
   } catch (error) {
     console.error('Failed to cache opponents:', error);
@@ -160,7 +170,9 @@ export const cacheOpponents = async (opponents) => {
  */
 export const getCachedOpponents = () => {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.CACHED_OPPONENTS) || '[]');
+    return JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.CACHED_OPPONENTS) || '[]',
+    );
   } catch (error) {
     console.error('Failed to get cached opponents:', error);
     return [];
@@ -172,9 +184,12 @@ export const getCachedOpponents = () => {
  * @param {Array} tournaments - Tournaments data to cache
  * @returns {Promise<boolean>} Success status
  */
-export const cacheTournaments = async (tournaments) => {
+export const cacheTournaments = async tournaments => {
   try {
-    localStorage.setItem(STORAGE_KEYS.CACHED_TOURNAMENTS, JSON.stringify(tournaments));
+    localStorage.setItem(
+      STORAGE_KEYS.CACHED_TOURNAMENTS,
+      JSON.stringify(tournaments),
+    );
     return true;
   } catch (error) {
     console.error('Failed to cache tournaments:', error);
@@ -188,7 +203,9 @@ export const cacheTournaments = async (tournaments) => {
  */
 export const getCachedTournaments = () => {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.CACHED_TOURNAMENTS) || '[]');
+    return JSON.parse(
+      localStorage.getItem(STORAGE_KEYS.CACHED_TOURNAMENTS) || '[]',
+    );
   } catch (error) {
     console.error('Failed to get cached tournaments:', error);
     return [];
@@ -213,16 +230,16 @@ export const getSyncQueue = () => {
  * @param {Object} api - API client
  * @returns {Promise<Object>} Sync results
  */
-export const processSyncQueue = async (api) => {
+export const processSyncQueue = async api => {
   try {
     const queue = getSyncQueue();
     if (queue.length === 0) {
       return { success: true, processed: 0, failed: 0 };
     }
-    
+
     let processed = 0;
     let failed = 0;
-    
+
     // Process each item in queue
     for (const item of queue) {
       try {
@@ -240,7 +257,7 @@ export const processSyncQueue = async (api) => {
         failed++;
       }
     }
-    
+
     // Clear successfully processed items
     if (processed > 0) {
       // Clear match results if all processed
@@ -251,17 +268,20 @@ export const processSyncQueue = async (api) => {
         // Only remove processed items
         const newQueue = queue.slice(processed);
         localStorage.setItem(STORAGE_KEYS.SYNC_QUEUE, JSON.stringify(newQueue));
-        
+
         // Update match results
         const results = getMatchResults();
         const newResults = results.slice(processed);
-        localStorage.setItem(STORAGE_KEYS.MATCH_RESULTS, JSON.stringify(newResults));
+        localStorage.setItem(
+          STORAGE_KEYS.MATCH_RESULTS,
+          JSON.stringify(newResults),
+        );
       }
     }
-    
+
     // Update last sync time
     localStorage.setItem(STORAGE_KEYS.LAST_SYNC, JSON.stringify(Date.now()));
-    
+
     return { success: true, processed, failed };
   } catch (error) {
     console.error('Failed to process sync queue:', error);

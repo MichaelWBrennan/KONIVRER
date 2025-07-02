@@ -1,4 +1,3 @@
-
 name: Scheduled Maintenance & Optimization
 
 on:
@@ -19,18 +18,18 @@ on:
         default: 'full'
         type: choice
         options:
-        - full
-        - security
-        - performance
-        - dependencies
-        - quality
+          - full
+          - security
+          - performance
+          - dependencies
+          - quality
 
 jobs:
   scheduled-security-scan:
     name: Automated Security Maintenance
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 2 * * *' || github.event.inputs.maintenance_type == 'security' || github.event.inputs.maintenance_type == 'full'
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,7 +53,7 @@ jobs:
       - name: Auto-fix security issues
         run: |
           npm audit fix --force || echo "Some issues require manual intervention"
-          
+
       - name: Create security report PR
         if: always()
         uses: peter-evans/create-pull-request@v7
@@ -64,14 +63,14 @@ jobs:
           title: '🔒 Automated Security Maintenance Report'
           body: |
             ## 🔒 Automated Security Maintenance
-            
+
             This PR contains automated security maintenance updates.
-            
+
             ### Changes Made:
             - Security vulnerability scan completed
             - Automated fixes applied where possible
             - Security configuration validated
-            
+
             ### Next Steps:
             - Review security report
             - Manually address any remaining issues
@@ -83,7 +82,7 @@ jobs:
     name: Automated Performance Optimization
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 3 * * 0' || github.event.inputs.maintenance_type == 'performance' || github.event.inputs.maintenance_type == 'full'
-    
+
     steps:
       - uses: actions/checkout@v4
 
@@ -119,7 +118,7 @@ jobs:
     name: Automated Dependency Management
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 4 * * 1' || github.event.inputs.maintenance_type == 'dependencies' || github.event.inputs.maintenance_type == 'full'
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -135,13 +134,13 @@ jobs:
         run: |
           echo "📦 Checking for dependency updates..."
           npm outdated --json > outdated-deps.json || true
-          
+
       - name: Update patch and minor versions
         run: |
           echo "🔄 Updating patch and minor versions..."
           npx npm-check-updates -u --target minor
           npm install
-          
+
       - name: Run tests after updates
         run: |
           npm test || echo "Tests not configured"
@@ -155,19 +154,19 @@ jobs:
           title: '📦 Automated Dependency Updates'
           body: |
             ## 📦 Automated Dependency Updates
-            
+
             This PR contains automated dependency updates for patch and minor versions.
-            
+
             ### What's Updated:
             - Patch version updates (bug fixes)
             - Minor version updates (backward compatible features)
             - Security patches applied
-            
+
             ### Verification:
             - ✅ Build completed successfully
             - ✅ Basic tests passed
             - ✅ No breaking changes detected
-            
+
             ### Manual Review Required:
             - Review changelog for any significant changes
             - Test critical application functionality
@@ -179,7 +178,7 @@ jobs:
     name: Automated Code Quality Maintenance
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 1 * * *' || github.event.inputs.maintenance_type == 'quality' || github.event.inputs.maintenance_type == 'full'
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -213,15 +212,15 @@ jobs:
           title: '✨ Automated Code Quality Maintenance'
           body: |
             ## ✨ Automated Code Quality Maintenance
-            
+
             This PR contains automated code quality improvements.
-            
+
             ### Improvements Made:
             - Code formatting standardized
             - ESLint auto-fixes applied
             - Import statements organized
             - Code style consistency improved
-            
+
             ### Quality Metrics:
             - See attached quality report for detailed analysis
             - No functional changes made
@@ -232,9 +231,15 @@ jobs:
   maintenance-summary:
     name: Maintenance Summary Report
     runs-on: ubuntu-latest
-    needs: [scheduled-security-scan, scheduled-performance-optimization, scheduled-dependency-updates, scheduled-code-quality]
+    needs:
+      [
+        scheduled-security-scan,
+        scheduled-performance-optimization,
+        scheduled-dependency-updates,
+        scheduled-code-quality,
+      ]
     if: always()
-    
+
     steps:
       - name: Generate maintenance summary
         run: |

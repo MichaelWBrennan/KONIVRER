@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -19,18 +19,19 @@ const MobileDeckSearch = () => {
   // Filter and sort decks
   useEffect(() => {
     if (!publicDecks) return;
-    
+
     let results = [...publicDecks];
-    
+
     // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      results = results.filter(deck => 
-        deck.name.toLowerCase().includes(term) || 
-        (deck.description && deck.description.toLowerCase().includes(term))
+      results = results.filter(
+        deck =>
+          deck.name.toLowerCase().includes(term) ||
+          (deck.description && deck.description.toLowerCase().includes(term)),
       );
     }
-    
+
     // Apply sorting
     switch (sortBy) {
       case 'recent':
@@ -45,17 +46,17 @@ const MobileDeckSearch = () => {
       default:
         break;
     }
-    
+
     setFilteredDecks(results);
   }, [publicDecks, searchTerm, sortBy]);
 
   // Handle search input change
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
   // Handle sort change
-  const handleSortChange = (sort) => {
+  const handleSortChange = sort => {
     setSortBy(sort);
     setShowFilters(false);
   };
@@ -95,16 +96,16 @@ const MobileDeckSearch = () => {
             onChange={handleSearchChange}
           />
         </div>
-        
+
         <div className="mobile-form-group mobile-text-center">
-          <button 
+          <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
           >
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
-        
+
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt">
@@ -135,9 +136,7 @@ const MobileDeckSearch = () => {
 
       {/* Results Count */}
       <div className="mobile-mb">
-        <p className="mobile-text-center">
-          {filteredDecks.length} decks found
-        </p>
+        <p className="mobile-text-center">{filteredDecks.length} decks found</p>
       </div>
 
       {/* Create Deck Button */}
@@ -150,8 +149,8 @@ const MobileDeckSearch = () => {
       {/* Deck List */}
       <div className="mobile-deck-list">
         {filteredDecks.map(deck => (
-          <Link 
-            to={`/deck-builder/${deck.id}`} 
+          <Link
+            to={`/deck-builder/${deck.id}`}
             key={deck.id}
             className="mobile-card mobile-mb"
           >
@@ -161,9 +160,8 @@ const MobileDeckSearch = () => {
             </div>
             <div className="mobile-card-footer">
               <small>
-                By {deck.author || 'Unknown'} • 
-                {deck.likes || 0} likes • 
-                Updated {new Date(deck.updatedAt).toLocaleDateString()}
+                By {deck.author || 'Unknown'} •{deck.likes || 0} likes • Updated{' '}
+                {new Date(deck.updatedAt).toLocaleDateString()}
               </small>
             </div>
           </Link>

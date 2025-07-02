@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -18,7 +18,7 @@ export class AccessibilityEngine {
       enableMotorSupport: true,
       enableCognitiveSupport: true,
       enableKeyboardNavigation: true,
-      ...options
+      ...options,
     };
 
     // Screen reader support
@@ -27,14 +27,14 @@ export class AccessibilityEngine {
       announcements: [],
       focusedElement: null,
       readingSpeed: 1.0,
-      verbosity: 'normal' // minimal, normal, verbose
+      verbosity: 'normal', // minimal, normal, verbose
     };
 
     // Color blind support
     this.colorBlind = {
       type: 'none', // none, protanopia, deuteranopia, tritanopia, achromatopsia
       filters: new Map(),
-      customColors: new Map()
+      customColors: new Map(),
     };
 
     // Motor impairment support
@@ -44,7 +44,7 @@ export class AccessibilityEngine {
       stickyKeys: false,
       slowKeys: false,
       bounceKeys: false,
-      mouseKeys: false
+      mouseKeys: false,
     };
 
     // Cognitive support
@@ -53,7 +53,7 @@ export class AccessibilityEngine {
       simplifiedUI: false,
       focusIndicators: true,
       timeoutExtensions: true,
-      readingAssistance: false
+      readingAssistance: false,
     };
 
     // Keyboard navigation
@@ -62,7 +62,7 @@ export class AccessibilityEngine {
       focusOrder: [],
       shortcuts: new Map(),
       currentFocus: -1,
-      trapFocus: false
+      trapFocus: false,
     };
 
     // UI customization
@@ -71,7 +71,7 @@ export class AccessibilityEngine {
       contrast: 1.0,
       spacing: 1.0,
       buttonSize: 1.0,
-      animationSpeed: 1.0
+      animationSpeed: 1.0,
     };
 
     // Voice commands (if supported)
@@ -79,7 +79,7 @@ export class AccessibilityEngine {
       enabled: false,
       recognition: null,
       commands: new Map(),
-      listening: false
+      listening: false,
     };
 
     this.init();
@@ -95,7 +95,7 @@ export class AccessibilityEngine {
       this.setupVoiceCommands();
       this.loadUserPreferences();
       this.applyAccessibilitySettings();
-      
+
       console.log('Accessibility Engine initialized');
     } catch (error) {
       console.error('Failed to initialize Accessibility Engine:', error);
@@ -126,11 +126,13 @@ export class AccessibilityEngine {
     // Check for common screen readers
     const userAgent = navigator.userAgent.toLowerCase();
     const screenReaders = ['nvda', 'jaws', 'voiceover', 'talkback', 'orca'];
-    
-    return screenReaders.some(sr => userAgent.includes(sr)) ||
-           // Check for accessibility APIs
-           'speechSynthesis' in window ||
-           navigator.userAgent.includes('Accessibility');
+
+    return (
+      screenReaders.some(sr => userAgent.includes(sr)) ||
+      // Check for accessibility APIs
+      'speechSynthesis' in window ||
+      navigator.userAgent.includes('Accessibility')
+    );
   }
 
   /**
@@ -141,13 +143,13 @@ export class AccessibilityEngine {
 
     // Create live regions for announcements
     this.createLiveRegions();
-    
+
     // Setup focus management
     this.setupFocusManagement();
-    
+
     // Setup ARIA labels and descriptions
     this.setupARIASupport();
-    
+
     // Setup speech synthesis
     if ('speechSynthesis' in window) {
       this.setupSpeechSynthesis();
@@ -181,7 +183,7 @@ export class AccessibilityEngine {
   announce(message, priority = 'polite') {
     const regionId = `accessibility-live-${priority}`;
     const region = document.getElementById(regionId);
-    
+
     if (region) {
       // Clear and set new message
       region.textContent = '';
@@ -199,7 +201,7 @@ export class AccessibilityEngine {
     this.screenReader.announcements.push({
       message,
       priority,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -222,7 +224,10 @@ export class AccessibilityEngine {
     switch (this.screenReader.verbosity) {
       case 'minimal':
         // Remove extra punctuation and abbreviations
-        return text.replace(/[.,;:!?]/g, ' ').replace(/\s+/g, ' ').trim();
+        return text
+          .replace(/[.,;:!?]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
       case 'verbose':
         // Add extra context
         return this.addVerboseContext(text);
@@ -234,10 +239,10 @@ export class AccessibilityEngine {
   addVerboseContext(text) {
     // Add context for common game terms
     const gameTerms = {
-      'HP': 'Health Points',
-      'MP': 'Mana Points',
-      'ATK': 'Attack',
-      'DEF': 'Defense'
+      HP: 'Health Points',
+      MP: 'Mana Points',
+      ATK: 'Attack',
+      DEF: 'Defense',
     };
 
     let processedText = text;
@@ -251,13 +256,13 @@ export class AccessibilityEngine {
 
   setupFocusManagement() {
     // Track focus changes
-    document.addEventListener('focusin', (event) => {
+    document.addEventListener('focusin', event => {
       this.screenReader.focusedElement = event.target;
       this.announceFocusChange(event.target);
     });
 
     // Handle focus trapping for modals
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       if (this.keyboard.trapFocus && event.key === 'Tab') {
         this.handleFocusTrap(event);
       }
@@ -268,7 +273,7 @@ export class AccessibilityEngine {
     if (!this.screenReader.enabled) return;
 
     let announcement = '';
-    
+
     // Get element description
     const label = this.getElementLabel(element);
     const role = element.getAttribute('role') || element.tagName.toLowerCase();
@@ -286,31 +291,48 @@ export class AccessibilityEngine {
   }
 
   getElementLabel(element) {
-    return element.getAttribute('aria-label') ||
-           element.getAttribute('aria-labelledby') &&
-           document.getElementById(element.getAttribute('aria-labelledby'))?.textContent ||
-           element.textContent ||
-           element.getAttribute('alt') ||
-           element.getAttribute('title') ||
-           'Unlabeled element';
+    return (
+      element.getAttribute('aria-label') ||
+      (element.getAttribute('aria-labelledby') &&
+        document.getElementById(element.getAttribute('aria-labelledby'))
+          ?.textContent) ||
+      element.textContent ||
+      element.getAttribute('alt') ||
+      element.getAttribute('title') ||
+      'Unlabeled element'
+    );
   }
 
   getElementState(element) {
     const states = [];
-    
+
     if (element.hasAttribute('aria-expanded')) {
-      states.push(element.getAttribute('aria-expanded') === 'true' ? 'expanded' : 'collapsed');
+      states.push(
+        element.getAttribute('aria-expanded') === 'true'
+          ? 'expanded'
+          : 'collapsed',
+      );
     }
-    
+
     if (element.hasAttribute('aria-checked')) {
       const checked = element.getAttribute('aria-checked');
-      states.push(checked === 'true' ? 'checked' : checked === 'false' ? 'unchecked' : 'mixed');
+      states.push(
+        checked === 'true'
+          ? 'checked'
+          : checked === 'false'
+            ? 'unchecked'
+            : 'mixed',
+      );
     }
-    
+
     if (element.hasAttribute('aria-selected')) {
-      states.push(element.getAttribute('aria-selected') === 'true' ? 'selected' : 'not selected');
+      states.push(
+        element.getAttribute('aria-selected') === 'true'
+          ? 'selected'
+          : 'not selected',
+      );
     }
-    
+
     if (element.disabled) {
       states.push('disabled');
     }
@@ -332,43 +354,49 @@ export class AccessibilityEngine {
     // Create SVG filters for different types of color blindness
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.cssText = 'position: absolute; width: 0; height: 0;';
-    
+
     // Protanopia filter (red-blind)
     const protanopiaFilter = this.createColorBlindFilter('protanopia', [
       [0.567, 0.433, 0],
       [0.558, 0.442, 0],
-      [0, 0.242, 0.758]
+      [0, 0.242, 0.758],
     ]);
-    
+
     // Deuteranopia filter (green-blind)
     const deuteranopiaFilter = this.createColorBlindFilter('deuteranopia', [
       [0.625, 0.375, 0],
       [0.7, 0.3, 0],
-      [0, 0.3, 0.7]
+      [0, 0.3, 0.7],
     ]);
-    
+
     // Tritanopia filter (blue-blind)
     const tritanopiaFilter = this.createColorBlindFilter('tritanopia', [
       [0.95, 0.05, 0],
       [0, 0.433, 0.567],
-      [0, 0.475, 0.525]
+      [0, 0.475, 0.525],
     ]);
 
     svg.appendChild(protanopiaFilter);
     svg.appendChild(deuteranopiaFilter);
     svg.appendChild(tritanopiaFilter);
-    
+
     document.body.appendChild(svg);
   }
 
   createColorBlindFilter(type, matrix) {
-    const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+    const filter = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'filter',
+    );
     filter.id = `colorblind-${type}`;
-    
-    const colorMatrix = document.createElementNS('http://www.w3.org/2000/svg', 'feColorMatrix');
+
+    const colorMatrix = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'feColorMatrix',
+    );
     colorMatrix.setAttribute('type', 'matrix');
     colorMatrix.setAttribute('values', matrix.flat().join(' '));
-    
+
     filter.appendChild(colorMatrix);
     return filter;
   }
@@ -380,7 +408,7 @@ export class AccessibilityEngine {
 
   applyColorBlindFilter() {
     const root = document.documentElement;
-    
+
     if (this.colorBlind.type === 'none') {
       root.style.filter = '';
     } else {
@@ -393,7 +421,7 @@ export class AccessibilityEngine {
 
   applyColorBlindColorScheme() {
     const root = document.documentElement;
-    
+
     switch (this.colorBlind.type) {
       case 'protanopia':
       case 'deuteranopia':
@@ -452,10 +480,12 @@ export class AccessibilityEngine {
     let dwellTimer = null;
     let dwellTarget = null;
 
-    document.addEventListener('mouseover', (event) => {
+    document.addEventListener('mouseover', event => {
       if (!this.motor.clickAssistance) return;
 
-      const target = event.target.closest('button, [role="button"], .clickable');
+      const target = event.target.closest(
+        'button, [role="button"], .clickable',
+      );
       if (!target) return;
 
       dwellTarget = target;
@@ -469,7 +499,7 @@ export class AccessibilityEngine {
       }, this.motor.dwellTime);
     });
 
-    document.addEventListener('mouseout', (event) => {
+    document.addEventListener('mouseout', event => {
       if (dwellTimer) {
         clearTimeout(dwellTimer);
         dwellTimer = null;
@@ -483,12 +513,12 @@ export class AccessibilityEngine {
 
   setupStickyKeys() {
     const stickyKeys = new Set();
-    
-    document.addEventListener('keydown', (event) => {
+
+    document.addEventListener('keydown', event => {
       if (!this.motor.stickyKeys) return;
 
       const modifierKeys = ['Control', 'Alt', 'Shift', 'Meta'];
-      
+
       if (modifierKeys.includes(event.key)) {
         if (stickyKeys.has(event.key)) {
           stickyKeys.delete(event.key);
@@ -504,12 +534,12 @@ export class AccessibilityEngine {
           ctrlKey: stickyKeys.has('Control'),
           altKey: stickyKeys.has('Alt'),
           shiftKey: stickyKeys.has('Shift'),
-          metaKey: stickyKeys.has('Meta')
+          metaKey: stickyKeys.has('Meta'),
         });
-        
+
         // Clear sticky keys after use
         stickyKeys.clear();
-        
+
         // Dispatch the modified event
         event.target.dispatchEvent(modifiedEvent);
         event.preventDefault();
@@ -552,17 +582,19 @@ export class AccessibilityEngine {
     this.keyboard.shortcuts.set('ArrowUp', () => this.handleArrowKey('up'));
     this.keyboard.shortcuts.set('ArrowDown', () => this.handleArrowKey('down'));
     this.keyboard.shortcuts.set('ArrowLeft', () => this.handleArrowKey('left'));
-    this.keyboard.shortcuts.set('ArrowRight', () => this.handleArrowKey('right'));
+    this.keyboard.shortcuts.set('ArrowRight', () =>
+      this.handleArrowKey('right'),
+    );
 
     // Application shortcuts
     this.keyboard.shortcuts.set('Alt+1', () => this.focusMainContent());
     this.keyboard.shortcuts.set('Alt+2', () => this.focusNavigation());
     this.keyboard.shortcuts.set('Alt+3', () => this.focusGameArea());
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       const shortcut = this.getShortcutKey(event);
       const handler = this.keyboard.shortcuts.get(shortcut);
-      
+
       if (handler) {
         event.preventDefault();
         handler();
@@ -576,7 +608,7 @@ export class AccessibilityEngine {
     if (event.altKey) modifiers.push('Alt');
     if (event.shiftKey) modifiers.push('Shift');
     if (event.metaKey) modifiers.push('Meta');
-    
+
     return [...modifiers, event.key].join('+');
   }
 
@@ -598,13 +630,13 @@ export class AccessibilityEngine {
     document.head.appendChild(style);
 
     // Apply focus indicators
-    document.addEventListener('focusin', (event) => {
+    document.addEventListener('focusin', event => {
       if (this.cognitive.focusIndicators) {
         event.target.classList.add('accessibility-focus-visible');
       }
     });
 
-    document.addEventListener('focusout', (event) => {
+    document.addEventListener('focusout', event => {
       event.target.classList.remove('accessibility-focus-visible');
     });
   }
@@ -613,13 +645,17 @@ export class AccessibilityEngine {
    * Voice Commands
    */
   setupVoiceCommands() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    if (
+      !('webkitSpeechRecognition' in window) &&
+      !('SpeechRecognition' in window)
+    ) {
       return;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     this.voice.recognition = new SpeechRecognition();
-    
+
     this.voice.recognition.continuous = true;
     this.voice.recognition.interimResults = false;
     this.voice.recognition.lang = 'en-US';
@@ -630,12 +666,14 @@ export class AccessibilityEngine {
     this.voice.commands.set('end turn', () => this.handleVoiceEndTurn());
     this.voice.commands.set('help', () => this.handleVoiceHelp());
 
-    this.voice.recognition.onresult = (event) => {
-      const command = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+    this.voice.recognition.onresult = event => {
+      const command = event.results[event.results.length - 1][0].transcript
+        .toLowerCase()
+        .trim();
       this.processVoiceCommand(command);
     };
 
-    this.voice.recognition.onerror = (event) => {
+    this.voice.recognition.onerror = event => {
       console.warn('Voice recognition error:', event.error);
     };
   }
@@ -674,37 +712,58 @@ export class AccessibilityEngine {
    */
   setFontSize(scale) {
     this.ui.fontSize = scale;
-    document.documentElement.style.setProperty('--accessibility-font-scale', scale);
+    document.documentElement.style.setProperty(
+      '--accessibility-font-scale',
+      scale,
+    );
   }
 
   setContrast(level) {
     this.ui.contrast = level;
-    document.documentElement.style.setProperty('--accessibility-contrast', level);
+    document.documentElement.style.setProperty(
+      '--accessibility-contrast',
+      level,
+    );
   }
 
   setSpacing(scale) {
     this.ui.spacing = scale;
-    document.documentElement.style.setProperty('--accessibility-spacing-scale', scale);
+    document.documentElement.style.setProperty(
+      '--accessibility-spacing-scale',
+      scale,
+    );
   }
 
   setButtonSize(scale) {
     this.ui.buttonSize = scale;
-    document.documentElement.style.setProperty('--accessibility-button-scale', scale);
+    document.documentElement.style.setProperty(
+      '--accessibility-button-scale',
+      scale,
+    );
   }
 
   setAnimationSpeed(speed) {
     this.ui.animationSpeed = speed;
-    document.documentElement.style.setProperty('--accessibility-animation-speed', speed);
+    document.documentElement.style.setProperty(
+      '--accessibility-animation-speed',
+      speed,
+    );
   }
 
   enableReducedMotion(enabled) {
     this.cognitive.reducedMotion = enabled;
-    document.documentElement.classList.toggle('accessibility-reduced-motion', enabled);
+    document.documentElement.classList.toggle(
+      'accessibility-reduced-motion',
+      enabled,
+    );
   }
 
   enableSimplifiedUI(enabled) {
     this.cognitive.simplifiedUI = enabled;
-    document.documentElement.classList.toggle('accessibility-simplified-ui', enabled);
+    document.documentElement.classList.toggle(
+      'accessibility-simplified-ui',
+      enabled,
+    );
   }
 
   /**
@@ -734,10 +793,13 @@ export class AccessibilityEngine {
       motor: this.motor,
       cognitive: this.cognitive,
       keyboard: this.keyboard,
-      ui: this.ui
+      ui: this.ui,
     };
-    
-    localStorage.setItem('konivrer_accessibility_settings', JSON.stringify(settings));
+
+    localStorage.setItem(
+      'konivrer_accessibility_settings',
+      JSON.stringify(settings),
+    );
   }
 
   applyAccessibilitySettings() {
@@ -752,10 +814,16 @@ export class AccessibilityEngine {
     this.enableSimplifiedUI(this.cognitive.simplifiedUI);
 
     // Apply motor assistance
-    document.documentElement.classList.toggle('accessibility-large-targets', this.motor.clickAssistance);
-    
+    document.documentElement.classList.toggle(
+      'accessibility-large-targets',
+      this.motor.clickAssistance,
+    );
+
     // Apply cognitive assistance
-    document.documentElement.classList.toggle('accessibility-focus-indicators', this.cognitive.focusIndicators);
+    document.documentElement.classList.toggle(
+      'accessibility-focus-indicators',
+      this.cognitive.focusIndicators,
+    );
   }
 
   /**
@@ -773,8 +841,8 @@ export class AccessibilityEngine {
         fontSize: this.ui.fontSize,
         contrast: this.ui.contrast,
         spacing: this.ui.spacing,
-        buttonSize: this.ui.buttonSize
-      }
+        buttonSize: this.ui.buttonSize,
+      },
     };
   }
 
@@ -809,13 +877,19 @@ export class AccessibilityEngine {
   }
 
   handleVoiceHelp() {
-    this.announce('Available voice commands: play card, attack, end turn, help');
+    this.announce(
+      'Available voice commands: play card, attack, end turn, help',
+    );
   }
 
   // Keyboard navigation handlers
   handleSpaceKey() {
     const focused = document.activeElement;
-    if (focused && (focused.tagName === 'BUTTON' || focused.getAttribute('role') === 'button')) {
+    if (
+      focused &&
+      (focused.tagName === 'BUTTON' ||
+        focused.getAttribute('role') === 'button')
+    ) {
       focused.click();
     }
   }
@@ -850,7 +924,9 @@ export class AccessibilityEngine {
   }
 
   focusGameArea() {
-    const gameArea = document.querySelector('.game-board, #game-area, [role="application"]');
+    const gameArea = document.querySelector(
+      '.game-board, #game-area, [role="application"]',
+    );
     if (gameArea) {
       gameArea.focus();
       this.announce('Focused game area');
@@ -860,7 +936,7 @@ export class AccessibilityEngine {
   dispatchEvent(eventName, detail = {}) {
     const event = new CustomEvent(`accessibility:${eventName}`, {
       detail,
-      bubbles: true
+      bubbles: true,
     });
     document.dispatchEvent(event);
   }

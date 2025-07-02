@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -688,7 +688,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithSSO = async provider => {
     try {
       console.log(`[SSO] Initiating ${provider} OAuth flow`);
-      
+
       // Store provider for redirect flow
       localStorage.setItem('oauth_provider', provider);
 

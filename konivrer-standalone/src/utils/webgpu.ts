@@ -15,19 +15,19 @@ export const detectWebGPU = async (): Promise<boolean> => {
   try {
     // Try to get an adapter
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     // If no adapter is available, WebGPU is not supported
     if (!adapter) {
       return false;
     }
-    
+
     // Check if the adapter supports the features we need
     const features = [
       'texture-compression-bc',
       'float32-filterable',
-      'depth-clip-control'
+      'depth-clip-control',
     ];
-    
+
     // Check adapter limits
     const requiredLimits = {
       maxBufferSize: 1 << 28, // 256MB
@@ -35,12 +35,12 @@ export const detectWebGPU = async (): Promise<boolean> => {
       maxBindGroups: 4,
       maxBindingsPerBindGroup: 16,
       maxSampledTexturesPerShaderStage: 16,
-      maxSamplersPerShaderStage: 16
+      maxSamplersPerShaderStage: 16,
     };
-    
+
     // Check if the adapter meets our requirements
     let supported = true;
-    
+
     // Check features
     for (const feature of features) {
       if (!adapter.features.has(feature as GPUFeatureName)) {
@@ -48,16 +48,18 @@ export const detectWebGPU = async (): Promise<boolean> => {
         // Don't return false immediately, as some features are optional
       }
     }
-    
+
     // Check limits
     for (const [limit, value] of Object.entries(requiredLimits)) {
       const limitKey = limit as keyof GPUSupportedLimits;
       if (adapter.limits[limitKey] < value) {
-        console.warn(`WebGPU limit not met: ${limit}. Required: ${value}, Available: ${adapter.limits[limitKey]}`);
+        console.warn(
+          `WebGPU limit not met: ${limit}. Required: ${value}, Available: ${adapter.limits[limitKey]}`,
+        );
         // Some limits are critical, but for now we'll just warn
       }
     }
-    
+
     // Get device to check if we can actually create one
     try {
       const device = await adapter.requestDevice();
@@ -86,29 +88,31 @@ export const getWebGPUInfo = async (): Promise<{
   if (!navigator.gpu) {
     return { supported: false };
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return { supported: false };
     }
-    
+
     const adapterInfo = await adapter.requestAdapterInfo();
-    const features = Array.from(adapter.features).map(feature => feature.toString());
+    const features = Array.from(adapter.features).map(feature =>
+      feature.toString(),
+    );
     const limits: Record<string, number> = {};
-    
+
     // Get all limits
     for (const key in adapter.limits) {
       const limitKey = key as keyof GPUSupportedLimits;
       limits[key] = adapter.limits[limitKey];
     }
-    
+
     return {
       supported: true,
       adapterInfo,
       features,
-      limits
+      limits,
     };
   } catch (e) {
     console.error('Error getting WebGPU info:', e);
@@ -124,34 +128,34 @@ export const getWebGPUInfo = async (): Promise<{
  */
 export const createWebGPUDevice = async (
   requiredFeatures: GPUFeatureName[] = [],
-  requiredLimits: Partial<GPURequiredLimits> = {}
+  requiredLimits: Partial<GPURequiredLimits> = {},
 ): Promise<GPUDevice | null> => {
   if (!navigator.gpu) {
     throw new Error('WebGPU is not supported in this browser');
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter({
-      powerPreference: 'high-performance'
+      powerPreference: 'high-performance',
     });
-    
+
     if (!adapter) {
       throw new Error('No WebGPU adapter found');
     }
-    
+
     // Check if all required features are supported
     for (const feature of requiredFeatures) {
       if (!adapter.features.has(feature)) {
         throw new Error(`Required WebGPU feature not supported: ${feature}`);
       }
     }
-    
+
     // Create device with required features and limits
     const device = await adapter.requestDevice({
       requiredFeatures,
-      requiredLimits
+      requiredLimits,
     });
-    
+
     return device;
   } catch (e) {
     console.error('Error creating WebGPU device:', e);
@@ -169,22 +173,24 @@ export const createWebGPUDevice = async (
 export const createBuffer = (
   device: GPUDevice,
   data: Float32Array | Uint16Array | Uint32Array,
-  usage: GPUBufferUsageFlags
+  usage: GPUBufferUsageFlags,
 ): GPUBuffer => {
   const buffer = device.createBuffer({
     size: data.byteLength,
     usage,
-    mappedAtCreation: true
+    mappedAtCreation: true,
   });
-  
-  const arrayType = 
-    data instanceof Float32Array ? Float32Array :
-    data instanceof Uint16Array ? Uint16Array :
-    Uint32Array;
-  
+
+  const arrayType =
+    data instanceof Float32Array
+      ? Float32Array
+      : data instanceof Uint16Array
+        ? Uint16Array
+        : Uint32Array;
+
   new arrayType(buffer.getMappedRange()).set(data);
   buffer.unmap();
-  
+
   return buffer;
 };
 
@@ -198,31 +204,33 @@ export const createBuffer = (
 export const createTextureFromImage = async (
   device: GPUDevice,
   image: HTMLImageElement,
-  usage: GPUTextureUsageFlags = GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
+  usage: GPUTextureUsageFlags = GPUTextureUsage.TEXTURE_BINDING |
+    GPUTextureUsage.COPY_DST |
+    GPUTextureUsage.RENDER_ATTACHMENT,
 ): Promise<GPUTexture> => {
   // Create a bitmap from the image
   const imageBitmap = await createImageBitmap(image);
-  
+
   // Create the texture
   const texture = device.createTexture({
     size: {
       width: imageBitmap.width,
-      height: imageBitmap.height
+      height: imageBitmap.height,
     },
     format: 'rgba8unorm',
-    usage
+    usage,
   });
-  
+
   // Copy the bitmap to the texture
   device.queue.copyExternalImageToTexture(
     { source: imageBitmap },
     { texture },
     {
       width: imageBitmap.width,
-      height: imageBitmap.height
-    }
+      height: imageBitmap.height,
+    },
   );
-  
+
   return texture;
 };
 
@@ -234,10 +242,10 @@ export const createTextureFromImage = async (
  */
 export const createShaderModule = (
   device: GPUDevice,
-  code: string
+  code: string,
 ): GPUShaderModule => {
   return device.createShaderModule({
-    code
+    code,
   });
 };
 
@@ -264,7 +272,7 @@ export const createRenderPipeline = (
     primitive?: GPUPrimitiveState;
     depthStencil?: GPUDepthStencilState;
     multisample?: GPUMultisampleState;
-  }
+  },
 ): GPURenderPipeline => {
   return device.createRenderPipeline({
     layout: options.layout,
@@ -272,10 +280,10 @@ export const createRenderPipeline = (
     fragment: options.fragment,
     primitive: options.primitive || {
       topology: 'triangle-list',
-      cullMode: 'back'
+      cullMode: 'back',
     },
     depthStencil: options.depthStencil,
-    multisample: options.multisample
+    multisample: options.multisample,
   });
 };
 
@@ -293,11 +301,11 @@ export const createComputePipeline = (
       module: GPUShaderModule;
       entryPoint: string;
     };
-  }
+  },
 ): GPUComputePipeline => {
   return device.createComputePipeline({
     layout: options.layout,
-    compute: options.compute
+    compute: options.compute,
   });
 };
 
@@ -311,11 +319,11 @@ export const createComputePipeline = (
 export const createBindGroup = (
   device: GPUDevice,
   layout: GPUBindGroupLayout,
-  entries: GPUBindGroupEntry[]
+  entries: GPUBindGroupEntry[],
 ): GPUBindGroup => {
   return device.createBindGroup({
     layout,
-    entries
+    entries,
   });
 };
 
@@ -327,7 +335,7 @@ export const createBindGroup = (
  */
 export const createSampler = (
   device: GPUDevice,
-  options: GPUSamplerDescriptor = {}
+  options: GPUSamplerDescriptor = {},
 ): GPUSampler => {
   return device.createSampler(options);
 };
@@ -342,12 +350,12 @@ export const createSampler = (
 export const createDepthTexture = (
   device: GPUDevice,
   width: number,
-  height: number
+  height: number,
 ): GPUTexture => {
   return device.createTexture({
     size: { width, height },
     format: 'depth24plus',
-    usage: GPUTextureUsage.RENDER_ATTACHMENT
+    usage: GPUTextureUsage.RENDER_ATTACHMENT,
   });
 };
 
@@ -357,19 +365,19 @@ export const createDepthTexture = (
  * @returns Promise that resolves to true if the feature is supported, false otherwise
  */
 export const isFeatureSupported = async (
-  feature: GPUFeatureName
+  feature: GPUFeatureName,
 ): Promise<boolean> => {
   if (!navigator.gpu) {
     return false;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return false;
     }
-    
+
     return adapter.features.has(feature);
   } catch (e) {
     console.error(`Error checking WebGPU feature support for ${feature}:`, e);
@@ -385,14 +393,14 @@ export const getMaxTextureDimension = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxTextureDimension2D;
   } catch (e) {
     console.error('Error getting max texture dimension:', e);
@@ -404,22 +412,24 @@ export const getMaxTextureDimension = async (): Promise<number> => {
  * Gets the maximum compute workgroup size supported by WebGPU
  * @returns Promise that resolves to the maximum compute workgroup size
  */
-export const getMaxComputeWorkgroupSize = async (): Promise<[number, number, number]> => {
+export const getMaxComputeWorkgroupSize = async (): Promise<
+  [number, number, number]
+> => {
   if (!navigator.gpu) {
     return [0, 0, 0];
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return [0, 0, 0];
     }
-    
+
     return [
       adapter.limits.maxComputeWorkgroupSizeX,
       adapter.limits.maxComputeWorkgroupSizeY,
-      adapter.limits.maxComputeWorkgroupSizeZ
+      adapter.limits.maxComputeWorkgroupSizeZ,
     ];
   } catch (e) {
     console.error('Error getting max compute workgroup size:', e);
@@ -435,14 +445,14 @@ export const getMaxStorageBuffersPerShaderStage = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxStorageBuffersPerShaderStage;
   } catch (e) {
     console.error('Error getting max storage buffers per shader stage:', e);
@@ -458,14 +468,14 @@ export const getMaxStorageBufferBindingSize = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxStorageBufferBindingSize;
   } catch (e) {
     console.error('Error getting max storage buffer binding size:', e);
@@ -481,14 +491,14 @@ export const getMaxUniformBufferBindingSize = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxUniformBufferBindingSize;
   } catch (e) {
     console.error('Error getting max uniform buffer binding size:', e);
@@ -504,14 +514,14 @@ export const getMaxBindGroups = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxBindGroups;
   } catch (e) {
     console.error('Error getting max bind groups:', e);
@@ -527,14 +537,14 @@ export const getMaxBindingsPerBindGroup = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxBindingsPerBindGroup;
   } catch (e) {
     console.error('Error getting max bindings per bind group:', e);
@@ -550,14 +560,14 @@ export const getMaxSamplersPerShaderStage = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxSamplersPerShaderStage;
   } catch (e) {
     console.error('Error getting max samplers per shader stage:', e);
@@ -569,47 +579,49 @@ export const getMaxSamplersPerShaderStage = async (): Promise<number> => {
  * Gets the maximum number of sampled textures per shader stage
  * @returns Promise that resolves to the maximum number of sampled textures per shader stage
  */
-export const getMaxSampledTexturesPerShaderStage = async (): Promise<number> => {
-  if (!navigator.gpu) {
-    return 0;
-  }
-  
-  try {
-    const adapter = await navigator.gpu.requestAdapter();
-    
-    if (!adapter) {
+export const getMaxSampledTexturesPerShaderStage =
+  async (): Promise<number> => {
+    if (!navigator.gpu) {
       return 0;
     }
-    
-    return adapter.limits.maxSampledTexturesPerShaderStage;
-  } catch (e) {
-    console.error('Error getting max sampled textures per shader stage:', e);
-    return 0;
-  }
-};
+
+    try {
+      const adapter = await navigator.gpu.requestAdapter();
+
+      if (!adapter) {
+        return 0;
+      }
+
+      return adapter.limits.maxSampledTexturesPerShaderStage;
+    } catch (e) {
+      console.error('Error getting max sampled textures per shader stage:', e);
+      return 0;
+    }
+  };
 
 /**
  * Gets the maximum number of storage textures per shader stage
  * @returns Promise that resolves to the maximum number of storage textures per shader stage
  */
-export const getMaxStorageTexturesPerShaderStage = async (): Promise<number> => {
-  if (!navigator.gpu) {
-    return 0;
-  }
-  
-  try {
-    const adapter = await navigator.gpu.requestAdapter();
-    
-    if (!adapter) {
+export const getMaxStorageTexturesPerShaderStage =
+  async (): Promise<number> => {
+    if (!navigator.gpu) {
       return 0;
     }
-    
-    return adapter.limits.maxStorageTexturesPerShaderStage;
-  } catch (e) {
-    console.error('Error getting max storage textures per shader stage:', e);
-    return 0;
-  }
-};
+
+    try {
+      const adapter = await navigator.gpu.requestAdapter();
+
+      if (!adapter) {
+        return 0;
+      }
+
+      return adapter.limits.maxStorageTexturesPerShaderStage;
+    } catch (e) {
+      console.error('Error getting max storage textures per shader stage:', e);
+      return 0;
+    }
+  };
 
 /**
  * Gets the maximum buffer size
@@ -619,14 +631,14 @@ export const getMaxBufferSize = async (): Promise<number> => {
   if (!navigator.gpu) {
     return 0;
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return 0;
     }
-    
+
     return adapter.limits.maxBufferSize;
   } catch (e) {
     console.error('Error getting max buffer size:', e);
@@ -642,7 +654,7 @@ export const getPreferredCanvasFormat = (): GPUTextureFormat => {
   if (!navigator.gpu) {
     throw new Error('WebGPU is not supported in this browser');
   }
-  
+
   return navigator.gpu.getPreferredCanvasFormat();
 };
 
@@ -661,40 +673,42 @@ export const getWebGPUSupportInfo = async (): Promise<{
   if (!navigator.gpu) {
     return {
       supported: false,
-      reason: 'WebGPU is not supported in this browser'
+      reason: 'WebGPU is not supported in this browser',
     };
   }
-  
+
   try {
     const adapter = await navigator.gpu.requestAdapter();
-    
+
     if (!adapter) {
       return {
         supported: false,
-        reason: 'No WebGPU adapter found'
+        reason: 'No WebGPU adapter found',
       };
     }
-    
+
     const adapterInfo = await adapter.requestAdapterInfo();
-    const features = Array.from(adapter.features).map(feature => feature.toString());
+    const features = Array.from(adapter.features).map(feature =>
+      feature.toString(),
+    );
     const limits: Record<string, number> = {};
-    
+
     // Get all limits
     for (const key in adapter.limits) {
       const limitKey = key as keyof GPUSupportedLimits;
       limits[key] = adapter.limits[limitKey];
     }
-    
+
     // Try to create a device to make sure it works
     try {
       const device = await adapter.requestDevice();
-      
+
       return {
         supported: true,
         adapterInfo,
         features,
         limits,
-        preferredCanvasFormat: navigator.gpu.getPreferredCanvasFormat()
+        preferredCanvasFormat: navigator.gpu.getPreferredCanvasFormat(),
       };
     } catch (e) {
       return {
@@ -702,13 +716,13 @@ export const getWebGPUSupportInfo = async (): Promise<{
         reason: `Failed to create WebGPU device: ${e instanceof Error ? e.message : String(e)}`,
         adapterInfo,
         features,
-        limits
+        limits,
       };
     }
   } catch (e) {
     return {
       supported: false,
-      reason: `Error detecting WebGPU: ${e instanceof Error ? e.message : String(e)}`
+      reason: `Error detecting WebGPU: ${e instanceof Error ? e.message : String(e)}`,
     };
   }
 };

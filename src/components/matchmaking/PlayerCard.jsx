@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -9,7 +9,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Star, Target, Shield } from 'lucide-react';
 
-const PlayerCard = ({ player, showStats = true, size = 'medium', onClick, isSelected }) => {
+const PlayerCard = ({
+  player,
+  showStats = true,
+  size = 'medium',
+  onClick,
+  isSelected,
+}) => {
   const getSizeClasses = () => {
     switch (size) {
       case 'small':
@@ -17,14 +23,14 @@ const PlayerCard = ({ player, showStats = true, size = 'medium', onClick, isSele
           container: 'p-2',
           avatar: 'w-8 h-8',
           name: 'text-sm',
-          stats: 'text-xs'
+          stats: 'text-xs',
         };
       case 'large':
         return {
           container: 'p-4',
           avatar: 'w-16 h-16 text-2xl',
           name: 'text-xl',
-          stats: 'text-sm'
+          stats: 'text-sm',
         };
       case 'medium':
       default:
@@ -32,34 +38,48 @@ const PlayerCard = ({ player, showStats = true, size = 'medium', onClick, isSele
           container: 'p-3',
           avatar: 'w-12 h-12',
           name: 'text-base',
-          stats: 'text-xs'
+          stats: 'text-xs',
         };
     }
   };
 
   const sizeClasses = getSizeClasses();
-  
-  const getRankColor = (tier) => {
+
+  const getRankColor = tier => {
     switch (tier?.toLowerCase()) {
-      case 'mythic': return 'from-purple-500 to-purple-700';
-      case 'diamond': return 'from-blue-400 to-blue-600';
-      case 'platinum': return 'from-cyan-400 to-cyan-600';
-      case 'gold': return 'from-yellow-400 to-yellow-600';
-      case 'silver': return 'from-gray-400 to-gray-600';
-      case 'bronze': return 'from-amber-600 to-amber-800';
-      default: return 'from-gray-400 to-gray-600';
+      case 'mythic':
+        return 'from-purple-500 to-purple-700';
+      case 'diamond':
+        return 'from-blue-400 to-blue-600';
+      case 'platinum':
+        return 'from-cyan-400 to-cyan-600';
+      case 'gold':
+        return 'from-yellow-400 to-yellow-600';
+      case 'silver':
+        return 'from-gray-400 to-gray-600';
+      case 'bronze':
+        return 'from-amber-600 to-amber-800';
+      default:
+        return 'from-gray-400 to-gray-600';
     }
   };
 
-  const getRankIcon = (tier) => {
+  const getRankIcon = tier => {
     switch (tier?.toLowerCase()) {
-      case 'mythic': return '👑';
-      case 'diamond': return '💎';
-      case 'platinum': return '🏆';
-      case 'gold': return '🥇';
-      case 'silver': return '🥈';
-      case 'bronze': return '🥉';
-      default: return '🎮';
+      case 'mythic':
+        return '👑';
+      case 'diamond':
+        return '💎';
+      case 'platinum':
+        return '🏆';
+      case 'gold':
+        return '🥇';
+      case 'silver':
+        return '🥈';
+      case 'bronze':
+        return '🥉';
+      default:
+        return '🎮';
     }
   };
 
@@ -75,11 +95,19 @@ const PlayerCard = ({ player, showStats = true, size = 'medium', onClick, isSele
       onClick={onClick}
     >
       <div className="flex items-center space-x-3">
-        <div className={`${sizeClasses.avatar} bg-gradient-to-br ${getRankColor(player.tier)} rounded-full flex items-center justify-center text-white font-bold`}>
-          {player.avatar || getRankIcon(player.tier) || player.name?.[0]?.toUpperCase()}
+        <div
+          className={`${sizeClasses.avatar} bg-gradient-to-br ${getRankColor(player.tier)} rounded-full flex items-center justify-center text-white font-bold`}
+        >
+          {player.avatar ||
+            getRankIcon(player.tier) ||
+            player.name?.[0]?.toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <div className={`font-medium text-gray-900 truncate ${sizeClasses.name}`}>{player.name}</div>
+          <div
+            className={`font-medium text-gray-900 truncate ${sizeClasses.name}`}
+          >
+            {player.name}
+          </div>
           {showStats && (
             <div className={`text-gray-500 ${sizeClasses.stats}`}>
               {player.tier && (

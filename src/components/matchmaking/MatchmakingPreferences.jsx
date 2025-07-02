@@ -1,25 +1,47 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Laptop, Headphones, Trophy, Sliders } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  Laptop,
+  Headphones,
+  Trophy,
+  Sliders,
+} from 'lucide-react';
 
-const MatchmakingPreferences = ({ 
-  preferences, 
+const MatchmakingPreferences = ({
+  preferences,
   onChange,
   showAdvanced = true,
   isAdvancedOpen = false,
-  onToggleAdvanced
+  onToggleAdvanced,
 }) => {
   const skillRanges = [
-    { id: 'strict', name: 'Strict', description: '±50 rating', waitTime: 'Longer' },
-    { id: 'balanced', name: 'Balanced', description: '±150 rating', waitTime: 'Medium' },
-    { id: 'wide', name: 'Wide', description: '±300 rating', waitTime: 'Shorter' }
+    {
+      id: 'strict',
+      name: 'Strict',
+      description: '±50 rating',
+      waitTime: 'Longer',
+    },
+    {
+      id: 'balanced',
+      name: 'Balanced',
+      description: '±150 rating',
+      waitTime: 'Medium',
+    },
+    {
+      id: 'wide',
+      name: 'Wide',
+      description: '±300 rating',
+      waitTime: 'Shorter',
+    },
   ];
 
   const handleChange = (key, value) => {
@@ -33,7 +55,7 @@ const MatchmakingPreferences = ({
           Skill Range
         </label>
         <div className="grid grid-cols-3 gap-2">
-          {skillRanges.map((range) => (
+          {skillRanges.map(range => (
             <motion.button
               key={range.id}
               onClick={() => handleChange('skillRange', range.id)}
@@ -58,14 +80,20 @@ const MatchmakingPreferences = ({
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center space-x-2">
               <Sliders className="w-4 h-4 text-gray-500" />
-              <span className="text-sm font-medium text-gray-700">Advanced Options</span>
+              <span className="text-sm font-medium text-gray-700">
+                Advanced Options
+              </span>
             </div>
-            <button 
+            <button
               onClick={onToggleAdvanced}
               className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
             >
               <span className="text-sm">Advanced</span>
-              {isAdvancedOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              {isAdvancedOpen ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
             </button>
           </div>
 
@@ -85,7 +113,7 @@ const MatchmakingPreferences = ({
                     </label>
                     <select
                       value={preferences.gameMode}
-                      onChange={(e) => handleChange('gameMode', e.target.value)}
+                      onChange={e => handleChange('gameMode', e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="ranked">Ranked</option>
@@ -100,7 +128,7 @@ const MatchmakingPreferences = ({
                     </label>
                     <select
                       value={preferences.region}
-                      onChange={(e) => handleChange('region', e.target.value)}
+                      onChange={e => handleChange('region', e.target.value)}
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="auto">Auto (Best Ping)</option>
@@ -113,28 +141,36 @@ const MatchmakingPreferences = ({
                     </select>
                   </div>
                 </div>
-                
+
                 {/* Note: KONIVRER is always best of 1, so this dropdown is not needed */}
                 <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
                   <div className="flex items-center space-x-2">
                     <Trophy className="w-4 h-4 text-blue-500" />
-                    <span className="text-sm font-medium text-gray-700">Match Format: Best of 1</span>
+                    <span className="text-sm font-medium text-gray-700">
+                      Match Format: Best of 1
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1 ml-6">KONIVRER matches are always played as best of 1</p>
+                  <p className="text-xs text-gray-500 mt-1 ml-6">
+                    KONIVRER matches are always played as best of 1
+                  </p>
                 </div>
 
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Laptop className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm text-gray-700">Cross-Platform Play</span>
+                      <span className="text-sm text-gray-700">
+                        Cross-Platform Play
+                      </span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer" 
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
                         checked={preferences.crossPlay}
-                        onChange={() => handleChange('crossPlay', !preferences.crossPlay)}
+                        onChange={() =>
+                          handleChange('crossPlay', !preferences.crossPlay)
+                        }
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>
@@ -146,11 +182,13 @@ const MatchmakingPreferences = ({
                       <span className="text-sm text-gray-700">Voice Chat</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer" 
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
                         checked={preferences.voiceChat}
-                        onChange={() => handleChange('voiceChat', !preferences.voiceChat)}
+                        onChange={() =>
+                          handleChange('voiceChat', !preferences.voiceChat)
+                        }
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>
@@ -162,11 +200,13 @@ const MatchmakingPreferences = ({
                       <span className="text-sm text-gray-700">Show Rank</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer" 
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
                         checked={preferences.showRank}
-                        onChange={() => handleChange('showRank', !preferences.showRank)}
+                        onChange={() =>
+                          handleChange('showRank', !preferences.showRank)
+                        }
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>

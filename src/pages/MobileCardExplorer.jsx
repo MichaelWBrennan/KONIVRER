@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -20,33 +20,34 @@ const MobileCardExplorer = () => {
   // Filter cards based on search term and type
   useEffect(() => {
     if (!cards) return;
-    
+
     let results = [...cards];
-    
+
     // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      results = results.filter(card => 
-        card.name.toLowerCase().includes(term) || 
-        (card.text && card.text.toLowerCase().includes(term))
+      results = results.filter(
+        card =>
+          card.name.toLowerCase().includes(term) ||
+          (card.text && card.text.toLowerCase().includes(term)),
       );
     }
-    
+
     // Apply type filter
     if (selectedType !== 'All') {
       results = results.filter(card => card.type === selectedType);
     }
-    
+
     setFilteredCards(results);
   }, [cards, searchTerm, selectedType]);
 
   // Handle search input change
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
   // Handle type filter change
-  const handleTypeChange = (type) => {
+  const handleTypeChange = type => {
     setSelectedType(type);
     setShowFilters(false);
   };
@@ -54,7 +55,7 @@ const MobileCardExplorer = () => {
   // Get unique card types
   const getCardTypes = () => {
     if (!cards) return ['All'];
-    
+
     const types = new Set(cards.map(card => card.type));
     return ['All', ...Array.from(types)];
   };
@@ -94,16 +95,16 @@ const MobileCardExplorer = () => {
             onChange={handleSearchChange}
           />
         </div>
-        
+
         <div className="mobile-form-group mobile-text-center">
-          <button 
+          <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
           >
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
-        
+
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt">
@@ -125,30 +126,36 @@ const MobileCardExplorer = () => {
 
       {/* Results Count */}
       <div className="mobile-mb">
-        <p className="mobile-text-center">
-          {filteredCards.length} cards found
-        </p>
+        <p className="mobile-text-center">{filteredCards.length} cards found</p>
       </div>
 
       {/* Card Grid */}
       <div className="mobile-grid">
         {filteredCards.slice(0, 20).map(card => (
-          <Link 
-            to={`/card/${card.id}`} 
+          <Link
+            to={`/card/${card.id}`}
             key={card.id}
             className="mobile-game-card mobile-mb"
           >
-            <img 
-              src={getCardArtPathFromData(card) || 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png'} 
-              alt={card.name} 
+            <img
+              src={
+                getCardArtPathFromData(card) ||
+                'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png'
+              }
+              alt={card.name}
               className="mobile-game-card-img"
-              onError={(e) => {
-                console.log(`Failed to load image for ${card.name}: ${getCardArtPathFromData(card)}`);
+              onError={e => {
+                console.log(
+                  `Failed to load image for ${card.name}: ${getCardArtPathFromData(card)}`,
+                );
                 e.target.onerror = null;
-                e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                e.target.src =
+                  'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
               }}
-              onLoad={(e) => {
-                console.log(`Successfully loaded image for ${card.name}: ${e.target.src}`);
+              onLoad={e => {
+                console.log(
+                  `Successfully loaded image for ${card.name}: ${e.target.src}`,
+                );
               }}
             />
           </Link>
@@ -158,9 +165,7 @@ const MobileCardExplorer = () => {
       {/* Load More Button */}
       {filteredCards.length > 20 && (
         <div className="mobile-text-center mobile-mt mobile-mb">
-          <button className="mobile-btn mobile-btn-primary">
-            Load More
-          </button>
+          <button className="mobile-btn mobile-btn-primary">Load More</button>
         </div>
       )}
     </div>

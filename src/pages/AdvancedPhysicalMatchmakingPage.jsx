@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -45,17 +45,12 @@ import {
   Loader,
   AlertTriangle,
   CheckCircle,
-  Info
+  Info,
 } from 'lucide-react';
 
 const AdvancedPhysicalMatchmakingPage = () => {
-  const { 
-    players, 
-    tournaments, 
-    matches,
-    isOfflineMode,
-    toggleOfflineMode
-  } = usePhysicalMatchmaking();
+  const { players, tournaments, matches, isOfflineMode, toggleOfflineMode } =
+    usePhysicalMatchmaking();
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -74,7 +69,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -85,36 +80,36 @@ const AdvancedPhysicalMatchmakingPage = () => {
         id: 1,
         type: 'info',
         message: 'Welcome to the Advanced Physical Matchmaking System',
-        time: new Date(Date.now() - 1000 * 60 * 5) // 5 minutes ago
+        time: new Date(Date.now() - 1000 * 60 * 5), // 5 minutes ago
       },
       {
         id: 2,
         type: 'success',
         message: 'Bayesian matchmaking algorithm initialized successfully',
-        time: new Date(Date.now() - 1000 * 60 * 10) // 10 minutes ago
+        time: new Date(Date.now() - 1000 * 60 * 10), // 10 minutes ago
       },
       {
         id: 3,
         type: 'warning',
         message: 'Meta diversity is below optimal threshold',
-        time: new Date(Date.now() - 1000 * 60 * 30) // 30 minutes ago
-      }
+        time: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+      },
     ]);
   }, []);
 
   // Handle tournament selection
-  const handleTournamentSelect = (tournamentId) => {
+  const handleTournamentSelect = tournamentId => {
     setSelectedTournament(tournamentId);
     setActiveTab('tournaments');
   };
 
   // Filter tournaments based on search query
-  const filteredTournaments = tournaments.filter(tournament => 
-    tournament.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTournaments = tournaments.filter(tournament =>
+    tournament.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Get notification icon based on type
-  const getNotificationIcon = (type) => {
+  const getNotificationIcon = type => {
     switch (type) {
       case 'success':
         return <CheckCircle className="w-5 h-5 text-green-400" />;
@@ -128,10 +123,10 @@ const AdvancedPhysicalMatchmakingPage = () => {
   };
 
   // Format time for notifications
-  const formatTime = (time) => {
+  const formatTime = time => {
     const now = new Date();
     const diff = now - time;
-    
+
     if (diff < 1000 * 60) {
       return 'Just now';
     } else if (diff < 1000 * 60 * 60) {
@@ -158,7 +153,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
             <h1 className="text-4xl font-bold text-amber-300 mb-2">KONIVRER</h1>
             <p className="text-xl text-gray-400">Advanced Matchmaking System</p>
           </div>
-          
+
           <div className="w-64 h-2 bg-gray-800 rounded-full mx-auto mb-4 overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
@@ -167,7 +162,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               className="h-full bg-gradient-to-r from-amber-600 to-amber-400"
             />
           </div>
-          
+
           <div className="text-gray-500 flex items-center justify-center">
             <Loader className="w-5 h-5 mr-2 animate-spin" />
             <span>Initializing Bayesian Engine...</span>
@@ -178,7 +173,9 @@ const AdvancedPhysicalMatchmakingPage = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white ${theme}`}>
+    <div
+      className={`min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white ${theme}`}
+    >
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-700">
         <button
@@ -187,12 +184,12 @@ const AdvancedPhysicalMatchmakingPage = () => {
         >
           <Menu className="w-6 h-6" />
         </button>
-        
+
         <div className="flex items-center">
           <Sparkles className="w-6 h-6 text-amber-400 mr-2" />
           <span className="text-xl font-bold text-amber-300">KONIVRER</span>
         </div>
-        
+
         <button
           onClick={() => setShowNotifications(!showNotifications)}
           className="p-2 rounded-lg text-gray-400 hover:bg-gray-800 relative"
@@ -203,7 +200,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           )}
         </button>
       </div>
-      
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -214,12 +211,17 @@ const AdvancedPhysicalMatchmakingPage = () => {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 lg:hidden"
           >
-            <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setMobileMenuOpen(false)}></div>
+            <div
+              className="absolute inset-0 bg-black bg-opacity-50"
+              onClick={() => setMobileMenuOpen(false)}
+            ></div>
             <div className="absolute inset-y-0 left-0 w-64 bg-gray-900 shadow-lg p-4">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <Sparkles className="w-6 h-6 text-amber-400 mr-2" />
-                  <span className="text-xl font-bold text-amber-300">KONIVRER</span>
+                  <span className="text-xl font-bold text-amber-300">
+                    KONIVRER
+                  </span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
@@ -228,7 +230,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              
+
               <nav className="space-y-1">
                 <button
                   onClick={() => {
@@ -236,66 +238,76 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setMobileMenuOpen(false);
                   }}
                   className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                    activeTab === 'dashboard' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                    activeTab === 'dashboard'
+                      ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   <LayoutDashboard className="w-5 h-5 mr-3" />
                   <span>Dashboard</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setActiveTab('tournaments');
                     setMobileMenuOpen(false);
                   }}
                   className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                    activeTab === 'tournaments' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                    activeTab === 'tournaments'
+                      ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   <Trophy className="w-5 h-5 mr-3" />
                   <span>Tournaments</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setActiveTab('decks');
                     setMobileMenuOpen(false);
                   }}
                   className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                    activeTab === 'decks' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                    activeTab === 'decks'
+                      ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   <Layers className="w-5 h-5 mr-3" />
                   <span>Deck Analysis</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setActiveTab('matchmaking');
                     setMobileMenuOpen(false);
                   }}
                   className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                    activeTab === 'matchmaking' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                    activeTab === 'matchmaking'
+                      ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   <Swords className="w-5 h-5 mr-3" />
                   <span>Matchmaking</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setActiveTab('players');
                     setMobileMenuOpen(false);
                   }}
                   className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                    activeTab === 'players' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                    activeTab === 'players'
+                      ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                      : 'text-gray-300 hover:bg-gray-800'
                   }`}
                 >
                   <Users className="w-5 h-5 mr-3" />
                   <span>Players</span>
                 </button>
               </nav>
-              
+
               <div className="absolute bottom-4 left-4 right-4 space-y-1">
                 <button
                   onClick={() => {
@@ -307,7 +319,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   <Settings className="w-5 h-5 mr-3" />
                   <span>Settings</span>
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setShowHelp(true);
@@ -323,17 +335,23 @@ const AdvancedPhysicalMatchmakingPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Desktop Layout */}
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
-        <aside className={`hidden lg:block bg-gray-900 ${sidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 border-r border-gray-700 relative`}>
-          <div className={`p-4 flex ${sidebarOpen ? 'justify-between' : 'justify-center'} items-center border-b border-gray-700`}>
+        <aside
+          className={`hidden lg:block bg-gray-900 ${sidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 border-r border-gray-700 relative`}
+        >
+          <div
+            className={`p-4 flex ${sidebarOpen ? 'justify-between' : 'justify-center'} items-center border-b border-gray-700`}
+          >
             {sidebarOpen ? (
               <>
                 <div className="flex items-center">
                   <Sparkles className="w-6 h-6 text-amber-400 mr-2" />
-                  <span className="text-xl font-bold text-amber-300">KONIVRER</span>
+                  <span className="text-xl font-bold text-amber-300">
+                    KONIVRER
+                  </span>
                 </div>
                 <button
                   onClick={() => setSidebarOpen(false)}
@@ -351,59 +369,69 @@ const AdvancedPhysicalMatchmakingPage = () => {
               </button>
             )}
           </div>
-          
+
           <nav className="p-4 space-y-1">
             <button
               onClick={() => setActiveTab('dashboard')}
               className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                activeTab === 'dashboard' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                activeTab === 'dashboard'
+                  ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <LayoutDashboard className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Dashboard</span>}
             </button>
-            
+
             <button
               onClick={() => setActiveTab('tournaments')}
               className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                activeTab === 'tournaments' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                activeTab === 'tournaments'
+                  ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <Trophy className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Tournaments</span>}
             </button>
-            
+
             <button
               onClick={() => setActiveTab('decks')}
               className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                activeTab === 'decks' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                activeTab === 'decks'
+                  ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <Layers className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Deck Analysis</span>}
             </button>
-            
+
             <button
               onClick={() => setActiveTab('matchmaking')}
               className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                activeTab === 'matchmaking' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                activeTab === 'matchmaking'
+                  ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <Swords className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Matchmaking</span>}
             </button>
-            
+
             <button
               onClick={() => setActiveTab('players')}
               className={`w-full flex items-center px-3 py-2 rounded-lg ${
-                activeTab === 'players' ? 'bg-amber-900 bg-opacity-50 text-amber-300' : 'text-gray-300 hover:bg-gray-800'
+                activeTab === 'players'
+                  ? 'bg-amber-900 bg-opacity-50 text-amber-300'
+                  : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
               <Users className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Players</span>}
             </button>
           </nav>
-          
+
           <div className="absolute bottom-4 left-4 right-4 space-y-1">
             <button
               onClick={() => setShowSettings(true)}
@@ -412,7 +440,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               <Settings className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Settings</span>}
             </button>
-            
+
             <button
               onClick={() => setShowHelp(true)}
               className="w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800"
@@ -422,7 +450,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
             </button>
           </div>
         </aside>
-        
+
         {/* Main Content */}
         <main className="flex-1 flex flex-col h-screen overflow-hidden">
           {/* Header */}
@@ -435,14 +463,15 @@ const AdvancedPhysicalMatchmakingPage = () => {
                 {activeTab === 'matchmaking' && 'Physical Matchmaking'}
                 {activeTab === 'players' && 'Player Management'}
               </h1>
-              
+
               {activeTab === 'tournaments' && selectedTournament && (
                 <div className="ml-4 px-3 py-1 bg-amber-900 bg-opacity-30 rounded-lg text-amber-300 text-sm">
-                  {tournaments.find(t => t.id === selectedTournament)?.name || 'Selected Tournament'}
+                  {tournaments.find(t => t.id === selectedTournament)?.name ||
+                    'Selected Tournament'}
                 </div>
               )}
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <input
@@ -450,11 +479,11 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   placeholder="Search..."
                   className="pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-amber-500 text-white w-64"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                 />
                 <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
               </div>
-              
+
               <div className="relative">
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
@@ -465,7 +494,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full"></span>
                   )}
                 </button>
-                
+
                 <AnimatePresence>
                   {showNotifications && (
                     <motion.div
@@ -481,11 +510,11 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           Mark all as read
                         </button>
                       </div>
-                      
+
                       <div className="max-h-80 overflow-y-auto">
                         {notifications.length > 0 ? (
                           notifications.map(notification => (
-                            <div 
+                            <div
                               key={notification.id}
                               className="p-3 border-b border-gray-700 hover:bg-gray-700"
                             >
@@ -494,7 +523,9 @@ const AdvancedPhysicalMatchmakingPage = () => {
                                   {getNotificationIcon(notification.type)}
                                 </div>
                                 <div>
-                                  <p className="text-sm">{notification.message}</p>
+                                  <p className="text-sm">
+                                    {notification.message}
+                                  </p>
                                   <p className="text-xs text-gray-400 mt-1">
                                     {formatTime(notification.time)}
                                   </p>
@@ -508,7 +539,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="p-2 text-center border-t border-gray-700">
                         <button className="text-xs text-amber-400 hover:text-amber-300">
                           View all notifications
@@ -518,11 +549,15 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   )}
                 </AnimatePresence>
               </div>
-              
+
               <div className="flex items-center space-x-2 px-3 py-1 bg-gray-800 rounded-lg">
-                <div className={`w-2 h-2 rounded-full ${isOfflineMode ? 'bg-amber-500' : 'bg-green-500'}`}></div>
-                <span className="text-sm">{isOfflineMode ? 'Offline Mode' : 'Online'}</span>
-                <button 
+                <div
+                  className={`w-2 h-2 rounded-full ${isOfflineMode ? 'bg-amber-500' : 'bg-green-500'}`}
+                ></div>
+                <span className="text-sm">
+                  {isOfflineMode ? 'Offline Mode' : 'Online'}
+                </span>
+                <button
                   onClick={toggleOfflineMode}
                   className="text-xs text-amber-400 hover:text-amber-300"
                 >
@@ -531,17 +566,17 @@ const AdvancedPhysicalMatchmakingPage = () => {
               </div>
             </div>
           </header>
-          
+
           {/* Content Area */}
           <div className="flex-1 overflow-auto p-4">
-            {activeTab === 'dashboard' && (
-              <AdvancedAnalyticsDashboard />
-            )}
-            
+            {activeTab === 'dashboard' && <AdvancedAnalyticsDashboard />}
+
             {activeTab === 'tournaments' && (
               <div className="space-y-6">
                 {selectedTournament ? (
-                  <InteractiveTournamentBracket tournamentId={selectedTournament} />
+                  <InteractiveTournamentBracket
+                    tournamentId={selectedTournament}
+                  />
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredTournaments.length > 0 ? (
@@ -553,34 +588,47 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           onClick={() => handleTournamentSelect(tournament.id)}
                         >
                           <div className="flex justify-between items-start mb-4">
-                            <h3 className="text-lg font-medium text-white">{tournament.name}</h3>
-                            <div className={`px-2 py-0.5 rounded text-xs ${
-                              tournament.status === 'completed' ? 'bg-green-900 text-green-300' :
-                              tournament.status === 'active' ? 'bg-blue-900 text-blue-300' :
-                              'bg-amber-900 text-amber-300'
-                            }`}>
-                              {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
+                            <h3 className="text-lg font-medium text-white">
+                              {tournament.name}
+                            </h3>
+                            <div
+                              className={`px-2 py-0.5 rounded text-xs ${
+                                tournament.status === 'completed'
+                                  ? 'bg-green-900 text-green-300'
+                                  : tournament.status === 'active'
+                                    ? 'bg-blue-900 text-blue-300'
+                                    : 'bg-amber-900 text-amber-300'
+                              }`}
+                            >
+                              {tournament.status.charAt(0).toUpperCase() +
+                                tournament.status.slice(1)}
                             </div>
                           </div>
-                          
+
                           <div className="space-y-2 mb-4">
                             <div className="flex items-center text-sm text-gray-300">
                               <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                              <span>{new Date(tournament.createdAt).toLocaleDateString()}</span>
+                              <span>
+                                {new Date(
+                                  tournament.createdAt,
+                                ).toLocaleDateString()}
+                              </span>
                             </div>
                             <div className="flex items-center text-sm text-gray-300">
                               <Users className="w-4 h-4 mr-2 text-gray-400" />
-                              <span>{tournament.players?.length || 0} Players</span>
+                              <span>
+                                {tournament.players?.length || 0} Players
+                              </span>
                             </div>
                             <div className="flex items-center text-sm text-gray-300">
                               <Trophy className="w-4 h-4 mr-2 text-gray-400" />
                               <span>{tournament.format || 'Standard'}</span>
                             </div>
                           </div>
-                          
+
                           <div className="mt-4 flex justify-end">
                             <button
-                              onClick={(e) => {
+                              onClick={e => {
                                 e.stopPropagation();
                                 handleTournamentSelect(tournament.id);
                               }}
@@ -595,34 +643,36 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     ) : (
                       <div className="col-span-full text-center py-12">
                         <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-                        <h3 className="text-xl font-medium text-gray-300 mb-2">No Tournaments Found</h3>
-                        <p className="text-gray-400 mb-6">Create your first tournament to get started</p>
+                        <h3 className="text-xl font-medium text-gray-300 mb-2">
+                          No Tournaments Found
+                        </h3>
+                        <p className="text-gray-400 mb-6">
+                          Create your first tournament to get started
+                        </p>
                       </div>
                     )}
                   </div>
                 )}
               </div>
             )}
-            
-            {activeTab === 'decks' && (
-              <DeckArchetypeAnalyzer />
-            )}
-            
-            {activeTab === 'matchmaking' && (
-              <EnhancedPhysicalMatchmaking />
-            )}
-            
+
+            {activeTab === 'decks' && <DeckArchetypeAnalyzer />}
+
+            {activeTab === 'matchmaking' && <EnhancedPhysicalMatchmaking />}
+
             {activeTab === 'players' && (
               <div className="text-center py-12">
                 <Users className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-                <h3 className="text-xl font-medium text-gray-300 mb-2">Player Management</h3>
+                <h3 className="text-xl font-medium text-gray-300 mb-2">
+                  Player Management
+                </h3>
                 <p className="text-gray-400">This feature is coming soon</p>
               </div>
             )}
           </div>
         </main>
       </div>
-      
+
       {/* Settings Modal */}
       <AnimatePresence>
         {showSettings && (
@@ -638,7 +688,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 max-w-md w-full shadow-lg border border-gray-700 ancient-card"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-amber-300 flex items-center">
@@ -652,35 +702,43 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              
+
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-medium text-gray-300 mb-3">Theme</h3>
+                  <h3 className="text-lg font-medium text-gray-300 mb-3">
+                    Theme
+                  </h3>
                   <div className="grid grid-cols-3 gap-3">
                     <button
                       onClick={() => setTheme('ancient')}
                       className={`p-3 rounded-lg border ${
-                        theme === 'ancient' ? 'border-amber-500 bg-amber-900 bg-opacity-20' : 'border-gray-700 hover:border-gray-600'
+                        theme === 'ancient'
+                          ? 'border-amber-500 bg-amber-900 bg-opacity-20'
+                          : 'border-gray-700 hover:border-gray-600'
                       }`}
                     >
                       <Scroll className="w-6 h-6 mx-auto mb-2 text-amber-400" />
                       <span className="text-sm">Ancient</span>
                     </button>
-                    
+
                     <button
                       onClick={() => setTheme('modern')}
                       className={`p-3 rounded-lg border ${
-                        theme === 'modern' ? 'border-blue-500 bg-blue-900 bg-opacity-20' : 'border-gray-700 hover:border-gray-600'
+                        theme === 'modern'
+                          ? 'border-blue-500 bg-blue-900 bg-opacity-20'
+                          : 'border-gray-700 hover:border-gray-600'
                       }`}
                     >
                       <Zap className="w-6 h-6 mx-auto mb-2 text-blue-400" />
                       <span className="text-sm">Modern</span>
                     </button>
-                    
+
                     <button
                       onClick={() => setTheme('cosmic')}
                       className={`p-3 rounded-lg border ${
-                        theme === 'cosmic' ? 'border-purple-500 bg-purple-900 bg-opacity-20' : 'border-gray-700 hover:border-gray-600'
+                        theme === 'cosmic'
+                          ? 'border-purple-500 bg-purple-900 bg-opacity-20'
+                          : 'border-gray-700 hover:border-gray-600'
                       }`}
                     >
                       <Sparkles className="w-6 h-6 mx-auto mb-2 text-purple-400" />
@@ -688,16 +746,20 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-medium text-gray-300 mb-3">Matchmaking</h3>
+                  <h3 className="text-lg font-medium text-gray-300 mb-3">
+                    Matchmaking
+                  </h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <label className="text-sm text-gray-300">Bayesian Matchmaking</label>
+                      <label className="text-sm text-gray-300">
+                        Bayesian Matchmaking
+                      </label>
                       <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                        <input 
-                          type="checkbox" 
-                          name="bayesian" 
+                        <input
+                          type="checkbox"
+                          name="bayesian"
                           id="bayesian"
                           className="sr-only"
                           defaultChecked={true}
@@ -706,17 +768,21 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           htmlFor="bayesian"
                           className="block h-6 overflow-hidden bg-gray-700 rounded-full cursor-pointer"
                         >
-                          <span className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}></span>
+                          <span
+                            className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}
+                          ></span>
                         </label>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
-                      <label className="text-sm text-gray-300">Show Match Quality</label>
+                      <label className="text-sm text-gray-300">
+                        Show Match Quality
+                      </label>
                       <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                        <input 
-                          type="checkbox" 
-                          name="matchQuality" 
+                        <input
+                          type="checkbox"
+                          name="matchQuality"
                           id="matchQuality"
                           className="sr-only"
                           defaultChecked={true}
@@ -725,17 +791,21 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           htmlFor="matchQuality"
                           className="block h-6 overflow-hidden bg-gray-700 rounded-full cursor-pointer"
                         >
-                          <span className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}></span>
+                          <span
+                            className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}
+                          ></span>
                         </label>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
-                      <label className="text-sm text-gray-300">Auto-Suggest Pairings</label>
+                      <label className="text-sm text-gray-300">
+                        Auto-Suggest Pairings
+                      </label>
                       <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                        <input 
-                          type="checkbox" 
-                          name="autoPairings" 
+                        <input
+                          type="checkbox"
+                          name="autoPairings"
                           id="autoPairings"
                           className="sr-only"
                           defaultChecked={true}
@@ -744,21 +814,25 @@ const AdvancedPhysicalMatchmakingPage = () => {
                           htmlFor="autoPairings"
                           className="block h-6 overflow-hidden bg-gray-700 rounded-full cursor-pointer"
                         >
-                          <span className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}></span>
+                          <span
+                            className={`block h-6 w-6 rounded-full bg-amber-500 transform transition-transform duration-200 ease-in-out ${true ? 'translate-x-4' : 'translate-x-0'}`}
+                          ></span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-medium text-gray-300 mb-3">Data Management</h3>
+                  <h3 className="text-lg font-medium text-gray-300 mb-3">
+                    Data Management
+                  </h3>
                   <div className="grid grid-cols-2 gap-3">
                     <button className="flex items-center justify-center space-x-2 p-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
                       <Download className="w-4 h-4" />
                       <span className="text-sm">Export Data</span>
                     </button>
-                    
+
                     <button className="flex items-center justify-center space-x-2 p-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
                       <RefreshCw className="w-4 h-4" />
                       <span className="text-sm">Sync Data</span>
@@ -766,7 +840,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowSettings(false)}
@@ -779,7 +853,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Help Modal */}
       <AnimatePresence>
         {showHelp && (
@@ -795,7 +869,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 max-w-2xl w-full shadow-lg border border-gray-700 ancient-card overflow-y-auto max-h-[80vh]"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-amber-300 flex items-center">
@@ -809,34 +883,59 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              
+
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-medium text-amber-300 mb-3">Bayesian Matchmaking</h3>
+                  <h3 className="text-lg font-medium text-amber-300 mb-3">
+                    Bayesian Matchmaking
+                  </h3>
                   <p className="text-gray-300 mb-3">
-                    The KONIVRER system uses a sophisticated Bayesian matchmaking algorithm based on Microsoft's TrueSkill™ system, 
-                    adapted specifically for trading card games.
+                    The KONIVRER system uses a sophisticated Bayesian
+                    matchmaking algorithm based on Microsoft's TrueSkill™
+                    system, adapted specifically for trading card games.
                   </p>
                   <div className="bg-gray-800 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-200 mb-2">How It Works</h4>
+                    <h4 className="font-medium text-gray-200 mb-2">
+                      How It Works
+                    </h4>
                     <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
-                      <li>Each player has a skill rating (μ) and an uncertainty value (σ)</li>
-                      <li>The system calculates match quality based on these values</li>
-                      <li>After each match, ratings are updated based on the outcome</li>
-                      <li>Players with similar ratings but different uncertainties can still be matched</li>
-                      <li>The system learns and improves over time as more matches are played</li>
+                      <li>
+                        Each player has a skill rating (μ) and an uncertainty
+                        value (σ)
+                      </li>
+                      <li>
+                        The system calculates match quality based on these
+                        values
+                      </li>
+                      <li>
+                        After each match, ratings are updated based on the
+                        outcome
+                      </li>
+                      <li>
+                        Players with similar ratings but different uncertainties
+                        can still be matched
+                      </li>
+                      <li>
+                        The system learns and improves over time as more matches
+                        are played
+                      </li>
                     </ul>
                   </div>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-medium text-amber-300 mb-3">Tournament Management</h3>
+                  <h3 className="text-lg font-medium text-amber-300 mb-3">
+                    Tournament Management
+                  </h3>
                   <p className="text-gray-300 mb-3">
-                    The tournament system supports multiple formats with intelligent pairing algorithms.
+                    The tournament system supports multiple formats with
+                    intelligent pairing algorithms.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-gray-800 p-4 rounded-lg">
-                      <h4 className="font-medium text-gray-200 mb-2">Supported Formats</h4>
+                      <h4 className="font-medium text-gray-200 mb-2">
+                        Supported Formats
+                      </h4>
                       <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
                         <li>Swiss (with optimal pairings)</li>
                         <li>Single Elimination</li>
@@ -844,9 +943,11 @@ const AdvancedPhysicalMatchmakingPage = () => {
                         <li>Round Robin</li>
                       </ul>
                     </div>
-                    
+
                     <div className="bg-gray-800 p-4 rounded-lg">
-                      <h4 className="font-medium text-gray-200 mb-2">Features</h4>
+                      <h4 className="font-medium text-gray-200 mb-2">
+                        Features
+                      </h4>
                       <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
                         <li>Automatic pairing generation</li>
                         <li>Match quality indicators</li>
@@ -857,14 +958,19 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-medium text-amber-300 mb-3">Meta Analysis</h3>
+                  <h3 className="text-lg font-medium text-amber-300 mb-3">
+                    Meta Analysis
+                  </h3>
                   <p className="text-gray-300 mb-3">
-                    The deck analysis system provides deep insights into the current meta and helps predict future trends.
+                    The deck analysis system provides deep insights into the
+                    current meta and helps predict future trends.
                   </p>
                   <div className="bg-gray-800 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-200 mb-2">Key Features</h4>
+                    <h4 className="font-medium text-gray-200 mb-2">
+                      Key Features
+                    </h4>
                     <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
                       <li>Archetype win rate analysis</li>
                       <li>Matchup matrix with Bayesian adjustments</li>
@@ -874,14 +980,20 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     </ul>
                   </div>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-medium text-amber-300 mb-3">Offline Mode</h3>
+                  <h3 className="text-lg font-medium text-amber-300 mb-3">
+                    Offline Mode
+                  </h3>
                   <p className="text-gray-300 mb-3">
-                    The system works fully offline with local storage, allowing you to run tournaments and track matches without an internet connection.
+                    The system works fully offline with local storage, allowing
+                    you to run tournaments and track matches without an internet
+                    connection.
                   </p>
                   <div className="bg-gray-800 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-200 mb-2">Data Management</h4>
+                    <h4 className="font-medium text-gray-200 mb-2">
+                      Data Management
+                    </h4>
                     <ul className="list-disc list-inside text-sm text-gray-300 space-y-1">
                       <li>All data is stored locally in your browser</li>
                       <li>Export data as JSON for backup</li>
@@ -891,7 +1003,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowHelp(false)}

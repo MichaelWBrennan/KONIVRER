@@ -1,24 +1,46 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Trophy, Star, ChevronRight, X, Lock, Unlock, Info } from 'lucide-react';
+import {
+  Gift,
+  Trophy,
+  Star,
+  ChevronRight,
+  X,
+  Lock,
+  Unlock,
+  Info,
+} from 'lucide-react';
 
-const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems = 5 }) => {
-  const getRankColor = (tier) => {
+const MatchmakingRewards = ({
+  rewards,
+  playerStats,
+  onViewAll,
+  onClose,
+  maxItems = 5,
+}) => {
+  const getRankColor = tier => {
     switch (tier?.toLowerCase()) {
-      case 'mythic': return 'from-purple-500 to-purple-700';
-      case 'diamond': return 'from-blue-400 to-blue-600';
-      case 'platinum': return 'from-cyan-400 to-cyan-600';
-      case 'gold': return 'from-yellow-400 to-yellow-600';
-      case 'silver': return 'from-gray-400 to-gray-600';
-      case 'bronze': return 'from-amber-600 to-amber-800';
-      default: return 'from-gray-400 to-gray-600';
+      case 'mythic':
+        return 'from-purple-500 to-purple-700';
+      case 'diamond':
+        return 'from-blue-400 to-blue-600';
+      case 'platinum':
+        return 'from-cyan-400 to-cyan-600';
+      case 'gold':
+        return 'from-yellow-400 to-yellow-600';
+      case 'silver':
+        return 'from-gray-400 to-gray-600';
+      case 'bronze':
+        return 'from-amber-600 to-amber-800';
+      default:
+        return 'from-gray-400 to-gray-600';
     }
   };
 
@@ -32,7 +54,7 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       rarity: 'common',
       requiredRank: 'bronze',
       unlocked: true,
-      icon: '🎴'
+      icon: '🎴',
     },
     {
       id: 'reward_2',
@@ -41,8 +63,10 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       type: 'cosmetic',
       rarity: 'uncommon',
       requiredRank: 'silver',
-      unlocked: playerStats?.tier === 'silver' || ['gold', 'platinum', 'diamond', 'mythic'].includes(playerStats?.tier),
-      icon: '🎴'
+      unlocked:
+        playerStats?.tier === 'silver' ||
+        ['gold', 'platinum', 'diamond', 'mythic'].includes(playerStats?.tier),
+      icon: '🎴',
     },
     {
       id: 'reward_3',
@@ -51,8 +75,10 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       type: 'cosmetic',
       rarity: 'rare',
       requiredRank: 'gold',
-      unlocked: playerStats?.tier === 'gold' || ['platinum', 'diamond', 'mythic'].includes(playerStats?.tier),
-      icon: '🎴'
+      unlocked:
+        playerStats?.tier === 'gold' ||
+        ['platinum', 'diamond', 'mythic'].includes(playerStats?.tier),
+      icon: '🎴',
     },
     {
       id: 'reward_4',
@@ -61,8 +87,10 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       type: 'cosmetic',
       rarity: 'epic',
       requiredRank: 'platinum',
-      unlocked: playerStats?.tier === 'platinum' || ['diamond', 'mythic'].includes(playerStats?.tier),
-      icon: '🖼️'
+      unlocked:
+        playerStats?.tier === 'platinum' ||
+        ['diamond', 'mythic'].includes(playerStats?.tier),
+      icon: '🖼️',
     },
     {
       id: 'reward_5',
@@ -71,8 +99,10 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       type: 'cosmetic',
       rarity: 'legendary',
       requiredRank: 'diamond',
-      unlocked: playerStats?.tier === 'diamond' || ['mythic'].includes(playerStats?.tier),
-      icon: '✨'
+      unlocked:
+        playerStats?.tier === 'diamond' ||
+        ['mythic'].includes(playerStats?.tier),
+      icon: '✨',
     },
     {
       id: 'reward_6',
@@ -82,8 +112,8 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
       rarity: 'mythic',
       requiredRank: 'mythic',
       unlocked: playerStats?.tier === 'mythic',
-      icon: '🌟'
-    }
+      icon: '🌟',
+    },
   ];
 
   const displayRewards = rewards?.length > 0 ? rewards : mockRewards;
@@ -91,13 +121,13 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
   if (!displayRewards || displayRewards.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-sm p-4 relative">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
         >
           <X className="w-4 h-4" />
         </button>
-        
+
         <div className="text-center py-6 text-gray-500">
           <Gift className="w-12 h-12 mx-auto mb-2 text-gray-300" />
           <p>No rewards available.</p>
@@ -106,39 +136,46 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
     );
   }
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = rarity => {
     switch (rarity?.toLowerCase()) {
-      case 'common': return 'text-gray-600';
-      case 'uncommon': return 'text-green-600';
-      case 'rare': return 'text-blue-600';
-      case 'epic': return 'text-purple-600';
-      case 'legendary': return 'text-yellow-600';
-      case 'mythic': return 'text-red-600';
-      default: return 'text-gray-600';
+      case 'common':
+        return 'text-gray-600';
+      case 'uncommon':
+        return 'text-green-600';
+      case 'rare':
+        return 'text-blue-600';
+      case 'epic':
+        return 'text-purple-600';
+      case 'legendary':
+        return 'text-yellow-600';
+      case 'mythic':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
     }
   };
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 relative">
-      <button 
+      <button
         onClick={onClose}
         className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
       >
         <X className="w-4 h-4" />
       </button>
-      
+
       <div className="flex items-center space-x-2 mb-3">
         <Gift className="w-5 h-5 text-blue-600" />
         <h3 className="font-medium text-gray-900">Season Rewards</h3>
       </div>
-      
+
       <div className="space-y-3">
         {displayRewards.slice(0, maxItems).map(reward => (
-          <motion.div 
-            key={reward.id} 
+          <motion.div
+            key={reward.id}
             className={`border rounded-lg p-3 transition-colors ${
-              reward.unlocked 
-                ? 'border-green-200 bg-green-50' 
+              reward.unlocked
+                ? 'border-green-200 bg-green-50'
                 : 'border-gray-200 hover:border-gray-300'
             }`}
             whileHover={{ y: -2 }}
@@ -155,19 +192,24 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
                   <Lock className="w-4 h-4 text-gray-400" />
                 )}
                 <span className={`text-xs ${getRarityColor(reward.rarity)}`}>
-                  {reward.rarity.charAt(0).toUpperCase() + reward.rarity.slice(1)}
+                  {reward.rarity.charAt(0).toUpperCase() +
+                    reward.rarity.slice(1)}
                 </span>
               </div>
             </div>
-            
+
             <p className="text-sm text-gray-600 mb-2">{reward.description}</p>
-            
+
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center space-x-1 text-gray-500">
                 <Trophy className="w-3 h-3" />
-                <span>Required Rank: {reward.requiredRank.charAt(0).toUpperCase() + reward.requiredRank.slice(1)}</span>
+                <span>
+                  Required Rank:{' '}
+                  {reward.requiredRank.charAt(0).toUpperCase() +
+                    reward.requiredRank.slice(1)}
+                </span>
               </div>
-              
+
               {!reward.unlocked && (
                 <div className="flex items-center space-x-1 text-blue-600">
                   <Info className="w-3 h-3" />
@@ -178,7 +220,7 @@ const MatchmakingRewards = ({ rewards, playerStats, onViewAll, onClose, maxItems
           </motion.div>
         ))}
       </div>
-      
+
       {displayRewards.length > maxItems && (
         <motion.button
           onClick={onViewAll}

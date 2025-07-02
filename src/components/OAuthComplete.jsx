@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -24,7 +24,7 @@ const OAuthComplete = () => {
       try {
         // Get stored OAuth user data
         const oauthUserData = localStorage.getItem('oauth_user');
-        
+
         if (!oauthUserData) {
           setStatus('error');
           setError('No authentication data found');
@@ -32,17 +32,17 @@ const OAuthComplete = () => {
         }
 
         const userData = JSON.parse(oauthUserData);
-        
+
         // Complete login with the OAuth user data
         const result = await loginWithOAuthUser(userData);
-        
+
         if (result.success) {
           setStatus('success');
-          
+
           // Clear temporary OAuth data
           localStorage.removeItem('oauth_user');
           localStorage.removeItem('oauth_provider');
-          
+
           // Redirect to home page after a short delay
           setTimeout(() => {
             navigate('/', { replace: true });
@@ -67,7 +67,9 @@ const OAuthComplete = () => {
         <div className="mobile-auth-processing">
           <div className="mobile-spinner esoteric-spinner"></div>
           <h2 className="esoteric-text-accent">Completing Authentication...</h2>
-          <p className="esoteric-text-muted">Please wait while we set up your account</p>
+          <p className="esoteric-text-muted">
+            Please wait while we set up your account
+          </p>
         </div>
       </div>
     );
@@ -80,7 +82,7 @@ const OAuthComplete = () => {
           <div className="esoteric-error-icon">!</div>
           <h2 className="esoteric-text-error">Authentication Failed</h2>
           <p className="esoteric-text-muted">{error}</p>
-          <button 
+          <button
             onClick={() => navigate('/', { replace: true })}
             className="mobile-btn esoteric-btn"
           >
@@ -96,7 +98,9 @@ const OAuthComplete = () => {
       <div className="mobile-auth-success">
         <div className="esoteric-success-icon">✓</div>
         <h2 className="esoteric-text-success">Authentication Successful</h2>
-        <p className="esoteric-text-muted">You have successfully authenticated</p>
+        <p className="esoteric-text-muted">
+          You have successfully authenticated
+        </p>
         <p className="esoteric-text-muted">Redirecting to home page...</p>
       </div>
     </div>

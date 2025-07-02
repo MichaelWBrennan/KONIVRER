@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-05-28
 
 ### Added
+
 - Initial release of KONIVRER Deck Database
 - Modern React 18 frontend with Vite build system
 - Professional deck builder with drag-and-drop interface
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Security headers and performance optimizations
 
 ### Technical Features
+
 - React Router for client-side navigation
 - Framer Motion for smooth animations
 - Lucide React icons
@@ -31,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Development and production environments
 
 ### Infrastructure
+
 - Vercel deployment configuration
 - Environment variable management
 - Build optimization with manual chunks
@@ -41,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+
 - User authentication system
 - Deck sharing functionality
 - Advanced card filtering

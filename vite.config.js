@@ -22,7 +22,7 @@ const excludeCardImages = () => {
         fs.rmSync(cardsDir, { recursive: true, force: true });
         console.log('🗑️  Removed card images from dist (served via CDN)');
       }
-    }
+    },
   };
 };
 
@@ -33,8 +33,8 @@ export default defineConfig({
     outDir: 'dist',
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
-      external: []
-    }
+      external: [],
+    },
   },
   resolve: {
     alias: {
@@ -52,5 +52,5 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 12001,
     cors: true,
-  }
+  },
 });

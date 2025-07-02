@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -20,7 +20,7 @@ const GAME_STATES = {
   STACK_RESOLUTION: 'stack_resolution',
   COMBAT: 'combat',
   GAME_OVER: 'game_over',
-  SPECTATING: 'spectating'
+  SPECTATING: 'spectating',
 };
 
 // Turn Phases (MTG-style)
@@ -36,7 +36,7 @@ const TURN_PHASES = {
   COMBAT_END: 'combat_end',
   MAIN2: 'main2',
   END: 'end',
-  CLEANUP: 'cleanup'
+  CLEANUP: 'cleanup',
 };
 
 // Priority System (Legends of Runeterra style)
@@ -44,7 +44,7 @@ const PRIORITY_STATES = {
   ACTIVE_PLAYER: 'active_player',
   NON_ACTIVE_PLAYER: 'non_active_player',
   BOTH_PASS: 'both_pass',
-  STACK_RESOLVING: 'stack_resolving'
+  STACK_RESOLVING: 'stack_resolving',
 };
 
 // Initial game state
@@ -57,53 +57,53 @@ const initialState = {
   turnNumber: 1,
   phase: TURN_PHASES.UNTAP,
   priority: PRIORITY_STATES.ACTIVE_PLAYER,
-  
+
   // Interactive Systems
   stack: [], // Spell/ability stack
   pendingActions: [],
   awaitingResponse: false,
   responseTimer: null,
-  
+
   // Game Objects
   battlefield: [],
   graveyards: [[], []],
   hands: [[], []],
   libraries: [[], []],
   exile: [[], []],
-  
+
   // Game Rules
   lifeTotal: [20, 20],
   manaPool: [{}, {}],
   landsPlayedThisTurn: [0, 0],
-  
+
   // Visual Effects
   animations: [],
   soundQueue: [],
-  
+
   // Mobile Optimizations
   autoPass: false,
   smartTargeting: true,
   gestureControls: true,
-  
+
   // Spectator Mode
   spectators: [],
   replayMode: false,
-  
+
   // Performance
   frameRate: 60,
   lowDataMode: false,
-  
+
   // Anti-cheat
   serverValidation: true,
   actionHistory: [],
-  
+
   // Analytics
   gameStats: {
     startTime: null,
     endTime: null,
     totalActions: 0,
-    averageResponseTime: 0
-  }
+    averageResponseTime: 0,
+  },
 };
 
 // Action types
@@ -113,39 +113,39 @@ const ACTIONS = {
   END_GAME: 'END_GAME',
   NEXT_PHASE: 'NEXT_PHASE',
   PASS_PRIORITY: 'PASS_PRIORITY',
-  
+
   // Card Actions
   PLAY_CARD: 'PLAY_CARD',
   ACTIVATE_ABILITY: 'ACTIVATE_ABILITY',
   ATTACK: 'ATTACK',
   BLOCK: 'BLOCK',
-  
+
   // Stack Management
   ADD_TO_STACK: 'ADD_TO_STACK',
   RESOLVE_STACK: 'RESOLVE_STACK',
   COUNTER_SPELL: 'COUNTER_SPELL',
-  
+
   // Zone Changes
   MOVE_CARD: 'MOVE_CARD',
   SHUFFLE_LIBRARY: 'SHUFFLE_LIBRARY',
   DRAW_CARD: 'DRAW_CARD',
-  
+
   // Visual Effects
   ADD_ANIMATION: 'ADD_ANIMATION',
   REMOVE_ANIMATION: 'REMOVE_ANIMATION',
   PLAY_SOUND: 'PLAY_SOUND',
-  
+
   // Mobile Features
   TOGGLE_AUTO_PASS: 'TOGGLE_AUTO_PASS',
   SET_GESTURE_MODE: 'SET_GESTURE_MODE',
-  
+
   // Performance
   SET_FRAME_RATE: 'SET_FRAME_RATE',
   TOGGLE_LOW_DATA: 'TOGGLE_LOW_DATA',
-  
+
   // Analytics
   TRACK_ACTION: 'TRACK_ACTION',
-  UPDATE_STATS: 'UPDATE_STATS'
+  UPDATE_STATS: 'UPDATE_STATS',
 };
 
 // Game Engine Reducer
@@ -159,21 +159,23 @@ function gameEngineReducer(state, action) {
         players: action.payload.players,
         gameStats: {
           ...state.gameStats,
-          startTime: Date.now()
-        }
+          startTime: Date.now(),
+        },
       };
 
     case ACTIONS.NEXT_PHASE:
       const phases = Object.values(TURN_PHASES);
       const currentPhaseIndex = phases.indexOf(state.phase);
       const nextPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-      
+
       return {
         ...state,
         phase: phases[nextPhaseIndex],
         // Switch players if we're back to untap
-        currentPlayer: nextPhaseIndex === 0 ? 1 - state.currentPlayer : state.currentPlayer,
-        turnNumber: nextPhaseIndex === 0 ? state.turnNumber + 1 : state.turnNumber
+        currentPlayer:
+          nextPhaseIndex === 0 ? 1 - state.currentPlayer : state.currentPlayer,
+        turnNumber:
+          nextPhaseIndex === 0 ? state.turnNumber + 1 : state.turnNumber,
       };
 
     case ACTIONS.ADD_TO_STACK:
@@ -181,90 +183,111 @@ function gameEngineReducer(state, action) {
         ...state,
         stack: [...state.stack, action.payload],
         awaitingResponse: true,
-        priority: PRIORITY_STATES.NON_ACTIVE_PLAYER
+        priority: PRIORITY_STATES.NON_ACTIVE_PLAYER,
       };
 
     case ACTIONS.RESOLVE_STACK:
       if (state.stack.length === 0) return state;
-      
+
       const resolving = state.stack[state.stack.length - 1];
       return {
         ...state,
         stack: state.stack.slice(0, -1),
         // Apply spell/ability effects here
-        animations: [...state.animations, {
-          id: Date.now(),
-          type: 'spell_resolution',
-          card: resolving,
-          duration: 1000
-        }]
+        animations: [
+          ...state.animations,
+          {
+            id: Date.now(),
+            type: 'spell_resolution',
+            card: resolving,
+            duration: 1000,
+          },
+        ],
       };
 
     case ACTIONS.PLAY_CARD:
       return {
         ...state,
         // Move card from hand to stack/battlefield
-        hands: state.hands.map((hand, index) => 
-          index === action.payload.player 
+        hands: state.hands.map((hand, index) =>
+          index === action.payload.player
             ? hand.filter(card => card.id !== action.payload.card.id)
-            : hand
+            : hand,
         ),
-        stack: action.payload.card.type === 'instant' || action.payload.card.type === 'sorcery'
-          ? [...state.stack, action.payload.card]
-          : state.stack,
-        battlefield: action.payload.card.type === 'creature' || action.payload.card.type === 'artifact'
-          ? [...state.battlefield, { ...action.payload.card, controller: action.payload.player }]
-          : state.battlefield,
-        animations: [...state.animations, {
-          id: Date.now(),
-          type: 'card_play',
-          card: action.payload.card,
-          player: action.payload.player,
-          duration: 800
-        }],
+        stack:
+          action.payload.card.type === 'instant' ||
+          action.payload.card.type === 'sorcery'
+            ? [...state.stack, action.payload.card]
+            : state.stack,
+        battlefield:
+          action.payload.card.type === 'creature' ||
+          action.payload.card.type === 'artifact'
+            ? [
+                ...state.battlefield,
+                { ...action.payload.card, controller: action.payload.player },
+              ]
+            : state.battlefield,
+        animations: [
+          ...state.animations,
+          {
+            id: Date.now(),
+            type: 'card_play',
+            card: action.payload.card,
+            player: action.payload.player,
+            duration: 800,
+          },
+        ],
         gameStats: {
           ...state.gameStats,
-          totalActions: state.gameStats.totalActions + 1
-        }
+          totalActions: state.gameStats.totalActions + 1,
+        },
       };
 
     case ACTIONS.ADD_ANIMATION:
       return {
         ...state,
-        animations: [...state.animations, {
-          id: Date.now(),
-          ...action.payload,
-          startTime: Date.now()
-        }]
+        animations: [
+          ...state.animations,
+          {
+            id: Date.now(),
+            ...action.payload,
+            startTime: Date.now(),
+          },
+        ],
       };
 
     case ACTIONS.REMOVE_ANIMATION:
       return {
         ...state,
-        animations: state.animations.filter(anim => anim.id !== action.payload.id)
+        animations: state.animations.filter(
+          anim => anim.id !== action.payload.id,
+        ),
       };
 
     case ACTIONS.TOGGLE_AUTO_PASS:
       return {
         ...state,
-        autoPass: !state.autoPass
+        autoPass: !state.autoPass,
       };
 
     case ACTIONS.SET_FRAME_RATE:
       return {
         ...state,
-        frameRate: action.payload.frameRate
+        frameRate: action.payload.frameRate,
       };
 
     case ACTIONS.TRACK_ACTION:
       return {
         ...state,
-        actionHistory: [...state.actionHistory, {
-          timestamp: Date.now(),
-          action: action.payload.action,
-          player: action.payload.player,
-          data: action.payload.data
-        }]
+        actionHistory: [
+          ...state.actionHistory,
+          {
+            timestamp: Date.now(),
+            action: action.payload.action,
+            player: action.payload.player,
+            data: action.payload.data,
+          },
+        ],
       };
 
     default:
@@ -284,7 +307,7 @@ export const GameEngineProvider = ({ children }) => {
         if (now - animation.startTime > animation.duration) {
           dispatch({
             type: ACTIONS.REMOVE_ANIMATION,
-            payload: { id: animation.id }
+            payload: { id: animation.id },
           });
         }
       });
@@ -301,22 +324,22 @@ export const GameEngineProvider = ({ children }) => {
     const measureFPS = () => {
       frameCount++;
       const currentTime = performance.now();
-      
+
       if (currentTime - lastTime >= 1000) {
         const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-        
+
         // Adjust quality based on performance
         if (fps < 30 && state.frameRate > 30) {
           dispatch({
             type: ACTIONS.SET_FRAME_RATE,
-            payload: { frameRate: 30 }
+            payload: { frameRate: 30 },
           });
         }
-        
+
         frameCount = 0;
         lastTime = currentTime;
       }
-      
+
       requestAnimationFrame(measureFPS);
     };
 
@@ -327,12 +350,12 @@ export const GameEngineProvider = ({ children }) => {
   const gameEngine = {
     // State
     ...state,
-    
+
     // Core Actions
-    startGame: (gameConfig) => {
+    startGame: gameConfig => {
       dispatch({
         type: ACTIONS.START_GAME,
-        payload: gameConfig
+        payload: gameConfig,
       });
     },
 
@@ -344,7 +367,7 @@ export const GameEngineProvider = ({ children }) => {
 
       dispatch({
         type: ACTIONS.PLAY_CARD,
-        payload: { card, player, targets }
+        payload: { card, player, targets },
       });
 
       // Track for analytics
@@ -353,8 +376,8 @@ export const GameEngineProvider = ({ children }) => {
         payload: {
           action: 'play_card',
           player,
-          data: { cardId: card.id, cardName: card.name }
-        }
+          data: { cardId: card.id, cardName: card.name },
+        },
       });
 
       return true;
@@ -369,10 +392,10 @@ export const GameEngineProvider = ({ children }) => {
     },
 
     // Interactive Systems
-    addToStack: (spell) => {
+    addToStack: spell => {
       dispatch({
         type: ACTIONS.ADD_TO_STACK,
-        payload: spell
+        payload: spell,
       });
     },
 
@@ -381,10 +404,10 @@ export const GameEngineProvider = ({ children }) => {
     },
 
     // Visual Effects
-    addAnimation: (animationData) => {
+    addAnimation: animationData => {
       dispatch({
         type: ACTIONS.ADD_ANIMATION,
-        payload: animationData
+        payload: animationData,
       });
     },
 
@@ -393,7 +416,7 @@ export const GameEngineProvider = ({ children }) => {
       if (!state.lowDataMode) {
         dispatch({
           type: ACTIONS.PLAY_SOUND,
-          payload: { soundId, volume }
+          payload: { soundId, volume },
         });
       }
     },
@@ -403,10 +426,10 @@ export const GameEngineProvider = ({ children }) => {
       dispatch({ type: ACTIONS.TOGGLE_AUTO_PASS });
     },
 
-    setGestureMode: (enabled) => {
+    setGestureMode: enabled => {
       dispatch({
         type: ACTIONS.SET_GESTURE_MODE,
-        payload: { enabled }
+        payload: { enabled },
       });
     },
 
@@ -418,7 +441,8 @@ export const GameEngineProvider = ({ children }) => {
     // Utility Functions
     canPlayCard: (card, player) => canPlayCard(card, player, state),
     getValidTargets: (card, player) => getValidTargets(card, player, state),
-    calculateDamage: (attacker, blocker) => calculateDamage(attacker, blocker, state)
+    calculateDamage: (attacker, blocker) =>
+      calculateDamage(attacker, blocker, state),
   };
 
   return (
@@ -433,37 +457,49 @@ function canPlayCard(card, player, state) {
   // Check if it's the player's turn and they have priority
   if (state.currentPlayer !== player) return false;
   if (state.priority !== PRIORITY_STATES.ACTIVE_PLAYER) return false;
-  
+
   // Check mana requirements
   if (!hasEnoughMana(card.cost, state.manaPool[player])) return false;
-  
+
   // Check timing restrictions
-  if (card.type === 'sorcery' && state.phase !== TURN_PHASES.MAIN1 && state.phase !== TURN_PHASES.MAIN2) {
+  if (
+    card.type === 'sorcery' &&
+    state.phase !== TURN_PHASES.MAIN1 &&
+    state.phase !== TURN_PHASES.MAIN2
+  ) {
     return false;
   }
-  
+
   return true;
 }
 
 function hasEnoughMana(cost, manaPool) {
   // Simplified mana checking
-  const totalAvailable = Object.values(manaPool).reduce((sum, amount) => sum + amount, 0);
-  const totalRequired = Object.values(cost).reduce((sum, amount) => sum + amount, 0);
+  const totalAvailable = Object.values(manaPool).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
+  const totalRequired = Object.values(cost).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
   return totalAvailable >= totalRequired;
 }
 
 function getValidTargets(card, player, state) {
   // Return valid targets for the card
   const targets = [];
-  
+
   if (card.targetType === 'creature') {
-    targets.push(...state.battlefield.filter(permanent => permanent.type === 'creature'));
+    targets.push(
+      ...state.battlefield.filter(permanent => permanent.type === 'creature'),
+    );
   }
-  
+
   if (card.targetType === 'player') {
     targets.push(...state.players);
   }
-  
+
   return targets;
 }
 
@@ -472,7 +508,7 @@ function calculateDamage(attacker, blocker, state) {
   return {
     attackerDamage: blocker ? blocker.toughness : 0,
     blockerDamage: attacker.power,
-    trample: attacker.abilities?.includes('trample') || false
+    trample: attacker.abilities?.includes('trample') || false,
   };
 }
 

@@ -7,7 +7,7 @@ import './index.css';
 /**
  * Performance monitoring
  */
-const reportWebVitals = (metric) => {
+const reportWebVitals = metric => {
   // Analytics reporting would go here
   if (process.env.NODE_ENV !== 'production') {
     console.log(metric);
@@ -17,24 +17,29 @@ const reportWebVitals = (metric) => {
 /**
  * Critical error handler
  */
-const handleCriticalError = (error) => {
+const handleCriticalError = error => {
   console.error('Critical application error:', error);
-  
+
   // Render fallback UI
   const rootElement = document.getElementById('root');
   if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
-      <div style={{ 
-        padding: '20px', 
-        textAlign: 'center',
-        fontFamily: 'var(--font-family-base, Arial, sans-serif)',
-        color: '#ff3333',
-        maxWidth: '600px',
-        margin: '0 auto'
-      }}>
+      <div
+        style={{
+          padding: '20px',
+          textAlign: 'center',
+          fontFamily: 'var(--font-family-base, Arial, sans-serif)',
+          color: '#ff3333',
+          maxWidth: '600px',
+          margin: '0 auto',
+        }}
+      >
         <h1>Something went wrong</h1>
-        <p>The application encountered a critical error. Please refresh the page or contact support.</p>
-        <button 
+        <p>
+          The application encountered a critical error. Please refresh the page
+          or contact support.
+        </p>
+        <button
           onClick={() => window.location.reload()}
           style={{
             padding: '8px 16px',
@@ -43,22 +48,22 @@ const handleCriticalError = (error) => {
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
-            marginTop: '20px'
+            marginTop: '20px',
           }}
         >
           Refresh Page
         </button>
-      </div>
+      </div>,
     );
   }
 };
 
 // Set up global error handlers
-window.addEventListener('error', (event) => {
+window.addEventListener('error', event => {
   handleCriticalError(event.error);
 });
 
-window.addEventListener('unhandledrejection', (event) => {
+window.addEventListener('unhandledrejection', event => {
   handleCriticalError(event.reason);
 });
 
@@ -73,19 +78,21 @@ try {
       <PhysicalMatchmakingProvider>
         <App />
       </PhysicalMatchmakingProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
-  
+
   // Report web vitals
-  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-    getCLS(reportWebVitals);
-    getFID(reportWebVitals);
-    getFCP(reportWebVitals);
-    getLCP(reportWebVitals);
-    getTTFB(reportWebVitals);
-  }).catch(err => {
-    console.warn('Web Vitals not loaded:', err);
-  });
+  import('web-vitals')
+    .then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(reportWebVitals);
+      getFID(reportWebVitals);
+      getFCP(reportWebVitals);
+      getLCP(reportWebVitals);
+      getTTFB(reportWebVitals);
+    })
+    .catch(err => {
+      console.warn('Web Vitals not loaded:', err);
+    });
 } catch (error) {
   handleCriticalError(error);
 }

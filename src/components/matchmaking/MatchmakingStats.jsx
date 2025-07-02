@@ -1,97 +1,116 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Flame, Target, Star, Award, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import {
+  Trophy,
+  Flame,
+  Target,
+  Star,
+  Award,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+} from 'lucide-react';
 import RankProgressBar from './RankProgressBar';
 
 const MatchmakingStats = ({ playerStats }) => {
   if (!playerStats) return null;
-  
+
   const getNextRank = (currentRank, division) => {
     const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'mythic'];
     const divisions = ['III', 'II', 'I'];
-    
-    const currentRankIndex = ranks.findIndex(r => r.toLowerCase() === currentRank.toLowerCase());
+
+    const currentRankIndex = ranks.findIndex(
+      r => r.toLowerCase() === currentRank.toLowerCase(),
+    );
     const currentDivisionIndex = divisions.findIndex(d => d === division);
-    
+
     // If not at the highest division of the rank
     if (currentDivisionIndex > 0) {
       return `${currentRank} ${divisions[currentDivisionIndex - 1]}`;
     }
-    
+
     // If at the highest division but not at the highest rank
     if (currentRankIndex < ranks.length - 1) {
       return `${ranks[currentRankIndex + 1].charAt(0).toUpperCase() + ranks[currentRankIndex + 1].slice(1)} ${divisions[divisions.length - 1]}`;
     }
-    
+
     // If at the highest rank and division
     return 'Top 100';
   };
-  
-  const getTrendIcon = (streak) => {
+
+  const getTrendIcon = streak => {
     if (streak > 0) return <TrendingUp className="w-4 h-4 text-green-500" />;
     if (streak < 0) return <TrendingDown className="w-4 h-4 text-red-500" />;
     return <Minus className="w-4 h-4 text-gray-500" />;
   };
-  
+
   const nextRank = getNextRank(playerStats.tier, playerStats.division);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-4 mb-4">
-        <div className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}>
+        <div
+          className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}
+        >
           {playerStats.rankIcon}
         </div>
         <div>
           <div className="text-xl font-bold text-gray-900">
             {playerStats.tier.toUpperCase()} {playerStats.division}
           </div>
-          <div className="text-sm text-gray-500">
-            {playerStats.rating} MMR
-          </div>
+          <div className="text-sm text-gray-500">{playerStats.rating} MMR</div>
         </div>
       </div>
-      
+
       <div>
-        <RankProgressBar 
+        <RankProgressBar
           currentRank={`${playerStats.tier} ${playerStats.division}`}
           nextRank={nextRank}
           progress={playerStats.rankProgress}
         />
       </div>
-      
+
       <div className="grid grid-cols-3 gap-2 text-center">
-        <motion.div 
-          className="bg-gray-50 rounded-lg p-2"
-          whileHover={{ y: -2 }}
-        >
-          <div className="text-lg font-bold text-gray-900">{playerStats.wins}</div>
-          <div className="text-xs text-gray-500">Wins</div>
-        </motion.div>
-        <motion.div 
-          className="bg-gray-50 rounded-lg p-2"
-          whileHover={{ y: -2 }}
-        >
-          <div className="text-lg font-bold text-gray-900">{playerStats.losses}</div>
-          <div className="text-xs text-gray-500">Losses</div>
-        </motion.div>
-        <motion.div 
+        <motion.div
           className="bg-gray-50 rounded-lg p-2"
           whileHover={{ y: -2 }}
         >
           <div className="text-lg font-bold text-gray-900">
-            {((playerStats.wins / (playerStats.wins + playerStats.losses)) * 100 || 0).toFixed(1)}%
+            {playerStats.wins}
+          </div>
+          <div className="text-xs text-gray-500">Wins</div>
+        </motion.div>
+        <motion.div
+          className="bg-gray-50 rounded-lg p-2"
+          whileHover={{ y: -2 }}
+        >
+          <div className="text-lg font-bold text-gray-900">
+            {playerStats.losses}
+          </div>
+          <div className="text-xs text-gray-500">Losses</div>
+        </motion.div>
+        <motion.div
+          className="bg-gray-50 rounded-lg p-2"
+          whileHover={{ y: -2 }}
+        >
+          <div className="text-lg font-bold text-gray-900">
+            {(
+              (playerStats.wins / (playerStats.wins + playerStats.losses)) *
+                100 || 0
+            ).toFixed(1)}
+            %
           </div>
           <div className="text-xs text-gray-500">Win Rate</div>
         </motion.div>
       </div>
-      
+
       <div className="pt-2 space-y-2">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center space-x-1">
@@ -125,17 +144,19 @@ const MatchmakingStats = ({ playerStats }) => {
           <span className="font-medium">{playerStats.matchesPlayed}</span>
         </div>
       </div>
-      
+
       {playerStats.seasonRewards && playerStats.seasonRewards.length > 0 && (
         <div className="pt-2 border-t border-gray-100">
-          <div className="text-sm font-medium text-gray-700 mb-2">Season Rewards Progress</div>
+          <div className="text-sm font-medium text-gray-700 mb-2">
+            Season Rewards Progress
+          </div>
           <div className="flex space-x-2">
             {playerStats.seasonRewards.map((reward, index) => (
-              <div 
+              <div
                 key={index}
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  reward.unlocked 
-                    ? 'bg-gradient-to-br from-green-400 to-green-600 text-white' 
+                  reward.unlocked
+                    ? 'bg-gradient-to-br from-green-400 to-green-600 text-white'
                     : 'bg-gray-200 text-gray-400'
                 }`}
               >

@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
@@ -36,29 +36,29 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
     try {
       // Import deck from code
       const deck = DeckService.importDeckFromCode(deckCode);
-      
+
       if (!deck) {
         throw new Error('Invalid deck code');
       }
-      
+
       // Validate the deck
       const validation = DeckService.validateDeck(deck);
-      
+
       if (!validation.isValid) {
         throw new Error(`Invalid deck: ${validation.errors.join(', ')}`);
       }
-      
+
       // Save the deck
       const deckId = DeckService.saveDeck(deck, deckName);
-      
+
       // Set as active player deck
       DeckService.setActivePlayerDeck(deckId);
-      
+
       // Call success callback
       if (onImportSuccess) {
         onImportSuccess(deckId);
       }
-      
+
       // Close modal
       onClose();
     } catch (err) {
@@ -108,7 +108,7 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
                 <input
                   type="text"
                   value={deckName}
-                  onChange={(e) => setDeckName(e.target.value)}
+                  onChange={e => setDeckName(e.target.value)}
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter a name for this deck"
                 />
@@ -120,7 +120,7 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
                 </label>
                 <textarea
                   value={deckCode}
-                  onChange={(e) => setDeckCode(e.target.value)}
+                  onChange={e => setDeckCode(e.target.value)}
                   className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
                   placeholder="Paste deck code here"
                 />

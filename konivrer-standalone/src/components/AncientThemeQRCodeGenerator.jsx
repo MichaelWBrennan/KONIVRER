@@ -2,7 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import { safeStringify, formatTimestamp } from '../utils';
-import { DEFAULT_QR_SIZE, QR_CODE_TYPES, ERROR_MESSAGES } from '../utils/constants';
+import {
+  DEFAULT_QR_SIZE,
+  QR_CODE_TYPES,
+  ERROR_MESSAGES,
+} from '../utils/constants';
 
 /**
  * Ancient theme styling - moved outside component to prevent recreation on each render
@@ -13,12 +17,13 @@ const ancientStyles = {
     background: `linear-gradient(to bottom, var(--ancient-bg-primary), var(--ancient-bg-secondary))`,
     padding: 'var(--spacing-lg)',
     borderRadius: 'var(--border-radius-md)',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5), inset 0 0 6px var(--ancient-accent)',
+    boxShadow:
+      '0 4px 8px rgba(0, 0, 0, 0.5), inset 0 0 6px var(--ancient-accent)',
     border: `2px solid var(--ancient-border)`,
     maxWidth: '350px',
     margin: '0 auto',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   title: {
     color: 'var(--ancient-text)',
@@ -26,7 +31,7 @@ const ancientStyles = {
     textAlign: 'center',
     marginBottom: 'var(--spacing-md)',
     textShadow: '1px 1px 2px #000',
-    letterSpacing: '1px'
+    letterSpacing: '1px',
   },
   qrContainer: {
     background: '#f5e7d3',
@@ -36,7 +41,7 @@ const ancientStyles = {
     position: 'relative',
     zIndex: '1',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   instructions: {
     color: 'var(--ancient-text)',
@@ -44,7 +49,7 @@ const ancientStyles = {
     fontSize: '14px',
     textAlign: 'center',
     marginTop: 'var(--spacing-md)',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   dataContainer: {
     marginTop: 'var(--spacing-md)',
@@ -55,48 +60,48 @@ const ancientStyles = {
     overflowY: 'auto',
     color: 'var(--ancient-text)',
     fontFamily: 'monospace',
-    fontSize: '12px'
+    fontSize: '12px',
   },
   corner: {
     position: 'absolute',
     width: '30px',
     height: '30px',
     borderColor: 'var(--ancient-border)',
-    borderStyle: 'solid'
+    borderStyle: 'solid',
   },
   topLeft: {
     top: '5px',
     left: '5px',
-    borderWidth: '3px 0 0 3px'
+    borderWidth: '3px 0 0 3px',
   },
   topRight: {
     top: '5px',
     right: '5px',
-    borderWidth: '3px 3px 0 0'
+    borderWidth: '3px 3px 0 0',
   },
   bottomLeft: {
     bottom: '5px',
     left: '5px',
-    borderWidth: '0 0 3px 3px'
+    borderWidth: '0 0 3px 3px',
   },
   bottomRight: {
     bottom: '5px',
     right: '5px',
-    borderWidth: '0 3px 3px 0'
+    borderWidth: '0 3px 3px 0',
   },
   errorMessage: {
-    color: 'var(--ancient-text)', 
+    color: 'var(--ancient-text)',
     textAlign: 'center',
     padding: 'var(--spacing-md)',
     background: 'rgba(139, 0, 0, 0.2)',
     borderRadius: 'var(--border-radius-sm)',
-    border: '1px solid var(--ancient-border)'
+    border: '1px solid var(--ancient-border)',
   },
   loadingMessage: {
-    color: 'var(--ancient-text)', 
+    color: 'var(--ancient-text)',
     textAlign: 'center',
     padding: 'var(--spacing-md)',
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   timestamp: {
     color: 'var(--ancient-text)',
@@ -104,8 +109,8 @@ const ancientStyles = {
     fontSize: '12px',
     textAlign: 'center',
     marginTop: 'var(--spacing-sm)',
-    opacity: 0.8
-  }
+    opacity: 0.8,
+  },
 };
 
 /**
@@ -113,16 +118,18 @@ const ancientStyles = {
  */
 const CornerElements = React.memo(() => (
   <>
-    <div style={{...ancientStyles.corner, ...ancientStyles.topLeft}}></div>
-    <div style={{...ancientStyles.corner, ...ancientStyles.topRight}}></div>
-    <div style={{...ancientStyles.corner, ...ancientStyles.bottomLeft}}></div>
-    <div style={{...ancientStyles.corner, ...ancientStyles.bottomRight}}></div>
+    <div style={{ ...ancientStyles.corner, ...ancientStyles.topLeft }}></div>
+    <div style={{ ...ancientStyles.corner, ...ancientStyles.topRight }}></div>
+    <div style={{ ...ancientStyles.corner, ...ancientStyles.bottomLeft }}></div>
+    <div
+      style={{ ...ancientStyles.corner, ...ancientStyles.bottomRight }}
+    ></div>
   </>
 ));
 
 /**
  * Ancient Theme QR Code Generator Component
- * 
+ *
  * @param {Object} props - Component props
  * @param {string} [props.matchId] - ID of the match to generate QR code for
  * @param {string} [props.tournamentId] - ID of the tournament to generate QR code for
@@ -131,14 +138,15 @@ const CornerElements = React.memo(() => (
  * @param {string} [props.className=''] - Additional CSS class names
  * @returns {JSX.Element} Ancient themed QR code component
  */
-const AncientThemeQRCodeGenerator = ({ 
-  matchId, 
-  tournamentId, 
-  size = DEFAULT_QR_SIZE, 
-  includeData = false, 
-  className = '' 
+const AncientThemeQRCodeGenerator = ({
+  matchId,
+  tournamentId,
+  size = DEFAULT_QR_SIZE,
+  includeData = false,
+  className = '',
 }) => {
-  const { generateMatchQRData, generateTournamentQRData } = usePhysicalMatchmaking();
+  const { generateMatchQRData, generateTournamentQRData } =
+    usePhysicalMatchmaking();
   const [qrData, setQrData] = useState(null);
   const [error, setError] = useState(null);
   const [title, setTitle] = useState('');
@@ -147,7 +155,7 @@ const AncientThemeQRCodeGenerator = ({
   useEffect(() => {
     try {
       let data = null;
-      
+
       if (matchId) {
         data = generateMatchQRData(matchId);
         setTitle('Ancient Match Seal');
@@ -157,15 +165,15 @@ const AncientThemeQRCodeGenerator = ({
       } else {
         throw new Error(ERROR_MESSAGES.MISSING_REQUIRED_FIELD);
       }
-      
+
       if (!data) {
         throw new Error(
-          matchId 
-            ? ERROR_MESSAGES.MATCH_NOT_FOUND 
-            : ERROR_MESSAGES.TOURNAMENT_NOT_FOUND
+          matchId
+            ? ERROR_MESSAGES.MATCH_NOT_FOUND
+            : ERROR_MESSAGES.TOURNAMENT_NOT_FOUND,
         );
       }
-      
+
       setQrData(data);
       setTimestamp(formatTimestamp(data.timestamp));
       setError(null);
@@ -197,7 +205,9 @@ const AncientThemeQRCodeGenerator = ({
     return (
       <div style={ancientStyles.container} className={className}>
         <CornerElements />
-        <div style={ancientStyles.loadingMessage}>Summoning arcane sigil...</div>
+        <div style={ancientStyles.loadingMessage}>
+          Summoning arcane sigil...
+        </div>
       </div>
     );
   }
@@ -205,12 +215,12 @@ const AncientThemeQRCodeGenerator = ({
   return (
     <div style={ancientStyles.container} className={className}>
       <CornerElements />
-      
+
       <h3 style={ancientStyles.title}>{title}</h3>
-      
+
       <div style={ancientStyles.qrContainer}>
-        <QRCodeSVG 
-          value={qrValue} 
+        <QRCodeSVG
+          value={qrValue}
           size={size}
           level="H" // High error correction
           includeMargin={true}
@@ -219,20 +229,18 @@ const AncientThemeQRCodeGenerator = ({
           bgColor="#f5e7d3"
         />
       </div>
-      
+
       {includeData && (
         <div style={ancientStyles.dataContainer}>
           <pre>{safeStringify(qrData)}</pre>
         </div>
       )}
-      
+
       <p style={ancientStyles.instructions}>
         Scan this arcane sigil to reveal {qrData.type} secrets
       </p>
-      
-      <div style={ancientStyles.timestamp}>
-        Conjured on the {timestamp}
-      </div>
+
+      <div style={ancientStyles.timestamp}>Conjured on the {timestamp}</div>
     </div>
   );
 };

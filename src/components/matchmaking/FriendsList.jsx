@@ -1,48 +1,62 @@
 /**
  * KONIVRER Deck Database
- * 
+ *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, UserPlus, Clock, X, UserMinus, UserCheck, Gamepad, Search } from 'lucide-react';
+import {
+  MessageCircle,
+  UserPlus,
+  Clock,
+  X,
+  UserMinus,
+  UserCheck,
+  Gamepad,
+  Search,
+} from 'lucide-react';
 
-const FriendsList = ({ 
-  friends, 
-  onViewAll, 
-  onMessage, 
-  onInvite, 
+const FriendsList = ({
+  friends,
+  onViewAll,
+  onMessage,
+  onInvite,
   onRemove,
-  maxItems = 5, 
+  maxItems = 5,
   showViewAll = true,
   showSearch = true,
-  showActions = true
+  showActions = true,
 }) => {
-  const formatTimeAgo = (date) => {
+  const formatTimeAgo = date => {
     if (!date) return 'Never';
-    
+
     const now = new Date();
     const diffMs = now - new Date(date);
     const diffSec = Math.floor(diffMs / 1000);
     const diffMin = Math.floor(diffSec / 60);
     const diffHour = Math.floor(diffMin / 60);
     const diffDay = Math.floor(diffHour / 24);
-    
+
     if (diffDay > 0) return `${diffDay}d ago`;
     if (diffHour > 0) return `${diffHour}h ago`;
     if (diffMin > 0) return `${diffMin}m ago`;
     return 'Just now';
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = status => {
     switch (status) {
-      case 'online': return 'bg-green-500';
-      case 'away': return 'bg-yellow-500';
-      case 'busy': return 'bg-red-500';
-      case 'offline': return 'bg-gray-400';
-      default: return 'bg-gray-400';
+      case 'online':
+        return 'bg-green-500';
+      case 'away':
+        return 'bg-yellow-500';
+      case 'busy':
+        return 'bg-red-500';
+      case 'offline':
+        return 'bg-gray-400';
+      default:
+        return 'bg-gray-400';
     }
   };
 
@@ -72,10 +86,10 @@ const FriendsList = ({
           />
         </div>
       )}
-      
+
       {friends.slice(0, maxItems).map(friend => (
-        <motion.div 
-          key={friend.id} 
+        <motion.div
+          key={friend.id}
           className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
           whileHover={{ x: 2 }}
         >
@@ -84,7 +98,9 @@ const FriendsList = ({
               <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700">
                 {friend.name[0]}
               </div>
-              <div className={`absolute bottom-0 right-0 w-3 h-3 ${getStatusColor(friend.status)} rounded-full border-2 border-white`}></div>
+              <div
+                className={`absolute bottom-0 right-0 w-3 h-3 ${getStatusColor(friend.status)} rounded-full border-2 border-white`}
+              ></div>
             </div>
             <div>
               <div className="font-medium text-gray-900">{friend.name}</div>
@@ -103,10 +119,10 @@ const FriendsList = ({
               </div>
             </div>
           </div>
-          
+
           {showActions && (
             <div className="flex space-x-2">
-              <motion.button 
+              <motion.button
                 onClick={() => onMessage && onMessage(friend)}
                 className="text-blue-600 hover:text-blue-700"
                 whileHover={{ scale: 1.1 }}
@@ -115,7 +131,7 @@ const FriendsList = ({
                 <MessageCircle className="w-4 h-4" />
               </motion.button>
               {friend.status === 'online' ? (
-                <motion.button 
+                <motion.button
                   onClick={() => onInvite && onInvite(friend)}
                   className="text-green-600 hover:text-green-700"
                   whileHover={{ scale: 1.1 }}
@@ -124,7 +140,7 @@ const FriendsList = ({
                   <UserPlus className="w-4 h-4" />
                 </motion.button>
               ) : (
-                <motion.button 
+                <motion.button
                   onClick={() => onRemove && onRemove(friend)}
                   className="text-red-600 hover:text-red-700"
                   whileHover={{ scale: 1.1 }}
@@ -137,7 +153,7 @@ const FriendsList = ({
           )}
         </motion.div>
       ))}
-      
+
       {showViewAll && friends.length > maxItems && (
         <motion.button
           onClick={onViewAll}
