@@ -1,0 +1,218 @@
+{
+  "timestamp": "2025-07-02T19:49:28.333Z",
+  "files": [
+    {
+      "path": "assets/card-back-new.png",
+      "size": 591195,
+      "sizeFormatted": "577.34 KB",
+      "type": "Image",
+      "gzipEstimate": 177359
+    },
+    {
+      "path": "assets/index-BkR8fUum.js",
+      "size": 1045740,
+      "sizeFormatted": "1021.23 KB",
+      "type": "JavaScript",
+      "gzipEstimate": 313722,
+      "analysis": {
+        "lines": 597,
+        "minified": false,
+        "hasSourceMap": false,
+        "estimatedModules": 5,
+        "potentialIssues": [
+          "Contains console.log statements",
+          "Contains 106 large inline strings"
+        ]
+      }
+    },
+    {
+      "path": "assets/index-Q37sJCUy.css",
+      "size": 71468,
+      "sizeFormatted": "69.79 KB",
+      "type": "CSS",
+      "gzipEstimate": 21440,
+      "analysis": {
+        "lines": 2,
+        "rules": 866,
+        "minified": true,
+        "hasSourceMap": false,
+        "potentialIssues": [
+          "High number of vendor prefixes detected",
+          "Potential duplicate CSS rules detected"
+        ]
+      }
+    },
+    {
+      "path": "assets/rules-B6n6ChTq.js",
+      "size": 6335,
+      "sizeFormatted": "6.19 KB",
+      "type": "JavaScript",
+      "gzipEstimate": 1901,
+      "analysis": {
+        "lines": 125,
+        "minified": false,
+        "hasSourceMap": false,
+        "estimatedModules": 0,
+        "potentialIssues": []
+      }
+    },
+    {
+      "path": "favicon.svg",
+      "size": 294,
+      "sizeFormatted": "294 Bytes",
+      "type": "Image",
+      "gzipEstimate": 88
+    },
+    {
+      "path": "fonts/OpenDyslexic-Bold.woff2",
+      "size": 108068,
+      "sizeFormatted": "105.54 KB",
+      "type": "Font",
+      "gzipEstimate": 32420
+    },
+    {
+      "path": "fonts/OpenDyslexic-Regular.woff2",
+      "size": 103336,
+      "sizeFormatted": "100.91 KB",
+      "type": "Font",
+      "gzipEstimate": 31001
+    },
+    {
+      "path": "fonts/OpenDyslexic.zip",
+      "size": 14,
+      "sizeFormatted": "14 Bytes",
+      "type": "Other",
+      "gzipEstimate": 4
+    },
+    {
+      "path": "fonts/opendyslexic/OpenDyslexic-Bold.otf",
+      "size": 184472,
+      "sizeFormatted": "180.15 KB",
+      "type": "Other",
+      "gzipEstimate": 55342
+    },
+    {
+      "path": "fonts/opendyslexic/OpenDyslexic-BoldItalic.otf",
+      "size": 235788,
+      "sizeFormatted": "230.26 KB",
+      "type": "Other",
+      "gzipEstimate": 70736
+    },
+    {
+      "path": "fonts/opendyslexic/OpenDyslexic-Italic.otf",
+      "size": 190448,
+      "sizeFormatted": "185.98 KB",
+      "type": "Other",
+      "gzipEstimate": 57134
+    },
+    {
+      "path": "fonts/opendyslexic/OpenDyslexic-Regular.otf",
+      "size": 175872,
+      "sizeFormatted": "171.75 KB",
+      "type": "Other",
+      "gzipEstimate": 52762
+    },
+    {
+      "path": "index.html",
+      "size": 10236,
+      "sizeFormatted": "10 KB",
+      "type": "HTML",
+      "gzipEstimate": 3071
+    },
+    {
+      "path": "manifest.json",
+      "size": 5177,
+      "sizeFormatted": "5.06 KB",
+      "type": "Other",
+      "gzipEstimate": 1553
+    },
+    {
+      "path": "offline.html",
+      "size": 9690,
+      "sizeFormatted": "9.46 KB",
+      "type": "HTML",
+      "gzipEstimate": 2907
+    },
+    {
+      "path": "sw.js",
+      "size": 13331,
+      "sizeFormatted": "13.02 KB",
+      "type": "JavaScript",
+      "gzipEstimate": 3999,
+      "analysis": {
+        "lines": 470,
+        "minified": false,
+        "hasSourceMap": false,
+        "estimatedModules": 1,
+        "potentialIssues": [
+          "Contains console.log statements"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "totalFiles": 16,
+    "totalSize": 2751464,
+    "totalGzipEstimate": 825439,
+    "byType": {
+      "Image": {
+        "count": 2,
+        "size": 591489,
+        "sizeFormatted": "577.63 KB"
+      },
+      "JavaScript": {
+        "count": 3,
+        "size": 1065406,
+        "sizeFormatted": "1.02 MB"
+      },
+      "CSS": {
+        "count": 1,
+        "size": 71468,
+        "sizeFormatted": "69.79 KB"
+      },
+      "Font": {
+        "count": 2,
+        "size": 211404,
+        "sizeFormatted": "206.45 KB"
+      },
+      "Other": {
+        "count": 6,
+        "size": 791771,
+        "sizeFormatted": "773.21 KB"
+      },
+      "HTML": {
+        "count": 2,
+        "size": 19926,
+        "sizeFormatted": "19.46 KB"
+      }
+    },
+    "totalSizeFormatted": "2.62 MB",
+    "totalGzipEstimateFormatted": "806.09 KB"
+  },
+  "recommendations": [
+    {
+      "type": "performance",
+      "severity": "high",
+      "message": "Large JavaScript files detected (1 files > 500KB)",
+      "suggestion": "Consider code splitting or lazy loading"
+    },
+    {
+      "type": "optimization",
+      "severity": "medium",
+      "message": "Unminified JavaScript files detected (3 files)",
+      "suggestion": "Enable minification in build process"
+    },
+    {
+      "type": "performance",
+      "severity": "high",
+      "message": "Large total bundle size: 2.62 MB",
+      "suggestion": "Consider reducing bundle size through code splitting, tree shaking, or removing unused dependencies"
+    },
+    {
+      "type": "debugging",
+      "severity": "low",
+      "message": "JavaScript files without source maps (3 files)",
+      "suggestion": "Enable source map generation for better debugging"
+    }
+  ]
+}

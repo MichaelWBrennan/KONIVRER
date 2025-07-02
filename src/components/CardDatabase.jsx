@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import cardsData from '../data/cards.json';
+import { getCardArtPathFromData } from '../utils/cardArtMapping';
 
 const CardDatabase = ({
   cards: propCards,
@@ -146,6 +147,42 @@ const CardDatabase = ({
         onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)
       }
     >
+      {/* Card Image */}
+      <div className="mb-3 flex justify-center">
+        {(() => {
+          // Simplified test - just use hardcoded URLs for known cards
+          let testUrl;
+          if (card.name === 'ΦIVE ELEMENT ΦLAG') {
+            testUrl = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/FLAG.png';
+          } else if (card.name === 'ABISS') {
+            testUrl = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/ABISS.png';
+          } else if (card.name === 'ANGEL') {
+            testUrl = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/ANGEL.png';
+          } else if (card.name === 'AZOΘ') {
+            testUrl = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/AZOTH.png';
+          } else {
+            testUrl = getCardArtPathFromData(card);
+          }
+          
+          console.log(`Card: ${card.name}, Test URL: ${testUrl}`);
+          return (
+            <img 
+              src={testUrl || 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png'} 
+              alt={card.name} 
+              className="w-32 h-44 object-cover rounded-lg border border-gray-200"
+              onError={(e) => {
+                console.log(`Failed to load image for ${card.name}: ${testUrl}`);
+                e.target.onerror = null;
+                e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+              }}
+              onLoad={(e) => {
+                console.log(`Successfully loaded image for ${card.name}: ${e.target.src}`);
+              }}
+            />
+          );
+        })()}
+      </div>
+
       {/* Card Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
