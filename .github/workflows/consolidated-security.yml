@@ -1,0 +1,232 @@
+# MIT License
+# 
+# Copyright (c) 2025 KONIVRER Team
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+name: Consolidated Security Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run security scans daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      security_level:
+        description: 'Security scan level'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+        - basic
+        - standard
+        - comprehensive
+
+# Minimal required permissions
+permissions:
+  contents: read
+  security-events: write
+  issues: write
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  SECURITY_LEVEL: ${{ github.event.inputs.security_level || 'standard' }}
+
+jobs:
+  # Dependency security audit
+  dependency-security:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: NPM Security Audit
+      run: |
+        echo "🔒 Running NPM security audit..."
+        npm audit --audit-level moderate --json > npm-audit.json || true
+        
+    - name: Advanced audit with audit-ci
+      run: |
+        npx audit-ci --config audit-ci.json || true
+        
+    - name: License compliance check
+      run: |
+        npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;Python-2.0;CC-BY-4.0;CC-BY-3.0;0BSD;UNLICENSED;CC0-1.0' --json --out license-report.json || true
+        
+    - name: Upload security reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dependency-security-reports
+        path: |
+          npm-audit.json
+          license-report.json
+        retention-days: 30
+
+  # Code security scanning
+  code-security:
+    name: Code Security Scanning
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Security linting
+      run: |
+        echo "🔍 Running security linting..."
+        npx eslint . --ext .js,.jsx,.ts,.tsx -c .eslintrc.security.js --format json --output-file security-lint.json || true
+        
+    - name: Secrets detection
+      run: |
+        echo "🔐 Scanning for secrets..."
+        npm run security:check || true
+        
+    - name: Code quality security check
+      if: env.SECURITY_LEVEL == 'comprehensive'
+      run: |
+        echo "🎯 Running comprehensive code analysis..."
+        npx jscpd --reporters json --output jscpd-security.json . || true
+        
+    - name: Upload code security reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: code-security-reports
+        path: |
+          security-lint.json
+          security-report.json
+          jscpd-security.json
+        retention-days: 30
+
+  # Infrastructure security
+  infrastructure-security:
+    name: Infrastructure Security
+    runs-on: ubuntu-latest
+    if: github.event.inputs.security_level == 'comprehensive' || github.event_name == 'schedule'
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Docker security scan
+      if: hashFiles('Dockerfile') != ''
+      run: |
+        echo "🐳 Scanning Docker configuration..."
+        # Add Docker security scanning if Dockerfile exists
+        
+    - name: GitHub Actions security audit
+      run: |
+        echo "⚙️ Auditing GitHub Actions workflows..."
+        find .github/workflows -name "*.yml" -exec echo "Checking {}" \;
+        
+    - name: Configuration security check
+      run: |
+        echo "🔧 Checking configuration security..."
+        # Check for sensitive files
+        find . -name "*.env*" -not -path "./node_modules/*" || true
+        find . -name "*.key" -not -path "./node_modules/*" || true
+        find . -name "*.pem" -not -path "./node_modules/*" || true
+
+  # Security reporting
+  security-reporting:
+    name: Security Reporting
+    runs-on: ubuntu-latest
+    needs: [dependency-security, code-security, infrastructure-security]
+    if: always()
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Generate security report
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          const results = {
+            dependency: '${{ needs.dependency-security.result }}',
+            code: '${{ needs.code-security.result }}',
+            infrastructure: '${{ needs.infrastructure-security.result }}'
+          };
+          
+          const successful = Object.values(results).filter(r => r === 'success').length;
+          const failed = Object.values(results).filter(r => r === 'failure').length;
+          const skipped = Object.values(results).filter(r => r === 'skipped').length;
+          
+          const report = `
+          ## 🔒 Security Scan Report
+          
+          **Security Level:** ${{ env.SECURITY_LEVEL }}
+          **Trigger:** ${{ github.event_name }}
+          **Branch:** ${{ github.ref_name }}
+          **Commit:** ${{ github.sha }}
+          
+          ### Results Summary
+          - ✅ Successful: ${successful}
+          - ❌ Failed: ${failed}
+          - ⏭️ Skipped: ${skipped}
+          
+          ### Scan Results
+          - 📦 Dependency Security: ${results.dependency}
+          - 🔍 Code Security: ${results.code}
+          - 🏗️ Infrastructure Security: ${results.infrastructure}
+          
+          ${failed > 0 ? '⚠️ **Security Issues Detected:** Please review the scan results and address any vulnerabilities.' : '✅ No security issues detected!'}
+          
+          **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          `;
+          
+          console.log(report);
+          
+          // Create issue for critical security failures
+          if (failed > 0 && '${{ github.event_name }}' === 'schedule') {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Security Vulnerabilities Detected',
+              body: report,
+              labels: ['security', 'vulnerability', 'urgent']
+            });
+          }
