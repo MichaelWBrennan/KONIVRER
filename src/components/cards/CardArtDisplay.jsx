@@ -224,7 +224,7 @@ export const CardArtGallery = ({
           >
             <CardArtDisplay
               cardName={cardName}
-              className="aspect-[3/4] group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+              className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
               showCardInfo={showCardInfo}
               clickable={clickable}
             />
@@ -261,7 +261,7 @@ export const CardArtPreview = ({ cardName, showDetails = true, clickable = true 
     <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto">
       <CardArtDisplay
         cardName={cardName}
-        className="aspect-[3/4] mb-4 shadow-2xl"
+        className="aspect-card mb-4 shadow-2xl"
         clickable={clickable}
         showCardInfo={false}
       />

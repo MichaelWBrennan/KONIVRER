@@ -186,7 +186,7 @@ const CardPreview = ({ card, position = 'right' }) => {
         >
           {/* Card frame */}
           <motion.div
-            className={`w-48 md:w-64 ${expanded ? 'w-72 md:w-80' : ''} aspect-[2.5/3.5] rounded-xl shadow-2xl border-2 ${getCardBackground()} ${getRarityStyle()} overflow-hidden`}
+            className={`w-48 md:w-64 ${expanded ? 'w-72 md:w-80' : ''} aspect-game-card rounded-xl shadow-2xl border-2 ${getCardBackground()} ${getRarityStyle()} overflow-hidden`}
             whileHover={!expanded ? { scale: 1.05, y: -5 } : {}}
             onClick={!expanded ? toggleExpanded : undefined}
           >

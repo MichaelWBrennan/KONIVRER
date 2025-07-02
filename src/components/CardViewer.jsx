@@ -85,7 +85,7 @@ const CardViewer = ({
         <div className="flex flex-col lg:flex-row">
           {/* Left Column - Card Image */}
           <div className="lg:w-1/3 p-6">
-            <div className="aspect-[3/4] bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg">
+            <div className="aspect-card bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg">
               <div className="text-center">
                 <div className="text-6xl mb-4">🎴</div>
                 <div className="text-lg font-medium text-gray-600">

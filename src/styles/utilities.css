@@ -1576,3 +1576,12 @@
     font-size: var(--font-size-6xl);
   }
 }
+
+/* Custom Aspect Ratios */
+.aspect-card {
+  aspect-ratio: 0.75;
+}
+
+.aspect-game-card {
+  aspect-ratio: 0.714;
+}

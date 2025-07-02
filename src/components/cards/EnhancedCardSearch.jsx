@@ -731,7 +731,7 @@ const CardGridItem = ({
       onClick={onView}
     >
       {/* Card Image */}
-      <div className="aspect-[3/4] relative">
+      <div className="aspect-card relative">
         {cardDataHasArt(card) ? (
           <CardArtDisplay
             cardName={card.name}
@@ -935,7 +935,7 @@ const CardDetailModal = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card Image */}
-          <div className="aspect-[3/4] bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
             <div className="text-white text-center p-4">
               <div className="text-2xl font-bold mb-2">{card.name}</div>
               <div className="text-lg">{card.cost}</div>
