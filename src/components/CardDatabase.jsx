@@ -150,40 +150,94 @@ const CardDatabase = ({
       {/* Card Image */}
       <div className="mb-3 flex justify-center">
         {(() => {
-          // Simplified test - just use hardcoded URLs for known cards
-          let testUrl;
-          if (card.name === 'ΦIVE ELEMENT ΦLAG') {
-            testUrl =
-              'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/FLAG.png';
-          } else if (card.name === 'ABISS') {
-            testUrl =
-              'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/ABISS.png';
-          } else if (card.name === 'ANGEL') {
-            testUrl =
-              'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/ANGEL.png';
-          } else if (card.name === 'AZOΘ') {
-            testUrl =
-              'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/cards/AZOTH.png';
-          } else {
-            testUrl = getCardArtPathFromData(card);
-          }
+          // Get local image path instead of CDN
+          const getLocalCardImagePath = (cardData) => {
+            if (!cardData || !cardData.name) return null;
 
-          console.log(`Card: ${card.name}, Test URL: ${testUrl}`);
+            // Special case for ΦIVE ELEMENT ΦLAG
+            if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
+              return '/assets/cards/FLAG.png';
+            }
+
+            // Convert database name to filename format
+            let filename = cardData.name
+              .replace(/Γ/g, 'G') // Gamma
+              .replace(/Φ/g, 'PH') // Phi
+              .replace(/Θ/g, 'TH') // Theta
+              .replace(/Σ/g, 'S') // Sigma
+              .replace(/\s+/g, ''); // Remove spaces
+
+            // Handle specific mappings for compound words
+            const compoundMappings = {
+              BRIGTDVST: 'BRIGHTDUST',
+              BRIGTFVLGVRITE: 'BRIGHTFULGURITE',
+              BRIGTLAHAR: 'BRIGHTLAHAR',
+              BRIGTLAVA: 'BRIGHTLAVA',
+              BRIGTLIGTNING: 'BRIGHTLIGHTNING',
+              BRIGTMVD: 'BRIGHTMUD',
+              BRIGTPERMAPHROST: 'BRIGHTPERMAFROST',
+              BRIGTSTEAM: 'BRIGHTSTEAM',
+              BRIGTTHVNDERSNOVV: 'BRIGHTTHUNDERSNOW',
+              DARKDVST: 'DARKDUST',
+              DARKFVLGVRITE: 'DARKFULGURITE',
+              DARKICE: 'DARKICE',
+              DARKLAHAR: 'DARKLAHAR',
+              DARKLAVA: 'DARKLAVA',
+              DARKLIGTNING: 'DARKLIGHTNING',
+              DARKTHVNDERSNOVV: 'DARKTHUNDERSNOW',
+              DARKTIPHOON: 'DARKTYPHOON',
+              LIGHTTIPHOON: 'LIGHTTYPHOON',
+              XAOSDVST: 'CHAOSDUST',
+              XAOSFVLGVRITE: 'CHAOSFULGURITE',
+              XAOSGNOME: 'CHAOSGNOME',
+              XAOSICE: 'CHAOSICE',
+              XAOSLAVA: 'CHAOSLAVA',
+              XAOSLIGTNING: 'CHAOSLIGHTNING',
+              XAOSMIST: 'CHAOSMIST',
+              XAOSMVD: 'CHAOSMUD',
+              XAOSPERMAPHROST: 'CHAOSPERMAFROST',
+              XAOSSALAMANDER: 'CHAOSSALAMANDER',
+              XAOSSILPH: 'CHAOSSYLPH',
+              XAOSSTEAM: 'CHAOSSTEAM',
+              XAOSTHVNDERSNOVV: 'CHAOSTHUNDERSNOW',
+              XAOSVNDINE: 'CHAOSUNDINE',
+              XAOS: 'CHAOS',
+              AVRORA: 'AURORA',
+              AZOTH: 'AZOTH',
+              DVST: 'DUST',
+              LIGTNING: 'LIGHTNING',
+              MVD: 'MUD',
+              NEKROSIS: 'NECROSIS',
+              PERMAPHROST: 'PERMAFROST',
+              RAINBOVV: 'RAINBOW',
+              SADE: 'SHADE',
+              SILPH: 'SYLPH',
+              TIPHOON: 'TYPHOON',
+              VNDINE: 'UNDINE',
+            };
+
+            // Apply compound mapping if exists
+            if (compoundMappings[filename]) {
+              filename = compoundMappings[filename];
+            }
+
+            return `/assets/cards/${filename}.png`;
+          };
+
+          const localImagePath = getLocalCardImagePath(card);
+          console.log(`Card: ${card.name}, Local Image Path: ${localImagePath}`);
+          
           return (
             <img
-              src={
-                testUrl ||
-                'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png'
-              }
+              src={localImagePath || '/assets/card-back-new.png'}
               alt={card.name}
               className="w-32 h-44 object-cover rounded-lg border border-gray-200"
               onError={e => {
                 console.log(
-                  `Failed to load image for ${card.name}: ${testUrl}`,
+                  `Failed to load local image for ${card.name}: ${localImagePath}`,
                 );
                 e.target.onerror = null;
-                e.target.src =
-                  'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                e.target.src = '/assets/card-back-new.png';
               }}
               onLoad={e => {
                 console.log(
