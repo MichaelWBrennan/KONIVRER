@@ -163,9 +163,13 @@ const CardPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-card rounded-lg p-6">
               <div className="space-y-4">
-                {/* Card Name and Type */}
+                {/* Card Name, Type, and Cost */}
                 <div className="mb-4">
                   <h2 className="text-2xl font-bold whitespace-nowrap">{card.name}</h2>
+                  <p className="text-md text-secondary">{card.type}</p>
+                  <p className="text-sm text-secondary">
+                    {Array.isArray(card.cost) ? card.cost.join(', ') : card.cost}
+                  </p>
                 </div>
                 
                 {/* Card Text */}
@@ -186,8 +190,8 @@ const CardPage = () => {
                   
                   {/* Artist - below flavor text */}
                   <div className="border-t border-gray-700 mt-3 pt-2">
-                    <p className="text-xs text-right text-secondary">
-                      Michael Brennan
+                    <p className="text-xs text-center text-secondary">
+                      Illustrated by Michael Brennan
                     </p>
                   </div>
                 </div>
@@ -210,19 +214,22 @@ const CardPage = () => {
                         <span>#{card.collectorNumber || '1'}</span>
                         <span className="mx-4">•</span>
                         <span>
-                          {card.rarity?.toLowerCase() === 'special' ? 'Special' : 
+                          {card.name === 'AZOΘ' ? 'Rare' :
+                           card.rarity?.toLowerCase() === 'special' ? 'Special' : 
                            card.rarity?.toLowerCase() === 'rare' ? 'Rare' :
                            card.rarity?.toLowerCase() === 'uncommon' ? 'Uncommon' : 'Common'}
                         </span>
                       </div>
                     </div>
                     
-                    {/* Card Type, Elements, Cost */}
+                    {/* Elements */}
                     <div className="border-t border-gray-700 py-2">
                       <p className="text-sm">
-                        <span className="font-semibold">{card.type}</span>
-                        {card.elements && card.elements.length > 0 && (
-                          <span> — {Array.isArray(card.elements) ? card.elements.join(', ') : card.elements}</span>
+                        <span className="font-semibold">Elements:</span>
+                        {card.elements && card.elements.length > 0 ? (
+                          <span> {Array.isArray(card.elements) ? card.elements.join(', ') : card.elements}</span>
+                        ) : (
+                          <span> None</span>
                         )}
                       </p>
                     </div>
