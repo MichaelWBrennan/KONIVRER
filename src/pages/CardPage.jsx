@@ -26,10 +26,6 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft,
-  Heart,
-  Bookmark,
-  Share2,
   Star,
   Plus,
   Download,
@@ -81,8 +77,6 @@ const CardPage = () => {
   const { id, cardId, set } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('details');
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   // Find card by ID - support both URL formats
@@ -109,33 +103,7 @@ const CardPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        {/* Navigation and Actions */}
-        <div className="bg-card rounded-lg p-4 mb-6 flex justify-between items-center">
-          <button
-            onClick={() => navigate('/hub')}
-            className="btn btn-ghost p-2"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="ml-2">Back to Hub</span>
-          </button>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className={`btn ${isFavorite ? 'btn-primary' : 'btn-ghost'}`}
-            >
-              <Heart className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`btn ${isBookmarked ? 'btn-primary' : 'btn-ghost'}`}
-            >
-              <Bookmark className="w-4 h-4" />
-            </button>
-            <button className="btn btn-ghost">
-              <Share2 className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        {/* Navigation and Actions removed */}
 
         {/* Card Search Bar - Always at the top */}
         <div className="bg-card rounded-lg p-6 mb-6">
