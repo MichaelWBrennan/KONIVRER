@@ -189,6 +189,10 @@ class GameEngine {
 
       // Game elements
       stack: [], // For resolving abilities and effects
+      drcActive: false, // Whether a Dynamic Resolution Chain is active
+      drcInitiator: null, // Player who initiated the current DRC
+      drcWaitingFor: null, // Player who needs to respond or pass
+      drcResponses: [], // Track which players have passed in the current DRC round
       animations: [], // Visual animations queue
       triggers: [], // Waiting triggered abilities
       gameLog: [],
@@ -384,7 +388,7 @@ class GameEngine {
     // Verify Azoth payment
     this.verifyAzothPayment(player, card, azothPaid);
 
-    // Remove from hand and add to field
+    // Remove from hand
     player.hand.splice(cardIndex, 1);
 
     // Calculate strength counters based on Azoth paid
@@ -393,13 +397,6 @@ class GameEngine {
       return total + (azoth.elements.includes('Strength') ? 1 : 0);
     }, 0);
 
-    // Add to field with strength counters
-    player.field.push({
-      ...card,
-      counters: strengthPaid,
-      summoningSickness: true, // Can't attack the turn it's summoned
-    });
-
     // Tap the Azoth cards used
     azothPaid.forEach(azothId => {
       const azoth = player.azothRow.find(a => a.id === azothId);
@@ -407,12 +404,35 @@ class GameEngine {
         azoth.tapped = true;
       }
     });
-
-    // Log the action
-    this.addToGameLog(
-      'summon',
-      `${player.name} summoned ${card.name} with ${strengthPaid} strength counters`,
-    );
+    
+    // Create stack item for the familiar
+    const stackItem = {
+      type: 'creature',
+      card: {
+        ...card,
+        counters: strengthPaid,
+        summoningSickness: true, // Can't attack the turn it's summoned
+      },
+      controller: playerId,
+      targets: [],
+      timestamp: Date.now(),
+    };
+    
+    // Start a Dynamic Resolution Chain if not already in one
+    if (!this.gameState.drcActive) {
+      // This is a new DRC
+      this.startDynamicResolutionChain(playerId, stackItem);
+    } else {
+      // This is a response in an existing DRC
+      // Add to stack
+      this.gameState.stack.push(stackItem);
+      
+      // Log the action
+      this.addToGameLog(
+        'summon',
+        `${player.name} summoned ${card.name} with ${strengthPaid} strength counters in response`,
+      );
+    }
 
     // Emit event
     this.emitEvent('familiarSummoned', { playerId, card, strengthPaid });
@@ -465,19 +485,27 @@ class GameEngine {
       }
     });
 
-    // Add to stack for resolution
-    this.gameState.stack.push({
+    // Create stack item for the spell
+    const stackItem = {
       type: 'spell',
       card,
       controller: playerId,
       targets,
-    });
-
-    // Log the action
-    this.addToGameLog('cast', `${player.name} cast ${card.name}`);
-
-    // Resolve the stack
-    this.resolveStack();
+      timestamp: Date.now(),
+    };
+    
+    // Start a Dynamic Resolution Chain if not already in one
+    if (!this.gameState.drcActive) {
+      // This is a new DRC
+      this.startDynamicResolutionChain(playerId, stackItem);
+    } else {
+      // This is a response in an existing DRC
+      // Add to stack
+      this.gameState.stack.push(stackItem);
+      
+      // Log the action
+      this.addToGameLog('cast', `${player.name} cast ${card.name} in response`);
+    }
 
     // Emit event
     this.emitEvent('spellCast', { playerId, card, targets });
@@ -974,6 +1002,174 @@ class GameEngine {
   }
 
   /**
+   * Start a Dynamic Resolution Chain when a non-Azoth card is played
+   * @param {number} playerId Player ID who initiated the chain
+   * @param {Object} stackItem The card/ability that started the chain
+   */
+  startDynamicResolutionChain(playerId, stackItem) {
+    // Set DRC active
+    this.gameState.drcActive = true;
+    this.gameState.drcInitiator = playerId;
+    this.gameState.drcWaitingFor = 1 - playerId; // Opponent gets first response
+    this.gameState.drcResponses = [];
+    
+    // Add the initial card to the stack
+    this.gameState.stack.push(stackItem);
+    
+    this.addToGameLog(
+      'drc',
+      `${this.getPlayerById(playerId).name} started a Dynamic Resolution Chain with ${stackItem.card.name}`,
+    );
+    
+    this.addToGameLog(
+      'drc',
+      `${this.getPlayerById(this.gameState.drcWaitingFor).name} can respond or pass`,
+    );
+    
+    // Emit event for UI to show response options
+    this.emitEvent('drcStarted', {
+      initiator: playerId,
+      waitingFor: this.gameState.drcWaitingFor,
+      stackItem
+    });
+    
+    return this.gameState;
+  }
+  
+  /**
+   * Respond to a card in the Dynamic Resolution Chain
+   * @param {number} playerId Player ID who is responding
+   * @param {string} cardId Card ID being played as a response
+   * @param {Array} azothPaid Array of Azoth card IDs used to pay the cost (if applicable)
+   * @param {Array} targets Array of target objects (if required)
+   */
+  respondToDRC(playerId, cardId, azothPaid = [], targets = []) {
+    // Verify it's the player's turn to respond
+    if (playerId !== this.gameState.drcWaitingFor) {
+      throw new Error('Not your turn to respond');
+    }
+    
+    const player = this.getPlayerById(playerId);
+    
+    // Find the card in hand
+    const cardIndex = player.hand.findIndex(card => card.id === cardId);
+    if (cardIndex === -1) {
+      throw new Error('Card not found in hand');
+    }
+    
+    const card = player.hand[cardIndex];
+    
+    // Check if player can pay the cost
+    if (!this.canPayCost(playerId, card, azothPaid)) {
+      throw new Error('Cannot pay the cost');
+    }
+    
+    // Pay the cost
+    this.payCost(playerId, card, azothPaid);
+    
+    // Remove from hand
+    player.hand.splice(cardIndex, 1);
+    
+    // Create stack item
+    const stackItem = {
+      type: card.type === 'spell' ? 'spell' : 'creature',
+      card,
+      controller: playerId,
+      targets,
+      timestamp: Date.now(),
+    };
+    
+    // Add to stack
+    this.gameState.stack.push(stackItem);
+    
+    // Switch waiting player
+    this.gameState.drcWaitingFor = 1 - playerId;
+    
+    // Reset responses for new round
+    this.gameState.drcResponses = [];
+    
+    this.addToGameLog(
+      'drc',
+      `${player.name} responded with ${card.name}`,
+    );
+    
+    this.addToGameLog(
+      'drc',
+      `${this.getPlayerById(this.gameState.drcWaitingFor).name} can respond or pass`,
+    );
+    
+    // Emit event
+    this.emitEvent('drcResponse', {
+      responder: playerId,
+      waitingFor: this.gameState.drcWaitingFor,
+      stackItem
+    });
+    
+    return this.gameState;
+  }
+  
+  /**
+   * Pass on responding in the Dynamic Resolution Chain
+   * @param {number} playerId Player ID who is passing
+   */
+  passDRC(playerId) {
+    // Verify it's the player's turn to respond
+    if (playerId !== this.gameState.drcWaitingFor) {
+      throw new Error('Not your turn to respond');
+    }
+    
+    // Record that this player passed
+    this.gameState.drcResponses.push(playerId);
+    
+    // Check if both players have passed
+    if (this.gameState.drcResponses.length === 2 || 
+        (this.gameState.drcResponses.length === 1 && 
+         this.gameState.drcResponses[0] !== this.gameState.drcInitiator)) {
+      // Both players passed, resolve the stack
+      this.addToGameLog('drc', 'Both players passed. Resolving the stack...');
+      this.resolveDRC();
+    } else {
+      // Switch waiting player
+      this.gameState.drcWaitingFor = 1 - playerId;
+      
+      this.addToGameLog(
+        'drc',
+        `${this.getPlayerById(playerId).name} passed. ${this.getPlayerById(this.gameState.drcWaitingFor).name} can respond or pass`,
+      );
+      
+      // Emit event
+      this.emitEvent('drcPass', {
+        passer: playerId,
+        waitingFor: this.gameState.drcWaitingFor
+      });
+    }
+    
+    return this.gameState;
+  }
+  
+  /**
+   * Resolve the Dynamic Resolution Chain
+   * Resolves all items on the stack in reverse order (last in, first out)
+   */
+  resolveDRC() {
+    this.addToGameLog('drc', 'Resolving Dynamic Resolution Chain in reverse order');
+    
+    // Resolve the stack in reverse order (last in, first out)
+    this.resolveStack();
+    
+    // Reset DRC state
+    this.gameState.drcActive = false;
+    this.gameState.drcInitiator = null;
+    this.gameState.drcWaitingFor = null;
+    this.gameState.drcResponses = [];
+    
+    // Emit event
+    this.emitEvent('drcResolved', this.gameState);
+    
+    return this.gameState;
+  }
+
+  /**
    * Resolve the top item on the stack
    */
   resolveStack() {
@@ -1013,6 +1209,22 @@ class GameEngine {
           'resolve',
           `${stackItem.card.name}'s burst ability resolved`,
         );
+        break;
+        
+      case 'creature':
+        // Resolve creature summon
+        this.resolveSummonEffect(stackItem);
+        
+        // Add to battlefield
+        player.field.push({
+          ...stackItem.card,
+          tapped: false,
+          summoningSickness: true,
+          counters: 0,
+          damage: 0,
+        });
+        
+        this.addToGameLog('resolve', `${stackItem.card.name} entered the battlefield`);
         break;
     }
 
@@ -1068,6 +1280,20 @@ class GameEngine {
 
     // In a real implementation, this would apply the burst effect based on its rules text
 
+    return this.gameState;
+  }
+  
+  /**
+   * Resolve a creature summon effect
+   * @param {Object} stackItem Stack item to resolve
+   */
+  resolveSummonEffect(stackItem) {
+    // This would contain the actual implementation of summon effects
+    // For now, we'll just log that it resolved
+    console.log(`Resolving summon: ${stackItem.card.name}`);
+    
+    // In a real implementation, this would apply any "enters the battlefield" effects
+    
     return this.gameState;
   }
 
