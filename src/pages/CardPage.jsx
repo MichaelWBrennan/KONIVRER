@@ -165,7 +165,7 @@ const CardPage = () => {
               <div className="space-y-4">
                 {/* Card Name and Type */}
                 <div className="mb-4">
-                  <h2 className="text-2xl font-bold">{card.name}</h2>
+                  <h2 className="text-2xl font-bold whitespace-nowrap">{card.name}</h2>
                 </div>
                 
                 {/* Card Text */}
@@ -183,6 +183,13 @@ const CardPage = () => {
                       </p>
                     </>
                   )}
+                  
+                  {/* Artist - below flavor text */}
+                  <div className="border-t border-gray-700 mt-3 pt-2">
+                    <p className="text-xs text-right text-secondary">
+                      Michael Brennan
+                    </p>
+                  </div>
                 </div>
                 
                 {/* Card Details - Scryfall-like format */}
@@ -190,18 +197,18 @@ const CardPage = () => {
                   <div className="bg-tertiary rounded p-4">
                     <div className="flex items-center mb-2">
                       {/* Card Set Symbol (placeholder) */}
-                      <div className="w-8 h-8 mr-2 flex items-center justify-center">
+                      <div className="w-8 h-8 mr-3 flex items-center justify-center">
                         <div className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center text-xs">
                           {card.set?.charAt(0) || '?'}
                         </div>
                       </div>
                       
                       {/* Card Set, Number, Rarity, Language */}
-                      <div className="text-lg">
-                        <span className="font-semibold">{card.set || 'KONIVRER'}</span>
-                        <span className="mx-2">•</span>
+                      <div className="text-lg flex-1 flex justify-between">
+                        <span className="font-semibold whitespace-nowrap">{card.set || 'PRIMA MATERIA'}</span>
+                        <span className="mx-4">•</span>
                         <span>#{card.collectorNumber || '1'}</span>
-                        <span className="mx-2">•</span>
+                        <span className="mx-4">•</span>
                         <span>
                           {card.rarity?.toLowerCase() === 'special' ? 'Special' : 
                            card.rarity?.toLowerCase() === 'rare' ? 'Rare' :
@@ -217,13 +224,6 @@ const CardPage = () => {
                         {card.elements && card.elements.length > 0 && (
                           <span> — {Array.isArray(card.elements) ? card.elements.join(', ') : card.elements}</span>
                         )}
-                      </p>
-                    </div>
-                    
-                    {/* Artist */}
-                    <div className="border-t border-gray-700 py-2">
-                      <p className="text-sm">
-                        <span className="text-secondary">Artist:</span> Michael Brennan
                       </p>
                     </div>
                   </div>
