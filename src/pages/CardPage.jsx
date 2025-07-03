@@ -48,6 +48,7 @@ import {
   cardDataHasArt,
 } from '../utils/cardArtMapping';
 import CardArtDisplay from '../components/cards/CardArtDisplay';
+import CardSearchBar from '../components/cards/CardSearchBar';
 
 const CardPage = () => {
   const { id, cardId, set } = useParams();
@@ -122,11 +123,17 @@ const CardPage = () => {
           </div>
         </div>
 
+        {/* Card Search Bar - Always at the top */}
+        <div className="bg-card rounded-lg p-6 mb-6">
+          <CardSearchBar className="mb-0" />
+        </div>
+
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Card Image */}
           <div className="lg:col-span-1">
             <div className="sticky top-32">
+              {/* Card Image */}
               <div className="bg-card rounded-lg p-6 mb-6">
                 <CardArtDisplay
                   cardName={getArtNameFromCardData(card)}
@@ -141,7 +148,6 @@ const CardPage = () => {
           {/* Right Column - Content */}
           <div className="lg:col-span-2">
             <div className="bg-card rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Card Details</h2>
               <div className="space-y-4">
                 <div>
                   <h3 className="font-semibold mb-2">Card Text</h3>
