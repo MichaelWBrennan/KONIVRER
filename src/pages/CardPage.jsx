@@ -50,15 +50,16 @@ import {
 import CardArtDisplay from '../components/cards/CardArtDisplay';
 
 const CardPage = () => {
-  const { id } = useParams();
+  const { id, cardId, set } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('details');
   const [isFavorite, setIsFavorite] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // Find card by ID
-  const card = cardsData.find(c => c.id === parseInt(id));
+  // Find card by ID - support both URL formats
+  const effectiveId = cardId || id;
+  const card = cardsData.find(c => c.id === effectiveId || c.id === parseInt(effectiveId));
 
   if (!card) {
     return (
