@@ -41,6 +41,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     this.gameState = null;
     this.gameId = this.generateGameId();
     this.options = options;
+    this.aiDecisionEngine = null;
+    this.aiPersonality = null;
     
     // Element types
     this.elements = {
@@ -98,6 +100,9 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       this.gameState.players[playerId] = this.initializePlayer(player, playerId);
     });
 
+    // Initialize AI if there are AI players
+    this.initializeAI(players);
+    
     // Setup pre-game actions
     this.setupPreGameActions();
     
@@ -162,9 +167,17 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Start Phase: Optional Azoth placement
    */
-  startPhase() {
+  async startPhase() {
     this.gameState.phase = this.phases.START;
     this.addToLog(`${this.gameState.activePlayer} enters Start Phase`);
+    
+    // Check if current player is AI
+    const activePlayer = this.gameState.players[this.gameState.activePlayer];
+    if (!activePlayer.isHuman) {
+      // Handle AI turn
+      await this.handleAITurn();
+      return;
+    }
     
     // Player may optionally place 1 card face up in Azoth Row
     this.waitForPlayerInput('optionalAzothPlacement');
@@ -618,6 +631,141 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     // Start new turn
     this.startPhase();
+  }
+
+  /**
+   * AI System Integration
+   */
+  async initializeAI(players) {
+    // Check if there are AI players
+    const aiPlayers = players.filter(player => !player.isHuman);
+    
+    if (aiPlayers.length > 0) {
+      // Dynamically import AI modules (for browser compatibility)
+      try {
+        const { default: AIDecisionEngine } = await import('./AIDecisionEngine.js');
+        const { PersonalityManager } = await import('./AIPersonalities.js');
+        
+        // Initialize AI decision engine
+        this.aiDecisionEngine = new AIDecisionEngine(this, 'adaptive');
+        
+        // Initialize AI personality (random selection for variety)
+        const personalities = ['strategist', 'berserker', 'trickster', 'scholar', 'gambler', 'perfectionist'];
+        const randomPersonality = personalities[Math.floor(Math.random() * personalities.length)];
+        this.aiPersonality = new PersonalityManager(randomPersonality);
+        
+        console.log(`AI initialized with personality: ${this.aiPersonality.getDisplayInfo().name}`);
+        
+      } catch (error) {
+        console.warn('AI modules not available, using basic AI:', error);
+        this.aiDecisionEngine = null;
+        this.aiPersonality = null;
+      }
+    }
+  }
+
+  /**
+   * Handle AI turn execution
+   */
+  async handleAITurn() {
+    const activePlayer = this.gameState.players[this.gameState.activePlayer];
+    
+    if (!activePlayer.isHuman && this.aiDecisionEngine) {
+      try {
+        // Let the AI make its decisions
+        await this.aiDecisionEngine.executeTurn(this.gameState);
+        
+        // Update AI mood based on turn outcome
+        if (this.aiPersonality) {
+          const turnSuccess = this.evaluateAITurnSuccess();
+          this.aiPersonality.updateMood({ 
+            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' 
+          });
+        }
+        
+      } catch (error) {
+        console.error('AI turn execution failed:', error);
+        // Fallback to basic AI behavior
+        await this.executeBasicAITurn();
+      }
+    }
+  }
+
+  /**
+   * Basic AI fallback behavior
+   */
+  async executeBasicAITurn() {
+    const activePlayer = this.gameState.players[this.gameState.activePlayer];
+    
+    // Simple AI: play first playable card
+    for (let i = 0; i < activePlayer.hand.length; i++) {
+      const card = activePlayer.hand[i];
+      
+      if (this.canPlayCard(this.gameState.activePlayer, card)) {
+        // Find empty field slot
+        const emptySlot = activePlayer.field.findIndex(slot => slot === null);
+        
+        if (emptySlot !== -1) {
+          // Play the card
+          await this.playCard(this.gameState.activePlayer, i, emptySlot, {
+            method: 'summon',
+            genericCost: card.genericCost || 1
+          });
+          
+          // Add thinking pause
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          break;
+        }
+      }
+    }
+    
+    // End turn
+    this.endTurn();
+  }
+
+  /**
+   * Check if AI can play a card
+   */
+  canPlayCard(playerId, card) {
+    const player = this.gameState.players[playerId];
+    
+    // Check if there's space in field
+    const hasSpace = player.field.some(slot => slot === null);
+    if (!hasSpace) return false;
+    
+    // Check if player has required elements
+    const requiredElements = card.cost || [];
+    const availableElements = player.azoth.map(azoth => azoth.element);
+    
+    return requiredElements.every(element => 
+      availableElements.includes(element) || element === 'Generic'
+    );
+  }
+
+  /**
+   * Evaluate how successful the AI's turn was
+   */
+  evaluateAITurnSuccess() {
+    // Simple evaluation based on board presence and hand size
+    const aiPlayer = this.gameState.players[this.gameState.activePlayer];
+    const opponentId = this.getOpponentId(this.gameState.activePlayer);
+    const opponent = this.gameState.players[opponentId];
+    
+    const aiFieldCount = aiPlayer.field.filter(slot => slot !== null).length;
+    const opponentFieldCount = opponent.field.filter(slot => slot !== null).length;
+    
+    const fieldAdvantage = aiFieldCount - opponentFieldCount;
+    const handAdvantage = aiPlayer.hand.length - opponent.hand.length;
+    
+    // Normalize to 0-1 scale
+    return Math.max(0, Math.min(1, 0.5 + (fieldAdvantage + handAdvantage * 0.1) * 0.2));
+  }
+
+  /**
+   * Get AI personality info for display
+   */
+  getAIPersonalityInfo() {
+    return this.aiPersonality ? this.aiPersonality.getDisplayInfo() : null;
   }
 
   /**
