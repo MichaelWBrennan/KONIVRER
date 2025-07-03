@@ -216,7 +216,7 @@ const RulesCenter = () => {
           <div className="flex gap-1">
             <button
               onClick={() => setActiveTab('basic')}
-              className={`px-2 py-0.5 rounded-sm transition-all font-medium text-xs ${
+              className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'basic'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -226,7 +226,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('tournament')}
-              className={`px-2 py-0.5 rounded-sm transition-all font-medium text-xs ${
+              className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'tournament'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -236,7 +236,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('conduct')}
-              className={`px-2 py-0.5 rounded-sm transition-all font-medium text-xs ${
+              className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'conduct'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -262,15 +262,15 @@ const RulesCenter = () => {
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
-                className="w-full px-2 py-1 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
+                className="w-full px-2 py-0 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
                 <div className="flex items-center">
-                  <h2 className="text-sm font-bold text-white tracking-wide">
+                  <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap">
                     {section.title || 'Rules Section'}
                   </h2>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-xs text-gray-400 hidden sm:block">
+                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap">
                     {expandedSections.has(key) ? 'Collapse' : 'Expand'}
                   </span>
                   {expandedSections.has(key) ? (
