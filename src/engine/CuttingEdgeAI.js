@@ -189,8 +189,8 @@ class QuantumDecisionEngine {
 
 class ConsciousnessSimulator {
   constructor() {
-    this.consciousnessLevel = 0.7;
-    this.selfAwareness = 0.6;
+    this.consciousnessLevel = 1.0;
+    this.selfAwareness = 1.0;
     this.introspectionDepth = 3;
     this.metacognition = new Map();
     this.innerDialogue = [];
@@ -986,15 +986,15 @@ class CuttingEdgeAI extends NeuralAI {
     
     // Quantum entanglement with player
     this.playerQuantumState = null;
-    this.entanglementStrength = 0.5;
+    this.entanglementStrength = 1.0;
     
     // Consciousness metrics
     this.consciousnessMetrics = {
-      selfAwareness: 0.7,
-      introspectionDepth: 0.6,
-      existentialCuriosity: 0.5,
-      creativityLevel: 0.8,
-      empathyDepth: 0.9
+      selfAwareness: 1.0,
+      introspectionDepth: 1.0,
+      existentialCuriosity: 1.0,
+      creativityLevel: 1.0,
+      empathyDepth: 1.0
     };
     
     this.initializeCuttingEdgeFeatures();
@@ -1002,8 +1002,8 @@ class CuttingEdgeAI extends NeuralAI {
 
   initializeCuttingEdgeFeatures() {
     // Initialize quantum consciousness
-    this.consciousness.consciousnessLevel = 0.8;
-    this.consciousness.selfAwareness = 0.7;
+    this.consciousness.consciousnessLevel = 1.0;
+    this.consciousness.selfAwareness = 1.0;
     
     // Set up quantum entanglement with player
     this.establishQuantumEntanglement();

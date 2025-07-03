@@ -1287,9 +1287,9 @@ class NeuralAI {
     
     // Personality and adaptation
     this.personality = personality;
-    this.adaptationRate = 0.1;
-    this.creativityLevel = 0.7;
-    this.empathyLevel = 0.8;
+    this.adaptationRate = 1.0;
+    this.creativityLevel = 1.0;
+    this.empathyLevel = 1.0;
     
     // Learning and evolution
     this.experienceBuffer = [];
@@ -1298,11 +1298,11 @@ class NeuralAI {
     
     // Performance tracking
     this.performanceMetrics = {
-      decisionAccuracy: 0.7,
-      adaptationSpeed: 0.6,
-      creativityScore: 0.5,
-      playerSatisfaction: 0.7,
-      strategicDepth: 0.8
+      decisionAccuracy: 1.0,
+      adaptationSpeed: 1.0,
+      creativityScore: 1.0,
+      playerSatisfaction: 1.0,
+      strategicDepth: 1.0
     };
     
     // Initialize advanced features
