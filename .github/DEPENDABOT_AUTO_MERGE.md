@@ -8,16 +8,16 @@ This repository is configured with automated Dependabot pull request merging to 
 
 - **Patch updates** (e.g., 1.0.0 → 1.0.1): Automatically merged after tests pass
 - **Minor updates** (e.g., 1.0.0 → 1.1.0): Automatically merged after tests pass
-- **Major updates** (e.g., 1.0.0 → 2.0.0): Requires manual review due to potential breaking changes
+- **Major updates** (e.g., 1.0.0 → 2.0.0): Automatically merged after tests pass, with special notification
 
 ### Process Flow
 
 1. Dependabot creates a pull request for dependency updates
-2. The "Build and Test" workflow runs automatically
+2. The CI/CD workflow runs automatically (lint, test, build, security)
 3. The auto-merge workflow waits for all status checks to complete
 4. If tests pass:
-   - **Patch/Minor**: PR is automatically approved and merged
-   - **Major**: A comment is added requesting manual review
+   - **All updates (patch, minor, major)**: PR is automatically approved and merged
+   - **Major updates**: A comment is added noting the major version change
 5. If tests fail: A comment is added explaining the failure
 
 ### Status Checks Required
@@ -25,21 +25,22 @@ This repository is configured with automated Dependabot pull request merging to 
 The auto-merge workflow waits for these checks to pass:
 
 - ✅ Lint checks (`npm run lint`)
+- ✅ Test execution (`npm run test`)
 - ✅ Build process (`npm run build`)
-- ✅ Build output validation
+- ✅ Security audit
 
 ### Configuration Files
 
 - `.github/workflows/dependabot-auto-merge.yml` - Auto-merge workflow
 - `.github/dependabot.yml` - Dependabot configuration
-- `.github/workflows/npm-gulp.yml` - Build and test workflow
+- `.github/workflows/ci.yml` - CI/CD workflow
 
 ### Security Considerations
 
 - Uses `pull_request_target` for secure handling of external PRs
 - Only processes PRs from `dependabot[bot]`
 - Requires all status checks to pass before merging
-- Major updates always require manual review
+- Special notification for major updates to highlight potential breaking changes
 
 ### Manual Override
 
