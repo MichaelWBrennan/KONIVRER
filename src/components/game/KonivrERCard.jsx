@@ -45,6 +45,16 @@ const KonivrERCard = ({
 }) => {
   // Element symbols and colors
   const elementConfig = {
+    Fire: { icon: Flame, symbol: '△', color: 'text-red-400', bg: 'bg-red-900/30' },
+    Water: { icon: Droplets, symbol: '▽', color: 'text-blue-400', bg: 'bg-blue-900/30' },
+    Earth: { icon: Mountain, symbol: '⊡', color: 'text-green-400', bg: 'bg-green-900/30' },
+    Air: { icon: Wind, symbol: '△', color: 'text-gray-300', bg: 'bg-gray-700/30' },
+    Quintessence: { icon: Sparkles, symbol: '○', color: 'text-purple-400', bg: 'bg-purple-900/30' },
+    Void: { icon: Square, symbol: '□', color: 'text-gray-800', bg: 'bg-gray-900/50' },
+    Brilliance: { icon: Star, symbol: '☉', color: 'text-yellow-400', bg: 'bg-yellow-900/30' },
+    Submerged: { icon: Droplets, symbol: '▽', color: 'text-cyan-400', bg: 'bg-cyan-900/30' },
+    Neutral: { icon: Circle, symbol: '⊗', color: 'text-gray-400', bg: 'bg-gray-800/30' },
+    // Legacy support for old format
     fire: { icon: Flame, symbol: '△', color: 'text-red-400', bg: 'bg-red-900/30' },
     water: { icon: Droplets, symbol: '▽', color: 'text-blue-400', bg: 'bg-blue-900/30' },
     earth: { icon: Mountain, symbol: '⊡', color: 'text-green-400', bg: 'bg-green-900/30' },
@@ -56,6 +66,11 @@ const KonivrERCard = ({
 
   // Rarity symbols
   const rarityConfig = {
+    Common: { symbol: '🜠', color: 'text-gray-400' },
+    Uncommon: { symbol: '☽', color: 'text-blue-400' },
+    Rare: { symbol: '☉', color: 'text-yellow-400' },
+    Special: { symbol: '⚡', color: 'text-purple-400' },
+    // Legacy support
     common: { symbol: '🜠', color: 'text-gray-400' },
     uncommon: { symbol: '☽', color: 'text-blue-400' },
     rare: { symbol: '☉', color: 'text-yellow-400' }
@@ -78,11 +93,20 @@ const KonivrERCard = ({
     }
 
     if (card.elements) {
-      const primaryElement = Object.keys(card.elements)[0];
+      let primaryElement;
+      
+      // Handle both array and object formats for elements
+      if (Array.isArray(card.elements)) {
+        primaryElement = card.elements[0];
+      } else {
+        primaryElement = Object.keys(card.elements)[0];
+      }
+      
       const elementBg = elementConfig[primaryElement]?.bg || 'bg-gray-800/30';
       
       switch (card.type) {
         case 'Familiar':
+        case 'ELEMENTAL':
           return `bg-gradient-to-br from-gray-800 to-gray-900 ${elementBg}`;
         case 'Spell':
           return `bg-gradient-to-br from-purple-800 to-purple-900 ${elementBg}`;
@@ -126,28 +150,53 @@ const KonivrERCard = ({
 
     return (
       <div className="absolute top-1 left-1 flex flex-wrap gap-1">
-        {Object.entries(card.elements).map(([element, cost]) => {
-          if (cost === 0) return null;
-          
-          const elementInfo = elementConfig[element];
-          if (!elementInfo) return null;
+        {Array.isArray(card.elements) ? (
+          // Handle array format (new cards from main database)
+          card.elements.map((element, index) => {
+            const elementInfo = elementConfig[element];
+            if (!elementInfo) return null;
 
-          const IconComponent = elementInfo.icon;
-          
-          return (
-            <div 
-              key={element}
-              className={`flex items-center gap-1 px-1 py-0.5 rounded ${elementInfo.bg} border border-gray-600`}
-            >
-              <IconComponent className={`w-3 h-3 ${elementInfo.color}`} />
-              {size !== 'small' && (
-                <span className={`text-xs ${elementInfo.color} font-bold`}>
-                  {cost}
-                </span>
-              )}
-            </div>
-          );
-        })}
+            const IconComponent = elementInfo.icon;
+            
+            return (
+              <div 
+                key={`${element}-${index}`}
+                className={`flex items-center gap-1 px-1 py-0.5 rounded ${elementInfo.bg} border border-gray-600`}
+              >
+                <IconComponent className={`w-3 h-3 ${elementInfo.color}`} />
+                {size !== 'small' && (
+                  <span className={`text-xs ${elementInfo.color} font-bold`}>
+                    {elementInfo.symbol}
+                  </span>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          // Handle object format (legacy cards)
+          Object.entries(card.elements).map(([element, cost]) => {
+            if (cost === 0) return null;
+            
+            const elementInfo = elementConfig[element];
+            if (!elementInfo) return null;
+
+            const IconComponent = elementInfo.icon;
+            
+            return (
+              <div 
+                key={element}
+                className={`flex items-center gap-1 px-1 py-0.5 rounded ${elementInfo.bg} border border-gray-600`}
+              >
+                <IconComponent className={`w-3 h-3 ${elementInfo.color}`} />
+                {size !== 'small' && (
+                  <span className={`text-xs ${elementInfo.color} font-bold`}>
+                    {cost}
+                  </span>
+                )}
+              </div>
+            );
+          })
+        )}
       </div>
     );
   };

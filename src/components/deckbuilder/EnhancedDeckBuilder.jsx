@@ -12,6 +12,8 @@ import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useGameEngine } from '../../contexts/GameEngineContext';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import CardSynergyRecommendations from './CardSynergyRecommendations';
+import DeckRules from '../DeckRules';
+import { validateDeck, canAddCardToDeck } from '../../utils/deckValidator';
 import {
   Search,
   Filter,
@@ -261,28 +263,74 @@ const EnhancedDeckBuilder = () => {
   }, [currentDeck.cards, cardCollection]);
 
   // Add card to deck
+  // State for validation messages
+  const [validationMessage, setValidationMessage] = useState(null);
+  
+  // Convert deck cards to format expected by validator
+  const getFormattedDeckCards = () => {
+    return currentDeck.cards.map(deckCard => {
+      const cardData = cardCollection.find(c => c.id === deckCard.cardId);
+      return {
+        ...cardData,
+        quantity: deckCard.quantity
+      };
+    });
+  };
+  
   const addCardToDeck = (card, quantity = 1) => {
+    // Format current deck for validation
+    const formattedDeck = getFormattedDeckCards();
+    
+    // Check if card can be added according to KONIVRER rules
+    const validationResult = canAddCardToDeck(card, formattedDeck);
+    
+    if (!validationResult.canAdd) {
+      // Show validation message
+      setValidationMessage({
+        type: 'error',
+        text: validationResult.reason
+      });
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setValidationMessage(null);
+      }, 3000);
+      
+      return;
+    }
+    
+    // KONIVRER rules: only 1 copy per card
     const existingCard = currentDeck.cards.find(c => c.cardId === card.id);
-
+    
     if (existingCard) {
-      const newQuantity = existingCard.quantity + quantity;
-      const maxQuantity = card.type === 'land' ? 20 : 4;
-
-      if (newQuantity <= maxQuantity) {
-        setCurrentDeck(prev => ({
-          ...prev,
-          cards: prev.cards.map(c =>
-            c.cardId === card.id ? { ...c, quantity: newQuantity } : c,
-          ),
-          updatedAt: Date.now(),
-        }));
-      }
+      // In KONIVRER, we don't increase quantity as only 1 copy is allowed
+      setValidationMessage({
+        type: 'error',
+        text: 'Only 1 copy of each card is allowed in KONIVRER'
+      });
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setValidationMessage(null);
+      }, 3000);
     } else {
+      // Add card with quantity 1 (KONIVRER rule)
       setCurrentDeck(prev => ({
         ...prev,
-        cards: [...prev.cards, { cardId: card.id, quantity }],
+        cards: [...prev.cards, { cardId: card.id, quantity: 1 }],
         updatedAt: Date.now(),
       }));
+      
+      // Show success message
+      setValidationMessage({
+        type: 'success',
+        text: `Added ${card.name} to deck`
+      });
+      
+      // Clear message after 2 seconds
+      setTimeout(() => {
+        setValidationMessage(null);
+      }, 2000);
     }
 
     // Award experience for deck building
@@ -290,20 +338,27 @@ const EnhancedDeckBuilder = () => {
   };
 
   // Remove card from deck
-  const removeCardFromDeck = (cardId, quantity = 1) => {
+  const removeCardFromDeck = (cardId) => {
+    // In KONIVRER, we always remove the entire card (since only 1 copy is allowed)
     setCurrentDeck(prev => ({
       ...prev,
-      cards: prev.cards
-        .map(c => {
-          if (c.cardId === cardId) {
-            const newQuantity = c.quantity - quantity;
-            return newQuantity > 0 ? { ...c, quantity: newQuantity } : null;
-          }
-          return c;
-        })
-        .filter(Boolean),
+      cards: prev.cards.filter(c => c.cardId !== cardId),
       updatedAt: Date.now(),
     }));
+    
+    // Get card name for message
+    const cardName = cardCollection.find(c => c.id === cardId)?.name || 'Card';
+    
+    // Show success message
+    setValidationMessage({
+      type: 'info',
+      text: `Removed ${cardName} from deck`
+    });
+    
+    // Clear message after 2 seconds
+    setTimeout(() => {
+      setValidationMessage(null);
+    }, 2000);
   };
 
   // Save deck
@@ -549,7 +604,12 @@ const EnhancedDeckBuilder = () => {
               />
             )}
 
-            {activeTab === 'stats' && <DeckStatsPanel stats={deckStats} />}
+            {activeTab === 'stats' && (
+              <>
+                <DeckRules deck={getFormattedDeckCards()} />
+                <DeckStatsPanel stats={deckStats} />
+              </>
+            )}
 
             {activeTab === 'meta' && (
               <>

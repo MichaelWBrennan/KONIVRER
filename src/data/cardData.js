@@ -4,6 +4,7 @@
  */
 
 import { ELEMENTS } from '../engine/elementalSystem';
+import cardsJson from './cards.json';
 
 /**
  * Generate a unique card ID
@@ -101,168 +102,92 @@ export function createFlag(name, elements, primaryElement, strongAgainst, abilit
   };
 }
 
-// Sample cards
-export const sampleCards = {
-  // Familiars
-  dragonLord: createFamiliar(
-    'Dragon Lord',
-    { [ELEMENTS.FIRE]: 2, [ELEMENTS.GENERIC]: 3 },
-    5,
-    5,
-    [
-      {
-        trigger: 'enter',
-        effect: 'When this card enters the field, deal 2 damage to target Familiar.',
-        implementation: (gameState, playerId, targetId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'The ancient dragons ruled the skies with fire and fury.',
-    'Alpha',
-    'rare',
-    '1/63'
-  ),
+// Convert cards from JSON to game engine format
+function convertJsonCardToGameCard(jsonCard) {
+  // Map element names to engine element constants
+  const elementMap = {
+    'Fire': ELEMENTS.FIRE,
+    'Water': ELEMENTS.WATER,
+    'Earth': ELEMENTS.EARTH,
+    'Air': ELEMENTS.AIR,
+    'Aether': ELEMENTS.AETHER,
+    'Nether': ELEMENTS.NETHER,
+    'Neutral': ELEMENTS.GENERIC,
+    'Brilliance': ELEMENTS.FIRE,
+    'Quintessence': ELEMENTS.AETHER,
+    'Void': ELEMENTS.NETHER,
+    'Submerged': ELEMENTS.WATER
+  };
   
-  mysticSage: createFamiliar(
-    'Mystic Sage',
-    { [ELEMENTS.WATER]: 1, [ELEMENTS.AETHER]: 1, [ELEMENTS.GENERIC]: 1 },
-    2,
-    3,
-    [
-      {
-        trigger: 'enter',
-        effect: 'When this card enters the field, draw a card.',
-        implementation: (gameState, playerId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'Knowledge flows like water through the mind of the sage.',
-    'Alpha',
-    'uncommon',
-    '12/63'
-  ),
+  // Convert element costs to the format expected by the game engine
+  const elements = {};
+  if (jsonCard.cost && jsonCard.cost.length > 0) {
+    jsonCard.cost.forEach(element => {
+      const mappedElement = elementMap[element] || ELEMENTS.GENERIC;
+      elements[mappedElement] = (elements[mappedElement] || 0) + 1;
+    });
+  }
   
-  shadowAssassin: createFamiliar(
-    'Shadow Assassin',
-    { [ELEMENTS.NETHER]: 1, [ELEMENTS.GENERIC]: 1 },
-    2,
-    1,
-    [
-      {
-        trigger: 'enter',
-        effect: 'When this card enters the field, target Familiar gets -1/-1 until end of turn.',
-        implementation: (gameState, playerId, targetId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'Death comes silently from the shadows.',
-    'Alpha',
-    'common',
-    '23/63'
-  ),
+  // Create abilities array
+  const abilities = [];
+  if (jsonCard.description) {
+    abilities.push({
+      effect: jsonCard.description,
+      implementation: (gameState) => gameState // Placeholder implementation
+    });
+  }
   
-  // Spells
-  inferno: createSpell(
-    'Inferno',
-    { [ELEMENTS.FIRE]: 1, [ELEMENTS.GENERIC]: 2 },
-    [
-      {
-        effect: 'Deal ⊗ damage to all Familiars.',
-        implementation: (gameState, playerId, genericValue) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'The world burned in a sea of flames.',
-    'Alpha',
-    'uncommon',
-    '34/63'
-  ),
-  
-  timeWarp: createSpell(
-    'Time Warp',
-    { [ELEMENTS.AETHER]: 2, [ELEMENTS.GENERIC]: 3 },
-    [
-      {
-        effect: 'Take an extra turn after this one.',
-        implementation: (gameState, playerId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'Time is but a construct to be bent by those with the power.',
-    'Alpha',
-    'rare',
-    '45/63'
-  ),
-  
-  // Flags
-  flameSovereign: createFlag(
-    'Flame Sovereign',
-    { [ELEMENTS.FIRE]: 2 },
-    ELEMENTS.FIRE,
-    ELEMENTS.EARTH,
-    [
-      {
-        trigger: 'continuous',
-        effect: 'Your Fire Familiars get +1 Strength.',
-        implementation: (gameState, playerId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'The sovereign of flames rules with an iron will and a burning heart.',
-    'Alpha',
-    'rare',
-    'F1/7'
-  ),
-  
-  tideMaster: createFlag(
-    'Tide Master',
-    { [ELEMENTS.WATER]: 2 },
-    ELEMENTS.WATER,
-    ELEMENTS.FIRE,
-    [
-      {
-        trigger: 'continuous',
-        effect: 'Your Water Familiars get +1 Health.',
-        implementation: (gameState, playerId) => {
-          // Implementation would go here
-          return gameState;
-        }
-      }
-    ],
-    'The master of tides controls the ebb and flow of battle.',
-    'Alpha',
-    'rare',
-    'F2/7'
-  )
-};
+  // Create the card based on its type
+  if (jsonCard.type === 'ΦLAG' || jsonCard.type === 'FLAG') {
+    return createFlag(
+      jsonCard.name,
+      elements,
+      elementMap[jsonCard.elements[0]] || ELEMENTS.GENERIC,
+      ELEMENTS.GENERIC, // Default strongAgainst
+      abilities,
+      jsonCard.flavorText || '',
+      jsonCard.set,
+      jsonCard.rarity.toLowerCase(),
+      jsonCard.collectorNumber
+    );
+  } else if (jsonCard.type === 'SPELL') {
+    return createSpell(
+      jsonCard.name,
+      elements,
+      abilities,
+      jsonCard.flavorText || '',
+      jsonCard.set,
+      jsonCard.rarity.toLowerCase(),
+      jsonCard.collectorNumber
+    );
+  } else {
+    // Default to Familiar for ELEMENTAL and other types
+    return createFamiliar(
+      jsonCard.name,
+      elements,
+      jsonCard.attack || 2, // Default attack
+      jsonCard.defense || 2, // Default defense
+      abilities,
+      jsonCard.flavorText || '',
+      jsonCard.set,
+      jsonCard.rarity.toLowerCase(),
+      jsonCard.collectorNumber
+    );
+  }
+}
 
-// Sample decks
+// Convert the first few cards from the JSON database
+const convertedCards = cardsJson.slice(0, 10).map(convertJsonCardToGameCard);
+
+// Create sample decks using the converted cards
 export const sampleDecks = {
   fireDeck: [
-    sampleCards.flameSovereign,
-    sampleCards.dragonLord,
-    sampleCards.shadowAssassin,
-    sampleCards.inferno,
-    // In a real implementation, this would have 40 cards
+    // Use the first 5 cards for the fire deck
+    ...convertedCards.slice(0, 5)
   ],
   
   waterDeck: [
-    sampleCards.tideMaster,
-    sampleCards.mysticSage,
-    sampleCards.shadowAssassin,
-    sampleCards.timeWarp,
-    // In a real implementation, this would have 40 cards
+    // Use the next 5 cards for the water deck
+    ...convertedCards.slice(5, 10)
   ]
 };

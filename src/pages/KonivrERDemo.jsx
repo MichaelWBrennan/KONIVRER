@@ -27,29 +27,44 @@ const KonivrERDemo = () => {
   const [loading, setLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  // Create sample decks
-  const createSampleDeck = (flagCard, mainElements) => {
-    const deck = [flagCard];
+  // Create sample decks following proper KONIVRER deck construction rules
+  const createSampleDeck = () => {
+    const deck = [];
     
-    // Add cards that match the deck's elements
-    const compatibleCards = konivrERCards.filter(card => {
-      if (card.type === 'Flag') return false;
-      
-      // Check if card has elements that match the deck theme
-      if (card.elements) {
-        return mainElements.some(element => card.elements[element] > 0);
-      }
-      
-      return true; // Include generic cards
-    });
-
-    // Build a 40-card deck
-    while (deck.length < 40) {
-      const randomCard = compatibleCards[Math.floor(Math.random() * compatibleCards.length)];
-      if (randomCard) {
+    // 1. Add the Flag (does not count toward deck total)
+    const flag = konivrERCards.find(card => card.type === 'Flag');
+    if (flag) {
+      deck.push(flag);
+    }
+    
+    // Get cards by rarity
+    const commonCards = konivrERCards.filter(card => card.rarity === 'Common');
+    const uncommonCards = konivrERCards.filter(card => card.rarity === 'Uncommon');
+    const rareCards = konivrERCards.filter(card => card.rarity === 'Rare');
+    
+    // 2. Add 25 Common cards (1 copy per card maximum)
+    const selectedCommons = commonCards.slice(0, Math.min(25, commonCards.length));
+    deck.push(...selectedCommons);
+    
+    // 3. Add 13 Uncommon cards (1 copy per card maximum)  
+    const selectedUncommons = uncommonCards.slice(0, Math.min(13, uncommonCards.length));
+    deck.push(...selectedUncommons);
+    
+    // 4. Add 2 Rare cards (1 copy per card maximum)
+    const selectedRares = rareCards.slice(0, Math.min(2, rareCards.length));
+    deck.push(...selectedRares);
+    
+    // Fill remaining slots with commons if we don't have enough cards
+    const totalNonFlag = deck.length - 1; // Subtract flag
+    const needed = 40 - totalNonFlag;
+    
+    if (needed > 0) {
+      // Add more commons to reach 40 cards total
+      for (let i = 0; i < needed && i < commonCards.length; i++) {
+        const card = commonCards[i % commonCards.length];
         deck.push({
-          ...randomCard,
-          id: `${randomCard.id}_${deck.length}` // Ensure unique IDs
+          ...card,
+          id: `${card.id}_copy_${i}` // Ensure unique IDs for duplicates
         });
       }
     }
@@ -69,11 +84,8 @@ const KonivrERDemo = () => {
       });
 
       // Create sample players with decks
-      const fireFlag = konivrERCards.find(card => card.id === 'fire_flag_010');
-      const waterFlag = konivrERCards.find(card => card.id === 'water_flag_011');
-
-      const player1Deck = createSampleDeck(fireFlag, ['fire', 'air']);
-      const player2Deck = createSampleDeck(waterFlag, ['water', 'earth']);
+      const player1Deck = createSampleDeck();
+      const player2Deck = createSampleDeck();
 
       const players = [
         {

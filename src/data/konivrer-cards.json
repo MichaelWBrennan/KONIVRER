@@ -1,356 +1,308 @@
 [
   {
-    "id": "abiss_001",
+    "id": "pm-flag",
+    "name": "ΦIVE ELEMENT ΦLAG",
+    "type": "Flag",
+    "elements": ["Neutral"],
+    "cost": [],
+    "attack": null,
+    "defense": null,
+    "rarity": "Special",
+    "set": "PRIMA MATERIA",
+    "description": "CIRCLE 5 OF THE 6 ELEMENTS ABOVE. YOUR DECK MAY INCLUDE CARDS WITH ANY COMBINATION OF THOSE 5. YOUR DECK HAS +1 DAMAGE AGAINST OPPOSING ELEMENTS.",
+    "keywords": [],
+    "artist": "KONIVRER",
+    "flavorText": "",
+    "collectorNumber": "FLAG",
+    "setSymbol": "FLAG",
+    "artUrl": "/assets/cards/five_element_flag.jpg"
+  },
+  {
+    "id": "pm-001",
     "name": "ABISS",
-    "type": "Familiar",
-    "elements": {
-      "fire": 2,
-      "generic": 1
-    },
-    "baseStrength": 2,
-    "baseHealth": 3,
-    "abilities": [
-      {
-        "name": "Flame Strike",
-        "description": "Deal ⊗ damage to target Familiar",
-        "cost": "△",
-        "type": "activated"
-      }
-    ],
-    "keywords": ["Haste"],
-    "flavorText": "Born from the depths of volcanic fury, ABISS commands the primal forces of fire.",
-    "rarity": "rare",
-    "setNumber": "001",
+    "type": "ELEMENTAL",
+    "elements": ["Quintessence", "Void", "Submerged"],
+    "cost": ["Quintessence", "Void", "Submerged"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Rare",
+    "set": "PRIMA MATERIA",
+    "description": "VOID, SUBMERGED",
+    "keywords": ["VOID", "SUBMERGED"],
+    "artist": "KONIVRER",
+    "flavorText": "Truth shines brilliantly through all veils, revealing herself despite attempts to hide her from view. ~The Green Dream",
+    "collectorNumber": "1/63",
+    "setSymbol": "FM-🟠",
     "artUrl": "/assets/cards/abiss.jpg"
   },
   {
-    "id": "water_elemental_002",
-    "name": "Tidal Guardian",
-    "type": "Familiar",
-    "elements": {
-      "water": 2,
-      "generic": 1
-    },
-    "baseStrength": 1,
-    "baseHealth": 4,
-    "abilities": [
-      {
-        "name": "Healing Wave",
-        "description": "Restore ⊗ health to target Familiar",
-        "cost": "▽",
-        "type": "activated"
-      }
-    ],
-    "keywords": ["Defender"],
-    "flavorText": "The ocean's embrace protects those who respect its power.",
-    "rarity": "uncommon",
-    "setNumber": "002",
-    "artUrl": "/assets/cards/tidal_guardian.jpg"
+    "id": "pm-002",
+    "name": "ANGEL",
+    "type": "ELEMENTAL",
+    "elements": ["Quintessence", "Brilliance"],
+    "cost": ["Quintessence", "Brilliance"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Rare",
+    "set": "PRIMA MATERIA",
+    "description": "BRILLIANCE",
+    "keywords": ["BRILLIANCE"],
+    "artist": "KONIVRER",
+    "flavorText": "In deepest sleep, I beheld a 15-foot statue of a perfectly proportioned old man. ~The Green Dream",
+    "collectorNumber": "2/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/angel.jpg"
   },
   {
-    "id": "earth_shaman_003",
-    "name": "Stone Caller",
-    "type": "Familiar",
-    "elements": {
-      "earth": 1,
-      "generic": 2
-    },
-    "baseStrength": 2,
-    "baseHealth": 2,
-    "abilities": [
-      {
-        "name": "Summon Boulder",
-        "description": "Create a 0/⊗ Boulder token",
-        "cost": "⊡⊡",
-        "type": "activated"
-      }
-    ],
-    "keywords": ["Trample"],
-    "flavorText": "The earth answers to those who understand its ancient language.",
-    "rarity": "common",
-    "setNumber": "003",
-    "artUrl": "/assets/cards/stone_caller.jpg"
+    "id": "pm-003",
+    "name": "DVST",
+    "type": "ELEMENTAL",
+    "elements": ["Earth"],
+    "cost": ["Earth"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "EARTH",
+    "keywords": ["EARTH"],
+    "artist": "KONIVRER",
+    "flavorText": "From dust we came, to dust we return.",
+    "collectorNumber": "3/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/dust.jpg"
   },
   {
-    "id": "air_sprite_004",
-    "name": "Wind Dancer",
-    "type": "Familiar",
-    "elements": {
-      "air": 1,
-      "generic": 1
-    },
-    "baseStrength": 1,
-    "baseHealth": 1,
-    "abilities": [
-      {
-        "name": "Gust",
-        "description": "Return target Familiar with cost ⊗ or less to its owner's hand",
-        "cost": "△△",
-        "type": "activated"
-      }
-    ],
-    "keywords": ["Flying", "Haste"],
-    "flavorText": "Swift as the wind, elusive as a whisper.",
-    "rarity": "common",
-    "setNumber": "004",
-    "artUrl": "/assets/cards/wind_dancer.jpg"
+    "id": "pm-004",
+    "name": "GNOME",
+    "type": "ELEMENTAL",
+    "elements": ["Earth"],
+    "cost": ["Earth"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "EARTH",
+    "keywords": ["EARTH"],
+    "artist": "KONIVRER",
+    "flavorText": "Guardian of the deep places.",
+    "collectorNumber": "4/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/gnome.jpg"
   },
   {
-    "id": "aether_mage_005",
-    "name": "Void Walker",
-    "type": "Familiar",
-    "elements": {
-      "aether": 2,
-      "nether": 1
-    },
-    "baseStrength": 3,
-    "baseHealth": 2,
-    "abilities": [
-      {
-        "name": "Phase Shift",
-        "description": "Remove target card from play. Return it at end of turn.",
-        "cost": "○□",
-        "type": "activated"
-      }
-    ],
-    "keywords": ["Void", "Phasing"],
-    "flavorText": "Between existence and nothingness lies infinite possibility.",
-    "rarity": "rare",
-    "setNumber": "005",
-    "artUrl": "/assets/cards/void_walker.jpg"
+    "id": "pm-005",
+    "name": "ICE",
+    "type": "ELEMENTAL",
+    "elements": ["Water"],
+    "cost": ["Water"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "WATER",
+    "keywords": ["WATER"],
+    "artist": "KONIVRER",
+    "flavorText": "Frozen in time, eternal and pure.",
+    "collectorNumber": "5/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/ice.jpg"
   },
   {
-    "id": "lightning_bolt_006",
-    "name": "Lightning Bolt",
-    "type": "Spell",
-    "elements": {
-      "fire": 1,
-      "air": 1
-    },
-    "abilities": [
-      {
-        "name": "Lightning Strike",
-        "description": "Deal ⊗ damage to any target",
-        "type": "spell"
-      }
-    ],
-    "flavorText": "The sky's wrath made manifest.",
-    "rarity": "common",
-    "setNumber": "006",
-    "artUrl": "/assets/cards/lightning_bolt.jpg"
+    "id": "pm-006",
+    "name": "MAGMA",
+    "type": "ELEMENTAL",
+    "elements": ["Fire"],
+    "cost": ["Fire"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "FIRE",
+    "keywords": ["FIRE"],
+    "artist": "KONIVRER",
+    "flavorText": "The earth's molten heart.",
+    "collectorNumber": "6/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/magma.jpg"
   },
   {
-    "id": "healing_spring_007",
-    "name": "Healing Spring",
-    "type": "Spell",
-    "elements": {
-      "water": 2
-    },
-    "abilities": [
-      {
-        "name": "Restore",
-        "description": "Restore ⊗ health to all your Familiars",
-        "type": "spell"
-      }
-    ],
-    "flavorText": "Life flows eternal from the sacred springs.",
-    "rarity": "uncommon",
-    "setNumber": "007",
-    "artUrl": "/assets/cards/healing_spring.jpg"
+    "id": "pm-007",
+    "name": "LIΓTNING",
+    "type": "ELEMENTAL",
+    "elements": ["Air"],
+    "cost": ["Air"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "AIR",
+    "keywords": ["AIR"],
+    "artist": "KONIVRER",
+    "flavorText": "Swift as thought, bright as truth.",
+    "collectorNumber": "7/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/lightning.jpg"
   },
   {
-    "id": "void_rift_008",
-    "name": "Void Rift",
-    "type": "Spell",
-    "elements": {
-      "nether": 3
-    },
-    "abilities": [
-      {
-        "name": "Banish",
-        "description": "Remove target Familiar from play permanently",
-        "type": "spell"
-      }
-    ],
-    "keywords": ["Void"],
-    "flavorText": "Some things are better left forgotten.",
-    "rarity": "rare",
-    "setNumber": "008",
-    "artUrl": "/assets/cards/void_rift.jpg"
+    "id": "pm-008",
+    "name": "MVD",
+    "type": "ELEMENTAL",
+    "elements": ["Earth", "Water"],
+    "cost": ["Earth", "Water"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "EARTH, WATER",
+    "keywords": ["EARTH", "WATER"],
+    "artist": "KONIVRER",
+    "flavorText": "Where earth meets water, life begins.",
+    "collectorNumber": "8/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/mud.jpg"
   },
   {
-    "id": "crystal_orb_009",
-    "name": "Crystal Orb",
-    "type": "Artifact",
-    "elements": {
-      "aether": 1,
-      "generic": 1
-    },
-    "abilities": [
-      {
-        "name": "Scrying",
-        "description": "Look at the top ⊗ cards of your deck",
-        "cost": "○",
-        "type": "activated"
-      }
-    ],
-    "flavorText": "The future reveals itself to those who know how to look.",
-    "rarity": "uncommon",
-    "setNumber": "009",
-    "artUrl": "/assets/cards/crystal_orb.jpg"
+    "id": "pm-009",
+    "name": "ΣADE",
+    "type": "ELEMENTAL",
+    "elements": ["Void"],
+    "cost": ["Void"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "VOID",
+    "keywords": ["VOID"],
+    "artist": "KONIVRER",
+    "flavorText": "In darkness, all possibilities exist.",
+    "collectorNumber": "9/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/shade.jpg"
   },
   {
-    "id": "fire_flag_010",
-    "name": "Banner of Flames",
-    "type": "Flag",
-    "elements": {
-      "fire": 0
-    },
-    "abilities": [
-      {
-        "name": "Flame Mastery",
-        "description": "Your Fire Familiars get +1/+0",
-        "type": "passive"
-      },
-      {
-        "name": "Burning Aura",
-        "description": "Whenever a Fire Familiar enters play, deal 1 damage to target opponent",
-        "type": "triggered"
-      }
-    ],
-    "flavorText": "Under this banner, the flames of war never die.",
-    "rarity": "rare",
-    "setNumber": "010",
-    "artUrl": "/assets/cards/fire_flag.jpg"
+    "id": "pm-010",
+    "name": "SALAMANDER",
+    "type": "ELEMENTAL",
+    "elements": ["Fire"],
+    "cost": ["Fire"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "FIRE",
+    "keywords": ["FIRE"],
+    "artist": "KONIVRER",
+    "flavorText": "Born of flame, master of heat.",
+    "collectorNumber": "10/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/salamander.jpg"
   },
   {
-    "id": "water_flag_011",
-    "name": "Tidal Standard",
-    "type": "Flag",
-    "elements": {
-      "water": 0
-    },
-    "abilities": [
-      {
-        "name": "Flow Mastery",
-        "description": "Your Water Familiars get +0/+1",
-        "type": "passive"
-      },
-      {
-        "name": "Cleansing Tide",
-        "description": "At the start of your turn, restore 1 health to all your Familiars",
-        "type": "triggered"
-      }
-    ],
-    "flavorText": "The tide rises and falls, but the ocean endures.",
-    "rarity": "rare",
-    "setNumber": "011",
-    "artUrl": "/assets/cards/water_flag.jpg"
+    "id": "pm-011",
+    "name": "SILΦ",
+    "type": "ELEMENTAL",
+    "elements": ["Air"],
+    "cost": ["Air"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "AIR",
+    "keywords": ["AIR"],
+    "artist": "KONIVRER",
+    "flavorText": "Whisper on the wind, breath of the sky.",
+    "collectorNumber": "11/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/sylph.jpg"
   },
   {
-    "id": "earth_flag_012",
-    "name": "Mountain's Heart",
-    "type": "Flag",
-    "elements": {
-      "earth": 0
-    },
-    "abilities": [
-      {
-        "name": "Stone Mastery",
-        "description": "Your Earth Familiars get +0/+2",
-        "type": "passive"
-      },
-      {
-        "name": "Enduring Strength",
-        "description": "Earth Familiars you control cannot be removed from play by spells",
-        "type": "passive"
-      }
-    ],
-    "flavorText": "Rooted deep, standing tall, enduring all.",
-    "rarity": "rare",
-    "setNumber": "012",
-    "artUrl": "/assets/cards/earth_flag.jpg"
+    "id": "pm-012",
+    "name": "STEAM",
+    "type": "ELEMENTAL",
+    "elements": ["Water", "Fire"],
+    "cost": ["Water", "Fire"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "WATER, FIRE",
+    "keywords": ["WATER", "FIRE"],
+    "artist": "KONIVRER",
+    "flavorText": "Where fire meets water, transformation occurs.",
+    "collectorNumber": "12/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/steam.jpg"
   },
   {
-    "id": "shadow_assassin_013",
-    "name": "Shadow Assassin",
-    "type": "Familiar",
-    "elements": {
-      "nether": 2,
-      "generic": 1
-    },
-    "baseStrength": 3,
-    "baseHealth": 1,
-    "abilities": [
-      {
-        "name": "Stealth Strike",
-        "description": "This Familiar cannot be blocked if defending player has ⊗ or fewer Familiars",
-        "type": "passive"
-      }
-    ],
-    "keywords": ["Stealth", "Haste"],
-    "flavorText": "Death comes silently in the night.",
-    "rarity": "uncommon",
-    "setNumber": "013",
-    "artUrl": "/assets/cards/shadow_assassin.jpg"
+    "id": "pm-013",
+    "name": "VNDINE",
+    "type": "ELEMENTAL",
+    "elements": ["Water"],
+    "cost": ["Water"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Common",
+    "set": "PRIMA MATERIA",
+    "description": "WATER",
+    "keywords": ["WATER"],
+    "artist": "KONIVRER",
+    "flavorText": "Spirit of the flowing waters.",
+    "collectorNumber": "13/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/undine.jpg"
   },
   {
-    "id": "dragon_lord_014",
-    "name": "Dragon Lord",
-    "type": "Familiar",
-    "elements": {
-      "fire": 3,
-      "air": 2
-    },
-    "baseStrength": 5,
-    "baseHealth": 5,
-    "abilities": [
-      {
-        "name": "Dragon's Breath",
-        "description": "Deal ⊗ damage to all enemy Familiars",
-        "cost": "△△△",
-        "type": "activated"
-      },
-      {
-        "name": "Aerial Dominance",
-        "description": "Other Flying Familiars you control get +1/+1",
-        "type": "passive"
-      }
-    ],
-    "keywords": ["Flying", "Legendary"],
-    "flavorText": "Sovereign of the skies, master of flame.",
-    "rarity": "rare",
-    "setNumber": "014",
-    "artUrl": "/assets/cards/dragon_lord.jpg"
+    "id": "pm-014",
+    "name": "EMBERS",
+    "type": "ELEMENTAL",
+    "elements": ["Fire"],
+    "cost": ["Fire"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Uncommon",
+    "set": "PRIMA MATERIA",
+    "description": "FIRE",
+    "keywords": ["FIRE"],
+    "artist": "KONIVRER",
+    "flavorText": "The dying flame that refuses to surrender.",
+    "collectorNumber": "14/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/embers.jpg"
   },
   {
-    "id": "mystic_sage_015",
-    "name": "Mystic Sage",
-    "type": "Familiar",
-    "elements": {
-      "aether": 1,
-      "water": 1,
-      "generic": 1
-    },
-    "baseStrength": 1,
-    "baseHealth": 3,
-    "abilities": [
-      {
-        "name": "Arcane Knowledge",
-        "description": "Draw ⊗ cards",
-        "cost": "○▽",
-        "type": "activated"
-      },
-      {
-        "name": "Spell Mastery",
-        "description": "Your spells cost ⊗ less to cast",
-        "type": "passive"
-      }
-    ],
-    "keywords": ["Wisdom"],
-    "flavorText": "Knowledge is the greatest power of all.",
-    "rarity": "uncommon",
-    "setNumber": "015",
-    "artUrl": "/assets/cards/mystic_sage.jpg"
+    "id": "pm-015",
+    "name": "GEODE",
+    "type": "ELEMENTAL",
+    "elements": ["Earth"],
+    "cost": ["Earth"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Uncommon",
+    "set": "PRIMA MATERIA",
+    "description": "EARTH",
+    "keywords": ["EARTH"],
+    "artist": "KONIVRER",
+    "flavorText": "Beauty hidden within stone.",
+    "collectorNumber": "15/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/geode.jpg"
+  },
+  {
+    "id": "pm-016",
+    "name": "RAINBOVV",
+    "type": "ELEMENTAL",
+    "elements": ["Water", "Air", "Brilliance"],
+    "cost": ["Water", "Air", "Brilliance"],
+    "attack": null,
+    "defense": null,
+    "rarity": "Uncommon",
+    "set": "PRIMA MATERIA",
+    "description": "WATER, AIR, BRILLIANCE",
+    "keywords": ["WATER", "AIR", "BRILLIANCE"],
+    "artist": "KONIVRER",
+    "flavorText": "Promise of hope after the storm.",
+    "collectorNumber": "16/63",
+    "setSymbol": "FM-🟠",
+    "artUrl": "/assets/cards/rainbow.jpg"
   }
 ]
