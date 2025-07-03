@@ -192,16 +192,16 @@ const RulesCenter = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-4"
+          className="bg-white/10 backdrop-blur-sm rounded-md p-2 mb-2"
         >
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
             <input
               type="text"
               placeholder="Search rules and content..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full pl-7 pr-2 py-1 bg-white/10 border border-white/20 rounded-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
             />
           </div>
         </motion.div>
@@ -211,12 +211,12 @@ const RulesCenter = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/10 backdrop-blur-sm rounded-lg p-2 mb-4"
+          className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-2"
         >
           <div className="flex gap-1">
             <button
               onClick={() => setActiveTab('basic')}
-              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
+              className={`px-2 py-1 rounded-sm transition-all font-medium text-xs ${
                 activeTab === 'basic'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -226,7 +226,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('tournament')}
-              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
+              className={`px-2 py-1 rounded-sm transition-all font-medium text-xs ${
                 activeTab === 'tournament'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -236,7 +236,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('conduct')}
-              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
+              className={`px-2 py-1 rounded-sm transition-all font-medium text-xs ${
                 activeTab === 'conduct'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -252,31 +252,31 @@ const RulesCenter = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="space-y-2"
+          className="space-y-1"
         >
           {filteredSections.map(([key, section]) => (
             <div
               key={key}
-              className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden"
+              className="bg-white/10 backdrop-blur-sm rounded-md overflow-hidden"
             >
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
-                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
+                className="w-full px-2 py-1.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
                 <div className="flex items-center">
-                  <h2 className="text-lg font-bold text-white tracking-wide">
+                  <h2 className="text-sm font-bold text-white tracking-wide">
                     {section.title || 'Rules Section'}
                   </h2>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <span className="text-xs text-gray-400 hidden sm:block">
                     {expandedSections.has(key) ? 'Collapse' : 'Expand'}
                   </span>
                   {expandedSections.has(key) ? (
-                    <ChevronUp className="w-4 h-4 text-gray-400" />
+                    <ChevronUp className="w-3 h-3 text-gray-400" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                    <ChevronDown className="w-3 h-3 text-gray-400" />
                   )}
                 </div>
               </button>
