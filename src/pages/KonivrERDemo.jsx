@@ -13,6 +13,7 @@ import KonivrERGameBoard from '../components/game/KonivrERGameBoard';
 import KonivrERGameEngine from '../engine/KonivrERGameEngine';
 import GenericCostSelector from '../components/game/GenericCostSelector';
 import AIPersonalityDisplay from '../components/game/AIPersonalityDisplay';
+import CuttingEdgeAIDisplay from '../components/game/CuttingEdgeAIDisplay';
 import konivrERCards from '../data/konivrer-cards.json';
 import { 
   Play, 
@@ -182,12 +183,22 @@ const KonivrERDemo = () => {
   if (gameStarted && gameEngine) {
     return (
       <>
-        {/* AI Personality Display */}
+        {/* AI Display - Cutting-Edge or Basic */}
         <div className="fixed top-4 right-4 z-50">
-          <AIPersonalityDisplay 
-            gameEngine={gameEngine}
-            isAITurn={isAITurn}
-          />
+          {(() => {
+            const aiStatus = gameEngine.getAIStatus();
+            return aiStatus?.cuttingEdge ? (
+              <CuttingEdgeAIDisplay 
+                aiStatus={aiStatus} 
+                gameState={gameEngine.gameState} 
+              />
+            ) : (
+              <AIPersonalityDisplay
+                gameEngine={gameEngine}
+                isAITurn={isAITurn}
+              />
+            );
+          })()}
         </div>
 
         <KonivrERGameBoard
