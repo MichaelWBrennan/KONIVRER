@@ -42,6 +42,16 @@ const CardSearchBar = ({ className = '' }) => {
     setSearchResults(results);
     setShowResults(true);
   };
+  
+  // Handle form submission (Enter key press)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (searchResults.length > 0) {
+      // Navigate to the first search result
+      handleCardSelect(searchResults[0]);
+    }
+  };
 
   const handleCardSelect = (card) => {
     // Use the new URL format with set, id, and name
@@ -59,7 +69,7 @@ const CardSearchBar = ({ className = '' }) => {
 
   return (
     <div className={`relative ${className}`}>
-      <div className="relative">
+      <form onSubmit={handleSubmit} className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/80 w-5 h-5" />
         <input
           type="text"
@@ -68,9 +78,16 @@ const CardSearchBar = ({ className = '' }) => {
           onChange={handleSearch}
           onFocus={() => searchQuery.length >= 2 && setShowResults(true)}
           onBlur={handleBlur}
-          className="w-full pl-12 pr-4 py-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-amber-100 placeholder-amber-500/60 focus:border-amber-600 focus:outline-none text-lg shadow-inner"
+          className="w-full pl-12 pr-12 py-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-amber-100 placeholder-amber-500/60 focus:border-amber-600 focus:outline-none text-lg shadow-inner"
+          aria-label="Search cards"
         />
-      </div>
+        <button 
+          type="submit" 
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md px-3 py-1 text-sm border border-amber-700/40 transition-colors shadow-sm"
+        >
+          Search
+        </button>
+      </form>
 
       {showResults && searchResults.length > 0 && (
         <div className="absolute z-50 mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto">
