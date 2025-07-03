@@ -89,22 +89,51 @@ const CardSearchBar = ({ className = '' }) => {
         </button>
       </form>
 
-      {showResults && searchResults.length > 0 && (
+      {showResults && (
         <div className="absolute z-50 mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto">
-          {searchResults.map(card => (
-            <div
-              key={card.id}
-              className="p-3 hover:bg-amber-900/50 cursor-pointer border-b border-amber-800/30 last:border-b-0"
-              onClick={() => handleCardSelect(card)}
-              onMouseDown={(e) => {
-                e.preventDefault(); // Prevent blur event from hiding results before click
-                handleCardSelect(card);
-              }}
-            >
-              <div className="font-medium text-amber-100">{card.name}</div>
-              <div className="text-sm text-amber-300/70">{card.type}</div>
-            </div>
-          ))}
+          {searchResults.length > 0 ? (
+            <>
+              {searchResults.map(card => (
+                <div
+                  key={card.id}
+                  className="p-3 hover:bg-amber-900/50 cursor-pointer border-b border-amber-800/30"
+                  onClick={() => handleCardSelect(card)}
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Prevent blur event from hiding results before click
+                    handleCardSelect(card);
+                  }}
+                >
+                  <div className="font-medium text-amber-100">{card.name}</div>
+                </div>
+              ))}
+              <div 
+                className="p-3 hover:bg-amber-900/50 cursor-pointer text-center border-t border-amber-800/50"
+                onClick={() => navigate('/advanced-search')}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  navigate('/advanced-search');
+                }}
+              >
+                <div className="text-amber-400 font-medium">Advanced Search ⟶</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="p-3 text-center border-b border-amber-800/30">
+                <div className="text-amber-300/70">No results found</div>
+              </div>
+              <div 
+                className="p-3 hover:bg-amber-900/50 cursor-pointer text-center"
+                onClick={() => navigate('/advanced-search')}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  navigate('/advanced-search');
+                }}
+              >
+                <div className="text-amber-400 font-medium">Advanced Search ⟶</div>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
