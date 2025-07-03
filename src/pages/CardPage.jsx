@@ -140,10 +140,18 @@ const CardPage = () => {
                       ? card.cost.map(element => 
                           element === 'Void' ? 'Nether' : 
                           element === 'Submerged' ? 'Water' : 
+                          element === 'Brilliance' ? 'Æther' :
+                          element === 'Inferno' ? 'Fire' :
+                          element === 'Steadfast' ? 'Earth' :
+                          element === 'Gust' ? 'Wind' :
                           element
                         ).join(', ') 
                       : card.cost === 'Void' ? 'Nether' :
                         card.cost === 'Submerged' ? 'Water' :
+                        card.cost === 'Brilliance' ? 'Æther' :
+                        card.cost === 'Inferno' ? 'Fire' :
+                        card.cost === 'Steadfast' ? 'Earth' :
+                        card.cost === 'Gust' ? 'Wind' :
                         card.cost
                     }
                   </p>
@@ -188,7 +196,7 @@ const CardPage = () => {
                       <div className="text-lg flex-1 flex justify-between">
                         <span className="font-semibold whitespace-nowrap">{card.set || 'PRIMA MATERIA'}</span>
                         <span className="mx-4">•</span>
-                        <span>#{card.collectorNumber || '1'}</span>
+                        <span>{card.collectorNumber || '1'}</span>
                         <span className="mx-4">•</span>
                         <span>
                           {card.name === 'AZOΘ' ? 'Rare' :
