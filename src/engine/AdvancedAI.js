@@ -11,8 +11,7 @@
  */
 
 class AdvancedAI {
-  constructor(difficulty = 'adaptive', personality = 'balanced') {
-    this.difficulty = difficulty;
+  constructor(personality = 'balanced') {
     this.personality = personality;
     this.gameHistory = [];
     this.playerBehaviorProfile = {

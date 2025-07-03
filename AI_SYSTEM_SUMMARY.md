@@ -159,12 +159,12 @@ AIPersonalities.js - Personality system
 
 ## 🚀 Advanced Features
 
-### Difficulty Scaling
+### Natural Challenge Variation
 
-- **Adaptive Difficulty**: AI adjusts to player skill level
-- **Personality Switching**: Different personalities provide varied challenge levels
-- **Mistake Rate Tuning**: More/fewer mistakes based on difficulty
-- **Thinking Time Variation**: Faster/slower decisions for pacing
+- **Personality-Based Challenge**: Each personality provides unique strategic challenges
+- **Organic Difficulty**: Challenge comes from different play styles, not artificial scaling
+- **Varied Mistake Patterns**: Each personality has natural error tendencies
+- **Authentic Pacing**: Thinking time varies based on personality traits
 
 ### Performance Optimization
 

@@ -11,9 +11,9 @@
 import AdvancedAI from './AdvancedAI.js';
 
 class AIDecisionEngine {
-  constructor(gameEngine, difficulty = 'adaptive') {
+  constructor(gameEngine) {
     this.gameEngine = gameEngine;
-    this.ai = new AdvancedAI(difficulty, this.selectPersonality());
+    this.ai = new AdvancedAI(this.selectPersonality());
     this.turnCount = 0;
     this.lastPlayerAction = null;
     this.strategicMemory = {

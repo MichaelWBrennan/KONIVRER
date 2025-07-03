@@ -647,7 +647,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         const { PersonalityManager } = await import('./AIPersonalities.js');
         
         // Initialize AI decision engine
-        this.aiDecisionEngine = new AIDecisionEngine(this, 'adaptive');
+        this.aiDecisionEngine = new AIDecisionEngine(this);
         
         // Initialize AI personality (random selection for variety)
         const personalities = ['strategist', 'berserker', 'trickster', 'scholar', 'gambler', 'perfectionist'];
