@@ -219,20 +219,26 @@ const KonivrERCard = ({
     );
   };
 
-  // Render strength/health for Familiars
-  const renderPowerToughness = () => {
-    if (faceDown || card.type !== 'Familiar' || size === 'tiny') return null;
+  // Render power for Elementals (based on generic cost paid)
+  const renderPower = () => {
+    if (faceDown || (card.type !== 'Familiar' && card.type !== 'ELEMENTAL') || size === 'tiny') return null;
 
-    const strength = (card.baseStrength || 0) + (card.counters || 0);
-    const health = card.health || card.baseHealth || 0;
+    // Power equals the generic cost paid (defaulting to the card's genericCost if not specified)
+    const genericCostPaid = card.genericCostPaid || card.genericCost || 0;
+    const totalPower = (card.basePower || 0) + genericCostPaid + (card.counters || 0);
 
     return (
       <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-black/60 rounded px-1 py-0.5">
-        <Sword className="w-3 h-3 text-red-400" />
-        <span className="text-xs text-white font-bold">{strength}</span>
-        <span className="text-xs text-gray-400">/</span>
-        <Shield className="w-3 h-3 text-blue-400" />
-        <span className="text-xs text-white font-bold">{health}</span>
+        <div className="flex items-center gap-1">
+          <Star className="w-3 h-3 text-yellow-400" />
+          <span className="text-xs text-white font-bold">{totalPower}</span>
+        </div>
+        {card.genericCost > 0 && (
+          <div className="flex items-center gap-1 ml-1">
+            <Circle className="w-3 h-3 text-gray-400" />
+            <span className="text-xs text-gray-300">{card.genericCost}</span>
+          </div>
+        )}
       </div>
     );
   };
@@ -419,7 +425,7 @@ const KonivrERCard = ({
 
           {renderElementCosts()}
           {renderNameAndType()}
-          {renderPowerToughness()}
+          {renderPower()}
           {renderCounters()}
           {renderRarity()}
           {renderAbilities()}

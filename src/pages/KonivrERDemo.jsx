@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import KonivrERGameBoard from '../components/game/KonivrERGameBoard';
 import KonivrERGameEngine from '../engine/KonivrERGameEngine';
+import GenericCostSelector from '../components/game/GenericCostSelector';
 import konivrERCards from '../data/konivrer-cards.json';
 import { 
   Play, 
@@ -26,6 +27,8 @@ const KonivrERDemo = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showCostSelector, setShowCostSelector] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   // Create sample decks following proper KONIVRER deck construction rules
   const createSampleDeck = () => {
@@ -118,14 +121,63 @@ const KonivrERDemo = () => {
     setGameEngine(null);
   };
 
+  // Handle card play with generic cost selection
+  const handleCardPlay = (card) => {
+    if (card.type === 'ELEMENTAL' && card.genericCost > 0) {
+      setSelectedCard(card);
+      setShowCostSelector(true);
+    } else {
+      // Play card without cost selection
+      playCardWithCost(card, 0);
+    }
+  };
+
+  const handleCostSelected = (cost) => {
+    if (selectedCard) {
+      playCardWithCost(selectedCard, cost);
+    }
+    setShowCostSelector(false);
+    setSelectedCard(null);
+  };
+
+  const handleCostCancel = () => {
+    setShowCostSelector(false);
+    setSelectedCard(null);
+  };
+
+  const playCardWithCost = (card, genericCost) => {
+    // Create a copy of the card with the selected generic cost
+    const cardWithCost = {
+      ...card,
+      genericCostPaid: genericCost,
+      power: (card.basePower || 0) + genericCost
+    };
+    
+    // Here you would integrate with the game engine to actually play the card
+    console.log(`Playing ${card.name} with generic cost ${genericCost}, power: ${cardWithCost.power}`);
+  };
+
   if (gameStarted && gameEngine) {
     return (
-      <KonivrERGameBoard
-        gameEngine={gameEngine}
-        playerData={{ id: 'player1', name: 'Player 1' }}
-        opponentData={{ id: 'player2', name: 'AI Opponent' }}
-        isSpectator={false}
-      />
+      <>
+        <KonivrERGameBoard
+          gameEngine={gameEngine}
+          playerData={{ id: 'player1', name: 'Player 1' }}
+          opponentData={{ id: 'player2', name: 'AI Opponent' }}
+          isSpectator={false}
+          onCardPlay={handleCardPlay}
+        />
+        
+        {/* Generic Cost Selector Modal */}
+        <GenericCostSelector
+          card={selectedCard}
+          isVisible={showCostSelector}
+          onCostSelected={handleCostSelected}
+          onCancel={handleCostCancel}
+          minCost={0}
+          maxCost={10}
+        />
+      </>
     );
   }
 
@@ -310,9 +362,22 @@ const KonivrERDemo = () => {
                     <li>• Water (▽) - Flow, healing, flexibility</li>
                     <li>• Earth (⊡) - Stability, defense</li>
                     <li>• Air (△) - Speed, evasion</li>
-                    <li>• Aether (○) - Transformation, power</li>
-                    <li>• Nether (□) - Void, removal</li>
-                    <li>• Generic (⊗) - Universal, adaptable</li>
+                    <li>• Quintessence (○) - Transformation, power</li>
+                    <li>• Void (□) - Darkness, removal</li>
+                    <li>• Brilliance (☉) - Light, enhancement</li>
+                    <li>• Submerged (▽) - Deep water, hidden</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-semibold text-orange-400 mb-2">Power System</h4>
+                  <ul className="text-gray-300 space-y-1 text-sm">
+                    <li>• Power = Generic Cost Paid</li>
+                    <li>• Choose cost when playing Elementals</li>
+                    <li>• Higher cost = Higher power</li>
+                    <li>• Single stat for attack and defense</li>
+                    <li>• Strategic resource allocation</li>
+                    <li>• Flexible power scaling</li>
                   </ul>
                 </div>
 
