@@ -63,7 +63,7 @@ class AdvancedAI {
     const baseTime = this.thinkingTime;
     const variability = 0.3; // 30% random variation
     
-    const thinkingDuration = baseTime * complexity * (1 + (Math.random() - 0.5) * variability);
+    let thinkingDuration = baseTime * complexity * (1 + (Math.random() - 0.5) * variability);
     
     // Add extra time for critical decisions
     if (gameState.isCriticalMoment) {
