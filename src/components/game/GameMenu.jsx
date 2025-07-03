@@ -14,6 +14,11 @@ import {
   VolumeX,
   Flag,
   HelpCircle,
+  Brain,
+  Zap,
+  TestTube,
+  Eye,
+  Activity,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -21,8 +26,9 @@ import { Link } from 'react-router-dom';
 /**
  * Game menu with options like settings, concede, etc.
  */
-const GameMenu = ({ onClose, onAction }) => {
+const GameMenu = ({ onClose, onAction, gameMode, aiTestingEnabled = false }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [showAIPanel, setShowAIPanel] = useState(false);
 
   return (
     <motion.div
@@ -70,6 +76,69 @@ const GameMenu = ({ onClose, onAction }) => {
             <Settings className="w-5 h-5 text-purple-400" />
             <span className="text-white">Game Settings</span>
           </button>
+
+          {/* AI Testing Mode Toggle */}
+          {gameMode === 'ai' && (
+            <button
+              onClick={() => {
+                onAction('toggleAITesting');
+                setShowAIPanel(!showAIPanel);
+              }}
+              className={`w-full flex items-center justify-between p-3 rounded-lg ${
+                aiTestingEnabled 
+                  ? 'bg-blue-900 hover:bg-blue-800 border border-blue-400' 
+                  : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-3">
+                <Brain className={`w-5 h-5 ${aiTestingEnabled ? 'text-blue-300' : 'text-blue-400'}`} />
+                <span className="text-white">AI Testing Mode</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                {aiTestingEnabled && <Activity className="w-4 h-4 text-blue-300 animate-pulse" />}
+                <div
+                  className={`w-10 h-6 rounded-full flex items-center ${
+                    aiTestingEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'
+                  }`}
+                >
+                  <div className="w-4 h-4 bg-white rounded-full mx-1"></div>
+                </div>
+              </div>
+            </button>
+          )}
+
+          {/* AI Consciousness Panel Toggle */}
+          {gameMode === 'ai' && aiTestingEnabled && (
+            <button
+              onClick={() => {
+                onAction('toggleAIPanel');
+                setShowAIPanel(!showAIPanel);
+              }}
+              className={`w-full flex items-center space-x-3 p-3 rounded-lg ${
+                showAIPanel 
+                  ? 'bg-purple-900 hover:bg-purple-800 border border-purple-400' 
+                  : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            >
+              <Eye className={`w-5 h-5 ${showAIPanel ? 'text-purple-300' : 'text-purple-400'}`} />
+              <span className="text-white">AI Consciousness Panel</span>
+              {showAIPanel && <Zap className="w-4 h-4 text-purple-300 animate-pulse" />}
+            </button>
+          )}
+
+          {/* Performance Testing */}
+          {gameMode === 'ai' && aiTestingEnabled && (
+            <button
+              onClick={() => {
+                onAction('runPerformanceTest');
+                onClose();
+              }}
+              className="w-full flex items-center space-x-3 p-3 bg-green-900 hover:bg-green-800 rounded-lg border border-green-400"
+            >
+              <TestTube className="w-5 h-5 text-green-300" />
+              <span className="text-white">Run AI Performance Test</span>
+            </button>
+          )}
 
           {/* Help */}
           <button className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg">

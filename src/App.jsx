@@ -32,11 +32,13 @@ import MobileRules from './pages/MobileRules';
 
 // Game System
 import MobileGamePage from './pages/MobileGamePage';
+import EnhancedGamePage from './pages/EnhancedGamePage';
 import DeckSelectionPage from './pages/DeckSelectionPage';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import BattlePass from './pages/BattlePass';
 import KonivrERDemo from './pages/KonivrERDemo';
 import GameBoardTest from './pages/GameBoardTest';
+import AIConsciousnessDemo from './pages/AIConsciousnessDemo';
 
 // Card & Deck System
 import MobileCardExplorer from './pages/MobileCardExplorer';
@@ -82,6 +84,22 @@ function App() {
 
                             {/* Game */}
                             <Route
+                              path="/game/ai-testing"
+                              element={<EnhancedGamePage />}
+                            />
+                            <Route
+                              path="/game/ai-testing/:gameId"
+                              element={<EnhancedGamePage />}
+                            />
+                            <Route
+                              path="/game/pvp"
+                              element={<EnhancedGamePage />}
+                            />
+                            <Route
+                              path="/game/pvp/:gameId"
+                              element={<EnhancedGamePage />}
+                            />
+                            <Route
                               path="/game/:mode"
                               element={<MobileGamePage />}
                             />
@@ -92,6 +110,10 @@ function App() {
                             <Route
                               path="/konivrer-demo"
                               element={<KonivrERDemo />}
+                            />
+                            <Route
+                              path="/ai-consciousness-demo"
+                              element={<AIConsciousnessDemo />}
                             />
                             <Route
                               path="/game-board-test"
