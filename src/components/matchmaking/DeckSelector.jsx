@@ -90,7 +90,7 @@ const DeckSelector = ({
           <div className="flex justify-center space-x-2">
             <motion.button
               onClick={onCreateDeck}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1"
+              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -99,7 +99,7 @@ const DeckSelector = ({
             </motion.button>
             <motion.button
               onClick={toggleDropdown}
-              className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-1"
+              className="bg-gray-100 text-gray-700 px-4 py-0 whitespace-nowrap rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-1"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -135,7 +135,7 @@ const DeckSelector = ({
                   <motion.div
                     key={deck.id}
                     onClick={() => handleSelectDeck(deck)}
-                    className={`px-4 py-2 hover:bg-gray-50 cursor-pointer ${selectedDeck?.id === deck.id ? 'bg-blue-50' : ''}`}
+                    className={`px-4 py-0 whitespace-nowrap hover:bg-gray-50 cursor-pointer ${selectedDeck?.id === deck.id ? 'bg-blue-50' : ''}`}
                     whileHover={{ x: 2 }}
                   >
                     <div className="flex items-center justify-between">
@@ -163,7 +163,7 @@ const DeckSelector = ({
                 <div className="border-t border-gray-100 mt-1 pt-1">
                   <motion.button
                     onClick={onCreateDeck}
-                    className="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
+                    className="w-full text-left px-4 py-0 whitespace-nowrap text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
                     whileHover={{ x: 2 }}
                   >
                     <Plus className="w-4 h-4" />

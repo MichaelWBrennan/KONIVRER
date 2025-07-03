@@ -303,7 +303,7 @@ const MobileTouchControls = ({
                 <button
                   key={mode}
                   onClick={() => handleModeChange(mode)}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-md text-sm font-medium transition-colors ${
                     touchMode === mode
                       ? 'bg-blue-500 text-white'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
@@ -323,7 +323,7 @@ const MobileTouchControls = ({
                 key={action.id}
                 onClick={action.action}
                 disabled={action.disabled}
-                className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${action.className}`}
+                className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${action.className}`}
               >
                 {action.icon}
                 <span className="hidden sm:inline">{action.label}</span>
@@ -374,7 +374,7 @@ const MobileTouchControls = ({
 
       {/* Touch Mode Indicator */}
       {gestureState.isGesturing && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-2 rounded-lg z-50">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-0 whitespace-nowrap rounded-lg z-50">
           <span className="text-sm font-medium">
             {touchMode === 'select' && 'Tap to select cards'}
             {touchMode === 'pan' && 'Drag to pan view'}

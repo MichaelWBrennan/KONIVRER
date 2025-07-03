@@ -275,14 +275,14 @@ const DeckSearch = () => {
 
       {/* Action Buttons */}
       <div className="flex gap-2">
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
           <Eye className="w-4 h-4" />
           View
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg transition-colors">
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors">
           <Download className="w-4 h-4" />
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg transition-colors">
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors">
           <Heart className="w-4 h-4" />
         </button>
       </div>
@@ -319,21 +319,21 @@ const DeckSearch = () => {
             </div>
             {/* Stats integrated into the card */}
             <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded">
+              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded">
                 <BarChart3 className="w-3 h-3 text-green-400" />
                 <span className="font-medium text-green-400">
                   {deck.winRate}%
                 </span>
               </div>
-              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded">
+              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded">
                 <Star className="w-3 h-3 text-yellow-400" />
                 <span className="font-medium">{deck.rating}/5</span>
               </div>
-              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-1 rounded">
+              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded">
                 <Heart className="w-3 h-3 text-red-400" />
                 <span className="font-medium">{deck.likes}</span>
               </div>
-              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-1 rounded">
+              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded">
                 <Eye className="w-3 h-3 text-blue-400" />
                 <span className="font-medium">{deck.views}</span>
               </div>
@@ -342,14 +342,14 @@ const DeckSearch = () => {
         </div>
 
         <div className="flex gap-2 ml-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
             <Eye className="w-4 h-4" />
             View
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg transition-colors">
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors">
             <Download className="w-4 h-4" />
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg transition-colors">
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors">
             <Heart className="w-4 h-4" />
           </button>
         </div>
@@ -396,7 +396,7 @@ const DeckSearch = () => {
               onChange={e =>
                 setFilters({ ...filters, element: e.target.value })
               }
-              className="px-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-0 whitespace-nowrap bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Elements</option>
               <option value="Inferno">🜂 Inferno</option>
@@ -415,7 +415,7 @@ const DeckSearch = () => {
                 setSortBy(newSortBy);
                 setSortOrder(newSortOrder);
               }}
-              className="px-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-0 whitespace-nowrap bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="popularity-desc">Most Popular</option>
               <option value="rating-desc">Highest Rated</option>

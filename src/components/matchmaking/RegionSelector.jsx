@@ -127,7 +127,7 @@ const RegionSelector = ({ selectedRegion, onChange, showPing = true }) => {
                 <motion.div
                   key={region.id}
                   onClick={() => handleSelectRegion(region.id)}
-                  className={`px-4 py-2 hover:bg-gray-50 cursor-pointer ${selectedRegion === region.id ? 'bg-blue-50' : ''}`}
+                  className={`px-4 py-0 whitespace-nowrap hover:bg-gray-50 cursor-pointer ${selectedRegion === region.id ? 'bg-blue-50' : ''}`}
                   whileHover={{ x: 2 }}
                 >
                   <div className="flex items-center justify-between">

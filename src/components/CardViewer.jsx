@@ -157,7 +157,7 @@ const CardViewer = ({
                     ruleId={keyword.toLowerCase()}
                     showIcon={false}
                   >
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium cursor-help">
+                    <span className="px-3 py-0 whitespace-nowrap bg-blue-100 text-blue-800 rounded-full text-sm font-medium cursor-help">
                       {keyword}
                     </span>
                   </RuleTooltip>
@@ -254,11 +254,11 @@ const CardViewer = ({
                   View card in collection manager
                 </a>
                 <div className="flex gap-2 mt-3">
-                  <button className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors">
+                  <button className="flex items-center gap-1 px-3 py-0 whitespace-nowrap bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors">
                     <Copy size={14} />
                     Copy Link
                   </button>
-                  <button className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors">
+                  <button className="flex items-center gap-1 px-3 py-0 whitespace-nowrap bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors">
                     <Share2 size={14} />
                     Share
                   </button>
@@ -271,7 +271,7 @@ const CardViewer = ({
               {onAddToDeck && (
                 <button
                   onClick={onAddToDeck}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="flex items-center gap-2 px-6 py-0 whitespace-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   <Plus size={18} />
                   Add to Deck
@@ -280,7 +280,7 @@ const CardViewer = ({
               {onToggleFavorite && (
                 <button
                   onClick={onToggleFavorite}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors font-medium ${
+                  className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors font-medium ${
                     isFavorite
                       ? 'bg-red-100 text-red-700 hover:bg-red-200'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -296,7 +296,7 @@ const CardViewer = ({
               {onToggleBookmark && (
                 <button
                   onClick={onToggleBookmark}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors font-medium ${
+                  className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors font-medium ${
                     isBookmarked
                       ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

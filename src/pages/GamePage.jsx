@@ -499,7 +499,7 @@ const GamePage = () => {
                   <button
                     key={quality}
                     onClick={() => setGraphicsQuality(quality)}
-                    className={`text-xs px-2 py-1 rounded ${
+                    className={`text-xs px-2 py-0 whitespace-nowrap rounded ${
                       graphicsQuality === quality
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
@@ -531,7 +531,7 @@ const GamePage = () => {
           <p className="text-gray-300 mb-6">{error}</p>
           <button
             onClick={() => navigate('/')}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+            className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
           >
             Return to Home
           </button>

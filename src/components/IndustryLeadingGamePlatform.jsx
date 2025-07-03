@@ -667,7 +667,7 @@ const IndustryLeadingGamePlatform = ({ gameMode = 'ranked', onGameEnd }) => {
           <p className="text-red-200 mb-4">{uiState.error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+            className="px-6 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
           >
             Reload Game
           </button>
@@ -819,7 +819,7 @@ const PlayerArea = ({
       <div className="flex space-x-2">
         <button
           onClick={onEndTurn}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
+          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
         >
           End Turn
         </button>
@@ -874,7 +874,7 @@ const NotificationCard = ({ notification }) => (
         {notification.actions.map((action, index) => (
           <button
             key={index}
-            className="px-3 py-1 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-sm transition-colors"
+            className="px-3 py-0 whitespace-nowrap bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-sm transition-colors"
           >
             {action}
           </button>

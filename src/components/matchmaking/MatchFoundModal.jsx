@@ -121,7 +121,7 @@ const MatchFoundModal = ({
             <div className="flex space-x-3">
               <motion.button
                 onClick={onDecline}
-                className="flex-1 bg-red-100 text-red-600 py-3 px-4 rounded-lg font-medium hover:bg-red-200 transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-red-100 text-red-600 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-red-200 transition-colors flex items-center justify-center space-x-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -130,7 +130,7 @@ const MatchFoundModal = ({
               </motion.button>
               <motion.button
                 onClick={onAccept}
-                className="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-green-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

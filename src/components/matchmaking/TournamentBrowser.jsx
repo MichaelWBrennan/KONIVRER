@@ -53,25 +53,25 @@ const TournamentBrowser = ({
     switch (status) {
       case 'registration':
         return (
-          <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+          <span className="bg-green-100 text-green-700 text-xs px-2 py-0 whitespace-nowrap rounded-full">
             Registration Open
           </span>
         );
       case 'announced':
         return (
-          <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">
+          <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0 whitespace-nowrap rounded-full">
             Announced
           </span>
         );
       case 'live':
         return (
-          <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
+          <span className="bg-red-100 text-red-700 text-xs px-2 py-0 whitespace-nowrap rounded-full">
             Live
           </span>
         );
       case 'completed':
         return (
-          <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+          <span className="bg-gray-100 text-gray-700 text-xs px-2 py-0 whitespace-nowrap rounded-full">
             Completed
           </span>
         );

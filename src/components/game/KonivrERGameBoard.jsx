@@ -290,7 +290,7 @@ const KonivrERGameBoard = ({
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowLog(!showLog)}
-              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
+              className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
               {showLog ? 'Hide Log' : 'Show Log'}
             </button>

@@ -37,7 +37,7 @@ const PhaseIndicator = ({
             opacity: [0.9, 1, 0.9]
           }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="bg-gradient-to-br from-purple-500 to-blue-600 px-3 py-1 rounded-full text-white text-sm font-medium"
+          className="bg-gradient-to-br from-purple-500 to-blue-600 px-3 py-0 whitespace-nowrap rounded-full text-white text-sm font-medium"
         >
           Free Play Mode - Play Any Card Anytime
         </motion.div>

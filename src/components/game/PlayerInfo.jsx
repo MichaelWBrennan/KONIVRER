@@ -141,7 +141,7 @@ const PlayerInfo = ({ player, gameState, isOpponent }) => {
       {/* Deck Count */}
       <div className="ml-1">
         <motion.div
-          className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg px-2 py-1 shadow-inner"
+          className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg px-2 py-0 whitespace-nowrap shadow-inner"
           whileHover={{ scale: 1.05 }}
         >
           <span className="text-white text-xs font-bold">{deck.length}</span>

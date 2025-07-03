@@ -38,7 +38,7 @@ const MatchmakingQueue = ({
         </div>
         <motion.button
           onClick={onCancel}
-          className="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-200 transition-colors"
+          className="bg-red-100 text-red-600 px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-red-200 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >

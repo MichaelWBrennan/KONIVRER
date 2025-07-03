@@ -36,7 +36,7 @@ const PhysicalMatchmakingButton = () => {
       </p>
       <motion.button
         onClick={goToPhysicalMatchmaking}
-        className="w-full bg-white text-purple-700 py-2 px-4 rounded-lg font-medium hover:bg-purple-50 transition-colors flex items-center justify-center space-x-2"
+        className="w-full bg-white text-purple-700 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-purple-50 transition-colors flex items-center justify-center space-x-2"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >

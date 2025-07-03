@@ -334,7 +334,7 @@ const KonivrERDemo = () => {
             <button
               onClick={startGame}
               disabled={loading}
-              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white font-bold text-lg shadow-lg shadow-blue-500/20 transition-all duration-200 hover:scale-105"
+              className="flex items-center gap-3 px-8 py-0 whitespace-nowrap bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white font-bold text-lg shadow-lg shadow-blue-500/20 transition-all duration-200 hover:scale-105"
             >
               {loading ? (
                 <>
@@ -355,7 +355,7 @@ const KonivrERDemo = () => {
 
             <button
               onClick={() => setShowInfo(!showInfo)}
-              className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors"
+              className="flex items-center gap-2 px-6 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors"
             >
               <Info className="w-5 h-5" />
               Game Info

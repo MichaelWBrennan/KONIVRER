@@ -93,7 +93,7 @@ const SetManager = () => {
         </div>
         <button
           onClick={() => setIsAddingSet(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
         >
           <Plus className="w-4 h-4" />
           Add New Set
@@ -166,7 +166,7 @@ const SetManager = () => {
                   type="text"
                   value={newSet.name}
                   onChange={e => setNewSet({ ...newSet, name: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="Enter set name"
                 />
               </div>
@@ -179,7 +179,7 @@ const SetManager = () => {
                   type="text"
                   value={newSet.code}
                   onChange={e => setNewSet({ ...newSet, code: e.target.value })}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="e.g., PM, EX1"
                 />
               </div>
@@ -193,7 +193,7 @@ const SetManager = () => {
                   onChange={e =>
                     setNewSet({ ...newSet, description: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   rows="3"
                   placeholder="Set description"
                 />
@@ -209,7 +209,7 @@ const SetManager = () => {
                   onChange={e =>
                     setNewSet({ ...newSet, releaseDate: e.target.value })
                   }
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -226,7 +226,7 @@ const SetManager = () => {
                       totalCards: parseInt(e.target.value) || 0,
                     })
                   }
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="0"
                 />
               </div>
@@ -235,13 +235,13 @@ const SetManager = () => {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={handleAddSet}
-                className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                className="flex-1 px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
               >
                 Add Set
               </button>
               <button
                 onClick={() => setIsAddingSet(false)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                className="px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
               >
                 Cancel
               </button>
@@ -282,7 +282,7 @@ const SetManager = () => {
                         onChange={e =>
                           setEditingSet({ ...editingSet, name: e.target.value })
                         }
-                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>
                     <div>
@@ -295,7 +295,7 @@ const SetManager = () => {
                         onChange={e =>
                           setEditingSet({ ...editingSet, code: e.target.value })
                         }
-                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -312,7 +312,7 @@ const SetManager = () => {
                           description: e.target.value,
                         })
                       }
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                      className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       rows="2"
                     />
                   </div>
@@ -320,14 +320,14 @@ const SetManager = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={handleSaveEdit}
-                      className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
                     >
                       <Save className="w-4 h-4" />
                       Save
                     </button>
                     <button
                       onClick={() => setEditingSet(null)}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
                     >
                       <X className="w-4 h-4" />
                       Cancel
@@ -343,16 +343,16 @@ const SetManager = () => {
                         <h3 className="text-xl font-bold text-white">
                           {set.name}
                         </h3>
-                        <span className="px-2 py-1 bg-gray-700 text-gray-300 text-sm rounded">
+                        <span className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 text-sm rounded">
                           {set.code}
                         </span>
                         {set.isActive && (
-                          <span className="px-2 py-1 bg-green-600 text-white text-sm rounded">
+                          <span className="px-2 py-0 whitespace-nowrap bg-green-600 text-white text-sm rounded">
                             Active
                           </span>
                         )}
                         {set.isVisible && (
-                          <span className="px-2 py-1 bg-blue-600 text-white text-sm rounded">
+                          <span className="px-2 py-0 whitespace-nowrap bg-blue-600 text-white text-sm rounded">
                             Visible
                           </span>
                         )}

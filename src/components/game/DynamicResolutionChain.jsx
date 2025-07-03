@@ -124,7 +124,7 @@ const DynamicResolutionChain = ({
                   <h4 className="text-white text-xs font-medium">Your Response</h4>
                   <button
                     onClick={() => onPass()}
-                    className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1 rounded"
+                    className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-0 whitespace-nowrap rounded"
                   >
                     Pass
                   </button>

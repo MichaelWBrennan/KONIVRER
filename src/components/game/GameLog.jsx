@@ -27,7 +27,7 @@ const GameLog = ({ logs = [], onClose }) => {
     switch (log.type) {
       case 'phase':
         return (
-          <div className="py-1 px-2 bg-purple-900/30 rounded text-purple-300 font-medium">
+          <div className="py-0 whitespace-nowrap px-2 bg-purple-900/30 rounded text-purple-300 font-medium">
             {log.player === 0 ? 'Your' : "Opponent's"} {log.phase} Phase
           </div>
         );
@@ -153,7 +153,7 @@ const GameLog = ({ logs = [], onClose }) => {
 
       case 'game':
         return (
-          <div className="py-1 px-2 bg-yellow-900/30 rounded text-yellow-300 font-medium">
+          <div className="py-0 whitespace-nowrap px-2 bg-yellow-900/30 rounded text-yellow-300 font-medium">
             {log.message}
           </div>
         );

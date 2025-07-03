@@ -97,7 +97,7 @@ const DeckExportModal = ({ isOpen, onClose, deck }) => {
                   <textarea
                     value={deckCode}
                     readOnly
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
                   />
                   <button
                     onClick={handleCopy}
@@ -116,13 +116,13 @@ const DeckExportModal = ({ isOpen, onClose, deck }) => {
               <div className="flex justify-end space-x-3 pt-2">
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
+                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
                 >
                   Close
                 </button>
                 <button
                   onClick={handleShare}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors"
+                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors"
                 >
                   <Share2 size={18} className="mr-2" />
                   Share

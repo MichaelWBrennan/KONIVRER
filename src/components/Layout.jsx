@@ -303,7 +303,7 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`nav-item nav-link group relative flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-2 rounded-xl font-medium transition-all duration-200 ${
+                    className={`nav-item nav-link group relative flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-0 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
                       isItemActive ? 'animate-border-glow' : 'hover:scale-105'
                     }`}
                     style={{
@@ -348,7 +348,7 @@ const Layout = ({ children }) => {
                   {/* User Profile Link */}
                   <Link
                     to="/profile"
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200"
+                    className="flex items-center gap-2 px-3 py-0 rounded-xl transition-all duration-200 whitespace-nowrap"
                     style={{
                       background: 'var(--bg-tertiary)',
                       color: 'var(--text-secondary)',
@@ -386,7 +386,7 @@ const Layout = ({ children }) => {
                   {/* Logout Button */}
                   <button
                     onClick={logout}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200"
+                    className="flex items-center gap-2 px-3 py-0 rounded-xl transition-all duration-200 whitespace-nowrap"
                     style={{
                       background: 'var(--bg-tertiary)',
                       color: 'var(--accent-danger)',
@@ -401,7 +401,7 @@ const Layout = ({ children }) => {
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 animate-mystical-glow"
+                  className="flex items-center gap-2 px-4 py-0 rounded-xl transition-all duration-200 animate-mystical-glow whitespace-nowrap"
                   style={{
                     background: 'var(--gradient-primary)',
                     color: 'var(--text-primary)',
@@ -450,7 +450,7 @@ const Layout = ({ children }) => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`relative flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      className={`relative flex items-center gap-3 px-3 py-0 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 ${
                         isItemActive ? 'animate-border-glow' : ''
                       }`}
                       style={{
@@ -499,7 +499,7 @@ const Layout = ({ children }) => {
                 {isAuthenticated ? (
                   <div className="space-y-3">
                     <div
-                      className="flex items-center justify-between px-3 py-3 rounded-xl"
+                      className="flex items-center justify-between px-3 py-0 whitespace-nowrap rounded-xl"
                       style={{
                         background: 'var(--bg-tertiary)',
                         border: '1px solid var(--border-primary)',
@@ -548,7 +548,7 @@ const Layout = ({ children }) => {
                     </div>
                     <Link
                       to="/profile"
-                      className="flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200"
+                      className="flex items-center gap-3 px-3 py-0 whitespace-nowrap text-sm rounded-xl transition-all duration-200"
                       style={{
                         background: 'var(--bg-tertiary)',
                         color: 'var(--text-secondary)',
@@ -564,7 +564,7 @@ const Layout = ({ children }) => {
                         logout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200 w-full text-left"
+                      className="flex items-center gap-3 px-3 py-0 whitespace-nowrap text-sm rounded-xl transition-all duration-200 w-full text-left"
                       style={{
                         background: 'var(--bg-tertiary)',
                         color: 'var(--accent-danger)',
@@ -581,7 +581,7 @@ const Layout = ({ children }) => {
                       setShowAuthModal(true);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 w-full animate-mystical-glow"
+                    className="flex items-center justify-center gap-2 px-4 py-0 whitespace-nowrap rounded-xl transition-all duration-200 w-full animate-mystical-glow"
                     style={{
                       background: 'var(--gradient-primary)',
                       color: 'var(--text-primary)',

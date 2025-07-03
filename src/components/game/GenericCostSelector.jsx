@@ -92,13 +92,13 @@ const GenericCostSelector = ({
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 py-2 px-4 rounded bg-gray-600 hover:bg-gray-700 text-white transition-colors"
+            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-gray-600 hover:bg-gray-700 text-white transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleConfirm}
-            className="flex-1 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-blue-600 hover:bg-blue-700 text-white transition-colors"
           >
             Play Card
           </button>

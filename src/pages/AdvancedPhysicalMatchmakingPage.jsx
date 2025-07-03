@@ -237,7 +237,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setActiveTab('dashboard');
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg ${
+                  className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                     activeTab === 'dashboard'
                       ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                       : 'text-gray-300 hover:bg-gray-800'
@@ -252,7 +252,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setActiveTab('tournaments');
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg ${
+                  className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                     activeTab === 'tournaments'
                       ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                       : 'text-gray-300 hover:bg-gray-800'
@@ -267,7 +267,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setActiveTab('decks');
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg ${
+                  className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                     activeTab === 'decks'
                       ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                       : 'text-gray-300 hover:bg-gray-800'
@@ -282,7 +282,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setActiveTab('matchmaking');
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg ${
+                  className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                     activeTab === 'matchmaking'
                       ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                       : 'text-gray-300 hover:bg-gray-800'
@@ -297,7 +297,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setActiveTab('players');
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg ${
+                  className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                     activeTab === 'players'
                       ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                       : 'text-gray-300 hover:bg-gray-800'
@@ -314,7 +314,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setShowSettings(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800"
+                  className="w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg text-gray-300 hover:bg-gray-800"
                 >
                   <Settings className="w-5 h-5 mr-3" />
                   <span>Settings</span>
@@ -325,7 +325,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                     setShowHelp(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800"
+                  className="w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg text-gray-300 hover:bg-gray-800"
                 >
                   <HelpCircle className="w-5 h-5 mr-3" />
                   <span>Help</span>
@@ -373,7 +373,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           <nav className="p-4 space-y-1">
             <button
               onClick={() => setActiveTab('dashboard')}
-              className={`w-full flex items-center px-3 py-2 rounded-lg ${
+              className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                 activeTab === 'dashboard'
                   ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                   : 'text-gray-300 hover:bg-gray-800'
@@ -385,7 +385,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
 
             <button
               onClick={() => setActiveTab('tournaments')}
-              className={`w-full flex items-center px-3 py-2 rounded-lg ${
+              className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                 activeTab === 'tournaments'
                   ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                   : 'text-gray-300 hover:bg-gray-800'
@@ -397,7 +397,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
 
             <button
               onClick={() => setActiveTab('decks')}
-              className={`w-full flex items-center px-3 py-2 rounded-lg ${
+              className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                 activeTab === 'decks'
                   ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                   : 'text-gray-300 hover:bg-gray-800'
@@ -409,7 +409,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
 
             <button
               onClick={() => setActiveTab('matchmaking')}
-              className={`w-full flex items-center px-3 py-2 rounded-lg ${
+              className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                 activeTab === 'matchmaking'
                   ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                   : 'text-gray-300 hover:bg-gray-800'
@@ -421,7 +421,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
 
             <button
               onClick={() => setActiveTab('players')}
-              className={`w-full flex items-center px-3 py-2 rounded-lg ${
+              className={`w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg ${
                 activeTab === 'players'
                   ? 'bg-amber-900 bg-opacity-50 text-amber-300'
                   : 'text-gray-300 hover:bg-gray-800'
@@ -435,7 +435,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           <div className="absolute bottom-4 left-4 right-4 space-y-1">
             <button
               onClick={() => setShowSettings(true)}
-              className="w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800"
+              className="w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg text-gray-300 hover:bg-gray-800"
             >
               <Settings className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Settings</span>}
@@ -443,7 +443,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
 
             <button
               onClick={() => setShowHelp(true)}
-              className="w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800"
+              className="w-full flex items-center px-3 py-0 whitespace-nowrap rounded-lg text-gray-300 hover:bg-gray-800"
             >
               <HelpCircle className="w-5 h-5 min-w-[20px]" />
               {sidebarOpen && <span className="ml-3">Help</span>}
@@ -465,7 +465,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               </h1>
 
               {activeTab === 'tournaments' && selectedTournament && (
-                <div className="ml-4 px-3 py-1 bg-amber-900 bg-opacity-30 rounded-lg text-amber-300 text-sm">
+                <div className="ml-4 px-3 py-0 whitespace-nowrap bg-amber-900 bg-opacity-30 rounded-lg text-amber-300 text-sm">
                   {tournaments.find(t => t.id === selectedTournament)?.name ||
                     'Selected Tournament'}
                 </div>
@@ -550,7 +550,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                 </AnimatePresence>
               </div>
 
-              <div className="flex items-center space-x-2 px-3 py-1 bg-gray-800 rounded-lg">
+              <div className="flex items-center space-x-2 px-3 py-0 whitespace-nowrap bg-gray-800 rounded-lg">
                 <div
                   className={`w-2 h-2 rounded-full ${isOfflineMode ? 'bg-amber-500' : 'bg-green-500'}`}
                 ></div>
@@ -632,7 +632,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
                                 e.stopPropagation();
                                 handleTournamentSelect(tournament.id);
                               }}
-                              className="px-3 py-1 bg-amber-700 hover:bg-amber-600 rounded-lg text-white text-sm flex items-center"
+                              className="px-3 py-0 whitespace-nowrap bg-amber-700 hover:bg-amber-600 rounded-lg text-white text-sm flex items-center"
                             >
                               <Eye className="w-4 h-4 mr-1" />
                               <span>View</span>
@@ -844,7 +844,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg text-white"
+                  className="px-4 py-0 whitespace-nowrap bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg text-white"
                 >
                   Save Settings
                 </button>
@@ -1007,7 +1007,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowHelp(false)}
-                  className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg text-white"
+                  className="px-4 py-0 whitespace-nowrap bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg text-white"
                 >
                   Close
                 </button>

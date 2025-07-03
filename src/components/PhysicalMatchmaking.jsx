@@ -206,7 +206,7 @@ const PhysicalMatchmaking = () => {
               <button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Create Matches
               </button>
@@ -257,7 +257,7 @@ const PhysicalMatchmaking = () => {
             <h3 className="text-lg font-semibold text-gray-900">Tournaments</h3>
             <button
               onClick={createTournament}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2"
+              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
               <span>New Tournament</span>
@@ -312,7 +312,7 @@ const PhysicalMatchmaking = () => {
             </h3>
             <button
               onClick={addPlayer}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2"
+              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
               <span>Add Player</span>
@@ -323,19 +323,19 @@ const PhysicalMatchmaking = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-4 font-medium text-gray-900">
                     Player
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-4 font-medium text-gray-900">
                     Rating
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-4 font-medium text-gray-900">
                     Record
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-4 font-medium text-gray-900">
                     Win Rate
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-4 font-medium text-gray-900">
                     Actions
                   </th>
                 </tr>
@@ -472,13 +472,13 @@ const PhysicalMatchmaking = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => recordGame(match.player1.id)}
-              className="flex-1 bg-blue-100 text-blue-700 py-2 px-3 rounded font-medium hover:bg-blue-200 transition-colors"
+              className="flex-1 bg-blue-100 text-blue-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-blue-200 transition-colors"
             >
               {match.player1.name} Wins
             </button>
             <button
               onClick={() => recordGame(match.player2.id)}
-              className="flex-1 bg-red-100 text-red-700 py-2 px-3 rounded font-medium hover:bg-red-200 transition-colors"
+              className="flex-1 bg-red-100 text-red-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-red-200 transition-colors"
             >
               {match.player2.name} Wins
             </button>
@@ -502,7 +502,7 @@ const PhysicalMatchmaking = () => {
       <div className="flex items-center justify-between mb-2">
         <h4 className="font-medium text-gray-900">{tournament.name}</h4>
         <span
-          className={`px-2 py-1 rounded text-xs font-medium ${
+          className={`px-2 py-0 whitespace-nowrap rounded text-xs font-medium ${
             tournament.status === 'active'
               ? 'bg-green-100 text-green-700'
               : tournament.status === 'completed'
@@ -714,13 +714,13 @@ const PhysicalMatchmaking = () => {
               <button
                 type="button"
                 onClick={() => setShowPlayerModal(false)}
-                className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="flex-1 bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
                 {playerProfile ? 'Update' : 'Add'} Player
               </button>
@@ -868,13 +868,13 @@ const PhysicalMatchmaking = () => {
               <button
                 type="button"
                 onClick={() => setShowTournamentModal(false)}
-                className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="flex-1 bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
                 Create Tournament
               </button>
@@ -950,7 +950,7 @@ const PhysicalMatchmaking = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`flex items-center space-x-2 py-0 whitespace-nowrap px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'

@@ -83,7 +83,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           placeholder="Search decks..."
-          className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 

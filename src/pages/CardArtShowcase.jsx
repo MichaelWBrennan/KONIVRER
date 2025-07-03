@@ -114,11 +114,11 @@ const CardArtShowcase = () => {
 
           {/* Statistics */}
           <div className="flex flex-wrap gap-4 text-sm">
-            <div className="bg-green-600/20 text-green-400 px-3 py-1 rounded-full">
+            <div className="bg-green-600/20 text-green-400 px-3 py-0 whitespace-nowrap rounded-full">
               <Database className="w-4 h-4 inline mr-1" />
               {linkedCards} Linked to Database
             </div>
-            <div className="bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full">
+            <div className="bg-yellow-600/20 text-yellow-400 px-3 py-0 whitespace-nowrap rounded-full">
               <ExternalLink className="w-4 h-4 inline mr-1" />
               {artOnlyCards} Art Only
             </div>
@@ -151,7 +151,7 @@ const CardArtShowcase = () => {
               <select
                 value={categoryFilter}
                 onChange={e => setCategoryFilter(e.target.value)}
-                className="bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-white"
+                className="bg-gray-800 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap text-white"
               >
                 <option value="all">All Cards ({categories.all.length})</option>
                 <option value="characters">
@@ -252,7 +252,7 @@ const CardArtShowcase = () => {
                         <button
                           key={card}
                           onClick={() => setSelectedCard(card)}
-                          className={`w-full text-left px-3 py-2 rounded transition-colors ${
+                          className={`w-full text-left px-3 py-0 whitespace-nowrap rounded transition-colors ${
                             selectedCard === card
                               ? 'bg-purple-600 text-white'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white'

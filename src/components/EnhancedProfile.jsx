@@ -343,7 +343,7 @@ const EnhancedProfile = () => {
                     <motion.span
                       key={role}
                       whileHover={{ scale: 1.05 }}
-                      className={`px-3 py-1 rounded-full text-white text-sm font-medium flex items-center gap-1 ${config.color}`}
+                      className={`px-3 py-0 whitespace-nowrap rounded-full text-white text-sm font-medium flex items-center gap-1 ${config.color}`}
                     >
                       <Icon size={14} />
                       {role === 'judge' &&
@@ -610,7 +610,7 @@ const EnhancedProfile = () => {
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold">{achievement.name}</h4>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full border ${getRarityColor(achievement.rarity)}`}
+                      className={`text-xs px-2 py-0 whitespace-nowrap rounded-full border ${getRarityColor(achievement.rarity)}`}
                     >
                       {achievement.rarity}
                     </span>
@@ -645,7 +645,7 @@ const EnhancedProfile = () => {
           <BookOpen className="text-green-400" size={28} />
           My Decks
         </h3>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2">
           <Plus size={16} />
           New Deck
         </button>
@@ -714,10 +714,10 @@ const EnhancedProfile = () => {
             </div>
 
             <div className="flex gap-2">
-              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors">
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm font-medium transition-colors">
                 Edit
               </button>
-              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm transition-colors">
+              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                 Export
               </button>
             </div>
@@ -739,10 +739,10 @@ const EnhancedProfile = () => {
           Deck Builder
         </h3>
         <div className="flex items-center gap-2">
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors">
             Load Template
           </button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors">
             Save Deck
           </button>
         </div>
@@ -807,7 +807,7 @@ const EnhancedProfile = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-all ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-all ${
                   activeTab === tab.id
                     ? 'bg-accent-primary text-white shadow-lg'
                     : 'text-secondary hover:text-primary hover:bg-tertiary'

@@ -59,7 +59,7 @@ const AccessibilitySettings = ({ onClose }) => {
 
           <nav className="space-y-1">
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'visual'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -71,7 +71,7 @@ const AccessibilitySettings = ({ onClose }) => {
             </button>
 
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'interface'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -83,7 +83,7 @@ const AccessibilitySettings = ({ onClose }) => {
             </button>
 
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'audio'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -95,7 +95,7 @@ const AccessibilitySettings = ({ onClose }) => {
             </button>
 
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'input'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -107,7 +107,7 @@ const AccessibilitySettings = ({ onClose }) => {
             </button>
 
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'language'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -119,7 +119,7 @@ const AccessibilitySettings = ({ onClose }) => {
             </button>
 
             <button
-              className={`flex items-center w-full px-3 py-2 rounded-md text-left ${
+              className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'help'
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-700 hover:bg-gray-200'
@@ -133,7 +133,7 @@ const AccessibilitySettings = ({ onClose }) => {
 
           <div className="mt-6">
             <button
-              className="flex items-center w-full px-3 py-2 rounded-md text-left text-red-600 hover:bg-red-50"
+              className="flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left text-red-600 hover:bg-red-50"
               onClick={handleReset}
             >
               <RotateCcw className="w-5 h-5 mr-3" />
@@ -164,7 +164,7 @@ const AccessibilitySettings = ({ onClose }) => {
                   {['small', 'medium', 'large', 'x-large'].map(size => (
                     <button
                       key={size}
-                      className={`px-4 py-2 rounded-md border ${
+                      className={`px-4 py-0 whitespace-nowrap rounded-md border ${
                         settings.fontSize === size
                           ? 'bg-blue-100 border-blue-500 text-blue-700'
                           : 'border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -200,7 +200,7 @@ const AccessibilitySettings = ({ onClose }) => {
                   ].map(mode => (
                     <button
                       key={mode.id}
-                      className={`px-4 py-2 rounded-md border ${
+                      className={`px-4 py-0 whitespace-nowrap rounded-md border ${
                         settings.colorMode === mode.id
                           ? 'bg-blue-100 border-blue-500 text-blue-700'
                           : 'border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -228,7 +228,7 @@ const AccessibilitySettings = ({ onClose }) => {
                   ].map(mode => (
                     <button
                       key={mode.id}
-                      className={`px-4 py-2 rounded-md border ${
+                      className={`px-4 py-0 whitespace-nowrap rounded-md border ${
                         settings.colorBlindMode === mode.id
                           ? 'bg-blue-100 border-blue-500 text-blue-700'
                           : 'border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -542,7 +542,7 @@ const AccessibilitySettings = ({ onClose }) => {
                   {['small', 'medium', 'large'].map(size => (
                     <button
                       key={size}
-                      className={`px-4 py-2 rounded-md border ${
+                      className={`px-4 py-0 whitespace-nowrap rounded-md border ${
                         settings.touchTargetSize === size
                           ? 'bg-blue-100 border-blue-500 text-blue-700'
                           : 'border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -734,9 +734,9 @@ const AccessibilitySettings = ({ onClose }) => {
       </div>
 
       {/* Footer */}
-      <div className="bg-gray-50 px-6 py-3 flex justify-end">
+      <div className="bg-gray-50 px-6 py-0 whitespace-nowrap flex justify-end">
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="px-4 py-0 whitespace-nowrap bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={onClose}
         >
           Save & Close

@@ -212,13 +212,13 @@ const GameControls = ({
             <button
               onClick={() => canPlayCard && onAction('playCard')}
               disabled={!canPlayCard}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('play')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('play')}`}
             >
               <Play className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Play</span>
             </button>
             {showTooltip === 'play' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('play')}
               </div>
             )}
@@ -233,13 +233,13 @@ const GameControls = ({
             <button
               onClick={() => canAttack && onAction('attack')}
               disabled={!canAttack}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('attack')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('attack')}`}
             >
               <Sword className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Attack</span>
             </button>
             {showTooltip === 'attack' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('attack')}
               </div>
             )}
@@ -254,13 +254,13 @@ const GameControls = ({
             <button
               onClick={() => canBlock && onAction('block')}
               disabled={!canBlock}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('block')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('block')}`}
             >
               <Shield className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Block</span>
             </button>
             {showTooltip === 'block' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('block')}
               </div>
             )}
@@ -278,13 +278,13 @@ const GameControls = ({
                 onAction('activateAbility', { abilityIndex: 0 })
               }
               disabled={!canActivateAbility}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('ability')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('ability')}`}
             >
               <Zap className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Ability</span>
             </button>
             {showTooltip === 'ability' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('ability')}
               </div>
             )}
@@ -299,13 +299,13 @@ const GameControls = ({
             <button
               onClick={() => canNextPhase && onAction('nextPhase')}
               disabled={!canNextPhase}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('nextPhase')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('nextPhase')}`}
             >
               <FastForward className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Next</span>
             </button>
             {showTooltip === 'nextPhase' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('nextPhase')}
               </div>
             )}
@@ -320,13 +320,13 @@ const GameControls = ({
             <button
               onClick={() => canPassPriority && onAction('passPriority')}
               disabled={!canPassPriority}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('pass')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('pass')}`}
             >
               <Hand className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Pass</span>
             </button>
             {showTooltip === 'pass' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('pass')}
               </div>
             )}
@@ -342,14 +342,14 @@ const GameControls = ({
               >
                 <button
                   onClick={() => setAutoPassEnabled(!autoPassEnabled)}
-                  className={`flex items-center space-x-1 px-2 py-2 rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
+                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
                   <Hourglass
                     className={`w-4 h-4 ${autoPassEnabled ? 'text-white' : 'text-gray-400'}`}
                   />
                 </button>
                 {showTooltip === 'autoPass' && (
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                     {getTooltipText('autoPass')}
                   </div>
                 )}
@@ -362,14 +362,14 @@ const GameControls = ({
               >
                 <button
                   onClick={() => setFullControlMode(!fullControlMode)}
-                  className={`flex items-center space-x-1 px-2 py-2 rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
+                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
                   <Settings
                     className={`w-4 h-4 ${fullControlMode ? 'text-white' : 'text-gray-400'}`}
                   />
                 </button>
                 {showTooltip === 'fullControl' && (
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                     {getTooltipText('fullControl')}
                   </div>
                 )}
@@ -385,13 +385,13 @@ const GameControls = ({
           >
             <button
               onClick={() => onAction('concede')}
-              className={`flex items-center space-x-1 px-3 py-2 rounded-lg ${getSpecialButtonStyle('concede')}`}
+              className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('concede')}`}
             >
               <Flag className="w-4 h-4 text-white" />
               <span className="text-white text-sm">Concede</span>
             </button>
             {showTooltip === 'concede' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black/90 text-white text-xs rounded whitespace-nowrap">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap">
                 {getTooltipText('concede')}
               </div>
             )}
@@ -403,7 +403,7 @@ const GameControls = ({
           <div className="mt-2 flex justify-center">
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className="flex items-center space-x-1 px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600"
+              className="flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg bg-gray-700 hover:bg-gray-600"
             >
               <MoreHorizontal className="w-4 h-4 text-white" />
               <span className="text-white text-xs">More Options</span>
@@ -423,7 +423,7 @@ const GameControls = ({
               <div className="flex justify-center space-x-4 py-2">
                 <button
                   onClick={() => setAutoPassEnabled(!autoPassEnabled)}
-                  className={`flex items-center space-x-1 px-3 py-1 rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
+                  className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
                   <Hourglass className="w-3 h-3 text-white mr-1" />
                   <span className="text-white text-xs">Auto-Pass</span>
@@ -431,7 +431,7 @@ const GameControls = ({
 
                 <button
                   onClick={() => setFullControlMode(!fullControlMode)}
-                  className={`flex items-center space-x-1 px-3 py-1 rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
+                  className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
                   <Settings className="w-3 h-3 text-white mr-1" />
                   <span className="text-white text-xs">Full Control</span>
@@ -476,7 +476,7 @@ const GameControls = ({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute top-16 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-2 py-1 z-10 shadow-lg"
+        className="absolute top-16 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-2 py-0 whitespace-nowrap z-10 shadow-lg"
       >
         <div className="flex items-center text-white text-sm">
           <Clock className="w-4 h-4 mr-1" />

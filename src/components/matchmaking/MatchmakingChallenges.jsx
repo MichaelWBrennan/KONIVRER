@@ -150,7 +150,7 @@ const MatchmakingChallenges = ({
                 <h4 className="font-medium text-gray-900">{challenge.title}</h4>
               </div>
               <span
-                className={`text-xs px-2 py-1 rounded-full ${
+                className={`text-xs px-2 py-0 whitespace-nowrap rounded-full ${
                   challenge.type === 'daily'
                     ? 'bg-blue-100 text-blue-700'
                     : 'bg-purple-100 text-purple-700'

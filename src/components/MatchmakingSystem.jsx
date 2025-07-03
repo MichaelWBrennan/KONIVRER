@@ -328,7 +328,7 @@ const MatchmakingSystem = () => {
             Matchmaking requires an internet connection. You can still play
             against AI opponents or practice with your decks.
           </p>
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+          <button className="bg-blue-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors">
             Play vs AI
           </button>
         </div>
@@ -433,7 +433,7 @@ const MatchmakingSystem = () => {
               ) : (
                 <div className="text-center py-8">
                   <div className="text-gray-400 mb-2">No deck selected</div>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  <button className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg hover:bg-blue-700 transition-colors">
                     Choose Deck
                   </button>
                 </div>
@@ -531,7 +531,7 @@ const MatchmakingSystem = () => {
                 <button
                   onClick={startMatchmaking}
                   disabled={!selectedDeck}
-                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
                 >
                   <Search className="w-5 h-5" />
                   <span>Find Match</span>
@@ -550,7 +550,7 @@ const MatchmakingSystem = () => {
                   </div>
                   <button
                     onClick={cancelMatchmaking}
-                    className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+                    className="bg-gray-600 text-white px-6 py-0 whitespace-nowrap rounded-lg hover:bg-gray-700 transition-colors"
                   >
                     Cancel Search
                   </button>
@@ -715,13 +715,13 @@ const MatchmakingSystem = () => {
             <div className="flex space-x-3">
               <button
                 onClick={declineMatch}
-                className="flex-1 bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
               >
                 Decline
               </button>
               <button
                 onClick={acceptMatch}
-                className="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                className="flex-1 bg-green-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
               >
                 Accept Match
               </button>

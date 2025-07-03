@@ -162,14 +162,14 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
           <div className="flex items-center space-x-3">
             <Search className="w-6 h-6 text-purple-400" />
             <h2 className="text-2xl font-bold text-white">Advanced Search</h2>
-            <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
+            <span className="px-3 py-0 whitespace-nowrap bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full">
               Powered by KONIVRER
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center space-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
             >
               <span className="text-white text-sm">
                 {isExpanded ? 'Simple' : 'Advanced'}
@@ -203,7 +203,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
               value={searchCriteria.cardName}
               onChange={e => updateCriteria('cardName', e.target.value)}
               placeholder="Enter card name..."
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+              className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
             />
           </div>
 
@@ -217,7 +217,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
               value={searchCriteria.text}
               onChange={e => updateCriteria('text', e.target.value)}
               placeholder="Enter rules text... (use ~ for card name)"
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+              className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
             />
           </div>
         </div>
@@ -246,7 +246,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       value={searchCriteria.typeLine}
                       onChange={e => updateCriteria('typeLine', e.target.value)}
                       placeholder="e.g., Familiar, Spell, Artifact"
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -260,7 +260,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                           onClick={() =>
                             toggleArrayValue('selectedTypes', type)
                           }
-                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
                             searchCriteria.selectedTypes.includes(type)
                               ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
                               : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
@@ -292,7 +292,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                           onClick={() =>
                             toggleArrayValue('colors', element.name)
                           }
-                          className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          className={`flex items-center space-x-2 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
                             searchCriteria.colors.includes(element.name)
                               ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
                               : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
@@ -315,7 +315,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       onChange={e =>
                         updateCriteria('colorComparison', e.target.value)
                       }
-                      className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                      className="px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
                       <option value="including">
                         Including (with or without others)
@@ -343,7 +343,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       value={searchCriteria.manaCost}
                       onChange={e => updateCriteria('manaCost', e.target.value)}
                       placeholder="e.g., 3, {2}{R}, X"
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -360,7 +360,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                             e.target.value,
                           )
                         }
-                        className="px-3 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                        className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                       >
                         {operators.map(op => (
                           <option key={op} value={op}>
@@ -375,7 +375,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                           updateNestedCriteria('power', 'value', e.target.value)
                         }
                         placeholder="0"
-                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                        className="flex-1 px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                       />
                     </div>
                   </div>
@@ -393,7 +393,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                             e.target.value,
                           )
                         }
-                        className="px-3 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                        className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                       >
                         {operators.map(op => (
                           <option key={op} value={op}>
@@ -412,7 +412,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                           )
                         }
                         placeholder="0"
-                        className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                        className="flex-1 px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                       />
                     </div>
                   </div>
@@ -435,7 +435,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                         <button
                           key={set}
                           onClick={() => toggleArrayValue('sets', set)}
-                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
                             searchCriteria.sets.includes(set)
                               ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
                               : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
@@ -455,7 +455,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                         <button
                           key={rarity}
                           onClick={() => toggleArrayValue('rarity', rarity)}
-                          className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          className={`flex items-center space-x-2 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
                             searchCriteria.rarity.includes(rarity)
                               ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
                               : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
@@ -493,7 +493,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       }
                       placeholder="0.00"
                       step="0.01"
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -512,7 +512,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       }
                       placeholder="999.99"
                       step="0.01"
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -528,7 +528,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                           e.target.value,
                         )
                       }
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
                       <option value="usd">USD ($)</option>
                       <option value="eur">EUR (€)</option>
@@ -554,7 +554,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       value={searchCriteria.artist}
                       onChange={e => updateCriteria('artist', e.target.value)}
                       placeholder="Artist name..."
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -568,7 +568,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                         updateCriteria('flavorText', e.target.value)
                       }
                       placeholder="Flavor text..."
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                   <div>
@@ -582,7 +582,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                         updateCriteria('loreFinder', e.target.value)
                       }
                       placeholder="Character or lore..."
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
                 </div>
@@ -602,7 +602,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                     <select
                       value={searchCriteria.sortBy}
                       onChange={e => updateCriteria('sortBy', e.target.value)}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
                       <option value="name">Name</option>
                       <option value="cost">Mana Cost</option>
@@ -623,7 +623,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                       onChange={e =>
                         updateCriteria('sortOrder', e.target.value)
                       }
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
+                      className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
                       <option value="asc">Ascending</option>
                       <option value="desc">Descending</option>
@@ -665,7 +665,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
         <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20">
           <button
             onClick={clearAll}
-            className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+            className="px-6 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
           >
             Clear All
           </button>
@@ -698,7 +698,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
             </span>
             <button
               onClick={handleSearch}
-              className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105"
+              className="px-8 py-0 whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105"
             >
               Search Cards
             </button>

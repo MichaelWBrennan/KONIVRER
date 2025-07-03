@@ -132,7 +132,7 @@ const IndustryLeadingFeaturesPage = () => {
             machine learning, and cutting-edge technology.
           </p>
 
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-4 inline-block mb-8">
+          <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-0 whitespace-nowrap inline-block mb-8">
             <div className="flex items-center">
               <CheckCircle className="w-6 h-6 mr-3" />
               <span className="text-xl font-bold">
@@ -390,7 +390,7 @@ const FeatureOverview = ({ features, featuresEnabled, setFeaturesEnabled }) => {
               </span>
               <button
                 onClick={() => toggleFeature(key)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                   enabled
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-600 text-gray-300'
@@ -559,7 +559,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
                   <div key={index} className="p-3 bg-gray-800/50 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-medium">Table {pairing.table}</span>
-                      <span className="text-xs bg-purple-600/20 px-2 py-1 rounded">
+                      <span className="text-xs bg-purple-600/20 px-2 py-0 whitespace-nowrap rounded">
                         Quality: {Math.round(pairing.expectedQuality * 100)}%
                       </span>
                     </div>

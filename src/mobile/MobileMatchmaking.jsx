@@ -220,7 +220,7 @@ const MobileMatchmaking = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Status Bar */}
-      <div className="bg-white px-4 py-2 flex items-center justify-between shadow-sm">
+      <div className="bg-white px-4 py-0 whitespace-nowrap flex items-center justify-between shadow-sm">
         <div className="flex items-center">
           {offlineMode ? (
             <span className="text-xs font-medium text-red-600 flex items-center">
@@ -326,7 +326,7 @@ const MobileMatchmaking = () => {
               className="mb-6"
             >
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="bg-blue-500 text-white px-4 py-3 flex justify-between items-center">
+                <div className="bg-blue-500 text-white px-4 py-0 whitespace-nowrap flex justify-between items-center">
                   <h3 className="font-bold">Match Found!</h3>
                   <div className="flex items-center text-sm">
                     <Clock className="w-4 h-4 mr-1" />
@@ -420,7 +420,7 @@ const MobileMatchmaking = () => {
 
         {/* Available Matches */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-          <div className="px-4 py-3 border-b border-gray-200">
+          <div className="px-4 py-0 whitespace-nowrap border-b border-gray-200">
             <h3 className="font-bold text-gray-800">Available Matches</h3>
           </div>
 
@@ -434,7 +434,7 @@ const MobileMatchmaking = () => {
               <Users className="h-8 w-8 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">No matches available right now.</p>
               <button
-                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium"
+                className="mt-4 px-4 py-0 whitespace-nowrap bg-blue-600 text-white rounded-md text-sm font-medium"
                 onClick={findQuickMatch}
               >
                 Find a Match
@@ -502,7 +502,7 @@ const MobileMatchmaking = () => {
         {/* Offline Results */}
         {offlineMode && pendingResults.length > 0 && (
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-            <div className="px-4 py-3 border-b border-gray-200 bg-yellow-50">
+            <div className="px-4 py-0 whitespace-nowrap border-b border-gray-200 bg-yellow-50">
               <h3 className="font-bold text-yellow-800">Pending Results</h3>
               <p className="text-xs text-yellow-700">
                 These will sync when you're back online
@@ -560,7 +560,7 @@ const MobileMatchmaking = () => {
                 </div>
 
                 <button
-                  className="mt-6 px-4 py-2 bg-gray-200 text-gray-800 rounded-md text-sm font-medium"
+                  className="mt-6 px-4 py-0 whitespace-nowrap bg-gray-200 text-gray-800 rounded-md text-sm font-medium"
                   onClick={() => setVoiceCommandActive(false)}
                 >
                   Cancel

@@ -305,7 +305,7 @@ const StandaloneMatchmaking = () => {
               <button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-manipulation"
+                className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-manipulation"
               >
                 Create Matches
               </button>
@@ -414,13 +414,13 @@ const StandaloneMatchmaking = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => recordGame(match.player1.id)}
-              className="flex-1 bg-blue-100 text-blue-700 py-3 px-3 rounded font-medium hover:bg-blue-200 active:bg-blue-300 transition-colors touch-manipulation"
+              className="flex-1 bg-blue-100 text-blue-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-blue-200 active:bg-blue-300 transition-colors touch-manipulation"
             >
               {match.player1.name} Wins
             </button>
             <button
               onClick={() => recordGame(match.player2.id)}
-              className="flex-1 bg-red-100 text-red-700 py-3 px-3 rounded font-medium hover:bg-red-200 active:bg-red-300 transition-colors touch-manipulation"
+              className="flex-1 bg-red-100 text-red-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-red-200 active:bg-red-300 transition-colors touch-manipulation"
             >
               {match.player2.name} Wins
             </button>
@@ -462,7 +462,7 @@ const StandaloneMatchmaking = () => {
             </h3>
             <button
               onClick={addPlayer}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2 touch-manipulation"
+              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2 touch-manipulation"
             >
               <Plus className="w-4 h-4" />
               <span>Add Player</span>
@@ -473,16 +473,16 @@ const StandaloneMatchmaking = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-2 md:px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900">
                     Player
                   </th>
-                  <th className="text-left py-3 px-2 md:px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900">
                     Rating
                   </th>
-                  <th className="text-left py-3 px-2 md:px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900">
                     Record
                   </th>
-                  <th className="text-left py-3 px-2 md:px-4 font-medium text-gray-900">
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900">
                     Actions
                   </th>
                 </tr>
@@ -493,7 +493,7 @@ const StandaloneMatchmaking = () => {
                     key={player.id}
                     className="border-b border-gray-100 hover:bg-gray-50"
                   >
-                    <td className="py-3 px-2 md:px-4">
+                    <td className="py-0 whitespace-nowrap px-2 md:px-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                           {player.name[0].toUpperCase()}
@@ -508,15 +508,15 @@ const StandaloneMatchmaking = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-2 md:px-4">
+                    <td className="py-0 whitespace-nowrap px-2 md:px-4">
                       <span className="font-medium">{player.rating}</span>
                     </td>
-                    <td className="py-3 px-2 md:px-4">
+                    <td className="py-0 whitespace-nowrap px-2 md:px-4">
                       <span className="text-sm">
                         {player.wins}W-{player.losses}L-{player.draws}D
                       </span>
                     </td>
-                    <td className="py-3 px-2 md:px-4">
+                    <td className="py-0 whitespace-nowrap px-2 md:px-4">
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => editPlayer(player)}
@@ -707,13 +707,13 @@ const StandaloneMatchmaking = () => {
               <button
                 type="button"
                 onClick={() => setShowPlayerModal(false)}
-                className="flex-1 bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors touch-manipulation"
+                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors touch-manipulation"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation"
+                className="flex-1 bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation"
               >
                 {playerProfile ? 'Update' : 'Add'} Player
               </button>
@@ -786,7 +786,7 @@ const StandaloneMatchmaking = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-b shadow-sm">
-          <div className="px-4 py-2 space-y-1">
+          <div className="px-4 py-0 whitespace-nowrap space-y-1">
             {[
               {
                 id: 'quickMatch',
@@ -805,7 +805,7 @@ const StandaloneMatchmaking = () => {
                   setActiveTab(tab.id);
                   setIsMobileMenuOpen(false);
                 }}
-                className={`w-full flex items-center space-x-2 py-2 px-3 rounded-lg font-medium text-sm transition-colors touch-manipulation ${
+                className={`w-full flex items-center space-x-2 py-0 whitespace-nowrap px-3 rounded-lg font-medium text-sm transition-colors touch-manipulation ${
                   activeTab === tab.id
                     ? 'bg-blue-100 text-blue-600'
                     : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
@@ -838,7 +838,7 @@ const StandaloneMatchmaking = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`flex items-center space-x-2 py-0 whitespace-nowrap px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -853,7 +853,7 @@ const StandaloneMatchmaking = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 whitespace-nowrap md:py-8">
         {activeTab === 'quickMatch' && <QuickMatchTab />}
         {activeTab === 'players' && <PlayersTab />}
       </div>
@@ -883,7 +883,7 @@ const StandaloneMatchmaking = () => {
                   exportData();
                   setShowExportModal(false);
                 }}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 touch-manipulation"
+                className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 touch-manipulation"
               >
                 <Download className="w-4 h-4" />
                 <span>Export Data</span>

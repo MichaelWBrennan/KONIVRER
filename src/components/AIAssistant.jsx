@@ -222,7 +222,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
       <div className="flex border-b border-gray-700">
         <button
           onClick={() => setActiveTab('suggestions')}
-          className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+          className={`flex-1 px-4 py-0 whitespace-nowrap text-sm font-medium transition-colors ${
             activeTab === 'suggestions'
               ? 'bg-blue-600 text-white'
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
@@ -232,7 +232,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
         </button>
         <button
           onClick={() => setActiveTab('analysis')}
-          className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+          className={`flex-1 px-4 py-0 whitespace-nowrap text-sm font-medium transition-colors ${
             activeTab === 'analysis'
               ? 'bg-blue-600 text-white'
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
@@ -242,7 +242,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
         </button>
         <button
           onClick={() => setActiveTab('chat')}
-          className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+          className={`flex-1 px-4 py-0 whitespace-nowrap text-sm font-medium transition-colors ${
             activeTab === 'chat'
               ? 'bg-blue-600 text-white'
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
@@ -267,7 +267,7 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
               <button
                 onClick={generateSuggestions}
                 disabled={isAnalyzing}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 px-4 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 px-4 py-0 whitespace-nowrap rounded-lg flex items-center justify-center gap-2 transition-all"
               >
                 {isAnalyzing ? (
                   <>
@@ -326,14 +326,14 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => onSuggestion?.(suggestion)}
-                      className="flex-1 bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition-colors"
+                      className="flex-1 bg-green-600 hover:bg-green-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
                     >
                       Apply
                     </button>
-                    <button className="px-3 py-1 rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
+                    <button className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
                       <ThumbsUp className="w-4 h-4" />
                     </button>
-                    <button className="px-3 py-1 rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
+                    <button className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
                       <ThumbsDown className="w-4 h-4" />
                     </button>
                   </div>
@@ -439,11 +439,11 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                   value={userInput}
                   onChange={e => setUserInput(e.target.value)}
                   placeholder=""
-                  className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
+                  className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap text-sm focus:outline-none focus:border-blue-500"
                 />
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>

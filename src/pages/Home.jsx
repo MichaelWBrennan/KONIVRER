@@ -798,7 +798,7 @@ const Home = () => {
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => handleFilterChange('all')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'all'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -808,7 +808,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('blog')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'blog'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -819,7 +819,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('community')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'community'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -830,7 +830,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('lore')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'lore'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -841,7 +841,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('products')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'products'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -852,7 +852,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('meta')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'meta'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -863,7 +863,7 @@ const Home = () => {
                   </button>
                   <button
                     onClick={() => handleFilterChange('guides')}
-                    className={`px-4 py-2 rounded-lg text-sm transition-colors ${
+                    className={`px-4 py-0 rounded-lg text-sm transition-colors whitespace-nowrap ${
                       activeFilter === 'guides'
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -903,7 +903,7 @@ const Home = () => {
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value)}
-                    className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+                    className="bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-sm"
                   >
                     <option value="recent">Most Recent</option>
                     <option value="popular">Most Popular</option>
@@ -913,7 +913,7 @@ const Home = () => {
                   {isAuthenticated && (
                     <button
                       onClick={() => setShowNewPostModal(true)}
-                      className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors text-sm flex items-center space-x-2"
+                      className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap-lg transition-colors text-sm flex items-center space-x-2"
                     >
                       <Plus size={16} />
                       <span>Create</span>
@@ -1028,7 +1028,7 @@ const Home = () => {
                             className="w-full h-48 object-cover"
                           />
                           <div
-                            className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getStatusColor(item.status)}`}
+                            className={`absolute top-2 right-2 px-2 py-0 whitespace-nowrap rounded text-xs font-semibold ${getStatusColor(item.status)}`}
                           >
                             {item.status}
                           </div>
@@ -1049,7 +1049,7 @@ const Home = () => {
                             {item.mechanics.map((mechanic, idx) => (
                               <span
                                 key={idx}
-                                className="px-2 py-1 bg-blue-600/20 text-blue-300 rounded text-xs"
+                                className="px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded text-xs"
                               >
                                 {mechanic}
                               </span>
@@ -1067,7 +1067,7 @@ const Home = () => {
                               </span>
                             </div>
                             {item.preorderAvailable && (
-                              <button className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-sm transition-colors">
+                              <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors">
                                 Pre-order
                               </button>
                             )}
@@ -1084,7 +1084,7 @@ const Home = () => {
                             className="w-full h-48 object-cover"
                           />
                           <div
-                            className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-semibold ${getDifficultyColor(item.difficulty)}`}
+                            className={`absolute top-2 right-2 px-2 py-0 whitespace-nowrap rounded text-xs font-semibold ${getDifficultyColor(item.difficulty)}`}
                           >
                             {item.difficulty}
                           </div>
@@ -1109,13 +1109,13 @@ const Home = () => {
                                   .map((section, idx) => (
                                     <span
                                       key={idx}
-                                      className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs"
+                                      className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 rounded text-xs"
                                     >
                                       {section}
                                     </span>
                                   ))}
                                 {item.sections.length > 3 && (
-                                  <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">
+                                  <span className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 rounded text-xs">
                                     +{item.sections.length - 3} more
                                   </span>
                                 )}
@@ -1137,7 +1137,7 @@ const Home = () => {
                                 <span>{item.bookmarks}</span>
                               </span>
                             </div>
-                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-sm transition-colors">
+                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors">
                               Read Guide
                             </button>
                           </div>
@@ -1153,7 +1153,7 @@ const Home = () => {
                             className="w-full h-48 object-cover"
                           />
                           {item.featured && (
-                            <div className="absolute top-2 left-2 px-2 py-1 bg-yellow-600 rounded text-xs font-semibold">
+                            <div className="absolute top-2 left-2 px-2 py-0 whitespace-nowrap bg-yellow-600 rounded text-xs font-semibold">
                               Featured
                             </div>
                           )}
@@ -1161,7 +1161,7 @@ const Home = () => {
                         <div className="p-6">
                           <div className="flex items-center justify-between mb-2">
                             <span
-                              className={`px-2 py-1 rounded text-xs border ${getCategoryColor(item.type || item.category)}`}
+                              className={`px-2 py-0 whitespace-nowrap rounded text-xs border ${getCategoryColor(item.type || item.category)}`}
                             >
                               {item.type || item.category}
                             </span>
@@ -1188,7 +1188,7 @@ const Home = () => {
                                 <span>{item.likes}</span>
                               </span>
                             </div>
-                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-sm transition-colors">
+                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors">
                               Read More
                             </button>
                           </div>
@@ -1220,7 +1220,7 @@ const Home = () => {
                   {unifiedStats.popularTags?.map((tag, index) => (
                     <button
                       key={index}
-                      className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-sm transition-colors"
+                      className="px-3 py-0 bg-gray-700 hover:bg-gray-600 rounded-full whitespace-nowrap text-sm transition-colors"
                     >
                       #{tag.name} ({tag.count})
                     </button>
