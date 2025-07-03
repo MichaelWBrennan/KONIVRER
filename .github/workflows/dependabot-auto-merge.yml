@@ -27,8 +27,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 30
-          running-timeout-minutes: 15
+          wait-interval: 20
+          running-timeout-minutes: 20
           allowed-conclusions: success,skipped
           check-regexp: '(build|test|lint|ci).*'
 
@@ -40,7 +40,7 @@ jobs:
           echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
 
           # Approve the PR
-          gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update"
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update for ${{ steps.metadata.outputs.dependency-names }}"
 
           # Enable auto-merge
           gh pr merge --auto --squash "${{ github.event.pull_request.number }}"

@@ -18,6 +18,7 @@ import {
   getCardImagePath,
   getFallbackImagePaths,
 } from '../../utils/imageLoader';
+import CardInfoLink from './CardInfoLink';
 
 /**
  * CardArtDisplay - Component to display KONIVRER card arts
@@ -186,12 +187,12 @@ const CardArtDisplay = ({
     </motion.div>
   );
 
-  // Wrap with Link if clickable and has data
+  // Wrap with CardInfoLink if clickable and has data
   if (clickable && hasData && detailUrl) {
     return (
-      <Link to={detailUrl} className="block">
+      <CardInfoLink cardName={cardName}>
         {cardContent}
-      </Link>
+      </CardInfoLink>
     );
   }
 
@@ -291,28 +292,38 @@ export const CardArtGallery = ({
             transition={{ duration: 0.3, delay: index * 0.1 }}
             className="group"
           >
-            <CardArtDisplay
-              cardName={cardName}
-              className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
-              showCardInfo={showCardInfo}
-              clickable={clickable}
-            />
-            <div className="mt-2 text-center">
-              <div
-                className={`text-sm transition-colors ${
-                  hasData && clickable
-                    ? 'text-gray-300 group-hover:text-white'
-                    : 'text-gray-400'
-                }`}
-              >
-                {displayName}
-              </div>
-              {hasData && (
-                <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Click to view details
+            {hasData && clickable ? (
+              <CardInfoLink cardName={cardName}>
+                <CardArtDisplay
+                  cardName={cardName}
+                  className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                  showCardInfo={showCardInfo}
+                  clickable={false}
+                />
+                <div className="mt-2 text-center">
+                  <div className="text-sm transition-colors text-gray-300 group-hover:text-white">
+                    {displayName}
+                  </div>
+                  <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Click to view details
+                  </div>
                 </div>
-              )}
-            </div>
+              </CardInfoLink>
+            ) : (
+              <>
+                <CardArtDisplay
+                  cardName={cardName}
+                  className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                  showCardInfo={showCardInfo}
+                  clickable={clickable}
+                />
+                <div className="mt-2 text-center">
+                  <div className="text-sm transition-colors text-gray-400">
+                    {displayName}
+                  </div>
+                </div>
+              </>
+            )}
           </motion.div>
         );
       })}
@@ -334,12 +345,23 @@ export const CardArtPreview = ({
 
   return (
     <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto">
-      <CardArtDisplay
-        cardName={cardName}
-        className="aspect-card mb-4 shadow-2xl"
-        clickable={clickable}
-        showCardInfo={false}
-      />
+      {hasData && clickable ? (
+        <CardInfoLink cardName={cardName}>
+          <CardArtDisplay
+            cardName={cardName}
+            className="aspect-card mb-4 shadow-2xl"
+            clickable={false}
+            showCardInfo={false}
+          />
+        </CardInfoLink>
+      ) : (
+        <CardArtDisplay
+          cardName={cardName}
+          className="aspect-card mb-4 shadow-2xl"
+          clickable={false}
+          showCardInfo={false}
+        />
+      )}
 
       {showDetails && (
         <div className="text-center">

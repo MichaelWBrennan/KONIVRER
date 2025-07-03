@@ -125,6 +125,10 @@ function App() {
                               element={<CardPage />}
                             />
                             <Route
+                              path="/card/:set/:cardId/:cardName"
+                              element={<CardPage />}
+                            />
+                            <Route
                               path="/card-art-showcase"
                               element={<CardArtShowcase />}
                             />
