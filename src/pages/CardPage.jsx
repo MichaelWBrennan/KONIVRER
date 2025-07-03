@@ -157,6 +157,9 @@ const CardPage = () => {
                   </p>
                 </div>
                 
+                {/* Section Divider */}
+                <div className="border-t border-gray-700 w-full my-4"></div>
+                
                 {/* Card Text */}
                 <div className="bg-tertiary rounded p-4">
                   <p className="text-sm leading-relaxed">
@@ -180,6 +183,9 @@ const CardPage = () => {
                     </p>
                   </div>
                 </div>
+                
+                {/* Section Divider */}
+                <div className="border-t border-gray-700 w-full my-4"></div>
                 
                 {/* Card Details - Scryfall-like format */}
                 <div className="mt-4">
@@ -206,10 +212,11 @@ const CardPage = () => {
                         </span>
                       </div>
                     </div>
-                    
-
                   </div>
                 </div>
+                
+                {/* Section Divider */}
+                <div className="border-t border-gray-700 w-full my-4"></div>
               </div>
             </div>
           </div>
