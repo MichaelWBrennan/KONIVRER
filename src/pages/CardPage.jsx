@@ -50,6 +50,31 @@ import {
 import CardArtDisplay from '../components/cards/CardArtDisplay';
 import CardSearchBar from '../components/cards/CardSearchBar';
 
+// Function to determine rarity based on cost symbols
+const getRarityDisplay = (card) => {
+  // If card has explicit rarity, use that
+  if (card.rarity) {
+    const rarity = card.rarity.toLowerCase();
+    if (rarity === 'common') return '🜠 Common';
+    if (rarity === 'uncommon') return '☾ Uncommon';
+    if (rarity === 'rare') return '☉ Rare';
+    if (rarity === 'special') return '✧ Special';
+  }
+  
+  // Otherwise determine rarity based on cost symbols
+  const costLength = Array.isArray(card.cost) ? card.cost.length : 0;
+  
+  if (costLength === 1 || costLength === 5) {
+    return '☉ Rare';
+  } else if (costLength === 4) {
+    return '☾ Uncommon';
+  } else if (costLength === 2 || costLength === 3) {
+    return '🜠 Common';
+  }
+  
+  return 'N/A';
+};
+
 const CardPage = () => {
   const { id, cardId, set } = useParams();
   const navigate = useNavigate();
@@ -96,10 +121,6 @@ const CardPage = () => {
                 <h1 className="text-2xl font-bold">{card.name}</h1>
                 <div className="flex items-center gap-2 text-sm text-secondary">
                   <span>{card.type}</span>
-                  <span>•</span>
-                  <span>Cost: {card.cost}</span>
-                  <span>•</span>
-                  <span>{card.set}</span>
                 </div>
               </div>
             </div>
@@ -187,11 +208,8 @@ const CardPage = () => {
                       <div>
                         <p className="text-sm text-secondary mb-1">Rarity</p>
                         <p className="text-sm">
-                          {card.rarity?.toLowerCase() === 'common' && '🜠 Common'}
-                          {card.rarity?.toLowerCase() === 'uncommon' && '☾ Uncommon'}
-                          {card.rarity?.toLowerCase() === 'rare' && '☉ Rare'}
                           {card.rarity?.toLowerCase() === 'special' && '✧ Special'}
-                          {!card.rarity && 'N/A'}
+                          {card.rarity?.toLowerCase() !== 'special' && getRarityDisplay(card)}
                         </p>
                       </div>
                       <div>
