@@ -1,4 +1,4 @@
-name: Dependabot Auto-Merge (All Updates)
+name: Dependabot Auto-Merge (All Updates with Passing Tests)
 
 on:
   pull_request_target:
@@ -30,7 +30,7 @@ jobs:
           wait-interval: 30
           running-timeout-minutes: 15
           allowed-conclusions: success,skipped
-          check-regexp: '(build|test|lint).*'
+          check-regexp: '(build|test|lint|ci).*'
 
       - name: Auto-approve and merge all Dependabot updates
         if: steps.wait-for-checks.outputs.conclusion == 'success'
