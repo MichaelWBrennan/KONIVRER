@@ -205,10 +205,11 @@ const CardPage = () => {
                 <div className="mt-4">
                   <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
                     <div className="flex items-center mb-2">
-                      {/* Card Set Symbol (placeholder) */}
+                      {/* Card Set Symbol - Ancient Seal */}
                       <div className="w-8 h-8 mr-3 flex items-center justify-center">
-                        <div className="w-6 h-6 bg-amber-900/60 rounded-full flex items-center justify-center text-xs text-amber-100">
-                          {card.set?.charAt(0) || '?'}
+                        <div className="w-6 h-6 bg-amber-900/60 rounded-full flex items-center justify-center text-xs text-amber-100 border border-amber-700/50">
+                          {/* Use a decorative symbol instead of the first letter */}
+                          ⚝
                         </div>
                       </div>
                       
