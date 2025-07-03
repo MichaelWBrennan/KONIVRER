@@ -159,64 +159,172 @@ Implement visual cues for elemental types:
 
 ## Azoth Resource Management
 
-Implement a resource system for Azoth:
+According to the updated rules, Azoth resources are represented by cards placed in the Azoth Row. Each Azoth card can be rested (turned horizontally) to generate one type of elemental resource at a time.
 
 ```javascript
-// Player's Azoth resources
-const playerAzoth = {
-  fire: 2,
-  water: 1,
-  earth: 0,
-  air: 1,
-  aether: 0,
-  nether: 0,
-  generic: 0,
-  total: 4 // Convenience property for total available Azoth
-};
+// Player's Azoth Row
+const playerAzothRow = [
+  {
+    id: 'card-123',
+    name: 'Dragon Lord',
+    asAzoth: true,
+    elementType: 'fire', // The type of element this Azoth is currently generating
+    rested: false        // Whether this Azoth has been used this turn
+  },
+  {
+    id: 'card-456',
+    name: 'Water Elemental',
+    asAzoth: true,
+    elementType: 'water',
+    rested: false
+  }
+];
 
-// Function to pay card cost
-function payCardCost(playerAzoth, cardCost) {
-  // Deep copy to avoid modifying original
-  const remainingAzoth = {...playerAzoth};
-  const remainingCost = {...cardCost};
+// Function to get available Azoth
+function getAvailableAzoth(azothRow) {
+  // Count available (not rested) Azoth by element type
+  const available = {
+    fire: 0,
+    water: 0,
+    earth: 0,
+    air: 0,
+    aether: 0,
+    nether: 0,
+    generic: 0,
+    total: 0
+  };
   
-  // First, pay specific elemental costs
-  for (const element in remainingCost) {
+  // Count unrested Azoth cards by their element type
+  azothRow.forEach(azoth => {
+    if (!azoth.rested && azoth.elementType) {
+      available[azoth.elementType]++;
+      available.total++;
+    }
+  });
+  
+  return available;
+}
+
+// Function to pay card cost by resting Azoth
+function payCardCost(gameState, playerId, cardCost) {
+  const azothRow = gameState.players[playerId].azothRow;
+  const availableAzoth = getAvailableAzoth(azothRow);
+  
+  // Check if player has enough Azoth
+  if (!canPayCost(availableAzoth, cardCost)) {
+    return null; // Cannot pay the cost
+  }
+  
+  // Track which Azoth cards to rest for each element
+  const azothToRest = {
+    fire: [],
+    water: [],
+    earth: [],
+    air: [],
+    aether: [],
+    nether: [],
+    generic: []
+  };
+  
+  // First, allocate Azoth for specific elemental costs
+  for (const element in cardCost) {
     if (element === "generic") continue; // Handle generic separately
     
-    if (remainingAzoth[element] >= remainingCost[element]) {
-      remainingAzoth[element] -= remainingCost[element];
-      remainingCost[element] = 0;
-    } else {
-      return null; // Cannot pay the cost
+    let needed = cardCost[element];
+    
+    // Find unrested Azoth cards of this element type
+    azothRow.forEach((azoth, index) => {
+      if (!azoth.rested && azoth.elementType === element && needed > 0) {
+        azothToRest[element].push(index);
+        needed--;
+      }
+    });
+    
+    if (needed > 0) {
+      return null; // Not enough of specific element
     }
   }
   
-  // Then, pay generic costs with any remaining Azoth
-  const genericCost = remainingCost.generic || 0;
+  // Then, allocate Azoth for generic costs
+  const genericCost = cardCost.generic || 0;
   let remainingGeneric = genericCost;
   
-  // Use any element to pay generic cost
-  for (const element in remainingAzoth) {
-    if (element === "total") continue; // Skip the total property
+  // Use any available element for generic cost
+  for (const element in availableAzoth) {
+    if (element === "total") continue;
     
-    const usableAmount = Math.min(remainingAzoth[element], remainingGeneric);
-    remainingAzoth[element] -= usableAmount;
-    remainingGeneric -= usableAmount;
+    // Calculate how many of this element are available after paying specific costs
+    const used = azothToRest[element].length;
+    const available = availableAzoth[element] - used;
     
-    if (remainingGeneric <= 0) break;
+    if (available > 0 && remainingGeneric > 0) {
+      // Find unrested Azoth cards of this element not already allocated
+      azothRow.forEach((azoth, index) => {
+        if (!azoth.rested && 
+            azoth.elementType === element && 
+            !azothToRest[element].includes(index) && 
+            remainingGeneric > 0) {
+          azothToRest.generic.push(index);
+          remainingGeneric--;
+        }
+      });
+    }
   }
   
   if (remainingGeneric > 0) {
     return null; // Cannot pay the full generic cost
   }
   
-  // Recalculate total
-  remainingAzoth.total = Object.entries(remainingAzoth)
-    .filter(([key]) => key !== "total")
-    .reduce((sum, [_, value]) => sum + value, 0);
+  // Rest all allocated Azoth cards
+  for (const element in azothToRest) {
+    azothToRest[element].forEach(index => {
+      gameState.players[playerId].azothRow[index].rested = true;
+    });
+  }
   
-  return remainingAzoth;
+  // Log the payment
+  const totalPaid = Object.values(cardCost).reduce((sum, cost) => sum + cost, 0);
+  gameState.gameLog.push(`${playerId} rests ${totalPaid} Azoth to pay for a card`);
+  
+  return gameState;
+}
+
+// Function to place a card as Azoth
+function playCardAsAzoth(gameState, playerId, cardId, elementType) {
+  // Find card in hand
+  const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
+  
+  if (handIndex === -1) {
+    gameState.gameLog.push(`Error: Card ${cardId} not found in ${playerId}'s hand`);
+    return gameState;
+  }
+  
+  // Remove card from hand
+  const azothCard = gameState.players[playerId].hand.splice(handIndex, 1)[0];
+  
+  // Set as Azoth
+  azothCard.asAzoth = true;
+  azothCard.elementType = elementType;
+  azothCard.rested = false;
+  
+  // Add to Azoth Row
+  gameState.players[playerId].azothRow.push(azothCard);
+  
+  // Log the action
+  gameState.gameLog.push(`${playerId} places ${azothCard.name} as ${elementType} Azoth`);
+  
+  return gameState;
+}
+
+// Function to refresh all Azoth during Refresh Phase
+function refreshAzoth(gameState, playerId) {
+  gameState.players[playerId].azothRow.forEach(azoth => {
+    azoth.rested = false;
+  });
+  
+  gameState.gameLog.push(`${playerId} refreshes all Azoth`);
+  
+  return gameState;
 }
 ```
 
