@@ -64,12 +64,14 @@ const getRarityDisplay = (card) => {
   // Otherwise determine rarity based on cost symbols
   const costLength = Array.isArray(card.cost) ? card.cost.length : 0;
   
-  if (costLength === 1 || costLength === 5) {
+  if (costLength === 6) {
     return '☉ Rare';
-  } else if (costLength === 4) {
+  } else if (costLength === 4 || costLength === 5) {
     return '☾ Uncommon';
   } else if (costLength === 2 || costLength === 3) {
     return '🜠 Common';
+  } else if (costLength === 1) {
+    return '☉ Rare';
   }
   
   return 'N/A';
@@ -107,40 +109,31 @@ const CardPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="bg-card rounded-lg p-6 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/hub')}
-                className="btn btn-ghost p-2"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <div>
-                <h1 className="text-2xl font-bold">{card.name}</h1>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <span>{card.type}</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsFavorite(!isFavorite)}
-                className={`btn ${isFavorite ? 'btn-primary' : 'btn-ghost'}`}
-              >
-                <Heart className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setIsBookmarked(!isBookmarked)}
-                className={`btn ${isBookmarked ? 'btn-primary' : 'btn-ghost'}`}
-              >
-                <Bookmark className="w-4 h-4" />
-              </button>
-              <button className="btn btn-ghost">
-                <Share2 className="w-4 h-4" />
-              </button>
-            </div>
+        {/* Navigation and Actions */}
+        <div className="bg-card rounded-lg p-4 mb-6 flex justify-between items-center">
+          <button
+            onClick={() => navigate('/hub')}
+            className="btn btn-ghost p-2"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="ml-2">Back to Hub</span>
+          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsFavorite(!isFavorite)}
+              className={`btn ${isFavorite ? 'btn-primary' : 'btn-ghost'}`}
+            >
+              <Heart className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setIsBookmarked(!isBookmarked)}
+              className={`btn ${isBookmarked ? 'btn-primary' : 'btn-ghost'}`}
+            >
+              <Bookmark className="w-4 h-4" />
+            </button>
+            <button className="btn btn-ghost">
+              <Share2 className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
@@ -196,6 +189,12 @@ const CardPage = () => {
                 <div>
                   <h3 className="font-semibold mb-2">Card Information</h3>
                   <div className="bg-tertiary rounded p-4">
+                    {/* Card Name and Type - Full width */}
+                    <div className="mb-4 pb-4 border-b border-gray-700">
+                      <h2 className="text-xl font-bold mb-1">{card.name}</h2>
+                      <p className="text-sm text-secondary">{card.type}</p>
+                    </div>
+                    
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <p className="text-sm text-secondary mb-1">Set</p>
