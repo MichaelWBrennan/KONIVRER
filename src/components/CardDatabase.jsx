@@ -160,10 +160,23 @@ const CardDatabase = ({
               className="w-32 h-44 object-cover rounded-lg border border-gray-200"
               onError={e => {
                 console.log(
-                  `Failed to load local image for ${card.name}: ${localImagePath}`,
+                  `Failed to load WebP image for ${card.name}: ${localImagePath}`,
                 );
-                e.target.onerror = null;
-                e.target.src = '/assets/card-back-new.png';
+                
+                // Try PNG fallback if WebP fails
+                if (localImagePath && localImagePath.endsWith('.webp')) {
+                  const pngPath = localImagePath.replace('.webp', '.png');
+                  console.log(`Trying PNG fallback: ${pngPath}`);
+                  e.target.onerror = () => {
+                    console.log(`PNG fallback also failed for ${card.name}`);
+                    e.target.onerror = null;
+                    e.target.src = '/assets/card-back-new.png';
+                  };
+                  e.target.src = pngPath;
+                } else {
+                  e.target.onerror = null;
+                  e.target.src = '/assets/card-back-new.png';
+                }
               }}
               onLoad={e => {
                 console.log(

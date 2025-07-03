@@ -292,7 +292,7 @@ export const getCardArtPathFromData = cardData => {
 
   // Special case for ΦIVE ELEMENT ΦLAG
   if (cardData.name === 'ΦIVE ELEMENT ΦLAG') {
-    return `${LOCAL_BASE_URL}/FLAG.png`;
+    return `${LOCAL_BASE_URL}/FLAG.webp`;
   }
 
   // Convert database name to single-word filename format
@@ -357,7 +357,8 @@ export const getCardArtPathFromData = cardData => {
     filename = compoundMappings[filename];
   }
 
-  return `${LOCAL_BASE_URL}/${filename}.png`;
+  // Try WebP first (better compression), fallback to PNG
+  return `${LOCAL_BASE_URL}/${filename}.webp`;
 };
 
 /**
