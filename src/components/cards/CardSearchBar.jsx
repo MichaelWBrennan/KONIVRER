@@ -84,7 +84,7 @@ const CardSearchBar = ({ className = '' }) => {
           />
           <button 
             type="submit" 
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md px-3 py-1 text-sm border border-amber-700/40 transition-colors shadow-sm"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md px-3 py-0 whitespace-nowrap text-sm border border-amber-700/40 transition-colors shadow-sm"
           >
             Search
           </button>

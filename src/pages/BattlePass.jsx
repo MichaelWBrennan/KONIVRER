@@ -258,7 +258,7 @@ const BattlePass = () => {
             <div className="flex gap-4">
               <button
                 onClick={() => setSelectedTier('free')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
                   selectedTier === 'free'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -268,7 +268,7 @@ const BattlePass = () => {
               </button>
               <button
                 onClick={() => setSelectedTier('premium')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
                   selectedTier === 'premium'
                     ? 'bg-yellow-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -278,7 +278,7 @@ const BattlePass = () => {
               </button>
             </div>
 
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-2 rounded-lg font-semibold">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-0 whitespace-nowrap rounded-lg font-semibold">
               Premium Included
             </div>
           </div>

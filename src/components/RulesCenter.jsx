@@ -291,7 +291,7 @@ const RulesCenter = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-4 py-4 bg-white/5">
+                    <div className="px-4 py-0 whitespace-nowrap bg-white/5">
                       <div className="max-w-none">
                         {section?.content ? (
                           <div className="text-gray-200 leading-relaxed space-y-3 text-sm">

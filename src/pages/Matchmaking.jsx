@@ -602,13 +602,13 @@ const Matchmaking = () => {
           <div className="flex flex-col space-y-3">
             <button
               onClick={() => navigate('/game/ai')}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="bg-blue-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Play vs AI
             </button>
             <button
               onClick={() => setShowPhysicalMatchmaking(true)}
-              className="bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors"
+              className="bg-purple-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-purple-700 transition-colors"
             >
               Physical Matchmaking
             </button>
@@ -661,7 +661,7 @@ const Matchmaking = () => {
           <div className="flex space-x-1 overflow-x-auto">
             <button
               onClick={() => setActiveTab('play')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'play'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -675,7 +675,7 @@ const Matchmaking = () => {
 
             <button
               onClick={() => setActiveTab('tournaments')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'tournaments'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -689,7 +689,7 @@ const Matchmaking = () => {
 
             <button
               onClick={() => setActiveTab('stats')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'stats'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -703,7 +703,7 @@ const Matchmaking = () => {
 
             <button
               onClick={() => setActiveTab('history')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'history'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -717,7 +717,7 @@ const Matchmaking = () => {
 
             <button
               onClick={() => setActiveTab('friends')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'friends'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -731,7 +731,7 @@ const Matchmaking = () => {
 
             <button
               onClick={() => setActiveTab('settings')}
-              className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'settings'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -797,7 +797,7 @@ const Matchmaking = () => {
                   <div className="text-center py-8">
                     <div className="text-gray-400 mb-2">No deck selected</div>
                     <button
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                      className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg hover:bg-blue-700 transition-colors"
                       onClick={() => navigate('/deck-builder')}
                     >
                       Choose Deck
@@ -1009,7 +1009,7 @@ const Matchmaking = () => {
                       </div>
                       <button
                         onClick={cancelMatchmaking}
-                        className="bg-red-100 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-200 transition-colors"
+                        className="bg-red-100 text-red-600 px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-red-200 transition-colors"
                       >
                         Cancel
                       </button>
@@ -1048,7 +1048,7 @@ const Matchmaking = () => {
                   <motion.button
                     onClick={startMatchmaking}
                     disabled={!selectedDeck}
-                    className="w-full bg-blue-600 text-white py-4 px-6 rounded-xl font-medium text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-3"
+                    className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-6 rounded-xl font-medium text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-3"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -1333,7 +1333,7 @@ const Matchmaking = () => {
                 </p>
                 <motion.button
                   onClick={() => setShowPhysicalMatchmaking(true)}
-                  className="w-full bg-white text-purple-700 py-2 px-4 rounded-lg font-medium hover:bg-purple-50 transition-colors"
+                  className="w-full bg-white text-purple-700 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-purple-50 transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -1422,7 +1422,7 @@ const Matchmaking = () => {
                             </div>
                           </div>
                         </div>
-                        <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                        <span className="bg-green-100 text-green-700 text-xs px-2 py-0 whitespace-nowrap rounded-full">
                           Registration Open
                         </span>
                       </div>
@@ -1458,7 +1458,7 @@ const Matchmaking = () => {
                           KONIVRER Format • Best of 1 • Single Elimination
                         </div>
                         <motion.button
-                          className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium"
+                          className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-0 whitespace-nowrap rounded-lg font-medium"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() =>
@@ -1544,7 +1544,7 @@ const Matchmaking = () => {
                 <div className="flex space-x-3">
                   <motion.button
                     onClick={declineMatch}
-                    className="flex-1 bg-red-100 text-red-600 py-3 px-4 rounded-lg font-medium hover:bg-red-200 transition-colors"
+                    className="flex-1 bg-red-100 text-red-600 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-red-200 transition-colors"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -1552,7 +1552,7 @@ const Matchmaking = () => {
                   </motion.button>
                   <motion.button
                     onClick={acceptMatch}
-                    className="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    className="flex-1 bg-green-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -1595,7 +1595,7 @@ const Matchmaking = () => {
                   <div className="flex space-x-4">
                     <motion.button
                       onClick={() => navigate('/matchmaking')}
-                      className="flex-1 bg-purple-100 text-purple-700 py-3 px-4 rounded-lg font-medium hover:bg-purple-200 transition-colors flex items-center justify-center space-x-2"
+                      className="flex-1 bg-purple-100 text-purple-700 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-purple-200 transition-colors flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -1604,7 +1604,7 @@ const Matchmaking = () => {
                     </motion.button>
                     <motion.button
                       onClick={() => navigate('/standalone-matchmaking')}
-                      className="flex-1 bg-indigo-100 text-indigo-700 py-3 px-4 rounded-lg font-medium hover:bg-indigo-200 transition-colors flex items-center justify-center space-x-2"
+                      className="flex-1 bg-indigo-100 text-indigo-700 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-indigo-200 transition-colors flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -1766,13 +1766,13 @@ const Matchmaking = () => {
 
             <div className="flex justify-end space-x-3">
               <button
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                className="px-4 py-0 whitespace-nowrap border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 onClick={() => setShowDeckSelectionModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-4 py-0 whitespace-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 onClick={() => {
                   // Redirect to deck builder
                   navigate('/deck-builder');

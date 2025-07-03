@@ -147,7 +147,7 @@ const KonivrERGameLog = ({ gameLog, onClose }) => {
               <button
                 key={option.id}
                 onClick={() => setFilter(option.id)}
-                className={`flex items-center gap-1 px-2 py-1 rounded text-xs whitespace-nowrap ${
+                className={`flex items-center gap-1 px-2 py-0 whitespace-nowrap rounded text-xs whitespace-nowrap ${
                   filter === option.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'

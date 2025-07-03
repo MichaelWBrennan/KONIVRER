@@ -656,7 +656,7 @@ const TournamentCreate = () => {
             return (
               <div key={stepItem.id} className="flex items-center">
                 <div
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-0 whitespace-nowrap rounded-lg transition-colors ${
                     isActive
                       ? 'bg-accent-primary text-white'
                       : isCompleted

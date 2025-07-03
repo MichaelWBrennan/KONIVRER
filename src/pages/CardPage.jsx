@@ -92,7 +92,7 @@ const CardPage = () => {
           <p className="text-amber-200/80 mb-4">
             The card you're looking for doesn't exist or has been removed from the ancient archives.
           </p>
-          <button onClick={() => navigate('/hub')} className="px-4 py-2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md border border-amber-700/40 transition-colors shadow-md">
+          <button onClick={() => navigate('/hub')} className="px-4 py-0 whitespace-nowrap bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md border border-amber-700/40 transition-colors shadow-md">
             Return to Hub
           </button>
         </div>

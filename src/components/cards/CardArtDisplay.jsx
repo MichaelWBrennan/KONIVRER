@@ -179,7 +179,7 @@ const CardArtDisplay = ({
       {/* Indicator for cards without data */}
       {!hasData && showCardInfo && (
         <div className="absolute top-2 right-2">
-          <div className="bg-yellow-500 text-black text-xs px-2 py-1 rounded">
+          <div className="bg-yellow-500 text-black text-xs px-2 py-0 whitespace-nowrap rounded">
             Art Only
           </div>
         </div>
@@ -371,7 +371,7 @@ export const CardArtPreview = ({
           {hasData && clickable && detailUrl && (
             <Link
               to={detailUrl}
-              className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+              className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
             >
               <Eye className="w-4 h-4" />
               <span>View Card Details</span>

@@ -159,7 +159,7 @@ const TournamentManager = () => {
           <h3 className="text-xl font-bold text-primary">
             Tournament Overview
           </h3>
-          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
+          <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
             <Plus size={16} />
             Create Tournament
           </button>
@@ -178,7 +178,7 @@ const TournamentManager = () => {
                       {tournament.name}
                     </h4>
                     <span
-                      className={`px-2 py-1 rounded-lg text-xs font-medium ${
+                      className={`px-2 py-0 whitespace-nowrap rounded-lg text-xs font-medium ${
                         tournament.status === 'upcoming'
                           ? 'bg-blue-100 text-blue-800'
                           : tournament.status === 'ongoing'
@@ -242,7 +242,7 @@ const TournamentManager = () => {
             </label>
             <input
               type="text"
-              className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="Enter tournament name"
             />
           </div>
@@ -253,7 +253,7 @@ const TournamentManager = () => {
             </label>
             <input
               type="date"
-              className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
           </div>
 
@@ -263,7 +263,7 @@ const TournamentManager = () => {
             </label>
             <input
               type="time"
-              className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
           </div>
 
@@ -273,7 +273,7 @@ const TournamentManager = () => {
             </label>
             <input
               type="number"
-              className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="64"
             />
           </div>
@@ -284,7 +284,7 @@ const TournamentManager = () => {
             </label>
             <input
               type="text"
-              className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="$25"
             />
           </div>
@@ -296,7 +296,7 @@ const TournamentManager = () => {
           </label>
           <input
             type="text"
-            className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+            className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Enter venue address"
           />
         </div>
@@ -307,7 +307,7 @@ const TournamentManager = () => {
           </label>
           <textarea
             rows={4}
-            className="w-full px-4 py-3 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+            className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Tournament description and rules"
           />
         </div>
@@ -534,13 +534,13 @@ const TournamentManager = () => {
         <div className="flex gap-4">
           <button
             type="submit"
-            className="px-6 py-3 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"
+            className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"
           >
             Create Tournament
           </button>
           <button
             type="button"
-            className="px-6 py-3 border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"
+            className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"
           >
             Save as Draft
           </button>
@@ -619,7 +619,7 @@ const TournamentManager = () => {
                 enabled: !prev.enabled,
               }))
             }
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
+            className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-xl transition-all duration-200 ${
               matchmakingSettings.enabled
                 ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
                 : 'bg-gray-200 text-gray-600'
@@ -927,7 +927,7 @@ const TournamentManager = () => {
                   minSkillDifference: parseInt(e.target.value),
                 }))
               }
-              className="w-full px-4 py-2 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
             <p className="text-xs text-secondary mt-1">
               Minimum rating difference to consider players as different skill
@@ -950,7 +950,7 @@ const TournamentManager = () => {
                   maxSkillDifference: parseInt(e.target.value),
                 }))
               }
-              className="w-full px-4 py-2 bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
             <p className="text-xs text-secondary mt-1">
               Maximum allowed rating difference for matchmaking
@@ -1039,13 +1039,13 @@ const TournamentManager = () => {
 
       {/* Action Buttons */}
       <div className="flex gap-4">
-        <button className="px-6 py-3 bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
+        <button className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200">
           Save Settings
         </button>
-        <button className="px-6 py-3 border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200">
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200">
           Reset to Defaults
         </button>
-        <button className="px-6 py-3 border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200">
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200">
           Export Configuration
         </button>
       </div>
@@ -1085,7 +1085,7 @@ const TournamentManager = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg'
                     : 'text-secondary hover:text-primary hover:bg-tertiary'

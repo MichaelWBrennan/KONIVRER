@@ -113,7 +113,7 @@ const RuleTooltip = ({
                     {content.title}
                   </h4>
                   {content.category && (
-                    <span className="text-xs px-2 py-1 bg-blue-600/20 text-blue-300 rounded">
+                    <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded">
                       {content.category}
                     </span>
                   )}

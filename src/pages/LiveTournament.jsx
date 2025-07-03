@@ -422,7 +422,7 @@ const LiveTournament = () => {
 
             <div className="flex items-center gap-2">
               {isLive && (
-                <div className="flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full text-sm">
+                <div className="flex items-center gap-2 bg-red-600 text-white px-3 py-0 whitespace-nowrap rounded-full text-sm">
                   <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                   LIVE
                 </div>
@@ -463,13 +463,13 @@ const LiveTournament = () => {
               <div className="absolute inset-0 pointer-events-none">
                 {/* Live indicator */}
                 {isLive && (
-                  <div className="absolute top-4 left-4 bg-red-600 text-white px-2 py-1 rounded text-sm font-medium">
+                  <div className="absolute top-4 left-4 bg-red-600 text-white px-2 py-0 whitespace-nowrap rounded text-sm font-medium">
                     🔴 LIVE
                   </div>
                 )}
 
                 {/* Viewer count */}
-                <div className="absolute top-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
+                <div className="absolute top-4 right-4 bg-black/70 text-white px-2 py-0 whitespace-nowrap rounded text-sm">
                   <Eye size={12} className="inline mr-1" />
                   {viewerCount.toLocaleString()}
                 </div>
@@ -583,7 +583,7 @@ const LiveTournament = () => {
                     <select
                       value={streamQuality}
                       onChange={e => setStreamQuality(e.target.value)}
-                      className="bg-black/50 text-white border border-gray-600 rounded px-2 py-1 text-sm"
+                      className="bg-black/50 text-white border border-gray-600 rounded px-2 py-0 whitespace-nowrap text-sm"
                     >
                       <option value="auto">Auto</option>
                       <option value="1080p">1080p</option>
@@ -618,7 +618,7 @@ const LiveTournament = () => {
                 {['Overview', 'Standings', 'Schedule', 'Rules'].map(tab => (
                   <button
                     key={tab}
-                    className="px-4 py-2 border-b-2 border-transparent hover:border-accent-primary transition-colors"
+                    className="px-4 py-0 whitespace-nowrap border-b-2 border-transparent hover:border-accent-primary transition-colors"
                   >
                     {tab}
                   </button>

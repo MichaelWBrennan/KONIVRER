@@ -127,7 +127,7 @@ const TournamentManager = ({ tournamentId }) => {
   if (error) {
     return (
       <div
-        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        className="bg-red-100 border border-red-400 text-red-700 px-4 py-0 whitespace-nowrap rounded relative"
         role="alert"
       >
         <strong className="font-bold">Error!</strong>
@@ -140,7 +140,7 @@ const TournamentManager = ({ tournamentId }) => {
   if (!tournament) {
     return (
       <div
-        className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-3 rounded relative"
+        className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-0 whitespace-nowrap rounded relative"
         role="alert"
       >
         <span className="block sm:inline">No tournament data available.</span>
@@ -743,38 +743,38 @@ const TournamentManager = ({ tournamentId }) => {
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Rank
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Player
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Points
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Record
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Tiebreakers
                 </th>
                 {tournament.metaBalanceEnabled && (
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
                     Meta Bonus
                   </th>
@@ -788,10 +788,10 @@ const TournamentManager = ({ tournamentId }) => {
                     key={player.id}
                     className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm font-medium text-gray-900">
                       {index + 1}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500">
                       <div className="flex items-center">
                         <span className="font-medium text-gray-900">
                           {player.name}
@@ -810,14 +810,14 @@ const TournamentManager = ({ tournamentId }) => {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500">
                       <span className="font-semibold">{player.points}</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500">
                       {player.wins}-{player.losses}
                       {player.draws > 0 ? `-${player.draws}` : ''}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500">
                       {player.tiebreakers.map((tiebreaker, i) => (
                         <span key={i} className="mr-2">
                           {tiebreaker.name}: {tiebreaker.value.toFixed(2)}
@@ -825,7 +825,7 @@ const TournamentManager = ({ tournamentId }) => {
                       ))}
                     </td>
                     {tournament.metaBalanceEnabled && (
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500">
                         {player.metaBonus > 0 ? (
                           <span className="text-green-600 font-medium">
                             +{player.metaBonus}

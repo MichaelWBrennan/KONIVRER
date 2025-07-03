@@ -464,7 +464,7 @@ const PlayerProfile = ({ playerId = 'player123' }) => {
                   @{playerData.username}
                 </span>
                 <div
-                  className={`px-3 py-1 rounded-lg text-sm font-medium text-white bg-gradient-to-r ${getRankColor(playerData.rank)}`}
+                  className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium text-white bg-gradient-to-r ${getRankColor(playerData.rank)}`}
                 >
                   {playerData.rank}
                 </div>
@@ -525,7 +525,7 @@ const PlayerProfile = ({ playerId = 'player123' }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg'
                     : 'text-secondary hover:text-primary hover:bg-tertiary'

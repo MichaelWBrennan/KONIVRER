@@ -55,7 +55,7 @@ const DeckSelectionPage = () => {
         <button
           onClick={handleCreateNewDeck}
           disabled={isCreatingDeck}
-          className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus size={18} className="mr-2" />
           {isCreatingDeck ? 'Creating...' : 'Create New Deck'}

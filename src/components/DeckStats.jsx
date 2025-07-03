@@ -145,7 +145,7 @@ const DeckStats = ({ deck }) => {
                 <div key={rarity} className="flex items-center gap-3">
                   <div className="w-16 text-sm">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(rarity)}`}
+                      className={`px-2 py-0 whitespace-nowrap rounded text-xs font-medium ${getRarityColor(rarity)}`}
                     >
                       {rarity}
                     </span>

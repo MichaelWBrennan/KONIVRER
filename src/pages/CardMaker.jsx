@@ -226,7 +226,7 @@ const CardMaker = () => {
                     type="text"
                     value={cardData.name}
                     onChange={e => handleInputChange('name', e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
@@ -242,7 +242,7 @@ const CardMaker = () => {
                     onChange={e =>
                       handleInputChange('cost', parseInt(e.target.value))
                     }
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
@@ -251,7 +251,7 @@ const CardMaker = () => {
                   <select
                     value={cardData.type}
                     onChange={e => handleInputChange('type', e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   >
                     {cardTypes.map(type => (
                       <option key={type.id} value={type.name}>
@@ -269,7 +269,7 @@ const CardMaker = () => {
                     type="text"
                     value={cardData.subtype}
                     onChange={e => handleInputChange('subtype', e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ const CardMaker = () => {
                       onChange={e =>
                         handleInputChange('power', parseInt(e.target.value))
                       }
-                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                     />
                   </div>
 
@@ -312,7 +312,7 @@ const CardMaker = () => {
                       onChange={e =>
                         handleInputChange('toughness', parseInt(e.target.value))
                       }
-                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                      className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -416,7 +416,7 @@ const CardMaker = () => {
                       handleInputChange('description', e.target.value)
                     }
                     rows={3}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
@@ -430,7 +430,7 @@ const CardMaker = () => {
                       handleInputChange('flavorText', e.target.value)
                     }
                     rows={2}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-0 whitespace-nowrap focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -495,7 +495,7 @@ const CardMaker = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setPreviewMode('normal')}
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-0 whitespace-nowrap rounded ${
                       previewMode === 'normal' ? 'bg-blue-600' : 'bg-gray-700'
                     }`}
                   >
@@ -503,7 +503,7 @@ const CardMaker = () => {
                   </button>
                   <button
                     onClick={() => setPreviewMode('foil')}
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-0 whitespace-nowrap rounded ${
                       previewMode === 'foil' ? 'bg-blue-600' : 'bg-gray-700'
                     }`}
                   >
@@ -515,21 +515,21 @@ const CardMaker = () => {
               <div className="flex gap-2">
                 <button
                   onClick={exportCard}
-                  className="flex-1 bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  className="flex-1 bg-green-600 hover:bg-green-700 px-4 py-0 whitespace-nowrap rounded-lg flex items-center justify-center gap-2 transition-colors"
                 >
                   <Download className="w-4 h-4" />
                   Export
                 </button>
                 <button
                   onClick={saveCard}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-0 whitespace-nowrap rounded-lg flex items-center justify-center gap-2 transition-colors"
                 >
                   <Save className="w-4 h-4" />
                   Save
                 </button>
                 <button
                   onClick={shareCard}
-                  className="flex-1 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 px-4 py-0 whitespace-nowrap rounded-lg flex items-center justify-center gap-2 transition-colors"
                 >
                   <Share2 className="w-4 h-4" />
                   Share
@@ -614,7 +614,7 @@ const CardMaker = () => {
                     </div>
 
                     {cardData.type === 'Creature' && (
-                      <div className="bg-white/90 rounded px-2 py-1 font-bold text-sm">
+                      <div className="bg-white/90 rounded px-2 py-0 whitespace-nowrap font-bold text-sm">
                         {cardData.power}/{cardData.toughness}
                       </div>
                     )}

@@ -132,7 +132,7 @@ const AdvancedSearchPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl">
       <h1 className="text-3xl font-bold text-amber-100 mb-6 text-center">Advanced Search</h1>
       
       <div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg">
@@ -147,7 +147,7 @@ const AdvancedSearchPage = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
                 placeholder="Search by card name"
               />
             </div>
@@ -161,7 +161,7 @@ const AdvancedSearchPage = () => {
                 name="text"
                 value={formData.text}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
                 placeholder="Search card text"
               />
             </div>
@@ -175,7 +175,7 @@ const AdvancedSearchPage = () => {
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
                 placeholder="e.g. Elemental, Spell"
               />
             </div>
@@ -188,7 +188,7 @@ const AdvancedSearchPage = () => {
                 name="element"
                 value={formData.element}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
               >
                 {elements.map(option => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -207,7 +207,7 @@ const AdvancedSearchPage = () => {
                 onChange={handleInputChange}
                 min="0"
                 max="10"
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
                 placeholder="e.g. 3"
               />
             </div>
@@ -220,7 +220,7 @@ const AdvancedSearchPage = () => {
                 name="rarity"
                 value={formData.rarity}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
               >
                 {rarities.map(option => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -236,7 +236,7 @@ const AdvancedSearchPage = () => {
                 name="set"
                 value={formData.set}
                 onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-2 text-amber-100 focus:border-amber-600 focus:outline-none"
+                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
               >
                 {sets.map(option => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -248,7 +248,7 @@ const AdvancedSearchPage = () => {
           <div className="flex justify-center mt-8 space-x-4">
             <button
               type="submit"
-              className="bg-amber-700 hover:bg-amber-600 text-amber-100 px-6 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors shadow-md"
+              className="bg-amber-700 hover:bg-amber-600 text-amber-100 px-6 py-0 whitespace-nowrap rounded-lg font-medium flex items-center space-x-2 transition-colors shadow-md"
             >
               <Search size={20} />
               <span>Search</span>
@@ -257,7 +257,7 @@ const AdvancedSearchPage = () => {
             <button
               type="button"
               onClick={handleReset}
-              className="bg-amber-950/50 hover:bg-amber-900 text-amber-300 px-6 py-3 rounded-lg font-medium transition-colors border border-amber-800/40 shadow-md"
+              className="bg-amber-950/50 hover:bg-amber-900 text-amber-300 px-6 py-0 whitespace-nowrap rounded-lg font-medium transition-colors border border-amber-800/40 shadow-md"
             >
               Reset
             </button>

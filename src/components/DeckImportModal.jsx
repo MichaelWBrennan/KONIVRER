@@ -109,7 +109,7 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
                   type="text"
                   value={deckName}
                   onChange={e => setDeckName(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter a name for this deck"
                 />
               </div>
@@ -121,7 +121,7 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
                 <textarea
                   value={deckCode}
                   onChange={e => setDeckCode(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
+                  className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
                   placeholder="Paste deck code here"
                 />
               </div>
@@ -129,14 +129,14 @@ const DeckImportModal = ({ isOpen, onClose, onImportSuccess }) => {
               <div className="flex justify-end space-x-3 pt-2">
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
+                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleImport}
                   disabled={isImporting}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isImporting ? (
                     <>

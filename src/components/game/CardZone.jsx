@@ -202,7 +202,7 @@ const CardZone = ({
       {/* Show count if there are more cards than maxCards - MTG Arena style */}
       {cards.length > maxCards && (
         <motion.div
-          className="absolute top-0 right-0 bg-gradient-to-br from-black/80 to-gray-800/80 text-white text-xs font-bold rounded-full px-2 py-1 shadow-lg"
+          className="absolute top-0 right-0 bg-gradient-to-br from-black/80 to-gray-800/80 text-white text-xs font-bold rounded-full px-2 py-0 whitespace-nowrap shadow-lg"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.3 }}

@@ -210,7 +210,7 @@ const JudgeCenter = () => {
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}
+                      className={`px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}
                     >
                       {call.priority.toUpperCase()}
                     </span>
@@ -294,7 +294,7 @@ const JudgeCenter = () => {
               </div>
               <div className="text-right">
                 <span
-                  className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`inline-block px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${
                     tournament.status === 'active'
                       ? 'bg-green-600 text-white'
                       : 'bg-blue-600 text-white'
@@ -561,7 +561,7 @@ const JudgeCenter = () => {
             <button
               key={section.id}
               onClick={() => setSelectedRuleSection(section.id)}
-              className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap border-b-2 transition-colors ${
                 selectedRuleSection === section.id
                   ? 'border-accent-primary text-accent-primary'
                   : 'border-transparent text-secondary hover:text-primary'
@@ -678,7 +678,7 @@ const JudgeCenter = () => {
                     <span className="text-sm text-muted">
                       {new Date(update.date).toLocaleDateString()}
                     </span>
-                    <span className="bg-accent-primary/20 text-accent-primary px-2 py-1 rounded text-xs">
+                    <span className="bg-accent-primary/20 text-accent-primary px-2 py-0 whitespace-nowrap rounded text-xs">
                       {update.type}
                     </span>
                   </div>
@@ -870,7 +870,7 @@ const JudgeCenter = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap border-b-2 transition-colors ${
                   activeTab === tab.id
                     ? 'border-accent-primary text-accent-primary'
                     : 'border-transparent text-secondary hover:text-primary'

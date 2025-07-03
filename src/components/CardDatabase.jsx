@@ -224,7 +224,7 @@ const CardDatabase = ({
 
       {/* Card Type */}
       <div className="mb-2">
-        <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-0 whitespace-nowrap rounded">
           {card.type}
         </span>
       </div>
@@ -236,7 +236,7 @@ const CardDatabase = ({
             {card.keywords.map((keyword, index) => (
               <span
                 key={index}
-                className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                className="text-xs bg-blue-100 text-blue-800 px-2 py-0 whitespace-nowrap rounded"
               >
                 {keyword}
               </span>
@@ -260,7 +260,7 @@ const CardDatabase = ({
 
       {/* Set Info */}
       <div className="absolute top-2 right-2">
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-0 whitespace-nowrap rounded-full shadow-lg">
           {card.set}
         </div>
         {card.setNumber && (
@@ -301,14 +301,14 @@ const CardDatabase = ({
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-0 whitespace-nowrap rounded-full">
             {card.set}
           </div>
           <span className="text-sm font-medium">
             {typeof card.cost === 'string' ? card.cost : card.cost}
           </span>
           <span
-            className={`px-2 py-1 rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
+            className={`px-2 py-0 whitespace-nowrap rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
           >
             {card.rarity}
           </span>
@@ -371,7 +371,7 @@ const CardDatabase = ({
               <select
                 value={filters.set}
                 onChange={e => setFilters({ ...filters, set: e.target.value })}
-                className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/30 to-blue-600/30 border border-blue-400/50 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/30 shadow-lg"
+                className="w-full px-6 py-0 whitespace-nowrap bg-gradient-to-r from-purple-600/30 to-blue-600/30 border border-blue-400/50 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/30 shadow-lg"
               >
                 <option value="all" className="text-black bg-white">
                   Select a Card Set
@@ -398,7 +398,7 @@ const CardDatabase = ({
                 onChange={e =>
                   setFilters({ ...filters, rarity: e.target.value })
                 }
-                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+                className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Rarities</option>
                 {uniqueValues.rarities.map(rarity => (
@@ -411,7 +411,7 @@ const CardDatabase = ({
               <select
                 value={filters.type}
                 onChange={e => setFilters({ ...filters, type: e.target.value })}
-                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+                className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Types</option>
                 {uniqueValues.types.map(type => (
@@ -426,7 +426,7 @@ const CardDatabase = ({
                 onChange={e =>
                   setFilters({ ...filters, element: e.target.value })
                 }
-                className="px-3 py-2 bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
+                className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Elements</option>
                 {uniqueValues.elements.map(element => {

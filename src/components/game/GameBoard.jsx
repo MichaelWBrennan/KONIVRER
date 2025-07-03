@@ -596,7 +596,7 @@ const GameBoard = ({
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                className="bg-black/70 text-white px-6 py-3 rounded-lg text-xl font-bold"
+                className="bg-black/70 text-white px-6 py-0 whitespace-nowrap rounded-lg text-xl font-bold"
               >
                 {animations[0].text}
               </motion.div>
@@ -670,7 +670,7 @@ const GameBoard = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md text-white px-5 md:px-7 py-4 rounded-xl shadow-2xl border border-blue-500/30 pointer-events-auto max-w-[90%] md:max-w-md"
+              className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md text-white px-5 md:px-7 py-0 whitespace-nowrap rounded-xl shadow-2xl border border-blue-500/30 pointer-events-auto max-w-[90%] md:max-w-md"
             >
               <div className="text-center mb-3">
                 <h3 className="text-lg md:text-xl font-bold text-blue-300">
@@ -722,7 +722,7 @@ const GameBoard = ({
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleAction('confirmTargets')}
                   disabled={targets.length < gameEngine.getRequiredTargets()}
-                  className={`px-4 md:px-5 py-2 rounded-lg text-sm md:text-base font-medium transition-colors ${
+                  className={`px-4 md:px-5 py-0 whitespace-nowrap rounded-lg text-sm md:text-base font-medium transition-colors ${
                     targets.length >= gameEngine.getRequiredTargets()
                       ? 'bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 shadow-md'
                       : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed'
@@ -734,7 +734,7 @@ const GameBoard = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleAction('cancelTargets')}
-                  className="px-4 md:px-5 py-2 rounded-lg bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-sm md:text-base font-medium shadow-md transition-colors"
+                  className="px-4 md:px-5 py-0 whitespace-nowrap rounded-lg bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-sm md:text-base font-medium shadow-md transition-colors"
                 >
                   Cancel
                 </motion.button>

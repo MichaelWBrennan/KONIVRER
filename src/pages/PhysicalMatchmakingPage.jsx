@@ -24,7 +24,7 @@ const PhysicalMatchmakingPage = () => {
           with Bayesian matchmaking
         </p>
         <div className="text-center mb-6">
-          <span className="bg-green-600 text-white px-4 py-2 rounded-full inline-block">
+          <span className="bg-green-600 text-white px-4 py-0 whitespace-nowrap rounded-full inline-block">
             All Premium Features Included For Free
           </span>
         </div>

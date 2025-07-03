@@ -76,14 +76,14 @@ const CardExplorer = () => {
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-2 text-sm font-medium"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
                 >
                   <Filter className="w-4 h-4" />
                 </button>
                 {isAuthenticated && (
                   <button
                     onClick={() => setShowAIAssistant(!showAIAssistant)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                    className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                       showAIAssistant
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-600 hover:bg-gray-700 text-white'
@@ -124,7 +124,7 @@ const CardExplorer = () => {
             <div className="flex border-b border-color mb-6">
               <button
                 onClick={() => setActiveTab('all')}
-                className={`flex items-center gap-2 px-4 py-3 font-medium transition-colors ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap font-medium transition-colors ${
                   activeTab === 'all'
                     ? 'text-primary border-b-2 border-primary'
                     : 'text-secondary hover:text-primary'
@@ -135,7 +135,7 @@ const CardExplorer = () => {
               </button>
               <button
                 onClick={() => setActiveTab('trending')}
-                className={`flex items-center gap-2 px-4 py-3 font-medium transition-colors ${
+                className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap font-medium transition-colors ${
                   activeTab === 'trending'
                     ? 'text-primary border-b-2 border-primary'
                     : 'text-secondary hover:text-primary'

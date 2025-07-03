@@ -519,7 +519,7 @@ const EnhancedDeckBuilder = () => {
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value)}
-                    className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white text-sm"
+                    className="bg-gray-800 border border-gray-600 rounded px-2 py-0 whitespace-nowrap text-white text-sm"
                   >
                     <option value="name">Name</option>
                     <option value="cost">Cost</option>
@@ -571,7 +571,7 @@ const EnhancedDeckBuilder = () => {
                 />
 
                 <div
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  className={`px-3 py-0 whitespace-nowrap rounded-full text-sm font-medium ${
                     deckStats.isLegal
                       ? 'bg-green-500/20 text-green-400'
                       : 'bg-red-500/20 text-red-400'
@@ -584,7 +584,7 @@ const EnhancedDeckBuilder = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={saveDeck}
-                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save</span>
@@ -593,7 +593,7 @@ const EnhancedDeckBuilder = () => {
                 <button
                   onClick={startGameWithDeck}
                   disabled={!deckStats.isLegal}
-                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
                 >
                   <Play className="w-4 h-4" />
                   <span>Play</span>
@@ -607,7 +607,7 @@ const EnhancedDeckBuilder = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                     activeTab === tab
                       ? 'bg-purple-600 text-white'
                       : 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -690,7 +690,7 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
             <button
               key={color}
               onClick={() => toggleFilter('colors', color.toLowerCase())}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+              className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                 filters.colors.includes(color.toLowerCase())
                   ? 'bg-purple-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -710,7 +710,7 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
             <button
               key={type}
               onClick={() => toggleFilter('types', type.toLowerCase())}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+              className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                 filters.types.includes(type.toLowerCase())
                   ? 'bg-purple-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -730,7 +730,7 @@ const FilterPanel = ({ filters, onFiltersChange }) => {
             <button
               key={rarity}
               onClick={() => toggleFilter('rarity', rarity.toLowerCase())}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+              className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                 filters.rarity.includes(rarity.toLowerCase())
                   ? 'bg-purple-600 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -793,7 +793,7 @@ const CardListItem = ({ card, owned, onAddToDeck, inDeck }) => {
             <span className="text-white font-medium">{card.name}</span>
             <span className="text-gray-400 text-sm">{card.cost}</span>
             {inDeck > 0 && (
-              <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
+              <span className="bg-purple-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full">
                 {inDeck}
               </span>
             )}
@@ -873,7 +873,7 @@ const DeckCardItem = ({ card, onRemove, onAdd }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <span className="text-gray-400 text-sm">{card.type}</span>
-          <span className="bg-purple-600 text-white text-sm px-2 py-1 rounded">
+          <span className="bg-purple-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded">
             {card.quantity}
           </span>
         </div>

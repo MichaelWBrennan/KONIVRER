@@ -144,7 +144,7 @@ const PlayerZone = ({
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 border-2 border-yellow-400 rounded-lg opacity-50"></div>
           <div
-            className={`absolute ${isOpponent ? 'top-2' : 'bottom-2'} left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-bold`}
+            className={`absolute ${isOpponent ? 'top-2' : 'bottom-2'} left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-3 py-0 whitespace-nowrap rounded-full text-sm font-bold`}
           >
             Active Player
           </div>

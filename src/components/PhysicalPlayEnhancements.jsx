@@ -262,7 +262,7 @@ const DeckRegistrationScanner = ({
             <div className="flex space-x-2">
               <button
                 onClick={isScanning ? stopScanning : startScanning}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                   isScanning
                     ? 'bg-red-600 hover:bg-red-700'
                     : 'bg-green-600 hover:bg-green-700'
@@ -327,7 +327,7 @@ const DeckRegistrationScanner = ({
             <div className="mt-4 flex justify-center">
               <button
                 onClick={simulateCardDetection}
-                className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-medium transition-colors"
+                className="bg-purple-600 hover:bg-purple-700 px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"
               >
                 Simulate Card Detection
               </button>
@@ -376,12 +376,12 @@ const DeckRegistrationScanner = ({
                   Total Cards: {scanResults.length}
                 </span>
                 <div className="flex space-x-2">
-                  <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm transition-colors">
+                  <button className="bg-blue-600 hover:bg-blue-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                     Export List
                   </button>
                   <button
                     onClick={() => setScanResults([])}
-                    className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors"
+                    className="bg-red-600 hover:bg-red-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
                   >
                     Clear
                   </button>
@@ -503,7 +503,7 @@ const NFCPairingSystem = ({ players, tournament }) => {
                 <button
                   onClick={() => startNFCPairing(player.id)}
                   disabled={!nfcEnabled || scanningFor === player.id}
-                  className={`px-3 py-1 rounded text-sm transition-colors ${
+                  className={`px-3 py-0 whitespace-nowrap rounded text-sm transition-colors ${
                     scanningFor === player.id
                       ? 'bg-yellow-600 text-white'
                       : nfcEnabled
@@ -562,10 +562,10 @@ const NFCPairingSystem = ({ players, tournament }) => {
                   </div>
 
                   <div className="flex space-x-2">
-                    <button className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition-colors">
+                    <button className="bg-green-600 hover:bg-green-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                       Confirm
                     </button>
-                    <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors">
+                    <button className="bg-red-600 hover:bg-red-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                       Cancel
                     </button>
                   </div>
@@ -685,7 +685,7 @@ const VoiceControlSystem = ({
             <h3 className="text-lg font-semibold">Voice Control</h3>
             <button
               onClick={() => setVoiceEnabled(!voiceEnabled)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                 voiceEnabled
                   ? 'bg-green-600 hover:bg-green-700'
                   : 'bg-gray-600 hover:bg-gray-700'
@@ -1079,7 +1079,7 @@ const StreamingIntegration = ({ tournament }) => {
               <span>Streaming Enabled</span>
               <button
                 onClick={() => setStreamingEnabled(!streamingEnabled)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                   streamingEnabled
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-gray-600 hover:bg-gray-700'
@@ -1148,27 +1148,27 @@ const StreamingIntegration = ({ tournament }) => {
                   {/* Simulated stream overlay */}
                   {overlaySettings.showPlayerNames && (
                     <div className="absolute top-4 left-4 right-4 flex justify-between">
-                      <div className="bg-blue-600/80 px-3 py-1 rounded">
+                      <div className="bg-blue-600/80 px-3 py-0 whitespace-nowrap rounded">
                         <p className="font-semibold">Player 1</p>
                       </div>
-                      <div className="bg-red-600/80 px-3 py-1 rounded">
+                      <div className="bg-red-600/80 px-3 py-0 whitespace-nowrap rounded">
                         <p className="font-semibold">Player 2</p>
                       </div>
                     </div>
                   )}
 
                   {overlaySettings.showTimer && (
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gray-900/80 px-3 py-1 rounded">
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gray-900/80 px-3 py-0 whitespace-nowrap rounded">
                       <p className="font-mono">25:30</p>
                     </div>
                   )}
 
                   {overlaySettings.showRatings && (
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between">
-                      <div className="bg-gray-900/80 px-3 py-1 rounded">
+                      <div className="bg-gray-900/80 px-3 py-0 whitespace-nowrap rounded">
                         <p className="text-sm">Rating: 1850</p>
                       </div>
-                      <div className="bg-gray-900/80 px-3 py-1 rounded">
+                      <div className="bg-gray-900/80 px-3 py-0 whitespace-nowrap rounded">
                         <p className="text-sm">Rating: 1720</p>
                       </div>
                     </div>
@@ -1183,10 +1183,10 @@ const StreamingIntegration = ({ tournament }) => {
               Table {featuredTable} - Round {tournament?.currentRound || 1}
             </span>
             <div className="flex space-x-2">
-              <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors">
+              <button className="bg-red-600 hover:bg-red-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                 Go Live
               </button>
-              <button className="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-sm transition-colors">
+              <button className="bg-gray-600 hover:bg-gray-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                 Record
               </button>
             </div>

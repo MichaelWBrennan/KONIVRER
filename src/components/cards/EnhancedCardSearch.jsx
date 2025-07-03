@@ -424,7 +424,7 @@ const EnhancedCardSearch = () => {
               onClick={() =>
                 setAdvancedSearch(prev => ({ ...prev, rarity: ['mythic'] }))
               }
-              className="px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded-full text-sm transition-colors"
+              className="px-3 py-0 whitespace-nowrap bg-orange-600 hover:bg-orange-700 text-white rounded-full text-sm transition-colors"
             >
               Mythic Rares
             </button>
@@ -432,13 +432,13 @@ const EnhancedCardSearch = () => {
               onClick={() =>
                 setAdvancedSearch(prev => ({ ...prev, type: 'creature' }))
               }
-              className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-full text-sm transition-colors"
+              className="px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-full text-sm transition-colors"
             >
               Creatures
             </button>
             <button
               onClick={() => setSortBy('owned')}
-              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors"
+              className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors"
             >
               Owned First
             </button>
@@ -448,7 +448,7 @@ const EnhancedCardSearch = () => {
                 setAdvancedSearch(prev => ({ ...prev, name: '' }));
                 // Filter to show only favorites
               }}
-              className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-full text-sm transition-colors"
+              className="px-3 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 text-white rounded-full text-sm transition-colors"
             >
               Favorites
             </button>
@@ -523,7 +523,7 @@ const EnhancedCardSearch = () => {
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
-                className="bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white text-sm"
+                className="bg-gray-800 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white text-sm"
               >
                 <option value="name">Name</option>
                 <option value="cost">Cost</option>
@@ -546,7 +546,7 @@ const EnhancedCardSearch = () => {
               <select
                 value={cardsPerPage}
                 onChange={e => setCardsPerPage(Number(e.target.value))}
-                className="bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white text-sm"
+                className="bg-gray-800 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white text-sm"
               >
                 <option value={25}>25 per page</option>
                 <option value={50}>50 per page</option>
@@ -600,7 +600,7 @@ const EnhancedCardSearch = () => {
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
+                className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
               >
                 Previous
               </button>
@@ -614,7 +614,7 @@ const EnhancedCardSearch = () => {
                   setCurrentPage(Math.min(totalPages, currentPage + 1))
                 }
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
+                className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
               >
                 Next
               </button>
@@ -679,7 +679,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
             type="text"
             value={search.name}
             onChange={e => updateSearch('name', e.target.value)}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+            className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             placeholder="Enter card name"
           />
         </div>
@@ -690,7 +690,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
             type="text"
             value={search.text}
             onChange={e => updateSearch('text', e.target.value)}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+            className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             placeholder="Enter text to search"
           />
         </div>
@@ -707,7 +707,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
               <button
                 key={color}
                 onClick={() => toggleArrayField('colors', color)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                   search.colors.includes(color)
                     ? 'bg-purple-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -726,7 +726,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
               <button
                 key={rarity}
                 onClick={() => toggleArrayField('rarity', rarity)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
                   search.rarity.includes(rarity)
                     ? 'bg-purple-600 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -756,7 +756,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
                   min: Number(e.target.value),
                 })
               }
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+              className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
             <input
               type="number"
@@ -768,7 +768,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
                   max: Number(e.target.value),
                 })
               }
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+              className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
         </div>
@@ -786,7 +786,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
                   min: Number(e.target.value),
                 })
               }
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+              className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
             <input
               type="number"
@@ -798,7 +798,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
                   max: Number(e.target.value),
                 })
               }
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+              className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
         </div>
@@ -883,7 +883,7 @@ const CardGridItem = ({
 
       {/* Owned Indicator */}
       {owned > 0 && (
-        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full">
           {owned}
         </div>
       )}
@@ -973,7 +973,7 @@ const CardListItem = ({
 
         <div className="flex items-center space-x-2">
           {owned > 0 && (
-            <span className="bg-green-600 text-white text-sm px-2 py-1 rounded">
+            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded">
               Owned: {owned}
             </span>
           )}
@@ -1103,7 +1103,7 @@ const CardDetailModal = ({
             <div className="flex space-x-2">
               <button
                 onClick={onToggleFavorite}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
                   isFavorite
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
@@ -1115,7 +1115,7 @@ const CardDetailModal = ({
 
               <button
                 onClick={onToggleWishlist}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
                   inWishlist
                     ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
@@ -1133,7 +1133,7 @@ const CardDetailModal = ({
 
               <button
                 onClick={onAddToDeck}
-                className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add to Deck</span>

@@ -113,7 +113,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
   if (error) {
     return (
       <div
-        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        className="bg-red-100 border border-red-400 text-red-700 px-4 py-0 whitespace-nowrap rounded relative"
         role="alert"
       >
         <strong className="font-bold">Error!</strong>
@@ -126,7 +126,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
   if (!analyticsData) {
     return (
       <div
-        className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-3 rounded relative"
+        className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-0 whitespace-nowrap rounded relative"
         role="alert"
       >
         <span className="block sm:inline">No analytics data available.</span>
@@ -678,7 +678,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
       <div className="mb-6">
         <div className="flex flex-wrap gap-2">
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'performance'
                 ? 'bg-primary text-white'
                 : 'bg-gray-100'
@@ -690,7 +690,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'synergy' ? 'bg-primary text-white' : 'bg-gray-100'
             }`}
             onClick={() => setActiveTab('synergy')}
@@ -700,7 +700,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'decisions'
                 ? 'bg-primary text-white'
                 : 'bg-gray-100'
@@ -712,7 +712,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'variance' ? 'bg-primary text-white' : 'bg-gray-100'
             }`}
             onClick={() => setActiveTab('variance')}
@@ -722,7 +722,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'metagame' ? 'bg-primary text-white' : 'bg-gray-100'
             }`}
             onClick={() => setActiveTab('metagame')}
@@ -732,7 +732,7 @@ const AnalyticsDashboard = ({ playerId, deckId }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-0 whitespace-nowrap rounded-lg flex items-center ${
               activeTab === 'weakness' ? 'bg-primary text-white' : 'bg-gray-100'
             }`}
             onClick={() => setActiveTab('weakness')}

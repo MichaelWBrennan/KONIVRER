@@ -200,7 +200,7 @@ const KonivrERGameControls = ({
           <button
             onClick={() => handleCardAction('summon')}
             disabled={!canSummon}
-            className="flex items-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
+            className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
             <Play className="w-4 h-4" />
             Summon
@@ -210,7 +210,7 @@ const KonivrERGameControls = ({
           <button
             onClick={() => handleCardAction('tribute')}
             disabled={!canTribute}
-            className="flex items-center gap-2 px-3 py-2 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
+            className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
             <Sword className="w-4 h-4" />
             Tribute
@@ -219,7 +219,7 @@ const KonivrERGameControls = ({
           {/* Azoth */}
           <button
             onClick={() => handleCardAction('azoth')}
-            className="flex items-center gap-2 px-3 py-2 bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm"
+            className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm"
           >
             <Sparkles className="w-4 h-4" />
             Azoth
@@ -229,7 +229,7 @@ const KonivrERGameControls = ({
           <button
             onClick={() => handleCardAction('spell')}
             disabled={!canSpell}
-            className="flex items-center gap-2 px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
+            className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
             <Zap className="w-4 h-4" />
             Spell
@@ -245,7 +245,7 @@ const KonivrERGameControls = ({
                 <button
                   key={index}
                   onClick={() => setSelectedAbility(index)}
-                  className={`w-full text-left px-2 py-1 rounded text-sm ${
+                  className={`w-full text-left px-2 py-0 whitespace-nowrap rounded text-sm ${
                     selectedAbility === index 
                       ? 'bg-blue-600 text-white' 
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -261,7 +261,7 @@ const KonivrERGameControls = ({
         <div className="flex gap-2 mt-3">
           <button
             onClick={() => setShowCardActions(false)}
-            className="flex-1 px-3 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
+            className="flex-1 px-3 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
           >
             Cancel
           </button>
@@ -281,7 +281,7 @@ const KonivrERGameControls = ({
         {phase === 'start' && (
           <button
             onClick={() => handlePhaseAction('startPhase')}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
+            className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
           >
             Start Turn
           </button>
@@ -291,13 +291,13 @@ const KonivrERGameControls = ({
           <>
             <button
               onClick={() => handlePhaseAction('enterCombat')}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded text-white text-sm"
             >
               Combat
             </button>
             <button
               onClick={() => handlePhaseAction('endTurn')}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
             >
               End Turn
             </button>
@@ -308,14 +308,14 @@ const KonivrERGameControls = ({
           <>
             <button
               onClick={() => handlePhaseAction('declareAttackers')}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded text-white text-sm"
             >
               <Sword className="w-4 h-4 inline mr-1" />
               Attack
             </button>
             <button
               onClick={() => handlePhaseAction('endCombat')}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
             >
               End Combat
             </button>
@@ -326,14 +326,14 @@ const KonivrERGameControls = ({
           <>
             <button
               onClick={() => handlePhaseAction('declareBlockers')}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
               <Shield className="w-4 h-4 inline mr-1" />
               Block
             </button>
             <button
               onClick={() => handlePhaseAction('noBlocks')}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
+              className="px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
             >
               No Blocks
             </button>
@@ -343,7 +343,7 @@ const KonivrERGameControls = ({
         {phase === 'postCombat' && (
           <button
             onClick={() => handlePhaseAction('endTurn')}
-            className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
+            className="px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
           >
             End Turn
           </button>
@@ -352,7 +352,7 @@ const KonivrERGameControls = ({
         {phase === 'refresh' && (
           <button
             onClick={() => handlePhaseAction('refreshPhase')}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm"
+            className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 rounded text-white text-sm"
           >
             Refresh
           </button>
@@ -371,13 +371,13 @@ const KonivrERGameControls = ({
         </AnimatePresence>
 
         {/* Main Controls */}
-        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-2 border border-blue-500/30 backdrop-blur-sm">
+        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm">
           
           {/* Card Action Button */}
           {selectedCard && (
             <button
               onClick={() => setShowCardActions(!showCardActions)}
-              className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
+              className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
               Play Card
             </button>
@@ -391,14 +391,14 @@ const KonivrERGameControls = ({
             <button
               onClick={() => handlePhaseAction('draw')}
               disabled={!isPlayerTurn}
-              className="px-3 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
+              className="px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
             >
               Draw
             </button>
             
             <button
               onClick={() => handlePhaseAction('concede')}
-              className="px-3 py-2 bg-red-600 hover:bg-red-700 rounded text-white text-sm"
+              className="px-3 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded text-white text-sm"
             >
               Concede
             </button>

@@ -141,7 +141,7 @@ const AIPersonalityDisplay = ({ gameEngine, isAITurn = false }) => {
           {getPersonalityTraits().map((trait, index) => (
             <div
               key={index}
-              className={`flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-700/50 ${trait.color}`}
+              className={`flex items-center gap-1 px-2 py-0 whitespace-nowrap rounded text-xs bg-gray-700/50 ${trait.color}`}
             >
               {trait.icon}
               <span>{trait.label}</span>

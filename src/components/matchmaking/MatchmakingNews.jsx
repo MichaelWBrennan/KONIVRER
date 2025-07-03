@@ -101,7 +101,7 @@ const MatchmakingNews = ({ news, onViewAll, onClose, maxItems = 3 }) => {
           >
             <div className="flex justify-between items-start mb-1">
               <h4 className="font-medium text-gray-900">{item.title}</h4>
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+              <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-100 text-blue-700 rounded-full">
                 {item.category}
               </span>
             </div>
