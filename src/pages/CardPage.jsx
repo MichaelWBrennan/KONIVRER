@@ -85,11 +85,11 @@ const CardPage = () => {
 
   if (!card) {
     return (
-      <div className="h-screen bg-amber-950/95 flex items-center justify-center overflow-hidden">
-        <div className="text-center bg-amber-900/30 p-6 rounded-lg border border-amber-800/40 shadow-md max-w-md">
-          <div className="text-5xl mb-3">🎴</div>
-          <h2 className="text-xl font-bold mb-2 text-amber-100">Card Not Found</h2>
-          <p className="text-amber-200/80 mb-3">
+      <div className="min-h-screen bg-amber-950/95 flex items-center justify-center">
+        <div className="text-center bg-amber-900/30 p-8 rounded-lg border border-amber-800/40 shadow-md max-w-md">
+          <div className="text-6xl mb-4">🎴</div>
+          <h2 className="text-2xl font-bold mb-2 text-amber-100">Card Not Found</h2>
+          <p className="text-amber-200/80 mb-4">
             The card you're looking for doesn't exist or has been removed from the ancient archives.
           </p>
           <button onClick={() => navigate('/hub')} className="px-4 py-2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md border border-amber-700/40 transition-colors shadow-md">
@@ -101,74 +101,74 @@ const CardPage = () => {
   }
 
   return (
-    <div className="h-screen bg-amber-950/95 text-amber-100 flex flex-col overflow-hidden">
-      <div className="container mx-auto px-4 py-4 flex-1 flex flex-col h-full">
+    <div className="min-h-screen bg-amber-950/95 text-amber-100">
+      <div className="container mx-auto px-4 py-8">
         {/* Navigation and Actions removed */}
 
         {/* Card Search Bar - Always at the top */}
-        <div className="bg-amber-900/30 rounded-lg p-4 mb-4 border border-amber-800/40 shadow-md">
+        <div className="bg-amber-900/30 rounded-lg p-6 mb-6 border border-amber-800/40 shadow-md">
           <CardSearchBar className="mb-0" />
         </div>
 
-        {/* Main Content - Using flex to avoid scrolling */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 overflow-hidden md:overflow-auto">
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Card Image */}
-          <div className="lg:col-span-1 flex flex-col">
-            {/* Card Image */}
-            <div className="bg-amber-900/30 rounded-lg p-4 border border-amber-800/40 shadow-md flex-1 flex items-center justify-center">
-              <CardArtDisplay
-                cardName={getArtNameFromCardData(card)}
-                className="max-h-[calc(100vh-180px)] w-auto shadow-lg rounded-md mx-auto object-contain"
-                clickable={false}
-                showFallback={true}
-              />
+          <div className="lg:col-span-1">
+            <div className="sticky top-32">
+              {/* Card Image */}
+              <div className="bg-amber-900/30 rounded-lg p-6 mb-6 border border-amber-800/40 shadow-md">
+                <CardArtDisplay
+                  cardName={getArtNameFromCardData(card)}
+                  className="aspect-card shadow-lg w-full rounded-md"
+                  clickable={false}
+                  showFallback={true}
+                />
+              </div>
             </div>
           </div>
 
           {/* Right Column - Content */}
-          <div className="lg:col-span-2 flex flex-col">
-            <div className="bg-amber-900/30 rounded-lg p-4 border border-amber-800/40 shadow-md flex-1 overflow-hidden">
-              <div className="h-full flex flex-col space-y-2 overflow-hidden">
+          <div className="lg:col-span-2">
+            <div className="bg-amber-900/30 rounded-lg p-6 border border-amber-800/40 shadow-md">
+              <div className="space-y-4">
                 {/* Card Name, Type, and Cost */}
-                <div className="mb-2 flex-shrink-0">
-                  <h2 className="text-xl font-bold whitespace-nowrap text-amber-100">{card.name}</h2>
-                  <div className="flex justify-between">
-                    <p className="text-sm text-amber-200/80">{card.type}</p>
-                    <p className="text-sm text-amber-200/70">
-                      {Array.isArray(card.cost) 
-                        ? card.cost.map(element => 
-                            element === 'Void' ? 'Nether' : 
-                            element === 'Submerged' ? 'Water' : 
-                            element === 'Brilliance' ? 'Æther' :
-                            element === 'Inferno' ? 'Fire' :
-                            element === 'Steadfast' ? 'Earth' :
-                            element === 'Gust' ? 'Wind' :
-                            element
-                          ).join(', ') 
-                        : card.cost === 'Void' ? 'Nether' :
-                          card.cost === 'Submerged' ? 'Water' :
-                          card.cost === 'Brilliance' ? 'Æther' :
-                          card.cost === 'Inferno' ? 'Fire' :
-                          card.cost === 'Steadfast' ? 'Earth' :
-                          card.cost === 'Gust' ? 'Wind' :
-                          card.cost
-                      }
-                    </p>
-                  </div>
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold whitespace-nowrap text-amber-100">{card.name}</h2>
+                  <p className="text-md text-amber-200/80">{card.type}</p>
+                  <p className="text-sm text-amber-200/70">
+                    {Array.isArray(card.cost) 
+                      ? card.cost.map(element => 
+                          element === 'Void' ? 'Nether' : 
+                          element === 'Submerged' ? 'Water' : 
+                          element === 'Brilliance' ? 'Æther' :
+                          element === 'Inferno' ? 'Fire' :
+                          element === 'Steadfast' ? 'Earth' :
+                          element === 'Gust' ? 'Wind' :
+                          element
+                        ).join(', ') 
+                      : card.cost === 'Void' ? 'Nether' :
+                        card.cost === 'Submerged' ? 'Water' :
+                        card.cost === 'Brilliance' ? 'Æther' :
+                        card.cost === 'Inferno' ? 'Fire' :
+                        card.cost === 'Steadfast' ? 'Earth' :
+                        card.cost === 'Gust' ? 'Wind' :
+                        card.cost
+                    }
+                  </p>
                 </div>
                 
-                {/* Compact Section Divider */}
-                <div className="relative w-full my-2 flex-shrink-0 flex items-center justify-center">
+                {/* Section Divider with Ancient Decoration */}
+                <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
-                  <div className="bg-amber-950/95 px-2 z-10 flex items-center">
-                    <span className="text-amber-500/80 mx-1 text-xs">✦</span>
-                    <span className="text-amber-600/70 mx-1 text-xs">⚜</span>
-                    <span className="text-amber-500/80 mx-1 text-xs">✦</span>
+                  <div className="bg-amber-950/95 px-4 z-10 flex items-center">
+                    <span className="text-amber-500/80 mx-1">✦</span>
+                    <span className="text-amber-600/70 mx-1">⚜</span>
+                    <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
                 
-                {/* Card Text - with flex-1 to take available space */}
-                <div className="bg-amber-950/20 rounded p-3 border border-amber-900/40 shadow-inner flex-1 overflow-auto">
+                {/* Card Text */}
+                <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
                   <p className="text-sm leading-relaxed text-amber-100/90">
                     {card.description || 'No description available.'}
                   </p>
@@ -176,7 +176,7 @@ const CardPage = () => {
                   {/* Flavor Text - inside the same box with a separator */}
                   {card.flavorText && (
                     <>
-                      <div className="border-t border-amber-900/50 my-2"></div>
+                      <div className="border-t border-amber-900/50 my-3"></div>
                       <p className="text-sm leading-relaxed italic text-amber-200/80">
                         {card.flavorText}
                       </p>
@@ -184,41 +184,41 @@ const CardPage = () => {
                   )}
                   
                   {/* Artist - below flavor text */}
-                  <div className="border-t border-amber-900/50 mt-2 pt-1">
+                  <div className="border-t border-amber-900/50 mt-3 pt-2">
                     <p className="text-xs text-center text-amber-200/70">
                       Illustrated by Michael Brennan
                     </p>
                   </div>
                 </div>
                 
-                {/* Compact Section Divider */}
-                <div className="relative w-full my-2 flex-shrink-0 flex items-center justify-center">
+                {/* Section Divider with Ancient Decoration */}
+                <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
-                  <div className="bg-amber-950/95 px-2 z-10 flex items-center">
-                    <span className="text-amber-500/80 mx-1 text-xs">✦</span>
-                    <span className="text-amber-600/70 mx-1 text-xs">⚜</span>
-                    <span className="text-amber-500/80 mx-1 text-xs">✦</span>
+                  <div className="bg-amber-950/95 px-4 z-10 flex items-center">
+                    <span className="text-amber-500/80 mx-1">✦</span>
+                    <span className="text-amber-600/70 mx-1">⚜</span>
+                    <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
                 
                 {/* Card Details - Scryfall-like format */}
-                <div className="flex-shrink-0">
-                  <div className="bg-amber-950/20 rounded p-3 border border-amber-900/40 shadow-inner">
-                    <div className="flex items-center">
+                <div className="mt-4">
+                  <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
+                    <div className="flex items-center mb-2">
                       {/* Card Set Symbol - Ancient Seal */}
-                      <div className="w-6 h-6 mr-2 flex items-center justify-center">
-                        <div className="w-5 h-5 bg-amber-900/60 rounded-full flex items-center justify-center text-xs text-amber-100 border border-amber-700/50">
+                      <div className="w-8 h-8 mr-3 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-amber-900/60 rounded-full flex items-center justify-center text-xs text-amber-100 border border-amber-700/50">
                           {/* Use a decorative symbol instead of the first letter */}
                           ⚝
                         </div>
                       </div>
                       
                       {/* Card Set, Number, Rarity, Language */}
-                      <div className="text-sm flex-1 flex justify-between text-amber-100/90">
+                      <div className="text-lg flex-1 flex justify-between text-amber-100/90">
                         <span className="font-semibold whitespace-nowrap">{card.set || 'PRIMA MATERIA'}</span>
-                        <span className="mx-2 text-amber-500/80">•</span>
+                        <span className="mx-4 text-amber-500/80">•</span>
                         <span>{card.collectorNumber || '1'}</span>
-                        <span className="mx-2 text-amber-500/80">•</span>
+                        <span className="mx-4 text-amber-500/80">•</span>
                         <span>
                           {card.name === 'AZOΘ' ? 'Rare' :
                            card.rarity?.toLowerCase() === 'special' ? 'Special' : 
@@ -227,6 +227,16 @@ const CardPage = () => {
                         </span>
                       </div>
                     </div>
+                  </div>
+                </div>
+                
+                {/* Section Divider with Ancient Decoration */}
+                <div className="relative w-full my-6 flex items-center justify-center">
+                  <div className="border-t border-amber-900/50 w-full absolute"></div>
+                  <div className="bg-amber-950/95 px-4 z-10 flex items-center">
+                    <span className="text-amber-500/80 mx-1">✦</span>
+                    <span className="text-amber-600/70 mx-1">⚜</span>
+                    <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
               </div>

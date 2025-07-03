@@ -68,35 +68,47 @@ const CardSearchBar = ({ className = '' }) => {
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <form onSubmit={handleSubmit} className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/80 w-5 h-5" />
-        <input
-          type="text"
-          placeholder="Search the ancient archives..."
-          value={searchQuery}
-          onChange={handleSearch}
-          onFocus={() => searchQuery.length >= 2 && setShowResults(true)}
-          onBlur={handleBlur}
-          className="w-full pl-12 pr-12 py-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-amber-100 placeholder-amber-500/60 focus:border-amber-600 focus:outline-none text-lg shadow-inner"
-          aria-label="Search cards"
-        />
-        <button 
-          type="submit" 
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md px-3 py-1 text-sm border border-amber-700/40 transition-colors shadow-sm"
+    <div className={`${className}`}>
+      <div className="relative">
+        <form onSubmit={handleSubmit} className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/80 w-5 h-5" />
+          <input
+            type="text"
+            placeholder="Search the ancient archives..."
+            value={searchQuery}
+            onChange={handleSearch}
+            onFocus={() => searchQuery.length >= 2 && setShowResults(true)}
+            onBlur={handleBlur}
+            className="w-full pl-12 pr-12 py-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-amber-100 placeholder-amber-500/60 focus:border-amber-600 focus:outline-none text-lg shadow-inner"
+            aria-label="Search cards"
+          />
+          <button 
+            type="submit" 
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-amber-800/60 hover:bg-amber-700/60 text-amber-100 rounded-md px-3 py-1 text-sm border border-amber-700/40 transition-colors shadow-sm"
+          >
+            Search
+          </button>
+        </form>
+
+        {/* Advanced Search Link below search bar */}
+        <div 
+          className="text-center mt-2 cursor-pointer"
+          onClick={() => navigate('/advanced-search')}
         >
-          Search
-        </button>
-      </form>
+          <span className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors">
+            Advanced Search ⟶
+          </span>
+        </div>
+      </div>
 
       {showResults && (
-        <div className="absolute z-50 mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto">
+        <div className="absolute z-50 top-full mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto">
           {searchResults.length > 0 ? (
             <>
               {searchResults.map(card => (
                 <div
                   key={card.id}
-                  className="p-3 hover:bg-amber-900/50 cursor-pointer border-b border-amber-800/30"
+                  className="p-3 hover:bg-amber-900/50 cursor-pointer border-b border-amber-800/30 last:border-b-0"
                   onClick={() => handleCardSelect(card)}
                   onMouseDown={(e) => {
                     e.preventDefault(); // Prevent blur event from hiding results before click
@@ -106,33 +118,11 @@ const CardSearchBar = ({ className = '' }) => {
                   <div className="font-medium text-amber-100">{card.name}</div>
                 </div>
               ))}
-              <div 
-                className="p-3 hover:bg-amber-900/50 cursor-pointer text-center border-t border-amber-800/50"
-                onClick={() => navigate('/advanced-search')}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  navigate('/advanced-search');
-                }}
-              >
-                <div className="text-amber-400 font-medium">Advanced Search ⟶</div>
-              </div>
             </>
           ) : (
-            <>
-              <div className="p-3 text-center border-b border-amber-800/30">
-                <div className="text-amber-300/70">No results found</div>
-              </div>
-              <div 
-                className="p-3 hover:bg-amber-900/50 cursor-pointer text-center"
-                onClick={() => navigate('/advanced-search')}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  navigate('/advanced-search');
-                }}
-              >
-                <div className="text-amber-400 font-medium">Advanced Search ⟶</div>
-              </div>
-            </>
+            <div className="p-3 text-center">
+              <div className="text-amber-300/70">No results found</div>
+            </div>
           )}
         </div>
       )}
