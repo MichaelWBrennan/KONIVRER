@@ -163,66 +163,68 @@ const CardPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-card rounded-lg p-6">
               <div className="space-y-4">
-                {/* Card Text */}
-                <div>
-                  <h3 className="font-semibold mb-2">Card Text</h3>
-                  <div className="bg-tertiary rounded p-4">
-                    <p className="text-sm leading-relaxed">
-                      {card.description || 'No description available.'}
-                    </p>
-                  </div>
+                {/* Card Name and Type */}
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold">{card.name}</h2>
                 </div>
                 
-                {/* Flavor Text */}
-                {card.flavorText && (
-                  <div>
-                    <h3 className="font-semibold mb-2">Flavor Text</h3>
-                    <div className="bg-tertiary rounded p-4">
-                      <p className="text-sm leading-relaxed italic">
+                {/* Card Text */}
+                <div className="bg-tertiary rounded p-4">
+                  <p className="text-sm leading-relaxed">
+                    {card.description || 'No description available.'}
+                  </p>
+                  
+                  {/* Flavor Text - inside the same box with a separator */}
+                  {card.flavorText && (
+                    <>
+                      <div className="border-t border-gray-700 my-3"></div>
+                      <p className="text-sm leading-relaxed italic text-secondary">
                         {card.flavorText}
                       </p>
-                    </div>
-                  </div>
-                )}
+                    </>
+                  )}
+                </div>
                 
-                {/* Card Details */}
-                <div>
-                  <h3 className="font-semibold mb-2">Card Information</h3>
+                {/* Card Details - Scryfall-like format */}
+                <div className="mt-4">
                   <div className="bg-tertiary rounded p-4">
-                    {/* Card Name and Type - Full width */}
-                    <div className="mb-4 pb-4 border-b border-gray-700">
-                      <h2 className="text-xl font-bold mb-1">{card.name}</h2>
-                      <p className="text-sm text-secondary">{card.type}</p>
+                    <div className="flex items-center mb-2">
+                      {/* Card Set Symbol (placeholder) */}
+                      <div className="w-8 h-8 mr-2 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center text-xs">
+                          {card.set?.charAt(0) || '?'}
+                        </div>
+                      </div>
+                      
+                      {/* Card Set, Number, Rarity, Language */}
+                      <div className="text-lg">
+                        <span className="font-semibold">{card.set || 'KONIVRER'}</span>
+                        <span className="mx-2">•</span>
+                        <span>#{card.collectorNumber || '1'}</span>
+                        <span className="mx-2">•</span>
+                        <span>
+                          {card.rarity?.toLowerCase() === 'special' ? 'Special' : 
+                           card.rarity?.toLowerCase() === 'rare' ? 'Rare' :
+                           card.rarity?.toLowerCase() === 'uncommon' ? 'Uncommon' : 'Common'}
+                        </span>
+                      </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Set</p>
-                        <p className="text-sm">{card.set}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Set Number</p>
-                        <p className="text-sm">{card.collectorNumber || 'N/A'}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Rarity</p>
-                        <p className="text-sm">
-                          {card.rarity?.toLowerCase() === 'special' && '✧ Special'}
-                          {card.rarity?.toLowerCase() !== 'special' && getRarityDisplay(card)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Cost</p>
-                        <p className="text-sm">{Array.isArray(card.cost) ? card.cost.join(', ') : card.cost}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Artist</p>
-                        <p className="text-sm">{card.artist || 'N/A'}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-secondary mb-1">Elements</p>
-                        <p className="text-sm">{Array.isArray(card.elements) ? card.elements.join(', ') : (card.elements || 'N/A')}</p>
-                      </div>
+                    {/* Card Type, Elements, Cost */}
+                    <div className="border-t border-gray-700 py-2">
+                      <p className="text-sm">
+                        <span className="font-semibold">{card.type}</span>
+                        {card.elements && card.elements.length > 0 && (
+                          <span> — {Array.isArray(card.elements) ? card.elements.join(', ') : card.elements}</span>
+                        )}
+                      </p>
+                    </div>
+                    
+                    {/* Artist */}
+                    <div className="border-t border-gray-700 py-2">
+                      <p className="text-sm">
+                        <span className="text-secondary">Artist:</span> Michael Brennan
+                      </p>
                     </div>
                   </div>
                 </div>
