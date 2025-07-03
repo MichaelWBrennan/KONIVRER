@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Download, Share2, ChevronDown, ChevronUp, BookOpen, Trophy, Shield } from 'lucide-react';
+import { Search, Download, Share2, ChevronDown, ChevronUp } from 'lucide-react';
 
 const RulesCenter = () => {
   const [rulesData, setRulesData] = useState(null);
@@ -32,8 +32,7 @@ const RulesCenter = () => {
           console.error('Rules data is empty or invalid');
           setRulesData({
             overview: {
-              title: 'Game Overview',
-              icon: '📖',
+              title: '1. Game Overview',
               content:
                 'Rules data is currently unavailable. Please check back later.',
               keywords: ['overview'],
@@ -48,8 +47,7 @@ const RulesCenter = () => {
         // Set fallback data
         setRulesData({
           overview: {
-            title: 'Game Overview',
-            icon: '📖',
+            title: '1. Game Overview',
             content:
               'Rules data is currently unavailable. Please check back later.',
             keywords: ['overview'],
@@ -76,27 +74,23 @@ const RulesCenter = () => {
   // Tournament Rules Data
   const tournamentRulesData = {
     tournamentOverview: {
-      title: "Tournament Overview",
-      icon: "🏆",
-      content: "KONIVRER tournaments are competitive events where players test their deck-building skills and strategic gameplay against other Conjurers.\n\n**Tournament Types:**\n• **Constructed** - Players bring pre-built 40-card decks\n• **Draft** - Players build decks from booster packs during the event\n• **Sealed** - Players build decks from a fixed pool of cards\n\n**Tournament Structure:**\n• Swiss rounds followed by single-elimination top cut\n• Match length: Best of 3 games\n• Time limit: 50 minutes per match",
+      title: "1. Tournament Overview",
+      content: "KONIVRER tournaments are competitive events where players test their deck-building skills and strategic gameplay against other Conjurers.\n\n1.1 Tournament Types\n• Constructed - Players bring pre-built 40-card decks\n• Draft - Players build decks from booster packs during the event\n• Sealed - Players build decks from a fixed pool of cards\n\n1.2 Tournament Structure\n• Swiss rounds followed by single-elimination top cut\n• Match length: Best of 3 games\n• Time limit: 50 minutes per match\n\n1.3 Eligibility\n• All players must register before the tournament begins\n• Players must present valid identification when requested\n• Suspended players are prohibited from participation",
       keywords: ["tournament", "competitive", "constructed", "draft", "sealed"]
     },
     deckRegistration: {
-      title: "Deck Registration & Verification",
-      icon: "📝",
-      content: "**Deck List Requirements:**\n• Must be submitted before the tournament begins\n• Include exact card names and quantities\n• Flag must be clearly identified\n• Deck must meet all construction rules\n\n**Deck Verification:**\n• Random deck checks may occur between rounds\n• Players must present their deck exactly as registered\n• Illegal decks result in immediate disqualification\n\n**Sideboard Rules:**\n• No sideboard allowed in standard tournaments\n• Special formats may allow 15-card sideboards",
+      title: "2. Deck Registration and Verification",
+      content: "2.1 Deck List Requirements\n• Must be submitted before the tournament begins\n• Include exact card names and quantities\n• Flag must be clearly identified\n• Deck must meet all construction rules\n• Legible handwriting or typed lists required\n\n2.2 Deck Verification\n• Random deck checks may occur between rounds\n• Players must present their deck exactly as registered\n• Illegal decks result in immediate disqualification\n• Players are responsible for deck legality\n\n2.3 Sideboard Rules\n• No sideboard allowed in standard tournaments\n• Special formats may allow 15-card sideboards\n• Sideboard cards must be clearly marked on deck list",
       keywords: ["deck registration", "verification", "deck list", "sideboard"]
     },
     matchProcedures: {
-      title: "Match Procedures",
-      icon: "⏱️",
-      content: "**Pre-Game:**\n• Players present decks for opponent inspection\n• Determine who goes first (random method)\n• Both players shuffle and present decks\n\n**During Games:**\n• Players must maintain clear game state\n• Announce all actions clearly\n• Call a judge for any disputes\n\n**Time Management:**\n• 50-minute rounds with 5 turns in time\n• Players must play at reasonable pace\n• Slow play warnings may be issued\n\n**End of Match:**\n• Report results to tournament staff\n• Return to assigned seating area",
+      title: "3. Match Procedures",
+      content: "3.1 Pre-Game Procedures\n• Players present decks for opponent inspection\n• Determine who goes first using random method\n• Both players shuffle and present decks\n• Players draw opening hands\n\n3.2 During Games\n• Players must maintain clear game state\n• Announce all actions clearly\n• Call a judge for any disputes immediately\n• No outside assistance permitted\n\n3.3 Time Management\n• 50-minute rounds with 5 additional turns after time\n• Players must play at reasonable pace\n• Slow play warnings may be issued\n• Judges monitor pace of play\n\n3.4 End of Match\n• Report results to tournament staff immediately\n• Return to assigned seating area\n• No discussion of ongoing matches",
       keywords: ["match procedures", "time limit", "game state", "judges"]
     },
     penalties: {
-      title: "Penalties & Infractions",
-      icon: "⚠️",
-      content: "**Warning Level:**\n• Minor procedural errors\n• First instance of looking at extra cards\n• Failure to maintain clear game state\n\n**Game Loss:**\n• Deck/decklist problems\n• Drawing extra cards (repeated)\n• Marked cards\n\n**Match Loss:**\n• Aggressive behavior\n• Intentional rule violations\n• Bribery or collusion\n\n**Disqualification:**\n• Cheating\n• Unsporting conduct\n• Theft or violence\n\n**Appeals:**\n• Players may appeal penalties to head judge\n• Head judge's decision is final",
+      title: "4. Penalties and Infractions",
+      content: "4.1 Warning Level\n• Minor procedural errors\n• First instance of looking at extra cards\n• Failure to maintain clear game state\n• Insufficient shuffling\n\n4.2 Game Loss\n• Deck or decklist problems\n• Drawing extra cards (repeated offense)\n• Marked cards\n• Tardiness (10+ minutes)\n\n4.3 Match Loss\n• Aggressive behavior toward opponents or staff\n• Intentional rule violations\n• Bribery or collusion\n• Unsporting conduct\n\n4.4 Disqualification\n• Cheating in any form\n• Serious unsporting conduct\n• Theft or destruction of property\n• Threatening behavior\n\n4.5 Appeals Process\n• Players may appeal penalties to head judge\n• Appeals must be made immediately\n• Head judge's decision is final\n• No appeals for disqualification",
       keywords: ["penalties", "infractions", "warnings", "disqualification", "appeals"]
     }
   };
@@ -104,27 +98,23 @@ const RulesCenter = () => {
   // Code of Conduct Data
   const codeOfConductData = {
     sportsmanship: {
-      title: "Sportsmanship",
-      icon: "🤝",
-      content: "**Expected Behavior:**\n• Treat all players, judges, and staff with respect\n• Maintain a positive and welcoming environment\n• Accept wins and losses gracefully\n• Help new players learn the game\n\n**Communication:**\n• Use clear, respectful language\n• Avoid profanity or offensive content\n• Keep discussions game-related during matches\n• Respect personal space and boundaries\n\n**Fair Play:**\n• Play to the best of your ability\n• Do not intentionally mislead opponents\n• Call attention to your own mistakes\n• Respect the spirit of competition",
+      title: "1. Sportsmanship Standards",
+      content: "1.1 Expected Behavior\n• Treat all players, judges, and staff with respect\n• Maintain a positive and welcoming environment\n• Accept wins and losses gracefully\n• Help new players learn the game\n• Arrive on time and prepared for matches\n\n1.2 Communication Standards\n• Use clear, respectful language at all times\n• Avoid profanity or offensive content\n• Keep discussions game-related during matches\n• Respect personal space and boundaries\n• Listen to and follow judge instructions\n\n1.3 Fair Play Principles\n• Play to the best of your ability\n• Do not intentionally mislead opponents\n• Call attention to your own mistakes\n• Respect the spirit of competition\n• Maintain integrity in all interactions",
       keywords: ["sportsmanship", "respect", "fair play", "communication"]
     },
     prohibitedBehavior: {
-      title: "Prohibited Behavior",
-      icon: "🚫",
-      content: "**Strictly Forbidden:**\n• Cheating in any form\n• Harassment or discrimination\n• Threatening or violent behavior\n• Theft or destruction of property\n• Bribery or match fixing\n\n**Unsporting Conduct:**\n• Intentional slow play\n• Excessive celebration or taunting\n• Arguing with judges or staff\n• Disrupting other matches\n• Using electronic devices during matches\n\n**Consequences:**\n• Violations may result in warnings, game losses, or disqualification\n• Serious violations may lead to suspension from future events\n• Criminal behavior will be reported to authorities",
+      title: "2. Prohibited Behavior",
+      content: "2.1 Strictly Forbidden Actions\n• Cheating in any form\n• Harassment or discrimination of any kind\n• Threatening or violent behavior\n• Theft or destruction of property\n• Bribery or match fixing\n• Impersonation of tournament officials\n\n2.2 Unsporting Conduct\n• Intentional slow play or stalling\n• Excessive celebration or taunting\n• Arguing with judges or staff decisions\n• Disrupting other matches or events\n• Using electronic devices during matches without permission\n• Sharing information about ongoing matches\n\n2.3 Consequences for Violations\n• Violations may result in warnings, game losses, or disqualification\n• Serious violations may lead to suspension from future events\n• Criminal behavior will be reported to appropriate authorities\n• Repeat offenders face escalating penalties",
       keywords: ["prohibited", "cheating", "harassment", "unsporting", "consequences"]
     },
     inclusivity: {
-      title: "Inclusivity & Diversity",
-      icon: "🌈",
-      content: "**Our Commitment:**\n• KONIVRER welcomes players of all backgrounds\n• Zero tolerance for discrimination\n• Safe space for everyone to enjoy the game\n• Accommodations available for players with disabilities\n\n**Discrimination Policy:**\n• No discrimination based on race, gender, religion, sexual orientation, or disability\n• Offensive language or symbols are prohibited\n• Report incidents to tournament staff immediately\n\n**Accessibility:**\n• Reasonable accommodations will be provided\n• Contact tournament organizers in advance\n• Alternative formats available when possible\n• Assistance available for players who need it",
+      title: "3. Inclusivity and Diversity Policy",
+      content: "3.1 Our Commitment\n• KONIVRER welcomes players of all backgrounds\n• Zero tolerance policy for discrimination\n• Safe and inclusive environment for all participants\n• Accommodations available for players with disabilities\n• Equal treatment regardless of skill level\n\n3.2 Anti-Discrimination Policy\n• No discrimination based on race, gender, religion, sexual orientation, or disability\n• Offensive language, symbols, or imagery are prohibited\n• Report incidents to tournament staff immediately\n• All reports will be investigated thoroughly\n\n3.3 Accessibility Support\n• Reasonable accommodations will be provided when requested\n• Contact tournament organizers in advance for special needs\n• Alternative formats available when possible\n• Assistance available for players who require it\n• Interpreters available upon request",
       keywords: ["inclusivity", "diversity", "discrimination", "accessibility", "safe space"]
     },
     reporting: {
-      title: "Reporting & Enforcement",
-      icon: "📢",
-      content: "**How to Report:**\n• Speak to any judge or tournament staff member\n• Use anonymous reporting forms when available\n• Contact tournament organizers directly\n• Email conduct@konivrer.com for serious issues\n\n**Investigation Process:**\n• All reports taken seriously and investigated promptly\n• Confidentiality maintained when possible\n• Fair hearing for all parties involved\n• Appropriate action taken based on findings\n\n**Support Resources:**\n• Tournament staff trained in conflict resolution\n• Mental health resources available\n• Player advocates available at major events\n• Follow-up support provided when needed",
+      title: "4. Reporting and Enforcement",
+      content: "4.1 How to Report Violations\n• Speak to any judge or tournament staff member immediately\n• Use anonymous reporting forms when available\n• Contact tournament organizers directly\n• Email conduct@konivrer.com for serious issues\n• Emergency contact information posted at all events\n\n4.2 Investigation Process\n• All reports taken seriously and investigated promptly\n• Confidentiality maintained to the extent possible\n• Fair hearing provided for all parties involved\n• Appropriate action taken based on investigation findings\n• Appeals process available for disputed decisions\n\n4.3 Support Resources\n• Tournament staff trained in conflict resolution\n• Mental health resources available upon request\n• Player advocates available at major events\n• Follow-up support provided when needed\n• Referrals to external support services when appropriate",
       keywords: ["reporting", "enforcement", "investigation", "support", "resources"]
     }
   };
@@ -197,36 +187,33 @@ const RulesCenter = () => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveTab('basic')}
-              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+              className={`px-6 py-3 rounded-lg transition-all font-medium ${
                 activeTab === 'basic'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
               }`}
             >
-              <BookOpen className="w-5 h-5" />
-              <span className="font-medium">Basic Rules</span>
+              Basic Rules
             </button>
             <button
               onClick={() => setActiveTab('tournament')}
-              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+              className={`px-6 py-3 rounded-lg transition-all font-medium ${
                 activeTab === 'tournament'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
               }`}
             >
-              <Trophy className="w-5 h-5" />
-              <span className="font-medium">Tournament Rules</span>
+              Tournament Rules
             </button>
             <button
               onClick={() => setActiveTab('conduct')}
-              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+              className={`px-6 py-3 rounded-lg transition-all font-medium ${
                 activeTab === 'conduct'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
               }`}
             >
-              <Shield className="w-5 h-5" />
-              <span className="font-medium">Code of Conduct</span>
+              Code of Conduct
             </button>
           </div>
         </motion.div>
@@ -279,10 +266,7 @@ const RulesCenter = () => {
                 onClick={() => toggleSection(key)}
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-3xl" aria-hidden="true">
-                    {section.icon || '📖'}
-                  </span>
+                <div className="flex items-center">
                   <h2 className="text-2xl font-bold text-white tracking-wide">
                     {section.title || 'Rules Section'}
                   </h2>
