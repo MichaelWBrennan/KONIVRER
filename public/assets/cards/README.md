@@ -3,10 +3,11 @@
 This directory contains optimized card images for the KONIVRER deck database.
 
 ## Current Status
-- **Images**: Placeholder images installed for all 64 cards
-- **Formats**: Both WebP (primary) and PNG (fallback) formats available
-- **Dimensions**: All images are 412×562 pixels
+- **Images**: High-quality card images installed for all 64 cards
+- **Formats**: Both WebP (primary, ~25KB each) and PNG (fallback, ~340KB each) formats available
+- **Dimensions**: All images are 412×562 pixels (optimized for web)
 - **Ready**: System is configured to use these images automatically
+- **Source**: Images sourced from official KONIVRER materials and optimized for web use
 
 ## Adding Card Images
 
