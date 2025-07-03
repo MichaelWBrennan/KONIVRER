@@ -1,7 +1,11 @@
 # Card Images Directory
 
-This directory should contain optimized card images.
+This directory contains optimized card images.
 See IMAGE_OPTIMIZATION_GUIDE.md for details on adding properly sized images.
 
-Current status: Images removed due to corruption and size issues.
-The application will fall back to card-back-new.png for all cards.
+Current status: Placeholder images added for all 64 cards.
+- Format: Both WebP (primary) and PNG (fallback)
+- Dimensions: 412×562 pixels (as recommended)
+- Optimization: WebP with 85% quality for better compression
+
+The application will use these placeholder images until they are replaced with actual card art.
