@@ -168,7 +168,16 @@ const CardPage = () => {
                   <h2 className="text-2xl font-bold whitespace-nowrap">{card.name}</h2>
                   <p className="text-md text-secondary">{card.type}</p>
                   <p className="text-sm text-secondary">
-                    {Array.isArray(card.cost) ? card.cost.join(', ') : card.cost}
+                    {Array.isArray(card.cost) 
+                      ? card.cost.map(element => 
+                          element === 'Void' ? 'Nether' : 
+                          element === 'Submerged' ? 'Water' : 
+                          element
+                        ).join(', ') 
+                      : card.cost === 'Void' ? 'Nether' :
+                        card.cost === 'Submerged' ? 'Water' :
+                        card.cost
+                    }
                   </p>
                 </div>
                 
@@ -222,17 +231,7 @@ const CardPage = () => {
                       </div>
                     </div>
                     
-                    {/* Elements */}
-                    <div className="border-t border-gray-700 py-2">
-                      <p className="text-sm">
-                        <span className="font-semibold">Elements:</span>
-                        {card.elements && card.elements.length > 0 ? (
-                          <span> {Array.isArray(card.elements) ? card.elements.join(', ') : card.elements}</span>
-                        ) : (
-                          <span> None</span>
-                        )}
-                      </p>
-                    </div>
+
                   </div>
                 </div>
               </div>
