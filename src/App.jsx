@@ -42,6 +42,7 @@ import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import CardArtShowcase from './pages/CardArtShowcase';
 import CardMaker from './pages/CardMaker';
+import AdvancedSearchPage from './pages/AdvancedSearchPage';
 
 // Matchmaking System
 import UnifiedMatchmakingPage from './pages/UnifiedMatchmakingPage';
@@ -133,6 +134,10 @@ function App() {
                               element={<CardArtShowcase />}
                             />
                             <Route path="/card-maker" element={<CardMaker />} />
+                            <Route
+                              path="/advanced-search"
+                              element={<AdvancedSearchPage />}
+                            />
                             <Route
                               path="/decks"
                               element={<MobileDeckSearch />}
