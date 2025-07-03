@@ -1,0 +1,356 @@
+[
+  {
+    "id": "abiss_001",
+    "name": "ABISS",
+    "type": "Familiar",
+    "elements": {
+      "fire": 2,
+      "generic": 1
+    },
+    "baseStrength": 2,
+    "baseHealth": 3,
+    "abilities": [
+      {
+        "name": "Flame Strike",
+        "description": "Deal ⊗ damage to target Familiar",
+        "cost": "△",
+        "type": "activated"
+      }
+    ],
+    "keywords": ["Haste"],
+    "flavorText": "Born from the depths of volcanic fury, ABISS commands the primal forces of fire.",
+    "rarity": "rare",
+    "setNumber": "001",
+    "artUrl": "/assets/cards/abiss.jpg"
+  },
+  {
+    "id": "water_elemental_002",
+    "name": "Tidal Guardian",
+    "type": "Familiar",
+    "elements": {
+      "water": 2,
+      "generic": 1
+    },
+    "baseStrength": 1,
+    "baseHealth": 4,
+    "abilities": [
+      {
+        "name": "Healing Wave",
+        "description": "Restore ⊗ health to target Familiar",
+        "cost": "▽",
+        "type": "activated"
+      }
+    ],
+    "keywords": ["Defender"],
+    "flavorText": "The ocean's embrace protects those who respect its power.",
+    "rarity": "uncommon",
+    "setNumber": "002",
+    "artUrl": "/assets/cards/tidal_guardian.jpg"
+  },
+  {
+    "id": "earth_shaman_003",
+    "name": "Stone Caller",
+    "type": "Familiar",
+    "elements": {
+      "earth": 1,
+      "generic": 2
+    },
+    "baseStrength": 2,
+    "baseHealth": 2,
+    "abilities": [
+      {
+        "name": "Summon Boulder",
+        "description": "Create a 0/⊗ Boulder token",
+        "cost": "⊡⊡",
+        "type": "activated"
+      }
+    ],
+    "keywords": ["Trample"],
+    "flavorText": "The earth answers to those who understand its ancient language.",
+    "rarity": "common",
+    "setNumber": "003",
+    "artUrl": "/assets/cards/stone_caller.jpg"
+  },
+  {
+    "id": "air_sprite_004",
+    "name": "Wind Dancer",
+    "type": "Familiar",
+    "elements": {
+      "air": 1,
+      "generic": 1
+    },
+    "baseStrength": 1,
+    "baseHealth": 1,
+    "abilities": [
+      {
+        "name": "Gust",
+        "description": "Return target Familiar with cost ⊗ or less to its owner's hand",
+        "cost": "△△",
+        "type": "activated"
+      }
+    ],
+    "keywords": ["Flying", "Haste"],
+    "flavorText": "Swift as the wind, elusive as a whisper.",
+    "rarity": "common",
+    "setNumber": "004",
+    "artUrl": "/assets/cards/wind_dancer.jpg"
+  },
+  {
+    "id": "aether_mage_005",
+    "name": "Void Walker",
+    "type": "Familiar",
+    "elements": {
+      "aether": 2,
+      "nether": 1
+    },
+    "baseStrength": 3,
+    "baseHealth": 2,
+    "abilities": [
+      {
+        "name": "Phase Shift",
+        "description": "Remove target card from play. Return it at end of turn.",
+        "cost": "○□",
+        "type": "activated"
+      }
+    ],
+    "keywords": ["Void", "Phasing"],
+    "flavorText": "Between existence and nothingness lies infinite possibility.",
+    "rarity": "rare",
+    "setNumber": "005",
+    "artUrl": "/assets/cards/void_walker.jpg"
+  },
+  {
+    "id": "lightning_bolt_006",
+    "name": "Lightning Bolt",
+    "type": "Spell",
+    "elements": {
+      "fire": 1,
+      "air": 1
+    },
+    "abilities": [
+      {
+        "name": "Lightning Strike",
+        "description": "Deal ⊗ damage to any target",
+        "type": "spell"
+      }
+    ],
+    "flavorText": "The sky's wrath made manifest.",
+    "rarity": "common",
+    "setNumber": "006",
+    "artUrl": "/assets/cards/lightning_bolt.jpg"
+  },
+  {
+    "id": "healing_spring_007",
+    "name": "Healing Spring",
+    "type": "Spell",
+    "elements": {
+      "water": 2
+    },
+    "abilities": [
+      {
+        "name": "Restore",
+        "description": "Restore ⊗ health to all your Familiars",
+        "type": "spell"
+      }
+    ],
+    "flavorText": "Life flows eternal from the sacred springs.",
+    "rarity": "uncommon",
+    "setNumber": "007",
+    "artUrl": "/assets/cards/healing_spring.jpg"
+  },
+  {
+    "id": "void_rift_008",
+    "name": "Void Rift",
+    "type": "Spell",
+    "elements": {
+      "nether": 3
+    },
+    "abilities": [
+      {
+        "name": "Banish",
+        "description": "Remove target Familiar from play permanently",
+        "type": "spell"
+      }
+    ],
+    "keywords": ["Void"],
+    "flavorText": "Some things are better left forgotten.",
+    "rarity": "rare",
+    "setNumber": "008",
+    "artUrl": "/assets/cards/void_rift.jpg"
+  },
+  {
+    "id": "crystal_orb_009",
+    "name": "Crystal Orb",
+    "type": "Artifact",
+    "elements": {
+      "aether": 1,
+      "generic": 1
+    },
+    "abilities": [
+      {
+        "name": "Scrying",
+        "description": "Look at the top ⊗ cards of your deck",
+        "cost": "○",
+        "type": "activated"
+      }
+    ],
+    "flavorText": "The future reveals itself to those who know how to look.",
+    "rarity": "uncommon",
+    "setNumber": "009",
+    "artUrl": "/assets/cards/crystal_orb.jpg"
+  },
+  {
+    "id": "fire_flag_010",
+    "name": "Banner of Flames",
+    "type": "Flag",
+    "elements": {
+      "fire": 0
+    },
+    "abilities": [
+      {
+        "name": "Flame Mastery",
+        "description": "Your Fire Familiars get +1/+0",
+        "type": "passive"
+      },
+      {
+        "name": "Burning Aura",
+        "description": "Whenever a Fire Familiar enters play, deal 1 damage to target opponent",
+        "type": "triggered"
+      }
+    ],
+    "flavorText": "Under this banner, the flames of war never die.",
+    "rarity": "rare",
+    "setNumber": "010",
+    "artUrl": "/assets/cards/fire_flag.jpg"
+  },
+  {
+    "id": "water_flag_011",
+    "name": "Tidal Standard",
+    "type": "Flag",
+    "elements": {
+      "water": 0
+    },
+    "abilities": [
+      {
+        "name": "Flow Mastery",
+        "description": "Your Water Familiars get +0/+1",
+        "type": "passive"
+      },
+      {
+        "name": "Cleansing Tide",
+        "description": "At the start of your turn, restore 1 health to all your Familiars",
+        "type": "triggered"
+      }
+    ],
+    "flavorText": "The tide rises and falls, but the ocean endures.",
+    "rarity": "rare",
+    "setNumber": "011",
+    "artUrl": "/assets/cards/water_flag.jpg"
+  },
+  {
+    "id": "earth_flag_012",
+    "name": "Mountain's Heart",
+    "type": "Flag",
+    "elements": {
+      "earth": 0
+    },
+    "abilities": [
+      {
+        "name": "Stone Mastery",
+        "description": "Your Earth Familiars get +0/+2",
+        "type": "passive"
+      },
+      {
+        "name": "Enduring Strength",
+        "description": "Earth Familiars you control cannot be removed from play by spells",
+        "type": "passive"
+      }
+    ],
+    "flavorText": "Rooted deep, standing tall, enduring all.",
+    "rarity": "rare",
+    "setNumber": "012",
+    "artUrl": "/assets/cards/earth_flag.jpg"
+  },
+  {
+    "id": "shadow_assassin_013",
+    "name": "Shadow Assassin",
+    "type": "Familiar",
+    "elements": {
+      "nether": 2,
+      "generic": 1
+    },
+    "baseStrength": 3,
+    "baseHealth": 1,
+    "abilities": [
+      {
+        "name": "Stealth Strike",
+        "description": "This Familiar cannot be blocked if defending player has ⊗ or fewer Familiars",
+        "type": "passive"
+      }
+    ],
+    "keywords": ["Stealth", "Haste"],
+    "flavorText": "Death comes silently in the night.",
+    "rarity": "uncommon",
+    "setNumber": "013",
+    "artUrl": "/assets/cards/shadow_assassin.jpg"
+  },
+  {
+    "id": "dragon_lord_014",
+    "name": "Dragon Lord",
+    "type": "Familiar",
+    "elements": {
+      "fire": 3,
+      "air": 2
+    },
+    "baseStrength": 5,
+    "baseHealth": 5,
+    "abilities": [
+      {
+        "name": "Dragon's Breath",
+        "description": "Deal ⊗ damage to all enemy Familiars",
+        "cost": "△△△",
+        "type": "activated"
+      },
+      {
+        "name": "Aerial Dominance",
+        "description": "Other Flying Familiars you control get +1/+1",
+        "type": "passive"
+      }
+    ],
+    "keywords": ["Flying", "Legendary"],
+    "flavorText": "Sovereign of the skies, master of flame.",
+    "rarity": "rare",
+    "setNumber": "014",
+    "artUrl": "/assets/cards/dragon_lord.jpg"
+  },
+  {
+    "id": "mystic_sage_015",
+    "name": "Mystic Sage",
+    "type": "Familiar",
+    "elements": {
+      "aether": 1,
+      "water": 1,
+      "generic": 1
+    },
+    "baseStrength": 1,
+    "baseHealth": 3,
+    "abilities": [
+      {
+        "name": "Arcane Knowledge",
+        "description": "Draw ⊗ cards",
+        "cost": "○▽",
+        "type": "activated"
+      },
+      {
+        "name": "Spell Mastery",
+        "description": "Your spells cost ⊗ less to cast",
+        "type": "passive"
+      }
+    ],
+    "keywords": ["Wisdom"],
+    "flavorText": "Knowledge is the greatest power of all.",
+    "rarity": "uncommon",
+    "setNumber": "015",
+    "artUrl": "/assets/cards/mystic_sage.jpg"
+  }
+]

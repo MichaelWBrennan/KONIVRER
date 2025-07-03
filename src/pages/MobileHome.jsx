@@ -52,6 +52,35 @@ const MobileHome = () => {
         </div>
       </section>
 
+      {/* Quick Access */}
+      <section className="mobile-mb">
+        <h2 className="mobile-card-title esoteric-rune">Experience KONIVRER</h2>
+        <div className="mobile-card esoteric-card">
+          <div className="mobile-card-content mobile-text-center">
+            <h3 className="esoteric-text-accent mobile-mb">Enhanced Game Implementation</h3>
+            <p className="mobile-mb">
+              Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
+            </p>
+            <Link 
+              to="/konivrer-demo" 
+              className="mobile-button mobile-button-primary esoteric-glow-hover"
+              style={{
+                display: 'inline-block',
+                padding: '12px 24px',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                transition: 'all 0.2s'
+              }}
+            >
+              ✧ Play KONIVRER Demo ✧
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* News & Updates */}
       <section className="mobile-mb">
         <h2 className="mobile-card-title esoteric-rune">Latest News</h2>

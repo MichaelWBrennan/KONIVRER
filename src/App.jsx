@@ -35,6 +35,8 @@ import MobileGamePage from './pages/MobileGamePage';
 import DeckSelectionPage from './pages/DeckSelectionPage';
 import EnhancedDeckBuilder from './components/deckbuilder/EnhancedDeckBuilder';
 import BattlePass from './pages/BattlePass';
+import KonivrERDemo from './pages/KonivrERDemo';
+import GameBoardTest from './pages/GameBoardTest';
 
 // Card & Deck System
 import MobileCardExplorer from './pages/MobileCardExplorer';
@@ -86,6 +88,14 @@ function App() {
                             <Route
                               path="/game/:mode/:gameId"
                               element={<MobileGamePage />}
+                            />
+                            <Route
+                              path="/konivrer-demo"
+                              element={<KonivrERDemo />}
+                            />
+                            <Route
+                              path="/game-board-test"
+                              element={<GameBoardTest />}
                             />
                             <Route
                               path="/deck-selection"
