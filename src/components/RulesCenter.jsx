@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Download, Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Download, Share2, ChevronDown, ChevronUp, BookOpen, Trophy, Shield } from 'lucide-react';
 
 const RulesCenter = () => {
   const [rulesData, setRulesData] = useState(null);
@@ -15,6 +15,7 @@ const RulesCenter = () => {
   const [expandedSections, setExpandedSections] = useState(
     new Set(['overview']),
   );
+  const [activeTab, setActiveTab] = useState('basic');
 
   useEffect(() => {
     // Load rules data
@@ -60,6 +61,74 @@ const RulesCenter = () => {
     loadRulesData();
   }, []);
 
+  // Reset expanded sections when switching tabs
+  useEffect(() => {
+    if (activeTab === 'basic') {
+      setExpandedSections(new Set(['overview']));
+    } else if (activeTab === 'tournament') {
+      setExpandedSections(new Set(['tournamentOverview']));
+    } else if (activeTab === 'conduct') {
+      setExpandedSections(new Set(['sportsmanship']));
+    }
+    setSearchTerm(''); // Clear search when switching tabs
+  }, [activeTab]);
+
+  // Tournament Rules Data
+  const tournamentRulesData = {
+    tournamentOverview: {
+      title: "Tournament Overview",
+      icon: "🏆",
+      content: "KONIVRER tournaments are competitive events where players test their deck-building skills and strategic gameplay against other Conjurers.\n\n**Tournament Types:**\n• **Constructed** - Players bring pre-built 40-card decks\n• **Draft** - Players build decks from booster packs during the event\n• **Sealed** - Players build decks from a fixed pool of cards\n\n**Tournament Structure:**\n• Swiss rounds followed by single-elimination top cut\n• Match length: Best of 3 games\n• Time limit: 50 minutes per match",
+      keywords: ["tournament", "competitive", "constructed", "draft", "sealed"]
+    },
+    deckRegistration: {
+      title: "Deck Registration & Verification",
+      icon: "📝",
+      content: "**Deck List Requirements:**\n• Must be submitted before the tournament begins\n• Include exact card names and quantities\n• Flag must be clearly identified\n• Deck must meet all construction rules\n\n**Deck Verification:**\n• Random deck checks may occur between rounds\n• Players must present their deck exactly as registered\n• Illegal decks result in immediate disqualification\n\n**Sideboard Rules:**\n• No sideboard allowed in standard tournaments\n• Special formats may allow 15-card sideboards",
+      keywords: ["deck registration", "verification", "deck list", "sideboard"]
+    },
+    matchProcedures: {
+      title: "Match Procedures",
+      icon: "⏱️",
+      content: "**Pre-Game:**\n• Players present decks for opponent inspection\n• Determine who goes first (random method)\n• Both players shuffle and present decks\n\n**During Games:**\n• Players must maintain clear game state\n• Announce all actions clearly\n• Call a judge for any disputes\n\n**Time Management:**\n• 50-minute rounds with 5 turns in time\n• Players must play at reasonable pace\n• Slow play warnings may be issued\n\n**End of Match:**\n• Report results to tournament staff\n• Return to assigned seating area",
+      keywords: ["match procedures", "time limit", "game state", "judges"]
+    },
+    penalties: {
+      title: "Penalties & Infractions",
+      icon: "⚠️",
+      content: "**Warning Level:**\n• Minor procedural errors\n• First instance of looking at extra cards\n• Failure to maintain clear game state\n\n**Game Loss:**\n• Deck/decklist problems\n• Drawing extra cards (repeated)\n• Marked cards\n\n**Match Loss:**\n• Aggressive behavior\n• Intentional rule violations\n• Bribery or collusion\n\n**Disqualification:**\n• Cheating\n• Unsporting conduct\n• Theft or violence\n\n**Appeals:**\n• Players may appeal penalties to head judge\n• Head judge's decision is final",
+      keywords: ["penalties", "infractions", "warnings", "disqualification", "appeals"]
+    }
+  };
+
+  // Code of Conduct Data
+  const codeOfConductData = {
+    sportsmanship: {
+      title: "Sportsmanship",
+      icon: "🤝",
+      content: "**Expected Behavior:**\n• Treat all players, judges, and staff with respect\n• Maintain a positive and welcoming environment\n• Accept wins and losses gracefully\n• Help new players learn the game\n\n**Communication:**\n• Use clear, respectful language\n• Avoid profanity or offensive content\n• Keep discussions game-related during matches\n• Respect personal space and boundaries\n\n**Fair Play:**\n• Play to the best of your ability\n• Do not intentionally mislead opponents\n• Call attention to your own mistakes\n• Respect the spirit of competition",
+      keywords: ["sportsmanship", "respect", "fair play", "communication"]
+    },
+    prohibitedBehavior: {
+      title: "Prohibited Behavior",
+      icon: "🚫",
+      content: "**Strictly Forbidden:**\n• Cheating in any form\n• Harassment or discrimination\n• Threatening or violent behavior\n• Theft or destruction of property\n• Bribery or match fixing\n\n**Unsporting Conduct:**\n• Intentional slow play\n• Excessive celebration or taunting\n• Arguing with judges or staff\n• Disrupting other matches\n• Using electronic devices during matches\n\n**Consequences:**\n• Violations may result in warnings, game losses, or disqualification\n• Serious violations may lead to suspension from future events\n• Criminal behavior will be reported to authorities",
+      keywords: ["prohibited", "cheating", "harassment", "unsporting", "consequences"]
+    },
+    inclusivity: {
+      title: "Inclusivity & Diversity",
+      icon: "🌈",
+      content: "**Our Commitment:**\n• KONIVRER welcomes players of all backgrounds\n• Zero tolerance for discrimination\n• Safe space for everyone to enjoy the game\n• Accommodations available for players with disabilities\n\n**Discrimination Policy:**\n• No discrimination based on race, gender, religion, sexual orientation, or disability\n• Offensive language or symbols are prohibited\n• Report incidents to tournament staff immediately\n\n**Accessibility:**\n• Reasonable accommodations will be provided\n• Contact tournament organizers in advance\n• Alternative formats available when possible\n• Assistance available for players who need it",
+      keywords: ["inclusivity", "diversity", "discrimination", "accessibility", "safe space"]
+    },
+    reporting: {
+      title: "Reporting & Enforcement",
+      icon: "📢",
+      content: "**How to Report:**\n• Speak to any judge or tournament staff member\n• Use anonymous reporting forms when available\n• Contact tournament organizers directly\n• Email conduct@konivrer.com for serious issues\n\n**Investigation Process:**\n• All reports taken seriously and investigated promptly\n• Confidentiality maintained when possible\n• Fair hearing for all parties involved\n• Appropriate action taken based on findings\n\n**Support Resources:**\n• Tournament staff trained in conflict resolution\n• Mental health resources available\n• Player advocates available at major events\n• Follow-up support provided when needed",
+      keywords: ["reporting", "enforcement", "investigation", "support", "resources"]
+    }
+  };
+
   const toggleSection = sectionId => {
     const newExpanded = new Set(expandedSections);
     if (newExpanded.has(sectionId)) {
@@ -70,7 +139,7 @@ const RulesCenter = () => {
     setExpandedSections(newExpanded);
   };
 
-  if (!rulesData) {
+  if (!rulesData && activeTab === 'basic') {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
@@ -78,8 +147,22 @@ const RulesCenter = () => {
     );
   }
 
-  const filteredSections = rulesData
-    ? Object.entries(rulesData).filter(([key, section]) => {
+  // Get current data based on active tab
+  const getCurrentData = () => {
+    switch (activeTab) {
+      case 'tournament':
+        return tournamentRulesData;
+      case 'conduct':
+        return codeOfConductData;
+      default:
+        return rulesData;
+    }
+  };
+
+  const currentData = getCurrentData();
+
+  const filteredSections = currentData
+    ? Object.entries(currentData).filter(([key, section]) => {
         try {
           // Skip metadata fields
           if (key === 'lastUpdated' || key === 'version') return false;
@@ -105,6 +188,49 @@ const RulesCenter = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-4 py-8">
+        {/* Tab Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-6"
+        >
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveTab('basic')}
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+                activeTab === 'basic'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-5 h-5" />
+              <span className="font-medium">Basic Rules</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('tournament')}
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+                activeTab === 'tournament'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
+              }`}
+            >
+              <Trophy className="w-5 h-5" />
+              <span className="font-medium">Tournament Rules</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('conduct')}
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all ${
+                activeTab === 'conduct'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
+              }`}
+            >
+              <Shield className="w-5 h-5" />
+              <span className="font-medium">Code of Conduct</span>
+            </button>
+          </div>
+        </motion.div>
+
         {/* Search and Controls */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
