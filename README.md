@@ -23,6 +23,16 @@ A modern, mobile-first trading card game platform with advanced matchmaking, tou
 - **Card Art Showcase** - High-resolution card artwork display
 - **Custom Card Maker** - Create and share custom cards
 
+#### Card Images
+
+The repository includes placeholder card images for all 64 cards in the KONIVRER deck. These images are located in the `public/assets/cards/` directory and are available in both WebP and PNG formats. The WebP format is used as the primary format for better compression, while PNG is provided as a fallback for older browsers.
+
+To add your own card images:
+1. Create images with dimensions 412×562 pixels
+2. Save them with the card name as the filename (e.g., `ABISS.webp`, `ANGEL.png`)
+3. Place them in the `public/assets/cards/` directory
+4. The application will automatically use your images instead of the placeholders
+
 ## Quick Start
 
 1. **Install dependencies:**
