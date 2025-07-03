@@ -172,6 +172,13 @@ const Layout = ({ children }) => {
       icon: Wrench,
     });
 
+    // Play Now - direct link to game without login
+    baseNavigation.push({
+      name: 'Play Now',
+      href: '/game/ai',
+      icon: Play,
+    });
+
     // Online Sim - direct link
     baseNavigation.push({
       name: 'Online Sim',

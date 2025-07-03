@@ -108,6 +108,11 @@ const CardPage = () => {
         {/* Card Search Bar - Always at the top */}
         <div className="bg-amber-900/30 rounded-lg p-6 mb-6 border border-amber-800/40 shadow-md">
           <CardSearchBar className="mb-0" />
+          <div className="mt-3 text-center">
+            <a href="/advanced-search" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
+              Advanced Search ⟶
+            </a>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -136,16 +141,16 @@ const CardPage = () => {
                   <h2 className="text-2xl font-bold whitespace-nowrap text-amber-100">{card.name}</h2>
                   <p className="text-md text-amber-200/80">{card.type}</p>
                   <p className="text-sm text-amber-200/70">
-                    {Array.isArray(card.cost) 
-                      ? card.cost.map(element => 
-                          element === 'Void' ? 'Nether' : 
-                          element === 'Submerged' ? 'Water' : 
+                    {Array.isArray(card.cost)
+                      ? card.cost.map(element =>
+                          element === 'Void' ? 'Nether' :
+                          element === 'Submerged' ? 'Water' :
                           element === 'Brilliance' ? 'Æther' :
                           element === 'Inferno' ? 'Fire' :
                           element === 'Steadfast' ? 'Earth' :
                           element === 'Gust' ? 'Wind' :
                           element
-                        ).join(', ') 
+                        ).join(', ')
                       : card.cost === 'Void' ? 'Nether' :
                         card.cost === 'Submerged' ? 'Water' :
                         card.cost === 'Brilliance' ? 'Æther' :
@@ -156,7 +161,7 @@ const CardPage = () => {
                     }
                   </p>
                 </div>
-                
+
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
@@ -166,7 +171,7 @@ const CardPage = () => {
                     <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
-                
+
                 {/* Card Text */}
                 <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
                   <p className="text-sm leading-relaxed text-amber-100/90">
@@ -190,7 +195,7 @@ const CardPage = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
@@ -200,7 +205,7 @@ const CardPage = () => {
                     <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
-                
+
                 {/* Card Details - Scryfall-like format */}
                 <div className="mt-4">
                   <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
@@ -229,7 +234,7 @@ const CardPage = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>

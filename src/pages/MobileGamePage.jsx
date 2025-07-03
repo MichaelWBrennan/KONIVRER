@@ -229,7 +229,7 @@ const MobileGamePage = () => {
   // Leave game
   const handleLeaveGame = () => {
     leaveGame();
-    navigate('/matchmaking');
+    navigate('/');
   };
 
   // Render game setup
@@ -252,13 +252,16 @@ const MobileGamePage = () => {
             </div>
           ) : (
             <div className="mobile-text-center">
-              <p>You don't have any decks yet.</p>
+              <p>Using default starter deck for quick play.</p>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mt"
-                onClick={() => navigate('/deck-builder')}
+                onClick={() => setSelectedDeck('starter-deck')}
               >
-                Create a Deck
+                Use Starter Deck
               </button>
+              <p className="mobile-mt">
+                <small>Create an account to build custom decks.</small>
+              </p>
             </div>
           )}
         </div>
@@ -274,9 +277,9 @@ const MobileGamePage = () => {
 
           <button
             className="mobile-btn"
-            onClick={() => navigate('/matchmaking')}
+            onClick={() => navigate('/')}
           >
-            Back to Matchmaking
+            Back to Home
           </button>
         </div>
       </div>
@@ -301,9 +304,9 @@ const MobileGamePage = () => {
 
             <button
               className="mobile-btn"
-              onClick={() => navigate('/matchmaking')}
+              onClick={() => navigate('/')}
             >
-              Back to Matchmaking
+              Back to Home
             </button>
           </div>
         </div>
