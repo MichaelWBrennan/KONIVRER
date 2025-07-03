@@ -1,4 +1,4 @@
-name: Dependabot Auto-Merge
+name: Dependabot Auto-Merge (All Updates)
 
 on:
   pull_request_target:
@@ -30,13 +30,10 @@ jobs:
           wait-interval: 30
           running-timeout-minutes: 15
           allowed-conclusions: success,skipped
-          check-regexp: 'build.*'
+          check-regexp: '(build|test|lint).*'
 
-      - name: Auto-approve and merge patch/minor updates
-        if: |
-          steps.wait-for-checks.outputs.conclusion == 'success' &&
-          (steps.metadata.outputs.update-type == 'version-update:semver-patch' || 
-           steps.metadata.outputs.update-type == 'version-update:semver-minor')
+      - name: Auto-approve and merge all Dependabot updates
+        if: steps.wait-for-checks.outputs.conclusion == 'success'
         run: |
           echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
@@ -50,23 +47,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Comment on major updates
+      - name: Log major updates
         if: steps.metadata.outputs.update-type == 'version-update:semver-major'
         run: |
-          echo "🚨 Major version update detected - requires manual review"
-          gh pr comment "${{ github.event.pull_request.number }}" --body "🚨 **Major version update detected!**
+          echo "🔄 Major version update detected - auto-merging since tests passed"
+          gh pr comment "${{ github.event.pull_request.number }}" --body "🔄 **Major version update detected and auto-merged**
 
-          This PR contains a major version update that may include breaking changes. Please review carefully before merging.
+          This PR contains a major version update that may include breaking changes. It was automatically merged because all tests passed.
 
           **Update Details:**
           - **Package:** ${{ steps.metadata.outputs.dependency-names }}
           - **Update type:** ${{ steps.metadata.outputs.update-type }}
           - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
 
-          **Next steps:**
-          1. Review the changelog/release notes for breaking changes
-          2. Test the application thoroughly
-          3. Merge manually if everything looks good: \`gh pr merge --squash ${{ github.event.pull_request.number }}\`"
+          If you encounter any issues after this merge, please review the changelog/release notes for breaking changes."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
