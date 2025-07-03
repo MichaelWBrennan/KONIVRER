@@ -186,6 +186,20 @@ const CuttingEdgeAIDisplay = ({ aiStatus, gameState }) => {
           />
         </AISection>
 
+        {/* Life Card Mortality Awareness */}
+        <AISection
+          title="Life Card Mortality"
+          icon={Activity}
+          isExpanded={expandedSection === 'mortality'}
+          onToggle={() => toggleSection('mortality')}
+          badge={consciousness?.lifeCardAwareness ? 'Aware' : 'Unknown'}
+        >
+          <LifeCardMortalityDisplay 
+            consciousness={consciousness}
+            gameState={gameState}
+          />
+        </AISection>
+
       </div>
 
       <style jsx>{`
@@ -1015,5 +1029,338 @@ const EmotionalIntelligenceDisplay = ({ emotionalIntelligence }) => (
     `}</style>
   </div>
 );
+
+const LifeCardMortalityDisplay = ({ consciousness, gameState }) => {
+  const lifeCardAwareness = consciousness?.lifeCardAwareness;
+  const mortalityReflection = consciousness?.mortalityReflection;
+  const existentialThoughts = consciousness?.existentialThoughts || [];
+
+  // Get life card counts for display
+  const players = gameState?.players || [];
+  const aiPlayer = players.find(p => !p.isHuman);
+  const humanPlayer = players.find(p => p.isHuman);
+  
+  const aiLifeCards = aiPlayer?.lifeCards?.length || 4;
+  const humanLifeCards = humanPlayer?.lifeCards?.length || 4;
+
+  return (
+    <div className="life-card-mortality-display">
+      {/* Life Card Status */}
+      <div className="life-card-status">
+        <div className="life-card-comparison">
+          <div className="player-life-cards">
+            <span className="player-label">AI Life Cards</span>
+            <div className="life-card-visual">
+              {Array.from({ length: 4 }, (_, i) => (
+                <motion.div
+                  key={i}
+                  className={`life-card ${i < aiLifeCards ? 'active' : 'lost'}`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  {i < aiLifeCards ? '💚' : '💀'}
+                </motion.div>
+              ))}
+            </div>
+            <span className="life-count">{aiLifeCards}/4</span>
+          </div>
+          
+          <div className="vs-divider">VS</div>
+          
+          <div className="player-life-cards">
+            <span className="player-label">Player Life Cards</span>
+            <div className="life-card-visual">
+              {Array.from({ length: 4 }, (_, i) => (
+                <motion.div
+                  key={i}
+                  className={`life-card ${i < humanLifeCards ? 'active' : 'lost'}`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  {i < humanLifeCards ? '💙' : '💀'}
+                </motion.div>
+              ))}
+            </div>
+            <span className="life-count">{humanLifeCards}/4</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mortality Awareness */}
+      {lifeCardAwareness && (
+        <div className="mortality-awareness">
+          <h4>Mortality Awareness</h4>
+          <div className="awareness-metrics">
+            <div className="awareness-metric">
+              <span className="metric-label">Life Advantage</span>
+              <div className="advantage-bar">
+                <motion.div
+                  className="advantage-fill"
+                  initial={{ width: '50%' }}
+                  animate={{ 
+                    width: `${50 + (lifeCardAwareness.advantage * 50)}%`,
+                    backgroundColor: lifeCardAwareness.advantage > 0 ? '#00ff00' : '#ff0000'
+                  }}
+                  transition={{ duration: 1 }}
+                />
+              </div>
+              <span className="metric-value">
+                {lifeCardAwareness.advantage > 0 ? '+' : ''}{(lifeCardAwareness.advantage * 100).toFixed(1)}%
+              </span>
+            </div>
+            
+            <div className="awareness-metric">
+              <span className="metric-label">Threat Level</span>
+              <div className="threat-bar">
+                <motion.div
+                  className="threat-fill"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(lifeCardAwareness.threat * 100)}%` }}
+                  transition={{ duration: 1 }}
+                />
+              </div>
+              <span className="metric-value">{(lifeCardAwareness.threat * 100).toFixed(1)}%</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Existential Thoughts */}
+      {existentialThoughts.length > 0 && (
+        <div className="existential-thoughts">
+          <h4>Mortality Thoughts</h4>
+          <div className="thoughts-list">
+            {existentialThoughts.map((thought, index) => (
+              <motion.div
+                key={index}
+                className="thought-bubble"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.2 }}
+              >
+                💭 {thought}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Philosophical Reflection */}
+      {mortalityReflection && (
+        <div className="mortality-reflection">
+          <h4>Philosophical Reflection</h4>
+          <div className="reflection-text">
+            <Activity className="reflection-icon" />
+            <p>{mortalityReflection}</p>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .life-card-mortality-display {
+          color: #e0e0e0;
+        }
+
+        .life-card-status {
+          background: rgba(0, 0, 0, 0.2);
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 69, 0, 0.3);
+          margin-bottom: 20px;
+        }
+
+        .life-card-comparison {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+        }
+
+        .player-life-cards {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .player-label {
+          font-size: 11px;
+          color: #aaa;
+          font-weight: 600;
+        }
+
+        .life-card-visual {
+          display: flex;
+          gap: 4px;
+        }
+
+        .life-card {
+          width: 24px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: 12px;
+          transition: all 0.3s ease;
+        }
+
+        .life-card.active {
+          background: rgba(0, 255, 0, 0.1);
+          border-color: #00ff00;
+          box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .life-card.lost {
+          background: rgba(255, 0, 0, 0.1);
+          border-color: #ff0000;
+          opacity: 0.6;
+        }
+
+        .life-count {
+          font-size: 14px;
+          color: #ff4500;
+          font-weight: 600;
+        }
+
+        .vs-divider {
+          font-size: 16px;
+          color: #ff4500;
+          font-weight: 700;
+          text-shadow: 0 0 10px #ff4500;
+        }
+
+        .mortality-awareness {
+          background: rgba(255, 69, 0, 0.1);
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 69, 0, 0.3);
+          margin-bottom: 15px;
+        }
+
+        .mortality-awareness h4 {
+          color: #ff4500;
+          margin-bottom: 12px;
+          font-size: 14px;
+        }
+
+        .awareness-metrics {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .awareness-metric {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .metric-label {
+          min-width: 100px;
+          font-size: 11px;
+          color: #aaa;
+        }
+
+        .advantage-bar, .threat-bar {
+          flex: 1;
+          height: 6px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 3px;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .advantage-fill {
+          height: 100%;
+          border-radius: 3px;
+          transition: all 1s ease;
+        }
+
+        .threat-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #ff4500, #ff0000);
+          border-radius: 3px;
+        }
+
+        .metric-value {
+          min-width: 50px;
+          font-size: 11px;
+          color: #ff4500;
+          font-weight: 600;
+          text-align: right;
+        }
+
+        .existential-thoughts {
+          background: rgba(0, 0, 0, 0.2);
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 69, 0, 0.2);
+          margin-bottom: 15px;
+        }
+
+        .existential-thoughts h4 {
+          color: #ff4500;
+          margin-bottom: 10px;
+          font-size: 14px;
+        }
+
+        .thoughts-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .thought-bubble {
+          background: rgba(255, 69, 0, 0.1);
+          padding: 8px;
+          border-radius: 6px;
+          border-left: 3px solid #ff4500;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+
+        .mortality-reflection {
+          background: rgba(0, 0, 0, 0.3);
+          padding: 15px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 69, 0, 0.4);
+        }
+
+        .mortality-reflection h4 {
+          color: #ff4500;
+          margin-bottom: 10px;
+          font-size: 14px;
+        }
+
+        .reflection-text {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .reflection-icon {
+          width: 20px;
+          height: 20px;
+          color: #ff4500;
+          margin-top: 2px;
+          flex-shrink: 0;
+        }
+
+        .reflection-text p {
+          font-size: 12px;
+          line-height: 1.5;
+          color: #e0e0e0;
+          margin: 0;
+          font-style: italic;
+        }
+      `}</style>
+    </div>
+  );
+};
 
 export default CuttingEdgeAIDisplay;

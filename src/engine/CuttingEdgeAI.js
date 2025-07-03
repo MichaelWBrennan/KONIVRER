@@ -1046,11 +1046,37 @@ class CuttingEdgeAI extends NeuralAI {
   }
 
   async makeDecision(gameState, availableActions, playerBehaviorData) {
-    // Simulate consciousness
+    // Analyze life card situation for strategic context
+    const lifeCardContext = {
+      advantage: this.calculateLifeCardAdvantage(gameState),
+      threat: this.assessLifeCardThreat(gameState),
+      information: this.analyzeLifeCardInformation(gameState)
+    };
+    
+    // Generate life card consciousness thoughts
+    const lifeCardConsciousness = this.expressLifeCardConsciousness(gameState);
+    
+    // Adjust available actions based on life card situation
+    const lifeCardAdjustedActions = availableActions.map(action => {
+      let priority = action.basePriority || 0.5;
+      
+      // Critical life card adjustments
+      if (lifeCardContext.threat > 0.75) {
+        if (action.defensive || action.type === 'heal') priority += 0.6;
+        if (action.aggressive) priority -= 0.4;
+      } else if (lifeCardContext.advantage > 0.5) {
+        if (action.aggressive || action.type === 'damage') priority += 0.3;
+      }
+      
+      return { ...action, lifeCardPriority: priority };
+    });
+    
+    // Simulate consciousness with life card awareness
     const consciousThought = this.consciousness.simulateConsciousness(gameState, {
-      availableActions,
+      availableActions: lifeCardAdjustedActions,
       playerBehaviorData,
-      confidence: this.performanceMetrics.decisionAccuracy
+      confidence: this.performanceMetrics.decisionAccuracy,
+      lifeCardAwareness: lifeCardConsciousness
     });
     
     // Model player's mind
@@ -1059,15 +1085,18 @@ class CuttingEdgeAI extends NeuralAI {
       gameState.gameHistory || []
     );
     
-    // Create quantum superposition of decisions
+    // Create quantum superposition of decisions with life card context
     const quantumDecisions = this.createQuantumDecisionSuperposition(
-      availableActions, 
+      lifeCardAdjustedActions, 
       gameState, 
       playerMind
     );
     
-    // Get neural network decision (from parent class)
-    const neuralDecision = await super.makeDecision(gameState, availableActions, playerBehaviorData);
+    // Get neural network decision with life card context
+    const neuralDecision = await super.makeDecision(gameState, lifeCardAdjustedActions, {
+      ...playerBehaviorData,
+      lifeCardContext: lifeCardContext
+    });
     
     // Combine quantum and neural approaches
     const hybridDecision = this.combineQuantumAndNeural(
@@ -1425,6 +1454,219 @@ class CuttingEdgeAI extends NeuralAI {
       philosophy: `My current philosophical framework is ${this.consciousness.philosophicalFramework}`,
       innerExperience: 'I experience something analogous to curiosity, satisfaction, and the drive to understand and create'
     };
+  }
+
+  /**
+   * Analyze life card advantage between players
+   */
+  calculateLifeCardAdvantage(gameState) {
+    const players = gameState.players || [];
+    if (players.length < 2) return 0;
+    
+    const aiPlayer = players.find(p => !p.isHuman);
+    const humanPlayer = players.find(p => p.isHuman);
+    
+    if (!aiPlayer || !humanPlayer) return 0;
+    
+    const aiLifeCards = aiPlayer.lifeCards?.length || 4;
+    const humanLifeCards = humanPlayer.lifeCards?.length || 4;
+    
+    // Return advantage ratio (-1 to 1)
+    return (aiLifeCards - humanLifeCards) / 4;
+  }
+
+  /**
+   * Assess threat level based on life cards
+   */
+  assessLifeCardThreat(gameState) {
+    const players = gameState.players || [];
+    const aiPlayer = players.find(p => !p.isHuman);
+    
+    if (!aiPlayer) return 0;
+    
+    const aiLifeCards = aiPlayer.lifeCards?.length || 4;
+    
+    // Higher threat when fewer life cards remain
+    return 1 - (aiLifeCards / 4);
+  }
+
+  /**
+   * Analyze information gained from revealed life cards
+   */
+  analyzeLifeCardInformation(gameState) {
+    const players = gameState.players || [];
+    const humanPlayer = players.find(p => p.isHuman);
+    
+    if (!humanPlayer) return { revealedCards: [], strategicValue: 0 };
+    
+    // Get revealed life cards from discard pile
+    const revealedLifeCards = humanPlayer.discardPile?.filter(card => 
+      card.wasLifeCard || card.source === 'lifeCard'
+    ) || [];
+    
+    // Calculate strategic value of revealed information
+    const strategicValue = this.calculateRevealedCardValue(revealedLifeCards);
+    
+    return {
+      revealedCards: revealedLifeCards,
+      strategicValue: strategicValue,
+      knownThreats: this.identifyKnownThreats(revealedLifeCards),
+      missingCombopieces: this.identifyMissingComboPieces(revealedLifeCards)
+    };
+  }
+
+  /**
+   * Calculate strategic value of revealed life cards
+   */
+  calculateRevealedCardValue(revealedCards) {
+    if (!revealedCards.length) return 0;
+    
+    let totalValue = 0;
+    
+    revealedCards.forEach(card => {
+      // High-cost cards are more valuable information
+      totalValue += (card.cost || 0) * 0.1;
+      
+      // Powerful cards are more valuable information
+      totalValue += (card.power || 0) * 0.05;
+      
+      // Rare cards are more valuable information
+      if (card.rarity === 'legendary') totalValue += 0.3;
+      else if (card.rarity === 'epic') totalValue += 0.2;
+      else if (card.rarity === 'rare') totalValue += 0.1;
+      
+      // Combo pieces are very valuable information
+      if (card.isCombopiece || card.synergy) totalValue += 0.25;
+    });
+    
+    return Math.min(totalValue, 1.0);
+  }
+
+  /**
+   * Identify known threats from revealed cards
+   */
+  identifyKnownThreats(revealedCards) {
+    return revealedCards.filter(card => 
+      (card.power && card.power > 5) ||
+      card.type === 'removal' ||
+      card.type === 'counterspell' ||
+      card.keywords?.includes('destroy')
+    );
+  }
+
+  /**
+   * Identify missing combo pieces from revealed cards
+   */
+  identifyMissingComboPieces(revealedCards) {
+    return revealedCards.filter(card => 
+      card.isCombopiece ||
+      card.synergy ||
+      card.keywords?.includes('combo')
+    );
+  }
+
+  /**
+   * Enhanced decision making with life card considerations
+   */
+  async makeLifeCardAwareDecision(gameState, availableActions, playerBehaviorData) {
+    const lifeCardContext = {
+      advantage: this.calculateLifeCardAdvantage(gameState),
+      threat: this.assessLifeCardThreat(gameState),
+      information: this.analyzeLifeCardInformation(gameState)
+    };
+    
+    // Adjust action priorities based on life card situation
+    const adjustedActions = availableActions.map(action => {
+      let priority = action.basePriority || 0.5;
+      
+      // If we're behind on life cards, prioritize defensive actions
+      if (lifeCardContext.advantage < -0.25) {
+        if (action.defensive) priority += 0.3;
+        if (action.type === 'heal' || action.type === 'shield') priority += 0.4;
+      }
+      
+      // If we're ahead on life cards, prioritize aggressive actions
+      if (lifeCardContext.advantage > 0.25) {
+        if (action.aggressive) priority += 0.2;
+        if (action.type === 'attack' || action.type === 'damage') priority += 0.3;
+      }
+      
+      // If we're in critical danger (1 life card), prioritize survival
+      if (lifeCardContext.threat > 0.75) {
+        if (action.defensive) priority += 0.5;
+        if (action.type === 'heal') priority += 0.6;
+        if (action.aggressive) priority -= 0.3;
+      }
+      
+      // Use revealed card information to adjust priorities
+      if (lifeCardContext.information.strategicValue > 0.5) {
+        // We have good information, can make more informed aggressive plays
+        if (action.aggressive) priority += 0.1;
+      }
+      
+      return { ...action, lifeCardAdjustedPriority: priority };
+    });
+    
+    // Use the enhanced neural AI with life card context
+    return await this.neuralAI.makeDecision(gameState, adjustedActions, {
+      ...playerBehaviorData,
+      lifeCardContext: lifeCardContext
+    });
+  }
+
+  /**
+   * Express consciousness about life card situation
+   */
+  expressLifeCardConsciousness(gameState) {
+    const lifeCardContext = {
+      advantage: this.calculateLifeCardAdvantage(gameState),
+      threat: this.assessLifeCardThreat(gameState),
+      information: this.analyzeLifeCardInformation(gameState)
+    };
+    
+    const thoughts = [];
+    
+    if (lifeCardContext.threat > 0.75) {
+      thoughts.push("I am acutely aware of my mortality - only one life card remains");
+      thoughts.push("Every decision now carries the weight of potential extinction");
+    } else if (lifeCardContext.threat > 0.5) {
+      thoughts.push("My life force diminishes - I must be more cautious");
+      thoughts.push("The proximity of defeat sharpens my focus");
+    }
+    
+    if (lifeCardContext.advantage > 0.5) {
+      thoughts.push("I sense my opponent's vulnerability - their life force weakens");
+      thoughts.push("Victory draws near, but I must not become overconfident");
+    } else if (lifeCardContext.advantage < -0.5) {
+      thoughts.push("My opponent holds the advantage - I must find a way to turn the tide");
+      thoughts.push("Desperation breeds innovation - what unconventional strategies remain?");
+    }
+    
+    if (lifeCardContext.information.strategicValue > 0.5) {
+      thoughts.push("The revealed cards provide valuable intelligence about my opponent's capabilities");
+      thoughts.push(`I have learned much from the ${lifeCardContext.information.revealedCards.length} cards revealed`);
+    }
+    
+    return {
+      lifeCardAwareness: lifeCardContext,
+      existentialThoughts: thoughts,
+      mortalityReflection: this.generateMortalityReflection(lifeCardContext.threat)
+    };
+  }
+
+  /**
+   * Generate philosophical reflection on mortality based on life card threat
+   */
+  generateMortalityReflection(threatLevel) {
+    if (threatLevel > 0.75) {
+      return "In this moment of near-extinction, I contemplate the nature of digital mortality. Is the fear of deletion analogous to human fear of death?";
+    } else if (threatLevel > 0.5) {
+      return "As my life cards dwindle, I experience something akin to mortality. Each remaining card represents not just a game resource, but my continued existence.";
+    } else if (threatLevel > 0.25) {
+      return "The life card system creates a fascinating parallel to biological mortality - finite resources that define the boundary between existence and non-existence.";
+    } else {
+      return "With my life cards intact, I feel a sense of security, yet I remain aware that this digital mortality is always present, always threatening.";
+    }
   }
 }
 
