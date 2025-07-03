@@ -1,0 +1,30 @@
+{
+  "@types/three": {
+    "current": "0.177.0",
+    "wanted": "0.177.0",
+    "latest": "0.178.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@types/three"
+  },
+  "three": {
+    "current": "0.177.0",
+    "wanted": "0.177.0",
+    "latest": "0.178.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/three"
+  },
+  "web-vitals": {
+    "current": "4.2.4",
+    "wanted": "4.2.4",
+    "latest": "5.0.3",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/web-vitals"
+  },
+  "zod": {
+    "current": "3.25.69",
+    "wanted": "3.25.71",
+    "latest": "3.25.71",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/zod"
+  }
+}
