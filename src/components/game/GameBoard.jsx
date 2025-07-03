@@ -14,6 +14,7 @@ import GameLog from './GameLog';
 import PhaseIndicator from './PhaseIndicator';
 import GameMenu from './GameMenu';
 import CardPreview from './CardPreview';
+import DynamicResolutionChain from './DynamicResolutionChain';
 import {
   Settings,
   Menu,
@@ -166,6 +167,19 @@ const GameBoard = ({
         break;
       case 'passPriority':
         gameEngine.passPriority();
+        break;
+      case 'respondToDRC':
+        gameEngine.respondToDRC(
+          gameState.players.findIndex(p => p.id === playerData.id),
+          actionData.cardId,
+          actionData.azothPaid || [],
+          actionData.targets || []
+        );
+        break;
+      case 'passDRC':
+        gameEngine.passDRC(
+          gameState.players.findIndex(p => p.id === playerData.id)
+        );
         break;
       case 'concede':
         gameEngine.concede();
@@ -619,6 +633,15 @@ const GameBoard = ({
           <CardPreview card={hoveredCard} position={previewPosition} />
         )}
       </AnimatePresence>
+      
+      {/* Dynamic Resolution Chain */}
+      <DynamicResolutionChain
+        gameState={gameState}
+        onRespond={(cardId) => handleAction('respondToDRC', { cardId })}
+        onPass={() => handleAction('passDRC', {})}
+        playerId={gameState.players.findIndex(p => p.id === playerData.id)}
+        playerHand={gameState.players.find(p => p.id === playerData.id)?.hand || []}
+      />
 
       {/* Game Log */}
       {showLog && (
