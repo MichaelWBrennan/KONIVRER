@@ -27,38 +27,46 @@ const KonivrERDemo = () => {
   const [loading, setLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  // Create sample decks with only ABISS
+  // Create sample decks following proper KONIVRER deck construction rules
   const createSampleDeck = () => {
     const deck = [];
     
-    // Create a simple flag card for demo purposes
-    const demoFlag = {
-      id: 'demo_flag',
-      name: 'Demo Flag',
-      type: 'Flag',
-      elements: { fire: 0 },
-      abilities: [
-        {
-          name: 'Demo Power',
-          description: 'Your Familiars get +1/+1',
-          type: 'passive'
-        }
-      ],
-      flavorText: 'A demonstration of KONIVRER power.',
-      rarity: 'rare',
-      setNumber: 'DEMO',
-      artUrl: '/assets/cards/fire_flag.jpg'
-    };
+    // 1. Add the Flag (does not count toward deck total)
+    const flag = konivrERCards.find(card => card.type === 'Flag');
+    if (flag) {
+      deck.push(flag);
+    }
     
-    deck.push(demoFlag);
+    // Get cards by rarity
+    const commonCards = konivrERCards.filter(card => card.rarity === 'Common');
+    const uncommonCards = konivrERCards.filter(card => card.rarity === 'Uncommon');
+    const rareCards = konivrERCards.filter(card => card.rarity === 'Rare');
     
-    // Add multiple copies of ABISS to make a playable deck
-    const abissCard = konivrERCards[0]; // ABISS is the only card
-    for (let i = 0; i < 39; i++) {
-      deck.push({
-        ...abissCard,
-        id: `${abissCard.id}_${i}` // Ensure unique IDs
-      });
+    // 2. Add 25 Common cards (1 copy per card maximum)
+    const selectedCommons = commonCards.slice(0, Math.min(25, commonCards.length));
+    deck.push(...selectedCommons);
+    
+    // 3. Add 13 Uncommon cards (1 copy per card maximum)  
+    const selectedUncommons = uncommonCards.slice(0, Math.min(13, uncommonCards.length));
+    deck.push(...selectedUncommons);
+    
+    // 4. Add 2 Rare cards (1 copy per card maximum)
+    const selectedRares = rareCards.slice(0, Math.min(2, rareCards.length));
+    deck.push(...selectedRares);
+    
+    // Fill remaining slots with commons if we don't have enough cards
+    const totalNonFlag = deck.length - 1; // Subtract flag
+    const needed = 40 - totalNonFlag;
+    
+    if (needed > 0) {
+      // Add more commons to reach 40 cards total
+      for (let i = 0; i < needed && i < commonCards.length; i++) {
+        const card = commonCards[i % commonCards.length];
+        deck.push({
+          ...card,
+          id: `${card.id}_copy_${i}` // Ensure unique IDs for duplicates
+        });
+      }
     }
 
     return deck;
