@@ -149,12 +149,64 @@ const CardPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-card rounded-lg p-6">
               <div className="space-y-4">
+                {/* Card Text */}
                 <div>
                   <h3 className="font-semibold mb-2">Card Text</h3>
                   <div className="bg-tertiary rounded p-4">
                     <p className="text-sm leading-relaxed">
                       {card.description || 'No description available.'}
                     </p>
+                  </div>
+                </div>
+                
+                {/* Flavor Text */}
+                {card.flavorText && (
+                  <div>
+                    <h3 className="font-semibold mb-2">Flavor Text</h3>
+                    <div className="bg-tertiary rounded p-4">
+                      <p className="text-sm leading-relaxed italic">
+                        {card.flavorText}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Card Details */}
+                <div>
+                  <h3 className="font-semibold mb-2">Card Information</h3>
+                  <div className="bg-tertiary rounded p-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Set</p>
+                        <p className="text-sm">{card.set}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Set Number</p>
+                        <p className="text-sm">{card.collectorNumber || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Rarity</p>
+                        <p className="text-sm">
+                          {card.rarity?.toLowerCase() === 'common' && '🜠 Common'}
+                          {card.rarity?.toLowerCase() === 'uncommon' && '☾ Uncommon'}
+                          {card.rarity?.toLowerCase() === 'rare' && '☉ Rare'}
+                          {card.rarity?.toLowerCase() === 'special' && '✧ Special'}
+                          {!card.rarity && 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Cost</p>
+                        <p className="text-sm">{Array.isArray(card.cost) ? card.cost.join(', ') : card.cost}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Artist</p>
+                        <p className="text-sm">{card.artist || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary mb-1">Elements</p>
+                        <p className="text-sm">{Array.isArray(card.elements) ? card.elements.join(', ') : (card.elements || 'N/A')}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
