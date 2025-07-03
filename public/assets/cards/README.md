@@ -3,9 +3,10 @@
 This directory contains optimized card images for the KONIVRER deck database.
 
 ## Current Status
-- **Images**: Not currently installed (placeholder system ready)
-- **Fallback**: Application uses CSS-generated card placeholders
-- **Ready**: System is configured to handle card images when available
+- **Images**: Placeholder images installed for all 64 cards
+- **Formats**: Both WebP (primary) and PNG (fallback) formats available
+- **Dimensions**: All images are 412×562 pixels
+- **Ready**: System is configured to use these images automatically
 
 ## Adding Card Images
 
