@@ -187,17 +187,48 @@ const RulesCenter = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Tab Navigation */}
+      <div className="container mx-auto px-4 py-4">
+        {/* Search and Controls - Now on top */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl p-2 mb-6"
+          className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-4"
         >
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col sm:flex-row gap-3 items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search rules and content..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+            </div>
+            <div className="flex gap-2">
+              <button className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors flex items-center gap-1 text-sm">
+                <Download className="w-3 h-3" />
+                Export PDF
+              </button>
+              <button className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors flex items-center gap-1 text-sm">
+                <Share2 className="w-3 h-3" />
+                Share
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Tab Navigation - Now below search */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white/10 backdrop-blur-sm rounded-lg p-2 mb-4"
+        >
+          <div className="flex flex-wrap gap-1">
             <button
               onClick={() => setActiveTab('basic')}
-              className={`px-6 py-3 rounded-lg transition-all font-medium ${
+              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
                 activeTab === 'basic'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -207,7 +238,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('tournament')}
-              className={`px-6 py-3 rounded-lg transition-all font-medium ${
+              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
                 activeTab === 'tournament'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -217,7 +248,7 @@ const RulesCenter = () => {
             </button>
             <button
               onClick={() => setActiveTab('conduct')}
-              className={`px-6 py-3 rounded-lg transition-all font-medium ${
+              className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
                 activeTab === 'conduct'
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
@@ -228,67 +259,36 @@ const RulesCenter = () => {
           </div>
         </motion.div>
 
-        {/* Search and Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8"
-        >
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search rules and content..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="flex gap-2">
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                Export PDF
-              </button>
-              <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center gap-2">
-                <Share2 className="w-4 h-4" />
-                Share
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Rules Sections as Dropdowns */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="space-y-4"
+          className="space-y-2"
         >
           {filteredSections.map(([key, section]) => (
             <div
               key={key}
-              className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden"
+              className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden"
             >
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
+                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
                 <div className="flex items-center">
-                  <h2 className="text-2xl font-bold text-white tracking-wide">
+                  <h2 className="text-lg font-bold text-white tracking-wide">
                     {section.title || 'Rules Section'}
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-400 hidden sm:block">
+                  <span className="text-xs text-gray-400 hidden sm:block">
                     {expandedSections.has(key) ? 'Collapse' : 'Expand'}
                   </span>
                   {expandedSections.has(key) ? (
-                    <ChevronUp className="w-6 h-6 text-gray-400" />
+                    <ChevronUp className="w-4 h-4 text-gray-400" />
                   ) : (
-                    <ChevronDown className="w-6 h-6 text-gray-400" />
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
                   )}
                 </div>
               </button>
@@ -303,10 +303,10 @@ const RulesCenter = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-8 py-6 bg-white/5">
+                    <div className="px-4 py-4 bg-white/5">
                       <div className="max-w-none">
                         {section?.content ? (
-                          <div className="text-gray-200 leading-relaxed space-y-6">
+                          <div className="text-gray-200 leading-relaxed space-y-3 text-sm">
                             {section.content
                               .split('\n\n')
                               .map((paragraph, index) => {
@@ -326,7 +326,7 @@ const RulesCenter = () => {
                                   return (
                                     <div
                                       key={index}
-                                      className={`${headerLevel === 1 ? 'text-2xl' : headerLevel === 2 ? 'text-xl' : 'text-lg'} font-bold text-white mt-8 mb-4 first:mt-0`}
+                                      className={`${headerLevel === 1 ? 'text-lg' : headerLevel === 2 ? 'text-base' : 'text-sm'} font-bold text-white mt-4 mb-2 first:mt-0`}
                                     >
                                       {headerText}
                                     </div>
@@ -351,7 +351,7 @@ const RulesCenter = () => {
                                     return (
                                       <ul
                                         key={index}
-                                        className="list-disc list-inside space-y-3 ml-6 text-base"
+                                        className="list-disc list-inside space-y-1 ml-4 text-sm"
                                       >
                                         {listItems.map((item, itemIndex) => (
                                           <li
@@ -386,7 +386,7 @@ const RulesCenter = () => {
                                     return (
                                       <ol
                                         key={index}
-                                        className="list-decimal list-inside space-y-3 ml-6 text-base"
+                                        className="list-decimal list-inside space-y-1 ml-4 text-sm"
                                       >
                                         {listItems.map((item, itemIndex) => (
                                           <li
@@ -414,7 +414,7 @@ const RulesCenter = () => {
                                 return (
                                   <p
                                     key={index}
-                                    className="text-gray-200 leading-relaxed text-base"
+                                    className="text-gray-200 leading-relaxed text-sm"
                                   >
                                     <span
                                       dangerouslySetInnerHTML={{
