@@ -201,7 +201,7 @@ const RulesCenter = () => {
               placeholder="Search rules and content..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-7 pr-2 py-1 bg-white/10 border border-white/20 rounded-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+              className="w-full pl-7 pr-2 py-0 bg-white/10 border border-white/20 rounded-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs whitespace-nowrap"
             />
           </div>
         </motion.div>
