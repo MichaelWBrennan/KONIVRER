@@ -132,7 +132,7 @@ class GameEngine {
           : this.enableBattlefield3D,
     };
 
-    // Initialize game state with MTG Arena-like structure
+    // Initialize game state with simultaneous turns structure
     this.gameState = {
       // Core game info
       gameId: this.gameId,
@@ -142,9 +142,9 @@ class GameEngine {
 
       // Game state
       turn: 1,
-      phase: 'setup', // setup, start, main, combat, post-combat, refresh, end
-      currentPlayer: 0, // Index of the current player (0 or 1)
-      activePlayer: 0, // Player with priority
+      phase: 'simultaneous', // No phases, just simultaneous play
+      currentPlayer: null, // No concept of current player
+      activePlayer: null, // Both players are active simultaneously
 
       // Players
       players: players.map((player, index) => ({
@@ -248,17 +248,16 @@ class GameEngine {
       throw new Error('Game has already started');
     }
 
-    this.gameState.phase = 'start';
+    this.gameState.phase = 'simultaneous';
     this.addToGameLog(
-      'phase',
-      `${this.getCurrentPlayer().name}'s turn 1 has begun`,
+      'game',
+      `Simultaneous play mode has begun - both players can play cards at any time`,
     );
 
     // Emit game started event
     this.emitEvent('gameStarted', this.gameState);
 
-    // Start first turn
-    this.startPhase();
+    // No phases to start in simultaneous mode
 
     return this.gameState;
   }
@@ -270,10 +269,8 @@ class GameEngine {
    * @param {Object} actionData Data associated with the action
    */
   processAction(playerId, actionType, actionData) {
-    // Verify it's the player's turn or they have priority
-    if (playerId !== this.gameState.activePlayer) {
-      throw new Error('Not your turn or priority');
-    }
+    // In simultaneous mode, any player can take actions at any time
+    // No turn or priority restrictions
 
     // Process different action types
     switch (actionType) {
@@ -331,10 +328,8 @@ class GameEngine {
   placeAzoth(playerId, cardId) {
     const player = this.getPlayerById(playerId);
 
-    // Check if in the correct phase
-    if (this.gameState.phase !== 'start' && this.gameState.phase !== 'main') {
-      throw new Error('Can only place Azoth during Start or Main phase');
-    }
+    // In simultaneous mode, players can place Azoth at any time
+    // No phase restrictions
 
     // Find the card in hand
     const cardIndex = player.hand.findIndex(card => card.id === cardId);
@@ -342,10 +337,8 @@ class GameEngine {
       throw new Error('Card not found in hand');
     }
 
-    // Check if player has already placed Azoth this turn
-    if (this.gameState.phase === 'start' && player.azothPlacedThisTurn) {
-      throw new Error('Already placed Azoth this turn');
-    }
+    // In simultaneous mode, players can place multiple Azoth
+    // No restriction on number of Azoth placed per turn
 
     // Remove from hand and add to Azoth row
     const card = player.hand.splice(cardIndex, 1)[0];
@@ -372,15 +365,8 @@ class GameEngine {
   summonFamiliar(playerId, cardId, azothPaid) {
     const player = this.getPlayerById(playerId);
 
-    // Check if in the correct phase
-    if (
-      this.gameState.phase !== 'main' &&
-      this.gameState.phase !== 'post-combat'
-    ) {
-      throw new Error(
-        'Can only summon Familiars during Main or Post-Combat phase',
-      );
-    }
+    // In simultaneous mode, players can summon Familiars at any time
+    // No phase restrictions
 
     // Find the card in hand
     const cardIndex = player.hand.findIndex(card => card.id === cardId);
@@ -444,13 +430,8 @@ class GameEngine {
   castSpell(playerId, cardId, azothPaid, targets = []) {
     const player = this.getPlayerById(playerId);
 
-    // Check if in the correct phase
-    if (
-      this.gameState.phase !== 'main' &&
-      this.gameState.phase !== 'post-combat'
-    ) {
-      throw new Error('Can only cast Spells during Main or Post-Combat phase');
-    }
+    // In simultaneous mode, players can cast spells at any time
+    // No phase restrictions
 
     // Find the card in hand
     const cardIndex = player.hand.findIndex(card => card.id === cardId);
@@ -512,15 +493,8 @@ class GameEngine {
   declareAttack(playerId, attackers) {
     const player = this.getPlayerById(playerId);
 
-    // Check if in the correct phase
-    if (this.gameState.phase !== 'combat') {
-      throw new Error('Can only declare attacks during Combat phase');
-    }
-
-    // Check if it's the player's turn
-    if (this.gameState.currentPlayer !== playerId) {
-      throw new Error('Not your turn to attack');
-    }
+    // In simultaneous mode, players can attack at any time
+    // No phase or turn restrictions
 
     // Verify all attackers are valid
     attackers.forEach(attackerId => {
