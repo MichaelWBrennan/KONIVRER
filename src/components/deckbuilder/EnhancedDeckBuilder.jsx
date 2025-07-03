@@ -13,6 +13,7 @@ import { useGameEngine } from '../../contexts/GameEngineContext';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import CardSynergyRecommendations from './CardSynergyRecommendations';
 import DeckRules from '../DeckRules';
+import ValidationMessage from '../ValidationMessage';
 import { validateDeck, canAddCardToDeck } from '../../utils/deckValidator';
 import {
   Search,
@@ -364,6 +365,25 @@ const EnhancedDeckBuilder = () => {
   // Save deck
   const saveDeck = async () => {
     try {
+      // Validate deck before saving
+      const formattedDeck = getFormattedDeckCards();
+      const validationResult = validateDeck(formattedDeck);
+      
+      if (!validationResult.isValid) {
+        // Show validation errors
+        setValidationMessage({
+          type: 'error',
+          text: `Cannot save deck: ${validationResult.errors[0]}`
+        });
+        
+        // Clear message after 5 seconds
+        setTimeout(() => {
+          setValidationMessage(null);
+        }, 5000);
+        
+        return;
+      }
+      
       // In production, this would save to API
       const savedDeck = {
         ...currentDeck,
@@ -437,6 +457,12 @@ const EnhancedDeckBuilder = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Validation Message */}
+      <ValidationMessage 
+        message={validationMessage} 
+        onClose={() => setValidationMessage(null)} 
+      />
+      
       <div className="flex h-screen">
         {/* Sidebar - Card Collection */}
         <AnimatePresence>
