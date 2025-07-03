@@ -27,31 +27,38 @@ const KonivrERDemo = () => {
   const [loading, setLoading] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  // Create sample decks
-  const createSampleDeck = (flagCard, mainElements) => {
-    const deck = [flagCard];
+  // Create sample decks with only ABISS
+  const createSampleDeck = () => {
+    const deck = [];
     
-    // Add cards that match the deck's elements
-    const compatibleCards = konivrERCards.filter(card => {
-      if (card.type === 'Flag') return false;
-      
-      // Check if card has elements that match the deck theme
-      if (card.elements) {
-        return mainElements.some(element => card.elements[element] > 0);
-      }
-      
-      return true; // Include generic cards
-    });
-
-    // Build a 40-card deck
-    while (deck.length < 40) {
-      const randomCard = compatibleCards[Math.floor(Math.random() * compatibleCards.length)];
-      if (randomCard) {
-        deck.push({
-          ...randomCard,
-          id: `${randomCard.id}_${deck.length}` // Ensure unique IDs
-        });
-      }
+    // Create a simple flag card for demo purposes
+    const demoFlag = {
+      id: 'demo_flag',
+      name: 'Demo Flag',
+      type: 'Flag',
+      elements: { fire: 0 },
+      abilities: [
+        {
+          name: 'Demo Power',
+          description: 'Your Familiars get +1/+1',
+          type: 'passive'
+        }
+      ],
+      flavorText: 'A demonstration of KONIVRER power.',
+      rarity: 'rare',
+      setNumber: 'DEMO',
+      artUrl: '/assets/cards/fire_flag.jpg'
+    };
+    
+    deck.push(demoFlag);
+    
+    // Add multiple copies of ABISS to make a playable deck
+    const abissCard = konivrERCards[0]; // ABISS is the only card
+    for (let i = 0; i < 39; i++) {
+      deck.push({
+        ...abissCard,
+        id: `${abissCard.id}_${i}` // Ensure unique IDs
+      });
     }
 
     return deck;
@@ -69,11 +76,8 @@ const KonivrERDemo = () => {
       });
 
       // Create sample players with decks
-      const fireFlag = konivrERCards.find(card => card.id === 'fire_flag_010');
-      const waterFlag = konivrERCards.find(card => card.id === 'water_flag_011');
-
-      const player1Deck = createSampleDeck(fireFlag, ['fire', 'air']);
-      const player2Deck = createSampleDeck(waterFlag, ['water', 'earth']);
+      const player1Deck = createSampleDeck();
+      const player2Deck = createSampleDeck();
 
       const players = [
         {
