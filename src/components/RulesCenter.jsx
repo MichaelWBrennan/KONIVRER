@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Download, Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp } from 'lucide-react';
 
 const RulesCenter = () => {
   const [rulesData, setRulesData] = useState(null);
@@ -194,27 +194,15 @@ const RulesCenter = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-4"
         >
-          <div className="flex flex-col sm:flex-row gap-3 items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search rules and content..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              />
-            </div>
-            <div className="flex gap-2">
-              <button className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors flex items-center gap-1 text-sm">
-                <Download className="w-3 h-3" />
-                Export PDF
-              </button>
-              <button className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors flex items-center gap-1 text-sm">
-                <Share2 className="w-3 h-3" />
-                Share
-              </button>
-            </div>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search rules and content..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            />
           </div>
         </motion.div>
 
@@ -225,7 +213,7 @@ const RulesCenter = () => {
           transition={{ delay: 0.1 }}
           className="bg-white/10 backdrop-blur-sm rounded-lg p-2 mb-4"
         >
-          <div className="flex flex-wrap gap-1">
+          <div className="flex gap-1">
             <button
               onClick={() => setActiveTab('basic')}
               className={`px-4 py-2 rounded-md transition-all font-medium text-sm ${
