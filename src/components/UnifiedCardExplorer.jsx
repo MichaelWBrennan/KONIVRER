@@ -30,7 +30,7 @@ import { getCardArtPathFromData } from '../utils/cardArtMapping';
 import { parseSearchQuery } from '../utils/searchParser';
 import AIAssistant from '../components/AIAssistant';
 import CardMetaAnalysis from '../components/CardMetaAnalysis';
-import KonivrERSyntaxGuide from '../components/KonivrERSyntaxGuide';
+
 
 const UnifiedCardExplorer = () => {
   const { cards, loading, error } = useData();
@@ -41,7 +41,7 @@ const UnifiedCardExplorer = () => {
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAIAssistant, setShowAIAssistant] = useState(false);
-  const [showSyntaxGuide, setShowSyntaxGuide] = useState(false);
+
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [favorites, setFavorites] = useState(new Set());
@@ -125,7 +125,7 @@ const UnifiedCardExplorer = () => {
             <input
               type="text"
               className="mobile-input"
-              placeholder="Search cards using advanced syntax (e.g., t:familiar e:brilliance)..."
+              placeholder=""
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -133,24 +133,14 @@ const UnifiedCardExplorer = () => {
 
           {/* Syntax Guide Toggle */}
           <div className="mobile-form-group mobile-text-center">
-            <button
-              className="mobile-btn"
-              onClick={() => setShowSyntaxGuide(!showSyntaxGuide)}
+            <Link
+              to="/syntax-guide"
+              className="mobile-btn inline-flex items-center"
             >
               <BookOpen className="w-4 h-4 inline mr-2" />
-              {showSyntaxGuide ? 'Hide' : 'Show'} Search Guide
-            </button>
+              Search Guide
+            </Link>
           </div>
-
-          {/* Syntax Guide */}
-          {showSyntaxGuide && (
-            <div className="mobile-mt">
-              <KonivrERSyntaxGuide 
-                isExpanded={showSyntaxGuide} 
-                onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
-              />
-            </div>
-          )}
         </div>
 
         {/* Results Count */}
@@ -228,16 +218,19 @@ const UnifiedCardExplorer = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Search cards using advanced syntax (e.g., t:familiar e:brilliance cmc:3)..."
+                    placeholder=""
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
-                <KonivrERSyntaxGuide 
-                  isExpanded={showSyntaxGuide} 
-                  onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
-                />
+                <Link
+                  to="/syntax-guide"
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Search Guide
+                </Link>
                 {isAuthenticated && (
                   <button
                     onClick={() => setShowAIAssistant(!showAIAssistant)}
@@ -258,15 +251,7 @@ const UnifiedCardExplorer = () => {
                 )}
               </div>
 
-              {/* Syntax Guide */}
-              {showSyntaxGuide && (
-                <div className="mb-6">
-                  <KonivrERSyntaxGuide 
-                    isExpanded={showSyntaxGuide} 
-                    onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
-                  />
-                </div>
-              )}
+
 
               {/* Search Status */}
               <div className="mb-4">

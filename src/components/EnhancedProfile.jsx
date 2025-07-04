@@ -91,6 +91,7 @@ import {
   Triangle,
   Bot,
   Plus,
+  DollarSign,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -727,6 +728,292 @@ const EnhancedProfile = () => {
     </motion.div>
   );
 
+  const renderTournaments = () => {
+    // Mock tournament data based on user's registered tournaments
+    const registeredTournaments = [
+      {
+        id: 1,
+        name: 'KONIVRER World Championship 2024',
+        date: '2024-07-15',
+        time: '10:00 AM',
+        location: 'Los Angeles Convention Center',
+        status: 'Registration Open',
+        currentPlacement: null,
+        currentOpponent: null,
+        currentMatch: null,
+        prizePool: '$50,000',
+        participants: 512,
+        maxParticipants: 512,
+      },
+      {
+        id: 2,
+        name: 'Regional Championship - East Coast',
+        date: '2024-06-20',
+        time: '9:00 AM',
+        location: 'New York Gaming Center',
+        status: 'In Progress',
+        currentPlacement: 15,
+        currentOpponent: 'Sarah Johnson',
+        currentMatch: {
+          round: 5,
+          table: 1,
+          status: 'In Progress',
+          playerRecord: '4-0',
+          opponentRecord: '4-0',
+        },
+        prizePool: '$15,000',
+        participants: 256,
+        maxParticipants: 256,
+      },
+    ];
+
+    const tournamentHistory = [
+      {
+        id: 3,
+        name: 'Spring Championship 2024',
+        date: '2024-04-15',
+        placement: 8,
+        totalParticipants: 128,
+        record: '6-2',
+        prize: '$500',
+        deck: 'Aggro Red',
+      },
+      {
+        id: 4,
+        name: 'Local Store Championship',
+        date: '2024-03-20',
+        placement: 1,
+        totalParticipants: 32,
+        record: '5-0',
+        prize: '$200 + Playmat',
+        deck: 'Control Blue',
+      },
+      {
+        id: 5,
+        name: 'Weekly Tournament #15',
+        date: '2024-03-10',
+        placement: 4,
+        totalParticipants: 16,
+        record: '3-2',
+        prize: 'Booster Packs',
+        deck: 'Midrange Green',
+      },
+    ];
+
+    const handleSubmitResult = (matchId, result) => {
+      console.log(`Result submitted for match ${matchId}: ${result}`);
+      // In a real app, this would update the match result via API
+      alert(`Result submitted: ${result}`);
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        {/* Active Tournaments */}
+        <div className="card p-6">
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <Trophy className="text-yellow-400" size={24} />
+            Active Tournaments
+          </h3>
+          <div className="space-y-4">
+            {registeredTournaments.map(tournament => (
+              <div
+                key={tournament.id}
+                className="bg-tertiary rounded-lg p-4 border border-color"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h4 className="font-semibold text-lg">{tournament.name}</h4>
+                    <p className="text-secondary text-sm">
+                      {tournament.date} at {tournament.time}
+                    </p>
+                    <p className="text-secondary text-sm flex items-center gap-1">
+                      <MapPin size={14} />
+                      {tournament.location}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        tournament.status === 'In Progress'
+                          ? 'bg-green-500/20 text-green-400'
+                          : 'bg-blue-500/20 text-blue-400'
+                      }`}
+                    >
+                      {tournament.status}
+                    </span>
+                  </div>
+                </div>
+
+                {tournament.status === 'In Progress' && tournament.currentMatch && (
+                  <div className="bg-card rounded-lg p-4 border border-accent-primary/20">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h5 className="font-medium text-accent-primary">
+                          Current Match - Round {tournament.currentMatch.round}
+                        </h5>
+                        <p className="text-sm text-secondary">
+                          Table {tournament.currentMatch.table} vs{' '}
+                          {tournament.currentOpponent}
+                        </p>
+                        <p className="text-xs text-secondary">
+                          Your Record: {tournament.currentMatch.playerRecord} |
+                          Opponent: {tournament.currentMatch.opponentRecord}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">
+                          Current Placement: #{tournament.currentPlacement}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          handleSubmitResult(tournament.currentMatch.id, 'win (2-0)')
+                        }
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Win 2-0
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleSubmitResult(tournament.currentMatch.id, 'win (2-1)')
+                        }
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Win 2-1
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleSubmitResult(tournament.currentMatch.id, 'loss (1-2)')
+                        }
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Loss 1-2
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleSubmitResult(tournament.currentMatch.id, 'loss (0-2)')
+                        }
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Loss 0-2
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleSubmitResult(tournament.currentMatch.id, 'draw (1-1)')
+                        }
+                        className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Draw 1-1
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-color">
+                  <div className="flex items-center gap-4 text-sm text-secondary">
+                    <span className="flex items-center gap-1">
+                      <Users size={14} />
+                      {tournament.participants}/{tournament.maxParticipants}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <DollarSign size={14} />
+                      {tournament.prizePool}
+                    </span>
+                  </div>
+                  <Link
+                    to={`/tournaments/${tournament.id}/live`}
+                    className="text-accent-primary hover:text-accent-secondary text-sm font-medium flex items-center gap-1"
+                  >
+                    View Details
+                    <ExternalLink size={14} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Tournament History */}
+        <div className="card p-6">
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <Medal className="text-purple-400" size={24} />
+            Tournament History
+          </h3>
+          <div className="space-y-3">
+            {tournamentHistory.map(tournament => (
+              <div
+                key={tournament.id}
+                className="bg-tertiary rounded-lg p-4 border border-color"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">{tournament.name}</h4>
+                    <p className="text-sm text-secondary">{tournament.date}</p>
+                    <p className="text-xs text-secondary">
+                      Deck: {tournament.deck}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          tournament.placement === 1
+                            ? 'bg-yellow-500/20 text-yellow-400'
+                            : tournament.placement <= 4
+                            ? 'bg-purple-500/20 text-purple-400'
+                            : tournament.placement <= 8
+                            ? 'bg-blue-500/20 text-blue-400'
+                            : 'bg-gray-500/20 text-gray-400'
+                        }`}
+                      >
+                        #{tournament.placement}/{tournament.totalParticipants}
+                      </span>
+                    </div>
+                    <p className="text-sm text-secondary mt-1">
+                      {tournament.record}
+                    </p>
+                    <p className="text-xs text-accent-primary">
+                      {tournament.prize}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="card p-6">
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <Settings className="text-gray-400" size={24} />
+            Tournament Actions
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link
+              to="/tournaments"
+              className="bg-accent-primary hover:bg-accent-secondary text-white p-4 rounded-lg text-center font-medium transition-colors"
+            >
+              Browse Tournaments
+            </Link>
+            <Link
+              to="/decklist-submission"
+              className="bg-tertiary hover:bg-quaternary border border-color p-4 rounded-lg text-center font-medium transition-colors"
+            >
+              Submit Decklist
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+
   const renderDeckBuilder = () => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -826,6 +1113,7 @@ const EnhancedProfile = () => {
         {/* Tab Content */}
         <AnimatePresence mode="wait">
           {activeTab === 'overview' && renderOverview()}
+          {activeTab === 'tournaments' && renderTournaments()}
           {activeTab === 'achievements' && renderAchievements()}
           {activeTab === 'decks' && renderDecks()}
           {activeTab === 'deckbuilder' && renderDeckBuilder()}
