@@ -318,6 +318,19 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
+.mobile-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.mobile-link:hover,
+.mobile-link:active {
+  color: #ff6b7a;
+  text-decoration: underline;
+}
+
 /* Lists */
 .mobile-list {
   list-style: none;
