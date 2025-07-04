@@ -21,6 +21,12 @@ const MobileCardExplorer = () => {
   useEffect(() => {
     if (!cards) return;
 
+    // Don't show any cards until a search is performed
+    if (!searchTerm || searchTerm.length < 2) {
+      setFilteredCards([]);
+      return;
+    }
+
     let results = [...cards];
 
     // Apply search filter
@@ -105,6 +111,23 @@ const MobileCardExplorer = () => {
           </button>
         </div>
 
+        {/* Advanced Search Links */}
+        <div className="mobile-form-group mobile-text-center">
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link to="/advanced-search" className="mobile-link">
+              Advanced Search ⟶
+            </Link>
+            <a 
+              href="https://scryfall.com/docs/syntax" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mobile-link"
+            >
+              Scryfall Syntax Guide ⟶
+            </a>
+          </div>
+        </div>
+
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt">
@@ -126,7 +149,11 @@ const MobileCardExplorer = () => {
 
       {/* Results Count */}
       <div className="mobile-mb">
-        <p className="mobile-text-center">{filteredCards.length} cards found</p>
+        <p className="mobile-text-center">
+          {!searchTerm || searchTerm.length < 2 
+            ? "Enter at least 2 characters to search for cards" 
+            : `${filteredCards.length} cards found`}
+        </p>
       </div>
 
       {/* Card Grid */}
@@ -163,7 +190,7 @@ const MobileCardExplorer = () => {
       </div>
 
       {/* Load More Button */}
-      {filteredCards.length > 20 && (
+      {filteredCards.length > 20 && searchTerm && searchTerm.length >= 2 && (
         <div className="mobile-text-center mobile-mt mobile-mb">
           <button className="mobile-btn mobile-btn-primary">Load More</button>
         </div>
