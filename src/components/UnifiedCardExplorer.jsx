@@ -12,7 +12,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Search,
-  Filter,
   Bot,
   ChevronRight,
   ChevronLeft,
@@ -22,14 +21,16 @@ import {
   Heart,
   Eye,
   Plus,
+  BookOpen,
 } from 'lucide-react';
 
 import { useData } from '../contexts/DataContext';
 import { useAuth } from '../contexts/AuthContext';
 import { getCardArtPathFromData } from '../utils/cardArtMapping';
-import AdvancedSearch from '../components/AdvancedSearch';
+import { parseSearchQuery } from '../utils/searchParser';
 import AIAssistant from '../components/AIAssistant';
 import CardMetaAnalysis from '../components/CardMetaAnalysis';
+import KonivrERSyntaxGuide from '../components/KonivrERSyntaxGuide';
 
 const UnifiedCardExplorer = () => {
   const { cards, loading, error } = useData();
@@ -39,14 +40,11 @@ const UnifiedCardExplorer = () => {
   // State management
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedType, setSelectedType] = useState('All');
-  const [showFilters, setShowFilters] = useState(false);
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [showSyntaxGuide, setShowSyntaxGuide] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [favorites, setFavorites] = useState(new Set());
-  const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
 
   // Responsive detection
   const [isMobile, setIsMobile] = useState(false);
@@ -64,7 +62,7 @@ const UnifiedCardExplorer = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Filter cards based on search term and type
+  // Filter cards based on advanced search syntax
   useEffect(() => {
     if (!cards) return;
 
@@ -74,54 +72,14 @@ const UnifiedCardExplorer = () => {
       return;
     }
 
-    let results = [...cards];
-
-    // Apply search filter
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(
-        card =>
-          card.name.toLowerCase().includes(term) ||
-          (card.text && card.text.toLowerCase().includes(term)) ||
-          (card.description && card.description.toLowerCase().includes(term)),
-      );
-    }
-
-    // Apply type filter
-    if (selectedType !== 'All') {
-      results = results.filter(card => card.type === selectedType);
-    }
-
+    // Use advanced search parser
+    const results = parseSearchQuery(searchTerm, cards);
     setFilteredCards(results);
-  }, [cards, searchTerm, selectedType]);
+  }, [cards, searchTerm]);
 
   // Handle search input change
   const handleSearchChange = e => {
     setSearchTerm(e.target.value);
-  };
-
-  // Handle type filter change
-  const handleTypeChange = type => {
-    setSelectedType(type);
-    setShowFilters(false);
-  };
-
-  // Get unique card types
-  const getCardTypes = () => {
-    if (!cards) return ['All'];
-    const types = new Set(cards.map(card => card.type));
-    return ['All', ...Array.from(types)];
-  };
-
-  // Handle advanced search
-  const handleAdvancedSearch = criteria => {
-    setActiveSearchCriteria(criteria);
-    setShowAdvancedSearch(false);
-    // Mock search results for now
-    setFilteredCards([
-      { id: 1, name: 'Lightning Bolt', type: 'Spell', rarity: 'Common' },
-      { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },
-    ]);
   };
 
   // Toggle favorite
@@ -167,53 +125,30 @@ const UnifiedCardExplorer = () => {
             <input
               type="text"
               className="mobile-input"
-              placeholder="Search cards..."
+              placeholder="Search cards using advanced syntax (e.g., t:familiar e:brilliance)..."
               value={searchTerm}
               onChange={handleSearchChange}
             />
           </div>
 
+          {/* Syntax Guide Toggle */}
           <div className="mobile-form-group mobile-text-center">
             <button
               className="mobile-btn"
-              onClick={() => setShowFilters(!showFilters)}
+              onClick={() => setShowSyntaxGuide(!showSyntaxGuide)}
             >
-              {showFilters ? 'Hide Filters' : 'Show Filters'}
+              <BookOpen className="w-4 h-4 inline mr-2" />
+              {showSyntaxGuide ? 'Hide' : 'Show'} Search Guide
             </button>
           </div>
 
-          {/* Advanced Search Links */}
-          <div className="mobile-form-group mobile-text-center">
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <Link to="/advanced-search" className="mobile-link">
-                Advanced Search ⟶
-              </Link>
-              <a 
-                href="https://scryfall.com/docs/syntax" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="mobile-link"
-              >
-                Scryfall Syntax Guide ⟶
-              </a>
-            </div>
-          </div>
-
-          {/* Filters */}
-          {showFilters && (
+          {/* Syntax Guide */}
+          {showSyntaxGuide && (
             <div className="mobile-mt">
-              <label className="mobile-label">Card Type</label>
-              <div className="mobile-grid">
-                {getCardTypes().map(type => (
-                  <button
-                    key={type}
-                    className={`mobile-btn ${selectedType === type ? 'mobile-btn-primary' : ''}`}
-                    onClick={() => handleTypeChange(type)}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
+              <KonivrERSyntaxGuide 
+                isExpanded={showSyntaxGuide} 
+                onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
+              />
             </div>
           )}
         </div>
@@ -293,26 +228,16 @@ const UnifiedCardExplorer = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Search cards..."
+                    placeholder="Search cards using advanced syntax (e.g., t:familiar e:brilliance cmc:3)..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
-                <button
-                  onClick={() => setShowAdvancedSearch(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
-                >
-                  <Filter className="w-4 h-4" />
-                </button>
-                <a 
-                  href="https://scryfall.com/docs/syntax" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
-                >
-                  Scryfall Syntax
-                </a>
+                <KonivrERSyntaxGuide 
+                  isExpanded={showSyntaxGuide} 
+                  onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
+                />
                 {isAuthenticated && (
                   <button
                     onClick={() => setShowAIAssistant(!showAIAssistant)}
@@ -333,6 +258,16 @@ const UnifiedCardExplorer = () => {
                 )}
               </div>
 
+              {/* Syntax Guide */}
+              {showSyntaxGuide && (
+                <div className="mb-6">
+                  <KonivrERSyntaxGuide 
+                    isExpanded={showSyntaxGuide} 
+                    onToggle={() => setShowSyntaxGuide(!showSyntaxGuide)} 
+                  />
+                </div>
+              )}
+
               {/* Search Status */}
               <div className="mb-4">
                 <p className="text-center text-secondary">
@@ -342,24 +277,7 @@ const UnifiedCardExplorer = () => {
                 </p>
               </div>
 
-              {activeSearchCriteria && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-blue-800">
-                      Active search: {JSON.stringify(activeSearchCriteria)}
-                    </span>
-                    <button
-                      onClick={() => {
-                        setActiveSearchCriteria(null);
-                        setFilteredCards([]);
-                      }}
-                      className="text-blue-600 hover:text-blue-800 text-sm"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </div>
-              )}
+
             </div>
 
             {/* Tabs */}
@@ -500,29 +418,7 @@ const UnifiedCardExplorer = () => {
           )}
         </div>
 
-        {/* Advanced Search Modal */}
-        {showAdvancedSearch && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-            onClick={() => setShowAdvancedSearch(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={e => e.stopPropagation()}
-            >
-              <AdvancedSearch
-                onSearch={handleAdvancedSearch}
-                onClose={() => setShowAdvancedSearch(false)}
-              />
-            </motion.div>
-          </motion.div>
-        )}
+
       </div>
     </div>
   );

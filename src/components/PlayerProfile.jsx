@@ -37,6 +37,19 @@ import {
   Timer,
   Upload,
   FileText,
+  Bell,
+  BellRing,
+  X,
+  ExternalLink,
+  RefreshCw,
+  Download,
+  Filter,
+  Search,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  Wifi,
+  WifiOff,
 } from 'lucide-react';
 
 const PlayerProfile = () => {
@@ -45,6 +58,8 @@ const PlayerProfile = () => {
   const [events, setEvents] = useState([]);
   const [pairings, setPairings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   
   useEffect(() => {
     loadPlayerEvents(playerId);
@@ -57,7 +72,7 @@ const PlayerProfile = () => {
       // Simulate API call - replace with actual API call in production
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      // Mock data
+      // Mock data with enhanced melee.gg-style features
       setEvents([
         {
           id: 1,
@@ -65,12 +80,26 @@ const PlayerProfile = () => {
           date: '2025-07-05',
           time: '19:00',
           venue: 'Local Game Store',
+          address: '123 Main St, San Francisco, CA',
           status: 'active',
           round: 2,
           totalRounds: 4,
           record: '1-0-0',
           currentPlacement: 5,
-          totalParticipants: 32
+          totalParticipants: 32,
+          format: 'Standard',
+          entryFee: '$15',
+          prizePool: '$480',
+          organizer: 'GameStore Events',
+          decklistRequired: true,
+          decklistSubmitted: true,
+          bracketType: 'Swiss',
+          timeControl: '50 minutes + 5 turns',
+          streamUrl: 'https://twitch.tv/gamestore',
+          isStreamed: true,
+          registrationOpen: false,
+          maxParticipants: 32,
+          description: 'Weekly Friday night tournament with great prizes!'
         },
         {
           id: 2,
@@ -78,8 +107,22 @@ const PlayerProfile = () => {
           date: '2025-07-06',
           time: '14:00',
           venue: 'Community Center',
+          address: '456 Oak Ave, San Francisco, CA',
           status: 'upcoming',
-          registrationDeadline: '2025-07-06T12:00:00'
+          registrationDeadline: '2025-07-06T12:00:00',
+          format: 'Standard',
+          entryFee: '$20',
+          prizePool: '$640',
+          organizer: 'Community Events',
+          decklistRequired: true,
+          decklistSubmitted: false,
+          bracketType: 'Swiss + Top 8',
+          timeControl: '50 minutes + 5 turns',
+          isStreamed: false,
+          registrationOpen: true,
+          maxParticipants: 32,
+          currentParticipants: 28,
+          description: 'Competitive Standard tournament with Top 8 playoff!'
         },
         {
           id: 3,
@@ -87,11 +130,54 @@ const PlayerProfile = () => {
           date: '2025-06-28',
           time: '10:00',
           venue: 'Convention Center',
+          address: '789 Convention Blvd, San Francisco, CA',
           status: 'completed',
           finalPlacement: 3,
           totalParticipants: 64,
           record: '5-1-1',
-          prizeWon: '$150'
+          prizeWon: '$150',
+          format: 'Standard',
+          entryFee: '$30',
+          prizePool: '$1920',
+          organizer: 'Regional Events',
+          decklistRequired: true,
+          decklistSubmitted: true,
+          bracketType: 'Swiss + Top 8',
+          timeControl: '50 minutes + 5 turns',
+          isStreamed: true,
+          streamUrl: 'https://twitch.tv/regionalevents',
+          description: 'Qualifier for the Regional Championship with significant prizes!'
+        }
+      ]);
+      
+      // Mock notifications
+      setNotifications([
+        {
+          id: 1,
+          type: 'pairing',
+          title: 'Round 2 Pairing Available',
+          message: 'Your Round 2 opponent has been assigned. Check your current match!',
+          timestamp: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
+          eventId: 1,
+          read: false
+        },
+        {
+          id: 2,
+          type: 'deadline',
+          title: 'Decklist Deadline Approaching',
+          message: 'Submit your decklist for Saturday Standard Showdown by 12:00 PM tomorrow.',
+          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+          eventId: 2,
+          read: false
+        },
+        {
+          id: 3,
+          type: 'result',
+          title: 'Tournament Result Posted',
+          message: 'Final standings for Regional Championship Qualifier are now available.',
+          timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+          eventId: 3,
+          read: true
         }
       ]);
       
@@ -138,6 +224,38 @@ const PlayerProfile = () => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+  
+  const markNotificationAsRead = (notificationId) => {
+    setNotifications(prev => prev.map(n => 
+      n.id === notificationId ? { ...n, read: true } : n
+    ));
+  };
+  
+  const clearAllNotifications = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+  
+  const formatRelativeTime = (timestamp) => {
+    const now = new Date();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  };
+  
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'pairing': return Users;
+      case 'deadline': return Clock;
+      case 'result': return Trophy;
+      default: return Bell;
+    }
   };
 
   const playerData = {
@@ -551,7 +669,16 @@ const PlayerProfile = () => {
     <div className="space-y-6">
       {/* Active Events */}
       <div className="bg-secondary border border-color rounded-xl p-6">
-        <h3 className="text-xl font-bold text-primary mb-4">Registered Events</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-primary">Registered Events</h3>
+          <button
+            onClick={() => loadPlayerEvents(playerId)}
+            className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
+            title="Refresh events"
+          >
+            <RefreshCw size={16} />
+          </button>
+        </div>
         <div className="space-y-4">
           {events.filter(event => event.status === 'active' || event.status === 'upcoming').map(event => (
             <div
@@ -559,9 +686,17 @@ const PlayerProfile = () => {
               className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
             >
               <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-semibold text-primary">{event.name}</h4>
-                  <div className="flex items-center gap-4 text-sm text-secondary mt-1">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h4 className="font-semibold text-primary">{event.name}</h4>
+                    {event.isStreamed && (
+                      <div className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
+                        <Wifi size={12} />
+                        <span>Live</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-secondary mb-2">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       <span>{event.date}</span>
@@ -574,14 +709,47 @@ const PlayerProfile = () => {
                       <MapPin size={14} />
                       <span>{event.venue}</span>
                     </div>
+                    <div className="flex items-center gap-1">
+                      <Users size={14} />
+                      <span>{event.currentParticipants || event.totalParticipants}/{event.maxParticipants || event.totalParticipants}</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div>
+                      <span className="text-secondary">Format:</span>
+                      <span className="ml-1 font-medium text-primary">{event.format}</span>
+                    </div>
+                    <div>
+                      <span className="text-secondary">Entry:</span>
+                      <span className="ml-1 font-medium text-primary">{event.entryFee}</span>
+                    </div>
+                    <div>
+                      <span className="text-secondary">Prize Pool:</span>
+                      <span className="ml-1 font-medium text-green-600">{event.prizePool}</span>
+                    </div>
+                    <div>
+                      <span className="text-secondary">Bracket:</span>
+                      <span className="ml-1 font-medium text-primary">{event.bracketType}</span>
+                    </div>
                   </div>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  event.status === 'active' ? 'bg-green-100 text-green-800' :
-                  event.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                <div className="flex flex-col items-end gap-2">
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    event.status === 'active' ? 'bg-green-100 text-green-800' :
+                    event.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
+                    {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                  </div>
+                  {event.decklistRequired && (
+                    <div className={`px-2 py-1 rounded text-xs ${
+                      event.decklistSubmitted 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {event.decklistSubmitted ? 'Decklist ✓' : 'Decklist Required'}
+                    </div>
+                  )}
                 </div>
               </div>
               
@@ -683,26 +851,66 @@ const PlayerProfile = () => {
                 </div>
               ))}
               
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {event.status === 'active' && (
-                  <Link
-                    to={`/tournaments/${event.id}/live`}
-                    className="bg-accent-primary text-white px-4 py-2 rounded-lg hover:bg-accent-secondary transition-colors flex items-center gap-2"
-                  >
-                    <Eye size={16} />
-                    View Tournament
-                  </Link>
+                  <>
+                    <Link
+                      to={`/tournaments/${event.id}/live`}
+                      className="bg-accent-primary text-white px-4 py-2 rounded-lg hover:bg-accent-secondary transition-colors flex items-center gap-2"
+                    >
+                      <Eye size={16} />
+                      View Tournament
+                    </Link>
+                    <Link
+                      to={`/tournaments/${event.id}/bracket`}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                    >
+                      <BarChart3 size={16} />
+                      Bracket
+                    </Link>
+                    {event.isStreamed && event.streamUrl && (
+                      <a
+                        href={event.streamUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
+                      >
+                        <ExternalLink size={16} />
+                        Watch Stream
+                      </a>
+                    )}
+                  </>
                 )}
                 
                 {event.status === 'upcoming' && (
-                  <Link
-                    to={`/decklist-submission/${event.id}`}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
-                  >
-                    <Upload size={16} />
-                    Submit Decklist
-                  </Link>
+                  <>
+                    {!event.decklistSubmitted && event.decklistRequired && (
+                      <Link
+                        to={`/decklist-submission/${event.id}`}
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
+                      >
+                        <Upload size={16} />
+                        Submit Decklist
+                      </Link>
+                    )}
+                    <Link
+                      to={`/tournaments/${event.id}`}
+                      className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
+                    >
+                      <Info size={16} />
+                      Event Details
+                    </Link>
+                  </>
                 )}
+                
+                <button
+                  onClick={() => navigator.clipboard.writeText(`${window.location.origin}/tournaments/${event.id}`)}
+                  className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
+                  title="Copy event link"
+                >
+                  <Share2 size={16} />
+                  Share
+                </button>
               </div>
             </div>
           ))}
@@ -860,6 +1068,94 @@ const PlayerProfile = () => {
             </div>
 
             <div className="flex gap-2">
+              {/* Notifications */}
+              <div className="relative">
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors relative"
+                >
+                  {notifications.filter(n => !n.read).length > 0 ? (
+                    <BellRing size={16} className="text-accent-primary" />
+                  ) : (
+                    <Bell size={16} />
+                  )}
+                  {notifications.filter(n => !n.read).length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-accent-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {notifications.filter(n => !n.read).length}
+                    </span>
+                  )}
+                </button>
+                
+                {showNotifications && (
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-secondary border border-color rounded-xl shadow-lg z-50">
+                    <div className="p-4 border-b border-color">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-semibold text-primary">Notifications</h3>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={clearAllNotifications}
+                            className="text-xs text-secondary hover:text-primary"
+                          >
+                            Mark all read
+                          </button>
+                          <button
+                            onClick={() => setShowNotifications(false)}
+                            className="text-secondary hover:text-primary"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {notifications.length === 0 ? (
+                        <div className="p-4 text-center text-secondary">
+                          No notifications
+                        </div>
+                      ) : (
+                        notifications.map(notification => {
+                          const Icon = getNotificationIcon(notification.type);
+                          return (
+                            <div
+                              key={notification.id}
+                              className={`p-4 border-b border-color hover:bg-tertiary transition-colors cursor-pointer ${
+                                !notification.read ? 'bg-accent-primary/5' : ''
+                              }`}
+                              onClick={() => markNotificationAsRead(notification.id)}
+                            >
+                              <div className="flex gap-3">
+                                <div className={`p-2 rounded-lg ${
+                                  notification.type === 'pairing' ? 'bg-blue-100 text-blue-600' :
+                                  notification.type === 'deadline' ? 'bg-yellow-100 text-yellow-600' :
+                                  notification.type === 'result' ? 'bg-green-100 text-green-600' :
+                                  'bg-gray-100 text-gray-600'
+                                }`}>
+                                  <Icon size={16} />
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-medium text-primary text-sm">
+                                    {notification.title}
+                                  </h4>
+                                  <p className="text-secondary text-sm mt-1">
+                                    {notification.message}
+                                  </p>
+                                  <p className="text-xs text-secondary mt-2">
+                                    {formatRelativeTime(notification.timestamp)}
+                                  </p>
+                                </div>
+                                {!notification.read && (
+                                  <div className="w-2 h-2 bg-accent-primary rounded-full mt-2"></div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
               <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors">
                 <Share2 size={16} />
               </button>
