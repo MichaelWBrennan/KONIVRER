@@ -157,27 +157,39 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     };
     
     return (
-      <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden">
+      <div className="w-full h-[800px] bg-transparent rounded-lg overflow-hidden border border-white/20 backdrop-blur-sm">
         <object
           ref={iframeRef}
           data={currentPdfUrl}
           type="application/pdf"
-          className="w-full h-full border-0"
+          className="w-full h-full border-0 bg-transparent"
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
         >
-          <div className="flex items-center justify-center h-full bg-gray-100">
-            <div className="text-center p-8">
-              <p className="text-gray-600 mb-4">PDF cannot be displayed in this browser.</p>
-              <a 
-                href={currentPdfUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Open PDF in New Tab
-              </a>
+          <div className="flex items-center justify-center h-full bg-white/10 backdrop-blur-md">
+            <div className="text-center p-8 bg-white/20 backdrop-blur-md rounded-lg border border-white/30">
+              <p className="text-white mb-4">PDF cannot be displayed in this browser.</p>
+              <div className="space-y-3">
+                <a 
+                  href={currentPdfUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-2"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Open PDF in New Tab
+                </a>
+                <button
+                  onClick={handleDownload}
+                  className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download PDF
+                </button>
+              </div>
+              <p className="text-gray-300 text-sm mt-4">
+                This comprehensive document includes tournament rules from all major TCGs
+              </p>
             </div>
           </div>
         </object>
