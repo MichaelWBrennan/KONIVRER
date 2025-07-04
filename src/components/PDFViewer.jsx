@@ -158,13 +158,29 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     
     return (
       <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden">
-        <iframe
+        <object
           ref={iframeRef}
-          src={`${currentPdfUrl}#page=${currentPage}&zoom=${zoom * 100}`}
+          data={currentPdfUrl}
+          type="application/pdf"
           className="w-full h-full border-0"
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
-        />
+        >
+          <div className="flex items-center justify-center h-full bg-gray-100">
+            <div className="text-center p-8">
+              <p className="text-gray-600 mb-4">PDF cannot be displayed in this browser.</p>
+              <a 
+                href={currentPdfUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Open PDF in New Tab
+              </a>
+            </div>
+          </div>
+        </object>
       </div>
     );
   };
