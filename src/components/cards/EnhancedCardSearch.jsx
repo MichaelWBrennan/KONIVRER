@@ -644,7 +644,16 @@ const EnhancedCardSearch = () => {
 
 // Advanced Search Panel Component
 const AdvancedSearchPanel = ({ search, onSearchChange }) => {
-  const colors = ['white', 'blue', 'black', 'red', 'green'];
+  const colors = [
+    'Quintessence',
+    'Brilliance', 
+    'Gust',
+    'Inferno',
+    'Steadfast',
+    'Submerged',
+    'Void',
+    'Neutral'
+  ];
   const rarities = ['common', 'uncommon', 'rare', 'mythic'];
   const types = [
     'creature',
@@ -698,10 +707,10 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
 
       {/* Colors and Rarity */}
       <div className="space-y-4">
-        <h4 className="text-white font-medium">Colors & Rarity</h4>
+        <h4 className="text-white font-medium">Elements & Rarity</h4>
 
         <div>
-          <label className="block text-gray-300 text-sm mb-2">Colors</label>
+          <label className="block text-gray-300 text-sm mb-2">Elements</label>
           <div className="flex flex-wrap gap-2">
             {colors.map(color => (
               <button
@@ -1083,7 +1092,7 @@ const CardDetailModal = ({
                     Power/Toughness: {card.power}/{card.toughness}
                   </div>
                 )}
-                <div>Colors: {card.colors.join(', ')}</div>
+                <div>Elements: {(card.elements || []).join(', ')}</div>
               </div>
             </div>
 
