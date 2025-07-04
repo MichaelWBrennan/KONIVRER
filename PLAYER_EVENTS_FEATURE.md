@@ -1,6 +1,6 @@
-# Player Events Feature Implementation
+# Player Events Feature - Enhanced Melee.gg Style Implementation
 
-This document outlines the implementation of the new player events feature, which allows players to view their registered events, current tournament placements, and submit match results directly from their profile.
+This document outlines the comprehensive enhancement of the player events feature, which now provides a complete melee.gg-style tournament management experience directly from player profiles.
 
 ## Overview
 
