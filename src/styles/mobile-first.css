@@ -1131,6 +1131,56 @@ body {
   background-color: white;
 }
 
+/* Mobile Tabs */
+.mobile-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.mobile-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.mobile-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.mobile-tab-active {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.mobile-tab-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Mobile Alert */
+.mobile-alert {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
 .mobile-icon {
   width: 20px;
   height: 20px;
