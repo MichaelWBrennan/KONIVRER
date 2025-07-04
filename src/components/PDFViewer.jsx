@@ -128,44 +128,20 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
       conduct: 'KONIVRER Code of Conduct PDF'
     };
     
+    // Use PDF.js viewer URL for full functionality
+    const pdfViewerUrl = `/pdfjs/web/viewer.html?file=${encodeURIComponent(currentPdfUrl)}`;
+    
     return (
       <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ backgroundColor: '#ffffff' }}>
-        <object
+        <iframe
           ref={iframeRef}
-          data={currentPdfUrl}
-          type="application/pdf"
+          src={pdfViewerUrl}
           className="w-full h-full border-0"
           style={{ backgroundColor: '#ffffff' }}
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
-        >
-          <div className="flex items-center justify-center h-full bg-white" style={{ backgroundColor: '#ffffff' }}>
-            <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 shadow-md max-w-md">
-              <p className="text-gray-700 mb-4">PDF cannot be displayed in this browser.</p>
-              <div className="space-y-3">
-                <a 
-                  href={currentPdfUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-2"
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Open PDF in New Tab
-                </a>
-                <button
-                  onClick={handleDownload}
-                  className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Download PDF
-                </button>
-              </div>
-              <p className="text-gray-600 text-sm mt-4">
-                Opening in a new tab will provide full browser PDF controls including search, zoom, and page navigation.
-              </p>
-            </div>
-          </div>
-        </object>
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        />
       </div>
     );
   };
@@ -228,7 +204,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
             {/* Info Text */}
             <div className="flex items-center space-x-2">
               <span className="text-gray-300 text-sm">
-                Use your browser's built-in PDF controls for search, zoom, and navigation
+                Full PDF functionality: search, zoom, page navigation, and more available in the viewer below
               </span>
             </div>
 
