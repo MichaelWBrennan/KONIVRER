@@ -7,13 +7,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ZoomIn, ZoomOut, Download, ChevronLeft, ChevronRight, FileText, Users, Shield } from 'lucide-react';
+import { Download, FileText, Users, Shield } from 'lucide-react';
 
 const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [zoom, setZoom] = useState(1.0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfExists, setPdfExists] = useState(false);
@@ -52,34 +48,10 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     };
 
     checkPdfExists();
-    // Reset page when switching tabs
-    setCurrentPage(1);
+
   }, [activeTab]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchTerm.trim() && iframeRef.current) {
-      // For browsers that support it, we can try to search within the PDF
-      try {
-        const iframe = iframeRef.current;
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        if (iframeDoc) {
-          // This is a basic implementation - actual PDF search would require PDF.js
-          console.log('Searching for:', searchTerm);
-        }
-      } catch (err) {
-        console.log('Search not available in this browser');
-      }
-    }
-  };
 
-  const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.25, 3.0));
-  };
-
-  const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.25, 0.5));
-  };
 
   const handleDownload = () => {
     const link = document.createElement('a');
@@ -168,7 +140,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
           onLoad={() => setIsLoading(false)}
         >
           <div className="flex items-center justify-center h-full bg-white" style={{ backgroundColor: '#ffffff' }}>
-            <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
+            <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 shadow-md max-w-md">
               <p className="text-gray-700 mb-4">PDF cannot be displayed in this browser.</p>
               <div className="space-y-3">
                 <a 
@@ -189,7 +161,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
                 </button>
               </div>
               <p className="text-gray-600 text-sm mt-4">
-                This comprehensive document includes tournament rules from all major TCGs
+                Opening in a new tab will provide full browser PDF controls including search, zoom, and page navigation.
               </p>
             </div>
           </div>
@@ -251,83 +223,23 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
             </button>
           </div>
 
-          {/* Search and Controls */}
-          <div className="space-y-4">
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="flex space-x-2">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search rules..."
-                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center space-x-2"
-              >
-                <Search className="h-4 w-4" />
-                <span>Search</span>
-              </button>
-            </form>
-
-            {/* Controls */}
-            <div className="flex items-center justify-between">
-              {/* Zoom Controls */}
-              <div className="flex items-center space-x-2">
-                <span className="text-gray-300 text-sm">Zoom:</span>
-                <button
-                  onClick={handleZoomOut}
-                  className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                  title="Zoom Out"
-                >
-                  <ZoomOut className="h-4 w-4" />
-                </button>
-                <span className="text-white text-sm min-w-[60px] text-center">
-                  {Math.round(zoom * 100)}%
-                </span>
-                <button
-                  onClick={handleZoomIn}
-                  className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                  title="Zoom In"
-                >
-                  <ZoomIn className="h-4 w-4" />
-                </button>
-              </div>
-
-              {/* Page Navigation */}
-              <div className="flex items-center space-x-2">
-                <span className="text-gray-300 text-sm">Page:</span>
-                <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                  title="Previous Page"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <span className="text-white text-sm min-w-[80px] text-center">
-                  {currentPage} of {totalPages}
-                </span>
-                <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                  title="Next Page"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-
-              {/* Download Button */}
-              <button
-                onClick={handleDownload}
-                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center space-x-2"
-              >
-                <Download className="h-4 w-4" />
-                <span>Download PDF</span>
-              </button>
+          {/* Controls */}
+          <div className="flex items-center justify-between">
+            {/* Info Text */}
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-300 text-sm">
+                Use your browser's built-in PDF controls for search, zoom, and navigation
+              </span>
             </div>
+
+            {/* Download Button */}
+            <button
+              onClick={handleDownload}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center space-x-2"
+            >
+              <Download className="h-4 w-4" />
+              <span>Download PDF</span>
+            </button>
           </div>
         </motion.div>
 
