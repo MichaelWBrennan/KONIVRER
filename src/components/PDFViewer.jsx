@@ -157,18 +157,18 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     };
     
     return (
-      <div className="w-full h-[800px] bg-transparent rounded-lg overflow-hidden border border-white/20 backdrop-blur-sm">
+      <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-white/20 shadow-lg">
         <object
           ref={iframeRef}
           data={currentPdfUrl}
           type="application/pdf"
-          className="w-full h-full border-0 bg-transparent"
+          className="w-full h-full border-0 bg-white"
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
         >
-          <div className="flex items-center justify-center h-full bg-white/10 backdrop-blur-md">
-            <div className="text-center p-8 bg-white/20 backdrop-blur-md rounded-lg border border-white/30">
-              <p className="text-white mb-4">PDF cannot be displayed in this browser.</p>
+          <div className="flex items-center justify-center h-full bg-white">
+            <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
+              <p className="text-gray-700 mb-4">PDF cannot be displayed in this browser.</p>
               <div className="space-y-3">
                 <a 
                   href={currentPdfUrl} 
@@ -187,7 +187,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
                   Download PDF
                 </button>
               </div>
-              <p className="text-gray-300 text-sm mt-4">
+              <p className="text-gray-600 text-sm mt-4">
                 This comprehensive document includes tournament rules from all major TCGs
               </p>
             </div>
