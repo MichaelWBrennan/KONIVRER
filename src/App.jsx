@@ -64,6 +64,12 @@ import EnhancedProfile from './components/EnhancedProfile';
 import PlayerProfile from './components/PlayerProfile';
 import AdminPanel from './pages/AdminPanel';
 
+// New melee.gg inspired features
+import DecklistSubmission from './pages/DecklistSubmission';
+import PlayerPortal from './pages/PlayerPortal';
+import OrganizationDashboard from './pages/OrganizationDashboard';
+import MobileJudgeTools from './components/tournaments/MobileJudgeTools';
+
 function App() {
   return (
     <ErrorBoundary>
@@ -213,6 +219,48 @@ function App() {
                             <Route
                               path="/judge-center"
                               element={<JudgeCenter />}
+                            />
+
+                            {/* New melee.gg inspired features */}
+                            <Route
+                              path="/decklist-submission"
+                              element={
+                                <ProtectedRoute>
+                                  <DecklistSubmission />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/decklist-submission/:tournamentId"
+                              element={
+                                <ProtectedRoute>
+                                  <DecklistSubmission />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/player-portal"
+                              element={
+                                <ProtectedRoute>
+                                  <PlayerPortal />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/organization-dashboard"
+                              element={
+                                <ProtectedRoute>
+                                  <OrganizationDashboard />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/mobile-judge-tools/:tournamentId"
+                              element={
+                                <ProtectedRoute>
+                                  <MobileJudgeTools />
+                                </ProtectedRoute>
+                              }
                             />
 
                             {/* User */}

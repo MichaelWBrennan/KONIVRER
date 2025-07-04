@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import TournamentTemplates from '../components/tournaments/TournamentTemplates';
+import RegistrationCodes from '../components/tournaments/RegistrationCodes';
 
 const TournamentCreate = () => {
   const navigate = useNavigate();
@@ -79,6 +80,12 @@ const TournamentCreate = () => {
     specialRules: '',
     penaltyPolicy: 'standard',
     appealProcess: 'standard',
+
+    // Registration & Payment
+    registrationCodes: [],
+    paymentMethod: 'none', // none, paypal, stripe
+    refundPolicy: 'standard',
+    lateRegistrationFee: 0,
   });
 
   const updateFormData = (field, value) => {
@@ -92,6 +99,12 @@ const TournamentCreate = () => {
     if (participants <= 64) return 6;
     if (participants <= 128) return 7;
     return 8;
+  };
+
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    setFormData(prev => ({ ...prev, ...template.settings }));
+    setStep(2); // Move to basic info step
   };
 
   const renderTemplateSelection = () => (
@@ -593,44 +606,143 @@ const TournamentCreate = () => {
     </div>
   );
 
+  const renderRegistrationManagement = () => (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Registration & Payment</h2>
+        <p className="text-muted mb-6">
+          Configure registration codes, entry fees, and payment options.
+        </p>
+      </div>
+
+      {/* Entry Fee Settings */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold mb-4">Entry Fee & Payment</h3>
+        
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Entry Fee ($)
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              className="input"
+              value={formData.entryFee}
+              onChange={e => updateFormData('entryFee', parseFloat(e.target.value) || 0)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Payment Method
+            </label>
+            <select
+              className="input"
+              value={formData.paymentMethod}
+              onChange={e => updateFormData('paymentMethod', e.target.value)}
+            >
+              <option value="none">No Online Payment</option>
+              <option value="paypal">PayPal</option>
+              <option value="stripe">Stripe</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Late Registration Fee ($)
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              className="input"
+              value={formData.lateRegistrationFee}
+              onChange={e => updateFormData('lateRegistrationFee', parseFloat(e.target.value) || 0)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Refund Policy
+            </label>
+            <select
+              className="input"
+              value={formData.refundPolicy}
+              onChange={e => updateFormData('refundPolicy', e.target.value)}
+            >
+              <option value="standard">Standard (48h before event)</option>
+              <option value="flexible">Flexible (24h before event)</option>
+              <option value="strict">No Refunds</option>
+              <option value="custom">Custom Policy</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Registration Codes */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Registration Codes</h3>
+        <p className="text-sm text-muted mb-4">
+          Create codes for special access, discounts, or judge registration.
+        </p>
+        <RegistrationCodes 
+          tournamentId={null} 
+          onCodesChange={(codes) => updateFormData('registrationCodes', codes)}
+        />
+      </div>
+
+      {/* Registration Settings */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold mb-4">Registration Settings</h3>
+        
+        <div className="space-y-4">
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={formData.registrationOpen}
+              onChange={e => updateFormData('registrationOpen', e.target.checked)}
+              className="rounded border-gray-300"
+            />
+            <span className="text-sm">Open Registration Immediately</span>
+          </label>
+
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={formData.lateRegistration}
+              onChange={e => updateFormData('lateRegistration', e.target.checked)}
+              className="rounded border-gray-300"
+            />
+            <span className="text-sm">Allow Late Registration</span>
+          </label>
+
+          <label className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={formData.decklistRequired}
+              onChange={e => updateFormData('decklistRequired', e.target.checked)}
+              className="rounded border-gray-300"
+            />
+            <span className="text-sm">Require Decklist Submission</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+
   const steps = [
     { id: 1, title: 'Template Selection', icon: Trophy },
     { id: 2, title: 'Basic Information', icon: Info },
     { id: 3, title: 'Schedule & Location', icon: Calendar },
     { id: 4, title: 'Participants & Structure', icon: Users },
     { id: 5, title: 'Judge & Settings', icon: Settings },
-    { id: 6, title: 'Review & Create', icon: Eye },
+    { id: 6, title: 'Registration & Codes', icon: DollarSign },
+    { id: 7, title: 'Review & Create', icon: Eye },
   ];
-
-  const handleTemplateSelect = template => {
-    setSelectedTemplate(template);
-
-    // Update form data based on template
-    setFormData({
-      ...formData,
-      type: template.id,
-      format:
-        template.id === 'swiss'
-          ? 'swiss'
-          : template.id === 'adaptive'
-            ? 'adaptive'
-            : template.id === 'meta-balanced'
-              ? 'swiss'
-              : template.id === 'tiered'
-                ? 'tiered'
-                : template.id === 'parallel'
-                  ? 'double-elimination'
-                  : 'standard',
-      maxParticipants: template.participantCount,
-      metaBalanceEnabled: template.metaBalance,
-      parallelBracketsEnabled: template.parallelBrackets,
-      tieredEntryEnabled: template.tieredEntry,
-      timeConstraint: template.timeConstraint,
-    });
-
-    // Move to next step
-    setStep(2);
-  };
 
   const handleSubmit = () => {
     // Here you would submit the tournament data
@@ -689,7 +801,8 @@ const TournamentCreate = () => {
           {step === 3 && renderScheduleLocation()}
           {step === 4 && renderParticipantsStructure()}
           {step === 5 && renderJudgeSettings()}
-          {step === 6 && renderReview()}
+          {step === 6 && renderRegistrationManagement()}
+          {step === 7 && renderReview()}
         </div>
 
         {/* Navigation */}
@@ -710,9 +823,9 @@ const TournamentCreate = () => {
               Cancel
             </button>
 
-            {step < 6 ? (
+            {step < 7 ? (
               <button
-                onClick={() => setStep(Math.min(6, step + 1))}
+                onClick={() => setStep(Math.min(7, step + 1))}
                 className="btn btn-primary"
               >
                 Next
