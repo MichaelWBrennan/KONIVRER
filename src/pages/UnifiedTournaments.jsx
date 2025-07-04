@@ -309,6 +309,67 @@ const UnifiedTournaments = () => {
     setAnalytics(mockAnalytics);
   };
 
+  // Registration functionality
+  const handleEventRegistration = async (eventId, eventName) => {
+    if (!isAuthenticated) {
+      alert('Please log in to register for events.');
+      return;
+    }
+
+    try {
+      // Simulate API call for registration
+      console.log(`Registering for event ${eventId}: ${eventName}`);
+      
+      // Show success message
+      alert(`Successfully registered for ${eventName}! Check your player profile for event details.`);
+      
+      // Update local state to reflect registration
+      setEvents(prev => prev.map(event => 
+        event.id === eventId 
+          ? { 
+              ...event, 
+              participants: event.participants + 1,
+              isRegistered: true 
+            }
+          : event
+      ));
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    }
+  };
+
+  const handleTournamentRegistration = async (tournamentId, tournamentName) => {
+    if (!isAuthenticated) {
+      alert('Please log in to register for tournaments.');
+      return;
+    }
+
+    try {
+      // Simulate API call for tournament registration
+      console.log(`Registering for tournament ${tournamentId}: ${tournamentName}`);
+      
+      // Show success message
+      alert(`Successfully registered for ${tournamentName}! Check your player profile for tournament details.`);
+      
+      // Update local state to reflect registration
+      setTournaments(prev => prev.map(tournament => 
+        tournament.id === tournamentId 
+          ? { 
+              ...tournament, 
+              participants: tournament.participants + 1,
+              isRegistered: true 
+            }
+          : tournament
+      ));
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    }
+  };
+
   const getStatusColor = status => {
     switch (status) {
       case 'Registration Open':
@@ -570,6 +631,23 @@ const UnifiedTournaments = () => {
                             <span>Watch</span>
                           </a>
                         )}
+                        {tournament.status === 'Registration Open' && (
+                          <button 
+                            onClick={() => handleTournamentRegistration(tournament.id, tournament.name)}
+                            className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors ${
+                              tournament.isRegistered 
+                                ? 'bg-green-600 text-white cursor-default' 
+                                : 'bg-green-600 hover:bg-green-500 text-white'
+                            }`}
+                            disabled={tournament.isRegistered || tournament.participants >= tournament.maxParticipants}
+                          >
+                            <UserPlus size={14} />
+                            <span>
+                              {tournament.isRegistered ? 'Registered' : 
+                               tournament.participants >= tournament.maxParticipants ? 'Full' : 'Register'}
+                            </span>
+                          </button>
+                        )}
                         <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors">
                           <Eye size={14} />
                           <span>View Details</span>
@@ -630,8 +708,17 @@ const UnifiedTournaments = () => {
                       <div className="flex items-center space-x-2 text-xs">
                         <span>{event.entryFee}</span>
                       </div>
-                      <button className="text-blue-400 hover:text-blue-300 text-sm">
-                        Join Event
+                      <button 
+                        onClick={() => handleEventRegistration(event.id, event.name)}
+                        className={`text-sm px-3 py-1 rounded transition-colors ${
+                          event.isRegistered 
+                            ? 'bg-green-600 text-white cursor-default' 
+                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                        }`}
+                        disabled={event.isRegistered || event.participants >= event.maxParticipants}
+                      >
+                        {event.isRegistered ? 'Registered' : 
+                         event.participants >= event.maxParticipants ? 'Full' : 'Join Event'}
                       </button>
                     </div>
                   </div>
