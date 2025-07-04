@@ -157,16 +157,17 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     };
     
     return (
-      <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-white/20 shadow-lg">
+      <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ backgroundColor: '#ffffff' }}>
         <object
           ref={iframeRef}
           data={currentPdfUrl}
           type="application/pdf"
-          className="w-full h-full border-0 bg-white"
+          className="w-full h-full border-0"
+          style={{ backgroundColor: '#ffffff' }}
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
         >
-          <div className="flex items-center justify-center h-full bg-white">
+          <div className="flex items-center justify-center h-full bg-white" style={{ backgroundColor: '#ffffff' }}>
             <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
               <p className="text-gray-700 mb-4">PDF cannot be displayed in this browser.</p>
               <div className="space-y-3">
