@@ -57,7 +57,7 @@ export const AIPersonalities = {
       creativity: 0.7
     },
     preferences: {
-      favoriteElements: ['Fire', 'Brilliance'],
+      favoriteElements: ['Inferno', 'Brilliance'],
       preferredPowerLevels: [4, 5, 6, 7], // Loves high power
       playStyle: 'aggressive',
       cardValueThreshold: 0.4 // Will play mediocre cards for pressure
@@ -127,7 +127,7 @@ export const AIPersonalities = {
       creativity: 0.6
     },
     preferences: {
-      favoriteElements: ['Quintessence', 'Earth'],
+      favoriteElements: ['Quintessence', 'Steadfast'],
       preferredPowerLevels: [2, 3, 4], // Prefers efficient mid-range
       playStyle: 'balanced',
       cardValueThreshold: 0.6
@@ -162,7 +162,7 @@ export const AIPersonalities = {
       creativity: 0.8
     },
     preferences: {
-      favoriteElements: ['Fire', 'Void'],
+      favoriteElements: ['Inferno', 'Void'],
       preferredPowerLevels: [1, 7, 8, 9], // All-in or nothing
       playStyle: 'aggressive',
       cardValueThreshold: 0.3
@@ -197,7 +197,7 @@ export const AIPersonalities = {
       creativity: 0.4
     },
     preferences: {
-      favoriteElements: ['Earth', 'Water'],
+      favoriteElements: ['Steadfast', 'Submerged'],
       preferredPowerLevels: [2, 3], // Maximum efficiency
       playStyle: 'control',
       cardValueThreshold: 0.8 // Only the best plays
