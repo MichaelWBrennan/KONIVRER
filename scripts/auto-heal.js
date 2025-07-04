@@ -1,3 +1,4 @@
+import AIRecorder from './ai-recorder.js';
 #!/usr/bin/env node
 
 /**

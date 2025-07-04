@@ -1,3 +1,11 @@
+
+import AIRecorder from './ai-recorder.js';
+
+// Initialize AI Recorder for optimization session
+const aiRecorder = new AIRecorder();
+await aiRecorder.recordActivity('optimization', 'Starting performance optimization', {
+  impact: 'Improving application performance and user experience'
+});
 #!/usr/bin/env node
 
 /**
