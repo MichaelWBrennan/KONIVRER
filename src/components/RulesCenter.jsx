@@ -187,12 +187,12 @@ const RulesCenter = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-0">
         {/* Search and Controls - Now on top */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/10 backdrop-blur-sm rounded-md p-2 mb-2"
+          className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-1"
         >
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
@@ -211,7 +211,7 @@ const RulesCenter = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-2"
+          className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-1"
         >
           <div className="flex gap-1">
             <button
@@ -291,7 +291,7 @@ const RulesCenter = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-4 py-0 whitespace-nowrap bg-white/5">
+                    <div className="px-2 py-0 whitespace-nowrap bg-white/5">
                       <div className="max-w-none">
                         {section?.content ? (
                           <div className="text-gray-200 leading-relaxed space-y-3 text-sm">
