@@ -108,9 +108,17 @@ const CardPage = () => {
         {/* Card Search Bar - Always at the top */}
         <div className="bg-amber-900/30 rounded-lg p-6 mb-6 border border-amber-800/40 shadow-md">
           <CardSearchBar className="mb-0" />
-          <div className="mt-3 text-center">
+          <div className="mt-3 flex justify-center space-x-4">
             <a href="/advanced-search" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
               Advanced Search ⟶
+            </a>
+            <a 
+              href="https://scryfall.com/docs/syntax" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-amber-400 hover:text-amber-300 font-medium transition-colors"
+            >
+              Scryfall Syntax Guide ⟶
             </a>
           </div>
         </div>

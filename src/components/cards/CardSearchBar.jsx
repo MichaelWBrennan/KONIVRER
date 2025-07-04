@@ -90,14 +90,24 @@ const CardSearchBar = ({ className = '' }) => {
           </button>
         </form>
 
-        {/* Advanced Search Link below search bar */}
-        <div 
-          className="text-center mt-2 cursor-pointer"
-          onClick={() => navigate('/advanced-search')}
-        >
-          <span className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors">
-            Advanced Search ⟶
-          </span>
+        {/* Advanced Search Links below search bar */}
+        <div className="flex justify-center mt-2 space-x-4">
+          <div 
+            className="cursor-pointer"
+            onClick={() => navigate('/advanced-search')}
+          >
+            <span className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors">
+              Advanced Search ⟶
+            </span>
+          </div>
+          <a 
+            href="https://scryfall.com/docs/syntax" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors"
+          >
+            Scryfall Syntax Guide ⟶
+          </a>
         </div>
       </div>
 

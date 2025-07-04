@@ -44,14 +44,14 @@ const CardDatabase = ({
   useEffect(() => {
     const cardsToUse = propCards || cardsData;
     setCards(cardsToUse);
-    // Don't show any cards by default - require set selection
+    // Don't show any cards by default - require search
     setFilteredCards([]);
   }, [propCards]);
 
   // Filter and search cards
   useEffect(() => {
-    // Don't show any cards if no set is selected
-    if (filters.set === 'all') {
+    // Don't show any cards until a search is performed
+    if (filters.set === 'all' || searchTerm.length < 2) {
       setFilteredCards([]);
       return;
     }
