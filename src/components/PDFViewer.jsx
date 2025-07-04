@@ -131,61 +131,17 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     // Use PDF.js viewer URL for full functionality
     const pdfViewerUrl = `/pdfjs/web/viewer.html?file=${encodeURIComponent(currentPdfUrl)}`;
     
-    console.log('PDF Viewer URL:', pdfViewerUrl);
-    console.log('Current PDF URL:', currentPdfUrl);
-    
     return (
       <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ backgroundColor: '#ffffff' }}>
-        {/* Debug and fallback options */}
-        <div className="p-3 bg-gray-50 text-sm border-b">
-          <div className="mb-2">
-            <strong>PDF.js Viewer:</strong> 
-            <a 
-              href={pdfViewerUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="ml-2 text-blue-600 hover:text-blue-800 underline"
-            >
-              Open in new tab
-            </a>
-          </div>
-          <div className="text-xs text-gray-600">
-            URL: {pdfViewerUrl}
-          </div>
-        </div>
-        
-        {/* Try iframe first */}
         <iframe
           ref={iframeRef}
           src={pdfViewerUrl}
-          className="w-full border-0"
-          style={{ backgroundColor: '#ffffff', height: 'calc(100% - 60px)' }}
+          className="w-full h-full border-0"
+          style={{ backgroundColor: '#ffffff' }}
           title={titles[activeTab] || titles.rules}
-          onLoad={() => {
-            console.log('PDF iframe loaded successfully');
-            setIsLoading(false);
-          }}
-          onError={(e) => {
-            console.error('PDF iframe failed to load:', e);
-            setError('Failed to load PDF viewer');
-          }}
+          onLoad={() => setIsLoading(false)}
           allow="fullscreen"
         />
-        
-        {/* Fallback message if iframe doesn't work */}
-        {error && (
-          <div className="p-4 bg-yellow-50 border-t">
-            <p className="text-yellow-800 mb-2">PDF.js viewer failed to load in iframe.</p>
-            <a 
-              href={pdfViewerUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Open PDF.js Viewer in New Tab
-            </a>
-          </div>
-        )}
       </div>
     );
   };
