@@ -41,7 +41,7 @@ import GameBoardTest from './pages/GameBoardTest';
 import AIConsciousnessDemo from './pages/AIConsciousnessDemo';
 
 // Card & Deck System
-import MobileCardExplorer from './pages/MobileCardExplorer';
+import UnifiedCardExplorer from './components/UnifiedCardExplorer';
 import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import CardArtShowcase from './pages/CardArtShowcase';
@@ -153,11 +153,11 @@ function App() {
                             {/* Cards & Decks */}
                             <Route
                               path="/cards"
-                              element={<MobileCardExplorer />}
+                              element={<UnifiedCardExplorer />}
                             />
                             <Route
                               path="/cards/*"
-                              element={<MobileCardExplorer />}
+                              element={<UnifiedCardExplorer />}
                             />
                             <Route
                               path="/card/:cardId"
