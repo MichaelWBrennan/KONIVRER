@@ -140,7 +140,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
           style={{ backgroundColor: '#ffffff' }}
           title={titles[activeTab] || titles.rules}
           onLoad={() => setIsLoading(false)}
-          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          allow="fullscreen"
         />
       </div>
     );
