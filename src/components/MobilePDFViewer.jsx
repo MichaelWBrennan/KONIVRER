@@ -11,100 +11,11 @@ import { Search, ZoomIn, ZoomOut, Download, ChevronLeft, ChevronRight, FileText,
 import '../styles/mobile-first.css';
 import '../styles/esoteric-theme.css';
 
-// Mobile Tournament Rules Component
-const MobileTournamentRules = () => {
-  return (
-    <div className="mobile-card-content esoteric-card-content">
-      <div className="mobile-text">
-        <h2 className="mobile-heading esoteric-heading mobile-mb">KONIVRER Tournament Rules</h2>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Tournament Structure</h3>
-        <p className="mobile-p mobile-mb"><strong>Casual Events:</strong> Local store tournaments with relaxed enforcement and learning focus.</p>
-        <p className="mobile-p mobile-mb"><strong>Competitive Events:</strong> Regional qualifiers with strict rule enforcement and professional judging.</p>
-        <p className="mobile-p mobile-mb"><strong>Professional Events:</strong> Premier tournaments with highest level of competition and prizes.</p>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Match Structure</h3>
-        <ul className="mobile-list esoteric-list mobile-mb">
-          <li className="mobile-list-item esoteric-list-item">Best of 3 games with optional sideboarding</li>
-          <li className="mobile-list-item esoteric-list-item">First player determined randomly for game 1</li>
-          <li className="mobile-list-item esoteric-list-item">Match winner determined by first to win 2 games</li>
-        </ul>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Time Limits</h3>
-        <ul className="mobile-list esoteric-list mobile-mb">
-          <li className="mobile-list-item esoteric-list-item"><strong>Swiss rounds:</strong> 50 minutes per match</li>
-          <li className="mobile-list-item esoteric-list-item"><strong>Playoff rounds:</strong> 70-90 minutes</li>
-          <li className="mobile-list-item esoteric-list-item"><strong>Deck construction:</strong> 30 minutes for sealed</li>
-        </ul>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Tournament Roles</h3>
-        <p className="mobile-p mobile-mb"><strong>Tournament Organizer:</strong> Overall event management and logistics.</p>
-        <p className="mobile-p mobile-mb"><strong>Head Judge:</strong> Final authority on rules interpretations and penalties.</p>
-        <p className="mobile-p mobile-mb"><strong>Floor Judges:</strong> Monitor matches and provide rules assistance.</p>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Deck Construction</h3>
-        <ul className="mobile-list esoteric-list mobile-mb">
-          <li className="mobile-list-item esoteric-list-item">Constructed decks must contain exactly 40 cards</li>
-          <li className="mobile-list-item esoteric-list-item">Sideboard of up to 15 cards allowed</li>
-          <li className="mobile-list-item esoteric-list-item">All cards must be legal for tournament format</li>
-        </ul>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Penalties</h3>
-        <p className="mobile-p mobile-mb"><strong>Warning:</strong> Minor procedural errors or first-time infractions.</p>
-        <p className="mobile-p mobile-mb"><strong>Game Loss:</strong> Significant rule violations or repeated infractions.</p>
-        <p className="mobile-p mobile-mb"><strong>Disqualification:</strong> Cheating or severe rule violations.</p>
-      </div>
-    </div>
-  );
-};
-
-// Mobile Code of Conduct Component
-const MobileCodeOfConduct = () => {
-  return (
-    <div className="mobile-card-content esoteric-card-content">
-      <div className="mobile-text">
-        <h2 className="mobile-heading esoteric-heading mobile-mb">KONIVRER Code of Conduct</h2>
-        
-        <div className="mobile-alert mobile-mb">
-          <p className="mobile-text-small">KONIVRER is dedicated to creating inclusive play experiences for all participants.</p>
-        </div>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Core Principles</h3>
-        <p className="mobile-p mobile-mb"><strong>Respect and Inclusion:</strong> Treat all participants with respect and courtesy.</p>
-        <p className="mobile-p mobile-mb"><strong>Fair Play:</strong> Compete honestly and follow all rules and procedures.</p>
-        <p className="mobile-p mobile-mb"><strong>Sportsmanship:</strong> Be gracious in victory and defeat.</p>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Prohibited Behavior</h3>
-        <p className="mobile-p mobile-mb"><strong>Harassment:</strong> Hate speech, discrimination, bullying, or threatening behavior.</p>
-        <p className="mobile-p mobile-mb"><strong>Unsporting Conduct:</strong> Excessive arguing, slow play, or disruptive behavior.</p>
-        <p className="mobile-p mobile-mb"><strong>Cheating:</strong> Misrepresenting game state, marked cards, or collusion.</p>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Player Responsibilities</h3>
-        <ul className="mobile-list esoteric-list mobile-mb">
-          <li className="mobile-list-item esoteric-list-item">Greet opponents at start and end of matches</li>
-          <li className="mobile-list-item esoteric-list-item">Clearly announce actions and card effects</li>
-          <li className="mobile-list-item esoteric-list-item">Keep play area organized and tidy</li>
-          <li className="mobile-list-item esoteric-list-item">Handle opponent's cards with care</li>
-        </ul>
-        
-        <h3 className="mobile-heading esoteric-heading mobile-mb">Enforcement</h3>
-        <p className="mobile-p mobile-mb">Violations may result in warnings, game losses, match losses, disqualification, or suspension from future events.</p>
-        
-        <p className="mobile-p mobile-mb">Report violations immediately to a judge or tournament official.</p>
-        
-        <div className="mobile-alert mobile-mb">
-          <p className="mobile-text-small">Remember: We're all here to enjoy KONIVRER together. Following these guidelines creates a welcoming environment for everyone.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [zoom, setZoom] = useState(0.8); // Smaller default zoom for mobile
+  const [zoom, setZoom] = useState(1.0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfExists, setPdfExists] = useState(false);
@@ -112,11 +23,22 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   const [activeTab, setActiveTab] = useState('rules');
   const iframeRef = useRef(null);
 
+  // PDF URLs for different tabs
+  const pdfUrls = {
+    rules: '/assets/konivrer-rules.pdf',
+    tournament: '/assets/konivrer-tournament-rules.pdf',
+    conduct: '/assets/konivrer-code-of-conduct.pdf'
+  };
+
+  // Get current PDF URL based on active tab
+  const getCurrentPdfUrl = () => pdfUrls[activeTab] || pdfUrls.rules;
+
   useEffect(() => {
     // Check if PDF file exists
     const checkPdfExists = async () => {
       try {
-        const response = await fetch(pdfUrl, { method: 'HEAD' });
+        const currentPdfUrl = getCurrentPdfUrl();
+        const response = await fetch(currentPdfUrl, { method: 'HEAD' });
         if (response.ok) {
           setPdfExists(true);
           setError(null);
@@ -133,15 +55,19 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     };
 
     checkPdfExists();
-  }, [pdfUrl]);
+    // Reset page when switching tabs
+    setCurrentPage(1);
+  }, [activeTab]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchTerm.trim() && iframeRef.current) {
+      // For browsers that support it, we can try to search within the PDF
       try {
         const iframe = iframeRef.current;
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (iframeDoc) {
+          // This is a basic implementation - actual PDF search would require PDF.js
           console.log('Searching for:', searchTerm);
         }
       } catch (err) {
@@ -151,17 +77,26 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   };
 
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.2, 2.0));
+    setZoom(prev => Math.min(prev + 0.25, 3.0));
   };
 
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.2, 0.4));
+    setZoom(prev => Math.max(prev - 0.25, 0.5));
   };
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = 'konivrer-rules.pdf';
+    const currentPdfUrl = getCurrentPdfUrl();
+    link.href = currentPdfUrl;
+    
+    // Set appropriate filename based on active tab
+    const filenames = {
+      rules: 'konivrer-rules.pdf',
+      tournament: 'konivrer-tournament-rules.pdf',
+      conduct: 'konivrer-code-of-conduct.pdf'
+    };
+    link.download = filenames[activeTab] || 'konivrer-rules.pdf';
+    
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -169,10 +104,10 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
 
   if (isLoading) {
     return (
-      <div className="mobile-container esoteric-bg-dark">
-        <div className="mobile-loading">
-          <div className="esoteric-loading-spinner"></div>
-          <p>Loading PDF...</p>
+      <div className="mobile-container esoteric-bg-dark mobile-flex mobile-justify-center mobile-align-center" style={{ minHeight: '100vh' }}>
+        <div className="mobile-text-center">
+          <div className="mobile-spinner mobile-mb"></div>
+          <p className="mobile-text esoteric-text">Loading PDF...</p>
         </div>
       </div>
     );
@@ -181,37 +116,15 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   if (error || !pdfExists) {
     return (
       <div className="mobile-container esoteric-bg-dark">
-        {/* Header */}
         <div className="mobile-card esoteric-card mobile-mb">
           <div className="mobile-card-header esoteric-card-header">
-            <div className="mobile-flex mobile-align-center">
-              <FileText className="esoteric-icon" />
-              <h1 className="mobile-card-title esoteric-rune">KONIVRER Rules</h1>
-            </div>
+            <h1 className="mobile-card-title esoteric-rune">KONIVRER Rules & Guidelines</h1>
           </div>
-        </div>
-
-        {/* Error Message */}
-        <div className="mobile-card esoteric-card">
-          <div className="mobile-card-content esoteric-card-content mobile-text-center">
-            <FileText className="esoteric-icon-large mobile-mb" />
-            <h2 className="mobile-heading esoteric-heading mobile-mb">
-              PDF Rules Document Not Available
-            </h2>
-            <p className="mobile-text mobile-mb">
-              The KONIVRER rules PDF file is not currently available. Please contact the administrator to upload the rules document.
-            </p>
-            <div className="mobile-alert mobile-mb">
-              <p className="mobile-text-small">
-                <strong>For Administrators:</strong> Upload the rules PDF file to <code>/public/assets/konivrer-rules.pdf</code>
-              </p>
+          <div className="mobile-card-content esoteric-card-content">
+            <div className="mobile-alert">
+              <p className="mobile-text esoteric-text">⚠️ PDF Not Available</p>
+              <p className="mobile-text-small">{error}</p>
             </div>
-            <button
-              onClick={() => window.location.href = '/'}
-              className="mobile-button esoteric-button"
-            >
-              Return to Home
-            </button>
           </div>
         </div>
       </div>
@@ -219,30 +132,28 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   }
 
   const renderTabContent = () => {
-    switch (activeTab) {
-      case 'rules':
-        return (
-          <div className="mobile-card esoteric-card">
-            <div className="mobile-card-content esoteric-card-content mobile-p-0">
-              <div className="mobile-pdf-container">
-                <iframe
-                  ref={iframeRef}
-                  src={`${pdfUrl}#page=${currentPage}&zoom=${zoom * 100}`}
-                  className="mobile-pdf-iframe"
-                  title="KONIVRER Rules PDF"
-                  onLoad={() => setIsLoading(false)}
-                />
-              </div>
-            </div>
+    const currentPdfUrl = getCurrentPdfUrl();
+    const titles = {
+      rules: 'KONIVRER Rules PDF',
+      tournament: 'KONIVRER Tournament Rules PDF',
+      conduct: 'KONIVRER Code of Conduct PDF'
+    };
+    
+    return (
+      <div className="mobile-card esoteric-card">
+        <div className="mobile-card-content esoteric-card-content mobile-p-0">
+          <div className="mobile-pdf-container">
+            <iframe
+              ref={iframeRef}
+              src={`${currentPdfUrl}#page=${currentPage}&zoom=${zoom * 100}`}
+              className="mobile-pdf-iframe"
+              title={titles[activeTab] || titles.rules}
+              onLoad={() => setIsLoading(false)}
+            />
           </div>
-        );
-      case 'tournament':
-        return <MobileTournamentRules />;
-      case 'conduct':
-        return <MobileCodeOfConduct />;
-      default:
-        return null;
-    }
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -255,14 +166,12 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
               <FileText className="esoteric-icon" />
               <h1 className="mobile-card-title esoteric-rune">KONIVRER Rules & Guidelines</h1>
             </div>
-            {activeTab === 'rules' && (
-              <button
-                onClick={() => setShowControls(!showControls)}
-                className="mobile-button-icon esoteric-button"
-              >
-                <Menu className="mobile-icon" />
-              </button>
-            )}
+            <button
+              onClick={() => setShowControls(!showControls)}
+              className="mobile-button-icon esoteric-button"
+            >
+              <Menu className="mobile-icon" />
+            </button>
           </div>
         </div>
 
@@ -293,8 +202,8 @@ const MobilePDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
           </div>
         </div>
 
-        {/* Collapsible Controls - Only for rules tab */}
-        {activeTab === 'rules' && showControls && (
+        {/* Collapsible Controls */}
+        {showControls && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
