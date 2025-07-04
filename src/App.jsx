@@ -47,6 +47,7 @@ import CardPage from './pages/CardPage';
 import CardArtShowcase from './pages/CardArtShowcase';
 import CardMaker from './pages/CardMaker';
 import AdvancedSearchPage from './pages/AdvancedSearchPage';
+import SyntaxGuide from './pages/SyntaxGuide';
 
 // Matchmaking System
 import UnifiedMatchmakingPage from './pages/UnifiedMatchmakingPage';
@@ -175,6 +176,10 @@ function App() {
                             <Route
                               path="/advanced-search"
                               element={<AdvancedSearchPage />}
+                            />
+                            <Route
+                              path="/syntax-guide"
+                              element={<SyntaxGuide />}
                             />
                             <Route
                               path="/decks"
