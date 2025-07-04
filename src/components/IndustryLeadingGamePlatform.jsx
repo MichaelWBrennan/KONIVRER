@@ -951,7 +951,7 @@ const SettingsModal = ({
 
       <button
         onClick={onClose}
-        className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+        className="w-full py-0 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors whitespace-nowrap"
       >
         Close
       </button>

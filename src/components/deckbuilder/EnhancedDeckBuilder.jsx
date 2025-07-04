@@ -993,16 +993,16 @@ const DeckExportPanel = ({ deck, onExport }) => {
       <div className="space-y-4">
         <button
           onClick={onExport}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition-colors"
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
         >
           Export for Game
         </button>
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap">
           Share Deck
         </button>
 
-        <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-medium transition-colors">
+        <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap">
           Download as Text
         </button>
       </div>

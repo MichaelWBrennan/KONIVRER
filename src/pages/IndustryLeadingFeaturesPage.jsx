@@ -480,7 +480,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
 
             <button
               onClick={selectOptimalStructure}
-              className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-medium transition-colors"
+              className="w-full bg-purple-600 hover:bg-purple-700 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
             >
               <Brain className="w-4 h-4 mr-2 inline" />
               Calculate Optimal Structure
@@ -533,7 +533,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
                   );
                   setSelectedTournament(tournament);
                 }}
-                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-0"
               >
                 <option value="">Choose tournament...</option>
                 {tournaments.map(tournament => (
@@ -547,7 +547,7 @@ const MetaAdaptiveFeature = ({ tournamentEngine, tournaments, players }) => {
             <button
               onClick={generateOptimalPairings}
               disabled={!selectedTournament}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-3 rounded-lg font-medium transition-colors"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
             >
               <Target className="w-4 h-4 mr-2 inline" />
               Generate Optimal Pairings
@@ -659,7 +659,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
                   const player = players.find(p => p.id === e.target.value);
                   setSelectedPlayer(player);
                 }}
-                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2"
+                className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-0"
               >
                 <option value="">Choose player...</option>
                 {players.map(player => (
@@ -673,7 +673,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
             <button
               onClick={analyzePlayer}
               disabled={!selectedPlayer}
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 py-3 rounded-lg font-medium transition-colors"
+              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
             >
               <Brain className="w-4 h-4 mr-2 inline" />
               Analyze Player
@@ -750,7 +750,7 @@ const BayesianMLFeature = ({ bayesianEngine, players, matches }) => {
             <button
               onClick={predictMatch}
               disabled={!selectedPlayer || players.length < 2}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-3 rounded-lg font-medium transition-colors"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
             >
               <TrendingUp className="w-4 h-4 mr-2 inline" />
               Predict Match Outcome
