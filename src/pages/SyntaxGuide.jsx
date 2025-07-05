@@ -72,23 +72,19 @@ const SyntaxGuide = () => {
       description: 'Search by card types and subtypes',
       examples: [
         {
-          syntax: 't:familiar',
-          description: 'Find all Familiar cards',
+          syntax: 't:elemental',
+          description: 'Find all Elemental cards',
         },
         {
-          syntax: 't:spell',
-          description: 'Find all Spell cards',
+          syntax: 't:flag',
+          description: 'Find all Flag cards',
         },
         {
-          syntax: 't:artifact',
-          description: 'Find all Artifact cards',
+          syntax: 't:ΦLAG',
+          description: 'Find Flag cards using exact type',
         },
         {
-          syntax: 't:"legendary familiar"',
-          description: 'Find Legendary Familiar cards',
-        },
-        {
-          syntax: 'type:enchantment',
+          syntax: 'type:elemental',
           description: 'Alternative syntax for type searches',
         },
       ],
@@ -208,8 +204,8 @@ const SyntaxGuide = () => {
       description: 'Complex search combinations and operators',
       examples: [
         {
-          syntax: 't:familiar e:brilliance',
-          description: 'Find Brilliance Familiar cards',
+          syntax: 't:elemental e:brilliance',
+          description: 'Find Brilliance Elemental cards',
         },
         {
           syntax: 'e:gust e:inferno c<=3',
