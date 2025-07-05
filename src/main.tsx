@@ -17,7 +17,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.tsx';
+import Layout from './components/Layout.tsx';
 import './styles/main.css';
 import './styles/unified.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -35,7 +37,13 @@ if (true) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<App />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
