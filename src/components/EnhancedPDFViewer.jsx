@@ -5,16 +5,21 @@
  * 1. Direct iframe embedding
  * 2. Object tag embedding
  * 3. Download link fallback
+ * 
+ * The viewer automatically adjusts to the user agent's screen size.
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { Download, FileText, ExternalLink } from 'lucide-react';
+import { Download, FileText, ExternalLink, Maximize2 } from 'lucide-react';
 
-const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' }) => {
+const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document' }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfExists, setPdfExists] = useState(false);
   const [viewerMethod, setViewerMethod] = useState('iframe');
+  const [viewerHeight, setViewerHeight] = useState('calc(100vh - 200px)');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef(null);
   const iframeRef = useRef(null);
   const objectRef = useRef(null);
 
@@ -40,6 +45,35 @@ const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' })
 
     checkPdfExists();
   }, [pdfUrl]);
+
+  // Adjust viewer height based on screen size
+  useEffect(() => {
+    const updateViewerHeight = () => {
+      if (isFullscreen) {
+        setViewerHeight('calc(100vh - 80px)');
+      } else {
+        // Adjust height based on screen size
+        const screenHeight = window.innerHeight;
+        const headerHeight = 120; // Approximate height of header elements
+        const footerHeight = 80; // Approximate height of footer elements
+        const calculatedHeight = screenHeight - headerHeight - footerHeight;
+        setViewerHeight(`${calculatedHeight}px`);
+      }
+    };
+
+    // Update height on mount and when window is resized
+    updateViewerHeight();
+    window.addEventListener('resize', updateViewerHeight);
+    
+    return () => {
+      window.removeEventListener('resize', updateViewerHeight);
+    };
+  }, [isFullscreen]);
+
+  // Toggle fullscreen mode
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
 
   // Handle iframe load error by switching to object tag
   const handleIframeError = () => {
@@ -68,7 +102,7 @@ const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' })
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center" style={{ height }}>
+      <div className="flex items-center justify-center" style={{ height: viewerHeight }}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading PDF...</p>
@@ -93,14 +127,25 @@ const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' })
   }
 
   return (
-    <div className="pdf-viewer-container">
+    <div 
+      ref={containerRef} 
+      className={`pdf-viewer-container ${isFullscreen ? 'fullscreen' : ''}`}
+    >
       {/* Controls */}
-      <div className="flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg">
+      <div className="pdf-controls flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg">
         <div className="flex items-center">
           <FileText className="h-5 w-5 text-blue-600 mr-2" />
           <h3 className="font-medium text-gray-800">{title}</h3>
         </div>
-        <div className="flex space-x-2">
+        <div className="control-buttons flex space-x-2">
+          <button
+            onClick={toggleFullscreen}
+            className={`px-3 py-1 ${isFullscreen ? 'bg-gray-600' : 'bg-purple-600'} hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center text-sm`}
+            aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+          >
+            <Maximize2 className="h-4 w-4 mr-1" />
+            <span>{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</span>
+          </button>
           <a
             href={pdfUrl}
             target="_blank"
@@ -121,7 +166,10 @@ const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' })
       </div>
 
       {/* PDF Viewer */}
-      <div className="w-full bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ height }}>
+      <div 
+        className="pdf-viewer w-full bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" 
+        style={{ height: viewerHeight }}
+      >
         {viewerMethod === 'iframe' && (
           <iframe
             ref={iframeRef}
@@ -131,6 +179,7 @@ const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' })
             onError={handleIframeError}
             onLoad={() => setIsLoading(false)}
             allow="fullscreen"
+            sandbox="allow-same-origin allow-scripts allow-forms"
           />
         )}
         

@@ -5,6 +5,7 @@
 @import './modern-design.css';
 @import './utilities.css';
 @import './button-size-adjustments.css';
+@import './pdf-viewer.css';
 
 /* Global app styles */
 * {

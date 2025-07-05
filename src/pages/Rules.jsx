@@ -82,7 +82,6 @@ const Rules = () => {
             <EnhancedPDFViewer 
               pdfUrl={activeTabData?.pdfUrl} 
               title={activeTabData?.title}
-              height="800px"
             />
           </motion.div>
         </div>
