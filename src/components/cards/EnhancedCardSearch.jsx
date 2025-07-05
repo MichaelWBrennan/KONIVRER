@@ -272,12 +272,10 @@ const EnhancedCardSearch = () => {
             common: 0,
             uncommon: 1,
             rare: 2,
-            mythic: 3,
-            special: 4,
+            special: 3,
             Common: 0,
             Uncommon: 1,
             Rare: 2,
-            Mythic: 3,
             Special: 4,
           };
           comparison =
@@ -433,14 +431,7 @@ const EnhancedCardSearch = () => {
 
           {/* Quick Filters */}
           <div className="flex flex-wrap gap-2 mb-4">
-            <button
-              onClick={() =>
-                setAdvancedSearch(prev => ({ ...prev, rarity: ['mythic'] }))
-              }
-              className="px-3 py-0 whitespace-nowrap bg-orange-600 hover:bg-orange-700 text-white rounded-full text-sm transition-colors"
-            >
-              Mythic Rares
-            </button>
+
             <button
               onClick={() =>
                 setAdvancedSearch(prev => ({ ...prev, type: 'creature' }))
@@ -665,7 +656,7 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
     'water',
     'nether'
   ];
-  const rarities = ['common', 'uncommon', 'rare', 'mythic'];
+  const rarities = ['common', 'uncommon', 'rare'];
   const types = [
     'elemental',
     'flag'
@@ -843,8 +834,6 @@ const CardGridItem = ({
         return 'border-green-400';
       case 'rare':
         return 'border-blue-400';
-      case 'mythic':
-        return 'border-orange-400';
       case 'special':
         return 'border-purple-400';
       default:

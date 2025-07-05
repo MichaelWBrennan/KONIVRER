@@ -55,7 +55,7 @@ const KonivrERGameBoard = ({
     air: { icon: Wind, symbol: '🜁', color: 'text-gray-300' },
     aether: { icon: Sparkles, symbol: '○', color: 'text-purple-400' },
     nether: { icon: Square, symbol: '□', color: 'text-gray-800' },
-    generic: { icon: Circle, symbol: '⊗', color: 'text-gray-400' }
+    generic: { icon: Circle, symbol: '✡︎⃝', color: 'text-gray-400' }
   };
 
   // Connect to game engine

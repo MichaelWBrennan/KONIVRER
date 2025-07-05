@@ -196,7 +196,7 @@ class CardAnimationSystem {
     });
 
     // Add card-specific effects if available
-    if (cardData.rarity === 'mythic' || cardData.rarity === 'rare') {
+    if (cardData.rarity === 'rare') {
       this.addRarityEffects(cardElement, timeline, cardData);
     }
 
@@ -280,7 +280,7 @@ class CardAnimationSystem {
     // Add particle effects for special cards
     if (
       this.settings.particleCount > 0 &&
-      (cardData.rarity === 'mythic' || cardData.rarity === 'rare')
+      (cardData.rarity === 'rare')
     ) {
       this.createParticleEffect(cardElement, {
         type: 'play',
@@ -898,22 +898,20 @@ class CardAnimationSystem {
   }
 
   /**
-   * Add special effects for rare/mythic cards
+   * Add special effects for rare cards
    * @param {HTMLElement} cardElement - The card DOM element
    * @param {Object} timeline - GSAP timeline
    * @param {Object} cardData - Card data
    */
   addRarityEffects(cardElement, timeline, cardData) {
-    const isMythic = cardData.rarity === 'mythic';
-
     // Add glow effect
     timeline
       .to(
         cardElement,
         {
           duration: 0.3,
-          boxShadow: `0 0 15px ${isMythic ? '#FFA500' : '#FFD700'}`,
-          filter: `brightness(1.2) ${isMythic ? 'hue-rotate(15deg)' : ''}`,
+          boxShadow: `0 0 15px #FFD700`,
+          filter: `brightness(1.2)`,
           ease: 'power2.out',
         },
         '-=0.3',

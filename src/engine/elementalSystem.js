@@ -22,7 +22,7 @@ export const ELEMENT_SYMBOLS = {
   [ELEMENTS.AIR]: '🜁',       // Alchemical symbol for air
   [ELEMENTS.AETHER]: '○',     // Circle for aether
   [ELEMENTS.NETHER]: '□',     // Square for nether
-  [ELEMENTS.GENERIC]: '⊗'     // Circled times for generic
+  [ELEMENTS.GENERIC]: '✡︎⃝'     // Star of David with combining enclosing circle for generic
 };
 
 // Elemental advantages

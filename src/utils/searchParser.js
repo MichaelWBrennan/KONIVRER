@@ -346,7 +346,7 @@ const matchesElementFilter = (card, element) => {
     'air': '🜁',
     'aether': '○',
     'nether': '□',
-    'generic': '⊗'
+    'generic': '✡︎⃝'
   };
 
   const elementSymbol = elementMap[searchElement];

@@ -258,8 +258,8 @@ export function playSpell(gameState, playerId, cardId, azothSpent, abilityIndex)
   if (playedCard.abilities && playedCard.abilities[abilityIndex]) {
     const ability = playedCard.abilities[abilityIndex];
     
-    // Replace ⊗ in ability text with genericValue
-    const resolvedEffect = ability.effect.replace('⊗', genericValue.toString());
+    // Replace ✡︎⃝ in ability text with genericValue
+    const resolvedEffect = ability.effect.replace('✡︎⃝', genericValue.toString());
     
     // Log the spell effect
     gameState.gameLog.push(`${playerId} casts ${playedCard.name}: ${resolvedEffect}`);
@@ -301,14 +301,14 @@ export function playBurst(gameState, playerId, cardId) {
   
   const card = gameState.players[playerId].hand[handIndex];
   
-  // Calculate ⊗ value based on remaining Life Cards
+  // Calculate ✡︎⃝ value based on remaining Life Cards
   const genericValue = gameState.players[playerId].lifeCards.length;
   
   // Remove card from hand
   const playedCard = gameState.players[playerId].hand.splice(handIndex, 1)[0];
   
   // Log the action
-  gameState.gameLog.push(`${playerId} plays ${playedCard.name} as Burst (⊗ = ${genericValue})`);
+  gameState.gameLog.push(`${playerId} plays ${playedCard.name} as Burst (✡︎⃝ = ${genericValue})`);
   
   // Apply card effect based on type
   if (playedCard.type === 'Familiar') {
@@ -325,13 +325,13 @@ export function playBurst(gameState, playerId, cardId) {
     // NOTE: Keywords do NOT resolve when played via Burst
     gameState.gameLog.push(`${playedCard.name} keywords do not resolve (played via Burst)`);
   } else if (playedCard.type === 'Spell') {
-    // Apply spell effect with ⊗ = remaining Life Cards
+    // Apply spell effect with ✡︎⃝ = remaining Life Cards
     // But keywords don't resolve
     if (playedCard.abilities && playedCard.abilities.length > 0) {
       const ability = playedCard.abilities[0];
       
-      // Replace ⊗ in ability text with genericValue
-      const resolvedEffect = ability.effect.replace('⊗', genericValue.toString());
+      // Replace ✡︎⃝ in ability text with genericValue
+      const resolvedEffect = ability.effect.replace('✡︎⃝', genericValue.toString());
       
       // Log the spell effect
       gameState.gameLog.push(`${playerId} casts ${playedCard.name}: ${resolvedEffect}`);
@@ -354,7 +354,7 @@ export function playBurst(gameState, playerId, cardId) {
  * @param {Object} gameState - Current game state
  * @param {string} playerId - Player identifier
  * @param {Object} ability - Ability object
- * @param {number} genericValue - Value of ⊗
+ * @param {number} genericValue - Value of ✡︎⃝
  * @returns {Object} Updated game state
  */
 export function applySpellEffect(gameState, playerId, ability, genericValue) {
@@ -362,7 +362,7 @@ export function applySpellEffect(gameState, playerId, ability, genericValue) {
   // In a real implementation, this would handle different effect types
   
   // For now, just log that the effect was applied
-  gameState.gameLog.push(`Applied spell effect with ⊗ = ${genericValue}`);
+  gameState.gameLog.push(`Applied spell effect with ✡︎⃝ = ${genericValue}`);
   
   return gameState;
 }
