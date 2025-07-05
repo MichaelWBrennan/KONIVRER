@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Users, Shield } from 'lucide-react';
+import { Users, Shield, FileText } from 'lucide-react';
 import PDFViewer from '../components/PDFViewer';
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -44,19 +44,13 @@ const Rules = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
+          {/* Tab Navigation */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/10 backdrop-blur-md rounded-lg p-6 mb-6 border border-white/20"
           >
-            <div className="flex items-center space-x-3 mb-6">
-              <FileText className="h-8 w-8 text-blue-400" />
-              <h1 className="text-2xl font-bold text-white">KONIVRER Rules & Guidelines</h1>
-            </div>
-
-            {/* Tab Navigation */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 justify-center">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -74,22 +68,6 @@ const Rules = () => {
                   </button>
                 );
               })}
-            </div>
-
-            {/* Tab Description */}
-            <div className="bg-blue-500/20 backdrop-blur-md rounded-lg p-4 border border-blue-500/30">
-              <h2 className="text-lg font-semibold text-white mb-2">{activeTabData?.label}</h2>
-              <p className="text-gray-300 text-sm mb-3">{activeTabData?.description}</p>
-              
-              {/* Show KONIVRER Basic Rules only for the basic rules tab */}
-              {activeTab === 'basic' && (
-                <div className="text-gray-300 text-sm space-y-1">
-                  <p>• No artifacts or sorceries - Everything can be cast at instant speed</p>
-                  <p>• All familiars have haste and vigilance</p>
-                  <p>• No graveyard - Only a removed from play zone</p>
-                  <p>• Power and toughness are combined into one stat called "strength"</p>
-                </div>
-              )}
             </div>
           </motion.div>
 
