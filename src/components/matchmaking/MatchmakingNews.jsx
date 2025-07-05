@@ -42,7 +42,7 @@ const MatchmakingNews = ({ news, onViewAll, onClose, maxItems = 3 }) => {
     );
   }
 
-  // Mock news if not provided
+  // Load news from actual data source when available
   const mockNews = [
     {
       id: 'news_1',
@@ -60,15 +60,6 @@ const MatchmakingNews = ({ news, onViewAll, onClose, maxItems = 3 }) => {
         'Several cards will be adjusted to improve gameplay diversity and competitive balance.',
       date: new Date(Date.now() - 86400000 * 2),
       category: 'Update',
-      url: '#',
-    },
-    {
-      id: 'news_3',
-      title: 'World Championship Qualifier Registration Open',
-      summary:
-        'Register now for your chance to compete in the KONIVRER World Championship!',
-      date: new Date(Date.now() - 86400000 * 3),
-      category: 'Tournament',
       url: '#',
     },
   ];

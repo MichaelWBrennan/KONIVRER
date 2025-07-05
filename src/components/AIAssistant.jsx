@@ -330,10 +330,22 @@ const AIAssistant = ({ currentDeck = [], onSuggestion }) => {
                     >
                       Apply
                     </button>
-                    <button className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
+                    <button 
+                      className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors"
+                      onClick={() => {
+                        // TODO: Implement thumbs up feedback
+                        console.log('Thumbs up clicked for suggestion:', suggestion.id);
+                      }}
+                    >
                       <ThumbsUp className="w-4 h-4" />
                     </button>
-                    <button className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors">
+                    <button 
+                      className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors"
+                      onClick={() => {
+                        // TODO: Implement thumbs down feedback
+                        console.log('Thumbs down clicked for suggestion:', suggestion.id);
+                      }}
+                    >
                       <ThumbsDown className="w-4 h-4" />
                     </button>
                   </div>

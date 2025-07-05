@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
@@ -17,6 +17,7 @@ import '../styles/esoteric-theme.css';
 
 const MobileFirstLayout = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const auth = useAuth();
   const { user, logout, isAuthenticated, loading } = auth;
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -132,7 +133,7 @@ const MobileFirstLayout = ({ children }) => {
         {/* User Profile / Login Button */}
         {isAuthenticated ? (
           <button
-            onClick={() => (window.location.href = '/profile')}
+            onClick={() => navigate('/profile')}
             className="mobile-btn esoteric-btn"
           >
             {user.displayName?.charAt(0) || '⦿'}

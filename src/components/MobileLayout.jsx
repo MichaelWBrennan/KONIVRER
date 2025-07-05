@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -22,6 +23,7 @@ import {
 } from 'lucide-react';
 
 const MobileLayout = ({ children, currentPage = 'home' }) => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [batteryLevel, setBatteryLevel] = useState(null);
@@ -138,7 +140,7 @@ const MobileLayout = ({ children, currentPage = 'home' }) => {
   const handleNavigation = path => {
     setIsMenuOpen(false);
     // Use your router navigation here
-    window.location.href = path;
+    navigate(path);
   };
 
   const getStatusBarHeight = () => {

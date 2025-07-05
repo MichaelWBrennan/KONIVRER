@@ -100,7 +100,13 @@ const CardMetaAnalysis = () => {
       </div>
 
       <div className="text-center">
-        <button className="bg-primary hover:bg-primary/80 text-white px-6 py-2 rounded-lg transition-colors">
+        <button 
+          className="bg-primary hover:bg-primary/80 text-white px-6 py-2 rounded-lg transition-colors"
+          onClick={() => {
+            // TODO: Implement meta report navigation
+            console.log('View Full Meta Report clicked');
+          }}
+        >
           View Full Meta Report
         </button>
       </div>

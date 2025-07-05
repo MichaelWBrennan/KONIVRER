@@ -8,12 +8,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gamepad2, Edit, Trash2, Copy, X, Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useDeck } from '../contexts/DeckContext';
 
 /**
  * Component for selecting a deck to use in the game
  */
 const DeckSelector = ({ onSelect, onClose }) => {
+  const navigate = useNavigate();
   const { decks, activeDeck, loadDeck, setActivePlayerDeck, deleteDeck } =
     useDeck();
   const [selectedDeckId, setSelectedDeckId] = useState(null);
@@ -115,7 +117,7 @@ const DeckSelector = ({ onSelect, onClose }) => {
                     onClick={e => {
                       e.stopPropagation();
                       // Navigate to edit page
-                      window.location.href = `/deck-builder/${deck.id}`;
+                      navigate(`/deck-builder/${deck.id}`);
                     }}
                     className="p-1 text-gray-400 hover:text-white transition-colors"
                     title="Edit Deck"

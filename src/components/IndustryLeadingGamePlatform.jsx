@@ -875,6 +875,10 @@ const NotificationCard = ({ notification }) => (
           <button
             key={index}
             className="px-3 py-0 whitespace-nowrap bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-sm transition-colors"
+            onClick={() => {
+              // TODO: Implement notification action handling
+              console.log('Notification action clicked:', action);
+            }}
           >
             {action}
           </button>
