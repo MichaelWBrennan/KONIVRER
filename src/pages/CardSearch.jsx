@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Helmet } from 'react-helmet-async';
 import UnifiedCardSearch from '../components/unified/UnifiedCardSearch';
 import '../styles/unified-card-search.css';
 
@@ -25,42 +24,6 @@ const CardSearch = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="card-search-page">
-        <Helmet>
-          <title>Card Search - KONIVRER Deck Database</title>
-          <meta 
-            name="description" 
-            content="Search and explore KONIVRER cards with advanced filtering, sorting, and powerful search capabilities. Find the perfect cards for your deck." 
-          />
-          <meta name="keywords" content="KONIVRER, card search, deck building, card database, TCG, card game" />
-          
-          {/* Open Graph */}
-          <meta property="og:title" content="Card Search - KONIVRER Deck Database" />
-          <meta property="og:description" content="Search and explore KONIVRER cards with advanced filtering and powerful search capabilities." />
-          <meta property="og:type" content="website" />
-          
-          {/* Twitter Card */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Card Search - KONIVRER Deck Database" />
-          <meta name="twitter:description" content="Search and explore KONIVRER cards with advanced filtering and powerful search capabilities." />
-          
-          {/* Structured Data */}
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              "name": "KONIVRER Card Search",
-              "description": "Advanced card search and database for the KONIVRER trading card game",
-              "url": window.location.href,
-              "applicationCategory": "Game",
-              "operatingSystem": "Web Browser",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              }
-            })}
-          </script>
-        </Helmet>
         
         <div className="page-header">
           <div className="header-content">
