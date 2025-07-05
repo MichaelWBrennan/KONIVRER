@@ -320,13 +320,13 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   }`}
                 >
                   {icon}
-                  <span className="hidden sm:inline">{label}
+                  <span className="hidden sm:inline">{label}</span>
                 </button>
               ))}
             </div>
 
           {/* Quick Actions */}
-          <div className="flex justify-center space-x-2 mb-4" />
+          <div className="flex justify-center space-x-2 mb-4">
             {quickActions.map(action => (
               <button
                 key={action.id}

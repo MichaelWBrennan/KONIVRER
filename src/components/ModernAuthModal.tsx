@@ -206,7 +206,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
 
   if (!isOpen) return null;
   return (
-    <AnimatePresence />
+    <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

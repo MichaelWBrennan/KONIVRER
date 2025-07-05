@@ -160,7 +160,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
     <div
       className={`min-h-screen ${orientation === 'landscape' ? 'landscape' : 'portrait'}`}
       style={{ background: 'var(--bg-primary)' }}
-     />
+    >
       {/* Status Bar */}
       <div
         className="bg-tertiary text-primary text-xs flex justify-between items-center px-4 relative z-50"
