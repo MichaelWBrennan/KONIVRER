@@ -76,6 +76,7 @@ const parseTokens = (tokens) => {
     text: [],
     type: [],
     element: [],
+    keyword: [],
     cost: [],
     rarity: [],
     set: [],
@@ -119,11 +120,19 @@ const parseStructuredFilter = (key, value, filters) => {
     
     case 'e':
     case 'element':
-    case 'color':
       if (value.includes('>=') || value.includes('<=') || value.includes('>') || value.includes('<') || value.includes('=')) {
         filters.element.push({ operator: extractOperator(value), value: extractValue(value) });
       } else {
         filters.element.push(cleanValue);
+      }
+      break;
+
+    case 'k':
+    case 'keyword':
+      if (value.includes('>=') || value.includes('<=') || value.includes('>') || value.includes('<') || value.includes('=')) {
+        filters.keyword.push({ operator: extractOperator(value), value: extractValue(value) });
+      } else {
+        filters.keyword.push(cleanValue);
       }
       break;
     
@@ -240,6 +249,11 @@ const applyFilters = (cards, filters) => {
       results.push(filters.element.some(element => matchesElementFilter(card, element)));
     }
 
+    // Keyword filters
+    if (filters.keyword.length > 0) {
+      results.push(filters.keyword.some(keyword => matchesKeywordFilter(card, keyword)));
+    }
+
     // Cost filters
     if (filters.cost.length > 0) {
       results.push(filters.cost.some(cost => matchesCostFilter(card, cost)));
@@ -312,7 +326,7 @@ const matchesTypeFilter = (card, type) => {
 };
 
 /**
- * Check if card matches element filter
+ * Check if card matches element filter (ACTUAL elements only)
  */
 const matchesElementFilter = (card, element) => {
   if (typeof element === 'object') {
@@ -324,36 +338,18 @@ const matchesElementFilter = (card, element) => {
   const cardElements = getCardElements(card);
   const searchElement = element.toLowerCase();
   
-  // Map element names to symbols and abilities
+  // Map ACTUAL element names to symbols (not keywords!)
   const elementMap = {
-    // Primary KONIVRER elements
-    'aether': '⬢',
-    'nether': '▢', 
-    'fire': '🜂',
-    'water': '🜄',
-    'earth': '🜃',
-    'air': '🜁',
-    // Legacy ability names (for backward compatibility)
-    'brilliance': '⬢',
-    'void': '▢',
-    'inferno': '🜂',
-    'submerged': '🜄',
-    'steadfast': '🜃',
-    'gust': '🜁',
-    'quintessence': '✦'
+    'fire': '△',
+    'water': '▽',
+    'earth': '⊡',
+    'air': '△',
+    'aether': '○',
+    'nether': '□',
+    'generic': '⊗'
   };
 
   const elementSymbol = elementMap[searchElement];
-  
-  // Element name mappings for card data
-  const elementNameMap = {
-    'aether': ['brilliance', 'aether'],
-    'nether': ['void', 'nether'],
-    'fire': ['fire', 'inferno'],
-    'water': ['water', 'submerged'],
-    'earth': ['earth', 'steadfast'],
-    'air': ['air', 'gust']
-  };
 
   // Check if any card element matches (case-insensitive)
   return cardElements.some(cardElement => {
@@ -365,12 +361,44 @@ const matchesElementFilter = (card, element) => {
     // Symbol match
     if (cardElement === elementSymbol) return true;
     
-    // Check element name mappings
-    for (const [primaryElement, aliases] of Object.entries(elementNameMap)) {
-      if (searchElement === primaryElement && aliases.some(alias => cardElementLower === alias)) {
-        return true;
-      }
-    }
+    return false;
+  });
+};
+
+/**
+ * Check if card matches keyword filter (KEYWORDS only)
+ */
+const matchesKeywordFilter = (card, keyword) => {
+  if (typeof keyword === 'object') {
+    // Numeric keyword count filter
+    const keywordCount = getKeywordCount(card);
+    return compareNumbers(keywordCount, keyword.operator, keyword.value);
+  }
+
+  const cardKeywords = getCardKeywords(card);
+  const searchKeyword = keyword.toLowerCase();
+  
+  // Map keyword names to symbols
+  const keywordMap = {
+    'brilliance': '✦',
+    'void': '◯',
+    'gust': '≋',
+    'submerged': '≈',
+    'inferno': '※',
+    'steadfast': '⬢'
+  };
+
+  const keywordSymbol = keywordMap[searchKeyword];
+
+  // Check if any card keyword matches (case-insensitive)
+  return cardKeywords.some(cardKeyword => {
+    const cardKeywordLower = cardKeyword.toLowerCase();
+    
+    // Direct match
+    if (cardKeywordLower === searchKeyword) return true;
+    
+    // Symbol match
+    if (cardKeyword === keywordSymbol) return true;
     
     return false;
   });
@@ -436,30 +464,50 @@ const matchesOracleFilter = (card, oracle) => {
  * Helper functions for card property extraction
  */
 const getCardElements = (card) => {
-  // First check if card has an elements array (KONIVRER format)
-  if (card.elements && Array.isArray(card.elements)) {
-    return card.elements;
+  // Check if card has elements object (new format)
+  if (card.elements && typeof card.elements === 'object') {
+    return Object.keys(card.elements).filter(element => card.elements[element] > 0);
   }
   
-  // Fallback: extract from mana cost symbols
-  const elements = [];
-  const manaCost = card.manaCost || card.cost || '';
-  const text = card.text || card.description || '';
+  // Fallback: check if card has elements array (legacy format)
+  if (card.elements && Array.isArray(card.elements)) {
+    // Filter out keywords that were incorrectly stored as elements
+    const actualElements = card.elements.filter(element => {
+      const elementLower = element.toLowerCase();
+      return !['brilliance', 'void', 'gust', 'submerged', 'inferno', 'steadfast'].includes(elementLower);
+    });
+    return actualElements;
+  }
   
-  // Extract from mana cost symbols
-  if (manaCost.includes('⬢')) elements.push('Brilliance');
-  if (manaCost.includes('🜁')) elements.push('Gust');
-  if (manaCost.includes('🜂')) elements.push('Inferno');
-  if (manaCost.includes('🜃')) elements.push('Steadfast');
-  if (manaCost.includes('🜄')) elements.push('Submerged');
-  if (manaCost.includes('▢')) elements.push('Void');
-  if (manaCost.includes('✦')) elements.push('Quintessence');
+  return [];
+};
+
+const getCardKeywords = (card) => {
+  // Check if card has keywords array (new format)
+  if (card.keywords && Array.isArray(card.keywords)) {
+    return card.keywords;
+  }
   
-  return elements;
+  // Fallback: extract from description/text
+  const keywords = [];
+  const text = (card.text || card.description || '').toLowerCase();
+  
+  if (text.includes('brilliance') || text.includes('✦')) keywords.push('Brilliance');
+  if (text.includes('void') || text.includes('◯')) keywords.push('Void');
+  if (text.includes('gust') || text.includes('≋')) keywords.push('Gust');
+  if (text.includes('submerged') || text.includes('≈')) keywords.push('Submerged');
+  if (text.includes('inferno') || text.includes('※')) keywords.push('Inferno');
+  if (text.includes('steadfast') || text.includes('⬢')) keywords.push('Steadfast');
+  
+  return keywords;
 };
 
 const getElementCount = (card) => {
   return getCardElements(card).length;
+};
+
+const getKeywordCount = (card) => {
+  return getCardKeywords(card).length;
 };
 
 const getCardCost = (card) => {
