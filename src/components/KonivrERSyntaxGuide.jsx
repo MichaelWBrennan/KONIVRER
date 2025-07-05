@@ -59,20 +59,24 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Simple text searches across card names and rules text',
       examples: [
         {
-          syntax: 'lightning',
-          description: 'Find cards with "lightning" in name or text',
+          syntax: 'lightning | dragon | familiar',
+          description: 'Search for any word in card names or rules text',
+          viableWords: 'Any word that appears in card names or text'
         },
         {
-          syntax: '"exact phrase"',
+          syntax: '"exact phrase" | "enters the battlefield"',
           description: 'Search for exact phrases using quotes',
+          viableWords: 'Any exact phrase in quotes'
         },
         {
-          syntax: 'fire OR flame',
-          description: 'Find cards containing either "fire" or "flame"',
+          syntax: 'fire OR flame | word1 OR word2',
+          description: 'Find cards containing either word using OR',
+          viableWords: 'Any words connected with OR'
         },
         {
-          syntax: 'dragon -token',
-          description: 'Find dragons but exclude tokens',
+          syntax: 'dragon -token | word -excluded',
+          description: 'Include one term but exclude another using minus (-)',
+          viableWords: 'Any word to include, any word to exclude with -'
         },
       ],
     },
@@ -83,24 +87,14 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by card types and subtypes',
       examples: [
         {
-          syntax: 't:familiar',
-          description: 'Find all Familiar cards',
-        },
-        {
-          syntax: 't:spell',
-          description: 'Find all Spell cards',
-        },
-        {
-          syntax: 't:artifact',
-          description: 'Find all Artifact cards',
+          syntax: 't:familiar | type:familiar',
+          description: 'Search for cards by their type',
+          viableWords: 'familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery'
         },
         {
           syntax: 't:"legendary familiar"',
-          description: 'Find Legendary Familiar cards',
-        },
-        {
-          syntax: 'type:enchantment',
-          description: 'Alternative syntax for type searches',
+          description: 'Search for cards with multiple type words (use quotes)',
+          viableWords: 'Any combination of type words in quotes'
         },
       ],
     },
@@ -111,36 +105,14 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by mana cost elements - the resources needed to cast cards',
       examples: [
         {
-          syntax: 'e:fire',
-          description: 'Find cards that cost Fire mana (△) - aggressive, direct damage',
+          syntax: 'e:fire | element:fire',
+          description: 'Search for cards by their mana cost elements - the resources needed to cast cards',
+          viableWords: 'fire, water, earth, air, aether, nether, generic'
         },
         {
-          syntax: 'e:water',
-          description: 'Find cards that cost Water mana (▽) - flow, adaptation, control',
-        },
-        {
-          syntax: 'e:earth',
-          description: 'Find cards that cost Earth mana (⊡) - stability, growth, defense',
-        },
-        {
-          syntax: 'e:air',
-          description: 'Find cards that cost Air mana (△) - speed, movement, freedom',
-        },
-        {
-          syntax: 'e:aether',
-          description: 'Find cards that cost Aether mana (○) - pure energy, transcendence',
-        },
-        {
-          syntax: 'e:nether',
-          description: 'Find cards that cost Nether mana (□) - void, corruption, entropy',
-        },
-        {
-          syntax: 'e:generic',
-          description: 'Find cards that cost Generic mana (⊗) - colorless, universal',
-        },
-        {
-          syntax: 'e&gt;=2',
-          description: 'Find cards with 2 or more elements',
+          syntax: 'e>=2 | e>1 | e<=3 | e<4 | e=2',
+          description: 'Search by number of elements using comparison operators',
+          viableWords: 'Any number with operators: >=, >, <=, <, ='
         },
       ],
     },
@@ -151,32 +123,14 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by special keyword abilities - unique powers that cards possess',
       examples: [
         {
-          syntax: 'k:brilliance',
-          description: 'Find cards with Brilliance (✦) - radiant power and enlightenment',
+          syntax: 'k:brilliance | keyword:brilliance',
+          description: 'Search for cards by their keyword abilities - special powers that cards possess',
+          viableWords: 'brilliance, void, gust, submerged, inferno, steadfast'
         },
         {
-          syntax: 'k:void',
-          description: 'Find cards with Void (◯) - emptiness that consumes and negates',
-        },
-        {
-          syntax: 'k:gust',
-          description: 'Find cards with Gust (≋) - swift winds and rapid movement',
-        },
-        {
-          syntax: 'k:submerged',
-          description: 'Find cards with Submerged (≈) - hidden depths and fluid adaptation',
-        },
-        {
-          syntax: 'k:inferno',
-          description: 'Find cards with Inferno (※) - blazing fury and destructive heat',
-        },
-        {
-          syntax: 'k:steadfast',
-          description: 'Find cards with Steadfast (⬢) - unwavering resolve and endurance',
-        },
-        {
-          syntax: 'k&gt;=2',
-          description: 'Find cards with 2 or more keywords',
+          syntax: 'k>=2 | k>1 | k<=3 | k<4 | k=2',
+          description: 'Search by number of keywords using comparison operators',
+          viableWords: 'Any number with operators: >=, >, <=, <, ='
         },
       ],
     },
@@ -187,24 +141,14 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by mana costs and converted mana cost',
       examples: [
         {
-          syntax: 'cmc:3',
-          description: 'Find cards with converted mana cost of 3',
+          syntax: 'cmc:3 | mv:3 | cost:3',
+          description: 'Search by converted mana cost (total cost to cast)',
+          viableWords: 'Any number (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10+)'
         },
         {
-          syntax: 'cmc&gt;=4',
-          description: 'Find cards with CMC 4 or higher',
-        },
-        {
-          syntax: 'cmc&lt;=2',
-          description: 'Find cards with CMC 2 or lower',
-        },
-        {
-          syntax: 'mana:{3}{⬢}',
-          description: 'Find cards costing 3 generic + 1 Brilliance',
-        },
-        {
-          syntax: 'mv:0',
-          description: 'Find cards with mana value 0',
+          syntax: 'cmc>=4 | cmc>3 | cmc<=2 | cmc<3 | cmc=5',
+          description: 'Search by mana cost using comparison operators',
+          viableWords: 'Any number with operators: >=, >, <=, <, ='
         },
       ],
     },
@@ -215,24 +159,24 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by creature stats',
       examples: [
         {
-          syntax: 'pow:3',
-          description: 'Find creatures with power 3',
+          syntax: 'pow:3 | power:3 | p:3',
+          description: 'Search by creature power value',
+          viableWords: 'Any number (0, 1, 2, 3, 4, 5+) or * for variable'
         },
         {
-          syntax: 'tou&gt;=5',
-          description: 'Find creatures with toughness 5 or more',
+          syntax: 'tou:5 | toughness:5 | t:5',
+          description: 'Search by creature toughness value',
+          viableWords: 'Any number (0, 1, 2, 3, 4, 5+) or * for variable'
         },
         {
-          syntax: 'pow=tou',
-          description: 'Find creatures with equal power and toughness',
+          syntax: 'pow>=3 | pow>2 | pow<=4 | pow<5 | pow=3',
+          description: 'Search by power using comparison operators',
+          viableWords: 'Any number with operators: >=, >, <=, <, ='
         },
         {
-          syntax: 'pow&gt;tou',
-          description: 'Find creatures with power greater than toughness',
-        },
-        {
-          syntax: 'power:*',
-          description: 'Find creatures with variable power (*)',
+          syntax: 'pow=tou | pow>tou | pow<tou',
+          description: 'Compare power and toughness values',
+          viableWords: 'Use = > < to compare power vs toughness'
         },
       ],
     },
@@ -243,28 +187,19 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by rarity and set information',
       examples: [
         {
-          syntax: 'r:common',
-          description: 'Find common cards',
+          syntax: 'r:common | rarity:common',
+          description: 'Search by card rarity level',
+          viableWords: 'common, uncommon, rare, mythic, legendary, special'
         },
         {
-          syntax: 'r:rare',
-          description: 'Find rare cards',
+          syntax: 's:"prima materia" | set:"prima materia"',
+          description: 'Search by set name (use quotes for multi-word names)',
+          viableWords: 'Any set name - use quotes for names with spaces'
         },
         {
-          syntax: 'r:mythic',
-          description: 'Find mythic rare cards',
-        },
-        {
-          syntax: 'r:legendary',
-          description: 'Find legendary cards',
-        },
-        {
-          syntax: 's:"prima materia"',
-          description: 'Find cards from Prima Materia set',
-        },
-        {
-          syntax: 'set:pm',
-          description: 'Find cards using set code',
+          syntax: 'set:pm | s:pm',
+          description: 'Search by set code (abbreviated form)',
+          viableWords: 'Any set code (pm, core, exp, etc.)'
         },
       ],
     },
@@ -275,24 +210,19 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search within card rules text and abilities',
       examples: [
         {
-          syntax: 'o:flying',
-          description: 'Find cards with "flying" in rules text',
+          syntax: 'o:flying | oracle:flying',
+          description: 'Search within card rules text and abilities',
+          viableWords: 'Any word or phrase that appears in card text'
         },
         {
           syntax: 'o:"enters the battlefield"',
-          description: 'Find cards with ETB effects',
+          description: 'Search for exact phrases in rules text (use quotes)',
+          viableWords: 'Any exact phrase in quotes'
         },
         {
           syntax: 'o:~/~',
-          description: 'Find cards that reference themselves',
-        },
-        {
-          syntax: 'oracle:trample',
-          description: 'Alternative syntax for rules text search',
-        },
-        {
-          syntax: 'o:"{T}:"',
-          description: 'Find cards with tap abilities',
+          description: 'Find cards that reference themselves by name',
+          viableWords: 'Use ~/~ to find self-referencing cards'
         },
       ],
     },
@@ -303,28 +233,19 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Complex search operators and combinations',
       examples: [
         {
-          syntax: '(t:familiar OR t:spell) k:brilliance',
-          description: 'Find familiars or spells that have the Brilliance keyword ability',
+          syntax: '(criteria1 OR criteria2) AND criteria3',
+          description: 'Use parentheses and logical operators for complex searches',
+          viableWords: 'OR, AND, NOT - combine any search criteria'
         },
         {
-          syntax: 'cmc:3 -t:land',
-          description: 'Exclude specific types with minus (-)',
+          syntax: '-criteria | NOT criteria',
+          description: 'Exclude results using minus (-) or NOT',
+          viableWords: 'Any search criteria to exclude'
         },
         {
-          syntax: 'is:permanent',
-          description: 'Find permanent cards',
-        },
-        {
-          syntax: 'is:spell',
-          description: 'Find non-permanent spells',
-        },
-        {
-          syntax: 'unique:art',
-          description: 'Show only unique artworks',
-        },
-        {
-          syntax: 'game:paper',
-          description: 'Find cards legal in paper play',
+          syntax: 'is:permanent | is:spell',
+          description: 'Special card type categories',
+          viableWords: 'permanent, spell, token, legendary'
         },
       ],
     },
@@ -335,28 +256,14 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Unique searches for KONIVRER mechanics',
       examples: [
         {
-          syntax: 'o:azoth',
-          description: 'Find cards mentioning Azoth',
+          syntax: 'o:azoth | o:tribute | o:resonance',
+          description: 'Search for KONIVRER-specific mechanics in card text',
+          viableWords: 'azoth, tribute, resonance, singularity, "ancient hero", "life cards"'
         },
         {
-          syntax: 'o:tribute',
-          description: 'Find cards with Tribute mechanic',
-        },
-        {
-          syntax: 'o:"ancient hero"',
-          description: 'Find Ancient Hero cards',
-        },
-        {
-          syntax: 'o:singularity',
-          description: 'Find Singularity-related cards',
-        },
-        {
-          syntax: 'o:"life cards"',
-          description: 'Find cards affecting Life Cards',
-        },
-        {
-          syntax: 'o:resonance',
-          description: 'Find cards with Resonance abilities',
+          syntax: 'o:"ancient hero" | o:"life cards"',
+          description: 'Search for KONIVRER-specific terms (use quotes for phrases)',
+          viableWords: 'Any KONIVRER-specific term or phrase'
         },
       ],
     },
@@ -380,7 +287,13 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
           )}
         </button>
       </div>
-      <p className="text-gray-300 text-sm">{example.description}</p>
+      <p className="text-gray-300 text-sm mb-2">{example.description}</p>
+      {example.viableWords && (
+        <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
+          <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
+          <code className="text-blue-200 text-xs">{example.viableWords}</code>
+        </div>
+      )}
     </div>
   );
 
