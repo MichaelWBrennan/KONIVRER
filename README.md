@@ -2,6 +2,16 @@
 
 A modern, mobile-first trading card game platform with advanced matchmaking, tournament management, and deck building capabilities.
 
+## Game Rules
+
+📖 **[KONIVRER Basic Rules](./KONIVRER_BASIC_RULES.pdf)** - Complete rulebook covering all game mechanics
+
+### Core Rule Summary
+- **No artifacts or sorceries** - Everything can be cast at instant speed but doesn't need instant typing
+- **All familiars have haste and vigilance**
+- **No graveyard** - Only a removed from play zone
+- **Power and toughness are combined into one stat called "strength"**
+
 ## Features
 
 ### Core Gameplay

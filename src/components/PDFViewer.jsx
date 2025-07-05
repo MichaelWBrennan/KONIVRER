@@ -13,18 +13,10 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfExists, setPdfExists] = useState(false);
-  const [activeTab, setActiveTab] = useState('rules');
   const iframeRef = useRef(null);
 
-  // PDF URLs for different tabs
-  const pdfUrls = {
-    rules: '/assets/konivrer-rules.pdf',
-    tournament: '/assets/konivrer-tournament-rules.pdf',
-    conduct: '/assets/konivrer-code-of-conduct.pdf'
-  };
-
-  // Get current PDF URL based on active tab
-  const getCurrentPdfUrl = () => pdfUrls[activeTab] || pdfUrls.rules;
+  // Use the provided PDF URL or default to basic rules
+  const getCurrentPdfUrl = () => pdfUrl;
 
   useEffect(() => {
     // Check if PDF file exists
@@ -57,14 +49,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     const link = document.createElement('a');
     const currentPdfUrl = getCurrentPdfUrl();
     link.href = currentPdfUrl;
-    
-    // Set appropriate filename based on active tab
-    const filenames = {
-      rules: 'konivrer-rules.pdf',
-      tournament: 'konivrer-tournament-rules.pdf',
-      conduct: 'konivrer-code-of-conduct.pdf'
-    };
-    link.download = filenames[activeTab] || 'konivrer-rules.pdf';
+    link.download = 'KONIVRER-Basic-Rules.pdf';
     
     document.body.appendChild(link);
     link.click();
@@ -138,7 +123,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
           src={pdfViewerUrl}
           className="w-full h-full border-0"
           style={{ backgroundColor: '#ffffff' }}
-          title={titles[activeTab] || titles.rules}
+          title="KONIVRER Basic Rules"
           onLoad={() => setIsLoading(false)}
           allow="fullscreen"
         />
@@ -162,41 +147,15 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
             </div>
           </div>
 
-          {/* Tabs */}
-          <div className="flex space-x-2 mb-6">
-            <button
-              onClick={() => setActiveTab('rules')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-                activeTab === 'rules'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-              }`}
-            >
-              <FileText className="h-4 w-4" />
-              <span>Game Rules</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('tournament')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-                activeTab === 'tournament'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-              }`}
-            >
-              <Users className="h-4 w-4" />
-              <span>Tournament Rules</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('conduct')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-                activeTab === 'conduct'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-              }`}
-            >
-              <Shield className="h-4 w-4" />
-              <span>Code of Conduct</span>
-            </button>
+          {/* Rules Info */}
+          <div className="bg-blue-500/20 backdrop-blur-md rounded-lg p-4 mb-6 border border-blue-500/30">
+            <h2 className="text-lg font-semibold text-white mb-2">KONIVRER Basic Rules</h2>
+            <div className="text-gray-300 text-sm space-y-1">
+              <p>• No artifacts or sorceries - Everything can be cast at instant speed</p>
+              <p>• All familiars have haste and vigilance</p>
+              <p>• No graveyard - Only a removed from play zone</p>
+              <p>• Power and toughness are combined into one stat called "strength"</p>
+            </div>
           </div>
 
           {/* Controls */}
