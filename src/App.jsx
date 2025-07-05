@@ -43,6 +43,7 @@ import BattlePass from './pages/BattlePass';
 import KonivrERDemo from './pages/KonivrERDemo';
 import GameBoardTest from './pages/GameBoardTest';
 import AIConsciousnessDemo from './pages/AIConsciousnessDemo';
+import PlayGame from './pages/PlayGame';
 
 // Card & Deck System
 import UnifiedCardExplorer from './components/UnifiedCardExplorer';
@@ -138,6 +139,10 @@ function App() {
                             <Route
                               path="/game-board-test"
                               element={<GameBoardTest />}
+                            />
+                            <Route
+                              path="/play"
+                              element={<PlayGame />}
                             />
                             <Route
                               path="/deck-selection"
