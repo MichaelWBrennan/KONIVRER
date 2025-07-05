@@ -11,7 +11,7 @@ import GameCard from './GameCard';
 
 /**
  * Renders a zone of cards with different layout options
- * Enhanced to be more like MTG Arena
+ * Enhanced to be more like KONIVRER Arena
  */
 const CardZone = ({
   cards = [],
@@ -64,13 +64,13 @@ const CardZone = ({
 
     switch (layout) {
       case 'fan':
-        // Fan layout (for hand) - MTG Arena style
+        // Fan layout (for hand) - KONIVRER Arena style
         const fanAngle = Math.min(4, 25 / totalCards);
         const fanSpread = Math.min(18, 180 / totalCards) * mobileScaleFactor;
         const baseRotation = -((totalCards - 1) * fanAngle) / 2;
         const baseTranslation = -((totalCards - 1) * fanSpread) / 2;
 
-        // MTG Arena style: cards rise up when hovered
+        // KONIVRER Arena style: cards rise up when hovered
         const hoverLift = isHovering ? -10 : 0;
 
         return {
@@ -80,7 +80,7 @@ const CardZone = ({
         };
 
       case 'grid':
-        // Grid layout (for battlefield) - MTG Arena style
+        // Grid layout (for battlefield) - KONIVRER Arena style
         const cardsPerRow = isMobile ? 4 : 5;
         const row = Math.floor(index / cardsPerRow);
         const col = index % cardsPerRow;
@@ -95,7 +95,7 @@ const CardZone = ({
         };
 
       case 'row':
-        // Row layout (for azoth/mana row) - MTG Arena style
+        // Row layout (for azoth/mana row) - KONIVRER Arena style
         const rowSpacing = isMobile ? 6 : 8;
         const cardSize = 80 * mobileScaleFactor;
 
@@ -105,7 +105,7 @@ const CardZone = ({
         };
 
       case 'stack':
-        // Stack layout (for deck, discard) - MTG Arena style with 3D effect
+        // Stack layout (for deck, discard) - KONIVRER Arena style with 3D effect
         return {
           transform: `translateX(${index * 1.5}px) translateY(${index * 1.5}px) translateZ(${index * 0.5}px)`,
           zIndex: index,
@@ -199,7 +199,7 @@ const CardZone = ({
         ))}
       </AnimatePresence>
 
-      {/* Show count if there are more cards than maxCards - MTG Arena style */}
+      {/* Show count if there are more cards than maxCards - KONIVRER Arena style */}
       {cards.length > maxCards && (
         <motion.div
           className="absolute top-0 right-0 bg-gradient-to-br from-black/80 to-gray-800/80 text-white text-xs font-bold rounded-full px-2 py-0 whitespace-nowrap shadow-lg"
@@ -211,7 +211,7 @@ const CardZone = ({
         </motion.div>
       )}
 
-      {/* Zone label - MTG Arena style */}
+      {/* Zone label - KONIVRER Arena style */}
       {cards.length > 0 && (
         <motion.div
           className="absolute bottom-0 left-0 bg-black/50 text-white text-xs px-2 py-0.5 rounded-tr-md rounded-bl-md opacity-70"

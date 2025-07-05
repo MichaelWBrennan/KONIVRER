@@ -29,7 +29,7 @@ import {
 /**
  * Main game board component that renders the entire game interface
  * and connects to the game engine
- * Enhanced to be more like MTG Arena
+ * Enhanced to be more like KONIVRER Arena
  */
 const GameBoard = ({
   gameEngine,
@@ -239,7 +239,7 @@ const GameBoard = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // If game state is not loaded yet, show MTG Arena-style loading screen
+  // If game state is not loaded yet, show KONIVRER Arena-style loading screen
   if (!gameState) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden">
@@ -423,7 +423,7 @@ const GameBoard = ({
             transition={{ delay: 1.2, duration: 0.8 }}
           >
             <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-            Optimized for all devices • MTG Arena-quality experience
+            Optimized for all devices • KONIVRER Arena-quality experience
           </motion.p>
         </div>
       </div>
@@ -437,7 +437,7 @@ const GameBoard = ({
         showEffects ? '' : 'reduce-effects'
       }`}
     >
-      {/* Dynamic background elements - MTG Arena style */}
+      {/* Dynamic background elements - KONIVRER Arena style */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-5 mix-blend-overlay"></div>
@@ -468,7 +468,7 @@ const GameBoard = ({
         )}
       </div>
 
-      {/* Game Header - Enhanced MTG Arena style */}
+      {/* Game Header - Enhanced KONIVRER Arena style */}
       <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-lg border-b border-blue-900/50">
         <div className="flex items-center space-x-3">
           <motion.button
@@ -627,7 +627,7 @@ const GameBoard = ({
         isSpectator={isSpectator}
       />
 
-      {/* Card Preview - MTG Arena style with enhanced visuals */}
+      {/* Card Preview - KONIVRER Arena style with enhanced visuals */}
       <AnimatePresence>
         {hoveredCard && (
           <CardPreview card={hoveredCard} position={previewPosition} />
@@ -656,7 +656,7 @@ const GameBoard = ({
         <GameMenu onClose={() => setShowMenu(false)} onAction={handleAction} />
       )}
 
-      {/* Target Mode Overlay - MTG Arena style */}
+      {/* Target Mode Overlay - KONIVRER Arena style */}
       <AnimatePresence>
         {targetMode && (
           <motion.div

@@ -101,12 +101,12 @@ const CardSearchBar = ({ className = '' }) => {
             </span>
           </div>
           <a 
-            href="https://scryfall.com/docs/syntax" 
+            href="https://#/syntax-guide" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors"
           >
-            Scryfall Syntax Guide ⟶
+            KONIVRER Syntax Guide ⟶
           </a>
         </div>
       </div>

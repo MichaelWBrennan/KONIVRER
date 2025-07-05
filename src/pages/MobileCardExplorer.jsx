@@ -105,12 +105,12 @@ const MobileCardExplorer = () => {
               Advanced Search ⟶
             </Link>
             <a 
-              href="https://scryfall.com/docs/syntax" 
+              href="https://#/syntax-guide" 
               target="_blank" 
               rel="noopener noreferrer"
               className="mobile-link"
             >
-              Scryfall Syntax Guide ⟶
+              KONIVRER Syntax Guide ⟶
             </a>
           </div>
         </div>

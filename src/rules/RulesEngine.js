@@ -16,7 +16,7 @@
  * - State-based actions
  * - Priority and the stack
  *
- * This engine is designed to be MTG Arena-like in its automation and precision.
+ * This engine is designed to be KONIVRER Arena-like in its automation and precision.
  */
 
 import { getCardRules } from './CardRules';

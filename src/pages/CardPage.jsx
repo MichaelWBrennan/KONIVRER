@@ -101,12 +101,12 @@ const CardPage = () => {
               Advanced Search ⟶
             </a>
             <a 
-              href="https://scryfall.com/docs/syntax" 
+              href="https://#/syntax-guide" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-amber-400 hover:text-amber-300 font-medium transition-colors"
             >
-              Scryfall Syntax Guide ⟶
+              KONIVRER Syntax Guide ⟶
             </a>
           </div>
         </div>
@@ -193,7 +193,7 @@ const CardPage = () => {
                     <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
-                {/* Card Details - Scryfall-like format */}
+                {/* Card Details - Advanced format */}
                 <div className="mt-4">
                   <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
                     <div className="flex items-center mb-2">

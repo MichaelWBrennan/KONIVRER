@@ -12,7 +12,7 @@ import { getCardIdFromArtName, getCardDisplayName } from '../../utils/cardArtMap
 
 /**
  * CardInfoLink - Component to wrap card images with links to their information
- * in a format similar to Scryfall links
+ * in a format similar to KONIVRER links
  */
 const CardInfoLink = ({ cardName, children, className = '' }) => {
   const cardId = getCardIdFromArtName(cardName);
@@ -23,7 +23,7 @@ const CardInfoLink = ({ cardName, children, className = '' }) => {
     return <>{children}</>;
   }
   
-  // Format the URL similar to Scryfall: /card/set/id/name
+  // Format the URL similar to KONIVRER: /card/set/id/name
   // For KONIVRER, we'll use: /card/konivrer/id/name
   const formattedName = displayName.toLowerCase().replace(/[^a-z0-9]/g, '-');
   // Remove any trailing dashes

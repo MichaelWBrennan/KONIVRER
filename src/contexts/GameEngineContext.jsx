@@ -8,7 +8,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Advanced Game Engine Context for MTG Arena-quality gameplay
+// Advanced Game Engine Context for KONIVRER Arena-quality gameplay
 const GameEngineContext = createContext();
 
 // Game States
@@ -23,7 +23,7 @@ const GAME_STATES = {
   SPECTATING: 'spectating',
 };
 
-// Turn Phases (MTG-style)
+// Turn Phases (KONIVRER-style)
 const TURN_PHASES = {
   UNTAP: 'untap',
   UPKEEP: 'upkeep',

@@ -6,9 +6,9 @@
  */
 
 /**
- * KONIVRER Game Engine - MTG Arena Edition
+ * KONIVRER Game Engine - KONIVRER Arena Edition
  *
- * This enhanced game engine provides an MTG Arena-like experience with:
+ * This enhanced game engine provides an KONIVRER Arena-like experience with:
  * - Improved performance for all devices
  * - Advanced animations and visual effects
  * - Optimized state management
@@ -31,7 +31,7 @@ class GameEngine {
     this.animationLevel = options.animationLevel || 'full'; // 'full', 'reduced', 'minimal', 'none'
     this.deviceType = options.deviceType || this.detectDeviceType();
 
-    // MTG Arena-like features
+    // KONIVRER Arena-like features
     this.enableBattlefield3D =
       options.enableBattlefield3D !== false && this.canSupport3D();
     this.enableCardHovers = options.enableCardHovers !== false;

@@ -18,7 +18,7 @@ import {
 
 /**
  * Renders a single card in the game with animations and status indicators
- * Enhanced to be more like MTG Arena
+ * Enhanced to be more like KONIVRER Arena
  */
 const GameCard = ({
   card,

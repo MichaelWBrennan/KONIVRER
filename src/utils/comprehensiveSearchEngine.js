@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database - Comprehensive Search Engine
- * Advanced search functionality with all Scryfall-inspired features
+ * Advanced search functionality with all Advanced features
  *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License

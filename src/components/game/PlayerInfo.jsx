@@ -19,7 +19,7 @@ import {
 
 /**
  * Displays player information including avatar, name, and resources
- * Enhanced to be more like MTG Arena
+ * Enhanced to be more like KONIVRER Arena
  */
 const PlayerInfo = ({ player, gameState, isOpponent }) => {
   if (!gameState) return null;
