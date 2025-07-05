@@ -21,6 +21,8 @@ import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { UnifiedProvider } from './contexts/UnifiedContext';
+import { MessagingProvider } from './contexts/MessagingContext';
 import MobileFirstLayout from './components/MobileFirstLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import OAuthCallback from './components/OAuthCallback';
@@ -86,9 +88,11 @@ function App() {
                 <GameEngineProvider>
                   <SocialProvider>
                     <NotificationProvider>
-                      <Router>
-                        <PhysicalMatchmakingProvider>
-                          <MobileFirstLayout>
+                      <UnifiedProvider>
+                        <MessagingProvider>
+                          <Router>
+                            <PhysicalMatchmakingProvider>
+                              <MobileFirstLayout>
                             <Routes>
                             {/* Core */}
                             <Route path="/" element={<MobileHome />} />
@@ -296,10 +300,42 @@ function App() {
                               element={<PlayerProfile />}
                             />
                             <Route
+                              path="/users/:userId"
+                              element={<PlayerProfile />}
+                            />
+                            <Route
                               path="/admin"
                               element={
                                 <ProtectedRoute requireAdmin>
                                   <AdminPanel />
+                                </ProtectedRoute>
+                              }
+                            />
+                            
+                            {/* Unified Routes */}
+                            <Route
+                              path="/messages"
+                              element={
+                                <ProtectedRoute>
+                                  <div className="unified-messaging-page">
+                                    <h1>Messages</h1>
+                                    <div className="messaging-container">
+                                      {/* Import and use the UnifiedMessaging component here */}
+                                    </div>
+                                  </div>
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/messages/:userId"
+                              element={
+                                <ProtectedRoute>
+                                  <div className="unified-messaging-page">
+                                    <h1>Messages</h1>
+                                    <div className="messaging-container">
+                                      {/* Import and use the UnifiedMessaging component here with userId */}
+                                    </div>
+                                  </div>
                                 </ProtectedRoute>
                               }
                             />
@@ -340,10 +376,12 @@ function App() {
                               element={<Navigate to="/" replace />}
                             />
                           </Routes>
-                        </MobileFirstLayout>
-                      </PhysicalMatchmakingProvider>
-                    </Router>
-                  </NotificationProvider>
+                              </MobileFirstLayout>
+                            </PhysicalMatchmakingProvider>
+                          </Router>
+                        </MessagingProvider>
+                      </UnifiedProvider>
+                    </NotificationProvider>
                   </SocialProvider>
                 </GameEngineProvider>
               </DeckProvider>
