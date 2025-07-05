@@ -1,0 +1,44 @@
+{
+  "@rollup/rollup-linux-x64-gnu": {
+    "current": "4.44.1",
+    "wanted": "4.44.2",
+    "latest": "4.44.2",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@rollup/rollup-linux-x64-gnu"
+  },
+  "react-hook-form": {
+    "current": "7.59.0",
+    "wanted": "7.60.0",
+    "latest": "7.60.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/react-hook-form"
+  },
+  "react-qr-code": {
+    "current": "2.0.16",
+    "wanted": "2.0.17",
+    "latest": "2.0.17",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/react-qr-code"
+  },
+  "vite": {
+    "current": "7.0.0",
+    "wanted": "7.0.2",
+    "latest": "7.0.2",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/vite"
+  },
+  "web-vitals": {
+    "current": "4.2.4",
+    "wanted": "4.2.4",
+    "latest": "5.0.3",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/web-vitals"
+  },
+  "zod": {
+    "current": "3.25.69",
+    "wanted": "3.25.74",
+    "latest": "3.25.74",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/zod"
+  }
+}
