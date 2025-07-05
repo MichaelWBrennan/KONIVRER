@@ -32,7 +32,7 @@ const ScryfalLikeAdvancedSearch = () => {
       generic: false
     },
     colorComparison: 'exactly',
-    commander: {
+    flag: {
       fire: false,
       water: false,
       earth: false,
@@ -41,12 +41,7 @@ const ScryfalLikeAdvancedSearch = () => {
       nether: false,
       generic: false
     },
-    manaCost: '',
-    stats: {
-      stat1: 'manaValue',
-      requirement1: 'equal',
-      value1: ''
-    },
+    cost: '',
 
 
     sets: {
@@ -61,7 +56,7 @@ const ScryfalLikeAdvancedSearch = () => {
     allowPartialCriteria: false,
     artist: '',
     flavorText: '',
-    loreFinder: '',
+
     language: 'default',
     preferences: {
       display: 'images',
@@ -76,25 +71,20 @@ const ScryfalLikeAdvancedSearch = () => {
 
   // KONIVRER-specific adaptations - using alchemical symbols for classic elements
   const konivrElements = [
-    { key: 'fire', label: 'Fire', symbol: '🜂', color: '#FF4500' },
-    { key: 'water', label: 'Water', symbol: '🜄', color: '#4169E1' },
-    { key: 'earth', label: 'Earth', symbol: '🜃', color: '#8B4513' },
-    { key: 'air', label: 'Air', symbol: '🜁', color: '#87CEEB' },
-    { key: 'aether', label: 'Aether', symbol: '○', color: '#FFD700' },
-    { key: 'nether', label: 'Nether', symbol: '□', color: '#4B0082' },
-    { key: 'generic', label: 'Generic', symbol: '✡︎⃝', color: '#696969' }
+    { key: 'fire', label: 'Fire', symbol: '🜂', color: '#000000' },
+    { key: 'water', label: 'Water', symbol: '🜄', color: '#000000' },
+    { key: 'earth', label: 'Earth', symbol: '🜃', color: '#000000' },
+    { key: 'air', label: 'Air', symbol: '🜁', color: '#000000' },
+    { key: 'aether', label: 'Aether', symbol: '○', color: '#000000' },
+    { key: 'nether', label: 'Nether', symbol: '□', color: '#000000' },
+    { key: 'generic', label: 'Generic', symbol: '✡︎⃝', color: '#000000' }
   ];
 
   const konivrTypes = [
     'Elemental', 'Familiar', 'Spell', 'Enchantment', 'Artifact', 'Land', 'Token'
   ];
 
-  const konivrStats = [
-    { value: 'manaValue', label: 'Mana Value' },
-    { value: 'attack', label: 'Attack' },
-    { value: 'defense', label: 'Defense' },
-    { value: 'strength', label: 'Strength' }
-  ];
+
 
 
 
@@ -243,18 +233,18 @@ const ScryfalLikeAdvancedSearch = () => {
             </p>
           </div>
 
-          {/* Commander */}
+          {/* Flag */}
           <div className="search-section">
-            <label className="search-label">Commander</label>
+            <label className="search-label">Flag</label>
             <fieldset className="element-fieldset">
-              <legend>Commander elements</legend>
+              <legend>Flag elements</legend>
               <div className="element-grid">
                 {konivrElements.map(element => (
                   <label key={element.key} className="element-label">
                     <input
                       type="checkbox"
-                      checked={searchCriteria.commander[element.key]}
-                      onChange={(e) => updateCriteria(`commander.${element.key}`, e.target.checked)}
+                      checked={searchCriteria.flag[element.key]}
+                      onChange={(e) => updateCriteria(`flag.${element.key}`, e.target.checked)}
                     />
                     <span className="element-symbol" style={{ color: element.color }}>
                       {element.symbol}
@@ -265,20 +255,20 @@ const ScryfalLikeAdvancedSearch = () => {
               </div>
             </fieldset>
             <p className="search-help-text">
-              Select your commanders' element identity, and only cards that fit in your deck will be returned.
+              Select your flag's element identity, and only cards that fit in your deck will be returned.
             </p>
           </div>
 
-          {/* Mana Cost */}
+          {/* Cost */}
           <div className="search-section">
-            <label className="search-label">Mana Cost</label>
+            <label className="search-label">Cost</label>
             <div className="search-input-group">
               <input
                 type="text"
                 className="search-input"
                 placeholder="Any mana symbols, e.g. &quot;{B}{H}&quot;"
-                value={searchCriteria.manaCost}
-                onChange={(e) => updateCriteria('manaCost', e.target.value)}
+                value={searchCriteria.cost}
+                onChange={(e) => updateCriteria('cost', e.target.value)}
               />
               <button className="add-symbol-btn">
                 <Plus className="w-4 h-4" />
@@ -286,56 +276,9 @@ const ScryfalLikeAdvancedSearch = () => {
               </button>
             </div>
             <p className="search-help-text">
-              Find cards with this exact mana cost.
+              Find cards with this exact cost.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="search-section">
-            <label className="search-label">Stats</label>
-            <div className="stats-group">
-              <div className="stats-row">
-                <label className="search-label">Stat 1</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.stats.stat1}
-                  onChange={(e) => updateCriteria('stats.stat1', e.target.value)}
-                >
-                  {konivrStats.map(stat => (
-                    <option key={stat.value} value={stat.value}>{stat.label}</option>
-                  ))}
-                </select>
-                
-                <label className="search-label">Stat 1 requirement</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.stats.requirement1}
-                  onChange={(e) => updateCriteria('stats.requirement1', e.target.value)}
-                >
-                  <option value="equal">equal to</option>
-                  <option value="lessThan">less than</option>
-                  <option value="greaterThan">greater than</option>
-                  <option value="lessThanOrEqual">less than or equal to</option>
-                  <option value="greaterThanOrEqual">greater than or equal to</option>
-                  <option value="notEqual">not equal to</option>
-                </select>
-                
-                <label className="search-label">Stat 1 value</label>
-                <input
-                  type="number"
-                  className="search-input"
-                  placeholder="Any value, e.g. &quot;2&quot;"
-                  value={searchCriteria.stats.value1}
-                  onChange={(e) => updateCriteria('stats.value1', e.target.value)}
-                />
-              </div>
-            </div>
-            <p className="search-help-text">
-              Restrict cards based on their numeric statistics. Cards without stats will not be returned.
-            </p>
-          </div>
-
-
 
 
 
@@ -454,21 +397,6 @@ const ScryfalLikeAdvancedSearch = () => {
             </p>
           </div>
 
-          {/* Lore Finder */}
-          <div className="search-section">
-            <label className="search-label">Lore Finder™</label>
-            <div className="search-input-group">
-              <input
-                type="text"
-                className="search-input"
-                value={searchCriteria.loreFinder}
-                onChange={(e) => updateCriteria('loreFinder', e.target.value)}
-              />
-            </div>
-            <p className="search-help-text">
-              Enter names or words here and the system will search each part of the card for that word. Great for finding every card that mentions your favorite character or creature type.
-            </p>
-          </div>
 
           {/* Language */}
           <div className="search-section">
