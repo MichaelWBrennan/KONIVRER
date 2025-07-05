@@ -233,6 +233,12 @@ body {
   color: var(--color-text);
 }
 
+.mobile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
 /* Mobile content */
 .mobile-content {
   padding: var(--spacing-md);

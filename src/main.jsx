@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './styles/main.css';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // Performance monitoring
 if (import.meta.env.PROD) {
@@ -36,3 +37,26 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 );
+
+// Register service worker for PWA functionality
+serviceWorkerRegistration.register({
+  onUpdate: registration => {
+    // When a new version is available, show update notification
+    const updateAvailable = window.confirm(
+      'A new version of KONIVRER is available. Load the latest version?'
+    );
+    
+    if (updateAvailable) {
+      // Send message to service worker to skip waiting
+      if (registration && registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+      
+      // Reload the page to get the new version
+      window.location.reload();
+    }
+  },
+  onSuccess: registration => {
+    console.log('KONIVRER is now available offline!');
+  }
+});

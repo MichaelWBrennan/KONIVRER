@@ -20,6 +20,7 @@ import { BattlePassProvider } from './contexts/BattlePassContext';
 import { GameEngineProvider } from './contexts/GameEngineContext';
 import { SocialProvider } from './contexts/SocialContext';
 import { PhysicalMatchmakingProvider } from './contexts/PhysicalMatchmakingContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import MobileFirstLayout from './components/MobileFirstLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import OAuthCallback from './components/OAuthCallback';
@@ -84,10 +85,11 @@ function App() {
               <DeckProvider>
                 <GameEngineProvider>
                   <SocialProvider>
-                    <Router>
-                      <PhysicalMatchmakingProvider>
-                        <MobileFirstLayout>
-                          <Routes>
+                    <NotificationProvider>
+                      <Router>
+                        <PhysicalMatchmakingProvider>
+                          <MobileFirstLayout>
+                            <Routes>
                             {/* Core */}
                             <Route path="/" element={<MobileHome />} />
                             <Route path="/rules" element={<Rules />} />
@@ -341,6 +343,7 @@ function App() {
                         </MobileFirstLayout>
                       </PhysicalMatchmakingProvider>
                     </Router>
+                  </NotificationProvider>
                   </SocialProvider>
                 </GameEngineProvider>
               </DeckProvider>
