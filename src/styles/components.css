@@ -34,13 +34,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
   border: none;
   border-radius: 50px; /* Fully rounded like the image */
   font-family: inherit;
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
   line-height: var(--leading-none);
   text-decoration: none;
   cursor: pointer;
@@ -53,7 +53,8 @@
   background: linear-gradient(135deg, #667eea 0%, #06b6d4 100%);
   color: white;
   box-shadow: var(--shadow-md);
-  min-height: 48px; /* Consistent height */
+  min-height: auto; /* Height based on content */
+  height: auto; /* Let the content determine the height */
 }
 
 .btn::before {
@@ -106,31 +107,31 @@
 
 /* Button Sizes */
 .btn-xs {
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--font-size-xs);
+  padding: var(--space-0-5) var(--space-2);
+  font-size: 0.65rem;
   border-radius: 30px;
-  min-height: 32px;
+  min-height: auto;
 }
 
 .btn-sm {
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
   border-radius: 40px;
-  min-height: 36px;
+  min-height: auto;
 }
 
 .btn-lg {
-  padding: var(--space-4) var(--space-8);
-  font-size: var(--font-size-lg);
-  border-radius: 60px;
-  min-height: 56px;
+  padding: var(--space-1-5) var(--space-4);
+  font-size: var(--font-size-sm);
+  border-radius: 50px;
+  min-height: auto;
 }
 
 .btn-xl {
-  padding: var(--space-5) var(--space-10);
-  font-size: var(--font-size-xl);
-  border-radius: 70px;
-  min-height: 64px;
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--font-size-base);
+  border-radius: 60px;
+  min-height: auto;
 }
 
 /* All Button Variants use the same gradient */

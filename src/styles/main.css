@@ -4,6 +4,7 @@
 @import './mobile-optimizations.css';
 @import './modern-design.css';
 @import './utilities.css';
+@import './button-size-adjustments.css';
 
 /* Global app styles */
 * {
