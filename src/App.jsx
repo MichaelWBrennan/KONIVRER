@@ -190,18 +190,18 @@ function App() {
                               element={<CardArtShowcase />}
                             />
 
-                            {/* Legacy search routes - redirect to unified search */}
+                            {/* Card search routes */}
                             <Route
                               path="/advanced-search"
-                              element={<Navigate to="/search" replace />}
+                              element={<AdvancedSearchPage />}
                             />
                             <Route
                               path="/comprehensive-search"
-                              element={<Navigate to="/search" replace />}
+                              element={<ComprehensiveAdvancedSearchPage />}
                             />
                             <Route
                               path="/scryfall-search"
-                              element={<Navigate to="/search" replace />}
+                              element={<AdvancedCardSearchPage />}
                             />
                             <Route
                               path="/syntax-guide"
