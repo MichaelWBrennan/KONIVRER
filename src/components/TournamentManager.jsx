@@ -55,6 +55,31 @@ const TournamentManager = () => {
     learningRate: 0.1,
     confidenceThreshold: 0.8,
   });
+  
+  // Mock Bayesian analytics data (would come from the API in production)
+  const [bayesianAnalytics, setBayesianAnalytics] = useState({
+    ratingDistribution: [
+      { range: '0-1000', count: 0 },
+      { range: '1000-1200', count: 2 },
+      { range: '1200-1400', count: 5 },
+      { range: '1400-1600', count: 12 },
+      { range: '1600-1800', count: 8 },
+      { range: '1800-2000', count: 4 },
+      { range: '2000-2200', count: 1 },
+      { range: '2200-2400', count: 0 },
+      { range: '2400+', count: 0 },
+    ],
+    uncertaintyAverage: 187,
+    archetypePerformance: {
+      'Aggro': { count: 8, wins: 24, losses: 16, draws: 0, averageRating: 1580, winRate: 0.6 },
+      'Control': { count: 6, wins: 18, losses: 12, draws: 0, averageRating: 1620, winRate: 0.6 },
+      'Midrange': { count: 10, wins: 25, losses: 25, draws: 2, averageRating: 1540, winRate: 0.5 },
+      'Combo': { count: 4, wins: 8, losses: 12, draws: 0, averageRating: 1490, winRate: 0.4 },
+      'Tempo': { count: 3, wins: 9, losses: 6, draws: 0, averageRating: 1650, winRate: 0.6 },
+      'Ramp': { count: 1, wins: 2, losses: 3, draws: 1, averageRating: 1520, winRate: 0.4 },
+    },
+    playerCount: 32
+  });
 
   const tournaments = [
     {
@@ -228,6 +253,125 @@ const TournamentManager = () => {
     </div>
   );
 
+  const renderBayesianAnalytics = () => (
+    <div className="space-y-6">
+      <div className="bg-secondary border border-color rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <Brain className="text-white" size={24} />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-primary">Bayesian Matchmaking Analytics</h3>
+            <p className="text-sm text-secondary">
+              Advanced tournament analytics powered by TrueSkill™
+            </p>
+          </div>
+        </div>
+        
+        {/* Rating Distribution */}
+        <div className="mb-8">
+          <h4 className="text-lg font-semibold text-primary mb-4">Player Rating Distribution</h4>
+          <div className="h-48 flex items-end gap-2">
+            {bayesianAnalytics.ratingDistribution.map((bucket) => (
+              <div key={bucket.range} className="flex flex-col items-center flex-1">
+                <div 
+                  className="w-full bg-accent-primary rounded-t-md" 
+                  style={{ 
+                    height: `${Math.max(5, (bucket.count / Math.max(...bayesianAnalytics.ratingDistribution.map(b => b.count))) * 100)}%`,
+                    opacity: bucket.count > 0 ? 1 : 0.2
+                  }}
+                ></div>
+                <div className="text-xs text-secondary mt-2 rotate-45 origin-left">
+                  {bucket.range}
+                </div>
+                <div className="text-xs font-medium mt-1">
+                  {bucket.count}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Archetype Performance */}
+        <div>
+          <h4 className="text-lg font-semibold text-primary mb-4">Archetype Performance</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-color">
+                  <th className="text-left py-2 px-4 text-sm font-medium text-secondary">Archetype</th>
+                  <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Players</th>
+                  <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Win Rate</th>
+                  <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Avg. Rating</th>
+                  <th className="text-center py-2 px-4 text-sm font-medium text-secondary">W-L-D</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(bayesianAnalytics.archetypePerformance).map(([archetype, data]) => (
+                  <tr key={archetype} className="border-b border-color hover:bg-tertiary">
+                    <td className="py-3 px-4">
+                      <div className="font-medium text-primary">{archetype}</div>
+                    </td>
+                    <td className="py-3 px-4 text-center">{data.count}</td>
+                    <td className="py-3 px-4 text-center">
+                      <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-opacity-10"
+                        style={{
+                          backgroundColor: parseFloat(data.winRate) >= 0.55 ? 'rgba(34, 197, 94, 0.1)' : 
+                                          parseFloat(data.winRate) <= 0.45 ? 'rgba(239, 68, 68, 0.1)' : 
+                                          'rgba(234, 179, 8, 0.1)',
+                          color: parseFloat(data.winRate) >= 0.55 ? 'rgb(34, 197, 94)' : 
+                                parseFloat(data.winRate) <= 0.45 ? 'rgb(239, 68, 68)' : 
+                                'rgb(234, 179, 8)'
+                        }}
+                      >
+                        {(parseFloat(data.winRate) * 100).toFixed(1)}%
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-center">{data.averageRating}</td>
+                    <td className="py-3 px-4 text-center text-sm">
+                      <span className="text-green-500">{data.wins}</span>-
+                      <span className="text-red-500">{data.losses}</span>-
+                      <span className="text-yellow-500">{data.draws}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        {/* Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+          <div className="bg-primary border border-color rounded-lg p-4">
+            <div className="text-sm text-secondary mb-1">Total Players</div>
+            <div className="text-2xl font-bold text-primary">{bayesianAnalytics.playerCount}</div>
+          </div>
+          
+          <div className="bg-primary border border-color rounded-lg p-4">
+            <div className="text-sm text-secondary mb-1">Average Rating</div>
+            <div className="text-2xl font-bold text-primary">
+              {Math.round(bayesianAnalytics.ratingDistribution.reduce(
+                (sum, bucket) => {
+                  // Estimate middle of range
+                  const rangeParts = bucket.range.split('-');
+                  const rangeStart = parseInt(rangeParts[0]);
+                  const rangeEnd = rangeParts[1] === '+' ? 2600 : parseInt(rangeParts[1]);
+                  const midPoint = (rangeStart + rangeEnd) / 2;
+                  return sum + (midPoint * bucket.count);
+                }, 0
+              ) / bayesianAnalytics.playerCount)}
+            </div>
+          </div>
+          
+          <div className="bg-primary border border-color rounded-lg p-4">
+            <div className="text-sm text-secondary mb-1">Avg. Uncertainty</div>
+            <div className="text-2xl font-bold text-primary">±{bayesianAnalytics.uncertaintyAverage}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  
   const renderCreateTournament = () => (
     <div className="bg-secondary border border-color rounded-xl p-6">
       <h3 className="text-xl font-bold text-primary mb-6">
@@ -438,12 +582,116 @@ const TournamentManager = () => {
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         skillVariance: parseFloat(e.target.value),
-                      }))
-                    }
-                    className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer"
+                      }))}
                   />
                   <p className="text-xs text-secondary mt-1">
-                    Higher values allow more skill uncertainty
+                    Controls how much skill difference is allowed in matchmaking
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-primary mb-2">
+                    Uncertainty Factor: {matchmakingSettings.uncertaintyFactor}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="0.5"
+                    step="0.05"
+                    value={matchmakingSettings.uncertaintyFactor}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        uncertaintyFactor: parseFloat(e.target.value),
+                      }))}
+                  />
+                  <p className="text-xs text-secondary mt-1">
+                    How much uncertainty affects matchmaking decisions
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-primary mb-2">
+                    Deck Diversity Weight: {matchmakingSettings.deckDiversityWeight}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="1.0"
+                    step="0.1"
+                    value={matchmakingSettings.deckDiversityWeight}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        deckDiversityWeight: parseFloat(e.target.value),
+                      }))}
+                  />
+                  <p className="text-xs text-secondary mt-1">
+                    How much deck archetype affects matchmaking
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-primary mb-2">
+                    Historical Weight: {matchmakingSettings.historicalWeight}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="1.0"
+                    step="0.1"
+                    value={matchmakingSettings.historicalWeight}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        historicalWeight: parseFloat(e.target.value),
+                      }))}
+                  />
+                  <p className="text-xs text-secondary mt-1">
+                    How much previous matches affect future pairings
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-primary mb-2">
+                    Preferred Matchup Balance: {matchmakingSettings.preferredMatchupBalance}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="1.0"
+                    step="0.05"
+                    value={matchmakingSettings.preferredMatchupBalance}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        preferredMatchupBalance: parseFloat(e.target.value),
+                      }))}
+                  />
+                  <p className="text-xs text-secondary mt-1">
+                    Balance between fair and interesting matchups
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-primary mb-2">
+                    Confidence Threshold: {matchmakingSettings.confidenceThreshold}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="0.95"
+                    step="0.05"
+                    value={matchmakingSettings.confidenceThreshold}
+                    onChange={e =>
+                      setMatchmakingSettings(prev => ({
+                        ...prev,
+                        confidenceThreshold: parseFloat(e.target.value),
+                      }))
+                    }
+                  />
+                  <p className="text-xs text-secondary mt-1">
+                    Minimum confidence level for rating-based decisions
                   </p>
                 </div>
 
@@ -551,6 +799,9 @@ const TournamentManager = () => {
 
   const renderAnalytics = () => (
     <div className="space-y-6">
+      {/* Bayesian Analytics Section */}
+      {renderBayesianAnalytics()}
+      
       <div className="bg-secondary border border-color rounded-xl p-6">
         <h3 className="text-xl font-bold text-primary mb-6">
           Tournament Analytics
