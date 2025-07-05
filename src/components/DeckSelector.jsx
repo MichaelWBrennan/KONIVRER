@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gamepad2, Edit, Trash2, Copy, X } from 'lucide-react';
+import { Gamepad2, Edit, Trash2, Copy, X, Search } from 'lucide-react';
 import { useDeck } from '../contexts/DeckContext';
 
 /**
@@ -78,13 +78,16 @@ const DeckSelector = ({ onSelect, onClose }) => {
       </div>
 
       <div className="mb-6">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          placeholder="Search decks..."
-          className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            placeholder="Search decks..."
+            className="w-full bg-gray-700 border border-gray-600 rounded pl-12 pr-4 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
 
       {filteredDecks.length === 0 ? (
