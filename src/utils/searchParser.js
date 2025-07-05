@@ -158,7 +158,7 @@ const parseStructuredFilter = (key, value, filters) => {
       break;
     
     case 'mana':
-      // Handle mana cost patterns like {3}{⬢}
+      // Handle casting cost patterns like {3}{⬢}
       filters.cost.push({ type: 'mana', pattern: cleanValue });
       break;
     
@@ -521,7 +521,7 @@ const getCardCost = (card) => {
     return card.cost;
   }
   
-  // Handle mana cost string format
+  // Handle casting cost string format
   if (card.manaCost) {
     // Simple cost calculation - count numbers and symbols
     const cost = card.manaCost;

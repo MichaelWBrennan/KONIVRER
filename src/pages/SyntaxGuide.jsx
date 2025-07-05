@@ -90,7 +90,7 @@ const SyntaxGuide = () => {
       examples: [
         {
           syntax: 'e:fire | element:fire',
-          description: 'Search for cards by their mana cost elements (resources needed to cast)',
+          description: 'Search for cards by their elemental requirements (resources needed to cast)',
           viableWords: 'fire, water, earth, air, aether, nether, azoth'
         },
       ],
@@ -112,11 +112,11 @@ const SyntaxGuide = () => {
       id: 'cost',
       title: 'Cost Searches',
       icon: Zap,
-      description: 'Search by mana costs and total cost',
+      description: 'Search by casting costs and total cost',
       examples: [
         {
           syntax: 'cmc:3 | mv:3 | cost:3',
-          description: 'Search for cards by their mana cost',
+          description: 'Search for cards by their casting cost',
           viableWords: 'Any number (0, 1, 2, 3, 4, 5+), comparison operators (>=, <=, >, <, =)'
         },
       ],
@@ -206,7 +206,7 @@ const SyntaxGuide = () => {
                 <code className="text-orange-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">element:fire</code>
               </div>
               <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
-              <p className="text-gray-300 text-sm mb-3">Search for cards by their mana cost elements (resources needed to cast)</p>
+              <p className="text-gray-300 text-sm mb-3">Search for cards by their elemental requirements (resources needed to cast)</p>
               <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
               <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
             </div>
