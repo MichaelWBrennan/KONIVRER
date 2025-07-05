@@ -5,7 +5,6 @@ import cardsData from '../data/cards.json';
 import ComprehensiveAdvancedSearch from '../components/ComprehensiveAdvancedSearch';
 import { searchCards } from '../utils/comprehensiveSearchEngine';
 import { Search, Grid, List, Filter, SortAsc, Eye, Download } from 'lucide-react';
-
 const AdvancedSearchPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,7 +18,6 @@ const AdvancedSearchPage = () => {
   });
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-
   const elements = [
     { value: '', label: 'Any Element' },
     { value: 'aether', label: 'Aether' },
@@ -29,50 +27,41 @@ const AdvancedSearchPage = () => {
     { value: 'water', label: 'Water' },
     { value: 'nether', label: 'Nether' },
   ];
-
   const rarities = [
     { value: '', label: 'Any Rarity' },
     { value: 'common', label: 'Common' },
     { value: 'uncommon', label: 'Uncommon' },
     { value: 'rare', label: 'Rare' },
   ];
-
   const sets = [
     { value: 'prima-materia', label: 'Prima Materia' },
   ];
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     // Filter cards based on form data
     const results = cardsData.filter(card => {
       // Name filter
       if (formData.name && !card.name.toLowerCase().includes(formData.name.toLowerCase())) {
         return false;
       }
-      
       // Text filter
       if (formData.text && !card.description?.toLowerCase().includes(formData.text.toLowerCase())) {
         return false;
       }
-      
       // Type filter
       if (formData.type && !card.type?.toLowerCase().includes(formData.type.toLowerCase())) {
         return false;
       }
-      
       // Element filter
       if (formData.element && !card.elements?.some(element => 
         element.toLowerCase() === formData.element.toLowerCase()
       )) {
         return false;
       }
-      
       // Cost filter
       if (formData.cost) {
         const costValue = parseInt(formData.cost);
@@ -83,12 +72,10 @@ const AdvancedSearchPage = () => {
           }
         }
       }
-      
       // Rarity filter
       if (formData.rarity) {
         let cardRarity;
         const costCount = card.cost?.length || 0;
-        
         if (costCount === 1 || costCount >= 6 || card.name === 'AZOΘ') {
           cardRarity = 'rare';
         } else if (costCount >= 4 && costCount <= 5) {
@@ -96,30 +83,24 @@ const AdvancedSearchPage = () => {
         } else {
           cardRarity = 'common';
         }
-        
         if (cardRarity !== formData.rarity) {
           return false;
         }
       }
-      
       // Set filter
       if (formData.set && card.set !== formData.set) {
         return false;
       }
-      
       return true;
     });
-    
     setSearchResults(results);
     setHasSearched(true);
   };
-
   const handleCardSelect = (card) => {
     const cardSet = card.set || 'prima-materia';
     const cardName = card.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
     navigate(`/card/${cardSet}/${card.id}/${cardName}`);
   };
-
   const handleReset = () => {
     setFormData({
       name: '',
@@ -133,7 +114,6 @@ const AdvancedSearchPage = () => {
     setSearchResults([]);
     setHasSearched(false);
   };
-
   return (
     <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl"><div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg">
         <form onSubmit={handleSubmit}>
@@ -154,7 +134,6 @@ const AdvancedSearchPage = () => {
                 />
               </div>
             </div>
-            
             {/* Card Text */}
             <div>
               <label htmlFor="text" className="block text-amber-200 mb-2">Card Text</label>
@@ -171,7 +150,6 @@ const AdvancedSearchPage = () => {
                 />
               </div>
             </div>
-            
             {/* Card Type */}
             <div>
               <label htmlFor="type" className="block text-amber-200 mb-2">Type</label>
@@ -185,7 +163,6 @@ const AdvancedSearchPage = () => {
                 placeholder="e.g. Elemental, Spell"
               />
             </div>
-            
             {/* Element */}
             <div>
               <label htmlFor="element" className="block text-amber-200 mb-2">Element</label>
@@ -201,7 +178,6 @@ const AdvancedSearchPage = () => {
                 ))}
               </select>
             </div>
-            
             {/* Cost */}
             <div>
               <label htmlFor="cost" className="block text-amber-200 mb-2">Cost (Number of Symbols)</label>
@@ -217,7 +193,6 @@ const AdvancedSearchPage = () => {
                 placeholder="e.g. 3"
               />
             </div>
-            
             {/* Rarity */}
             <div>
               <label htmlFor="rarity" className="block text-amber-200 mb-2">Rarity</label>
@@ -233,7 +208,6 @@ const AdvancedSearchPage = () => {
                 ))}
               </select>
             </div>
-            
             {/* Set */}
             <div>
               <label htmlFor="set" className="block text-amber-200 mb-2">Set</label>
@@ -250,7 +224,6 @@ const AdvancedSearchPage = () => {
               </select>
             </div>
           </div>
-          
           <div className="flex justify-center mt-8 space-x-4">
             <button
               type="submit"
@@ -259,7 +232,6 @@ const AdvancedSearchPage = () => {
               <Search size={20} />
               <span>Search</span>
             </button>
-            
             <button
               type="button"
               onClick={handleReset}
@@ -270,14 +242,9 @@ const AdvancedSearchPage = () => {
           </div>
         </form>
       </div>
-      
       {/* Search Results */}
       {hasSearched && (
         <div className="mt-8">
-          <h2 className="text-2xl font-bold text-amber-100 mb-4">
-            Search Results ({searchResults.length} {searchResults.length === 1 ? 'card' : 'cards'})
-          </h2>
-          
           {searchResults.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {searchResults.map(card => (
@@ -287,7 +254,6 @@ const AdvancedSearchPage = () => {
                   onClick={() => handleCardSelect(card)}
                 >
                   <div className="p-4">
-                    <h3 className="font-bold text-amber-100 text-lg mb-1">{card.name}</h3>
                     <p className="text-amber-300/70 text-sm">{card.type}</p>
                   </div>
                 </div>
@@ -304,5 +270,4 @@ const AdvancedSearchPage = () => {
     </div>
   );
 };
-
 export default AdvancedSearchPage;

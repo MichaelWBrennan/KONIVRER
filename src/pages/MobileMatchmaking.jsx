@@ -4,23 +4,19 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
-
 const MobileMatchmaking = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const { userDecks } = useDeck();
-
   const [activeTab, setActiveTab] = useState('online');
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [matchmakingStatus, setMatchmakingStatus] = useState('idle'); // idle, searching, matched
   const [nearbyPlayers, setNearbyPlayers] = useState([]);
   const [upcomingTournaments, setUpcomingTournaments] = useState([]);
-
   // Fetch nearby players and tournaments
   useEffect(() => {
     // Simulated data - would be replaced with actual API calls
@@ -29,7 +25,6 @@ const MobileMatchmaking = () => {
       { id: 'player2', name: 'Jordan', distance: '1.2 miles', rating: 1720 },
       { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 },
     ]);
-
     setUpcomingTournaments([
       {
         id: 'tourn1',
@@ -47,33 +42,27 @@ const MobileMatchmaking = () => {
       },
     ]);
   }, []);
-
   // Start matchmaking
   const startMatchmaking = () => {
     if (!selectedDeck) {
       alert('Please select a deck first');
       return;
     }
-
     setMatchmakingStatus('searching');
-
     // Simulate finding a match after 3 seconds
     setTimeout(() => {
       setMatchmakingStatus('matched');
     }, 3000);
   };
-
   // Cancel matchmaking
   const cancelMatchmaking = () => {
     setMatchmakingStatus('idle');
   };
-
   // Accept match
   const acceptMatch = () => {
     // Redirect to game
     navigate('/game/online');
   };
-
   return (
     <div className="mobile-matchmaking">
       {/* Tabs */}
@@ -99,7 +88,6 @@ const MobileMatchmaking = () => {
           </button>
         </div>
       </div>
-
       {/* Online Matchmaking */}
       {activeTab === 'online' && (
         <div className="mobile-slide-up">
@@ -107,7 +95,6 @@ const MobileMatchmaking = () => {
           {matchmakingStatus === 'idle' && (
             <>
               <div className="mobile-card mobile-mb">
-                <h2 className="mobile-card-title">Select a Deck</h2>
                 {isAuthenticated ? (
                   <>
                     {userDecks && userDecks.length > 0 ? (
@@ -140,7 +127,6 @@ const MobileMatchmaking = () => {
                   </div>
                 )}
               </div>
-
               {/* Start Matchmaking Button */}
               <div className="mobile-text-center mobile-mb">
                 <button
@@ -153,11 +139,9 @@ const MobileMatchmaking = () => {
               </div>
             </>
           )}
-
           {/* Searching for Match */}
           {matchmakingStatus === 'searching' && (
             <div className="mobile-card mobile-text-center mobile-mb">
-              <h2 className="mobile-card-title">Searching for Match</h2>
               <div className="mobile-mb">
                 <div className="mobile-loading-spinner"></div>
                 <p>Looking for opponents...</p>
@@ -167,11 +151,9 @@ const MobileMatchmaking = () => {
               </button>
             </div>
           )}
-
           {/* Match Found */}
           {matchmakingStatus === 'matched' && (
             <div className="mobile-card mobile-text-center mobile-mb">
-              <h2 className="mobile-card-title">Match Found!</h2>
               <div className="mobile-mb">
                 <p>Opponent: Player123</p>
                 <p>Rating: 1850</p>
@@ -189,13 +171,11 @@ const MobileMatchmaking = () => {
           )}
         </div>
       )}
-
       {/* Physical Matchmaking */}
       {activeTab === 'physical' && (
         <div className="mobile-slide-up">
           {/* Nearby Players */}
           <div className="mobile-card mobile-mb">
-            <h2 className="mobile-card-title">Nearby Players</h2>
             {nearbyPlayers.length > 0 ? (
               <ul className="mobile-list">
                 {nearbyPlayers.map(player => (
@@ -215,10 +195,8 @@ const MobileMatchmaking = () => {
               <p className="mobile-text-center">No players found nearby.</p>
             )}
           </div>
-
           {/* QR Code */}
           <div className="mobile-card mobile-text-center mobile-mb">
-            <h2 className="mobile-card-title">Quick Match</h2>
             <p>Scan this code to start a physical match</p>
             <div className="mobile-qr-placeholder mobile-my">
               [QR Code Placeholder]
@@ -229,13 +207,11 @@ const MobileMatchmaking = () => {
           </div>
         </div>
       )}
-
       {/* Tournaments */}
       {activeTab === 'tournaments' && (
         <div className="mobile-slide-up">
           {/* Upcoming Tournaments */}
           <div className="mobile-card mobile-mb">
-            <h2 className="mobile-card-title">Upcoming Tournaments</h2>
             {upcomingTournaments.length > 0 ? (
               <ul className="mobile-list">
                 {upcomingTournaments.map(tournament => (
@@ -258,7 +234,6 @@ const MobileMatchmaking = () => {
               <p className="mobile-text-center">No upcoming tournaments.</p>
             )}
           </div>
-
           {/* Create Tournament */}
           <div className="mobile-text-center mobile-mb">
             <Link
@@ -273,5 +248,4 @@ const MobileMatchmaking = () => {
     </div>
   );
 };
-
 export default MobileMatchmaking;

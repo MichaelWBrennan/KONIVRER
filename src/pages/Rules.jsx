@@ -4,16 +4,13 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Shield, FileText } from 'lucide-react';
 import PDFViewer from '../components/PDFViewer';
 import ErrorBoundary from '../components/ErrorBoundary';
-
 const Rules = () => {
   const [activeTab, setActiveTab] = useState('basic');
-
   const tabs = [
     {
       id: 'basic',
@@ -37,9 +34,7 @@ const Rules = () => {
       description: 'Community standards and behavior guidelines'
     }
   ];
-
   const activeTabData = tabs.find(tab => tab.id === activeTab);
-
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
@@ -70,7 +65,6 @@ const Rules = () => {
               })}
             </div>
           </motion.div>
-
           {/* PDF Viewer */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -85,5 +79,4 @@ const Rules = () => {
     </ErrorBoundary>
   );
 };
-
 export default Rules;

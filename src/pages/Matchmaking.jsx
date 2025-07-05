@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -67,7 +66,6 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-
 // Components
 import MatchmakingQueue from '../components/matchmaking/MatchmakingQueue';
 import PlayerCard from '../components/matchmaking/PlayerCard';
@@ -88,14 +86,12 @@ import MatchmakingNews from '../components/matchmaking/MatchmakingNews';
 import MatchmakingChallenges from '../components/matchmaking/MatchmakingChallenges';
 import MatchmakingRewards from '../components/matchmaking/MatchmakingRewards';
 import PhysicalMatchmakingButton from '../components/matchmaking/PhysicalMatchmakingButton';
-
 const Matchmaking = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { decks: userDecks, selectedDeck, setSelectedDeck } = useDeck();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(max-width: 1024px)');
-
   // State
   const [activeTab, setActiveTab] = useState('play');
   const [isSearching, setIsSearching] = useState(false);
@@ -130,23 +126,17 @@ const Matchmaking = () => {
   const [showPhysicalMatchmaking, setShowPhysicalMatchmaking] = useState(false);
   const [selectedTournamentId, setSelectedTournamentId] = useState(null);
   const [showDeckSelectionModal, setShowDeckSelectionModal] = useState(false);
-
   const searchTimerRef = useRef(null);
-
   useEffect(() => {
     // Load player stats and preferences
     loadPlayerData();
-
     // Setup online/offline listeners
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
-
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-
     // Load mock data
     loadMockData();
-
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -155,7 +145,6 @@ const Matchmaking = () => {
       }
     };
   }, []);
-
   const loadPlayerData = async () => {
     try {
       // Load from ranking engine
@@ -182,7 +171,6 @@ const Matchmaking = () => {
         rankIcon: rankingData.rankIcon || '🥉',
         rankColor: rankingData.rankColor || 'from-amber-600 to-amber-800',
       });
-
       // Load saved preferences
       const savedPrefs = JSON.parse(
         localStorage.getItem('konivrer_matchmaking_prefs') || '{}',
@@ -192,7 +180,6 @@ const Matchmaking = () => {
       console.error('Failed to load player data:', error);
     }
   };
-
   const loadMockData = () => {
     // Mock recent matches
     setRecentMatches([
@@ -242,7 +229,6 @@ const Matchmaking = () => {
         ratingChange: +18,
       },
     ]);
-
     // Mock leaderboard
     setLeaderboard([
       {
@@ -286,10 +272,8 @@ const Matchmaking = () => {
         losses: 39,
       },
     ]);
-
     // No demo tournaments - load from actual data source when available
     setTournaments([]);
-
     // Mock friends
     setFriends([
       {
@@ -322,27 +306,22 @@ const Matchmaking = () => {
       },
     ]);
   };
-
   const startMatchmaking = async () => {
     if (!selectedDeck) {
       alert('Please select a deck before searching for a match');
       return;
     }
-
     if (!isOnline) {
       alert('You need an internet connection to find online matches');
       return;
     }
-
     setIsSearching(true);
     setSearchTime(0);
     setMatchFound(false);
-
     // Start search timer
     searchTimerRef.current = setInterval(() => {
       setSearchTime(prev => prev + 1);
     }, 1000);
-
     // Simulate matchmaking process
     try {
       await simulateMatchmaking();
@@ -351,11 +330,9 @@ const Matchmaking = () => {
       cancelMatchmaking();
     }
   };
-
   const simulateMatchmaking = async () => {
     // Simulate finding a match based on preferences and rating
     const searchDuration = getEstimatedSearchTime();
-
     setTimeout(
       () => {
         if (isSearching) {
@@ -377,16 +354,13 @@ const Matchmaking = () => {
       Math.min(searchDuration * 1000, 30000),
     ); // Max 30 seconds for demo
   };
-
   const getEstimatedSearchTime = () => {
     const baseTime = 5; // 5 seconds base
     const ratingModifier = Math.abs(playerStats?.rating - 1500) / 100; // Higher rating = longer search
     const formatModifier = 1; // KONIVRER only has one format
     const skillRangeModifier = preferences.skillRange === 'strict' ? 1.5 : 1;
-
     return baseTime + ratingModifier + formatModifier + skillRangeModifier;
   };
-
   const generateOpponent = () => {
     const skillVariance =
       preferences.skillRange === 'strict'
@@ -394,10 +368,8 @@ const Matchmaking = () => {
         : preferences.skillRange === 'balanced'
           ? 150
           : 300;
-
     const opponentRating =
       playerStats.rating + (Math.random() - 0.5) * skillVariance;
-
     const opponents = [
       {
         name: 'DragonMaster',
@@ -436,9 +408,7 @@ const Matchmaking = () => {
         hero: 'Prism, Sculptor of Arc Light',
       },
     ];
-
     const opponent = opponents[Math.floor(Math.random() * opponents.length)];
-
     return {
       ...opponent,
       rating: Math.round(opponentRating),
@@ -449,7 +419,6 @@ const Matchmaking = () => {
       ping: Math.round(20 + Math.random() * 80),
     };
   };
-
   const getRankFromRating = rating => {
     if (rating >= 2000) return 'Mythic';
     if (rating >= 1800) return 'Diamond';
@@ -458,7 +427,6 @@ const Matchmaking = () => {
     if (rating >= 1200) return 'Silver';
     return 'Bronze';
   };
-
   const getRandomRegion = () => {
     const regions = [
       'NA-East',
@@ -469,7 +437,6 @@ const Matchmaking = () => {
     ];
     return regions[Math.floor(Math.random() * regions.length)];
   };
-
   const getMapPool = () => {
     const maps = [
       'Ancient Battlefield',
@@ -481,7 +448,6 @@ const Matchmaking = () => {
     ];
     return maps.slice(0, 3).map(map => ({ name: map, votes: 0 }));
   };
-
   const cancelMatchmaking = () => {
     setIsSearching(false);
     setMatchFound(false);
@@ -491,30 +457,25 @@ const Matchmaking = () => {
       clearInterval(searchTimerRef.current);
     }
   };
-
   const acceptMatch = () => {
     // Transition to game
     console.log('Match accepted:', currentMatch);
     // Here you would typically navigate to the game screen
     setMatchFound(false);
     setCurrentMatch(null);
-
     // Navigate to game
     navigate(`/game/online/${currentMatch.id}`);
   };
-
   const declineMatch = () => {
     setMatchFound(false);
     setCurrentMatch(null);
     // Optionally restart search
   };
-
   const formatSearchTime = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-
   const handleTournamentRegistration = tournamentId => {
     // Check if user has registered decks
     if (!userDecks || userDecks.length === 0) {
@@ -523,18 +484,14 @@ const Matchmaking = () => {
       );
       return;
     }
-
     // Open deck selection modal for tournament registration
     setSelectedTournamentId(tournamentId);
     setShowDeckSelectionModal(true);
   };
-
   const getQueuePosition = () => {
     return Math.floor(Math.random() * 50) + 1; // Simulated queue position
   };
-
   // KONIVRER only has one format, so no format selection needed
-
   const skillRanges = [
     {
       id: 'strict',
@@ -555,15 +512,11 @@ const Matchmaking = () => {
       waitTime: 'Shorter',
     },
   ];
-
   if (!isOnline) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
           <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Offline Mode
-          </h2>
           <p className="text-gray-600 mb-6">
             Matchmaking requires an internet connection. You can still play
             against AI opponents or practice with your decks.
@@ -586,7 +539,6 @@ const Matchmaking = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -599,7 +551,6 @@ const Matchmaking = () => {
                 <span>Online</span>
               </div>
             </div>
-
             {playerStats && (
               <div className="flex items-center space-x-4">
                 <div className="text-right">
@@ -621,7 +572,6 @@ const Matchmaking = () => {
           </div>
         </div>
       </div>
-
       {/* Tab Navigation */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -639,7 +589,6 @@ const Matchmaking = () => {
                 <span>Play</span>
               </div>
             </button>
-
             <button
               onClick={() => setActiveTab('tournaments')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -653,7 +602,6 @@ const Matchmaking = () => {
                 <span>Tournaments</span>
               </div>
             </button>
-
             <button
               onClick={() => setActiveTab('stats')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -667,7 +615,6 @@ const Matchmaking = () => {
                 <span>Stats</span>
               </div>
             </button>
-
             <button
               onClick={() => setActiveTab('history')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -681,7 +628,6 @@ const Matchmaking = () => {
                 <span>History</span>
               </div>
             </button>
-
             <button
               onClick={() => setActiveTab('friends')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -695,7 +641,6 @@ const Matchmaking = () => {
                 <span>Friends</span>
               </div>
             </button>
-
             <button
               onClick={() => setActiveTab('settings')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -712,7 +657,6 @@ const Matchmaking = () => {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'play' && (
@@ -723,20 +667,13 @@ const Matchmaking = () => {
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center space-x-3 mb-2">
                   <Shield className="w-5 h-5 text-blue-600" />
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    KONIVRER Format
-                  </h2>
                 </div>
                 <p className="text-sm text-gray-600">
                   KONIVRER uses a single standardized format for all matches.
                 </p>
               </div>
-
               {/* Deck Selection */}
               <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                  Select Deck
-                </h2>
                 {selectedDeck ? (
                   <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-center space-x-3">
@@ -772,13 +709,9 @@ const Matchmaking = () => {
                   </div>
                 )}
               </div>
-
               {/* Matchmaking Preferences */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Preferences
-                  </h2>
                   <button
                     onClick={() => setShowPreferences(!showPreferences)}
                     className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
@@ -791,7 +724,6 @@ const Matchmaking = () => {
                     )}
                   </button>
                 </div>
-
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -828,7 +760,6 @@ const Matchmaking = () => {
                       ))}
                     </div>
                   </div>
-
                   <AnimatePresence>
                     {showPreferences && (
                       <motion.div
@@ -858,7 +789,6 @@ const Matchmaking = () => {
                               <option value="tournament">Tournament</option>
                             </select>
                           </div>
-
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Region
@@ -883,7 +813,6 @@ const Matchmaking = () => {
                             </select>
                           </div>
                         </div>
-
                         <div className="mt-4 space-y-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
@@ -907,7 +836,6 @@ const Matchmaking = () => {
                               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </label>
                           </div>
-
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
                               <Headphones className="w-4 h-4 text-gray-500" />
@@ -930,7 +858,6 @@ const Matchmaking = () => {
                               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </label>
                           </div>
-
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
                               <Trophy className="w-4 h-4 text-gray-500" />
@@ -959,16 +886,12 @@ const Matchmaking = () => {
                   </AnimatePresence>
                 </div>
               </div>
-
               {/* Start Matchmaking Button */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 {isSearching ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Searching for Match
-                        </h3>
                         <p className="text-sm text-gray-500">
                           {formatSearchTime(searchTime)} • Queue Position:{' '}
                           {getQueuePosition()}
@@ -981,7 +904,6 @@ const Matchmaking = () => {
                         Cancel
                       </button>
                     </div>
-
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                       <motion.div
                         className="bg-blue-600 h-2.5 rounded-full"
@@ -995,7 +917,6 @@ const Matchmaking = () => {
                         }}
                       ></motion.div>
                     </div>
-
                     <div className="flex items-center space-x-3 text-sm text-gray-500">
                       <div className="flex items-center space-x-1">
                         <Target className="w-4 h-4" />
@@ -1024,13 +945,9 @@ const Matchmaking = () => {
                   </motion.button>
                 )}
               </div>
-
               {/* Recent Matches */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Recent Matches
-                  </h2>
                   <button
                     onClick={() => setShowHistory(!showHistory)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -1039,7 +956,6 @@ const Matchmaking = () => {
                     <ChevronDown className="w-4 h-4" />
                   </button>
                 </div>
-
                 {recentMatches.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
@@ -1089,16 +1005,11 @@ const Matchmaking = () => {
                 )}
               </div>
             </div>
-
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Player Stats */}
               {playerStats && (
                 <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                    Your Stats
-                  </h2>
-
                   <div className="flex items-center space-x-4 mb-4">
                     <div
                       className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}
@@ -1114,7 +1025,6 @@ const Matchmaking = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="space-y-3">
                     <div>
                       <div className="flex items-center justify-between text-sm mb-1">
@@ -1130,7 +1040,6 @@ const Matchmaking = () => {
                         ></div>
                       </div>
                     </div>
-
                     <div className="grid grid-cols-3 gap-2 text-center">
                       <div className="bg-gray-50 rounded-lg p-2">
                         <div className="text-lg font-bold text-gray-900">
@@ -1156,7 +1065,6 @@ const Matchmaking = () => {
                         <div className="text-xs text-gray-500">Win Rate</div>
                       </div>
                     </div>
-
                     <div className="pt-2">
                       <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center space-x-1">
@@ -1191,13 +1099,9 @@ const Matchmaking = () => {
                   </div>
                 </div>
               )}
-
               {/* Leaderboard Preview */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Leaderboard
-                  </h2>
                   <button
                     onClick={() => setShowLeaderboard(!showLeaderboard)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -1206,7 +1110,6 @@ const Matchmaking = () => {
                     <ChevronDown className="w-4 h-4" />
                   </button>
                 </div>
-
                 <div className="space-y-2">
                   {leaderboard.slice(0, 5).map((player, index) => (
                     <div
@@ -1229,15 +1132,10 @@ const Matchmaking = () => {
                   ))}
                 </div>
               </div>
-
               {/* Tournament section moved to dedicated Tournaments tab */}
-
               {/* Friends Online */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Friends
-                  </h2>
                   <button
                     onClick={() => setShowFriends(!showFriends)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -1246,7 +1144,6 @@ const Matchmaking = () => {
                     <ChevronDown className="w-4 h-4" />
                   </button>
                 </div>
-
                 <div className="space-y-2">
                   {friends
                     .filter(f => f.status === 'online')
@@ -1281,19 +1178,14 @@ const Matchmaking = () => {
                       </div>
                     ))}
                 </div>
-
                 <div className="mt-3 pt-3 border-t border-gray-100">
                   <button className="w-full text-center text-blue-600 hover:text-blue-700 text-sm font-medium">
                     Find Friends
                   </button>
                 </div>
               </div>
-
               {/* Physical Matchmaking Button */}
               <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-sm p-6 text-white">
-                <h2 className="text-lg font-semibold mb-2">
-                  Physical Card Game?
-                </h2>
                 <p className="text-sm text-purple-200 mb-4">
                   Use our physical matchmaking system for in-person tournaments
                   and casual play.
@@ -1310,24 +1202,18 @@ const Matchmaking = () => {
             </div>
           </div>
         )}
-
         {activeTab === 'tournaments' && (
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center space-x-3 mb-6">
                 <Trophy className="w-8 h-8 text-yellow-500" />
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Tournaments
-                </h2>
               </div>
-
               <div className="mb-6">
                 <p className="text-gray-600 mb-4">
                   Join official KONIVRER tournaments to compete for prizes,
                   glory, and qualification points. Register for upcoming events
                   or browse past tournament results.
                 </p>
-
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="bg-blue-50 rounded-lg p-4 text-center">
                     <div className="text-2xl font-bold text-blue-600 mb-1">
@@ -1355,12 +1241,7 @@ const Matchmaking = () => {
                   </div>
                 </div>
               </div>
-
               <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Upcoming Tournaments
-                </h3>
-
                 <div className="space-y-4">
                   {tournaments.map(tournament => (
                     <motion.div
@@ -1370,9 +1251,6 @@ const Matchmaking = () => {
                     >
                       <div className="flex justify-between items-start mb-3">
                         <div>
-                          <h3 className="font-medium text-gray-900 text-lg">
-                            {tournament.name}
-                          </h3>
                           <div className="flex items-center space-x-2 text-sm text-gray-500 mt-1">
                             <div className="flex items-center space-x-1">
                               <Shield className="w-4 h-4 text-blue-500" />
@@ -1393,7 +1271,6 @@ const Matchmaking = () => {
                           Registration Open
                         </span>
                       </div>
-
                       <div className="grid grid-cols-3 gap-2 mt-3">
                         <div className="bg-gray-50 rounded p-2 text-center">
                           <div className="text-xs text-gray-500">Entry Fee</div>
@@ -1419,7 +1296,6 @@ const Matchmaking = () => {
                           </div>
                         </div>
                       </div>
-
                       <div className="mt-4 pt-2 border-t border-gray-100 flex justify-between items-center">
                         <div className="text-sm text-gray-500">
                           KONIVRER Format • Best of 1 • Single Elimination
@@ -1443,7 +1319,6 @@ const Matchmaking = () => {
           </div>
         )}
       </div>
-
       {/* Match Found Modal */}
       <AnimatePresence>
         {matchFound && (
@@ -1460,12 +1335,10 @@ const Matchmaking = () => {
               className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden"
             >
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center">
-                <h3 className="text-xl font-bold">Match Found!</h3>
                 <p className="text-blue-100">
                   Accept or decline within 30 seconds
                 </p>
               </div>
-
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="text-center">
@@ -1477,9 +1350,7 @@ const Matchmaking = () => {
                       {playerStats?.tier} {playerStats?.division}
                     </div>
                   </div>
-
                   <div className="text-2xl font-bold text-gray-400">VS</div>
-
                   <div className="text-center">
                     <div className="text-sm text-gray-500">Opponent</div>
                     <div className="font-medium">
@@ -1490,7 +1361,6 @@ const Matchmaking = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center justify-between text-sm">
                     <div className="text-gray-500">Format</div>
@@ -1507,7 +1377,6 @@ const Matchmaking = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex space-x-3">
                   <motion.button
                     onClick={declineMatch}
@@ -1531,7 +1400,6 @@ const Matchmaking = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* Physical Matchmaking Modal */}
       <AnimatePresence>
         {showPhysicalMatchmaking && (
@@ -1548,7 +1416,6 @@ const Matchmaking = () => {
               className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
             >
               <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-600 p-4 text-white">
-                <h3 className="text-xl font-bold">Physical Matchmaking</h3>
                 <button
                   onClick={() => setShowPhysicalMatchmaking(false)}
                   className="text-white hover:text-purple-200"
@@ -1556,7 +1423,6 @@ const Matchmaking = () => {
                   <X className="w-6 h-6" />
                 </button>
               </div>
-
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-4rem)]">
                 <div className="space-y-4">
                   <div className="flex space-x-4">
@@ -1579,11 +1445,7 @@ const Matchmaking = () => {
                       <span>Standalone PWA</span>
                     </motion.button>
                   </div>
-
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-gray-900 mb-2">
-                      What's the difference?
-                    </h4>
                     <div className="space-y-2 text-sm text-gray-600">
                       <p>
                         <strong>Integrated Version:</strong> Full integration
@@ -1597,11 +1459,7 @@ const Matchmaking = () => {
                       </p>
                     </div>
                   </div>
-
                   <div className="bg-blue-50 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">
-                      Install as PWA
-                    </h4>
                     <div className="space-y-2 text-sm text-blue-800">
                       <p>
                         Both versions can be installed as Progressive Web Apps
@@ -1623,12 +1481,8 @@ const Matchmaking = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-green-50 rounded-lg p-4">
-                      <h4 className="font-medium text-green-900 mb-2">
-                        Features
-                      </h4>
                       <ul className="space-y-1 text-sm text-green-800">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -1652,11 +1506,7 @@ const Matchmaking = () => {
                         </li>
                       </ul>
                     </div>
-
                     <div className="bg-amber-50 rounded-lg p-4">
-                      <h4 className="font-medium text-amber-900 mb-2">
-                        Use Cases
-                      </h4>
                       <ul className="space-y-1 text-sm text-amber-800">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -1687,19 +1537,14 @@ const Matchmaking = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* Tournament Deck Selection Modal */}
       {showDeckSelectionModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Select Deck for Tournament
-            </h2>
             <p className="text-sm text-gray-600 mb-4">
               Please select a deck from your account to register for this
               tournament.
             </p>
-
             <div className="max-h-60 overflow-y-auto mb-4">
               {userDecks && userDecks.length > 0 ? (
                 <div className="space-y-2">
@@ -1730,7 +1575,6 @@ const Matchmaking = () => {
                 </div>
               )}
             </div>
-
             <div className="flex justify-end space-x-3">
               <button
                 className="px-4 py-0 whitespace-nowrap border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
@@ -1754,5 +1598,4 @@ const Matchmaking = () => {
     </div>
   );
 };
-
 export default Matchmaking;

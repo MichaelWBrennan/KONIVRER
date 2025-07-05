@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,7 +36,6 @@ import {
   Trophy,
   Target,
 } from 'lucide-react';
-
 import cardsData from '../data/cards.json';
 import {
   getArtNameFromCardData,
@@ -45,7 +43,6 @@ import {
 } from '../utils/cardArtMapping';
 import CardArtDisplay from '../components/cards/CardArtDisplay';
 import CardSearchBar from '../components/cards/CardSearchBar';
-
 // Function to determine rarity based on cost symbols
 const getRarityDisplay = (card) => {
   // If card has explicit rarity, use that
@@ -56,10 +53,8 @@ const getRarityDisplay = (card) => {
     if (rarity === 'rare') return '☀ Rare';
     if (rarity === 'special') return '✧ Special';
   }
-  
   // Otherwise determine rarity based on cost symbols
   const costLength = Array.isArray(card.cost) ? card.cost.length : 0;
-  
   if (costLength === 6) {
     return '☀ Rare';
   } else if (costLength === 4 || costLength === 5) {
@@ -69,26 +64,21 @@ const getRarityDisplay = (card) => {
   } else if (costLength === 1) {
     return '☀ Rare';
   }
-  
   return 'N/A';
 };
-
 const CardPage = () => {
   const { id, cardId, set } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('details');
   const [quantity, setQuantity] = useState(1);
-
   // Find card by ID - support both URL formats
   const effectiveId = cardId || id;
   const card = cardsData.find(c => c.id === effectiveId || c.id === parseInt(effectiveId));
-
   if (!card) {
     return (
       <div className="min-h-screen bg-amber-950/95 flex items-center justify-center">
         <div className="text-center bg-amber-900/30 p-8 rounded-lg border border-amber-800/40 shadow-md max-w-md">
           <div className="text-6xl mb-4">🎴</div>
-          <h2 className="text-2xl font-bold mb-2 text-amber-100">Card Not Found</h2>
           <p className="text-amber-200/80 mb-4">
             The card you're looking for doesn't exist or has been removed from the ancient archives.
           </p>
@@ -99,12 +89,10 @@ const CardPage = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-amber-950/95 text-amber-100">
       <div className="container mx-auto px-4 py-8">
         {/* Navigation and Actions removed */}
-
         {/* Card Search Bar - Always at the top */}
         <div className="bg-amber-900/30 rounded-lg p-6 mb-6 border border-amber-800/40 shadow-md">
           <CardSearchBar className="mb-0" />
@@ -122,7 +110,6 @@ const CardPage = () => {
             </a>
           </div>
         </div>
-
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Card Image */}
@@ -139,14 +126,12 @@ const CardPage = () => {
               </div>
             </div>
           </div>
-
           {/* Right Column - Content */}
           <div className="lg:col-span-2">
             <div className="bg-amber-900/30 rounded-lg p-6 border border-amber-800/40 shadow-md">
               <div className="space-y-4">
                 {/* Card Name, Type, and Cost */}
                 <div className="mb-4">
-                  <h2 className="text-2xl font-bold whitespace-nowrap text-amber-100">{card.name}</h2>
                   <p className="text-md text-amber-200/80">{card.type}</p>
                   <p className="text-sm text-amber-200/70">
                     {Array.isArray(card.cost)
@@ -169,7 +154,6 @@ const CardPage = () => {
                     }
                   </p>
                 </div>
-
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
@@ -179,13 +163,11 @@ const CardPage = () => {
                     <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
-
                 {/* Card Text */}
                 <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
                   <p className="text-sm leading-relaxed text-amber-100/90">
                     {card.description || 'No description available.'}
                   </p>
-                  
                   {/* Flavor Text - inside the same box with a separator */}
                   {card.flavorText && (
                     <>
@@ -195,7 +177,6 @@ const CardPage = () => {
                       </p>
                     </>
                   )}
-                  
                   {/* Artist - below flavor text */}
                   <div className="border-t border-amber-900/50 mt-3 pt-2">
                     <p className="text-xs text-center text-amber-200/70">
@@ -203,7 +184,6 @@ const CardPage = () => {
                     </p>
                   </div>
                 </div>
-
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
@@ -213,7 +193,6 @@ const CardPage = () => {
                     <span className="text-amber-500/80 mx-1">✦</span>
                   </div>
                 </div>
-
                 {/* Card Details - Scryfall-like format */}
                 <div className="mt-4">
                   <div className="bg-amber-950/20 rounded p-4 border border-amber-900/40 shadow-inner">
@@ -225,7 +204,6 @@ const CardPage = () => {
                           ⚝
                         </div>
                       </div>
-                      
                       {/* Card Set, Number, Rarity, Language */}
                       <div className="text-lg flex-1 flex justify-between text-amber-100/90">
                         <span className="font-semibold whitespace-nowrap">{card.set || 'PRIMA MATERIA'}</span>
@@ -242,7 +220,6 @@ const CardPage = () => {
                     </div>
                   </div>
                 </div>
-
                 {/* Section Divider with Ancient Decoration */}
                 <div className="relative w-full my-6 flex items-center justify-center">
                   <div className="border-t border-amber-900/50 w-full absolute"></div>
@@ -260,5 +237,4 @@ const CardPage = () => {
     </div>
   );
 };
-
 export default CardPage;

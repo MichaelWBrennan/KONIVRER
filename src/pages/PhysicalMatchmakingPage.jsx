@@ -4,14 +4,12 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import React from 'react';
 import EnhancedPhysicalMatchmaking from '../components/EnhancedPhysicalMatchmaking';
 import PhysicalMatchmakingApp from '../components/PhysicalMatchmakingApp';
 import { PhysicalMatchmakingProvider } from '../contexts/PhysicalMatchmakingContext';
 import '../styles/ancient-esoteric-theme.css';
 import '../styles/esoteric-theme.css';
-
 const PhysicalMatchmakingPage = () => {
   return (
     <div className="ancient-theme">
@@ -25,26 +23,17 @@ const PhysicalMatchmakingPage = () => {
           </span>
         </div>
       </div>
-
       <div className="grid grid-cols-1 gap-8">
         <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-          <h2 className="text-2xl font-bold mb-4 text-center text-accent-secondary">
-            Advanced Physical Matchmaking
-          </h2>
           <PhysicalMatchmakingProvider>
             <PhysicalMatchmakingApp />
           </PhysicalMatchmakingProvider>
         </div>
-
         <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-          <h2 className="text-2xl font-bold mb-4 text-center text-accent-secondary">
-            Enhanced QR Code Generation
-          </h2>
           <EnhancedPhysicalMatchmaking />
         </div>
       </div>
     </div>
   );
 };
-
 export default PhysicalMatchmakingPage;

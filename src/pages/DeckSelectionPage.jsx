@@ -4,14 +4,12 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Plus, ArrowLeft } from 'lucide-react';
 import DeckSelector from '../components/DeckSelector';
 import { useDeck } from '../contexts/DeckContext';
-
 /**
  * Page for selecting a deck to use in the game
  */
@@ -19,13 +17,11 @@ const DeckSelectionPage = () => {
   const navigate = useNavigate();
   const { createNewDeck } = useDeck();
   const [isCreatingDeck, setIsCreatingDeck] = useState(false);
-
   // Handle deck selection
   const handleDeckSelected = deck => {
     // Navigate to game page
     navigate('/game/online');
   };
-
   // Handle new deck creation
   const handleCreateNewDeck = async () => {
     setIsCreatingDeck(true);
@@ -38,7 +34,6 @@ const DeckSelectionPage = () => {
       setIsCreatingDeck(false);
     }
   };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center mb-6">
@@ -48,7 +43,6 @@ const DeckSelectionPage = () => {
         >
           <ArrowLeft size={20} />
         </button></div>
-
       <div className="mb-6">
         <button
           onClick={handleCreateNewDeck}
@@ -59,7 +53,6 @@ const DeckSelectionPage = () => {
           {isCreatingDeck ? 'Creating...' : 'Create New Deck'}
         </button>
       </div>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,5 +63,4 @@ const DeckSelectionPage = () => {
     </div>
   );
 };
-
 export default DeckSelectionPage;

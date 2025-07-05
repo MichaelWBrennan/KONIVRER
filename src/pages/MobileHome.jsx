@@ -4,10 +4,8 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 const MobileHome = () => {
   const [newsItems] = useState([
     {
@@ -35,7 +33,6 @@ const MobileHome = () => {
         'Join us for a special community event with prizes, tournaments, and more!',
     },
   ]);
-
   return (
     <div className="mobile-home">
       {/* Welcome Section */}
@@ -43,21 +40,16 @@ const MobileHome = () => {
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>
         </div>
-
         <p className="esoteric-rune">Trading Card Game</p>
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>
         </div>
       </section>
-
       {/* Quick Access */}
       <section className="mobile-mb">
-        <h2 className="mobile-card-title esoteric-rune">Experience KONIVRER</h2>
-        
         {/* Main Game Demo */}
         <div className="mobile-card esoteric-card mobile-mb">
           <div className="mobile-card-content mobile-text-center">
-            <h3 className="esoteric-text-accent mobile-mb">Enhanced Game Implementation</h3>
             <p className="mobile-mb">
               Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
             </p>
@@ -79,11 +71,9 @@ const MobileHome = () => {
             </Link>
           </div>
         </div>
-
         {/* AI Testing Mode */}
         <div className="mobile-card esoteric-card mobile-mb">
           <div className="mobile-card-content mobile-text-center">
-            <h3 className="esoteric-text-accent mobile-mb">🧠 AI Consciousness Testing</h3>
             <p className="mobile-mb">
               Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
             </p>
@@ -135,11 +125,9 @@ const MobileHome = () => {
             </div>
           </div>
         </div>
-
         {/* Player vs Player */}
         <div className="mobile-card esoteric-card">
           <div className="mobile-card-content mobile-text-center">
-            <h3 className="esoteric-text-accent mobile-mb">⚔️ Player vs Player</h3>
             <p className="mobile-mb">
               Challenge other players in classic KONIVRER matches with full game mechanics and competitive play.
             </p>
@@ -162,15 +150,12 @@ const MobileHome = () => {
           </div>
         </div>
       </section>
-
       {/* News & Updates */}
       <section className="mobile-mb">
-        <h2 className="mobile-card-title esoteric-rune">Latest News</h2>
         <div className="mobile-card esoteric-card">
           {newsItems.map((item, index) => (
             <div key={item.id}>
               <div className="mobile-card-content">
-                <h3 className="esoteric-text-accent">{item.title}</h3>
                 <p>{item.content}</p>
               </div>
               {index < newsItems.length - 1 && (
@@ -182,7 +167,6 @@ const MobileHome = () => {
           ))}
         </div>
       </section>
-
       <style jsx>{`
         .ai-features-list {
           display: grid;
@@ -190,7 +174,6 @@ const MobileHome = () => {
           gap: 8px;
           margin: 15px 0;
         }
-        
         .ai-feature {
           background: rgba(0, 212, 255, 0.1);
           border: 1px solid rgba(0, 212, 255, 0.3);
@@ -201,7 +184,6 @@ const MobileHome = () => {
           color: #00d4ff;
           font-weight: 600;
         }
-        
         @media (max-width: 480px) {
           .ai-features-list {
             grid-template-columns: 1fr;
@@ -211,5 +193,4 @@ const MobileHome = () => {
     </div>
   );
 };
-
 export default MobileHome;

@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -26,7 +25,6 @@ import {
   Target,
 } from 'lucide-react';
 import DeckMetaAnalysis from '../components/DeckMetaAnalysis';
-
 const DeckSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('popularity');
@@ -37,7 +35,6 @@ const DeckSearch = () => {
     rarity: 'all',
     author: 'all',
   });
-
   // Sample deck data
   const [decks] = useState([
     {
@@ -125,9 +122,7 @@ const DeckSearch = () => {
       featured: false,
     },
   ]);
-
   const [filteredDecks, setFilteredDecks] = useState(decks);
-
   // Filter and sort decks
   useEffect(() => {
     let filtered = decks.filter(deck => {
@@ -135,19 +130,15 @@ const DeckSearch = () => {
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
-
       const matchesElement =
         filters.element === 'all' || deck.element === filters.element;
       const matchesAuthor =
         filters.author === 'all' || deck.author === filters.author;
-
       return matchesSearch && matchesElement && matchesAuthor;
     });
-
     // Sort decks
     filtered.sort((a, b) => {
       let aValue, bValue;
-
       switch (sortBy) {
         case 'popularity':
           aValue = a.likes;
@@ -173,17 +164,14 @@ const DeckSearch = () => {
           aValue = a.likes;
           bValue = b.likes;
       }
-
       if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
       }
     });
-
     setFilteredDecks(filtered);
   }, [searchTerm, filters, sortBy, sortOrder, decks]);
-
   const getElementColor = element => {
     const colors = {
       Inferno: 'text-black',
@@ -195,7 +183,6 @@ const DeckSearch = () => {
     };
     return colors[element] || 'text-black';
   };
-
   const getElementIcon = element => {
     const icons = {
       Inferno: '🜂',
@@ -207,7 +194,6 @@ const DeckSearch = () => {
     };
     return icons[element] || '✡⃝';
   };
-
   const DeckCard = ({ deck }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -226,7 +212,6 @@ const DeckSearch = () => {
           </div>
         </div>
       )}
-
       {/* Header with Element and Stats */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
@@ -235,7 +220,6 @@ const DeckSearch = () => {
               {getElementIcon(deck.element)}
             </div>
             <div>
-              <h3 className="text-lg font-bold">{deck.name}</h3>
               <div className="flex items-center gap-2 text-sm text-secondary">
                 <User className="w-3 h-3" />
                 <span>{deck.author}</span>
@@ -247,7 +231,6 @@ const DeckSearch = () => {
           </div>
         </div>
       </div>
-
       {/* Stats Row - Integrated into card */}
       <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg">
         <div className="flex items-center gap-1 text-sm">
@@ -267,12 +250,10 @@ const DeckSearch = () => {
           <span className="font-medium">{deck.views}</span>
         </div>
       </div>
-
       {/* Description */}
       <p className="text-secondary text-sm mb-4 line-clamp-2">
         {deck.description}
       </p>
-
       {/* Action Buttons */}
       <div className="flex gap-2">
         <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
@@ -288,7 +269,6 @@ const DeckSearch = () => {
       </div>
     </motion.div>
   );
-
   const DeckListItem = ({ deck }) => (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -302,7 +282,6 @@ const DeckSearch = () => {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-bold">{deck.name}</h3>
               {deck.featured && (
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
               )}
@@ -340,7 +319,6 @@ const DeckSearch = () => {
             </div>
           </div>
         </div>
-
         <div className="flex gap-2 ml-4">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
             <Eye className="w-4 h-4" />
@@ -356,7 +334,6 @@ const DeckSearch = () => {
       </div>
     </motion.div>
   );
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -368,11 +345,9 @@ const DeckSearch = () => {
           </div>
         </div>
       </div>
-
       {/* Meta Analysis - Added from Analytics Hub */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         <DeckMetaAnalysis />
-
         {/* Search and Filters */}
         <div className="bg-card rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -387,7 +362,6 @@ const DeckSearch = () => {
                 className="w-full pl-10 pr-4 py-2 bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
             {/* Element Filter */}
             <select
               value={filters.element}
@@ -404,7 +378,6 @@ const DeckSearch = () => {
               <option value="Brilliance">⭘ Brilliance</option>
               <option value="Void">▢ Void</option>
             </select>
-
             {/* Sort */}
             <select
               value={`${sortBy}-${sortOrder}`}
@@ -423,7 +396,6 @@ const DeckSearch = () => {
               <option value="name-desc">Name Z-A</option>
             </select>
           </div>
-
           {/* View Mode Toggle */}
           <div className="flex items-center justify-between">
             <div className="text-sm text-secondary">
@@ -454,7 +426,6 @@ const DeckSearch = () => {
             </div>
           </div>
         </div>
-
         {/* Deck Results */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -469,11 +440,9 @@ const DeckSearch = () => {
             ))}
           </div>
         )}
-
         {filteredDecks.length === 0 && (
           <div className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">No decks found</h3>
             <p className="text-secondary">
               Try adjusting your search criteria or filters
             </p>
@@ -483,5 +452,4 @@ const DeckSearch = () => {
     </div>
   );
 };
-
 export default DeckSearch;

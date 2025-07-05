@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect, useRef } from 'react';
 import {
   Play,
@@ -53,7 +52,6 @@ import {
   announceToScreenReader,
   PerformanceMonitor,
 } from '../utils/modernFeatures';
-
 const LiveTournament = () => {
   const { tournamentId } = useParams();
   const { user, wsManager } = useAuth();
@@ -72,7 +70,6 @@ const LiveTournament = () => {
   const [showStats, setShowStats] = useState(false);
   const [reactions, setReactions] = useState([]);
   const [donations, setDonations] = useState([]);
-
   // Streaming and broadcasting
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamSettings, setStreamSettings] = useState({
@@ -83,7 +80,6 @@ const LiveTournament = () => {
     videoEnabled: true,
     screenShare: false,
   });
-
   // Real-time analytics
   const [analytics, setAnalytics] = useState({
     totalViewers: 0,
@@ -93,12 +89,10 @@ const LiveTournament = () => {
     reactions: 0,
     shares: 0,
   });
-
   const videoRef = useRef(null);
   const chatRef = useRef(null);
   const streamRef = useRef(null);
   const [localStream, setLocalStream] = useState(null);
-
   useEffect(() => {
     // Load tournament data from actual data source when available
     // For now, set empty states until real data is connected
@@ -108,13 +102,11 @@ const LiveTournament = () => {
     setIsLive(false);
     setConnectionStatus('disconnected');
     setStandings([]);
-
     // Performance monitoring
     PerformanceMonitor.measureUserTiming('tournament_load', () => {
       console.log('Tournament loaded');
     });
   }, [tournamentId]);
-
   // WebSocket connection for real-time updates
   useEffect(() => {
     if (wsManager && tournamentId) {
@@ -124,28 +116,23 @@ const LiveTournament = () => {
         id: tournamentId,
         features: ['match_updates', 'chat', 'standings', 'analytics'],
       });
-
       // Listen for real-time events
       wsManager.on('match_update', data => {
         setCurrentMatch(prev => ({ ...prev, ...data }));
         announceToScreenReader(`Match update: ${data.description}`);
       });
-
       wsManager.on('chat_message', message => {
         setChatMessages(prev => [...prev.slice(-99), message]);
         if (chatRef.current) {
           chatRef.current.scrollTop = chatRef.current.scrollHeight;
         }
       });
-
       wsManager.on('viewer_count', count => {
         setViewerCount(count);
       });
-
       wsManager.on('standings_update', newStandings => {
         setStandings(newStandings);
       });
-
       wsManager.on('reaction', reaction => {
         setReactions(prev => [
           ...prev.slice(-19),
@@ -155,20 +142,17 @@ const LiveTournament = () => {
           setReactions(prev => prev.filter(r => r.id !== reaction.id));
         }, 3000);
       });
-
       wsManager.on('donation', donation => {
         setDonations(prev => [...prev.slice(-4), donation]);
         announceToScreenReader(
           `New donation: $${donation.amount} from ${donation.username}`,
         );
       });
-
       return () => {
         wsManager.send('unsubscribe', { type: 'tournament', id: tournamentId });
       };
     }
   }, [wsManager, tournamentId]);
-
   // Stream management
   const startStream = async () => {
     try {
@@ -182,21 +166,17 @@ const LiveTournament = () => {
           : false,
         audio: streamSettings.audioEnabled,
       });
-
       setLocalStream(stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
-
       // Initialize WebRTC for broadcasting
       const peerConnection = new RTCPeerConnection({
         iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
       });
-
       stream.getTracks().forEach(track => {
         peerConnection.addTrack(track, stream);
       });
-
       setIsStreaming(true);
       announceToScreenReader('Stream started successfully');
     } catch (error) {
@@ -204,7 +184,6 @@ const LiveTournament = () => {
       announceToScreenReader('Failed to start stream');
     }
   };
-
   const stopStream = () => {
     if (localStream) {
       localStream.getTracks().forEach(track => track.stop());
@@ -213,7 +192,6 @@ const LiveTournament = () => {
     setIsStreaming(false);
     announceToScreenReader('Stream stopped');
   };
-
   const toggleScreenShare = async () => {
     try {
       if (streamSettings.screenShare) {
@@ -229,14 +207,11 @@ const LiveTournament = () => {
           video: true,
           audio: true,
         });
-
         if (videoRef.current) {
           videoRef.current.srcObject = screenStream;
         }
-
         setLocalStream(screenStream);
       }
-
       setStreamSettings(prev => ({
         ...prev,
         screenShare: !prev.screenShare,
@@ -245,7 +220,6 @@ const LiveTournament = () => {
       console.error('Screen share failed:', error);
     }
   };
-
   const sendChatMessage = message => {
     if (wsManager && message.trim()) {
       wsManager.send('chat_message', {
@@ -255,7 +229,6 @@ const LiveTournament = () => {
       });
     }
   };
-
   const sendReaction = type => {
     if (wsManager) {
       wsManager.send('reaction', {
@@ -266,7 +239,6 @@ const LiveTournament = () => {
       });
     }
   };
-
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -276,13 +248,11 @@ const LiveTournament = () => {
       setIsFullscreen(false);
     }
   };
-
   const formatTime = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-
   const getConnectionStatusColor = status => {
     switch (status) {
       case 'connected':
@@ -295,7 +265,6 @@ const LiveTournament = () => {
         return 'text-gray-400';
     }
   };
-
   if (!tournament) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -309,7 +278,6 @@ const LiveTournament = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-background">
       {/* Tournament Header */}
@@ -345,7 +313,6 @@ const LiveTournament = () => {
                 </span>
               </div>
             </div>
-
             <div className="flex items-center gap-2">
               {isLive && (
                 <div className="flex items-center gap-2 bg-red-600 text-white px-3 py-0 whitespace-nowrap rounded-full text-sm">
@@ -370,7 +337,6 @@ const LiveTournament = () => {
           </div>
         </div>
       </div>
-
       <div className="container py-6">
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Main Stream Area */}
@@ -384,7 +350,6 @@ const LiveTournament = () => {
                 muted={isMuted}
                 controls={false}
               />
-
               {/* Stream Overlay */}
               <div className="absolute inset-0 pointer-events-none">
                 {/* Live indicator */}
@@ -393,13 +358,11 @@ const LiveTournament = () => {
                     🔴 LIVE
                   </div>
                 )}
-
                 {/* Viewer count */}
                 <div className="absolute top-4 right-4 bg-black/70 text-white px-2 py-0 whitespace-nowrap rounded text-sm">
                   <Eye size={12} className="inline mr-1" />
                   {viewerCount.toLocaleString()}
                 </div>
-
                 {/* Current match info */}
                 {currentMatch && (
                   <div className="absolute bottom-4 left-4 right-4">
@@ -412,7 +375,6 @@ const LiveTournament = () => {
                           Turn {currentMatch.gameState.turn}
                         </span>
                       </div>
-
                       <div className="grid grid-cols-2 gap-4">
                         <div className="flex items-center gap-2">
                           <img
@@ -432,7 +394,6 @@ const LiveTournament = () => {
                             {currentMatch.player1.wins}
                           </div>
                         </div>
-
                         <div className="flex items-center gap-2">
                           <img
                             src={currentMatch.player2.avatar}
@@ -452,7 +413,6 @@ const LiveTournament = () => {
                           </div>
                         </div>
                       </div>
-
                       {/* Timer */}
                       <div className="mt-2 text-center">
                         <div className="text-sm text-gray-300">
@@ -465,7 +425,6 @@ const LiveTournament = () => {
                     </div>
                   </div>
                 )}
-
                 {/* Floating reactions */}
                 <div className="absolute inset-0 pointer-events-none">
                   {reactions.map(reaction => (
@@ -483,7 +442,6 @@ const LiveTournament = () => {
                   ))}
                 </div>
               </div>
-
               {/* Video Controls */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pointer-events-auto">
                 <div className="flex items-center justify-between">
@@ -504,7 +462,6 @@ const LiveTournament = () => {
                       className="w-20"
                     />
                   </div>
-
                   <div className="flex items-center gap-2">
                     <select
                       value={streamQuality}
@@ -516,7 +473,6 @@ const LiveTournament = () => {
                       <option value="720p">720p</option>
                       <option value="480p">480p</option>
                     </select>
-
                     <button className="btn btn-xs btn-ghost">
                       <Settings size={16} />
                     </button>
@@ -524,7 +480,6 @@ const LiveTournament = () => {
                 </div>
               </div>
             </div>
-
             {/* Reaction Bar */}
             <div className="flex items-center justify-center gap-2 mb-6">
               {['👏', '🔥', '😱', '💯', '⚡', '🏆'].map(emoji => (
@@ -537,7 +492,6 @@ const LiveTournament = () => {
                 </button>
               ))}
             </div>
-
             {/* Tournament Info Tabs */}
             <div className="card">
               <div className="flex border-b border-color">
@@ -550,11 +504,9 @@ const LiveTournament = () => {
                   </button>
                 ))}
               </div>
-
               <div className="p-4">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold mb-3">Tournament Details</h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted">Prize Pool:</span>
@@ -572,9 +524,7 @@ const LiveTournament = () => {
                       </div>
                     </div>
                   </div>
-
                   <div>
-                    <h3 className="font-semibold mb-3">Casters</h3>
                     <div className="space-y-2">
                       {tournament.casters.map((caster, index) => (
                         <div
@@ -591,13 +541,11 @@ const LiveTournament = () => {
               </div>
             </div>
           </div>
-
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Live Chat */}
             <div className="card">
               <div className="flex items-center justify-between p-4 border-b border-color">
-                <h3 className="font-semibold">Live Chat</h3>
                 <button
                   onClick={() => setShowChat(!showChat)}
                   className="text-muted hover:text-primary"
@@ -605,7 +553,6 @@ const LiveTournament = () => {
                   <MessageCircle size={16} />
                 </button>
               </div>
-
               {showChat && (
                 <>
                   <div
@@ -621,7 +568,6 @@ const LiveTournament = () => {
                       </div>
                     ))}
                   </div>
-
                   <div className="p-4 border-t border-color">
                     <div className="flex gap-2">
                       <input
@@ -641,11 +587,9 @@ const LiveTournament = () => {
                 </>
               )}
             </div>
-
             {/* Current Standings */}
             <div className="card">
               <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">Current Standings</h3>
               </div>
               <div className="p-4">
                 <div className="space-y-2">
@@ -678,15 +622,10 @@ const LiveTournament = () => {
                 </div>
               </div>
             </div>
-
             {/* Recent Donations */}
             {donations.length > 0 && (
               <div className="card">
                 <div className="p-4 border-b border-color">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Gift size={16} />
-                    Recent Donations
-                  </h3>
                 </div>
                 <div className="p-4 space-y-2">
                   {donations.map((donation, index) => (
@@ -707,12 +646,10 @@ const LiveTournament = () => {
                 </div>
               </div>
             )}
-
             {/* Stream Controls (for streamers) */}
             {user?.roles?.includes('streamer') && (
               <div className="card">
                 <div className="p-4 border-b border-color">
-                  <h3 className="font-semibold">Stream Controls</h3>
                 </div>
                 <div className="p-4 space-y-3">
                   <div className="flex gap-2">
@@ -734,7 +671,6 @@ const LiveTournament = () => {
                       </button>
                     )}
                   </div>
-
                   <div className="flex gap-2">
                     <button
                       onClick={() =>
@@ -755,7 +691,6 @@ const LiveTournament = () => {
                         <VideoOff size={14} />
                       )}
                     </button>
-
                     <button
                       onClick={() =>
                         setStreamSettings(prev => ({
@@ -776,7 +711,6 @@ const LiveTournament = () => {
                       )}
                     </button>
                   </div>
-
                   <button
                     onClick={toggleScreenShare}
                     className="btn btn-secondary btn-sm w-full"
@@ -787,11 +721,9 @@ const LiveTournament = () => {
                 </div>
               </div>
             )}
-
             {/* Social Sharing */}
             <div className="card">
               <div className="p-4 border-b border-color">
-                <h3 className="font-semibold">Share Tournament</h3>
               </div>
               <div className="p-4 space-y-2">
                 <button className="btn btn-secondary btn-sm w-full">
@@ -811,14 +743,12 @@ const LiveTournament = () => {
           </div>
         </div>
       </div>
-
       {/* Analytics Overlay */}
       {showStats && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-card border border-color rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Live Analytics</h2>
                 <button
                   onClick={() => setShowStats(false)}
                   className="btn btn-ghost"
@@ -826,7 +756,6 @@ const LiveTournament = () => {
                   ×
                 </button>
               </div>
-
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="card">
                   <div className="p-4 text-center">
@@ -840,7 +769,6 @@ const LiveTournament = () => {
                     <div className="text-sm text-muted">Total Viewers</div>
                   </div>
                 </div>
-
                 <div className="card">
                   <div className="p-4 text-center">
                     <Activity
@@ -853,7 +781,6 @@ const LiveTournament = () => {
                     <div className="text-sm text-muted">Peak Viewers</div>
                   </div>
                 </div>
-
                 <div className="card">
                   <div className="p-4 text-center">
                     <MessageCircle
@@ -874,5 +801,4 @@ const LiveTournament = () => {
     </div>
   );
 };
-
 export default LiveTournament;

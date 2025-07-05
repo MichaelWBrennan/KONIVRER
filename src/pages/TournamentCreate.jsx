@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import {
   Calendar,
   Clock,
@@ -24,7 +23,6 @@ import { useNavigate } from 'react-router-dom';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import TournamentTemplates from '../components/tournaments/TournamentTemplates';
 import RegistrationCodes from '../components/tournaments/RegistrationCodes';
-
 const TournamentCreate = () => {
   const navigate = useNavigate();
   const physicalMatchmaking = usePhysicalMatchmaking();
@@ -35,12 +33,10 @@ const TournamentCreate = () => {
     name: '',
     description: '',
     type: 'standard',
-
     // Schedule
     date: '',
     time: '',
     registrationDeadline: '',
-
     // Location
     venue: '',
     address: '',
@@ -48,50 +44,41 @@ const TournamentCreate = () => {
     state: '',
     country: '',
     isOnline: false,
-
     // Participants
     maxParticipants: 32,
     minParticipants: 8,
     registrationOpen: true,
-
     // Prizes and Fees
     entryFee: 0,
     prizePool: 0,
     prizeDistribution: 'standard',
-
     // Tournament Structure
     rounds: 'swiss',
     roundsCount: 0, // Auto-calculated
     topCut: 8,
     timeLimit: 50,
-
     // Judge Information
     headJudge: '',
     judgeLevel: 1,
     additionalJudges: [],
-
     // Advanced Settings
     decklistRequired: true,
     lateRegistration: false,
     spectators: true,
     streaming: false,
-
     // Rules and Policies
     specialRules: '',
     penaltyPolicy: 'standard',
     appealProcess: 'standard',
-
     // Registration & Payment
     registrationCodes: [],
     paymentMethod: 'none', // none, paypal, stripe
     refundPolicy: 'standard',
     lateRegistrationFee: 0,
   });
-
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
-
   const calculateRounds = participants => {
     if (participants <= 8) return 3;
     if (participants <= 16) return 4;
@@ -100,19 +87,16 @@ const TournamentCreate = () => {
     if (participants <= 128) return 7;
     return 8;
   };
-
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
     setFormData(prev => ({ ...prev, ...template.settings }));
     setStep(2); // Move to basic info step
   };
-
   const renderTemplateSelection = () => (
     <div className="space-y-6">
       <TournamentTemplates onSelectTemplate={handleTemplateSelect} />
     </div>
   );
-
   const renderBasicInfo = () => (
     <div className="space-y-6">
       <div>
@@ -127,7 +111,6 @@ const TournamentCreate = () => {
           onChange={e => updateFormData('name', e.target.value)}
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium mb-2">Description</label>
         <textarea
@@ -137,7 +120,6 @@ const TournamentCreate = () => {
           onChange={e => updateFormData('description', e.target.value)}
         />
       </div>
-
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">
@@ -159,7 +141,6 @@ const TournamentCreate = () => {
       </div>
     </div>
   );
-
   const renderScheduleLocation = () => (
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
@@ -172,7 +153,6 @@ const TournamentCreate = () => {
             onChange={e => updateFormData('date', e.target.value)}
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium mb-2">Start Time *</label>
           <input
@@ -183,7 +163,6 @@ const TournamentCreate = () => {
           />
         </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium mb-2">
           Registration Deadline
@@ -195,7 +174,6 @@ const TournamentCreate = () => {
           onChange={e => updateFormData('registrationDeadline', e.target.value)}
         />
       </div>
-
       <div className="flex items-center gap-3 mb-4">
         <input
           type="checkbox"
@@ -208,7 +186,6 @@ const TournamentCreate = () => {
           Online Tournament
         </label>
       </div>
-
       {!formData.isOnline && (
         <div className="space-y-4">
           <div>
@@ -223,7 +200,6 @@ const TournamentCreate = () => {
               onChange={e => updateFormData('venue', e.target.value)}
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium mb-2">Address *</label>
             <input
@@ -234,7 +210,6 @@ const TournamentCreate = () => {
               onChange={e => updateFormData('address', e.target.value)}
             />
           </div>
-
           <div className="grid md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">City *</label>
@@ -245,7 +220,6 @@ const TournamentCreate = () => {
                 onChange={e => updateFormData('city', e.target.value)}
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium mb-2">
                 State/Province
@@ -257,7 +231,6 @@ const TournamentCreate = () => {
                 onChange={e => updateFormData('state', e.target.value)}
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium mb-2">
                 Country *
@@ -274,7 +247,6 @@ const TournamentCreate = () => {
       )}
     </div>
   );
-
   const renderParticipantsStructure = () => (
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
@@ -293,7 +265,6 @@ const TournamentCreate = () => {
             }
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium mb-2">
             Minimum Participants
@@ -309,7 +280,6 @@ const TournamentCreate = () => {
           />
         </div>
       </div>
-
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">
@@ -326,7 +296,6 @@ const TournamentCreate = () => {
             }
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium mb-2">
             Prize Pool ($)
@@ -343,7 +312,6 @@ const TournamentCreate = () => {
           />
         </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium mb-2">
           Tournament Structure
@@ -359,7 +327,6 @@ const TournamentCreate = () => {
           <option value="round-robin">Round Robin</option>
         </select>
       </div>
-
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">Top Cut Size</label>
@@ -374,7 +341,6 @@ const TournamentCreate = () => {
             <option value={32}>Top 32</option>
           </select>
         </div>
-
         <div>
           <label className="block text-sm font-medium mb-2">
             Time Limit (minutes)
@@ -391,9 +357,7 @@ const TournamentCreate = () => {
           />
         </div>
       </div>
-
       <div className="p-4 bg-secondary rounded-lg">
-        <h4 className="font-medium mb-2">Estimated Tournament Details</h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-muted">Swiss Rounds: </span>
@@ -414,7 +378,6 @@ const TournamentCreate = () => {
       </div>
     </div>
   );
-
   const renderJudgeSettings = () => (
     <div className="space-y-6">
       <div>
@@ -427,7 +390,6 @@ const TournamentCreate = () => {
           onChange={e => updateFormData('headJudge', e.target.value)}
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium mb-2">
           Required Judge Level
@@ -442,7 +404,6 @@ const TournamentCreate = () => {
           <option value={3}>Level 3 (Premier Events)</option>
         </select>
       </div>
-
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <input
@@ -456,7 +417,6 @@ const TournamentCreate = () => {
             Decklist Required
           </label>
         </div>
-
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -469,7 +429,6 @@ const TournamentCreate = () => {
             Allow Late Registration
           </label>
         </div>
-
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -482,7 +441,6 @@ const TournamentCreate = () => {
             Allow Spectators
           </label>
         </div>
-
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -496,7 +454,6 @@ const TournamentCreate = () => {
           </label>
         </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium mb-2">Special Rules</label>
         <textarea
@@ -508,11 +465,9 @@ const TournamentCreate = () => {
       </div>
     </div>
   );
-
   const renderReview = () => (
     <div className="space-y-6">
       <div className="card">
-        <h3 className="text-lg font-semibold mb-4">Tournament Summary</h3>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-3">
             <div>
@@ -525,7 +480,6 @@ const TournamentCreate = () => {
               <span className="text-sm text-muted">Type:</span>
               <p className="font-medium capitalize">{formData.type}</p>
             </div>
-
             <div>
               <span className="text-sm text-muted">Date & Time:</span>
               <p className="font-medium">
@@ -559,9 +513,7 @@ const TournamentCreate = () => {
           </div>
         </div>
       </div>
-
       <div className="card">
-        <h3 className="text-lg font-semibold mb-4">Tournament Structure</h3>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-3">
             <div>
@@ -587,9 +539,7 @@ const TournamentCreate = () => {
           </div>
         </div>
       </div>
-
       <div className="card">
-        <h3 className="text-lg font-semibold mb-4">Judge Information</h3>
         <div className="space-y-3">
           <div>
             <span className="text-sm text-muted">Head Judge:</span>
@@ -605,20 +555,15 @@ const TournamentCreate = () => {
       </div>
     </div>
   );
-
   const renderRegistrationManagement = () => (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold mb-4">Registration & Payment</h2>
         <p className="text-muted mb-6">
           Configure registration codes, entry fees, and payment options.
         </p>
       </div>
-
       {/* Entry Fee Settings */}
       <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold mb-4">Entry Fee & Payment</h3>
-        
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -633,7 +578,6 @@ const TournamentCreate = () => {
               onChange={e => updateFormData('entryFee', parseFloat(e.target.value) || 0)}
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium mb-2">
               Payment Method
@@ -649,7 +593,6 @@ const TournamentCreate = () => {
             </select>
           </div>
         </div>
-
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -664,7 +607,6 @@ const TournamentCreate = () => {
               onChange={e => updateFormData('lateRegistrationFee', parseFloat(e.target.value) || 0)}
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium mb-2">
               Refund Policy
@@ -682,10 +624,8 @@ const TournamentCreate = () => {
           </div>
         </div>
       </div>
-
       {/* Registration Codes */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">Registration Codes</h3>
         <p className="text-sm text-muted mb-4">
           Create codes for special access, discounts, or judge registration.
         </p>
@@ -694,11 +634,8 @@ const TournamentCreate = () => {
           onCodesChange={(codes) => updateFormData('registrationCodes', codes)}
         />
       </div>
-
       {/* Registration Settings */}
       <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold mb-4">Registration Settings</h3>
-        
         <div className="space-y-4">
           <label className="flex items-center gap-3">
             <input
@@ -709,7 +646,6 @@ const TournamentCreate = () => {
             />
             <span className="text-sm">Open Registration Immediately</span>
           </label>
-
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -719,7 +655,6 @@ const TournamentCreate = () => {
             />
             <span className="text-sm">Allow Late Registration</span>
           </label>
-
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -733,7 +668,6 @@ const TournamentCreate = () => {
       </div>
     </div>
   );
-
   const steps = [
     { id: 1, title: 'Template Selection', icon: Trophy },
     { id: 2, title: 'Basic Information', icon: Info },
@@ -743,24 +677,20 @@ const TournamentCreate = () => {
     { id: 6, title: 'Registration & Codes', icon: DollarSign },
     { id: 7, title: 'Review & Create', icon: Eye },
   ];
-
   const handleSubmit = () => {
     // Here you would submit the tournament data
     console.log('Creating tournament:', formData);
     navigate('/tournaments');
   };
-
   return (
     <div className="min-h-screen py-8">
       <div className="container max-w-4xl">
-
         {/* Progress Steps */}
         <div className="flex items-center justify-between mb-8 overflow-x-auto">
           {steps.map((stepItem, index) => {
             const Icon = stepItem.icon;
             const isActive = step === stepItem.id;
             const isCompleted = step > stepItem.id;
-
             return (
               <div key={stepItem.id} className="flex items-center">
                 <div
@@ -789,7 +719,6 @@ const TournamentCreate = () => {
             );
           })}
         </div>
-
         {/* Form Content */}
         <div className="card mb-8">
           {step === 1 && renderTemplateSelection()}
@@ -800,7 +729,6 @@ const TournamentCreate = () => {
           {step === 6 && renderRegistrationManagement()}
           {step === 7 && renderReview()}
         </div>
-
         {/* Navigation */}
         <div className="flex items-center justify-between">
           <button
@@ -810,7 +738,6 @@ const TournamentCreate = () => {
           >
             Previous
           </button>
-
           <div className="flex gap-2">
             <button
               onClick={() => navigate('/tournaments')}
@@ -818,7 +745,6 @@ const TournamentCreate = () => {
             >
               Cancel
             </button>
-
             {step < 7 ? (
               <button
                 onClick={() => setStep(Math.min(7, step + 1))}
@@ -838,6 +764,5 @@ const TournamentCreate = () => {
     </div>
   );
 };
-
 export { TournamentCreate };
 export default TournamentCreate;

@@ -3,22 +3,18 @@
  * 
  * Supports both PvP and AI testing modes with full consciousness integration
  */
-
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
 // Import game components
 import EnhancedGameBoard from '../components/game/EnhancedGameBoard';
 import GameEngine from '../engine/GameEngine';
 import AIPlayer from '../engine/AIPlayer';
 import CuttingEdgeAI from '../engine/CuttingEdgeAI';
 import NeuralAI from '../engine/NeuralAI';
-
 // Import contexts
 import { useDeck } from '../contexts/DeckContext';
 import { useBattlePass } from '../contexts/BattlePassContext';
-
 /**
  * Enhanced Game page that supports AI testing mode
  */
@@ -28,10 +24,8 @@ const EnhancedGamePage = () => {
   const animationSystemRef = useRef(null);
   const rulesEngineRef = useRef(null);
   const aiPlayerRef = useRef(null);
-  
   const { activeDeck, loadDecks } = useDeck();
   const battlePass = useBattlePass();
-
   // Game state
   const [gameEngine, setGameEngine] = useState(null);
   const [gameState, setGameState] = useState(null);
@@ -40,7 +34,6 @@ const EnhancedGamePage = () => {
   const [gameMode, setGameMode] = useState(mode || 'pvp');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
   // Player data
   const [playerData, setPlayerData] = useState({
     name: 'Player',
@@ -50,44 +43,36 @@ const EnhancedGamePage = () => {
     name: gameMode === 'ai-testing' ? 'Cutting-Edge AI' : 'Opponent',
     avatarUrl: null,
   });
-
   // Initialize game engine and AI systems
   useEffect(() => {
     initializeGame();
   }, [mode, gameId]);
-
   // Update AI status periodically when in AI mode
   useEffect(() => {
     if (gameMode.includes('ai') && aiPlayerRef.current) {
       const interval = setInterval(() => {
         updateAIStatus();
       }, 1000);
-      
       return () => clearInterval(interval);
     }
   }, [gameMode, aiPlayerRef.current]);
-
   const initializeGame = async () => {
     try {
       setLoading(true);
       setError(null);
-
       // Load decks if not already loaded
       if (!activeDeck) {
         await loadDecks();
       }
-
       // Initialize game engine
       const engine = new GameEngine({
         mode: gameMode,
         gameId: gameId,
       });
-
       // Initialize AI player if in AI mode
       if (gameMode.includes('ai')) {
         await initializeAIPlayer(engine);
       }
-
       // Set up game state
       const initialGameState = engine.initializeGame({
         player1: {
@@ -100,22 +85,18 @@ const EnhancedGamePage = () => {
           isAI: gameMode.includes('ai'),
         }
       });
-
       setGameEngine(engine);
       setGameState(initialGameState);
       setLoading(false);
-
     } catch (err) {
       console.error('Failed to initialize game:', err);
       setError(err.message);
       setLoading(false);
     }
   };
-
   const initializeAIPlayer = async (engine) => {
     try {
       let aiPlayer;
-      
       if (gameMode === 'ai-testing') {
         // Use cutting-edge AI with maximum performance
         aiPlayer = new CuttingEdgeAI({
@@ -142,29 +123,23 @@ const EnhancedGamePage = () => {
           difficulty: 'normal'
         });
       }
-
       await aiPlayer.initialize();
       aiPlayerRef.current = aiPlayer;
-      
       // Set initial AI status
       updateAIStatus();
-      
     } catch (err) {
       console.error('Failed to initialize AI player:', err);
       throw err;
     }
   };
-
   const updateAIStatus = () => {
     if (aiPlayerRef.current && aiPlayerRef.current.getStatus) {
       const status = aiPlayerRef.current.getStatus();
       setAIStatus(status);
     }
   };
-
   const handleAITestingToggle = (enabled) => {
     setAITestingEnabled(enabled);
-    
     if (enabled && aiPlayerRef.current) {
       // Enable advanced AI features
       aiPlayerRef.current.enableTestingMode();
@@ -172,10 +147,8 @@ const EnhancedGamePage = () => {
       // Disable advanced AI features
       aiPlayerRef.current.disableTestingMode();
     }
-    
     updateAIStatus();
   };
-
   const getDefaultDeck = () => {
     // Return a default deck structure
     return {
@@ -186,7 +159,6 @@ const EnhancedGamePage = () => {
       ancientHero: null,
     };
   };
-
   const getAIDeck = () => {
     // Return an AI-optimized deck
     return {
@@ -197,7 +169,6 @@ const EnhancedGamePage = () => {
       ancientHero: null,
     };
   };
-
   // Handle loading state
   if (loading) {
     return (
@@ -210,7 +181,6 @@ const EnhancedGamePage = () => {
         >
           <div className="loading-content">
             <div className="loading-spinner"></div>
-            <h2>Initializing Enhanced Game</h2>
             <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}</p>
             {gameMode.includes('ai') && (
               <div className="ai-loading-status">
@@ -226,7 +196,6 @@ const EnhancedGamePage = () => {
       </div>
     );
   }
-
   // Handle error state
   if (error) {
     return (
@@ -236,7 +205,6 @@ const EnhancedGamePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2>Game Initialization Failed</h2>
           <p>{error}</p>
           <button
             onClick={() => navigate('/')}
@@ -248,7 +216,6 @@ const EnhancedGamePage = () => {
       </div>
     );
   }
-
   return (
     <div className="enhanced-game-page">
       <EnhancedGameBoard
@@ -257,13 +224,11 @@ const EnhancedGamePage = () => {
         onAITestingToggle={handleAITestingToggle}
         aiStatus={aiStatus}
       />
-
       <style jsx>{`
         .enhanced-game-page {
           min-height: 100vh;
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
         }
-
         .enhanced-game-loading,
         .enhanced-game-error {
           min-height: 100vh;
@@ -274,7 +239,6 @@ const EnhancedGamePage = () => {
           color: #e0e0e0;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         .loading-container,
         .error-container {
           text-align: center;
@@ -285,7 +249,6 @@ const EnhancedGamePage = () => {
           border: 2px solid rgba(0, 255, 255, 0.3);
           box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
         }
-
         .loading-spinner {
           width: 60px;
           height: 60px;
@@ -295,29 +258,24 @@ const EnhancedGamePage = () => {
           animation: spin 1s linear infinite;
           margin: 0 auto 20px;
         }
-
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
-
         .loading-content h2 {
           color: #00d4ff;
           margin-bottom: 10px;
           font-size: 24px;
         }
-
         .loading-content p {
           color: #e0e0e0;
           margin-bottom: 20px;
           font-size: 16px;
         }
-
         .ai-loading-status {
           margin-top: 20px;
           text-align: left;
         }
-
         .ai-loading-step {
           background: rgba(138, 43, 226, 0.1);
           border: 1px solid rgba(138, 43, 226, 0.3);
@@ -328,22 +286,18 @@ const EnhancedGamePage = () => {
           font-size: 14px;
           animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
           0%, 100% { opacity: 0.7; }
           50% { opacity: 1; }
         }
-
         .error-container h2 {
           color: #ff4444;
           margin-bottom: 15px;
         }
-
         .error-container p {
           color: #e0e0e0;
           margin-bottom: 20px;
         }
-
         .return-home-button {
           background: #3b82f6;
           color: white;
@@ -354,7 +308,6 @@ const EnhancedGamePage = () => {
           cursor: pointer;
           transition: all 0.3s ease;
         }
-
         .return-home-button:hover {
           background: #2563eb;
           transform: translateY(-2px);
@@ -363,5 +316,4 @@ const EnhancedGamePage = () => {
     </div>
   );
 };
-
 export default EnhancedGamePage;

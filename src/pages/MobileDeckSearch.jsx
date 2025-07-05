@@ -4,25 +4,20 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useDeck } from '../contexts/DeckContext';
-
 const MobileDeckSearch = () => {
   const { publicDecks, loading, error } = useDeck();
   const [filteredDecks, setFilteredDecks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('recent');
   const [showFilters, setShowFilters] = useState(false);
-
   // Filter and sort decks
   useEffect(() => {
     if (!publicDecks) return;
-
     let results = [...publicDecks];
-
     // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -32,7 +27,6 @@ const MobileDeckSearch = () => {
           (deck.description && deck.description.toLowerCase().includes(term)),
       );
     }
-
     // Apply sorting
     switch (sortBy) {
       case 'recent':
@@ -47,21 +41,17 @@ const MobileDeckSearch = () => {
       default:
         break;
     }
-
     setFilteredDecks(results);
   }, [publicDecks, searchTerm, sortBy]);
-
   // Handle search input change
   const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
-
   // Handle sort change
   const handleSortChange = sort => {
     setSortBy(sort);
     setShowFilters(false);
   };
-
   // Loading state
   if (loading) {
     return (
@@ -72,7 +62,6 @@ const MobileDeckSearch = () => {
       </div>
     );
   }
-
   // Error state
   if (error) {
     return (
@@ -83,7 +72,6 @@ const MobileDeckSearch = () => {
       </div>
     );
   }
-
   return (
     <div className="mobile-deck-search">
       {/* Search Bar */}
@@ -100,7 +88,6 @@ const MobileDeckSearch = () => {
             />
           </div>
         </div>
-
         <div className="mobile-form-group mobile-text-center">
           <button
             className="mobile-btn"
@@ -109,7 +96,6 @@ const MobileDeckSearch = () => {
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
-
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt">
@@ -137,19 +123,16 @@ const MobileDeckSearch = () => {
           </div>
         )}
       </div>
-
       {/* Results Count */}
       <div className="mobile-mb">
         <p className="mobile-text-center">{filteredDecks.length} decks found</p>
       </div>
-
       {/* Create Deck Button */}
       <div className="mobile-text-center mobile-mb">
         <Link to="/deck-builder" className="mobile-btn mobile-btn-primary">
           Create New Deck
         </Link>
       </div>
-
       {/* Deck List */}
       <div className="mobile-deck-list">
         {filteredDecks.map(deck => (
@@ -158,7 +141,6 @@ const MobileDeckSearch = () => {
             key={deck.id}
             className="mobile-card mobile-mb"
           >
-            <h3 className="mobile-card-title">{deck.name}</h3>
             <div className="mobile-card-content">
               <p>{deck.description || 'No description'}</p>
             </div>
@@ -171,7 +153,6 @@ const MobileDeckSearch = () => {
           </Link>
         ))}
       </div>
-
       {/* No Results */}
       {filteredDecks.length === 0 && (
         <div className="mobile-card mobile-text-center">
@@ -181,5 +162,4 @@ const MobileDeckSearch = () => {
     </div>
   );
 };
-
 export default MobileDeckSearch;

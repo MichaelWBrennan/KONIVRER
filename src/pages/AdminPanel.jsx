@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import {
   RefreshCw,
@@ -19,7 +18,6 @@ import {
 } from 'lucide-react';
 import cardsService from '../services/cardsService';
 import SetManager from '../components/SetManager';
-
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('database');
   const [connectionStatus, setConnectionStatus] = useState(null);
@@ -32,19 +30,15 @@ const AdminPanel = () => {
     lastSync: null,
     cacheAge: null,
   });
-
   useEffect(() => {
     loadAdminData();
   }, []);
-
   const loadAdminData = async () => {
     // Get cache status
     const cache = cardsService.getCacheStatus();
     setCacheStatus(cache);
-
     // Test connection
     await testConnection();
-
     // Get current cards for stats
     try {
       const cards = await cardsService.getCards();
@@ -58,7 +52,6 @@ const AdminPanel = () => {
       console.error('Error loading cards for stats:', error);
     }
   };
-
   const testConnection = async () => {
     setTesting(true);
     try {
@@ -76,7 +69,6 @@ const AdminPanel = () => {
       setTesting(false);
     }
   };
-
   const handleSync = async () => {
     setSyncing(true);
     try {
@@ -99,13 +91,11 @@ const AdminPanel = () => {
       setSyncing(false);
     }
   };
-
   const clearCache = () => {
     cardsService.clearCache();
     setCacheStatus(cardsService.getCacheStatus());
     addToSyncHistory('cache_clear', 'success', 'Cache cleared successfully');
   };
-
   const addToSyncHistory = (action, status, message) => {
     const entry = {
       id: Date.now(),
@@ -116,19 +106,16 @@ const AdminPanel = () => {
     };
     setSyncHistory(prev => [entry, ...prev.slice(0, 9)]); // Keep last 10 entries
   };
-
   const formatTimestamp = timestamp => {
     if (!timestamp) return 'Never';
     return new Date(timestamp).toLocaleString();
   };
-
   const formatDuration = ms => {
     if (!ms) return 'N/A';
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}m ${seconds}s ago`;
   };
-
   const getStatusIcon = status => {
     switch (status) {
       case 'success':
@@ -139,13 +126,11 @@ const AdminPanel = () => {
         return <AlertCircle className="text-yellow-500" size={16} />;
     }
   };
-
   const tabs = [
     { id: 'database', label: 'Database', icon: Database },
     { id: 'sets', label: 'Set Management', icon: Package },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
-
   return (
     <div className="min-h-screen bg-primary">
       <div className="container py-6">
@@ -154,7 +139,6 @@ const AdminPanel = () => {
             Manage Google Sheets integration, card database, and sets
           </p>
         </div>
-
         {/* Tab Navigation */}
         <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg">
           {tabs.map(tab => {
@@ -175,7 +159,6 @@ const AdminPanel = () => {
             );
           })}
         </div>
-
         {/* Tab Content */}
         {activeTab === 'database' && (
           <div>
@@ -189,7 +172,6 @@ const AdminPanel = () => {
                   ) : (
                     <WifiOff className="text-red-500" size={20} />
                   )}
-                  <h3 className="font-semibold">Connection</h3>
                 </div>
                 <p className="text-sm text-secondary">
                   {connectionStatus?.connected
@@ -202,12 +184,10 @@ const AdminPanel = () => {
                   </p>
                 )}
               </div>
-
               {/* Cache Status */}
               <div className="card">
                 <div className="flex items-center gap-3 mb-2">
                   <Database className="text-blue-500" size={20} />
-                  <h3 className="font-semibold">Cache</h3>
                 </div>
                 <p className="text-sm text-secondary">
                   {cacheStatus?.hasCache
@@ -219,31 +199,25 @@ const AdminPanel = () => {
                   {formatDuration(cacheStatus?.cacheAge)}
                 </p>
               </div>
-
               {/* Last Sync */}
               <div className="card">
                 <div className="flex items-center gap-3 mb-2">
                   <RefreshCw className="text-purple-500" size={20} />
-                  <h3 className="font-semibold">Last Sync</h3>
                 </div>
                 <p className="text-sm text-secondary">
                   {formatTimestamp(stats.lastSync)}
                 </p>
               </div>
-
               {/* Total Cards */}
               <div className="card">
                 <div className="flex items-center gap-3 mb-2">
                   <Settings className="text-orange-500" size={20} />
-                  <h3 className="font-semibold">Total Cards</h3>
                 </div>
                 <p className="text-2xl font-bold">{stats.totalCards}</p>
               </div>
             </div>
-
             {/* Actions */}
             <div className="card mb-6">
-              <h2 className="text-xl font-semibold mb-4">Actions</h2>
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={testConnection}
@@ -253,7 +227,6 @@ const AdminPanel = () => {
                   <Wifi className={testing ? 'animate-pulse' : ''} size={16} />
                   {testing ? 'Testing...' : 'Test Connection'}
                 </button>
-
                 <button
                   onClick={handleSync}
                   disabled={syncing || !connectionStatus?.connected}
@@ -265,22 +238,18 @@ const AdminPanel = () => {
                   />
                   {syncing ? 'Syncing...' : 'Sync from Google Sheets'}
                 </button>
-
                 <button onClick={clearCache} className="btn btn-warning">
                   <Database size={16} />
                   Clear Cache
                 </button>
-
                 <button onClick={loadAdminData} className="btn btn-secondary">
                   <RefreshCw size={16} />
                   Refresh Status
                 </button>
               </div>
             </div>
-
             {/* Sync History */}
             <div className="card">
-              <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
               {syncHistory.length === 0 ? (
                 <p className="text-secondary">No recent activity</p>
               ) : (
@@ -309,13 +278,10 @@ const AdminPanel = () => {
                 </div>
               )}
             </div>
-
             {/* Configuration Help */}
             <div className="card mt-6">
-              <h2 className="text-xl font-semibold mb-4">Configuration</h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium mb-2">Google Sheets Setup</h3>
                   <ol className="list-decimal list-inside space-y-2 text-sm text-secondary">
                     <li>Create a Google Sheets document with your card data</li>
                     <li>
@@ -330,11 +296,7 @@ const AdminPanel = () => {
                     <li>Set the environment variables in your backend</li>
                   </ol>
                 </div>
-
                 <div>
-                  <h3 className="font-medium mb-2">
-                    Expected Spreadsheet Format
-                  </h3>
                   <p className="text-sm text-secondary mb-2">
                     Your spreadsheet should have a sheet named "Cards" with
                     these columns:
@@ -348,12 +310,9 @@ const AdminPanel = () => {
             </div>
           </div>
         )}
-
         {activeTab === 'sets' && <SetManager />}
-
         {activeTab === 'settings' && (
           <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-white mb-4">Settings</h2>
             <p className="text-gray-400">
               Additional settings will be available here.
             </p>
@@ -363,5 +322,4 @@ const AdminPanel = () => {
     </div>
   );
 };
-
 export default AdminPanel;

@@ -5,7 +5,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
@@ -32,27 +31,22 @@ import {
   Upload,
   RefreshCw
 } from 'lucide-react';
-
 const PlayerPortal = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  
   const [activeTab, setActiveTab] = useState('tournaments');
   const [tournaments, setTournaments] = useState([]);
   const [pairings, setPairings] = useState([]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     loadPlayerData();
   }, []);
-
   const loadPlayerData = async () => {
     setLoading(true);
     try {
       // Simulate API calls - replace with actual API calls
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       // Mock data
       setTournaments([
         {
@@ -76,7 +70,6 @@ const PlayerPortal = () => {
           registrationDeadline: '2024-07-06T12:00:00'
         }
       ]);
-
       setPairings([
         {
           id: 1,
@@ -88,7 +81,6 @@ const PlayerPortal = () => {
           timeRemaining: 2400 // 40 minutes in seconds
         }
       ]);
-
       setResults([
         {
           id: 1,
@@ -105,12 +97,10 @@ const PlayerPortal = () => {
       setLoading(false);
     }
   };
-
   const submitResult = async (pairingId, result, score) => {
     try {
       // Simulate API call
       console.log('Submitting result:', { pairingId, result, score });
-      
       // Update local state
       setPairings(prev => prev.map(p => 
         p.id === pairingId 
@@ -121,14 +111,11 @@ const PlayerPortal = () => {
       console.error('Failed to submit result:', error);
     }
   };
-
   const dropFromTournament = async (tournamentId) => {
     if (!confirm('Are you sure you want to drop from this tournament?')) return;
-    
     try {
       // Simulate API call
       console.log('Dropping from tournament:', tournamentId);
-      
       setTournaments(prev => prev.map(t => 
         t.id === tournamentId 
           ? { ...t, status: 'dropped' }
@@ -138,13 +125,11 @@ const PlayerPortal = () => {
       console.error('Failed to drop from tournament:', error);
     }
   };
-
   const formatTimeRemaining = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
-
   const renderTournaments = () => (
     <div className="space-y-4">
       {tournaments.map((tournament) => (
@@ -156,9 +141,6 @@ const PlayerPortal = () => {
         >
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                {tournament.name}
-              </h3>
               <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
@@ -183,7 +165,6 @@ const PlayerPortal = () => {
               {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
             </div>
           </div>
-
           {tournament.status === 'registered' && (
             <div className="bg-gray-50 rounded-lg p-4 mb-4">
               <div className="flex justify-between items-center mb-2">
@@ -202,7 +183,6 @@ const PlayerPortal = () => {
               </div>
             </div>
           )}
-
           <div className="flex gap-2">
             {tournament.status === 'registered' && (
               <>
@@ -221,7 +201,6 @@ const PlayerPortal = () => {
                 </button>
               </>
             )}
-            
             {tournament.status === 'upcoming' && (
               <Link
                 to={`/decklist-submission/${tournament.id}`}
@@ -234,13 +213,9 @@ const PlayerPortal = () => {
           </div>
         </motion.div>
       ))}
-
       {tournaments.length === 0 && !loading && (
         <div className="text-center py-12">
           <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No tournaments found
-          </h3>
           <p className="text-gray-600 mb-4">
             You're not registered for any tournaments yet.
           </p>
@@ -254,7 +229,6 @@ const PlayerPortal = () => {
       )}
     </div>
   );
-
   const renderPairings = () => (
     <div className="space-y-4">
       {pairings.map((pairing) => (
@@ -266,9 +240,6 @@ const PlayerPortal = () => {
         >
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Round {pairing.round}
-              </h3>
               <p className="text-gray-600">
                 vs {pairing.opponent}
               </p>
@@ -276,7 +247,6 @@ const PlayerPortal = () => {
                 Table {pairing.table}
               </p>
             </div>
-            
             {pairing.status === 'active' && (
               <div className="text-right">
                 <div className="text-lg font-mono font-bold text-orange-600">
@@ -288,10 +258,8 @@ const PlayerPortal = () => {
               </div>
             )}
           </div>
-
           {pairing.status === 'active' && (
             <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="font-medium mb-3">Submit Match Result</h4>
               <div className="flex gap-2">
                 <button
                   onClick={() => submitResult(pairing.id, 'win', '2-0')}
@@ -326,7 +294,6 @@ const PlayerPortal = () => {
               </div>
             </div>
           )}
-
           {pairing.status === 'completed' && (
             <div className="flex items-center gap-2 text-green-600">
               <CheckCircle className="h-4 w-4" />
@@ -335,13 +302,9 @@ const PlayerPortal = () => {
           )}
         </motion.div>
       ))}
-
       {pairings.length === 0 && !loading && (
         <div className="text-center py-12">
           <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No active pairings
-          </h3>
           <p className="text-gray-600">
             You don't have any active matches right now.
           </p>
@@ -349,7 +312,6 @@ const PlayerPortal = () => {
       )}
     </div>
   );
-
   const renderResults = () => (
     <div className="space-y-4">
       {results.map((result) => (
@@ -361,9 +323,6 @@ const PlayerPortal = () => {
         >
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Round {result.round}
-              </h3>
               <p className="text-gray-600">
                 vs {result.opponent}
               </p>
@@ -383,13 +342,9 @@ const PlayerPortal = () => {
           </div>
         </motion.div>
       ))}
-
       {results.length === 0 && !loading && (
         <div className="text-center py-12">
           <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No results yet
-          </h3>
           <p className="text-gray-600">
             Your match results will appear here.
           </p>
@@ -397,7 +352,6 @@ const PlayerPortal = () => {
       )}
     </div>
   );
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -408,7 +362,6 @@ const PlayerPortal = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -438,7 +391,6 @@ const PlayerPortal = () => {
           </div>
         </div>
       </div>
-
       {/* Navigation Tabs */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4">
@@ -464,7 +416,6 @@ const PlayerPortal = () => {
           </nav>
         </div>
       </div>
-
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <AnimatePresence mode="wait">
@@ -481,7 +432,6 @@ const PlayerPortal = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-
       {/* Quick Actions */}
       <div className="fixed bottom-6 right-6">
         <div className="flex flex-col gap-2">
@@ -504,5 +454,4 @@ const PlayerPortal = () => {
     </div>
   );
 };
-
 export default PlayerPortal;
