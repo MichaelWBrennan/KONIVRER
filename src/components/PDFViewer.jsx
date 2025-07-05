@@ -41,7 +41,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
 
     checkPdfExists();
 
-  }, [activeTab]);
+  }, [pdfUrl]);
 
 
 
