@@ -311,9 +311,7 @@ const StreamlinedGamePlatform = () => {
       {/* Header */}
       <div className="bg-card border-b border-color">
         <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2">Game Platform</h1>
-            <p className="text-secondary text-lg">
+          <div className="text-center mb-8"><p className="text-secondary text-lg">
               Your complete toolkit for KONIVRER card game mastery
             </p>
           </div>

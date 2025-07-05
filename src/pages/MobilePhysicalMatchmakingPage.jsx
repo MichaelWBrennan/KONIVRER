@@ -81,11 +81,7 @@ const MobilePhysicalMatchmakingPage = () => {
         </div>
       )}
 
-      <div className="mobile-page-header esoteric-page-header">
-        <h1 className="mobile-page-title esoteric-page-title">
-          Physical Matchmaking
-        </h1>
-        <p className="mobile-page-subtitle esoteric-text-muted">
+      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted">
           Organize physical matches and tournaments
         </p>
       </div>

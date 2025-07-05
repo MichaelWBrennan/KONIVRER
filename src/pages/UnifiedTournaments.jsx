@@ -246,9 +246,7 @@ const UnifiedTournaments = () => {
         {/* Unified Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Tournaments & Events</h1>
-              <p className="text-gray-400">
+            <div><p className="text-gray-400">
                 Discover competitive tournaments, community events, and track
                 match analytics
               </p>

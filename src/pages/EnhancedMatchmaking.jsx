@@ -259,11 +259,7 @@ const EnhancedMatchmaking = () => {
     <div className="min-h-screen py-8">
       <div className="container max-w-6xl">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            Enhanced Matchmaking
-          </h1>
-          <p className="text-gray-600 mt-2">
+        <div className="mb-8"><p className="text-gray-600 mt-2">
             Find matches based on skill, confidence, deck archetype, and
             playstyle
           </p>

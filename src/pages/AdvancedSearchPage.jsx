@@ -135,10 +135,7 @@ const AdvancedSearchPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl">
-      <h1 className="text-3xl font-bold text-amber-100 mb-6 text-center">Advanced Search</h1>
-      
-      <div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg">
+    <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl"><div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Card Name */}

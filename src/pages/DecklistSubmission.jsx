@@ -461,11 +461,7 @@ const DecklistSubmission = () => {
               className="text-gray-600 hover:text-gray-800"
             >
               <ArrowLeft className="h-6 w-6" />
-            </button>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Decklist Submission
-            </h1>
-          </div>
+            </button></div>
           {tournamentId && (
             <p className="text-gray-600">
               Submitting decklist for tournament

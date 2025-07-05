@@ -58,7 +58,7 @@ const SingularityControlCenter = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1>🌌 Singularity Control Center</h1>
+
         <div className="activation-status">
           <h2>
             Activation Status:{' '}

@@ -43,9 +43,7 @@ const MobileHome = () => {
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>
         </div>
-        <h1 className="mobile-header-title mobile-mb esoteric-glow-pulse">
-          KONIVRER
-        </h1>
+
         <p className="esoteric-rune">Trading Card Game</p>
         <div className="esoteric-divider">
           <span className="esoteric-divider-symbol">✧</span>

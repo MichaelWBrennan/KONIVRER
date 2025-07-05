@@ -103,11 +103,7 @@ const CardArtShowcase = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"
-        >
-          <h1 className="text-4xl font-bold text-white mb-2">
-            KONIVRER Card Art Showcase
-          </h1>
-          <p className="text-gray-300 mb-4">
+        ><p className="text-gray-300 mb-4">
             Explore the complete collection of {allCards.length} card arts for
             the KONIVRER deck database.
           </p>

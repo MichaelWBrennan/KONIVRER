@@ -209,11 +209,7 @@ const BattlePass = () => {
           className="text-center mb-8"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Sparkles className="w-8 h-8 text-yellow-400" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
-              Battle Pass
-            </h1>
-            <Sparkles className="w-8 h-8 text-yellow-400" />
+            <Sparkles className="w-8 h-8 text-yellow-400" /><Sparkles className="w-8 h-8 text-yellow-400" />
           </div>
           <p className="text-xl text-gray-300 mb-2">
             Season {battlePassData.seasonNumber}: {battlePassData.season}

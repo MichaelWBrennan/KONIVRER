@@ -118,13 +118,7 @@ const IndustryLeadingFeaturesPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="flex items-center justify-center mb-6">
-            <Crown className="w-12 h-12 text-yellow-400 mr-4" />
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 bg-clip-text text-transparent">
-              Industry-Leading Features
-            </h1>
-            <Crown className="w-12 h-12 text-yellow-400 ml-4" />
-          </div>
+
 
           <p className="text-xl text-gray-300 mb-6 max-w-4xl mx-auto">
             Experience the most advanced TCG platform ever created. All premium
