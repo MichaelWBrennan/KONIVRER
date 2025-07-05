@@ -8,9 +8,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useUnified } from '../contexts/UnifiedContext';
+import { useMessaging } from '../contexts/MessagingContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import NotificationCenter from './notifications/NotificationCenter';
+import UnifiedMessaging from './unified/UnifiedMessaging';
+import UnifiedSearch from './unified/UnifiedSearch';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
 import '../styles/mobile-first.css';
@@ -132,6 +136,14 @@ const MobileFirstLayout = ({ children }) => {
         </div>
 
         <div className="mobile-header-actions">
+          {/* Unified Search */}
+          <div className="mobile-header-search">
+            <UnifiedSearch compact={true} />
+          </div>
+          
+          {/* Messaging */}
+          {isAuthenticated && <UnifiedMessaging compact={true} />}
+          
           {/* Notification Center */}
           {isAuthenticated && <NotificationCenter />}
 
