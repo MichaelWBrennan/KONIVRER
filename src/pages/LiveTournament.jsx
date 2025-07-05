@@ -47,6 +47,8 @@ import {
 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
+import TournamentNotifications from '../components/notifications/TournamentNotifications';
 import {
   WebSocketManager,
   announceToScreenReader,
@@ -336,6 +338,11 @@ const LiveTournament = () => {
             </div>
           </div>
         </div>
+      </div>
+      
+      {/* Tournament Notifications */}
+      <div className="container py-4">
+        <TournamentNotifications tournamentId={tournamentId} />
       </div>
       <div className="container py-6">
         <div className="grid lg:grid-cols-4 gap-6">

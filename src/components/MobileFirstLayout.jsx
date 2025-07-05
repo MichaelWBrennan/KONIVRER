@@ -10,6 +10,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
+import NotificationCenter from './notifications/NotificationCenter';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
 import '../styles/mobile-first.css';
@@ -130,22 +131,27 @@ const MobileFirstLayout = ({ children }) => {
           {getPageTitle()}
         </div>
 
-        {/* User Profile / Login Button */}
-        {isAuthenticated ? (
-          <button
-            onClick={() => navigate('/profile')}
-            className="mobile-btn esoteric-btn"
-          >
-            {user.displayName?.charAt(0) || '⦿'}
-          </button>
-        ) : (
-          <button
-            onClick={() => setShowAuthModal(true)}
-            className="mobile-btn mobile-btn-primary esoteric-btn esoteric-btn-primary"
-          >
-            Login
-          </button>
-        )}
+        <div className="mobile-header-actions">
+          {/* Notification Center */}
+          {isAuthenticated && <NotificationCenter />}
+
+          {/* User Profile / Login Button */}
+          {isAuthenticated ? (
+            <button
+              onClick={() => navigate('/profile')}
+              className="mobile-btn esoteric-btn"
+            >
+              {user.displayName?.charAt(0) || '⦿'}
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className="mobile-btn mobile-btn-primary esoteric-btn esoteric-btn-primary"
+            >
+              Login
+            </button>
+          )}
+        </div>
       </header>
 
       {/* Main Content */}

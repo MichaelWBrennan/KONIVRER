@@ -217,14 +217,30 @@ async function syncDeckSaves() {
 self.addEventListener('push', event => {
   console.log('Push notification received');
 
+  let notificationData;
+  
+  try {
+    notificationData = event.data ? event.data.json() : {};
+  } catch (e) {
+    notificationData = {
+      title: 'KONIVRER',
+      message: event.data ? event.data.text() : 'You have new activity in KONIVRER!'
+    };
+  }
+  
+  // Default notification options
   const options = {
-    body: 'You have new activity in KONIVRER!',
-    icon: '/icon-192x192.png',
-    badge: '/badge-72x72.png',
+    body: notificationData.message || 'You have new activity in KONIVRER!',
+    icon: notificationData.icon || '/icon-192x192.png',
+    badge: notificationData.badge || '/badge-72x72.png',
     vibrate: [200, 100, 200],
     data: {
-      url: '/',
+      url: notificationData.url || '/',
+      ...notificationData
     },
+    tag: notificationData.tag || 'konivrer-notification',
+    renotify: notificationData.renotify || false,
+    requireInteraction: notificationData.requireInteraction || true,
     actions: [
       {
         action: 'open',
@@ -239,13 +255,51 @@ self.addEventListener('push', event => {
     ],
   };
 
-  if (event.data) {
-    const data = event.data.json();
-    options.body = data.message || options.body;
-    options.data = data;
+  // Add specific actions based on notification type
+  if (notificationData.type === 'tournament') {
+    options.actions = [
+      {
+        action: 'view-tournament',
+        title: 'View Tournament',
+        icon: '/tournament-icon.png',
+      },
+      {
+        action: 'close',
+        title: 'Close',
+        icon: '/icon-192x192.png',
+      },
+    ];
+  } else if (notificationData.type === 'message') {
+    options.actions = [
+      {
+        action: 'view-message',
+        title: 'Read Message',
+        icon: '/message-icon.png',
+      },
+      {
+        action: 'close',
+        title: 'Close',
+        icon: '/icon-192x192.png',
+      },
+    ];
+  } else if (notificationData.type === 'match') {
+    options.actions = [
+      {
+        action: 'join-match',
+        title: 'Join Match',
+        icon: '/match-icon.png',
+      },
+      {
+        action: 'close',
+        title: 'Close',
+        icon: '/icon-192x192.png',
+      },
+    ];
   }
 
-  event.waitUntil(self.registration.showNotification('KONIVRER', options));
+  const title = notificationData.title || 'KONIVRER';
+  
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
 // Handle notification clicks
@@ -253,26 +307,37 @@ self.addEventListener('notificationclick', event => {
   console.log('Notification clicked:', event.action);
 
   event.notification.close();
+  
+  const data = event.notification.data || {};
+  let url = data.url || '/';
 
-  if (event.action === 'open' || !event.action) {
-    const url = event.notification.data?.url || '/';
-
-    event.waitUntil(
-      clients.matchAll({ type: 'window' }).then(clientList => {
-        // Check if app is already open
-        for (const client of clientList) {
-          if (client.url.includes(url) && 'focus' in client) {
-            return client.focus();
-          }
-        }
-
-        // Open new window if app is not open
-        if (clients.openWindow) {
-          return clients.openWindow(url);
-        }
-      }),
-    );
+  // Handle specific actions
+  if (event.action === 'view-tournament') {
+    url = data.tournamentId ? `/tournaments/${data.tournamentId}/live` : '/tournaments';
+  } else if (event.action === 'view-message') {
+    url = data.messageId ? `/messages/${data.messageId}` : '/messages';
+  } else if (event.action === 'join-match') {
+    url = data.matchId ? `/game/pvp/${data.matchId}` : '/matchmaking';
+  } else if (event.action === 'close') {
+    return; // Just close the notification without opening the app
   }
+
+  // If action is 'open' or no action (clicked on notification body)
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(clientList => {
+      // Check if app is already open
+      for (const client of clientList) {
+        if (client.url.includes(url) && 'focus' in client) {
+          return client.focus();
+        }
+      }
+
+      // Open new window if app is not open
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    }),
+  );
 });
 
 // IndexedDB helpers for offline storage
