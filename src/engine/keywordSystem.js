@@ -27,14 +27,14 @@ export const KEYWORD_SYMBOLS = {
   [KEYWORDS.VOID]: '◯'
 };
 
-// Keyword descriptions
+// Keyword descriptions - using alchemical symbols for classic elements
 export const KEYWORD_DESCRIPTIONS = {
   [KEYWORDS.AMALGAM]: 'Choose keyword and element when played, or element when used as Azoth',
   [KEYWORDS.BRILLIANCE]: 'Place target Familiar with +1 Counters or Spell with Strength ≤ ○ on bottom of life cards',
-  [KEYWORDS.GUST]: 'Return target Familiar with +1 Counters or Spell with Strength ≤ △ to owner\'s hand',
-  [KEYWORDS.INFERNO]: 'After damage is dealt to target card, add damage ≤ △ used to pay for this card\'s Strength',
-  [KEYWORDS.STEADFAST]: 'Redirect damage ≤ ⊡ used to pay for this card\'s Strength to this card\'s Strength',
-  [KEYWORDS.SUBMERGED]: 'Place target Familiar with +1 Counters or Spell with Strength ≤ ▽ below top of owner\'s deck',
+  [KEYWORDS.GUST]: 'Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 to owner\'s hand',
+  [KEYWORDS.INFERNO]: 'After damage is dealt to target card, add damage ≤ 🜂 used to pay for this card\'s Strength',
+  [KEYWORDS.STEADFAST]: 'Redirect damage ≤ 🜃 used to pay for this card\'s Strength to this card\'s Strength',
+  [KEYWORDS.SUBMERGED]: 'Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 below top of owner\'s deck',
   [KEYWORDS.QUINTESSENCE]: 'This card can\'t be played as a Familiar. While in Azoth row, produces any Azoth type',
   [KEYWORDS.VOID]: 'Remove target card from the game'
 };
@@ -163,7 +163,7 @@ function applyBrillianceEffect(gameState, playerId, card) {
  * @returns {Object} Updated game state
  */
 function applyGustEffect(gameState, playerId, card) {
-  // Gust: Return target Familiar with +1 Counters or Spell with Strength ≤ △ to owner's hand
+  // Gust: Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 to owner's hand
   const fireUsed = getElementUsedForCard(gameState, playerId, card, 'fire');
   
   gameState.waitingForInput = true;
@@ -186,7 +186,7 @@ function applyGustEffect(gameState, playerId, card) {
  * @returns {Object} Updated game state
  */
 function applyInfernoEffect(gameState, playerId, card) {
-  // Inferno: After damage is dealt to target card, add damage ≤ △ used to pay for this card's Strength
+  // Inferno: After damage is dealt to target card, add damage ≤ 🜂 used to pay for this card's Strength
   const fireUsed = getElementUsedForCard(gameState, playerId, card, 'fire');
   
   // This is a triggered ability that activates after damage is dealt
@@ -207,7 +207,7 @@ function applyInfernoEffect(gameState, playerId, card) {
  * @returns {Object} Updated game state
  */
 function applySteadfastEffect(gameState, playerId, card) {
-  // Steadfast: Redirect damage ≤ ⊡ used to pay for this card's Strength to this card's Strength
+  // Steadfast: Redirect damage ≤ 🜃 used to pay for this card's Strength to this card's Strength
   const earthUsed = getElementUsedForCard(gameState, playerId, card, 'earth');
   
   // This is a replacement effect that redirects damage
@@ -228,7 +228,7 @@ function applySteadfastEffect(gameState, playerId, card) {
  * @returns {Object} Updated game state
  */
 function applySubmergedEffect(gameState, playerId, card) {
-  // Submerged: Place target Familiar with +1 Counters or Spell with Strength ≤ ▽ below top of owner's deck
+  // Submerged: Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 below top of owner's deck
   const waterUsed = getElementUsedForCard(gameState, playerId, card, 'water');
   
   gameState.waitingForInput = true;
@@ -444,7 +444,7 @@ function getGustValidTargets(gameState, maxStrength) {
     player.field.forEach(card => {
       if ((card.type === 'Familiar' && card.counters > 0) || 
           (card.type === 'Spell' && card.strength <= maxStrength)) {
-        // Don't affect Water (▽) cards
+        // Don't affect Water (🜄) cards
         if (!card.elements || !card.elements.water) {
           validTargets.push({ card, playerIndex, zone: 'field' });
         }
@@ -469,7 +469,7 @@ function getSubmergedValidTargets(gameState, maxStrength) {
     player.field.forEach(card => {
       if ((card.type === 'Familiar' && card.counters > 0) || 
           (card.type === 'Spell' && card.strength <= maxStrength)) {
-        // Don't affect Fire (△) cards
+        // Don't affect Fire (🜂) cards
         if (!card.elements || !card.elements.fire) {
           validTargets.push({ card, playerIndex, zone: 'field' });
         }

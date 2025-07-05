@@ -399,14 +399,14 @@ const KonivrERDemo = () => {
                 <div>
                   <h4 className="text-lg font-semibold text-green-400 mb-2">Elemental System</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
-                    <li>• Fire (△) - Aggressive, direct damage</li>
-                    <li>• Water (▽) - Flow, healing, flexibility</li>
-                    <li>• Earth (⊡) - Stability, defense</li>
-                    <li>• Air (△) - Speed, evasion</li>
+                    <li>• Fire (🜂) - Aggressive, direct damage</li>
+                    <li>• Water (🜄) - Flow, healing, flexibility</li>
+                    <li>• Earth (🜃) - Stability, defense</li>
+                    <li>• Air (🜁) - Speed, evasion</li>
                     <li>• Quintessence (○) - Transformation, power</li>
                     <li>• Void (□) - Darkness, removal</li>
                     <li>• Brilliance (☉) - Light, enhancement</li>
-                    <li>• Submerged (▽) - Deep water, hidden</li>
+                    <li>• Submerged (🜄) - Deep water, hidden</li>
                   </ul>
                 </div>
 
