@@ -7,13 +7,15 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 12000",
     "build": "vite build",
+    "build:optimized": "vite build --mode production",
     "preview": "vite preview --host 0.0.0.0 --port 12001",
+    "preview:optimized": "vite preview --host 0.0.0.0 --port 12001",
     "start": "vite --host 0.0.0.0 --port 12000",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "test:ui": "vitest --ui",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext js,jsx --fix",
+    "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext js,jsx,ts,tsx --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
@@ -26,8 +28,8 @@
     "security:full": "npm run security:audit && npm run security:check",
     "quality:check": "bash scripts/quality-check.sh",
     "performance:optimize": "node scripts/optimize-performance.js",
-    "build:analyze": "npm run build && node scripts/analyze-bundle.js",
-    "bundle:analyze": "node scripts/analyze-bundle.js",
+    "build:analyze": "vite build --mode production && open dist/stats.html",
+    "bundle:analyze": "vite build --mode production && open dist/stats.html",
     "optimize": "npm run lint:fix && npm run format && npm run build:analyze",
     "clean:cache": "rm -rf dist node_modules/.cache",
     "clean:install": "rm -rf node_modules package-lock.json && npm install",
@@ -61,7 +63,12 @@
     "ai:test": "node scripts/ai-test.js",
     "ai:demo": "node scripts/ai-integration-demo.js demo",
     "ai:examples": "node scripts/ai-integration-demo.js examples",
-    "ai:integrate": "node scripts/integrate-ai-recorder.js"
+    "ai:integrate": "node scripts/integrate-ai-recorder.js",
+    "migrate:ts": "node scripts/migrate-to-typescript.js",
+    "migrate:ts:dry": "node scripts/migrate-to-typescript.js --dry-run",
+    "migrate:ts:interactive": "node scripts/migrate-to-typescript.js --interactive",
+    "optimize:build": "node scripts/optimize-build.js",
+    "optimize:all": "npm run migrate:ts && npm run optimize:build && npm run build:optimized"
   },
   "keywords": [
     "konivrer",
@@ -74,6 +81,11 @@
   "author": "KONIVRER Team",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "@vitejs/plugin-react": "^4.6.0",
     "audit-ci": "^7.1.0",
     "autoprefixer": "^10.4.16",
@@ -86,7 +98,11 @@
     "license-checker": "^25.0.1",
     "npm-check-updates": "^18.0.1",
     "postcss": "^8.4.32",
-    "tailwindcss": "^4.1.10"
+    "rollup-plugin-visualizer": "^5.12.0",
+    "tailwindcss": "^4.1.10",
+    "typescript": "^5.4.5",
+    "vite-imagetools": "^6.2.9",
+    "vite-plugin-compression": "^0.5.1"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
