@@ -270,11 +270,9 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
   ];
 
   const ExampleCard = ({ example }) => (
-    <div className="bg-white/5 rounded-lg p-3 border border-white/10 hover:border-white/20 transition-colors">
-      <div className="flex items-center justify-between mb-2">
-        <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">
-          {example.syntax}
-        </code>
+    <div className="bg-white/5 rounded-lg p-4 border border-white/10 hover:border-white/20 transition-colors">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-purple-300 font-semibold">Syntax and Variations</h4>
         <button
           onClick={() => copyExample(example.syntax)}
           className="p-1 hover:bg-white/10 rounded transition-colors"
@@ -287,12 +285,20 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
           )}
         </button>
       </div>
-      <p className="text-gray-300 text-sm mb-2">{example.description}</p>
+      <div className="mb-3">
+        {example.syntax.split(' | ').map((variant, index) => (
+          <code key={index} className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2 mb-1 inline-block">
+            {variant}
+          </code>
+        ))}
+      </div>
+      <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
+      <p className="text-gray-300 text-sm mb-3">{example.description}</p>
       {example.viableWords && (
-        <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-          <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-          <code className="text-blue-200 text-xs">{example.viableWords}</code>
-        </div>
+        <>
+          <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
+          <p className="text-blue-200 text-sm">{example.viableWords}</p>
+        </>
       )}
     </div>
   );
@@ -404,83 +410,35 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       {/* Quick Reference */}
       <div className="p-6 border-b border-white/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
         <h3 className="text-lg font-semibold text-white mb-3">Quick Reference</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">
-                t:familiar | type:familiar
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by card types</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">familiar, spell, artifact, elemental, legendary, token</code>
-            </div>
+        <div className="space-y-3">
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
+            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2">t:familiar</code>
+            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">type:familiar</code>
+            <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
+            <p className="text-gray-300 text-sm">Search for cards by their type</p>
+            <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
+            <p className="text-blue-200 text-sm">familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery</p>
           </div>
           
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded">
-                e:fire | element:fire
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by mana cost elements</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">fire, water, earth, air, aether, nether, generic</code>
-            </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h4 className="text-orange-300 font-semibold mb-2">Syntax and Variations</h4>
+            <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded mr-2">e:fire</code>
+            <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded">element:fire</code>
+            <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
+            <p className="text-gray-300 text-sm">Search for cards by their mana cost elements (resources needed to cast)</p>
+            <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
+            <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, generic</p>
           </div>
           
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-blue-300 font-mono text-sm bg-blue-500/20 px-2 py-1 rounded">
-                k:brilliance | keyword:brilliance
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by keyword abilities</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">brilliance, void, gust, submerged, inferno, steadfast</code>
-            </div>
-          </div>
-          
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-green-300 font-mono text-sm bg-green-500/20 px-2 py-1 rounded">
-                cmc:3 | mv:3 | cost:3
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by mana cost</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">Any number (0, 1, 2, 3, 4, 5+)</code>
-            </div>
-          </div>
-          
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-yellow-300 font-mono text-sm bg-yellow-500/20 px-2 py-1 rounded">
-                pow:3 | power:3 | p:3
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by power/toughness</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">Any number (0, 1, 2, 3, 4, 5+) or *</code>
-            </div>
-          </div>
-          
-          <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <div className="flex items-center justify-between mb-2">
-              <code className="text-pink-300 font-mono text-sm bg-pink-500/20 px-2 py-1 rounded">
-                r:rare | rarity:rare
-              </code>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">Search by rarity</p>
-            <div className="bg-blue-500/10 rounded p-2 border border-blue-500/20">
-              <p className="text-blue-300 text-xs font-semibold mb-1">Viable Words:</p>
-              <code className="text-blue-200 text-xs">common, uncommon, rare, mythic, legendary</code>
-            </div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+            <h4 className="text-blue-300 font-semibold mb-2">Syntax and Variations</h4>
+            <code className="text-blue-300 font-mono text-sm bg-blue-500/20 px-2 py-1 rounded mr-2">k:brilliance</code>
+            <code className="text-blue-300 font-mono text-sm bg-blue-500/20 px-2 py-1 rounded">keyword:brilliance</code>
+            <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
+            <p className="text-gray-300 text-sm">Search for cards by their keyword abilities (special powers)</p>
+            <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
+            <p className="text-blue-200 text-sm">brilliance, void, gust, submerged, inferno, steadfast</p>
           </div>
         </div>
       </div>
