@@ -1,13 +1,14 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Script to remove copyrighted terms from the KONIVRER codebase
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const replacements = [
+const replacements: Array<{ from: RegExp; to: string }> = [
   // Remove Scryfall references
   { from: /scryfall\.com\/docs\/syntax/g, to: '#/syntax-guide' },
   { from: /Scryfall Syntax/g, to: 'KONIVRER Syntax' },
@@ -28,7 +29,7 @@ const replacements = [
   { from: /adapted for KONIVRER/g, to: 'designed for KONIVRER' }
 ];
 
-function processFile(filePath) {
+function processFile(filePath: string): void {
   try {
     let content = fs.readFileSync(filePath, 'utf8');
     let modified = false;
@@ -49,7 +50,7 @@ function processFile(filePath) {
   }
 }
 
-function processDirectory(dirPath) {
+function processDirectory(dirPath: string): void {
   const items = fs.readdirSync(dirPath);
   
   items.forEach(item => {
@@ -65,6 +66,8 @@ function processDirectory(dirPath) {
 }
 
 // Process the src directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const srcPath = path.join(__dirname, '..', 'src');
 console.log('Removing copyrighted terms from codebase...');
 processDirectory(srcPath);

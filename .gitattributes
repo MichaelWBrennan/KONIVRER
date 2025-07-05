@@ -8,9 +8,15 @@
 node_modules/* linguist-vendored
 dist/* linguist-generated
 public/sw.js linguist-vendored
+public/pdfjs/* linguist-vendored
 *.min.js linguist-generated
 *.bundle.js linguist-generated
 package-lock.json linguist-generated
+
+# Exclude PDF.js and other vendor files
+public/pdfjs/**/* linguist-vendored
+*.ftl linguist-vendored
+*.fluent linguist-vendored
 
 # Force TypeScript detection for all source files
 src/**/* linguist-language=TypeScript
@@ -27,3 +33,22 @@ scripts/**/* linguist-language=TypeScript
 *.png linguist-vendored
 *.jpg linguist-vendored
 *.svg linguist-vendored
+*.ico linguist-vendored
+*.woff linguist-vendored
+*.woff2 linguist-vendored
+*.ttf linguist-vendored
+*.eot linguist-vendored
+
+# Exclude configuration and build files
+*.lock linguist-generated
+*.log linguist-generated
+.env* linguist-data
+*.config.js linguist-vendored
+*.config.cjs linguist-vendored
+.eslintrc.cjs linguist-vendored
+
+# Force all remaining files to be TypeScript
+**/*.js linguist-language=TypeScript linguist-detectable=false
+**/*.jsx linguist-language=TypeScript linguist-detectable=false
+**/*.ts linguist-language=TypeScript
+**/*.tsx linguist-language=TypeScript
