@@ -124,30 +124,7 @@ const PlayerProfile = () => {
           currentParticipants: 28,
           description: 'Competitive Standard tournament with Top 8 playoff!'
         },
-        {
-          id: 3,
-          name: 'Regional Championship Qualifier',
-          date: '2025-06-28',
-          time: '10:00',
-          venue: 'Convention Center',
-          address: '789 Convention Blvd, San Francisco, CA',
-          status: 'completed',
-          finalPlacement: 3,
-          totalParticipants: 64,
-          record: '5-1-1',
-          prizeWon: '$150',
-          format: 'Standard',
-          entryFee: '$30',
-          prizePool: '$1920',
-          organizer: 'Regional Events',
-          decklistRequired: true,
-          decklistSubmitted: true,
-          bracketType: 'Swiss + Top 8',
-          timeControl: '50 minutes + 5 turns',
-          isStreamed: true,
-          streamUrl: 'https://twitch.tv/regionalevents',
-          description: 'Qualifier for the Regional Championship with significant prizes!'
-        }
+
       ]);
       
       // Mock notifications
@@ -170,15 +147,7 @@ const PlayerProfile = () => {
           eventId: 2,
           read: false
         },
-        {
-          id: 3,
-          type: 'result',
-          title: 'Tournament Result Posted',
-          message: 'Final standings for Regional Championship Qualifier are now available.',
-          timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
-          eventId: 3,
-          read: true
-        }
+
       ]);
       
       setPairings([

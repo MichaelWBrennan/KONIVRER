@@ -729,76 +729,9 @@ const EnhancedProfile = () => {
   );
 
   const renderTournaments = () => {
-    // Mock tournament data based on user's registered tournaments
-    const registeredTournaments = [
-      {
-        id: 1,
-        name: 'KONIVRER World Championship 2024',
-        date: '2024-07-15',
-        time: '10:00 AM',
-        location: 'Los Angeles Convention Center',
-        status: 'Registration Open',
-        currentPlacement: null,
-        currentOpponent: null,
-        currentMatch: null,
-        prizePool: '$50,000',
-        participants: 512,
-        maxParticipants: 512,
-      },
-      {
-        id: 2,
-        name: 'Regional Championship - East Coast',
-        date: '2024-06-20',
-        time: '9:00 AM',
-        location: 'New York Gaming Center',
-        status: 'In Progress',
-        currentPlacement: 15,
-        currentOpponent: 'Sarah Johnson',
-        currentMatch: {
-          round: 5,
-          table: 1,
-          status: 'In Progress',
-          playerRecord: '4-0',
-          opponentRecord: '4-0',
-        },
-        prizePool: '$15,000',
-        participants: 256,
-        maxParticipants: 256,
-      },
-    ];
-
-    const tournamentHistory = [
-      {
-        id: 3,
-        name: 'Spring Championship 2024',
-        date: '2024-04-15',
-        placement: 8,
-        totalParticipants: 128,
-        record: '6-2',
-        prize: '$500',
-        deck: 'Aggro Red',
-      },
-      {
-        id: 4,
-        name: 'Local Store Championship',
-        date: '2024-03-20',
-        placement: 1,
-        totalParticipants: 32,
-        record: '5-0',
-        prize: '$200 + Playmat',
-        deck: 'Control Blue',
-      },
-      {
-        id: 5,
-        name: 'Weekly Tournament #15',
-        date: '2024-03-10',
-        placement: 4,
-        totalParticipants: 16,
-        record: '3-2',
-        prize: 'Booster Packs',
-        deck: 'Midrange Green',
-      },
-    ];
+    // Load tournament data from actual data source when available
+    const registeredTournaments = [];
+    const tournamentHistory = [];
 
     const handleSubmitResult = (matchId, result) => {
       console.log(`Result submitted for match ${matchId}: ${result}`);
