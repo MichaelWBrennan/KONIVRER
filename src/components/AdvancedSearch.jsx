@@ -37,10 +37,11 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
     allowPartialTypes: true,
     selectedTypes: [],
 
-    // Colors & Identity
-    colors: [],
-    colorComparison: 'including', // including, exactly, at-most
-    colorIdentity: [],
+    // Elements & Keywords
+    elements: [],
+    elementComparison: 'including', // including, exactly, at-most
+    keywords: [],
+    keywordComparison: 'including', // including, exactly, at-most
 
     // Mana & Stats
     manaCost: '',
@@ -76,15 +77,25 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
     'Planeswalker',
   ];
 
+  // KONIVRER Elements (for costs and Azoth generation)
   const elements = [
-    { name: 'Generic', symbol: '✡︎⃝', color: 'text-gray-400' },
-    { name: 'Brilliance', symbol: '⬢', color: 'text-yellow-400' },
-    { name: 'Gust', symbol: '🜁', color: 'text-blue-400' },
-    { name: 'Inferno', symbol: '🜂', color: 'text-red-400' },
-    { name: 'Steadfast', symbol: '🜃', color: 'text-green-400' },
-    { name: 'Submerged', symbol: '🜄', color: 'text-cyan-400' },
-    { name: 'Void', symbol: '▢', color: 'text-purple-400' },
-    { name: 'Quintessence', symbol: '✦', color: 'text-pink-400' },
+    { name: 'Fire', symbol: '△', color: 'text-red-400' },
+    { name: 'Water', symbol: '▽', color: 'text-blue-400' },
+    { name: 'Earth', symbol: '⊡', color: 'text-green-400' },
+    { name: 'Air', symbol: '△', color: 'text-cyan-400' },
+    { name: 'Aether', symbol: '○', color: 'text-purple-400' },
+    { name: 'Nether', symbol: '□', color: 'text-gray-600' },
+    { name: 'Generic', symbol: '⊗', color: 'text-gray-400' },
+  ];
+
+  // KONIVRER Keywords (special abilities, separate from elements)
+  const keywords = [
+    { name: 'Brilliance', symbol: '✦', color: 'text-yellow-400' },
+    { name: 'Void', symbol: '◯', color: 'text-purple-400' },
+    { name: 'Gust', symbol: '≋', color: 'text-blue-400' },
+    { name: 'Submerged', symbol: '≈', color: 'text-cyan-400' },
+    { name: 'Inferno', symbol: '※', color: 'text-red-400' },
+    { name: 'Steadfast', symbol: '⬢', color: 'text-green-400' },
   ];
 
   const rarities = ['Common', 'Uncommon', 'Rare', 'Mythic', 'Legendary'];

@@ -108,35 +108,35 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       id: 'elements',
       title: 'Element Searches',
       icon: Palette,
-      description: 'Search by KONIVRER elements and mana costs',
+      description: 'Search by KONIVRER elements (resource costs)',
       examples: [
         {
-          syntax: 'e:brilliance',
-          description: 'Find cards with Brilliance element (⬢)',
+          syntax: 'e:fire',
+          description: 'Find cards with Fire element (△)',
         },
         {
-          syntax: 'e:gust',
-          description: 'Find cards with Gust element (🜁)',
+          syntax: 'e:water',
+          description: 'Find cards with Water element (▽)',
         },
         {
-          syntax: 'e:inferno',
-          description: 'Find cards with Inferno element (🜂)',
+          syntax: 'e:earth',
+          description: 'Find cards with Earth element (⊡)',
         },
         {
-          syntax: 'e:steadfast',
-          description: 'Find cards with Steadfast element (🜃)',
+          syntax: 'e:air',
+          description: 'Find cards with Air element (△)',
         },
         {
-          syntax: 'e:submerged',
-          description: 'Find cards with Submerged element (🜄)',
+          syntax: 'e:aether',
+          description: 'Find cards with Aether element (○)',
         },
         {
-          syntax: 'e:void',
-          description: 'Find cards with Void element (▢)',
+          syntax: 'e:nether',
+          description: 'Find cards with Nether element (□)',
         },
         {
-          syntax: 'e:quintessence',
-          description: 'Find cards with Quintessence element (✦)',
+          syntax: 'e:generic',
+          description: 'Find cards with Generic element (⊗)',
         },
         {
           syntax: 'e&gt;=2',
@@ -145,9 +145,45 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       ],
     },
     {
+      id: 'keywords',
+      title: 'Keyword Searches',
+      icon: Zap,
+      description: 'Search by KONIVRER keywords (special abilities)',
+      examples: [
+        {
+          syntax: 'k:brilliance',
+          description: 'Find cards with Brilliance keyword (✦)',
+        },
+        {
+          syntax: 'k:void',
+          description: 'Find cards with Void keyword (◯)',
+        },
+        {
+          syntax: 'k:gust',
+          description: 'Find cards with Gust keyword (≋)',
+        },
+        {
+          syntax: 'k:submerged',
+          description: 'Find cards with Submerged keyword (≈)',
+        },
+        {
+          syntax: 'k:inferno',
+          description: 'Find cards with Inferno keyword (※)',
+        },
+        {
+          syntax: 'k:steadfast',
+          description: 'Find cards with Steadfast keyword (⬢)',
+        },
+        {
+          syntax: 'k&gt;=2',
+          description: 'Find cards with 2 or more keywords',
+        },
+      ],
+    },
+    {
       id: 'mana',
       title: 'Mana Cost Searches',
-      icon: Zap,
+      icon: DollarSign,
       description: 'Search by mana costs and converted mana cost',
       examples: [
         {
@@ -267,7 +303,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Complex search operators and combinations',
       examples: [
         {
-          syntax: '(t:familiar OR t:spell) e:brilliance',
+          syntax: '(t:familiar OR t:spell) k:brilliance',
           description: 'Combine searches with parentheses',
         },
         {
@@ -444,8 +480,8 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
             <p className="text-gray-400 text-xs mt-1">Card Types</p>
           </div>
           <div className="text-center">
-            <code className="text-blue-300 font-mono text-sm">e:brilliance</code>
-            <p className="text-gray-400 text-xs mt-1">Elements</p>
+            <code className="text-blue-300 font-mono text-sm">k:brilliance</code>
+            <p className="text-gray-400 text-xs mt-1">Keywords</p>
           </div>
           <div className="text-center">
             <code className="text-green-300 font-mono text-sm">cmc:3</code>
@@ -474,8 +510,8 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
               Pro Tips
             </h4>
             <ul className="text-gray-300 text-sm space-y-1">
-              <li>• Combine multiple criteria: <code className="text-purple-300">t:familiar e:brilliance cmc:3</code></li>
-              <li>• Use parentheses for complex logic: <code className="text-purple-300">(t:spell OR t:artifact) e:void</code></li>
+              <li>• Combine multiple criteria: <code className="text-purple-300">t:familiar k:brilliance cmc:3</code></li>
+              <li>• Use parentheses for complex logic: <code className="text-purple-300">(t:spell OR t:artifact) k:void</code></li>
               <li>• Exclude with minus: <code className="text-purple-300">dragon -t:token</code></li>
               <li>• Use quotes for exact phrases: <code className="text-purple-300">"enters the battlefield"</code></li>
             </ul>
