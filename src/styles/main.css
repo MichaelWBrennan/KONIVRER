@@ -6,6 +6,8 @@
 @import './utilities.css';
 @import './button-size-adjustments.css';
 @import './pdf-viewer.css';
+@import './notification-banner.css';
+@import './notification-test.css';
 
 /* Global app styles */
 * {
