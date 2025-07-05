@@ -22,7 +22,7 @@ const getBackendUrl = () => {
 
   // Environment-specific URLs
   if (mode === 'development') {
-    return import.meta.env.VITE_BACKEND_URL_DEV || 'http://localhost:5000';
+    return import.meta.env.VITE_BACKEND_URL_DEV || 'http://localhost:3000';
   }
 
   if (mode === 'staging' || mode === 'preview') {
