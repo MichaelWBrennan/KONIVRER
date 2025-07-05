@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
@@ -26,7 +25,6 @@ import {
   Globe,
   Bot,
 } from 'lucide-react';
-
 // Import existing components
 import CardDatabase from '../components/CardDatabase';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';
@@ -37,13 +35,11 @@ import CollectionManager from '../components/CollectionManager';
 import AIAssistant from '../components/AIAssistant';
 import AdvancedSearch from '../components/AdvancedSearch';
 import BattlePass from './BattlePass';
-
 const StreamlinedGamePlatform = () => {
   const { isAuthenticated } = useAuth();
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
-
   // Sample deck data for components that need it
   const sampleDeck = {
     name: 'Sample Deck',
@@ -74,7 +70,6 @@ const StreamlinedGamePlatform = () => {
       },
     ],
   };
-
   const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
     setShowAdvancedSearch(false);
@@ -84,7 +79,6 @@ const StreamlinedGamePlatform = () => {
       { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },
     ]);
   };
-
   const platformSections = [
     {
       id: 'card-explorer',
@@ -132,9 +126,7 @@ const StreamlinedGamePlatform = () => {
         'Battle pass progression, AI assistance, and community features',
     },
   ];
-
   const [activeSection, setActiveSection] = useState('card-explorer');
-
   const renderSectionContent = () => {
     switch (activeSection) {
       case 'card-explorer':
@@ -159,7 +151,6 @@ const StreamlinedGamePlatform = () => {
                   Advanced Search
                 </button>
               </div>
-
               {activeSearchCriteria && (
                 <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <div className="flex items-center justify-between">
@@ -179,7 +170,6 @@ const StreamlinedGamePlatform = () => {
                 </div>
               )}
             </div>
-
             {/* Card Database */}
             <CardDatabase
               cards={searchResults}
@@ -188,7 +178,6 @@ const StreamlinedGamePlatform = () => {
             />
           </div>
         );
-
       case 'deck-workshop':
         return (
           <div className="grid lg:grid-cols-3 gap-6">
@@ -198,35 +187,29 @@ const StreamlinedGamePlatform = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <Wrench className="w-6 h-6 text-green-500" />
                   <div>
-                    <h2 className="text-xl font-bold">Deck Builder</h2>
                     <p className="text-secondary">Visual deck construction</p>
                   </div>
                 </div>
                 <VisualDeckBuilder deck={sampleDeck} />
               </div>
             </div>
-
             {/* Deck Stats & Collection */}
             <div className="space-y-6">
               <div className="bg-card rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <BarChart3 className="w-5 h-5 text-blue-500" />
-                  <h3 className="font-bold">Deck Analytics</h3>
                 </div>
                 <DeckStats deck={sampleDeck} />
               </div>
-
               <div className="bg-card rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Package className="w-5 h-5 text-purple-500" />
-                  <h3 className="font-bold">Collection Manager</h3>
                 </div>
                 <CollectionManager />
               </div>
             </div>
           </div>
         );
-
       case 'game-simulator':
         return (
           <div className="bg-card rounded-lg overflow-hidden">
@@ -234,7 +217,6 @@ const StreamlinedGamePlatform = () => {
               <div className="flex items-center gap-3">
                 <Gamepad2 className="w-6 h-6 text-purple-500" />
                 <div>
-                  <h2 className="text-xl font-bold">Game Simulator</h2>
                   <p className="text-secondary">
                     Tournament-quality gameplay experience
                   </p>
@@ -244,7 +226,6 @@ const StreamlinedGamePlatform = () => {
             <GameSimulator />
           </div>
         );
-
       case 'analytics-hub':
         return (
           <div className="space-y-6">
@@ -253,9 +234,6 @@ const StreamlinedGamePlatform = () => {
               <div className="flex items-center gap-3 mb-6">
                 <TrendingUp className="w-6 h-6 text-orange-500" />
                 <div>
-                  <h2 className="text-xl font-bold">
-                    Meta Analysis & Market Data
-                  </h2>
                   <p className="text-secondary">
                     Real-time competitive landscape insights
                   </p>
@@ -265,7 +243,6 @@ const StreamlinedGamePlatform = () => {
             </div>
           </div>
         );
-
       case 'community-tools':
         return (
           <div className="grid lg:grid-cols-2 gap-6">
@@ -274,7 +251,6 @@ const StreamlinedGamePlatform = () => {
               <div className="flex items-center gap-3 mb-6">
                 <Trophy className="w-6 h-6 text-yellow-500" />
                 <div>
-                  <h2 className="text-xl font-bold">Battle Pass</h2>
                   <p className="text-secondary">
                     Season 3: Elemental Convergence
                   </p>
@@ -282,14 +258,12 @@ const StreamlinedGamePlatform = () => {
               </div>
               <BattlePass />
             </div>
-
             {/* AI Assistant */}
             {isAuthenticated && (
               <div className="bg-card rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <Bot className="w-6 h-6 text-blue-500" />
                   <div>
-                    <h2 className="text-xl font-bold">AI Assistant</h2>
                     <p className="text-secondary">
                       Smart deck analysis and suggestions
                     </p>
@@ -300,12 +274,10 @@ const StreamlinedGamePlatform = () => {
             )}
           </div>
         );
-
       default:
         return null;
     }
   };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -315,13 +287,11 @@ const StreamlinedGamePlatform = () => {
               Your complete toolkit for KONIVRER card game mastery
             </p>
           </div>
-
           {/* Platform Sections Navigation */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {platformSections.map(section => {
               const Icon = section.icon;
               const isActive = activeSection === section.id;
-
               return (
                 <motion.button
                   key={section.id}
@@ -341,11 +311,6 @@ const StreamlinedGamePlatform = () => {
                       className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`}
                     />
                     <div>
-                      <h3
-                        className={`font-bold ${isActive ? 'text-white' : 'text-primary'}`}
-                      >
-                        {section.title}
-                      </h3>
                       <p
                         className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}
                       >
@@ -358,7 +323,6 @@ const StreamlinedGamePlatform = () => {
                   >
                     {section.description}
                   </p>
-
                   {isActive && (
                     <motion.div
                       className="absolute inset-0 rounded-xl border-2 border-white/30"
@@ -373,7 +337,6 @@ const StreamlinedGamePlatform = () => {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <AnimatePresence mode="wait">
@@ -388,7 +351,6 @@ const StreamlinedGamePlatform = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-
       {/* Advanced Search Modal */}
       <AnimatePresence>
         {showAdvancedSearch && (
@@ -417,5 +379,4 @@ const StreamlinedGamePlatform = () => {
     </div>
   );
 };
-
 export default StreamlinedGamePlatform;

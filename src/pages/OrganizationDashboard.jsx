@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
@@ -44,11 +43,9 @@ import {
   Award,
   Zap
 } from 'lucide-react';
-
 const OrganizationDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  
   const [activeTab, setActiveTab] = useState('overview');
   const [organization, setOrganization] = useState(null);
   const [tournaments, setTournaments] = useState([]);
@@ -56,17 +53,14 @@ const OrganizationDashboard = () => {
   const [locations, setLocations] = useState([]);
   const [analytics, setAnalytics] = useState({});
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     loadOrganizationData();
   }, []);
-
   const loadOrganizationData = async () => {
     setLoading(true);
     try {
       // Simulate API calls - replace with actual API calls
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       // Mock data
       setOrganization({
         id: 1,
@@ -82,7 +76,6 @@ const OrganizationDashboard = () => {
         currentPlayers: 45,
         status: 'active'
       });
-
       setTournaments([
         {
           id: 1,
@@ -107,7 +100,6 @@ const OrganizationDashboard = () => {
           prizePool: 500
         }
       ]);
-
       setStaff([
         {
           id: 1,
@@ -128,7 +120,6 @@ const OrganizationDashboard = () => {
           lastActive: '2024-07-04T09:15:00'
         }
       ]);
-
       setLocations([
         {
           id: 1,
@@ -149,7 +140,6 @@ const OrganizationDashboard = () => {
           status: 'active'
         }
       ]);
-
       setAnalytics({
         totalTournaments: 156,
         totalPlayers: 1247,
@@ -169,7 +159,6 @@ const OrganizationDashboard = () => {
       setLoading(false);
     }
   };
-
   const renderOverview = () => (
     <div className="space-y-6">
       {/* Stats Cards */}
@@ -188,7 +177,6 @@ const OrganizationDashboard = () => {
             <span className="text-gray-500 ml-1">this month</span>
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -202,7 +190,6 @@ const OrganizationDashboard = () => {
             <span className="text-gray-900 ml-1 font-medium">{analytics.averageParticipants}</span>
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -215,7 +202,6 @@ const OrganizationDashboard = () => {
             <span className="text-gray-600">This year</span>
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -236,12 +222,10 @@ const OrganizationDashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Recent Tournaments */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Tournaments</h3>
             <Link
               to="/tournaments/create"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
@@ -256,7 +240,6 @@ const OrganizationDashboard = () => {
             {tournaments.slice(0, 5).map((tournament) => (
               <div key={tournament.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div>
-                  <h4 className="font-medium text-gray-900">{tournament.name}</h4>
                   <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
                     <span>{new Date(tournament.date).toLocaleDateString()}</span>
                     <span>{tournament.participants}/{tournament.maxParticipants} players</span>
@@ -283,11 +266,9 @@ const OrganizationDashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Popular Formats */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Popular Formats</h3>
         </div>
         <div className="p-6">
           <div className="space-y-4">
@@ -310,11 +291,9 @@ const OrganizationDashboard = () => {
       </div>
     </div>
   );
-
   const renderTournaments = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Tournament Management</h2>
         <Link
           to="/tournaments/create"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
@@ -323,7 +302,6 @@ const OrganizationDashboard = () => {
           Create Tournament
         </Link>
       </div>
-
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6">
           <div className="space-y-4">
@@ -331,7 +309,6 @@ const OrganizationDashboard = () => {
               <div key={tournament.id} className="border border-gray-200 rounded-lg p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{tournament.name}</h3>
                     <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
@@ -359,7 +336,6 @@ const OrganizationDashboard = () => {
                     {tournament.status}
                   </span>
                 </div>
-
                 <div className="flex gap-2">
                   <Link
                     to={`/tournaments/${tournament.id}/live`}
@@ -387,17 +363,14 @@ const OrganizationDashboard = () => {
       </div>
     </div>
   );
-
   const renderStaff = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Staff Management</h2>
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
           <UserPlus className="h-4 w-4" />
           Invite Staff
         </button>
       </div>
-
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6">
           <div className="space-y-4">
@@ -408,7 +381,6 @@ const OrganizationDashboard = () => {
                     <Users className="h-5 w-5 text-gray-600" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900">{member.name}</h4>
                     <p className="text-sm text-gray-600">{member.email}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -439,17 +411,14 @@ const OrganizationDashboard = () => {
       </div>
     </div>
   );
-
   const renderLocations = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Location Management</h2>
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
           <Plus className="h-4 w-4" />
           Add Location
         </button>
       </div>
-
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6">
           <div className="space-y-4">
@@ -458,7 +427,6 @@ const OrganizationDashboard = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">{location.name}</h3>
                       {location.isDefault && (
                         <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
                           Default
@@ -490,15 +458,11 @@ const OrganizationDashboard = () => {
       </div>
     </div>
   );
-
   const renderSettings = () => (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900">Organization Settings</h2>
-
       {/* Basic Information */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
         </div>
         <div className="p-6 space-y-4">
           <div>
@@ -545,18 +509,15 @@ const OrganizationDashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Payment Settings */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Payment Settings</h3>
         </div>
         <div className="p-6">
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center gap-3">
               <CreditCard className="h-6 w-6 text-blue-600" />
               <div>
-                <h4 className="font-medium text-gray-900">PayPal Integration</h4>
                 <p className="text-sm text-gray-600">Accept entry fees through PayPal</p>
               </div>
             </div>
@@ -575,16 +536,13 @@ const OrganizationDashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Player Capacity */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Player Capacity</h3>
         </div>
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-medium text-gray-900">Maximum Players</h4>
               <p className="text-sm text-gray-600">
                 Current limit: {organization?.playerCap} players
               </p>
@@ -597,7 +555,6 @@ const OrganizationDashboard = () => {
       </div>
     </div>
   );
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -608,7 +565,6 @@ const OrganizationDashboard = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -630,7 +586,6 @@ const OrganizationDashboard = () => {
           </div>
         </div>
       </div>
-
       {/* Navigation Tabs */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
@@ -658,7 +613,6 @@ const OrganizationDashboard = () => {
           </nav>
         </div>
       </div>
-
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <AnimatePresence mode="wait">
@@ -680,5 +634,4 @@ const OrganizationDashboard = () => {
     </div>
   );
 };
-
 export default OrganizationDashboard;

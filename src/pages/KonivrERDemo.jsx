@@ -6,7 +6,6 @@
  * - Enhanced card display
  * - Core mechanics implementation
  */
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import KonivrERGameBoard from '../components/game/KonivrERGameBoard';
@@ -23,7 +22,6 @@ import {
   ArrowLeft,
   Sparkles
 } from 'lucide-react';
-
 const KonivrERDemo = () => {
   const [gameEngine, setGameEngine] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
@@ -33,57 +31,45 @@ const KonivrERDemo = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameState, setGameState] = useState(null);
   const [isAITurn, setIsAITurn] = useState(false);
-
   // Handle game state updates and AI turn detection
   useEffect(() => {
     if (gameEngine) {
       const handleStateUpdate = (newGameState) => {
         setGameState(newGameState);
-        
         // Check if it's AI's turn
         const activePlayer = newGameState.players[newGameState.activePlayer];
         setIsAITurn(activePlayer && !activePlayer.isHuman);
       };
-
       gameEngine.on('stateUpdate', handleStateUpdate);
-      
       return () => {
         gameEngine.off('stateUpdate', handleStateUpdate);
       };
     }
   }, [gameEngine]);
-
   // Create sample decks following proper KONIVRER deck construction rules
   const createSampleDeck = () => {
     const deck = [];
-    
     // 1. Add the Flag (does not count toward deck total)
     const flag = konivrERCards.find(card => card.type === 'Flag');
     if (flag) {
       deck.push(flag);
     }
-    
     // Get cards by rarity
     const commonCards = konivrERCards.filter(card => card.rarity === 'Common');
     const uncommonCards = konivrERCards.filter(card => card.rarity === 'Uncommon');
     const rareCards = konivrERCards.filter(card => card.rarity === 'Rare');
-    
     // 2. Add 25 Common cards (1 copy per card maximum)
     const selectedCommons = commonCards.slice(0, Math.min(25, commonCards.length));
     deck.push(...selectedCommons);
-    
     // 3. Add 13 Uncommon cards (1 copy per card maximum)  
     const selectedUncommons = uncommonCards.slice(0, Math.min(13, uncommonCards.length));
     deck.push(...selectedUncommons);
-    
     // 4. Add 2 Rare cards (1 copy per card maximum)
     const selectedRares = rareCards.slice(0, Math.min(2, rareCards.length));
     deck.push(...selectedRares);
-    
     // Fill remaining slots with commons if we don't have enough cards
     const totalNonFlag = deck.length - 1; // Subtract flag
     const needed = 40 - totalNonFlag;
-    
     if (needed > 0) {
       // Add more commons to reach 40 cards total
       for (let i = 0; i < needed && i < commonCards.length; i++) {
@@ -94,13 +80,10 @@ const KonivrERDemo = () => {
         });
       }
     }
-
     return deck;
   };
-
   const startGame = async () => {
     setLoading(true);
-    
     try {
       // Create game engine
       const engine = new KonivrERGameEngine({
@@ -108,11 +91,9 @@ const KonivrERDemo = () => {
         animationLevel: 'full',
         enableSoundEffects: true
       });
-
       // Create sample players with decks
       const player1Deck = createSampleDeck();
       const player2Deck = createSampleDeck();
-
       const players = [
         {
           name: 'Player 1',
@@ -125,25 +106,20 @@ const KonivrERDemo = () => {
           isHuman: false
         }
       ];
-
       // Initialize game
       engine.initializeGame(players);
-      
       setGameEngine(engine);
       setGameStarted(true);
-      
     } catch (error) {
       console.error('Failed to start game:', error);
     } finally {
       setLoading(false);
     }
   };
-
   const returnToMenu = () => {
     setGameStarted(false);
     setGameEngine(null);
   };
-
   // Handle card play with generic cost selection
   const handleCardPlay = (card) => {
     if (card.type === 'ELEMENTAL' && card.genericCost > 0) {
@@ -154,7 +130,6 @@ const KonivrERDemo = () => {
       playCardWithCost(card, 0);
     }
   };
-
   const handleCostSelected = (cost) => {
     if (selectedCard) {
       playCardWithCost(selectedCard, cost);
@@ -162,12 +137,10 @@ const KonivrERDemo = () => {
     setShowCostSelector(false);
     setSelectedCard(null);
   };
-
   const handleCostCancel = () => {
     setShowCostSelector(false);
     setSelectedCard(null);
   };
-
   const playCardWithCost = (card, genericCost) => {
     // Create a copy of the card with the selected generic cost
     const cardWithCost = {
@@ -175,11 +148,9 @@ const KonivrERDemo = () => {
       genericCostPaid: genericCost,
       power: (card.basePower || 0) + genericCost
     };
-    
     // Here you would integrate with the game engine to actually play the card
     console.log(`Playing ${card.name} with generic cost ${genericCost}, power: ${cardWithCost.power}`);
   };
-
   if (gameStarted && gameEngine) {
     return (
       <>
@@ -200,7 +171,6 @@ const KonivrERDemo = () => {
             );
           })()}
         </div>
-
         <KonivrERGameBoard
           gameEngine={gameEngine}
           playerData={{ id: 'player1', name: 'Player 1' }}
@@ -208,7 +178,6 @@ const KonivrERDemo = () => {
           isSpectator={false}
           onCardPlay={handleCardPlay}
         />
-        
         {/* Generic Cost Selector Modal */}
         <GenericCostSelector
           card={selectedCard}
@@ -221,7 +190,6 @@ const KonivrERDemo = () => {
       </>
     );
   }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden">
       {/* Background Effects */}
@@ -251,10 +219,8 @@ const KonivrERDemo = () => {
           />
         ))}
       </div>
-
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="max-w-4xl w-full">
-          
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -50 }}
@@ -270,18 +236,13 @@ const KonivrERDemo = () => {
                 <Sparkles className="w-10 h-10 text-white" />
               </motion.div>
             </div>
-            
-
-            
             <p className="text-xl text-gray-300 mb-2">
               Enhanced Trading Card Game
             </p>
-            
             <p className="text-gray-400">
               Experience the complete KONIVRER implementation with all game zones and mechanics
             </p>
           </motion.div>
-
           {/* Feature Highlights */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -293,33 +254,27 @@ const KonivrERDemo = () => {
               <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
                 <Play className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Complete Game Board</h3>
               <p className="text-gray-400 text-sm">
                 All KONIVRER zones implemented: Flag, Life Cards, Field, Combat Row, Azoth Row, and more
               </p>
             </div>
-
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20">
               <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Enhanced Cards</h3>
               <p className="text-gray-400 text-sm">
                 Full card display with elements, abilities, flavor text, and all KONIVRER-specific parts
               </p>
             </div>
-
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-green-500/20">
               <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
                 <Settings className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Core Mechanics</h3>
               <p className="text-gray-400 text-sm">
                 Elemental system, Life Cards, Inherent card methods, and complete turn structure
               </p>
             </div>
           </motion.div>
-
           {/* Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -348,7 +303,6 @@ const KonivrERDemo = () => {
                 </>
               )}
             </button>
-
             <button
               onClick={() => setShowInfo(!showInfo)}
               className="flex items-center gap-2 px-6 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 rounded-lg text-white font-medium transition-colors"
@@ -357,7 +311,6 @@ const KonivrERDemo = () => {
               Game Info
             </button>
           </motion.div>
-
           {/* Game Info Panel */}
           {showInfo && (
             <motion.div
@@ -366,11 +319,8 @@ const KonivrERDemo = () => {
               exit={{ opacity: 0, height: 0 }}
               className="mt-8 bg-gray-900/70 backdrop-blur-sm rounded-lg p-6 border border-gray-700"
             >
-              <h3 className="text-xl font-bold text-white mb-4">KONIVRER Implementation Features</h3>
-              
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-blue-400 mb-2">Game Zones</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• Flag Zone - Deck identity and bonuses</li>
                     <li>• Life Cards - Unique damage system</li>
@@ -380,9 +330,7 @@ const KonivrERDemo = () => {
                     <li>• Removed from Play - Void keyword effects</li>
                   </ul>
                 </div>
-
                 <div>
-                  <h4 className="text-lg font-semibold text-purple-400 mb-2">Card Playing Methods</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• Summon - Play as Familiar with +1 counters</li>
                     <li>• Tribute - Reduce cost by sacrificing Familiars</li>
@@ -391,9 +339,7 @@ const KonivrERDemo = () => {
                     <li>• Burst - Free play when drawn from Life Cards</li>
                   </ul>
                 </div>
-
                 <div>
-                  <h4 className="text-lg font-semibold text-green-400 mb-2">Elemental System</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• Fire (🜂) - Aggressive, direct damage</li>
                     <li>• Water (🜄) - Flow, healing, flexibility</li>
@@ -405,9 +351,7 @@ const KonivrERDemo = () => {
                     <li>• Submerged (🜄) - Deep water, hidden</li>
                   </ul>
                 </div>
-
                 <div>
-                  <h4 className="text-lg font-semibold text-orange-400 mb-2">Power System</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• Power = Generic Cost Paid</li>
                     <li>• Choose cost when playing Elementals</li>
@@ -417,9 +361,7 @@ const KonivrERDemo = () => {
                     <li>• Flexible power scaling</li>
                   </ul>
                 </div>
-
                 <div>
-                  <h4 className="text-lg font-semibold text-purple-400 mb-2">Advanced AI System</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• 6 Unique AI personalities with distinct play styles</li>
                     <li>• Strategic decision making with multiple evaluation criteria</li>
@@ -430,9 +372,7 @@ const KonivrERDemo = () => {
                     <li>• Long-term planning and resource management</li>
                   </ul>
                 </div>
-
                 <div>
-                  <h4 className="text-lg font-semibold text-yellow-400 mb-2">Turn Structure</h4>
                   <ul className="text-gray-300 space-y-1 text-sm">
                     <li>• Start Phase - Draw and generate Azoth</li>
                     <li>• Main Phase - Play cards and abilities</li>
@@ -451,5 +391,4 @@ const KonivrERDemo = () => {
     </div>
   );
 };
-
 export default KonivrERDemo;

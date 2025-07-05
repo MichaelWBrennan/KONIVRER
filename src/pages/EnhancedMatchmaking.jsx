@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -22,20 +21,17 @@ import {
   X,
   Check,
 } from 'lucide-react';
-
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import EnhancedPlayerProfile from '../components/matchmaking/EnhancedPlayerProfile';
 import ConfidenceBandedTier from '../components/matchmaking/ConfidenceBandedTier';
 import DeckArchetypeDisplay from '../components/matchmaking/DeckArchetypeDisplay';
 import PlayerFormIndicator from '../components/matchmaking/PlayerFormIndicator';
-
 /**
  * Enhanced Matchmaking Page
  * Advanced matchmaking with multi-factor considerations
  */
 const EnhancedMatchmaking = () => {
   const { rankingEngine } = usePhysicalMatchmaking();
-
   const [players, setPlayers] = useState([]);
   const [filteredPlayers, setFilteredPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +55,6 @@ const EnhancedMatchmaking = () => {
     minRating: 0,
     maxRating: 3000,
   });
-
   // Fetch players
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -75,16 +70,12 @@ const EnhancedMatchmaking = () => {
         setLoading(false);
       }
     };
-
     fetchPlayers();
   }, [rankingEngine]);
-
   // Apply filters
   useEffect(() => {
     if (!players.length) return;
-
     let result = [...players];
-
     // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -95,19 +86,16 @@ const EnhancedMatchmaking = () => {
             player.deckArchetype.toLowerCase().includes(query)),
       );
     }
-
     // Apply tier filter
     if (filterOptions.tier !== 'all') {
       result = result.filter(player => player.tier === filterOptions.tier);
     }
-
     // Apply confidence band filter
     if (filterOptions.confidenceBand !== 'all') {
       result = result.filter(
         player => player.confidenceBand === filterOptions.confidenceBand,
       );
     }
-
     // Apply deck archetype filter
     if (filterOptions.deckArchetype !== 'all') {
       result = result.filter(
@@ -116,41 +104,32 @@ const EnhancedMatchmaking = () => {
           player.deckArchetype.includes(filterOptions.deckArchetype),
       );
     }
-
     // Apply rating range filter
     result = result.filter(
       player =>
         player.rating >= filterOptions.minRating &&
         player.rating <= filterOptions.maxRating,
     );
-
     setFilteredPlayers(result);
   }, [players, searchQuery, filterOptions]);
-
   // Simulate finding a match
   const findMatch = () => {
     if (!players.length) return;
-
     setSearching(true);
-
     // Simulate API call delay
     setTimeout(() => {
       // In a real app, this would use the MultiFactorMatchmaking module
       const currentPlayer = players[0]; // Assume first player is current user
-
       // Filter out current player
       const candidates = players.filter(p => p.id !== currentPlayer.id);
-
       if (candidates.length === 0) {
         setSearching(false);
         return;
       }
-
       // Simple matching algorithm (would be replaced by actual multi-factor algorithm)
       const calculateMatchQuality = player => {
         const skillDiff = Math.abs(currentPlayer.rating - player.rating);
         const skillScore = Math.max(0, 1 - skillDiff / 400);
-
         // Confidence band similarity
         const confidenceBandOrder = [
           'uncertain',
@@ -168,7 +147,6 @@ const EnhancedMatchmaking = () => {
         const confidenceScore = matchmakingPreferences.preferSimilarConfidence
           ? Math.max(0, 1 - bandDiff / 3)
           : Math.max(0, bandDiff / 3);
-
         // Deck archetype compatibility
         let archetypeScore = 0.5;
         if (currentPlayer.deckArchetype && player.deckArchetype) {
@@ -176,40 +154,31 @@ const EnhancedMatchmaking = () => {
           archetypeScore =
             currentPlayer.deckArchetype === player.deckArchetype ? 0.3 : 0.7;
         }
-
         // Calculate weighted score
         let score = 0;
         let totalWeight = 0;
-
         if (matchmakingPreferences.prioritizeSkill) {
           score += skillScore * 0.4;
           totalWeight += 0.4;
         }
-
         if (matchmakingPreferences.prioritizeConfidence) {
           score += confidenceScore * 0.3;
           totalWeight += 0.3;
         }
-
         if (matchmakingPreferences.prioritizeDeckArchetype) {
           score += archetypeScore * 0.3;
           totalWeight += 0.3;
         }
-
         return totalWeight > 0 ? score / totalWeight : 0;
       };
-
       // Find best match
       const matches = candidates.map(player => ({
         player,
         quality: calculateMatchQuality(player),
       }));
-
       matches.sort((a, b) => b.quality - a.quality);
-
       // Select best match
       const bestMatch = matches[0];
-
       setCurrentMatch({
         player1: currentPlayer,
         player2: bestMatch.player,
@@ -224,37 +193,30 @@ const EnhancedMatchmaking = () => {
           estimatedWinRate: 0.5, // Would be calculated from actual matchup data
         },
       });
-
       setSearching(false);
     }, 2000);
   };
-
   // Cancel current match
   const cancelMatch = () => {
     setCurrentMatch(null);
   };
-
   // Accept current match
   const acceptMatch = () => {
     // In a real app, this would create the match in your backend
     alert('Match accepted! Players will be notified.');
     setCurrentMatch(null);
   };
-
   // Get available deck archetypes
   const getDeckArchetypes = () => {
     if (!players.length) return ['Unknown'];
-
     const archetypes = new Set();
     players.forEach(player => {
       if (player.deckArchetype) {
         archetypes.add(player.deckArchetype);
       }
     });
-
     return ['all', ...Array.from(archetypes)];
   };
-
   return (
     <div className="min-h-screen py-8">
       <div className="container max-w-6xl">
@@ -264,7 +226,6 @@ const EnhancedMatchmaking = () => {
             playstyle
           </p>
         </div>
-
         {/* Matchmaking Controls */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
@@ -282,7 +243,6 @@ const EnhancedMatchmaking = () => {
                 />
               </div>
             </div>
-
             <div className="flex flex-wrap gap-2">
               <button
                 className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -301,7 +261,6 @@ const EnhancedMatchmaking = () => {
                   </>
                 )}
               </button>
-
               <button
                 className="inline-flex items-center px-3 py-0 whitespace-nowrap border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 onClick={() => setShowPreferences(!showPreferences)}
@@ -316,7 +275,6 @@ const EnhancedMatchmaking = () => {
               </button>
             </div>
           </div>
-
           {/* Preferences Panel */}
           <AnimatePresence>
             {showPreferences && (
@@ -328,16 +286,8 @@ const EnhancedMatchmaking = () => {
                 className="overflow-hidden"
               >
                 <div className="mt-4 pt-4 border-t border-gray-200">
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">
-                    Matchmaking Preferences
-                  </h3>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 mb-2">
-                        Priority Factors
-                      </h4>
-
                       <div className="space-y-2">
                         <label className="flex items-center">
                           <input
@@ -355,7 +305,6 @@ const EnhancedMatchmaking = () => {
                             Prioritize skill rating similarity
                           </span>
                         </label>
-
                         <label className="flex items-center">
                           <input
                             type="checkbox"
@@ -374,7 +323,6 @@ const EnhancedMatchmaking = () => {
                             Prioritize confidence band matching
                           </span>
                         </label>
-
                         <label className="flex items-center">
                           <input
                             type="checkbox"
@@ -393,7 +341,6 @@ const EnhancedMatchmaking = () => {
                             Consider deck archetype matchups
                           </span>
                         </label>
-
                         <label className="flex items-center">
                           <input
                             type="checkbox"
@@ -412,12 +359,7 @@ const EnhancedMatchmaking = () => {
                         </label>
                       </div>
                     </div>
-
                     <div>
-                      <h4 className="text-sm font-medium text-gray-700 mb-2">
-                        Matching Preferences
-                      </h4>
-
                       <div className="space-y-2">
                         <label className="flex items-center">
                           <input
@@ -437,7 +379,6 @@ const EnhancedMatchmaking = () => {
                             Prefer complementary playstyles
                           </span>
                         </label>
-
                         <label className="flex items-center">
                           <input
                             type="checkbox"
@@ -456,7 +397,6 @@ const EnhancedMatchmaking = () => {
                             Prefer similar confidence bands
                           </span>
                         </label>
-
                         <div>
                           <label className="block text-sm text-gray-700 mb-1">
                             Maximum wait time
@@ -489,7 +429,6 @@ const EnhancedMatchmaking = () => {
             )}
           </AnimatePresence>
         </div>
-
         {/* Current Match */}
         <AnimatePresence>
           {currentMatch && (
@@ -501,9 +440,6 @@ const EnhancedMatchmaking = () => {
             >
               <div className="bg-blue-50 border border-blue-200 rounded-lg shadow-md p-4">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-blue-800">
-                    Match Found!
-                  </h3>
                   <div className="flex items-center">
                     <span className="text-sm text-blue-700 mr-2">
                       Match Quality: {Math.round(currentMatch.quality * 100)}%
@@ -516,17 +452,11 @@ const EnhancedMatchmaking = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <EnhancedPlayerProfile player={currentMatch.player1} />
                   <EnhancedPlayerProfile player={currentMatch.player2} />
                 </div>
-
                 <div className="bg-white rounded-lg p-3 mb-4">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">
-                    Matchup Details
-                  </h4>
-
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                     <div>
                       <div className="text-gray-500">Skill Difference</div>
@@ -563,7 +493,6 @@ const EnhancedMatchmaking = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex justify-end space-x-3">
                   <button
                     className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
@@ -572,7 +501,6 @@ const EnhancedMatchmaking = () => {
                     <X className="-ml-1 mr-2 h-4 w-4 text-gray-500" />
                     Decline
                   </button>
-
                   <button
                     className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     onClick={acceptMatch}
@@ -585,14 +513,11 @@ const EnhancedMatchmaking = () => {
             </motion.div>
           )}
         </AnimatePresence>
-
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
           <div className="flex items-center mb-3">
             <Filter className="h-5 w-5 text-gray-400 mr-2" />
-            <h3 className="text-lg font-medium text-gray-900">Filters</h3>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -619,7 +544,6 @@ const EnhancedMatchmaking = () => {
                 <option value="mythic">Mythic</option>
               </select>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confidence Band
@@ -641,7 +565,6 @@ const EnhancedMatchmaking = () => {
                 <option value="proven">Proven</option>
               </select>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Deck Archetype
@@ -663,7 +586,6 @@ const EnhancedMatchmaking = () => {
                 ))}
               </select>
             </div>
-
             <div className="md:col-span-3">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Rating Range
@@ -700,21 +622,16 @@ const EnhancedMatchmaking = () => {
             </div>
           </div>
         </div>
-
         {/* Player List */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-4 border-b border-gray-200 flex justify-between items-center">
             <div className="flex items-center">
               <Users className="h-5 w-5 text-gray-400 mr-2" />
-              <h3 className="text-lg font-medium text-gray-900">
-                Available Players
-              </h3>
             </div>
             <div className="text-sm text-gray-500">
               {filteredPlayers.length} players found
             </div>
           </div>
-
           {loading ? (
             <div className="p-8 text-center">
               <RefreshCw className="animate-spin h-8 w-8 text-gray-400 mx-auto mb-4" />
@@ -744,5 +661,4 @@ const EnhancedMatchmaking = () => {
     </div>
   );
 };
-
 export default EnhancedMatchmaking;

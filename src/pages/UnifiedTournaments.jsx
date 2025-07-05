@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
@@ -39,13 +38,10 @@ import {
   RefreshCw,
   DollarSign,
 } from 'lucide-react';
-
 import LiveTournamentBracket from '../components/LiveTournamentBracket';
-
 const UnifiedTournaments = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
-
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
@@ -59,7 +55,6 @@ const UnifiedTournaments = () => {
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('asc');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-
   // Data states
   const [tournaments, setTournaments] = useState([]);
   const [events, setEvents] = useState([]);
@@ -67,7 +62,6 @@ const UnifiedTournaments = () => {
   const [leaderboards, setLeaderboards] = useState([]);
   const [analytics, setAnalytics] = useState({});
   const [loading, setLoading] = useState(true);
-
   // Helper function for organizer access
   const hasOrganizerAccess = () => {
     return (
@@ -76,11 +70,9 @@ const UnifiedTournaments = () => {
       user?.organizerLevel >= 1
     );
   };
-
   useEffect(() => {
     loadAllData();
   }, []);
-
   const loadAllData = async () => {
     setLoading(true);
     try {
@@ -98,27 +90,22 @@ const UnifiedTournaments = () => {
       setLoading(false);
     }
   };
-
   const loadTournaments = async () => {
     // No demo tournaments - load from actual data source when available
     setTournaments([]);
   };
-
   const loadEvents = async () => {
     // No demo events - load from actual data source when available
     setEvents([]);
   };
-
   const loadMatches = async () => {
     // No demo matches - load from actual data source when available
     setMatches([]);
   };
-
   const loadLeaderboards = async () => {
     // No demo leaderboards - load from actual data source when available
     setLeaderboards([]);
   };
-
   const loadAnalytics = async () => {
     // No demo analytics - load from actual data source when available
     setAnalytics({
@@ -130,21 +117,17 @@ const UnifiedTournaments = () => {
       recentTrends: []
     });
   };
-
   // Registration functionality
   const handleEventRegistration = async (eventId, eventName) => {
     if (!isAuthenticated) {
       alert('Please log in to register for events.');
       return;
     }
-
     try {
       // Simulate API call for registration
       console.log(`Registering for event ${eventId}: ${eventName}`);
-      
       // Show success message
       alert(`Successfully registered for ${eventName}! Check your player profile for event details.`);
-      
       // Update local state to reflect registration
       setEvents(prev => prev.map(event => 
         event.id === eventId 
@@ -155,26 +138,21 @@ const UnifiedTournaments = () => {
             }
           : event
       ));
-      
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');
     }
   };
-
   const handleTournamentRegistration = async (tournamentId, tournamentName) => {
     if (!isAuthenticated) {
       alert('Please log in to register for tournaments.');
       return;
     }
-
     try {
       // Simulate API call for tournament registration
       console.log(`Registering for tournament ${tournamentId}: ${tournamentName}`);
-      
       // Show success message
       alert(`Successfully registered for ${tournamentName}! Check your player profile for tournament details.`);
-      
       // Update local state to reflect registration
       setTournaments(prev => prev.map(tournament => 
         tournament.id === tournamentId 
@@ -185,13 +163,11 @@ const UnifiedTournaments = () => {
             }
           : tournament
       ));
-      
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');
     }
   };
-
   const getStatusColor = status => {
     switch (status) {
       case 'Registration Open':
@@ -206,29 +182,24 @@ const UnifiedTournaments = () => {
         return 'bg-gray-600';
     }
   };
-
   const filteredTournaments = tournaments.filter(tournament => {
     const matchesSearch =
       tournament.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tournament.location.toLowerCase().includes(searchQuery.toLowerCase());
-
     const matchesFilters =
       (!filters.status || tournament.status === filters.status) &&
       (!filters.location ||
         tournament.location
           .toLowerCase()
           .includes(filters.location.toLowerCase()));
-
     return matchesSearch && matchesFilters;
   });
-
   const filteredEvents = events.filter(event => {
     const matchesSearch =
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
@@ -239,7 +210,6 @@ const UnifiedTournaments = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-6">
@@ -270,7 +240,6 @@ const UnifiedTournaments = () => {
               </div>
             )}
           </div>
-
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-gray-800 rounded-lg p-4">
@@ -318,10 +287,8 @@ const UnifiedTournaments = () => {
             </div>
           </div>
         </div>
-
         {/* Tournament Meta Analysis - Added from Analytics Hub */}
         <TournamentMetaAnalysis />
-
         {/* Unified Search and Filters */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -339,7 +306,6 @@ const UnifiedTournaments = () => {
                   className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
               <div className="flex flex-wrap gap-2">
                 <select
                   value={filters.status}
@@ -365,7 +331,6 @@ const UnifiedTournaments = () => {
                 </select>
               </div>
             </div>
-
             <div className="flex flex-col space-y-2">
               <div className="text-sm text-gray-400">
                 {filteredTournaments.length} tournaments •{' '}
@@ -378,17 +343,12 @@ const UnifiedTournaments = () => {
             </div>
           </div>
         </div>
-
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Column - Tournaments & Events */}
           <div className="xl:col-span-2 space-y-6">
             {/* Active Tournaments */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Trophy className="mr-2" size={20} />
-                Active Tournaments
-              </h2>
               <div className="space-y-4">
                 {filteredTournaments.map(tournament => (
                   <div
@@ -397,9 +357,6 @@ const UnifiedTournaments = () => {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-1">
-                          {tournament.name}
-                        </h3>
                         <p className="text-gray-400 text-sm mb-2">
                           {tournament.organizer}
                         </p>
@@ -430,7 +387,6 @@ const UnifiedTournaments = () => {
                         </div>
                       </div>
                     </div>
-
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 text-sm">
                         <span>Entry: {tournament.entryFee}</span>
@@ -478,32 +434,19 @@ const UnifiedTournaments = () => {
                 ))}
               </div>
             </div>
-
             {/* Featured Live Tournament */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                Featured Live Tournament
-                <span className="ml-2 bg-red-500 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full animate-pulse">
-                  LIVE
-                </span>
-              </h2>
               <LiveTournamentBracket
                 tournamentId="world-championship-2024"
                 isLive={true}
               />
             </div>
-
             {/* Community Events */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                <Calendar className="mr-2" size={20} />
-                Community Events
-              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {filteredEvents.map(event => (
                   <div key={event.id} className="bg-gray-700 rounded-lg p-4">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold">{event.name}</h3>
                       <span
                         className={`px-2 py-0 whitespace-nowrap rounded text-xs ${getStatusColor(event.status)}`}
                       >
@@ -545,12 +488,8 @@ const UnifiedTournaments = () => {
                 ))}
               </div>
             </div>
-
             {/* Live Matches */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                Live Matches
-              </h2>
               <div className="space-y-3">
                 {matches
                   .filter(m => m.status === 'In Progress')
@@ -607,14 +546,10 @@ const UnifiedTournaments = () => {
               </div>
             </div>
           </div>
-
           {/* Right Column - Leaderboards & Analytics */}
           <div className="space-y-6">
             {/* Leaderboards */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                Leaderboards
-              </h2>
               <div className="space-y-3">
                 {leaderboards.slice(0, 10).map((player, index) => (
                   <div
@@ -650,16 +585,10 @@ const UnifiedTournaments = () => {
                 </Link>
               </div>
             </div>
-
             {/* Meta Analytics */}
             <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                <BarChart3 className="mr-2" size={20} />
-                Meta Analytics
-              </h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold mb-2">Archetype Breakdown</h3>
                   <div className="space-y-2">
                     {analytics.metaBreakdown?.map(archetype => (
                       <div
@@ -698,5 +627,4 @@ const UnifiedTournaments = () => {
     </div>
   );
 };
-
 export default UnifiedTournaments;

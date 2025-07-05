@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -21,7 +20,6 @@ import AdvancedSearch from '../components/AdvancedSearch';
 import AIAssistant from '../components/AIAssistant';
 import CardMetaAnalysis from '../components/CardMetaAnalysis';
 import { useAuth } from '../contexts/AuthContext';
-
 const CardExplorer = () => {
   const { isAuthenticated } = useAuth();
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -29,7 +27,6 @@ const CardExplorer = () => {
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [activeTab, setActiveTab] = useState('all'); // 'all' or 'trending'
-
   const handleAdvancedSearch = criteria => {
     setActiveSearchCriteria(criteria);
     setShowAdvancedSearch(false);
@@ -39,7 +36,6 @@ const CardExplorer = () => {
       { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },
     ]);
   };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -50,7 +46,6 @@ const CardExplorer = () => {
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex gap-6">
@@ -105,7 +100,6 @@ const CardExplorer = () => {
                   </button>
                 )}
               </div>
-
               {activeSearchCriteria && (
                 <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <div className="flex items-center justify-between">
@@ -125,7 +119,6 @@ const CardExplorer = () => {
                 </div>
               )}
             </div>
-
             {/* Tabs */}
             <div className="flex border-b border-color mb-6">
               <button
@@ -151,7 +144,6 @@ const CardExplorer = () => {
                 Trending Cards
               </button>
             </div>
-
             {/* Tab Content */}
             {activeTab === 'all' ? (
               /* Card Database */
@@ -165,7 +157,6 @@ const CardExplorer = () => {
               <CardMetaAnalysis />
             )}
           </motion.div>
-
           {/* AI Assistant Panel */}
           {isAuthenticated && showAIAssistant && (
             <motion.div
@@ -178,7 +169,6 @@ const CardExplorer = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <Bot className="w-6 h-6 text-blue-400" />
                   <div>
-                    <h3 className="text-lg font-bold">AI Assistant</h3>
                   </div>
                 </div>
                 <AIAssistant />
@@ -186,7 +176,6 @@ const CardExplorer = () => {
             </motion.div>
           )}
         </div>
-
         {/* Advanced Search Modal */}
         {showAdvancedSearch && (
           <motion.div
@@ -214,5 +203,4 @@ const CardExplorer = () => {
     </div>
   );
 };
-
 export default CardExplorer;

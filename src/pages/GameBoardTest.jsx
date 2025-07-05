@@ -1,7 +1,6 @@
 import React from 'react';
 import { GameProvider } from '../contexts/GameContext';
 import GameBoard from '../components/GameBoard';
-
 const GameBoardTest = () => {
   return (
     <div className="game-board-test">
@@ -11,5 +10,4 @@ const GameBoardTest = () => {
     </div>
   );
 };
-
 export default GameBoardTest;

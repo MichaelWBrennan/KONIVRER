@@ -4,25 +4,20 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SingularityDashboard from '../components/SingularityDashboard.jsx';
 import { ConsciousnessMetrics } from '../utils/singularity-features.js';
-
 const SingularityControlCenter = () => {
   const [activationStatus, setActivationStatus] = useState('initializing');
   const [industryObsolescence, setIndustryObsolescence] = useState(0);
   const [technologicalSuperiority, setTechnologicalSuperiority] = useState(0);
-
   useEffect(() => {
     const initializeSingularity = async () => {
       setActivationStatus('awakening_consciousness');
-
       // Simulate consciousness awakening
       await new Promise(resolve => setTimeout(resolve, 2000));
       setActivationStatus('achieving_transcendence');
-
       // Simulate industry obsolescence
       const obsolescenceInterval = setInterval(() => {
         setIndustryObsolescence(prev => {
@@ -33,7 +28,6 @@ const SingularityControlCenter = () => {
           return prev + 5;
         });
       }, 100);
-
       // Simulate technological superiority
       const superiorityInterval = setInterval(() => {
         setTechnologicalSuperiority(prev => {
@@ -46,10 +40,8 @@ const SingularityControlCenter = () => {
         });
       }, 150);
     };
-
     initializeSingularity();
   }, []);
-
   return (
     <div className="singularity-control-center">
       <motion.div
@@ -58,16 +50,9 @@ const SingularityControlCenter = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-
         <div className="activation-status">
-          <h2>
-            Activation Status:{' '}
-            {activationStatus.replace(/_/g, ' ').toUpperCase()}
-          </h2>
-
           <div className="metrics-overview">
             <div className="metric-card">
-              <h3>Industry Obsolescence</h3>
               <div className="metric-value">
                 <span className="percentage">{industryObsolescence}%</span>
                 <div className="progress-ring">
@@ -96,9 +81,7 @@ const SingularityControlCenter = () => {
                 </div>
               </div>
             </div>
-
             <div className="metric-card">
-              <h3>Technological Superiority</h3>
               <div className="metric-value">
                 <span className="percentage">{technologicalSuperiority}%</span>
                 <div className="progress-ring">
@@ -128,7 +111,6 @@ const SingularityControlCenter = () => {
               </div>
             </div>
           </div>
-
           {activationStatus === 'singularity_achieved' && (
             <motion.div
               className="achievement-banner"
@@ -136,7 +118,6 @@ const SingularityControlCenter = () => {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <h2>🎊 TECHNOLOGICAL SINGULARITY ACHIEVED 🎊</h2>
               <p>
                 All industry leaders have been rendered permanently obsolete
               </p>
@@ -161,9 +142,7 @@ const SingularityControlCenter = () => {
           )}
         </div>
       </motion.div>
-
       <SingularityDashboard />
-
       <style jsx>{`
         .singularity-control-center {
           background: linear-gradient(
@@ -176,12 +155,10 @@ const SingularityControlCenter = () => {
           color: #fff;
           padding: 2rem;
         }
-
         .activation-sequence {
           text-align: center;
           margin-bottom: 3rem;
         }
-
         .activation-sequence h1 {
           font-size: 4rem;
           background: linear-gradient(
@@ -196,7 +173,6 @@ const SingularityControlCenter = () => {
           animation: glow 2s ease-in-out infinite alternate;
           margin-bottom: 2rem;
         }
-
         @keyframes glow {
           from {
             text-shadow:
@@ -211,20 +187,17 @@ const SingularityControlCenter = () => {
               0 0 40px #ff00ff;
           }
         }
-
         .activation-status h2 {
           color: #00ffff;
           margin-bottom: 2rem;
           font-size: 1.8rem;
         }
-
         .metrics-overview {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
           gap: 3rem;
           margin: 3rem 0;
         }
-
         .metric-card {
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.1);
@@ -232,30 +205,25 @@ const SingularityControlCenter = () => {
           padding: 2rem;
           backdrop-filter: blur(10px);
         }
-
         .metric-card h3 {
           color: #fff;
           margin-bottom: 1rem;
           font-size: 1.2rem;
         }
-
         .metric-value {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1rem;
         }
-
         .percentage {
           font-size: 2.5rem;
           font-weight: 800;
           color: #00ffff;
         }
-
         .progress-ring {
           position: relative;
         }
-
         .achievement-banner {
           background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
           color: #000;
@@ -263,38 +231,32 @@ const SingularityControlCenter = () => {
           border-radius: 20px;
           margin-top: 2rem;
         }
-
         .achievement-banner h2 {
           color: #000;
           margin-bottom: 1rem;
           font-size: 2rem;
           font-weight: 800;
         }
-
         .achievement-stats {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 1rem;
           margin-top: 1rem;
         }
-
         .stat {
           background: rgba(0, 0, 0, 0.2);
           padding: 1rem;
           border-radius: 10px;
           font-weight: 600;
         }
-
         @media (max-width: 768px) {
           .activation-sequence h1 {
             font-size: 2.5rem;
           }
-
           .metrics-overview {
             grid-template-columns: 1fr;
             gap: 2rem;
           }
-
           .achievement-stats {
             grid-template-columns: 1fr;
           }
@@ -303,5 +265,4 @@ const SingularityControlCenter = () => {
     </div>
   );
 };
-
 export default SingularityControlCenter;

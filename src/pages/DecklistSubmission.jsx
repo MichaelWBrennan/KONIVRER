@@ -4,7 +4,6 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,14 +27,12 @@ import {
   Settings,
   Info
 } from 'lucide-react';
-
 const DecklistSubmission = () => {
   const { tournamentId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { decks, saveDeck } = useDeck();
   const fileInputRef = useRef(null);
-
   const [submissionMethod, setSubmissionMethod] = useState('upload'); // upload, paste, manual, existing
   const [decklistData, setDecklistData] = useState('');
   const [parsedDecklist, setParsedDecklist] = useState({ mainboard: [], sideboard: [] });
@@ -44,14 +41,11 @@ const DecklistSubmission = () => {
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [deckName, setDeckName] = useState('');
   const [showPreview, setShowPreview] = useState(false);
-
   // Supported file formats
   const supportedFormats = ['.txt', '.dec', '.dek', '.cod'];
-
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (e) => {
       const content = e.target.result;
@@ -60,26 +54,21 @@ const DecklistSubmission = () => {
     };
     reader.readAsText(file);
   };
-
   const parseDecklist = (content) => {
     setIsValidating(true);
-    
     try {
       const lines = content.split('\n').map(line => line.trim()).filter(line => line);
       const mainboard = [];
       const sideboard = [];
       let currentSection = 'mainboard';
-      
       for (const line of lines) {
         // Skip comments and empty lines
         if (line.startsWith('//') || line.startsWith('#') || !line) continue;
-        
         // Check for sideboard section
         if (line.toLowerCase().includes('sideboard') || line.toLowerCase().includes('side:')) {
           currentSection = 'sideboard';
           continue;
         }
-        
         // Parse card line (format: "4 Lightning Bolt" or "4x Lightning Bolt")
         const match = line.match(/^(\d+)x?\s+(.+)$/);
         if (match) {
@@ -89,7 +78,6 @@ const DecklistSubmission = () => {
             name: cardName.trim(),
             id: cardName.toLowerCase().replace(/\s+/g, '-')
           };
-          
           if (currentSection === 'sideboard') {
             sideboard.push(card);
           } else {
@@ -97,7 +85,6 @@ const DecklistSubmission = () => {
           }
         }
       }
-      
       setParsedDecklist({ mainboard, sideboard });
       validateDecklist({ mainboard, sideboard });
     } catch (error) {
@@ -106,49 +93,40 @@ const DecklistSubmission = () => {
       setIsValidating(false);
     }
   };
-
   const validateDecklist = (decklist) => {
     const errors = [];
     const { mainboard, sideboard } = decklist;
-    
     // Check minimum deck size (60 cards for constructed)
     const mainboardCount = mainboard.reduce((sum, card) => sum + card.quantity, 0);
     if (mainboardCount < 60) {
       errors.push(`Mainboard has ${mainboardCount} cards. Minimum is 60.`);
     }
-    
     // Check maximum copies per card (4 for most cards)
     const cardCounts = {};
     [...mainboard, ...sideboard].forEach(card => {
       cardCounts[card.name] = (cardCounts[card.name] || 0) + card.quantity;
     });
-    
     Object.entries(cardCounts).forEach(([cardName, count]) => {
       if (count > 4 && !isBasicLand(cardName)) {
         errors.push(`${cardName}: ${count} copies (maximum 4 allowed)`);
       }
     });
-    
     // Check sideboard size (maximum 15)
     const sideboardCount = sideboard.reduce((sum, card) => sum + card.quantity, 0);
     if (sideboardCount > 15) {
       errors.push(`Sideboard has ${sideboardCount} cards. Maximum is 15.`);
     }
-    
     setValidationErrors(errors);
   };
-
   const isBasicLand = (cardName) => {
     const basicLands = ['Plains', 'Island', 'Swamp', 'Mountain', 'Forest'];
     return basicLands.includes(cardName);
   };
-
   const handlePasteDecklist = () => {
     if (decklistData.trim()) {
       parseDecklist(decklistData);
     }
   };
-
   const addCardManually = () => {
     // Add empty card for manual entry
     setParsedDecklist(prev => ({
@@ -156,7 +134,6 @@ const DecklistSubmission = () => {
       mainboard: [...prev.mainboard, { quantity: 1, name: '', id: '' }]
     }));
   };
-
   const updateCard = (section, index, field, value) => {
     setParsedDecklist(prev => ({
       ...prev,
@@ -165,20 +142,17 @@ const DecklistSubmission = () => {
       )
     }));
   };
-
   const removeCard = (section, index) => {
     setParsedDecklist(prev => ({
       ...prev,
       [section]: prev[section].filter((_, i) => i !== index)
     }));
   };
-
   const submitDecklist = async () => {
     if (validationErrors.length > 0) {
       alert('Please fix validation errors before submitting.');
       return;
     }
-
     try {
       const deckData = {
         name: deckName || 'Tournament Decklist',
@@ -188,9 +162,7 @@ const DecklistSubmission = () => {
         submittedAt: new Date().toISOString(),
         userId: user?.id
       };
-
       await saveDeck(deckData);
-      
       // Navigate back to tournament or player portal
       if (tournamentId) {
         navigate(`/tournaments/${tournamentId}/live`);
@@ -202,14 +174,10 @@ const DecklistSubmission = () => {
       alert('Failed to submit decklist. Please try again.');
     }
   };
-
   const renderUploadMethod = () => (
     <div className="space-y-4">
       <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
         <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
-          Upload Decklist File
-        </h3>
         <p className="text-gray-600 mb-4">
           Supported formats: {supportedFormats.join(', ')}
         </p>
@@ -229,7 +197,6 @@ const DecklistSubmission = () => {
       </div>
     </div>
   );
-
   const renderPasteMethod = () => (
     <div className="space-y-4">
       <div>
@@ -252,11 +219,9 @@ const DecklistSubmission = () => {
       </button>
     </div>
   );
-
   const renderManualMethod = () => (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">Manual Entry</h3>
         <button
           onClick={addCardManually}
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
@@ -265,10 +230,8 @@ const DecklistSubmission = () => {
           Add Card
         </button>
       </div>
-      
       {/* Mainboard */}
       <div>
-        <h4 className="font-medium mb-2">Mainboard</h4>
         <div className="space-y-2">
           {parsedDecklist.mainboard.map((card, index) => (
             <div key={index} className="flex gap-2 items-center">
@@ -297,10 +260,8 @@ const DecklistSubmission = () => {
           ))}
         </div>
       </div>
-
       {/* Sideboard */}
       <div>
-        <h4 className="font-medium mb-2">Sideboard</h4>
         <div className="space-y-2">
           {parsedDecklist.sideboard.map((card, index) => (
             <div key={index} className="flex gap-2 items-center">
@@ -341,10 +302,8 @@ const DecklistSubmission = () => {
       </div>
     </div>
   );
-
   const renderExistingMethod = () => (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Use Existing Decklist</h3>
       <div className="grid gap-4">
         {decks.map((deck) => (
           <div
@@ -363,7 +322,6 @@ const DecklistSubmission = () => {
                 : 'border-gray-300 hover:border-gray-400'
             }`}
           >
-            <h4 className="font-medium">{deck.name}</h4>
             <p className="text-sm text-gray-600">
               {deck.mainboard?.length || 0} cards • Last modified: {new Date(deck.updatedAt).toLocaleDateString()}
             </p>
@@ -372,7 +330,6 @@ const DecklistSubmission = () => {
       </div>
     </div>
   );
-
   const renderValidation = () => {
     if (isValidating) {
       return (
@@ -382,7 +339,6 @@ const DecklistSubmission = () => {
         </div>
       );
     }
-
     if (validationErrors.length === 0 && parsedDecklist.mainboard.length > 0) {
       return (
         <div className="flex items-center gap-2 text-green-600">
@@ -391,7 +347,6 @@ const DecklistSubmission = () => {
         </div>
       );
     }
-
     if (validationErrors.length > 0) {
       return (
         <div className="space-y-2">
@@ -407,23 +362,16 @@ const DecklistSubmission = () => {
         </div>
       );
     }
-
     return null;
   };
-
   const renderDecklistPreview = () => {
     if (!showPreview || parsedDecklist.mainboard.length === 0) return null;
-
     const mainboardCount = parsedDecklist.mainboard.reduce((sum, card) => sum + card.quantity, 0);
     const sideboardCount = parsedDecklist.sideboard.reduce((sum, card) => sum + card.quantity, 0);
-
     return (
       <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="font-medium mb-4">Decklist Preview</h3>
-        
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <h4 className="font-medium mb-2">Mainboard ({mainboardCount} cards)</h4>
             <div className="space-y-1 text-sm">
               {parsedDecklist.mainboard.map((card, index) => (
                 <div key={index} className="flex justify-between">
@@ -432,10 +380,8 @@ const DecklistSubmission = () => {
               ))}
             </div>
           </div>
-          
           {parsedDecklist.sideboard.length > 0 && (
             <div>
-              <h4 className="font-medium mb-2">Sideboard ({sideboardCount} cards)</h4>
               <div className="space-y-1 text-sm">
                 {parsedDecklist.sideboard.map((card, index) => (
                   <div key={index} className="flex justify-between">
@@ -449,7 +395,6 @@ const DecklistSubmission = () => {
       </div>
     );
   };
-
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -468,7 +413,6 @@ const DecklistSubmission = () => {
             </p>
           )}
         </div>
-
         {/* Submission Method Tabs */}
         <div className="bg-white rounded-lg shadow-sm mb-6">
           <div className="border-b border-gray-200">
@@ -494,7 +438,6 @@ const DecklistSubmission = () => {
               ))}
             </nav>
           </div>
-
           <div className="p-6">
             {submissionMethod === 'upload' && renderUploadMethod()}
             {submissionMethod === 'paste' && renderPasteMethod()}
@@ -502,7 +445,6 @@ const DecklistSubmission = () => {
             {submissionMethod === 'existing' && renderExistingMethod()}
           </div>
         </div>
-
         {/* Decklist Name */}
         {parsedDecklist.mainboard.length > 0 && (
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -518,15 +460,12 @@ const DecklistSubmission = () => {
             />
           </div>
         )}
-
         {/* Validation */}
         {parsedDecklist.mainboard.length > 0 && (
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h3 className="font-medium mb-4">Validation</h3>
             {renderValidation()}
           </div>
         )}
-
         {/* Preview Toggle */}
         {parsedDecklist.mainboard.length > 0 && (
           <div className="mb-6">
@@ -539,10 +478,8 @@ const DecklistSubmission = () => {
             </button>
           </div>
         )}
-
         {/* Preview */}
         {renderDecklistPreview()}
-
         {/* Submit Button */}
         {parsedDecklist.mainboard.length > 0 && (
           <div className="flex justify-end gap-4 mt-8">
@@ -566,5 +503,4 @@ const DecklistSubmission = () => {
     </div>
   );
 };
-
 export default DecklistSubmission;

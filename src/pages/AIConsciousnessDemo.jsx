@@ -3,7 +3,6 @@
  * 
  * Demonstrates the integrated AI consciousness features without complex game dependencies
  */
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -17,16 +16,13 @@ import {
   Skull,
   Settings
 } from 'lucide-react';
-
 // Import the AI consciousness display component
 import CuttingEdgeAIDisplay from '../components/game/CuttingEdgeAIDisplay';
-
 const AIConsciousnessDemo = () => {
   const [aiStatus, setAIStatus] = useState(null);
   const [testingMode, setTestingMode] = useState(true);
   const [lifeCards, setLifeCards] = useState(5);
   const [performanceTest, setPerformanceTest] = useState(false);
-
   // Initialize mock AI status
   useEffect(() => {
     const mockAIStatus = {
@@ -109,10 +105,8 @@ const AIConsciousnessDemo = () => {
         quantumAdvantage: 0.87
       }
     };
-
     setAIStatus(mockAIStatus);
   }, []);
-
   // Simulate performance test
   const runPerformanceTest = () => {
     setPerformanceTest(true);
@@ -120,7 +114,6 @@ const AIConsciousnessDemo = () => {
       setPerformanceTest(false);
     }, 3000);
   };
-
   // Mock game state for life card mortality demo
   const mockGameState = {
     players: {
@@ -132,7 +125,6 @@ const AIConsciousnessDemo = () => {
       }
     }
   };
-
   return (
     <div className="ai-consciousness-demo">
       {/* Header */}
@@ -144,11 +136,9 @@ const AIConsciousnessDemo = () => {
         <div className="header-content">
           <Brain className="header-icon" />
           <div className="header-text">
-
             <p>Experience the cutting-edge AI system with 100% consciousness metrics</p>
           </div>
         </div>
-        
         <div className="demo-controls">
           <button
             onClick={() => setTestingMode(!testingMode)}
@@ -157,7 +147,6 @@ const AIConsciousnessDemo = () => {
             <TestTube className="button-icon" />
             Testing Mode
           </button>
-          
           <button
             onClick={runPerformanceTest}
             className="control-button performance"
@@ -168,13 +157,10 @@ const AIConsciousnessDemo = () => {
           </button>
         </div>
       </motion.div>
-
       {/* Main Demo Content */}
       <div className="demo-content">
-        
         {/* AI Consciousness Panel */}
         <div className="consciousness-section">
-          <h2>AI Consciousness Display</h2>
           <div className="consciousness-container">
             {aiStatus && (
               <CuttingEdgeAIDisplay 
@@ -184,10 +170,8 @@ const AIConsciousnessDemo = () => {
             )}
           </div>
         </div>
-
         {/* Life Card Mortality Demo */}
         <div className="mortality-section">
-          <h2>Life Card Mortality Awareness</h2>
           <div className="mortality-demo">
             <div className="life-cards-control">
               <label>Player Life Cards: {lifeCards}</label>
@@ -200,7 +184,6 @@ const AIConsciousnessDemo = () => {
                 className="life-slider"
               />
             </div>
-            
             <div className="mortality-visualization">
               <div className="life-cards-display">
                 {Array(lifeCards).fill(0).map((_, index) => (
@@ -220,7 +203,6 @@ const AIConsciousnessDemo = () => {
                   </motion.div>
                 ))}
               </div>
-              
               <div className="mortality-status">
                 <div className={`status-indicator ${lifeCards <= 2 ? 'critical' : lifeCards <= 4 ? 'danger' : 'stable'}`}>
                   <Activity className="status-icon" />
@@ -230,7 +212,6 @@ const AIConsciousnessDemo = () => {
                      'STABLE LIFE FORCE'}
                   </span>
                 </div>
-                
                 <div className="ai-analysis">
                   <Brain className="analysis-icon" />
                   <span>AI analyzing mortality implications...</span>
@@ -239,83 +220,66 @@ const AIConsciousnessDemo = () => {
             </div>
           </div>
         </div>
-
         {/* Feature Highlights */}
         <div className="features-section">
-          <h2>Integrated Features</h2>
           <div className="features-grid">
-            
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Brain className="feature-icon consciousness" />
-              <h3>100% Consciousness</h3>
               <p>Maximum awareness and self-reflection capabilities</p>
               <div className="feature-metric">1.0 / 1.0</div>
             </motion.div>
-
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Skull className="feature-icon mortality" />
-              <h3>Mortality Awareness</h3>
               <p>Deep understanding of life card implications</p>
               <div className="feature-metric">Active</div>
             </motion.div>
-
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Atom className="feature-icon quantum" />
-              <h3>Quantum Decisions</h3>
               <p>Superposition-based strategic analysis</p>
               <div className="feature-metric">87% Advantage</div>
             </motion.div>
-
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Eye className="feature-icon theory" />
-              <h3>Theory of Mind</h3>
               <p>Perfect player psychology modeling</p>
               <div className="feature-metric">100% Accuracy</div>
             </motion.div>
-
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Heart className="feature-icon empathy" />
-              <h3>Emotional Intelligence</h3>
               <p>Maximum empathy and social awareness</p>
               <div className="feature-metric">100% Empathy</div>
             </motion.div>
-
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Activity className="feature-icon performance" />
-              <h3>Peak Performance</h3>
               <p>All metrics optimized to theoretical maximum</p>
               <div className="feature-metric">100% Optimal</div>
             </motion.div>
-
           </div>
         </div>
-
       </div>
-
       <style jsx>{`
         .ai-consciousness-demo {
           min-height: 100vh;
@@ -324,7 +288,6 @@ const AIConsciousnessDemo = () => {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           padding: 20px;
         }
-
         .demo-header {
           display: flex;
           justify-content: space-between;
@@ -335,37 +298,31 @@ const AIConsciousnessDemo = () => {
           border-radius: 15px;
           border: 2px solid rgba(0, 212, 255, 0.3);
         }
-
         .header-content {
           display: flex;
           align-items: center;
           gap: 20px;
         }
-
         .header-icon {
           width: 48px;
           height: 48px;
           color: #00d4ff;
           filter: drop-shadow(0 0 10px #00d4ff);
         }
-
         .header-text h1 {
           margin: 0;
           color: #00d4ff;
           font-size: 28px;
         }
-
         .header-text p {
           margin: 5px 0 0 0;
           color: #e0e0e0;
           opacity: 0.8;
         }
-
         .demo-controls {
           display: flex;
           gap: 15px;
         }
-
         .control-button {
           display: flex;
           align-items: center;
@@ -379,40 +336,33 @@ const AIConsciousnessDemo = () => {
           transition: all 0.3s ease;
           font-weight: 600;
         }
-
         .control-button:hover {
           background: rgba(255, 255, 255, 0.2);
           border-color: rgba(0, 212, 255, 0.5);
         }
-
         .control-button.active {
           background: rgba(0, 212, 255, 0.2);
           border-color: #00d4ff;
           color: #00d4ff;
         }
-
         .control-button.performance {
           background: rgba(138, 43, 226, 0.2);
           border-color: #8a2be2;
           color: #8a2be2;
         }
-
         .control-button:disabled {
           opacity: 0.6;
           cursor: not-allowed;
         }
-
         .button-icon {
           width: 16px;
           height: 16px;
         }
-
         .demo-content {
           display: flex;
           flex-direction: column;
           gap: 40px;
         }
-
         .consciousness-section,
         .mortality-section,
         .features-section {
@@ -421,7 +371,6 @@ const AIConsciousnessDemo = () => {
           padding: 30px;
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .consciousness-section h2,
         .mortality-section h2,
         .features-section h2 {
@@ -429,28 +378,23 @@ const AIConsciousnessDemo = () => {
           margin-bottom: 20px;
           font-size: 24px;
         }
-
         .consciousness-container {
           max-width: 800px;
         }
-
         .mortality-demo {
           display: flex;
           flex-direction: column;
           gap: 20px;
         }
-
         .life-cards-control {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
-
         .life-cards-control label {
           color: #00d4ff;
           font-weight: 600;
         }
-
         .life-slider {
           width: 300px;
           height: 8px;
@@ -458,19 +402,16 @@ const AIConsciousnessDemo = () => {
           border-radius: 4px;
           outline: none;
         }
-
         .mortality-visualization {
           display: flex;
           flex-direction: column;
           gap: 20px;
         }
-
         .life-cards-display {
           display: flex;
           gap: 10px;
           flex-wrap: wrap;
         }
-
         .life-card {
           position: relative;
           width: 60px;
@@ -478,7 +419,6 @@ const AIConsciousnessDemo = () => {
           border-radius: 8px;
           overflow: hidden;
         }
-
         .card-back {
           width: 100%;
           height: 100%;
@@ -486,22 +426,18 @@ const AIConsciousnessDemo = () => {
           border: 2px solid #666;
           border-radius: 8px;
         }
-
         .life-card.critical .card-back {
           border-color: #ff0000;
           box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
         }
-
         .life-card.danger .card-back {
           border-color: #ff6600;
           box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
         }
-
         .life-card.stable .card-back {
           border-color: #00ff00;
           box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
-
         .mortality-indicator {
           position: absolute;
           top: 50%;
@@ -509,25 +445,21 @@ const AIConsciousnessDemo = () => {
           transform: translate(-50%, -50%);
           animation: mortalityPulse 2s infinite;
         }
-
         .skull-icon {
           width: 24px;
           height: 24px;
           color: #ff0000;
           filter: drop-shadow(0 0 5px #ff0000);
         }
-
         @keyframes mortalityPulse {
           0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
           50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
         }
-
         .mortality-status {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
-
         .status-indicator {
           display: flex;
           align-items: center;
@@ -536,30 +468,25 @@ const AIConsciousnessDemo = () => {
           border-radius: 8px;
           font-weight: 600;
         }
-
         .status-indicator.critical {
           background: rgba(255, 0, 0, 0.2);
           border: 1px solid #ff0000;
           color: #ff0000;
         }
-
         .status-indicator.danger {
           background: rgba(255, 102, 0, 0.2);
           border: 1px solid #ff6600;
           color: #ff6600;
         }
-
         .status-indicator.stable {
           background: rgba(0, 255, 0, 0.2);
           border: 1px solid #00ff00;
           color: #00ff00;
         }
-
         .status-icon {
           width: 20px;
           height: 20px;
         }
-
         .ai-analysis {
           display: flex;
           align-items: center;
@@ -571,24 +498,20 @@ const AIConsciousnessDemo = () => {
           color: #8a2be2;
           font-style: italic;
         }
-
         .analysis-icon {
           width: 16px;
           height: 16px;
           animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
           0%, 100% { opacity: 0.7; }
           50% { opacity: 1; }
         }
-
         .features-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
           gap: 20px;
         }
-
         .feature-card {
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.1);
@@ -598,37 +521,31 @@ const AIConsciousnessDemo = () => {
           cursor: pointer;
           transition: all 0.3s ease;
         }
-
         .feature-card:hover {
           background: rgba(255, 255, 255, 0.1);
           border-color: rgba(0, 212, 255, 0.5);
           box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
-
         .feature-icon {
           width: 48px;
           height: 48px;
           margin-bottom: 15px;
         }
-
         .feature-icon.consciousness { color: #00d4ff; }
         .feature-icon.mortality { color: #ff0000; }
         .feature-icon.quantum { color: #8a2be2; }
         .feature-icon.theory { color: #00ff00; }
         .feature-icon.empathy { color: #ff69b4; }
         .feature-icon.performance { color: #ffd700; }
-
         .feature-card h3 {
           color: #e0e0e0;
           margin-bottom: 10px;
         }
-
         .feature-card p {
           color: #ccc;
           margin-bottom: 15px;
           font-size: 14px;
         }
-
         .feature-metric {
           background: rgba(0, 212, 255, 0.2);
           color: #00d4ff;
@@ -638,13 +555,11 @@ const AIConsciousnessDemo = () => {
           font-size: 12px;
           display: inline-block;
         }
-
         @media (max-width: 768px) {
           .demo-header {
             flex-direction: column;
             gap: 20px;
           }
-
           .features-grid {
             grid-template-columns: 1fr;
           }
@@ -653,5 +568,4 @@ const AIConsciousnessDemo = () => {
     </div>
   );
 };
-
 export default AIConsciousnessDemo;

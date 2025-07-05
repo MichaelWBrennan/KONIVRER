@@ -4,32 +4,26 @@
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { getCardArtPathFromData } from '../utils/cardArtMapping';
-
 const MobileCardExplorer = () => {
   const { cards, loading, error } = useData();
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showFilters, setShowFilters] = useState(false);
-
   // Filter cards based on search term and type
   useEffect(() => {
     if (!cards) return;
-
     // Don't show any cards until a search is performed
     if (!searchTerm || searchTerm.length < 2) {
       setFilteredCards([]);
       return;
     }
-
     let results = [...cards];
-
     // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -39,34 +33,27 @@ const MobileCardExplorer = () => {
           (card.text && card.text.toLowerCase().includes(term)),
       );
     }
-
     // Apply type filter
     if (selectedType !== 'All') {
       results = results.filter(card => card.type === selectedType);
     }
-
     setFilteredCards(results);
   }, [cards, searchTerm, selectedType]);
-
   // Handle search input change
   const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
-
   // Handle type filter change
   const handleTypeChange = type => {
     setSelectedType(type);
     setShowFilters(false);
   };
-
   // Get unique card types
   const getCardTypes = () => {
     if (!cards) return ['All'];
-
     const types = new Set(cards.map(card => card.type));
     return ['All', ...Array.from(types)];
   };
-
   // Loading state
   if (loading) {
     return (
@@ -77,7 +64,6 @@ const MobileCardExplorer = () => {
       </div>
     );
   }
-
   // Error state
   if (error) {
     return (
@@ -88,7 +74,6 @@ const MobileCardExplorer = () => {
       </div>
     );
   }
-
   return (
     <div className="mobile-card-explorer">
       {/* Search Bar */}
@@ -105,7 +90,6 @@ const MobileCardExplorer = () => {
             />
           </div>
         </div>
-
         <div className="mobile-form-group mobile-text-center">
           <button
             className="mobile-btn"
@@ -114,7 +98,6 @@ const MobileCardExplorer = () => {
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
-
         {/* Advanced Search Links */}
         <div className="mobile-form-group mobile-text-center">
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
@@ -131,7 +114,6 @@ const MobileCardExplorer = () => {
             </a>
           </div>
         </div>
-
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt">
@@ -150,7 +132,6 @@ const MobileCardExplorer = () => {
           </div>
         )}
       </div>
-
       {/* Results Count */}
       <div className="mobile-mb">
         <p className="mobile-text-center">
@@ -159,7 +140,6 @@ const MobileCardExplorer = () => {
             : `${filteredCards.length} cards found`}
         </p>
       </div>
-
       {/* Card Grid */}
       <div className="mobile-grid">
         {filteredCards.slice(0, 20).map(card => (
@@ -192,7 +172,6 @@ const MobileCardExplorer = () => {
           </Link>
         ))}
       </div>
-
       {/* Load More Button */}
       {filteredCards.length > 20 && searchTerm && searchTerm.length >= 2 && (
         <div className="mobile-text-center mobile-mt mobile-mb">
@@ -202,5 +181,4 @@ const MobileCardExplorer = () => {
     </div>
   );
 };
-
 export default MobileCardExplorer;
