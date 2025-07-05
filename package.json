@@ -1,7 +1,7 @@
 {
   "name": "konivrer-deck-database",
   "version": "1.0.0",
-  "description": "Professional deck building and card database for KONIVRER trading card game",
+  "description": "Professional deck building and card database for KONIVRER trading card game with comprehensive blog platform",
   "type": "module",
   "private": true,
   "scripts": {
