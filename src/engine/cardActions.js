@@ -5,6 +5,7 @@
 
 import { drawCard } from './gameState';
 import { canPayCost, payCardCost, playCardAsAzoth, calculateStrength } from './elementalSystem';
+import { applyKeywordEffects, checkKeywordSynergies } from './keywordSystem';
 
 /**
  * Summon: Play card as Familiar with +1 counters
@@ -61,6 +62,12 @@ export function playSummon(gameState, playerId, cardId, azothSpent) {
   
   // Add to field
   gameState.players[playerId].field.push(playedCard);
+  
+  // Apply keyword effects
+  gameState = applyKeywordEffects(gameState, playerId, playedCard, 'summon');
+  
+  // Check for keyword synergies
+  gameState = checkKeywordSynergies(gameState, playerId);
   
   // Log the action
   gameState.gameLog.push(`${playerId} summons ${playedCard.name} with ${counters} +1 counters`);
@@ -169,6 +176,12 @@ export function playTribute(gameState, playerId, cardId, tributeCardIds) {
   // Add to field
   gameState.players[playerId].field.push(playedCard);
   
+  // Apply keyword effects
+  gameState = applyKeywordEffects(gameState, playerId, playedCard, 'tribute');
+  
+  // Check for keyword synergies
+  gameState = checkKeywordSynergies(gameState, playerId);
+  
   // Log the action
   gameState.gameLog.push(`${playerId} plays ${playedCard.name} via Tribute`);
   
@@ -249,6 +262,9 @@ export function playSpell(gameState, playerId, cardId, azothSpent, abilityIndex)
     gameState = applySpellEffect(gameState, playerId, ability, genericValue);
   }
   
+  // Apply keyword effects (but not for Burst)
+  gameState = applyKeywordEffects(gameState, playerId, playedCard, 'spell');
+  
   // Put card on bottom of deck
   gameState.players[playerId].deck.unshift(playedCard);
   
@@ -299,6 +315,9 @@ export function playBurst(gameState, playerId, cardId) {
     playedCard.controllerId = playerId;
     
     gameState.players[playerId].field.push(playedCard);
+    
+    // NOTE: Keywords do NOT resolve when played via Burst
+    gameState.gameLog.push(`${playedCard.name} keywords do not resolve (played via Burst)`);
   } else if (playedCard.type === 'Spell') {
     // Apply spell effect with ⊗ = remaining Life Cards
     // But keywords don't resolve

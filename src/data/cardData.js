@@ -4,6 +4,7 @@
  */
 
 import { ELEMENTS } from '../engine/elementalSystem';
+import { KEYWORDS } from '../engine/keywordSystem';
 import cardsJson from './cards.json';
 
 /**
@@ -104,7 +105,7 @@ export function createFlag(name, elements, primaryElement, strongAgainst, abilit
 
 // Convert cards from JSON to game engine format
 function convertJsonCardToGameCard(jsonCard) {
-  // Map element names to engine element constants
+  // Map element names to engine element constants (keywords are NOT elements)
   const elementMap = {
     'Fire': ELEMENTS.FIRE,
     'Water': ELEMENTS.WATER,
@@ -113,10 +114,7 @@ function convertJsonCardToGameCard(jsonCard) {
     'Aether': ELEMENTS.AETHER,
     'Nether': ELEMENTS.NETHER,
     'Neutral': ELEMENTS.GENERIC,
-    'Brilliance': ELEMENTS.FIRE,
-    'Quintessence': ELEMENTS.AETHER,
-    'Void': ELEMENTS.NETHER,
-    'Submerged': ELEMENTS.WATER
+    'Quintessence': ELEMENTS.AETHER
   };
   
   // Convert element costs to the format expected by the game engine
@@ -137,9 +135,13 @@ function convertJsonCardToGameCard(jsonCard) {
     });
   }
   
+  // Process keywords separately from elements
+  const keywords = jsonCard.keywords || [];
+  
   // Create the card based on its type
+  let card;
   if (jsonCard.type === 'ΦLAG' || jsonCard.type === 'FLAG') {
-    return createFlag(
+    card = createFlag(
       jsonCard.name,
       elements,
       elementMap[jsonCard.elements[0]] || ELEMENTS.GENERIC,
@@ -151,7 +153,7 @@ function convertJsonCardToGameCard(jsonCard) {
       jsonCard.collectorNumber
     );
   } else if (jsonCard.type === 'SPELL') {
-    return createSpell(
+    card = createSpell(
       jsonCard.name,
       elements,
       abilities,
@@ -162,7 +164,7 @@ function convertJsonCardToGameCard(jsonCard) {
     );
   } else {
     // Default to Familiar for ELEMENTAL and other types
-    return createFamiliar(
+    card = createFamiliar(
       jsonCard.name,
       elements,
       jsonCard.attack || 2, // Default attack
@@ -174,6 +176,11 @@ function convertJsonCardToGameCard(jsonCard) {
       jsonCard.collectorNumber
     );
   }
+  
+  // Add keywords to the card (separate from elements)
+  card.keywords = keywords;
+  
+  return card;
 }
 
 // Convert the first few cards from the JSON database

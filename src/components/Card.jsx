@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ELEMENT_SYMBOLS } from '../engine/elementalSystem';
+import { KEYWORD_SYMBOLS, getKeywordDisplayInfo } from '../engine/keywordSystem';
 import CardPreview from './CardPreview';
 import '../styles/card.css';
 
@@ -75,6 +76,24 @@ const Card = ({ card, location = 'hand', onClick }) => {
         
         {/* Card type */}
         <div className="card-type">{card.type}</div>
+        
+        {/* Keywords (separate from elements) */}
+        {card.keywords && card.keywords.length > 0 && (
+          <div className="card-keywords">
+            {card.keywords.map((keyword, index) => {
+              const keywordInfo = getKeywordDisplayInfo(keyword);
+              return (
+                <div 
+                  key={index} 
+                  className={`keyword ${keyword.toLowerCase()}`}
+                  title={keywordInfo.description}
+                >
+                  {keywordInfo.symbol} {keywordInfo.name}
+                </div>
+              );
+            })}
+          </div>
+        )}
         
         {/* Card abilities */}
         {card.abilities && card.abilities.length > 0 && (
