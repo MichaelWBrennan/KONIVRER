@@ -9,8 +9,8 @@ const STATIC_ASSETS = [
   '/static/js/bundle.js',
   '/static/css/main.css',
   '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
+  '/icons/pwa-192x192.png',
+  '/icons/pwa-512x512.png',
 ];
 
 // API endpoints to cache
@@ -224,19 +224,19 @@ self.addEventListener('push', event => {
   } catch (e) {
     notificationData = {
       title: 'KONIVRER',
-      message: event.data ? event.data.text() : 'You have new activity in KONIVRER!'
+      body: event.data ? event.data.text() : 'You have new activity in KONIVRER!'
     };
   }
   
   // Default notification options
   const options = {
-    body: notificationData.message || 'You have new activity in KONIVRER!',
-    icon: notificationData.icon || '/icon-192x192.png',
-    badge: notificationData.badge || '/badge-72x72.png',
+    body: notificationData.body || 'You have new activity in KONIVRER!',
+    icon: notificationData.icon || '/icons/pwa-192x192.png',
+    badge: notificationData.badge || '/icons/pwa-192x192.png',
     vibrate: [200, 100, 200],
     data: {
-      url: notificationData.url || '/',
-      ...notificationData
+      url: notificationData.data?.url || '/',
+      ...notificationData.data
     },
     tag: notificationData.tag || 'konivrer-notification',
     renotify: notificationData.renotify || false,
@@ -245,59 +245,66 @@ self.addEventListener('push', event => {
       {
         action: 'open',
         title: 'Open App',
-        icon: '/icon-192x192.png',
+        icon: '/icons/pwa-192x192.png',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icon-192x192.png',
+        icon: '/icons/pwa-192x192.png',
       },
     ],
   };
 
-  // Add specific actions based on notification type
-  if (notificationData.type === 'tournament') {
+  // Add specific actions based on notification type or tag
+  if (notificationData.tag === 'tournament' || notificationData.data?.type === 'tournament') {
     options.actions = [
       {
         action: 'view-tournament',
         title: 'View Tournament',
-        icon: '/tournament-icon.png',
+        icon: '/icons/pwa-192x192.png',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icon-192x192.png',
+        icon: '/icons/pwa-192x192.png',
       },
     ];
-  } else if (notificationData.type === 'message') {
+  } else if (notificationData.tag?.startsWith('message-') || notificationData.data?.type === 'message') {
     options.actions = [
       {
         action: 'view-message',
         title: 'Read Message',
-        icon: '/message-icon.png',
+        icon: '/icons/pwa-192x192.png',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icon-192x192.png',
+        icon: '/icons/pwa-192x192.png',
       },
     ];
-  } else if (notificationData.type === 'match') {
+  } else if (notificationData.tag === 'match' || notificationData.data?.type === 'match') {
     options.actions = [
       {
         action: 'join-match',
         title: 'Join Match',
-        icon: '/match-icon.png',
+        icon: '/icons/pwa-192x192.png',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icon-192x192.png',
+        icon: '/icons/pwa-192x192.png',
       },
     ];
   }
 
   const title = notificationData.title || 'KONIVRER';
+  
+  // Update badge count
+  if ('setAppBadge' in navigator) {
+    navigator.setAppBadge(1).catch(error => {
+      console.error('Error setting app badge:', error);
+    });
+  }
   
   event.waitUntil(self.registration.showNotification(title, options));
 });
@@ -315,11 +322,24 @@ self.addEventListener('notificationclick', event => {
   if (event.action === 'view-tournament') {
     url = data.tournamentId ? `/tournaments/${data.tournamentId}/live` : '/tournaments';
   } else if (event.action === 'view-message') {
-    url = data.messageId ? `/messages/${data.messageId}` : '/messages';
+    url = data.senderId ? `/messages/${data.senderId}` : '/messages';
   } else if (event.action === 'join-match') {
     url = data.matchId ? `/game/pvp/${data.matchId}` : '/matchmaking';
   } else if (event.action === 'close') {
+    // Clear badge when notification is dismissed
+    if ('clearAppBadge' in navigator) {
+      navigator.clearAppBadge().catch(error => {
+        console.error('Error clearing app badge:', error);
+      });
+    }
     return; // Just close the notification without opening the app
+  }
+
+  // Clear badge when notification is clicked
+  if ('clearAppBadge' in navigator) {
+    navigator.clearAppBadge().catch(error => {
+      console.error('Error clearing app badge:', error);
+    });
   }
 
   // If action is 'open' or no action (clicked on notification body)

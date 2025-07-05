@@ -5,6 +5,7 @@
  * Licensed under the MIT License
  */
 
+import React, { lazy, Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -76,6 +77,7 @@ import DecklistSubmission from './pages/DecklistSubmission';
 import PlayerPortal from './pages/PlayerPortal';
 import OrganizationDashboard from './pages/OrganizationDashboard';
 import MobileJudgeTools from './components/tournaments/MobileJudgeTools';
+import NotificationTest from './components/unified/NotificationTest';
 
 function App() {
   return (
@@ -348,6 +350,16 @@ function App() {
                             <Route
                               path="/oauth/complete"
                               element={<OAuthComplete />}
+                            />
+
+                            {/* Notification Test */}
+                            <Route
+                              path="/notification-test"
+                              element={
+                                <Suspense fallback={<div>Loading...</div>}>
+                                  <NotificationTest />
+                                </Suspense>
+                              }
                             />
 
                             {/* Redirects */}
