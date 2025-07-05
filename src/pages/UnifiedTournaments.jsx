@@ -118,51 +118,40 @@ const UnifiedTournaments = () => {
     });
   };
   // Registration functionality
-  const handleEventRegistration = async (eventId, eventName) => {
-    if (!isAuthenticated) {
-      alert('Please log in to register for events.');
-      return;
-    }
-    try {
-      // Simulate API call for registration
-      console.log(`Registering for event ${eventId}: ${eventName}`);
-      // Show success message
-      alert(`Successfully registered for ${eventName}! Check your player profile for event details.`);
-      // Update local state to reflect registration
-      setEvents(prev => prev.map(event => 
-        event.id === eventId 
-          ? { 
-              ...event, 
-              participants: event.participants + 1,
-              isRegistered: true 
-            }
-          : event
-      ));
-    } catch (error) {
-      console.error('Registration failed:', error);
-      alert('Registration failed. Please try again.');
-    }
-  };
   const handleTournamentRegistration = async (tournamentId, tournamentName) => {
     if (!isAuthenticated) {
-      alert('Please log in to register for tournaments.');
+      alert('Please log in to register for this tournament.');
       return;
     }
     try {
       // Simulate API call for tournament registration
       console.log(`Registering for tournament ${tournamentId}: ${tournamentName}`);
       // Show success message
-      alert(`Successfully registered for ${tournamentName}! Check your player profile for tournament details.`);
-      // Update local state to reflect registration
-      setTournaments(prev => prev.map(tournament => 
-        tournament.id === tournamentId 
-          ? { 
-              ...tournament, 
-              participants: tournament.participants + 1,
-              isRegistered: true 
-            }
-          : tournament
-      ));
+      alert(`Successfully registered for ${tournamentName}! Check your player profile for details.`);
+      
+      // Check if it's in tournaments or events array and update accordingly
+      const tournamentInMainList = tournaments.find(t => t.id === tournamentId);
+      if (tournamentInMainList) {
+        setTournaments(prev => prev.map(tournament => 
+          tournament.id === tournamentId 
+            ? { 
+                ...tournament, 
+                participants: tournament.participants + 1,
+                isRegistered: true 
+              }
+            : tournament
+        ));
+      } else {
+        setEvents(prev => prev.map(event => 
+          event.id === tournamentId 
+            ? { 
+                ...event, 
+                participants: event.participants + 1,
+                isRegistered: true 
+              }
+            : event
+        ));
+      }
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');
@@ -213,144 +202,80 @@ const UnifiedTournaments = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-6">
-        {/* Unified Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div><p className="text-gray-400">
-                Discover competitive tournaments, community events, and track
-                match analytics
-              </p>
+        {/* Organizer Actions */}
+        <div className="flex justify-end mb-4">
+          {hasOrganizerAccess() && (
+            <div className="flex space-x-2">
+              <Link
+                to="/tournament-create"
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors"
+              >
+                <Plus size={16} />
+                <span>Create Tournament</span>
+              </Link>
+              <Link
+                to="/tournament-manager"
+                className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors"
+              >
+                <Settings size={16} />
+                <span>Manage</span>
+              </Link>
             </div>
-            {hasOrganizerAccess() && (
-              <div className="flex space-x-2">
-                <Link
-                  to="/tournament-create"
-                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                >
-                  <Plus size={16} />
-                  <span>Create Tournament</span>
-                </Link>
-                <Link
-                  to="/tournament-manager"
-                  className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                >
-                  <Settings size={16} />
-                  <span>Manage</span>
-                </Link>
-              </div>
-            )}
-          </div>
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">Active Tournaments</p>
-                  <p className="text-2xl font-bold">
-                    {tournaments.filter(t => t.status !== 'Completed').length}
-                  </p>
-                </div>
-                <Trophy className="text-yellow-400" size={24} />
-              </div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">Total Players</p>
-                  <p className="text-2xl font-bold">
-                    {analytics.totalPlayers?.toLocaleString()}
-                  </p>
-                </div>
-                <Users className="text-blue-400" size={24} />
-              </div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">Prize Pool</p>
-                  <p className="text-2xl font-bold">
-                    {analytics.totalPrizePool}
-                  </p>
-                </div>
-                <DollarSign className="text-green-400" size={24} />
-              </div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">Live Matches</p>
-                  <p className="text-2xl font-bold">
-                    {matches.filter(m => m.status === 'In Progress').length}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-        {/* Tournament Meta Analysis - Added from Analytics Hub */}
-        <TournamentMetaAnalysis />
+        
         {/* Unified Search and Filters */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <div className="relative mb-4">
+        <div className="bg-gray-800 rounded-lg p-4 mb-6">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="relative w-full">
+              <div className="flex items-center">
                 <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                   size={20}
                 />
                 <input
                   type="text"
-                  placeholder="Search tournaments, events, or locations..."
+                  placeholder="Search tournaments or locations..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex flex-wrap gap-2">
-                <select
-                  value={filters.status}
-                  onChange={e =>
-                    setFilters({ ...filters, status: e.target.value })
-                  }
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-sm"
-                >
-                  <option value="">All Status</option>
-                  <option value="Registration Open">Registration Open</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                </select>
-                <select
-                  value={sortBy}
-                  onChange={e => setSortBy(e.target.value)}
-                  className="bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-sm"
-                >
-                  <option value="date">Sort by Date</option>
-                  <option value="name">Sort by Name</option>
-                  <option value="participants">Sort by Participants</option>
-                  <option value="prizePool">Sort by Prize Pool</option>
-                </select>
-              </div>
             </div>
-            <div className="flex flex-col space-y-2">
-              <div className="text-sm text-gray-400">
-                {filteredTournaments.length} tournaments •{' '}
-                {filteredEvents.length} events
-              </div>
-              <div className="text-sm text-gray-400">
-                {matches.filter(m => m.status === 'In Progress').length} live
-                matches
-              </div>
+            <div className="flex gap-2 flex-shrink-0">
+              <select
+                value={filters.status}
+                onChange={e =>
+                  setFilters({ ...filters, status: e.target.value })
+                }
+                className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+              >
+                <option value="">All Status</option>
+                <option value="Registration Open">Registration Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+              >
+                <option value="date">Sort by Date</option>
+                <option value="name">Sort by Name</option>
+                <option value="participants">Sort by Participants</option>
+                <option value="prizePool">Sort by Prize Pool</option>
+              </select>
             </div>
           </div>
         </div>
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* Left Column - Tournaments & Events */}
+          {/* Tournaments */}
           <div className="xl:col-span-2 space-y-6">
-            {/* Active Tournaments */}
+            {/* All Tournaments */}
             <div className="bg-gray-800 rounded-lg p-6">
               <div className="space-y-4">
-                {filteredTournaments.map(tournament => (
+                {[...filteredTournaments, ...filteredEvents].map(tournament => (
                   <div
                     key={tournament.id}
                     className="bg-gray-700 rounded-lg p-4 hover:bg-gray-650 transition-colors"
