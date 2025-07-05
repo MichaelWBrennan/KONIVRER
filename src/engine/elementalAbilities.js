@@ -99,6 +99,16 @@ export function getAbilityDisplayInfo(ability) {
   };
 }
 
+// All elements for UI components (using proper element names)
+export const ALL_ELEMENTS = [
+  'aether',
+  'air', 
+  'fire',
+  'earth',
+  'water',
+  'nether'
+];
+
 /**
  * Parse card elements and return display-friendly format
  * @param {Array} elements - Array of element/ability names from card

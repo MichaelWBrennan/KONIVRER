@@ -324,24 +324,56 @@ const matchesElementFilter = (card, element) => {
   const cardElements = getCardElements(card);
   const searchElement = element.toLowerCase();
   
-  // Map element names to symbols
+  // Map element names to symbols and abilities
   const elementMap = {
+    // Primary KONIVRER elements
+    'aether': '⬢',
+    'nether': '▢', 
+    'fire': '🜂',
+    'water': '🜄',
+    'earth': '🜃',
+    'air': '🜁',
+    // Legacy ability names (for backward compatibility)
     'brilliance': '⬢',
-    'gust': '🜁',
-    'inferno': '🜂',
-    'steadfast': '🜃',
-    'submerged': '🜄',
     'void': '▢',
+    'inferno': '🜂',
+    'submerged': '🜄',
+    'steadfast': '🜃',
+    'gust': '🜁',
     'quintessence': '✦'
   };
 
   const elementSymbol = elementMap[searchElement];
   
+  // Element name mappings for card data
+  const elementNameMap = {
+    'aether': ['brilliance', 'aether'],
+    'nether': ['void', 'nether'],
+    'fire': ['fire', 'inferno'],
+    'water': ['water', 'submerged'],
+    'earth': ['earth', 'steadfast'],
+    'air': ['air', 'gust']
+  };
+
   // Check if any card element matches (case-insensitive)
-  return cardElements.some(cardElement => 
-    cardElement.toLowerCase() === searchElement ||
-    cardElement === elementSymbol
-  );
+  return cardElements.some(cardElement => {
+    const cardElementLower = cardElement.toLowerCase();
+    
+    // Direct match
+    if (cardElementLower === searchElement) return true;
+    
+    // Symbol match
+    if (cardElement === elementSymbol) return true;
+    
+    // Check element name mappings
+    for (const [primaryElement, aliases] of Object.entries(elementNameMap)) {
+      if (searchElement === primaryElement && aliases.some(alias => cardElementLower === alias)) {
+        return true;
+      }
+    }
+    
+    return false;
+  });
 };
 
 /**
