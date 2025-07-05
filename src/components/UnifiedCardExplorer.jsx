@@ -131,14 +131,21 @@ const UnifiedCardExplorer = () => {
             />
           </div>
 
-          {/* Syntax Guide Toggle */}
-          <div className="mobile-form-group mobile-text-center">
+          {/* Search Tools */}
+          <div className="mobile-form-group mobile-text-center space-y-2">
             <Link
               to="/syntax-guide"
-              className="mobile-btn inline-flex items-center"
+              className="mobile-btn inline-flex items-center mr-2"
             >
               <BookOpen className="w-4 h-4 inline mr-2" />
               Search Guide
+            </Link>
+            <Link
+              to="/comprehensive-search"
+              className="mobile-btn inline-flex items-center bg-blue-600 hover:bg-blue-700"
+            >
+              <Search className="w-4 h-4 inline mr-2" />
+              Advanced Search
             </Link>
           </div>
         </div>
@@ -230,6 +237,13 @@ const UnifiedCardExplorer = () => {
                 >
                   <BookOpen className="w-4 h-4" />
                   Search Guide
+                </Link>
+                <Link
+                  to="/comprehensive-search"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                  Advanced Search
                 </Link>
                 {isAuthenticated && (
                   <button
