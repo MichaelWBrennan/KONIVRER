@@ -91,7 +91,7 @@ const SyntaxGuide = () => {
         {
           syntax: 'e:fire | element:fire',
           description: 'Search for cards by their mana cost elements (resources needed to cast)',
-          viableWords: 'fire, water, earth, air, aether, nether, generic'
+          viableWords: 'fire, water, earth, air, aether, nether, azoth'
         },
       ],
     },
@@ -178,11 +178,6 @@ const SyntaxGuide = () => {
               KONIVRER Search Syntax Guide
             </h1>
           </div>
-          
-          <p className="text-gray-300 text-lg max-w-3xl">
-            Master the advanced search syntax to find exactly the cards you need. 
-            Use these operators and filters to build powerful search queries.
-          </p>
         </div>
 
         {/* Quick Reference */}
@@ -213,7 +208,7 @@ const SyntaxGuide = () => {
               <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
               <p className="text-gray-300 text-sm mb-3">Search for cards by their mana cost elements (resources needed to cast)</p>
               <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
-              <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, generic</p>
+              <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
             </div>
             
             <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
@@ -230,75 +225,7 @@ const SyntaxGuide = () => {
           </div>
         </div>
 
-        {/* Syntax Sections */}
-        <div className="space-y-6">
-          {syntaxSections.map((section) => {
-            const IconComponent = section.icon;
-            
-            return (
-              <motion.div
-                key={section.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-purple-500/20 overflow-hidden"
-              >
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <IconComponent className="w-6 h-6 text-purple-400" />
-                    <h3 className="text-xl font-semibold text-white">
-                      {section.title}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-gray-300 mb-6">
-                    {section.description}
-                  </p>
 
-                  <div className="space-y-4">
-                    {section.examples.map((example, index) => (
-                      <div
-                        key={index}
-                        className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="text-purple-300 font-semibold">Syntax and Variations</h4>
-                          <button
-                            onClick={() => copyExample(example.syntax)}
-                            className="p-1 text-gray-400 hover:text-purple-300 transition-colors"
-                            title="Copy example"
-                          >
-                            {copiedExample === example.syntax ? (
-                              <CheckCircle className="w-4 h-4 text-green-400" />
-                            ) : (
-                              <Copy className="w-4 h-4" />
-                            )}
-                          </button>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {example.syntax.split(' | ').map((variant, variantIndex) => (
-                            <code key={variantIndex} className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">
-                              {variant}
-                            </code>
-                          ))}
-                        </div>
-                        <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
-                        <p className="text-gray-300 text-sm mb-3">
-                          {example.description}
-                        </p>
-                        {example.viableWords && (
-                          <>
-                            <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
-                            <p className="text-blue-200 text-sm">{example.viableWords}</p>
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
 
         {/* Footer */}
         <div className="mt-12 text-center">
