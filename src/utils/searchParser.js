@@ -76,9 +76,7 @@ const parseTokens = (tokens) => {
     text: [],
     type: [],
     element: [],
-    cmc: [],
-    power: [],
-    toughness: [],
+    cost: [],
     rarity: [],
     set: [],
     oracle: [],
@@ -129,20 +127,9 @@ const parseStructuredFilter = (key, value, filters) => {
       }
       break;
     
-    case 'cmc':
-    case 'mv':
-    case 'manavalue':
-      filters.cmc.push(parseNumericFilter(value));
-      break;
-    
-    case 'pow':
-    case 'power':
-      filters.power.push(parseNumericFilter(value));
-      break;
-    
-    case 'tou':
-    case 'toughness':
-      filters.toughness.push(parseNumericFilter(value));
+    case 'c':
+    case 'cost':
+      filters.cost.push(parseNumericFilter(value));
       break;
     
     case 'r':
@@ -163,7 +150,7 @@ const parseStructuredFilter = (key, value, filters) => {
     
     case 'mana':
       // Handle mana cost patterns like {3}{⬢}
-      filters.cmc.push({ type: 'mana', pattern: cleanValue });
+      filters.cost.push({ type: 'mana', pattern: cleanValue });
       break;
     
     case 'is':
@@ -253,19 +240,9 @@ const applyFilters = (cards, filters) => {
       results.push(filters.element.some(element => matchesElementFilter(card, element)));
     }
 
-    // CMC filters
-    if (filters.cmc.length > 0) {
-      results.push(filters.cmc.some(cmc => matchesCMCFilter(card, cmc)));
-    }
-
-    // Power filters
-    if (filters.power.length > 0) {
-      results.push(filters.power.some(power => matchesPowerFilter(card, power)));
-    }
-
-    // Toughness filters
-    if (filters.toughness.length > 0) {
-      results.push(filters.toughness.some(toughness => matchesToughnessFilter(card, toughness)));
+    // Cost filters
+    if (filters.cost.length > 0) {
+      results.push(filters.cost.some(cost => matchesCostFilter(card, cost)));
     }
 
     // Rarity filters
@@ -315,9 +292,9 @@ const matchesTypeFilter = (card, type) => {
     const condition = type.substring(3);
     switch (condition) {
       case 'permanent':
-        return ['familiar', 'artifact', 'enchantment', 'land', 'planeswalker', 'elemental'].includes((card.type || '').toLowerCase());
+        return ['elemental'].includes((card.type || '').toLowerCase());
       case 'spell':
-        return ['spell', 'instant', 'sorcery'].includes((card.type || '').toLowerCase());
+        return ['φlag', 'flag'].includes((card.type || '').toLowerCase());
       default:
         return false;
     }
@@ -325,6 +302,12 @@ const matchesTypeFilter = (card, type) => {
 
   const cardType = (card.type || '').toLowerCase();
   const searchType = type.toLowerCase();
+  
+  // Handle special case: "flag" should match "ΦLAG"
+  if (searchType === 'flag' && cardType === 'φlag') {
+    return true;
+  }
+  
   return cardType.includes(searchType);
 };
 
@@ -349,8 +332,7 @@ const matchesElementFilter = (card, element) => {
     'steadfast': '🜃',
     'submerged': '🜄',
     'void': '▢',
-    'quintessence': '✦',
-    'generic': '✡︎⃝'
+    'quintessence': '✦'
   };
 
   const elementSymbol = elementMap[searchElement];
@@ -363,40 +345,20 @@ const matchesElementFilter = (card, element) => {
 };
 
 /**
- * Check if card matches CMC filter
+ * Check if card matches cost filter
  */
-const matchesCMCFilter = (card, cmc) => {
-  if (cmc.type === 'mana') {
+const matchesCostFilter = (card, cost) => {
+  if (cost.type === 'mana') {
     // Handle specific mana pattern matching
     const cardMana = card.manaCost || card.cost || '';
-    return cardMana.includes(cmc.pattern);
+    return cardMana.includes(cost.pattern);
   }
 
-  const cardCMC = getCardCMC(card);
-  return compareNumbers(cardCMC, cmc.operator, cmc.value);
+  const cardCost = getCardCost(card);
+  return compareNumbers(cardCost, cost.operator, cost.value);
 };
 
-/**
- * Check if card matches power filter
- */
-const matchesPowerFilter = (card, power) => {
-  const cardPower = getCardPower(card);
-  if (power.value === '*') {
-    return cardPower === '*' || cardPower === '∗';
-  }
-  return compareNumbers(cardPower, power.operator, power.value);
-};
 
-/**
- * Check if card matches toughness filter
- */
-const matchesToughnessFilter = (card, toughness) => {
-  const cardToughness = getCardToughness(card);
-  if (toughness.value === '*') {
-    return cardToughness === '*' || cardToughness === '∗';
-  }
-  return compareNumbers(cardToughness, toughness.operator, toughness.value);
-};
 
 /**
  * Check if card matches rarity filter
@@ -468,34 +430,27 @@ const getElementCount = (card) => {
   return getCardElements(card).length;
 };
 
-const getCardCMC = (card) => {
-  if (card.cmc !== undefined) return card.cmc;
-  if (card.manaCost || card.cost) {
-    // Simple CMC calculation - count numbers and symbols
-    const cost = card.manaCost || card.cost;
+const getCardCost = (card) => {
+  // Handle KONIVRER cost format (array of elements)
+  if (card.cost && Array.isArray(card.cost)) {
+    return card.cost.length;
+  }
+  
+  // Handle numeric cost
+  if (typeof card.cost === 'number') {
+    return card.cost;
+  }
+  
+  // Handle mana cost string format
+  if (card.manaCost) {
+    // Simple cost calculation - count numbers and symbols
+    const cost = card.manaCost;
     const numbers = cost.match(/\d+/g);
     const symbols = (cost.match(/[⬢🜁🜂🜃🜄▢✦]/g) || []).length;
     const totalNumbers = numbers ? numbers.reduce((sum, num) => sum + parseInt(num), 0) : 0;
     return totalNumbers + symbols;
   }
-  return 0;
-};
-
-const getCardPower = (card) => {
-  if (card.power !== undefined) return card.power;
-  if (card.stats) {
-    const match = card.stats.match(/(\d+|\*)/);
-    return match ? (isNaN(match[1]) ? match[1] : parseInt(match[1])) : 0;
-  }
-  return 0;
-};
-
-const getCardToughness = (card) => {
-  if (card.toughness !== undefined) return card.toughness;
-  if (card.stats) {
-    const match = card.stats.match(/\d+|\*\/(\d+|\*)/);
-    return match ? (isNaN(match[1]) ? match[1] : parseInt(match[1])) : 0;
-  }
+  
   return 0;
 };
 

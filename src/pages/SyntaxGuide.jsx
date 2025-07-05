@@ -154,54 +154,26 @@ const SyntaxGuide = () => {
       ],
     },
     {
-      id: 'mana',
-      title: 'Mana Cost Searches',
+      id: 'cost',
+      title: 'Cost Searches',
       icon: Zap,
-      description: 'Search by mana costs and converted mana cost',
+      description: 'Search by mana costs and total cost',
       examples: [
         {
-          syntax: 'cmc:3',
-          description: 'Find cards with converted mana cost of 3',
+          syntax: 'c:3',
+          description: 'Find cards with cost of 3',
         },
         {
-          syntax: 'cmc>=4',
-          description: 'Find cards with CMC 4 or higher',
+          syntax: 'c>=4',
+          description: 'Find cards with cost 4 or higher',
         },
         {
-          syntax: 'cmc<=2',
-          description: 'Find cards with CMC 2 or lower',
+          syntax: 'c<=2',
+          description: 'Find cards with cost 2 or lower',
         },
         {
-          syntax: 'mv:0',
-          description: 'Find cards with mana value 0',
-        },
-      ],
-    },
-    {
-      id: 'power',
-      title: 'Power & Toughness',
-      icon: Hash,
-      description: 'Search by creature stats',
-      examples: [
-        {
-          syntax: 'pow:3',
-          description: 'Find creatures with power 3',
-        },
-        {
-          syntax: 'tou>=5',
-          description: 'Find creatures with toughness 5 or more',
-        },
-        {
-          syntax: 'pow=tou',
-          description: 'Find creatures with equal power and toughness',
-        },
-        {
-          syntax: 'pow>tou',
-          description: 'Find creatures with power greater than toughness',
-        },
-        {
-          syntax: 'power:*',
-          description: 'Find creatures with variable power (*)',
+          syntax: 'cost:0',
+          description: 'Find cards with cost 0',
         },
       ],
     },
@@ -240,16 +212,16 @@ const SyntaxGuide = () => {
           description: 'Find Brilliance Familiar cards',
         },
         {
-          syntax: 'e:gust e:inferno cmc<=3',
+          syntax: 'e:gust e:inferno c<=3',
           description: 'Find low-cost Gust/Inferno cards',
         },
         {
-          syntax: '(t:spell OR t:artifact) e:void',
-          description: 'Find Void spells or artifacts',
+          syntax: '(t:flag OR t:elemental) e:void',
+          description: 'Find Void flags or elementals',
         },
         {
-          syntax: 'pow>=3 tou<=2 e:steadfast',
-          description: 'Find aggressive Steadfast creatures',
+          syntax: 't:elemental e:steadfast c>=3',
+          description: 'Find expensive Steadfast elementals',
         },
         {
           syntax: 'r:rare -e:quintessence',
@@ -305,16 +277,8 @@ const SyntaxGuide = () => {
               <span className="text-gray-300 ml-2">Keyword</span>
             </div>
             <div>
-              <span className="text-purple-300 font-mono">cmc:</span>
-              <span className="text-gray-300 ml-2">Converted Mana Cost</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">pow:</span>
-              <span className="text-gray-300 ml-2">Power</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">tou:</span>
-              <span className="text-gray-300 ml-2">Toughness</span>
+              <span className="text-purple-300 font-mono">c:</span>
+              <span className="text-gray-300 ml-2">Cost</span>
             </div>
             <div>
               <span className="text-purple-300 font-mono">r:</span>

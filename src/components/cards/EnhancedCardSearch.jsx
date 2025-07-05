@@ -11,6 +11,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import CardArtDisplay from './CardArtDisplay';
 import { cardDataHasArt } from '../../utils/cardArtMapping';
+import { parseSearchQuery } from '../../utils/searchParser';
 import cardsData from '../../data/cards.json';
 import {
   Search,
@@ -138,8 +139,20 @@ const EnhancedCardSearch = () => {
   // Filtered and sorted cards
   const filteredCards = useMemo(() => {
     let filtered = cardCollection.filter(card => {
-      // Basic search
+      // Advanced search using searchParser
       if (searchQuery) {
+        // Check if query contains advanced syntax (contains : or operators)
+        if (searchQuery.includes(':') || searchQuery.includes('>=') || searchQuery.includes('<=') || searchQuery.includes('>') || searchQuery.includes('<')) {
+          try {
+            const result = parseSearchQuery(searchQuery, cardCollection);
+            return result.includes(card);
+          } catch (error) {
+            console.error('Search parser error:', error);
+            // Fallback to basic search
+          }
+        }
+        
+        // Basic search fallback
         const query = searchQuery.toLowerCase();
         const cardText = (card.description || '').toLowerCase();
         const cardName = (card.name || '').toLowerCase();
@@ -651,17 +664,12 @@ const AdvancedSearchPanel = ({ search, onSearchChange }) => {
     'Inferno',
     'Steadfast',
     'Submerged',
-    'Void',
-    'Neutral'
+    'Void'
   ];
   const rarities = ['common', 'uncommon', 'rare', 'mythic'];
   const types = [
-    'creature',
-    'instant',
-    'sorcery',
-    'artifact',
-    'land',
-    'planeswalker',
+    'elemental',
+    'flag'
   ];
 
   const updateSearch = (field, value) => {
