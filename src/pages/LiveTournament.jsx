@@ -100,86 +100,14 @@ const LiveTournament = () => {
   const [localStream, setLocalStream] = useState(null);
 
   useEffect(() => {
-    // Initialize tournament data
-    const mockTournament = {
-      id: tournamentId,
-      name: 'KONIVRER World Championship 2024',
-      status: 'live',
-      currentRound: 'Finals',
-      totalRounds: 'Best of 5',
-      prizePool: '$50,000',
-      startTime: new Date(Date.now() - 3600000).toISOString(),
-      estimatedEndTime: new Date(Date.now() + 7200000).toISOString(),
-      organizer: 'KONIVRER Esports',
-      venue: 'Los Angeles Convention Center',
-      sponsors: ['GameTech', 'StreamLive', 'ProGaming'],
-      casters: [
-        { name: 'Alex "ThunderCast" Johnson', role: 'Play-by-Play' },
-        { name: 'Sarah "StrategyQueen" Chen', role: 'Color Commentary' },
-      ],
-      streamUrls: {
-        primary: 'https://stream.konivrer.com/live/wc2024',
-        backup: 'https://backup.konivrer.com/live/wc2024',
-      },
-      socialMedia: {
-        twitter: '@KONIVRERWorld',
-        twitch: 'konivrer_official',
-        youtube: 'KONIVRER Esports',
-      },
-    };
-
-    const mockCurrentMatch = {
-      id: 'finals-game-3',
-      round: 'Finals',
-      game: 3,
-      bestOf: 5,
-      player1: {
-        id: 1,
-        name: 'DragonMaster2024',
-        displayName: 'Alex Chen',
-        avatar: '/api/placeholder/64/64',
-        country: 'USA',
-        rank: 1,
-        wins: 2,
-        deck: 'Elemental Storm',
-        deckColors: ['Fire', 'Air'],
-      },
-      player2: {
-        id: 2,
-        name: 'ElementalMage',
-        displayName: 'Sarah Wilson',
-        avatar: '/api/placeholder/64/64',
-        country: 'CAN',
-        rank: 2,
-        wins: 0,
-        deck: 'Control Master',
-        deckColors: ['Water', 'Earth'],
-      },
-      status: 'playing',
-      startTime: new Date(Date.now() - 900000).toISOString(),
-      gameState: {
-        turn: 8,
-        activePlayer: 1,
-        timeRemaining: 1245, // seconds
-        phase: 'Main Phase',
-      },
-      spectatorCount: 15420,
-      chatEnabled: true,
-    };
-
-    setTournament(mockTournament);
-    setCurrentMatch(mockCurrentMatch);
-    setViewerCount(mockCurrentMatch.spectatorCount);
-    setIsLive(true);
-    setConnectionStatus('connected');
-
-    // Mock standings
-    setStandings([
-      { rank: 1, player: 'DragonMaster2024', wins: 6, losses: 1, points: 18 },
-      { rank: 2, player: 'ElementalMage', wins: 5, losses: 2, points: 15 },
-      { rank: 3, player: 'StormCaller', wins: 4, losses: 3, points: 12 },
-      { rank: 4, player: 'FireStorm99', wins: 4, losses: 3, points: 12 },
-    ]);
+    // Load tournament data from actual data source when available
+    // For now, set empty states until real data is connected
+    setTournament(null);
+    setCurrentMatch(null);
+    setViewerCount(0);
+    setIsLive(false);
+    setConnectionStatus('disconnected');
+    setStandings([]);
 
     // Performance monitoring
     PerformanceMonitor.measureUserTiming('tournament_load', () => {

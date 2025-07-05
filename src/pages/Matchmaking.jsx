@@ -287,39 +287,8 @@ const Matchmaking = () => {
       },
     ]);
 
-    // Mock tournaments
-    setTournaments([
-      {
-        id: 'tournament_1',
-        name: 'KONIVRER World Championship Qualifier',
-        format: 'konivrer',
-        startDate: new Date(Date.now() + 86400000 * 3),
-        entryFee: 1000,
-        prizePool: 50000,
-        participants: 128,
-        status: 'registration',
-      },
-      {
-        id: 'tournament_2',
-        name: 'Weekly KONIVRER Challenge',
-        format: 'konivrer',
-        startDate: new Date(Date.now() + 86400000),
-        entryFee: 500,
-        prizePool: 10000,
-        participants: 64,
-        status: 'registration',
-      },
-      {
-        id: 'tournament_3',
-        name: 'KONIVRER Masters',
-        format: 'konivrer',
-        startDate: new Date(Date.now() + 86400000 * 7),
-        entryFee: 2000,
-        prizePool: 25000,
-        participants: 32,
-        status: 'announced',
-      },
-    ]);
+    // No demo tournaments - load from actual data source when available
+    setTournaments([]);
 
     // Mock friends
     setFriends([

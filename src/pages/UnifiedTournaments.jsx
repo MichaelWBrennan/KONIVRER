@@ -100,213 +100,35 @@ const UnifiedTournaments = () => {
   };
 
   const loadTournaments = async () => {
-    // Mock tournament data
-    const mockTournaments = [
-      {
-        id: 1,
-        name: 'KONIVRER World Championship 2024',
-        date: '2024-07-15',
-        time: '10:00 AM',
-        location: 'Los Angeles Convention Center',
-        prizePool: '$50,000',
-        participants: 512,
-        maxParticipants: 512,
-        status: 'Registration Open',
-        organizer: 'KONIVRER Official',
-
-        rounds: 9,
-        type: 'tournament',
-        entryFee: '$25',
-        streamUrl: 'https://twitch.tv/konivrer',
-        brackets: 'Swiss + Top 8',
-      },
-      {
-        id: 2,
-        name: 'Regional Championship - East Coast',
-        date: '2024-06-20',
-        time: '9:00 AM',
-        location: 'New York Gaming Center',
-        prizePool: '$15,000',
-        participants: 256,
-        maxParticipants: 256,
-        status: 'In Progress',
-        organizer: 'East Coast Gaming',
-
-        rounds: 8,
-        type: 'tournament',
-        entryFee: '$15',
-        currentRound: 5,
-      },
-    ];
-    setTournaments(mockTournaments);
+    // No demo tournaments - load from actual data source when available
+    setTournaments([]);
   };
 
   const loadEvents = async () => {
-    // Mock events data
-    const mockEvents = [
-      {
-        id: 1,
-        name: 'Weekly Draft Night',
-        date: '2024-06-22',
-        time: '7:00 PM',
-        location: 'Local Game Store',
-        participants: 8,
-        maxParticipants: 8,
-        status: 'Registration Open',
-        prizeSupport: 'Booster Packs',
-        entryFee: '$15',
-        recurring: 'Weekly',
-      },
-      {
-        id: 2,
-        name: 'Casual Flag Night',
-        date: '2024-06-23',
-        time: '6:00 PM',
-        location: 'Community Center',
-        participants: 12,
-        maxParticipants: 16,
-        status: 'Registration Open',
-        prizeSupport: 'Promo Cards',
-        entryFee: '$5',
-        recurring: 'Bi-weekly',
-      },
-    ];
-    setEvents(mockEvents);
+    // No demo events - load from actual data source when available
+    setEvents([]);
   };
 
   const loadMatches = async () => {
-    // Mock matches data
-    const mockMatches = [
-      {
-        id: 1,
-        tournament: 'KONIVRER World Championship 2024',
-        round: 5,
-        table: 1,
-        player1: { name: 'Alex Chen', deck: 'Aggro Red', wins: 4, losses: 0 },
-        player2: {
-          name: 'Sarah Johnson',
-          deck: 'Control Blue',
-          wins: 4,
-          losses: 0,
-        },
-        status: 'In Progress',
-        startTime: '2024-06-19T14:30:00Z',
-        streamUrl: 'https://twitch.tv/konivrer/table1',
-      },
-      {
-        id: 2,
-        tournament: 'Regional Championship - East Coast',
-        round: 5,
-        table: 2,
-        player1: {
-          name: 'Mike Rodriguez',
-          deck: 'Midrange Green',
-          wins: 3,
-          losses: 1,
-        },
-        player2: {
-          name: 'Emma Wilson',
-          deck: 'Combo Artifacts',
-          wins: 3,
-          losses: 1,
-        },
-        status: 'Completed',
-        winner: 'Mike Rodriguez',
-        result: '2-1',
-        duration: '45 minutes',
-      },
-    ];
-    setMatches(mockMatches);
+    // No demo matches - load from actual data source when available
+    setMatches([]);
   };
 
   const loadLeaderboards = async () => {
-    // Mock leaderboard data
-    const mockLeaderboards = [
-      {
-        rank: 1,
-        player: 'Alex Chen',
-        points: 2450,
-        wins: 89,
-        losses: 23,
-        winRate: 79.5,
-        favoriteArchetype: 'Aggro',
-        recentTournaments: 5,
-      },
-      {
-        rank: 2,
-        player: 'Sarah Johnson',
-        points: 2380,
-        wins: 76,
-        losses: 19,
-        winRate: 80.0,
-        favoriteArchetype: 'Control',
-        recentTournaments: 4,
-      },
-      {
-        rank: 3,
-        player: 'Mike Rodriguez',
-        points: 2320,
-        wins: 82,
-        losses: 28,
-        winRate: 74.5,
-        favoriteArchetype: 'Midrange',
-        recentTournaments: 6,
-      },
-    ];
-    setLeaderboards(mockLeaderboards);
+    // No demo leaderboards - load from actual data source when available
+    setLeaderboards([]);
   };
 
   const loadAnalytics = async () => {
-    // Mock analytics data
-    const mockAnalytics = {
-      totalTournaments: 156,
-      totalPlayers: 12450,
-      averageParticipation: 78,
-      totalPrizePool: '$245,000',
-
-      metaBreakdown: [
-        { archetype: 'Aggro Red', percentage: 28, winRate: 52 },
-        { archetype: 'Control Blue', percentage: 22, winRate: 58 },
-        { archetype: 'Midrange Green', percentage: 18, winRate: 55 },
-        { archetype: 'Combo Artifacts', percentage: 15, winRate: 48 },
-        { archetype: 'Other', percentage: 17, winRate: 45 },
-      ],
-      recentTrends: [
-        {
-          week: 'Week 1',
-          aggro: 30,
-          control: 25,
-          midrange: 20,
-          combo: 15,
-          other: 10,
-        },
-        {
-          week: 'Week 2',
-          aggro: 28,
-          control: 22,
-          midrange: 18,
-          combo: 15,
-          other: 17,
-        },
-        {
-          week: 'Week 3',
-          aggro: 26,
-          control: 24,
-          midrange: 19,
-          combo: 16,
-          other: 15,
-        },
-        {
-          week: 'Week 4',
-          aggro: 28,
-          control: 22,
-          midrange: 18,
-          combo: 15,
-          other: 17,
-        },
-      ],
-    };
-    setAnalytics(mockAnalytics);
+    // No demo analytics - load from actual data source when available
+    setAnalytics({
+      totalTournaments: 0,
+      totalPlayers: 0,
+      averageParticipation: 0,
+      totalPrizePool: '$0',
+      metaBreakdown: [],
+      recentTrends: []
+    });
   };
 
   // Registration functionality
