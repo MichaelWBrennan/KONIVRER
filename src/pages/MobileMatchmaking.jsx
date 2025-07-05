@@ -6,11 +6,12 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
 
 const MobileMatchmaking = () => {
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const { userDecks } = useDeck();
 
@@ -70,7 +71,7 @@ const MobileMatchmaking = () => {
   // Accept match
   const acceptMatch = () => {
     // Redirect to game
-    window.location.href = '/game/online';
+    navigate('/game/online');
   };
 
   return (
