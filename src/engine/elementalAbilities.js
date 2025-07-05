@@ -33,8 +33,7 @@ export const CARD_ABILITIES = [
   'Inferno',      // Fire element ability
   'Steadfast',    // Earth element ability
   'Submerged',    // Water element ability
-  'Void',         // Nether element ability
-  'Neutral'       // Neutral/Colorless
+  'Void'          // Nether element ability
 ];
 
 // Element symbols for display
@@ -45,8 +44,7 @@ export const ABILITY_SYMBOLS = {
   'Inferno': '🜂',
   'Steadfast': '🜃',
   'Submerged': '🜄',
-  'Void': '▢',
-  'Neutral': '○'
+  'Void': '▢'
 };
 
 // Element colors for UI display
@@ -57,8 +55,7 @@ export const ABILITY_COLORS = {
   'Inferno': '#FF4500',      // Orange Red (Fire)
   'Steadfast': '#8B4513',    // Saddle Brown (Earth)
   'Submerged': '#4682B4',    // Steel Blue (Water)
-  'Void': '#2F2F2F',         // Dark Gray (Nether)
-  'Neutral': '#808080'       // Gray
+  'Void': '#2F2F2F'          // Dark Gray (Nether)
 };
 
 /**

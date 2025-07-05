@@ -26,7 +26,6 @@ const AdvancedSearchPage = () => {
     { value: 'Steadfast', label: 'Steadfast (Earth)' },
     { value: 'Submerged', label: 'Submerged (Water)' },
     { value: 'Void', label: 'Void (Nether)' },
-    { value: 'Neutral', label: 'Neutral' },
   ];
 
   const rarities = [
