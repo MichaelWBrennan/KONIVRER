@@ -409,7 +409,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
 
       {/* Quick Reference */}
       <div className="p-6 border-b border-white/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
-        <h3 className="text-lg font-semibold text-white mb-3">Quick Reference</h3>
+        <h3 className="text-lg font-semibold text-white mb-3">🔍 Quick Reference</h3>
         <div className="space-y-3">
           <div className="bg-white/5 rounded-lg p-4 border border-white/10">
             <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
