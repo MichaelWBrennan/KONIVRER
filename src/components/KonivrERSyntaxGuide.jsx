@@ -108,35 +108,35 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       id: 'elements',
       title: 'Element Searches',
       icon: Palette,
-      description: 'Search by KONIVRER elements (resource costs)',
+      description: 'Search by mana cost elements - the resources needed to cast cards',
       examples: [
         {
           syntax: 'e:fire',
-          description: 'Find cards with Fire element (△)',
+          description: 'Find cards that cost Fire mana (△) - aggressive, direct damage',
         },
         {
           syntax: 'e:water',
-          description: 'Find cards with Water element (▽)',
+          description: 'Find cards that cost Water mana (▽) - flow, adaptation, control',
         },
         {
           syntax: 'e:earth',
-          description: 'Find cards with Earth element (⊡)',
+          description: 'Find cards that cost Earth mana (⊡) - stability, growth, defense',
         },
         {
           syntax: 'e:air',
-          description: 'Find cards with Air element (△)',
+          description: 'Find cards that cost Air mana (△) - speed, movement, freedom',
         },
         {
           syntax: 'e:aether',
-          description: 'Find cards with Aether element (○)',
+          description: 'Find cards that cost Aether mana (○) - pure energy, transcendence',
         },
         {
           syntax: 'e:nether',
-          description: 'Find cards with Nether element (□)',
+          description: 'Find cards that cost Nether mana (□) - void, corruption, entropy',
         },
         {
           syntax: 'e:generic',
-          description: 'Find cards with Generic element (⊗)',
+          description: 'Find cards that cost Generic mana (⊗) - colorless, universal',
         },
         {
           syntax: 'e&gt;=2',
@@ -148,31 +148,31 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       id: 'keywords',
       title: 'Keyword Searches',
       icon: Zap,
-      description: 'Search by KONIVRER keywords (special abilities)',
+      description: 'Search by special keyword abilities - unique powers that cards possess',
       examples: [
         {
           syntax: 'k:brilliance',
-          description: 'Find cards with Brilliance keyword (✦)',
+          description: 'Find cards with Brilliance (✦) - radiant power and enlightenment',
         },
         {
           syntax: 'k:void',
-          description: 'Find cards with Void keyword (◯)',
+          description: 'Find cards with Void (◯) - emptiness that consumes and negates',
         },
         {
           syntax: 'k:gust',
-          description: 'Find cards with Gust keyword (≋)',
+          description: 'Find cards with Gust (≋) - swift winds and rapid movement',
         },
         {
           syntax: 'k:submerged',
-          description: 'Find cards with Submerged keyword (≈)',
+          description: 'Find cards with Submerged (≈) - hidden depths and fluid adaptation',
         },
         {
           syntax: 'k:inferno',
-          description: 'Find cards with Inferno keyword (※)',
+          description: 'Find cards with Inferno (※) - blazing fury and destructive heat',
         },
         {
           syntax: 'k:steadfast',
-          description: 'Find cards with Steadfast keyword (⬢)',
+          description: 'Find cards with Steadfast (⬢) - unwavering resolve and endurance',
         },
         {
           syntax: 'k&gt;=2',
@@ -304,7 +304,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       examples: [
         {
           syntax: '(t:familiar OR t:spell) k:brilliance',
-          description: 'Combine searches with parentheses',
+          description: 'Find familiars or spells that have the Brilliance keyword ability',
         },
         {
           syntax: 'cmc:3 -t:land',
@@ -471,17 +471,38 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
         </div>
       </div>
 
+      {/* Key Distinction */}
+      <div className="p-6 border-b border-white/20 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
+        <h3 className="text-lg font-semibold text-white mb-3">🔑 Key Distinction</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-orange-500/20 rounded-lg p-4 border border-orange-500/30">
+            <h4 className="text-orange-300 font-semibold mb-2">Elements (e:) - Mana Costs</h4>
+            <p className="text-gray-300 text-sm">The resources required to cast cards. Think of these as the "fuel" needed.</p>
+            <code className="text-orange-300 text-xs">e:fire e:water e:earth</code>
+          </div>
+          <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-500/30">
+            <h4 className="text-blue-300 font-semibold mb-2">Keywords (k:) - Special Abilities</h4>
+            <p className="text-gray-300 text-sm">Unique powers and effects that cards possess. These define what cards can do.</p>
+            <code className="text-blue-300 text-xs">k:brilliance k:void k:gust</code>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Reference */}
       <div className="p-6 border-b border-white/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
         <h3 className="text-lg font-semibold text-white mb-3">Quick Reference</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
           <div className="text-center">
             <code className="text-purple-300 font-mono text-sm">t:familiar</code>
             <p className="text-gray-400 text-xs mt-1">Card Types</p>
           </div>
           <div className="text-center">
+            <code className="text-orange-300 font-mono text-sm">e:fire</code>
+            <p className="text-gray-400 text-xs mt-1">Elements (Cost)</p>
+          </div>
+          <div className="text-center">
             <code className="text-blue-300 font-mono text-sm">k:brilliance</code>
-            <p className="text-gray-400 text-xs mt-1">Keywords</p>
+            <p className="text-gray-400 text-xs mt-1">Keywords (Abilities)</p>
           </div>
           <div className="text-center">
             <code className="text-green-300 font-mono text-sm">cmc:3</code>
@@ -510,10 +531,11 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
               Pro Tips
             </h4>
             <ul className="text-gray-300 text-sm space-y-1">
-              <li>• Combine multiple criteria: <code className="text-purple-300">t:familiar k:brilliance cmc:3</code></li>
-              <li>• Use parentheses for complex logic: <code className="text-purple-300">(t:spell OR t:artifact) k:void</code></li>
-              <li>• Exclude with minus: <code className="text-purple-300">dragon -t:token</code></li>
-              <li>• Use quotes for exact phrases: <code className="text-purple-300">"enters the battlefield"</code></li>
+              <li>• <strong>Elements vs Keywords:</strong> <code className="text-orange-300">e:fire</code> (mana cost) vs <code className="text-blue-300">k:brilliance</code> (special ability)</li>
+              <li>• <strong>Combine criteria:</strong> <code className="text-purple-300">t:familiar e:water k:submerged</code></li>
+              <li>• <strong>Complex logic:</strong> <code className="text-purple-300">(t:spell OR t:artifact) k:void</code></li>
+              <li>• <strong>Exclude results:</strong> <code className="text-purple-300">dragon -t:token</code></li>
+              <li>• <strong>Exact phrases:</strong> <code className="text-purple-300">"enters the battlefield"</code></li>
             </ul>
           </div>
         </div>
