@@ -47,24 +47,15 @@ const ScryfalLikeAdvancedSearch = () => {
       requirement1: 'equal',
       value1: ''
     },
-    games: {
-      paper: true,
-      arena: false,
-      mtgo: false
-    },
-    formats: {
-      status1: 'legal',
-      format1: ''
-    },
+
+
     sets: {
-      set: '',
-      blockOrGroup: ''
+      set: ''
     },
     rarity: {
       common: false,
       uncommon: false,
-      rare: false,
-      mythic: false
+      rare: false
     },
     criteria: '',
     allowPartialCriteria: false,
@@ -91,7 +82,7 @@ const ScryfalLikeAdvancedSearch = () => {
     { key: 'air', label: 'Air', symbol: '🜁', color: '#87CEEB' },
     { key: 'aether', label: 'Aether', symbol: '○', color: '#FFD700' },
     { key: 'nether', label: 'Nether', symbol: '□', color: '#4B0082' },
-    { key: 'generic', label: 'Generic', symbol: '⊗', color: '#696969' }
+    { key: 'generic', label: 'Generic', symbol: '✡︎⃝', color: '#696969' }
   ];
 
   const konivrTypes = [
@@ -105,9 +96,7 @@ const ScryfalLikeAdvancedSearch = () => {
     { value: 'strength', label: 'Strength' }
   ];
 
-  const konivrFormats = [
-    'Standard', 'Modern', 'Legacy', 'Vintage', 'Commander', 'Limited'
-  ];
+
 
   const handleSearch = async () => {
     if (!cards) return;
@@ -346,76 +335,9 @@ const ScryfalLikeAdvancedSearch = () => {
             </p>
           </div>
 
-          {/* Games */}
-          <div className="search-section">
-            <label className="search-label">Games</label>
-            <fieldset className="games-fieldset">
-              <legend>Games</legend>
-              <div className="games-grid">
-                <label className="games-label">
-                  <input
-                    type="checkbox"
-                    checked={searchCriteria.games.paper}
-                    onChange={(e) => updateCriteria('games.paper', e.target.checked)}
-                  />
-                  Paper
-                </label>
-                <label className="games-label">
-                  <input
-                    type="checkbox"
-                    checked={searchCriteria.games.arena}
-                    onChange={(e) => updateCriteria('games.arena', e.target.checked)}
-                  />
-                  Arena
-                </label>
-                <label className="games-label">
-                  <input
-                    type="checkbox"
-                    checked={searchCriteria.games.mtgo}
-                    onChange={(e) => updateCriteria('games.mtgo', e.target.checked)}
-                  />
-                  KONIVRER Online
-                </label>
-              </div>
-            </fieldset>
-            <p className="search-help-text">
-              Include or exclude cards appearing in paper, Arena, or KONIVRER Online.
-            </p>
-          </div>
 
-          {/* Formats */}
-          <div className="search-section">
-            <label className="search-label">Formats</label>
-            <div className="formats-group">
-              <div className="formats-row">
-                <label className="search-label">Format Status 1</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.formats.status1}
-                  onChange={(e) => updateCriteria('formats.status1', e.target.value)}
-                >
-                  <option value="legal">Legal</option>
-                  <option value="restricted">Restricted</option>
-                  <option value="banned">Banned</option>
-                </select>
-                
-                <label className="search-label">Format 1</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.formats.format1}
-                  onChange={(e) => updateCriteria('formats.format1', e.target.value)}
-                >
-                  <option value="">Select format</option>
-                  {konivrFormats.map(format => (
-                    <option key={format} value={format}>{format}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <p className="search-help-text">
-              Future Standard lets you brew using the upcoming standard additions/rotations.
-            </p>
-          </div>
+
+
 
           {/* Sets */}
           <div className="search-section">
@@ -430,19 +352,10 @@ const ScryfalLikeAdvancedSearch = () => {
                   value={searchCriteria.sets.set}
                   onChange={(e) => updateCriteria('sets.set', e.target.value)}
                 />
-                
-                <label className="search-label">Block or Group</label>
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Enter a block name or choose from the list"
-                  value={searchCriteria.sets.blockOrGroup}
-                  onChange={(e) => updateCriteria('sets.blockOrGroup', e.target.value)}
-                />
               </div>
             </div>
             <p className="search-help-text">
-              Restrict cards based on their set, block, or group.
+              Restrict cards based on their set.
             </p>
           </div>
 
@@ -475,14 +388,6 @@ const ScryfalLikeAdvancedSearch = () => {
                     onChange={(e) => updateCriteria('rarity.rare', e.target.checked)}
                   />
                   Rare
-                </label>
-                <label className="rarity-label">
-                  <input
-                    type="checkbox"
-                    checked={searchCriteria.rarity.mythic}
-                    onChange={(e) => updateCriteria('rarity.mythic', e.target.checked)}
-                  />
-                  Mythic Rare
                 </label>
               </div>
             </fieldset>

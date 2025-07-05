@@ -85,7 +85,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
     { name: 'Air', symbol: '🜁', color: 'text-cyan-400' },
     { name: 'Aether', symbol: '○', color: 'text-purple-400' },
     { name: 'Nether', symbol: '□', color: 'text-gray-600' },
-    { name: 'Generic', symbol: '⊗', color: 'text-gray-400' },
+    { name: 'Generic', symbol: '✡︎⃝', color: 'text-gray-400' },
   ];
 
   // KONIVRER Keywords (special abilities, separate from elements)

@@ -92,9 +92,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     flavorComparison: 'contains', // contains, exact, word-order-matters
     loreFinder: '', // searches all text fields
     
-    // Format Legality (KONIVRER formats)
-    formats: {},
-    formatStatus: 'legal', // legal, banned, restricted
+
     
     // Language & Localization
     language: 'en',
@@ -146,9 +144,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
 
   const sets = ['PRIMA MATERIA', 'Core Set', 'Expansion 1', 'Expansion 2'];
 
-  const formats = [
-    'Standard', 'Extended', 'Legacy', 'Vintage', 'Commander', 'Limited', 'Casual'
-  ];
+
 
   const languages = [
     { code: 'en', name: 'English' },
@@ -265,8 +261,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
       flavorText: '',
       flavorComparison: 'contains',
       loreFinder: '',
-      formats: {},
-      formatStatus: 'legal',
+
       language: 'en',
       includeTranslations: false,
       criteria: [],
@@ -276,7 +271,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
       showAllPrints: false,
       includeTokens: false,
       includeExtras: false,
-      groupBy: 'none',
+
       caseSensitive: false,
       useRegex: false,
       searchMode: 'and',
@@ -291,7 +286,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     { id: 'sets', label: 'Sets', icon: Calendar },
     { id: 'prices', label: 'Prices', icon: DollarSign },
     { id: 'flavor', label: 'Flavor', icon: BookOpen },
-    { id: 'formats', label: 'Formats', icon: Shield },
+
     { id: 'advanced', label: 'Advanced', icon: Settings },
   ];
 
@@ -1060,50 +1055,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                     </div>
                   )}
 
-                  {activeSection === 'formats' && (
-                    <div className="space-y-6">
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <Shield className="w-5 h-5 mr-2" />
-                        Format Legality
-                      </h3>
-                      
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium text-white mb-2">
-                            Format Status
-                          </label>
-                          <select
-                            value={searchCriteria.formatStatus}
-                            onChange={e => updateCriteria('formatStatus', e.target.value)}
-                            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
-                          >
-                            <option value="legal">Legal</option>
-                            <option value="banned">Banned</option>
-                            <option value="restricted">Restricted</option>
-                          </select>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-white mb-2">
-                            Formats
-                          </label>
-                          <div className="space-y-2">
-                            {formats.map(format => (
-                              <label key={format} className="flex items-center space-x-2">
-                                <input
-                                  type="checkbox"
-                                  checked={searchCriteria.formats[format] || false}
-                                  onChange={e => updateNestedCriteria('formats', format, e.target.checked)}
-                                  className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
-                                />
-                                <span className="text-white text-sm">{format}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+
 
                   {activeSection === 'advanced' && (
                     <div className="space-y-6">
@@ -1164,23 +1116,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             </div>
                           </div>
                           
-                          <div>
-                            <label className="block text-sm font-medium text-white mb-2">
-                              Group Results By
-                            </label>
-                            <select
-                              value={searchCriteria.groupBy}
-                              onChange={e => updateCriteria('groupBy', e.target.value)}
-                              className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
-                            >
-                              <option value="none">No grouping</option>
-                              <option value="set">Set</option>
-                              <option value="type">Type</option>
-                              <option value="element">Element</option>
-                              <option value="rarity">Rarity</option>
-                              <option value="artist">Artist</option>
-                            </select>
-                          </div>
+
                         </div>
                         
                         <div className="space-y-4">

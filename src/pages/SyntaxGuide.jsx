@@ -130,7 +130,7 @@ const SyntaxGuide = () => {
         {
           syntax: 'r:rare | rarity:rare',
           description: 'Search for cards by their rarity level',
-          viableWords: 'common, uncommon, rare, mythic, legendary'
+          viableWords: 'common, uncommon, rare, legendary'
         },
         {
           syntax: 's:set | set:set',
