@@ -76,9 +76,9 @@ const SyntaxGuide = () => {
       description: 'Search by card types and subtypes',
       examples: [
         {
-          syntax: 't:familiar | type:familiar',
+          syntax: 't:elemental | type:elemental',
           description: 'Search for cards by their type',
-          viableWords: 'familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery'
+          viableWords: 'elemental, flag'
         },
       ],
     },
@@ -190,13 +190,13 @@ const SyntaxGuide = () => {
             <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
               <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
               <div className="flex flex-wrap gap-2 mb-3">
-                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">t:familiar</code>
-                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">type:familiar</code>
+                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">t:elemental</code>
+                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">type:elemental</code>
               </div>
               <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
               <p className="text-gray-300 text-sm mb-3">Search for cards by their type</p>
               <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
-              <p className="text-blue-200 text-sm">familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery</p>
+              <p className="text-blue-200 text-sm">elemental, flag</p>
             </div>
             
             <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">

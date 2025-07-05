@@ -87,12 +87,12 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       description: 'Search by card types and subtypes',
       examples: [
         {
-          syntax: 't:familiar | type:familiar',
+          syntax: 't:elemental | type:elemental',
           description: 'Search for cards by their type',
-          viableWords: 'familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery'
+          viableWords: 'elemental, flag'
         },
         {
-          syntax: 't:"legendary familiar"',
+          syntax: 't:"elemental flag"',
           description: 'Search for cards with multiple type words (use quotes)',
           viableWords: 'Any combination of type words in quotes'
         },
@@ -413,12 +413,12 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
         <div className="space-y-3">
           <div className="bg-white/5 rounded-lg p-4 border border-white/10">
             <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
-            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2">t:familiar</code>
-            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">type:familiar</code>
+            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2">t:elemental</code>
+            <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">type:elemental</code>
             <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
             <p className="text-gray-300 text-sm">Search for cards by their type</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
-            <p className="text-blue-200 text-sm">familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery</p>
+            <p className="text-blue-200 text-sm">elemental, flag</p>
           </div>
           
           <div className="bg-white/5 rounded-lg p-4 border border-white/10">
