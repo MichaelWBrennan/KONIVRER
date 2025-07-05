@@ -45,7 +45,7 @@ import UnifiedCardExplorer from './components/UnifiedCardExplorer';
 import MobileDeckSearch from './pages/MobileDeckSearch';
 import CardPage from './pages/CardPage';
 import CardArtShowcase from './pages/CardArtShowcase';
-import CardMaker from './pages/CardMaker';
+
 import AdvancedSearchPage from './pages/AdvancedSearchPage';
 import SyntaxGuide from './pages/SyntaxGuide';
 
@@ -172,7 +172,7 @@ function App() {
                               path="/card-art-showcase"
                               element={<CardArtShowcase />}
                             />
-                            <Route path="/card-maker" element={<CardMaker />} />
+
                             <Route
                               path="/advanced-search"
                               element={<AdvancedSearchPage />}
