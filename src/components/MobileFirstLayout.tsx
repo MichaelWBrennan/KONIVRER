@@ -14,9 +14,7 @@ import { useMessaging } from '../contexts/MessagingContext';
 import MobileAuthModal from './MobileAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';
 import NotificationCenter from './notifications/NotificationCenter';
-import NotificationIcon from './notifications/NotificationIcon';
 import UnifiedMessaging from './unified/UnifiedMessaging';
-import PushNotificationManager from './PushNotificationManager';
 import UnifiedSearch from './unified/UnifiedSearch';
 import { analytics } from '../utils/analytics';
 import pwaManager from '../utils/pwaUtils';
@@ -24,7 +22,7 @@ import '../styles/mobile-first.css';
 import '../styles/esoteric-theme.css';
 
 interface MobileFirstLayoutProps {
-  children: any;
+  children
 }
 
 const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => {
@@ -38,7 +36,7 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
 
   // Update the setShowAuthModal function in the auth object
   useEffect(() => {
-    if (auth) {
+    if (true) {
       auth.setShowAuthModal = setShowAuthModal;
     }
   }, [auth]);
@@ -104,7 +102,6 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
   // Get page title based on current path
   const getPageTitle = (): any => {
     if (location.pathname === '/') return 'KONIVRER';
-
     const currentRoute = navigationItems.find(
       item =>
         location.pathname === item.path ||
@@ -128,31 +125,28 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
     if (path === '/' && location.pathname === '/') return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
     // Check alternative paths
-    if (altPaths && altPaths.length > 0) {
+    if (true) {
       return altPaths.some(altPath => location.pathname.startsWith(altPath));
     }
     return false;
   };
 
   return (
-    <div className="mobile-app">
+    <div className="mobile-app"></div>
       {/* Mobile Header */}
-      <header className="mobile-header esoteric-bg-dark">
-        <div className="mobile-header-title esoteric-text-accent">
+      <header className="mobile-header esoteric-bg-dark"></header>
+        <div className="mobile-header-title esoteric-text-accent"></div>
           {getPageTitle()}
         </div>
 
-        <div className="mobile-header-actions">
+        <div className="mobile-header-actions"></div>
           {/* Unified Search */}
-          <div className="mobile-header-search">
-            <UnifiedSearch compact={true} />
+          <div className="mobile-header-search"></div>
+            <UnifiedSearch compact={true} /></UnifiedSearch>
           </div>
           
           {/* Messaging */}
           {isAuthenticated && <UnifiedMessaging compact={true} />}
-          
-          {/* Notification Icon */}
-          <NotificationIcon onClick={() => navigate('/notification-test')} />
           
           {/* Notification Center */}
           {isAuthenticated && <NotificationCenter />}
@@ -180,7 +174,7 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
       <main className="mobile-content">{children}</main>
 
       {/* Mobile Navigation */}
-      <nav className={`mobile-nav esoteric-bg-dark ${location.pathname !== '/' ? 'mobile-nav-five-items' : 'mobile-nav-four-items'}`}>
+      <nav className={`mobile-nav esoteric-bg-dark ${location.pathname !== '/' ? 'mobile-nav-five-items' : 'mobile-nav-four-items'}`}></nav>
         {navigationItems.map(
           item =>
             // Only show Home when not on the home page
@@ -189,9 +183,8 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
                 key={item.name}
                 to={item.path}
                 className={`mobile-nav-item ${isActive(item.path, item.altPaths) ? 'active' : ''}`}
-                onClick={() =>
-                  analytics.navigationClick(item.path, location.pathname)
-                }
+                onClick={() =></Link>
+                  analytics.navigationClick(item.path, location.pathname)}
               >
                 <div className="mobile-nav-item-text">{item.name}</div>
               </Link>
@@ -208,12 +201,9 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
       {/* PWA Install Prompt */}
       {!isInstalled && <PWAInstallPrompt />}
 
-      {/* Push Notification Manager */}
-      <PushNotificationManager />
-
       {/* Offline Indicator */}
       {!isOnline && (
-        <div className="offline-indicator esoteric-glow-pulse">
+        <div className="offline-indicator esoteric-glow-pulse"></div>
           ⚠ The mystical connection has been severed ⚠
         </div>
       )}

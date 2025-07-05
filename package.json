@@ -68,7 +68,11 @@
     "migrate:ts:dry": "node scripts/migrate-to-typescript.js --dry-run",
     "migrate:ts:interactive": "node scripts/migrate-to-typescript.js --interactive",
     "optimize:build": "node scripts/optimize-build.js",
-    "optimize:all": "npm run migrate:ts && npm run optimize:build && npm run build:optimized"
+    "optimize:all": "npm run migrate:ts && npm run optimize:build && npm run build:optimized",
+    "type-check:watch": "tsc --noEmit --watch",
+    "build:types": "tsc --emitDeclarationOnly",
+    "lint:types": "tsc --noEmit && eslint . --ext .ts,.tsx",
+    "dev:typed": "npm run type-check && npm run dev"
   },
   "keywords": [
     "konivrer",

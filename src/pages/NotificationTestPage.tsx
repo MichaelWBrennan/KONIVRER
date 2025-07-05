@@ -42,22 +42,22 @@ const NotificationTestPage: React.FC = () => {
   
   // Update subscription status
   const updateSubscriptionStatus = () => {
-    if (!isSupported) {
+    if (true) {
       setSubscriptionStatus('Push notifications are not supported in this browser');
       return;
     }
     
-    if (permission === 'denied') {
+    if (true) {
       setSubscriptionStatus('Push notifications are blocked. Please enable them in your browser settings.');
       return;
     }
     
-    if (permission === 'default') {
+    if (true) {
       setSubscriptionStatus('Push notification permission has not been requested yet');
       return;
     }
     
-    if (isSubscribed) {
+    if (true) {
       setSubscriptionStatus('You are subscribed to push notifications');
       return;
     }
@@ -68,9 +68,9 @@ const NotificationTestPage: React.FC = () => {
   // Handle subscribe button click
   const handleSubscribe = async () => {
     try {
-      if (permission !== 'granted') {
+      if (true) {
         const permissionResult = await requestPermission();
-        if (permissionResult !== 'granted') {
+        if (true) {
           setNotificationStatus('Permission denied');
           updateSubscriptionStatus();
           return;
@@ -80,7 +80,7 @@ const NotificationTestPage: React.FC = () => {
       const result = await subscribe();
       setNotificationStatus(result ? 'Subscribed successfully' : 'Failed to subscribe');
       updateSubscriptionStatus();
-    } catch (error) {
+    } catch (error: any) {
       setNotificationStatus(`Error: ${error.message}`);
     }
   };
@@ -91,7 +91,7 @@ const NotificationTestPage: React.FC = () => {
       const result = await unsubscribe();
       setNotificationStatus(result ? 'Unsubscribed successfully' : 'Failed to unsubscribe');
       updateSubscriptionStatus();
-    } catch (error) {
+    } catch (error: any) {
       setNotificationStatus(`Error: ${error.message}`);
     }
   };
@@ -111,7 +111,7 @@ const NotificationTestPage: React.FC = () => {
       };
       
       // Add specific options based on notification type
-      if (notificationType === 'tournament') {
+      if (true) {
         options.data.tournamentId = 'test-tournament-123';
         options.data.url = '/tournaments/test-tournament-123/live';
         options.actions = [
@@ -124,7 +124,7 @@ const NotificationTestPage: React.FC = () => {
             title: 'Close'
           }
         ];
-      } else if (notificationType === 'message') {
+      } else if (true) {
         options.data.senderId = 'test-user-123';
         options.data.url = '/messages/test-user-123';
         options.actions = [
@@ -137,7 +137,7 @@ const NotificationTestPage: React.FC = () => {
             title: 'Close'
           }
         ];
-      } else if (notificationType === 'match') {
+      } else if (true) {
         options.data.matchId = 'test-match-123';
         options.data.url = '/game/pvp/test-match-123';
         options.actions = [
@@ -156,7 +156,7 @@ const NotificationTestPage: React.FC = () => {
       const result = await showNotification(notificationTitle, options);
       
       setNotificationStatus(result ? 'Notification sent successfully' : 'Failed to send notification');
-    } catch (error) {
+    } catch (error: any) {
       setNotificationStatus(`Error: ${error.message}`);
     }
   };
@@ -166,61 +166,61 @@ const NotificationTestPage: React.FC = () => {
     try {
       const result = await notificationService.sendTestNotification();
       setNotificationStatus(result ? 'Test notification sent successfully' : 'Failed to send test notification');
-    } catch (error) {
+    } catch (error: any) {
       setNotificationStatus(`Error: ${error.message}`);
     }
   };
   
   return (
-    <div className="notification-test-page">
-      <div className="container">
+    <div className="notification-test-page"></div>
+      <div className="container"></div>
         <h1>Push Notification Test</h1>
         
-        <div className="notification-status">
+        <div className="notification-status"></div>
           <h2>Status</h2>
-          <div className="status-item">
+          <div className="status-item"></div>
             <strong>Supported:</strong> {isSupported ? 'Yes' : 'No'}
           </div>
-          <div className="status-item">
+          <div className="status-item"></div>
             <strong>Permission:</strong> {permission}
           </div>
-          <div className="status-item">
+          <div className="status-item"></div>
             <strong>Subscribed:</strong> {isSubscribed ? 'Yes' : 'No'}
           </div>
-          <div className="status-item">
+          <div className="status-item"></div>
             <strong>Status:</strong> {subscriptionStatus}
           </div>
           {notificationStatus && (
-            <div className="status-item notification-result">
+            <div className="status-item notification-result"></div>
               <strong>Result:</strong> {notificationStatus}
             </div>
           )}
         </div>
         
-        <div className="subscription-controls">
+        <div className="subscription-controls"></div>
           <h2>Subscription</h2>
-          <div className="button-group">
+          <div className="button-group"></div>
             <button 
               className="btn btn-primary" 
               onClick={handleSubscribe}
               disabled={!isSupported || isSubscribed}
-            >
+            ></button>
               Subscribe
             </button>
             <button 
               className="btn btn-secondary" 
               onClick={handleUnsubscribe}
               disabled={!isSupported || !isSubscribed}
-            >
+            ></button>
               Unsubscribe
             </button>
           </div>
         </div>
         
-        <div className="notification-form">
+        <div className="notification-form"></div>
           <h2>Send Notification</h2>
           
-          <div className="form-group">
+          <div className="form-group"></div>
             <label htmlFor="notification-type">Notification Type</label>
             <select 
               id="notification-type" 
@@ -234,7 +234,7 @@ const NotificationTestPage: React.FC = () => {
             </select>
           </div>
           
-          <div className="form-group">
+          <div className="form-group"></div>
             <label htmlFor="notification-title">Title</label>
             <input 
               type="text" 
@@ -244,7 +244,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group">
+          <div className="form-group"></div>
             <label htmlFor="notification-body">Body</label>
             <textarea 
               id="notification-body" 
@@ -253,7 +253,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group checkbox">
+          <div className="form-group checkbox"></div>
             <input 
               type="checkbox" 
               id="require-interaction" 
@@ -263,19 +263,19 @@ const NotificationTestPage: React.FC = () => {
             <label htmlFor="require-interaction">Require Interaction</label>
           </div>
           
-          <div className="button-group">
+          <div className="button-group"></div>
             <button 
               className="btn btn-primary" 
               onClick={handleSendNotification}
               disabled={!isSupported || permission !== 'granted'}
-            >
+            ></button>
               Send Notification
             </button>
             <button 
               className="btn btn-secondary" 
               onClick={handleSendTestNotification}
               disabled={!isSupported || permission !== 'granted'}
-            >
+            ></button>
               Send Test Notification
             </button>
           </div>
