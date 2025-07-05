@@ -102,11 +102,11 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
       id: 'elements',
       title: 'Element Searches',
       icon: Palette,
-      description: 'Search by mana cost elements - the resources needed to cast cards',
+      description: 'Search by elemental requirements - the resources needed to cast cards',
       examples: [
         {
           syntax: 'e:fire | element:fire',
-          description: 'Search for cards by their mana cost elements - the resources needed to cast cards',
+          description: 'Search for cards by their elemental requirements - the resources needed to cast cards',
           viableWords: 'fire, water, earth, air, aether, nether, azoth'
         },
         {
@@ -136,18 +136,18 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
     },
     {
       id: 'mana',
-      title: 'Mana Cost Searches',
+      title: 'Casting Cost Searches',
       icon: DollarSign,
-      description: 'Search by mana costs and converted mana cost',
+      description: 'Search by casting costs and total cost',
       examples: [
         {
           syntax: 'cmc:3 | mv:3 | cost:3',
-          description: 'Search by converted mana cost (total cost to cast)',
+          description: 'Search by total casting cost',
           viableWords: 'Any number (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10+)'
         },
         {
           syntax: 'cmc>=4 | cmc>3 | cmc<=2 | cmc<3 | cmc=5',
-          description: 'Search by mana cost using comparison operators',
+          description: 'Search by casting cost using comparison operators',
           viableWords: 'Any number with operators: >=, >, <=, <, ='
         },
       ],
@@ -426,7 +426,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
             <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded mr-2">e:fire</code>
             <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded">element:fire</code>
             <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
-            <p className="text-gray-300 text-sm">Search for cards by their mana cost elements (resources needed to cast)</p>
+            <p className="text-gray-300 text-sm">Search for cards by their elemental requirements (resources needed to cast)</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
             <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
           </div>
@@ -459,7 +459,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
               Pro Tips
             </h4>
             <ul className="text-gray-300 text-sm space-y-1">
-              <li>• <strong>Elements vs Keywords:</strong> <code className="text-orange-300">e:fire</code> (mana cost) vs <code className="text-blue-300">k:brilliance</code> (special ability)</li>
+              <li>• <strong>Elements vs Keywords:</strong> <code className="text-orange-300">e:fire</code> (casting requirement) vs <code className="text-blue-300">k:brilliance</code> (special ability)</li>
               <li>• <strong>Combine criteria:</strong> <code className="text-purple-300">t:familiar e:water k:submerged</code></li>
               <li>• <strong>Complex logic:</strong> <code className="text-purple-300">(t:spell OR t:artifact) k:void</code></li>
               <li>• <strong>Exclude results:</strong> <code className="text-purple-300">dragon -t:token</code></li>
