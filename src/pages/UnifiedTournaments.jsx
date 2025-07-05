@@ -211,7 +211,7 @@ const UnifiedTournaments = () => {
                 className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg transition-colors text-xs"
               >
                 <Plus size={12} />
-                <span>Create Tournament</span>
+                <span>Create Event</span>
               </Link>
               <Link
                 to="/tournament-manager"
@@ -235,7 +235,7 @@ const UnifiedTournaments = () => {
                 />
                 <input
                   type="text"
-                  placeholder="Search tournaments or locations..."
+                  placeholder="Search events or locations..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-7 pr-2 py-1 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 text-xs"
@@ -270,9 +270,9 @@ const UnifiedTournaments = () => {
         </div>
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* Tournaments */}
+          {/* Events */}
           <div className="xl:col-span-2 space-y-6">
-            {/* All Tournaments */}
+            {/* All Events */}
             <div className="bg-gray-800 rounded-lg p-6">
               <div className="space-y-4">
                 {[...filteredTournaments, ...filteredEvents].map(tournament => (
