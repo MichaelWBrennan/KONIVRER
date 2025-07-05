@@ -1,0 +1,408 @@
+/**
+ * Scryfall-like Advanced Search Styles
+ * Exact replica of Scryfall's advanced search interface
+ */
+
+.scryfall-advanced-search {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.scryfall-advanced-search .max-w-4xl {
+  max-width: 56rem;
+}
+
+/* Search Sections */
+.search-section {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.search-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  background-color: white;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.search-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  appearance: none;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.add-symbol-btn {
+  padding: 0.5rem 0.75rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.add-symbol-btn:hover {
+  background-color: #5a6268;
+}
+
+.search-help-text {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Checkbox Groups */
+.search-checkbox-group {
+  margin-top: 0.75rem;
+}
+
+.search-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.search-checkbox-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Element Selection */
+.element-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.element-fieldset {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 0;
+}
+
+.element-fieldset legend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0 0.5rem;
+}
+
+.element-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.element-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.element-label input[type="checkbox"] {
+  margin: 0;
+}
+
+.element-symbol {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.element-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Stats Group */
+.stats-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+/* Games */
+.games-fieldset {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 0;
+}
+
+.games-fieldset legend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0 0.5rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.games-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.games-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Formats */
+.formats-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formats-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+/* Sets */
+.sets-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sets-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+/* Rarity */
+.rarity-fieldset {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 0;
+}
+
+.rarity-fieldset legend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0 0.5rem;
+}
+
+.rarity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.rarity-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.rarity-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Prices */
+.prices-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.prices-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+/* Preferences */
+.preferences-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.preferences-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.preferences-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Search Button */
+.search-button-section {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.search-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.search-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Search Results */
+.search-results {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card-result {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.card-image-placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9ecef;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-row,
+  .formats-row,
+  .sets-row,
+  .prices-row,
+  .preferences-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .element-grid,
+  .games-grid,
+  .rarity-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .add-symbol-btn {
+    align-self: flex-start;
+  }
+}
+
+/* Focus styles for accessibility */
+.search-input:focus,
+.search-select:focus,
+input[type="checkbox"]:focus,
+.search-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}

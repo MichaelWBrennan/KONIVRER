@@ -48,6 +48,7 @@ import CardArtShowcase from './pages/CardArtShowcase';
 
 import AdvancedSearchPage from './pages/AdvancedSearchPage';
 import ComprehensiveAdvancedSearchPage from './pages/ComprehensiveAdvancedSearchPage';
+import ScryfalLikeAdvancedSearchPage from './pages/ScryfalLikeAdvancedSearchPage';
 import SyntaxGuide from './pages/SyntaxGuide';
 
 // Matchmaking System
@@ -155,7 +156,7 @@ function App() {
                             {/* Cards & Decks */}
                             <Route
                               path="/cards"
-                              element={<UnifiedCardExplorer />}
+                              element={<ScryfalLikeAdvancedSearchPage />}
                             />
                             <Route
                               path="/cards/*"
