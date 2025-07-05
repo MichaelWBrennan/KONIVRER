@@ -78,6 +78,7 @@ import PlayerPortal from './pages/PlayerPortal';
 import OrganizationDashboard from './pages/OrganizationDashboard';
 import MobileJudgeTools from './components/tournaments/MobileJudgeTools';
 import NotificationTest from './components/unified/NotificationTest';
+import TournamentNotificationTest from './components/unified/TournamentNotificationTest';
 
 function App() {
   return (
@@ -358,6 +359,14 @@ function App() {
                               element={
                                 <Suspense fallback={<div>Loading...</div>}>
                                   <NotificationTest />
+                                </Suspense>
+                              }
+                            />
+                            <Route
+                              path="/tournament-notification-test"
+                              element={
+                                <Suspense fallback={<div>Loading...</div>}>
+                                  <TournamentNotificationTest />
                                 </Suspense>
                               }
                             />

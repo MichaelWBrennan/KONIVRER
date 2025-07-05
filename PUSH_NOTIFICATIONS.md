@@ -74,6 +74,27 @@ The client is already configured to use the push notification system. No additio
    - Click "Send Test Notification" to send a client-side notification
    - Fill in the form and click "Send Server Notification" to send a notification from the server
 
+### Testing Tournament Notifications
+
+1. Navigate to the tournament notification test page:
+   ```
+   http://localhost:12000/tournament-notification-test
+   ```
+
+2. Click "Enable Notifications" to subscribe to push notifications.
+
+3. Select a tournament from the dropdown.
+
+4. Test tournament notifications:
+   - Click "Start New Round" to start a new round and send round start notifications
+   - Click result buttons (1-0, 0-0, 0-1) to submit match results and send result notifications
+   - Click "Trigger Overtime" to trigger overtime and send overtime notifications
+
+Tournament notifications include:
+- **Round Start**: Notifies players when a round starts with opponent name and table number
+- **Match Result**: Notifies players when a match result is submitted
+- **Overtime**: Notifies players when overtime is triggered for their match
+
 ## API Endpoints
 
 ### Subscribe to Push Notifications

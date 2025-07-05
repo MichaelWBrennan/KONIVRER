@@ -22,6 +22,7 @@ import fs from 'fs';
 import notificationsRouter from './api/notifications.js';
 import messagesRouter from './api/messages.js';
 import usersRouter from './api/users.js';
+import tournamentsRouter from './api/tournaments.js';
 
 // Load environment variables
 dotenv.config();
@@ -43,6 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/notifications', notificationsRouter);
 app.use('/api/messages', messagesRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/tournaments', tournamentsRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
