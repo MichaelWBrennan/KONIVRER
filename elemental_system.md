@@ -2,6 +2,14 @@
 
 The elemental system is a core mechanic of KONIVRER that defines card costs, strengths, and interactions. This document provides detailed guidance on implementing this system.
 
+## ⚠️ Important: Elements vs Keywords
+
+**Elements** and **Keywords** are separate systems in KONIVRER:
+- **Elements**: Resource costs and Azoth generation (Fire, Water, Earth, Air, Aether, Nether, Generic)
+- **Keywords**: Special abilities on cards (Brilliance, Void, Gust, Submerged, Inferno, Steadfast)
+
+See [keyword_system.md](./keyword_system.md) for details on the keyword system.
+
 ## Elemental Types
 
 KONIVRER features seven elemental types:

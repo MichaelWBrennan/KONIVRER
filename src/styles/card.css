@@ -145,6 +145,60 @@
   color: #aaaaaa;
 }
 
+/* Keywords (separate from elements) */
+.card-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 3px;
+}
+
+.keyword {
+  font-size: 8px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  border: 1px solid;
+  display: inline-block;
+  font-weight: bold;
+  cursor: help;
+}
+
+.keyword.brilliance {
+  background-color: #ffdd44;
+  color: #000000;
+  border-color: #ffaa00;
+}
+
+.keyword.void {
+  background-color: #444444;
+  color: #ffffff;
+  border-color: #222222;
+}
+
+.keyword.gust {
+  background-color: #cceeff;
+  color: #000000;
+  border-color: #88ccff;
+}
+
+.keyword.submerged {
+  background-color: #4488cc;
+  color: #ffffff;
+  border-color: #2266aa;
+}
+
+.keyword.inferno {
+  background-color: #ff4444;
+  color: #ffffff;
+  border-color: #cc2222;
+}
+
+.keyword.steadfast {
+  background-color: #88aa88;
+  color: #ffffff;
+  border-color: #556655;
+}
+
 /* Card abilities */
 .card-abilities {
   font-size: 9px;
