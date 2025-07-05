@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Download, FileText, Users, Shield } from 'lucide-react';
 
-const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
+const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf', showHeader = true }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pdfExists, setPdfExists] = useState(false);
@@ -49,7 +49,18 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
     const link = document.createElement('a');
     const currentPdfUrl = getCurrentPdfUrl();
     link.href = currentPdfUrl;
-    link.download = 'KONIVRER-Basic-Rules.pdf';
+    
+    // Determine filename based on PDF URL
+    let filename = 'KONIVRER-Rules.pdf';
+    if (currentPdfUrl.includes('tournament-rules')) {
+      filename = 'KONIVRER-Tournament-Rules.pdf';
+    } else if (currentPdfUrl.includes('code-of-conduct')) {
+      filename = 'KONIVRER-Code-of-Conduct.pdf';
+    } else if (currentPdfUrl.includes('konivrer-rules')) {
+      filename = 'KONIVRER-Basic-Rules.pdf';
+    }
+    
+    link.download = filename;
     
     document.body.appendChild(link);
     link.click();
@@ -107,11 +118,14 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
 
   const renderTabContent = () => {
     const currentPdfUrl = getCurrentPdfUrl();
-    const titles = {
-      rules: 'KONIVRER Rules PDF',
-      tournament: 'KONIVRER Tournament Rules PDF',
-      conduct: 'KONIVRER Code of Conduct PDF'
-    };
+    
+    // Determine title based on PDF URL
+    let title = 'KONIVRER Basic Rules';
+    if (currentPdfUrl.includes('tournament-rules')) {
+      title = 'KONIVRER Tournament Rules';
+    } else if (currentPdfUrl.includes('code-of-conduct')) {
+      title = 'KONIVRER Code of Conduct';
+    }
     
     // Use PDF.js viewer URL for full functionality
     const pdfViewerUrl = `/pdfjs/web/viewer.html?file=${encodeURIComponent(currentPdfUrl)}`;
@@ -123,13 +137,42 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf' }) => {
           src={pdfViewerUrl}
           className="w-full h-full border-0"
           style={{ backgroundColor: '#ffffff' }}
-          title="KONIVRER Basic Rules"
+          title={title}
           onLoad={() => setIsLoading(false)}
           allow="fullscreen"
         />
       </div>
     );
   };
+
+  if (!showHeader) {
+    // Simple version without header for use within other components
+    return (
+      <div className="w-full">
+        {/* Controls */}
+        <div className="flex items-center justify-between mb-4">
+          {/* Info Text */}
+          <div className="flex items-center space-x-2">
+            <span className="text-gray-300 text-sm">
+              Full PDF functionality: search, zoom, page navigation, and more available in the viewer below
+            </span>
+          </div>
+
+          {/* Download Button */}
+          <button
+            onClick={handleDownload}
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center space-x-2"
+          >
+            <Download className="h-4 w-4" />
+            <span>Download PDF</span>
+          </button>
+        </div>
+
+        {/* PDF Content */}
+        {renderTabContent()}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
