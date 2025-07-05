@@ -32,6 +32,12 @@ export function playSummon(gameState, playerId, cardId, azothSpent) {
     return gameState;
   }
   
+  // Check if card has Quintessence keyword (prevents summoning)
+  if (card.keywords && card.keywords.includes('QUINTESSENCE')) {
+    gameState.gameLog.push(`Error: ${card.name} with Quintessence cannot be summoned as a Familiar`);
+    return gameState;
+  }
+  
   // Check if player can pay the elemental costs
   if (!canPayCost(gameState.players[playerId].azoth, card.elements)) {
     gameState.gameLog.push(`Error: Cannot pay elemental cost for ${card.name}`);

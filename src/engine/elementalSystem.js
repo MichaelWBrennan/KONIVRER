@@ -56,9 +56,21 @@ export function getAvailableAzoth(azothRow) {
   
   // Count unrested Azoth cards by their element type
   azothRow.forEach(azoth => {
-    if (!azoth.rested && azoth.elementType) {
-      available[azoth.elementType]++;
-      available.total++;
+    if (!azoth.rested) {
+      if (azoth.quintessenceAzoth) {
+        // Quintessence Azoth can produce any element type
+        available[ELEMENTS.FIRE]++;
+        available[ELEMENTS.WATER]++;
+        available[ELEMENTS.EARTH]++;
+        available[ELEMENTS.AIR]++;
+        available[ELEMENTS.AETHER]++;
+        available[ELEMENTS.NETHER]++;
+        available[ELEMENTS.GENERIC]++;
+        available.total++;
+      } else if (azoth.elementType) {
+        available[azoth.elementType]++;
+        available.total++;
+      }
     }
   });
   
