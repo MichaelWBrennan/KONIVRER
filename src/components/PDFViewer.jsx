@@ -150,14 +150,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf', showHeader = true })
     return (
       <div className="w-full">
         {/* Controls */}
-        <div className="flex items-center justify-between mb-4">
-          {/* Info Text */}
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-300 text-sm">
-              Full PDF functionality: search, zoom, page navigation, and more available in the viewer below
-            </span>
-          </div>
-
+        <div className="flex items-center justify-end mb-4">
           {/* Download Button */}
           <button
             onClick={handleDownload}
@@ -202,14 +195,7 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf', showHeader = true })
           </div>
 
           {/* Controls */}
-          <div className="flex items-center justify-between">
-            {/* Info Text */}
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-300 text-sm">
-                Full PDF functionality: search, zoom, page navigation, and more available in the viewer below
-              </span>
-            </div>
-
+          <div className="flex items-center justify-end">
             {/* Download Button */}
             <button
               onClick={handleDownload}
