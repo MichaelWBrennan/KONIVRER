@@ -77,12 +77,12 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
     'Planeswalker',
   ];
 
-  // KONIVRER Elements (for costs and Azoth generation)
+  // KONIVRER Elements (for costs and Azoth generation) - using alchemical symbols for classic elements
   const elements = [
-    { name: 'Fire', symbol: '△', color: 'text-red-400' },
-    { name: 'Water', symbol: '▽', color: 'text-blue-400' },
-    { name: 'Earth', symbol: '⊡', color: 'text-green-400' },
-    { name: 'Air', symbol: '△', color: 'text-cyan-400' },
+    { name: 'Fire', symbol: '🜂', color: 'text-red-400' },
+    { name: 'Water', symbol: '🜄', color: 'text-blue-400' },
+    { name: 'Earth', symbol: '🜃', color: 'text-green-400' },
+    { name: 'Air', symbol: '🜁', color: 'text-cyan-400' },
     { name: 'Aether', symbol: '○', color: 'text-purple-400' },
     { name: 'Nether', symbol: '□', color: 'text-gray-600' },
     { name: 'Generic', symbol: '⊗', color: 'text-gray-400' },

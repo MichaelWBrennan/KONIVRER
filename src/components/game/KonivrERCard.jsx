@@ -43,22 +43,22 @@ const KonivrERCard = ({
   onDragStart,
   className = ''
 }) => {
-  // Element symbols and colors
+  // Element symbols and colors - using alchemical symbols for classic elements
   const elementConfig = {
-    Fire: { icon: Flame, symbol: '△', color: 'text-red-400', bg: 'bg-red-900/30' },
-    Water: { icon: Droplets, symbol: '▽', color: 'text-blue-400', bg: 'bg-blue-900/30' },
-    Earth: { icon: Mountain, symbol: '⊡', color: 'text-green-400', bg: 'bg-green-900/30' },
-    Air: { icon: Wind, symbol: '△', color: 'text-gray-300', bg: 'bg-gray-700/30' },
+    Fire: { icon: Flame, symbol: '🜂', color: 'text-red-400', bg: 'bg-red-900/30' },
+    Water: { icon: Droplets, symbol: '🜄', color: 'text-blue-400', bg: 'bg-blue-900/30' },
+    Earth: { icon: Mountain, symbol: '🜃', color: 'text-green-400', bg: 'bg-green-900/30' },
+    Air: { icon: Wind, symbol: '🜁', color: 'text-gray-300', bg: 'bg-gray-700/30' },
     Quintessence: { icon: Sparkles, symbol: '○', color: 'text-purple-400', bg: 'bg-purple-900/30' },
     Void: { icon: Square, symbol: '□', color: 'text-gray-800', bg: 'bg-gray-900/50' },
     Brilliance: { icon: Star, symbol: '☉', color: 'text-yellow-400', bg: 'bg-yellow-900/30' },
-    Submerged: { icon: Droplets, symbol: '▽', color: 'text-cyan-400', bg: 'bg-cyan-900/30' },
+    Submerged: { icon: Droplets, symbol: '🜄', color: 'text-cyan-400', bg: 'bg-cyan-900/30' },
     Neutral: { icon: Circle, symbol: '⊗', color: 'text-gray-400', bg: 'bg-gray-800/30' },
     // Legacy support for old format
-    fire: { icon: Flame, symbol: '△', color: 'text-red-400', bg: 'bg-red-900/30' },
-    water: { icon: Droplets, symbol: '▽', color: 'text-blue-400', bg: 'bg-blue-900/30' },
-    earth: { icon: Mountain, symbol: '⊡', color: 'text-green-400', bg: 'bg-green-900/30' },
-    air: { icon: Wind, symbol: '△', color: 'text-gray-300', bg: 'bg-gray-700/30' },
+    fire: { icon: Flame, symbol: '🜂', color: 'text-red-400', bg: 'bg-red-900/30' },
+    water: { icon: Droplets, symbol: '🜄', color: 'text-blue-400', bg: 'bg-blue-900/30' },
+    earth: { icon: Mountain, symbol: '🜃', color: 'text-green-400', bg: 'bg-green-900/30' },
+    air: { icon: Wind, symbol: '🜁', color: 'text-gray-300', bg: 'bg-gray-700/30' },
     aether: { icon: Sparkles, symbol: '○', color: 'text-purple-400', bg: 'bg-purple-900/30' },
     nether: { icon: Square, symbol: '□', color: 'text-gray-800', bg: 'bg-gray-900/50' },
     generic: { icon: Circle, symbol: '⊗', color: 'text-gray-400', bg: 'bg-gray-800/30' }

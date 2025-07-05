@@ -47,12 +47,12 @@ const KonivrERGameBoard = ({
   const [dropZone, setDropZone] = useState(null);
   const boardRef = useRef(null);
 
-  // Element symbols mapping
+  // Element symbols mapping - using alchemical symbols for classic elements
   const elementSymbols = {
-    fire: { icon: Flame, symbol: '△', color: 'text-red-400' },
-    water: { icon: Droplets, symbol: '▽', color: 'text-blue-400' },
-    earth: { icon: Mountain, symbol: '⊡', color: 'text-green-400' },
-    air: { icon: Wind, symbol: '△', color: 'text-gray-300' },
+    fire: { icon: Flame, symbol: '🜂', color: 'text-red-400' },
+    water: { icon: Droplets, symbol: '🜄', color: 'text-blue-400' },
+    earth: { icon: Mountain, symbol: '🜃', color: 'text-green-400' },
+    air: { icon: Wind, symbol: '🜁', color: 'text-gray-300' },
     aether: { icon: Sparkles, symbol: '○', color: 'text-purple-400' },
     nether: { icon: Square, symbol: '□', color: 'text-gray-800' },
     generic: { icon: Circle, symbol: '⊗', color: 'text-gray-400' }

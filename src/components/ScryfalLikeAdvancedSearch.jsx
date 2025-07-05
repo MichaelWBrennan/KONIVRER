@@ -83,12 +83,12 @@ const ScryfalLikeAdvancedSearch = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // KONIVRER-specific adaptations
+  // KONIVRER-specific adaptations - using alchemical symbols for classic elements
   const konivrElements = [
-    { key: 'fire', label: 'Fire', symbol: '△', color: '#FF4500' },
-    { key: 'water', label: 'Water', symbol: '▽', color: '#4169E1' },
-    { key: 'earth', label: 'Earth', symbol: '⊡', color: '#8B4513' },
-    { key: 'air', label: 'Air', symbol: '△', color: '#87CEEB' },
+    { key: 'fire', label: 'Fire', symbol: '🜂', color: '#FF4500' },
+    { key: 'water', label: 'Water', symbol: '🜄', color: '#4169E1' },
+    { key: 'earth', label: 'Earth', symbol: '🜃', color: '#8B4513' },
+    { key: 'air', label: 'Air', symbol: '🜁', color: '#87CEEB' },
     { key: 'aether', label: 'Aether', symbol: '○', color: '#FFD700' },
     { key: 'nether', label: 'Nether', symbol: '□', color: '#4B0082' },
     { key: 'generic', label: 'Generic', symbol: '⊗', color: '#696969' }

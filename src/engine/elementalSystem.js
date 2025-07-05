@@ -14,15 +14,15 @@ export const ELEMENTS = {
   GENERIC: 'generic'
 };
 
-// Element symbols
+// Element symbols - using alchemical symbols for classic elements
 export const ELEMENT_SYMBOLS = {
-  [ELEMENTS.FIRE]: '△',
-  [ELEMENTS.WATER]: '▽',
-  [ELEMENTS.EARTH]: '⊡',
-  [ELEMENTS.AIR]: '△',
-  [ELEMENTS.AETHER]: '○',
-  [ELEMENTS.NETHER]: '□',
-  [ELEMENTS.GENERIC]: '⊗'
+  [ELEMENTS.FIRE]: '🜂',      // Alchemical symbol for fire
+  [ELEMENTS.WATER]: '🜄',     // Alchemical symbol for water
+  [ELEMENTS.EARTH]: '🜃',     // Alchemical symbol for earth
+  [ELEMENTS.AIR]: '🜁',       // Alchemical symbol for air
+  [ELEMENTS.AETHER]: '○',     // Circle for aether
+  [ELEMENTS.NETHER]: '□',     // Square for nether
+  [ELEMENTS.GENERIC]: '⊗'     // Circled times for generic
 };
 
 // Elemental advantages

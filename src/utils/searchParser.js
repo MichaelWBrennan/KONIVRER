@@ -338,12 +338,12 @@ const matchesElementFilter = (card, element) => {
   const cardElements = getCardElements(card);
   const searchElement = element.toLowerCase();
   
-  // Map ACTUAL element names to symbols (not keywords!)
+  // Map ACTUAL element names to symbols (not keywords!) - using alchemical symbols for classic elements
   const elementMap = {
-    'fire': '△',
-    'water': '▽',
-    'earth': '⊡',
-    'air': '△',
+    'fire': '🜂',
+    'water': '🜄',
+    'earth': '🜃',
+    'air': '🜁',
     'aether': '○',
     'nether': '□',
     'generic': '⊗'
