@@ -215,13 +215,15 @@ async function syncDeckSaves() {
 
 // Push notifications
 self.addEventListener('push', event => {
-  console.log('Push notification received');
+  console.log('Push notification received', event);
 
   let notificationData;
   
   try {
     notificationData = event.data ? event.data.json() : {};
+    console.log('Notification data:', notificationData);
   } catch (e) {
+    console.error('Error parsing notification data:', e);
     notificationData = {
       title: 'KONIVRER',
       body: event.data ? event.data.text() : 'You have new activity in KONIVRER!'

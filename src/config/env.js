@@ -22,7 +22,7 @@ const getBackendUrl = () => {
 
   // Environment-specific URLs
   if (mode === 'development') {
-    return import.meta.env.VITE_BACKEND_URL_DEV || 'http://localhost:3000';
+    return import.meta.env.VITE_BACKEND_URL_DEV || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev';
   }
 
   if (mode === 'staging' || mode === 'preview') {

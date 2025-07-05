@@ -12,4 +12,4 @@ npm install
 
 # Start server
 echo "Starting server..."
-npm start
+PORT=12001 npm start

@@ -117,6 +117,13 @@ export default defineConfig({
     cors: true,
     open: false,
     allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   },
   preview: {
     host: '0.0.0.0',
