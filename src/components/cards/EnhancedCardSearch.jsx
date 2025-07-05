@@ -658,13 +658,12 @@ const EnhancedCardSearch = () => {
 // Advanced Search Panel Component
 const AdvancedSearchPanel = ({ search, onSearchChange }) => {
   const colors = [
-    'Quintessence',
-    'Brilliance', 
-    'Gust',
-    'Inferno',
-    'Steadfast',
-    'Submerged',
-    'Void'
+    'aether',
+    'air',
+    'fire',
+    'earth',
+    'water',
+    'nether'
   ];
   const rarities = ['common', 'uncommon', 'rare', 'mythic'];
   const types = [

@@ -19,13 +19,12 @@ const AdvancedSearchPage = () => {
 
   const elements = [
     { value: '', label: 'Any Element' },
-    { value: 'Quintessence', label: 'Quintessence' },
-    { value: 'Brilliance', label: 'Brilliance (Aether)' },
-    { value: 'Gust', label: 'Gust (Air)' },
-    { value: 'Inferno', label: 'Inferno (Fire)' },
-    { value: 'Steadfast', label: 'Steadfast (Earth)' },
-    { value: 'Submerged', label: 'Submerged (Water)' },
-    { value: 'Void', label: 'Void (Nether)' },
+    { value: 'aether', label: 'Aether' },
+    { value: 'air', label: 'Air' },
+    { value: 'fire', label: 'Fire' },
+    { value: 'earth', label: 'Earth' },
+    { value: 'water', label: 'Water' },
+    { value: 'nether', label: 'Nether' },
   ];
 
   const rarities = [

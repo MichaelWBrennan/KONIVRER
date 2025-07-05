@@ -93,33 +93,30 @@ const SyntaxGuide = () => {
       description: 'Search by KONIVRER elements',
       examples: [
         {
-          syntax: 'e:brilliance',
-          description: 'Find cards with Brilliance element',
+          syntax: 'e:aether',
+          description: 'Find cards with Aether element',
         },
         {
-          syntax: 'e:gust',
-          description: 'Find cards with Gust element',
+          syntax: 'e:nether',
+          description: 'Find cards with Nether element',
         },
         {
-          syntax: 'e:inferno',
-          description: 'Find cards with Inferno element',
+          syntax: 'e:fire',
+          description: 'Find cards with Fire element',
         },
         {
-          syntax: 'e:steadfast',
-          description: 'Find cards with Steadfast element',
+          syntax: 'e:water',
+          description: 'Find cards with Water element',
         },
         {
-          syntax: 'e:submerged',
-          description: 'Find cards with Submerged element',
+          syntax: 'e:earth',
+          description: 'Find cards with Earth element',
         },
         {
-          syntax: 'e:void',
-          description: 'Find cards with Void element',
+          syntax: 'e:air',
+          description: 'Find cards with Air element',
         },
-        {
-          syntax: 'e:quintessence',
-          description: 'Find cards with Quintessence element',
-        },
+
         {
           syntax: 'e>=2',
           description: 'Find cards with 2 or more elements',
@@ -133,15 +130,15 @@ const SyntaxGuide = () => {
       description: 'Search by card keywords and abilities',
       examples: [
         {
-          syntax: 'k:brilliance',
-          description: 'Find cards with Brilliance keyword',
+          syntax: 'k:aether',
+          description: 'Find cards with Aether keyword',
         },
         {
-          syntax: 'k:void',
-          description: 'Find cards with Void keyword',
+          syntax: 'k:nether',
+          description: 'Find cards with Nether keyword',
         },
         {
-          syntax: 'keyword:steadfast',
+          syntax: 'keyword:earth',
           description: 'Alternative syntax for keyword searches',
         },
       ],
@@ -201,24 +198,24 @@ const SyntaxGuide = () => {
       description: 'Complex search combinations and operators',
       examples: [
         {
-          syntax: 't:elemental e:brilliance',
-          description: 'Find Brilliance Elemental cards',
+          syntax: 't:elemental e:aether',
+          description: 'Find Aether Elemental cards',
         },
         {
-          syntax: 'e:gust e:inferno c<=3',
-          description: 'Find low-cost Gust/Inferno cards',
+          syntax: 'e:air e:fire c<=3',
+          description: 'Find low-cost Air/Fire cards',
         },
         {
-          syntax: '(t:flag OR t:elemental) e:void',
-          description: 'Find Void flags or elementals',
+          syntax: '(t:flag OR t:elemental) e:nether',
+          description: 'Find Nether flags or elementals',
         },
         {
-          syntax: 't:elemental e:steadfast c>=3',
-          description: 'Find expensive Steadfast elementals',
+          syntax: 't:elemental e:earth c>=3',
+          description: 'Find expensive Earth elementals',
         },
         {
-          syntax: 'r:rare -e:quintessence',
-          description: 'Find rare cards without Quintessence',
+          syntax: 'r:rare -e:aether',
+          description: 'Find rare cards without Aether',
         },
       ],
     },
