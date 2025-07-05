@@ -23,21 +23,23 @@ const ScryfalLikeAdvancedSearch = () => {
     typeLine: '',
     allowPartialTypes: false,
     colors: {
-      white: false,
-      blue: false,
-      black: false,
-      red: false,
-      green: false,
-      colorless: false
+      fire: false,
+      water: false,
+      earth: false,
+      air: false,
+      aether: false,
+      nether: false,
+      generic: false
     },
     colorComparison: 'exactly',
     commander: {
-      white: false,
-      blue: false,
-      black: false,
-      red: false,
-      green: false,
-      colorless: false
+      fire: false,
+      water: false,
+      earth: false,
+      air: false,
+      aether: false,
+      nether: false,
+      generic: false
     },
     manaCost: '',
     stats: {
@@ -66,11 +68,6 @@ const ScryfalLikeAdvancedSearch = () => {
     },
     criteria: '',
     allowPartialCriteria: false,
-    prices: {
-      currency1: 'usd',
-      requirement1: 'lessThan',
-      value1: ''
-    },
     artist: '',
     flavorText: '',
     loreFinder: '',
@@ -88,12 +85,13 @@ const ScryfalLikeAdvancedSearch = () => {
 
   // KONIVRER-specific adaptations
   const konivrElements = [
-    { key: 'white', label: 'Brilliance', symbol: '{B}', color: '#FFD700' },
-    { key: 'blue', label: 'Chaos', symbol: '{C}', color: '#FF4500' },
-    { key: 'black', label: 'Decay', symbol: '{D}', color: '#8B4513' },
-    { key: 'red', label: 'Growth', symbol: '{G}', color: '#228B22' },
-    { key: 'green', label: 'Harmony', symbol: '{H}', color: '#87CEEB' },
-    { key: 'colorless', label: 'Void', symbol: '{V}', color: '#696969' }
+    { key: 'fire', label: 'Fire', symbol: '△', color: '#FF4500' },
+    { key: 'water', label: 'Water', symbol: '▽', color: '#4169E1' },
+    { key: 'earth', label: 'Earth', symbol: '⊡', color: '#8B4513' },
+    { key: 'air', label: 'Air', symbol: '△', color: '#87CEEB' },
+    { key: 'aether', label: 'Aether', symbol: '○', color: '#FFD700' },
+    { key: 'nether', label: 'Nether', symbol: '□', color: '#4B0082' },
+    { key: 'generic', label: 'Generic', symbol: '⊗', color: '#696969' }
   ];
 
   const konivrTypes = [
@@ -149,7 +147,7 @@ const ScryfalLikeAdvancedSearch = () => {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <h1 className="text-3xl font-bold text-center mb-8">Advanced Search</h1>
+
 
           {/* Card Name */}
           <div className="search-section">
@@ -520,48 +518,7 @@ const ScryfalLikeAdvancedSearch = () => {
             </p>
           </div>
 
-          {/* Prices */}
-          <div className="search-section">
-            <label className="search-label">Prices</label>
-            <div className="prices-group">
-              <div className="prices-row">
-                <label className="search-label">Currency 1</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.prices.currency1}
-                  onChange={(e) => updateCriteria('prices.currency1', e.target.value)}
-                >
-                  <option value="usd">USD</option>
-                  <option value="eur">Euros</option>
-                  <option value="tix">KONIVRER Tickets</option>
-                </select>
-                
-                <label className="search-label">Currency 1 requirement</label>
-                <select
-                  className="search-select"
-                  value={searchCriteria.prices.requirement1}
-                  onChange={(e) => updateCriteria('prices.requirement1', e.target.value)}
-                >
-                  <option value="lessThan">less than</option>
-                  <option value="greaterThan">greater than</option>
-                  <option value="lessThanOrEqual">less than or equal to</option>
-                  <option value="greaterThanOrEqual">greater than or equal to</option>
-                </select>
-                
-                <label className="search-label">Currency 1 value</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  className="search-input"
-                  value={searchCriteria.prices.value1}
-                  onChange={(e) => updateCriteria('prices.value1', e.target.value)}
-                />
-              </div>
-            </div>
-            <p className="search-help-text">
-              Restrict cards based on their price.
-            </p>
-          </div>
+
 
           {/* Artist */}
           <div className="search-section">
@@ -663,8 +620,6 @@ const ScryfalLikeAdvancedSearch = () => {
                   <option value="setNumber">Sort by Set/Number</option>
                   <option value="rarity">Sort by Rarity</option>
                   <option value="element">Sort by Element</option>
-                  <option value="priceUsd">Sort by Price: USD</option>
-                  <option value="priceEur">Sort by Price: EUR</option>
                   <option value="manaValue">Sort by Mana Value</option>
                   <option value="attack">Sort by Attack</option>
                   <option value="defense">Sort by Defense</option>
