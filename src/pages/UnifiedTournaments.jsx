@@ -159,7 +159,7 @@ const UnifiedTournaments = () => {
       },
       {
         id: 2,
-        name: 'Casual Commander Night',
+        name: 'Casual Flag Night',
         date: '2024-06-23',
         time: '6:00 PM',
         location: 'Community Center',

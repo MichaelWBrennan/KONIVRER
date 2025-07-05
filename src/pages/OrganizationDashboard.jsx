@@ -160,7 +160,7 @@ const OrganizationDashboard = () => {
           { name: 'Standard', count: 45 },
           { name: 'Modern', count: 32 },
           { name: 'Draft', count: 28 },
-          { name: 'Commander', count: 24 }
+          { name: 'Flag', count: 24 }
         ]
       });
     } catch (error) {

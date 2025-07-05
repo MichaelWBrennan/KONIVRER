@@ -124,9 +124,7 @@ const matchesCriteria = (card, key, value, allCriteria) => {
     case 'flavorText':
       return matchesFlavorText(card, value, allCriteria.flavorComparison, allCriteria.caseSensitive);
     
-    case 'loreFinder':
-      return matchesLoreFinder(card, value, allCriteria.caseSensitive);
-    
+
     case 'formats':
       return matchesFormats(card, value, allCriteria.formatStatus);
     
@@ -298,7 +296,7 @@ const matchesManaCost = (card, searchCost, comparison) => {
 };
 
 /**
- * Converted mana cost matching
+ * Converted cost matching
  */
 const matchesConvertedManaCost = (card, criteria) => {
   if (!criteria.value) return true;
@@ -437,26 +435,7 @@ const matchesFlavorText = (card, searchFlavor, comparison, caseSensitive) => {
   }
 };
 
-/**
- * Lore finder - searches all text fields
- */
-const matchesLoreFinder = (card, searchValue, caseSensitive) => {
-  const searchText = caseSensitive ? searchValue : searchValue.toLowerCase();
-  
-  const fields = [
-    card.name,
-    card.type,
-    card.description,
-    card.flavorText,
-    card.artist,
-    ...(card.keywords || [])
-  ];
 
-  return fields.some(field => {
-    const fieldText = caseSensitive ? field : field?.toLowerCase();
-    return fieldText?.includes(searchText);
-  });
-};
 
 /**
  * Format legality matching
