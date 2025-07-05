@@ -25,7 +25,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   isSelected,
  }) => {
   const getSizeClasses = (): any => {
-    switch(): any {
+    switch (true) {
       case 'small':
         return {
           container: 'p-2',
@@ -101,53 +101,47 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
       whileHover={onClick ? { scale: 1.02 } : {}}
       whileTap={onClick ? { scale: 0.98 } : {}}
       onClick={onClick}
-    ></motion>
-      <div className="flex items-center space-x-3"></div>
+     />
+      <div className="flex items-center space-x-3" />
         <div
           className={`${sizeClasses.avatar} bg-gradient-to-br ${getRankColor(player.tier)} rounded-full flex items-center justify-center text-white font-bold`}
-        ></div>
+         />
           {player.avatar ||
             getRankIcon(player.tier) ||
             player.name?.[0]?.toUpperCase()}
-        </div>
-        <div className="min-w-0 flex-1"></div>
+        <div className="min-w-0 flex-1" />
           <div
             className={`font-medium text-gray-900 truncate ${sizeClasses.name}`}
-          ></div>
+           />
             {player.name}
-          </div>
           {showStats && (
-            <div className={`text-gray-500 ${sizeClasses.stats}`}></div>
+            <div className={`text-gray-500 ${sizeClasses.stats}`} />
               {player.tier && (
-                <span className="inline-flex items-center mr-2"></span>
-                  <Trophy className="w-3 h-3 mr-1" /></Trophy>
+                <span className="inline-flex items-center mr-2" />
+                  <Trophy className="w-3 h-3 mr-1" / />
                   {player.tier}
-                </span>
               )}
               {player.rating && (
-                <span className="inline-flex items-center mr-2"></span>
-                  <Star className="w-3 h-3 mr-1" /></Star>
+                <span className="inline-flex items-center mr-2" />
+                  <Star className="w-3 h-3 mr-1" / />
                   {player.rating}
-                </span>
               )}
               {player.winRate && (
-                <span className="inline-flex items-center"></span>
-                  <Target className="w-3 h-3 mr-1" /></Target>
+                <span className="inline-flex items-center" />
+                  <Target className="w-3 h-3 mr-1" / />
                   {(player.winRate * 100).toFixed(1)}%
                 </span>
               )}
               {player.hero && (
-                <div className="mt-1 truncate"></div>
-                  <span className="inline-flex items-center"></span>
-                    <Shield className="w-3 h-3 mr-1" /></Shield>
+                <div className="mt-1 truncate" />
+                  <span className="inline-flex items-center" />
+                    <Shield className="w-3 h-3 mr-1" / />
                     {player.hero}
-                  </span>
                 </div>
               )}
             </div>
           )}
         </div>
-      </div>
     </motion.div>
   );
 };

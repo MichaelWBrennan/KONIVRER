@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Neural AI System for KONIVRER
  * 
@@ -332,8 +333,8 @@ class MetaLearningEngine {
   }
 
   evolveStrategies(): any {
-    this.emergentStrategies.forEach(strategy: any = > {
-      if (strategy.usageCount > 5): any {
+    this.emergentStrategies.forEach((strategy: any) => {
+      if (strategy.usageCount > 5) {
         const mutations = this.generateMutations(strategy);
         const improvements = this.testMutations(mutations);
         
@@ -483,8 +484,8 @@ class MetaLearningEngine {
   identifyPrerequisites(pattern: any): any {
     const prerequisites = [];
     
-    pattern.moves.forEach(move: any = > {
-      if (move.context.resourceAdvantage > 0.6): any {
+    pattern.moves.forEach((move: any) => {
+      if (move.context.resourceAdvantage > 0.6) {
         prerequisites.push('resource_advantage');
       }
       if (true) {
@@ -1192,8 +1193,8 @@ class MemoryNetwork {
     // Group by context similarity
     const groups = this.groupBySimilarity(results);
     
-    groups.forEach(group: any = > {
-      if (group.length > 2): any {
+    groups.forEach((group: any) => {
+      if (group.length > 2) {
         const avgOutcome = group.reduce((sum, result) => 
           sum + (result.outcome || 0.5), 0
         ) / group.length;
@@ -1527,10 +1528,10 @@ class NeuralAI {
   }
 
   applyEmpathyAdjustments(actions: any, empathyResponse: any): any {
-    return actions.map(action: any = > {
+    return actions.map((action: any) => {
       let adjustedScore = action.totalScore;
       // Adjust based on empathy response
-      if (empathyResponse.playStyleAdjustment === 'less_aggressive' && action.aggressive): any {
+      if (empathyResponse.playStyleAdjustment === 'less_aggressive' && action.aggressive) {
         adjustedScore *= 0.7;
       }
       
@@ -1757,14 +1758,12 @@ class NeuralAI {
     const avgOutcome = outcomes.reduce((sum, outcome) => sum + outcome, 0) / outcomes.length;
     
     // Update decision accuracy
-    this.performanceMetrics.decisionAccuracy = 
-      0.9 * this.performanceMetrics.decisionAccuracy + 0.1 * avgOutcome;
+    this.performanceMetrics.decisionAccuracy = 0.9 * this.performanceMetrics.decisionAccuracy + 0.1 * avgOutcome;
     
     // Update creativity score
     const creativeActions = batch.filter(exp => exp.action.isCreative).length;
     const creativityRate = creativeActions / batch.length;
-    this.performanceMetrics.creativityScore = 
-      0.9 * this.performanceMetrics.creativityScore + 0.1 * creativityRate;
+    this.performanceMetrics.creativityScore = 0.9 * this.performanceMetrics.creativityScore + 0.1 * creativityRate;
     
     // Update adaptation speed (simplified)
     this.performanceMetrics.adaptationSpeed = Math.min(1.0, 

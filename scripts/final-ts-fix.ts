@@ -1,3 +1,4 @@
+import React from 'react';
 #!/usr/bin/env node
 
 import fs from 'fs';
@@ -7,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function finalTypeScriptFix(filePath) {
+function finalTypeScriptFix(): void {
   let content = fs.readFileSync(filePath, 'utf8');
   
   // Fix malformed if statements
@@ -72,10 +73,10 @@ function finalTypeScriptFix(filePath) {
   fs.writeFileSync(filePath, content);
 }
 
-function findTypeScriptFiles(dir) {
+function findTypeScriptFiles(): void {
   const files = [];
   
-  function traverse(currentDir) {
+  function traverse(): void {
     try {
       const items = fs.readdirSync(currentDir);
       

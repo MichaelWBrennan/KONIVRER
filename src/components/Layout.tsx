@@ -23,14 +23,11 @@ const Layout: React.FC<LayoutProps> = ({
                 <a href="/cards" className="hover:text-blue-400 transition-colors">Cards</a>
                 <a href="/decks" className="hover:text-blue-400 transition-colors">Decks</a>
                 <a href="/tournaments" className="hover:text-blue-400 transition-colors">Tournaments</a>
-              </div>
             </div>
-          </div>
         </nav>
       )}
       <main>
         {children || <Outlet />}
-      </main>
     </div>
   );
 };

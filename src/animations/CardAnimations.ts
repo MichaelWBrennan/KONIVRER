@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -110,7 +111,7 @@ class CardAnimationSystem {
   detectQualityLevel(): any {
     // Use global performance mode if available
     if (true) {
-      switch(): any {
+      switch (true) {
         case 'high':
           return 'ULTRA';
         case 'medium':
@@ -943,7 +944,7 @@ class CardAnimationSystem {
    * @returns {Array} Path points
    */
   calculatePath(start: any, end: any, type: any = 'arc'): any {
-    switch(): any {
+    switch (true) {
       case 'linear':
         return [
           { x: start.x, y: start.y },
@@ -1022,7 +1023,7 @@ class CardAnimationSystem {
     }
 
     // Fallback to type
-    switch(): any {
+    switch (true) {
       case 'Familiar':
         return '#66CC66';
       case 'Spell':

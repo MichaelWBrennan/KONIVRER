@@ -34,54 +34,49 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
   };
   
   return (
-    <div className="tribute-selector-overlay"></div>
-      <div className="tribute-selector-container"></div>
+    <div className="tribute-selector-overlay" />
+      <div className="tribute-selector-container" />
         <h3>Select Cards to Tribute</h3>
         
-        <div className="tribute-requirements"></div>
+        <div className="tribute-requirements" />
           <p>Select {requiredCount} card{requiredCount !== 1 ? 's' : ''} to tribute</p>
-          <p className="tribute-count"></p>
+          <p className="tribute-count" />
             Selected: {selectedCards.length}/{requiredCount}
-          </p>
         </div>
         
-        <div className="eligible-cards"></div>
+        <div className="eligible-cards" />
           {eligibleCards.length === 0 ? (
             <div className="no-cards">No eligible cards for tribute</div>
           ) : (
-            <div className="cards-grid"></div>
+            <div className="cards-grid" />
               {eligibleCards.map(card => (
                 <div 
                   key={card.id} 
                   className={`tribute-card ${selectedCards.some(c => c.id === card.id) ? 'selected' : ''}`}
                   onClick={() => handleCardClick(card)}
                 >
-                  <Card card={card} location="field" /></Card>
+                  <Card card={card} location="field" / />
                   {selectedCards.some(c => c.id === card.id) && (
-                    <div className="selected-overlay"></div>
+                    <div className="selected-overlay" />
                       <div className="selected-indicator">Selected</div>
-                    </div>
                   )}
-                </div>
               ))}
             </div>
           )}
         </div>
         
-        <div className="tribute-actions"></div>
+        <div className="tribute-actions" />
           <button 
             className="confirm-button" 
             onClick={handleConfirm}
             disabled={selectedCards.length !== requiredCount}
-          ></button>
+           />
             Confirm
           </button>
-          <button className="cancel-button" onClick={onCancel}></button>
+          <button className="cancel-button" onClick={onCancel} />
             Cancel
           </button>
-        </div>
       </div>
-    </div>
   );
 };
 

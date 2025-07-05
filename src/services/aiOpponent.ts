@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - AI Opponent Service
  *
@@ -84,7 +85,7 @@ class AIOpponent {
     
     // Make decision based on phase
     let decision;
-    switch(): any {
+    switch (true) {
       case 'untap':
         decision = this._handleUntapPhase();
         break;
@@ -406,7 +407,7 @@ class AIOpponent {
   _applyPersonalityToActions(actions: any): any {
     const adjustedActions = [...actions];
     
-    switch(): any {
+    switch (true) {
       case AI_PERSONALITY.AGGRESSIVE:
         // Favor damage-dealing and attacking actions
         adjustedActions.forEach(action => {
@@ -507,7 +508,7 @@ class AIOpponent {
     let threatLevel = 0;
     
     // Assess based on card type
-    switch(): any {
+    switch (true) {
       case 'Creature':
         threatLevel += playerAction.card.power + playerAction.card.toughness;
         // Add for abilities
@@ -573,7 +574,7 @@ class AIOpponent {
     value += totalMana * 0.5;
     
     // Adjust based on card type
-    switch(): any {
+    switch (true) {
       case 'Creature':
         value += (card.power + card.toughness) * 0.5;
         break;
@@ -608,7 +609,7 @@ class AIOpponent {
   _adjustValueForPersonality(card: any, baseValue: any): any {
     let value = baseValue;
     
-    switch(): any {
+    switch (true) {
       case AI_PERSONALITY.AGGRESSIVE:
         // Value creatures and damage spells higher
         if (card.type === 'Creature' || this._isDamageSpell(card)) {
@@ -651,7 +652,7 @@ class AIOpponent {
     // Check if AI should make an error based on error rate
     if (Math.random() < this.errorRate) {
       // Different types of errors based on phase
-      switch(): any {
+      switch (true) {
         case 'main1':
         case 'main2':
           // Play a suboptimal card or pass when shouldn't
@@ -727,7 +728,7 @@ class AIOpponent {
     let thinkingTime = this.decisionSpeed;
     
     // Adjust based on phase complexity
-    switch(): any {
+    switch (true) {
       case 'main1':
       case 'main2':
         thinkingTime *= 1.5;
@@ -785,7 +786,7 @@ class AIOpponent {
    * @returns {Number} - Base decision speed in milliseconds
    */
   _getDecisionSpeed(): any {
-    switch(): any {
+    switch (true) {
       case AI_DIFFICULTY.EASY:
         return 1000; // 1 second
       case AI_DIFFICULTY.MEDIUM:
@@ -804,7 +805,7 @@ class AIOpponent {
    * @returns {Number} - Error rate (0-1)
    */
   _getErrorRate(): any {
-    switch(): any {
+    switch (true) {
       case AI_DIFFICULTY.EASY:
         return 0.3; // 30% chance to make errors
       case AI_DIFFICULTY.MEDIUM:
@@ -823,7 +824,7 @@ class AIOpponent {
    * @returns {Number} - Aggression level (0-1)
    */
   _getAggressionLevel(): any {
-    switch(): any {
+    switch (true) {
       case AI_PERSONALITY.AGGRESSIVE:
         return 0.8;
       case AI_PERSONALITY.DEFENSIVE:
@@ -844,7 +845,7 @@ class AIOpponent {
    * @returns {Number} - Memory factor (0-1)
    */
   _getMemoryFactor(): any {
-    switch(): any {
+    switch (true) {
       case AI_DIFFICULTY.EASY:
         return 0.3; // Remembers 30% of past actions
       case AI_DIFFICULTY.MEDIUM:
@@ -863,7 +864,7 @@ class AIOpponent {
    * @returns {Number} - Adaptability factor (0-1)
    */
   _getAdaptabilityFactor(): any {
-    switch(): any {
+    switch (true) {
       case AI_DIFFICULTY.EASY:
         return 0.2; // Adapts 20% to player's strategy
       case AI_DIFFICULTY.MEDIUM:
@@ -883,7 +884,7 @@ class AIOpponent {
    */
   _getHoldBackThreshold(): any {
     let base;
-    switch(): any {
+    switch (true) {
       case AI_DIFFICULTY.EASY:
         base = 0.4; // 40% chance to hold back
       case AI_DIFFICULTY.MEDIUM:
@@ -897,7 +898,7 @@ class AIOpponent {
     }
     
     // Adjust based on personality
-    switch(): any {
+    switch (true) {
       case AI_PERSONALITY.AGGRESSIVE:
         return base * 0.5; // Less likely to hold back
       case AI_PERSONALITY.DEFENSIVE:

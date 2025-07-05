@@ -67,8 +67,8 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const currentPlayer = gameState.players[gameState.activePlayer];
     if (!currentPlayer || !currentPlayer.azothRow) return {};
     const available = {};
-    currentPlayer.azothRow.forEach(azothCard: any = > {
-      if (!azothCard.rested && azothCard.elements): any {
+    currentPlayer.azothRow.forEach((azothCard: any) => {
+      if (!azothCard.rested && azothCard.elements) {
         Object.keys(azothCard.elements).forEach(element => {
           available[element] = (available[element] || 0) + 1;
         });
@@ -142,41 +142,39 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const available = getAvailableAzoth();
     
     return (
-      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600"></div>
+      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600" />
         <div className="text-sm text-gray-300 mb-2">Spend Azoth:</div>
-        <div className="grid grid-cols-4 gap-2"></div>
+        <div className="grid grid-cols-4 gap-2" />
           {Object.entries(available).map(([element, amount]) => {
             const config = elementConfig[element];
             const spent = azothSpent[element] || 0;
             const IconComponent = config?.icon || Circle;
             
             return (
-              <div key={element} className="flex flex-col items-center gap-1"></div>
-                <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`}></div>
-                  <IconComponent className="w-4 h-4" /></IconComponent>
-                  <span className="text-xs">{spent}/{amount}</span>
+              <div key={element} className="flex flex-col items-center gap-1" />
+                <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`} />
+                  <IconComponent className="w-4 h-4" / />
+                  <span className="text-xs">{spent}/{amount}
                 </div>
-                <div className="flex gap-1"></div>
+                <div className="flex gap-1" />
                   <button
                     onClick={() => adjustAzothSpent(element, -1)}
                     disabled={spent === 0}
                     className="w-6 h-6 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white flex items-center justify-center"
                   >
-                    <Minus className="w-3 h-3" /></Minus>
+                    <Minus className="w-3 h-3" / />
                   </button>
                   <button
                     onClick={() => adjustAzothSpent(element, 1)}
                     disabled={spent >= amount}
                     className="w-6 h-6 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white flex items-center justify-center"
                   >
-                    <Plus className="w-3 h-3" /></Plus>
+                    <Plus className="w-3 h-3" / />
                   </button>
-                </div>
               </div>
             );
           })}
         </div>
-      </div>
     );
   };
 
@@ -193,20 +191,19 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
         className="bg-gray-900/90 rounded-lg p-4 border border-blue-500/30 backdrop-blur-sm"
-      ></motion>
-        <div className="text-lg font-bold text-white mb-3"></div>
+       />
+        <div className="text-lg font-bold text-white mb-3" />
           Play {selectedCard.name}
-        </div>
 
         {renderAzothSpending()}
-        <div className="grid grid-cols-2 gap-2 mt-3"></div>
+        <div className="grid grid-cols-2 gap-2 mt-3" />
           {/* Summon */}
           <button
             onClick={() => handleCardAction('summon')}
             disabled={!canSummon}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Play className="w-4 h-4" /></Play>
+            <Play className="w-4 h-4" / />
             Summon
           </button>
 
@@ -216,7 +213,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             disabled={!canTribute}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Sword className="w-4 h-4" /></Sword>
+            <Sword className="w-4 h-4" / />
             Tribute
           </button>
 
@@ -225,7 +222,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             onClick={() => handleCardAction('azoth')}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm"
           >
-            <Sparkles className="w-4 h-4" /></Sparkles>
+            <Sparkles className="w-4 h-4" / />
             Azoth
           </button>
 
@@ -235,16 +232,15 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             disabled={!canSpell}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Zap className="w-4 h-4" /></Zap>
+            <Zap className="w-4 h-4" / />
             Spell
           </button>
-        </div>
 
         {/* Ability selection for spells */}
         {selectedCard.abilities && selectedCard.abilities.length > 1 && (
-          <div className="mt-3"></div>
+          <div className="mt-3" />
             <div className="text-sm text-gray-300 mb-2">Select Ability:</div>
-            <div className="space-y-1"></div>
+            <div className="space-y-1" />
               {selectedCard.abilities.map((ability, index) => (
                 <button
                   key={index}
@@ -256,19 +252,16 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
                   }`}
                 >
                   {ability.name}: {ability.description}
-                </button>
               ))}
             </div>
-          </div>
         )}
-        <div className="flex gap-2 mt-3"></div>
+        <div className="flex gap-2 mt-3" />
           <button
             onClick={() => setShowCardActions(false)}
             className="flex-1 px-3 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
           >
             Cancel
           </button>
-        </div>
       </motion.div>
     );
   };
@@ -279,7 +272,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const phase = gameState?.phase || 'start';
     
     return (
-      <div className="flex gap-2"></div>
+      <div className="flex gap-2" />
         {phase === 'start' && (
           <button
             onClick={() => handlePhaseAction('startPhase')}
@@ -310,7 +303,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
               onClick={() => handlePhaseAction('declareAttackers')}
               className="px-4 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded text-white text-sm"
             >
-              <Sword className="w-4 h-4 inline mr-1" /></Sword>
+              <Sword className="w-4 h-4 inline mr-1" / />
               Attack
             </button>
             <button
@@ -327,7 +320,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
               onClick={() => handlePhaseAction('declareBlockers')}
               className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
-              <Shield className="w-4 h-4 inline mr-1" /></Shield>
+              <Shield className="w-4 h-4 inline mr-1" / />
               Block
             </button>
             <button
@@ -359,15 +352,14 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40"></div>
-      <div className="flex flex-col items-center gap-4"></div>
+    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40" />
+      <div className="flex flex-col items-center gap-4" />
         {/* Card Actions Panel */}
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {selectedCard && showCardActions && renderCardActions()}
-        </AnimatePresence>
 
         {/* Main Controls */}
-        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm"></div>
+        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm" />
           {/* Card Action Button */}
           {selectedCard && (
             <button
@@ -380,7 +372,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
           {/* Phase Controls */}
           {renderPhaseControls()}
           {/* Quick Actions */}
-          <div className="flex gap-2"></div>
+          <div className="flex gap-2" />
             <button
               onClick={() => handlePhaseAction('draw')}
               disabled={!isPlayerTurn}
@@ -395,21 +387,18 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             >
               Concede
             </button>
-          </div>
         </div>
 
         {/* Turn Indicator */}
-        <div className="text-center"></div>
-          <div className={`text-sm font-bold ${isPlayerTurn ? 'text-green-400' : 'text-red-400'}`}></div>
+        <div className="text-center" />
+          <div className={`text-sm font-bold ${isPlayerTurn ? 'text-green-400' : 'text-red-400'}`} />
             {isPlayerTurn ? 'Your Turn' : "Opponent's Turn"}
-          </div>
           {gameState?.phase && (
-            <div className="text-xs text-gray-400 capitalize"></div>
+            <div className="text-xs text-gray-400 capitalize" />
               {gameState.phase} Phase
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 };

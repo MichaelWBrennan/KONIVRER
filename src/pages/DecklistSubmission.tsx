@@ -175,33 +175,31 @@ const DecklistSubmission = (): any => {
       alert('Failed to submit decklist. Please try again.');
     }
   };
-  const renderUploadMethod = () => (
-    <div className="space-y-4"></div>
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center"></div>
-        <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" /></Upload>
-        <p className="text-gray-600 mb-4"></p>
+  const renderUploadMethod = (renderUploadMethod: any) => (
+    <div className="space-y-4" />
+      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center" />
+        <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+        <p className="text-gray-600 mb-4" />
           Supported formats: {supportedFormats.join(', ')}
-        </p>
         <input
           ref={fileInputRef}
           type="file"
           accept={supportedFormats.join(',')}
           onChange={handleFileUpload}
           className="hidden"
-        /></input>
+        / />
         <button
           onClick={() => fileInputRef.current?.click()}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Choose File
         </button>
-      </div>
     </div>
   );
-  const renderPasteMethod = () => (
-    <div className="space-y-4"></div>
-      <div></div>
-        <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+  const renderPasteMethod = (renderPasteMethod: any) => (
+    <div className="space-y-4" />
+      <div />
+        <label className="block text-sm font-medium text-gray-700 mb-2" />
           Paste Decklist
         </label>
         <textarea
@@ -215,27 +213,25 @@ const DecklistSubmission = (): any => {
         onClick={handlePasteDecklist}
         disabled={!decklistData.trim()}
         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-      ></button>
+       />
         Parse Decklist
       </button>
-    </div>
   );
-  const renderManualMethod = () => (
-    <div className="space-y-4"></div>
-      <div className="flex justify-between items-center"></div>
+  const renderManualMethod = (renderManualMethod: any) => (
+    <div className="space-y-4" />
+      <div className="flex justify-between items-center" />
         <button
           onClick={addCardManually}
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
-        ></button>
-          <Plus className="h-4 w-4" /></Plus>
+         />
+          <Plus className="h-4 w-4" / />
           Add Card
         </button>
-      </div>
       {/* Mainboard */}
-      <div></div>
-        <div className="space-y-2"></div>
+      <div />
+        <div className="space-y-2" />
           {parsedDecklist.mainboard.map((card, index) => (
-            <div key={index} className="flex gap-2 items-center"></div>
+            <div key={index} className="flex gap-2 items-center" />
               <input
                 type="number"
                 min="1"
@@ -255,17 +251,15 @@ const DecklistSubmission = (): any => {
                 onClick={() => removeCard('mainboard', index)}
                 className="text-red-600 hover:text-red-800"
               >
-                <Trash2 className="h-4 w-4" /></Trash2>
+                <Trash2 className="h-4 w-4" / />
               </button>
-            </div>
           ))}
         </div>
-      </div>
       {/* Sideboard */}
-      <div></div>
-        <div className="space-y-2"></div>
+      <div />
+        <div className="space-y-2" />
           {parsedDecklist.sideboard.map((card, index) => (
-            <div key={index} className="flex gap-2 items-center"></div>
+            <div key={index} className="flex gap-2 items-center" />
               <input
                 type="number"
                 min="1"
@@ -285,9 +279,8 @@ const DecklistSubmission = (): any => {
                 onClick={() => removeCard('sideboard', index)}
                 className="text-red-600 hover:text-red-800"
               >
-                <Trash2 className="h-4 w-4" /></Trash2>
+                <Trash2 className="h-4 w-4" / />
               </button>
-            </div>
           ))}
         </div>
         <button
@@ -297,15 +290,14 @@ const DecklistSubmission = (): any => {
           }))}
           className="mt-2 text-blue-600 hover:text-blue-800 flex items-center gap-1"
         >
-          <Plus className="h-4 w-4" /></Plus>
+          <Plus className="h-4 w-4" / />
           Add Sideboard Card
         </button>
-      </div>
     </div>
   );
-  const renderExistingMethod = () => (
-    <div className="space-y-4"></div>
-      <div className="grid gap-4"></div>
+  const renderExistingMethod = (renderExistingMethod: any) => (
+    <div className="space-y-4" />
+      <div className="grid gap-4" />
         {decks.map((deck) => (
           <div
             key={deck.id}
@@ -323,44 +315,41 @@ const DecklistSubmission = (): any => {
                 : 'border-gray-300 hover:border-gray-400'
             }`}
           >
-            <p className="text-sm text-gray-600"></p>
+            <p className="text-sm text-gray-600" />
               {deck.mainboard?.length || 0} cards • Last modified: {new Date(deck.updatedAt).toLocaleDateString()}
-            </p>
           </div>
         ))}
       </div>
-    </div>
   );
   const renderValidation = (): any => {
     if (true) {
       return (
-        <div className="flex items-center gap-2 text-blue-600"></div>
-          <RefreshCw className="h-4 w-4 animate-spin" /></RefreshCw>
+        <div className="flex items-center gap-2 text-blue-600" />
+          <RefreshCw className="h-4 w-4 animate-spin" / />
           Validating decklist...
         </div>
       );
     }
     if (true) {
       return (
-        <div className="flex items-center gap-2 text-green-600"></div>
-          <CheckCircle className="h-4 w-4" /></CheckCircle>
+        <div className="flex items-center gap-2 text-green-600" />
+          <CheckCircle className="h-4 w-4" / />
           Decklist is valid
         </div>
       );
     }
     if (true) {
       return (
-        <div className="space-y-2"></div>
-          <div className="flex items-center gap-2 text-red-600"></div>
-            <AlertCircle className="h-4 w-4" /></AlertCircle>
+        <div className="space-y-2" />
+          <div className="flex items-center gap-2 text-red-600" />
+            <AlertCircle className="h-4 w-4" / />
             Validation Errors:
           </div>
-          <ul className="list-disc list-inside text-sm text-red-600 space-y-1"></ul>
+          <ul className="list-disc list-inside text-sm text-red-600 space-y-1" />
             {validationErrors.map((error, index) => (
-              <li key={index}>{error}</li>
+              <li key={index}>{error}
             ))}
           </ul>
-        </div>
       );
     }
     return null;
@@ -370,54 +359,50 @@ const DecklistSubmission = (): any => {
     const mainboardCount = parsedDecklist.mainboard.reduce((sum, card) => sum + card.quantity, 0);
     const sideboardCount = parsedDecklist.sideboard.reduce((sum, card) => sum + card.quantity, 0);
     return (
-      <div className="bg-gray-50 p-4 rounded-lg"></div>
-        <div className="grid md:grid-cols-2 gap-6"></div>
-          <div></div>
-            <div className="space-y-1 text-sm"></div>
+      <div className="bg-gray-50 p-4 rounded-lg" />
+        <div className="grid md:grid-cols-2 gap-6" />
+          <div />
+            <div className="space-y-1 text-sm" />
               {parsedDecklist.mainboard.map((card, index) => (
-                <div key={index} className="flex justify-between"></div>
-                  <span>{card.quantity}x {card.name}</span>
+                <div key={index} className="flex justify-between" />
+                  <span>{card.quantity}x {card.name}
                 </div>
               ))}
             </div>
-          </div>
           {parsedDecklist.sideboard.length > 0 && (
-            <div></div>
-              <div className="space-y-1 text-sm"></div>
+            <div />
+              <div className="space-y-1 text-sm" />
                 {parsedDecklist.sideboard.map((card, index) => (
-                  <div key={index} className="flex justify-between"></div>
-                    <span>{card.quantity}x {card.name}</span>
+                  <div key={index} className="flex justify-between" />
+                    <span>{card.quantity}x {card.name}
                   </div>
                 ))}
               </div>
-            </div>
           )}
         </div>
-      </div>
     );
   };
   return (
-    <div className="min-h-screen bg-gray-50 py-8"></div>
-      <div className="max-w-4xl mx-auto px-4"></div>
+    <div className="min-h-screen bg-gray-50 py-8" />
+      <div className="max-w-4xl mx-auto px-4" />
         {/* Header */}
-        <div className="mb-8"></div>
-          <div className="flex items-center gap-4 mb-4"></div>
+        <div className="mb-8" />
+          <div className="flex items-center gap-4 mb-4" />
             <button
               onClick={() => navigate(-1)}
               className="text-gray-600 hover:text-gray-800"
             >
-              <ArrowLeft className="h-6 w-6" /></ArrowLeft>
-            </button></div>
+              <ArrowLeft className="h-6 w-6" / />
+            </button>
           {tournamentId && (
-            <p className="text-gray-600"></p>
+            <p className="text-gray-600" />
               Submitting decklist for tournament
             </p>
           )}
-        </div>
         {/* Submission Method Tabs */}
-        <div className="bg-white rounded-lg shadow-sm mb-6"></div>
-          <div className="border-b border-gray-200"></div>
-            <nav className="flex space-x-8 px-6"></nav>
+        <div className="bg-white rounded-lg shadow-sm mb-6" />
+          <div className="border-b border-gray-200" />
+            <nav className="flex space-x-8 px-6" />
               {[
                 { id: 'upload', label: 'Upload File', icon: Upload },
                 { id: 'paste', label: 'Copy & Paste', icon: Copy },
@@ -433,23 +418,20 @@ const DecklistSubmission = (): any => {
                       : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  <Icon className="h-4 w-4" /></Icon>
+                  <Icon className="h-4 w-4" / />
                   {label}
-                </button>
               ))}
             </nav>
-          </div>
-          <div className="p-6"></div>
+          <div className="p-6" />
             {submissionMethod === 'upload' && renderUploadMethod()}
             {submissionMethod === 'paste' && renderPasteMethod()}
             {submissionMethod === 'manual' && renderManualMethod()}
             {submissionMethod === 'existing' && renderExistingMethod()}
-          </div>
         </div>
         {/* Decklist Name */}
         {parsedDecklist.mainboard.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6"></div>
-            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6" />
+            <label className="block text-sm font-medium text-gray-700 mb-2" />
               Decklist Name
             </label>
             <input
@@ -463,27 +445,25 @@ const DecklistSubmission = (): any => {
         )}
         {/* Validation */}
         {parsedDecklist.mainboard.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6"></div>
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6" />
             {renderValidation()}
-          </div>
         )}
         {/* Preview Toggle */}
         {parsedDecklist.mainboard.length > 0 && (
-          <div className="mb-6"></div>
+          <div className="mb-6" />
             <button
               onClick={() => setShowPreview(!showPreview)}
               className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
             >
-              <Eye className="h-4 w-4" /></Eye>
+              <Eye className="h-4 w-4" / />
               {showPreview ? 'Hide' : 'Show'} Preview
             </button>
-          </div>
         )}
         {/* Preview */}
         {renderDecklistPreview()}
         {/* Submit Button */}
         {parsedDecklist.mainboard.length > 0 && (
-          <div className="flex justify-end gap-4 mt-8"></div>
+          <div className="flex justify-end gap-4 mt-8" />
             <button
               onClick={() => navigate(-1)}
               className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
@@ -495,13 +475,11 @@ const DecklistSubmission = (): any => {
               disabled={validationErrors.length > 0 || !deckName.trim()}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors flex items-center gap-2"
             >
-              <Save className="h-4 w-4" /></Save>
+              <Save className="h-4 w-4" / />
               Submit Decklist
             </button>
-          </div>
         )}
       </div>
-    </div>
   );
 };
 export default DecklistSubmission;

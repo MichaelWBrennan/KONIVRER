@@ -21,7 +21,7 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
   };
   
   const handleCardAction = (actionType, card, params): any => {
-    switch(): any {
+    switch (true) {
       case 'summon':
         actions.playSummon(card.id, params.azothSpent || 0);
         break;
@@ -45,9 +45,9 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
   };
   
   return (
-    <div className="hand-zone"></div>
+    <div className="hand-zone" />
       <div className="zone-label">YOUR HAND</div>
-      <div className="cards-container"></div>
+      <div className="cards-container" />
         {cards.length === 0 ? (
           <div className="empty-zone">No cards</div>
         ) : (
@@ -57,7 +57,7 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
               className="hand-card"
               onClick={() => handleCardClick(card)}
             >
-              <Card card={card} location="hand" /></Card>
+              <Card card={card} location="hand" / />
             </div>
           ))
         )}
@@ -68,7 +68,7 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
           card={selectedCard} 
           onAction={handleCardAction}
           onClose={handleCloseActions}
-        /></CardActions>
+        / />
       )}
     </div>
   );

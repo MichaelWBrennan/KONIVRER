@@ -60,34 +60,32 @@ const EnhancedPlayerProfile = ({
   return (
     <div
       className={`enhanced-player-profile bg-white rounded-lg shadow-md overflow-hidden ${className}`}
-    ></div>
+     />
       {/* Basic Profile Header */}
-      <div className="p-4 border-b border-gray-200"></div>
-        <div className="flex items-center justify-between"></div>
-          <div className="flex items-center"></div>
+      <div className="p-4 border-b border-gray-200" />
+        <div className="flex items-center justify-between" />
+          <div className="flex items-center" />
             {player.avatar ? (
               <img
                 src={player.avatar}
                 alt={player.name}
                 className="w-12 h-12 rounded-full mr-3 object-cover border-2 border-gray-200"
-              /></img>
+              / />
             ) : (
-              <div className="w-12 h-12 rounded-full mr-3 bg-gray-200 flex items-center justify-center"></div>
-                <User className="w-6 h-6 text-gray-500" /></User>
+              <div className="w-12 h-12 rounded-full mr-3 bg-gray-200 flex items-center justify-center" />
+                <User className="w-6 h-6 text-gray-500" / />
               </div>
             )}
-            <div></div>
-              <h3 className="text-lg font-bold text-gray-800"></h3>
+            <div />
+              <h3 className="text-lg font-bold text-gray-800" />
                 {player.name || 'Unknown Player'}
-              </h3>
-              <div className="flex items-center text-sm text-gray-600"></div>
-                <Clock className="w-3 h-3 mr-1" /></Clock>
-                <span>Joined {formatDate(player.joinDate)}</span>
+              <div className="flex items-center text-sm text-gray-600" />
+                <Clock className="w-3 h-3 mr-1" / />
+                <span>Joined {formatDate(player.joinDate)}
               </div>
-            </div>
           </div>
 
-          <div className="flex flex-col items-end"></div>
+          <div className="flex flex-col items-end" />
             <ConfidenceBandedTier
               tier={player.tier || 'bronze'}
               confidenceBand={player.confidenceBand || 'uncertain'}
@@ -95,36 +93,34 @@ const EnhancedPlayerProfile = ({
               size="sm"
               showProgress={false}
               showDetails={false}
-            /></ConfidenceBandedTier>
+            / />
             {player.trend && (
-              <div className="mt-1"></div>
+              <div className="mt-1" />
                 <PlayerFormIndicator
                   trend={player.trend}
                   momentum={player.momentum || 0}
                   size="sm"
-                /></PlayerFormIndicator>
+                / />
               </div>
             )}
           </div>
-        </div>
 
         {expandable && (
           <button
             className="w-full flex items-center justify-center mt-3 text-sm text-blue-600 hover:text-blue-800"
             onClick={() => setExpanded(!expanded)}
           >
-            <span>{expanded ? 'Show Less' : 'Show More'}</span>
+            <span>{expanded ? 'Show Less' : 'Show More'}
             {expanded ? (
-              <ChevronUp className="w-4 h-4 ml-1" /></ChevronUp>
+              <ChevronUp className="w-4 h-4 ml-1" / />
             ) : (
-              <ChevronDown className="w-4 h-4 ml-1" /></ChevronDown>
+              <ChevronDown className="w-4 h-4 ml-1" / />
             )}
-          </button>
         )}
       </div>
 
       {/* Expanded Details */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {expanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
@@ -132,94 +128,86 @@ const EnhancedPlayerProfile = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
-          ></motion>
-            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+           />
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4" />
               {/* Rating and Rank Section */}
-              <div className="bg-gray-50 rounded-lg p-3"></div>
-                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center"></h4>
-                  <Award className="w-4 h-4 mr-1" /></Award>
+              <div className="bg-gray-50 rounded-lg p-3" />
+                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
+                  <Award className="w-4 h-4 mr-1" / />
                   Rating & Rank
                 </h4>
 
-                <div className="mb-3"></div>
+                <div className="mb-3" />
                   <ConfidenceBandedTier
                     tier={player.tier || 'bronze'}
                     confidenceBand={player.confidenceBand || 'uncertain'}
                     lp={player.lp || 0}
                     showDetails={true}
-                  /></ConfidenceBandedTier>
+                  / />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 mb-3"></div>
-                  <div></div>
+                <div className="grid grid-cols-2 gap-2 mb-3" />
+                  <div />
                     <div className="text-xs text-gray-500">Rating</div>
-                    <div className="font-bold text-lg"></div>
+                    <div className="font-bold text-lg" />
                       {Math.round(player.rating || 0)}
-                    </div>
                   </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Uncertainty</div>
-                    <div className="font-medium"></div>
+                    <div className="font-medium" />
                       ±{Math.round(player.uncertainty || 0)}
-                    </div>
                   </div>
-                </div>
 
-                <div className="mb-2"></div>
+                <div className="mb-2" />
                   <RankProgressBar
                     currentRank={player.tier || 'bronze'}
                     nextRank={player.nextTier || 'silver'}
                     currentBand={player.confidenceBand || 'uncertain'}
                     nextBand={player.nextBand || 'developing'}
                     progress={player.rankProgress || 0}
-                  /></RankProgressBar>
+                  / />
                 </div>
-              </div>
 
               {/* Performance Section */}
-              <div className="bg-gray-50 rounded-lg p-3"></div>
-                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center"></h4>
-                  <BarChart2 className="w-4 h-4 mr-1" /></BarChart2>
+              <div className="bg-gray-50 rounded-lg p-3" />
+                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
+                  <BarChart2 className="w-4 h-4 mr-1" / />
                   Performance
                 </h4>
 
-                <div className="mb-3"></div>
+                <div className="mb-3" />
                   <PlayerFormIndicator
                     trend={player.trend || 'neutral'}
                     momentum={player.momentum || 0}
                     recentForm={player.form?.recentForm || 0}
                     streakFactor={player.form?.streakFactor || 0}
                     showDetails={true}
-                  /></PlayerFormIndicator>
+                  / />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 text-center"></div>
-                  <div></div>
+                <div className="grid grid-cols-3 gap-2 text-center" />
+                  <div />
                     <div className="text-xs text-gray-500">Win Rate</div>
-                    <div className="font-bold"></div>
+                    <div className="font-bold" />
                       {((player.winRate || 0) * 100).toFixed(1)}%
                     </div>
-                  </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Wins</div>
-                    <div className="font-medium text-green-600"></div>
+                    <div className="font-medium text-green-600" />
                       {player.wins || 0}
-                    </div>
                   </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Losses</div>
-                    <div className="font-medium text-red-600"></div>
+                    <div className="font-medium text-red-600" />
                       {player.losses || 0}
-                    </div>
                   </div>
-                </div>
               </div>
 
               {/* Deck Archetype Section */}
               {player.deckArchetype && (
-                <div className="bg-gray-50 rounded-lg p-3"></div>
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center"></h4>
-                    <Shield className="w-4 h-4 mr-1" /></Shield>
+                <div className="bg-gray-50 rounded-lg p-3" />
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
+                    <Shield className="w-4 h-4 mr-1" / />
                     Deck Archetype
                   </h4>
 
@@ -228,72 +216,67 @@ const EnhancedPlayerProfile = ({
                     performance={player.deckPerformance}
                     matchups={player.deckMatchups}
                     showDetails={true}
-                  /></DeckArchetypeDisplay>
+                  / />
                 </div>
               )}
               {/* Player Stats Section */}
-              <div className="bg-gray-50 rounded-lg p-3"></div>
-                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center"></h4>
-                  <Users className="w-4 h-4 mr-1" /></Users>
+              <div className="bg-gray-50 rounded-lg p-3" />
+                <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
+                  <Users className="w-4 h-4 mr-1" / />
                   Player Stats
                 </h4>
 
-                <div className="grid grid-cols-2 gap-3"></div>
-                  <div></div>
+                <div className="grid grid-cols-2 gap-3" />
+                  <div />
                     <div className="text-xs text-gray-500">Total Matches</div>
-                    <div className="font-medium">{player.matches || 0}</div>
+                    <div className="font-medium">{player.matches || 0}
                   </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Tournaments</div>
-                    <div className="font-medium">{player.tournaments || 0}</div>
+                    <div className="font-medium">{player.tournaments || 0}
                   </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Days Active</div>
-                    <div className="font-medium"></div>
+                    <div className="font-medium" />
                       {getDaysSinceJoined(player.joinDate)}
-                    </div>
                   </div>
-                  <div></div>
+                  <div />
                     <div className="text-xs text-gray-500">Last Active</div>
-                    <div className="font-medium"></div>
+                    <div className="font-medium" />
                       {formatDate(player.lastActive || new Date())}
-                    </div>
                   </div>
-                </div>
 
                 {player.achievements && player.achievements.length > 0 && (
-                  <div className="mt-3"></div>
-                    <div className="text-xs text-gray-500 mb-1"></div>
+                  <div className="mt-3" />
+                    <div className="text-xs text-gray-500 mb-1" />
                       Recent Achievements
                     </div>
-                    <div className="flex flex-wrap gap-1"></div>
+                    <div className="flex flex-wrap gap-1" />
                       {player.achievements
                         .slice(0, 3)
                         .map((achievement, index) => (
                           <div
                             key={index}
                             className="text-xs bg-blue-50 text-blue-700 rounded px-1.5 py-0.5"
-                          ></div>
+                           />
                             {achievement.name}
-                          </div>
                         ))}
                     </div>
-                  </div>
                 )}
               </div>
 
               {/* Season Stats */}
               {player.seasonStats && (
-                <div className="md:col-span-2 bg-gray-50 rounded-lg p-3"></div>
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center"></h4>
-                    <Calendar className="w-4 h-4 mr-1" /></Calendar>
+                <div className="md:col-span-2 bg-gray-50 rounded-lg p-3" />
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
+                    <Calendar className="w-4 h-4 mr-1" / />
                     Season Performance
                   </h4>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-                    <div></div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3" />
+                    <div />
                       <div className="text-xs text-gray-500">Season Rank</div>
-                      <div className="font-medium flex items-center"></div>
+                      <div className="font-medium flex items-center" />
                         <ConfidenceBandedTier
                           tier={player.seasonStats.tier || 'bronze'}
                           confidenceBand={
@@ -302,46 +285,39 @@ const EnhancedPlayerProfile = ({
                           size="sm"
                           showProgress={false}
                           showDetails={false}
-                        /></ConfidenceBandedTier>
+                        / />
                       </div>
-                    </div>
-                    <div></div>
-                      <div className="text-xs text-gray-500"></div>
+                    <div />
+                      <div className="text-xs text-gray-500" />
                         Season Win Rate
                       </div>
-                      <div className="font-medium"></div>
+                      <div className="font-medium" />
                         {((player.seasonStats.winRate || 0) * 100).toFixed(1)}%
                       </div>
-                    </div>
-                    <div></div>
-                      <div className="text-xs text-gray-500"></div>
+                    <div />
+                      <div className="text-xs text-gray-500" />
                         Season Matches
                       </div>
-                      <div className="font-medium"></div>
+                      <div className="font-medium" />
                         {player.seasonStats.matches || 0}
-                      </div>
                     </div>
-                    <div></div>
+                    <div />
                       <div className="text-xs text-gray-500">Peak Rating</div>
-                      <div className="font-medium"></div>
+                      <div className="font-medium" />
                         {Math.round(player.seasonStats.peakRating || 0)}
-                      </div>
                     </div>
-                  </div>
 
                   {player.seasonStats.rewards && (
-                    <div className="mt-3"></div>
-                      <div className="text-xs text-gray-500 mb-1"></div>
+                    <div className="mt-3" />
+                      <div className="text-xs text-gray-500 mb-1" />
                         Season Rewards
                       </div>
-                      <div className="flex items-center"></div>
-                        <Zap className="w-4 h-4 text-yellow-500 mr-1" /></Zap>
-                        <span className="text-sm font-medium"></span>
+                      <div className="flex items-center" />
+                        <Zap className="w-4 h-4 text-yellow-500 mr-1" / />
+                        <span className="text-sm font-medium" />
                           {player.seasonStats.rewards.description ||
                             'Season rewards pending'}
-                        </span>
                       </div>
-                    </div>
                   )}
                 </div>
               )}
@@ -349,7 +325,6 @@ const EnhancedPlayerProfile = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

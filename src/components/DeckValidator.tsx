@@ -112,27 +112,25 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4 space-y-4"></div>
-      <div className="flex items-center justify-between"></div>
-        <h3 className="text-lg font-semibold text-white flex items-center space-x-2"></h3>
+    <div className="bg-gray-800 rounded-lg p-4 space-y-4" />
+      <div className="flex items-center justify-between" />
+        <h3 className="text-lg font-semibold text-white flex items-center space-x-2" />
           {isValid ? (
-            <CheckCircle className="text-green-500" size={20} /></CheckCircle>
+            <CheckCircle className="text-green-500" size={20} / />
           ) : (
-            <XCircle className="text-red-500" size={20} /></XCircle>
+            <XCircle className="text-red-500" size={20} / />
           )}
           <span>Deck Validation</span>
-        </h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
           className="text-blue-400 hover:text-blue-300 text-sm"
         >
           {showDetails ? 'Hide Details' : 'Show Details'}
-        </button>
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4 text-sm"></div>
-        <div className="bg-gray-700 rounded p-3"></div>
+      <div className="grid grid-cols-3 gap-4 text-sm" />
+        <div className="bg-gray-700 rounded p-3" />
           <div className="text-gray-300">Total Cards</div>
           <div
             className={`text-lg font-bold ${
@@ -142,118 +140,104 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
             }`}
           >
             {totalCards}
-          </div>
         </div>
-        <div className="bg-gray-700 rounded p-3"></div>
+        <div className="bg-gray-700 rounded p-3" />
           <div className="text-gray-300">Errors</div>
           <div
             className={`text-lg font-bold ${errors.length === 0 ? 'text-green-400' : 'text-red-400'}`}
-          ></div>
+           />
             {errors.length}
-          </div>
         </div>
-        <div className="bg-gray-700 rounded p-3"></div>
+        <div className="bg-gray-700 rounded p-3" />
           <div className="text-gray-300">Warnings</div>
           <div
             className={`text-lg font-bold ${warnings.length === 0 ? 'text-green-400' : 'text-yellow-400'}`}
-          ></div>
+           />
             {warnings.length}
-          </div>
         </div>
-      </div>
 
       {/* Validation Results */}
       {(errors.length > 0 || warnings.length > 0) && (
-        <div className="space-y-2"></div>
+        <div className="space-y-2" />
           {errors.map((validation, index) => (
             <div
               key={`error-${index}`}
               className="flex items-start space-x-2 p-2 bg-red-900/20 rounded"
-            ></div>
+             />
               {getValidationIcon(validation.type, false)}
-              <div className="flex-1"></div>
-                <div className="text-red-400 text-sm">{validation.message}</div>
+              <div className="flex-1" />
+                <div className="text-red-400 text-sm">{validation.message}
                 {validation.details && validation.details.length > 0 && (
-                  <div className="text-red-300 text-xs mt-1"></div>
+                  <div className="text-red-300 text-xs mt-1" />
                     {validation.details.join(', ')}
-                  </div>
                 )}
               </div>
-            </div>
           ))}
           {warnings.map((validation, index) => (
             <div
               key={`warning-${index}`}
               className="flex items-start space-x-2 p-2 bg-yellow-900/20 rounded"
-            ></div>
+             />
               {getValidationIcon(validation.type, false)}
-              <div className="flex-1"></div>
-                <div className="text-yellow-400 text-sm"></div>
+              <div className="flex-1" />
+                <div className="text-yellow-400 text-sm" />
                   {validation.message}
-                </div>
                 {validation.details && validation.details.length > 0 && (
-                  <div className="text-yellow-300 text-xs mt-1"></div>
+                  <div className="text-yellow-300 text-xs mt-1" />
                     {validation.details.join(', ')}
-                  </div>
                 )}
               </div>
-            </div>
           ))}
         </div>
       )}
       {/* Detailed Analysis */}
       {showDetails && (
-        <div className="space-y-4 border-t border-gray-700 pt-4"></div>
+        <div className="space-y-4 border-t border-gray-700 pt-4" />
           {/* Mana Curve */}
-          <div></div>
-            <h4 className="text-white font-medium mb-2 flex items-center space-x-2"></h4>
-              <Info size={16} /></Info>
+          <div />
+            <h4 className="text-white font-medium mb-2 flex items-center space-x-2" />
+              <Info size={16} / />
               <span>Mana Curve</span>
-            </h4>
-            <div className="grid grid-cols-8 gap-2 text-xs"></div>
+            <div className="grid grid-cols-8 gap-2 text-xs" />
               {['0', '1', '2', '3', '4', '5', '6', '7+'].map(cost => (
-                <div key={cost} className="bg-gray-700 rounded p-2 text-center"></div>
-                  <div className="text-gray-300">{cost}</div>
-                  <div className="text-white font-bold"></div>
+                <div key={cost} className="bg-gray-700 rounded p-2 text-center" />
+                  <div className="text-gray-300">{cost}
+                  <div className="text-white font-bold" />
                     {manaCurve[cost] || 0}
-                  </div>
                 </div>
               ))}
             </div>
-          </div>
 
           {/* Color Distribution */}
           {Object.keys(colorDistribution).length > 0 && (
-            <div></div>
-              <h4 className="text-white font-medium mb-2"></h4>
+            <div />
+              <h4 className="text-white font-medium mb-2" />
                 Color Distribution
               </h4>
-              <div className="grid grid-cols-5 gap-2 text-xs"></div>
+              <div className="grid grid-cols-5 gap-2 text-xs" />
                 {Object.entries(colorDistribution).map(([element, count]) => (
                   <div
                     key={element}
                     className="bg-gray-700 rounded p-2 text-center"
-                  ></div>
-                    <div className="text-gray-300">{element}</div>
-                    <div className="text-white font-bold">{count}</div>
+                   />
+                    <div className="text-gray-300">{element}
+                    <div className="text-white font-bold">{count}
                   </div>
                 ))}
               </div>
-            </div>
           )}
           {/* Deck Rules Info */}
-          <div className="bg-gray-700 rounded p-3"></div>
+          <div className="bg-gray-700 rounded p-3" />
             <h4 className="text-white font-medium mb-2">Deck Rules</h4>
-            <div className="text-sm text-gray-300 space-y-1"></div>
-              <div></div>
+            <div className="text-sm text-gray-300 space-y-1" />
+              <div />
                 Cards: {rules.minCards}-{rules.maxCards}
-              </div>
-              <div>Max copies per card: {rules.maxCopies}</div>
+              <div>Max copies per card: {rules.maxCopies}
               {rules.bannedCards.length > 0 && (
-                <div>Banned cards: {rules.bannedCards.join(', ')}</div>
+                <div>Banned cards: {rules.bannedCards.join(', ')}
               )}
               {Object.keys(rules.restrictedCards).length > 0 && (
-                <div></div>
+                <div />
                   Restricted cards:{' '}
                   {Object.entries(rules.restrictedCards)
                     .map(([card, limit]) => `${card} (${limit})`)
@@ -261,7 +245,6 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
                 </div>
               )}
             </div>
-          </div>
         </div>
       )}
     </div>

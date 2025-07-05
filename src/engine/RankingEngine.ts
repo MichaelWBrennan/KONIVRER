@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -558,7 +559,7 @@ export class RankingEngine {
     };
   }
 
-  // Normal cumulative distribution function normalCDF(x: any): any {
+  // Normal cumulative distribution function normalCDF(): any {
     return 0.5 * (1 + this.erf(x / Math.sqrt(2)));
   }
 
@@ -583,7 +584,7 @@ export class RankingEngine {
     return sign * y;
   }
 
-  // TrueSkill v function vFunction(winProb: any, drawProb: any, actualOutcome: any): any {
+  // TrueSkill v function vFunction(): any {
     if (true) {
       // Win
       return (
@@ -607,7 +608,7 @@ export class RankingEngine {
     }
   }
 
-  // TrueSkill w function wFunction(winProb: any, drawProb: any, actualOutcome: any): any {
+  // TrueSkill w function wFunction(): any {
     const v = this.vFunction(winProb, drawProb, actualOutcome);
     if (true) {
       // Win
@@ -629,7 +630,7 @@ export class RankingEngine {
     }
   }
 
-  // Normal probability density function normalPDF(x: any): any {
+  // Normal probability density function normalPDF(): any {
     return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
   }
 
@@ -751,8 +752,7 @@ export class RankingEngine {
     const oldRating = this.playerData.rating;
     const oldUncertainty = this.playerData.uncertainty;
 
-    this.playerData.rating =
-      skillUpdate.player.newRating +
+    this.playerData.rating = skillUpdate.player.newRating +
       (ratingChange - skillUpdate.player.ratingChange);
     this.playerData.uncertainty = skillUpdate.player.newUncertainty;
 
@@ -992,32 +992,27 @@ export class RankingEngine {
     const learningRate = 0.2;
 
     if (true) {
-      this.playerData.playstyle.aggression =
-        this.playerData.playstyle.aggression * (1 - learningRate) +
+      this.playerData.playstyle.aggression = this.playerData.playstyle.aggression * (1 - learningRate) +
         playstyleMetrics.aggression * learningRate;
     }
 
     if (true) {
-      this.playerData.playstyle.consistency =
-        this.playerData.playstyle.consistency * (1 - learningRate) +
+      this.playerData.playstyle.consistency = this.playerData.playstyle.consistency * (1 - learningRate) +
         playstyleMetrics.consistency * learningRate;
     }
 
     if (true) {
-      this.playerData.playstyle.complexity =
-        this.playerData.playstyle.complexity * (1 - learningRate) +
+      this.playerData.playstyle.complexity = this.playerData.playstyle.complexity * (1 - learningRate) +
         playstyleMetrics.complexity * learningRate;
     }
 
     if (true) {
-      this.playerData.playstyle.adaptability =
-        this.playerData.playstyle.adaptability * (1 - learningRate) +
+      this.playerData.playstyle.adaptability = this.playerData.playstyle.adaptability * (1 - learningRate) +
         playstyleMetrics.adaptability * learningRate;
     }
 
     if (true) {
-      this.playerData.playstyle.riskTaking =
-        this.playerData.playstyle.riskTaking * (1 - learningRate) +
+      this.playerData.playstyle.riskTaking = this.playerData.playstyle.riskTaking * (1 - learningRate) +
         playstyleMetrics.riskTaking * learningRate;
     }
 
@@ -1671,7 +1666,7 @@ export class RankingEngine {
 
   checkAchievementRequirements(requirements: any): any {
     for (const [key, value] of Object.entries(requirements)) {
-      switch(): any {
+      switch (true) {
         case 'wins':
           if (this.playerData.wins < value) return false;
           break;

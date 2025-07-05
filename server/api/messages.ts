@@ -39,7 +39,7 @@ if (!fs.existsSync(messagesPath)) {
 }
 
 // Helper function to read messages
-const getMessages = () => {
+const getMessages = (getMessages: any) => {
   try {
     const data = fs.readFileSync(messagesPath, 'utf8');
     return JSON.parse(data);
@@ -50,7 +50,7 @@ const getMessages = () => {
 };
 
 // Helper function to write messages
-const saveMessages = (messages) => {
+const saveMessages = (saveMessages: any) => {
   try {
     fs.writeFileSync(messagesPath, JSON.stringify(messages, null, 2));
     return true;
@@ -61,7 +61,7 @@ const saveMessages = (messages) => {
 };
 
 // Helper function to get subscriptions
-const getSubscriptions = () => {
+const getSubscriptions = (getSubscriptions: any) => {
   try {
     const subscriptionsPath = path.join(__dirname, '../data/subscriptions.json');
     if (!fs.existsSync(subscriptionsPath)) {
@@ -285,7 +285,7 @@ router.delete('/:messageId', (req, res) => {
 });
 
 // Helper function to send push notification for new message
-const sendMessageNotification = (message) => {
+const sendMessageNotification = (sendMessageNotification: any) => {
   try {
     // Get subscriptions for the recipient
     const subscriptions = getSubscriptions().filter(

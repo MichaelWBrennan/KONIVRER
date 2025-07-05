@@ -132,7 +132,7 @@ const MessagingProvider: React.FC<MessagingProviderProps> = ({  children  }) => 
   ]);
   
   return (
-    <MessagingContext.Provider value={contextValue}></MessagingContext>
+    <MessagingContext.Provider value={contextValue} />
       {children}
     </MessagingContext.Provider>
   );

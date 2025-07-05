@@ -105,8 +105,7 @@ const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({  children
       'x-large': '1.25rem',
     };
 
-    document.documentElement.style.fontSize =
-      fontSizeMap[settings.fontSize] || '1rem';
+    document.documentElement.style.fontSize = fontSizeMap[settings.fontSize] || '1rem';
 
     // Apply color mode
     document.documentElement.classList.remove(
@@ -207,7 +206,7 @@ const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({  children
   };
 
   return (
-    <AccessibilityContext.Provider value={contextValue}></AccessibilityContext>
+    <AccessibilityContext.Provider value={contextValue} />
       {children}
     </AccessibilityContext.Provider>
   );

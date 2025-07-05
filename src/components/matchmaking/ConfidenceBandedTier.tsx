@@ -145,51 +145,46 @@ const ConfidenceBandedTier: React.FC<ConfidenceBandedTierProps> = ({
   const classes = sizeClasses[size] || sizeClasses.md;
 
   return (
-    <div className={`confidence-banded-tier ${classes.container}`}></div>
-      <div className="flex items-center"></div>
+    <div className={`confidence-banded-tier ${classes.container}`} />
+      <div className="flex items-center" />
         {/* Tier Shield */}
-        <div className="relative mr-3"></div>
+        <div className="relative mr-3" />
           <div
             className={`${classes.shield} ${tierInfo.bgColor} rounded-full flex items-center justify-center`}
             style={{
               boxShadow: `0 0 0 2px ${tierInfo.color}`,
               background: `linear-gradient(135deg, ${tierInfo.color}20, ${tierInfo.color}60)`,
             }}
-          ></div>
-            <Shield className={`${tierInfo.textColor} ${classes.shield}`} /></Shield>
+           />
+            <Shield className={`${tierInfo.textColor} ${classes.shield}`} / />
             {/* Confidence Band Indicator */}
             <div
               className={`absolute bottom-0 right-0 rounded-full p-0.5 bg-white ${bandInfo.color}`}
-            ></div>
+             />
               {bandInfo.icon}
-            </div>
           </div>
-        </div>
 
         {/* Tier Information */}
-        <div></div>
-          <div className="flex items-center"></div>
-            <span className="font-bold" style={{ color: tierInfo.color }}></span>
+        <div />
+          <div className="flex items-center" />
+            <span className="font-bold" style={{ color: tierInfo.color }} />
               {tierInfo.name}
-            </span>
             {showDetails && (
-              <span className={`ml-1.5 ${bandInfo.color}`}></span>
+              <span className={`ml-1.5 ${bandInfo.color}`} />
                 {bandInfo.name}
-              </span>
             )}
           </div>
 
           {showDetails && (
-            <div className="text-xs text-gray-600">{bandInfo.description}</div>
+            <div className="text-xs text-gray-600">{bandInfo.description}
           )}
           {/* LP Progress */}
           {showProgress && (
-            <div className="mt-1 w-full max-w-[150px]"></div>
-              <div className="flex justify-between text-xs text-gray-500 mb-0.5"></div>
-                <span>LP: {lp}</span>
+            <div className="mt-1 w-full max-w-[150px]" />
+              <div className="flex justify-between text-xs text-gray-500 mb-0.5" />
+                <span>LP: {lp}
                 <span>100</span>
-              </div>
-              <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden"></div>
+              <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden" />
                 {animate ? (
                   <motion.div
                     className="h-full rounded-full"
@@ -205,13 +200,11 @@ const ConfidenceBandedTier: React.FC<ConfidenceBandedTierProps> = ({
                       backgroundColor: tierInfo.color,
                       width: `${lp}%`,
                     }}
-                  ></div>
+                   />
                 )}
               </div>
-            </div>
           )}
         </div>
-      </div>
     </div>
   );
 };

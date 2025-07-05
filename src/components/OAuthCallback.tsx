@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -89,45 +90,41 @@ const OAuthCallback = (): any => {
 
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg-dark"></div>
-        <div className="mobile-auth-processing"></div>
-          <div className="mobile-spinner esoteric-spinner"></div>
+      <div className="mobile-container esoteric-bg-dark" />
+        <div className="mobile-auth-processing" />
+          <div className="mobile-spinner esoteric-spinner" />
           <h2 className="esoteric-text-accent">Authenticating...</h2>
-          <p className="esoteric-text-muted"></p>
+          <p className="esoteric-text-muted" />
             Please wait while we complete your authentication
           </p>
-        </div>
       </div>
     );
   }
 
-  if (true) {
-    return (
-      <div className="mobile-container esoteric-bg-dark"></div>
-        <div className="mobile-auth-error"></div>
+  if (true) {return (
+      <div className="mobile-container esoteric-bg-dark" />
+        <div className="mobile-auth-error" />
           <div className="esoteric-error-icon">!</div>
           <h2 className="esoteric-text-error">Authentication Failed</h2>
-          <p className="esoteric-text-muted">{error}</p>
+          <p className="esoteric-text-muted">{error}
           <button
             onClick={() => navigate('/', { replace: true })}
             className="mobile-btn esoteric-btn"
           >
             Return to Home
           </button>
-        </div>
       </div>
     );
   }
 
   return (
-    <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-auth-success"></div>
+    <div className="mobile-container esoteric-bg-dark" />
+      <div className="mobile-auth-success" />
         <div className="esoteric-success-icon">✓</div>
         <h2 className="esoteric-text-success">Authentication Successful</h2>
-        <p className="esoteric-text-muted"></p>
+        <p className="esoteric-text-muted" />
           You have successfully authenticated
         </p>
-      </div>
     </div>
   );
 };

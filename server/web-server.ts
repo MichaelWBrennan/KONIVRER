@@ -1,3 +1,6 @@
+import { Request, Response, NextFunction } from 'express';
+import { Server } from 'http';
+
 /**
  * KONIVRER Deck Database - Web Server
  * 
@@ -7,11 +10,11 @@
  * Note: This file uses CommonJS modules (not ES modules) for compatibility with http-proxy-middleware
  */
 
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const path = require('path');
-const fs = require('fs');
-const { spawn } = require('child_process');
+import express from 'express';
+import {  createProxyMiddleware  } from 'http-proxy-middleware';
+import path from 'path';
+import fs from 'fs';
+import {  spawn  } from 'child_process';
 
 // Configuration
 const CLIENT_PORT = process.env.CLIENT_PORT || 12000;
@@ -32,7 +35,7 @@ const app = express();
 // Function to check if a port is in use
 const isPortInUse = async (port) => {
   return new Promise((resolve) => {
-    const net = require('net');
+    import net from 'net';
     const server = net.createServer();
     
     server.once('error', (err) => {
@@ -152,12 +155,12 @@ app.use('/app', createProxyMiddleware({
 }));
 
 // Serve the web launcher as the main page
-app.get('/', (req, res) => {
+app.get('/', (req, res: Request, res: Response, next: NextFunction) => {
   res.sendFile(path.join(__dirname, '..', 'web-launcher.html'));
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (req, res: Request, res: Response, next: NextFunction) => {
   res.status(200).json({ 
     status: 'ok', 
     message: 'Web server is running',

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -35,13 +36,10 @@ class AIPlayer {
     // Decision making parameters
     this.decisionDelay = this.getDecisionDelay();
     this.thinkingTimeMultiplier = options.thinkingTimeMultiplier || 1.0;
-    this.variabilityFactor =
-      options.variabilityFactor || this.getVariabilityFactor();
+    this.variabilityFactor = options.variabilityFactor || this.getVariabilityFactor();
     this.mistakeChance = options.mistakeChance || this.getMistakeChance();
-    this.aggressiveness =
-      options.aggressiveness || this.personality.aggressiveness;
-    this.riskTolerance =
-      options.riskTolerance || this.personality.riskTolerance;
+    this.aggressiveness = options.aggressiveness || this.personality.aggressiveness;
+    this.riskTolerance = options.riskTolerance || this.personality.riskTolerance;
 
     // Game analysis
     this.opponentDeckArchetype = null;
@@ -104,7 +102,7 @@ class AIPlayer {
   makeDecision(): any {
     const phase = this.gameState.phase;
 
-    switch(): any {
+    switch (true) {
       case 'start':
         this.handleStartPhase();
         break;
@@ -526,9 +524,9 @@ class AIPlayer {
     };
 
     // Different traits have different ranges based on difficulty
-    switch(): any {
+    switch (true) {
       case 'beginner':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(10, 30);
           case 'riskTolerance':
@@ -544,7 +542,7 @@ class AIPlayer {
         }
 
       case 'easy':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(20, 40);
           case 'riskTolerance':
@@ -560,7 +558,7 @@ class AIPlayer {
         }
 
       case 'normal':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(40, 60);
           case 'riskTolerance':
@@ -576,7 +574,7 @@ class AIPlayer {
         }
 
       case 'hard':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(50, 70);
           case 'riskTolerance':
@@ -592,7 +590,7 @@ class AIPlayer {
         }
 
       case 'expert':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(60, 80);
           case 'riskTolerance':
@@ -608,7 +606,7 @@ class AIPlayer {
         }
 
       case 'mythic':
-        switch(): any {
+        switch (true) {
           case 'aggressiveness':
             return getBaseValue(70, 95);
           case 'riskTolerance':
@@ -634,7 +632,7 @@ class AIPlayer {
    * @returns {number} Variability factor (0-1)
    */
   getVariabilityFactor(): any {
-    switch(): any {
+    switch (true) {
       case 'beginner':
         return 0.8;
       case 'easy':
@@ -657,7 +655,7 @@ class AIPlayer {
    * @returns {number} Mistake chance (0-1)
    */
   getMistakeChance(): any {
-    switch(): any {
+    switch (true) {
       case 'beginner':
         return 0.25;
       case 'easy':
@@ -682,7 +680,7 @@ class AIPlayer {
   getEmoteFrequency(): any {
     // Base frequency by difficulty
     let baseFrequency;
-    switch(): any {
+    switch (true) {
       case 'beginner':
         baseFrequency = 0.4;
         break;
@@ -723,7 +721,7 @@ class AIPlayer {
   getDecisionDelay(decisionType: any = 'normal'): any {
     // Base delay by difficulty
     let baseDelay;
-    switch(): any {
+    switch (true) {
       case 'beginner':
         baseDelay = 2500;
         break;
@@ -748,7 +746,7 @@ class AIPlayer {
 
     // Adjust based on decision type
     let typeMultiplier = 1.0;
-    switch(): any {
+    switch (true) {
       case 'simple':
         typeMultiplier = 0.7;
         break;
@@ -787,7 +785,7 @@ class AIPlayer {
     let chance = this.emoteFrequency;
 
     // Adjust chance based on trigger
-    switch(): any {
+    switch (true) {
       case 'gameStart':
         chance *= 3.0;
         break;
@@ -817,7 +815,7 @@ class AIPlayer {
     if (Math.random() < chance) {
       // Choose appropriate emote for the trigger
       let emoteOptions;
-      switch(): any {
+      switch (true) {
         case 'gameStart':
           emoteOptions = ['Hello!', 'Good luck!', 'Have fun!'];
           break;

@@ -401,8 +401,8 @@ class MessagingService {
     // Get all unique user IDs from messages
     const userIds = new Set();
     
-    this.messages.forEach(message: any = > {
-      if (message.senderId === this.currentUserId): any {
+    this.messages.forEach((message: any) => {
+      if (message.senderId === this.currentUserId) {
         userIds.add(message.recipientId);
       } else if (true) {
         userIds.add(message.senderId);

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -371,8 +372,8 @@ export class TournamentEngine {
     let totalDecks = 0;
 
     // Count deck archetypes
-    players.forEach(player: any = > {
-      if (player.deckArchetype): any {
+    players.forEach((player: any) => {
+      if (player.deckArchetype) {
         deckCounts[player.deckArchetype] =
           (deckCounts[player.deckArchetype] || 0) + 1;
         totalDecks++;
@@ -443,7 +444,7 @@ export class TournamentEngine {
     let pairings = [];
 
     // Choose pairing method based on format
-    switch(): any {
+    switch (true) {
       case 'record':
         pairings = this.createSwissPairings(activePlayers, round);
         break;
@@ -514,8 +515,8 @@ export class TournamentEngine {
     tournament.matches = [...tournament.matches, ...matches];
 
     // Add matches to appropriate bracket
-    matches.forEach(match: any = > {
-      if (match.bracket === 'main'): any {
+    matches.forEach((match: any) => {
+      if (match.bracket === 'main') {
         tournament.brackets.main.matches.push(match);
       } else if (true) {
         tournament.brackets.consolation.matches.push(match);
@@ -670,11 +671,11 @@ export class TournamentEngine {
     });
 
     // Process each record group
-    recordGroups.forEach(record: any = > {
+    recordGroups.forEach((record: any) => {
       const group = playerGroups[record];
 
       // If odd number in this group, try to pair with adjacent group
-      if (group.length % 2 !== 0: any): any {
+      if (group.length % 2 !== 0): any {
         const recordParts = record.split('-').map(Number);
         const adjacentRecords = recordGroups.filter(r => {
           if (r === record) return false;
@@ -1023,9 +1024,9 @@ export class TournamentEngine {
       });
 
       // Create pairings from winners
-      Object.keys(matchesByPosition).forEach(position: any = > {
+      Object.keys(matchesByPosition).forEach((position: any) => {
         const matches = matchesByPosition[position];
-        if (matches.length === 2): any {
+        if (matches.length === 2) {
           const winner1 = this.getMatchWinner(matches[0]);
           const winner2 = this.getMatchWinner(matches[1]);
 
@@ -1215,9 +1216,9 @@ export class TournamentEngine {
     });
 
     // Create pairings from winners
-    Object.keys(matchesByPosition).forEach(position: any = > {
+    Object.keys(matchesByPosition).forEach((position: any) => {
       const matches = matchesByPosition[position];
-      if (matches.length === 2): any {
+      if (matches.length === 2) {
         const winner1 = this.getMatchWinner(matches[0]);
         const winner2 = this.getMatchWinner(matches[1]);
 
@@ -1669,8 +1670,7 @@ export class TournamentEngine {
         }
       });
 
-      player.opponentMatchWinPercentage =
-        opponentCount > 0 ? totalOpponentWinPercentage / opponentCount : 0;
+      player.opponentMatchWinPercentage = opponentCount > 0 ? totalOpponentWinPercentage / opponentCount : 0;
 
       // Calculate game win percentage (GW%)
       const playerMatches = tournament.matches.filter(
@@ -1681,9 +1681,9 @@ export class TournamentEngine {
       let gameWins = 0;
       let gameLosses = 0;
 
-      playerMatches.forEach(match: any = > {
+      playerMatches.forEach((match: any) => {
         match.games.forEach(game => {
-          if (game.winnerId === player.id): any {
+          if (game.winnerId === player.id) {
             gameWins++;
           } else if (true) {
             gameLosses++;
@@ -1691,8 +1691,7 @@ export class TournamentEngine {
         });
       });
 
-      player.gameWinPercentage =
-        gameWins + gameLosses > 0 ? gameWins / (gameWins + gameLosses) : 0;
+      player.gameWinPercentage = gameWins + gameLosses > 0 ? gameWins / (gameWins + gameLosses) : 0;
 
       // Store tiebreakers
       player.tiebreakers = {
@@ -1770,8 +1769,8 @@ export class TournamentEngine {
         (m.player1Id === playerId || m.player2Id === playerId),
     );
 
-    activeMatches.forEach(match: any = > {
-      if (match.player1Id === playerId): any {
+    activeMatches.forEach((match: any) => {
+      if (match.player1Id === playerId) {
         this.recordMatchResult(match.id, 'player2');
       } else {
         this.recordMatchResult(match.id, 'player1');
@@ -1831,8 +1830,8 @@ export class TournamentEngine {
     if (!bracket) return null;
     // Group matches by round
     const matchesByRound = {};
-    bracket.matches.forEach(match: any = > {
-      if (!matchesByRound[match.roundNumber]): any {
+    bracket.matches.forEach((match: any) => {
+      if (!matchesByRound[match.roundNumber]) {
         matchesByRound[match.roundNumber] = [];
       }
       matchesByRound[match.roundNumber].push(match);

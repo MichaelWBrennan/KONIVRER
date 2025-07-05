@@ -29,15 +29,13 @@ interface VisualDeckBuilderProps {
   onDeckChange
 }
 
-const VisualDeckBuilder: React.FC<VisualDeckBuilderProps> = ({  deck, onDeckChange  }) => {
-  return (
-    <div className="bg-card rounded-lg p-6"></div>
+const VisualDeckBuilder: React.FC<VisualDeckBuilderProps> = ({  deck, onDeckChange  }) => {return (
+    <div className="bg-card rounded-lg p-6" />
       <h3 className="text-lg font-semibold mb-4">Visual Deck Builder</h3>
-      <div className="text-center text-secondary"></div>
+      <div className="text-center text-secondary" />
         <p>Visual deck building interface will be displayed here</p>
-        <p className="text-sm mt-2">Deck: {deck?.name || 'New Deck'}</p>
+        <p className="text-sm mt-2">Deck: {deck?.name || 'New Deck'}
       </div>
-    </div>
   );
 };
 

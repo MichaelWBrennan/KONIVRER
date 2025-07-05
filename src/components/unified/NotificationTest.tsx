@@ -178,64 +178,56 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
   };
 
   return (
-    <Card className="shadow-sm mb-4"></Card>
-      <Card.Header className="bg-primary text-white"></Card>
+    <Card className="shadow-sm mb-4" />
+      <Card.Header className="bg-primary text-white" />
         <h5 className="mb-0">Push Notification Test</h5>
       </Card.Header>
-      <Card.Body></Card>
+      <Card.Body />
         {status === 'loading' && (
-          <div className="text-center my-3"></div>
-            <Spinner animation="border" variant="primary" /></Spinner>
+          <div className="text-center my-3" />
+            <Spinner animation="border" variant="primary" / />
             <p className="mt-2">Processing...</p>
-          </div>
         )}
         {error && (
           <Alert variant="danger" dismissible onClose={() => setError(null)}>
             {error}
-          </Alert>
         )}
         {message && (
           <Alert variant="success" dismissible onClose={() => setMessage('')}>
             {message}
-          </Alert>
         )}
-        <div className="mb-3"></div>
+        <div className="mb-3" />
           <strong>Current Status:</strong>
-          <ul className="mt-2"></ul>
-            <li></li>
+          <ul className="mt-2" />
+            <li />
               <strong>Permission:</strong>{' '}
-              <span className={`badge ${permission === 'granted' ? 'bg-success' : permission === 'denied' ? 'bg-danger' : 'bg-warning'}`}></span>
+              <span className={`badge ${permission === 'granted' ? 'bg-success' : permission === 'denied' ? 'bg-danger' : 'bg-warning'}`} />
                 {permission || 'Not requested'}
-              </span>
             </li>
-            <li></li>
+            <li />
               <strong>Subscribed:</strong>{' '}
-              <span className={`badge ${isSubscribed ? 'bg-success' : 'bg-secondary'}`}></span>
+              <span className={`badge ${isSubscribed ? 'bg-success' : 'bg-secondary'}`} />
                 {isSubscribed ? 'Yes' : 'No'}
-              </span>
             </li>
-            <li></li>
+            <li />
               <strong>Push API Supported:</strong>{' '}
-              <span className={`badge ${('PushManager' in window) ? 'bg-success' : 'bg-danger'}`}></span>
+              <span className={`badge ${('PushManager' in window) ? 'bg-success' : 'bg-danger'}`} />
                 {('PushManager' in window) ? 'Yes' : 'No'}
-              </span>
             </li>
-            <li></li>
+            <li />
               <strong>Service Worker Supported:</strong>{' '}
-              <span className={`badge ${('serviceWorker' in navigator) ? 'bg-success' : 'bg-danger'}`}></span>
+              <span className={`badge ${('serviceWorker' in navigator) ? 'bg-success' : 'bg-danger'}`} />
                 {('serviceWorker' in navigator) ? 'Yes' : 'No'}
-              </span>
             </li>
-          </ul>
         </div>
         
-        <Stack direction="horizontal" gap={2} className="mb-3"></Stack>
+        <Stack direction="horizontal" gap={2} className="mb-3" />
           {!isSubscribed ? (
             <Button 
               variant="primary" 
               onClick={handleSubscribe}
               disabled={status === 'loading' || permission === 'denied'}
-            ></Button>
+             />
               Enable Notifications
             </Button>
           ) : (
@@ -243,7 +235,7 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
               variant="outline-danger" 
               onClick={handleUnsubscribe}
               disabled={status === 'loading'}
-            ></Button>
+             />
               Disable Notifications
             </Button>
           )}
@@ -251,15 +243,14 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
             variant="outline-primary" 
             onClick={handleSendTestNotification}
             disabled={status === 'loading' || !isSubscribed || permission !== 'granted'}
-          ></Button>
+           />
             Send Test Notification
           </Button>
-        </Stack>
         
-        <hr /></hr>
+        <hr / />
         <h6>Send Server Notification</h6>
-        <Form></Form>
-          <Form.Group className="mb-3"></Form>
+        <Form />
+          <Form.Group className="mb-3" />
             <Form.Label>Notification Title</Form.Label>
             <Form.Control 
               type="text" 
@@ -269,7 +260,7 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
             />
           </Form.Group>
           
-          <Form.Group className="mb-3"></Form>
+          <Form.Group className="mb-3" />
             <Form.Label>Notification Body</Form.Label>
             <Form.Control 
               as="textarea" 
@@ -284,16 +275,15 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
             variant="success" 
             onClick={handleSendServerNotification}
             disabled={status === 'loading' || !isSubscribed || permission !== 'granted' || !env.BACKEND_URL}
-          ></Button>
+           />
             Send Server Notification
           </Button>
           
           {!env.BACKEND_URL && (
-            <Alert variant="warning" className="mt-3"></Alert>
+            <Alert variant="warning" className="mt-3" />
               Backend URL not configured. Server notifications will not work.
             </Alert>
           )}
-        </Form>
       </Card.Body>
     </Card>
   );

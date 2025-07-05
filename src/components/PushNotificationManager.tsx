@@ -82,7 +82,7 @@ const PushNotificationManager: React.FC = () => {
   };
   
   // Handle dismiss banner button click
-  const handleDismissBanner = () => {
+  const handleDismissBanner = (handleDismissBanner: any) => {
     setShowBanner(false);
     setBannerDismissed(true);
     localStorage.setItem('notification_banner_dismissed', 'true');
@@ -94,34 +94,30 @@ const PushNotificationManager: React.FC = () => {
   }
   
   return (
-    <div className="notification-banner"></div>
-      <div className="notification-banner-content"></div>
-        <div className="notification-icon"></div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></svg>
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    <div className="notification-banner" />
+      <div className="notification-banner-content" />
+        <div className="notification-icon" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
           </svg>
-        </div>
-        <div className="notification-message"></div>
+        <div className="notification-message" />
           <h4>Enable Notifications</h4>
           <p>Get notified about tournaments, messages, and game updates in real-time.</p>
-        </div>
-        <div className="notification-actions"></div>
+        <div className="notification-actions" />
           <button 
             className="btn btn-primary" 
             onClick={handleEnableNotifications}
-          ></button>
+           />
             Enable
           </button>
           <button 
             className="btn btn-secondary" 
             onClick={handleDismissBanner}
-          ></button>
+           />
             Not Now
           </button>
-        </div>
       </div>
-    </div>
   );
 };
 

@@ -11,7 +11,7 @@ interface ValidationMessageProps {
 const ValidationMessage: React.FC<ValidationMessageProps> = ({  message, onClose  }) => {
   if (!message) return null;
   const getIcon = (): any => {
-    switch(): any {
+    switch (true) {
       case 'success':
         return <CheckCircle className="validation-icon success" />;
       case 'error':
@@ -24,17 +24,17 @@ const ValidationMessage: React.FC<ValidationMessageProps> = ({  message, onClose
   };
   
   return (
-    <AnimatePresence></AnimatePresence>
+    <AnimatePresence />
       <motion.div 
         className={`validation-message ${message.type}`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-      ></motion>
+       />
         {getIcon()}
-        <span className="validation-text">{message.text}</span>
+        <span className="validation-text">{message.text}
         {onClose && (
-          <button className="validation-close" onClick={onClose}></button>
+          <button className="validation-close" onClick={onClose} />
             ×
           </button>
         )}

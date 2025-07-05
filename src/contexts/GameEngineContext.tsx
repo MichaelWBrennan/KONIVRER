@@ -149,8 +149,8 @@ const ACTIONS = {
 };
 
 // Game Engine Reducer
-function gameEngineReducer(state: any, action: any): any {
-  switch(): any {
+function gameEngineReducer(): any {
+  switch (true) {
     case ACTIONS.START_GAME:
       return {
         ...state,
@@ -296,8 +296,8 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
   useEffect(() => {
     const interval = setInterval(() => {
       const now = Date.now();
-      state.animations.forEach(animation: any = > {
-        if (now - animation.startTime > animation.duration): any {
+      state.animations.forEach((animation: any) => {
+        if (now - animation.startTime > animation.duration) {
           dispatch({
             type: ACTIONS.REMOVE_ANIMATION,
             payload: { id: animation.id },
@@ -439,14 +439,14 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
   };
 
   return (
-    <GameEngineContext.Provider value={gameEngine}></GameEngineContext>
+    <GameEngineContext.Provider value={gameEngine} />
       {children}
     </GameEngineContext.Provider>
   );
 };
 
 // Utility Functions
-function canPlayCard(card: any, player: any, state: any): any {
+function canPlayCard(): any {
   // Check if it's the player's turn and they have priority
   if (state.currentPlayer !== player) return false;
   if (state.priority !== PRIORITY_STATES.ACTIVE_PLAYER) return false;
@@ -460,7 +460,7 @@ function canPlayCard(card: any, player: any, state: any): any {
   return true;
 }
 
-function hasEnoughMana(cost: any, manaPool: any): any {
+function hasEnoughMana(): any {
   // Simplified mana checking
   const totalAvailable = Object.values(manaPool).reduce(
     (sum, amount) => sum + amount,
@@ -473,7 +473,7 @@ function hasEnoughMana(cost: any, manaPool: any): any {
   return totalAvailable >= totalRequired;
 }
 
-function getValidTargets(card: any, player: any, state: any): any {
+function getValidTargets(): any {
   // Return valid targets for the card
   const targets = [];
 
@@ -490,7 +490,7 @@ function getValidTargets(card: any, player: any, state: any): any {
   return targets;
 }
 
-function calculateDamage(attacker: any, blocker: any, state: any): any {
+function calculateDamage(): any {
   // Combat damage calculation
   return {
     attackerDamage: blocker ? blocker.toughness : 0,

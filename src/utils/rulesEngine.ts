@@ -177,7 +177,7 @@ class RulesEngine {
       if (card.type === 'ΦLAG') return;
 
       const quantity = card.quantity || 1;
-      switch(): any {
+      switch (true) {
         case 'Common':
         case 'common':
         case '🜠':

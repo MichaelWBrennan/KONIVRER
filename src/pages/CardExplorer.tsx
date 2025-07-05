@@ -38,48 +38,47 @@ const CardExplorer = (): any => {
     ]);
   };
   return (
-    <div className="min-h-screen bg-background"></div>
+    <div className="min-h-screen bg-background" />
       {/* Header */}
-      <div className="bg-card border-b border-color"></div>
-        <div className="max-w-7xl mx-auto px-6 py-8"></div>
-          <div className="text-center"></div>
-            <div className="flex items-center justify-center gap-3 mb-4"></div>
+      <div className="bg-card border-b border-color" />
+        <div className="max-w-7xl mx-auto px-6 py-8" />
+          <div className="text-center" />
+            <div className="flex items-center justify-center gap-3 mb-4" />
           </div>
-        </div>
       </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8"></div>
-        <div className="flex gap-6"></div>
+      <div className="max-w-7xl mx-auto px-6 py-8" />
+        <div className="flex gap-6" />
           {/* Main Content Area */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className={`space-y-6 transition-all duration-300 ${showAIAssistant ? 'flex-1' : 'w-full'}`}
-          ></motion>
+           />
             {/* Search Interface */}
-            <div className="bg-card rounded-lg p-6"></div>
-              <div className="flex items-center gap-4 mb-6"></div>
-                <div className="flex-1 relative"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" /></Search>
+            <div className="bg-card rounded-lg p-6" />
+              <div className="flex items-center gap-4 mb-6" />
+                <div className="flex-1 relative" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
                   <input
                     type="text"
                     placeholder=""
                     className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  /></input>
+                  / />
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
                 >
-                  <Filter className="w-4 h-4" /></Filter>
+                  <Filter className="w-4 h-4" / />
                 </button>
                 <a 
                   href="https://#/syntax-guide" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
-                ></a>
+                 />
                   KONIVRER Syntax
                 </a>
                 {isAuthenticated && (
@@ -91,22 +90,20 @@ const CardExplorer = (): any => {
                         : 'bg-gray-600 hover:bg-gray-700 text-white'
                     }`}
                   >
-                    <Bot className="w-4 h-4" /></Bot>
+                    <Bot className="w-4 h-4" / />
                     AI Assistant
                     {showAIAssistant ? (
-                      <ChevronLeft className="w-4 h-4" /></ChevronLeft>
+                      <ChevronLeft className="w-4 h-4" / />
                     ) : (
-                      <ChevronRight className="w-4 h-4" /></ChevronRight>
+                      <ChevronRight className="w-4 h-4" / />
                     )}
-                  </button>
                 )}
               </div>
               {activeSearchCriteria && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg"></div>
-                  <div className="flex items-center justify-between"></div>
-                    <span className="text-sm text-blue-800"></span>
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg" />
+                  <div className="flex items-center justify-between" />
+                    <span className="text-sm text-blue-800" />
                       Active search: {JSON.stringify(activeSearchCriteria)}
-                    </span>
                     <button
                       onClick={() => {
                         setActiveSearchCriteria(null);
@@ -116,12 +113,11 @@ const CardExplorer = (): any => {
                     >
                       Clear
                     </button>
-                  </div>
                 </div>
               )}
             </div>
             {/* Tabs */}
-            <div className="flex border-b border-color mb-6"></div>
+            <div className="flex border-b border-color mb-6" />
               <button
                 onClick={() => setActiveTab('all')}
                 className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap font-medium transition-colors ${
@@ -130,7 +126,7 @@ const CardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <Grid className="w-4 h-4" /></Grid>
+                <Grid className="w-4 h-4" / />
                 All Cards
               </button>
               <button
@@ -141,10 +137,9 @@ const CardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <TrendingUp className="w-4 h-4" /></TrendingUp>
+                <TrendingUp className="w-4 h-4" / />
                 Trending Cards
               </button>
-            </div>
             {/* Tab Content */}
             {activeTab === 'all' ? (
               /* Card Database */
@@ -152,10 +147,10 @@ const CardExplorer = (): any => {
                 cards={searchResults}
                 searchCriteria={activeSearchCriteria}
                 showSearchInterface={true}
-              /></CardDatabase>
+              / />
             ) : (
               /* Trending Cards */
-              <CardMetaAnalysis /></CardMetaAnalysis>
+              <CardMetaAnalysis / />
             )}
           </motion.div>
           {/* AI Assistant Panel */}
@@ -165,14 +160,13 @@ const CardExplorer = (): any => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 300 }}
               className="w-80 bg-card rounded-lg border border-color"
-            ></motion>
-              <div className="p-6"></div>
-                <div className="flex items-center gap-3 mb-6"></div>
-                  <Bot className="w-6 h-6 text-blue-400" /></Bot>
-                  <div></div>
+             />
+              <div className="p-6" />
+                <div className="flex items-center gap-3 mb-6" />
+                  <Bot className="w-6 h-6 text-blue-400" / />
+                  <div />
                   </div>
-                </div>
-                <AIAssistant /></AIAssistant>
+                <AIAssistant / />
               </div>
             </motion.div>
           )}
@@ -201,7 +195,6 @@ const CardExplorer = (): any => {
           </motion.div>
         )}
       </div>
-    </div>
   );
 };
 export default CardExplorer;

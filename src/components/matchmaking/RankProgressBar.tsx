@@ -117,37 +117,35 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
   };
 
   return (
-    <div className="space-y-1"></div>
+    <div className="space-y-1" />
       {showLabels && (
-        <div className="flex items-center justify-between text-xs text-gray-500"></div>
-          <div className="flex items-center space-x-1"></div>
-            <span>{getRankIcon(currentRank)}</span>
-            <span>{currentRank}</span>
+        <div className="flex items-center justify-between text-xs text-gray-500" />
+          <div className="flex items-center space-x-1" />
+            <span>{getRankIcon(currentRank)}
+            <span>{currentRank}
             {currentBand && getBandIcon(currentBand)}
-          </div>
-          <div className="flex items-center space-x-1"></div>
+          <div className="flex items-center space-x-1" />
             {isNextTier ? (
               <>
-                <span>{nextRank}</span>
-                <span>{getRankIcon(nextRank)}</span>
+                <span>{nextRank}
+                <span>{getRankIcon(nextRank)}
               </>
             ) : isNextBand ? (
               <>
-                <span>{getBandName(nextBand)}</span>
+                <span>{getBandName(nextBand)}
                 {getBandIcon(nextBand)}
               </>
             ) : (
               <>
-                <span>{nextRank}</span>
-                <span>{getRankIcon(nextRank)}</span>
+                <span>{nextRank}
+                <span>{getRankIcon(nextRank)}
               </>
             )}
           </div>
-        </div>
       )}
       <div
         className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}
-      ></div>
+       />
         {animate ? (
           <motion.div
             className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
@@ -159,14 +157,13 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
           <div
             className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
             style={{ width: `${progress}%` }}
-          ></div>
+           />
         )}
       </div>
 
       {showLabels && (
-        <div className="text-right text-xs font-medium text-gray-700"></div>
+        <div className="text-right text-xs font-medium text-gray-700" />
           {progress}% to {getProgressTarget()}
-        </div>
       )}
     </div>
   );

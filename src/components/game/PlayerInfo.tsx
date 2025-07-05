@@ -64,31 +64,30 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
       className={`bg-black/70 backdrop-blur-md rounded-lg p-2 flex items-center space-x-3 shadow-lg ${
         isActive ? 'ring-2 ring-yellow-500/50' : ''
       }`}
-    ></motion>
+     />
       {/* Player Avatar with Rank Badge */}
-      <div className="relative"></div>
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner"></div>
+      <div className="relative" />
+        <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner" />
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={playerName}
               className="w-full h-full object-cover"
-            /></img>
+            / />
           ) : (
-            <User className="w-7 h-7 text-gray-300" /></User>
+            <User className="w-7 h-7 text-gray-300" / />
           )}
         </div>
 
         {/* Rank Badge */}
         <div
           className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-lg border border-gray-800`}
-        ></div>
+         />
           {playerRank.toLowerCase() === 'mythic' ? (
-            <Crown className="w-3 h-3 text-white" /></Crown>
+            <Crown className="w-3 h-3 text-white" / />
           ) : (
-            <Award className="w-3 h-3 text-white" /></Award>
+            <Award className="w-3 h-3 text-white" / />
           )}
-        </div>
 
         {/* Active Player Indicator */}
         {isActive && (
@@ -96,29 +95,27 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             className="absolute -top-1 -left-1 w-4 h-4 bg-yellow-500 rounded-full"
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-          /></motion>
+          / />
         )}
       </div>
 
       {/* Player Info */}
-      <div></div>
-        <div className="text-white font-medium text-sm flex items-center"></div>
+      <div />
+        <div className="text-white font-medium text-sm flex items-center" />
           {playerName}
           {isActive && <Clock className="w-3 h-3 text-yellow-400 ml-1" />}
-        </div>
 
         {/* Resources */}
-        <div className="flex items-center space-x-2 mt-1"></div>
+        <div className="flex items-center space-x-2 mt-1" />
           {/* Life */}
           <motion.div
             className="flex items-center space-x-1 bg-gradient-to-r from-red-900/70 to-red-800/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-          ></motion>
-            <Heart className="w-3 h-3 text-red-400" /></Heart>
-            <span className="text-white text-xs font-medium"></span>
+           />
+            <Heart className="w-3 h-3 text-red-400" / />
+            <span className="text-white text-xs font-medium" />
               {lifeCards.length}
-            </span>
           </motion.div>
 
           {/* Azoth/Mana */}
@@ -126,9 +123,9 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             className="flex items-center space-x-1 bg-gradient-to-r from-yellow-800/70 to-yellow-700/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-          ></motion>
-            <Zap className="w-3 h-3 text-yellow-400" /></Zap>
-            <span className="text-white text-xs font-medium">{azoth}</span>
+           />
+            <Zap className="w-3 h-3 text-yellow-400" / />
+            <span className="text-white text-xs font-medium">{azoth}
           </motion.div>
 
           {/* Cards in Hand */}
@@ -136,21 +133,19 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             className="flex items-center space-x-1 bg-gradient-to-r from-blue-900/70 to-blue-800/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-          ></motion>
-            <span className="text-white text-xs font-medium"></span>
+           />
+            <span className="text-white text-xs font-medium" />
               {hand.length}
-            </span>
           </motion.div>
         </div>
-      </div>
 
       {/* Deck Count */}
-      <div className="ml-1"></div>
+      <div className="ml-1" />
         <motion.div
           className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg px-2 py-0 whitespace-nowrap shadow-inner"
           whileHover={{ scale: 1.05 }}
-        ></motion>
-          <span className="text-white text-xs font-bold">{deck.length}</span>
+         />
+          <span className="text-white text-xs font-bold">{deck.length}
           <span className="text-gray-400 text-[8px]">DECK</span>
         </motion.div>
       </div>

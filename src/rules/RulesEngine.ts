@@ -251,8 +251,8 @@ class RulesEngine {
 
         // Check both players' fields for valid targets
         gameState.players.forEach((player, playerIndex) => {
-          player.field.forEach(card: any = > {
-            if (card.type === 'Familiar'): any {
+          player.field.forEach((card: any) => {
+            if (card.type === 'Familiar') {
               // Check if this target is valid based on ability restrictions
               if (
                 this.isValidTarget(
@@ -376,7 +376,7 @@ class RulesEngine {
       return;
     }
 
-    switch(): any {
+    switch (true) {
       case RULE_TYPES.STATIC:
         this.rules.static.push(rule);
         break;

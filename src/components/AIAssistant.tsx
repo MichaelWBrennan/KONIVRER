@@ -176,7 +176,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
   };
 
   const getPriorityColor = priority => {
-    switch(): any {
+    switch (true) {
       case 'high':
         return 'text-red-400 border-red-400';
       case 'medium':
@@ -189,7 +189,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
   };
 
   const getSuggestionIcon = type => {
-    switch(): any {
+    switch (true) {
       case 'card_suggestion':
         return <Lightbulb className="w-5 h-5" />;
       case 'removal_suggestion':
@@ -210,21 +210,19 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
   }, [currentDeck]);
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden"></div>
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden" />
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4"></div>
-        <div className="flex items-center gap-3"></div>
-          <div className="bg-white/20 rounded-full p-2"></div>
-            <Bot className="w-6 h-6" /></Bot>
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4" />
+        <div className="flex items-center gap-3" />
+          <div className="bg-white/20 rounded-full p-2" />
+            <Bot className="w-6 h-6" / />
           </div>
-          <div></div>
+          <div />
             <h2 className="text-xl font-bold">AI Deck Assistant</h2>
-          </div>
         </div>
-      </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-700"></div>
+      <div className="flex border-b border-gray-700" />
         <button
           onClick={() => setActiveTab('suggestions')}
           className={`flex-1 px-4 py-0 whitespace-nowrap text-sm font-medium transition-colors ${
@@ -255,11 +253,10 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
         >
           Chat
         </button>
-      </div>
 
       {/* Content */}
-      <div className="p-4 max-h-96 overflow-y-auto"></div>
-        <AnimatePresence mode="wait"></AnimatePresence>
+      <div className="p-4 max-h-96 overflow-y-auto" />
+        <AnimatePresence mode="wait" />
           {activeTab === 'suggestions' && (
             <motion.div
               key="suggestions"
@@ -267,25 +264,24 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
-            ></motion>
+             />
               {/* Analyze Button */}
               <button
                 onClick={generateSuggestions}
                 disabled={isAnalyzing}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 px-4 py-0 whitespace-nowrap rounded-lg flex items-center justify-center gap-2 transition-all"
-              ></button>
+               />
                 {isAnalyzing ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" /></RefreshCw>
+                    <RefreshCw className="w-4 h-4 animate-spin" / />
                     Analyzing Deck...
                   </>
                 ) : (
                   <>
-                    <Zap className="w-4 h-4" /></Zap>
+                    <Zap className="w-4 h-4" / />
                     Analyze Current Deck
                   </>
                 )}
-              </button>
 
               {/* Suggestions List */}
               {suggestions.map(suggestion => (
@@ -294,41 +290,37 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className={`border-l-4 ${getPriorityColor(suggestion.priority)} bg-gray-700/50 p-4 rounded-r-lg`}
-                ></motion>
-                  <div className="flex items-start justify-between mb-2"></div>
-                    <div className="flex items-center gap-2"></div>
+                 />
+                  <div className="flex items-start justify-between mb-2" />
+                    <div className="flex items-center gap-2" />
                       {getSuggestionIcon(suggestion.type)}
-                      <h3 className="font-semibold">{suggestion.title}</h3>
+                      <h3 className="font-semibold">{suggestion.title}
                     </div>
-                    <div className="text-xs text-gray-400"></div>
+                    <div className="text-xs text-gray-400" />
                       {suggestion.confidence}% confidence
                     </div>
-                  </div>
 
-                  <p className="text-sm text-gray-300 mb-3"></p>
+                  <p className="text-sm text-gray-300 mb-3" />
                     {suggestion.description}
-                  </p>
 
-                  <div className="space-y-2"></div>
+                  <div className="space-y-2" />
                     {suggestion.cards.map((card, index) => (
                       <div
                         key={index}
                         className="flex items-center justify-between bg-gray-800/50 p-2 rounded"
-                      ></div>
-                        <div className="flex items-center gap-2"></div>
-                          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold"></div>
+                       />
+                        <div className="flex items-center gap-2" />
+                          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold" />
                             {card.cost}
-                          </div>
-                          <span className="font-medium">{card.name}</span>
+                          <span className="font-medium">{card.name}
                         </div>
-                        <div className="text-xs text-gray-400"></div>
+                        <div className="text-xs text-gray-400" />
                           {card.reason}
-                        </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex gap-2 mt-3"></div>
+                  <div className="flex gap-2 mt-3" />
                     <button
                       onClick={() => onSuggestion?.(suggestion)}
                       className="flex-1 bg-green-600 hover:bg-green-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
@@ -342,7 +334,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                         console.log('Thumbs up clicked for suggestion:', suggestion.id);
                       }}
                     >
-                      <ThumbsUp className="w-4 h-4" /></ThumbsUp>
+                      <ThumbsUp className="w-4 h-4" / />
                     </button>
                     <button 
                       className="px-3 py-0 whitespace-nowrap rounded text-sm bg-gray-600 hover:bg-gray-700 transition-colors"
@@ -351,9 +343,8 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                         console.log('Thumbs down clicked for suggestion:', suggestion.id);
                       }}
                     >
-                      <ThumbsDown className="w-4 h-4" /></ThumbsDown>
+                      <ThumbsDown className="w-4 h-4" / />
                     </button>
-                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -365,55 +356,47 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
-            ></motion>
+             />
               {/* Deck Stats */}
-              <div className="grid grid-cols-2 gap-4"></div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
-                  <div className="text-2xl font-bold text-blue-400"></div>
+              <div className="grid grid-cols-2 gap-4" />
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
+                  <div className="text-2xl font-bold text-blue-400" />
                     {currentDeck.length}
-                  </div>
                   <div className="text-xs text-gray-400">Total Cards</div>
-                </div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
                   <div className="text-2xl font-bold text-green-400">3.2</div>
                   <div className="text-xs text-gray-400">Avg. Mana Cost</div>
-                </div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
                   <div className="text-2xl font-bold text-purple-400">78%</div>
                   <div className="text-xs text-gray-400">Meta Score</div>
-                </div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
                   <div className="text-2xl font-bold text-yellow-400">B+</div>
                   <div className="text-xs text-gray-400">Overall Grade</div>
-                </div>
               </div>
 
               {/* Strengths & Weaknesses */}
-              <div className="space-y-3"></div>
-                <div></div>
-                  <h3 className="font-semibold text-green-400 mb-2 flex items-center gap-2"></h3>
-                    <Shield className="w-4 h-4" /></Shield>
+              <div className="space-y-3" />
+                <div />
+                  <h3 className="font-semibold text-green-400 mb-2 flex items-center gap-2" />
+                    <Shield className="w-4 h-4" / />
                     Strengths
                   </h3>
-                  <ul className="text-sm text-gray-300 space-y-1"></ul>
+                  <ul className="text-sm text-gray-300 space-y-1" />
                     <li>• Strong early game pressure</li>
                     <li>• Good mana curve distribution</li>
                     <li>• Consistent damage output</li>
-                  </ul>
                 </div>
 
-                <div></div>
-                  <h3 className="font-semibold text-red-400 mb-2 flex items-center gap-2"></h3>
-                    <Sword className="w-4 h-4" /></Sword>
+                <div />
+                  <h3 className="font-semibold text-red-400 mb-2 flex items-center gap-2" />
+                    <Sword className="w-4 h-4" / />
                     Weaknesses
                   </h3>
-                  <ul className="text-sm text-gray-300 space-y-1"></ul>
+                  <ul className="text-sm text-gray-300 space-y-1" />
                     <li>• Vulnerable to board wipes</li>
                     <li>• Limited late-game threats</li>
                     <li>• Lacks card draw engines</li>
-                  </ul>
                 </div>
-              </div>
             </motion.div>
           )}
           {activeTab === 'chat' && (
@@ -423,32 +406,30 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
-            ></motion>
+             />
               {/* Chat Messages */}
-              <div className="space-y-3 max-h-64 overflow-y-auto"></div>
+              <div className="space-y-3 max-h-64 overflow-y-auto" />
                 {chatMessages.map(message => (
                   <div
                     key={message.id}
                     className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                  ></div>
+                   />
                     <div
                       className={`max-w-xs p-3 rounded-lg ${
                         message.type === 'user'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-700 text-gray-100'
                       }`}
-                    ></div>
-                      <p className="text-sm">{message.message}</p>
-                      <p className="text-xs opacity-75 mt-1"></p>
+                     />
+                      <p className="text-sm">{message.message}
+                      <p className="text-xs opacity-75 mt-1" />
                         {message.timestamp.toLocaleTimeString()}
-                      </p>
                     </div>
-                  </div>
                 ))}
               </div>
 
               {/* Chat Input */}
-              <form onSubmit={handleChatSubmit} className="flex gap-2"></form>
+              <form onSubmit={handleChatSubmit} className="flex gap-2" />
                 <input
                   type="text"
                   value={userInput}
@@ -459,14 +440,12 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                 <button
                   type="submit"
                   className="bg-blue-600 hover:bg-blue-700 px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                ></button>
-                  <ChevronRight className="w-4 h-4" /></ChevronRight>
+                 />
+                  <ChevronRight className="w-4 h-4" / />
                 </button>
-              </form>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     </div>
   );
 };

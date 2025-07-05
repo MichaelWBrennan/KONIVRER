@@ -160,7 +160,7 @@ const EnhancedDeckBuilder = (): any => {
 
     // Sort cards
     filtered.sort((a, b) => {
-      switch(): any {
+      switch (true) {
         case 'cost':
           return a.cost - b.cost;
         case 'type':
@@ -199,7 +199,7 @@ const EnhancedDeckBuilder = (): any => {
       if (!card) return;
 
       // Type distribution
-      switch(): any {
+      switch (true) {
         case 'creature':
           stats.creatures += deckCard.quantity;
           break;
@@ -231,8 +231,7 @@ const EnhancedDeckBuilder = (): any => {
       }
     });
 
-    stats.averageCost =
-      nonLandCards > 0 ? (totalCost / nonLandCards).toFixed(1) : 0;
+    stats.averageCost = nonLandCards > 0 ? (totalCost / nonLandCards).toFixed(1) : 0;
 
     // Legality checks
     if (true) {
@@ -453,27 +452,27 @@ const EnhancedDeckBuilder = (): any => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
       {/* Validation Message */}
       <ValidationMessage 
         message={validationMessage} 
         onClose={() => setValidationMessage(null)}
       />
       
-      <div className="flex h-screen"></div>
+      <div className="flex h-screen" />
         {/* Sidebar - Card Collection */}
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {showSidebar && (
             <motion.div
               initial={{ x: -400 }}
               animate={{ x: 0 }}
               exit={{ x: -400 }}
               className="w-96 bg-black/30 backdrop-blur-sm border-r border-purple-500/30 flex flex-col"
-            ></motion>
+             />
               {/* Search and Filters */}
-              <div className="p-4 border-b border-purple-500/30"></div>
-                <div className="relative mb-4"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" /></Search>
+              <div className="p-4 border-b border-purple-500/30" />
+                <div className="relative mb-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" / />
                   <input
                     type="text"
                     placeholder="Search cards..."
@@ -483,10 +482,10 @@ const EnhancedDeckBuilder = (): any => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between mb-4"></div>
+                <div className="flex items-center justify-between mb-4" />
                   <h3 className="text-white font-medium">Filters</h3>
                   <button
-                    onClick={() =></button>
+                    onClick={() = />
                       setSelectedFilters({
                         colors: [],
                         types: [],
@@ -498,18 +497,17 @@ const EnhancedDeckBuilder = (): any => {
                   >
                     Clear All
                   </button>
-                </div>
 
                 <FilterPanel
                   filters={selectedFilters}
                   onFiltersChange={setSelectedFilters}
-                /></FilterPanel>
+                / />
               </div>
 
               {/* Card List */}
-              <div className="flex-1 overflow-y-auto p-4"></div>
-                <div className="flex items-center justify-between mb-4"></div>
-                  <span className="text-gray-300 text-sm"></span>
+              <div className="flex-1 overflow-y-auto p-4" />
+                <div className="flex items-center justify-between mb-4" />
+                  <span className="text-gray-300 text-sm" />
                     {filteredCards.length} cards
                   </span>
                   <select
@@ -521,10 +519,9 @@ const EnhancedDeckBuilder = (): any => {
                     <option value="cost">Cost</option>
                     <option value="type">Type</option>
                     <option value="rarity">Rarity</option>
-                  </select>
                 </div>
 
-                <div className="space-y-2"></div>
+                <div className="space-y-2" />
                   {filteredCards.map(card => (
                     <CardListItem
                       key={card.id}
@@ -538,28 +535,27 @@ const EnhancedDeckBuilder = (): any => {
                     />
                   ))}
                 </div>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col"></div>
+        <div className="flex-1 flex flex-col" />
           {/* Header */}
-          <div className="bg-black/30 backdrop-blur-sm border-b border-purple-500/30 p-4"></div>
-            <div className="flex items-center justify-between"></div>
-              <div className="flex items-center space-x-4"></div>
+          <div className="bg-black/30 backdrop-blur-sm border-b border-purple-500/30 p-4" />
+            <div className="flex items-center justify-between" />
+              <div className="flex items-center space-x-4" />
                 <button
                   onClick={() => setShowSidebar(!showSidebar)}
                   className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
                 >
-                  <Filter className="w-5 h-5 text-white" /></Filter>
+                  <Filter className="w-5 h-5 text-white" / />
                 </button>
 
                 <input
                   type="text"
                   value={currentDeck.name}
-                  onChange={e =></input>
+                  onChange={e = />
                     setCurrentDeck(prev => ({ ...prev, name: e.target.value }))}
                   className="text-2xl font-bold bg-transparent text-white border-none outline-none"
                   placeholder="Deck Name"
@@ -571,33 +567,29 @@ const EnhancedDeckBuilder = (): any => {
                       ? 'bg-green-500/20 text-green-400'
                       : 'bg-red-500/20 text-red-400'
                   }`}
-                ></div>
+                 />
                   {deckStats.isLegal ? 'Legal' : 'Illegal'}
-                </div>
               </div>
 
-              <div className="flex items-center space-x-2"></div>
+              <div className="flex items-center space-x-2" />
                 <button
                   onClick={saveDeck}
                   className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                ></button>
-                  <Save className="w-4 h-4" /></Save>
+                 />
+                  <Save className="w-4 h-4" / />
                   <span>Save</span>
-                </button>
 
                 <button
                   onClick={startGameWithDeck}
                   disabled={!deckStats.isLegal}
                   className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                ></button>
-                  <Play className="w-4 h-4" /></Play>
+                 />
+                  <Play className="w-4 h-4" / />
                   <span>Play</span>
-                </button>
               </div>
-            </div>
 
             {/* Tab Navigation */}
-            <div className="flex space-x-4 mt-4"></div>
+            <div className="flex space-x-4 mt-4" />
               {['cards', 'stats', 'meta', 'export'].map(tab => (
                 <button
                   key={tab}
@@ -609,35 +601,33 @@ const EnhancedDeckBuilder = (): any => {
                   }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
               ))}
             </div>
-          </div>
 
           {/* Content Area */}
-          <div className = "flex-1 p-4"></div>
+          <div className = "flex-1 p-4" />
             {activeTab === 'cards' && (
               <DeckCardsList
                 deck={currentDeck}
                 cardCollection={cardCollection}
                 onRemoveCard={removeCardFromDeck}
                 onAddCard={addCardToDeck}
-              /></DeckCardsList>
+              / />
             )}
             {activeTab === 'stats' && (
               <>
-                <DeckRules deck={getFormattedDeckCards()} /></DeckRules>
-                <DeckStatsPanel stats={deckStats} /></DeckStatsPanel>
+                <DeckRules deck={getFormattedDeckCards()} / />
+                <DeckStatsPanel stats={deckStats} / />
               </>
             )}
             {activeTab === 'meta' && (
               <>
-                <DeckMetaAnalysis deck={currentDeck} /></DeckMetaAnalysis>
-                <div className="mt-6"></div>
+                <DeckMetaAnalysis deck={currentDeck} / />
+                <div className="mt-6" />
                   <CardSynergyRecommendations
                     currentDeck={currentDeck}
                     onAddCard={addCardToDeck}
-                  /></CardSynergyRecommendations>
+                  / />
                 </div>
               </>
             )}
@@ -645,12 +635,10 @@ const EnhancedDeckBuilder = (): any => {
               <DeckExportPanel
                 deck={currentDeck}
                 onExport={exportDeckForGame}
-              /></DeckExportPanel>
+              / />
             )}
           </div>
-        </div>
       </div>
-    </div>
   );
 };
 
@@ -678,11 +666,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({  filters, onFiltersChange  })
   };
 
   return (
-    <div className="space-y-4"></div>
+    <div className="space-y-4" />
       {/* Colors */}
-      <div></div>
+      <div />
         <h4 className="text-white text-sm font-medium mb-2">Colors</h4>
-        <div className="flex flex-wrap gap-2"></div>
+        <div className="flex flex-wrap gap-2" />
           {colors.map(color => (
             <button
               key={color}
@@ -694,15 +682,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({  filters, onFiltersChange  })
               }`}
             >
               {color}
-            </button>
           ))}
         </div>
-      </div>
 
       {/* Types */}
-      <div></div>
+      <div />
         <h4 className="text-white text-sm font-medium mb-2">Types</h4>
-        <div className="flex flex-wrap gap-2"></div>
+        <div className="flex flex-wrap gap-2" />
           {types.map(type => (
             <button
               key={type}
@@ -714,15 +700,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({  filters, onFiltersChange  })
               }`}
             >
               {type}
-            </button>
           ))}
         </div>
-      </div>
 
       {/* Rarity */}
-      <div></div>
+      <div />
         <h4 className="text-white text-sm font-medium mb-2">Rarity</h4>
-        <div className="flex flex-wrap gap-2"></div>
+        <div className="flex flex-wrap gap-2" />
           {rarities.map(rarity => (
             <button
               key={rarity}
@@ -734,25 +718,21 @@ const FilterPanel: React.FC<FilterPanelProps> = ({  filters, onFiltersChange  })
               }`}
             >
               {rarity}
-            </button>
           ))}
         </div>
-      </div>
 
       {/* Owned Only */}
-      <div></div>
-        <label className="flex items-center space-x-2"></label>
+      <div />
+        <label className="flex items-center space-x-2" />
           <input
             type="checkbox"
             checked={filters.owned}
-            onChange={e =></input>
+            onChange={e = />
               onFiltersChange({ ...filters, owned: e.target.checked })}
             className="rounded border-gray-600 bg-gray-800 text-purple-600 focus:ring-purple-500"
           />
           <span className = "text-white text-sm">Owned cards only</span>
-        </label>
       </div>
-    </div>
   );
 };
 
@@ -766,7 +746,7 @@ interface CardListItemProps {
 
 const CardListItem: React.FC<CardListItemProps> = ({  card, owned, onAddToDeck, inDeck  }) => {
   const getRarityColor = rarity => {
-    switch(): any {
+    switch (true) {
       case 'common':
         return 'text-gray-400';
       case 'uncommon':
@@ -790,27 +770,23 @@ const CardListItem: React.FC<CardListItemProps> = ({  card, owned, onAddToDeck, 
       }`}
       onClick = {() => owned && onAddToDeck(card)}
     >
-      <div className="flex items-center justify-between"></div>
-        <div className="flex-1"></div>
-          <div className="flex items-center space-x-2"></div>
-            <span className="text-white font-medium">{card.name}</span>
-            <span className="text-gray-400 text-sm">{card.cost}</span>
+      <div className="flex items-center justify-between" />
+        <div className="flex-1" />
+          <div className="flex items-center space-x-2" />
+            <span className="text-white font-medium">{card.name}
+            <span className="text-gray-400 text-sm">{card.cost}
             {inDeck > 0 && (
-              <span className="bg-purple-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full"></span>
+              <span className="bg-purple-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full" />
                 {inDeck}
-              </span>
             )}
           </div>
-          <div className="flex items-center space-x-2 mt-1"></div>
-            <span className="text-gray-400 text-xs">{card.type}</span>
-            <span className={`text-xs ${getRarityColor(card.rarity)}`}></span>
+          <div className="flex items-center space-x-2 mt-1" />
+            <span className="text-gray-400 text-xs">{card.type}
+            <span className={`text-xs ${getRarityColor(card.rarity)}`} />
               {card.rarity}
-            </span>
           </div>
-        </div>
 
         {!owned && <div className="text-gray-500 text-xs">Not owned</div>}
-      </div>
     </motion.div>
   );
 };
@@ -835,14 +811,14 @@ const DeckCardsList: React.FC<DeckCardsListProps> = ({  deck, cardCollection, on
   }, {});
 
   return (
-    <div className="space-y-6"></div>
+    <div className="space-y-6" />
       {Object.entries(groupedCards).map(([type, cards]) => (
-        <div key={type} className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
-          <h3 className="text-xl font-bold text-white mb-4 capitalize"></h3>
+        <div key={type} className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
+          <h3 className="text-xl font-bold text-white mb-4 capitalize" />
             {type}s ({cards.reduce((sum, card) => sum + card.quantity, 0)})
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
             {cards.map(card = > (
               <DeckCardItem
                 key={card.id}
@@ -852,17 +828,14 @@ const DeckCardsList: React.FC<DeckCardsListProps> = ({  deck, cardCollection, on
               />
             ))}
           </div>
-        </div>
       ))}
       {deck.cards.length === 0 && (
-        <div className="text-center py-12"></div>
+        <div className="text-center py-12" />
           <div className="text-gray-400 text-lg mb-4">Your deck is empty</div>
-          <div className="text-gray-500"></div>
+          <div className="text-gray-500" />
             Add cards from the collection to get started
           </div>
-        </div>
       )}
-    </div>
   );
 };
 
@@ -878,34 +851,32 @@ const DeckCardItem: React.FC<DeckCardItemProps> = ({  card, onRemove, onAdd  }) 
     <motion.div
       whileHover={{ scale: 1.02 }}
       className="bg-gray-800/50 rounded-lg p-4 border border-gray-600"
-    ></motion>
-      <div className="flex items-center justify-between mb-2"></div>
-        <span className="text-white font-medium">{card.name}</span>
-        <span className="text-gray-400">{card.cost}</span>
+     />
+      <div className="flex items-center justify-between mb-2" />
+        <span className="text-white font-medium">{card.name}
+        <span className="text-gray-400">{card.cost}
       </div>
 
-      <div className="flex items-center justify-between"></div>
-        <div className="flex items-center space-x-4"></div>
-          <span className="text-gray-400 text-sm">{card.type}</span>
-          <span className="bg-purple-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded"></span>
+      <div className="flex items-center justify-between" />
+        <div className="flex items-center space-x-4" />
+          <span className="text-gray-400 text-sm">{card.type}
+          <span className="bg-purple-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded" />
             {card.quantity}
-          </span>
         </div>
 
-        <div className="flex items-center space-x-2"></div>
+        <div className="flex items-center space-x-2" />
           <button
             onClick={onRemove}
             className="p-1 bg-red-600 hover:bg-red-700 rounded transition-colors"
-          ></button>
-            <Minus className="w-4 h-4 text-white" /></Minus>
+           />
+            <Minus className="w-4 h-4 text-white" / />
           </button>
           <button
             onClick={onAdd}
             className="p-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
-          ></button>
-            <Plus className = "w-4 h-4 text-white" /></Plus>
+           />
+            <Plus className = "w-4 h-4 text-white" / />
           </button>
-        </div>
       </div>
     </motion.div>
   );
@@ -918,41 +889,40 @@ interface DeckStatsPanelProps {
 
 const DeckStatsPanel: React.FC<DeckStatsPanelProps> = ({  stats  }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
       {/* Basic Stats */}
-      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
         <h3 className="text-xl font-bold text-white mb-4">Deck Overview</h3>
 
-        <div className="space-y-4"></div>
-          <div className="flex justify-between"></div>
+        <div className="space-y-4" />
+          <div className="flex justify-between" />
             <span className="text-gray-300">Total Cards:</span>
-            <span className="text-white font-medium">{stats.totalCards}</span>
+            <span className="text-white font-medium">{stats.totalCards}
           </div>
 
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between" />
             <span className="text-gray-300">Average Cost:</span>
-            <span className="text-white font-medium">{stats.averageCost}</span>
+            <span className="text-white font-medium">{stats.averageCost}
           </div>
 
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between" />
             <span className="text-gray-300">Creatures:</span>
-            <span className="text-white font-medium">{stats.creatures}</span>
+            <span className="text-white font-medium">{stats.creatures}
           </div>
 
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between" />
             <span className="text-gray-300">Spells:</span>
-            <span className="text-white font-medium">{stats.spells}</span>
+            <span className="text-white font-medium">{stats.spells}
           </div>
 
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between" />
             <span className="text-gray-300">Lands:</span>
-            <span className="text-white font-medium">{stats.lands}</span>
+            <span className="text-white font-medium">{stats.lands}
           </div>
-        </div>
       </div>
 
       {/* Legality */}
-      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
         <h3 className="text-xl font-bold text-white mb-4">Legality</h3>
 
         <div
@@ -961,33 +931,30 @@ const DeckStatsPanel: React.FC<DeckStatsPanelProps> = ({  stats  }) => {
               ? 'bg-green-500/20 border border-green-500'
               : 'bg-red-500/20 border border-red-500'
           }`}
-        ></div>
-          <div className="flex items-center space-x-2 mb-2"></div>
+         />
+          <div className="flex items-center space-x-2 mb-2" />
             {stats.isLegal ? (
-              <CheckCircle className="w-5 h-5 text-green-400" /></CheckCircle>
+              <CheckCircle className="w-5 h-5 text-green-400" / />
             ) : (
-              <AlertCircle className="w-5 h-5 text-red-400" /></AlertCircle>
+              <AlertCircle className="w-5 h-5 text-red-400" / />
             )}
             <span
               className={`font-medium ${
                 stats.isLegal ? 'text-green-400' : 'text-red-400'
               }`}
-            ></span>
+             />
               {stats.isLegal ? 'Legal for Play' : 'Not Legal'}
-            </span>
           </div>
 
           {stats.legalityIssues.length > 0 && (
-            <div className = "space-y-1"></div>
+            <div className = "space-y-1" />
               {stats.legalityIssues.map((issue, index) => (
-                <div key={index} className="text-red-300 text-sm"></div>
+                <div key={index} className="text-red-300 text-sm" />
                   • {issue}
-                </div>
               ))}
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 };
@@ -999,10 +966,9 @@ interface DeckMetaAnalysisProps {
 
 const DeckMetaAnalysis: React.FC<DeckMetaAnalysisProps> = ({  deck  }) => {
   return (
-    <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+    <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6" />
       <h3 className="text-xl font-bold text-white mb-4">Meta Analysis</h3>
       <div className="text-gray-400">Meta analysis features coming soon...</div>
-    </div>
   );
 };
 
@@ -1014,25 +980,24 @@ interface DeckExportPanelProps {
 
 const DeckExportPanel: React.FC<DeckExportPanelProps> = ({  deck, onExport  }) => {
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
       <h3 className="text-xl font-bold text-white mb-4">Export Deck</h3>
 
-      <div className="space-y-4"></div>
+      <div className="space-y-4" />
         <button
           onClick={onExport}
           className="w-full bg-green-600 hover:bg-green-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-        ></button>
+         />
           Export for Game
         </button>
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap" />
           Share Deck
         </button>
 
-        <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+        <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap" />
           Download as Text
         </button>
-      </div>
     </div>
   );
 };

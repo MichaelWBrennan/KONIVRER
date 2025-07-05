@@ -110,14 +110,13 @@ const DeckArchetypeDisplay = ({
   const topMatchups = getTopMatchups();
 
   return (
-    <div className="deck-archetype-display"></div>
+    <div className="deck-archetype-display" />
       <div
         className={`inline-flex items-center rounded-full border ${getArchetypeColor(archetype)} ${classes.container}`}
-      ></div>
-        <span className={`mr-1 ${classes.icon}`}></span>
+       />
+        <span className={`mr-1 ${classes.icon}`} />
           {getArchetypeIcon(archetype)}
-        </span>
-        <span className="font-medium">{archetype || 'Unknown Archetype'}</span>
+        <span className="font-medium">{archetype || 'Unknown Archetype'}
       </div>
 
       {showDetails && performance && (
@@ -126,125 +125,112 @@ const DeckArchetypeDisplay = ({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-        ></motion>
-          <div className="flex items-center justify-between mb-2"></div>
-            <span className="text-sm font-medium text-gray-700"></span>
+         />
+          <div className="flex items-center justify-between mb-2" />
+            <span className="text-sm font-medium text-gray-700" />
               Performance
             </span>
-            <span className="text-sm font-medium text-gray-700"></span>
+            <span className="text-sm font-medium text-gray-700" />
               {performance.wins || 0}W - {performance.losses || 0}L
             </span>
-          </div>
 
-          <div className="flex items-center mb-3"></div>
-            <div className="flex-1"></div>
+          <div className="flex items-center mb-3" />
+            <div className="flex-1" />
               <div className="text-xs text-gray-500 mb-1">Win Rate</div>
-              <div className="w-full bg-gray-200 rounded-full overflow-hidden"></div>
+              <div className="w-full bg-gray-200 rounded-full overflow-hidden" />
                 <div
                   className={`${classes.chart} rounded-full ${performance.winRate > 0.5 ? 'bg-green-500' : performance.winRate < 0.5 ? 'bg-red-500' : 'bg-yellow-500'}`}
                   style={{ width: `${(performance.winRate || 0) * 100}%` }}
                 ></div>
-              </div>
             </div>
-            <div className="ml-3 text-lg font-bold"></div>
+            <div className="ml-3 text-lg font-bold" />
               {formatWinRate(performance.winRate)}
-            </div>
           </div>
 
           {/* Matchup Analysis */}
           {(topMatchups.favorable.length > 0 ||
             topMatchups.unfavorable.length > 0) && (
-            <div className="mt-3"></div>
-              <div className="text-sm font-medium text-gray-700 mb-2"></div>
+            <div className="mt-3" />
+              <div className="text-sm font-medium text-gray-700 mb-2" />
                 Matchup Analysis
               </div>
 
               {topMatchups.favorable.length > 0 && (
-                <div className="mb-2"></div>
-                  <div className="flex items-center text-xs text-green-600 mb-1"></div>
-                    <TrendingUp className="w-3 h-3 mr-1" /></TrendingUp>
+                <div className="mb-2" />
+                  <div className="flex items-center text-xs text-green-600 mb-1" />
+                    <TrendingUp className="w-3 h-3 mr-1" / />
                     <span>Favorable Matchups</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-1"></div>
+                  <div className="grid grid-cols-3 gap-1" />
                     {topMatchups.favorable.map(([archetype, winRate]) => (
                       <div
                         key={archetype}
                         className="text-xs bg-green-50 rounded px-1 py-0.5 truncate"
-                      ></div>
-                        <span className="font-medium">{archetype}</span>
-                        <span className="text-green-700 ml-1"></span>
+                       />
+                        <span className="font-medium">{archetype}
+                        <span className="text-green-700 ml-1" />
                           {formatWinRate(winRate)}
-                        </span>
                       </div>
                     ))}
                   </div>
-                </div>
               )}
               {topMatchups.unfavorable.length > 0 && (
-                <div></div>
-                  <div className="flex items-center text-xs text-red-600 mb-1"></div>
-                    <TrendingDown className="w-3 h-3 mr-1" /></TrendingDown>
+                <div />
+                  <div className="flex items-center text-xs text-red-600 mb-1" />
+                    <TrendingDown className="w-3 h-3 mr-1" / />
                     <span>Unfavorable Matchups</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-1"></div>
+                  <div className="grid grid-cols-3 gap-1" />
                     {topMatchups.unfavorable.map(([archetype, winRate]) => (
                       <div
                         key={archetype}
                         className="text-xs bg-red-50 rounded px-1 py-0.5 truncate"
-                      ></div>
-                        <span className="font-medium">{archetype}</span>
-                        <span className="text-red-700 ml-1"></span>
+                       />
+                        <span className="font-medium">{archetype}
+                        <span className="text-red-700 ml-1" />
                           {formatWinRate(winRate)}
-                        </span>
                       </div>
                     ))}
                   </div>
-                </div>
               )}
             </div>
           )}
           {/* Playstyle Indicators */}
           {performance.playstyle && (
-            <div className="mt-3"></div>
-              <div className="text-xs text-gray-500 mb-1"></div>
+            <div className="mt-3" />
+              <div className="text-xs text-gray-500 mb-1" />
                 Playstyle Indicators
               </div>
-              <div className="grid grid-cols-3 gap-2"></div>
-                <div></div>
+              <div className="grid grid-cols-3 gap-2" />
+                <div />
                   <div className="text-xs text-gray-500">Aggression</div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1"></div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1" />
                     <div
                       className="h-1.5 rounded-full bg-red-500"
                       style={{
                         width: `${(performance.playstyle.aggression || 0) * 100}%`,
                       }}
-                    ></div>
+                     />
                   </div>
-                </div>
-                <div></div>
+                <div />
                   <div className="text-xs text-gray-500">Consistency</div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1"></div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1" />
                     <div
                       className="h-1.5 rounded-full bg-blue-500"
                       style={{
                         width: `${(performance.playstyle.consistency || 0) * 100}%`,
                       }}
-                    ></div>
+                     />
                   </div>
-                </div>
-                <div></div>
+                <div />
                   <div className="text-xs text-gray-500">Complexity</div>
-                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1"></div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1" />
                     <div
                       className="h-1.5 rounded-full bg-purple-500"
                       style={{
                         width: `${(performance.playstyle.complexity || 0) * 100}%`,
                       }}
-                    ></div>
+                     />
                   </div>
-                </div>
               </div>
-            </div>
           )}
         </motion.div>
       )}

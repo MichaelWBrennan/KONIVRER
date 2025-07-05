@@ -46,7 +46,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
 
   if (!personalityInfo) return null;
   const getMoodColor = (mood): any => {
-    switch(): any {
+    switch (true) {
       case 'confident': return 'text-green-400';
       case 'frustrated': return 'text-red-400';
       case 'focused': return 'text-blue-400';
@@ -55,7 +55,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
   };
 
   const getMoodIcon = (mood): any => {
-    switch(): any {
+    switch (true) {
       case 'confident': return <Sparkles className="w-4 h-4" />;
       case 'frustrated': return <Zap className="w-4 h-4" />;
       case 'focused': return <Target className="w-4 h-4" />;
@@ -107,78 +107,75 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 border border-gray-600 max-w-sm"
-    ></motion>
+     />
       {/* AI Header */}
-      <div className="flex items-center gap-3 mb-3"></div>
-        <div className="text-2xl">{personalityInfo.avatar}</div>
-        <div></div>
-          <div className="font-bold text-white text-sm">{personalityInfo.name}</div>
-          <div className="text-xs text-gray-400">{personalityInfo.description}</div>
+      <div className="flex items-center gap-3 mb-3" />
+        <div className="text-2xl">{personalityInfo.avatar}
+        <div />
+          <div className="font-bold text-white text-sm">{personalityInfo.name}
+          <div className="text-xs text-gray-400">{personalityInfo.description}
         </div>
-      </div>
 
       {/* Current Status */}
-      <div className="flex items-center gap-2 mb-3"></div>
-        <div className={`flex items-center gap-1 ${getMoodColor(personalityInfo.mood)}`}></div>
+      <div className="flex items-center gap-2 mb-3" />
+        <div className={`flex items-center gap-1 ${getMoodColor(personalityInfo.mood)}`} />
           {getMoodIcon(personalityInfo.mood)}
-          <span className="text-xs font-medium capitalize">{personalityInfo.mood}</span>
+          <span className="text-xs font-medium capitalize">{personalityInfo.mood}
         </div>
         
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {isThinking && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="flex items-center gap-1 text-yellow-400"
-            ></motion>
-              <Brain className="w-3 h-3 animate-pulse" /></Brain>
-              <span className="text-xs">Thinking{thinkingDots}</span>
+             />
+              <Brain className="w-3 h-3 animate-pulse" / />
+              <span className="text-xs">Thinking{thinkingDots}
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
 
       {/* Personality Traits */}
-      <div className="space-y-1"></div>
+      <div className="space-y-1" />
         <div className="text-xs text-gray-400 font-medium">Traits:</div>
-        <div className="flex flex-wrap gap-2"></div>
+        <div className="flex flex-wrap gap-2" />
           {getPersonalityTraits().map((trait, index) => (
             <div
               key={index}
               className={`flex items-center gap-1 px-2 py-0 whitespace-nowrap rounded text-xs bg-gray-700/50 ${trait.color}`}
-            ></div>
+             />
               {trait.icon}
-              <span>{trait.label}</span>
+              <span>{trait.label}
             </div>
           ))}
         </div>
-      </div>
 
       {/* AI Dialogue */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {currentDialogue && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="mt-3 p-2 bg-gray-700/50 rounded text-xs text-gray-300 italic border-l-2 border-blue-400"
-          ></motion>
+           />
             "{currentDialogue}"
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Thinking Animation */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {isThinking && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="mt-3 flex justify-center"
-          ></motion>
-            <div className="flex space-x-1"></div>
+           />
+            <div className="flex space-x-1" />
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
@@ -192,7 +189,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
                     repeat: Infinity,
                     delay: i * 0.2
                   }}
-                /></motion>
+                / />
               ))}
             </div>
           </motion.div>

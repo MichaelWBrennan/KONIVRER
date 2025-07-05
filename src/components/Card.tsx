@@ -34,8 +34,8 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
   // For face-down cards (like in Life Cards zone)
   if (true) {
     return (
-      <div className="card face-down" onClick={handleCardClick}></div>
-        <img src="/assets/card-back-new.png" alt="Card Back" /></img>
+      <div className="card face-down" onClick={handleCardClick} />
+        <img src="/assets/card-back-new.png" alt="Card Back" / />
       </div>
     );
   }
@@ -47,13 +47,13 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
         <div 
           className={`card azoth ${card.rested ? 'rested' : ''}`}
           onClick={handleCardClick}
-        ></div>
-          <div className="card-name">{card.name}</div>
-          <div className="element-type">{card.elementType}</div>
+         />
+          <div className="card-name">{card.name}
+          <div className="element-type">{card.elementType}
         </div>
         
         {showPreview && (
-          <CardPreview card={card} onClose={handleClosePreview} /></CardPreview>
+          <CardPreview card={card} onClose={handleClosePreview} / />
         )}
       </>
     );
@@ -64,27 +64,26 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
       <div 
         className={`card ${card.type.toLowerCase()} ${location}`}
         onClick={handleCardClick}
-      ></div>
+       />
         {/* Element costs */}
-        <div className="card-elements"></div>
+        <div className="card-elements" />
           {Object.entries(card.elements || {}).map(([element, count]) => (
             count > 0 && (
-              <div key={element} className={`element ${element}`}></div>
+              <div key={element} className={`element ${element}`} />
                 {ELEMENT_SYMBOLS[element]} {count}
-              </div>
             )
           ))}
         </div>
         
         {/* Card name */}
-        <div className="card-name">{card.name}</div>
+        <div className="card-name">{card.name}
         
         {/* Card type */}
-        <div className="card-type">{card.type}</div>
+        <div className="card-type">{card.type}
         
         {/* Keywords (separate from elements) */}
         {card.keywords && card.keywords.length > 0 && (
-          <div className="card-keywords"></div>
+          <div className="card-keywords" />
             {card.keywords.map((keyword, index) => {
               const keywordInfo = getKeywordDisplayInfo(keyword);
               return (
@@ -92,41 +91,40 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
                   key={index} 
                   className={`keyword ${keyword.toLowerCase()}`}
                   title={keywordInfo.description}
-                ></div>
+                 />
                   {keywordInfo.symbol} {keywordInfo.name}
-                </div>
               );
             })}
           </div>
         )}
         {/* Card abilities */}
         {card.abilities && card.abilities.length > 0 && (
-          <div className="card-abilities"></div>
+          <div className="card-abilities" />
             {card.abilities.map((ability, index) => (
-              <div key={index} className="ability">{ability.effect}</div>
+              <div key={index} className="ability">{ability.effect}
             ))}
           </div>
         )}
         {/* Flavor text */}
         {card.flavorText && (
-          <div className="flavor-text">{card.flavorText}</div>
+          <div className="flavor-text">{card.flavorText}
         )}
         {/* Set and rarity */}
-        <div className="card-set-rarity"></div>
+        <div className="card-set-rarity" />
           {card.set && card.rarity && `${card.set} • ${getRaritySymbol(card.rarity)}`}
         </div>
         
         {/* Set number */}
-        <div className="card-set-number"></div>
+        <div className="card-set-number" />
           {card.setNumber && `${card.setNumber}`}
         </div>
         
         {/* Strength/Health for Familiars */}
         {card.type === 'Familiar' && (
-          <div className="card-stats"></div>
-            <span className="strength">{card.strength}</span>
+          <div className="card-stats" />
+            <span className="strength">{card.strength}
             <span className="separator">/</span>
-            <span className="health">{card.health}</span>
+            <span className="health">{card.health}
           </div>
         )}
         {/* Status indicators */}
@@ -137,19 +135,19 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
           <div className="status-indicator tapped">Tapped</div>
         )}
         {card.counters > 0 && location === 'field' && (
-          <div className="counter-indicator">+{card.counters}</div>
+          <div className="counter-indicator">+{card.counters}
         )}
       </div>
       
       {showPreview && (
-        <CardPreview card={card} onClose={handleClosePreview} /></CardPreview>
+        <CardPreview card={card} onClose={handleClosePreview} / />
       )}
     </>
   );
 };
 
 // Helper to get rarity symbol
-function getRaritySymbol(rarity: any): any {
+function getRaritySymbol(): any {
   const symbols = {
     common: '🜠',
     uncommon: '☽',

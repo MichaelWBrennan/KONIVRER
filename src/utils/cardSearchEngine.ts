@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - Advanced Card Search Engine
  * High-performance search with fuzzy matching and advanced filtering
@@ -176,7 +177,7 @@ const sortResults = (results, sortBy, sortOrder): any => {
   
   return results.sort((a, b) => {
     let comparison = 0;
-    switch(): any {
+    switch (true) {
       case 'name':
         comparison = a.name.localeCompare(b.name);
         break;

@@ -103,51 +103,46 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
   ];
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic]"></div>
-      <div className="container mx-auto px-4 py-8"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic]" />
+      <div className="container mx-auto px-4 py-8" />
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
-        ></motion>
-          <p className="text-xl text-gray-300 mb-6 max-w-4xl mx-auto"></p>
+         />
+          <p className="text-xl text-gray-300 mb-6 max-w-4xl mx-auto" />
             Experience the most advanced TCG platform ever created. All premium
             features are now completely free, powered by state-of-the-art AI,
             machine learning, and cutting-edge technology.
           </p>
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-0 whitespace-nowrap inline-block mb-8"></div>
-            <div className="flex items-center"></div>
-              <CheckCircle className="w-6 h-6 mr-3" /></CheckCircle>
-              <span className="text-xl font-bold"></span>
+          <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-0 whitespace-nowrap inline-block mb-8" />
+            <div className="flex items-center" />
+              <CheckCircle className="w-6 h-6 mr-3" / />
+              <span className="text-xl font-bold" />
                 All Premium Features Free Forever
               </span>
-            </div>
           </div>
           {/* Feature Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"></div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto" />
+            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700" />
               <div className="text-2xl font-bold text-purple-400">$200k+</div>
               <div className="text-sm text-gray-400">Development Value</div>
-            </div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700" />
               <div className="text-2xl font-bold text-blue-400">50+</div>
               <div className="text-sm text-gray-400">Advanced Features</div>
-            </div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
-              <div className="text-2xl font-bold text-green-400"></div>
+            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700" />
+              <div className="text-2xl font-bold text-green-400" />
                 AI-Powered
               </div>
               <div className="text-sm text-gray-400">Machine Learning</div>
-            </div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700" />
               <div className="text-2xl font-bold text-yellow-400">100%</div>
               <div className="text-sm text-gray-400">Free Access</div>
-            </div>
           </div>
         </motion.div>
         {/* Feature Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" />
           {features.map((feature, index) => (
             <motion.button
               key={feature.id}
@@ -165,39 +160,35 @@ const IndustryLeadingFeaturesPage = (): any => {
             >
               <div
                 className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.color} opacity-10`}
-              /></div>
-              <div className="relative z-10"></div>
-                <div className="flex items-center mb-4"></div>
+              / />
+              <div className="relative z-10" />
+                <div className="flex items-center mb-4" />
                   <div
                     className={`p-3 rounded-lg bg-gradient-to-br ${feature.color} mr-4`}
-                  ></div>
+                   />
                     {feature.icon}
-                  </div>
-                  <div className="text-left"></div>
+                  <div className="text-left" />
                     {activeFeature === feature.id && (
-                      <div className="flex items-center text-purple-300 text-sm mt-1"></div>
-                        <Sparkles className="w-4 h-4 mr-1" /></Sparkles>
+                      <div className="flex items-center text-purple-300 text-sm mt-1" />
+                        <Sparkles className="w-4 h-4 mr-1" / />
                         Active
                       </div>
                     )}
-                  </div>
                 </div>
-                <p className="text-gray-300 text-sm mb-4"></p>
+                <p className="text-gray-300 text-sm mb-4" />
                   {feature.description}
-                </p>
-                <div className="flex items-center justify-between"></div>
-                  <div className="flex items-center text-green-400 text-sm"></div>
-                    <CheckCircle className="w-4 h-4 mr-1" /></CheckCircle>
+                <div className="flex items-center justify-between" />
+                  <div className="flex items-center text-green-400 text-sm" />
+                    <CheckCircle className="w-4 h-4 mr-1" / />
                     Free
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400" /></ArrowRight>
+                  <ArrowRight className="w-5 h-5 text-gray-400" / />
                 </div>
-              </div>
             </motion.button>
           ))}
         </div>
         {/* Feature Content */}
-        <AnimatePresence mode="wait"></AnimatePresence>
+        <AnimatePresence mode="wait" />
           <motion.div
             key={activeFeature}
             initial={{ opacity: 0, x: 20 }}
@@ -205,27 +196,27 @@ const IndustryLeadingFeaturesPage = (): any => {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
             className = "bg-gray-800/30 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden"
-          ></motion>
+           />
             {activeFeature === 'overview' && (
               <FeatureOverview
                 features={features}
                 featuresEnabled={featuresEnabled}
                 setFeaturesEnabled={setFeaturesEnabled}
-              /></FeatureOverview>
+              / />
             )}
             {activeFeature === 'meta-adaptive' && (
               <MetaAdaptiveFeature
                 tournamentEngine={tournamentEngine}
                 tournaments={tournaments}
                 players={players}
-              /></MetaAdaptiveFeature>
+              / />
             )}
             {activeFeature === 'advanced-analytics' && (
               <AdvancedAnalyticsEngine
                 players={players}
                 matches={matches}
                 tournaments={tournaments}
-              /></AdvancedAnalyticsEngine>
+              / />
             )}
             {activeFeature === 'physical-enhancements' && (
               <PhysicalPlayEnhancements
@@ -239,18 +230,17 @@ const IndustryLeadingFeaturesPage = (): any => {
                 tournament={tournaments[0]}
                 matches={matches}
                 players={players}
-              /></ContentCreationTools>
+              / />
             )}
             {activeFeature === 'bayesian-ml' && (
               <BayesianMLFeature
                 bayesianEngine={bayesianEngine}
                 players={players}
                 matches={matches}
-              /></BayesianMLFeature>
+              / />
             )}
           </motion.div>
         </AnimatePresence>
-      </div>
     </div>
   );
 };
@@ -311,16 +301,15 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
     },
   ];
   return (
-    <div className="p-8"></div>
-      <div className="text-center mb-8"></div>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto"></p>
+    <div className="p-8" />
+      <div className="text-center mb-8" />
+        <p className="text-gray-300 text-lg max-w-3xl mx-auto" />
           Every feature that would typically cost thousands of dollars in
           enterprise software, now available completely free. This represents
           over $200,000 in development value.
         </p>
-      </div>
       {/* Implementation Highlights */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"></div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8" />
         {implementationHighlights.map((category, index) => (
           <motion.div
             key={index}
@@ -328,15 +317,15 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             className="bg-gray-700/50 rounded-lg p-6"
-          ></motion>
-            <ul className="space-y-2"></ul>
+           />
+            <ul className="space-y-2" />
               {category.features.map((feature, featureIndex) => (
                 <li
                   key={featureIndex}
                   className="flex items-center text-gray-300"
-                ></li>
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" /></CheckCircle>
-                  <span className="text-sm">{feature}</span>
+                 />
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" / />
+                  <span className="text-sm">{feature}
                 </li>
               ))}
             </ul>
@@ -344,16 +333,15 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
         ))}
       </div>
       {/* Feature Toggles */}
-      <div className="bg-gray-700/50 rounded-lg p-6"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div className="bg-gray-700/50 rounded-lg p-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
           {Object.entries(featuresEnabled).map(([key, enabled]) => (
             <div
               key={key}
               className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"
-            ></div>
-              <span className="text-sm font-medium capitalize"></span>
+             />
+              <span className="text-sm font-medium capitalize" />
                 {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-              </span>
               <button
                 onClick={() => toggleFeature(key)}
                 className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
@@ -363,20 +351,17 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
                 }`}
               >
                 {enabled ? 'Enabled' : 'Disabled'}
-              </button>
             </div>
           ))}
         </div>
-        <div className = "mt-6 p-4 bg-green-600/20 border border-green-500 rounded-lg"></div>
-          <div className="flex items-center"></div>
-            <Sparkles className="w-5 h-5 text-green-400 mr-2" /></Sparkles>
-            <span className="text-green-300 font-medium"></span>
+        <div className = "mt-6 p-4 bg-green-600/20 border border-green-500 rounded-lg" />
+          <div className="flex items-center" />
+            <Sparkles className="w-5 h-5 text-green-400 mr-2" / />
+            <span className="text-green-300 font-medium" />
               All features are permanently free - no subscriptions, no limits,
               no hidden costs
             </span>
-          </div>
         </div>
-      </div>
     </div>
   );
 };
@@ -409,69 +394,60 @@ const MetaAdaptiveFeature: React.FC<MetaAdaptiveFeatureProps> = ({  tournamentEn
     setTournamentStructure(structure);
   };
   return (
-    <div className="p-8"></div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
+    <div className="p-8" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" />
         {/* Tournament Structure Optimization */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
-            <div className="p-4 bg-gray-800/50 rounded-lg"></div>
-              <div className="grid grid-cols-2 gap-4 text-sm"></div>
-                <div></div>
+        <div className="bg-gray-700/50 rounded-lg p-6" />
+          <div className="space-y-4" />
+            <div className="p-4 bg-gray-800/50 rounded-lg" />
+              <div className="grid grid-cols-2 gap-4 text-sm" />
+                <div />
                   <span className="text-gray-400">Players:</span>
-                  <span className="ml-2 font-medium">{players.length}</span>
+                  <span className="ml-2 font-medium">{players.length}
                 </div>
-                <div></div>
+                <div />
                   <span className="text-gray-400">Time Limit:</span>
                   <span className="ml-2 font-medium">5 hours</span>
-                </div>
-                <div></div>
+                <div />
                   <span className="text-gray-400">Skill Variance:</span>
                   <span className="ml-2 font-medium">150 rating</span>
-                </div>
-                <div></div>
+                <div />
                   <span className="text-gray-400">Format:</span>
                   <span className="ml-2 font-medium">Adaptive</span>
-                </div>
               </div>
-            </div>
             <button
               onClick={selectOptimalStructure}
               className="w-full bg-purple-600 hover:bg-purple-700 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-            ></button>
-              <Brain className="w-4 h-4 mr-2 inline" /></Brain>
+             />
+              <Brain className="w-4 h-4 mr-2 inline" / />
               Calculate Optimal Structure
             </button>
             {tournamentStructure && (
-              <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg"></div>
-                <div className="space-y-2 text-sm"></div>
-                  <div className="flex justify-between"></div>
+              <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg" />
+                <div className="space-y-2 text-sm" />
+                  <div className="flex justify-between" />
                     <span>Format:</span>
-                    <span className="font-medium"></span>
+                    <span className="font-medium" />
                       {tournamentStructure.name}
-                    </span>
                   </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Rounds:</span>
-                    <span className="font-medium"></span>
+                    <span className="font-medium" />
                       {tournamentStructure.rounds}
-                    </span>
                   </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Suitability:</span>
-                    <span className="font-medium text-green-400"></span>
+                    <span className="font-medium text-green-400" />
                       {Math.round(tournamentStructure.suitability * 100)}%
                     </span>
-                  </div>
                 </div>
-              </div>
             )}
           </div>
-        </div>
         {/* Dynamic Pairings */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
-            <div></div>
-              <label className="block text-sm font-medium mb-2"></label>
+        <div className="bg-gray-700/50 rounded-lg p-6" />
+          <div className="space-y-4" />
+            <div />
+              <label className="block text-sm font-medium mb-2" />
                 Select Tournament
               </label>
               <select
@@ -486,54 +462,47 @@ const MetaAdaptiveFeature: React.FC<MetaAdaptiveFeatureProps> = ({  tournamentEn
               >
                 <option value="">Choose tournament...</option>
                 {tournaments.map(tournament => (
-                  <option key={tournament.id} value={tournament.id}></option>
+                  <option key={tournament.id} value={tournament.id} />
                     {tournament.name}
-                  </option>
                 ))}
               </select>
-            </div>
             <button
               onClick={generateOptimalPairings}
               disabled={!selectedTournament}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-            ></button>
-              <Target className="w-4 h-4 mr-2 inline" /></Target>
+             />
+              <Target className="w-4 h-4 mr-2 inline" / />
               Generate Optimal Pairings
             </button>
             {pairingResults && (
-              <div className="space-y-3 max-h-64 overflow-y-auto"></div>
+              <div className="space-y-3 max-h-64 overflow-y-auto" />
                 {pairingResults.map((pairing, index) => (
-                  <div key={index} className="p-3 bg-gray-800/50 rounded-lg"></div>
-                    <div className="flex items-center justify-between mb-2"></div>
-                      <span className="font-medium">Table {pairing.table}</span>
-                      <span className="text-xs bg-purple-600/20 px-2 py-0 whitespace-nowrap rounded"></span>
+                  <div key={index} className="p-3 bg-gray-800/50 rounded-lg" />
+                    <div className="flex items-center justify-between mb-2" />
+                      <span className="font-medium">Table {pairing.table}
+                      <span className="text-xs bg-purple-600/20 px-2 py-0 whitespace-nowrap rounded" />
                         Quality: {Math.round(pairing.expectedQuality * 100)}%
                       </span>
-                    </div>
-                    <div className="text-sm text-gray-400"></div>
+                    <div className="text-sm text-gray-400" />
                       {pairing.player2 === 'bye' ? (
-                        <span></span>
+                        <span />
                           {players.find(p => p.id === pairing.player1)?.name} -
                           BYE
                         </span>
                       ) : (
-                        <span></span>
+                        <span />
                           {players.find(p => p.id === pairing.player1)?.name} vs{' '}
                           {players.find(p => p.id === pairing.player2)?.name}
-                        </span>
                       )}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1"></div>
+                    <div className="text-xs text-gray-500 mt-1" />
                       Matchup: {pairing.metaMatchup}
-                    </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
       </div>
-    </div>
   );
 };
 // Bayesian ML Feature Component
@@ -583,13 +552,13 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
     });
   };
   return (
-    <div className="p-8"></div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
+    <div className="p-8" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" />
         {/* Player Analysis */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
-            <div></div>
-              <label className="block text-sm font-medium mb-2"></label>
+        <div className="bg-gray-700/50 rounded-lg p-6" />
+          <div className="space-y-4" />
+            <div />
+              <label className="block text-sm font-medium mb-2" />
                 Select Player
               </label>
               <select
@@ -602,149 +571,129 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
               >
                 <option value="">Choose player...</option>
                 {players.map(player => (
-                  <option key={player.id} value={player.id}></option>
+                  <option key={player.id} value={player.id} />
                     {player.name} ({Math.round(player.rating || 1500)})
                   </option>
                 ))}
               </select>
-            </div>
             <button
               onClick={analyzePlayer}
               disabled={!selectedPlayer}
               className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-            ></button>
-              <Brain className="w-4 h-4 mr-2 inline" /></Brain>
+             />
+              <Brain className="w-4 h-4 mr-2 inline" / />
               Analyze Player
             </button>
             {ratingAnalysis && (
-              <div className="space-y-3"></div>
-                <div className="p-4 bg-gray-800/50 rounded-lg"></div>
-                  <div className="grid grid-cols-2 gap-4 text-sm"></div>
-                    <div></div>
+              <div className="space-y-3" />
+                <div className="p-4 bg-gray-800/50 rounded-lg" />
+                  <div className="grid grid-cols-2 gap-4 text-sm" />
+                    <div />
                       <span className="text-gray-400">Current Rating:</span>
-                      <span className="ml-2 font-medium"></span>
+                      <span className="ml-2 font-medium" />
                         {Math.round(ratingAnalysis.currentRating)}
-                      </span>
                     </div>
-                    <div></div>
+                    <div />
                       <span className="text-gray-400">Uncertainty:</span>
-                      <span className="ml-2 font-medium"></span>
+                      <span className="ml-2 font-medium" />
                         ±{Math.round(ratingAnalysis.uncertainty)}
-                      </span>
                     </div>
-                    <div></div>
+                    <div />
                       <span className="text-gray-400">Conservative:</span>
-                      <span className="ml-2 font-medium"></span>
+                      <span className="ml-2 font-medium" />
                         {Math.round(ratingAnalysis.conservativeRating)}
-                      </span>
                     </div>
-                    <div></div>
+                    <div />
                       <span className="text-gray-400">Trend:</span>
-                      <span className="ml-2 font-medium text-green-400"></span>
+                      <span className="ml-2 font-medium text-green-400" />
                         {ratingAnalysis.recentPerformance}
-                      </span>
                     </div>
-                  </div>
                 </div>
-                <div className="p-4 bg-gray-800/50 rounded-lg"></div>
-                  <div className="space-y-2"></div>
+                <div className="p-4 bg-gray-800/50 rounded-lg" />
+                  <div className="space-y-2" />
                     {Object.entries(ratingAnalysis.strengthFactors).map(
                       ([factor, value]) => (
                         <div
                           key={factor}
                           className="flex items-center justify-between"
-                        ></div>
+                         />
                           <span className="text-sm capitalize">{factor}:</span>
-                          <div className="flex items-center"></div>
-                            <div className="w-16 bg-gray-600 rounded-full h-2 mr-2"></div>
+                          <div className="flex items-center" />
+                            <div className="w-16 bg-gray-600 rounded-full h-2 mr-2" />
                               <div
                                 className="bg-purple-500 h-2 rounded-full"
                                 style={{ width: `${value}%` }}
-                              /></div>
+                              / />
                             </div>
-                            <span className="text-xs text-gray-400"></span>
+                            <span className="text-xs text-gray-400" />
                               {value}%
                             </span>
-                          </div>
                         </div>
                       ),
                     )}
                   </div>
-                </div>
               </div>
             )}
           </div>
-        </div>
         {/* Match Prediction */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
+        <div className="bg-gray-700/50 rounded-lg p-6" />
+          <div className="space-y-4" />
             <button
               onClick={predictMatch}
               disabled={!selectedPlayer || players.length < 2}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-            ></button>
-              <TrendingUp className="w-4 h-4 mr-2 inline" /></TrendingUp>
+             />
+              <TrendingUp className="w-4 h-4 mr-2 inline" / />
               Predict Match Outcome
             </button>
             {matchPrediction && (
-              <div className="space-y-4"></div>
-                <div className="p-4 bg-gray-800/50 rounded-lg"></div>
-                  <div className="flex items-center justify-between mb-4"></div>
-                    <div className="text-center"></div>
-                      <p className="font-medium"></p>
+              <div className="space-y-4" />
+                <div className="p-4 bg-gray-800/50 rounded-lg" />
+                  <div className="flex items-center justify-between mb-4" />
+                    <div className="text-center" />
+                      <p className="font-medium" />
                         {matchPrediction.player1.name}
-                      </p>
-                      <p className="text-sm text-gray-400"></p>
+                      <p className="text-sm text-gray-400" />
                         {Math.round(matchPrediction.player1.rating || 1500)}
-                      </p>
                     </div>
                     <div className="text-purple-400 font-bold">VS</div>
-                    <div className="text-center"></div>
-                      <p className="font-medium"></p>
+                    <div className="text-center" />
+                      <p className="font-medium" />
                         {matchPrediction.player2.name}
-                      </p>
-                      <p className="text-sm text-gray-400"></p>
+                      <p className="text-sm text-gray-400" />
                         {Math.round(matchPrediction.player2.rating || 1500)}
-                      </p>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-center"></div>
-                    <div className="p-3 bg-blue-600/20 rounded-lg"></div>
-                      <p className="text-2xl font-bold text-blue-400"></p>
+                  <div className="grid grid-cols-2 gap-4 text-center" />
+                    <div className="p-3 bg-blue-600/20 rounded-lg" />
+                      <p className="text-2xl font-bold text-blue-400" />
                         {Math.round(
                           matchPrediction.player1WinProbability * 100,
                         )}
                         %
                       </p>
                       <p className="text-sm text-gray-400">Win Probability</p>
-                    </div>
-                    <div className="p-3 bg-red-600/20 rounded-lg"></div>
-                      <p className="text-2xl font-bold text-red-400"></p>
+                    <div className="p-3 bg-red-600/20 rounded-lg" />
+                      <p className="text-2xl font-bold text-red-400" />
                         {Math.round(
                           matchPrediction.player2WinProbability * 100,
                         )}
                         %
                       </p>
                       <p className="text-sm text-gray-400">Win Probability</p>
-                    </div>
                   </div>
-                  <div className="mt-4 p-3 bg-purple-600/20 rounded-lg"></div>
-                    <p className="text-sm text-purple-300"></p>
+                  <div className="mt-4 p-3 bg-purple-600/20 rounded-lg" />
+                    <p className="text-sm text-purple-300" />
                       Confidence: {Math.round(matchPrediction.confidence * 100)}
                       %
                     </p>
-                    <p className="text-xs text-gray-400 mt-1"></p>
+                    <p className="text-xs text-gray-400 mt-1" />
                       Expected rating changes: ±
                       {Math.round(matchPrediction.expectedRatingChange)}
-                    </p>
                   </div>
-                </div>
               </div>
             )}
           </div>
-        </div>
       </div>
-    </div>
   );
 };
 export default IndustryLeadingFeaturesPage;

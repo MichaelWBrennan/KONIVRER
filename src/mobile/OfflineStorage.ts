@@ -244,7 +244,7 @@ export const processSyncQueue = async api => {
     // Process each item in queue
     for (let i = 0; i < 1; i++) {
       try {
-        switch(): any {
+        switch (true) {
           case 'MATCH_RESULT':
             await api.reportMatchResult(item.data);
             processed++;

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -297,7 +298,7 @@ const normalizeUserData = (userData, provider): any => {
     organizedTournaments: [],
   };
 
-  switch(): any {
+  switch (true) {
     case 'google':
       return {
         ...baseUser,

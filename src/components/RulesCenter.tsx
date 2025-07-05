@@ -172,15 +172,15 @@ const RulesCenter = (): any => {
 
   if (true) {
     return (
-      <div className="flex items-center justify-center min-h-screen"></div>
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      <div className="flex items-center justify-center min-h-screen" />
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500" />
       </div>
     );
   }
 
   // Get current data based on active tab
   const getCurrentData = (): any => {
-    switch(): any {
+    switch (true) {
       case 'tournament':
         return tournamentRulesData;
       case 'conduct':
@@ -215,16 +215,16 @@ const RulesCenter = (): any => {
     : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-      <div className="container mx-auto px-4 py-4"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+      <div className="container mx-auto px-4 py-4" />
         {/* Search and Controls - Now on top */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
-        ></motion>
-          <div className="relative"></div>
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" /></Search>
+         />
+          <div className="relative" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" / />
             <input
               type="text"
               placeholder="Search rules and content..."
@@ -241,8 +241,8 @@ const RulesCenter = (): any => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
-        ></motion>
-          <div className="flex gap-1"></div>
+         />
+          <div className="flex gap-1" />
             <button
               onClick={() => setActiveTab('basic')}
               className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
@@ -273,7 +273,6 @@ const RulesCenter = (): any => {
             >
               Code of Conduct
             </button>
-          </div>
         </motion.div>
 
         {/* Rules Sections as Dropdowns */}
@@ -282,36 +281,33 @@ const RulesCenter = (): any => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="space-y-0"
-        ></motion>
+         />
           {filteredSections.map(([key, section]) => (
             <div
               key={key}
               className="bg-white/10 backdrop-blur-sm rounded-md overflow-hidden"
-            ></div>
+             />
               {/* Section Header - Clickable */}
               <button
                 onClick={() => toggleSection(key)}
                 className="w-full px-2 py-0 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
-                <div className="flex items-center"></div>
-                  <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap"></h2>
+                <div className="flex items-center" />
+                  <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap" />
                     {section.title || 'Rules Section'}
-                  </h2>
                 </div>
-                <div className="flex items-center gap-1"></div>
-                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap"></span>
+                <div className="flex items-center gap-1" />
+                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap" />
                     {expandedSections.has(key) ? 'Collapse' : 'Expand'}
-                  </span>
                   {expandedSections.has(key) ? (
-                    <ChevronUp className="w-3 h-3 text-gray-400" /></ChevronUp>
+                    <ChevronUp className="w-3 h-3 text-gray-400" / />
                   ) : (
-                    <ChevronDown className="w-3 h-3 text-gray-400" /></ChevronDown>
+                    <ChevronDown className="w-3 h-3 text-gray-400" / />
                   )}
-                </div>
               </button>
 
               {/* Section Content - Collapsible */}
-              <AnimatePresence></AnimatePresence>
+              <AnimatePresence />
                 {expandedSections.has(key) && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
@@ -319,11 +315,11 @@ const RulesCenter = (): any => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
-                  ></motion>
-                    <div className="px-2 py-0 bg-white/5"></div>
-                      <div className="max-w-none"></div>
+                   />
+                    <div className="px-2 py-0 bg-white/5" />
+                      <div className="max-w-none" />
                         {section?.content ? (
-                          <div className="text-gray-200 leading-relaxed space-y-0 text-sm"></div>
+                          <div className="text-gray-200 leading-relaxed space-y-0 text-sm" />
                             {section.content
                               .split('\n\n')
                               .map((paragraph, index) => {
@@ -343,9 +339,8 @@ const RulesCenter = (): any => {
                                     <div
                                       key={index}
                                       className={`${headerLevel === 1 ? 'text-lg' : headerLevel === 2 ? 'text-base' : 'text-sm'} font-bold text-white mt-0 mb-0 first:mt-0`}
-                                    ></div>
+                                     />
                                       {headerText}
-                                    </div>
                                   );
                                 }
 
@@ -368,12 +363,12 @@ const RulesCenter = (): any => {
                                       <ul
                                         key={index}
                                         className="list-disc list-inside space-y-0 ml-4 text-sm"
-                                      ></ul>
+                                       />
                                         {listItems.map((item, itemIndex) => (
                                           <li
                                             key={itemIndex}
                                             className="text-gray-200 leading-relaxed"
-                                          ></li>
+                                           />
                                             <span
                                               dangerouslySetInnerHTML={{
                                                 __html: item
@@ -403,12 +398,12 @@ const RulesCenter = (): any => {
                                       <ol
                                         key={index}
                                         className="list-decimal list-inside space-y-0 ml-4 text-sm"
-                                      ></ol>
+                                       />
                                         {listItems.map((item, itemIndex) => (
                                           <li
                                             key={itemIndex}
                                             className="text-gray-200 leading-relaxed"
-                                          ></li>
+                                           />
                                             <span
                                               dangerouslySetInnerHTML={{
                                                 __html: item
@@ -431,7 +426,7 @@ const RulesCenter = (): any => {
                                   <p
                                     key={index}
                                     className="text-gray-200 leading-relaxed text-sm"
-                                  ></p>
+                                   />
                                     <span
                                       dangerouslySetInnerHTML={{
                                         __html: paragraph.replace(
@@ -446,20 +441,16 @@ const RulesCenter = (): any => {
                               .filter(Boolean)}
                           </div>
                         ) : (
-                          <div className="text-gray-300 leading-relaxed"></div>
+                          <div className="text-gray-300 leading-relaxed" />
                             <p>Content for this section is not available.</p>
-                          </div>
                         )}
                       </div>
-                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
           ))}
         </motion.div>
       </div>
-    </div>
   );
 };
 

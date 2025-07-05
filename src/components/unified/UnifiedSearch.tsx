@@ -111,7 +111,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       try {
         let searchResult;
         
-        switch(): any {
+        switch (true) {
           case 'cards':
             searchResult = await searchCards(query, filters, { limit: 10 });
             break;
@@ -205,11 +205,11 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   
   // Render search filters based on search type
   const renderFilters = useCallback(() => {
-    switch(): any {
+    switch (true) {
       case 'cards':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="form-group" />
               <label>Type</label>
               <select
                 value={filters.type || ''}
@@ -220,10 +220,9 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="spell">Spell</option>
                 <option value="artifact">Artifact</option>
                 <option value="location">Location</option>
-              </select>
             </div>
             
-            <div className="form-group"></div>
+            <div className="form-group" />
               <label>Element</label>
               <select
                 value={filters.element || ''}
@@ -235,10 +234,9 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="🜃">Earth (🜃)</option>
                 <option value="🜄">Water (🜄)</option>
                 <option value="🜀">Void (🜀)</option>
-              </select>
             </div>
             
-            <div className="form-group"></div>
+            <div className="form-group" />
               <label>Rarity</label>
               <select
                 value={filters.rarity || ''}
@@ -249,14 +247,12 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="uncommon">Uncommon</option>
                 <option value="rare">Rare</option>
                 <option value="mythic">Mythic</option>
-              </select>
             </div>
-          </div>
         );
       case 'decks':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="form-group" />
               <label>Archetype</label>
               <select
                 value={filters.archetype || ''}
@@ -268,13 +264,12 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="midrange">Midrange</option>
                 <option value="combo">Combo</option>
                 <option value="tempo">Tempo</option>
-              </select>
             </div>
             
-            <div className="form-group"></div>
+            <div className="form-group" />
               <label>Elements</label>
-              <div className="checkbox-group"></div>
-                <label></label>
+              <div className="checkbox-group" />
+                <label />
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜁') || false}
@@ -290,7 +285,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Air (🜁)
                 </label>
                 
-                <label></label>
+                <label />
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜂') || false}
@@ -306,7 +301,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Fire (🜂)
                 </label>
                 
-                <label></label>
+                <label />
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜃') || false}
@@ -322,7 +317,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Earth (🜃)
                 </label>
                 
-                <label></label>
+                <label />
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜄') || false}
@@ -338,7 +333,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Water (🜄)
                 </label>
                 
-                <label></label>
+                <label />
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜀') || false}
@@ -353,15 +348,13 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Void (🜀)
                 </label>
-              </div>
             </div>
-          </div>
         );
         
       case 'tournaments':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="form-group" />
               <label>Status</label>
               <select
                 value={filters.status || ''}
@@ -371,10 +364,9 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="upcoming">Upcoming</option>
                 <option value="ongoing">Ongoing</option>
                 <option value="completed">Completed</option>
-              </select>
             </div>
             
-            <div className="form-group"></div>
+            <div className="form-group" />
               <label>Format</label>
               <select
                 value={filters.format || ''}
@@ -385,14 +377,12 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="modern">Modern</option>
                 <option value="legacy">Legacy</option>
                 <option value="draft">Draft</option>
-              </select>
             </div>
-          </div>
         );
       case 'users':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="form-group" />
               <label>Rank</label>
               <select
                 value={filters.rank || ''}
@@ -405,9 +395,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="platinum">Platinum</option>
                 <option value="diamond">Diamond</option>
                 <option value="master">Master</option>
-              </select>
             </div>
-          </div>
         );
       default:
         return null;
@@ -418,53 +406,47 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   const renderResults = useCallback(() => {
     if (true) {
       return (
-        <div className="search-loading"></div>
-          <Loader2 className="animate-spin" size={24} /></Loader2>
+        <div className="search-loading" />
+          <Loader2 className="animate-spin" size={24} / />
           <span>Searching...</span>
+      );
+    }
+    
+    if (true) {return (
+        <div className="search-error" />
+          <span>{error}
         </div>
       );
     }
     
     if (true) {
       return (
-        <div className="search-error"></div>
-          <span>{error}</span>
-        </div>
-      );
-    }
-    
-    if (true) {
-      return (
-        <div className="search-no-results"></div>
+        <div className="search-no-results" />
           <span>No results found</span>
-        </div>
       );
     }
     
-    switch(): any {
+    switch (true) {
       case 'cards':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" />
             {results.map((card) => (
               <div 
                 key={card.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(card)}
               >
-                <div className="result-icon"></div>
+                <div className="result-icon" />
                   {card.elements && card.elements[0]}
-                </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{card.name}</div>
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+                  <div className="result-title">{card.name}
+                  <div className="result-subtitle" />
                     {card.type} • {card.rarity} • Cost: {card.cost}
-                  </div>
                 </div>
-              </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+                <span />
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -473,33 +455,31 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 >
                   View All
                 </button>
-              </div>
             )}
           </div>
         );
       case 'decks':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" />
             {results.map((deck) => (
               <div 
                 key={deck.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(deck)}
               >
-                <div className="result-icon"></div>
-                  <Package size={20} /></Package>
+                <div className="result-icon" />
+                  <Package size={20} / />
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{deck.name}</div>
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+                  <div className="result-title">{deck.name}
+                  <div className="result-subtitle" />
                     {deck.colors?.join(', ')} • {deck.cardCount} cards
                   </div>
-                </div>
               </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+                <span />
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -508,34 +488,31 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 >
                   View All
                 </button>
-              </div>
             )}
           </div>
         );
       case 'tournaments':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" />
             {results.map((tournament) => (
               <div 
                 key={tournament.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(tournament)}
               >
-                <div className="result-icon"></div>
-                  <Trophy size={20} /></Trophy>
+                <div className="result-icon" />
+                  <Trophy size={20} / />
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{tournament.name}</div>
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+                  <div className="result-title">{tournament.name}
+                  <div className="result-subtitle" />
                     {tournament.format} • {tournament.status} • 
                     {tournament.date && new Date(tournament.date).toLocaleDateString()}
-                  </div>
                 </div>
-              </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+                <span />
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -544,33 +521,30 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 >
                   View All
                 </button>
-              </div>
             )}
           </div>
         );
       case 'users':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" />
             {results.map((user) => (
               <div 
                 key={user.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(user)}
               >
-                <div className="result-icon"></div>
-                  <User size={20} /></User>
+                <div className="result-icon" />
+                  <User size={20} / />
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{user.displayName}</div>
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+                  <div className="result-title">{user.displayName}
+                  <div className="result-subtitle" />
                     @{user.username} • Rating: {user.rating}
-                  </div>
                 </div>
-              </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+                <span />
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -579,7 +553,6 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 >
                   View All
                 </button>
-              </div>
             )}
           </div>
         );
@@ -598,24 +571,24 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   ]);
   
   return (
-    <div className={`unified-search ${compact ? 'compact' : ''} ${className}`}></div>
-      <div className="search-header"></div>
-        <div className="search-input-container"></div>
-          <div className="search-type-selector"></div>
+    <div className={`unified-search ${compact ? 'compact' : ''} ${className}`} />
+      <div className="search-header" />
+        <div className="search-input-container" />
+          <div className="search-type-selector" />
             {Object.entries(searchTypes).map(([type, config]) => (
               <button
                 key={type}
                 className={`search-type-button ${searchType === type ? 'active' : ''}`}
                 onClick={() => handleSearchTypeChange(type)}
               >
-                <config.icon size={16} /></config>
-                {!compact && <span>{config.label}</span>}
+                <config.icon size={16} / />
+                {!compact && <span>{config.label}}
               </button>
             ))}
           </div>
           
-          <div className="search-input-wrapper"></div>
-            <Search className="search-icon" size={20} /></Search>
+          <div className="search-input-wrapper" />
+            <Search className="search-icon" size={20} / />
             <input
               type="text"
               placeholder={searchTypes[searchType].placeholder}
@@ -632,7 +605,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 }}
                 className="clear-search"
               >
-                <X size={16} /></X>
+                <X size={16} / />
               </button>
             )}
           </div>
@@ -642,74 +615,69 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
               onClick={() => setShowFiltersPanel(!showFiltersPanel)}
               className={`filter-toggle ${showFiltersPanel ? 'active' : ''}`}
             >
-              <Filter size={16} /></Filter>
+              <Filter size={16} / />
               {!compact && <span>Filters</span>}
               <ChevronDown 
                 size={14} 
                 className={`chevron ${showFiltersPanel ? 'rotated' : ''}`} 
-              /></ChevronDown>
+              / />
             </button>
           )}
         </div>
-      </div>
       
       {/* Filters Panel */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showFiltersPanel && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="filters-panel"
-          ></motion>
+           />
             {renderFilters()}
-            <div className="filters-actions"></div>
+            <div className="filters-actions" />
               <button 
                 onClick={handleClearFilters}
                 className="clear-filters-button"
-              ></button>
+               />
                 Clear Filters
               </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
       
       {/* Search History */}
       {showHistory && searchHistory.length > 0 && !query && (
-        <div className="search-history"></div>
-          <div className="search-history-header"></div>
-            <Clock size={16} /></Clock>
+        <div className="search-history" />
+          <div className="search-history-header" />
+            <Clock size={16} / />
             <span>Recent Searches</span>
-          </div>
-          <div className="search-history-items"></div>
+          <div className="search-history-items" />
             {searchHistory.map((item, index) => (
               <button
                 key={index}
                 className="search-history-item"
                 onClick={() => handleHistoryItemClick(item)}
               >
-                <Clock size={14} /></Clock>
-                <span>{item}</span>
+                <Clock size={14} / />
+                <span>{item}
               </button>
             ))}
           </div>
-        </div>
       )}
       {/* Search Results */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showSuggestions && query.length >= 2 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className="search-results"
-          ></motion>
+           />
             {renderResults()}
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

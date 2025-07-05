@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - Adaptive AI Opponent Service
  *
@@ -183,7 +184,7 @@ class AdaptiveAI {
     
     // Make decision based on phase
     let decision;
-    switch(): any {
+    switch (true) {
       case 'start':
         decision = this.handleStartPhase();
         break;
@@ -402,8 +403,8 @@ class AdaptiveAI {
     const adjustedActions = [...actions];
     
     // Adjust based on aggression level
-    adjustedActions.forEach(action: any = > {
-      if (action.action === 'summon'): any {
+    adjustedActions.forEach((action: any) => {
+      if (action.action === 'summon') {
         // More aggressive AI values offensive Familiars higher
         if (this.isOffensiveFamiliar(action.card)) {
           action.value *= (0.7 + this.currentStrategy.aggressionLevel * 0.6);
@@ -795,7 +796,7 @@ class AdaptiveAI {
     let thinkingTime = this.decisionSpeed;
     
     // Adjust based on phase complexity
-    switch(): any {
+    switch (true) {
       case 'main':
         thinkingTime *= 1.5;
         break;
@@ -861,8 +862,8 @@ class AdaptiveAI {
     });
     
     // Update element preferences
-    Object.keys(elementCounts).forEach(element: any = > {
-      if (this.playerStrategy.elementPreference[element] !== undefined): any {
+    Object.keys(elementCounts).forEach((element: any) => {
+      if (this.playerStrategy.elementPreference[element] !== undefined) {
         this.playerStrategy.elementPreference[element] = 
           this.playerStrategy.elementPreference[element] * 0.8 + 
           (elementCounts[element] / Math.max(1, this.gameState.playerField.length)) * 0.2;
@@ -878,8 +879,7 @@ class AdaptiveAI {
     // For now, use a simple counter-strategy approach
     
     // Counter player's aggression level
-    this.currentStrategy.aggressionLevel = 
-      this.currentStrategy.aggressionLevel * 0.9 + 
+    this.currentStrategy.aggressionLevel = this.currentStrategy.aggressionLevel * 0.9 + 
       (1 - this.playerStrategy.aggressionLevel) * 0.1;
     
     // Counter player's element preferences
@@ -888,8 +888,8 @@ class AdaptiveAI {
       const counterElements = this.getCounterElements(element);
       
       // Increase focus on counter elements
-      counterElements.forEach(counterElement: any = > {
-        if (this.currentStrategy.elementFocus[counterElement] !== undefined): any {
+      counterElements.forEach((counterElement: any) => {
+        if (this.currentStrategy.elementFocus[counterElement] !== undefined) {
           this.currentStrategy.elementFocus[counterElement] += 
             this.playerStrategy.elementPreference[element] * 0.05;
         }
@@ -923,7 +923,7 @@ class AdaptiveAI {
    */
   getCounterElements(element: any): any {
     // In KONIVRER, elements have specific strengths and weaknesses
-    switch(): any {
+    switch (true) {
       case ELEMENTS.FIRE:
         return [ELEMENTS.WATER]; // Water counters Fire
       case ELEMENTS.WATER:

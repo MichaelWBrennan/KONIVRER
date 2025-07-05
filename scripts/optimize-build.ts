@@ -20,7 +20,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const VERBOSE = process.argv.includes('--verbose');
 
 // Helper functions
-function log(message, type = 'info') {
+function log(): void {
   const colors = {
     info: '\x1b[36m%s\x1b[0m',    // Cyan
     success: '\x1b[32m%s\x1b[0m',  // Green
@@ -32,7 +32,7 @@ function log(message, type = 'info') {
 }
 
 // Update Vite configuration
-function updateViteConfig() {
+function updateViteConfig(): void {
   try {
     const content = fs.readFileSync(VITE_CONFIG_PATH, 'utf8');
     
@@ -284,7 +284,7 @@ export default defineConfig(({ mode }) => {
 }
 
 // Install optimization dependencies
-function installDependencies() {
+function installDependencies(): void {
   try {
     if (!DRY_RUN) {
       log('Installing optimization dependencies...', 'info');
@@ -299,7 +299,7 @@ function installDependencies() {
 }
 
 // Implement code splitting in main entry point
-function implementCodeSplitting() {
+function implementCodeSplitting(): void {
   const mainPath = path.resolve(process.cwd(), 'src/main.jsx');
   
   try {
@@ -348,7 +348,7 @@ const TournamentsPage = lazy(() => import('./pages/Tournaments'));`
 }
 
 // Create a loading spinner component
-function createLoadingSpinner() {
+function createLoadingSpinner(): void {
   const spinnerDir = path.resolve(process.cwd(), 'src/components/common');
   const spinnerPath = path.join(spinnerDir, 'LoadingSpinner.jsx');
   
@@ -360,15 +360,14 @@ function createLoadingSpinner() {
  */
 import React from 'react';
 
-const LoadingSpinner = () => {
+const LoadingSpinner = (LoadingSpinner: any) => {
   return (
     <div className="flex items-center justify-center h-screen w-full bg-gray-900">
       <div className="relative">
-        <div className="w-16 h-16 border-4 border-blue-600 border-solid rounded-full"></div>
-        <div className="w-16 h-16 border-4 border-transparent border-solid rounded-full border-t-purple-600 animate-spin absolute top-0 left-0"></div>
+        <div className="w-16 h-16 border-4 border-blue-600 border-solid rounded-full" />
+        <div className="w-16 h-16 border-4 border-transparent border-solid rounded-full border-t-purple-600 animate-spin absolute top-0 left-0" />
       </div>
       <div className="ml-4 text-xl font-semibold text-white">Loading KONIVRER...</div>
-    </div>
   );
 };
 
@@ -394,7 +393,7 @@ export default LoadingSpinner;
 }
 
 // Update package.json scripts
-function updatePackageScripts() {
+function updatePackageScripts(): void {
   const packagePath = path.resolve(process.cwd(), 'package.json');
   
   try {
@@ -433,7 +432,7 @@ function updatePackageScripts() {
 }
 
 // Main function
-function main() {
+function main(): void {
   log('Starting build optimization...', 'info');
   
   if (DRY_RUN) {

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -36,8 +37,7 @@ class PWAManager {
 
   checkInstallStatus(): any {
     // Check if running as PWA
-    this.isInstalled =
-      window.matchMedia('(display-mode: standalone)').matches ||
+    this.isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
 
     console.log('PWA installed:', this.isInstalled);
@@ -226,7 +226,7 @@ class PWAManager {
   async syncItem(item: any): any {
     const { type, data } = item;
 
-    switch(): any {
+    switch (true) {
       case 'deck-save':
         return await fetch('/api/decks', {
           method: 'POST',

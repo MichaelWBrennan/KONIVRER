@@ -125,83 +125,73 @@ const TournamentManager = (): any => {
     },
   ];
 
-  const renderDashboard = () => (
-    <div className="space-y-6"></div>
+  const renderDashboard = (renderDashboard: any) => (
+    <div className="space-y-6" />
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6"></div>
-        <div className="bg-secondary border border-color rounded-xl p-6"></div>
-          <div className="flex items-center gap-3"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center"></div>
-              <Calendar className="text-white" size={24} /></Calendar>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6" />
+        <div className="bg-secondary border border-color rounded-xl p-6" />
+          <div className="flex items-center gap-3" />
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center" />
+              <Calendar className="text-white" size={24} / />
             </div>
-            <div></div>
+            <div />
               <p className="text-sm text-secondary">Active Tournaments</p>
               <p className="text-2xl font-bold text-primary">12</p>
-            </div>
           </div>
-        </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6"></div>
-          <div className="flex items-center gap-3"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center"></div>
-              <Users className="text-white" size={24} /></Users>
+        <div className="bg-secondary border border-color rounded-xl p-6" />
+          <div className="flex items-center gap-3" />
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center" />
+              <Users className="text-white" size={24} / />
             </div>
-            <div></div>
+            <div />
               <p className="text-sm text-secondary">Total Players</p>
               <p className="text-2xl font-bold text-primary">1,247</p>
-            </div>
           </div>
-        </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6"></div>
-          <div className="flex items-center gap-3"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center"></div>
-              <Trophy className="text-white" size={24} /></Trophy>
+        <div className="bg-secondary border border-color rounded-xl p-6" />
+          <div className="flex items-center gap-3" />
+            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center" />
+              <Trophy className="text-white" size={24} / />
             </div>
-            <div></div>
+            <div />
               <p className="text-sm text-secondary">Prize Pool</p>
               <p className="text-2xl font-bold text-primary">$45,200</p>
-            </div>
           </div>
-        </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6"></div>
-          <div className="flex items-center gap-3"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-              <BarChart3 className="text-white" size={24} /></BarChart3>
+        <div className="bg-secondary border border-color rounded-xl p-6" />
+          <div className="flex items-center gap-3" />
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+              <BarChart3 className="text-white" size={24} / />
             </div>
-            <div></div>
+            <div />
               <p className="text-sm text-secondary">Avg Attendance</p>
               <p className="text-2xl font-bold text-primary">87%</p>
-            </div>
           </div>
-        </div>
       </div>
 
       {/* Tournament List */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <div className="flex items-center justify-between mb-6"></div>
-          <h3 className="text-xl font-bold text-primary"></h3>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <div className="flex items-center justify-between mb-6" />
+          <h3 className="text-xl font-bold text-primary" />
             Tournament Overview
           </h3>
-          <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
-            <Plus size={16} /></Plus>
+          <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200" />
+            <Plus size={16} / />
             Create Tournament
           </button>
-        </div>
 
-        <div className="space-y-4"></div>
+        <div className="space-y-4" />
           {tournaments.map(tournament => (
             <div
               key={tournament.id}
               className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"
-            ></div>
-              <div className="flex items-center justify-between"></div>
-                <div className="flex-1"></div>
-                  <div className="flex items-center gap-3 mb-2"></div>
-                    <h4 className="font-semibold text-primary"></h4>
+             />
+              <div className="flex items-center justify-between" />
+                <div className="flex-1" />
+                  <div className="flex items-center gap-3 mb-2" />
+                    <h4 className="font-semibold text-primary" />
                       {tournament.name}
-                    </h4>
                     <span
                       className={`px-2 py-0 whitespace-nowrap rounded-lg text-xs font-medium ${
                         tournament.status === 'upcoming'
@@ -210,70 +200,61 @@ const TournamentManager = (): any => {
                             ? 'bg-green-100 text-green-800'
                             : 'bg-gray-100 text-gray-800'
                       }`}
-                    ></span>
+                     />
                       {tournament.status}
-                    </span>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary"></div>
-                    <div className="flex items-center gap-2"></div>
-                      <Calendar size={14} /></Calendar>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary" />
+                    <div className="flex items-center gap-2" />
+                      <Calendar size={14} / />
                       {tournament.date} at {tournament.time}
-                    </div>
-                    <div className="flex items-center gap-2"></div>
-                      <MapPin size={14} /></MapPin>
+                    <div className="flex items-center gap-2" />
+                      <MapPin size={14} / />
                       {tournament.location}
-                    </div>
-                    <div className="flex items-center gap-2"></div>
-                      <Users size={14} /></Users>
+                    <div className="flex items-center gap-2" />
+                      <Users size={14} / />
                       {tournament.players}/{tournament.maxPlayers} players
                     </div>
-                    <div className="flex items-center gap-2"></div>
-                      <Trophy size={14} /></Trophy>
+                    <div className="flex items-center gap-2" />
+                      <Trophy size={14} / />
                       {tournament.prizePool}
-                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2"></div>
+                <div className="flex items-center gap-2" />
                   {tournament.status === 'ongoing' && (
-                    <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"></button>
-                      <Play size={16} /></Play>
+                    <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors" />
+                      <Play size={16} / />
                     </button>
                   )}
-                  <button className="p-2 text-secondary hover:bg-tertiary rounded-lg transition-colors"></button>
-                    <Settings size={16} /></Settings>
+                  <button className="p-2 text-secondary hover:bg-tertiary rounded-lg transition-colors" />
+                    <Settings size={16} / />
                   </button>
-                </div>
               </div>
-            </div>
           ))}
         </div>
-      </div>
     </div>
   );
 
-  const renderBayesianAnalytics = () => (
-    <div className="space-y-6"></div>
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <div className="flex items-center gap-3 mb-6"></div>
-          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-            <Brain className="text-white" size={24} /></Brain>
+  const renderBayesianAnalytics = (renderBayesianAnalytics: any) => (
+    <div className="space-y-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <div className="flex items-center gap-3 mb-6" />
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+            <Brain className="text-white" size={24} / />
           </div>
-          <div></div>
+          <div />
             <h3 className="text-xl font-bold text-primary">Bayesian Matchmaking Analytics</h3>
-            <p className="text-sm text-secondary"></p>
+            <p className="text-sm text-secondary" />
               Advanced tournament analytics powered by TrueSkill™
             </p>
-          </div>
         </div>
         
         {/* Rating Distribution */}
-        <div className="mb-8"></div>
+        <div className="mb-8" />
           <h4 className="text-lg font-semibold text-primary mb-4">Player Rating Distribution</h4>
-          <div className="h-48 flex items-end gap-2"></div>
+          <div className="h-48 flex items-end gap-2" />
             {bayesianAnalytics.ratingDistribution.map((bucket) => (
-              <div key={bucket.range} className="flex flex-col items-center flex-1"></div>
+              <div key={bucket.range} className="flex flex-col items-center flex-1" />
                 <div 
                   className="w-full bg-accent-primary rounded-t-md" 
                   style={{ 
@@ -281,39 +262,35 @@ const TournamentManager = (): any => {
                     opacity: bucket.count > 0 ? 1 : 0.2
                   }}
                 ></div>
-                <div className="text-xs text-secondary mt-2 rotate-45 origin-left"></div>
+                <div className="text-xs text-secondary mt-2 rotate-45 origin-left" />
                   {bucket.range}
-                </div>
-                <div className="text-xs font-medium mt-1"></div>
+                <div className="text-xs font-medium mt-1" />
                   {bucket.count}
-                </div>
               </div>
             ))}
           </div>
-        </div>
         
         {/* Archetype Performance */}
-        <div></div>
+        <div />
           <h4 className="text-lg font-semibold text-primary mb-4">Archetype Performance</h4>
-          <div className="overflow-x-auto"></div>
-            <table className="w-full"></table>
-              <thead></thead>
-                <tr className="border-b border-color"></tr>
+          <div className="overflow-x-auto" />
+            <table className="w-full" />
+              <thead />
+                <tr className="border-b border-color" />
                   <th className="text-left py-2 px-4 text-sm font-medium text-secondary">Archetype</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Players</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Win Rate</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Avg. Rating</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">W-L-D</th>
-                </tr>
               </thead>
-              <tbody></tbody>
+              <tbody />
                 {Object.entries(bayesianAnalytics.archetypePerformance).map(([archetype, data]) => (
-                  <tr key={archetype} className="border-b border-color hover:bg-tertiary"></tr>
-                    <td className="py-3 px-4"></td>
-                      <div className="font-medium text-primary">{archetype}</div>
+                  <tr key={archetype} className="border-b border-color hover:bg-tertiary" />
+                    <td className="py-3 px-4" />
+                      <div className="font-medium text-primary">{archetype}
                     </td>
-                    <td className="py-3 px-4 text-center">{data.count}</td>
-                    <td className="py-3 px-4 text-center"></td>
+                    <td className="py-3 px-4 text-center">{data.count}
+                    <td className="py-3 px-4 text-center" />
                       <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-opacity-10"
                         style={{
                           backgroundColor: parseFloat(data.winRate) >= 0.55 ? 'rgba(34, 197, 94, 0.1)' : 
@@ -326,30 +303,26 @@ const TournamentManager = (): any => {
                       >
                         {(parseFloat(data.winRate) * 100).toFixed(1)}%
                       </div>
+                    <td className="py-3 px-4 text-center">{data.averageRating}
+                    <td className="py-3 px-4 text-center text-sm" />
+                      <span className="text-green-500">{data.wins}-
+                      <span className="text-red-500">{data.losses}-
+                      <span className="text-yellow-500">{data.draws}
                     </td>
-                    <td className="py-3 px-4 text-center">{data.averageRating}</td>
-                    <td className="py-3 px-4 text-center text-sm"></td>
-                      <span className="text-green-500">{data.wins}</span>-
-                      <span className="text-red-500">{data.losses}</span>-
-                      <span className="text-yellow-500">{data.draws}</span>
-                    </td>
-                  </tr>
                 ))}
               </tbody>
-            </table>
           </div>
-        </div>
         
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8"></div>
-          <div className="bg-primary border border-color rounded-lg p-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8" />
+          <div className="bg-primary border border-color rounded-lg p-4" />
             <div className="text-sm text-secondary mb-1">Total Players</div>
-            <div className="text-2xl font-bold text-primary">{bayesianAnalytics.playerCount}</div>
+            <div className="text-2xl font-bold text-primary">{bayesianAnalytics.playerCount}
           </div>
           
-          <div className="bg-primary border border-color rounded-lg p-4"></div>
+          <div className="bg-primary border border-color rounded-lg p-4" />
             <div className="text-sm text-secondary mb-1">Average Rating</div>
-            <div className="text-2xl font-bold text-primary"></div>
+            <div className="text-2xl font-bold text-primary" />
               {Math.round(bayesianAnalytics.ratingDistribution.reduce(
                 (sum, bucket) => {
                   // Estimate middle of range
@@ -361,133 +334,127 @@ const TournamentManager = (): any => {
                 }, 0
               ) / bayesianAnalytics.playerCount)}
             </div>
-          </div>
           
-          <div className="bg-primary border border-color rounded-lg p-4"></div>
+          <div className="bg-primary border border-color rounded-lg p-4" />
             <div className="text-sm text-secondary mb-1">Avg. Uncertainty</div>
-            <div className="text-2xl font-bold text-primary">±{bayesianAnalytics.uncertaintyAverage}</div>
+            <div className="text-2xl font-bold text-primary">±{bayesianAnalytics.uncertaintyAverage}
           </div>
-        </div>
       </div>
-    </div>
   );
   
-  const renderCreateTournament = () => (
-    <div className="bg-secondary border border-color rounded-xl p-6"></div>
-      <h3 className="text-xl font-bold text-primary mb-6"></h3>
+  const renderCreateTournament = (renderCreateTournament: any) => (
+    <div className="bg-secondary border border-color rounded-xl p-6" />
+      <h3 className="text-xl font-bold text-primary mb-6" />
         Create New Tournament
       </h3>
 
-      <form className="space-y-6"></form>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+      <form className="space-y-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Tournament Name
             </label>
             <input
               type="text"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="Enter tournament name"
-            /></input>
+            / />
           </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Date
             </label>
             <input
               type="date"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            /></input>
+            / />
           </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Time
             </label>
             <input
               type="time"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            /></input>
+            / />
           </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Max Players
             </label>
             <input
               type="number"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="64"
-            /></input>
+            / />
           </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Entry Fee
             </label>
             <input
               type="text"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
               placeholder="$25"
-            /></input>
+            / />
           </div>
-        </div>
 
-        <div></div>
-          <label className="block text-sm font-medium text-primary mb-2"></label>
+        <div />
+          <label className="block text-sm font-medium text-primary mb-2" />
             Location
           </label>
           <input
             type="text"
             className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Enter venue address"
-          /></input>
+          / />
         </div>
 
-        <div></div>
-          <label className="block text-sm font-medium text-primary mb-2"></label>
+        <div />
+          <label className="block text-sm font-medium text-primary mb-2" />
             Description
           </label>
           <textarea
             rows={4}
             className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             placeholder="Tournament description and rules"
-          /></textarea>
+          / />
         </div>
 
         {/* Bayesian Matchmaking Settings */}
-        <div className="bg-primary border border-color rounded-xl p-6"></div>
-          <div className="flex items-center gap-3 mb-4"></div>
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center"></div>
-              <Brain className="text-white" size={20} /></Brain>
+        <div className="bg-primary border border-color rounded-xl p-6" />
+          <div className="flex items-center gap-3 mb-4" />
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center" />
+              <Brain className="text-white" size={20} / />
             </div>
-            <div></div>
-              <h4 className="text-lg font-semibold text-primary"></h4>
+            <div />
+              <h4 className="text-lg font-semibold text-primary" />
                 Bayesian Matchmaking Settings
               </h4>
-              <p className="text-sm text-secondary"></p>
+              <p className="text-sm text-secondary" />
                 Configure AI-powered tournament matchmaking
               </p>
-            </div>
           </div>
 
           {/* Enable/Disable Toggle */}
-          <div className="flex items-center justify-between p-4 bg-secondary border border-color rounded-lg mb-4"></div>
-            <div className="flex items-center gap-3"></div>
-              <Zap className="text-accent-primary" size={18} /></Zap>
-              <div></div>
-                <h5 className="font-medium text-primary"></h5>
+          <div className="flex items-center justify-between p-4 bg-secondary border border-color rounded-lg mb-4" />
+            <div className="flex items-center gap-3" />
+              <Zap className="text-accent-primary" size={18} / />
+              <div />
+                <h5 className="font-medium text-primary" />
                   Enable Smart Matchmaking
                 </h5>
-                <p className="text-xs text-secondary"></p>
+                <p className="text-xs text-secondary" />
                   Use AI to create balanced matches
                 </p>
-              </div>
             </div>
             <button
               type="button"
-              onClick={() =></button>
+              onClick={() = />
                 setMatchmakingSettings(prev => ({
                   ...prev,
                   enabled: !prev.enabled,
@@ -499,44 +466,41 @@ const TournamentManager = (): any => {
               }`}
             >
               {matchmakingSettings.enabled ? (
-                <ToggleRight size={16} /></ToggleRight>
+                <ToggleRight size={16} / />
               ) : (
-                <ToggleLeft size={16} /></ToggleLeft>
+                <ToggleLeft size={16} / />
               )}
               {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
-            </button>
           </div>
 
           {matchmakingSettings.enabled && (
-            <div className="space-y-4"></div>
+            <div className="space-y-4" />
               {/* Algorithm Selection */}
-              <div></div>
-                <label className="block text-sm font-medium text-primary mb-2"></label>
+              <div />
+                <label className="block text-sm font-medium text-primary mb-2" />
                   Matchmaking Algorithm
                 </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3" />
                   <div
                     className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
                       matchmakingSettings.algorithm === 'bayesian'
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() =></div>
+                    onClick={() = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         algorithm: 'bayesian',
                       }))}
                   >
-                    <div className="flex items-center gap-2 mb-1"></div>
-                      <Brain className="text-accent-primary" size={16} /></Brain>
-                      <span className="font-medium text-primary text-sm"></span>
+                    <div className="flex items-center gap-2 mb-1" />
+                      <Brain className="text-accent-primary" size={16} / />
+                      <span className="font-medium text-primary text-sm" />
                         Bayesian TrueSkill
                       </span>
-                    </div>
-                    <p className="text-xs text-secondary"></p>
+                    <p className="text-xs text-secondary" />
                       Advanced probabilistic skill modeling
                     </p>
-                  </div>
 
                   <div
                     className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
@@ -544,200 +508,181 @@ const TournamentManager = (): any => {
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() =></div>
+                    onClick={() = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         algorithm: 'elo',
                       }))}
                   >
-                    <div className="flex items-center gap-2 mb-1"></div>
-                      <TrendingUp className="text-blue-500" size={16} /></TrendingUp>
-                      <span className="font-medium text-primary text-sm"></span>
+                    <div className="flex items-center gap-2 mb-1" />
+                      <TrendingUp className="text-blue-500" size={16} / />
+                      <span className="font-medium text-primary text-sm" />
                         Enhanced ELO
                       </span>
-                    </div>
-                    <p className="text-xs text-secondary"></p>
+                    <p className="text-xs text-secondary" />
                       Traditional rating with meta analysis
                     </p>
-                  </div>
                 </div>
-              </div>
 
               {/* Key Parameters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Skill Variance: {matchmakingSettings.skillVariance}
-                  </label>
                   <input
                     type="range"
                     min="0.1"
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.skillVariance}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         skillVariance: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     Controls how much skill difference is allowed in matchmaking
                   </p>
-                </div>
                 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Uncertainty Factor: {matchmakingSettings.uncertaintyFactor}
-                  </label>
                   <input
                     type="range"
                     min="0.1"
                     max="0.5"
                     step="0.05"
                     value={matchmakingSettings.uncertaintyFactor}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         uncertaintyFactor: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     How much uncertainty affects matchmaking decisions
                   </p>
-                </div>
                 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Deck Diversity Weight: {matchmakingSettings.deckDiversityWeight}
-                  </label>
                   <input
                     type="range"
                     min="0.1"
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.deckDiversityWeight}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         deckDiversityWeight: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     How much deck archetype affects matchmaking
                   </p>
-                </div>
                 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Historical Weight: {matchmakingSettings.historicalWeight}
-                  </label>
                   <input
                     type="range"
                     min="0.1"
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.historicalWeight}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         historicalWeight: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     How much previous matches affect future pairings
                   </p>
-                </div>
                 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Preferred Matchup Balance: {matchmakingSettings.preferredMatchupBalance}
-                  </label>
                   <input
                     type="range"
                     min="0.5"
                     max="1.0"
                     step="0.05"
                     value={matchmakingSettings.preferredMatchupBalance}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         preferredMatchupBalance: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     Balance between fair and interesting matchups
                   </p>
-                </div>
                 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Confidence Threshold: {matchmakingSettings.confidenceThreshold}
-                  </label>
                   <input
                     type="range"
                     min="0.5"
                     max="0.95"
                     step="0.05"
                     value={matchmakingSettings.confidenceThreshold}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         confidenceThreshold: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     Minimum confidence level for rating-based decisions
                   </p>
-                </div>
 
-                <div></div>
-                  <label className="block text-sm font-medium text-primary mb-2"></label>
+                <div />
+                  <label className="block text-sm font-medium text-primary mb-2" />
                     Deck Diversity Weight:{' '}
                     {matchmakingSettings.deckDiversityWeight}
-                  </label>
                   <input
                     type="range"
                     min="0.0"
                     max="1.0"
                     step="0.1"
                     value={matchmakingSettings.deckDiversityWeight}
-                    onChange={e =></input>
+                    onChange={e = />
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         deckDiversityWeight: parseFloat(e.target.value),
                       }))}
                     className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer"
                   />
-                  <p className="text-xs text-secondary mt-1"></p>
+                  <p className="text-xs text-secondary mt-1" />
                     Promotes diverse archetype matchups
                   </p>
-                </div>
               </div>
 
               {/* Advanced Settings Toggle */}
-              <details className="group"></details>
-                <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-accent-primary hover:text-accent-secondary transition-colors"></summary>
-                  <Sliders size={16} /></Sliders>
+              <details className="group" />
+                <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-accent-primary hover:text-accent-secondary transition-colors" />
+                  <Sliders size={16} / />
                   Advanced Parameters
-                  <span className="ml-auto group-open:rotate-180 transition-transform"></span>
+                  <span className="ml-auto group-open:rotate-180 transition-transform" />
                     ▼
                   </span>
-                </summary>
 
-                <div className="mt-4 space-y-4 pl-6 border-l-2 border-accent-primary/20"></div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                    <div></div>
-                      <label className="block text-xs font-medium text-primary mb-1"></label>
+                <div className="mt-4 space-y-4 pl-6 border-l-2 border-accent-primary/20" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+                    <div />
+                      <label className="block text-xs font-medium text-primary mb-1" />
                         Learning Rate: {matchmakingSettings.learningRate}
-                      </label>
                       <input
                         type="range"
                         min="0.01"
                         max="0.5"
                         step="0.01"
                         value={matchmakingSettings.learningRate}
-                        onChange={e =></input>
+                        onChange={e = />
                           setMatchmakingSettings(prev => ({
                             ...prev,
                             learningRate: parseFloat(e.target.value),
@@ -746,18 +691,17 @@ const TournamentManager = (): any => {
                       />
                     </div>
 
-                    <div></div>
-                      <label className="block text-xs font-medium text-primary mb-1"></label>
+                    <div />
+                      <label className="block text-xs font-medium text-primary mb-1" />
                         Confidence Threshold:{' '}
                         {matchmakingSettings.confidenceThreshold}
-                      </label>
                       <input
                         type="range"
                         min="0.5"
                         max="0.95"
                         step="0.05"
                         value={matchmakingSettings.confidenceThreshold}
-                        onChange={e =></input>
+                        onChange={e = />
                           setMatchmakingSettings(prev => ({
                             ...prev,
                             confidenceThreshold: parseFloat(e.target.value),
@@ -765,98 +709,88 @@ const TournamentManager = (): any => {
                         className="w-full h-1.5 bg-tertiary rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
-                  </div>
                 </div>
-              </details>
             </div>
           )}
         </div>
 
-        <div className="flex gap-4"></div>
+        <div className="flex gap-4" />
           <button
             type="submit"
             className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"
-          ></button>
+           />
             Create Tournament
           </button>
           <button
             type="button"
             className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"
-          ></button>
+           />
             Save as Draft
           </button>
-        </div>
       </form>
-    </div>
   );
 
-  const renderAnalytics = () => (
-    <div className="space-y-6"></div>
+  const renderAnalytics = (renderAnalytics: any) => (
+    <div className="space-y-6" />
       {/* Bayesian Analytics Section */}
       {renderBayesianAnalytics()}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h3 className="text-xl font-bold text-primary mb-6"></h3>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h3 className="text-xl font-bold text-primary mb-6" />
           Tournament Analytics
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
-          <div className="text-center"></div>
-            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" />
+          <div className="text-center" />
+            <div className="text-3xl font-bold text-accent-primary mb-2" />
               156
             </div>
             <div className="text-sm text-secondary">Total Tournaments</div>
-          </div>
-          <div className="text-center"></div>
-            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
+          <div className="text-center" />
+            <div className="text-3xl font-bold text-accent-primary mb-2" />
               4,892
             </div>
             <div className="text-sm text-secondary">Total Participants</div>
-          </div>
-          <div className="text-center"></div>
-            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
+          <div className="text-center" />
+            <div className="text-3xl font-bold text-accent-primary mb-2" />
               $127,500
             </div>
             <div className="text-sm text-secondary">Total Prize Pool</div>
-          </div>
         </div>
-      </div>
     </div>
   );
 
-  const renderMatchmakingSettings = () => (
-    <div className="space-y-6"></div>
+  const renderMatchmakingSettings = (renderMatchmakingSettings: any) => (
+    <div className="space-y-6" />
       {/* Header */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <div className="flex items-center gap-3 mb-4"></div>
-          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-            <Brain className="text-white" size={24} /></Brain>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <div className="flex items-center gap-3 mb-4" />
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+            <Brain className="text-white" size={24} / />
           </div>
-          <div></div>
-            <h3 className="text-xl font-bold text-primary"></h3>
+          <div />
+            <h3 className="text-xl font-bold text-primary" />
               Bayesian Matchmaking System
             </h3>
-            <p className="text-secondary"></p>
+            <p className="text-secondary" />
               Advanced AI-powered tournament matchmaking with skill-based
               pairing
             </p>
-          </div>
         </div>
 
         {/* Enable/Disable Toggle */}
-        <div className="flex items-center justify-between p-4 bg-primary border border-color rounded-xl"></div>
-          <div className="flex items-center gap-3"></div>
-            <Zap className="text-accent-primary" size={20} /></Zap>
-            <div></div>
-              <h4 className="font-semibold text-primary"></h4>
+        <div className="flex items-center justify-between p-4 bg-primary border border-color rounded-xl" />
+          <div className="flex items-center gap-3" />
+            <Zap className="text-accent-primary" size={20} / />
+            <div />
+              <h4 className="font-semibold text-primary" />
                 Enable Smart Matchmaking
               </h4>
-              <p className="text-sm text-secondary"></p>
+              <p className="text-sm text-secondary" />
                 Use AI to create balanced, competitive matches
               </p>
-            </div>
           </div>
           <button
-            onClick={() =></button>
+            onClick={() = />
               setMatchmakingSettings(prev => ({
                 ...prev,
                 enabled: !prev.enabled,
@@ -868,44 +802,40 @@ const TournamentManager = (): any => {
             }`}
           >
             {matchmakingSettings.enabled ? (
-              <ToggleRight size={20} /></ToggleRight>
+              <ToggleRight size={20} / />
             ) : (
-              <ToggleLeft size={20} /></ToggleLeft>
+              <ToggleLeft size={20} / />
             )}
             {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
-          </button>
         </div>
-      </div>
 
       {/* Algorithm Selection */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
-          <Target className="text-accent-primary" size={20} /></Target>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
+          <Target className="text-accent-primary" size={20} / />
           Matchmaking Algorithm
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
           <div
             className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
               matchmakingSettings.algorithm === 'bayesian'
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() =></div>
+            onClick={() = />
               setMatchmakingSettings(prev => ({
                 ...prev,
                 algorithm: 'bayesian',
               }))}
           >
-            <div className="flex items-center gap-3 mb-2"></div>
-              <Brain className="text-accent-primary" size={20} /></Brain>
+            <div className="flex items-center gap-3 mb-2" />
+              <Brain className="text-accent-primary" size={20} / />
               <h5 className="font-semibold text-primary">Bayesian TrueSkill</h5>
-            </div>
-            <p className="text-sm text-secondary"></p>
+            <p className="text-sm text-secondary" />
               Advanced probabilistic model that accounts for skill uncertainty
               and learning over time
             </p>
-          </div>
 
           <div
             className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
@@ -913,241 +843,220 @@ const TournamentManager = (): any => {
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() =></div>
+            onClick={() = />
               setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))}
           >
-            <div className="flex items-center gap-3 mb-2"></div>
-              <TrendingUp className="text-blue-500" size={20} /></TrendingUp>
+            <div className="flex items-center gap-3 mb-2" />
+              <TrendingUp className="text-blue-500" size={20} / />
               <h5 className="font-semibold text-primary">Enhanced ELO</h5>
-            </div>
-            <p className="text-sm text-secondary"></p>
+            <p className="text-sm text-secondary" />
               Traditional rating system enhanced with deck archetype analysis
               and meta considerations
             </p>
-          </div>
         </div>
-      </div>
 
       {/* Skill Matching Parameters */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
-          <Activity className="text-accent-primary" size={20} /></Activity>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
+          <Activity className="text-accent-primary" size={20} / />
           Skill Matching Parameters
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Skill Variance Tolerance
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.1"
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.skillVariance}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     skillVariance: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.skillVariance * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Higher values allow more skill difference between matched players
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Historical Weight
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.1"
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.historicalWeight}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     historicalWeight: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.historicalWeight * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               How much past performance influences current matchmaking
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Uncertainty Factor
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.1"
                 max="0.5"
                 step="0.05"
                 value={matchmakingSettings.uncertaintyFactor}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     uncertaintyFactor: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.uncertaintyFactor * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Accounts for rating uncertainty in new or inactive players
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Learning Rate
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.05"
                 max="0.3"
                 step="0.05"
                 value={matchmakingSettings.learningRate}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     learningRate: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.learningRate * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               How quickly the system adapts to new performance data
             </p>
-          </div>
         </div>
-      </div>
 
       {/* Deck Diversity & Meta Balance */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
-          <Shuffle className="text-accent-primary" size={20} /></Shuffle>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
+          <Shuffle className="text-accent-primary" size={20} / />
           Deck Diversity & Meta Balance
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Deck Diversity Weight
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.1"
                 max="1.0"
                 step="0.1"
                 value={matchmakingSettings.deckDiversityWeight}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     deckDiversityWeight: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.deckDiversityWeight * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Prioritizes diverse deck archetype matchups over pure skill
               matching
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Matchup Balance Preference
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.5"
                 max="1.0"
                 step="0.05"
                 value={matchmakingSettings.preferredMatchupBalance}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     preferredMatchupBalance: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.preferredMatchupBalance * 100).toFixed(0)}
                 %
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Aims for balanced win rates between different deck archetypes
             </p>
-          </div>
         </div>
 
         {/* Deck Archetype Analysis */}
-        <div className="mt-6 p-4 bg-primary border border-color rounded-xl"></div>
-          <h5 className="font-semibold text-primary mb-3 flex items-center gap-2"></h5>
-            <BarChart3 size={16} /></BarChart3>
+        <div className="mt-6 p-4 bg-primary border border-color rounded-xl" />
+          <h5 className="font-semibold text-primary mb-3 flex items-center gap-2" />
+            <BarChart3 size={16} / />
             Current Meta Analysis
           </h5>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"></div>
-            <div className="text-center"></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" />
+            <div className="text-center" />
               <div className="text-lg font-bold text-accent-primary">32%</div>
               <div className="text-secondary">Aggro</div>
-            </div>
-            <div className="text-center"></div>
+            <div className="text-center" />
               <div className="text-lg font-bold text-blue-500">28%</div>
               <div className="text-secondary">Control</div>
-            </div>
-            <div className="text-center"></div>
+            <div className="text-center" />
               <div className="text-lg font-bold text-green-500">25%</div>
               <div className="text-secondary">Midrange</div>
-            </div>
-            <div className="text-center"></div>
+            <div className="text-center" />
               <div className="text-lg font-bold text-purple-500">15%</div>
               <div className="text-secondary">Combo</div>
-            </div>
           </div>
-        </div>
       </div>
 
       {/* Advanced Settings */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
-          <Sliders className="text-accent-primary" size={20} /></Sliders>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
+          <Sliders className="text-accent-primary" size={20} / />
           Advanced Configuration
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Minimum Skill Difference
             </label>
             <input
@@ -1155,21 +1064,20 @@ const TournamentManager = (): any => {
               min="50"
               max="300"
               value={matchmakingSettings.minSkillDifference}
-              onChange={e =></input>
+              onChange={e = />
                 setMatchmakingSettings(prev => ({
                   ...prev,
                   minSkillDifference: parseInt(e.target.value),
                 }))}
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Minimum rating difference to consider players as different skill
               levels
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Maximum Skill Difference
             </label>
             <input
@@ -1177,134 +1085,122 @@ const TournamentManager = (): any => {
               min="300"
               max="1000"
               value={matchmakingSettings.maxSkillDifference}
-              onChange={e =></input>
+              onChange={e = />
                 setMatchmakingSettings(prev => ({
                   ...prev,
                   maxSkillDifference: parseInt(e.target.value),
                 }))}
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Maximum allowed rating difference for matchmaking
             </p>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-primary mb-2"></label>
+          <div />
+            <label className="block text-sm font-medium text-primary mb-2" />
               Confidence Threshold
             </label>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <input
                 type="range"
                 min="0.5"
                 max="0.95"
                 step="0.05"
                 value={matchmakingSettings.confidenceThreshold}
-                onChange={e =></input>
+                onChange={e = />
                   setMatchmakingSettings(prev => ({
                     ...prev,
                     confidenceThreshold: parseFloat(e.target.value),
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12"></span>
+              <span className="text-sm text-secondary w-12" />
                 {(matchmakingSettings.confidenceThreshold * 100).toFixed(0)}%
               </span>
-            </div>
-            <p className="text-xs text-secondary mt-1"></p>
+            <p className="text-xs text-secondary mt-1" />
               Minimum confidence level required for skill predictions
             </p>
-          </div>
         </div>
-      </div>
 
       {/* System Status & Performance */}
-      <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
-          <Activity className="text-accent-primary" size={20} /></Activity>
+      <div className="bg-secondary border border-color rounded-xl p-6" />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
+          <Activity className="text-accent-primary" size={20} / />
           System Performance
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" />
+          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
             <div className="text-2xl font-bold text-green-500 mb-2">94.7%</div>
             <div className="text-sm text-secondary">Match Quality Score</div>
-            <div className="text-xs text-secondary mt-1"></div>
+            <div className="text-xs text-secondary mt-1" />
               Based on post-game feedback
             </div>
-          </div>
 
-          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
+          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
             <div className="text-2xl font-bold text-blue-500 mb-2">1.2s</div>
             <div className="text-sm text-secondary">Avg. Processing Time</div>
-            <div className="text-xs text-secondary mt-1"></div>
+            <div className="text-xs text-secondary mt-1" />
               Per matchmaking request
             </div>
-          </div>
 
-          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
+          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
             <div className="text-2xl font-bold text-purple-500 mb-2">87.3%</div>
             <div className="text-sm text-secondary">Prediction Accuracy</div>
-            <div className="text-xs text-secondary mt-1"></div>
+            <div className="text-xs text-secondary mt-1" />
               Match outcome predictions
             </div>
-          </div>
         </div>
 
-        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl"></div>
-          <div className="flex items-start gap-3"></div>
-            <Info className="text-blue-500 mt-1" size={16} /></Info>
-            <div></div>
-              <h5 className="font-semibold text-blue-800 mb-1"></h5>
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl" />
+          <div className="flex items-start gap-3" />
+            <Info className="text-blue-500 mt-1" size={16} / />
+            <div />
+              <h5 className="font-semibold text-blue-800 mb-1" />
                 Bayesian Learning Status
               </h5>
-              <p className="text-sm text-blue-700"></p>
+              <p className="text-sm text-blue-700" />
                 The system has processed 2,847 matches and is continuously
                 learning from player performance patterns. Current model
                 confidence: 92.4%
               </p>
-            </div>
           </div>
-        </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4"></div>
-        <button className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
+      <div className="flex gap-4" />
+        <button className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200" />
           Save Settings
         </button>
-        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"></button>
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200" />
           Reset to Defaults
         </button>
-        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"></button>
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200" />
           Export Configuration
         </button>
-      </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-primary"></div>
-      <div className="container py-8"></div>
+    <div className="min-h-screen bg-primary" />
+      <div className="container py-8" />
         {/* Header */}
-        <div className="mb-8"></div>
-          <div className="flex items-center gap-3 mb-4"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center"></div>
-              <Trophy className="text-white" size={24} /></Trophy>
+        <div className="mb-8" />
+          <div className="flex items-center gap-3 mb-4" />
+            <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center" />
+              <Trophy className="text-white" size={24} / />
             </div>
-            <div></div>
-              <h1 className="text-3xl font-bold text-primary"></h1>
+            <div />
+              <h1 className="text-3xl font-bold text-primary" />
                 Tournament Manager
               </h1>
-              <p className="text-secondary"></p>
+              <p className="text-secondary" />
                 Organize and manage KONIVRER tournaments
               </p>
-            </div>
           </div>
-        </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2"></div>
+        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2" />
           {[
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'create', label: 'Create Tournament', icon: Plus },
@@ -1322,9 +1218,8 @@ const TournamentManager = (): any => {
                     : 'text-secondary hover:text-primary hover:bg-tertiary'
                 }`}
               >
-                <Icon size={16} /></Icon>
+                <Icon size={16} / />
                 {tab.label}
-              </button>
             );
           })}
         </div>
@@ -1334,7 +1229,6 @@ const TournamentManager = (): any => {
         {activeTab === 'create' && renderCreateTournament()}
         {activeTab === 'analytics' && renderAnalytics()}
         {activeTab === 'settings' && renderMatchmakingSettings()}
-      </div>
     </div>
   );
 };

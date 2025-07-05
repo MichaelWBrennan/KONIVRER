@@ -43,16 +43,16 @@ const Rules = (): any => {
   const activeTabData = tabs.find(tab => tab.id === activeTab);
   
   return (
-    <ErrorBoundary></ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
-        <div className="max-w-6xl mx-auto"></div>
+    <ErrorBoundary />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4" />
+        <div className="max-w-6xl mx-auto" />
           {/* Tab Navigation */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/10 backdrop-blur-md rounded-lg p-6 mb-6 border border-white/20"
-          ></motion>
-            <div className="flex flex-wrap gap-2 justify-center"></div>
+           />
+            <div className="flex flex-wrap gap-2 justify-center" />
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -65,8 +65,8 @@ const Rules = (): any => {
                         : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
                     }`}
                   >
-                    <Icon className="h-4 w-4" /></Icon>
-                    <span className="font-medium">{tab.label}</span>
+                    <Icon className="h-4 w-4" / />
+                    <span className="font-medium">{tab.label}
                   </button>
                 );
               })}
@@ -79,14 +79,13 @@ const Rules = (): any => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             key={activeTab} // Force re-render when tab changes
-          ></motion>
+           />
             <EnhancedPDFViewer 
               pdfUrl={activeTabData?.pdfUrl} 
               title={activeTabData?.title}
-            /></EnhancedPDFViewer>
+            / />
           </motion.div>
         </div>
-      </div>
     </ErrorBoundary>
   );
 };

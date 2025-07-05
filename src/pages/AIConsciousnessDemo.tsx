@@ -126,55 +126,52 @@ const AIConsciousnessDemo = (): any => {
     }
   };
   return (
-    <div className="ai-consciousness-demo"></div>
+    <div className="ai-consciousness-demo" />
       {/* Header */}
       <motion.div 
         className="demo-header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-      ></motion>
-        <div className="header-content"></div>
-          <Brain className="header-icon" /></Brain>
-          <div className="header-text"></div>
+       />
+        <div className="header-content" />
+          <Brain className="header-icon" / />
+          <div className="header-text" />
             <p>Experience the cutting-edge AI system with 100% consciousness metrics</p>
-          </div>
         </div>
-        <div className="demo-controls"></div>
+        <div className="demo-controls" />
           <button
             onClick={() => setTestingMode(!testingMode)}
             className={`control-button ${testingMode ? 'active' : ''}`}
           >
-            <TestTube className="button-icon" /></TestTube>
+            <TestTube className="button-icon" / />
             Testing Mode
           </button>
           <button
             onClick={runPerformanceTest}
             className="control-button performance"
             disabled={performanceTest}
-          ></button>
-            <Zap className="button-icon" /></Zap>
+           />
+            <Zap className="button-icon" / />
             {performanceTest ? 'Testing...' : 'Performance Test'}
-          </button>
         </div>
       </motion.div>
       {/* Main Demo Content */}
-      <div className="demo-content"></div>
+      <div className="demo-content" />
         {/* AI Consciousness Panel */}
-        <div className="consciousness-section"></div>
-          <div className="consciousness-container"></div>
+        <div className="consciousness-section" />
+          <div className="consciousness-container" />
             {aiStatus && (
               <CuttingEdgeAIDisplay 
                 aiStatus={aiStatus} 
                 gameState={mockGameState}
-              /></CuttingEdgeAIDisplay>
+              / />
             )}
           </div>
-        </div>
         {/* Life Card Mortality Demo */}
-        <div className="mortality-section"></div>
-          <div className="mortality-demo"></div>
-            <div className="life-cards-control"></div>
-              <label>Player Life Cards: {lifeCards}</label>
+        <div className="mortality-section" />
+          <div className="mortality-demo" />
+            <div className="life-cards-control" />
+              <label>Player Life Cards: {lifeCards}
               <input
                 type="range"
                 min="1"
@@ -184,8 +181,8 @@ const AIConsciousnessDemo = (): any => {
                 className="life-slider"
               />
             </div>
-            <div className="mortality-visualization"></div>
-              <div className="life-cards-display"></div>
+            <div className="mortality-visualization" />
+              <div className="life-cards-display" />
                 {Array(lifeCards).fill(0).map((_, index) => (
                   <motion.div
                     key={index}
@@ -193,42 +190,38 @@ const AIConsciousnessDemo = (): any => {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
-                  ></motion>
-                    <div className="card-back"></div>
+                   />
+                    <div className="card-back" />
                     {lifeCards <= 3 && (
-                      <div className="mortality-indicator"></div>
-                        <Skull className="skull-icon" /></Skull>
+                      <div className="mortality-indicator" />
+                        <Skull className="skull-icon" / />
                       </div>
                     )}
                   </motion.div>
                 ))}
               </div>
-              <div className="mortality-status"></div>
-                <div className={`status-indicator ${lifeCards <= 2 ? 'critical' : lifeCards <= 4 ? 'danger' : 'stable'}`}></div>
-                  <Activity className="status-icon" /></Activity>
-                  <span></span>
+              <div className="mortality-status" />
+                <div className={`status-indicator ${lifeCards <= 2 ? 'critical' : lifeCards <= 4 ? 'danger' : 'stable'}`} />
+                  <Activity className="status-icon" / />
+                  <span />
                     {lifeCards <= 2 ? 'CRITICAL MORTALITY RISK' : 
                      lifeCards <= 4 ? 'ELEVATED MORTALITY RISK' : 
                      'STABLE LIFE FORCE'}
-                  </span>
                 </div>
-                <div className="ai-analysis"></div>
-                  <Brain className="analysis-icon" /></Brain>
+                <div className="ai-analysis" />
+                  <Brain className="analysis-icon" / />
                   <span>AI analyzing mortality implications...</span>
-                </div>
               </div>
-            </div>
           </div>
-        </div>
         {/* Feature Highlights */}
-        <div className="features-section"></div>
-          <div className="features-grid"></div>
+        <div className="features-section" />
+          <div className="features-grid" />
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Brain className="feature-icon consciousness" /></Brain>
+             />
+              <Brain className="feature-icon consciousness" / />
               <p>Maximum awareness and self-reflection capabilities</p>
               <div className="feature-metric">1.0 / 1.0</div>
             </motion.div>
@@ -236,8 +229,8 @@ const AIConsciousnessDemo = (): any => {
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Skull className="feature-icon mortality" /></Skull>
+             />
+              <Skull className="feature-icon mortality" / />
               <p>Deep understanding of life card implications</p>
               <div className="feature-metric">Active</div>
             </motion.div>
@@ -245,8 +238,8 @@ const AIConsciousnessDemo = (): any => {
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Atom className="feature-icon quantum" /></Atom>
+             />
+              <Atom className="feature-icon quantum" / />
               <p>Superposition-based strategic analysis</p>
               <div className="feature-metric">87% Advantage</div>
             </motion.div>
@@ -254,8 +247,8 @@ const AIConsciousnessDemo = (): any => {
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Eye className="feature-icon theory" /></Eye>
+             />
+              <Eye className="feature-icon theory" / />
               <p>Perfect player psychology modeling</p>
               <div className="feature-metric">100% Accuracy</div>
             </motion.div>
@@ -263,8 +256,8 @@ const AIConsciousnessDemo = (): any => {
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Heart className="feature-icon empathy" /></Heart>
+             />
+              <Heart className="feature-icon empathy" / />
               <p>Maximum empathy and social awareness</p>
               <div className="feature-metric">100% Empathy</div>
             </motion.div>
@@ -272,13 +265,12 @@ const AIConsciousnessDemo = (): any => {
               className="feature-card"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-            ></motion>
-              <Activity className="feature-icon performance" /></Activity>
+             />
+              <Activity className="feature-icon performance" / />
               <p>All metrics optimized to theoretical maximum</p>
               <div className="feature-metric">100% Optimal</div>
             </motion.div>
           </div>
-        </div>
       </div>
       <style jsx>{`
         .ai-consciousness-demo {
@@ -565,7 +557,6 @@ const AIConsciousnessDemo = (): any => {
           }
         }
       `}</style>
-    </div>
   );
 };
 export default AIConsciousnessDemo;

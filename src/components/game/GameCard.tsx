@@ -60,7 +60,7 @@ const GameCard: React.FC<GameCardProps> = ({
   // Card appearance based on type
   const getCardBackground = (): any => {
     if (faceDown) return 'bg-gradient-to-br from-blue-900 to-blue-800';
-    switch(): any {
+    switch (true) {
       case 'Familiar':
         return 'bg-gradient-to-br from-green-800 to-green-900 border-green-600';
       case 'Spell':
@@ -93,7 +93,7 @@ const GameCard: React.FC<GameCardProps> = ({
   // Get card frame styling based on card color
   const getCardFrameStyle = (): any => {
     if (faceDown) return '';
-    switch(): any {
+    switch (true) {
       case 'white':
         return 'from-yellow-100/20 to-yellow-200/10';
       case 'blue':
@@ -168,100 +168,92 @@ const GameCard: React.FC<GameCardProps> = ({
     >
       {/* Card Content */}
       {!faceDown ? (
-        <div className="w-full h-full p-1 flex flex-col relative"></div>
+        <div className="w-full h-full p-1 flex flex-col relative" />
           {/* Card Name with Legendary Crown if applicable */}
-          <div className="text-white text-xs font-bold truncate mb-1 flex items-center"></div>
+          <div className="text-white text-xs font-bold truncate mb-1 flex items-center" />
             {isLegendary && (
-              <Crown className="w-3 h-3 text-yellow-400 mr-0.5 inline-block" /></Crown>
+              <Crown className="w-3 h-3 text-yellow-400 mr-0.5 inline-block" / />
             )}
             {card.name}
-          </div>
 
           {/* Card Image/Placeholder with gradient overlay */}
-          <div className="flex-grow bg-black/40 rounded mb-1 relative overflow-hidden"></div>
+          <div className="flex-grow bg-black/40 rounded mb-1 relative overflow-hidden" />
             {/* Simulated card art with gradient */}
             <div
               className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}
-            ></div>
+             />
 
             {/* Card type icon overlay */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-30"></div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-30" />
               {card.type === 'Familiar' && (
-                <Shield className="w-8 h-8 text-white" /></Shield>
+                <Shield className="w-8 h-8 text-white" / />
               )}
               {card.type === 'Spell' && (
-                <Sparkles className="w-8 h-8 text-white" /></Sparkles>
+                <Sparkles className="w-8 h-8 text-white" / />
               )}
               {card.type === 'Azoth' && <Zap className="w-8 h-8 text-white" />}
-            </div>
           </div>
 
           {/* Card Type and Stats */}
-          <div className="flex justify-between items-center"></div>
-            <div className="text-white text-[8px]">{card.type}</div>
+          <div className="flex justify-between items-center" />
+            <div className="text-white text-[8px]">{card.type}
 
             {card.type === 'Familiar' && (
-              <div className="text-white text-xs font-bold"></div>
+              <div className="text-white text-xs font-bold" />
                 {card.power}/{card.toughness}
-              </div>
             )}
           </div>
 
           {/* Ability indicator */}
           {hasAbility && (
-            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-3 h-3"></div>
-              <div className="w-full h-full bg-purple-500 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-3 h-3" />
+              <div className="w-full h-full bg-purple-500 rounded-full animate-pulse" />
             </div>
           )}
-        </div>
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-800 to-blue-900"></div>
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 flex items-center justify-center shadow-inner"></div>
+        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-800 to-blue-900" />
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 flex items-center justify-center shadow-inner" />
             <span className="text-white font-bold text-lg">K</span>
-          </div>
         </div>
       )}
       {/* Status Indicators */}
-      <div className="absolute top-0 right-0 flex flex-col items-end p-0.5 space-y-0.5"></div>
+      <div className="absolute top-0 right-0 flex flex-col items-end p-0.5 space-y-0.5" />
         {isAttacking && (
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-0.5 shadow-lg"></div>
-            <Sword className="w-3 h-3 text-white" /></Sword>
+          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-0.5 shadow-lg" />
+            <Sword className="w-3 h-3 text-white" / />
           </div>
         )}
         {isBlocking && (
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-full p-0.5 shadow-lg"></div>
-            <Shield className="w-3 h-3 text-white" /></Shield>
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-full p-0.5 shadow-lg" />
+            <Shield className="w-3 h-3 text-white" / />
           </div>
         )}
         {hasCounters && (
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-lg"></div>
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-lg" />
             {card.counters}
-          </div>
         )}
       </div>
 
       {/* Damage Indicator */}
       {hasDamage && (
-        <div className="absolute bottom-0 right-0 bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center m-0.5 shadow-lg"></div>
+        <div className="absolute bottom-0 right-0 bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center m-0.5 shadow-lg" />
           {card.damage}
-        </div>
       )}
       {/* Summoning Sickness Indicator */}
       {hasSummoningSickness && (
-        <div className="absolute bottom-0 left-0 m-0.5"></div>
-          <Clock className="w-4 h-4 text-gray-300 drop-shadow-lg" /></Clock>
+        <div className="absolute bottom-0 left-0 m-0.5" />
+          <Clock className="w-4 h-4 text-gray-300 drop-shadow-lg" / />
         </div>
       )}
       {/* Azoth Cost Indicator (for cards in hand) */}
       {!faceDown && card.azothCost && zone === 'hand' && (
-        <div className="absolute top-0 left-0 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-xs font-bold rounded-br-lg px-1 py-0.5 flex items-center shadow-lg"></div>
-          <Zap className="w-3 h-3 mr-0.5" /></Zap>
+        <div className="absolute top-0 left-0 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-xs font-bold rounded-br-lg px-1 py-0.5 flex items-center shadow-lg" />
+          <Zap className="w-3 h-3 mr-0.5" / />
           {card.azothCost}
-        </div>
       )}
       {/* Foil overlay effect for premium cards */}
       {!faceDown && card.isPremium && (
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none rounded-lg"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none rounded-lg" />
       )}
     </motion.div>
   );

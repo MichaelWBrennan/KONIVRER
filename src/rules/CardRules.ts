@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -20,7 +21,7 @@ const cardRules = new Map();
  * @param {string} cardId - Card ID
  * @returns {Object|null} Card rules or null if not found
  */
-export function getCardRules(cardId: any): any {
+export function getCardRules(): any {
   return cardRules.get(cardId) || null;
 }
 
@@ -29,7 +30,7 @@ export function getCardRules(cardId: any): any {
  * @param {string} cardId - Card ID
  * @param {Object} rules - Card rules
  */
-function registerCardRules(cardId: any, rules: any): any {
+function registerCardRules(): any {
   cardRules.set(cardId, rules);
 }
 
@@ -64,8 +65,8 @@ registerCardRules('fire-elemental', {
     // When Fire Elemental attacks, it deals 1 damage to each opposing Familiar
     const opponent = gameState.players[1 - player.id];
 
-    opponent.field.forEach(opponentCard: any = > {
-      if (opponentCard.type === 'Familiar'): any {
+    opponent.field.forEach((opponentCard: any) => {
+      if (opponentCard.type === 'Familiar') {
         opponentCard.toughness -= 1;
 
         gameState.gameLog.push({
@@ -299,8 +300,8 @@ registerCardRules('dragon', {
     // When Dragon enters the field, it deals 2 damage to each opposing Familiar
     const opponent = gameState.players[1 - player.id];
 
-    opponent.field.forEach(opponentCard: any = > {
-      if (opponentCard.type === 'Familiar'): any {
+    opponent.field.forEach((opponentCard: any) => {
+      if (opponentCard.type === 'Familiar') {
         opponentCard.toughness -= 2;
 
         gameState.gameLog.push({
@@ -406,8 +407,8 @@ registerCardRules('healing-spring', {
     // Healing Spring heals all of your Familiars and restores one life card
 
     // Heal all Familiars
-    player.field.forEach(fieldCard: any = > {
-      if (fieldCard.type === 'Familiar'): any {
+    player.field.forEach((fieldCard: any) => {
+      if (fieldCard.type === 'Familiar') {
         // Restore toughness to base value
         fieldCard.toughness = fieldCard.baseToughness;
 
@@ -490,8 +491,8 @@ registerCardRules('growth-spell', {
     // Growth Spell gives all your Familiars +2/+2 until end of turn
 
     // Apply buff to all Familiars
-    player.field.forEach(fieldCard: any = > {
-      if (fieldCard.type === 'Familiar'): any {
+    player.field.forEach((fieldCard: any) => {
+      if (fieldCard.type === 'Familiar') {
         fieldCard.power += 2;
         fieldCard.toughness += 2;
 

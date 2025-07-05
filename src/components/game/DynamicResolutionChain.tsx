@@ -68,9 +68,9 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       className="absolute bottom-24 right-4 bg-black/80 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden z-50 w-80"
-    ></motion>
-      <div className="flex items-center justify-between bg-gradient-to-r from-purple-800 to-blue-800 px-3 py-2"></div>
-        <div className="flex items-center"></div>
+     />
+      <div className="flex items-center justify-between bg-gradient-to-r from-purple-800 to-blue-800 px-3 py-2" />
+        <div className="flex items-center" />
           <button
             onClick={() => setExpanded(!expanded)}
             className="text-white mr-2"
@@ -78,29 +78,26 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
             {expanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
           </button>
           <h3 className="text-white font-medium text-sm">Dynamic Resolution Chain</h3>
-        </div>
-        <div className="flex items-center"></div>
+        <div className="flex items-center" />
           {isWaitingForMe && (
-            <div className="flex items-center mr-2"></div>
-              <Clock size={16} className="text-yellow-400 animate-pulse mr-1" /></Clock>
+            <div className="flex items-center mr-2" />
+              <Clock size={16} className="text-yellow-400 animate-pulse mr-1" / />
               <span className="text-yellow-400 text-xs">Your Response</span>
-            </div>
           )}
         </div>
-      </div>
       
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {expanded && (
           <motion.div
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
             exit={{ height: 0 }}
             className="overflow-hidden"
-          ></motion>
+           />
             {/* Stack display */}
-            <div className="p-3 border-b border-gray-700"></div>
+            <div className="p-3 border-b border-gray-700" />
               <h4 className="text-white text-xs font-medium mb-2">Stack (Resolves Last to First)</h4>
-              <div className="max-h-32 overflow-y-auto"></div>
+              <div className="max-h-32 overflow-y-auto" />
                 {stack.length > 0 ? (
                   stack.map((item, index) => (
                     <div 
@@ -108,28 +105,24 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                       className={`flex items-center p-1.5 rounded mb-1 ${
                         index === 0 ? 'bg-blue-900/50 border border-blue-500' : 'bg-gray-800/50'
                       }`}
-                    ></div>
-                      <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-600 to-blue-700 flex items-center justify-center text-white text-xs mr-2"></div>
+                     />
+                      <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-600 to-blue-700 flex items-center justify-center text-white text-xs mr-2" />
                         {stack.length - index}
-                      </div>
-                      <div className="flex-1"></div>
-                        <div className="text-white text-xs font-medium">{item.card.name}</div>
-                        <div className="text-gray-400 text-xs"></div>
+                      <div className="flex-1" />
+                        <div className="text-white text-xs font-medium">{item.card.name}
+                        <div className="text-gray-400 text-xs" />
                           {gameState.players[item.controller].name} - {item.type}
-                        </div>
                       </div>
-                    </div>
                   ))
                 ) : (
                   <div className="text-gray-400 text-xs italic">Stack is empty</div>
                 )}
               </div>
-            </div>
             
             {/* Response options */}
             {isWaitingForMe && (
-              <div className="p-3"></div>
-                <div className="flex justify-between items-center mb-2"></div>
+              <div className="p-3" />
+                <div className="flex justify-between items-center mb-2" />
                   <h4 className="text-white text-xs font-medium">Your Response</h4>
                   <button
                     onClick={() => onPass()}
@@ -137,11 +130,10 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                   >
                     Pass
                   </button>
-                </div>
                 
-                <div className="max-h-40 overflow-y-auto mb-2"></div>
+                <div className="max-h-40 overflow-y-auto mb-2" />
                   {playableCards.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-1"></div>
+                    <div className="grid grid-cols-2 gap-1" />
                       {playableCards.map(card => (
                         <div
                           key={card.id}
@@ -152,8 +144,8 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                               : 'bg-gray-800/70 hover:bg-gray-700/70'
                           }`}
                         >
-                          <div className="text-white text-xs font-medium truncate">{card.name}</div>
-                          <div className="text-gray-400 text-xs">{card.type}</div>
+                          <div className="text-white text-xs font-medium truncate">{card.name}
+                          <div className="text-gray-400 text-xs">{card.type}
                         </div>
                       ))}
                     </div>
@@ -166,7 +158,7 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                   <button
                     onClick={handleRespond}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm py-1.5 rounded"
-                  ></button>
+                   />
                     Play {selectedCard.name} as Response
                   </button>
                 )}

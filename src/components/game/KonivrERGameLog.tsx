@@ -64,7 +64,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
   const getEntryIcon = (entry): any => {
     const type = getEntryType(entry);
     
-    switch(): any {
+    switch (true) {
       case 'turn': return Clock;
       case 'combat': return Sword;
       case 'damage': return Heart;
@@ -78,7 +78,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
   const getEntryColor = (entry): any => {
     const type = getEntryType(entry);
     
-    switch(): any {
+    switch (true) {
       case 'turn': return 'text-blue-400';
       case 'combat': return 'text-red-400';
       case 'damage': return 'text-red-300';
@@ -118,23 +118,22 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 300 }}
       className="fixed top-4 right-4 w-96 h-96 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-blue-500/30 shadow-xl z-50"
-    ></motion>
+     />
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700"></div>
+      <div className="flex items-center justify-between p-4 border-b border-gray-700" />
         <h3 className="text-lg font-bold text-white">Game Log</h3>
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-700 rounded text-gray-400 hover:text-white"
-        ></button>
-          <X className="w-5 h-5" /></X>
+         />
+          <X className="w-5 h-5" / />
         </button>
-      </div>
 
       {/* Controls */}
-      <div className="p-4 border-b border-gray-700 space-y-3"></div>
+      <div className="p-4 border-b border-gray-700 space-y-3" />
         {/* Search */}
-        <div className="relative"></div>
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" /></Search>
+        <div className="relative" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" / />
           <input
             type="text"
             placeholder="Search log..."
@@ -145,7 +144,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </div>
 
         {/* Filters */}
-        <div className="flex gap-1 overflow-x-auto"></div>
+        <div className="flex gap-1 overflow-x-auto" />
           {filterOptions.map(option => {
             const IconComponent = option.icon;
             return (
@@ -160,13 +159,12 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
               >
                 {IconComponent && <IconComponent className="w-3 h-3" />}
                 {option.name}
-              </button>
             );
           })}
         </div>
 
         {/* Auto-scroll toggle */}
-        <div className="flex items-center gap-2"></div>
+        <div className="flex items-center gap-2" />
           <input
             type="checkbox"
             id="autoscroll"
@@ -174,13 +172,12 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
             onChange={(e) => setAutoScroll(e.target.checked)}
             className="rounded"
           />
-          <label htmlFor="autoscroll" className="text-sm text-gray-300"></label>
+          <label htmlFor="autoscroll" className="text-sm text-gray-300" />
             Auto-scroll
           </label>
-          <span className="text-xs text-gray-500 ml-auto"></span>
+          <span className="text-xs text-gray-500 ml-auto" />
             {filteredEntries.length} entries
           </span>
-        </div>
       </div>
 
       {/* Log Entries */}
@@ -189,8 +186,8 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         onScroll={handleScroll}
         className="flex-1 overflow-y-auto p-4 space-y-2"
         style={{ height: 'calc(100% - 200px)' }}
-      ></div>
-        <AnimatePresence></AnimatePresence>
+       />
+        <AnimatePresence />
           {filteredEntries.map((entry, index) => {
             const IconComponent = getEntryIcon(entry);
             const color = getEntryColor(entry);
@@ -202,12 +199,11 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 className="flex items-start gap-2 p-2 bg-gray-800/50 rounded border border-gray-700/50 hover:bg-gray-800/70 transition-colors"
-              ></motion>
-                <IconComponent className={`w-4 h-4 mt-0.5 ${color} flex-shrink-0`} /></IconComponent>
-                <div className="flex-1 min-w-0"></div>
-                  <div className="text-sm text-gray-300 break-words"></div>
+               />
+                <IconComponent className={`w-4 h-4 mt-0.5 ${color} flex-shrink-0`} / />
+                <div className="flex-1 min-w-0" />
+                  <div className="text-sm text-gray-300 break-words" />
                     {entry}
-                  </div>
                 </div>
               </motion.div>
             );
@@ -215,17 +211,16 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </AnimatePresence>
 
         {filteredEntries.length === 0 && (
-          <div className="text-center text-gray-500 py-8"></div>
+          <div className="text-center text-gray-500 py-8" />
             {searchTerm || filter !== 'all' 
               ? 'No entries match your filters'
               : 'No log entries yet'
             }
-          </div>
         )}
       </div>
 
       {/* Footer */}
-      <div className="p-2 border-t border-gray-700 text-xs text-gray-500 text-center"></div>
+      <div className="p-2 border-t border-gray-700 text-xs text-gray-500 text-center" />
         {!autoScroll && (
           <button
             onClick={() => {

@@ -108,108 +108,98 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
   }
 
   return (
-    <div className="tournament-notifications"></div>
-      <div className="tournament-header"></div>
-        <h2>{tournament.name}</h2>
-        <div className="tournament-meta"></div>
-          <span className="tournament-format"></span>
-            <Trophy size={16} /></Trophy>
+    <div className="tournament-notifications" />
+      <div className="tournament-header" />
+        <h2>{tournament.name}
+        <div className="tournament-meta" />
+          <span className="tournament-format" />
+            <Trophy size={16} / />
             {tournament.format}
-          </span>
-          <span className="tournament-players"></span>
-            <Users size={16} /></Users>
+          <span className="tournament-players" />
+            <Users size={16} / />
             {tournament.players} Players
           </span>
-          <span className="tournament-time"></span>
-            <Clock size={16} /></Clock>
+          <span className="tournament-time" />
+            <Clock size={16} / />
             {timeRemaining}
-          </span>
         </div>
-      </div>
 
       {/* Notification Subscribe Button */}
       {isSupported && (
-        <div className="tournament-notification-subscribe"></div>
+        <div className="tournament-notification-subscribe" />
           {isSubscribedToTournament ? (
-            <div className="tournament-subscribed"></div>
-              <Bell size={16} /></Bell>
+            <div className="tournament-subscribed" />
+              <Bell size={16} / />
               <span>You'll receive notifications for this tournament</span>
-            </div>
           ) : (
             <button 
               className="tournament-subscribe-button"
               onClick={handleShowSubscribePrompt}
-            ></button>
-              <Bell size={16} /></Bell>
+             />
+              <Bell size={16} / />
               <span>Get notified about this tournament</span>
-            </button>
           )}
         </div>
       )}
       {/* Tournament Details */}
-      <div className="tournament-details"></div>
-        <div className="tournament-detail"></div>
+      <div className="tournament-details" />
+        <div className="tournament-detail" />
           <strong>Start Time:</strong>
-          <span>{new Date(tournament.startTime).toLocaleString()}</span>
+          <span>{new Date(tournament.startTime).toLocaleString()}
         </div>
-        <div className="tournament-detail"></div>
+        <div className="tournament-detail" />
           <strong>Format:</strong>
-          <span>{tournament.format}</span>
+          <span>{tournament.format}
         </div>
-        <div className="tournament-detail"></div>
+        <div className="tournament-detail" />
           <strong>Rounds:</strong>
-          <span>{tournament.rounds}</span>
+          <span>{tournament.rounds}
         </div>
-        <div className="tournament-detail"></div>
+        <div className="tournament-detail" />
           <strong>Prize:</strong>
-          <span>{tournament.prize}</span>
+          <span>{tournament.prize}
         </div>
-        <div className="tournament-detail"></div>
+        <div className="tournament-detail" />
           <strong>Location:</strong>
-          <span>{tournament.location}</span>
+          <span>{tournament.location}
         </div>
-      </div>
 
       {/* Tournament Actions */}
-      <div className="tournament-actions"></div>
-        <Link to={`/tournaments/${tournamentId}/live`} className="tournament-action primary"></Link>
+      <div className="tournament-actions" />
+        <Link to={`/tournaments/${tournamentId}/live`} className="tournament-action primary" />
           View Tournament
         </Link>
-        <Link to="/deck-selection" className="tournament-action"></Link>
+        <Link to="/deck-selection" className="tournament-action" />
           Select Deck
         </Link>
-      </div>
 
       {/* Subscribe Prompt */}
       {showSubscribePrompt && (
-        <div className="tournament-subscribe-prompt"></div>
-          <div className="tournament-subscribe-prompt-content"></div>
+        <div className="tournament-subscribe-prompt" />
+          <div className="tournament-subscribe-prompt-content" />
             <h4>Tournament Notifications</h4>
-            <p></p>
+            <p />
               Get notified about important events for this tournament:
             </p>
-            <ul></ul>
+            <ul />
               <li>Tournament start reminder (30 minutes before)</li>
               <li>Round start notifications</li>
               <li>Match pairings</li>
               <li>Tournament results</li>
-            </ul>
-            <div className="tournament-subscribe-prompt-actions"></div>
+            <div className="tournament-subscribe-prompt-actions" />
               <button 
                 className="tournament-subscribe-prompt-action primary"
                 onClick={handleSubscribeToTournament}
-              ></button>
+               />
                 Enable Notifications
               </button>
               <button 
                 className="tournament-subscribe-prompt-action"
                 onClick={dismissSubscribePrompt}
-              ></button>
+               />
                 Not Now
               </button>
-            </div>
           </div>
-        </div>
       )}
       <style jsx>{`
         .tournament-notifications {
@@ -384,7 +374,6 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
           color: #666;
         }
       `}</style>
-    </div>
   );
 };
 

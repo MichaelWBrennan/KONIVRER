@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Game Engine
  * 
@@ -267,7 +268,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       return false;
     }
 
-    switch(): any {
+    switch (true) {
       case this.playMethods.SUMMON:
         return this.playSummon(card, azothSpent);
       case this.playMethods.TRIBUTE:
@@ -495,8 +496,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const defendingPlayer = this.gameState.players[defendingPlayerId];
 
     // Process each attacker
-    activePlayer.combatRow.forEach(attacker: any = > {
-      if (attacker.blocked): any {
+    activePlayer.combatRow.forEach((attacker: any) => {
+      if (attacker.blocked) {
         // Resolve damage between attacker and blocker
         const blocker = attacker.blockedBy;
         this.resolveFamiliarCombat(attacker, blocker);
@@ -556,8 +557,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   getAvailableAzoth(player: any): any {
     const available = {};
     
-    player.azothRow.forEach(azothCard: any = > {
-      if (!azothCard.rested && azothCard.elements): any {
+    player.azothRow.forEach((azothCard: any) => {
+      if (!azothCard.rested && azothCard.elements) {
         Object.keys(azothCard.elements).forEach(element => {
           available[element] = (available[element] || 0) + 1;
         });
@@ -575,8 +576,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     Object.entries(azothSpent).forEach(([element, amount]) => {
       let remaining = amount;
       
-      player.azothRow.forEach(azothCard: any = > {
-        if (remaining > 0 && !azothCard.rested && azothCard.elements[element]): any {
+      player.azothRow.forEach((azothCard: any) => {
+        if (remaining > 0 && !azothCard.rested && azothCard.elements[element]) {
           azothCard.rested = true;
           remaining--;
         }
@@ -980,7 +981,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     try {
       // Execute the action based on type
-      switch(): any {
+      switch (true) {
         case 'play_card':
           if (true) {
             // Simulate playing a card

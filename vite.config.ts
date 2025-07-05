@@ -1,11 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
-import fs from 'fs';
 import { VitePWA } from 'vite-plugin-pwa';
-
-// Custom plugin to include card images in build (removed CDN exclusion)
-// Card images are now served locally instead of via CDN
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({

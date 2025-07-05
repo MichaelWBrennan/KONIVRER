@@ -41,7 +41,7 @@ const NotificationTestPage: React.FC = () => {
   }, [isSupported, permission, isSubscribed]);
   
   // Update subscription status
-  const updateSubscriptionStatus = () => {
+  const updateSubscriptionStatus = (updateSubscriptionStatus: any) => {
     if (true) {
       setSubscriptionStatus('Push notifications are not supported in this browser');
       return;
@@ -172,55 +172,49 @@ const NotificationTestPage: React.FC = () => {
   };
   
   return (
-    <div className="notification-test-page"></div>
-      <div className="container"></div>
+    <div className="notification-test-page" />
+      <div className="container" />
         <h1>Push Notification Test</h1>
         
-        <div className="notification-status"></div>
+        <div className="notification-status" />
           <h2>Status</h2>
-          <div className="status-item"></div>
+          <div className="status-item" />
             <strong>Supported:</strong> {isSupported ? 'Yes' : 'No'}
-          </div>
-          <div className="status-item"></div>
+          <div className="status-item" />
             <strong>Permission:</strong> {permission}
-          </div>
-          <div className="status-item"></div>
+          <div className="status-item" />
             <strong>Subscribed:</strong> {isSubscribed ? 'Yes' : 'No'}
-          </div>
-          <div className="status-item"></div>
+          <div className="status-item" />
             <strong>Status:</strong> {subscriptionStatus}
-          </div>
           {notificationStatus && (
-            <div className="status-item notification-result"></div>
+            <div className="status-item notification-result" />
               <strong>Result:</strong> {notificationStatus}
-            </div>
           )}
         </div>
         
-        <div className="subscription-controls"></div>
+        <div className="subscription-controls" />
           <h2>Subscription</h2>
-          <div className="button-group"></div>
+          <div className="button-group" />
             <button 
               className="btn btn-primary" 
               onClick={handleSubscribe}
               disabled={!isSupported || isSubscribed}
-            ></button>
+             />
               Subscribe
             </button>
             <button 
               className="btn btn-secondary" 
               onClick={handleUnsubscribe}
               disabled={!isSupported || !isSubscribed}
-            ></button>
+             />
               Unsubscribe
             </button>
-          </div>
         </div>
         
-        <div className="notification-form"></div>
+        <div className="notification-form" />
           <h2>Send Notification</h2>
           
-          <div className="form-group"></div>
+          <div className="form-group" />
             <label htmlFor="notification-type">Notification Type</label>
             <select 
               id="notification-type" 
@@ -231,10 +225,9 @@ const NotificationTestPage: React.FC = () => {
               <option value="tournament">Tournament</option>
               <option value="message">Message</option>
               <option value="match">Match</option>
-            </select>
           </div>
           
-          <div className="form-group"></div>
+          <div className="form-group" />
             <label htmlFor="notification-title">Title</label>
             <input 
               type="text" 
@@ -244,7 +237,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group"></div>
+          <div className="form-group" />
             <label htmlFor="notification-body">Body</label>
             <textarea 
               id="notification-body" 
@@ -253,7 +246,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group checkbox"></div>
+          <div className="form-group checkbox" />
             <input 
               type="checkbox" 
               id="require-interaction" 
@@ -261,26 +254,23 @@ const NotificationTestPage: React.FC = () => {
               onChange={(e) => setRequireInteraction(e.target.checked)}
             />
             <label htmlFor="require-interaction">Require Interaction</label>
-          </div>
           
-          <div className="button-group"></div>
+          <div className="button-group" />
             <button 
               className="btn btn-primary" 
               onClick={handleSendNotification}
               disabled={!isSupported || permission !== 'granted'}
-            ></button>
+             />
               Send Notification
             </button>
             <button 
               className="btn btn-secondary" 
               onClick={handleSendTestNotification}
               disabled={!isSupported || permission !== 'granted'}
-            ></button>
+             />
               Send Test Notification
             </button>
-          </div>
         </div>
-      </div>
     </div>
   );
 };

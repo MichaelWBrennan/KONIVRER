@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - Comprehensive Search Engine
  * Advanced search functionality with all Advanced features
@@ -68,7 +69,7 @@ const matchesCriteria = (card, key, value, allCriteria): any => {
     return true;
   }
 
-  switch(): any {
+  switch (true) {
     case 'cardName':
       return matchesName(card, value, allCriteria.nameComparison, allCriteria.caseSensitive);
     case 'text':
@@ -127,7 +128,7 @@ const matchesName = (card, searchValue, comparison, caseSensitive): any => {
   const cardName = caseSensitive ? card.name : card.name?.toLowerCase();
   const searchName = caseSensitive ? searchValue : searchValue.toLowerCase();
 
-  switch(): any {
+  switch (true) {
     case 'exact':
       return cardName === searchName;
     case 'starts':
@@ -150,7 +151,7 @@ const matchesText = (card, searchValue, comparison, caseSensitive): any => {
   // Handle ~ placeholder for card name
   const processedSearchText = searchText?.replace(/~/g, caseSensitive ? card.name : card.name?.toLowerCase());
 
-  switch(): any {
+  switch (true) {
     case 'exact':
       return cardText === processedSearchText;
     case 'word-order-matters':
@@ -197,7 +198,7 @@ const matchesElements = (card, selectedElements, comparison): any => {
   if (!selectedElements || selectedElements.length === 0) return true;
   const cardElements = card.elements || [];
   
-  switch(): any {
+  switch (true) {
     case 'exactly':
       return arraysEqual(cardElements.sort(), selectedElements.sort());
     case 'at-most':
@@ -232,7 +233,7 @@ const matchesKeywords = (card, selectedKeywords, comparison): any => {
   if (!selectedKeywords || selectedKeywords.length === 0) return true;
   const cardKeywords = card.keywords || [];
   
-  switch(): any {
+  switch (true) {
     case 'exactly':
       return arraysEqual(cardKeywords.sort(), selectedKeywords.sort());
     case 'excluding':
@@ -250,7 +251,7 @@ const matchesManaCost = (card, searchCost, comparison): any => {
   const cardCost = card.cost || [];
   const cardCostString = cardCost.join('');
   
-  switch(): any {
+  switch (true) {
     case 'exact':
       return cardCostString === searchCost;
     case 'less':
@@ -366,7 +367,7 @@ const matchesArtist = (card, searchArtist, comparison, caseSensitive): any => {
   const cardArtist = caseSensitive ? card.artist : card.artist?.toLowerCase();
   const searchValue = caseSensitive ? searchArtist : searchArtist.toLowerCase();
 
-  switch(): any {
+  switch (true) {
     case 'exact':
       return cardArtist === searchValue;
     case 'contains':
@@ -382,7 +383,7 @@ const matchesFlavorText = (card, searchFlavor, comparison, caseSensitive): any =
   const cardFlavor = caseSensitive ? card.flavorText : card.flavorText?.toLowerCase();
   const searchValue = caseSensitive ? searchFlavor : searchFlavor.toLowerCase();
 
-  switch(): any {
+  switch (true) {
     case 'exact':
       return cardFlavor === searchValue;
     case 'word-order-matters':
@@ -456,7 +457,7 @@ const parseCost = (costString): any => {
 };
 
 const compareNumbers = (cardValue, targetValue, operator): any => {
-  switch(): any {
+  switch (true) {
     case '=':
       return cardValue === targetValue;
     case '≠':
@@ -487,7 +488,7 @@ const sortResults = (results, criteria): any => {
   
   return results.sort((a, b) => {
     let comparison = 0;
-    switch(): any {
+    switch (true) {
       case 'name':
         comparison = a.name?.localeCompare(b.name) || 0;
         break;
@@ -533,7 +534,7 @@ const sortResults = (results, criteria): any => {
 const groupResults = (results, groupBy): any => {
   const groups = {};
   
-  results.forEach(card: any = > {
+  results.forEach((card: any) => {
     let groupKey;
     
     switch (groupBy): any {

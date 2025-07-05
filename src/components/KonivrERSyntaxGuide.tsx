@@ -280,8 +280,8 @@ const KonivrERSyntaxGuide: React.FC<KonivrERSyntaxGuideProps> = ({  isExpanded =
 }
 
 const ExampleCard: React.FC<ExampleCardProps> = ({  example  }) => (
-    <div className="bg-white/5 rounded-lg p-4 border border-white/10 hover:border-white/20 transition-colors"></div>
-      <div className="flex items-center justify-between mb-3"></div>
+    <div className="bg-white/5 rounded-lg p-4 border border-white/10 hover:border-white/20 transition-colors" />
+      <div className="flex items-center justify-between mb-3" />
         <h4 className="text-purple-300 font-semibold">Syntax and Variations</h4>
         <button
           onClick={() => copyExample(example.syntax)}
@@ -289,25 +289,23 @@ const ExampleCard: React.FC<ExampleCardProps> = ({  example  }) => (
           title="Copy to clipboard"
         >
           {copiedExample === example.syntax ? (
-            <CheckCircle className="w-4 h-4 text-green-400" /></CheckCircle>
+            <CheckCircle className="w-4 h-4 text-green-400" / />
           ) : (
-            <Copy className = "w-4 h-4 text-gray-400" /></Copy>
+            <Copy className = "w-4 h-4 text-gray-400" / />
           )}
-        </button>
       </div>
-      <div className="mb-3"></div>
+      <div className="mb-3" />
         {example.syntax.split(' | ').map((variant, index) => (
-          <code key={index} className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2 mb-1 inline-block"></code>
+          <code key={index} className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2 mb-1 inline-block" />
             {variant}
-          </code>
         ))}
       </div>
       <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
-      <p className="text-gray-300 text-sm mb-3">{example.description}</p>
+      <p className="text-gray-300 text-sm mb-3">{example.description}
       {example.viableWords && (
         <>
           <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
-          <p className="text-blue-200 text-sm">{example.viableWords}</p>
+          <p className="text-blue-200 text-sm">{example.viableWords}
         </>
       )}
     </div>
@@ -326,36 +324,34 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white/5 rounded-lg border border-white/10 overflow-hidden"
-      ></motion>
+       />
         <button
           onClick={() => toggleSection(section.id)}
           className="w-full p-4 text-left hover:bg-white/5 transition-colors flex items-center justify-between"
         >
-          <div className="flex items-center space-x-3"></div>
-            <Icon className="w-5 h-5 text-purple-400" /></Icon>
-            <div></div>
-              <h3 className="text-white font-semibold">{section.title}</h3>
-              <p className="text-gray-400 text-sm">{section.description}</p>
+          <div className="flex items-center space-x-3" />
+            <Icon className="w-5 h-5 text-purple-400" / />
+            <div />
+              <h3 className="text-white font-semibold">{section.title}
+              <p className="text-gray-400 text-sm">{section.description}
             </div>
-          </div>
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-gray-400" /></ChevronUp>
+            <ChevronUp className="w-5 h-5 text-gray-400" / />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-400" /></ChevronDown>
+            <ChevronDown className="w-5 h-5 text-gray-400" / />
           )}
-        </button>
 
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {isExpanded && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               className="border-t border-white/10"
-            ></motion>
-              <div className="p-4 space-y-3"></div>
+             />
+              <div className="p-4 space-y-3" />
                 {section.examples.map((example, index) => (
-                  <ExampleCard key={index} example={example} /></ExampleCard>
+                  <ExampleCard key={index} example={example} / />
                 ))}
               </div>
             </motion.div>
@@ -370,10 +366,10 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
       <button
         onClick={onToggle}
         className="flex items-center space-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-white"
-      ></button>
-        <BookOpen className="w-4 h-4" /></BookOpen>
+       />
+        <BookOpen className="w-4 h-4" / />
         <span className="text-sm">Search Syntax Guide</span>
-        <ChevronDown className="w-4 h-4" /></ChevronDown>
+        <ChevronDown className="w-4 h-4" / />
       </button>
     );
   }
@@ -384,48 +380,43 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-    ></motion>
+     />
       {/* Header */}
-      <div className="p-6 border-b border-white/20"></div>
-        <div className="flex items-center justify-between"></div>
-          <div className="flex items-center space-x-3"></div>
-            <BookOpen className="w-6 h-6 text-purple-400" /></BookOpen>
-            <div></div>
+      <div className="p-6 border-b border-white/20" />
+        <div className="flex items-center justify-between" />
+          <div className="flex items-center space-x-3" />
+            <BookOpen className="w-6 h-6 text-purple-400" / />
+            <div />
               <h2 className="text-2xl font-bold text-white">KONIVRER Search Syntax Guide</h2>
               <p className="text-gray-400">Master the art of card searching</p>
-            </div>
           </div>
           <button
             onClick={onToggle}
             className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-          ></button>
-            <ChevronUp className="w-5 h-5 text-white" /></ChevronUp>
+           />
+            <ChevronUp className="w-5 h-5 text-white" / />
           </button>
-        </div>
       </div>
 
       {/* Key Distinction */}
-      <div className="p-6 border-b border-white/20 bg-gradient-to-r from-blue-500/10 to-purple-500/10"></div>
+      <div className="p-6 border-b border-white/20 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
         <h3 className="text-lg font-semibold text-white mb-3">🔑 Key Distinction</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-          <div className="bg-orange-500/20 rounded-lg p-4 border border-orange-500/30"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+          <div className="bg-orange-500/20 rounded-lg p-4 border border-orange-500/30" />
             <h4 className="text-orange-300 font-semibold mb-2">Elements (e:) - Mana Costs</h4>
             <p className="text-gray-300 text-sm">The resources required to cast cards. Think of these as the "fuel" needed.</p>
             <code className="text-orange-300 text-xs">e:fire e:water e:earth</code>
-          </div>
-          <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-500/30"></div>
+          <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-500/30" />
             <h4 className="text-blue-300 font-semibold mb-2">Keywords (k:) - Special Abilities</h4>
             <p className="text-gray-300 text-sm">Unique powers and effects that cards possess. These define what cards can do.</p>
             <code className="text-blue-300 text-xs">k:brilliance k:void k:gust</code>
-          </div>
         </div>
-      </div>
 
       {/* Quick Reference */}
-      <div className="p-6 border-b border-white/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10"></div>
+      <div className="p-6 border-b border-white/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10" />
         <h3 className="text-lg font-semibold text-white mb-3">🔍 Quick Reference</h3>
-        <div className="space-y-3"></div>
-          <div className="bg-white/5 rounded-lg p-4 border border-white/10"></div>
+        <div className="space-y-3" />
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10" />
             <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
             <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded mr-2">t:elemental</code>
             <code className="text-purple-300 font-mono text-sm bg-purple-500/20 px-2 py-1 rounded">type:elemental</code>
@@ -433,9 +424,8 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
             <p className="text-gray-300 text-sm">Search for cards by their type</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
             <p className="text-blue-200 text-sm">elemental, flag</p>
-          </div>
           
-          <div className="bg-white/5 rounded-lg p-4 border border-white/10"></div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10" />
             <h4 className="text-orange-300 font-semibold mb-2">Syntax and Variations</h4>
             <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded mr-2">e:fire</code>
             <code className="text-orange-300 font-mono text-sm bg-orange-500/20 px-2 py-1 rounded">element:fire</code>
@@ -443,9 +433,8 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
             <p className="text-gray-300 text-sm">Search for cards by their elemental requirements (resources needed to cast)</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
             <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
-          </div>
           
-          <div className="bg-white/5 rounded-lg p-4 border border-white/10"></div>
+          <div className="bg-white/5 rounded-lg p-4 border border-white/10" />
             <h4 className="text-blue-300 font-semibold mb-2">Syntax and Variations</h4>
             <code className="text-blue-300 font-mono text-sm bg-blue-500/20 px-2 py-1 rounded mr-2">k:brilliance</code>
             <code className="text-blue-300 font-mono text-sm bg-blue-500/20 px-2 py-1 rounded">keyword:brilliance</code>
@@ -453,35 +442,31 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
             <p className="text-gray-300 text-sm">Search for cards by their keyword abilities (special powers)</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
             <p className="text-blue-200 text-sm">brilliance, void, gust, submerged, inferno, steadfast</p>
-          </div>
         </div>
-      </div>
 
       {/* Sections */}
-      <div className="p-6"></div>
-        <div className="space-y-4"></div>
+      <div className="p-6" />
+        <div className="space-y-4" />
           {syntaxSections.map((section) => (
-            <SectionCard key={section.id} section={section} /></SectionCard>
+            <SectionCard key={section.id} section={section} / />
           ))}
         </div>
 
         {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-white/20"></div>
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-4"></div>
-            <h4 className="text-white font-semibold mb-2 flex items-center"></h4>
-              <Zap className="w-4 h-4 mr-2" /></Zap>
+        <div className="mt-8 pt-6 border-t border-white/20" />
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-4" />
+            <h4 className="text-white font-semibold mb-2 flex items-center" />
+              <Zap className="w-4 h-4 mr-2" / />
               Pro Tips
             </h4>
-            <ul className="text-gray-300 text-sm space-y-1"></ul>
+            <ul className="text-gray-300 text-sm space-y-1" />
               <li>• <strong>Elements vs Keywords:</strong> <code className="text-orange-300">e:fire</code> (casting requirement) vs <code className="text-blue-300">k:brilliance</code> (special ability)</li>
-              <li>• <strong>Combine criteria:</strong> <code className="text-purple-300">t:familiar e:water k:submerged</code></li>
-              <li>• <strong>Complex logic:</strong> <code className="text-purple-300">(t:spell OR t:artifact) k:void</code></li>
-              <li>• <strong>Exclude results:</strong> <code className="text-purple-300">dragon -t:token</code></li>
-              <li>• <strong>Exact phrases:</strong> <code className="text-purple-300">"enters the battlefield"</code></li>
+              <li>• <strong>Combine criteria:</strong> <code className="text-purple-300">t:familiar e:water k:submerged</code>
+              <li>• <strong>Complex logic:</strong> <code className="text-purple-300">(t:spell OR t:artifact) k:void</code>
+              <li>• <strong>Exclude results:</strong> <code className="text-purple-300">dragon -t:token</code>
+              <li>• <strong>Exact phrases:</strong> <code className="text-purple-300">"enters the battlefield"</code>
             </ul>
-          </div>
         </div>
-      </div>
     </motion.div>
   );
 };

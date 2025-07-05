@@ -52,7 +52,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4"></div>
+    <div className="grid grid-cols-2 gap-4" />
       {formats.map(format => (
         <motion.button
           key={format.id}
@@ -65,18 +65,16 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="flex items-center space-x-3 mb-2"></div>
+          <div className="flex items-center space-x-3 mb-2" />
             <div
               className={`w-6 h-6 rounded-full bg-gradient-to-br ${format.color} flex items-center justify-center text-white`}
-            ></div>
+             />
               {format.icon}
-            </div>
-            <span className="font-medium text-gray-900">{format.name}</span>
+            <span className="font-medium text-gray-900">{format.name}
           </div>
           {showDescriptions && (
-            <p className="text-sm text-gray-600 text-left"></p>
+            <p className="text-sm text-gray-600 text-left" />
               {format.description}
-            </p>
           )}
         </motion.button>
       ))}

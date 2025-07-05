@@ -1,3 +1,4 @@
+import React from 'react';
 #!/usr/bin/env node
 
 /**
@@ -23,14 +24,14 @@ const LICENSE_HEADER = `/**
 
 `;
 
-function hasLicenseHeader(content) {
+function hasLicenseHeader(): void {
   return (
     content.includes('Copyright (c) 2024 KONIVRER Deck Database') ||
     content.includes('Licensed under the MIT License')
   );
 }
 
-function addLicenseHeader(filePath) {
+function addLicenseHeader(): void {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
 
@@ -47,7 +48,7 @@ function addLicenseHeader(filePath) {
   }
 }
 
-function processDirectory(dirPath) {
+function processDirectory(): void {
   const items = fs.readdirSync(dirPath);
 
   for (const item of items) {

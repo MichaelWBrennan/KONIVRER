@@ -197,7 +197,7 @@ const Home = (): any => {
     });
   };
   const getTypeColor = type => {
-    switch(): any {
+    switch (true) {
       case 'Set Release':
         return 'bg-blue-600';
       case 'Strategy':
@@ -211,12 +211,12 @@ const Home = (): any => {
     }
   };
   return (
-    <div className="min-h-screen bg-gray-900 text-white"></div>
+    <div className="min-h-screen bg-gray-900 text-white" />
       {/* Latest News Section */}
-      <section className="py-12"></section>
-        <div className="container mx-auto px-4"></div>
-          <div className="max-w-6xl mx-auto"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
+      <section className="py-12" />
+        <div className="container mx-auto px-4" />
+          <div className="max-w-6xl mx-auto" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8" />
               {blogPosts.map((post, index) => (
                 <motion.article
                   key={post.id}
@@ -224,71 +224,63 @@ const Home = (): any => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                ></motion>
+                 />
                   {/* Featured Image */}
-                  <div className="relative"></div>
+                  <div className="relative" />
                     <img
                       src={post.image}
                       alt={post.title}
                       className="w-full h-48 object-cover"
-                    /></img>
+                    / />
                     <div
                       className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${getTypeColor(post.type)}`}
-                    ></div>
+                     />
                       {post.type}
-                    </div>
                     {post.featured && (
-                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white"></div>
+                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white" />
                         Featured
                       </div>
                     )}
-                  </div>
                   {/* Content */}
-                  <div className="p-6"></div>
-                    <p className="text-gray-400 mb-4 line-clamp-3"></p>
+                  <div className="p-6" />
+                    <p className="text-gray-400 mb-4 line-clamp-3" />
                       {post.excerpt}
-                    </p>
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4"></div>
-                      <div className="flex items-center space-x-4"></div>
-                        <span className="flex items-center space-x-1"></span>
-                          <User size={14} /></User>
-                          <span>{post.author}</span>
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4" />
+                      <div className="flex items-center space-x-4" />
+                        <span className="flex items-center space-x-1" />
+                          <User size={14} / />
+                          <span>{post.author}
                         </span>
-                        <span className="flex items-center space-x-1"></span>
-                          <Clock size={14} /></Clock>
-                          <span>{post.readTime}</span>
+                        <span className="flex items-center space-x-1" />
+                          <Clock size={14} / />
+                          <span>{post.readTime}
                         </span>
-                      </div>
-                      <span>{formatDate(post.date)}</span>
+                      <span>{formatDate(post.date)}
                     </div>
                     {/* Stats and Actions */}
-                    <div className="flex items-center justify-between"></div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
-                        <span className="flex items-center space-x-1"></span>
-                          <Eye size={14} /></Eye>
-                          <span>{post.views.toLocaleString()}</span>
+                    <div className="flex items-center justify-between" />
+                      <div className="flex items-center space-x-4 text-sm text-gray-400" />
+                        <span className="flex items-center space-x-1" />
+                          <Eye size={14} / />
+                          <span>{post.views.toLocaleString()}
                         </span>
-                        <span className="flex items-center space-x-1"></span>
-                          <Heart size={14} /></Heart>
-                          <span>{post.likes}</span>
+                        <span className="flex items-center space-x-1" />
+                          <Heart size={14} / />
+                          <span>{post.likes}
                         </span>
-                      </div>
                       <Link
                         to={`/news/${post.id}`}
                         className="inline-flex items-center space-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium"
-                      ></Link>
+                       />
                         <span>Read More</span>
-                        <ExternalLink size={14} /></ExternalLink>
+                        <ExternalLink size={14} / />
                       </Link>
-                    </div>
                   </div>
                 </motion.article>
               ))}
             </div>
-          </div>
         </div>
-      </section>
     </div>
   );
 };

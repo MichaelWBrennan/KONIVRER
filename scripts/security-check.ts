@@ -1,3 +1,4 @@
+import React from 'react';
 
 import AIRecorder from './ai-recorder.js';
 

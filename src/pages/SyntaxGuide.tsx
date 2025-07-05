@@ -156,61 +156,51 @@ const SyntaxGuide = (): any => {
     },
   ];
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-      <div className="container mx-auto px-4 py-8"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+      <div className="container mx-auto px-4 py-8" />
         {/* Header */}
-        <div className="mb-8"></div>
+        <div className="mb-8" />
           <Link 
             to="/cards" 
             className="inline-flex items-center gap-2 text-purple-300 hover:text-purple-100 transition-colors mb-4"
-          ></Link>
-            <ArrowLeft className="w-4 h-4" /></ArrowLeft>
+           />
+            <ArrowLeft className="w-4 h-4" / />
             Back to Card Search
           </Link>
-          <div className="flex items-center gap-3 mb-4"></div>
+          <div className="flex items-center gap-3 mb-4" />
             <BookOpen className="w-8 h-8 text-purple-400" /></div>
-        </div>
         {/* Quick Reference */}
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 mb-8 border border-purple-500/20"></div>
-          <div className="space-y-4"></div>
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50"></div>
-              <div className="flex flex-wrap gap-2 mb-3"></div>
+        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 mb-8 border border-purple-500/20" />
+          <div className="space-y-4" />
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50" />
+              <div className="flex flex-wrap gap-2 mb-3" />
                 <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">t:elemental</code>
                 <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">type:elemental</code>
-              </div>
               <p className="text-gray-300 text-sm mb-3">Search for cards by their type</p>
               <p className="text-blue-200 text-sm">elemental, flag</p>
-            </div>
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50"></div>
-              <div className="flex flex-wrap gap-2 mb-3"></div>
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50" />
+              <div className="flex flex-wrap gap-2 mb-3" />
                 <code className="text-orange-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">e:fire</code>
                 <code className="text-orange-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">element:fire</code>
-              </div>
               <p className="text-gray-300 text-sm mb-3">Search for cards by their elemental requirements (resources needed to cast)</p>
               <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
-            </div>
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50"></div>
-              <div className="flex flex-wrap gap-2 mb-3"></div>
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50" />
+              <div className="flex flex-wrap gap-2 mb-3" />
                 <code className="text-blue-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">k:brilliance</code>
                 <code className="text-blue-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">keyword:brilliance</code>
-              </div>
               <p className="text-gray-300 text-sm mb-3">Search for cards by their keyword abilities (special powers)</p>
               <p className="text-blue-200 text-sm">brilliance, void, gust, submerged, inferno, steadfast</p>
-            </div>
           </div>
-        </div>
         {/* Footer */}
-        <div className="mt-12 text-center"></div>
+        <div className="mt-12 text-center" />
           <Link 
             to="/cards" 
             className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
-          ></Link>
-            <Search className="w-4 h-4" /></Search>
+           />
+            <Search className="w-4 h-4" / />
             Try Advanced Search
           </Link>
-        </div>
       </div>
-    </div>
   );
 };
 export default SyntaxGuide;

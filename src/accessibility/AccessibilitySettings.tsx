@@ -53,15 +53,15 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
   };
 
   return (
-    <div className="accessibility-settings bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl w-full"></div>
-      <div className="flex flex-col md:flex-row h-full"></div>
+    <div className="accessibility-settings bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl w-full" />
+      <div className="flex flex-col md:flex-row h-full" />
         {/* Sidebar */}
-        <div className="bg-gray-100 p-4 md:w-64"></div>
-          <h2 className="text-xl font-bold text-gray-800 mb-4"></h2>
+        <div className="bg-gray-100 p-4 md:w-64" />
+          <h2 className="text-xl font-bold text-gray-800 mb-4" />
             Accessibility
           </h2>
 
-          <nav className="space-y-1"></nav>
+          <nav className="space-y-1" />
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
                 activeTab === 'visual'
@@ -70,9 +70,8 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('visual')}
             >
-              <Eye className="w-5 h-5 mr-3" /></Eye>
+              <Eye className="w-5 h-5 mr-3" / />
               <span>Visual</span>
-            </button>
 
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
@@ -82,9 +81,8 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('interface')}
             >
-              <Monitor className="w-5 h-5 mr-3" /></Monitor>
+              <Monitor className="w-5 h-5 mr-3" / />
               <span>Interface</span>
-            </button>
 
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
@@ -94,9 +92,8 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('audio')}
             >
-              <Volume2 className="w-5 h-5 mr-3" /></Volume2>
+              <Volume2 className="w-5 h-5 mr-3" / />
               <span>Audio</span>
-            </button>
 
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
@@ -106,9 +103,8 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('input')}
             >
-              <Keyboard className="w-5 h-5 mr-3" /></Keyboard>
+              <Keyboard className="w-5 h-5 mr-3" / />
               <span>Input</span>
-            </button>
 
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
@@ -118,9 +114,8 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('language')}
             >
-              <Globe className="w-5 h-5 mr-3" /></Globe>
+              <Globe className="w-5 h-5 mr-3" / />
               <span>Language</span>
-            </button>
 
             <button
               className={`flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left ${
@@ -130,41 +125,38 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               }`}
               onClick={() => setActiveTab('help')}
             >
-              <HelpCircle className="w-5 h-5 mr-3" /></HelpCircle>
+              <HelpCircle className="w-5 h-5 mr-3" / />
               <span>Help</span>
-            </button>
           </nav>
 
-          <div className="mt-6"></div>
+          <div className="mt-6" />
             <button
               className="flex items-center w-full px-3 py-0 whitespace-nowrap rounded-md text-left text-red-600 hover:bg-red-50"
               onClick={handleReset}
-            ></button>
-              <RotateCcw className="w-5 h-5 mr-3" /></RotateCcw>
+             />
+              <RotateCcw className="w-5 h-5 mr-3" / />
               <span>Reset All</span>
-            </button>
           </div>
-        </div>
 
         {/* Content */}
-        <div className="flex-1 p-6 overflow-y-auto"></div>
+        <div className="flex-1 p-6 overflow-y-auto" />
           {/* Visual Settings */}
           {activeTab === 'visual' && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Visual Settings
               </h3>
 
               {/* Font Size */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Font Size
                 </label>
-                <div className="grid grid-cols-4 gap-2"></div>
+                <div className="grid grid-cols-4 gap-2" />
                   {['small', 'medium', 'large', 'x-large'].map(size => (
                     <button
                       key={size}
@@ -182,20 +174,18 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                         ${size === 'large' ? 'text-lg' : ''}
                         ${size === 'x-large' ? 'text-xl' : ''}
                       `}
-                      ></span>
+                       />
                         {size.charAt(0).toUpperCase() + size.slice(1)}
-                      </span>
                     </button>
                   ))}
                 </div>
-              </div>
 
               {/* Color Mode */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Color Mode
                 </label>
-                <div className="grid grid-cols-2 gap-2"></div>
+                <div className="grid grid-cols-2 gap-2" />
                   {[
                     { id: 'default', name: 'Default' },
                     { id: 'high-contrast', name: 'High Contrast' },
@@ -212,17 +202,15 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                       onClick={() => handleChange('colorMode', mode.id)}
                     >
                       {mode.name}
-                    </button>
                   ))}
                 </div>
-              </div>
 
               {/* Color Blind Mode */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Color Blind Mode
                 </label>
-                <div className="grid grid-cols-2 gap-2"></div>
+                <div className="grid grid-cols-2 gap-2" />
                   {[
                     { id: 'none', name: 'None' },
                     { id: 'protanopia', name: 'Protanopia' },
@@ -240,46 +228,42 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                       onClick={() => handleChange('colorBlindMode', mode.id)}
                     >
                       {mode.name}
-                    </button>
                   ))}
                 </div>
-              </div>
 
               {/* Motion & Transparency */}
-              <div className="mb-6 space-y-4"></div>
-                <div className="flex items-center"></div>
+              <div className="mb-6 space-y-4" />
+                <div className="flex items-center" />
                   <input
                     id="reduceMotion"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.reduceMotion}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('reduceMotion', e.target.checked)}
                   />
                   <label
                     htmlFor="reduceMotion"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Reduce motion and animations
                   </label>
-                </div>
 
-                <div className="flex items-center"></div>
+                <div className="flex items-center" />
                   <input
                     id="reduceTransparency"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.reduceTransparency}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('reduceTransparency', e.target.checked)}
                   />
                   <label
                     htmlFor="reduceTransparency"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Reduce transparency effects
                   </label>
-                </div>
               </div>
             </motion.div>
           )}
@@ -289,17 +273,17 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Interface Settings
               </h3>
 
               {/* Interface Complexity */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Interface Complexity
                 </label>
-                <div className="space-y-2"></div>
+                <div className="space-y-2" />
                   {[
                     {
                       id: 'simple',
@@ -326,92 +310,84 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                           ? 'bg-blue-50 border-blue-500'
                           : 'border-gray-300 hover:bg-gray-50'
                       }`}
-                      onClick={() =></div>
+                      onClick={() = />
                         handleChange('interfaceComplexity', option.id)}
                     >
-                      <div className="flex items-center"></div>
+                      <div className="flex items-center" />
                         <div
                           className={`w-4 h-4 rounded-full border ${
                             settings.interfaceComplexity === option.id
                               ? 'bg-blue-500 border-blue-500'
                               : 'border-gray-400'
                           }`}
-                        ></div>
+                         />
                           {settings.interfaceComplexity === option.id && (
-                            <Check className="w-4 h-4 text-white" /></Check>
+                            <Check className="w-4 h-4 text-white" / />
                           )}
-                        </div>
-                        <span className="ml-2 font-medium text-gray-800"></span>
+                        <span className="ml-2 font-medium text-gray-800" />
                           {option.name}
-                        </span>
                       </div>
-                      <p className="mt-1 text-sm text-gray-600 ml-6"></p>
+                      <p className="mt-1 text-sm text-gray-600 ml-6" />
                         {option.description}
-                      </p>
                     </div>
                   ))}
                 </div>
-              </div>
 
               {/* Screen Reader Optimization */}
-              <div className="mb-6"></div>
-                <div className="flex items-center"></div>
+              <div className="mb-6" />
+                <div className="flex items-center" />
                   <input
                     id="screenReaderOptimized"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.screenReaderOptimized}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('screenReaderOptimized', e.target.checked)}
                   />
                   <label
                     htmlFor="screenReaderOptimized"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Optimize for screen readers
                   </label>
-                </div>
-                <p className="mt-1 text-xs text-gray-500 ml-6"></p>
+                <p className="mt-1 text-xs text-gray-500 ml-6" />
                   Enhances compatibility with screen readers by adding
                   additional ARIA labels and improving navigation
                 </p>
-              </div>
 
               {/* Guided Experience */}
-              <div className="mb-6 space-y-4"></div>
-                <div className="flex items-center"></div>
+              <div className="mb-6 space-y-4" />
+                <div className="flex items-center" />
                   <input
                     id="showTutorials"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.showTutorials}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('showTutorials', e.target.checked)}
                   />
                   <label
                     htmlFor="showTutorials"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Show tutorials for new features
                   </label>
-                </div>
 
-                <div className="flex items-center"></div>
+                <div className="flex items-center" />
                   <input
                     id="showContextualHelp"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.showContextualHelp}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('showContextualHelp', e.target.checked)}
                   />
                   <label
                     htmlFor="showContextualHelp"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Show contextual help and tooltips
                   </label>
-                </div>
               </div>
             </motion.div>
           )}
@@ -421,50 +397,48 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Audio Settings
               </h3>
 
-              <div className="mb-6 space-y-4"></div>
-                <div className="flex items-center"></div>
+              <div className="mb-6 space-y-4" />
+                <div className="flex items-center" />
                   <input
                     id="enableSoundEffects"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.enableSoundEffects}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('enableSoundEffects', e.target.checked)}
                   />
                   <label
                     htmlFor="enableSoundEffects"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Enable sound effects
                   </label>
-                </div>
 
-                <div className="flex items-center"></div>
+                <div className="flex items-center" />
                   <input
                     id="enableVoiceAnnouncements"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.enableVoiceAnnouncements}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('enableVoiceAnnouncements', e.target.checked)}
                   />
                   <label
                     htmlFor="enableVoiceAnnouncements"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Enable voice announcements
                   </label>
-                </div>
               </div>
 
               {settings.enableVoiceAnnouncements && (
-                <div className="mb-6"></div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+                <div className="mb-6" />
+                  <label className="block text-sm font-medium text-gray-700 mb-2" />
                     Voice Announcement Volume
                   </label>
                   <input
@@ -474,14 +448,13 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                     step="10"
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                     value={settings.voiceVolume || 80}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange('voiceVolume', parseInt(e.target.value))}
                   />
-                  <div className="flex justify-between text-xs text-gray-500 mt-1"></div>
+                  <div className="flex justify-between text-xs text-gray-500 mt-1" />
                     <span>0%</span>
                     <span>50%</span>
                     <span>100%</span>
-                  </div>
                 </div>
               )}
             </motion.div>
@@ -492,20 +465,20 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Input Settings
               </h3>
 
               {/* Keyboard Navigation */}
-              <div className="mb-6"></div>
-                <div className="flex items-center"></div>
+              <div className="mb-6" />
+                <div className="flex items-center" />
                   <input
                     id="enhancedKeyboardNavigation"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={settings.enhancedKeyboardNavigation}
-                    onChange={e =></input>
+                    onChange={e = />
                       handleChange(
                         'enhancedKeyboardNavigation',
                         e.target.checked,
@@ -514,22 +487,20 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                   <label
                     htmlFor="enhancedKeyboardNavigation"
                     className="ml-2 block text-sm text-gray-700"
-                  ></label>
+                   />
                     Enhanced keyboard navigation
                   </label>
-                </div>
-                <p className="mt-1 text-xs text-gray-500 ml-6"></p>
+                <p className="mt-1 text-xs text-gray-500 ml-6" />
                   Improves keyboard navigation with additional shortcuts and
                   focus indicators
                 </p>
-              </div>
 
               {/* Touch Target Size */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Touch Target Size
                 </label>
-                <div className="grid grid-cols-3 gap-2"></div>
+                <div className="grid grid-cols-3 gap-2" />
                   {['small', 'medium', 'large'].map(size => (
                     <button
                       key={size}
@@ -541,14 +512,12 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                       onClick={() => handleChange('touchTargetSize', size)}
                     >
                       {size.charAt(0).toUpperCase() + size.slice(1)}
-                    </button>
                   ))}
                 </div>
-                <p className="mt-1 text-xs text-gray-500"></p>
+                <p className="mt-1 text-xs text-gray-500" />
                   Adjusts the size of buttons and interactive elements for
                   easier touch interaction
                 </p>
-              </div>
             </motion.div>
           )}
           {/* Language Settings */}
@@ -557,14 +526,14 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Language Settings
               </h3>
 
               {/* Language Selection */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Interface Language
                 </label>
                 <select
@@ -581,15 +550,14 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                   <option value="ko">한국어</option>
                   <option value="pt">Português</option>
                   <option value="ru">Русский</option>
-                </select>
               </div>
 
               {/* Terminology Preferences */}
-              <div className="mb-6"></div>
-                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+              <div className="mb-6" />
+                <label className="block text-sm font-medium text-gray-700 mb-2" />
                   Terminology Preferences
                 </label>
-                <div className="space-y-2"></div>
+                <div className="space-y-2" />
                   {[
                     {
                       id: 'standard',
@@ -615,10 +583,10 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                           ? 'bg-blue-50 border-blue-500'
                           : 'border-gray-300 hover:bg-gray-50'
                       }`}
-                      onClick={() =></div>
+                      onClick={() = />
                         handleChange('terminologyPreference', option.id)}
                     >
-                      <div className="flex items-center"></div>
+                      <div className="flex items-center" />
                         <div
                           className={`w-4 h-4 rounded-full border ${
                             (settings.terminologyPreference || 'standard') ===
@@ -626,23 +594,19 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
                               ? 'bg-blue-500 border-blue-500'
                               : 'border-gray-400'
                           }`}
-                        ></div>
+                         />
                           {(settings.terminologyPreference || 'standard') ===
                             option.id && (
-                            <Check className="w-4 h-4 text-white" /></Check>
+                            <Check className="w-4 h-4 text-white" / />
                           )}
-                        </div>
-                        <span className="ml-2 font-medium text-gray-800"></span>
+                        <span className="ml-2 font-medium text-gray-800" />
                           {option.name}
-                        </span>
                       </div>
-                      <p className="mt-1 text-sm text-gray-600 ml-6"></p>
+                      <p className="mt-1 text-sm text-gray-600 ml-6" />
                         {option.description}
-                      </p>
                     </div>
                   ))}
                 </div>
-              </div>
             </motion.div>
           )}
           {/* Help Settings */}
@@ -651,85 +615,78 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-            ></motion>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
+             />
+              <h3 className="text-lg font-semibold text-gray-800 mb-4" />
                 Help & Support
               </h3>
 
-              <div className="space-y-4"></div>
-                <div className="bg-blue-50 p-4 rounded-lg"></div>
-                  <h4 className="font-medium text-blue-800 mb-2"></h4>
+              <div className="space-y-4" />
+                <div className="bg-blue-50 p-4 rounded-lg" />
+                  <h4 className="font-medium text-blue-800 mb-2" />
                     Accessibility Support
                   </h4>
-                  <p className="text-sm text-blue-700 mb-3"></p>
+                  <p className="text-sm text-blue-700 mb-3" />
                     If you need additional accessibility accommodations or have
                     feedback, please contact our support team.
                   </p>
                   <a
                     href="mailto:accessibility@example.com"
                     className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
-                  ></a>
-                    <MessageSquare className="w-4 h-4 mr-1" /></MessageSquare>
+                   />
+                    <MessageSquare className="w-4 h-4 mr-1" / />
                     Contact Accessibility Support
                   </a>
-                </div>
 
-                <div className="border border-gray-200 rounded-lg divide-y divide-gray-200"></div>
-                  <div className="p-4"></div>
-                    <h4 className="font-medium text-gray-800 mb-1"></h4>
+                <div className="border border-gray-200 rounded-lg divide-y divide-gray-200" />
+                  <div className="p-4" />
+                    <h4 className="font-medium text-gray-800 mb-1" />
                       Keyboard Shortcuts
                     </h4>
-                    <p className="text-sm text-gray-600"></p>
+                    <p className="text-sm text-gray-600" />
                       View and customize keyboard shortcuts for navigation and
                       actions
                     </p>
-                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"></button>
+                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800" />
                       View Shortcuts
-                      <ChevronRight className="w-4 h-4 ml-1" /></ChevronRight>
+                      <ChevronRight className="w-4 h-4 ml-1" / />
                     </button>
-                  </div>
 
-                  <div className="p-4"></div>
-                    <h4 className="font-medium text-gray-800 mb-1"></h4>
+                  <div className="p-4" />
+                    <h4 className="font-medium text-gray-800 mb-1" />
                       Accessibility Guide
                     </h4>
-                    <p className="text-sm text-gray-600"></p>
+                    <p className="text-sm text-gray-600" />
                       Learn about all accessibility features and how to use them
                     </p>
-                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"></button>
+                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800" />
                       Open Guide
-                      <ChevronRight className="w-4 h-4 ml-1" /></ChevronRight>
+                      <ChevronRight className="w-4 h-4 ml-1" / />
                     </button>
-                  </div>
 
-                  <div className="p-4"></div>
-                    <h4 className="font-medium text-gray-800 mb-1"></h4>
+                  <div className="p-4" />
+                    <h4 className="font-medium text-gray-800 mb-1" />
                       Screen Reader Tips
                     </h4>
-                    <p className="text-sm text-gray-600"></p>
+                    <p className="text-sm text-gray-600" />
                       Tips for using the application with screen readers
                     </p>
-                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"></button>
+                    <button className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800" />
                       View Tips
-                      <ChevronRight className="w-4 h-4 ml-1" /></ChevronRight>
+                      <ChevronRight className="w-4 h-4 ml-1" / />
                     </button>
-                  </div>
                 </div>
-              </div>
             </motion.div>
           )}
         </div>
-      </div>
 
       {/* Footer */}
-      <div className="bg-gray-50 px-6 py-0 whitespace-nowrap flex justify-end"></div>
+      <div className="bg-gray-50 px-6 py-0 whitespace-nowrap flex justify-end" />
         <button
           className="px-4 py-0 whitespace-nowrap bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={onClose}
-        ></button>
+         />
           Save & Close
         </button>
-      </div>
     </div>
   );
 };

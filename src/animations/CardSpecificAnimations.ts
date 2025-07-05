@@ -37,7 +37,7 @@ const cardAnimations = new Map();
  * @param {string} cardType - Card type
  * @returns {Object|null} Card-specific animations or null if not found
  */
-export function getCardSpecificAnimations(cardId: any, cardType: any): any {
+export function getCardSpecificAnimations(): any {
   // First try to find by exact card ID
   if (cardId && cardAnimations.has(cardId)) {
     return cardAnimations.get(cardId);
@@ -59,7 +59,7 @@ export function getCardSpecificAnimations(cardId: any, cardType: any): any {
  * @param {string} cardId - Card ID or type key (e.g., "type:familiar")
  * @param {Object} animations - Animation handlers
  */
-function registerCardAnimation(cardId: any, animations: any): any {
+function registerCardAnimation(): any {
   cardAnimations.set(cardId, animations);
 }
 

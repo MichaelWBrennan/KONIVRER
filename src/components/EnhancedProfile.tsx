@@ -134,7 +134,7 @@ const EnhancedProfile = (): any => {
   };
 
   const getRarityColor = rarity => {
-    switch(): any {
+    switch (true) {
       case 'common':
         return 'text-gray-400 border-gray-400';
       case 'rare':
@@ -151,7 +151,7 @@ const EnhancedProfile = (): any => {
   };
 
   const getRarityIcon = rarity => {
-    switch(): any {
+    switch (true) {
       case 'common':
         return Circle;
       case 'rare':
@@ -169,29 +169,28 @@ const EnhancedProfile = (): any => {
 
   if (true) {
     return (
-      <div className="min-h-screen py-8"></div>
-        <div className="container text-center"></div>
+      <div className="min-h-screen py-8" />
+        <div className="container text-center" />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto"
-          ></motion>
-            <div className="w-24 h-24 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full flex items-center justify-center mx-auto mb-6"></div>
-              <User size={48} className="text-white" /></User>
+           />
+            <div className="w-24 h-24 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full flex items-center justify-center mx-auto mb-6" />
+              <User size={48} className="text-white" / />
             </div>
-            <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"></h1>
+            <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
               Authentication Required
             </h1>
-            <p className="text-secondary mb-6"></p>
+            <p className="text-secondary mb-6" />
               You need to be logged in to view your profile.
             </p>
-            <Link to="/" className="btn btn-primary"></Link>
-              <Rocket size={16} /></Rocket>
+            <Link to="/" className="btn btn-primary" />
+              <Rocket size={16} / />
               Go Home
             </Link>
           </motion.div>
         </div>
-      </div>
     );
   }
 
@@ -237,62 +236,60 @@ const EnhancedProfile = (): any => {
     },
   ];
 
-  const renderOverview = () => (
+  const renderOverview = (renderOverview: any) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
-    ></motion>
+     />
       {/* Enhanced Profile Header */}
-      <div className="card relative overflow-hidden"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 to-accent-secondary/10" /></div>
-        <div className="relative z-10 p-6"></div>
-          <div className="flex items-start gap-6"></div>
-            <div className="relative"></div>
+      <div className="card relative overflow-hidden" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 to-accent-secondary/10" / />
+        <div className="relative z-10 p-6" />
+          <div className="flex items-start gap-6" />
+            <div className="relative" />
               <img
                 src={user.avatar}
                 alt={user.displayName}
                 className="w-32 h-32 rounded-2xl bg-tertiary border-4 border-accent-primary/20"
-              /></img>
+              / />
               {user.verified && (
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"></div>
-                  <Verified size={16} className="text-white" /></Verified>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center" />
+                  <Verified size={16} className="text-white" / />
                 </div>
               )}
               {user.twoFactorEnabled && (
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"></div>
-                  <ShieldCheck size={16} className="text-white" /></ShieldCheck>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center" />
+                  <ShieldCheck size={16} className="text-white" / />
                 </div>
               )}
             </div>
 
-            <div className="flex-1"></div>
-              <div className="flex items-center justify-between mb-4"></div>
-                <div></div>
+            <div className="flex-1" />
+              <div className="flex items-center justify-between mb-4" />
+                <div />
                   {isEditing ? (
                     <input
                       type="text"
                       className="input text-2xl font-bold bg-transparent border-0 border-b-2 border-accent-primary"
                       value={editForm.displayName}
-                      onChange={e =></input>
+                      onChange={e = />
                         setEditForm({
                           ...editForm,
                           displayName: e.target.value,
                         })}
                     />
                   ) : (
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"></h1>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                       {user.displayName}
-                    </h1>
                   )}
-                  <div className="flex items-center gap-2 mt-1"></div>
-                    <p className="text-secondary">@{user.username}</p>
+                  <div className="flex items-center gap-2 mt-1" />
+                    <p className="text-secondary">@{user.username}
                     {user.verified && (
                       <span className="text-blue-400 text-sm">Verified</span>
                     )}
-                  </div>
                 </div>
-                <div className="flex gap-2"></div>
+                <div className="flex gap-2" />
                   {isEditing ? (
                     <>
                       <motion.button
@@ -300,8 +297,8 @@ const EnhancedProfile = (): any => {
                         whileTap={{ scale: 0.95 }}
                         onClick={handleSaveProfile}
                         className="btn btn-primary"
-                      ></motion>
-                        <Save size={16} /></Save>
+                       />
+                        <Save size={16} / />
                         Save
                       </motion.button>
                       <motion.button
@@ -310,7 +307,7 @@ const EnhancedProfile = (): any => {
                         onClick={() => setIsEditing(false)}
                         className="btn btn-secondary"
                       >
-                        <X size={16} /></X>
+                        <X size={16} / />
                         Cancel
                       </motion.button>
                     </>
@@ -321,15 +318,14 @@ const EnhancedProfile = (): any => {
                       onClick={() => setIsEditing(true)}
                       className="btn btn-secondary"
                     >
-                      <Edit size={16} /></Edit>
+                      <Edit size={16} / />
                       Edit Profile
                     </motion.button>
                   )}
                 </div>
-              </div>
 
               {/* Enhanced Role Badges */}
-              <div className="flex flex-wrap gap-2 mb-4"></div>
+              <div className="flex flex-wrap gap-2 mb-4" />
                 {user.roles.map(role => {
                   const roleConfig = {
                     player: { color: 'bg-green-600', icon: Gamepad2 },
@@ -345,8 +341,8 @@ const EnhancedProfile = (): any => {
                       key={role}
                       whileHover={{ scale: 1.05 }}
                       className={`px-3 py-0 whitespace-nowrap rounded-full text-white text-sm font-medium flex items-center gap-1 ${config.color}`}
-                    ></motion>
-                      <Icon size={14} /></Icon>
+                     />
+                      <Icon size={14} / />
                       {role === 'judge' &&
                         user.judgeLevel > 0 &&
                         `Level ${user.judgeLevel} `}
@@ -360,77 +356,70 @@ const EnhancedProfile = (): any => {
               </div>
 
               {/* Enhanced Info Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"></div>
-                <div className="flex items-center gap-2 text-sm"></div>
-                  <Mail size={16} className="text-accent-primary" /></Mail>
-                  <span className="truncate">{user.email}</span>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4" />
+                <div className="flex items-center gap-2 text-sm" />
+                  <Mail size={16} className="text-accent-primary" / />
+                  <span className="truncate">{user.email}
                 </div>
-                <div className="flex items-center gap-2 text-sm"></div>
-                  <LocationIcon size={16} className="text-accent-primary" /></LocationIcon>
-                  <span className="truncate"></span>
+                <div className="flex items-center gap-2 text-sm" />
+                  <LocationIcon size={16} className="text-accent-primary" / />
+                  <span className="truncate" />
                     {user.location || 'Not specified'}
-                  </span>
                 </div>
-                <div className="flex items-center gap-2 text-sm"></div>
-                  <CalendarIcon size={16} className="text-accent-primary" /></CalendarIcon>
-                  <span></span>
+                <div className="flex items-center gap-2 text-sm" />
+                  <CalendarIcon size={16} className="text-accent-primary" / />
+                  <span />
                     Joined {new Date(user.joinDate).toLocaleDateString()}
-                  </span>
                 </div>
-                <div className="flex items-center gap-2 text-sm"></div>
-                  <Sparkles size={16} className="text-accent-primary" /></Sparkles>
-                  <span></span>
+                <div className="flex items-center gap-2 text-sm" />
+                  <Sparkles size={16} className="text-accent-primary" / />
+                  <span />
                     {user.achievements?.filter(a => a.earned).length || 0}{' '}
                     Achievements
                   </span>
-                </div>
               </div>
 
               {/* Enhanced Bio Section */}
               {isEditing ? (
-                <div className="space-y-3"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium mb-1"></label>
+                <div className="space-y-3" />
+                  <div />
+                    <label className="block text-sm font-medium mb-1" />
                       Location
                     </label>
                     <input
                       type="text"
                       className="input"
                       value={editForm.location}
-                      onChange={e =></input>
+                      onChange={e = />
                         setEditForm({ ...editForm, location: e.target.value })}
                       placeholder="City, State/Country"
                     />
                   </div>
-                  <div></div>
-                    <label className="block text-sm font-medium mb-1"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-1" />
                       Bio
                     </label>
                     <textarea
                       className="input resize-none h-24"
                       value={editForm.bio}
-                      onChange={e =></textarea>
+                      onChange={e = />
                         setEditForm({ ...editForm, bio: e.target.value })}
                       placeholder="Tell us about yourself..."
                       maxLength={500}
                     />
-                    <div className="text-xs text-secondary mt-1"></div>
+                    <div className="text-xs text-secondary mt-1" />
                       {editForm.bio?.length || 0}/500 characters
                     </div>
-                  </div>
                 </div>
               ) : (
-                <p className="text-secondary leading-relaxed"></p>
+                <p className="text-secondary leading-relaxed" />
                   {user.bio || 'No bio provided.'}
-                </p>
               )}
             </div>
-          </div>
         </div>
-      </div>
 
       {/* Enhanced Statistics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4" />
         {[
           {
             icon: TrophyIcon,
@@ -470,16 +459,16 @@ const EnhancedProfile = (): any => {
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
               className={`card text-center relative overflow-hidden ${stat.bgColor}`}
-            ></motion>
-              <div className="relative z-10"></div>
-                <Icon size={32} className={`${stat.color} mx-auto mb-3`} /></Icon>
-                <div className="text-3xl font-bold mb-1">{stat.value}</div>
-                <div className="text-sm text-secondary">{stat.label}</div>
+             />
+              <div className="relative z-10" />
+                <Icon size={32} className={`${stat.color} mx-auto mb-3`} / />
+                <div className="text-3xl font-bold mb-1">{stat.value}
+                <div className="text-sm text-secondary">{stat.label}
               </div>
               <div
                 className={`absolute top-0 right-0 w-16 h-16 ${stat.color} opacity-5 transform rotate-12 translate-x-4 -translate-y-4`}
-              ></div>
-                <Icon size={64} /></Icon>
+               />
+                <Icon size={64} / />
               </div>
             </motion.div>
           );
@@ -487,18 +476,17 @@ const EnhancedProfile = (): any => {
       </div>
 
       {/* Recent Activity with Enhanced Design */}
-      <div className="card"></div>
-        <div className="flex items-center justify-between mb-6"></div>
-          <h3 className="text-xl font-semibold flex items-center gap-2"></h3>
-            <Activity className="text-accent-primary" size={24} /></Activity>
+      <div className="card" />
+        <div className="flex items-center justify-between mb-6" />
+          <h3 className="text-xl font-semibold flex items-center gap-2" />
+            <Activity className="text-accent-primary" size={24} / />
             Recent Activity
           </h3>
-          <button className="btn btn-secondary btn-sm"></button>
-            <Eye size={16} /></Eye>
+          <button className="btn btn-secondary btn-sm" />
+            <Eye size={16} / />
             View All
           </button>
-        </div>
-        <div className="space-y-4"></div>
+        <div className="space-y-4" />
           {[
             {
               icon: TrophyIcon,
@@ -534,46 +522,43 @@ const EnhancedProfile = (): any => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={`flex items-start gap-4 p-4 rounded-lg ${activity.bgColor} hover:bg-opacity-20 transition-colors`}
-              ></motion>
+               />
                 <div
                   className={`w-10 h-10 rounded-lg ${activity.bgColor} flex items-center justify-center`}
-                ></div>
-                  <Icon size={20} className={activity.color} /></Icon>
+                 />
+                  <Icon size={20} className={activity.color} / />
                 </div>
-                <div className="flex-1"></div>
-                  <h4 className="font-medium mb-1">{activity.title}</h4>
-                  <p className="text-sm text-secondary mb-1"></p>
+                <div className="flex-1" />
+                  <h4 className="font-medium mb-1">{activity.title}
+                  <p className="text-sm text-secondary mb-1" />
                     {activity.description}
-                  </p>
-                  <p className="text-xs text-muted">{activity.time}</p>
+                  <p className="text-xs text-muted">{activity.time}
                 </div>
               </motion.div>
             );
           })}
         </div>
-      </div>
     </motion.div>
   );
 
-  const renderAchievements = () => (
+  const renderAchievements = (renderAchievements: any) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
-    ></motion>
-      <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
-          <Sparkles className="text-accent-primary" size={28} /></Sparkles>
+     />
+      <div className="flex items-center justify-between" />
+        <h3 className="text-2xl font-bold flex items-center gap-2" />
+          <Sparkles className="text-accent-primary" size={28} / />
           Achievements
         </h3>
-        <div className="flex items-center gap-2 text-sm text-secondary"></div>
-          <Award size={16} /></Award>
+        <div className="flex items-center gap-2 text-sm text-secondary" />
+          <Award size={16} / />
           {achievements.filter(a => a.earned).length} / {achievements.length}{' '}
           Unlocked
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" />
         {achievements.map((achievement, index) => {
           const RarityIcon = getRarityIcon(achievement.rarity);
           return (
@@ -588,40 +573,37 @@ const EnhancedProfile = (): any => {
                   ? `border-2 ${getRarityColor(achievement.rarity)} bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-900/10 to-transparent`
                   : 'opacity-60 grayscale'
               }`}
-            ></motion>
+             />
               {achievement.earned && (
-                <div className="absolute top-2 right-2"></div>
-                  <CheckCircle size={20} className="text-green-400" /></CheckCircle>
+                <div className="absolute top-2 right-2" />
+                  <CheckCircle size={20} className="text-green-400" / />
                 </div>
               )}
-              <div className="flex items-start gap-4 mb-4"></div>
+              <div className="flex items-start gap-4 mb-4" />
                 <div
                   className={`w-16 h-16 rounded-xl flex items-center justify-center ${
                     achievement.earned
                       ? `bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-500 to-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-600`
                       : 'bg-tertiary'
                   }`}
-                ></div>
-                  <RarityIcon size={32} className="text-white" /></RarityIcon>
+                 />
+                  <RarityIcon size={32} className="text-white" / />
                 </div>
-                <div className="flex-1"></div>
-                  <div className="flex items-center gap-2 mb-1"></div>
-                    <h4 className="font-semibold">{achievement.name}</h4>
+                <div className="flex-1" />
+                  <div className="flex items-center gap-2 mb-1" />
+                    <h4 className="font-semibold">{achievement.name}
                     <span
                       className={`text-xs px-2 py-0 whitespace-nowrap rounded-full border ${getRarityColor(achievement.rarity)}`}
-                    ></span>
+                     />
                       {achievement.rarity}
-                    </span>
                   </div>
-                  <p className="text-sm text-secondary"></p>
+                  <p className="text-sm text-secondary" />
                     {achievement.description}
-                  </p>
                 </div>
-              </div>
 
               {achievement.earned && (
-                <div className="text-xs text-green-400 flex items-center gap-1"></div>
-                  <Sparkles size={12} /></Sparkles>
+                <div className="text-xs text-green-400 flex items-center gap-1" />
+                  <Sparkles size={12} / />
                   Unlocked
                 </div>
               )}
@@ -632,24 +614,23 @@ const EnhancedProfile = (): any => {
     </motion.div>
   );
 
-  const renderDecks = () => (
+  const renderDecks = (renderDecks: any) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
-    ></motion>
-      <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
-          <BookOpen className="text-green-400" size={28} /></BookOpen>
+     />
+      <div className="flex items-center justify-between" />
+        <h3 className="text-2xl font-bold flex items-center gap-2" />
+          <BookOpen className="text-green-400" size={28} / />
           My Decks
         </h3>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2"></button>
-          <Plus size={16} /></Plus>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2" />
+          <Plus size={16} / />
           New Deck
         </button>
-      </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" />
         {/* Sample deck cards */}
         {[
           {
@@ -681,44 +662,39 @@ const EnhancedProfile = (): any => {
             transition={{ delay: index * 0.1 }}
             whileHover={{ scale: 1.02 }}
             className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all"
-          ></motion>
-            <div className="flex items-start justify-between mb-4"></div>
-              <div></div>
-                <h4 className="font-bold text-lg">{deck.name}</h4>
-                <p className="text-secondary text-sm">{deck.element}</p>
+           />
+            <div className="flex items-start justify-between mb-4" />
+              <div />
+                <h4 className="font-bold text-lg">{deck.name}
+                <p className="text-secondary text-sm">{deck.element}
               </div>
-              <div className="text-2xl"></div>
+              <div className="text-2xl" />
                 {deck.element === 'Inferno'
                   ? '🜂'
                   : deck.element === 'Submerged'
                     ? '🜄'
                     : '🜃'}
-              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4 text-sm"></div>
-              <div></div>
+            <div className="grid grid-cols-2 gap-4 mb-4 text-sm" />
+              <div />
                 <span className="text-green-400 font-medium">{deck.wins}W</span>
                 <span className="text-gray-400 mx-1">/</span>
                 <span className="text-red-400 font-medium">{deck.losses}L</span>
-              </div>
-              <div className="text-secondary"></div>
+              <div className="text-secondary" />
                 {Math.round((deck.wins / (deck.wins + deck.losses)) * 100)}% WR
               </div>
-            </div>
 
-            <div className="text-xs text-secondary mb-4"></div>
+            <div className="text-xs text-secondary mb-4" />
               Last played: {deck.lastPlayed}
-            </div>
 
-            <div className="flex gap-2"></div>
-              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm font-medium transition-colors"></button>
+            <div className="flex gap-2" />
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm font-medium transition-colors" />
                 Edit
               </button>
-              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"></button>
+              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm transition-colors" />
                 Export
               </button>
-            </div>
           </motion.div>
         ))}
       </div>
@@ -741,151 +717,136 @@ const EnhancedProfile = (): any => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-6"
-      ></motion>
+       />
         {/* Active Tournaments */}
-        <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
-            <Trophy className="text-yellow-400" size={24} /></Trophy>
+        <div className="card p-6" />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
+            <Trophy className="text-yellow-400" size={24} / />
             Active Tournaments
           </h3>
-          <div className="space-y-4"></div>
+          <div className="space-y-4" />
             {registeredTournaments.map(tournament => (
               <div
                 key={tournament.id}
                 className="bg-tertiary rounded-lg p-4 border border-color"
-              ></div>
-                <div className="flex items-start justify-between mb-3"></div>
-                  <div></div>
-                    <h4 className="font-semibold text-lg">{tournament.name}</h4>
-                    <p className="text-secondary text-sm"></p>
+               />
+                <div className="flex items-start justify-between mb-3" />
+                  <div />
+                    <h4 className="font-semibold text-lg">{tournament.name}
+                    <p className="text-secondary text-sm" />
                       {tournament.date} at {tournament.time}
-                    </p>
-                    <p className="text-secondary text-sm flex items-center gap-1"></p>
-                      <MapPin size={14} /></MapPin>
+                    <p className="text-secondary text-sm flex items-center gap-1" />
+                      <MapPin size={14} / />
                       {tournament.location}
-                    </p>
                   </div>
-                  <div className="text-right"></div>
+                  <div className="text-right" />
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         tournament.status === 'In Progress'
                           ? 'bg-green-500/20 text-green-400'
                           : 'bg-blue-500/20 text-blue-400'
                       }`}
-                    ></span>
+                     />
                       {tournament.status}
-                    </span>
                   </div>
-                </div>
 
                 {tournament.status === 'In Progress' && tournament.currentMatch && (
-                  <div className="bg-card rounded-lg p-4 border border-accent-primary/20"></div>
-                    <div className="flex items-center justify-between mb-3"></div>
-                      <div></div>
-                        <h5 className="font-medium text-accent-primary"></h5>
+                  <div className="bg-card rounded-lg p-4 border border-accent-primary/20" />
+                    <div className="flex items-center justify-between mb-3" />
+                      <div />
+                        <h5 className="font-medium text-accent-primary" />
                           Current Match - Round {tournament.currentMatch.round}
-                        </h5>
-                        <p className="text-sm text-secondary"></p>
+                        <p className="text-sm text-secondary" />
                           Table {tournament.currentMatch.table} vs{' '}
                           {tournament.currentOpponent}
-                        </p>
-                        <p className="text-xs text-secondary"></p>
+                        <p className="text-xs text-secondary" />
                           Your Record: {tournament.currentMatch.playerRecord} |
                           Opponent: {tournament.currentMatch.opponentRecord}
-                        </p>
                       </div>
-                      <div className="text-right"></div>
-                        <p className="text-sm font-medium"></p>
+                      <div className="text-right" />
+                        <p className="text-sm font-medium" />
                           Current Placement: #{tournament.currentPlacement}
-                        </p>
                       </div>
-                    </div>
 
-                    <div className="flex gap-2"></div>
+                    <div className="flex gap-2" />
                       <button
-                        onClick={() =></button>
+                        onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'win (2-0)')}
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Win 2-0
                       </button>
                       <button
-                        onClick={() =></button>
+                        onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'win (2-1)')}
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Win 2-1
                       </button>
                       <button
-                        onClick={() =></button>
+                        onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'loss (1-2)')}
                         className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Loss 1-2
                       </button>
                       <button
-                        onClick={() =></button>
+                        onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'loss (0-2)')}
                         className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Loss 0-2
                       </button>
                       <button
-                        onClick={() =></button>
+                        onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'draw (1-1)')}
                         className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Draw 1-1
                       </button>
-                    </div>
                   </div>
                 )}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-color"></div>
-                  <div className="flex items-center gap-4 text-sm text-secondary"></div>
-                    <span className="flex items-center gap-1"></span>
-                      <Users size={14} /></Users>
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-color" />
+                  <div className="flex items-center gap-4 text-sm text-secondary" />
+                    <span className="flex items-center gap-1" />
+                      <Users size={14} / />
                       {tournament.participants}/{tournament.maxParticipants}
-                    </span>
-                    <span className="flex items-center gap-1"></span>
-                      <DollarSign size={14} /></DollarSign>
+                    <span className="flex items-center gap-1" />
+                      <DollarSign size={14} / />
                       {tournament.prizePool}
-                    </span>
                   </div>
                   <Link
                     to={`/tournaments/${tournament.id}/live`}
                     className="text-accent-primary hover:text-accent-secondary text-sm font-medium flex items-center gap-1"
-                  ></Link>
+                   />
                     View Details
-                    <ExternalLink size={14} /></ExternalLink>
+                    <ExternalLink size={14} / />
                   </Link>
-                </div>
               </div>
             ))}
           </div>
-        </div>
 
         {/* Tournament History */}
-        <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
-            <Medal className="text-purple-400" size={24} /></Medal>
+        <div className="card p-6" />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
+            <Medal className="text-purple-400" size={24} / />
             Tournament History
           </h3>
-          <div className="space-y-3"></div>
+          <div className="space-y-3" />
             {tournamentHistory.map(tournament => (
               <div
                 key={tournament.id}
                 className="bg-tertiary rounded-lg p-4 border border-color"
-              ></div>
-                <div className="flex items-center justify-between"></div>
-                  <div></div>
-                    <h4 className="font-medium">{tournament.name}</h4>
-                    <p className="text-sm text-secondary">{tournament.date}</p>
-                    <p className="text-xs text-secondary"></p>
+               />
+                <div className="flex items-center justify-between" />
+                  <div />
+                    <h4 className="font-medium">{tournament.name}
+                    <p className="text-sm text-secondary">{tournament.date}
+                    <p className="text-xs text-secondary" />
                       Deck: {tournament.deck}
-                    </p>
                   </div>
-                  <div className="text-right"></div>
-                    <div className="flex items-center gap-2"></div>
+                  <div className="text-right" />
+                    <div className="flex items-center gap-2" />
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
                           tournament.placement === 1
@@ -896,81 +857,73 @@ const EnhancedProfile = (): any => {
                             ? 'bg-blue-500/20 text-blue-400'
                             : 'bg-gray-500/20 text-gray-400'
                         }`}
-                      ></span>
+                       />
                         #{tournament.placement}/{tournament.totalParticipants}
-                      </span>
                     </div>
-                    <p className="text-sm text-secondary mt-1"></p>
+                    <p className="text-sm text-secondary mt-1" />
                       {tournament.record}
-                    </p>
-                    <p className="text-xs text-accent-primary"></p>
+                    <p className="text-xs text-accent-primary" />
                       {tournament.prize}
-                    </p>
                   </div>
-                </div>
               </div>
             ))}
           </div>
-        </div>
 
         {/* Quick Actions */}
-        <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
-            <Settings className="text-gray-400" size={24} /></Settings>
+        <div className="card p-6" />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
+            <Settings className="text-gray-400" size={24} / />
             Tournament Actions
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
             <Link
               to="/tournaments"
               className="bg-accent-primary hover:bg-accent-secondary text-white p-4 rounded-lg text-center font-medium transition-colors"
-            ></Link>
+             />
               Browse Tournaments
             </Link>
             <Link
               to="/decklist-submission"
               className="bg-tertiary hover:bg-quaternary border border-color p-4 rounded-lg text-center font-medium transition-colors"
-            ></Link>
+             />
               Submit Decklist
             </Link>
-          </div>
         </div>
       </motion.div>
     );
   };
 
-  const renderDeckBuilder = () => (
+  const renderDeckBuilder = (renderDeckBuilder: any) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
-    ></motion>
-      <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
-          <Plus className="text-emerald-400" size={28} /></Plus>
+     />
+      <div className="flex items-center justify-between" />
+        <h3 className="text-2xl font-bold flex items-center gap-2" />
+          <Plus className="text-emerald-400" size={28} / />
           Deck Builder
         </h3>
-        <div className="flex items-center gap-2"></div>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"></button>
+        <div className="flex items-center gap-2" />
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors" />
             Load Template
           </button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"></button>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors" />
             Save Deck
           </button>
-        </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6"></div>
+      <div className="grid lg:grid-cols-3 gap-6" />
         {/* Deck Builder */}
-        <div className="lg:col-span-2"></div>
-          <div className="bg-card rounded-lg p-6 border border-color"></div>
-            <div className="flex items-center gap-3 mb-6"></div>
-              <Plus className="w-6 h-6 text-emerald-400" /></Plus>
-              <div></div>
+        <div className="lg:col-span-2" />
+          <div className="bg-card rounded-lg p-6 border border-color" />
+            <div className="flex items-center gap-3 mb-6" />
+              <Plus className="w-6 h-6 text-emerald-400" / />
+              <div />
                 <h4 className="text-xl font-bold">Visual Deck Builder</h4>
-                <p className="text-secondary"></p>
+                <p className="text-secondary" />
                   Drag and drop cards to build your deck
                 </p>
-              </div>
             </div>
             <VisualDeckBuilder
               deck={{
@@ -984,32 +937,29 @@ const EnhancedProfile = (): any => {
               }}
             />
           </div>
-        </div>
 
         {/* AI Assistant */}
-        <div className="space-y-6"></div>
-          <div className="bg-card rounded-lg p-6 border border-color"></div>
-            <div className="flex items-center gap-3 mb-6"></div>
-              <Bot className="w-6 h-6 text-blue-400" /></Bot>
-              <div></div>
+        <div className="space-y-6" />
+          <div className="bg-card rounded-lg p-6 border border-color" />
+            <div className="flex items-center gap-3 mb-6" />
+              <Bot className="w-6 h-6 text-blue-400" / />
+              <div />
                 <h4 className="text-lg font-bold">AI Assistant</h4>
-                <p className="text-secondary text-sm"></p>
+                <p className="text-secondary text-sm" />
                   Get deck building suggestions
                 </p>
-              </div>
             </div>
-            <AIAssistant /></AIAssistant>
+            <AIAssistant / />
           </div>
-        </div>
       </div>
     </motion.div>
   );
 
   return (
-    <div className="min-h-screen py-8"></div>
-      <div className="container max-w-7xl"></div>
+    <div className="min-h-screen py-8" />
+      <div className="container max-w-7xl" />
         {/* Enhanced Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color"></div>
+        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color" />
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -1027,24 +977,22 @@ const EnhancedProfile = (): any => {
                 <Icon
                   size={18}
                   className={activeTab === tab.id ? 'text-white' : tab.color}
-                /></Icon>
-                <span className="hidden sm:block">{tab.label}</span>
+                / />
+                <span className="hidden sm:block">{tab.label}
               </motion.button>
             );
           })}
         </div>
 
         {/* Tab Content */}
-        <AnimatePresence mode="wait"></AnimatePresence>
+        <AnimatePresence mode="wait" />
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'tournaments' && renderTournaments()}
           {activeTab === 'achievements' && renderAchievements()}
           {activeTab === 'decks' && renderDecks()}
           {activeTab === 'deckbuilder' && renderDeckBuilder()}
           {/* Add other tab renderers here */}
-        </AnimatePresence>
       </div>
-    </div>
   );
 };
 

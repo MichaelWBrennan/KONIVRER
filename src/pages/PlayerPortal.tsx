@@ -131,67 +131,59 @@ const PlayerPortal = (): any => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
-  const renderTournaments = () => (
-    <div className="space-y-4"></div>
+  const renderTournaments = (renderTournaments: any) => (
+    <div className="space-y-4" />
       {tournaments.map((tournament) => (
         <motion.div
           key={tournament.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-        ></motion>
-          <div className="flex justify-between items-start mb-4"></div>
-            <div></div>
-              <div className="flex items-center gap-4 text-sm text-gray-600 mt-2"></div>
-                <div className="flex items-center gap-1"></div>
-                  <Calendar className="h-4 w-4" /></Calendar>
+         />
+          <div className="flex justify-between items-start mb-4" />
+            <div />
+              <div className="flex items-center gap-4 text-sm text-gray-600 mt-2" />
+                <div className="flex items-center gap-1" />
+                  <Calendar className="h-4 w-4" / />
                   {new Date(tournament.date).toLocaleDateString()}
-                </div>
-                <div className="flex items-center gap-1"></div>
-                  <Clock className="h-4 w-4" /></Clock>
+                <div className="flex items-center gap-1" />
+                  <Clock className="h-4 w-4" / />
                   {tournament.time}
-                </div>
-                <div className="flex items-center gap-1"></div>
-                  <MapPin className="h-4 w-4" /></MapPin>
+                <div className="flex items-center gap-1" />
+                  <MapPin className="h-4 w-4" / />
                   {tournament.venue}
-                </div>
               </div>
-            </div>
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${
               tournament.status === 'registered' ? 'bg-green-100 text-green-800' :
               tournament.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
               tournament.status === 'dropped' ? 'bg-red-100 text-red-800' :
               'bg-gray-100 text-gray-800'
-            }`}></div>
+            }`} />
               {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
-            </div>
           </div>
           {tournament.status === 'registered' && (
-            <div className="bg-gray-50 rounded-lg p-4 mb-4"></div>
-              <div className="flex justify-between items-center mb-2"></div>
-                <span className="text-sm font-medium text-gray-700"></span>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4" />
+              <div className="flex justify-between items-center mb-2" />
+                <span className="text-sm font-medium text-gray-700" />
                   Round {tournament.round} of {tournament.totalRounds}
-                </span>
-                <span className="text-sm text-gray-600"></span>
+                <span className="text-sm text-gray-600" />
                   Record: {tournament.record}
-                </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2"></div>
+              <div className="w-full bg-gray-200 rounded-full h-2" />
                 <div 
                   className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(tournament.round / tournament.totalRounds) * 100}%` }}
-                /></div>
+                / />
               </div>
-            </div>
           )}
-          <div className="flex gap-2"></div>
+          <div className="flex gap-2" />
             {tournament.status === 'registered' && (
               <>
                 <Link
                   to={`/tournaments/${tournament.id}/live`}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-                ></Link>
-                  <Eye className="h-4 w-4" /></Eye>
+                 />
+                  <Eye className="h-4 w-4" / />
                   View Tournament
                 </Link>
                 <button
@@ -206,8 +198,8 @@ const PlayerPortal = (): any => {
               <Link
                 to={`/decklist-submission/${tournament.id}`}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
-              ></Link>
-                <Upload className="h-4 w-4" /></Upload>
+               />
+                <Upload className="h-4 w-4" / />
                 Submit Decklist
               </Link>
             )}
@@ -215,53 +207,47 @@ const PlayerPortal = (): any => {
         </motion.div>
       ))}
       {tournaments.length === 0 && !loading && (
-        <div className="text-center py-12"></div>
-          <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" /></Trophy>
-          <p className="text-gray-600 mb-4"></p>
+        <div className="text-center py-12" />
+          <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <p className="text-gray-600 mb-4" />
             You're not registered for any tournaments yet.
           </p>
           <Link
             to="/tournaments"
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          ></Link>
+           />
             Browse Tournaments
           </Link>
-        </div>
       )}
-    </div>
   );
-  const renderPairings = () => (
-    <div className="space-y-4"></div>
+  const renderPairings = (renderPairings: any) => (
+    <div className="space-y-4" />
       {pairings.map((pairing) => (
         <motion.div
           key={pairing.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-        ></motion>
-          <div className="flex justify-between items-start mb-4"></div>
-            <div></div>
-              <p className="text-gray-600"></p>
+         />
+          <div className="flex justify-between items-start mb-4" />
+            <div />
+              <p className="text-gray-600" />
                 vs {pairing.opponent}
-              </p>
-              <p className="text-sm text-gray-500"></p>
+              <p className="text-sm text-gray-500" />
                 Table {pairing.table}
-              </p>
             </div>
             {pairing.status === 'active' && (
-              <div className="text-right"></div>
-                <div className="text-lg font-mono font-bold text-orange-600"></div>
+              <div className="text-right" />
+                <div className="text-lg font-mono font-bold text-orange-600" />
                   {formatTimeRemaining(pairing.timeRemaining)}
-                </div>
-                <div className="text-xs text-gray-500"></div>
+                <div className="text-xs text-gray-500" />
                   Time Remaining
                 </div>
-              </div>
             )}
           </div>
           {pairing.status === 'active' && (
-            <div className="bg-gray-50 rounded-lg p-4"></div>
-              <div className="flex gap-2"></div>
+            <div className="bg-gray-50 rounded-lg p-4" />
+              <div className="flex gap-2" />
                 <button
                   onClick={() => submitResult(pairing.id, 'win', '2-0')}
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex-1"
@@ -292,110 +278,97 @@ const PlayerPortal = (): any => {
                 >
                   Draw 1-1
                 </button>
-              </div>
             </div>
           )}
           {pairing.status === 'completed' && (
-            <div className="flex items-center gap-2 text-green-600"></div>
-              <CheckCircle className="h-4 w-4" /></CheckCircle>
+            <div className="flex items-center gap-2 text-green-600" />
+              <CheckCircle className="h-4 w-4" / />
               Result submitted: {pairing.submittedResult} ({pairing.submittedScore})
             </div>
           )}
         </motion.div>
       ))}
       {pairings.length === 0 && !loading && (
-        <div className="text-center py-12"></div>
-          <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" /></Target>
-          <p className="text-gray-600"></p>
+        <div className="text-center py-12" />
+          <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <p className="text-gray-600" />
             You don't have any active matches right now.
           </p>
-        </div>
       )}
-    </div>
   );
-  const renderResults = () => (
-    <div className="space-y-4"></div>
+  const renderResults = (renderResults: any) => (
+    <div className="space-y-4" />
       {results.map((result) => (
         <motion.div
           key={result.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-        ></motion>
-          <div className="flex justify-between items-center"></div>
-            <div></div>
-              <p className="text-gray-600"></p>
+         />
+          <div className="flex justify-between items-center" />
+            <div />
+              <p className="text-gray-600" />
                 vs {result.opponent}
-              </p>
             </div>
-            <div className="text-right"></div>
+            <div className="text-right" />
               <div className={`text-lg font-bold ${
                 result.result === 'win' ? 'text-green-600' :
                 result.result === 'loss' ? 'text-red-600' :
                 'text-gray-600'
-              }`}></div>
+              }`} />
                 {result.result.toUpperCase()}
-              </div>
-              <div className="text-sm text-gray-500"></div>
+              <div className="text-sm text-gray-500" />
                 {result.score}
-              </div>
             </div>
-          </div>
         </motion.div>
       ))}
       {results.length === 0 && !loading && (
-        <div className="text-center py-12"></div>
-          <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" /></Award>
-          <p className="text-gray-600"></p>
+        <div className="text-center py-12" />
+          <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <p className="text-gray-600" />
             Your match results will appear here.
           </p>
-        </div>
       )}
-    </div>
   );
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" /></RefreshCw>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" />
+        <div className="text-center" />
+          <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
           <p className="text-gray-600">Loading player data...</p>
-        </div>
       </div>
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50"></div>
+    <div className="min-h-screen bg-gray-50" />
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200"></div>
-        <div className="max-w-4xl mx-auto px-4 py-6"></div>
-          <div className="flex justify-between items-center"></div>
-            <div><p className="text-gray-600"></p>
+      <div className="bg-white shadow-sm border-b border-gray-200" />
+        <div className="max-w-4xl mx-auto px-4 py-6" />
+          <div className="flex justify-between items-center" />
+            <div><p className="text-gray-600" />
                 Welcome back, {user?.name || 'Player'}
-              </p>
             </div>
-            <div className="flex items-center gap-4"></div>
+            <div className="flex items-center gap-4" />
               <Link
                 to="/profile"
                 className="text-gray-600 hover:text-gray-800 flex items-center gap-2"
-              ></Link>
-                <Settings className="h-5 w-5" /></Settings>
+               />
+                <Settings className="h-5 w-5" / />
                 Settings
               </Link>
               <button
                 onClick={logout}
                 className="text-gray-600 hover:text-gray-800 flex items-center gap-2"
-              ></button>
-                <LogOut className="h-5 w-5" /></LogOut>
+               />
+                <LogOut className="h-5 w-5" / />
                 Logout
               </button>
-            </div>
           </div>
-        </div>
       </div>
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200"></div>
-        <div className="max-w-4xl mx-auto px-4"></div>
-          <nav className="flex space-x-8"></nav>
+      <div className="bg-white border-b border-gray-200" />
+        <div className="max-w-4xl mx-auto px-4" />
+          <nav className="flex space-x-8" />
             {[
               { id: 'tournaments', label: 'My Tournaments', icon: Trophy },
               { id: 'pairings', label: 'Current Pairings', icon: Users },
@@ -410,49 +383,44 @@ const PlayerPortal = (): any => {
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
-                <Icon className="h-4 w-4" /></Icon>
+                <Icon className="h-4 w-4" / />
                 {label}
-              </button>
             ))}
           </nav>
-        </div>
       </div>
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8"></div>
-        <AnimatePresence mode="wait"></AnimatePresence>
+      <div className="max-w-4xl mx-auto px-4 py-8" />
+        <AnimatePresence mode="wait" />
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-          ></motion>
+           />
             {activeTab === 'tournaments' && renderTournaments()}
             {activeTab === 'pairings' && renderPairings()}
             {activeTab === 'results' && renderResults()}
           </motion.div>
         </AnimatePresence>
-      </div>
       {/* Quick Actions */}
-      <div className="fixed bottom-6 right-6"></div>
-        <div className="flex flex-col gap-2"></div>
+      <div className="fixed bottom-6 right-6" />
+        <div className="flex flex-col gap-2" />
           <Link
             to="/tournaments"
             className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
             title="Browse Tournaments"
-          ></Link>
-            <Trophy className="h-6 w-6" /></Trophy>
+           />
+            <Trophy className="h-6 w-6" / />
           </Link>
           <Link
             to="/deck-builder"
             className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-colors"
             title="Deck Builder"
-          ></Link>
-            <FileText className="h-6 w-6" /></FileText>
+           />
+            <FileText className="h-6 w-6" / />
           </Link>
-        </div>
       </div>
-    </div>
   );
 };
 export default PlayerPortal;

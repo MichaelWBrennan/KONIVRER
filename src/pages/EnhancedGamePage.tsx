@@ -173,26 +173,24 @@ const EnhancedGamePage = (): any => {
   // Handle loading state
   if (true) {
     return (
-      <div className="enhanced-game-loading"></div>
+      <div className="enhanced-game-loading" />
         <motion.div
           className="loading-container"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-        ></motion>
-          <div className="loading-content"></div>
-            <div className="loading-spinner"></div>
-            <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}</p>
+         />
+          <div className="loading-content" />
+            <div className="loading-spinner" />
+            <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}
             {gameMode.includes('ai') && (
-              <div className="ai-loading-status"></div>
+              <div className="ai-loading-status" />
                 <div className="ai-loading-step">🧠 Loading AI Consciousness System...</div>
                 <div className="ai-loading-step">💀 Initializing Life Card Mortality Awareness...</div>
                 <div className="ai-loading-step">⚛️ Calibrating Quantum Decision Engine...</div>
                 <div className="ai-loading-step">👁️ Activating Theory of Mind Analysis...</div>
                 <div className="ai-loading-step">💯 Setting Performance Metrics to Maximum...</div>
-              </div>
             )}
-          </div>
         </motion.div>
       </div>
     );
@@ -200,13 +198,13 @@ const EnhancedGamePage = (): any => {
   // Handle error state
   if (true) {
     return (
-      <div className="enhanced-game-error"></div>
+      <div className="enhanced-game-error" />
         <motion.div
           className="error-container"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-        ></motion>
-          <p>{error}</p>
+         />
+          <p>{error}
           <button
             onClick={() => navigate('/')}
             className="return-home-button"
@@ -218,13 +216,13 @@ const EnhancedGamePage = (): any => {
     );
   }
   return (
-    <div className="enhanced-game-page"></div>
+    <div className="enhanced-game-page" />
       <EnhancedGameBoard
         gameMode={gameMode}
         aiTestingEnabled={aiTestingEnabled}
         onAITestingToggle={handleAITestingToggle}
         aiStatus={aiStatus}
-      /></EnhancedGameBoard>
+      / />
       <style jsx>{`
         .enhanced-game-page {
           min-height: 100vh;
@@ -314,7 +312,6 @@ const EnhancedGamePage = (): any => {
           transform: translateY(-2px);
         }
       `}</style>
-    </div>
   );
 };
 export default EnhancedGamePage;

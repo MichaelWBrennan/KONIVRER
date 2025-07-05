@@ -206,14 +206,14 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
 
   if (!isOpen) return null;
   return (
-    <AnimatePresence></AnimatePresence>
+    <AnimatePresence />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
         onClick={onClose}
-      ></motion>
+       />
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -223,35 +223,31 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
           onClick={e => e.stopPropagation()}
         >
           {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" /></div>
-          <div className="relative z-10 p-6"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" / />
+          <div className="relative z-10 p-6" />
             {/* Header */}
-            <div className="flex items-center justify-between mb-6"></div>
-              <div className="flex items-center gap-3"></div>
-                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center"></div>
-                  <Shield className="text-white" size={20} /></Shield>
+            <div className="flex items-center justify-between mb-6" />
+              <div className="flex items-center gap-3" />
+                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center" />
+                  <Shield className="text-white" size={20} / />
                 </div>
-                <div></div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"></h2>
+                <div />
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                     {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
-                  </h2>
-                  <p className="text-sm text-secondary"></p>
+                  <p className="text-sm text-secondary" />
                     {activeTab === 'login'
                       ? 'Sign in to your account'
                       : 'Create your account'}
-                  </p>
                 </div>
-              </div>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
-              ></button>
-                <X size={20} /></X>
+               />
+                <X size={20} / />
               </button>
-            </div>
 
             {/* Tab Navigation */}
-            <div className="flex gap-1 mb-6 p-1 bg-tertiary rounded-lg"></div>
+            <div className="flex gap-1 mb-6 p-1 bg-tertiary rounded-lg" />
               <button
                 onClick={() => setActiveTab('login')}
                 className={`btn flex-1 ${
@@ -268,10 +264,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
               >
                 Register
               </button>
-            </div>
 
             {/* Forms */}
-            <AnimatePresence mode="wait"></AnimatePresence>
+            <AnimatePresence mode="wait" />
               {activeTab === 'login' && (
                 <motion.form
                   key="login"
@@ -281,62 +276,59 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   transition={{ duration: 0.2 }}
                   onSubmit={loginForm.handleSubmit(handleLogin)}
                   className="space-y-4"
-                ></motion>
+                 />
                   {/* Login Form */}
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Email
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <Mail
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></Mail>
+                      / />
                       <input
                         {...loginForm.register('email')}
                         type="email"
                         className={`input pl-10 ${loginForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
-                      /></input>
+                      / />
                     </div>
                     {loginForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1"></p>
+                      <p className="text-red-400 text-sm mt-1" />
                         {loginForm.formState.errors.email.message}
-                      </p>
                     )}
                   </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Password
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></Lock>
+                      / />
                       <input
                         {...loginForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 pr-10 ${loginForm.formState.errors.password ? 'border-red-500' : ''}`}
                         placeholder="Enter your password"
-                      /></input>
+                      / />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
                         {showPassword ? (
-                          <EyeOff size={16} /></EyeOff>
+                          <EyeOff size={16} / />
                         ) : (
-                          <Eye size={16} /></Eye>
+                          <Eye size={16} / />
                         )}
                       </button>
-                    </div>
                     {loginForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1"></p>
+                      <p className="text-red-400 text-sm mt-1" />
                         {loginForm.formState.errors.password.message}
-                      </p>
                     )}
                   </div>
 
@@ -345,8 +337,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="p-3 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-center gap-2"
-                    ></motion>
-                      <AlertCircle size={16} /></AlertCircle>
+                     />
+                      <AlertCircle size={16} / />
                       {loginForm.formState.errors.root.message}
                     </motion.div>
                   )}
@@ -354,10 +346,10 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                     type="submit"
                     disabled={loginForm.formState.isSubmitting}
                     className="btn btn-primary w-full flex items-center justify-center gap-2"
-                  ></button>
+                   />
                     {loginForm.formState.isSubmitting ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" /></Loader2>
+                        <Loader2 size={16} className="animate-spin" / />
                         Signing in...
                       </>
                     ) : (
@@ -365,18 +357,17 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                     )}
                   </button>
 
-                  <div className="text-center text-sm text-secondary"></div>
+                  <div className="text-center text-sm text-secondary" />
                     <p className="mb-2">Demo accounts:</p>
-                    <div className="space-y-1 text-xs"></div>
-                      <p></p>
+                    <div className="space-y-1 text-xs" />
+                      <p />
                         <strong>user1@example.com</strong> / password (Player +
                         Judge)
                       </p>
-                      <p></p>
+                      <p />
                         <strong>judge@example.com</strong> / password (All
                         roles)
                       </p>
-                    </div>
                   </div>
                 </motion.form>
               )}
@@ -389,34 +380,33 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   transition={{ duration: 0.2 }}
                   onSubmit={registerForm.handleSubmit(handleRegister)}
                   className="space-y-4"
-                ></motion>
+                 />
                   {/* Register Form */}
-                  <div className="grid grid-cols-2 gap-4"></div>
-                    <div></div>
-                      <label className="block text-sm font-medium mb-2"></label>
+                  <div className="grid grid-cols-2 gap-4" />
+                    <div />
+                      <label className="block text-sm font-medium mb-2" />
                         Username
                       </label>
-                      <div className="relative"></div>
+                      <div className="relative" />
                         <User
                           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                           size={16}
-                        /></User>
+                        / />
                         <input
                           {...registerForm.register('username')}
                           type="text"
                           className={`input pl-10 ${registerForm.formState.errors.username ? 'border-red-500' : ''}`}
                           placeholder="Username"
-                        /></input>
+                        / />
                       </div>
                       {registerForm.formState.errors.username && (
-                        <p className="text-red-400 text-xs mt-1"></p>
+                        <p className="text-red-400 text-xs mt-1" />
                           {registerForm.formState.errors.username.message}
-                        </p>
                       )}
                     </div>
 
-                    <div></div>
-                      <label className="block text-sm font-medium mb-2"></label>
+                    <div />
+                      <label className="block text-sm font-medium mb-2" />
                         Display Name
                       </label>
                       <input
@@ -424,88 +414,83 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         type="text"
                         className={`input ${registerForm.formState.errors.displayName ? 'border-red-500' : ''}`}
                         placeholder="Your name"
-                      /></input>
+                      / />
                       {registerForm.formState.errors.displayName && (
-                        <p className="text-red-400 text-xs mt-1"></p>
+                        <p className="text-red-400 text-xs mt-1" />
                           {registerForm.formState.errors.displayName.message}
-                        </p>
                       )}
                     </div>
-                  </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Email
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <Mail
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></Mail>
+                      / />
                       <input
                         {...registerForm.register('email')}
                         type="email"
                         className={`input pl-10 ${registerForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
-                      /></input>
+                      / />
                     </div>
                     {registerForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1"></p>
+                      <p className="text-red-400 text-sm mt-1" />
                         {registerForm.formState.errors.email.message}
-                      </p>
                     )}
                   </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Location (Optional)
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <MapPin
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></MapPin>
+                      / />
                       <input
                         {...registerForm.register('location')}
                         type="text"
                         className="input pl-10"
                         placeholder="City, State/Country"
-                      /></input>
+                      / />
                     </div>
-                  </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Password
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></Lock>
+                      / />
                       <input
                         {...registerForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 pr-10 ${registerForm.formState.errors.password ? 'border-red-500' : ''}`}
                         placeholder="Create password"
-                      /></input>
+                      / />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
                         {showPassword ? (
-                          <EyeOff size={16} /></EyeOff>
+                          <EyeOff size={16} / />
                         ) : (
-                          <Eye size={16} /></Eye>
+                          <Eye size={16} / />
                         )}
                       </button>
-                    </div>
 
                     {/* Password Strength Indicator */}
                     {watchedPassword && (
-                      <div className="mt-2"></div>
-                        <div className="flex items-center justify-between text-xs mb-1"></div>
+                      <div className="mt-2" />
+                        <div className="flex items-center justify-between text-xs mb-1" />
                           <span>Password strength</span>
                           <span
                             className={`font-medium ${
@@ -517,94 +502,86 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                                     ? 'text-yellow-400'
                                     : 'text-green-400'
                             }`}
-                          ></span>
+                           />
                             {getPasswordStrengthText()}
-                          </span>
                         </div>
-                        <div className="w-full bg-tertiary rounded-full h-2"></div>
+                        <div className="w-full bg-tertiary rounded-full h-2" />
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${passwordStrength}%` }}
                             className={`h-2 rounded-full transition-colors ${getPasswordStrengthColor()}`}
-                          /></motion>
+                          / />
                         </div>
-                      </div>
                     )}
                     {registerForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1"></p>
+                      <p className="text-red-400 text-sm mt-1" />
                         {registerForm.formState.errors.password.message}
-                      </p>
                     )}
                   </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium mb-2" />
                       Confirm Password
                     </label>
-                    <div className="relative"></div>
+                    <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      /></Lock>
+                      / />
                       <input
                         {...registerForm.register('confirmPassword')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 ${registerForm.formState.errors.confirmPassword ? 'border-red-500' : ''}`}
                         placeholder="Confirm password"
-                      /></input>
+                      / />
                     </div>
                     {registerForm.formState.errors.confirmPassword && (
-                      <p className="text-red-400 text-sm mt-1"></p>
+                      <p className="text-red-400 text-sm mt-1" />
                         {registerForm.formState.errors.confirmPassword.message}
-                      </p>
                     )}
                   </div>
 
                   {/* Terms and Privacy */}
-                  <div className="space-y-3"></div>
-                    <div className="flex items-start gap-3"></div>
+                  <div className="space-y-3" />
+                    <div className="flex items-start gap-3" />
                       <input
                         {...registerForm.register('agreeToTerms')}
                         type="checkbox"
                         id="agreeToTerms"
                         className="w-4 h-4 mt-0.5"
-                      /></input>
-                      <label htmlFor="agreeToTerms" className="text-sm"></label>
+                      / />
+                      <label htmlFor="agreeToTerms" className="text-sm" />
                         I agree to the{' '}
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                        ></a>
+                         />
                           Terms of Service
                         </a>
-                      </label>
                     </div>
                     {registerForm.formState.errors.agreeToTerms && (
-                      <p className="text-red-400 text-sm"></p>
+                      <p className="text-red-400 text-sm" />
                         {registerForm.formState.errors.agreeToTerms.message}
-                      </p>
                     )}
-                    <div className="flex items-start gap-3"></div>
+                    <div className="flex items-start gap-3" />
                       <input
                         {...registerForm.register('agreeToPrivacy')}
                         type="checkbox"
                         id="agreeToPrivacy"
                         className="w-4 h-4 mt-0.5"
-                      /></input>
-                      <label htmlFor="agreeToPrivacy" className="text-sm"></label>
+                      / />
+                      <label htmlFor="agreeToPrivacy" className="text-sm" />
                         I agree to the{' '}
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                        ></a>
+                         />
                           Privacy Policy
                         </a>
-                      </label>
                     </div>
                     {registerForm.formState.errors.agreeToPrivacy && (
-                      <p className="text-red-400 text-sm"></p>
+                      <p className="text-red-400 text-sm" />
                         {registerForm.formState.errors.agreeToPrivacy.message}
-                      </p>
                     )}
                   </div>
 
@@ -613,8 +590,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="p-3 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-center gap-2"
-                    ></motion>
-                      <AlertCircle size={16} /></AlertCircle>
+                     />
+                      <AlertCircle size={16} / />
                       {registerForm.formState.errors.root.message}
                     </motion.div>
                   )}
@@ -622,15 +599,15 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                     type="submit"
                     disabled={registerForm.formState.isSubmitting}
                     className="btn btn-primary w-full flex items-center justify-center gap-2"
-                  ></button>
+                   />
                     {registerForm.formState.isSubmitting ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" /></Loader2>
+                        <Loader2 size={16} className="animate-spin" / />
                         Creating Account...
                       </>
                     ) : (
                       <>
-                        <Zap size={16} /></Zap>
+                        <Zap size={16} / />
                         Create Account
                       </>
                     )}
@@ -640,37 +617,34 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
             </AnimatePresence>
 
             {/* Social Login Options */}
-            <div className="mt-6 pt-6 border-t border-color"></div>
-              <p className="text-center text-sm text-secondary mb-4"></p>
+            <div className="mt-6 pt-6 border-t border-color" />
+              <p className="text-center text-sm text-secondary mb-4" />
                 Or continue with
               </p>
-              <div className="grid grid-cols-2 gap-3"></div>
+              <div className="grid grid-cols-2 gap-3" />
                 <button
                   onClick={() => handleSSOLogin('github')}
                   disabled={ssoLoading !== null}
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {ssoLoading === 'github' ? (
-                    <Loader2 size={16} className="animate-spin" /></Loader2>
+                    <Loader2 size={16} className="animate-spin" / />
                   ) : (
-                    <Github size={16} /></Github>
+                    <Github size={16} / />
                   )}
                   {ssoLoading === 'github' ? 'Connecting...' : 'GitHub'}
-                </button>
                 <button
                   onClick={() => handleSSOLogin('google')}
                   disabled={ssoLoading !== null}
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {ssoLoading === 'google' ? (
-                    <Loader2 size={16} className="animate-spin" /></Loader2>
+                    <Loader2 size={16} className="animate-spin" / />
                   ) : (
-                    <Chrome size={16} /></Chrome>
+                    <Chrome size={16} / />
                   )}
                   {ssoLoading === 'google' ? 'Connecting...' : 'Google'}
-                </button>
               </div>
-            </div>
           </div>
         </motion.div>
       </motion.div>

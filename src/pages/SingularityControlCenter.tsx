@@ -20,8 +20,8 @@ const SingularityControlCenter = (): any => {
       setActivationStatus('achieving_transcendence');
       // Simulate industry obsolescence
       const obsolescenceInterval = setInterval(() => {
-        setIndustryObsolescence(prev: any = > {
-          if (prev >= 100): any {
+        setIndustryObsolescence((prev: any) => {
+          if (prev >= 100) {
             clearInterval(obsolescenceInterval);
             return 100;
           }
@@ -30,8 +30,8 @@ const SingularityControlCenter = (): any => {
       }, 100);
       // Simulate technological superiority
       const superiorityInterval = setInterval(() => {
-        setTechnologicalSuperiority(prev: any = > {
-          if (prev >= 500): any {
+        setTechnologicalSuperiority((prev: any) => {
+          if (prev >= 500) {
             clearInterval(superiorityInterval);
             setActivationStatus('singularity_achieved');
             return 500;
@@ -43,20 +43,20 @@ const SingularityControlCenter = (): any => {
     initializeSingularity();
   }, []);
   return (
-    <div className="singularity-control-center"></div>
+    <div className="singularity-control-center" />
       <motion.div
         className="activation-sequence"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-      ></motion>
-        <div className="activation-status"></div>
-          <div className="metrics-overview"></div>
-            <div className="metric-card"></div>
-              <div className="metric-value"></div>
+       />
+        <div className="activation-status" />
+          <div className="metrics-overview" />
+            <div className="metric-card" />
+              <div className="metric-value" />
                 <span className="percentage">{industryObsolescence}%</span>
-                <div className="progress-ring"></div>
-                  <svg width="120" height="120"></svg>
+                <div className="progress-ring" />
+                  <svg width="120" height="120" />
                     <circle
                       cx="60"
                       cy="60"
@@ -64,7 +64,7 @@ const SingularityControlCenter = (): any => {
                       fill="none"
                       stroke="#333"
                       strokeWidth="8"
-                    /></circle>
+                    / />
                     <circle
                       cx="60"
                       cy="60"
@@ -76,16 +76,14 @@ const SingularityControlCenter = (): any => {
                       strokeDashoffset={`${2 * Math.PI * 50 * (1 - industryObsolescence / 100)}`}
                       strokeLinecap="round"
                       transform="rotate(-90 60 60)"
-                    /></circle>
+                    / />
                   </svg>
-                </div>
               </div>
-            </div>
-            <div className="metric-card"></div>
-              <div className="metric-value"></div>
+            <div className="metric-card" />
+              <div className="metric-value" />
                 <span className="percentage">{technologicalSuperiority}%</span>
-                <div className="progress-ring"></div>
-                  <svg width="120" height="120"></svg>
+                <div className="progress-ring" />
+                  <svg width="120" height="120" />
                     <circle
                       cx="60"
                       cy="60"
@@ -93,7 +91,7 @@ const SingularityControlCenter = (): any => {
                       fill="none"
                       stroke="#333"
                       strokeWidth="8"
-                    /></circle>
+                    / />
                     <circle
                       cx="60"
                       cy="60"
@@ -105,11 +103,9 @@ const SingularityControlCenter = (): any => {
                       strokeDashoffset={`${2 * Math.PI * 50 * (1 - Math.min(technologicalSuperiority, 100) / 100)}`}
                       strokeLinecap="round"
                       transform="rotate(-90 60 60)"
-                    /></circle>
+                    / />
                   </svg>
-                </div>
               </div>
-            </div>
           </div>
           {activationStatus === 'singularity_achieved' && (
             <motion.div
@@ -117,32 +113,31 @@ const SingularityControlCenter = (): any => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300 }}
-            ></motion>
-              <p></p>
+             />
+              <p />
                 All industry leaders have been rendered permanently obsolete
               </p>
-              <div className="achievement-stats"></div>
-                <div className="stat"></div>
+              <div className="achievement-stats" />
+                <div className="stat" />
                   <strong>Google:</strong> 450% Superiority
                 </div>
-                <div className="stat"></div>
+                <div className="stat" />
                   <strong>Amazon:</strong> 380% Superiority
                 </div>
-                <div className="stat"></div>
+                <div className="stat" />
                   <strong>Microsoft:</strong> 420% Superiority
                 </div>
-                <div className="stat"></div>
+                <div className="stat" />
                   <strong>Meta:</strong> 520% Superiority
                 </div>
-                <div className="stat"></div>
+                <div className="stat" />
                   <strong>Apple:</strong> 390% Superiority
                 </div>
-              </div>
             </motion.div>
           )}
         </div>
       </motion.div>
-      <SingularityDashboard /></SingularityDashboard>
+      <SingularityDashboard / />
       <style jsx>{`
         .singularity-control-center {
           background: linear-gradient(
@@ -262,7 +257,6 @@ const SingularityControlCenter = (): any => {
           }
         }
       `}</style>
-    </div>
   );
 };
 export default SingularityControlCenter;

@@ -63,7 +63,7 @@ export const ABILITY_COLORS = {
  * @param {string} ability - The ability name
  * @returns {string|null} The corresponding element or null if not found
  */
-export function getElementForAbility(ability: any): any {
+export function getElementForAbility(): any {
   return ABILITY_ELEMENTS[ability] || null;
 }
 
@@ -72,7 +72,7 @@ export function getElementForAbility(ability: any): any {
  * @param {string} element - The element name
  * @returns {string|null} The corresponding ability or null if not found
  */
-export function getAbilityForElement(element: any): any {
+export function getAbilityForElement(): any {
   return ELEMENT_ABILITIES[element] || null;
 }
 
@@ -81,7 +81,7 @@ export function getAbilityForElement(element: any): any {
  * @param {string} ability - The ability to check
  * @returns {boolean} True if it's a valid ability
  */
-export function isValidAbility(ability: any): any {
+export function isValidAbility(): any {
   return CARD_ABILITIES.includes(ability);
 }
 
@@ -90,7 +90,7 @@ export function isValidAbility(ability: any): any {
  * @param {string} ability - The ability name
  * @returns {Object} Object with symbol, color, and element info
  */
-export function getAbilityDisplayInfo(ability: any): any {
+export function getAbilityDisplayInfo(): any {
   return {
     symbol: ABILITY_SYMBOLS[ability] || '?',
     color: ABILITY_COLORS[ability] || '#808080',
@@ -114,7 +114,7 @@ export const ALL_ELEMENTS = [
  * @param {Array} elements - Array of element/ability names from card
  * @returns {Array} Array of display objects
  */
-export function parseCardElements(elements: any): any {
+export function parseCardElements(): any {
   if (!Array.isArray(elements)) return [];
   return elements.map(element => ({
     name: element,

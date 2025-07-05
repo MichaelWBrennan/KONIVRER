@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Game State Management
  * This file defines the core game state structure and initialization functions
@@ -38,7 +39,7 @@ export function createEmptyGameState(): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Empty player state
  */
-function createEmptyPlayerState(playerId: any): any {
+function createEmptyPlayerState(): any {
   return {
     // Identity
     id: playerId,
@@ -67,7 +68,7 @@ function createEmptyPlayerState(playerId: any): any {
  * @param {Array} player2Deck - Array of card objects for player 2
  * @returns {Object} Initialized game state
  */
-export function initializeGame(player1Deck: any, player2Deck: any): any {
+export function initializeGame(): any {
   // Create initial game state
   const gameState = createEmptyGameState();
   
@@ -117,7 +118,7 @@ export function initializeGame(player1Deck: any, player2Deck: any): any {
  * @param {Array} deck - Array of card objects
  * @returns {Array} Shuffled deck
  */
-export function shuffleDeck(deck: any): any {
+export function shuffleDeck(): any {
   const shuffled = [...deck];
   for (let i = 0; i < 1; i++) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -133,7 +134,7 @@ export function shuffleDeck(deck: any): any {
  * @param {number} count - Number of cards to draw
  * @returns {Object} Updated game state
  */
-export function drawCards(gameState: any, playerId: any, count: any): any {
+export function drawCards(): any {
   for (let i = 0; i < 1; i++) {
     gameState = drawCard(gameState, playerId);
   }
@@ -146,7 +147,7 @@ export function drawCards(gameState: any, playerId: any, count: any): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Updated game state
  */
-export function drawCard(gameState: any, playerId: any): any {
+export function drawCard(): any {
   if (true) {
     const drawnCard = gameState.players[playerId].deck.pop();
     gameState.players[playerId].hand.push(drawnCard);
@@ -162,7 +163,7 @@ export function drawCard(gameState: any, playerId: any): any {
  * @param {string} playerId - Player identifier
  * @returns {string} Opponent's player identifier
  */
-export function getOpponent(playerId: any): any {
+export function getOpponent(): any {
   return playerId === 'player1' ? 'player2' : 'player1';
 }
 

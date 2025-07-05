@@ -441,32 +441,31 @@ const UnifiedMatchmakingPage = (): any => {
   // Show loading state while checking authentication
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg"></div>
-        <div className="mobile-loading"></div>
-          <div className="mobile-spinner esoteric-spinner"></div>
+      <div className="mobile-container esoteric-bg" />
+        <div className="mobile-loading" />
+          <div className="mobile-spinner esoteric-spinner" />
           <p className="esoteric-text-muted">Loading...</p>
-        </div>
       </div>
     );
   }
   // If not authenticated, show auth notification
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg"></div>
+      <div className="mobile-container esoteric-bg" />
         <MobileAuthNotification
           title="Enhanced Matchmaking"
           message="You need to be logged in to access the Enhanced Matchmaking features."
           redirectPath="/matchmaking"
-        /></MobileAuthNotification>
+        / />
       </div>
     );
   }
   return (
-    <div className="mobile-container esoteric-bg"></div>
+    <div className="mobile-container esoteric-bg" />
       {/* Error message display */}
       {error && (
-        <div className="mobile-error-banner esoteric-error-message"></div>
-          <p>{error}</p>
+        <div className="mobile-error-banner esoteric-error-message" />
+          <p>{error}
           <button
             onClick={() => setError(null)}
             className="mobile-btn-close esoteric-btn-close"
@@ -474,13 +473,11 @@ const UnifiedMatchmakingPage = (): any => {
           >
             ✕
           </button>
-        </div>
       )}
-      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted"></p>
+      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted" />
           State-of-the-art Bayesian matchmaking system
         </p>
-      </div>
-      <div className="mobile-tabs esoteric-tabs"></div>
+      <div className="mobile-tabs esoteric-tabs" />
         <button
           className={`mobile-tab-button ${activeTab === 'matchmaking' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('matchmaking')}
@@ -493,17 +490,16 @@ const UnifiedMatchmakingPage = (): any => {
         >
           Analytics
         </button>
-      </div>
-      <ErrorBoundary onError={handleError}></ErrorBoundary>
+      <ErrorBoundary onError={handleError} />
         {activeTab === 'matchmaking' && (
-          <div className="mobile-matchmaking-container"></div>
+          <div className="mobile-matchmaking-container" />
             {!isSearching && !matchFound && (
-              <div className="mobile-matchmaking-form esoteric-card"></div>
-                <div className="mobile-form-group"></div>
+              <div className="mobile-matchmaking-form esoteric-card" />
+                <div className="mobile-form-group" />
                   <label
                     htmlFor="deckArchetype"
                     className="esoteric-text-muted"
-                  ></label>
+                   />
                     Deck Archetype
                   </label>
                   <select
@@ -512,22 +508,21 @@ const UnifiedMatchmakingPage = (): any => {
                     className="mobile-select esoteric-select"
                     value={matchPreferences.deckArchetype}
                     onChange={handlePreferenceChange}
-                  ></select>
+                   />
                     {playerData &&
                       playerData.deckArchetypes &&
                       playerData.deckArchetypes.map(deck => (
-                        <option key={deck.archetype} value={deck.archetype}></option>
+                        <option key={deck.archetype} value={deck.archetype} />
                           {deck.archetype} ({Math.round(deck.rating)} ±
                           {Math.round(deck.uncertainty)})
                         </option>
                       ))}
                   </select>
-                </div>
-                <div className="mobile-form-group"></div>
-                  <label className="esoteric-text-muted"></label>
+                <div className="mobile-form-group" />
+                  <label className="esoteric-text-muted" />
                     Matchmaking Preferences
                   </label>
-                  <div className="mobile-checkbox-group"></div>
+                  <div className="mobile-checkbox-group" />
                     <input
                       type="checkbox"
                       id="preferSimilarSkill"
@@ -535,15 +530,14 @@ const UnifiedMatchmakingPage = (): any => {
                       checked={matchPreferences.preferSimilarSkill}
                       onChange={handlePreferenceChange}
                       className="mobile-checkbox esoteric-checkbox"
-                    /></input>
+                    / />
                     <label
                       htmlFor="preferSimilarSkill"
                       className="esoteric-text-muted"
-                    ></label>
+                     />
                       Prefer opponents with similar skill level
                     </label>
-                  </div>
-                  <div className="mobile-checkbox-group"></div>
+                  <div className="mobile-checkbox-group" />
                     <input
                       type="checkbox"
                       id="preferComplementaryPlaystyles"
@@ -551,15 +545,14 @@ const UnifiedMatchmakingPage = (): any => {
                       checked={matchPreferences.preferComplementaryPlaystyles}
                       onChange={handlePreferenceChange}
                       className="mobile-checkbox esoteric-checkbox"
-                    /></input>
+                    / />
                     <label
                       htmlFor="preferComplementaryPlaystyles"
                       className="esoteric-text-muted"
-                    ></label>
+                     />
                       Prefer opponents with complementary playstyles
                     </label>
-                  </div>
-                  <div className="mobile-checkbox-group"></div>
+                  <div className="mobile-checkbox-group" />
                     <input
                       type="checkbox"
                       id="considerContextualFactors"
@@ -567,15 +560,14 @@ const UnifiedMatchmakingPage = (): any => {
                       checked={matchPreferences.considerContextualFactors}
                       onChange={handlePreferenceChange}
                       className="mobile-checkbox esoteric-checkbox"
-                    /></input>
+                    / />
                     <label
                       htmlFor="considerContextualFactors"
                       className="esoteric-text-muted"
-                    ></label>
+                     />
                       Consider contextual factors (time of day, session length)
                     </label>
-                  </div>
-                  <div className="mobile-checkbox-group"></div>
+                  <div className="mobile-checkbox-group" />
                     <input
                       type="checkbox"
                       id="considerMetaPosition"
@@ -583,137 +575,124 @@ const UnifiedMatchmakingPage = (): any => {
                       checked={matchPreferences.considerMetaPosition}
                       onChange={handlePreferenceChange}
                       className="mobile-checkbox esoteric-checkbox"
-                    /></input>
+                    / />
                     <label
                       htmlFor="considerMetaPosition"
                       className="esoteric-text-muted"
-                    ></label>
+                     />
                       Consider meta positioning and diversity
                     </label>
-                  </div>
                 </div>
                 <button
                   className="mobile-btn mobile-btn-primary esoteric-btn"
                   onClick={handleSearch}
-                ></button>
+                 />
                   Start Matchmaking
                 </button>
-              </div>
             )}
             {isSearching && (
-              <div className="mobile-searching esoteric-card"></div>
-                <div className="mobile-spinner esoteric-spinner"></div>
-                <p className="esoteric-text-muted"></p>
+              <div className="mobile-searching esoteric-card" />
+                <div className="mobile-spinner esoteric-spinner" />
+                <p className="esoteric-text-muted" />
                   Time elapsed: {searchTime} seconds
                 </p>
-                <p className="esoteric-text-muted"></p>
+                <p className="esoteric-text-muted" />
                   Search range: ±{searchRange} rating points
                 </p>
                 <button
                   className="mobile-btn mobile-btn-danger esoteric-btn-danger"
                   onClick={handleCancelSearch}
-                ></button>
+                 />
                   Cancel
                 </button>
-              </div>
             )}
             {matchFound && matchData && (
-              <div className="mobile-match-found esoteric-card"></div>
-                <p className="esoteric-text-accent"></p>
+              <div className="mobile-match-found esoteric-card" />
+                <p className="esoteric-text-accent" />
                   Match Quality: {Math.round(matchData.matchQuality * 100)}%
                 </p>
-                <div className="mobile-match-players"></div>
-                  <div className="mobile-player-card esoteric-player-card"></div>
-                    <p className="esoteric-text-muted"></p>
+                <div className="mobile-match-players" />
+                  <div className="mobile-player-card esoteric-player-card" />
+                    <p className="esoteric-text-muted" />
                       Rating: {Math.round(matchData.player.rating)} ±
                       {Math.round(matchData.player.uncertainty)}
-                    </p>
-                    <p className="esoteric-text-muted"></p>
+                    <p className="esoteric-text-muted" />
                       Deck: {matchData.player.deckArchetype}
-                    </p>
                   </div>
                   <div className="mobile-vs-badge esoteric-vs-badge">VS</div>
-                  <div className="mobile-player-card esoteric-player-card"></div>
-                    <p className="esoteric-text-muted"></p>
+                  <div className="mobile-player-card esoteric-player-card" />
+                    <p className="esoteric-text-muted" />
                       Rating: {Math.round(matchData.opponent.rating)} ±
                       {Math.round(matchData.opponent.uncertainty)}
-                    </p>
-                    <p className="esoteric-text-muted"></p>
+                    <p className="esoteric-text-muted" />
                       Deck: {matchData.opponent.deckArchetype}
-                    </p>
                   </div>
-                </div>
-                <p className="esoteric-text-muted"></p>
+                <p className="esoteric-text-muted" />
                   Win Probability: {Math.round(matchData.winProbability * 100)}%
                 </p>
-                <div className="mobile-match-details"></div>
-                  <div className="mobile-match-factors"></div>
-                    <div className="mobile-match-factor"></div>
+                <div className="mobile-match-details" />
+                  <div className="mobile-match-factors" />
+                    <div className="mobile-match-factor" />
                       <span className="esoteric-text-muted">Skill Match:</span>
-                      <div className="mobile-progress-bar"></div>
+                      <div className="mobile-progress-bar" />
                         <div
                           className="mobile-progress-fill esoteric-progress-fill"
                           style={{
                             width: `${Math.round(matchData.matchFactors.skill * 100)}%`,
                           }}
-                        ></div>
+                         />
                       </div>
-                    </div>
-                    <div className="mobile-match-factor"></div>
-                      <span className="esoteric-text-muted"></span>
+                    <div className="mobile-match-factor" />
+                      <span className="esoteric-text-muted" />
                         Playstyle Compatibility:
                       </span>
-                      <div className="mobile-progress-bar"></div>
+                      <div className="mobile-progress-bar" />
                         <div
                           className="mobile-progress-fill esoteric-progress-fill"
                           style={{
                             width: `${Math.round(matchData.matchFactors.playstyle * 100)}%`,
                           }}
-                        ></div>
+                         />
                       </div>
-                    </div>
-                    <div className="mobile-match-factor"></div>
+                    <div className="mobile-match-factor" />
                       <span className="esoteric-text-muted">Deck Matchup:</span>
-                      <div className="mobile-progress-bar"></div>
+                      <div className="mobile-progress-bar" />
                         <div
                           className="mobile-progress-fill esoteric-progress-fill"
                           style={{
                             width: `${Math.round(matchData.matchFactors.deckMatchup * 100)}%`,
                           }}
-                        ></div>
+                         />
                       </div>
-                    </div>
                   </div>
-                </div>
-                <div className="mobile-match-actions"></div>
+                <div className="mobile-match-actions" />
                   <button
                     className="mobile-btn mobile-btn-primary esoteric-btn"
                     onClick={handleAcceptMatch}
-                  ></button>
+                   />
                     Accept
                   </button>
                   <button
                     className="mobile-btn mobile-btn-danger esoteric-btn-danger"
                     onClick={handleDeclineMatch}
-                  ></button>
+                   />
                     Decline
                   </button>
-                </div>
               </div>
             )}
             {matchData && (
               <EnhancedMatchmakingVisualizer
                 rankingEngine={rankingEngine}
                 matchData={matchData}
-              /></EnhancedMatchmakingVisualizer>
+              / />
             )}
           </div>
         )}
         {activeTab === 'analytics' && (
-          <div className="mobile-analytics-container"></div>
+          <div className="mobile-analytics-container" />
             {!isAuthenticated ? (
-              <div className="mobile-auth-notification esoteric-card"></div>
-                <p className="esoteric-text-muted"></p>
+              <div className="mobile-auth-notification esoteric-card" />
+                <p className="esoteric-text-muted" />
                   You need to be logged in to view your performance analytics.
                 </p>
                 <button
@@ -722,22 +701,19 @@ const UnifiedMatchmakingPage = (): any => {
                 >
                   Log In
                 </button>
-              </div>
             ) : playerData ? (
               <PlayerPerformanceAnalytics
                 rankingEngine={rankingEngine}
                 playerData={playerData}
-              /></PlayerPerformanceAnalytics>
+              / />
             ) : (
-              <div className="mobile-loading"></div>
-                <div className="mobile-spinner esoteric-spinner"></div>
+              <div className="mobile-loading" />
+                <div className="mobile-spinner esoteric-spinner" />
                 <p className="esoteric-text-muted">Loading analytics data...</p>
-              </div>
             )}
           </div>
         )}
       </ErrorBoundary>
-    </div>
   );
 };
 export default UnifiedMatchmakingPage;

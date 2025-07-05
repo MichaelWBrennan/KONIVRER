@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - Advanced Search Parser
  * 
@@ -110,7 +111,7 @@ const parseStructuredFilter = (key, value, filters): any => {
   // Remove quotes from value
   const cleanValue = value.replace(/^["']|["']$/g, '');
 
-  switch(): any {
+  switch (true) {
     case 't':
     case 'type':
       filters.type.push(cleanValue);
@@ -221,7 +222,7 @@ const extractValue = (value): any => {
  * Apply all filters to the card array
  */
 const applyFilters = (cards, filters): any => {
-  return cards.filter(card: any = > {
+  return cards.filter((card: any) => {
     // Apply exclusion filters first
     for (const exclude of filters.exclude): any {
       if (matchesTextFilter(card, exclude)) {
@@ -302,7 +303,7 @@ const matchesTextFilter = (card, text): any => {
 const matchesTypeFilter = (card, type): any => {
   if (type.startsWith('is:')) {
     const condition = type.substring(3);
-    switch(): any {
+    switch (true) {
       case 'permanent':
         return ['elemental'].includes((card.type || '').toLowerCase());
       case 'spell':
@@ -537,7 +538,7 @@ const compareNumbers = (cardValue, operator, filterValue): any => {
   const numCardValue = parseInt(cardValue) || 0;
   const numFilterValue = parseInt(filterValue) || 0;
 
-  switch(): any {
+  switch (true) {
     case '=': return numCardValue === numFilterValue;
     case '>=': return numCardValue >= numFilterValue;
     case '<=': return numCardValue <= numFilterValue;

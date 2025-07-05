@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -463,7 +464,7 @@ class TournamentMatchmakingService {
     };
     
     // Return archetype-specific playstyle profiles
-    switch(): any {
+    switch (true) {
       case 'Aggro':
         return {
           aggression: 0.9,

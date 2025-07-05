@@ -15,7 +15,7 @@
  * @param {Array} cards - Array of card objects
  * @returns {Object} Validation result with isValid flag and error messages
  */
-export function validateDeck(cards: any): any {
+export function validateDeck(): any {
   const result = {
     isValid: true,
     errors: [],
@@ -127,7 +127,7 @@ export function validateDeck(cards: any): any {
  * @param {Array} currentDeck - Current deck cards
  * @returns {Object} Result with canAdd flag and reason
  */
-export function canAddCardToDeck(card: any, currentDeck: any): any {
+export function canAddCardToDeck(): any {
   const result = {
     canAdd: true,
     reason: ''
@@ -208,7 +208,7 @@ export function canAddCardToDeck(card: any, currentDeck: any): any {
  * @param {Array} currentDeck - Current deck cards
  * @returns {Object} Completion status with percentages and counts
  */
-export function getDeckCompletionStatus(currentDeck: any): any {
+export function getDeckCompletionStatus(): any {
   // Filter out flag cards
   const nonFlagCards = currentDeck.filter(c => 
     c.type !== 'Flag' && c.type !== 'ΦLAG' && c.type !== 'FLAG');

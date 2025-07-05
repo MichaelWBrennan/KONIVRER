@@ -43,11 +43,10 @@ const JudgeCenter = (): any => {
   // Show loading while checking authentication
   if (true) {
     return (
-      <div className="min-h-screen flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+      <div className="min-h-screen flex items-center justify-center" />
+        <div className="text-center" />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
           <p className="text-secondary">Loading...</p>
-        </div>
       </div>
     );
   }
@@ -69,7 +68,7 @@ const JudgeCenter = (): any => {
     setTournaments([]);
   }, []);
   const getPriorityColor = priority => {
-    switch(): any {
+    switch (true) {
       case 'high':
         return 'bg-red-600 text-white';
       case 'medium':
@@ -81,7 +80,7 @@ const JudgeCenter = (): any => {
     }
   };
   const getStatusColor = status => {
-    switch(): any {
+    switch (true) {
       case 'pending':
         return 'text-yellow-400';
       case 'investigating':
@@ -92,182 +91,154 @@ const JudgeCenter = (): any => {
         return 'text-gray-400';
     }
   };
-  const renderDashboard = () => (
-    <div className="space-y-6"></div>
+  const renderDashboard = (renderDashboard: any) => (
+    <div className="space-y-6" />
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        <div className="card text-center"></div>
-          <Shield size={24} className="text-accent-primary mx-auto mb-2" /></Shield>
-          <div className="text-2xl font-bold">Level {judgeLevel}</div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4" />
+        <div className="card text-center" />
+          <Shield size={24} className="text-accent-primary mx-auto mb-2" / />
+          <div className="text-2xl font-bold">Level {judgeLevel}
           <div className="text-sm text-secondary">Judge Certification</div>
-        </div>
-        <div className="card text-center"></div>
-          <Users size={24} className="text-green-400 mx-auto mb-2" /></Users>
-          <div className="text-2xl font-bold">{activeCalls.length}</div>
+        <div className="card text-center" />
+          <Users size={24} className="text-green-400 mx-auto mb-2" / />
+          <div className="text-2xl font-bold">{activeCalls.length}
           <div className="text-sm text-secondary">Active Calls</div>
-        </div>
-        <div className="card text-center"></div>
-          <CheckCircle size={24} className="text-blue-400 mx-auto mb-2" /></CheckCircle>
+        <div className="card text-center" />
+          <CheckCircle size={24} className="text-blue-400 mx-auto mb-2" / />
           <div className="text-2xl font-bold">47</div>
           <div className="text-sm text-secondary">Rulings Today</div>
-        </div>
-        <div className="card text-center"></div>
-          <Award size={24} className="text-yellow-400 mx-auto mb-2" /></Award>
+        <div className="card text-center" />
+          <Award size={24} className="text-yellow-400 mx-auto mb-2" / />
           <div className="text-2xl font-bold">156</div>
           <div className="text-sm text-secondary">Events Judged</div>
-        </div>
       </div>
       {/* Active Judge Calls */}
-      <div className="card"></div>
-        <div className="flex items-center justify-between mb-4"></div>
-          <button className="btn btn-sm btn-primary"></button>
-            <Plus size={14} /></Plus>
+      <div className="card" />
+        <div className="flex items-center justify-between mb-4" />
+          <button className="btn btn-sm btn-primary" />
+            <Plus size={14} / />
             New Call
           </button>
-        </div>
         {activeCalls.length > 0 ? (
-          <div className="space-y-3"></div>
+          <div className="space-y-3" />
             {activeCalls.map(call => (
               <div
                 key={call.id}
                 className="p-4 bg-secondary rounded-lg border border-color"
-              ></div>
-                <div className="flex items-start justify-between mb-2"></div>
-                  <div className="flex items-center gap-2"></div>
+               />
+                <div className="flex items-start justify-between mb-2" />
+                  <div className="flex items-center gap-2" />
                     <span
                       className={`px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}
-                    ></span>
+                     />
                       {call.priority.toUpperCase()}
-                    </span>
-                    <span className="text-sm text-secondary"></span>
+                    <span className="text-sm text-secondary" />
                       Table {call.table}
-                    </span>
                   </div>
-                  <span className={`text-sm ${getStatusColor(call.status)}`}></span>
+                  <span className={`text-sm ${getStatusColor(call.status)}`} />
                     {call.status.charAt(0).toUpperCase() + call.status.slice(1)}
-                  </span>
                 </div>
-                <p className="text-sm text-secondary mb-2"></p>
+                <p className="text-sm text-secondary mb-2" />
                   {call.player1} vs {call.player2} • {call.tournament}
-                </p>
-                <div className="flex items-center justify-between"></div>
-                  <span className="text-xs text-muted">{call.time}</span>
-                  <div className="flex gap-2"></div>
-                    <button className="btn btn-sm btn-secondary"></button>
-                      <Eye size={14} /></Eye>
+                <div className="flex items-center justify-between" />
+                  <span className="text-xs text-muted">{call.time}
+                  <div className="flex gap-2" />
+                    <button className="btn btn-sm btn-secondary" />
+                      <Eye size={14} / />
                       View
                     </button>
                     <button className="btn btn-sm btn-primary">Respond</button>
-                  </div>
                 </div>
-              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-8"></div>
-            <CheckCircle size={48} className="text-green-400 mx-auto mb-4" /></CheckCircle>
+          <div className="text-center py-8" />
+            <CheckCircle size={48} className="text-green-400 mx-auto mb-4" / />
             <p className="text-secondary">No active judge calls</p>
-          </div>
         )}
       </div>
       {/* Recent Rulings */}
-      <div className="card"></div>
-        <div className="space-y-3"></div>
+      <div className="card" />
+        <div className="space-y-3" />
           {recentRulings.map(ruling => (
             <div
               key={ruling.id}
               className="p-3 bg-tertiary rounded border border-color"
-            ></div>
-              <div className="flex items-start justify-between mb-2"></div>
-                <span className="text-xs text-muted">{ruling.time}</span>
+             />
+              <div className="flex items-start justify-between mb-2" />
+                <span className="text-xs text-muted">{ruling.time}
               </div>
-              <p className="text-sm text-secondary mb-2">{ruling.ruling}</p>
-              <div className="flex items-center justify-between text-xs"></div>
-                <span className="text-muted">Judge: {ruling.judge}</span>
-                <span className="text-muted">{ruling.tournament}</span>
+              <p className="text-sm text-secondary mb-2">{ruling.ruling}
+              <div className="flex items-center justify-between text-xs" />
+                <span className="text-muted">Judge: {ruling.judge}
+                <span className="text-muted">{ruling.tournament}
               </div>
-            </div>
           ))}
         </div>
-      </div>
     </div>
   );
-  const renderTournaments = () => (
-    <div className="space-y-6"></div>
-      <div className="flex items-center justify-between"></div>
-        <Link to="/tournaments/create" className="btn btn-primary"></Link>
-          <Plus size={16} /></Plus>
+  const renderTournaments = (renderTournaments: any) => (
+    <div className="space-y-6" />
+      <div className="flex items-center justify-between" />
+        <Link to="/tournaments/create" className="btn btn-primary" />
+          <Plus size={16} / />
           Create Tournament
         </Link>
-      </div>
-      <div className="grid gap-4"></div>
+      <div className="grid gap-4" />
         {tournaments.map(tournament => (
-          <div key={tournament.id} className="card"></div>
-            <div className="flex items-center justify-between mb-4"></div>
-              <div></div>
-                <p className="text-sm text-secondary"></p>
+          <div key={tournament.id} className="card" />
+            <div className="flex items-center justify-between mb-4" />
+              <div />
+                <p className="text-sm text-secondary" />
                   Role: {tournament.role}
-                </p>
               </div>
-              <div className="text-right"></div>
+              <div className="text-right" />
                 <span
                   className={`inline-block px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${
                     tournament.status === 'active'
                       ? 'bg-green-600 text-white'
                       : 'bg-blue-600 text-white'
                   }`}
-                ></span>
+                 />
                   {tournament.status.charAt(0).toUpperCase() +
                     tournament.status.slice(1)}
-                </span>
               </div>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"></div>
-              <div className="text-center"></div>
-                <div className="text-lg font-semibold"></div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4" />
+              <div className="text-center" />
+                <div className="text-lg font-semibold" />
                   {tournament.players}
-                </div>
                 <div className="text-xs text-secondary">Players</div>
-              </div>
-              <div className="text-center"></div>
-                <div className="text-lg font-semibold"></div>
+              <div className="text-center" />
+                <div className="text-lg font-semibold" />
                   {tournament.round}/{tournament.totalRounds}
-                </div>
                 <div className="text-xs text-secondary">Rounds</div>
-              </div>
-              <div className="text-center"></div>
-                <div className="text-lg font-semibold"></div>
+              <div className="text-center" />
+                <div className="text-lg font-semibold" />
                   {tournament.startTime}
-                </div>
                 <div className="text-xs text-secondary">Start Time</div>
-              </div>
-              <div className="text-center"></div>
-                <div className="text-lg font-semibold"></div>
+              <div className="text-center" />
+                <div className="text-lg font-semibold" />
                   {tournament.date || 'Today'}
-                </div>
                 <div className="text-xs text-secondary">Date</div>
-              </div>
             </div>
-            <div className="flex gap-2"></div>
+            <div className="flex gap-2" />
               <Link
                 to={`/tournaments/${tournament.id}/judge`}
                 className="btn btn-primary flex-1"
-              ></Link>
-                <Gavel size={16} /></Gavel>
+               />
+                <Gavel size={16} / />
                 Judge Panel
               </Link>
               <Link
                 to={`/tournaments/${tournament.id}`}
                 className="btn btn-secondary"
-              ></Link>
-                <Eye size={16} /></Eye>
+               />
+                <Eye size={16} / />
                 View
               </Link>
-            </div>
           </div>
         ))}
       </div>
-    </div>
   );
   // Rules data from RulesCenter
   const rulesData = {
@@ -446,23 +417,22 @@ const JudgeCenter = (): any => {
     },
   ];
   const currentSection = rulesData[selectedRuleSection];
-  const renderRulesReference = () => (
-    <div className="space-y-6"></div>
+  const renderRulesReference = (renderRulesReference: any) => (
+    <div className="space-y-6" />
       {/* Header */}
-      <div className="flex items-center justify-between"></div>
-        <div className="flex gap-2"></div>
-          <button className="btn btn-secondary"></button>
-            <Download size={16} /></Download>
+      <div className="flex items-center justify-between" />
+        <div className="flex gap-2" />
+          <button className="btn btn-secondary" />
+            <Download size={16} / />
             Download All PDFs
           </button>
-          <button className="btn btn-secondary"></button>
-            <Search size={16} /></Search>
+          <button className="btn btn-secondary" />
+            <Search size={16} / />
             Search Rules
           </button>
-        </div>
       </div>
       {/* Section Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-color"></div>
+      <div className="flex flex-wrap gap-2 border-b border-color" />
         {sections.map(section => {
           const Icon = section.icon;
           return (
@@ -475,194 +445,165 @@ const JudgeCenter = (): any => {
                   : 'border-transparent text-secondary hover:text-primary'
               }`}
             >
-              <Icon size={16} /></Icon>
+              <Icon size={16} / />
               {section.name}
-            </button>
           );
         })}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
         {/* Main Content */}
-        <div className="lg:col-span-2"></div>
-          <div className="card"></div>
+        <div className="lg:col-span-2" />
+          <div className="card" />
             {/* Section Header */}
-            <div className="flex justify-between items-start mb-6"></div>
-              <div></div>
-                <p className="text-secondary mb-4"></p>
+            <div className="flex justify-between items-start mb-6" />
+              <div />
+                <p className="text-secondary mb-4" />
                   {currentSection.description}
-                </p>
-                <div className="flex items-center gap-4 text-sm text-muted"></div>
-                  <span>Version {currentSection.version}</span>
+                <div className="flex items-center gap-4 text-sm text-muted" />
+                  <span>Version {currentSection.version}
                   <span>•</span>
-                  <span className="flex items-center"></span>
-                    <Calendar className="w-4 h-4 mr-1" /></Calendar>
+                  <span className="flex items-center" />
+                    <Calendar className="w-4 h-4 mr-1" / />
                     Updated{' '}
                     {new Date(currentSection.lastUpdated).toLocaleDateString()}
-                  </span>
                 </div>
-              </div>
-              <button className="btn btn-primary"></button>
-                <Download className="w-4 h-4" /></Download>
+              <button className="btn btn-primary" />
+                <Download className="w-4 h-4" / />
                 Download PDF
               </button>
-            </div>
             {/* Table of Contents */}
-            <div className="space-y-4"></div>
+            <div className="space-y-4" />
               {currentSection.sections.map(section => (
                 <div
                   key={section.id}
                   className="border border-color rounded-lg p-4 hover:border-accent-primary transition-colors"
-                ></div>
-                  <ul className="space-y-1"></ul>
+                 />
+                  <ul className="space-y-1" />
                     {section.subsections.map((subsection, index) => (
                       <li
                         key={index}
                         className="text-secondary hover:text-accent-primary cursor-pointer transition-colors text-sm"
-                      ></li>
+                       />
                         {subsection}
-                      </li>
                     ))}
                   </ul>
-                </div>
               ))}
             </div>
             {/* Links */}
-            <div className="mt-6 pt-6 border-t border-color"></div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="mt-6 pt-6 border-t border-color" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
-                ></a>
-                  <ExternalLink className="w-4 h-4" /></ExternalLink>
+                 />
+                  <ExternalLink className="w-4 h-4" / />
                   <span>Official FAQ</span>
-                </a>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
-                ></a>
-                  <ExternalLink className="w-4 h-4" /></ExternalLink>
+                 />
+                  <ExternalLink className="w-4 h-4" / />
                   <span>Judge Resources</span>
-                </a>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
-                ></a>
-                  <ExternalLink className="w-4 h-4" /></ExternalLink>
+                 />
+                  <ExternalLink className="w-4 h-4" / />
                   <span>Tournament Organizer Guide</span>
-                </a>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
-                ></a>
-                  <ExternalLink className="w-4 h-4" /></ExternalLink>
+                 />
+                  <ExternalLink className="w-4 h-4" / />
                   <span>Player Education</span>
-                </a>
               </div>
-            </div>
           </div>
-        </div>
         {/* Sidebar */}
-        <div className="space-y-6"></div>
+        <div className="space-y-6" />
           {/* Recent Updates */}
-          <div className="card"></div>
-            <div className="space-y-4"></div>
+          <div className="card" />
+            <div className="space-y-4" />
               {recentUpdates.map((update, index) => (
                 <div
                   key={index}
                   className="border-l-4 border-accent-primary pl-4"
-                ></div>
-                  <div className="flex items-center justify-between mb-1"></div>
-                    <span className="text-sm text-muted"></span>
+                 />
+                  <div className="flex items-center justify-between mb-1" />
+                    <span className="text-sm text-muted" />
                       {new Date(update.date).toLocaleDateString()}
-                    </span>
-                    <span className="bg-accent-primary/20 text-accent-primary px-2 py-0 whitespace-nowrap rounded text-xs"></span>
+                    <span className="bg-accent-primary/20 text-accent-primary px-2 py-0 whitespace-nowrap rounded text-xs" />
                       {update.type}
-                    </span>
                   </div>
-                  <p className="text-secondary text-sm">{update.description}</p>
+                  <p className="text-secondary text-sm">{update.description}
                 </div>
               ))}
             </div>
-          </div>
           {/* Access */}
-          <div className="card"></div>
-            <div className="space-y-3"></div>
-              <button className="w-full btn btn-primary text-left"></button>
+          <div className="card" />
+            <div className="space-y-3" />
+              <button className="w-full btn btn-primary text-left" />
                 Download All Rules (PDF)
               </button>
-              <button className="w-full btn btn-secondary text-left"></button>
+              <button className="w-full btn btn-secondary text-left" />
                 Judge Certification
               </button>
-              <button className="w-full btn btn-secondary text-left"></button>
+              <button className="w-full btn btn-secondary text-left" />
                 Tournament Organizer Kit
               </button>
-              <button className="w-full btn btn-secondary text-left"></button>
+              <button className="w-full btn btn-secondary text-left" />
                 Rules Questions Forum
               </button>
-            </div>
           </div>
           {/* Judge Reference */}
-          <div className="card"></div>
-            <div className="space-y-4"></div>
-              <div></div>
-                <div className="space-y-2 text-sm"></div>
-                  <div className="flex justify-between"></div>
+          <div className="card" />
+            <div className="space-y-4" />
+              <div />
+                <div className="space-y-2 text-sm" />
+                  <div className="flex justify-between" />
                     <span>Deck Registration Error</span>
                     <span className="text-yellow-400">Game Loss</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Marked Cards</span>
                     <span className="text-red-400">Disqualification</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Slow Play</span>
                     <span className="text-yellow-400">Warning</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Unsporting Conduct</span>
                     <span className="text-red-400">Match Loss</span>
-                  </div>
                 </div>
-              </div>
-              <div></div>
-                <div className="space-y-2 text-sm"></div>
-                  <div className="flex justify-between"></div>
+              <div />
+                <div className="space-y-2 text-sm" />
+                  <div className="flex justify-between" />
                     <span>Match Time</span>
                     <span>50 minutes</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Extra Turns</span>
                     <span>5 turns</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Deck Construction</span>
                     <span>30 minutes</span>
-                  </div>
-                  <div className="flex justify-between"></div>
+                  <div className="flex justify-between" />
                     <span>Between Rounds</span>
                     <span>10 minutes</span>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
   );
-  const renderCertification = () => (
-    <div className="space-y-6"></div>
-      <div className="text-center"></div>
-        <Shield size={64} className="text-accent-primary mx-auto mb-4" /></Shield>
-        <p className="text-secondary">Current Level: {judgeLevel}</p>
+  const renderCertification = (renderCertification: any) => (
+    <div className="space-y-6" />
+      <div className="text-center" />
+        <Shield size={64} className="text-accent-primary mx-auto mb-4" / />
+        <p className="text-secondary">Current Level: {judgeLevel}
       </div>
-      <div className="grid md:grid-cols-3 gap-4"></div>
+      <div className="grid md:grid-cols-3 gap-4" />
         {[1, 2, 3].map(level => (
           <div
             key={level}
             className={`card ${judgeLevel >= level ? 'border-accent-primary bg-accent-primary/10' : ''}`}
           >
-            <div className="text-center"></div>
+            <div className="text-center" />
               <div
                 className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 ${
                   judgeLevel >= level
@@ -672,62 +613,53 @@ const JudgeCenter = (): any => {
               >
                 {judgeLevel >= level ? <CheckCircle size={24} /> : level}
               </div>
-              <p className="text-sm text-secondary mb-4"></p>
+              <p className="text-sm text-secondary mb-4" />
                 {level === 1 && 'Local store events and casual tournaments'}
                 {level === 2 && 'Regional events and competitive tournaments'}
                 {level === 3 && 'National events and premier tournaments'}
-              </p>
               {judgeLevel >= level ? (
-                <span className="text-sm text-accent-primary font-medium"></span>
+                <span className="text-sm text-accent-primary font-medium" />
                   Certified
                 </span>
               ) : (
                 <button className="btn btn-sm btn-primary">Start Exam</button>
               )}
-            </div>
           </div>
         ))}
       </div>
-      <div className="card"></div>
-        <div className="space-y-4"></div>
-          <div></div>
-            <div className="flex justify-between mb-2"></div>
+      <div className="card" />
+        <div className="space-y-4" />
+          <div />
+            <div className="flex justify-between mb-2" />
               <span>Rules Knowledge</span>
               <span>95%</span>
-            </div>
-            <div className="w-full bg-tertiary rounded-full h-2"></div>
+            <div className="w-full bg-tertiary rounded-full h-2" />
               <div
                 className="bg-accent-primary h-2 rounded-full"
                 style={{ width: '95%' }}
-              ></div>
+               />
             </div>
-          </div>
-          <div></div>
-            <div className="flex justify-between mb-2"></div>
+          <div />
+            <div className="flex justify-between mb-2" />
               <span>Tournament Procedures</span>
               <span>88%</span>
-            </div>
-            <div className="w-full bg-tertiary rounded-full h-2"></div>
+            <div className="w-full bg-tertiary rounded-full h-2" />
               <div
                 className="bg-accent-primary h-2 rounded-full"
                 style={{ width: '88%' }}
-              ></div>
+               />
             </div>
-          </div>
-          <div></div>
-            <div className="flex justify-between mb-2"></div>
+          <div />
+            <div className="flex justify-between mb-2" />
               <span>Penalty Guidelines</span>
               <span>92%</span>
-            </div>
-            <div className="w-full bg-tertiary rounded-full h-2"></div>
+            <div className="w-full bg-tertiary rounded-full h-2" />
               <div
                 className="bg-accent-primary h-2 rounded-full"
                 style={{ width: '92%' }}
-              ></div>
+               />
             </div>
-          </div>
         </div>
-      </div>
     </div>
   );
   const tabs = [
@@ -737,10 +669,10 @@ const JudgeCenter = (): any => {
     { id: 'certification', label: 'Certification', icon: Award },
   ];
   return (
-    <div className="min-h-screen py-8"></div>
-      <div className="container"></div>
+    <div className="min-h-screen py-8" />
+      <div className="container" />
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-color"></div>
+        <div className="flex flex-wrap gap-2 mb-8 border-b border-color" />
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -753,9 +685,8 @@ const JudgeCenter = (): any => {
                     : 'border-transparent text-secondary hover:text-primary'
                 }`}
               >
-                <Icon size={16} /></Icon>
+                <Icon size={16} / />
                 {tab.label}
-              </button>
             );
           })}
         </div>
@@ -764,7 +695,6 @@ const JudgeCenter = (): any => {
         {activeTab === 'tournaments' && renderTournaments()}
         {activeTab === 'rules' && renderRulesReference()}
         {activeTab === 'certification' && renderCertification()}
-      </div>
     </div>
   );
 };

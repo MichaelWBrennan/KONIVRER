@@ -75,39 +75,38 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
   };
 
   return (
-    <AnimatePresence></AnimatePresence>
+    <AnimatePresence />
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-        ></motion>
+         />
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
-          ></motion>
-            <div className="flex justify-between items-center mb-4"></div>
+           />
+            <div className="flex justify-between items-center mb-4" />
               <h2 className="text-xl font-bold text-white">Import Deck</h2>
               <button
                 onClick={onClose}
                 className="text-gray-400 hover:text-white transition-colors"
-              ></button>
-                <X size={20} /></X>
+               />
+                <X size={20} / />
               </button>
-            </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200"></div>
-                <AlertTriangle size={18} className="mr-2 flex-shrink-0" /></AlertTriangle>
-                <span className="text-sm">{error}</span>
+              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200" />
+                <AlertTriangle size={18} className="mr-2 flex-shrink-0" / />
+                <span className="text-sm">{error}
               </div>
             )}
-            <div className="space-y-4"></div>
-              <div></div>
-                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
+            <div className="space-y-4" />
+              <div />
+                <label className="block text-sm font-medium text-gray-300 mb-1" />
                   Deck Name
                 </label>
                 <input
@@ -119,8 +118,8 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div></div>
-                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
+              <div />
+                <label className="block text-sm font-medium text-gray-300 mb-1" />
                   Deck Code
                 </label>
                 <textarea
@@ -131,18 +130,18 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-2"></div>
+              <div className="flex justify-end space-x-3 pt-2" />
                 <button
                   onClick={onClose}
                   className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-                ></button>
+                 />
                   Cancel
                 </button>
                 <button
                   onClick={handleImport}
                   disabled={isImporting}
                   className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                ></button>
+                 />
                   {isImporting ? (
                     <>
                       <span className="animate-spin mr-2">⟳</span>
@@ -150,12 +149,11 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                     </>
                   ) : (
                     <>
-                      <Check size={18} className="mr-2" /></Check>
+                      <Check size={18} className="mr-2" / />
                       Import Deck
                     </>
                   )}
                 </button>
-              </div>
             </div>
           </motion.div>
         </motion.div>

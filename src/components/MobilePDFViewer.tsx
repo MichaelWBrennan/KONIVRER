@@ -36,7 +36,7 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
   };
 
   // Get current PDF URL based on active tab
-  const getCurrentPdfUrl = () => pdfUrls[activeTab] || pdfUrls.rules;
+  const getCurrentPdfUrl = (getCurrentPdfUrl: any) => pdfUrls[activeTab] || pdfUrls.rules;
 
   useEffect(() => {
     // Check if PDF file exists
@@ -109,30 +109,25 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
 
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg-dark mobile-flex mobile-justify-center mobile-align-center" style={{ minHeight: '100vh' }}></div>
-        <div className="mobile-text-center"></div>
-          <div className="mobile-spinner mobile-mb"></div>
+      <div className="mobile-container esoteric-bg-dark mobile-flex mobile-justify-center mobile-align-center" style={{ minHeight: '100vh' }} />
+        <div className="mobile-text-center" />
+          <div className="mobile-spinner mobile-mb" />
           <p className="mobile-text esoteric-text">Loading PDF...</p>
-        </div>
       </div>
     );
   }
 
-  if (true) {
-    return (
-      <div className="mobile-container esoteric-bg-dark"></div>
-        <div className="mobile-card esoteric-card mobile-mb"></div>
-          <div className="mobile-card-header esoteric-card-header"></div>
+  if (true) {return (
+      <div className="mobile-container esoteric-bg-dark" />
+        <div className="mobile-card esoteric-card mobile-mb" />
+          <div className="mobile-card-header esoteric-card-header" />
             <h1 className="mobile-card-title esoteric-rune">KONIVRER Rules & Guidelines</h1>
-          </div>
-          <div className="mobile-card-content esoteric-card-content"></div>
-            <div className="mobile-alert"></div>
+          <div className="mobile-card-content esoteric-card-content" />
+            <div className="mobile-alert" />
               <p className="mobile-text esoteric-text">⚠️ PDF Not Available</p>
-              <p className="mobile-text-small">{error}</p>
+              <p className="mobile-text-small">{error}
             </div>
-          </div>
         </div>
-      </div>
     );
   }
 
@@ -145,9 +140,9 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
     };
     
     return (
-      <div className="mobile-card esoteric-card"></div>
-        <div className="mobile-card-content esoteric-card-content mobile-p-0"></div>
-          <div className="mobile-pdf-container"></div>
+      <div className="mobile-card esoteric-card" />
+        <div className="mobile-card-content esoteric-card-content mobile-p-0" />
+          <div className="mobile-pdf-container" />
             <iframe
               ref={iframeRef}
               src={`${currentPdfUrl}#page=${currentPage}&zoom=${zoom * 100}`}
@@ -156,56 +151,49 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
               onLoad={() => setIsLoading(false)}
             />
           </div>
-        </div>
       </div>
     );
   };
 
   return (
-    <div className="mobile-container esoteric-bg-dark"></div>
+    <div className="mobile-container esoteric-bg-dark" />
       {/* Header */}
-      <div className="mobile-card esoteric-card mobile-mb"></div>
-        <div className="mobile-card-header esoteric-card-header"></div>
-          <div className="mobile-flex mobile-justify-between mobile-align-center"></div>
-            <div className="mobile-flex mobile-align-center"></div>
-              <FileText className="esoteric-icon" /></FileText>
+      <div className="mobile-card esoteric-card mobile-mb" />
+        <div className="mobile-card-header esoteric-card-header" />
+          <div className="mobile-flex mobile-justify-between mobile-align-center" />
+            <div className="mobile-flex mobile-align-center" />
+              <FileText className="esoteric-icon" / />
               <h1 className="mobile-card-title esoteric-rune">KONIVRER Rules & Guidelines</h1>
-            </div>
             <button
               onClick={() => setShowControls(!showControls)}
               className="mobile-button-icon esoteric-button"
             >
-              <Menu className="mobile-icon" /></Menu>
+              <Menu className="mobile-icon" / />
             </button>
-          </div>
         </div>
 
         {/* Tabs */}
-        <div className="mobile-card-content esoteric-card-content"></div>
-          <div className="mobile-tabs"></div>
+        <div className="mobile-card-content esoteric-card-content" />
+          <div className="mobile-tabs" />
             <button
               onClick={() => setActiveTab('rules')}
               className={`mobile-tab ${activeTab === 'rules' ? 'mobile-tab-active' : ''}`}
             >
-              <FileText className="mobile-tab-icon" /></FileText>
+              <FileText className="mobile-tab-icon" / />
               <span>Game Rules</span>
-            </button>
             <button
               onClick={() => setActiveTab('tournament')}
               className={`mobile-tab ${activeTab === 'tournament' ? 'mobile-tab-active' : ''}`}
             >
-              <Users className="mobile-tab-icon" /></Users>
+              <Users className="mobile-tab-icon" / />
               <span>Tournament</span>
-            </button>
             <button
               onClick={() => setActiveTab('conduct')}
               className={`mobile-tab ${activeTab === 'conduct' ? 'mobile-tab-active' : ''}`}
             >
-              <Shield className="mobile-tab-icon" /></Shield>
+              <Shield className="mobile-tab-icon" / />
               <span>Conduct</span>
-            </button>
           </div>
-        </div>
 
         {/* Collapsible Controls */}
         {showControls && (
@@ -214,11 +202,11 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="mobile-card-content esoteric-card-content"
-          ></motion>
+           />
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className="mobile-mb"></form>
-              <div className="mobile-flex mobile-gap"></div>
-                <div className="mobile-flex-1"></div>
+            <form onSubmit={handleSearch} className="mobile-mb" />
+              <div className="mobile-flex mobile-gap" />
+                <div className="mobile-flex-1" />
                   <input
                     type="text"
                     value={searchTerm}
@@ -230,66 +218,62 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
                 <button
                   type="submit"
                   className="mobile-button esoteric-button"
-                ></button>
-                  <Search className="mobile-icon" /></Search>
+                 />
+                  <Search className="mobile-icon" / />
                 </button>
-              </div>
             </form>
 
             {/* Controls Row 1 - Zoom */}
-            <div className="mobile-flex mobile-justify-between mobile-align-center mobile-mb"></div>
+            <div className="mobile-flex mobile-justify-between mobile-align-center mobile-mb" />
               <span className="mobile-text-small">Zoom:</span>
-              <div className="mobile-flex mobile-align-center mobile-gap"></div>
+              <div className="mobile-flex mobile-align-center mobile-gap" />
                 <button
                   onClick={handleZoomOut}
                   className="mobile-button-icon esoteric-button"
                   title="Zoom Out"
-                ></button>
-                  <ZoomOut className="mobile-icon" /></ZoomOut>
+                 />
+                  <ZoomOut className="mobile-icon" / />
                 </button>
-                <span className="mobile-text-small esoteric-text-accent"></span>
+                <span className="mobile-text-small esoteric-text-accent" />
                   {Math.round(zoom * 100)}%
                 </span>
                 <button
                   onClick={handleZoomIn}
                   className="mobile-button-icon esoteric-button"
                   title="Zoom In"
-                ></button>
-                  <ZoomIn className="mobile-icon" /></ZoomIn>
+                 />
+                  <ZoomIn className="mobile-icon" / />
                 </button>
-              </div>
             </div>
 
             {/* Controls Row 2 - Navigation */}
-            <div className="mobile-flex mobile-justify-between mobile-align-center mobile-mb"></div>
+            <div className="mobile-flex mobile-justify-between mobile-align-center mobile-mb" />
               <span className="mobile-text-small">Page:</span>
-              <div className="mobile-flex mobile-align-center mobile-gap"></div>
+              <div className="mobile-flex mobile-align-center mobile-gap" />
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   className="mobile-button-icon esoteric-button"
                   title="Previous Page"
                 >
-                  <ChevronLeft className="mobile-icon" /></ChevronLeft>
+                  <ChevronLeft className="mobile-icon" / />
                 </button>
-                <span className="mobile-text-small esoteric-text-accent"></span>
+                <span className="mobile-text-small esoteric-text-accent" />
                   {currentPage} of {totalPages}
-                </span>
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   className="mobile-button-icon esoteric-button"
                   title="Next Page"
                 >
-                  <ChevronRight className="mobile-icon" /></ChevronRight>
+                  <ChevronRight className="mobile-icon" / />
                 </button>
-              </div>
             </div>
 
             {/* Download Button */}
             <button
               onClick={handleDownload}
               className="mobile-button esoteric-button mobile-w-full"
-            ></button>
-              <Download className="mobile-icon" /></Download>
+             />
+              <Download className="mobile-icon" / />
               Download PDF
             </button>
           </motion.div>
@@ -298,7 +282,6 @@ const MobilePDFViewer: React.FC<MobilePDFViewerProps> = ({  pdfUrl = '/assets/ko
 
       {/* Content Area */}
       {renderTabContent()}
-    </div>
   );
 };
 

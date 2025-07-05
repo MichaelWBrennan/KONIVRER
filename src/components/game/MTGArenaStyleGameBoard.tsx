@@ -312,7 +312,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
   
   // Process AI's decision
   const processAIDecision = (decision): any => {
-    switch(): any {
+    switch (true) {
       case 'placeAzoth':
         // AI places a card as Azoth
         handleAIPlaceAzoth(decision.card);
@@ -523,7 +523,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
   
   // Handle phase change according to KONIVRER rules
   const nextPhase = (): any => {
-    switch(): any {
+    switch (true) {
       case 'start':
         setGamePhase('main');
         break;
@@ -893,130 +893,120 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
       ref={gameboardRef}
       className="fixed inset-0 bg-gray-900 text-white z-50 overflow-hidden flex flex-col"
       style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center' }}
-    ></div>
+     />
       {/* Game Header */}
-      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4 flex justify-between items-center"></header>
-        <div className="flex items-center space-x-4"></div>
+      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4 flex justify-between items-center" />
+        <div className="flex items-center space-x-4" />
           {/* Game Info */}
-          <div className="flex items-center space-x-2"></div>
-            <Clock size={16} className="text-gray-400" /></Clock>
-            <span className="text-sm">{formatTime(timeRemaining)}</span>
+          <div className="flex items-center space-x-2" />
+            <Clock size={16} className="text-gray-400" / />
+            <span className="text-sm">{formatTime(timeRemaining)}
           </div>
           
-          <div className="flex items-center space-x-2"></div>
-            <span className="text-sm">Turn {turn}</span>
-            <span className={`text-sm px-2 py-0.5 rounded ${activePlayer === 'player' ? 'bg-blue-600' : 'bg-red-600'}`}></span>
+          <div className="flex items-center space-x-2" />
+            <span className="text-sm">Turn {turn}
+            <span className={`text-sm px-2 py-0.5 rounded ${activePlayer === 'player' ? 'bg-blue-600' : 'bg-red-600'}`} />
               {activePlayer === 'player' ? 'Your Turn' : 'Opponent Turn'}
-            </span>
-            <span className="text-sm px-2 py-0.5 rounded bg-purple-600"></span>
+            <span className="text-sm px-2 py-0.5 rounded bg-purple-600" />
               {gamePhase === 'main1' ? 'Main 1' : 
                gamePhase === 'combat' ? 'Combat' : 
                gamePhase === 'main2' ? 'Main 2' : 'End'}
-            </span>
           </div>
-        </div>
         
-        <div className="flex items-center space-x-3"></div>
+        <div className="flex items-center space-x-3" />
           {/* Controls */}
           <button 
             onClick={() => setShowChat(!showChat)}
             className={`p-1.5 rounded-full ${showChat ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
           >
-            <MessageCircle size={18} /></MessageCircle>
+            <MessageCircle size={18} / />
           </button>
           
           <button 
             onClick={() => setShowSettings(!showSettings)}
             className={`p-1.5 rounded-full ${showSettings ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
           >
-            <Settings size={18} /></Settings>
+            <Settings size={18} / />
           </button>
           
           <button 
             onClick={toggleFullscreen}
             className="p-1.5 rounded-full hover:bg-gray-700"
-          ></button>
+           />
             {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>
           
           <button 
             onClick={onExit}
             className="p-1.5 rounded-full hover:bg-gray-700"
-          ></button>
-            <X size={18} /></X>
+           />
+            <X size={18} / />
           </button>
-        </div>
       </header>
       
       {/* Game Board - KONIVRER Layout */}
-      <div className="flex-1 relative overflow-hidden"></div>
+      <div className="flex-1 relative overflow-hidden" />
         {/* Opponent Area */}
-        <div className="absolute top-0 left-0 right-0 h-[45%] px-4 py-2"></div>
-          <div className="flex justify-between items-start mb-2"></div>
+        <div className="absolute top-0 left-0 right-0 h-[45%] px-4 py-2" />
+          <div className="flex justify-between items-start mb-2" />
             {/* Opponent Info */}
-            <div className="flex items-center"></div>
-              <div className="relative"></div>
+            <div className="flex items-center" />
+              <div className="relative" />
                 {/* Flag */}
-                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden"></div>
+                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden" />
                   <img 
                     src={opponentFlag.image} 
                     alt={opponentFlag.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <Flag size={16} className="absolute top-1 right-1 text-blue-400" /></Flag>
+                  / />
+                  <Flag size={16} className="absolute top-1 right-1 text-blue-400" / />
                 </div>
                 
                 {/* Life Cards */}
-                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5"></div>
-                  <Shield size={14} className="mr-1 text-red-400" /></Shield>
-                  <span className="text-sm font-bold">{opponentLifeCards}</span>
+                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5" />
+                  <Shield size={14} className="mr-1 text-red-400" / />
+                  <span className="text-sm font-bold">{opponentLifeCards}
                 </div>
-              </div>
               
-              <div></div>
-                <div className="flex items-center"></div>
+              <div />
+                <div className="flex items-center" />
                   <span className="font-medium">Opponent</span>
                   {priorityPlayer === 'opponent' && (
-                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs"></div>
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs" />
                       Priority
                     </div>
                   )}
                   {aiThinking && (
-                    <div className="ml-2 flex items-center"></div>
+                    <div className="ml-2 flex items-center" />
                       <div className="animate-pulse text-xs text-blue-400">Thinking...</div>
-                    </div>
                   )}
-                </div>
                 
                 {/* Last AI Action */}
                 {lastAiAction && (
-                  <div className="text-xs text-gray-400 max-w-[200px] truncate"></div>
+                  <div className="text-xs text-gray-400 max-w-[200px] truncate" />
                     {lastAiAction.action === 'placeAzoth' && 'Placed Azoth'}
                     {lastAiAction.action === 'summon' && `Summoned ${lastAiAction.card?.name || 'Familiar'}`}
                     {lastAiAction.action === 'spell' && `Cast ${lastAiAction.card?.name || 'Spell'}`}
                     {lastAiAction.action === 'attack' && `Attacked with ${lastAiAction.attackers?.length || 0} Familiar(s)`}
                     {lastAiAction.action === 'pass' && 'Passed'}
-                  </div>
                 )}
               </div>
-            </div>
             
             {/* Opponent Hand & Deck */}
-            <div className="flex items-center"></div>
-              <div className="flex items-center mr-3"></div>
-                <Hand size={16} className="mr-1 text-gray-400" /></Hand>
-                <span className="text-sm">{opponentHandCount}</span>
+            <div className="flex items-center" />
+              <div className="flex items-center mr-3" />
+                <Hand size={16} className="mr-1 text-gray-400" / />
+                <span className="text-sm">{opponentHandCount}
               </div>
-              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center"></div>
-                <span className="text-sm">{opponentDeckCount}</span>
+              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center" />
+                <span className="text-sm">{opponentDeckCount}
               </div>
-            </div>
           </div>
           
           {/* Opponent Azoth Row */}
-          <div className="mt-2 mb-3"></div>
+          <div className="mt-2 mb-3" />
             <div className="text-xs text-gray-400 mb-1">Azoth Row:</div>
-            <div className="flex flex-wrap gap-2"></div>
+            <div className="flex flex-wrap gap-2" />
               {opponentAzoth.map(card => (
                 <div 
                   key={card.id}
@@ -1028,24 +1018,21 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
-                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
+                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
                     {card.elements.map((element, idx) => (
-                      <span key={idx} className="text-xs mr-0.5">{element}</span>
+                      <span key={idx} className="text-xs mr-0.5">{element}
                     ))}
                   </div>
-                </div>
               ))}
             </div>
-          </div>
           
           {/* Opponent Field */}
-          <div></div>
+          <div />
             <div className="text-xs text-gray-400 mb-1">Field:</div>
-            <div className="flex flex-wrap gap-2"></div>
+            <div className="flex flex-wrap gap-2" />
               {opponentField.map(card => (
                 <div 
                   key={card.id}
@@ -1057,26 +1044,23 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
                       +{card.counters}
-                    </div>
                   )}
                 </div>
               ))}
             </div>
-          </div>
         </div>
         
         {/* Center Area - Combat Rows */}
-        <div className="absolute top-[45%] left-0 right-0 h-[10%] flex flex-col items-center justify-center"></div>
+        <div className="absolute top-[45%] left-0 right-0 h-[10%] flex flex-col items-center justify-center" />
           {/* Opponent Combat Row */}
           {opponentCombatRow.length > 0 && (
-            <div className="flex gap-2 mb-2"></div>
+            <div className="flex gap-2 mb-2" />
               {opponentCombatRow.map(card => (
                 <div 
                   key={card.id}
@@ -1088,22 +1072,20 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
                       +{card.counters}
-                    </div>
                   )}
                 </div>
               ))}
             </div>
           )}
           {/* Phase Button and Stack Controls */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2 flex flex-col items-center"></div>
-            <div className="flex space-x-2 mb-2"></div>
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2 flex flex-col items-center" />
+            <div className="flex space-x-2 mb-2" />
               <button 
                 onClick={nextPhase}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
@@ -1112,14 +1094,13 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 {gamePhase === 'start' ? 'To Main Phase' : 
                  gamePhase === 'main' ? 'To Combat Phase' : 
                  gamePhase === 'combat' ? 'To Refresh Phase' : 'End Turn'}
-              </button>
               
               {priorityPlayer === 'player' && stack.length > 0 && (
                 <button 
                   onClick={passPriority}
                   className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg transition-colors"
                   disabled={aiThinking}
-                ></button>
+                 />
                   Pass Priority
                 </button>
               )}
@@ -1128,46 +1109,40 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 className={`px-4 py-2 ${showStack ? 'bg-purple-600' : 'bg-gray-600'} hover:bg-purple-500 rounded-lg transition-colors`}
               >
                 {showStack ? 'Hide Stack' : 'Show Stack'}
-              </button>
             </div>
             
             {/* Stack Display */}
             {showStack && stack.length > 0 && (
-              <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 max-h-40 overflow-y-auto"></div>
+              <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 max-h-40 overflow-y-auto" />
                 <div className="text-xs text-gray-400 mb-1">Stack (resolves from top to bottom):</div>
-                <div className="flex flex-col-reverse"></div>
+                <div className="flex flex-col-reverse" />
                   {stack.map((entry, index) => (
                     <div 
                       key={entry.timestamp}
                       className={`flex items-center p-1 rounded mb-1 ${entry.player === 'player' ? 'bg-blue-900/50' : 'bg-red-900/50'}`}
-                    ></div>
-                      <div className="w-4 h-4 flex items-center justify-center bg-gray-800 rounded mr-2"></div>
+                     />
+                      <div className="w-4 h-4 flex items-center justify-center bg-gray-800 rounded mr-2" />
                         {stack.length - index}
-                      </div>
-                      <div className="flex-1"></div>
-                        <div className="text-xs"></div>
+                      <div className="flex-1" />
+                        <div className="text-xs" />
                           {entry.effect.type === 'spell' ? 'Spell: ' : 'Familiar: '}
                           {entry.effect.card.name}
-                        </div>
                         {entry.effect.target && (
-                          <div className="text-xs text-gray-400"></div>
+                          <div className="text-xs text-gray-400" />
                             Target: {entry.effect.target.effect.card.name}
-                          </div>
                         )}
                       </div>
-                      <div className="text-xs text-gray-400"></div>
+                      <div className="text-xs text-gray-400" />
                         {entry.player === 'player' ? 'You' : 'Opponent'}
-                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
             )}
           </div>
           
           {/* Player Combat Row */}
           {playerCombatRow.length > 0 && (
-            <div className="flex gap-2 mt-2"></div>
+            <div className="flex gap-2 mt-2" />
               {playerCombatRow.map(card => (
                 <div 
                   key={card.id}
@@ -1179,14 +1154,12 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
                       +{card.counters}
-                    </div>
                   )}
                 </div>
               ))}
@@ -1195,11 +1168,11 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
         </div>
         
         {/* Player Area */}
-        <div className="absolute bottom-0 left-0 right-0 h-[45%] px-4 py-2"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[45%] px-4 py-2" />
           {/* Player Field */}
-          <div className="mb-3"></div>
+          <div className="mb-3" />
             <div className="text-xs text-gray-400 mb-1">Field:</div>
-            <div className="flex flex-wrap gap-2"></div>
+            <div className="flex flex-wrap gap-2" />
               {playerField.map(card => (
                 <div 
                   key={card.id}
@@ -1212,24 +1185,21 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
                       +{card.counters}
-                    </div>
                   )}
                 </div>
               ))}
             </div>
-          </div>
           
           {/* Player Azoth Row */}
-          <div className="mb-3"></div>
+          <div className="mb-3" />
             <div className="text-xs text-gray-400 mb-1">Azoth Row:</div>
-            <div className="flex flex-wrap gap-2"></div>
+            <div className="flex flex-wrap gap-2" />
               {playerAzoth.map(card => (
                 <div 
                   key={card.id}
@@ -1242,50 +1212,46 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     src={card.image} 
                     alt={card.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                  / />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                     {card.name}
-                  </div>
-                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
+                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
                     {card.elements.map((element, idx) => (
-                      <span key={idx} className="text-xs mr-0.5">{element}</span>
+                      <span key={idx} className="text-xs mr-0.5">{element}
                     ))}
                   </div>
-                </div>
               ))}
             </div>
-          </div>
           
-          <div className="flex justify-between items-end"></div>
+          <div className="flex justify-between items-end" />
             {/* Player Info */}
-            <div className="flex items-center"></div>
-              <div className="relative"></div>
+            <div className="flex items-center" />
+              <div className="relative" />
                 {/* Flag */}
-                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden"></div>
+                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden" />
                   <img 
                     src={playerFlag.image} 
                     alt={playerFlag.name} 
                     className="w-full h-full object-cover"
-                  /></img>
-                  <Flag size={16} className="absolute top-1 right-1 text-blue-400" /></Flag>
+                  / />
+                  <Flag size={16} className="absolute top-1 right-1 text-blue-400" / />
                 </div>
                 
                 {/* Life Cards */}
-                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5"></div>
-                  <Shield size={14} className="mr-1 text-blue-400" /></Shield>
-                  <span className="text-sm font-bold">{playerLifeCards}</span>
+                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5" />
+                  <Shield size={14} className="mr-1 text-blue-400" / />
+                  <span className="text-sm font-bold">{playerLifeCards}
                 </div>
-              </div>
               
-              <div></div>
-                <div className="flex items-center"></div>
+              <div />
+                <div className="flex items-center" />
                   <span className="font-medium">You</span>
                   {priorityPlayer === 'player' && (
-                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs"></div>
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs" />
                       Priority
                     </div>
                   )}
-                  <div className="ml-3 flex items-center space-x-1"></div>
+                  <div className="ml-3 flex items-center space-x-1" />
                     <button 
                       onClick={() => setPlayerLifeCards(prev => Math.max(0, prev - 1))}
                       className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-xs"
@@ -1298,13 +1264,12 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     >
                       +
                     </button>
-                  </div>
                 </div>
                 
                 {/* Play Mode Toggle */}
-                <div className="flex items-center mt-1"></div>
+                <div className="flex items-center mt-1" />
                   <div className="text-xs text-gray-400 mr-2">Play as:</div>
-                  <div className="flex bg-gray-800 rounded-lg overflow-hidden"></div>
+                  <div className="flex bg-gray-800 rounded-lg overflow-hidden" />
                     <button
                       onClick={() => setSelectedPlayMode('familiar')}
                       className={`px-2 py-0.5 text-xs ${selectedPlayMode === 'familiar' ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
@@ -1317,17 +1282,15 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     >
                       Spell
                     </button>
-                  </div>
                 </div>
-              </div>
             </div>
             
             {/* Player Hand & Deck */}
-            <div className="flex items-end"></div>
-              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center mr-3"></div>
-                <span className="text-sm">{playerDeckCount}</span>
+            <div className="flex items-end" />
+              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center mr-3" />
+                <span className="text-sm">{playerDeckCount}
               </div>
-              <div className="flex -space-x-10 hover:space-x-0 transition-all"></div>
+              <div className="flex -space-x-10 hover:space-x-0 transition-all" />
                 {playerHand.map((card, index) => (
                   <div 
                     key={card.id}
@@ -1341,105 +1304,96 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                       src={card.image} 
                       alt={card.name} 
                       className="w-full h-full object-cover"
-                    /></img>
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
+                    / />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
                       {card.name}
-                    </div>
-                    <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
+                    <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
                       {card.elements.map((element, idx) => (
-                        <span key={idx} className="text-xs mr-0.5">{element}</span>
+                        <span key={idx} className="text-xs mr-0.5">{element}
                       ))}
                     </div>
                     {card.cost !== undefined && (
-                      <div className="absolute top-0 right-0 bg-gray-800/80 text-xs p-0.5 rounded-bl"></div>
+                      <div className="absolute top-0 right-0 bg-gray-800/80 text-xs p-0.5 rounded-bl" />
                         {card.cost}
-                      </div>
                     )}
                   </div>
                 ))}
               </div>
-            </div>
           </div>
-        </div>
         
         {/* Card Preview - KONIVRER Style */}
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {hoveredCard && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
-            ></motion>
-              <div className="relative w-64 h-88 rounded-lg overflow-hidden shadow-xl bg-gray-900 border border-gray-700"></div>
-                <div className="p-2 bg-gray-800 flex items-center justify-between"></div>
-                  <div className="font-medium">{hoveredCard.name}</div>
-                  <div className="flex"></div>
+             />
+              <div className="relative w-64 h-88 rounded-lg overflow-hidden shadow-xl bg-gray-900 border border-gray-700" />
+                <div className="p-2 bg-gray-800 flex items-center justify-between" />
+                  <div className="font-medium">{hoveredCard.name}
+                  <div className="flex" />
                     {hoveredCard.elements?.map((element, idx) => (
-                      <span key={idx} className="text-sm mr-1">{element}</span>
+                      <span key={idx} className="text-sm mr-1">{element}
                     ))}
                     {hoveredCard.cost !== undefined && (
-                      <span className="text-sm bg-gray-700 px-1 rounded ml-1">{hoveredCard.cost}</span>
+                      <span className="text-sm bg-gray-700 px-1 rounded ml-1">{hoveredCard.cost}
                     )}
                   </div>
-                </div>
                 
-                <div className="h-40 overflow-hidden"></div>
+                <div className="h-40 overflow-hidden" />
                   <img 
                     src={hoveredCard.image} 
                     alt={hoveredCard.name} 
                     className="w-full h-full object-cover"
-                  /></img>
+                  / />
                 </div>
                 
-                <div className="p-2"></div>
-                  <div className="text-sm text-gray-300 mb-1">{hoveredCard.type}</div>
+                <div className="p-2" />
+                  <div className="text-sm text-gray-300 mb-1">{hoveredCard.type}
                   
                   {/* Keywords */}
                   {hoveredCard.keywords && hoveredCard.keywords.length > 0 && (
-                    <div className="mb-2"></div>
+                    <div className="mb-2" />
                       {hoveredCard.keywords.map((keyword, idx) => (
                         <span 
                           key={idx} 
                           className="inline-block mr-2 px-1.5 py-0.5 bg-blue-900 text-xs rounded"
-                        ></span>
+                         />
                           {keyword}
-                        </span>
                       ))}
                     </div>
                   )}
                   {/* Card Text */}
                   {hoveredCard.text && (
-                    <div className="text-xs text-gray-300 mb-2 border-t border-gray-700 pt-2"></div>
+                    <div className="text-xs text-gray-300 mb-2 border-t border-gray-700 pt-2" />
                       {hoveredCard.text}
-                    </div>
                   )}
                   {/* Counters for Familiars */}
                   {hoveredCard.counters !== undefined && (
-                    <div className="text-xs mt-1 flex items-center"></div>
+                    <div className="text-xs mt-1 flex items-center" />
                       <span className="mr-1">Strength:</span>
-                      <span className="font-bold text-blue-400">+{hoveredCard.counters}</span>
+                      <span className="font-bold text-blue-400">+{hoveredCard.counters}
                     </div>
                   )}
                   {/* Rested Status */}
                   {hoveredCard.rested !== undefined && (
-                    <div className="text-xs mt-1"></div>
+                    <div className="text-xs mt-1" />
                       Status: {hoveredCard.rested ? 'Rested' : 'Ready'}
-                    </div>
                   )}
                 </div>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
         
         {/* Zoom Controls */}
-        <div className="absolute bottom-4 right-4 bg-gray-800/70 backdrop-blur-sm rounded-lg p-1 flex flex-col"></div>
+        <div className="absolute bottom-4 right-4 bg-gray-800/70 backdrop-blur-sm rounded-lg p-1 flex flex-col" />
           <button 
             onClick={() => adjustZoom(0.1)}
             className="p-1 hover:bg-gray-700 rounded"
           >
-            <Plus size={16} /></Plus>
+            <Plus size={16} / />
           </button>
           <button 
             onClick={() => setZoomLevel(1)}
@@ -1451,46 +1405,43 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             onClick={() => adjustZoom(-0.1)}
             className="p-1 hover:bg-gray-700 rounded"
           >
-            <Minus size={16} /></Minus>
+            <Minus size={16} / />
           </button>
-        </div>
       </div>
       
       {/* Chat Panel */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showChat && (
           <motion.div
             initial={{ opacity: 0, x: 300 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 300 }}
             className="absolute right-0 top-12 bottom-0 w-80 bg-gray-800/90 backdrop-blur-sm border-l border-gray-700 flex flex-col"
-          ></motion>
-            <div className="p-3 border-b border-gray-700 flex justify-between items-center"></div>
+           />
+            <div className="p-3 border-b border-gray-700 flex justify-between items-center" />
               <h3 className="font-medium">Chat</h3>
               <button 
                 onClick={() => setShowChat(false)}
                 className="p-1 rounded-full hover:bg-gray-700"
               >
-                <X size={16} /></X>
+                <X size={16} / />
               </button>
-            </div>
             
-            <div className="flex-1 overflow-y-auto p-3 space-y-3"></div>
+            <div className="flex-1 overflow-y-auto p-3 space-y-3" />
               {chatMessages.map((msg, index) => (
-                <div key={index} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`}></div>
-                  <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.sender === 'You' ? 'bg-blue-600' : 'bg-gray-700'}`}></div>
-                    <div className="flex justify-between items-center mb-1"></div>
-                      <span className="text-xs font-medium">{msg.sender}</span>
-                      <span className="text-xs text-gray-400">{msg.time}</span>
+                <div key={index} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`} />
+                  <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.sender === 'You' ? 'bg-blue-600' : 'bg-gray-700'}`} />
+                    <div className="flex justify-between items-center mb-1" />
+                      <span className="text-xs font-medium">{msg.sender}
+                      <span className="text-xs text-gray-400">{msg.time}
                     </div>
-                    <p className="text-sm">{msg.message}</p>
+                    <p className="text-sm">{msg.message}
                   </div>
-                </div>
               ))}
             </div>
             
-            <form onSubmit={sendChatMessage} className="p-3 border-t border-gray-700"></form>
-              <div className="flex"></div>
+            <form onSubmit={sendChatMessage} className="p-3 border-t border-gray-700" />
+              <div className="flex" />
                 <input
                   ref={chatInputRef}
                   type="text"
@@ -1502,77 +1453,69 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 <button
                   type="submit"
                   className="bg-blue-600 hover:bg-blue-500 rounded-r-lg px-3 py-2 text-sm"
-                ></button>
+                 />
                   Send
                 </button>
-              </div>
             </form>
           </motion.div>
         )}
       </AnimatePresence>
       
       {/* Settings Panel */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showSettings && (
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             className="absolute left-1/2 top-12 transform -translate-x-1/2 w-80 bg-gray-800/90 backdrop-blur-sm border border-gray-700 rounded-lg"
-          ></motion>
-            <div className="p-3 border-b border-gray-700 flex justify-between items-center"></div>
+           />
+            <div className="p-3 border-b border-gray-700 flex justify-between items-center" />
               <h3 className="font-medium">Settings</h3>
               <button 
                 onClick={() => setShowSettings(false)}
                 className="p-1 rounded-full hover:bg-gray-700"
               >
-                <X size={16} /></X>
+                <X size={16} / />
               </button>
-            </div>
             
-            <div className="p-3 space-y-3"></div>
-              <div className="flex justify-between items-center"></div>
+            <div className="p-3 space-y-3" />
+              <div className="flex justify-between items-center" />
                 <span className="text-sm">Sound Effects</span>
-                <label className="relative inline-flex items-center cursor-pointer"></label>
-                  <input type="checkbox" className="sr-only peer" defaultChecked /></input>
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                <label className="relative inline-flex items-center cursor-pointer" />
+                  <input type="checkbox" className="sr-only peer" defaultChecked / />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
                 </label>
-              </div>
               
-              <div className="flex justify-between items-center"></div>
+              <div className="flex justify-between items-center" />
                 <span className="text-sm">Music</span>
-                <label className="relative inline-flex items-center cursor-pointer"></label>
-                  <input type="checkbox" className="sr-only peer" defaultChecked /></input>
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                <label className="relative inline-flex items-center cursor-pointer" />
+                  <input type="checkbox" className="sr-only peer" defaultChecked / />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
                 </label>
-              </div>
               
-              <div className="flex justify-between items-center"></div>
+              <div className="flex justify-between items-center" />
                 <span className="text-sm">Auto-Pass Priority</span>
-                <label className="relative inline-flex items-center cursor-pointer"></label>
-                  <input type="checkbox" className="sr-only peer" /></input>
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                <label className="relative inline-flex items-center cursor-pointer" />
+                  <input type="checkbox" className="sr-only peer" / />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
                 </label>
-              </div>
               
-              <div className="flex justify-between items-center"></div>
+              <div className="flex justify-between items-center" />
                 <span className="text-sm">Show Card Tooltips</span>
-                <label className="relative inline-flex items-center cursor-pointer"></label>
-                  <input type="checkbox" className="sr-only peer" defaultChecked /></input>
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                <label className="relative inline-flex items-center cursor-pointer" />
+                  <input type="checkbox" className="sr-only peer" defaultChecked / />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
                 </label>
-              </div>
               
-              <div className="pt-2 flex justify-center"></div>
-                <button className="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg transition-colors text-sm"></button>
+              <div className="pt-2 flex justify-center" />
+                <button className="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg transition-colors text-sm" />
                   Concede Game
                 </button>
-              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

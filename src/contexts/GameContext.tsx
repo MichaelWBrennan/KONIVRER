@@ -14,7 +14,7 @@ import { sampleDecks } from '../data/cardData';
 const GameContext = createContext();
 
 // Custom hook to use the game context
-export const useGame = () => useContext(GameContext);
+export const useGame = (useGame: any) => useContext(GameContext);
 
 // Provider component
 export interface GameProviderProps {
@@ -118,7 +118,7 @@ const GameProvider: React.FC<GameProviderProps> = ({  children  }) => {
   };
   
   return (
-    <GameContext.Provider value={value}></GameContext>
+    <GameContext.Provider value={value} />
       {children}
     </GameContext.Provider>
   );

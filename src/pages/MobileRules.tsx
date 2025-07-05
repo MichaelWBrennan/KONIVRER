@@ -9,8 +9,8 @@ import MobilePDFViewer from '../components/MobilePDFViewer';
 import ErrorBoundary from '../components/ErrorBoundary';
 const MobileRules = (): any => {
   return (
-    <ErrorBoundary></ErrorBoundary>
-      <MobilePDFViewer /></MobilePDFViewer>
+    <ErrorBoundary />
+      <MobilePDFViewer / />
     </ErrorBoundary>
   );
 };

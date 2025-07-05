@@ -140,7 +140,7 @@ const DeckSearch = (): any => {
     // Sort decks
     filtered.sort((a, b) => {
       let aValue, bValue;
-      switch(): any {
+      switch (true) {
         case 'popularity':
           aValue = a.likes;
           bValue = b.likes;
@@ -205,73 +205,64 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
       className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all duration-300 relative"
-    ></motion>
+     />
       {/* Featured Badge */}
       {deck.featured && (
-        <div className="absolute top-4 right-4"></div>
-          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1"></div>
-            <Star className="w-3 h-3 text-yellow-400 fill-current" /></Star>
-            <span className="text-xs font-medium text-yellow-400"></span>
+        <div className="absolute top-4 right-4" />
+          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1" />
+            <Star className="w-3 h-3 text-yellow-400 fill-current" / />
+            <span className="text-xs font-medium text-yellow-400" />
               Featured
             </span>
-          </div>
         </div>
       )}
       {/* Header with Element and Stats */}
-      <div className="flex items-start justify-between mb-3"></div>
-        <div className="flex-1"></div>
-          <div className="flex items-center gap-3 mb-2"></div>
-            <div className={`text-2xl ${getElementColor(deck.element)}`}></div>
+      <div className="flex items-start justify-between mb-3" />
+        <div className="flex-1" />
+          <div className="flex items-center gap-3 mb-2" />
+            <div className={`text-2xl ${getElementColor(deck.element)}`} />
               {getElementIcon(deck.element)}
-            </div>
-            <div></div>
-              <div className="flex items-center gap-2 text-sm text-secondary"></div>
-                <User className="w-3 h-3" /></User>
-                <span>{deck.author}</span>
+            <div />
+              <div className="flex items-center gap-2 text-sm text-secondary" />
+                <User className="w-3 h-3" / />
+                <span>{deck.author}
                 <span>•</span>
-                <Calendar className="w-3 h-3" /></Calendar>
-                <span>{deck.lastUpdated}</span>
+                <Calendar className="w-3 h-3" / />
+                <span>{deck.lastUpdated}
               </div>
-            </div>
           </div>
-        </div>
       </div>
       {/* Stats Row - Integrated into card */}
-      <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg"></div>
-        <div className="flex items-center gap-1 text-sm"></div>
-          <BarChart3 className="w-4 h-4 text-green-400" /></BarChart3>
+      <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg" />
+        <div className="flex items-center gap-1 text-sm" />
+          <BarChart3 className="w-4 h-4 text-green-400" / />
           <span className="font-medium text-green-400">{deck.winRate}%</span>
-        </div>
-        <div className="flex items-center gap-1 text-sm"></div>
-          <Star className="w-4 h-4 text-yellow-400" /></Star>
+        <div className="flex items-center gap-1 text-sm" />
+          <Star className="w-4 h-4 text-yellow-400" / />
           <span className="font-medium">{deck.rating}/5</span>
+        <div className="flex items-center gap-1 text-sm" />
+          <Heart className="w-4 h-4 text-red-400" / />
+          <span className="font-medium">{deck.likes}
         </div>
-        <div className="flex items-center gap-1 text-sm"></div>
-          <Heart className="w-4 h-4 text-red-400" /></Heart>
-          <span className="font-medium">{deck.likes}</span>
+        <div className="flex items-center gap-1 text-sm" />
+          <Eye className="w-4 h-4 text-blue-400" / />
+          <span className="font-medium">{deck.views}
         </div>
-        <div className="flex items-center gap-1 text-sm"></div>
-          <Eye className="w-4 h-4 text-blue-400" /></Eye>
-          <span className="font-medium">{deck.views}</span>
-        </div>
-      </div>
       {/* Description */}
-      <p className="text-secondary text-sm mb-4 line-clamp-2"></p>
+      <p className="text-secondary text-sm mb-4 line-clamp-2" />
         {deck.description}
-      </p>
       {/* Action Buttons */}
-      <div className="flex gap-2"></div>
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"></button>
-          <Eye className="w-4 h-4" /></Eye>
+      <div className="flex gap-2" />
+        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2" />
+          <Eye className="w-4 h-4" / />
           View
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-          <Download className="w-4 h-4" /></Download>
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+          <Download className="w-4 h-4" / />
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-          <Heart className = "w-4 h-4" /></Heart>
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+          <Heart className = "w-4 h-4" / />
         </button>
-      </div>
     </motion.div>
   );
   interface DeckListItemProps {
@@ -283,86 +274,75 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       className="bg-card rounded-lg p-4 border border-color hover:border-blue-500/50 transition-all duration-300"
-    ></motion>
-      <div className="flex items-center justify-between"></div>
-        <div className="flex items-center gap-4 flex-1"></div>
-          <div className={`text-2xl ${getElementColor(deck.element)}`}></div>
+     />
+      <div className="flex items-center justify-between" />
+        <div className="flex items-center gap-4 flex-1" />
+          <div className={`text-2xl ${getElementColor(deck.element)}`} />
             {getElementIcon(deck.element)}
-          </div>
-          <div className="flex-1"></div>
-            <div className="flex items-center gap-2 mb-1"></div>
+          <div className="flex-1" />
+            <div className="flex items-center gap-2 mb-1" />
               {deck.featured && (
-                <Star className="w-4 h-4 text-yellow-400 fill-current" /></Star>
+                <Star className="w-4 h-4 text-yellow-400 fill-current" / />
               )}
-            </div>
-            <div className="flex items-center gap-4 text-sm text-secondary mb-2"></div>
-              <span className="flex items-center gap-1"></span>
-                <User className="w-3 h-3" /></User>
+            <div className="flex items-center gap-4 text-sm text-secondary mb-2" />
+              <span className="flex items-center gap-1" />
+                <User className="w-3 h-3" / />
                 {deck.author}
-              </span>
-              <span className="flex items-center gap-1"></span>
-                <Calendar className="w-3 h-3" /></Calendar>
+              <span className="flex items-center gap-1" />
+                <Calendar className="w-3 h-3" / />
                 {deck.lastUpdated}
-              </span>
             </div>
             {/* Stats integrated into the card */}
-            <div className="flex items-center gap-4 text-sm"></div>
-              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <BarChart3 className="w-3 h-3 text-green-400" /></BarChart3>
-                <span className="font-medium text-green-400"></span>
+            <div className="flex items-center gap-4 text-sm" />
+              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded" />
+                <BarChart3 className="w-3 h-3 text-green-400" / />
+                <span className="font-medium text-green-400" />
                   {deck.winRate}%
                 </span>
-              </div>
-              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Star className="w-3 h-3 text-yellow-400" /></Star>
+              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded" />
+                <Star className="w-3 h-3 text-yellow-400" / />
                 <span className="font-medium">{deck.rating}/5</span>
+              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded" />
+                <Heart className="w-3 h-3 text-red-400" / />
+                <span className="font-medium">{deck.likes}
               </div>
-              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Heart className="w-3 h-3 text-red-400" /></Heart>
-                <span className="font-medium">{deck.likes}</span>
+              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded" />
+                <Eye className="w-3 h-3 text-blue-400" / />
+                <span className="font-medium">{deck.views}
               </div>
-              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Eye className="w-3 h-3 text-blue-400" /></Eye>
-                <span className="font-medium">{deck.views}</span>
-              </div>
-            </div>
           </div>
-        </div>
-        <div className="flex gap-2 ml-4"></div>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2"></button>
-            <Eye className="w-4 h-4" /></Eye>
+        <div className="flex gap-2 ml-4" />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2" />
+            <Eye className="w-4 h-4" / />
             View
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-            <Download className="w-4 h-4" /></Download>
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+            <Download className="w-4 h-4" / />
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-            <Heart className="w-4 h-4" /></Heart>
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+            <Heart className="w-4 h-4" / />
           </button>
-        </div>
       </div>
     </motion.div>
   );
   return (
-    <div className="min-h-screen bg-background"></div>
+    <div className="min-h-screen bg-background" />
       {/* Header */}
-      <div className="bg-card border-b border-color"></div>
-        <div className="max-w-7xl mx-auto px-6 py-8"></div>
-          <div className="text-center"></div>
-            <div className="flex items-center justify-center gap-3 mb-4"></div>
+      <div className="bg-card border-b border-color" />
+        <div className="max-w-7xl mx-auto px-6 py-8" />
+          <div className="text-center" />
+            <div className="flex items-center justify-center gap-3 mb-4" />
               <Search className="w-8 h-8 text-blue-500" /></div>
-          </div>
         </div>
-      </div>
       {/* Meta Analysis - Added from Analytics Hub */}
-      <div className="max-w-7xl mx-auto px-6 py-6"></div>
-        <DeckMetaAnalysis /></DeckMetaAnalysis>
+      <div className="max-w-7xl mx-auto px-6 py-6" />
+        <DeckMetaAnalysis / />
         {/* Search and Filters */}
-        <div className="bg-card rounded-lg p-6 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"></div>
+        <div className="bg-card rounded-lg p-6 mb-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" />
             {/* Search */}
-            <div className="relative"></div>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" /></Search>
+            <div className="relative" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" / />
               <input
                 type="text"
                 placeholder="Search decks..."
@@ -374,7 +354,7 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
             {/* Element Filter */}
             <select
               value={filters.element}
-              onChange={e =></select>
+              onChange={e = />
                 setFilters({ ...filters, element: e.target.value })}
               className="px-4 py-0 whitespace-nowrap bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -385,7 +365,6 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
               <option value="Gust">🜁 Gust</option>
               <option value="Brilliance">⭘ Brilliance</option>
               <option value="Void">▢ Void</option>
-            </select>
             {/* Sort */}
             <select
               value={`${sortBy}-${sortOrder}`}
@@ -402,15 +381,13 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
               <option value="lastUpdated-desc">Recently Updated</option>
               <option value="name-asc">Name A-Z</option>
               <option value="name-desc">Name Z-A</option>
-            </select>
           </div>
           {/* View Mode Toggle */}
-          <div className="flex items-center justify-between"></div>
-            <div className="text-sm text-secondary"></div>
+          <div className="flex items-center justify-between" />
+            <div className="text-sm text-secondary" />
               Showing {filteredDecks.length} deck
               {filteredDecks.length !== 1 ? 's' : ''}
-            </div>
-            <div className="flex gap-2"></div>
+            <div className="flex gap-2" />
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
@@ -419,7 +396,7 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
-                <Grid className="w-4 h-4" /></Grid>
+                <Grid className="w-4 h-4" / />
               </button>
               <button
                 onClick={() => setViewMode('list')}
@@ -429,34 +406,30 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
-                <List className="w-4 h-4" /></List>
+                <List className="w-4 h-4" / />
               </button>
-            </div>
           </div>
-        </div>
         {/* Deck Results */}
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" />
             {filteredDecks.map(deck => (
-              <DeckCard key={deck.id} deck={deck} /></DeckCard>
+              <DeckCard key={deck.id} deck={deck} / />
             ))}
           </div>
         ) : (
-          <div className="space-y-4"></div>
+          <div className="space-y-4" />
             {filteredDecks.map(deck => (
-              <DeckListItem key={deck.id} deck={deck} /></DeckListItem>
+              <DeckListItem key={deck.id} deck={deck} / />
             ))}
           </div>
         )}
         {filteredDecks.length === 0 && (
-          <div className="text-center py-12"></div>
-            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" /></Search>
-            <p className="text-secondary"></p>
+          <div className="text-center py-12" />
+            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
+            <p className="text-secondary" />
               Try adjusting your search criteria or filters
             </p>
-          </div>
         )}
-      </div>
     </div>
   );
 };

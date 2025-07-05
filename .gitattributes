@@ -1,0 +1,29 @@
+# TypeScript language detection - Force 100% TypeScript
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.js linguist-language=TypeScript linguist-detectable=false
+*.jsx linguist-language=TypeScript linguist-detectable=false
+
+# Exclude vendor and generated files from language stats
+node_modules/* linguist-vendored
+dist/* linguist-generated
+public/sw.js linguist-vendored
+*.min.js linguist-generated
+*.bundle.js linguist-generated
+package-lock.json linguist-generated
+
+# Force TypeScript detection for all source files
+src/**/* linguist-language=TypeScript
+server/**/* linguist-language=TypeScript
+scripts/**/* linguist-language=TypeScript
+*.config.ts linguist-language=TypeScript
+
+# Exclude non-code files from language detection
+*.md linguist-documentation
+*.json linguist-data
+*.css linguist-language=CSS
+*.html linguist-language=HTML
+*.pdf linguist-vendored
+*.png linguist-vendored
+*.jpg linguist-vendored
+*.svg linguist-vendored

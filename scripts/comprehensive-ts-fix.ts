@@ -1,3 +1,4 @@
+import React from 'react';
 #!/usr/bin/env node
 
 import fs from 'fs';
@@ -7,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function comprehensiveTypeScriptFix(filePath) {
+function comprehensiveTypeScriptFix(): void {
   let content = fs.readFileSync(filePath, 'utf8');
   
   // Fix React component prop interfaces with proper syntax
@@ -147,10 +148,10 @@ function comprehensiveTypeScriptFix(filePath) {
   fs.writeFileSync(filePath, content);
 }
 
-function findTypeScriptFiles(dir) {
+function findTypeScriptFiles(): void {
   const files = [];
   
-  function traverse(currentDir) {
+  function traverse(): void {
     const items = fs.readdirSync(currentDir);
     
     for (const item of items) {

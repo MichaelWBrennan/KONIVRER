@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * AI Decision Engine for KONIVRER
  * 
@@ -276,7 +277,7 @@ class AIDecisionEngine {
    * Execute individual action
    */
   async executeAction(action: any, gameState: any): any {
-    switch(): any {
+    switch (true) {
       case 'play_card':
         await this.executeCardPlay(action, gameState);
         break;

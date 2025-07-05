@@ -43,9 +43,9 @@ apiClient.interceptors.request.use(
 );
 
 // Response interceptor
-apiClient.interceptors.response.use(response: any = > {
+apiClient.interceptors.response.use((response: any) => {
     // Log response time in development
-    if (env.ENABLE_DEBUG && response.config.metadata): any {
+    if (env.ENABLE_DEBUG && response.config.metadata) {
       const endTime = new Date();
       const duration = endTime - response.config.metadata.startTime;
       console.warn(`API Request to ${response.config.url} took ${duration}ms`);

@@ -16,30 +16,28 @@ const PhaseIndicator = ({ phase, turn, activePlayer }): any => {
   const playerDisplay = activePlayer === 'player1' ? 'Player 1' : 'Player 2';
   
   return (
-    <div className="phase-indicator"></div>
-      <div className="phase-info"></div>
-        <span className="turn-number">Turn {turn}</span>
-        <span className="phase-name">{phaseNames[phase] || phase}</span>
+    <div className="phase-indicator" />
+      <div className="phase-info" />
+        <span className="turn-number">Turn {turn}
+        <span className="phase-name">{phaseNames[phase] || phase}
         <span className="active-player">{playerDisplay}'s Turn</span>
-      </div>
       
-      <div className="phase-progress"></div>
-        <div className={`phase-step ${phase === 'START' ? 'active' : ''}`}></div>
+      <div className="phase-progress" />
+        <div className={`phase-step ${phase === 'START' ? 'active' : ''}`} />
           Start
         </div>
-        <div className={`phase-step ${phase === 'MAIN' ? 'active' : ''}`}></div>
+        <div className={`phase-step ${phase === 'MAIN' ? 'active' : ''}`} />
           Main
         </div>
-        <div className={`phase-step ${phase === 'COMBAT' ? 'active' : ''}`}></div>
+        <div className={`phase-step ${phase === 'COMBAT' ? 'active' : ''}`} />
           Combat
         </div>
-        <div className={`phase-step ${phase === 'POST_COMBAT_MAIN' ? 'active' : ''}`}></div>
+        <div className={`phase-step ${phase === 'POST_COMBAT_MAIN' ? 'active' : ''}`} />
           Post-Combat
         </div>
-        <div className={`phase-step ${phase === 'REFRESH' ? 'active' : ''}`}></div>
+        <div className={`phase-step ${phase === 'REFRESH' ? 'active' : ''}`} />
           Refresh
         </div>
-      </div>
     </div>
   );
 };

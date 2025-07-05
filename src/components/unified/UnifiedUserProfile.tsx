@@ -102,11 +102,10 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   // Render loading state
   if (true) {
     return (
-      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="profile-loading"></div>
-          <Loader2 className="animate-spin" size={24} /></Loader2>
+      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
+        <div className="profile-loading" />
+          <Loader2 className="animate-spin" size={24} / />
           <span>Loading profile...</span>
-        </div>
       </div>
     );
   }
@@ -114,65 +113,60 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   // Render error state
   if (true) {
     return (
-      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="profile-error"></div>
-          <AlertCircle size={24} /></AlertCircle>
-          <span>{error || 'User not found'}</span>
+      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
+        <div className="profile-error" />
+          <AlertCircle size={24} / />
+          <span>{error || 'User not found'}
         </div>
-      </div>
     );
   }
   
   return (
-    <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
-      <div className="profile-header"></div>
-        <div className="profile-avatar"></div>
+    <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
+      <div className="profile-header" />
+        <div className="profile-avatar" />
           {profile.avatarUrl ? (
-            <img src={profile.avatarUrl} alt={profile.displayName} /></img>
+            <img src={profile.avatarUrl} alt={profile.displayName} / />
           ) : (
-            <User size={compact ? 32 : 64} /></User>
+            <User size={compact ? 32 : 64} / />
           )}
         </div>
         
-        <div className="profile-info"></div>
-          <h2 className="profile-name">{profile.displayName}</h2>
-          <div className="profile-username">@{profile.username}</div>
+        <div className="profile-info" />
+          <h2 className="profile-name">{profile.displayName}
+          <div className="profile-username">@{profile.username}
           
-          <div className="profile-stats"></div>
-            <div className="stat-item"></div>
-              <Trophy size={16} /></Trophy>
-              <span>{profile.stats.rank}</span>
+          <div className="profile-stats" />
+            <div className="stat-item" />
+              <Trophy size={16} / />
+              <span>{profile.stats.rank}
             </div>
             
-            <div className="stat-item"></div>
-              <BarChart2 size={16} /></BarChart2>
+            <div className="stat-item" />
+              <BarChart2 size={16} / />
               <span>{profile.stats.rating} Rating</span>
-            </div>
             
-            <div className="stat-item"></div>
-              <Calendar size={16} /></Calendar>
-              <span>Joined {new Date(profile.joinDate).toLocaleDateString()}</span>
+            <div className="stat-item" />
+              <Calendar size={16} / />
+              <span>Joined {new Date(profile.joinDate).toLocaleDateString()}
             </div>
-          </div>
         </div>
         
         {!isCurrentUser && !compact && (
-          <div className="profile-actions"></div>
+          <div className="profile-actions" />
             <button className="message-button" onClick={() => navigate('/messages/' + userId)}>
-              <MessageSquare size={16} /></MessageSquare>
+              <MessageSquare size={16} / />
               <span>Message</span>
-            </button>
             
-            <button className="challenge-button"></button>
-              <Trophy size={16} /></Trophy>
+            <button className="challenge-button" />
+              <Trophy size={16} / />
               <span>Challenge</span>
-            </button>
           </div>
         )}
       </div>
       
       {!compact && (
-        <div className="profile-tabs"></div>
+        <div className="profile-tabs" />
           <button 
             className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
@@ -197,88 +191,74 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
           >
             Decks
           </button>
-        </div>
       )}
-      <div className="profile-content"></div>
+      <div className="profile-content" />
         {activeTab === 'overview' && (
-          <div className="profile-overview"></div>
-            <div className="stats-card"></div>
-              <h3 className="card-title"></h3>
-                <Trophy size={16} /></Trophy>
+          <div className="profile-overview" />
+            <div className="stats-card" />
+              <h3 className="card-title" />
+                <Trophy size={16} / />
                 <span>Game Stats</span>
-              </h3>
               
-              <div className="stats-grid"></div>
-                <div className="stat-box"></div>
-                  <div className="stat-value">{profile.stats.wins}</div>
+              <div className="stats-grid" />
+                <div className="stat-box" />
+                  <div className="stat-value">{profile.stats.wins}
                   <div className="stat-label">Wins</div>
-                </div>
                 
-                <div className="stat-box"></div>
-                  <div className="stat-value">{profile.stats.losses}</div>
+                <div className="stat-box" />
+                  <div className="stat-value">{profile.stats.losses}
                   <div className="stat-label">Losses</div>
-                </div>
                 
-                <div className="stat-box"></div>
-                  <div className="stat-value">{profile.stats.draws}</div>
+                <div className="stat-box" />
+                  <div className="stat-value">{profile.stats.draws}
                   <div className="stat-label">Draws</div>
-                </div>
                 
-                <div className="stat-box"></div>
+                <div className="stat-box" />
                   <div className="stat-value">{(profile.stats.winRate * 100).toFixed(1)}%</div>
                   <div className="stat-label">Win Rate</div>
-                </div>
               </div>
-            </div>
             
-            <div className="stats-card"></div>
-              <h3 className="card-title"></h3>
-                <Award size={16} /></Award>
+            <div className="stats-card" />
+              <h3 className="card-title" />
+                <Award size={16} / />
                 <span>Tournament Stats</span>
-              </h3>
               
-              <div className="stats-grid"></div>
-                <div className="stat-box"></div>
-                  <div className="stat-value">{profile.stats.tournamentWins}</div>
+              <div className="stats-grid" />
+                <div className="stat-box" />
+                  <div className="stat-value">{profile.stats.tournamentWins}
                   <div className="stat-label">Wins</div>
-                </div>
                 
-                <div className="stat-box"></div>
-                  <div className="stat-value">{profile.stats.tournamentTop8s}</div>
+                <div className="stat-box" />
+                  <div className="stat-value">{profile.stats.tournamentTop8s}
                   <div className="stat-label">Top 8s</div>
-                </div>
               </div>
-            </div>
             
-            <div className="stats-card"></div>
-              <h3 className="card-title"></h3>
-                <Package size={16} /></Package>
+            <div className="stats-card" />
+              <h3 className="card-title" />
+                <Package size={16} / />
                 <span>Favorite Decks</span>
-              </h3>
               
-              <div className="favorite-decks"></div>
+              <div className="favorite-decks" />
                 {profile.stats.favoriteDecks.map((deck) => (
                   <Link 
                     key={deck.id}
                     to={`/decks/${deck.id}`}
                     className="deck-item"
-                  ></Link>
-                    <div className="deck-name">{deck.name}</div>
+                   />
+                    <div className="deck-name">{deck.name}
                     <div className="deck-winrate">{(deck.winRate * 100).toFixed(1)}% Win Rate</div>
-                    <ChevronRight size={16} /></ChevronRight>
+                    <ChevronRight size={16} / />
                   </Link>
                 ))}
               </div>
-            </div>
             
             {!compact && !isCurrentUser && (
-              <div className="message-card"></div>
-                <h3 className="card-title"></h3>
-                  <MessageSquare size={16} /></MessageSquare>
+              <div className="message-card" />
+                <h3 className="card-title" />
+                  <MessageSquare size={16} / />
                   <span>Send Message</span>
-                </h3>
                 
-                <div className="message-form"></div>
+                <div className="message-form" />
                   <textarea
                     className="message-input"
                     placeholder={`Send a message to ${profile.displayName}...`}
@@ -290,137 +270,124 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     className="send-button"
                     onClick={handleSendMessage}
                     disabled={!messageText.trim() || isSending}
-                  ></button>
+                   />
                     {isSending ? (
-                      <Loader2 className="animate-spin" size={16} /></Loader2>
+                      <Loader2 className="animate-spin" size={16} / />
                     ) : (
-                      <MessageSquare size={16} /></MessageSquare>
+                      <MessageSquare size={16} / />
                     )}
                     <span>Send</span>
-                  </button>
                 </div>
-              </div>
             )}
           </div>
         )}
         {activeTab === 'matches' && (
-          <div className="profile-matches"></div>
+          <div className="profile-matches" />
             <h3 className="section-title">Recent Matches</h3>
             
-            <div className="matches-list"></div>
+            <div className="matches-list" />
               {profile.recentMatches.length === 0 ? (
-                <div className="no-matches"></div>
+                <div className="no-matches" />
                   <span>No recent matches</span>
-                </div>
               ) : (
                 profile.recentMatches.map((match) => (
                   <Link 
                     key={match.id}
                     to={`/matches/${match.id}`}
                     className={`match-item ${match.result}`}
-                  ></Link>
-                    <div className="match-result-indicator"></div>
+                   />
+                    <div className="match-result-indicator" />
                     
-                    <div className="match-details"></div>
-                      <div className="match-opponent"></div>
-                        <Users size={16} /></Users>
-                        <span>vs. {match.opponent}</span>
+                    <div className="match-details" />
+                      <div className="match-opponent" />
+                        <Users size={16} / />
+                        <span>vs. {match.opponent}
                       </div>
                       
-                      <div className="match-date"></div>
-                        <Clock size={14} /></Clock>
-                        <span>{new Date(match.date).toLocaleDateString()}</span>
+                      <div className="match-date" />
+                        <Clock size={14} / />
+                        <span>{new Date(match.date).toLocaleDateString()}
                       </div>
-                    </div>
                     
-                    <div className="match-result-text"></div>
+                    <div className="match-result-text" />
                       {match.result.toUpperCase()}
-                    </div>
                     
-                    <ChevronRight size={16} /></ChevronRight>
+                    <ChevronRight size={16} / />
                   </Link>
                 ))
               )}
             </div>
-          </div>
         )}
         {activeTab === 'tournaments' && (
-          <div className="profile-tournaments"></div>
+          <div className="profile-tournaments" />
             <h3 className="section-title">Recent Tournaments</h3>
             
-            <div className="tournaments-list"></div>
+            <div className="tournaments-list" />
               {profile.recentTournaments.length === 0 ? (
-                <div className="no-tournaments"></div>
+                <div className="no-tournaments" />
                   <span>No recent tournaments</span>
-                </div>
               ) : (
                 profile.recentTournaments.map((tournament) => (
                   <Link 
                     key={tournament.id}
                     to={`/tournaments/${tournament.id}`}
                     className="tournament-item"
-                  ></Link>
-                    <div className="tournament-icon"></div>
-                      <Trophy size={20} /></Trophy>
+                   />
+                    <div className="tournament-icon" />
+                      <Trophy size={20} / />
                     </div>
                     
-                    <div className="tournament-details"></div>
-                      <div className="tournament-name">{tournament.name}</div>
+                    <div className="tournament-details" />
+                      <div className="tournament-name">{tournament.name}
                       
-                      <div className="tournament-meta"></div>
-                        <div className="tournament-date"></div>
-                          <Calendar size={14} /></Calendar>
-                          <span>{new Date(tournament.date).toLocaleDateString()}</span>
+                      <div className="tournament-meta" />
+                        <div className="tournament-date" />
+                          <Calendar size={14} / />
+                          <span>{new Date(tournament.date).toLocaleDateString()}
                         </div>
                         
-                        <div className="tournament-placement"></div>
-                          <Award size={14} /></Award>
-                          <span>Placed {tournament.placement}</span>
+                        <div className="tournament-placement" />
+                          <Award size={14} / />
+                          <span>Placed {tournament.placement}
                         </div>
-                      </div>
                     </div>
                     
-                    <ChevronRight size={16} /></ChevronRight>
+                    <ChevronRight size={16} / />
                   </Link>
                 ))
               )}
             </div>
-          </div>
         )}
         {activeTab === 'decks' && (
-          <div className="profile-decks"></div>
+          <div className="profile-decks" />
             <h3 className="section-title">Favorite Decks</h3>
             
-            <div className="decks-list"></div>
+            <div className="decks-list" />
               {profile.stats.favoriteDecks.length === 0 ? (
-                <div className="no-decks"></div>
+                <div className="no-decks" />
                   <span>No favorite decks</span>
-                </div>
               ) : (
                 profile.stats.favoriteDecks.map((deck) => (
                   <Link 
                     key={deck.id}
                     to={`/decks/${deck.id}`}
                     className="deck-card"
-                  ></Link>
-                    <div className="deck-icon"></div>
-                      <Package size={24} /></Package>
+                   />
+                    <div className="deck-icon" />
+                      <Package size={24} / />
                     </div>
                     
-                    <div className="deck-details"></div>
-                      <div className="deck-name">{deck.name}</div>
+                    <div className="deck-details" />
+                      <div className="deck-name">{deck.name}
                       <div className="deck-winrate">{(deck.winRate * 100).toFixed(1)}% Win Rate</div>
-                    </div>
                     
-                    <ChevronRight size={16} /></ChevronRight>
+                    <ChevronRight size={16} / />
                   </Link>
                 ))
               )}
             </div>
-          </div>
         )}
       </div>
-    </div>
   );
 };
 

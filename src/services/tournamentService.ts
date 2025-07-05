@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -573,7 +574,7 @@ class TournamentService {
 
   // Get tournament status color
   getStatusColor(status: any): any {
-    switch(): any {
+    switch (true) {
       case 'upcoming':
         return 'blue';
       case 'ongoing':
@@ -589,7 +590,7 @@ class TournamentService {
 
   // Format matchmaking algorithm name
   formatAlgorithmName(algorithm: any): any {
-    switch(): any {
+    switch (true) {
       case 'bayesian':
         return 'Bayesian TrueSkill';
       case 'elo':

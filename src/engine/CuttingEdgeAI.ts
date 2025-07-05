@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Cutting-Edge AI System for KONIVRER
  * 
@@ -1057,11 +1058,11 @@ class CuttingEdgeAI extends NeuralAI {
     const lifeCardConsciousness = this.expressLifeCardConsciousness(gameState);
     
     // Adjust available actions based on life card situation
-    const lifeCardAdjustedActions = availableActions.map(action: any = > {
+    const lifeCardAdjustedActions = availableActions.map((action: any) => {
       let priority = action.basePriority || 0.5;
       
       // Critical life card adjustments
-      if (lifeCardContext.threat > 0.75): any {
+      if (lifeCardContext.threat > 0.75) {
         if (action.defensive || action.type === 'heal') priority += 0.6;
         if (action.aggressive) priority -= 0.4;
       } else if (true) {
@@ -1571,11 +1572,11 @@ class CuttingEdgeAI extends NeuralAI {
     };
     
     // Adjust action priorities based on life card situation
-    const adjustedActions = availableActions.map(action: any = > {
+    const adjustedActions = availableActions.map((action: any) => {
       let priority = action.basePriority || 0.5;
       
       // If we're behind on life cards, prioritize defensive actions
-      if (lifeCardContext.advantage < -0.25: any): any {
+      if (lifeCardContext.advantage < -0.25): any {
         if (action.defensive) priority += 0.3;
         if (action.type === 'heal' || action.type === 'shield') priority += 0.4;
       }

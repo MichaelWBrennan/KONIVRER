@@ -297,57 +297,51 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden max-w-7xl mx-auto"
-    ></motion>
+     />
       {/* Header */}
-      <div className="p-6 border-b border-white/20"></div>
-        <div className="flex items-center justify-between"></div>
-          <div className="flex items-center space-x-3"></div>
-            <Search className="w-6 h-6 text-purple-400" /></Search>
+      <div className="p-6 border-b border-white/20" />
+        <div className="flex items-center justify-between" />
+          <div className="flex items-center space-x-3" />
+            <Search className="w-6 h-6 text-purple-400" / />
             <h2 className="text-2xl font-bold text-white">Comprehensive Card Search</h2>
-            <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full"></span>
+            <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full" />
               Powered by KONIVRER
             </span>
-          </div>
-          <div className="flex items-center space-x-2"></div>
+          <div className="flex items-center space-x-2" />
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="flex items-center space-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
             >
-              <span className="text-white text-sm"></span>
+              <span className="text-white text-sm" />
                 {isExpanded ? 'Simple' : 'Advanced'}
-              </span>
               {isExpanded ? (
-                <ChevronUp className="w-4 h-4 text-white" /></ChevronUp>
+                <ChevronUp className="w-4 h-4 text-white" / />
               ) : (
-                <ChevronDown className="w-4 h-4 text-white" /></ChevronDown>
+                <ChevronDown className="w-4 h-4 text-white" / />
               )}
-            </button>
             <button
               onClick={clearAll}
               className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-colors"
-            ></button>
-              <RotateCcw className="w-4 h-4 text-red-400" /></RotateCcw>
+             />
+              <RotateCcw className="w-4 h-4 text-red-400" / />
               <span className="text-red-400 text-sm">Clear All</span>
-            </button>
             <button
               onClick={onClose}
               className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-            ></button>
-              <X className="w-5 h-5 text-white" /></X>
+             />
+              <X className="w-5 h-5 text-white" / />
             </button>
-          </div>
         </div>
-      </div>
 
-      <div className="p-6"></div>
+      <div className="p-6" />
         {/* Basic Search - Always Visible */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-white mb-2"></label>
-              <Type className="w-4 h-4 inline mr-2" /></Type>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" />
+          <div />
+            <label className="block text-sm font-medium text-white mb-2" />
+              <Type className="w-4 h-4 inline mr-2" / />
               Card Name
             </label>
-            <div className="flex space-x-2"></div>
+            <div className="flex space-x-2" />
               <select
                 value={searchCriteria.nameComparison}
                 onChange={e => updateCriteria('nameComparison', e.target.value)}
@@ -357,7 +351,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                 <option value="exact">Exact</option>
                 <option value="starts">Starts with</option>
                 <option value="ends">Ends with</option>
-              </select>
               <input
                 type="text"
                 value={searchCriteria.cardName}
@@ -366,14 +359,13 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
               />
             </div>
-          </div>
 
-          <div></div>
-            <label className="block text-sm font-medium text-white mb-2"></label>
-              <BookOpen className="w-4 h-4 inline mr-2" /></BookOpen>
+          <div />
+            <label className="block text-sm font-medium text-white mb-2" />
+              <BookOpen className="w-4 h-4 inline mr-2" / />
               Rules Text
             </label>
-            <div className="flex space-x-2"></div>
+            <div className="flex space-x-2" />
               <select
                 value={searchCriteria.textComparison}
                 onChange={e => updateCriteria('textComparison', e.target.value)}
@@ -382,7 +374,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                 <option value="contains">Contains</option>
                 <option value="exact">Exact</option>
                 <option value="word-order-matters">Word Order Matters</option>
-              </select>
               <input
                 type="text"
                 value={searchCriteria.text}
@@ -391,12 +382,11 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
               />
             </div>
-          </div>
         </div>
 
         {/* Quick Search Actions */}
-        <div className="flex items-center justify-between mb-6"></div>
-          <div className="flex items-center space-x-2"></div>
+        <div className="flex items-center justify-between mb-6" />
+          <div className="flex items-center space-x-2" />
             <span className="text-gray-300 text-sm">Search Mode:</span>
             <select
               value={searchCriteria.searchMode}
@@ -405,28 +395,26 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
             >
               <option value="and">Match All (AND)</option>
               <option value="or">Match Any (OR)</option>
-            </select>
           </div>
           <button
             onClick={handleSearch}
             className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
-          ></button>
-            <Search className="w-4 h-4 text-white" /></Search>
+           />
+            <Search className="w-4 h-4 text-white" / />
             <span className="text-white font-medium">Search</span>
-          </button>
         </div>
 
         {/* Advanced Sections */}
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {isExpanded && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               className="space-y-8"
-            ></motion>
+             />
               {/* Section Navigation */}
-              <div className="flex flex-wrap gap-2 mb-6"></div>
+              <div className="flex flex-wrap gap-2 mb-6" />
                 {sections.map(section => {
                   const Icon = section.icon;
                   return (
@@ -439,32 +427,32 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                           : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
                       }`}
                     >
-                      <Icon className="w-4 h-4" /></Icon>
-                      <span className="text-sm font-medium">{section.label}</span>
+                      <Icon className="w-4 h-4" / />
+                      <span className="text-sm font-medium">{section.label}
                     </button>
                   );
                 })}
               </div>
 
               {/* Section Content */}
-              <AnimatePresence mode="wait"></AnimatePresence>
+              <AnimatePresence mode="wait" />
                 <motion.div
                   key={activeSection}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.2 }}
-                ></motion>
+                 />
                   {activeSection === 'basic' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Search className="w-5 h-5 mr-2" /></Search>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Search className="w-5 h-5 mr-2" / />
                         Basic Search Options
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Lore Finder™
                           </label>
                           <input
@@ -474,17 +462,16 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             placeholder="Search all card text fields..."
                             className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                           />
-                          <p className="text-xs text-gray-400 mt-1"></p>
+                          <p className="text-xs text-gray-400 mt-1" />
                             Searches name, type, text, flavor text, and artist
                           </p>
-                        </div>
                         
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Search Options
                           </label>
-                          <div className="space-y-2"></div>
-                            <label className="flex items-center space-x-2"></label>
+                          <div className="space-y-2" />
+                            <label className="flex items-center space-x-2" />
                               <input
                                 type="checkbox"
                                 checked={searchCriteria.caseSensitive}
@@ -492,8 +479,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                               />
                               <span className="text-white text-sm">Case sensitive</span>
-                            </label>
-                            <label className="flex items-center space-x-2"></label>
+                            <label className="flex items-center space-x-2" />
                               <input
                                 type="checkbox"
                                 checked={searchCriteria.useRegex}
@@ -501,25 +487,22 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                               />
                               <span className="text-white text-sm">Use regular expressions</span>
-                            </label>
                           </div>
-                        </div>
                       </div>
-                    </div>
                   )}
                   {activeSection === 'types' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Type className="w-5 h-5 mr-2" /></Type>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Type className="w-5 h-5 mr-2" / />
                         Type Line & Card Types
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Type Line
                           </label>
-                          <div className="flex space-x-2 mb-2"></div>
+                          <div className="flex space-x-2 mb-2" />
                             <select
                               value={searchCriteria.typeComparison}
                               onChange={e => updateCriteria('typeComparison', e.target.value)}
@@ -527,7 +510,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             >
                               <option value="including">Including</option>
                               <option value="excluding">Excluding</option>
-                            </select>
                             <input
                               type="text"
                               value={searchCriteria.typeLine}
@@ -536,7 +518,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                             />
                           </div>
-                          <label className="flex items-center space-x-2"></label>
+                          <label className="flex items-center space-x-2" />
                             <input
                               type="checkbox"
                               checked={searchCriteria.allowPartialTypes}
@@ -544,14 +526,13 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                             />
                             <span className="text-white text-sm">Allow partial type matches</span>
-                          </label>
                         </div>
                         
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Card Types
                           </label>
-                          <div className="flex flex-wrap gap-2"></div>
+                          <div className="flex flex-wrap gap-2" />
                             {cardTypes.map(type => (
                               <button
                                 key={type}
@@ -563,24 +544,21 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 }`}
                               >
                                 {type}
-                              </button>
                             ))}
                           </div>
-                        </div>
                       </div>
-                    </div>
                   )}
                   {activeSection === 'elements' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Palette className="w-5 h-5 mr-2" /></Palette>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Palette className="w-5 h-5 mr-2" / />
                         Elements & Identity
                       </h3>
                       
-                      <div className="space-y-4"></div>
-                        <div></div>
-                          <div className="flex items-center justify-between mb-2"></div>
-                            <label className="block text-sm font-medium text-white"></label>
+                      <div className="space-y-4" />
+                        <div />
+                          <div className="flex items-center justify-between mb-2" />
+                            <label className="block text-sm font-medium text-white" />
                               Elements
                             </label>
                             <select
@@ -592,9 +570,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               <option value="exactly">Exactly</option>
                               <option value="at-most">At most</option>
                               <option value="at-least">At least</option>
-                            </select>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2"></div>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2" />
                             {elements.map(element => (
                               <button
                                 key={element.name}
@@ -606,18 +583,17 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 }`}
                                 title={element.description}
                               >
-                                <span className={element.color}>{element.symbol}</span>
-                                <span>{element.name}</span>
+                                <span className={element.color}>{element.symbol}
+                                <span>{element.name}
                               </button>
                             ))}
                           </div>
-                        </div>
                         
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Element Identity (for deck building)
                           </label>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2"></div>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2" />
                             {elements.map(element => (
                               <button
                                 key={element.name}
@@ -629,16 +605,15 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 }`}
                                 title={`Cards that fit in ${element.name} identity decks`}
                               >
-                                <span className={element.color}>{element.symbol}</span>
-                                <span>{element.name}</span>
+                                <span className={element.color}>{element.symbol}
+                                <span>{element.name}
                               </button>
                             ))}
                           </div>
-                        </div>
                         
-                        <div></div>
-                          <div className="flex items-center justify-between mb-2"></div>
-                            <label className="block text-sm font-medium text-white"></label>
+                        <div />
+                          <div className="flex items-center justify-between mb-2" />
+                            <label className="block text-sm font-medium text-white" />
                               Keywords & Abilities
                             </label>
                             <select
@@ -649,9 +624,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               <option value="including">Including</option>
                               <option value="excluding">Excluding</option>
                               <option value="exactly">Exactly</option>
-                            </select>
                           </div>
-                          <div className="flex flex-wrap gap-2"></div>
+                          <div className="flex flex-wrap gap-2" />
                             {keywords.map(keyword => (
                               <button
                                 key={keyword}
@@ -663,27 +637,24 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 }`}
                               >
                                 {keyword}
-                              </button>
                             ))}
                           </div>
-                        </div>
                       </div>
-                    </div>
                   )}
                   {activeSection === 'stats' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Target className="w-5 h-5 mr-2" /></Target>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Target className="w-5 h-5 mr-2" / />
                         Stats & Mana Cost
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div className="space-y-4"></div>
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div className="space-y-4" />
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
                               Mana Cost
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.manaCostComparison}
                                 onChange={e => updateCriteria('manaCostComparison', e.target.value)}
@@ -694,7 +665,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 <option value="greater">Greater than</option>
                                 <option value="less-equal">Less or equal</option>
                                 <option value="greater-equal">Greater or equal</option>
-                              </select>
                               <input
                                 type="text"
                                 value={searchCriteria.manaCost}
@@ -703,20 +673,19 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                          </div>
                           
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
                               Converted Mana Cost
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.convertedManaCost.operator}
                                 onChange={e => updateNestedCriteria('convertedManaCost', 'operator', e.target.value)}
                                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                               >
                                 {operators.map(op => (
-                                  <option key={op.symbol} value={op.symbol}>{op.label}</option>
+                                  <option key={op.symbol} value={op.symbol}>{op.label}
                                 ))}
                               </select>
                               <input
@@ -727,23 +696,22 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                          </div>
                         </div>
                         
-                        <div className="space-y-4"></div>
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Sword className="w-4 h-4 inline mr-1" /></Sword>
+                        <div className="space-y-4" />
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
+                              <Sword className="w-4 h-4 inline mr-1" / />
                               Attack
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.attack.operator}
                                 onChange={e => updateNestedCriteria('attack', 'operator', e.target.value)}
                                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                               >
                                 {operators.map(op => (
-                                  <option key={op.symbol} value={op.symbol}>{op.label}</option>
+                                  <option key={op.symbol} value={op.symbol}>{op.label}
                                 ))}
                               </select>
                               <input
@@ -754,21 +722,20 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                          </div>
                           
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Shield className="w-4 h-4 inline mr-1" /></Shield>
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
+                              <Shield className="w-4 h-4 inline mr-1" / />
                               Defense
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.defense.operator}
                                 onChange={e => updateNestedCriteria('defense', 'operator', e.target.value)}
                                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                               >
                                 {operators.map(op => (
-                                  <option key={op.symbol} value={op.symbol}>{op.label}</option>
+                                  <option key={op.symbol} value={op.symbol}>{op.label}
                                 ))}
                               </select>
                               <input
@@ -779,21 +746,20 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                          </div>
                           
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Zap className="w-4 h-4 inline mr-1" /></Zap>
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
+                              <Zap className="w-4 h-4 inline mr-1" / />
                               Strength (Combined)
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.strength.operator}
                                 onChange={e => updateNestedCriteria('strength', 'operator', e.target.value)}
                                 className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                               >
                                 {operators.map(op => (
-                                  <option key={op.symbol} value={op.symbol}>{op.label}</option>
+                                  <option key={op.symbol} value={op.symbol}>{op.label}
                                 ))}
                               </select>
                               <input
@@ -804,25 +770,23 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                            <p className="text-xs text-gray-400 mt-1"></p>
+                            <p className="text-xs text-gray-400 mt-1" />
                               KONIVRER's combined power/toughness stat
                             </p>
-                          </div>
                         </div>
-                      </div>
                     </div>
                   )}
                   {activeSection === 'sets' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Calendar className="w-5 h-5 mr-2" /></Calendar>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Calendar className="w-5 h-5 mr-2" / />
                         Sets & Rarity
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div></div>
-                          <div className="flex items-center justify-between mb-2"></div>
-                            <label className="block text-sm font-medium text-white"></label>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div />
+                          <div className="flex items-center justify-between mb-2" />
+                            <label className="block text-sm font-medium text-white" />
                               Sets
                             </label>
                             <select
@@ -832,26 +796,24 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             >
                               <option value="including">Including</option>
                               <option value="excluding">Excluding</option>
-                            </select>
                           </div>
-                          <div className="space-y-2"></div>
+                          <div className="space-y-2" />
                             {sets.map(set => (
-                              <label key={set} className="flex items-center space-x-2"></label>
+                              <label key={set} className="flex items-center space-x-2" />
                                 <input
                                   type="checkbox"
                                   checked={searchCriteria.sets.includes(set)}
                                   onChange={() => toggleArrayValue('sets', set)}
                                   className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                                 />
-                                <span className="text-white text-sm">{set}</span>
+                                <span className="text-white text-sm">{set}
                               </label>
                             ))}
                           </div>
-                        </div>
                         
-                        <div></div>
-                          <div className="flex items-center justify-between mb-2"></div>
-                            <label className="block text-sm font-medium text-white"></label>
+                        <div />
+                          <div className="flex items-center justify-between mb-2" />
+                            <label className="block text-sm font-medium text-white" />
                               Rarity
                             </label>
                             <select
@@ -861,9 +823,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             >
                               <option value="including">Including</option>
                               <option value="excluding">Excluding</option>
-                            </select>
                           </div>
-                          <div className="flex flex-wrap gap-2"></div>
+                          <div className="flex flex-wrap gap-2" />
                             {rarities.map(rarity => (
                               <button
                                 key={rarity}
@@ -874,20 +835,18 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                     : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
                                 }`}
                               >
-                                <Star className="w-3 h-3 inline mr-1" /></Star>
+                                <Star className="w-3 h-3 inline mr-1" / />
                                 {rarity}
-                              </button>
                             ))}
                           </div>
-                        </div>
                       </div>
                       
-                      <div></div>
-                        <label className="block text-sm font-medium text-white mb-2"></label>
-                          <Hash className="w-4 h-4 inline mr-2" /></Hash>
+                      <div />
+                        <label className="block text-sm font-medium text-white mb-2" />
+                          <Hash className="w-4 h-4 inline mr-2" / />
                           Collector Number
                         </label>
-                        <div className="flex space-x-2"></div>
+                        <div className="flex space-x-2" />
                           <select
                             value={searchCriteria.collectorComparison}
                             onChange={e => updateCriteria('collectorComparison', e.target.value)}
@@ -895,7 +854,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                           >
                             <option value="exact">Exact</option>
                             <option value="range">Range</option>
-                          </select>
                           {searchCriteria.collectorComparison === 'exact' ? (
                             <input
                               type="text"
@@ -905,7 +863,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                             />
                           ) : (
-                            <div className="flex-1 flex space-x-2"></div>
+                            <div className="flex-1 flex space-x-2" />
                               <input
                                 type="number"
                                 value={searchCriteria.collectorRange.min}
@@ -924,22 +882,21 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             </div>
                           )}
                         </div>
-                      </div>
                     </div>
                   )}
                   {activeSection === 'prices' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <DollarSign className="w-5 h-5 mr-2" /></DollarSign>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <DollarSign className="w-5 h-5 mr-2" / />
                         Price & Market
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Price Range
                           </label>
-                          <div className="space-y-2"></div>
+                          <div className="space-y-2" />
                             <select
                               value={searchCriteria.priceRange.currency}
                               onChange={e => updateNestedCriteria('priceRange', 'currency', e.target.value)}
@@ -948,8 +905,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               <option value="usd">USD ($)</option>
                               <option value="eur">EUR (€)</option>
                               <option value="tix">KONIVRERO Tickets</option>
-                            </select>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <input
                                 type="number"
                                 step="0.01"
@@ -968,11 +924,10 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                               />
                             </div>
-                          </div>
                         </div>
                         
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Price Comparison
                           </label>
                           <select
@@ -983,28 +938,25 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             <option value="between">Between range</option>
                             <option value="less">Less than max</option>
                             <option value="greater">Greater than min</option>
-                          </select>
-                          <p className="text-xs text-gray-400 mt-2"></p>
+                          <p className="text-xs text-gray-400 mt-2" />
                             Prices are updated daily from major marketplaces
                           </p>
-                        </div>
                       </div>
-                    </div>
                   )}
                   {activeSection === 'flavor' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <BookOpen className="w-5 h-5 mr-2" /></BookOpen>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <BookOpen className="w-5 h-5 mr-2" / />
                         Flavor & Lore
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
-                            <User className="w-4 h-4 inline mr-2" /></User>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
+                            <User className="w-4 h-4 inline mr-2" / />
                             Artist
                           </label>
-                          <div className="flex space-x-2"></div>
+                          <div className="flex space-x-2" />
                             <select
                               value={searchCriteria.artistComparison}
                               onChange={e => updateCriteria('artistComparison', e.target.value)}
@@ -1012,7 +964,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             >
                               <option value="contains">Contains</option>
                               <option value="exact">Exact</option>
-                            </select>
                             <input
                               type="text"
                               value={searchCriteria.artist}
@@ -1021,13 +972,12 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                             />
                           </div>
-                        </div>
                         
-                        <div></div>
-                          <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div />
+                          <label className="block text-sm font-medium text-white mb-2" />
                             Flavor Text
                           </label>
-                          <div className="flex space-x-2"></div>
+                          <div className="flex space-x-2" />
                             <select
                               value={searchCriteria.flavorComparison}
                               onChange={e => updateCriteria('flavorComparison', e.target.value)}
@@ -1036,7 +986,6 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               <option value="contains">Contains</option>
                               <option value="exact">Exact</option>
                               <option value="word-order-matters">Word Order Matters</option>
-                            </select>
                             <input
                               type="text"
                               value={searchCriteria.flavorText}
@@ -1045,22 +994,20 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                             />
                           </div>
-                        </div>
                       </div>
-                    </div>
                   )}
                   {activeSection === 'advanced' && (
-                    <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                        <Settings className="w-5 h-5 mr-2" /></Settings>
+                    <div className="space-y-6" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+                        <Settings className="w-5 h-5 mr-2" / />
                         Advanced Options
                       </h3>
                       
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                        <div className="space-y-4"></div>
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Globe className="w-4 h-4 inline mr-2" /></Globe>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+                        <div className="space-y-4" />
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
+                              <Globe className="w-4 h-4 inline mr-2" / />
                               Language
                             </label>
                             <select
@@ -1069,10 +1016,10 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                             >
                               {languages.map(lang => (
-                                <option key={lang.code} value={lang.code}>{lang.name}</option>
+                                <option key={lang.code} value={lang.code}>{lang.name}
                               ))}
                             </select>
-                            <label className="flex items-center space-x-2 mt-2"></label>
+                            <label className="flex items-center space-x-2 mt-2" />
                               <input
                                 type="checkbox"
                                 checked={searchCriteria.includeTranslations}
@@ -1080,21 +1027,20 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                 className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                               />
                               <span className="text-white text-sm">Include translations</span>
-                            </label>
                           </div>
                           
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
                               Sort By
                             </label>
-                            <div className="flex space-x-2"></div>
+                            <div className="flex space-x-2" />
                               <select
                                 value={searchCriteria.sortBy}
                                 onChange={e => updateCriteria('sortBy', e.target.value)}
                                 className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-purple-400"
                               >
                                 {sortOptions.map(option => (
-                                  <option key={option.value} value={option.value}>{option.label}</option>
+                                  <option key={option.value} value={option.value}>{option.label}
                                 ))}
                               </select>
                               <select
@@ -1104,20 +1050,18 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                               >
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
-                              </select>
                             </div>
-                          </div>
                           
 
                         </div>
                         
-                        <div className="space-y-4"></div>
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
+                        <div className="space-y-4" />
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
                               Display Options
                             </label>
-                            <div className="space-y-2"></div>
-                              <label className="flex items-center space-x-2"></label>
+                            <div className="space-y-2" />
+                              <label className="flex items-center space-x-2" />
                                 <input
                                   type="checkbox"
                                   checked={searchCriteria.showAllPrints}
@@ -1125,8 +1069,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                   className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                                 />
                                 <span className="text-white text-sm">Show all card prints</span>
-                              </label>
-                              <label className="flex items-center space-x-2"></label>
+                              <label className="flex items-center space-x-2" />
                                 <input
                                   type="checkbox"
                                   checked={searchCriteria.includeTokens}
@@ -1134,8 +1077,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                   className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                                 />
                                 <span className="text-white text-sm">Include tokens</span>
-                              </label>
-                              <label className="flex items-center space-x-2"></label>
+                              <label className="flex items-center space-x-2" />
                                 <input
                                   type="checkbox"
                                   checked={searchCriteria.includeExtras}
@@ -1143,17 +1085,15 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                   className="rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500"
                                 />
                                 <span className="text-white text-sm">Include extras (emblems, planes, etc.)</span>
-                              </label>
                             </div>
-                          </div>
                           
-                          <div></div>
-                            <label className="block text-sm font-medium text-white mb-2"></label>
+                          <div />
+                            <label className="block text-sm font-medium text-white mb-2" />
                               Custom Criteria
                             </label>
-                            <div className="space-y-2"></div>
+                            <div className="space-y-2" />
                               {searchCriteria.criteria.map((criteria, index) => (
-                                <div key={index} className="flex items-center space-x-2"></div>
+                                <div key={index} className="flex items-center space-x-2" />
                                   <input
                                     type="text"
                                     value={criteria}
@@ -1169,29 +1109,25 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                     onClick={() => removeCriteria(index)}
                                     className="p-1 text-red-400 hover:text-red-300"
                                   >
-                                    <Minus className="w-4 h-4" /></Minus>
+                                    <Minus className="w-4 h-4" / />
                                   </button>
-                                </div>
                               ))}
                               <button
                                 onClick={() => addCriteria('')}
                                 className="flex items-center space-x-2 px-3 py-1 bg-green-500/20 hover:bg-green-500/30 rounded text-green-400 text-sm transition-colors"
                               >
-                                <Plus className="w-4 h-4" /></Plus>
+                                <Plus className="w-4 h-4" / />
                                 <span>Add criteria</span>
-                              </button>
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
                   )}
                 </motion.div>
               </AnimatePresence>
 
               {/* Search Actions */}
-              <div className="flex items-center justify-between pt-6 border-t border-white/20"></div>
-                <div className="text-sm text-gray-400"></div>
+              <div className="flex items-center justify-between pt-6 border-t border-white/20" />
+                <div className="text-sm text-gray-400" />
                   {Object.values(searchCriteria).some(value => 
                     Array.isArray(value) ? value.length > 0 : 
                     typeof value === 'object' ? Object.values(value).some(v => v !== '' && v !== false) :
@@ -1199,27 +1135,23 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   ) && (
                     <span>Active filters detected</span>
                   )}
-                </div>
-                <div className="flex items-center space-x-3"></div>
+                <div className="flex items-center space-x-3" />
                   <button
                     onClick={clearAll}
                     className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
-                  ></button>
+                   />
                     Clear All
                   </button>
                   <button
                     onClick={handleSearch}
                     className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                  ></button>
-                    <Search className="w-4 h-4" /></Search>
+                   />
+                    <Search className="w-4 h-4" / />
                     <span>Search Cards</span>
-                  </button>
                 </div>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     </motion.div>
   );
 };

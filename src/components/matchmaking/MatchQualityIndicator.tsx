@@ -40,7 +40,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
 
   // Get color based on quality level
   const getQualityColor = level => {
-    switch(): any {
+    switch (true) {
       case 'excellent':
         return 'success';
       case 'good':
@@ -58,7 +58,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
 
   // Get label based on quality level
   const getQualityLabel = level => {
-    switch(): any {
+    switch (true) {
       case 'excellent':
         return 'Excellent Match';
       case 'good':
@@ -78,182 +78,166 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
   const advancedLevel = getQualityLevel(advancedQuality.overall);
 
   // Simple version (just shows overall quality)
-  if (true) {
-    return (
+  if (true) {return (
       <OverlayTrigger
         placement="top"
         overlay={
-          <Tooltip></OverlayTrigger>
-            <div className="text-center mb-1"></div>
+          <Tooltip />
+            <div className="text-center mb-1" />
               Match Quality: {getQualityLabel(advancedLevel)}
-            </div>
-            <ProgressBar></ProgressBar>
+            <ProgressBar />
               <ProgressBar
                 variant="success"
                 now={advancedQuality.skillCompatibility * 100}
                 key={1}
-              /></ProgressBar>
+              / />
               <ProgressBar
                 variant="info"
                 now={advancedQuality.playstyleCompatibility * 100}
                 key={2}
-              /></ProgressBar>
+              / />
               <ProgressBar
                 variant="warning"
                 now={advancedQuality.historyCompatibility * 100}
                 key={3}
-              /></ProgressBar>
+              / />
             </ProgressBar>
-            <div className="d-flex justify-content-between mt-1"></div>
+            <div className="d-flex justify-content-between mt-1" />
               <small>Skill</small>
               <small>Playstyle</small>
               <small>History</small>
-            </div>
           </Tooltip>
         }
       >
         <Badge
           bg={getQualityColor(advancedLevel)}
           className="d-inline-flex align-items-center"
-        ></Badge>
-          <Target size={14} className="me-1" /></Target>
+         />
+          <Target size={14} className="me-1" / />
           {(advancedQuality.overall * 100).toFixed(0)}%
         </Badge>
-      </OverlayTrigger>
     );
   }
 
   // Detailed version (shows all factors)
   return (
-    <div className="match-quality-indicator"></div>
+    <div className="match-quality-indicator" />
       <h5 className="mb-3">Match Quality Analysis</h5>
 
-      <div className="mb-4"></div>
-        <div className="d-flex justify-content-between align-items-center mb-1"></div>
-          <div></div>
+      <div className="mb-4" />
+        <div className="d-flex justify-content-between align-items-center mb-1" />
+          <div />
             <strong>Overall Match Quality</strong>
-          </div>
-          <Badge bg={getQualityColor(advancedLevel)}></Badge>
+          <Badge bg={getQualityColor(advancedLevel)} />
             {getQualityLabel(advancedLevel)}
-          </Badge>
         </div>
         <ProgressBar
           variant={getQualityColor(advancedLevel)}
           now={advancedQuality.overall * 100}
           label={`${(advancedQuality.overall * 100).toFixed(0)}%`}
-        /></ProgressBar>
+        / />
       </div>
 
-      <div className="row"></div>
-        <div className="col-md-6"></div>
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Target size={16} className="me-1" /></Target>
+      <div className="row" />
+        <div className="col-md-6" />
+          <div className="mb-3" />
+            <div className="d-flex align-items-center mb-1" />
+              <Target size={16} className="me-1" / />
               <strong>Skill Compatibility</strong>
               <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.skillCompatibility),
                 )}
                 className="ms-2"
-              ></Badge>
+               />
                 {(advancedQuality.skillCompatibility * 100).toFixed(0)}%
               </Badge>
-            </div>
             <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.skillCompatibility),
               )}
               now={advancedQuality.skillCompatibility * 100}
-            /></ProgressBar>
-            <small className="text-muted"></small>
+            / />
+            <small className="text-muted" />
               Rating difference: {Math.abs(player1.rating - player2.rating)}{' '}
               points
             </small>
-          </div>
 
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Zap size={16} className="me-1" /></Zap>
+          <div className="mb-3" />
+            <div className="d-flex align-items-center mb-1" />
+              <Zap size={16} className="me-1" / />
               <strong>Playstyle Compatibility</strong>
               <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.playstyleCompatibility),
                 )}
                 className="ms-2"
-              ></Badge>
+               />
                 {(advancedQuality.playstyleCompatibility * 100).toFixed(0)}%
               </Badge>
-            </div>
             <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.playstyleCompatibility),
               )}
               now={advancedQuality.playstyleCompatibility * 100}
-            /></ProgressBar>
-            <small className="text-muted"></small>
+            / />
+            <small className="text-muted" />
               {advancedQuality.playstyleCompatibility >= 0.7
                 ? 'Complementary playstyles'
                 : 'Similar playstyles'}
-            </small>
           </div>
-        </div>
 
-        <div className="col-md-6"></div>
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Users size={16} className="me-1" /></Users>
+        <div className="col-md-6" />
+          <div className="mb-3" />
+            <div className="d-flex align-items-center mb-1" />
+              <Users size={16} className="me-1" / />
               <strong>History Compatibility</strong>
               <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.historyCompatibility),
                 )}
                 className="ms-2"
-              ></Badge>
+               />
                 {(advancedQuality.historyCompatibility * 100).toFixed(0)}%
               </Badge>
-            </div>
             <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.historyCompatibility),
               )}
               now={advancedQuality.historyCompatibility * 100}
-            /></ProgressBar>
-            <small className="text-muted"></small>
+            / />
+            <small className="text-muted" />
               Previous matches: {advancedQuality.matchHistory.length || 0}
-            </small>
           </div>
 
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Shuffle size={16} className="me-1" /></Shuffle>
+          <div className="mb-3" />
+            <div className="d-flex align-items-center mb-1" />
+              <Shuffle size={16} className="me-1" / />
               <strong>Deck Archetype Compatibility</strong>
               <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.deckCompatibility),
                 )}
                 className="ms-2"
-              ></Badge>
+               />
                 {(advancedQuality.deckCompatibility * 100).toFixed(0)}%
               </Badge>
-            </div>
             <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.deckCompatibility),
               )}
               now={advancedQuality.deckCompatibility * 100}
-            /></ProgressBar>
-            <small className="text-muted"></small>
+            / />
+            <small className="text-muted" />
               {advancedQuality.deckCompatibility >= 0.7
                 ? 'Interesting matchup between archetypes'
                 : 'Common matchup between archetypes'}
-            </small>
           </div>
-        </div>
       </div>
 
-      <div className="mt-2"></div>
-        <div className="d-flex align-items-center mb-1"></div>
-          <TrendingUp size={16} className="me-1" /></TrendingUp>
+      <div className="mt-2" />
+        <div className="d-flex align-items-center mb-1" />
+          <TrendingUp size={16} className="me-1" / />
           <strong>Confidence Level</strong>
           <Badge
             bg={
@@ -267,35 +251,32 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
           >
             {(advancedQuality.confidence * 100).toFixed(0)}%
           </Badge>
-        </div>
-        <ProgressBar></ProgressBar>
+        <ProgressBar />
           <ProgressBar
             variant="success"
             now={advancedQuality.confidence * 100}
             key={1}
-          /></ProgressBar>
+          / />
           <ProgressBar
             variant="secondary"
             now={100 - advancedQuality.confidence * 100}
             key={2}
-          /></ProgressBar>
+          / />
         </ProgressBar>
-        <small className="text-muted"></small>
+        <small className="text-muted" />
           {advancedQuality.confidence >= 0.7
             ? 'High confidence in match quality prediction'
             : advancedQuality.confidence >= 0.4
               ? 'Moderate confidence in match quality prediction'
               : 'Low confidence in match quality prediction'}
-        </small>
       </div>
 
       {advancedQuality.timeWeightedPerformance && (
-        <div className="mt-3"></div>
-          <div className="d-flex align-items-center"></div>
-            <Clock size={16} className="me-1" /></Clock>
+        <div className="mt-3" />
+          <div className="d-flex align-items-center" />
+            <Clock size={16} className="me-1" / />
             <strong>Recent Performance Factor</strong>
-          </div>
-          <small className="text-muted"></small>
+          <small className="text-muted" />
             {player1.name}'s recent performance:
             <Badge
               bg={
@@ -312,7 +293,6 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                 : advancedQuality.timeWeightedPerformance.player1Trend < 0
                   ? 'Declining'
                   : 'Stable'}
-            </Badge>
             {player2.name}'s recent performance:
             <Badge
               bg={
@@ -329,9 +309,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                 : advancedQuality.timeWeightedPerformance.player2Trend < 0
                   ? 'Declining'
                   : 'Stable'}
-            </Badge>
           </small>
-        </div>
       )}
     </div>
   );

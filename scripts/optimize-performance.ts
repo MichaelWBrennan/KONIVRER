@@ -1,3 +1,4 @@
+import React from 'react';
 
 import AIRecorder from './ai-recorder.js';
 
@@ -21,7 +22,7 @@ const log = message => console.log(`🚀 ${message}`);
 const error = message => console.error(`❌ ${message}`);
 const success = message => console.log(`✅ ${message}`);
 
-async function optimizePerformance() {
+async function optimizePerformance(): void {
   log('Starting comprehensive performance optimization...');
 
   try {
@@ -63,7 +64,7 @@ async function optimizePerformance() {
   }
 }
 
-function analyzeBundleSize() {
+function analyzeBundleSize(): void {
   const distPath = join(process.cwd(), 'dist');
   const jsPath = join(distPath, 'assets', 'js');
   const cssPath = join(distPath, 'assets', 'css');
@@ -143,7 +144,7 @@ function analyzeBundleSize() {
   return info;
 }
 
-function generatePerformanceReport(bundleInfo) {
+function generatePerformanceReport(): void {
   const report = `# Performance Optimization Report
 Generated: ${new Date().toISOString()}
 

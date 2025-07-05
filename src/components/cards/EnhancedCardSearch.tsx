@@ -138,9 +138,9 @@ const EnhancedCardSearch = (): any => {
 
   // Filtered and sorted cards
   const filteredCards = useMemo(() => {
-    let filtered = cardCollection.filter(card: any = > {
+    let filtered = cardCollection.filter((card: any) => {
       // Advanced search using searchParser
-      if (searchQuery): any {
+      if (searchQuery) {
         // Check if query contains advanced syntax (contains : or operators)
         if (searchQuery.includes(':') || searchQuery.includes('>=') || searchQuery.includes('<=') || searchQuery.includes('>') || searchQuery.includes('<')) {
           try {
@@ -246,7 +246,7 @@ const EnhancedCardSearch = (): any => {
     filtered.sort((a, b) => {
       let comparison = 0;
 
-      switch(): any {
+      switch (true) {
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
@@ -359,8 +359,8 @@ const EnhancedCardSearch = (): any => {
     [recentlyViewed, battlePass],
   );
 
-  const addToDeck = useCallback(card: any = > {
-      if (!activeDeck): any {
+  const addToDeck = useCallback((card: any) => {
+      if (!activeDeck) {
         // Create new deck or prompt to select deck
         console.log('No active deck - create new or select existing');
         return;
@@ -376,40 +376,33 @@ const EnhancedCardSearch = (): any => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-      <div className="max-w-7xl mx-auto p-4"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+      <div className="max-w-7xl mx-auto p-4" />
         {/* Header */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
-          <div className="flex items-center justify-between mb-4"></div>
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
+          <div className="flex items-center justify-between mb-4" />
             <h1 className="text-3xl font-bold text-white">Card Search</h1>
 
-            <div className="flex items-center space-x-4"></div>
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-white"></div>
+            <div className="flex items-center space-x-4" />
+              <div className="text-center" />
+                <div className="text-lg font-bold text-white" />
                   {ownedCards.size}
-                </div>
                 <div className="text-sm text-gray-300">Owned</div>
-              </div>
 
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-yellow-400"></div>
+              <div className="text-center" />
+                <div className="text-lg font-bold text-yellow-400" />
                   {wishlist.size}
-                </div>
                 <div className="text-sm text-gray-300">Wishlist</div>
-              </div>
 
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-red-400"></div>
+              <div className="text-center" />
+                <div className="text-lg font-bold text-red-400" />
                   {favorites.size}
-                </div>
                 <div className="text-sm text-gray-300">Favorites</div>
-              </div>
             </div>
-          </div>
 
           {/* Search Bar */}
-          <div className="relative mb-4"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" /></Search>
+          <div className="relative mb-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
             <input
               type="text"
               placeholder="Search cards by name, text, or type..."
@@ -420,9 +413,9 @@ const EnhancedCardSearch = (): any => {
           </div>
 
           {/* Quick Filters */}
-          <div className="flex flex-wrap gap-2 mb-4"></div>
+          <div className="flex flex-wrap gap-2 mb-4" />
             <button
-              onClick={() =></button>
+              onClick={() = />
                 setAdvancedSearch(prev => ({ ...prev, type: 'creature' }))}
               className="px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-full text-sm transition-colors"
             >
@@ -444,49 +437,47 @@ const EnhancedCardSearch = (): any => {
             >
               Favorites
             </button>
-          </div>
 
           {/* Advanced Search Toggle */}
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center space-x-2 text-purple-400 hover:text-purple-300 transition-colors"
           >
-            <Filter className="w-4 h-4" /></Filter>
+            <Filter className="w-4 h-4" / />
             <span>Advanced Search</span>
             {showAdvanced ? (
-              <ChevronUp className="w-4 h-4" /></ChevronUp>
+              <ChevronUp className="w-4 h-4" / />
             ) : (
-              <ChevronDown className="w-4 h-4" /></ChevronDown>
+              <ChevronDown className="w-4 h-4" / />
             )}
-          </button>
         </div>
 
         {/* Advanced Search Panel */}
-        <AnimatePresence></AnimatePresence>
+        <AnimatePresence />
           {showAdvanced && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6 overflow-hidden"
-            ></motion>
+             />
               <AdvancedSearchPanel
                 search={advancedSearch}
                 onSearchChange={setAdvancedSearch}
-              /></AdvancedSearchPanel>
+              / />
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Controls Bar */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
-          <div className="flex items-center justify-between"></div>
-            <div className="flex items-center space-x-4"></div>
-              <span className="text-gray-300"></span>
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6" />
+          <div className="flex items-center justify-between" />
+            <div className="flex items-center space-x-4" />
+              <span className="text-gray-300" />
                 {filteredCards.length} cards found
               </span>
 
-              <div className="flex items-center space-x-2"></div>
+              <div className="flex items-center space-x-2" />
                 <span className="text-gray-300 text-sm">View:</span>
                 <button
                   onClick={() => setViewMode('grid')}
@@ -496,7 +487,7 @@ const EnhancedCardSearch = (): any => {
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
-                  <Grid className="w-4 h-4" /></Grid>
+                  <Grid className="w-4 h-4" / />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
@@ -506,12 +497,11 @@ const EnhancedCardSearch = (): any => {
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
-                  <List className="w-4 h-4" /></List>
+                  <List className="w-4 h-4" / />
                 </button>
-              </div>
             </div>
 
-            <div className="flex items-center space-x-4"></div>
+            <div className="flex items-center space-x-4" />
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
@@ -524,15 +514,13 @@ const EnhancedCardSearch = (): any => {
                 <option value="power">Power</option>
                 <option value="toughness">Toughness</option>
                 <option value="owned">Owned</option>
-              </select>
 
               <button
-                onClick={() =></button>
+                onClick={() = />
                   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                 className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
               >
                 {sortOrder === 'asc' ? '↑' : '↓'}
-              </button>
 
               <select
                 value={cardsPerPage}
@@ -542,15 +530,13 @@ const EnhancedCardSearch = (): any => {
                 <option value={25}>25 per page</option>
                 <option value={50}>50 per page</option>
                 <option value={100}>100 per page</option>
-              </select>
             </div>
-          </div>
         </div>
 
         {/* Card Grid/List */}
-        <div className="mb-6"></div>
+        <div className="mb-6" />
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" />
               {paginatedCards.map(card => (
                 <CardGridItem
                   key={card.id}
@@ -566,7 +552,7 @@ const EnhancedCardSearch = (): any => {
               ))}
             </div>
           ) : (
-            <div className="space-y-2"></div>
+            <div className="space-y-2" />
               {paginatedCards.map(card => (
                 <CardListItem
                   key={card.id}
@@ -586,8 +572,8 @@ const EnhancedCardSearch = (): any => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4"></div>
-            <div className="flex items-center justify-center space-x-2"></div>
+          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4" />
+            <div className="flex items-center justify-center space-x-2" />
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
@@ -596,25 +582,23 @@ const EnhancedCardSearch = (): any => {
                 Previous
               </button>
 
-              <span className="text-white"></span>
+              <span className="text-white" />
                 Page {currentPage} of {totalPages}
-              </span>
 
               <button
-                onClick={() =></button>
+                onClick={() = />
                   setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
               >
                 Next
               </button>
-            </div>
           </div>
         )}
       </div>
 
       {/* Card Detail Modal */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {selectedCard && (
           <CardDetailModal
             card = {selectedCard}
@@ -628,7 +612,6 @@ const EnhancedCardSearch = (): any => {
           />
         )}
       </AnimatePresence>
-    </div>
   );
 };
 
@@ -666,12 +649,12 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" />
       {/* Text Searches */}
-      <div className="space-y-4"></div>
+      <div className="space-y-4" />
         <h4 className="text-white font-medium">Text Search</h4>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-1">Card Name</label>
           <input
             type="text"
@@ -682,7 +665,7 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
           />
         </div>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-1">Card Text</label>
           <input
             type="text"
@@ -692,15 +675,14 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
             placeholder="Enter text to search"
           />
         </div>
-      </div>
 
       {/* Colors and Rarity */}
-      <div className="space-y-4"></div>
+      <div className="space-y-4" />
         <h4 className="text-white font-medium">Elements & Rarity</h4>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-2">Elements</label>
-          <div className="flex flex-wrap gap-2"></div>
+          <div className="flex flex-wrap gap-2" />
             {colors.map(color => (
               <button
                 key={color}
@@ -712,14 +694,12 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
                 }`}
               >
                 {color.charAt(0).toUpperCase() + color.slice(1)}
-              </button>
             ))}
           </div>
-        </div>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-2">Rarity</label>
-          <div className="flex flex-wrap gap-2"></div>
+          <div className="flex flex-wrap gap-2" />
             {rarities.map(rarity => (
               <button
                 key={rarity}
@@ -731,24 +711,22 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
                 }`}
               >
                 {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
-              </button>
             ))}
           </div>
-        </div>
       </div>
 
       {/* Numeric Filters */}
-      <div className="space-y-4"></div>
+      <div className="space-y-4" />
         <h4 className="text-white font-medium">Numeric Filters</h4>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-2">Mana Cost</label>
-          <div className="flex space-x-2"></div>
+          <div className="flex space-x-2" />
             <input
               type="number"
               placeholder="Min"
               value={search.cost.min}
-              onChange={e =></input>
+              onChange={e = />
                 updateSearch('cost', {
                   ...search.cost,
                   min: Number(e.target.value),
@@ -759,7 +737,7 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
               type="number"
               placeholder="Max"
               value={search.cost.max}
-              onChange={e =></input>
+              onChange={e = />
                 updateSearch('cost', {
                   ...search.cost,
                   max: Number(e.target.value),
@@ -767,16 +745,15 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
-        </div>
 
-        <div></div>
+        <div />
           <label className="block text-gray-300 text-sm mb-2">Power</label>
-          <div className="flex space-x-2"></div>
+          <div className="flex space-x-2" />
             <input
               type="number"
               placeholder="Min"
               value={search.power.min}
-              onChange={e =></input>
+              onChange={e = />
                 updateSearch('power', {
                   ...search.power,
                   min: Number(e.target.value),
@@ -787,7 +764,7 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
               type="number"
               placeholder="Max"
               value={search.power.max}
-              onChange={e =></input>
+              onChange={e = />
                 updateSearch('power', {
                   ...search.power,
                   max: Number(e.target.value),
@@ -795,9 +772,7 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
-        </div>
       </div>
-    </div>
   );
 };
 
@@ -825,7 +800,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
  }) => {
   const getRarityColor = rarity => {
     const rarityLower = (rarity || '').toLowerCase();
-    switch(): any {
+    switch (true) {
       case 'common':
         return 'border-gray-400';
       case 'uncommon':
@@ -844,53 +819,49 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
       whileHover={{ scale: 1.05 }}
       className={`relative bg-gray-800 rounded-lg border-2 ${getRarityColor(card.rarity)} overflow-hidden cursor-pointer`}
       onClick={onView}
-    ></motion>
+     />
       {/* Card Image */}
-      <div className="aspect-card relative"></div>
+      <div className="aspect-card relative" />
         {cardDataHasArt(card) ? (
           <CardArtDisplay
             cardName={card.name}
             className="w-full h-full"
             clickable={false}
             showFallback={true}
-          /></CardArtDisplay>
+          / />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center"></div>
-            <div className="text-white text-center p-2"></div>
-              <div className="font-bold text-sm mb-1">{card.name}</div>
-              <div className="text-xs opacity-75">{card.cost}</div>
+          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center" />
+            <div className="text-white text-center p-2" />
+              <div className="font-bold text-sm mb-1">{card.name}
+              <div className="text-xs opacity-75">{card.cost}
             </div>
-          </div>
         )}
       </div>
 
       {/* Card Info */}
-      <div className="p-2"></div>
-        <div className="text-white text-sm font-medium truncate"></div>
+      <div className="p-2" />
+        <div className="text-white text-sm font-medium truncate" />
           {card.name}
-        </div>
-        <div className="text-gray-400 text-xs">{card.type}</div>
+        <div className="text-gray-400 text-xs">{card.type}
 
         {/* Show cost */}
         {card.cost && Array.isArray(card.cost) && card.cost.length > 0 && (
-          <div className="text-gray-300 text-xs">Cost: {card.cost.length}</div>
+          <div className="text-gray-300 text-xs">Cost: {card.cost.length}
         )}
         {/* Show attack/defense for creatures */}
         {card.attack !== null && card.attack !== undefined && (
-          <div className="text-gray-300 text-xs"></div>
+          <div className="text-gray-300 text-xs" />
             {card.attack}/{card.defense || 0}
-          </div>
         )}
       </div>
 
       {/* Owned Indicator */}
       {owned > 0 && (
-        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full"></div>
+        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full" />
           {owned}
-        </div>
       )}
       {/* Action Buttons */}
-      <div className="absolute top-2 right-2 flex space-x-1"></div>
+      <div className="absolute top-2 right-2 flex space-x-1" />
         <button
           onClick={e => {
             e.stopPropagation();
@@ -902,7 +873,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
               : 'bg-black/50 text-gray-300 hover:text-red-400'
           }`}
         >
-          <Heart className="w-3 h-3" /></Heart>
+          <Heart className="w-3 h-3" / />
         </button>
 
         <button
@@ -917,11 +888,10 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
           }`}
         >
           {inWishlist ? (
-            <BookmarkCheck className="w-3 h-3" /></BookmarkCheck>
+            <BookmarkCheck className="w-3 h-3" / />
           ) : (
-            <Bookmark className="w-3 h-3" /></Bookmark>
+            <Bookmark className="w-3 h-3" / />
           )}
-        </button>
       </div>
 
       {/* Add to Deck Button */}
@@ -932,7 +902,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
         }}
         className="absolute bottom-2 right-2 p-1 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
       >
-        <Plus className = "w-3 h-3" /></Plus>
+        <Plus className = "w-3 h-3" / />
       </button>
     </motion.div>
   );
@@ -965,29 +935,26 @@ const CardListItem: React.FC<CardListItemProps> = ({
       whileHover={{ scale: 1.01 }}
       className="bg-gray-800/50 rounded-lg p-4 border border-gray-600 hover:border-purple-500 transition-all cursor-pointer"
       onClick={onView}
-    ></motion>
-      <div className="flex items-center justify-between"></div>
-        <div className="flex items-center space-x-4"></div>
-          <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center"></div>
-            <span className="text-white text-xs font-bold">{card.cost}</span>
+     />
+      <div className="flex items-center justify-between" />
+        <div className="flex items-center space-x-4" />
+          <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center" />
+            <span className="text-white text-xs font-bold">{card.cost}
           </div>
 
-          <div></div>
-            <div className="text-white font-medium">{card.name}</div>
-            <div className="text-gray-400 text-sm">{card.type}</div>
+          <div />
+            <div className="text-white font-medium">{card.name}
+            <div className="text-gray-400 text-sm">{card.type}
             {card.type === 'creature' && (
-              <div className="text-gray-300 text-sm"></div>
+              <div className="text-gray-300 text-sm" />
                 {card.power}/{card.toughness}
-              </div>
             )}
           </div>
-        </div>
 
-        <div className="flex items-center space-x-2"></div>
+        <div className="flex items-center space-x-2" />
           {owned > 0 && (
-            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded"></span>
+            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded" />
               Owned: {owned}
-            </span>
           )}
           <button
             onClick={e => {
@@ -1000,7 +967,7 @@ const CardListItem: React.FC<CardListItemProps> = ({
                 : 'text-gray-400 hover:text-red-400'
             }`}
           >
-            <Heart className="w-4 h-4" /></Heart>
+            <Heart className="w-4 h-4" / />
           </button>
 
           <button
@@ -1015,11 +982,10 @@ const CardListItem: React.FC<CardListItemProps> = ({
             }`}
           >
             {inWishlist ? (
-              <BookmarkCheck className="w-4 h-4" /></BookmarkCheck>
+              <BookmarkCheck className="w-4 h-4" / />
             ) : (
-              <Bookmark className="w-4 h-4" /></Bookmark>
+              <Bookmark className="w-4 h-4" / />
             )}
-          </button>
 
           <button
             onClick={e => {
@@ -1028,9 +994,8 @@ const CardListItem: React.FC<CardListItemProps> = ({
             }}
             className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
           >
-            <Plus className = "w-4 h-4" /></Plus>
+            <Plus className = "w-4 h-4" / />
           </button>
-        </div>
       </div>
     </motion.div>
   );
@@ -1065,7 +1030,7 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
-    ></motion>
+     />
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -1073,56 +1038,51 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
         onClick={e => e.stopPropagation()}
         className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="flex justify-between items-start mb-4"></div>
-          <h2 className="text-2xl font-bold text-white">{card.name}</h2>
+        <div className="flex justify-between items-start mb-4" />
+          <h2 className="text-2xl font-bold text-white">{card.name}
           <button
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-white transition-colors"
-          ></button>
-            <X className="w-6 h-6" /></X>
+           />
+            <X className="w-6 h-6" / />
           </button>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
           {/* Card Image */}
-          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center"></div>
-            <div className="text-white text-center p-4"></div>
-              <div className="text-2xl font-bold mb-2">{card.name}</div>
-              <div className="text-lg">{card.cost}</div>
+          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center" />
+            <div className="text-white text-center p-4" />
+              <div className="text-2xl font-bold mb-2">{card.name}
+              <div className="text-lg">{card.cost}
             </div>
-          </div>
 
           {/* Card Details */}
-          <div className="space-y-4"></div>
-            <div></div>
+          <div className="space-y-4" />
+            <div />
               <h3 className="text-white font-medium mb-2">Details</h3>
-              <div className="space-y-2 text-gray-300"></div>
-                <div>Type: {card.type}</div>
-                <div>Rarity: {card.rarity}</div>
-                <div>Cost: {card.cost}</div>
+              <div className="space-y-2 text-gray-300" />
+                <div>Type: {card.type}
+                <div>Rarity: {card.rarity}
+                <div>Cost: {card.cost}
                 {card.type === 'creature' && (
-                  <div></div>
+                  <div />
                     Power/Toughness: {card.power}/{card.toughness}
-                  </div>
                 )}
-                <div>Elements: {(card.elements || []).join(', ')}</div>
+                <div>Elements: {(card.elements || []).join(', ')}
               </div>
-            </div>
 
-            <div></div>
+            <div />
               <h3 className="text-white font-medium mb-2">Card Text</h3>
-              <p className="text-gray-300">{card.text}</p>
+              <p className="text-gray-300">{card.text}
             </div>
 
-            <div></div>
+            <div />
               <h3 className="text-white font-medium mb-2">Collection</h3>
-              <div className="text-gray-300"></div>
+              <div className="text-gray-300" />
                 {owned > 0 ? `You own ${owned} copies` : 'Not in collection'}
               </div>
-            </div>
 
             {/* Action Buttons */}
-            <div className="flex space-x-2"></div>
+            <div className="flex space-x-2" />
               <button
                 onClick={onToggleFavorite}
                 className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
@@ -1130,9 +1090,9 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
                 }`}
-              ></button>
-                <Heart className="w-4 h-4" /></Heart>
-                <span>{isFavorite ? 'Unfavorite' : 'Favorite'}</span>
+               />
+                <Heart className="w-4 h-4" / />
+                <span>{isFavorite ? 'Unfavorite' : 'Favorite'}
               </button>
 
               <button
@@ -1142,26 +1102,23 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
                     ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
                 }`}
-              ></button>
+               />
                 {inWishlist ? (
-                  <BookmarkCheck className="w-4 h-4" /></BookmarkCheck>
+                  <BookmarkCheck className="w-4 h-4" / />
                 ) : (
-                  <Bookmark className="w-4 h-4" /></Bookmark>
+                  <Bookmark className="w-4 h-4" / />
                 )}
-                <span></span>
+                <span />
                   {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                </span>
               </button>
 
               <button
                 onClick={onAddToDeck}
                 className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-              ></button>
-                <Plus className="w-4 h-4" /></Plus>
+               />
+                <Plus className="w-4 h-4" / />
                 <span>Add to Deck</span>
-              </button>
             </div>
-          </div>
         </div>
       </motion.div>
     </motion.div>

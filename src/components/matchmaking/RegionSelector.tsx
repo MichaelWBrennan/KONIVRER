@@ -27,7 +27,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
     oceania: { ping: '220ms', status: 'poor' },
   });
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = (toggleDropdown: any) => setIsOpen(!isOpen);
 
   const handleSelectRegion = region => {
     onChange(region);
@@ -53,7 +53,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
   ];
 
   const getStatusColor = status => {
-    switch(): any {
+    switch (true) {
       case 'optimal':
         return 'text-green-600';
       case 'good':
@@ -70,7 +70,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
   };
 
   const getStatusDot = status => {
-    switch(): any {
+    switch (true) {
       case 'optimal':
         return 'bg-green-500';
       case 'good':
@@ -91,35 +91,32 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
   const selectedPingData = pingData[selectedRegion] || pingData.auto;
 
   return (
-    <div className="relative"></div>
+    <div className="relative" />
       <div
         className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 cursor-pointer"
         onClick={toggleDropdown}
-      ></div>
-        <div className="flex items-center space-x-2"></div>
-          <Globe className="w-5 h-5 text-gray-500" /></Globe>
-          <div></div>
-            <div className="font-medium text-gray-900"></div>
+       />
+        <div className="flex items-center space-x-2" />
+          <Globe className="w-5 h-5 text-gray-500" / />
+          <div />
+            <div className="font-medium text-gray-900" />
               {selectedRegionData.name}
-            </div>
             {showPing && (
-              <div className="text-xs text-gray-500 flex items-center space-x-1"></div>
+              <div className="text-xs text-gray-500 flex items-center space-x-1" />
                 <div
                   className={`w-2 h-2 rounded-full ${getStatusDot(selectedPingData.status)}`}
-                ></div>
-                <span>{selectedPingData.ping}</span>
+                 />
+                <span>{selectedPingData.ping}
               </div>
             )}
           </div>
-        </div>
         {isOpen ? (
-          <ChevronUp className="w-5 h-5 text-gray-500" /></ChevronUp>
+          <ChevronUp className="w-5 h-5 text-gray-500" / />
         ) : (
-          <ChevronDown className="w-5 h-5 text-gray-500" /></ChevronDown>
+          <ChevronDown className="w-5 h-5 text-gray-500" / />
         )}
-      </div>
 
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -127,8 +124,8 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
             className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto"
-          ></motion>
-            <div className="py-1"></div>
+           />
+            <div className="py-1" />
               {regions.map(region => (
                 <motion.div
                   key={region.id}
@@ -136,21 +133,19 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
                   className={`px-4 py-0 whitespace-nowrap hover:bg-gray-50 cursor-pointer ${selectedRegion === region.id ? 'bg-blue-50' : ''}`}
                   whileHover={{ x: 2 }}
                 >
-                  <div className="flex items-center justify-between"></div>
-                    <div></div>
-                      <div className="font-medium text-gray-900"></div>
+                  <div className="flex items-center justify-between" />
+                    <div />
+                      <div className="font-medium text-gray-900" />
                         {region.name}
-                      </div>
-                      <div className="text-xs text-gray-500"></div>
+                      <div className="text-xs text-gray-500" />
                         {region.description}
-                      </div>
                     </div>
                     {showPing && pingData[region.id] && (
                       <div
                         className={`text-xs flex items-center space-x-1 ${getStatusColor(pingData[region.id].status)}`}
-                      ></div>
-                        <Wifi className="w-3 h-3" /></Wifi>
-                        <span>{pingData[region.id].ping}</span>
+                       />
+                        <Wifi className="w-3 h-3" / />
+                        <span>{pingData[region.id].ping}
                       </div>
                     )}
                   </div>
@@ -160,7 +155,6 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

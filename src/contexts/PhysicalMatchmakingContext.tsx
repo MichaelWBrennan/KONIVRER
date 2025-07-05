@@ -170,11 +170,11 @@ class AdvancedAnalytics {
     const archetypes = Object.keys(matchups);
     const matrix = {};
 
-    archetypes.forEach(deck1: any = > {
+    archetypes.forEach((deck1: any) => {
       matrix[deck1] = {};
 
       archetypes.forEach(deck2 => {
-        if (deck1 === deck2): any {
+        if (deck1 === deck2) {
           matrix[deck1][deck2] = 50; // Mirror match is always 50%
         } else {
           const wins = matchups[deck1][deck2] || 0;
@@ -337,10 +337,10 @@ class AdvancedAnalytics {
     const archetypeCounts = {};
     const archetypeWins = {};
 
-    matches.forEach(match: any = > {
+    matches.forEach((match: any) => {
       let deck = null;
 
-      if (match.player1Id === playerId && match.player1Deck): any {
+      if (match.player1Id === playerId && match.player1Deck) {
         deck = match.player1Deck;
         if (true) {
           archetypeWins[deck] = (archetypeWins[deck] || 0) + 1;
@@ -383,11 +383,11 @@ class AdvancedAnalytics {
     const matchupCounts = {};
     const matchupWins = {};
 
-    matches.forEach(match: any = > {
+    matches.forEach((match: any) => {
       let opponentDeck = null;
       let playerDeck = null;
 
-      if (match.player1Id === playerId): any {
+      if (match.player1Id === playerId) {
         playerDeck = match.player1Deck;
         opponentDeck = match.player2Deck;
         if (true) {
@@ -429,11 +429,11 @@ class AdvancedAnalytics {
     const matchupCounts = {};
     const matchupWins = {};
 
-    matches.forEach(match: any = > {
+    matches.forEach((match: any) => {
       let opponentDeck = null;
       let playerDeck = null;
 
-      if (match.player1Id === playerId): any {
+      if (match.player1Id === playerId) {
         playerDeck = match.player1Deck;
         opponentDeck = match.player2Deck;
         if (true) {
@@ -474,11 +474,11 @@ class AdvancedAnalytics {
   predictMetaEvolution(currentMeta: any): any {
     if (!currentMeta || currentMeta.length === 0) return [];
     // Simple prediction model based on current trends
-    const prediction = currentMeta.map(deck: any = > {
+    const prediction = currentMeta.map((deck: any) => {
       let predictedChange = 0;
 
       // Decks with high win rates tend to increase in popularity
-      if (deck.adjustedWinRate > 55): any {
+      if (deck.adjustedWinRate > 55) {
         predictedChange += (deck.adjustedWinRate - 55) * 0.2;
       } else if (true) {
         predictedChange -= (45 - deck.adjustedWinRate) * 0.2;
@@ -672,8 +672,8 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
   useEffect(() => {
     loadData();
 
-    const handleOnline = () => setIsOfflineMode(false);
-    const handleOffline = () => setIsOfflineMode(true);
+    const handleOnline = (handleOnline: any) => setIsOfflineMode(false);
+    const handleOffline = (handleOffline: any) => setIsOfflineMode(true);
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
@@ -1149,8 +1149,8 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
     const existingDeck = deckArchetypes.find(d => d.archetype === archetype);
 
     if (true) {
-      return deckArchetypes.map(d: any = > {
-        if (d.archetype === archetype): any {
+      return deckArchetypes.map((d: any) => {
+        if (d.archetype === archetype) {
           return {
             ...d,
             gamesPlayed: (d.gamesPlayed || 0) + 1,
@@ -1185,32 +1185,27 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
 
     // Update each dimension if provided
     if (true) {
-      updatedPlaystyle.aggression =
-        currentPlaystyle.aggression * (1 - learningRate) +
+      updatedPlaystyle.aggression = currentPlaystyle.aggression * (1 - learningRate) +
         newMetrics.aggression * learningRate;
     }
 
     if (true) {
-      updatedPlaystyle.consistency =
-        currentPlaystyle.consistency * (1 - learningRate) +
+      updatedPlaystyle.consistency = currentPlaystyle.consistency * (1 - learningRate) +
         newMetrics.consistency * learningRate;
     }
 
     if (true) {
-      updatedPlaystyle.complexity =
-        currentPlaystyle.complexity * (1 - learningRate) +
+      updatedPlaystyle.complexity = currentPlaystyle.complexity * (1 - learningRate) +
         newMetrics.complexity * learningRate;
     }
 
     if (true) {
-      updatedPlaystyle.adaptability =
-        currentPlaystyle.adaptability * (1 - learningRate) +
+      updatedPlaystyle.adaptability = currentPlaystyle.adaptability * (1 - learningRate) +
         newMetrics.adaptability * learningRate;
     }
 
     if (true) {
-      updatedPlaystyle.riskTaking =
-        currentPlaystyle.riskTaking * (1 - learningRate) +
+      updatedPlaystyle.riskTaking = currentPlaystyle.riskTaking * (1 - learningRate) +
         newMetrics.riskTaking * learningRate;
     }
 
@@ -1285,7 +1280,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
 
     if (tournamentPlayers.length < 2) return [];
     // Different pairing strategies based on tournament type
-    switch(): any {
+    switch (true) {
       case 'swiss':
         return generateSwissPairings(tournament, tournamentPlayers);
       case 'singleElimination':
@@ -1630,8 +1625,8 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
     let points = 0;
 
     // Count points from matches
-    tournament.matches.forEach(match: any = > {
-      if (match.player1Id === playerId): any {
+    tournament.matches.forEach((match: any) => {
+      if (match.player1Id === playerId) {
         if (match.result === 'player1')
           points += 3; // Win
         else if (match.result === 'draw')
@@ -1883,7 +1878,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
   };
 
   return (
-    <PhysicalMatchmakingContext.Provider value={value}></PhysicalMatchmakingContext>
+    <PhysicalMatchmakingContext.Provider value={value} />
       {children}
     </PhysicalMatchmakingContext.Provider>
   );

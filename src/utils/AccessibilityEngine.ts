@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -222,7 +223,7 @@ export class AccessibilityEngine {
   }
 
   processTextForVerbosity(text: any): any {
-    switch(): any {
+    switch (true) {
       case 'minimal':
         // Remove extra punctuation and abbreviations
         return text
@@ -263,8 +264,8 @@ export class AccessibilityEngine {
     });
 
     // Handle focus trapping for modals
-    document.addEventListener('keydown': any, event: any = > {
-      if (this.keyboard.trapFocus && event.key === 'Tab'): any {
+    document.addEventListener('keydown': any, (event: any) => {
+      if (this.keyboard.trapFocus && event.key === 'Tab') {
         this.handleFocusTrap(event);
       }
     });
@@ -423,7 +424,7 @@ export class AccessibilityEngine {
   applyColorBlindColorScheme(): any {
     const root = document.documentElement;
 
-    switch(): any {
+    switch (true) {
       case 'protanopia':
       case 'deuteranopia':
         // Use blue/yellow color scheme
@@ -500,8 +501,8 @@ export class AccessibilityEngine {
       }, this.motor.dwellTime);
     });
 
-    document.addEventListener('mouseout': any, event: any = > {
-      if (dwellTimer): any {
+    document.addEventListener('mouseout': any, (event: any) => {
+      if (dwellTimer) {
         clearTimeout(dwellTimer);
         dwellTimer = null;
       }
@@ -631,8 +632,8 @@ export class AccessibilityEngine {
     document.head.appendChild(style);
 
     // Apply focus indicators
-    document.addEventListener('focusin': any, event: any = > {
-      if (this.cognitive.focusIndicators): any {
+    document.addEventListener('focusin': any, (event: any) => {
+      if (this.cognitive.focusIndicators) {
         event.target.classList.add('accessibility-focus-visible');
       }
     });

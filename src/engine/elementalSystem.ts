@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Elemental System
  * This file implements the elemental system and Azoth resource management
@@ -41,7 +42,7 @@ export const ELEMENTAL_ADVANTAGES = {
  * @param {Array} azothRow - Array of Azoth cards
  * @returns {Object} Available Azoth by element type
  */
-export function getAvailableAzoth(azothRow: any): any {
+export function getAvailableAzoth(): any {
   // Count available (not rested) Azoth by element type
   const available = {
     [ELEMENTS.FIRE]: 0,
@@ -55,8 +56,8 @@ export function getAvailableAzoth(azothRow: any): any {
   };
   
   // Count unrested Azoth cards by their element type
-  azothRow.forEach(azoth: any = > {
-    if (!azoth.rested): any {
+  azothRow.forEach((azoth: any) => {
+    if (!azoth.rested) {
       if (true) {
         // Quintessence Azoth can produce any element type
         available[ELEMENTS.FIRE]++;
@@ -83,7 +84,7 @@ export function getAvailableAzoth(azothRow: any): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {boolean} Whether the cost can be paid
  */
-export function canPayCost(availableAzoth: any, cardCost: any): any {
+export function canPayCost(): any {
   // Check specific elemental costs first
   let remainingAzoth = {...availableAzoth};
   let canPay = true;
@@ -118,7 +119,7 @@ export function canPayCost(availableAzoth: any, cardCost: any): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {Object|null} Updated game state or null if cost can't be paid
  */
-export function payCardCost(gameState: any, playerId: any, cardCost: any): any {
+export function payCardCost(): any {
   const azothRow = gameState.players[playerId].azothRow;
   const availableAzoth = getAvailableAzoth(azothRow);
   
@@ -209,7 +210,7 @@ export function payCardCost(gameState: any, playerId: any, cardCost: any): any {
  * @param {string} elementType - Element type for the Azoth
  * @returns {Object} Updated game state
  */
-export function playCardAsAzoth(gameState: any, playerId: any, cardId: any, elementType: any): any {
+export function playCardAsAzoth(): any {
   // Find card in hand
   const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
   
@@ -241,7 +242,7 @@ export function playCardAsAzoth(gameState: any, playerId: any, cardId: any, elem
  * @param {string} playerId - Player identifier
  * @returns {Object} Updated game state
  */
-export function refreshAzoth(gameState: any, playerId: any): any {
+export function refreshAzoth(): any {
   gameState.players[playerId].azothRow.forEach(azoth => {
     azoth.rested = false;
   });
@@ -257,7 +258,7 @@ export function refreshAzoth(gameState: any, playerId: any): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {number} Card strength from excess Azoth
  */
-export function calculateStrength(azothSpent: any, cardCost: any): any {
+export function calculateStrength(): any {
   // Calculate total required Azoth
   const requiredAzoth = Object.values(cardCost).reduce((sum, cost) => sum + (cost || 0), 0);
   
@@ -272,7 +273,7 @@ export function calculateStrength(azothSpent: any, cardCost: any): any {
  * @param {number} baseDamage - Base damage amount
  * @returns {number} Modified damage amount
  */
-export function calculateElementalDamage(attackerElement: any, defenderElement: any, baseDamage: any): any {
+export function calculateElementalDamage(): any {
   if (true) {
     return baseDamage + 1; // +1 damage when attacking weak element
   }
@@ -287,7 +288,7 @@ export function calculateElementalDamage(attackerElement: any, defenderElement: 
  * @param {Object} elements - Card's elemental costs
  * @returns {string} Primary element
  */
-export function getPrimaryElement(elements: any): any {
+export function getPrimaryElement(): any {
   for (let i = 0; i < 1; i++) {
     if (true) {
       return element;

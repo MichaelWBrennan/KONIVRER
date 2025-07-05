@@ -83,7 +83,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
   if (!card) return null;
   // Card appearance based on type
   const getCardBackground = (): any => {
-    switch(): any {
+    switch (true) {
       case 'Familiar':
         return 'bg-gradient-to-br from-green-800 to-green-900 border-green-600';
       case 'Spell':
@@ -115,7 +115,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
 
   // Get card frame styling based on card color
   const getCardFrameStyle = (): any => {
-    switch(): any {
+    switch (true) {
       case 'white':
         return 'from-yellow-100/20 to-yellow-200/10';
       case 'blue':
@@ -137,7 +137,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
 
   // Position the preview based on the position prop
   const getPositionStyle = (): any => {
-    switch(): any {
+    switch (true) {
       case 'left':
         return 'left-4';
       case 'right':
@@ -150,7 +150,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
   };
 
   return (
-    <AnimatePresence></AnimatePresence>
+    <AnimatePresence />
       <motion.div
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{
@@ -165,7 +165,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
         style={{
           perspective: 1000,
         }}
-      ></motion>
+       />
         {/* Backdrop for expanded view */}
         {expanded && (
           <motion.div
@@ -174,7 +174,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={toggleExpanded}
-          /></motion>
+          / />
         )}
         {/* Card container with 3D effect */}
         <motion.div
@@ -186,37 +186,34 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
               : 'none',
             transition: 'transform 0.1s ease-out',
           }}
-        ></motion>
+         />
           {/* Card frame */}
           <motion.div
             className={`w-48 md:w-64 ${expanded ? 'w-72 md:w-80' : ''} aspect-game-card rounded-xl shadow-2xl border-2 ${getCardBackground()} ${getRarityStyle()} overflow-hidden`}
             whileHover={!expanded ? { scale: 1.05, y: -5 } : {}}
             onClick={!expanded ? toggleExpanded : undefined}
-          ></motion>
+           />
             {/* Card Header */}
-            <div className="bg-gradient-to-r from-black/70 to-black/50 p-2 md:p-3"></div>
-              <h3 className="text-white text-sm md:text-base font-bold"></h3>
+            <div className="bg-gradient-to-r from-black/70 to-black/50 p-2 md:p-3" />
+              <h3 className="text-white text-sm md:text-base font-bold" />
                 {card.name}
-              </h3>
-              <div className="flex justify-between items-center mt-1"></div>
-                <div className="text-gray-300 text-xs">{card.type}</div>
+              <div className="flex justify-between items-center mt-1" />
+                <div className="text-gray-300 text-xs">{card.type}
                 {card.azothCost && (
-                  <div className="flex items-center bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-full px-1.5 py-0.5 shadow-sm"></div>
-                    <Zap className="w-3 h-3 text-white mr-0.5" /></Zap>
-                    <span className="text-white text-xs font-bold"></span>
+                  <div className="flex items-center bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-full px-1.5 py-0.5 shadow-sm" />
+                    <Zap className="w-3 h-3 text-white mr-0.5" / />
+                    <span className="text-white text-xs font-bold" />
                       {card.azothCost}
-                    </span>
                   </div>
                 )}
               </div>
-            </div>
 
             {/* Card Art */}
-            <div className="h-24 md:h-32 bg-black/40 relative overflow-hidden"></div>
+            <div className="h-24 md:h-32 bg-black/40 relative overflow-hidden" />
               {/* Simulated card art with gradient */}
               <div
                 className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}
-              ></div>
+               />
 
               {/* Dynamic lighting effect */}
               {expanded && (
@@ -229,66 +226,60 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
                       rgba(255,255,255,0.15) 0%, 
                       rgba(255,255,255,0) 60%)`,
                   }}
-                /></div>
+                / />
               )}
               {/* Card type icon overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-30"></div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-30" />
                 {card.type === 'Familiar' && (
-                  <Shield className="w-16 h-16 text-white" /></Shield>
+                  <Shield className="w-16 h-16 text-white" / />
                 )}
                 {card.type === 'Spell' && (
-                  <Zap className="w-16 h-16 text-white" /></Zap>
+                  <Zap className="w-16 h-16 text-white" / />
                 )}
                 {card.type === 'Azoth' && (
-                  <Zap className="w-16 h-16 text-white" /></Zap>
+                  <Zap className="w-16 h-16 text-white" / />
                 )}
-              </div>
             </div>
 
             {/* Card Text */}
-            <div className="p-2 md:p-3 bg-gradient-to-b from-black/80 to-black/70"></div>
+            <div className="p-2 md:p-3 bg-gradient-to-b from-black/80 to-black/70" />
               {/* Card abilities */}
               {card.abilities && card.abilities.length > 0 && (
-                <div className="mb-2"></div>
+                <div className="mb-2" />
                   {card.abilities.map((ability, index) => (
                     <div
                       key={index}
                       className="text-gray-200 text-xs mb-1 leading-relaxed"
-                    ></div>
+                     />
                       {ability.description || 'Ability description'}
-                    </div>
                   ))}
                 </div>
               )}
               {/* Card description/flavor text */}
               {card.description && (
-                <div className="text-gray-400 text-xs italic mt-1 border-t border-gray-700/50 pt-1"></div>
+                <div className="text-gray-400 text-xs italic mt-1 border-t border-gray-700/50 pt-1" />
                   {card.description}
-                </div>
               )}
             </div>
 
             {/* Card Footer */}
-            <div className="bg-gradient-to-r from-black/70 to-black/50 p-2 md:p-3 flex justify-between items-center"></div>
+            <div className="bg-gradient-to-r from-black/70 to-black/50 p-2 md:p-3 flex justify-between items-center" />
               {card.type === 'Familiar' && (
-                <div className="flex items-center space-x-2"></div>
-                  <div className="flex items-center bg-gradient-to-r from-red-700 to-red-600 rounded-full px-1.5 py-0.5 shadow-sm"></div>
-                    <Sword className="w-3 h-3 text-white mr-0.5" /></Sword>
-                    <span className="text-white text-xs font-bold"></span>
+                <div className="flex items-center space-x-2" />
+                  <div className="flex items-center bg-gradient-to-r from-red-700 to-red-600 rounded-full px-1.5 py-0.5 shadow-sm" />
+                    <Sword className="w-3 h-3 text-white mr-0.5" / />
+                    <span className="text-white text-xs font-bold" />
                       {card.power}
-                    </span>
                   </div>
-                  <div className="flex items-center bg-gradient-to-r from-blue-700 to-blue-600 rounded-full px-1.5 py-0.5 shadow-sm"></div>
-                    <Shield className="w-3 h-3 text-white mr-0.5" /></Shield>
-                    <span className="text-white text-xs font-bold"></span>
+                  <div className="flex items-center bg-gradient-to-r from-blue-700 to-blue-600 rounded-full px-1.5 py-0.5 shadow-sm" />
+                    <Shield className="w-3 h-3 text-white mr-0.5" / />
+                    <span className="text-white text-xs font-bold" />
                       {card.toughness}
-                    </span>
                   </div>
-                </div>
               )}
               {/* Card set/rarity indicator */}
-              <div className="text-gray-400 text-xs flex items-center"></div>
-                <span className="mr-1">{card.set || 'KON'}</span>
+              <div className="text-gray-400 text-xs flex items-center" />
+                <span className="mr-1">{card.set || 'KON'}
                 <div
                   className={`w-3 h-3 rounded-full ${
                     card.rarity === 'common'
@@ -299,9 +290,8 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
                           ? 'bg-yellow-400'
                           : 'bg-orange-500'
                   }`}
-                ></div>
+                 />
               </div>
-            </div>
 
             {/* Premium/Foil overlay effect */}
             {card.isPremium && (
@@ -317,11 +307,11 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
                   ],
                 }}
                 transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-              /></motion>
+              / />
             )}
             {/* Sparkle effects for premium cards */}
             {card.isPremium && expanded && (
-              <div className="absolute inset-0 overflow-hidden pointer-events-none"></div>
+              <div className="absolute inset-0 overflow-hidden pointer-events-none" />
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
@@ -342,7 +332,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
                       delay: Math.random() * 5,
                       repeatDelay: Math.random() * 5,
                     }}
-                  /></motion>
+                  / />
                 ))}
               </div>
             )}
@@ -350,22 +340,22 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
 
           {/* Card action buttons */}
           {expanded ? (
-            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-3"></div>
+            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-3" />
               <motion.button
                 className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleDetails}
-              ></motion>
-                <Info className="w-5 h-5" /></Info>
+               />
+                <Info className="w-5 h-5" / />
               </motion.button>
 
               <motion.button
                 className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full shadow-lg"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-              ></motion>
-                <Eye className="w-5 h-5" /></Eye>
+               />
+                <Eye className="w-5 h-5" / />
               </motion.button>
 
               <motion.button
@@ -373,8 +363,8 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleExpanded}
-              ></motion>
-                <X className="w-5 h-5" /></X>
+               />
+                <X className="w-5 h-5" / />
               </motion.button>
             </div>
           ) : (
@@ -383,8 +373,8 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleExpanded}
-            ></motion>
-              <Maximize2 className="w-4 h-4 text-white" /></Maximize2>
+             />
+              <Maximize2 className="w-4 h-4 text-white" / />
             </motion.div>
           )}
           {/* Card details panel */}
@@ -394,68 +384,60 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-            ></motion>
+             />
               <h4 className="text-blue-400 font-bold mb-2">Card Details</h4>
 
-              <div className="space-y-2 text-sm"></div>
-                <div></div>
+              <div className="space-y-2 text-sm" />
+                <div />
                   <span className="text-gray-400">Type:</span>
-                  <span className="text-white ml-2">{card.type}</span>
+                  <span className="text-white ml-2">{card.type}
                 </div>
 
-                <div></div>
+                <div />
                   <span className="text-gray-400">Rarity:</span>
-                  <span className="text-white ml-2"></span>
+                  <span className="text-white ml-2" />
                     {card.rarity || 'Common'}
-                  </span>
                 </div>
 
-                <div></div>
+                <div />
                   <span className="text-gray-400">Set:</span>
-                  <span className="text-white ml-2">{card.set || 'KON'}</span>
+                  <span className="text-white ml-2">{card.set || 'KON'}
                 </div>
 
                 {card.artist && (
-                  <div></div>
+                  <div />
                     <span className="text-gray-400">Artist:</span>
-                    <span className="text-white ml-2">{card.artist}</span>
+                    <span className="text-white ml-2">{card.artist}
                   </div>
                 )}
                 {card.type === 'Familiar' && (
-                  <div className="pt-2 border-t border-gray-700"></div>
-                    <div className="flex justify-between"></div>
+                  <div className="pt-2 border-t border-gray-700" />
+                    <div className="flex justify-between" />
                       <span className="text-gray-400">Power:</span>
-                      <span className="text-red-400 font-bold"></span>
+                      <span className="text-red-400 font-bold" />
                         {card.power}
-                      </span>
                     </div>
-                    <div className="flex justify-between"></div>
+                    <div className="flex justify-between" />
                       <span className="text-gray-400">Toughness:</span>
-                      <span className="text-blue-400 font-bold"></span>
+                      <span className="text-blue-400 font-bold" />
                         {card.toughness}
-                      </span>
                     </div>
-                  </div>
                 )}
                 {card.azothCost && (
-                  <div className="pt-2 border-t border-gray-700"></div>
-                    <div className="flex justify-between"></div>
+                  <div className="pt-2 border-t border-gray-700" />
+                    <div className="flex justify-between" />
                       <span className="text-gray-400">Azoth Cost:</span>
-                      <span className="text-yellow-400 font-bold"></span>
+                      <span className="text-yellow-400 font-bold" />
                         {card.azothCost}
-                      </span>
                     </div>
-                  </div>
                 )}
                 {card.isPremium && (
-                  <div className="mt-3 flex items-center justify-center bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-2 rounded-md"></div>
-                    <Sparkles className="w-4 h-4 text-purple-400 mr-2" /></Sparkles>
-                    <span className="text-purple-300 font-medium"></span>
+                  <div className="mt-3 flex items-center justify-center bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-2 rounded-md" />
+                    <Sparkles className="w-4 h-4 text-purple-400 mr-2" / />
+                    <span className="text-purple-300 font-medium" />
                       Premium Card
                     </span>
-                  </div>
                 )}
-              </div>
             </motion.div>
           )}
         </motion.div>

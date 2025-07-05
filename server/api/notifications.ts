@@ -48,7 +48,7 @@ if (!fs.existsSync(subscriptionsPath)) {
 }
 
 // Helper function to read subscriptions
-const getSubscriptions = () => {
+const getSubscriptions = (getSubscriptions: any) => {
   try {
     const data = fs.readFileSync(subscriptionsPath, 'utf8');
     return JSON.parse(data);
@@ -59,7 +59,7 @@ const getSubscriptions = () => {
 };
 
 // Helper function to write subscriptions
-const saveSubscriptions = (subscriptions) => {
+const saveSubscriptions = (saveSubscriptions: any) => {
   try {
     fs.writeFileSync(subscriptionsPath, JSON.stringify(subscriptions, null, 2));
     return true;

@@ -138,8 +138,8 @@ const ACTIONS = {
 };
 
 // Social Reducer
-function socialReducer(state: any, action: any): any {
-  switch(): any {
+function socialReducer(): any {
+  switch (true) {
     case ACTIONS.SEND_FRIEND_REQUEST:
       return {
         ...state,

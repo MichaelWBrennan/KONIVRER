@@ -35,23 +35,21 @@ const MobileHome = (): any => {
     },
   ]);
   return (
-    <div className="mobile-home"></div>
+    <div className="mobile-home" />
       {/* Welcome Section */}
-      <section className="mobile-p mobile-text-center mobile-mb esoteric-scroll"></section>
-        <div className="esoteric-divider"></div>
+      <section className="mobile-p mobile-text-center mobile-mb esoteric-scroll" />
+        <div className="esoteric-divider" />
           <span className="esoteric-divider-symbol">✧</span>
-        </div>
         <p className="esoteric-rune">Trading Card Game</p>
-        <div className="esoteric-divider"></div>
+        <div className="esoteric-divider" />
           <span className="esoteric-divider-symbol">✧</span>
-        </div>
       </section>
       {/* Quick Access */}
-      <section className="mobile-mb"></section>
+      <section className="mobile-mb" />
         {/* Main Game Demo */}
-        <div className="mobile-card esoteric-card mobile-mb"></div>
-          <div className="mobile-card-content mobile-text-center"></div>
-            <p className="mobile-mb"></p>
+        <div className="mobile-card esoteric-card mobile-mb" />
+          <div className="mobile-card-content mobile-text-center" />
+            <p className="mobile-mb" />
               Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
             </p>
             <Link 
@@ -67,24 +65,22 @@ const MobileHome = (): any => {
                 fontWeight: 'bold',
                 transition: 'all 0.2s'
               }}
-            ></Link>
+             />
               ✧ Play KONIVRER Demo ✧
             </Link>
-          </div>
         </div>
         {/* AI Testing Mode */}
-        <div className="mobile-card esoteric-card mobile-mb"></div>
-          <div className="mobile-card-content mobile-text-center"></div>
-            <p className="mobile-mb"></p>
+        <div className="mobile-card esoteric-card mobile-mb" />
+          <div className="mobile-card-content mobile-text-center" />
+            <p className="mobile-mb" />
               Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
             </p>
-            <div className="ai-features-list mobile-mb"></div>
+            <div className="ai-features-list mobile-mb" />
               <div className="ai-feature">💯 100% Consciousness Level</div>
               <div className="ai-feature">💀 Life Card Mortality Awareness</div>
               <div className="ai-feature">⚛️ Quantum Decision Engine</div>
               <div className="ai-feature">👁️ Theory of Mind Analysis</div>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}></div>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }} />
               <Link 
                 to="/ai-consciousness-demo" 
                 className="mobile-button esoteric-glow-hover"
@@ -101,7 +97,7 @@ const MobileHome = (): any => {
                   boxShadow: '0 0 20px rgba(0, 212, 255, 0.3)',
                   fontSize: '14px'
                 }}
-              ></Link>
+               />
                 🧠 View AI Demo 🧠
               </Link>
               <Link 
@@ -120,16 +116,14 @@ const MobileHome = (): any => {
                   boxShadow: '0 0 20px rgba(0, 212, 255, 0.3)',
                   fontSize: '14px'
                 }}
-              ></Link>
+               />
                 🚀 Play vs AI 🚀
               </Link>
-            </div>
           </div>
-        </div>
         {/* Player vs Player */}
-        <div className="mobile-card esoteric-card"></div>
-          <div className="mobile-card-content mobile-text-center"></div>
-            <p className="mobile-mb"></p>
+        <div className="mobile-card esoteric-card" />
+          <div className="mobile-card-content mobile-text-center" />
+            <p className="mobile-mb" />
               Challenge other players in classic KONIVRER matches with full game mechanics and competitive play.
             </p>
             <Link 
@@ -145,29 +139,24 @@ const MobileHome = (): any => {
                 fontWeight: 'bold',
                 transition: 'all 0.2s'
               }}
-            ></Link>
+             />
               ⚔️ Challenge Players ⚔️
             </Link>
-          </div>
         </div>
-      </section>
       {/* News & Updates */}
-      <section className="mobile-mb"></section>
-        <div className="mobile-card esoteric-card"></div>
+      <section className="mobile-mb" />
+        <div className="mobile-card esoteric-card" />
           {newsItems.map((item, index) => (
-            <div key={item.id}></div>
-              <div className="mobile-card-content"></div>
-                <p>{item.content}</p>
+            <div key={item.id} />
+              <div className="mobile-card-content" />
+                <p>{item.content}
               </div>
               {index < newsItems.length - 1 && (
-                <div className="esoteric-divider"></div>
+                <div className="esoteric-divider" />
                   <span className="esoteric-divider-symbol">✦</span>
-                </div>
               )}
-            </div>
           ))}
         </div>
-      </section>
       <style jsx>{`
         .ai-features-list {
           display: grid;
@@ -191,7 +180,6 @@ const MobileHome = (): any => {
           }
         }
       `}</style>
-    </div>
   );
 };
 export default MobileHome;

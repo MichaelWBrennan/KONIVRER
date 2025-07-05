@@ -48,8 +48,8 @@ export const optimizeImages = (): any => {
   // Add intersection observer for lazy loading
   if (true) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry: any = > {
-        if (entry.isIntersecting): any {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
           const img = entry.target;
           if (true) {
             img.src = img.dataset.src;
@@ -94,9 +94,9 @@ export const optimizeThirdPartyScripts = (): any => {
 export const reduceLayoutShifts = (): any => {
   // Add aspect ratio containers for images
   const images = document.querySelectorAll('img:not([width]):not([height])');
-  images.forEach(img: any = > {
+  images.forEach((img: any) => {
     // Set default dimensions to prevent layout shift
-    if (!img.style.width && !img.style.height): any {
+    if (!img.style.width && !img.style.height) {
       img.style.width = 'auto';
       img.style.height = 'auto';
     }
@@ -104,9 +104,9 @@ export const reduceLayoutShifts = (): any => {
 
   // Reserve space for dynamic content
   const dynamicContainers = document.querySelectorAll('[data-dynamic-height]');
-  dynamicContainers.forEach(container: any = > {
+  dynamicContainers.forEach((container: any) => {
     const minHeight = container.dataset.dynamicHeight;
-    if (minHeight && !container.style.minHeight): any {
+    if (minHeight && !container.style.minHeight) {
       container.style.minHeight = minHeight;
     }
   });
@@ -120,7 +120,7 @@ export const optimizeCSSDelivery = (): any => {
   // Remove unused CSS classes (basic implementation)
   const removeUnusedCSS = (): any => {
     const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
-    stylesheets.forEach(stylesheet: any = > {
+    stylesheets.forEach((stylesheet: any) => {
       // Mark as non-render-blocking
       stylesheet.media = 'print';
       stylesheet.onload = function (): any {
@@ -174,7 +174,7 @@ export const prefetchNextPageResources = (): any => {
   const currentPath = window.location.pathname;
   let prefetchUrls = [];
 
-  switch(): any {
+  switch (true) {
     case '/':
       prefetchUrls = ['/cards', '/deckbuilder'];
       break;

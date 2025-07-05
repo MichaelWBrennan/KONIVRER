@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 #!/usr/bin/env node
 
 /**
@@ -8,9 +11,9 @@
  * in the correct directory structure.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import {  execSync  } from 'child_process';
 
 // Configuration
 const CONFIG = {
@@ -44,7 +47,7 @@ const EXPECTED_CARDS = [
 /**
  * Check if ImageMagick is available
  */
-function checkImageMagick() {
+function checkImageMagick(): void {
   try {
     execSync('convert -version', { stdio: 'ignore' });
     return true;
@@ -56,7 +59,7 @@ function checkImageMagick() {
 /**
  * Check if Sharp is available (Node.js image processing)
  */
-function checkSharp() {
+function checkSharp(): void {
   try {
     require('sharp');
     return true;
@@ -68,7 +71,7 @@ function checkSharp() {
 /**
  * Create directories if they don't exist
  */
-function ensureDirectories() {
+function ensureDirectories(): void {
   if (!fs.existsSync(CONFIG.sourceDir)) {
     fs.mkdirSync(CONFIG.sourceDir, { recursive: true });
     console.log(`📁 Created source directory: ${CONFIG.sourceDir}`);
@@ -83,14 +86,14 @@ function ensureDirectories() {
 /**
  * Get file size in bytes
  */
-function getFileSize(filePath) {
+function getFileSize(): void {
   return fs.statSync(filePath).size;
 }
 
 /**
  * Process image using ImageMagick
  */
-function processWithImageMagick(inputPath, outputPath) {
+function processWithImageMagick(): void {
   const command = `convert "${inputPath}" -resize ${CONFIG.targetWidth}x${CONFIG.targetHeight}! -quality ${CONFIG.quality} -strip "${outputPath}"`;
   execSync(command);
 }
@@ -98,8 +101,8 @@ function processWithImageMagick(inputPath, outputPath) {
 /**
  * Process image using Sharp (if available)
  */
-async function processWithSharp(inputPath, outputPath) {
-  const sharp = require('sharp');
+async function processWithSharp(): void {
+  import sharp from 'sharp';
   
   await sharp(inputPath)
     .resize(CONFIG.targetWidth, CONFIG.targetHeight, { fit: 'fill' })
@@ -110,7 +113,7 @@ async function processWithSharp(inputPath, outputPath) {
 /**
  * Find source image for a card name
  */
-function findSourceImage(cardName) {
+function findSourceImage(): void {
   for (const ext of CONFIG.supportedFormats) {
     const filePath = path.join(CONFIG.sourceDir, `${cardName}${ext}`);
     if (fs.existsSync(filePath)) {
@@ -123,7 +126,7 @@ function findSourceImage(cardName) {
 /**
  * Process a single card image
  */
-async function processCardImage(cardName) {
+async function processCardImage(): void {
   const sourceImage = findSourceImage(cardName);
   
   if (!sourceImage) {
@@ -162,7 +165,7 @@ async function processCardImage(cardName) {
 /**
  * Main processing function
  */
-async function main() {
+async function main(): void {
   console.log('🎴 KONIVRER Card Image Processor');
   console.log('================================\n');
 

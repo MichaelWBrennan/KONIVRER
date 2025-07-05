@@ -57,12 +57,12 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
   };
 
   return (
-    <div className="space-y-4"></div>
-      <div></div>
-        <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+    <div className="space-y-4" />
+      <div />
+        <label className="block text-sm font-medium text-gray-700 mb-2" />
           Skill Range
         </label>
-        <div className="grid grid-cols-3 gap-2"></div>
+        <div className="grid grid-cols-3 gap-2" />
           {skillRanges.map(range => (
             <motion.button
               key={range.id}
@@ -75,37 +75,34 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="font-medium text-sm">{range.name}</div>
-              <div className="text-xs text-gray-500">{range.description}</div>
-              <div className="text-xs text-blue-600 mt-1">{range.waitTime}</div>
+              <div className="font-medium text-sm">{range.name}
+              <div className="text-xs text-gray-500">{range.description}
+              <div className="text-xs text-blue-600 mt-1">{range.waitTime}
             </motion.button>
           ))}
         </div>
-      </div>
 
       {showAdvanced && (
-        <div></div>
-          <div className="flex items-center justify-between mb-2"></div>
-            <div className="flex items-center space-x-2"></div>
-              <Sliders className="w-4 h-4 text-gray-500" /></Sliders>
-              <span className="text-sm font-medium text-gray-700"></span>
+        <div />
+          <div className="flex items-center justify-between mb-2" />
+            <div className="flex items-center space-x-2" />
+              <Sliders className="w-4 h-4 text-gray-500" / />
+              <span className="text-sm font-medium text-gray-700" />
                 Advanced Options
               </span>
-            </div>
             <button
               onClick={onToggleAdvanced}
               className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
-            ></button>
+             />
               <span className="text-sm">Advanced</span>
               {isAdvancedOpen ? (
-                <ChevronUp className="w-4 h-4" /></ChevronUp>
+                <ChevronUp className="w-4 h-4" / />
               ) : (
-                <ChevronDown className="w-4 h-4" /></ChevronDown>
+                <ChevronDown className="w-4 h-4" / />
               )}
-            </button>
           </div>
 
-          <AnimatePresence></AnimatePresence>
+          <AnimatePresence />
             {isAdvancedOpen && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -113,10 +110,10 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
-              ></motion>
-                <div className="grid grid-cols-2 gap-4 pt-2"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+               />
+                <div className="grid grid-cols-2 gap-4 pt-2" />
+                  <div />
+                    <label className="block text-sm font-medium text-gray-700 mb-2" />
                       Game Mode
                     </label>
                     <select
@@ -127,11 +124,10 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
                       <option value="ranked">Ranked</option>
                       <option value="casual">Casual</option>
                       <option value="tournament">Tournament</option>
-                    </select>
                   </div>
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+                  <div />
+                    <label className="block text-sm font-medium text-gray-700 mb-2" />
                       Region
                     </label>
                     <select
@@ -146,81 +142,70 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
                       <option value="eu-east">EU East</option>
                       <option value="asia">Asia Pacific</option>
                       <option value="oceania">Oceania</option>
-                    </select>
                   </div>
-                </div>
 
                 {/* Note: KONIVRER is always best of 1, so this dropdown is not needed */}
-                <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200"></div>
-                  <div className="flex items-center space-x-2"></div>
-                    <Trophy className="w-4 h-4 text-blue-500" /></Trophy>
-                    <span className="text-sm font-medium text-gray-700"></span>
+                <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200" />
+                  <div className="flex items-center space-x-2" />
+                    <Trophy className="w-4 h-4 text-blue-500" / />
+                    <span className="text-sm font-medium text-gray-700" />
                       Match Format: Best of 1
                     </span>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1 ml-6"></p>
+                  <p className="text-xs text-gray-500 mt-1 ml-6" />
                     KONIVRER matches are always played as best of 1
                   </p>
-                </div>
 
-                <div className="mt-4 space-y-3"></div>
-                  <div className="flex items-center justify-between"></div>
-                    <div className="flex items-center space-x-2"></div>
-                      <Laptop className="w-4 h-4 text-gray-500" /></Laptop>
-                      <span className="text-sm text-gray-700"></span>
+                <div className="mt-4 space-y-3" />
+                  <div className="flex items-center justify-between" />
+                    <div className="flex items-center space-x-2" />
+                      <Laptop className="w-4 h-4 text-gray-500" / />
+                      <span className="text-sm text-gray-700" />
                         Cross-Platform Play
                       </span>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer"></label>
+                    <label className="relative inline-flex items-center cursor-pointer" />
                       <input
                         type="checkbox"
                         className="sr-only peer"
                         checked={preferences.crossPlay}
-                        onChange={() =></input>
+                        onChange={() = />
                           handleChange('crossPlay', !preferences.crossPlay)}
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
                     </label>
-                  </div>
 
-                  <div className="flex items-center justify-between"></div>
-                    <div className="flex items-center space-x-2"></div>
-                      <Headphones className="w-4 h-4 text-gray-500" /></Headphones>
+                  <div className="flex items-center justify-between" />
+                    <div className="flex items-center space-x-2" />
+                      <Headphones className="w-4 h-4 text-gray-500" / />
                       <span className="text-sm text-gray-700">Voice Chat</span>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer"></label>
+                    <label className="relative inline-flex items-center cursor-pointer" />
                       <input
                         type="checkbox"
                         className="sr-only peer"
                         checked={preferences.voiceChat}
-                        onChange={() =></input>
+                        onChange={() = />
                           handleChange('voiceChat', !preferences.voiceChat)}
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
                     </label>
-                  </div>
 
-                  <div className="flex items-center justify-between"></div>
-                    <div className="flex items-center space-x-2"></div>
-                      <Trophy className="w-4 h-4 text-gray-500" /></Trophy>
+                  <div className="flex items-center justify-between" />
+                    <div className="flex items-center space-x-2" />
+                      <Trophy className="w-4 h-4 text-gray-500" / />
                       <span className="text-sm text-gray-700">Show Rank</span>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer"></label>
+                    <label className="relative inline-flex items-center cursor-pointer" />
                       <input
                         type="checkbox"
                         className="sr-only peer"
                         checked={preferences.showRank}
-                        onChange={() =></input>
+                        onChange={() = />
                           handleChange('showRank', !preferences.showRank)}
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
                     </label>
-                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
       )}
     </div>
   );

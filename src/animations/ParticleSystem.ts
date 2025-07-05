@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -113,7 +114,7 @@ const PARTICLE_PRESETS = {
  * @param {Object} options - Particle system options
  * @returns {Object} Particle system controller
  */
-export function createParticleSystem(container: any, options = {}: any): any {
+export function createParticleSystem(): any {
   if (!container) return null;
   // Merge options with presets
   const type = options.type || 'generic';

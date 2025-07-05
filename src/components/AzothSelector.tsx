@@ -53,32 +53,29 @@ const AzothSelector: React.FC<AzothSelectorProps> = ({  availableAzoth, required
   };
   
   return (
-    <div className="azoth-selector-overlay"></div>
-      <div className="azoth-selector-container"></div>
+    <div className="azoth-selector-overlay" />
+      <div className="azoth-selector-container" />
         <h3>Select Azoth to Spend</h3>
         
-        <div className="azoth-requirements"></div>
+        <div className="azoth-requirements" />
           <h4>Required Elements:</h4>
-          <div className="element-requirements"></div>
+          <div className="element-requirements" />
             {Object.entries(requiredElements).map(([element, count]) => (
               count > 0 && (
-                <div key={element} className={`element-requirement ${element}`}></div>
+                <div key={element} className={`element-requirement ${element}`} />
                   {ELEMENT_SYMBOLS[element]} {count}
-                </div>
               )
             ))}
           </div>
-        </div>
         
-        <div className="azoth-selection"></div>
+        <div className="azoth-selection" />
           <h4>Available Azoth:</h4>
-          <div className="element-selectors"></div>
+          <div className="element-selectors" />
             {Object.entries(availableAzoth).map(([element, count]) => (
-              <div key={element} className="element-selector"></div>
-                <div className={`element-label ${element}`}></div>
+              <div key={element} className="element-selector" />
+                <div className={`element-label ${element}`} />
                   {ELEMENT_SYMBOLS[element]} {element}
-                </div>
-                <div className="element-controls"></div>
+                <div className="element-controls" />
                   <button 
                     className="element-decrease" 
                     onClick={() => handleDecrease(element)}
@@ -86,9 +83,8 @@ const AzothSelector: React.FC<AzothSelectorProps> = ({  availableAzoth, required
                   >
                     -
                   </button>
-                  <div className="element-count"></div>
+                  <div className="element-count" />
                     {selectedAzoth[element] || 0}/{count}
-                  </div>
                   <button 
                     className="element-increase" 
                     onClick={() => handleIncrease(element)}
@@ -96,32 +92,27 @@ const AzothSelector: React.FC<AzothSelectorProps> = ({  availableAzoth, required
                   >
                     +
                   </button>
-                </div>
               </div>
             ))}
           </div>
-        </div>
         
-        <div className="azoth-summary"></div>
-          <div className="total-selected"></div>
+        <div className="azoth-summary" />
+          <div className="total-selected" />
             Total Selected: {totalSelected}
-          </div>
         </div>
         
-        <div className="azoth-actions"></div>
+        <div className="azoth-actions" />
           <button 
             className="confirm-button" 
             onClick={handleConfirm}
             disabled={!requirementsMet}
-          ></button>
+           />
             Confirm
           </button>
-          <button className="cancel-button" onClick={onCancel}></button>
+          <button className="cancel-button" onClick={onCancel} />
             Cancel
           </button>
-        </div>
       </div>
-    </div>
   );
 };
 

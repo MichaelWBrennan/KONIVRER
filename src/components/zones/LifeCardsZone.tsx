@@ -14,8 +14,8 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
   const mortalityStatus = getMortalityStatus();
 
   return (
-    <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`}></div>
-      <div className="zone-header"></div>
+    <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`} />
+      <div className="zone-header" />
         <div className="zone-label">LIFE CARDS</div>
         {showMortalityAwareness && !isCurrentPlayer && (
           <motion.div 
@@ -23,22 +23,21 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-          ></motion>
+           />
             <mortalityStatus.icon 
               className="mortality-icon" 
               style={{ color: mortalityStatus.color }}
-            /></mortalityStatus>
+            / />
             <span 
               className="mortality-text"
               style={{ color: mortalityStatus.color }}
-            ></span>
+             />
               {mortalityStatus.level.toUpperCase()}
-            </span>
           </motion.div>
         )}
       </div>
       
-      <div className="cards-container"></div>
+      <div className="cards-container" />
         {lifeCards.map((card, index) => (
           <motion.div 
             key={index} 
@@ -47,26 +46,24 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={showMortalityAwareness ? { scale: 1.05 } : {}}
-          ></motion>
+           />
             {/* Always show card back for Life Cards */}
-            <img src="/assets/card-back-new.png" alt="Life Card" /></img>
+            <img src="/assets/card-back-new.png" alt="Life Card" / />
             {showMortalityAwareness && (
-              <div className="mortality-overlay"></div>
-                <div className="mortality-pulse"></div>
+              <div className="mortality-overlay" />
+                <div className="mortality-pulse" />
               </div>
             )}
           </motion.div>
         ))}
       </div>
       
-      <div className={`life-count ${showMortalityAwareness ? 'mortality-count' : ''}`}></div>
+      <div className={`life-count ${showMortalityAwareness ? 'mortality-count' : ''}`} />
         {lifeCards.length}
         {showMortalityAwareness && (
-          <div className="mortality-analysis"></div>
+          <div className="mortality-analysis" />
             <span className="analysis-text">AI analyzing mortality risk...</span>
-          </div>
         )}
-      </div>
 
       <style jsx>{`
         .zone-header {
@@ -165,7 +162,6 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
           50% { opacity: 1; }
         }
       `}</style>
-    </div>
   );
 };
 

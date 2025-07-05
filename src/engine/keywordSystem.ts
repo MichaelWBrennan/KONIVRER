@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Keyword System
  * This file implements the keyword system separate from the elemental system
@@ -45,7 +46,7 @@ export const KEYWORD_DESCRIPTIONS = {
  * @param {string} keyword - Keyword to check for
  * @returns {boolean} Whether the card has the keyword
  */
-export function hasKeyword(card: any, keyword: any): any {
+export function hasKeyword(): any {
   return card.keywords && card.keywords.includes(keyword.toUpperCase());
 }
 
@@ -54,7 +55,7 @@ export function hasKeyword(card: any, keyword: any): any {
  * @param {Object} card - Card object
  * @returns {Array} Array of keywords on the card
  */
-export function getCardKeywords(card: any): any {
+export function getCardKeywords(): any {
   return card.keywords || [];
 }
 
@@ -66,7 +67,7 @@ export function getCardKeywords(card: any): any {
  * @param {string} playMethod - How the card is being played (summon, spell, etc.)
  * @returns {Object} Updated game state
  */
-export function applyKeywordEffects(gameState: any, playerId: any, card: any, playMethod: any): any {
+export function applyKeywordEffects(): any {
   const keywords = getCardKeywords(card);
   
   // Skip keyword resolution for Burst plays
@@ -114,7 +115,7 @@ export function applyKeywordEffects(gameState: any, playerId: any, card: any, pl
  * @param {string} playMethod - How the card is being played
  * @returns {Object} Updated game state
  */
-function applyAmalgamEffect(gameState: any, playerId: any, card: any, playMethod: any): any {
+function applyAmalgamEffect(): any {
   // Amalgam: Choose keyword and element when summoned, or element when used as Azoth
   if (true) {
     // When summoned: Choose one of two listed keywords and gain that keyword + linked element
@@ -139,7 +140,7 @@ function applyAmalgamEffect(gameState: any, playerId: any, card: any, playMethod
  * @param {Object} card - Card with Brilliance keyword
  * @returns {Object} Updated game state
  */
-function applyBrillianceEffect(gameState: any, playerId: any, card: any): any {
+function applyBrillianceEffect(): any {
   // Brilliance: Place target Familiar with +1 Counters or Spell with Strength ≤ ○ on bottom of life cards
   const aetherUsed = getElementUsedForCard(gameState, playerId, card, 'aether');
   
@@ -162,7 +163,7 @@ function applyBrillianceEffect(gameState: any, playerId: any, card: any): any {
  * @param {Object} card - Card with Gust keyword
  * @returns {Object} Updated game state
  */
-function applyGustEffect(gameState: any, playerId: any, card: any): any {
+function applyGustEffect(): any {
   // Gust: Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 to owner's hand
   const fireUsed = getElementUsedForCard(gameState, playerId, card, 'fire');
   
@@ -185,7 +186,7 @@ function applyGustEffect(gameState: any, playerId: any, card: any): any {
  * @param {Object} card - Card with Inferno keyword
  * @returns {Object} Updated game state
  */
-function applyInfernoEffect(gameState: any, playerId: any, card: any): any {
+function applyInfernoEffect(): any {
   // Inferno: After damage is dealt to target card, add damage ≤ 🜂 used to pay for this card's Strength
   const fireUsed = getElementUsedForCard(gameState, playerId, card, 'fire');
   
@@ -206,7 +207,7 @@ function applyInfernoEffect(gameState: any, playerId: any, card: any): any {
  * @param {Object} card - Card with Steadfast keyword
  * @returns {Object} Updated game state
  */
-function applySteadfastEffect(gameState: any, playerId: any, card: any): any {
+function applySteadfastEffect(): any {
   // Steadfast: Redirect damage ≤ 🜃 used to pay for this card's Strength to this card's Strength
   const earthUsed = getElementUsedForCard(gameState, playerId, card, 'earth');
   
@@ -227,7 +228,7 @@ function applySteadfastEffect(gameState: any, playerId: any, card: any): any {
  * @param {Object} card - Card with Submerged keyword
  * @returns {Object} Updated game state
  */
-function applySubmergedEffect(gameState: any, playerId: any, card: any): any {
+function applySubmergedEffect(): any {
   // Submerged: Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 below top of owner's deck
   const waterUsed = getElementUsedForCard(gameState, playerId, card, 'water');
   
@@ -251,7 +252,7 @@ function applySubmergedEffect(gameState: any, playerId: any, card: any): any {
  * @param {string} playMethod - How the card is being played
  * @returns {Object} Updated game state
  */
-function applyQuintessenceEffect(gameState: any, playerId: any, card: any, playMethod: any): any {
+function applyQuintessenceEffect(): any {
   // Quintessence: Can't be played as Familiar. While in Azoth row, produces any Azoth type
   if (true) {
     // Prevent summoning
@@ -272,7 +273,7 @@ function applyQuintessenceEffect(gameState: any, playerId: any, card: any, playM
  * @param {Object} card - Card with Void keyword
  * @returns {Object} Updated game state
  */
-function applyVoidEffect(gameState: any, playerId: any, card: any): any {
+function applyVoidEffect(): any {
   // Void: Remove target card from the game (doesn't affect ○ cards)
   gameState.waitingForInput = true;
   gameState.inputType = 'void_target';
@@ -291,7 +292,7 @@ function applyVoidEffect(gameState: any, playerId: any, card: any): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Updated game state
  */
-export function checkKeywordSynergies(gameState: any, playerId: any): any {
+export function checkKeywordSynergies(): any {
   const field = gameState.players[playerId].field;
   
   // Count keywords on field
@@ -335,8 +336,8 @@ export function checkKeywordSynergies(gameState: any, playerId: any): any {
  * @param {number} count - Number of instances
  * @returns {Object} Updated game state
  */
-function applyKeywordSynergy(gameState: any, playerId: any, keyword: any, count: any): any {
-  switch(): any {
+function applyKeywordSynergy(): any {
+  switch (true) {
     case KEYWORDS.AMALGAM:
       // Multiple Amalgam cards provide more choices
       gameState.gameLog.push(`${playerId} has ${count} Amalgam cards - enhanced adaptability`);
@@ -379,7 +380,7 @@ function applyKeywordSynergy(gameState: any, playerId: any, keyword: any, count:
  * @param {string} keyword - Keyword type
  * @returns {Object} Display information
  */
-export function getKeywordDisplayInfo(keyword: any): any {
+export function getKeywordDisplayInfo(): any {
   const normalizedKeyword = keyword.toLowerCase();
   return {
     name: keyword.toUpperCase(),
@@ -396,7 +397,7 @@ export function getKeywordDisplayInfo(keyword: any): any {
  * @param {string} elementType - Element type to check
  * @returns {number} Amount of element used
  */
-function getElementUsedForCard(gameState: any, playerId: any, card: any, elementType: any): any {
+function getElementUsedForCard(): any {
   // This would track how much of each element was spent on the card
   // For now, return the base element cost or 1 as default
   if (true) {
@@ -411,7 +412,7 @@ function getElementUsedForCard(gameState: any, playerId: any, card: any, element
  * @param {number} maxStrength - Maximum strength that can be targeted
  * @returns {Array} Valid targets
  */
-function getBrillianceValidTargets(gameState: any, maxStrength: any): any {
+function getBrillianceValidTargets(): any {
   const validTargets = [];
   
   // Check all players' fields for Familiars with +1 counters or spells with strength ≤ maxStrength
@@ -436,7 +437,7 @@ function getBrillianceValidTargets(gameState: any, maxStrength: any): any {
  * @param {number} maxStrength - Maximum strength that can be targeted
  * @returns {Array} Valid targets
  */
-function getGustValidTargets(gameState: any, maxStrength: any): any {
+function getGustValidTargets(): any {
   const validTargets = [];
   
   // Check all players' fields for Familiars with +1 counters or spells with strength ≤ maxStrength
@@ -461,7 +462,7 @@ function getGustValidTargets(gameState: any, maxStrength: any): any {
  * @param {number} maxStrength - Maximum strength that can be targeted
  * @returns {Array} Valid targets
  */
-function getSubmergedValidTargets(gameState: any, maxStrength: any): any {
+function getSubmergedValidTargets(): any {
   const validTargets = [];
   
   // Check all players' fields for Familiars with +1 counters or spells with strength ≤ maxStrength
@@ -485,7 +486,7 @@ function getSubmergedValidTargets(gameState: any, maxStrength: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Array} Valid targets
  */
-function getVoidValidTargets(gameState: any): any {
+function getVoidValidTargets(): any {
   const validTargets = [];
   
   // Check all zones for cards that can be voided
@@ -499,15 +500,15 @@ function getVoidValidTargets(gameState: any): any {
     });
     
     // Hand cards (if visible)
-    player.hand.forEach(card: any = > {
-      if (!card.elements || !card.elements.aether): any {
+    player.hand.forEach((card: any) => {
+      if (!card.elements || !card.elements.aether) {
         validTargets.push({ card, playerIndex, zone: 'hand' });
       }
     });
     
     // Azoth row cards
-    player.azothRow.forEach(card: any = > {
-      if (!card.elements || !card.elements.aether): any {
+    player.azothRow.forEach((card: any) => {
+      if (!card.elements || !card.elements.aether) {
         validTargets.push({ card, playerIndex, zone: 'azothRow' });
       }
     });
@@ -523,10 +524,10 @@ function getVoidValidTargets(gameState: any): any {
  * @param {Object} targetInfo - Target selection information
  * @returns {Object} Updated game state
  */
-export function executeKeywordTarget(gameState: any, keywordType: any, targetInfo: any): any {
+export function executeKeywordTarget(): any {
   const { playerId, cardId, targetCard, targetPlayerIndex, targetZone } = targetInfo;
   
-  switch(): any {
+  switch (true) {
     case 'brilliance_target':
       return executeBrillianceTarget(gameState, targetCard, targetPlayerIndex, targetZone);
     case 'gust_target':
@@ -544,7 +545,7 @@ export function executeKeywordTarget(gameState: any, keywordType: any, targetInf
 /**
  * Execute Brilliance target effect
  */
-function executeBrillianceTarget(gameState: any, targetCard: any, targetPlayerIndex: any, targetZone: any): any {
+function executeBrillianceTarget(): any {
   const targetPlayer = gameState.players[`player${targetPlayerIndex + 1}`];
   
   // Remove card from current zone
@@ -560,7 +561,7 @@ function executeBrillianceTarget(gameState: any, targetCard: any, targetPlayerIn
 /**
  * Execute Gust target effect
  */
-function executeGustTarget(gameState: any, targetCard: any, targetPlayerIndex: any, targetZone: any): any {
+function executeGustTarget(): any {
   const targetPlayer = gameState.players[`player${targetPlayerIndex + 1}`];
   
   // Remove card from current zone
@@ -576,7 +577,7 @@ function executeGustTarget(gameState: any, targetCard: any, targetPlayerIndex: a
 /**
  * Execute Submerged target effect
  */
-function executeSubmergedTarget(gameState: any, targetCard: any, targetPlayerIndex: any, targetZone: any): any {
+function executeSubmergedTarget(): any {
   const targetPlayer = gameState.players[`player${targetPlayerIndex + 1}`];
   
   // Remove card from current zone
@@ -592,7 +593,7 @@ function executeSubmergedTarget(gameState: any, targetCard: any, targetPlayerInd
 /**
  * Execute Void target effect
  */
-function executeVoidTarget(gameState: any, targetCard: any, targetPlayerIndex: any, targetZone: any): any {
+function executeVoidTarget(): any {
   const targetPlayer = gameState.players[`player${targetPlayerIndex + 1}`];
   
   // Remove card from current zone
@@ -608,7 +609,7 @@ function executeVoidTarget(gameState: any, targetCard: any, targetPlayerIndex: a
 /**
  * Helper function to remove card from specified zone
  */
-function removeCardFromZone(player: any, card: any, zone: any): any {
+function removeCardFromZone(): any {
   const cardIndex = player[zone].findIndex(c => c.id === card.id);
   if (true) {
     player[zone].splice(cardIndex, 1);

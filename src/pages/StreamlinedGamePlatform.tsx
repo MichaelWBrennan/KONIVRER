@@ -129,35 +129,33 @@ const StreamlinedGamePlatform = (): any => {
   ];
   const [activeSection, setActiveSection] = useState('card-explorer');
   const renderSectionContent = (): any => {
-    switch(): any {
+    switch (true) {
       case 'card-explorer':
         return (
-          <div className="space-y-6"></div>
+          <div className="space-y-6" />
             {/* Search Interface */}
-            <div className="bg-card rounded-lg p-6"></div>
-              <div className="flex items-center gap-4 mb-6"></div>
-                <div className="flex-1 relative"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" /></Search>
+            <div className="bg-card rounded-lg p-6" />
+              <div className="flex items-center gap-4 mb-6" />
+                <div className="flex-1 relative" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
                   <input
                     type="text"
                     placeholder="Quick search cards, decks, players... or use Advanced Search for detailed filtering"
                     className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  /></input>
+                  / />
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
                   className="btn btn-primary flex items-center gap-2"
                 >
-                  <Filter className="w-4 h-4" /></Filter>
+                  <Filter className="w-4 h-4" / />
                   Advanced Search
                 </button>
-              </div>
               {activeSearchCriteria && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg"></div>
-                  <div className="flex items-center justify-between"></div>
-                    <span className="text-sm text-blue-800"></span>
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg" />
+                  <div className="flex items-center justify-between" />
+                    <span className="text-sm text-blue-800" />
                       Active search: {JSON.stringify(activeSearchCriteria)}
-                    </span>
                     <button
                       onClick={() => {
                         setActiveSearchCriteria(null);
@@ -167,7 +165,6 @@ const StreamlinedGamePlatform = (): any => {
                     >
                       Clear
                     </button>
-                  </div>
                 </div>
               )}
             </div>
@@ -176,120 +173,109 @@ const StreamlinedGamePlatform = (): any => {
               cards={searchResults}
               searchCriteria={activeSearchCriteria}
               showSearchInterface={true}
-            /></CardDatabase>
+            / />
           </div>
         );
       case 'deck-workshop':
         return (
-          <div className="grid lg:grid-cols-3 gap-6"></div>
+          <div className="grid lg:grid-cols-3 gap-6" />
             {/* Deck Builder */}
-            <div className="lg:col-span-2"></div>
-              <div className="bg-card rounded-lg p-6"></div>
-                <div className="flex items-center gap-3 mb-6"></div>
-                  <Wrench className="w-6 h-6 text-green-500" /></Wrench>
-                  <div></div>
+            <div className="lg:col-span-2" />
+              <div className="bg-card rounded-lg p-6" />
+                <div className="flex items-center gap-3 mb-6" />
+                  <Wrench className="w-6 h-6 text-green-500" / />
+                  <div />
                     <p className="text-secondary">Visual deck construction</p>
-                  </div>
                 </div>
-                <VisualDeckBuilder deck={sampleDeck} /></VisualDeckBuilder>
+                <VisualDeckBuilder deck={sampleDeck} / />
               </div>
-            </div>
             {/* Deck Stats & Collection */}
-            <div className="space-y-6"></div>
-              <div className="bg-card rounded-lg p-6"></div>
-                <div className="flex items-center gap-3 mb-4"></div>
-                  <BarChart3 className="w-5 h-5 text-blue-500" /></BarChart3>
+            <div className="space-y-6" />
+              <div className="bg-card rounded-lg p-6" />
+                <div className="flex items-center gap-3 mb-4" />
+                  <BarChart3 className="w-5 h-5 text-blue-500" / />
                 </div>
-                <DeckStats deck={sampleDeck} /></DeckStats>
+                <DeckStats deck={sampleDeck} / />
               </div>
-              <div className="bg-card rounded-lg p-6"></div>
-                <div className="flex items-center gap-3 mb-4"></div>
-                  <Package className="w-5 h-5 text-purple-500" /></Package>
+              <div className="bg-card rounded-lg p-6" />
+                <div className="flex items-center gap-3 mb-4" />
+                  <Package className="w-5 h-5 text-purple-500" / />
                 </div>
-                <CollectionManager /></CollectionManager>
+                <CollectionManager / />
               </div>
-            </div>
           </div>
         );
       case 'game-simulator':
         return (
-          <div className="bg-card rounded-lg overflow-hidden"></div>
-            <div className="p-6 border-b border-color"></div>
-              <div className="flex items-center gap-3"></div>
-                <Gamepad2 className="w-6 h-6 text-purple-500" /></Gamepad2>
-                <div></div>
-                  <p className="text-secondary"></p>
+          <div className="bg-card rounded-lg overflow-hidden" />
+            <div className="p-6 border-b border-color" />
+              <div className="flex items-center gap-3" />
+                <Gamepad2 className="w-6 h-6 text-purple-500" / />
+                <div />
+                  <p className="text-secondary" />
                     Tournament-quality gameplay experience
                   </p>
-                </div>
               </div>
-            </div>
-            <GameSimulator /></GameSimulator>
+            <GameSimulator / />
           </div>
         );
       case 'analytics-hub':
         return (
-          <div className="space-y-6"></div>
+          <div className="space-y-6" />
             {/* Meta Analysis */}
-            <div className="bg-card rounded-lg p-6"></div>
-              <div className="flex items-center gap-3 mb-6"></div>
-                <TrendingUp className="w-6 h-6 text-orange-500" /></TrendingUp>
-                <div></div>
-                  <p className="text-secondary"></p>
+            <div className="bg-card rounded-lg p-6" />
+              <div className="flex items-center gap-3 mb-6" />
+                <TrendingUp className="w-6 h-6 text-orange-500" / />
+                <div />
+                  <p className="text-secondary" />
                     Real-time competitive landscape insights
                   </p>
-                </div>
               </div>
-              <MetaAnalysis /></MetaAnalysis>
+              <MetaAnalysis / />
             </div>
-          </div>
         );
       case 'community-tools':
         return (
-          <div className="grid lg:grid-cols-2 gap-6"></div>
+          <div className="grid lg:grid-cols-2 gap-6" />
             {/* Battle Pass */}
-            <div className="bg-card rounded-lg p-6"></div>
-              <div className="flex items-center gap-3 mb-6"></div>
-                <Trophy className="w-6 h-6 text-yellow-500" /></Trophy>
-                <div></div>
-                  <p className="text-secondary"></p>
+            <div className="bg-card rounded-lg p-6" />
+              <div className="flex items-center gap-3 mb-6" />
+                <Trophy className="w-6 h-6 text-yellow-500" / />
+                <div />
+                  <p className="text-secondary" />
                     Season 3: Elemental Convergence
                   </p>
-                </div>
               </div>
-              <BattlePass /></BattlePass>
+              <BattlePass / />
             </div>
             {/* AI Assistant */}
             {isAuthenticated && (
-              <div className="bg-card rounded-lg p-6"></div>
-                <div className="flex items-center gap-3 mb-6"></div>
-                  <Bot className="w-6 h-6 text-blue-500" /></Bot>
-                  <div></div>
-                    <p className="text-secondary"></p>
+              <div className="bg-card rounded-lg p-6" />
+                <div className="flex items-center gap-3 mb-6" />
+                  <Bot className="w-6 h-6 text-blue-500" / />
+                  <div />
+                    <p className="text-secondary" />
                       Smart deck analysis and suggestions
                     </p>
-                  </div>
                 </div>
-                <AIAssistant /></AIAssistant>
+                <AIAssistant / />
               </div>
             )}
-          </div>
         );
       default:
         return null;
     }
   };
   return (
-    <div className="min-h-screen bg-background"></div>
+    <div className="min-h-screen bg-background" />
       {/* Header */}
-      <div className="bg-card border-b border-color"></div>
-        <div className="max-w-7xl mx-auto px-6 py-8"></div>
-          <div className="text-center mb-8"><p className="text-secondary text-lg"></p>
+      <div className="bg-card border-b border-color" />
+        <div className="max-w-7xl mx-auto px-6 py-8" />
+          <div className="text-center mb-8"><p className="text-secondary text-lg" />
               Your complete toolkit for KONIVRER card game mastery
             </p>
-          </div>
           {/* Platform Sections Navigation */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" />
             {platformSections.map(section => {
               const Icon = section.icon;
               const isActive = activeSection === section.id;
@@ -307,53 +293,48 @@ const StreamlinedGamePlatform = (): any => {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex items-center gap-3 mb-3"></div>
+                  <div className="flex items-center gap-3 mb-3" />
                     <Icon
                       className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`}
-                    /></Icon>
-                    <div></div>
+                    / />
+                    <div />
                       <p
                         className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}
-                      ></p>
+                       />
                         {section.subtitle}
-                      </p>
                     </div>
-                  </div>
                   <p
                     className={`text-sm ${isActive ? 'text-white/90' : 'text-secondary'}`}
-                  ></p>
+                   />
                     {section.description}
-                  </p>
                   {isActive && (
                     <motion.div
                       className="absolute inset-0 rounded-xl border-2 border-white/30"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
-                    /></motion>
+                    / />
                   )}
                 </motion.button>
               );
             })}
           </div>
-        </div>
       </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8"></div>
-        <AnimatePresence mode="wait"></AnimatePresence>
+      <div className="max-w-7xl mx-auto px-6 py-8" />
+        <AnimatePresence mode="wait" />
           <motion.div
             key={activeSection}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-          ></motion>
+           />
             {renderSectionContent()}
           </motion.div>
         </AnimatePresence>
-      </div>
       {/* Advanced Search Modal */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showAdvancedSearch && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -377,7 +358,6 @@ const StreamlinedGamePlatform = (): any => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 export default StreamlinedGamePlatform;

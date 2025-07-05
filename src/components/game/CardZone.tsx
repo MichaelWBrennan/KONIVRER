@@ -81,7 +81,7 @@ const CardZone: React.FC<CardZoneProps> = ({
     // Adjust spacing for mobile
     const mobileScaleFactor = isMobile ? 0.8 : 1;
 
-    switch(): any {
+    switch (true) {
       case 'fan':
         // Fan layout (for hand) - KONIVRER Arena style
         const fanAngle = Math.min(4, 25 / totalCards);
@@ -134,7 +134,7 @@ const CardZone: React.FC<CardZoneProps> = ({
 
   // Get zone-specific styling
   const getZoneStyle = (): any => {
-    switch(): any {
+    switch (true) {
       case 'hand':
         return 'bg-black/10 backdrop-blur-sm rounded-xl p-2';
       case 'field':
@@ -148,7 +148,7 @@ const CardZone: React.FC<CardZoneProps> = ({
 
   // Get animation for card entering the zone
   const getEnterAnimation = (): any => {
-    switch(): any {
+    switch (true) {
       case 'hand':
         return {
           initial: { scale: 0.8, opacity: 0, y: 50 },
@@ -191,14 +191,14 @@ const CardZone: React.FC<CardZoneProps> = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {cards.slice(0, maxCards).map((card, index) => (
           <motion.div
             key={card.id}
             className="absolute"
             style={getCardStyles(index)}
             {...getEnterAnimation()}
-          ></motion>
+           />
             <GameCard
               card={card}
               faceDown={faceDown}
@@ -221,7 +221,7 @@ const CardZone: React.FC<CardZoneProps> = ({
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.3 }}
-        ></motion>
+         />
           +{cards.length - maxCards}
         </motion.div>
       )}
@@ -232,7 +232,7 @@ const CardZone: React.FC<CardZoneProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ delay: 0.5 }}
-        ></motion>
+         />
           {zone === 'hand' && 'Hand'}
           {zone === 'field' && 'Battlefield'}
           {zone === 'azothRow' && 'Azoth'}

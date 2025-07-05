@@ -826,9 +826,9 @@ class UnifiedService {
    * @returns {Array} Filtered cards
    */
   filterCards(cards: any, query: any, filters: any): any {
-    return cards.filter(card: any = > {
+    return cards.filter((card: any) => {
       // Filter by query
-      if (query): any {
+      if (query) {
         const lowerQuery = query.toLowerCase();
         const nameMatch = card.name.toLowerCase().includes(lowerQuery);
         const textMatch = card.text && card.text.toLowerCase().includes(lowerQuery);
@@ -898,7 +898,7 @@ class UnifiedService {
     sortedCards.sort((a, b) => {
       let comparison = 0;
       
-      switch(): any {
+      switch (true) {
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
@@ -931,9 +931,9 @@ class UnifiedService {
    * @returns {Array} Filtered decks
    */
   filterDecks(decks: any, query: any, filters: any): any {
-    return decks.filter(deck: any = > {
+    return decks.filter((deck: any) => {
       // Filter by query
-      if (query): any {
+      if (query) {
         const lowerQuery = query.toLowerCase();
         if (!deck.name.toLowerCase().includes(lowerQuery)) {
           return false;
@@ -968,7 +968,7 @@ class UnifiedService {
     sortedDecks.sort((a, b) => {
       let comparison = 0;
       
-      switch(): any {
+      switch (true) {
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
@@ -1031,8 +1031,8 @@ class UnifiedService {
    * @param {Object} serverHistory - Search history from server
    */
   mergeSearchHistory(serverHistory: any): any {
-    Object.keys(serverHistory).forEach(type: any = > {
-      if (!this.searchHistory[type]): any {
+    Object.keys(serverHistory).forEach((type: any) => {
+      if (!this.searchHistory[type]) {
         this.searchHistory[type] = [];
       }
       

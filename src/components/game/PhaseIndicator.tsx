@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -14,23 +15,20 @@ import { Sunrise, Sun, Swords, Moon, ArrowRight } from 'lucide-react';
 const PhaseIndicator = ({
   playerName,
   opponentName,
-}): any => {
-  // In simultaneous mode, there are no phases and both players are active
+}): any => {// In simultaneous mode, there are no phases and both players are active
   
   // Get turn number (simulated)
   const turnNumber = Math.floor(Math.random() * 10) + 1; // This would normally come from game state
 
   return (
-    <div className="flex flex-col items-center"></div>
-      <div className="text-white text-xs mb-1 font-medium flex items-center"></div>
-        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full mr-2"></span>
+    <div className="flex flex-col items-center" />
+      <div className="text-white text-xs mb-1 font-medium flex items-center" />
+        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full mr-2" />
           Turn {turnNumber}
-        </span>
         <span className="text-white">Simultaneous Play</span>
-      </div>
 
       {/* Simultaneous mode indicator */}
-      <div className="flex items-center bg-black/40 backdrop-blur-sm rounded-full p-2 shadow-lg"></div>
+      <div className="flex items-center bg-black/40 backdrop-blur-sm rounded-full p-2 shadow-lg" />
         <motion.div
           animate={{
             scale: [1, 1.05, 1],
@@ -38,11 +36,10 @@ const PhaseIndicator = ({
           }}
           transition={{ duration: 2, repeat: Infinity }}
           className="bg-gradient-to-br from-purple-500 to-blue-600 px-3 py-0 whitespace-nowrap rounded-full text-white text-sm font-medium"
-        ></motion>
+         />
           Free Play Mode - Play Any Card Anytime
         </motion.div>
       </div>
-    </div>
   );
 };
 

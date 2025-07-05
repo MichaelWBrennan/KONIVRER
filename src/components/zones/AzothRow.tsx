@@ -9,9 +9,9 @@ interface AzothRowProps {
 
 const AzothRow: React.FC<AzothRowProps> = ({  azothCards  }) => {
   return (
-    <div className="azoth-row"></div>
+    <div className="azoth-row" />
       <div className="zone-label">AZOTH ROW</div>
-      <div className="cards-container"></div>
+      <div className="cards-container" />
         {azothCards.length === 0 ? (
           <div className="empty-zone">No Azoth</div>
         ) : (
@@ -20,16 +20,14 @@ const AzothRow: React.FC<AzothRowProps> = ({  azothCards  }) => {
               key={card.id} 
               className={`azoth-card ${card.rested ? 'rested' : ''}`}
               title={`${card.name} - ${card.elementType} Azoth`}
-            ></div>
-              <Card card={card} location="azoth" /></Card>
-              <div className="element-indicator"></div>
+             />
+              <Card card={card} location="azoth" / />
+              <div className="element-indicator" />
                 {ELEMENT_SYMBOLS[card.elementType]}
-              </div>
             </div>
           ))
         )}
       </div>
-    </div>
   );
 };
 

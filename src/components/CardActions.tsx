@@ -25,8 +25,8 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
     const azothCards = gameState.players[currentPlayer].azothRow || [];
     
     // Count available Azoth by element type
-    azothCards.forEach(card: any = > {
-      if (!card.rested): any {
+    azothCards.forEach((card: any) => {
+      if (!card.rested) {
         const elementType = card.elementType || 'generic';
         availableAzoth[elementType] = (availableAzoth[elementType] || 0) + 1;
       }
@@ -125,7 +125,7 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
   };
   
   return (
-    <div className="card-actions-modal"></div>
+    <div className="card-actions-modal" />
       {showAzothSelector ? (
         <AzothSelector 
           availableAzoth={availableAzoth}
@@ -140,13 +140,13 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
           onCancel={() => setShowTributeSelector(false)}
         />
       ) : (
-        <div className="card-actions-content"></div>
-          <h3>Play {card.name}</h3>
+        <div className="card-actions-content" />
+          <h3>Play {card.name}
           
           {!selectedAction ? (
-            <div className="action-selection"></div>
+            <div className="action-selection" />
               <h4>Select Action:</h4>
-              <div className="action-buttons"></div>
+              <div className="action-buttons" />
                 {availableActions.map(action => (
                   action.available && (
                     <button 
@@ -155,15 +155,13 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                       onClick={() => handleActionSelect(action.id)}
                     >
                       {action.label}
-                    </button>
                   )
                 ))}
               </div>
-            </div>
           ) : selectedAction === 'azoth' && !selectedElement ? (
-            <div className="element-selection"></div>
+            <div className="element-selection" />
               <h4>Select Element Type:</h4>
-              <div className="element-buttons"></div>
+              <div className="element-buttons" />
                 {Object.values(ELEMENTS).map(element => (
                   <button 
                     key={element}
@@ -171,14 +169,12 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                     onClick={() => handleElementSelect(element)}
                   >
                     {element}
-                  </button>
                 ))}
               </div>
-            </div>
           ) : selectedAction === 'spell' && card.abilities && card.abilities.length > 1 ? (
-            <div className="ability-selection"></div>
+            <div className="ability-selection" />
               <h4>Select Ability:</h4>
-              <div className="ability-options"></div>
+              <div className="ability-options" />
                 {card.abilities.map((ability, index) => (
                   <div 
                     key={index}
@@ -186,32 +182,28 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                     onClick={() => handleAbilitySelect(index)}
                   >
                     {ability.effect}
-                  </div>
                 ))}
               </div>
-              <button className="next-button" onClick={handleConfirm}></button>
+              <button className="next-button" onClick={handleConfirm} />
                 Next
               </button>
-            </div>
           ) : (
-            <div className="confirmation"></div>
+            <div className="confirmation" />
               <h4>Confirm Action:</h4>
-              <p></p>
+              <p />
                 {selectedAction === 'summon' && `Summon ${card.name} as a Familiar`}
                 {selectedAction === 'tribute' && `Play ${card.name} with Tribute (${tributeCount} card${tributeCount !== 1 ? 's' : ''})`}
                 {selectedAction === 'azoth' && `Place ${card.name} as ${selectedElement} Azoth`}
                 {selectedAction === 'spell' && `Cast ${card.name} as a Spell`}
                 {selectedAction === 'burst' && `Play ${card.name} as a Burst`}
               </p>
-              <button className="confirm-button" onClick={handleConfirm}></button>
+              <button className="confirm-button" onClick={handleConfirm} />
                 Confirm
               </button>
-            </div>
           )}
-          <button className="close-button" onClick={onClose}></button>
+          <button className="close-button" onClick={onClose} />
             Cancel
           </button>
-        </div>
       )}
     </div>
   );

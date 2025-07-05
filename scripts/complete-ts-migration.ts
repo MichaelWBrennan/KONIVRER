@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Enhanced TypeScript migration with proper type definitions
-function createTypeDefinitions() {
+function createTypeDefinitions(): void {
   const typesDir = path.join(__dirname, '..', 'src', 'types');
   
   // Ensure types directory exists
@@ -171,7 +171,7 @@ export {};`
 }
 
 // Create modern React components with proper TypeScript
-function createModernComponents() {
+function createModernComponents(): void {
   const componentsDir = path.join(__dirname, '..', 'src', 'components');
   
   // Create a modern Layout component
@@ -200,14 +200,11 @@ const Layout: React.FC<LayoutProps> = ({
                 <a href="/cards" className="hover:text-blue-400 transition-colors">Cards</a>
                 <a href="/decks" className="hover:text-blue-400 transition-colors">Decks</a>
                 <a href="/tournaments" className="hover:text-blue-400 transition-colors">Tournaments</a>
-              </div>
             </div>
-          </div>
         </nav>
       )}
       <main>
         {children || <Outlet />}
-      </main>
     </div>
   );
 };
@@ -240,22 +237,19 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error('Error caught by boundary:', error, errorInfo);
   }
 
-  render() {
-    if (this.state.hasError) {
+  render() {if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
             <p className="text-gray-300 mb-4">
               {this.state.error?.message || 'An unexpected error occurred'}
-            </p>
             <button
               onClick={() => window.location.reload()}
               className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors"
             >
               Reload Page
             </button>
-          </div>
         </div>
       );
     }
@@ -278,7 +272,7 @@ export class ErrorBoundary extends Component<Props, State> {
 }
 
 // Update package.json with TypeScript optimizations
-function updatePackageJson() {
+function updatePackageJson(): void {
   const packageJsonPath = path.join(__dirname, '..', 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
@@ -310,7 +304,7 @@ function updatePackageJson() {
 }
 
 // Create modern tsconfig with strict settings
-function updateTsConfig() {
+function updateTsConfig(): void {
   const tsconfigPath = path.join(__dirname, '..', 'tsconfig.json');
   
   const modernTsConfig = {
@@ -373,7 +367,7 @@ function updateTsConfig() {
 }
 
 // Main migration function
-async function runCompleteMigration() {
+async function runCompleteMigration(): void {
   console.log('🚀 Starting complete TypeScript migration...\n');
 
   try {

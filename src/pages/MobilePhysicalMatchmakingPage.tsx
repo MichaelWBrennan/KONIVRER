@@ -37,33 +37,32 @@ const MobilePhysicalMatchmakingPage = (): any => {
   // Show loading state while checking authentication
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg"></div>
-        <div className="mobile-loading"></div>
-          <div className="mobile-spinner esoteric-spinner"></div>
+      <div className="mobile-container esoteric-bg" />
+        <div className="mobile-loading" />
+          <div className="mobile-spinner esoteric-spinner" />
           <p className="esoteric-text-muted">Loading...</p>
-        </div>
       </div>
     );
   }
   // If not authenticated, show auth notification
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg"></div>
+      <div className="mobile-container esoteric-bg" />
         <MobileAuthNotification
           title="Physical Matchmaking"
           message="You need to be logged in to access the Physical Matchmaking features."
           redirectPath="/physical-matchmaking"
-        /></MobileAuthNotification>
+        / />
       </div>
     );
   }
   // If authenticated, show the physical matchmaking app
   return (
-    <div className="mobile-container esoteric-bg"></div>
+    <div className="mobile-container esoteric-bg" />
       {/* Error message display */}
       {error && (
-        <div className="mobile-error-banner esoteric-error-message"></div>
-          <p>{error}</p>
+        <div className="mobile-error-banner esoteric-error-message" />
+          <p>{error}
           <button
             onClick={() => setError(null)}
             className="mobile-btn-close esoteric-btn-close"
@@ -71,16 +70,13 @@ const MobilePhysicalMatchmakingPage = (): any => {
           >
             ✕
           </button>
-        </div>
       )}
-      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted"></p>
+      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted" />
           Organize physical matches and tournaments
         </p>
-      </div>
-      <ErrorBoundary onError={handleError}></ErrorBoundary>
-        <PhysicalMatchmakingApp /></PhysicalMatchmakingApp>
+      <ErrorBoundary onError={handleError} />
+        <PhysicalMatchmakingApp / />
       </ErrorBoundary>
-    </div>
   );
 };
 export default MobilePhysicalMatchmakingPage;

@@ -126,7 +126,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({  children  
   };
 
   return (
-    <NotificationContext.Provider value={value}></NotificationContext>
+    <NotificationContext.Provider value={value} />
       {children}
     </NotificationContext.Provider>
   );

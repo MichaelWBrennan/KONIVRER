@@ -28,7 +28,7 @@ function generateCardId(): any {
  * @param {string} setNumber - Card set number
  * @returns {Object} Familiar card object
  */
-export function createFamiliar(name: any, elements: any, baseStrength: any, baseHealth: any, abilities: any, flavorText: any, set: any, rarity: any, setNumber: any): any {
+export function createFamiliar(): any {
   return {
     id: generateCardId(),
     name,
@@ -60,7 +60,7 @@ export function createFamiliar(name: any, elements: any, baseStrength: any, base
  * @param {string} setNumber - Card set number
  * @returns {Object} Spell card object
  */
-export function createSpell(name: any, elements: any, abilities: any, flavorText: any, set: any, rarity: any, setNumber: any): any {
+export function createSpell(): any {
   return {
     id: generateCardId(),
     name,
@@ -87,7 +87,7 @@ export function createSpell(name: any, elements: any, abilities: any, flavorText
  * @param {string} setNumber - Card set number
  * @returns {Object} Flag card object
  */
-export function createFlag(name: any, elements: any, primaryElement: any, strongAgainst: any, abilities: any, flavorText: any, set: any, rarity: any, setNumber: any): any {
+export function createFlag(): any {
   return {
     id: generateCardId(),
     name,
@@ -104,7 +104,7 @@ export function createFlag(name: any, elements: any, primaryElement: any, strong
 }
 
 // Convert cards from JSON to game engine format
-function convertJsonCardToGameCard(jsonCard: any): any {
+function convertJsonCardToGameCard(): any {
   // Map element names to engine element constants (keywords are NOT elements)
   const elementMap = {
     'Fire': ELEMENTS.FIRE,

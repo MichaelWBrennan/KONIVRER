@@ -158,7 +158,7 @@ const Home = (): any => {
   });
 
   const sortedPosts = [...filteredPosts].sort((a, b) => {
-    switch(): any {
+    switch (true) {
       case 'recent':
         return new Date(b.date) - new Date(a.date);
       case 'popular':
@@ -229,68 +229,64 @@ const Home = (): any => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white"></div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white" />
       {/* Top Navigation Bar */}
-      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4"></header>
-        <div className="container mx-auto flex justify-between items-center"></div>
+      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4" />
+        <div className="container mx-auto flex justify-between items-center" />
           {/* Logo and Title */}
-          <div className="flex items-center"></div>
-            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"></div>
+          <div className="flex items-center" />
+            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent" />
               KONIVRER
             </div>
-          </div>
           
           {/* Player Info */}
-          <div className="flex items-center space-x-6"></div>
+          <div className="flex items-center space-x-6" />
             {/* Currency */}
-            <div className="flex items-center space-x-4"></div>
-              <div className="flex items-center"></div>
-                <div className="w-5 h-5 rounded-full bg-yellow-500 mr-2"></div>
-                <span>{playerGold.toLocaleString()}</span>
+            <div className="flex items-center space-x-4" />
+              <div className="flex items-center" />
+                <div className="w-5 h-5 rounded-full bg-yellow-500 mr-2" />
+                <span>{playerGold.toLocaleString()}
               </div>
-              <div className="flex items-center"></div>
-                <div className="w-5 h-5 rounded-full bg-purple-500 mr-2"></div>
-                <span>{playerGems.toLocaleString()}</span>
+              <div className="flex items-center" />
+                <div className="w-5 h-5 rounded-full bg-purple-500 mr-2" />
+                <span>{playerGems.toLocaleString()}
               </div>
-            </div>
             
             {/* Wildcards */}
-            <div className="hidden md:flex items-center space-x-2"></div>
-              <div className="flex items-center"></div>
-                <div className="w-4 h-4 rounded-full bg-gray-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.common}</span>
+            <div className="hidden md:flex items-center space-x-2" />
+              <div className="flex items-center" />
+                <div className="w-4 h-4 rounded-full bg-gray-400 mr-1" />
+                <span className="text-sm">{playerWildcards.common}
               </div>
-              <div className="flex items-center"></div>
-                <div className="w-4 h-4 rounded-full bg-blue-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.uncommon}</span>
+              <div className="flex items-center" />
+                <div className="w-4 h-4 rounded-full bg-blue-400 mr-1" />
+                <span className="text-sm">{playerWildcards.uncommon}
               </div>
-              <div className="flex items-center"></div>
-                <div className="w-4 h-4 rounded-full bg-yellow-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.rare}</span>
+              <div className="flex items-center" />
+                <div className="w-4 h-4 rounded-full bg-yellow-400 mr-1" />
+                <span className="text-sm">{playerWildcards.rare}
               </div>
-              <div className="flex items-center"></div>
-                <div className="w-4 h-4 rounded-full bg-orange-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.mythic}</span>
+              <div className="flex items-center" />
+                <div className="w-4 h-4 rounded-full bg-orange-400 mr-1" />
+                <span className="text-sm">{playerWildcards.mythic}
               </div>
-            </div>
             
             {/* Notifications */}
-            <button className="relative p-2 rounded-full hover:bg-gray-700"></button>
-              <Bell size={20} /></Bell>
+            <button className="relative p-2 rounded-full hover:bg-gray-700" />
+              <Bell size={20} / />
               {notifications > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center"></span>
+                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center" />
                   {notifications}
-                </span>
               )}
             </button>
             
             {/* Profile */}
-            <div className="flex items-center"></div>
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2"></div>
-                <User size={16} /></User>
+            <div className="flex items-center" />
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2" />
+                <User size={16} / />
               </div>
-              <span className="hidden md:inline">{playerName}</span>
-              <span className="ml-2 text-xs text-gray-400">Lvl {playerLevel}</span>
+              <span className="hidden md:inline">{playerName}
+              <span className="ml-2 text-xs text-gray-400">Lvl {playerLevel}
             </div>
             
             {/* Menu Button */}
@@ -300,89 +296,77 @@ const Home = (): any => {
             >
               {showMenu ? <X size={20} /> : <Menu size={20} />}
             </button>
-          </div>
         </div>
-      </header>
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6"></div>
+      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6" />
         {/* Left Navigation */}
-        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit"></div>
-          <nav className="space-y-2"></nav>
-            <Link to="/play" className="flex items-center space-x-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"></Link>
-              <Play size={20} /></Play>
+        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit" />
+          <nav className="space-y-2" />
+            <Link to="/play" className="flex items-center space-x-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors" />
+              <Play size={20} / />
               <span className="font-medium">Play</span>
-            </Link>
             
-            <div className="h-px bg-gray-700 my-3"></div>
+            <div className="h-px bg-gray-700 my-3" />
             
-            <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <Package size={20} /></Package>
+            <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <Package size={20} / />
               <span>Cards</span>
-            </Link>
             
-            <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <Shield size={20} /></Shield>
+            <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <Shield size={20} / />
               <span>Decks</span>
-            </Link>
             
-            <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <Calendar size={20} /></Calendar>
+            <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <Calendar size={20} / />
               <span>Events</span>
-            </Link>
             
-            <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <DollarSign size={20} /></DollarSign>
+            <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <DollarSign size={20} / />
               <span>Store</span>
-            </Link>
             
-            <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <User size={20} /></User>
+            <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <User size={20} / />
               <span>Profile</span>
-            </Link>
             
-            <div className="h-px bg-gray-700 my-3"></div>
+            <div className="h-px bg-gray-700 my-3" />
             
-            <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-              <Settings size={20} /></Settings>
+            <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+              <Settings size={20} / />
               <span>Settings</span>
-            </Link>
           </nav>
           
           {/* Daily Quests */}
-          <div className="mt-6"></div>
+          <div className="mt-6" />
             <h3 className="text-lg font-medium mb-3">Daily Quests</h3>
-            <div className="space-y-3"></div>
+            <div className="space-y-3" />
               {dailyQuests.map(quest => (
-                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3"></div>
-                  <div className="flex justify-between items-start mb-2"></div>
-                    <p className="text-sm">{quest.description}</p>
-                    <div className="flex items-center"></div>
-                      <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1"></div>
-                      <span className="text-sm">{quest.reward.gold}</span>
+                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3" />
+                  <div className="flex justify-between items-start mb-2" />
+                    <p className="text-sm">{quest.description}
+                    <div className="flex items-center" />
+                      <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1" />
+                      <span className="text-sm">{quest.reward.gold}
                     </div>
-                  </div>
-                  <div className="w-full bg-gray-600 rounded-full h-2"></div>
+                  <div className="w-full bg-gray-600 rounded-full h-2" />
                     <div 
                       className="bg-blue-500 h-2 rounded-full" 
                       style={{ width: `${(quest.progress / quest.total) * 100}%` }}
-                    ></div>
+                     />
                   </div>
-                  <div className="text-xs text-gray-400 mt-1 text-right"></div>
+                  <div className="text-xs text-gray-400 mt-1 text-right" />
                     {quest.progress}/{quest.total}
-                  </div>
                 </div>
               ))}
             </div>
-          </div>
         </div>
         
         {/* Main Content Area */}
-        <div className="flex-1"></div>
+        <div className="flex-1" />
           {/* Blog Search and Filters */}
-          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
-            <div className="relative mb-4"></div>
-              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" /></Search>
+          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6" />
+            <div className="relative mb-4" />
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" / />
               <input
                 type="text"
                 placeholder="Search blog posts..."
@@ -392,7 +376,7 @@ const Home = (): any => {
               />
             </div>
             
-            <div className="flex flex-wrap gap-2 mb-2"></div>
+            <div className="flex flex-wrap gap-2 mb-2" />
               {categories.map(category => (
                 <button
                   key={category.id}
@@ -403,17 +387,17 @@ const Home = (): any => {
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  <span>{category.name}</span>
+                  <span>{category.name}
                 </button>
               ))}
             </div>
             
-            <div className="flex justify-between items-center"></div>
-              <div className="text-sm text-gray-400"></div>
+            <div className="flex justify-between items-center" />
+              <div className="text-sm text-gray-400" />
                 Showing {filteredPosts.length} of {blogPosts.length} posts
               </div>
               
-              <div className="flex items-center space-x-3"></div>
+              <div className="flex items-center space-x-3" />
                 <select
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
@@ -423,45 +407,42 @@ const Home = (): any => {
                   <option value="popular">Most Popular</option>
                   <option value="likes">Most Liked</option>
                   <option value="comments">Most Discussed</option>
-                </select>
                 
-                <div className="flex items-center bg-gray-700 rounded-lg p-1"></div>
+                <div className="flex items-center bg-gray-700 rounded-lg p-1" />
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-1 rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                   >
-                    <Grid size={16} /></Grid>
+                    <Grid size={16} / />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
                     className={`p-1 rounded ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                   >
-                    <List size={16} /></List>
+                    <List size={16} / />
                   </button>
-                </div>
               </div>
-            </div>
           </div>
           
           {/* Blog Posts */}
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'}></div>
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'} />
             {sortedPosts.map((post, index) => (
               <div
                 key={post.id}
                 className={`bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group ${
                   post.featured ? 'ring-2 ring-blue-500/30' : ''
                 } ${viewMode === 'list' ? 'flex' : ''}`}
-              ></div>
+               />
                 {/* Featured Image */}
-                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`}></div>
+                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`} />
                   <img
                     src={post.image}
                     alt={post.title}
                     className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
                       viewMode === 'list' ? 'h-full' : 'h-48'
                     }`}
-                  /></img>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /></div>
+                  / />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" / />
                   {/* Type Badge */}
                   <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${
                     post.category === 'releases' ? 'bg-blue-600' :
@@ -470,155 +451,138 @@ const Home = (): any => {
                     post.category === 'rules' ? 'bg-red-600' :
                     post.category === 'guides' ? 'bg-yellow-600' :
                     post.category === 'lore' ? 'bg-indigo-600' : 'bg-gray-600'
-                  }`}></div>
+                  }`} />
                     {post.type}
-                  </div>
                 </div>
                 
                 {/* Content */}
-                <div className="p-4 flex-1"></div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors"></h3>
+                <div className="p-4 flex-1" />
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors" />
                     {post.title}
-                  </h3>
                   
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-2"></p>
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2" />
                     {post.excerpt}
-                  </p>
                   
-                  <div className="flex items-center mb-3"></div>
-                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden"></div>
-                      <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" /></img>
+                  <div className="flex items-center mb-3" />
+                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden" />
+                      <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" / />
                     </div>
-                    <div></div>
-                      <div className="text-sm font-medium">{post.author.name}</div>
-                      <div className="text-xs text-gray-400">{post.author.role}</div>
+                    <div />
+                      <div className="text-sm font-medium">{post.author.name}
+                      <div className="text-xs text-gray-400">{post.author.role}
                     </div>
-                  </div>
                   
-                  <div className="flex justify-between items-center text-xs text-gray-400"></div>
-                    <div className="flex items-center space-x-3"></div>
-                      <div className="flex items-center"></div>
-                        <CalendarIcon size={12} className="mr-1" /></CalendarIcon>
-                        <span>{formatDate(post.date)}</span>
+                  <div className="flex justify-between items-center text-xs text-gray-400" />
+                    <div className="flex items-center space-x-3" />
+                      <div className="flex items-center" />
+                        <CalendarIcon size={12} className="mr-1" / />
+                        <span>{formatDate(post.date)}
                       </div>
-                      <div className="flex items-center"></div>
-                        <Clock size={12} className="mr-1" /></Clock>
-                        <span>{post.readTime}</span>
+                      <div className="flex items-center" />
+                        <Clock size={12} className="mr-1" / />
+                        <span>{post.readTime}
                       </div>
-                    </div>
                     
-                    <div className="flex items-center space-x-3"></div>
-                      <div className="flex items-center"></div>
-                        <Eye size={12} className="mr-1" /></Eye>
-                        <span>{post.views.toLocaleString()}</span>
+                    <div className="flex items-center space-x-3" />
+                      <div className="flex items-center" />
+                        <Eye size={12} className="mr-1" / />
+                        <span>{post.views.toLocaleString()}
                       </div>
-                      <div className="flex items-center"></div>
-                        <Heart size={12} className="mr-1" /></Heart>
-                        <span>{post.likes.toLocaleString()}</span>
+                      <div className="flex items-center" />
+                        <Heart size={12} className="mr-1" / />
+                        <span>{post.likes.toLocaleString()}
                       </div>
-                      <div className="flex items-center"></div>
-                        <MessageSquare size={12} className="mr-1" /></MessageSquare>
-                        <span>{post.comments.toLocaleString()}</span>
+                      <div className="flex items-center" />
+                        <MessageSquare size={12} className="mr-1" / />
+                        <span>{post.comments.toLocaleString()}
                       </div>
-                    </div>
                   </div>
                   
-                  <div className="mt-4 flex justify-between items-center"></div>
-                    <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center"></Link>
+                  <div className="mt-4 flex justify-between items-center" />
+                    <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center" />
                       <span>Read More</span>
-                      <ExternalLink size={14} className="ml-1" /></ExternalLink>
+                      <ExternalLink size={14} className="ml-1" / />
                     </Link>
                     
-                    <div className="flex items-center space-x-2"></div>
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
-                        <Heart size={16} /></Heart>
+                    <div className="flex items-center space-x-2" />
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white" />
+                        <Heart size={16} / />
                       </button>
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
-                        <MessageSquare size={16} /></MessageSquare>
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white" />
+                        <MessageSquare size={16} / />
                       </button>
-                    </div>
                   </div>
-                </div>
               </div>
             ))}
           </div>
           
           {/* Daily Rewards Banner */}
           {!dailyRewardsClaimed && (
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6"></div>
-              <div className="flex justify-between items-center"></div>
-                <div></div>
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6" />
+              <div className="flex justify-between items-center" />
+                <div />
                   <h3 className="text-xl font-medium mb-1">Daily Rewards Available!</h3>
                   <p className="text-gray-300 text-sm">Claim your daily rewards and get bonus gold.</p>
-                </div>
                 <button 
                   onClick={handleClaimDailyRewards}
                   className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-medium rounded-lg transition-colors"
-                ></button>
+                 />
                   Claim
                 </button>
-              </div>
             </div>
           )}
           {/* Featured Events */}
-          <div className="mb-6"></div>
-            <div className="flex justify-between items-center mb-4"></div>
+          <div className="mb-6" />
+            <div className="flex justify-between items-center mb-4" />
               <h2 className="text-2xl font-bold">Featured Events</h2>
-              <Link to="/events" className="text-blue-400 hover:text-blue-300 flex items-center"></Link>
+              <Link to="/events" className="text-blue-400 hover:text-blue-300 flex items-center" />
                 <span className="text-sm">View All</span>
-                <ChevronRight size={16} /></ChevronRight>
+                <ChevronRight size={16} / />
               </Link>
-            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
               {featuredEvents.map(event => (
-                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group"></div>
-                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative"></div>
-                    <div className="absolute inset-0 flex items-center justify-center"></div>
-                      <span className="text-xl font-bold">{event.name}</span>
+                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group" />
+                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative" />
+                    <div className="absolute inset-0 flex items-center justify-center" />
+                      <span className="text-xl font-bold">{event.name}
                     </div>
-                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs"></div>
+                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs" />
                       {event.format}
+                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center" />
+                      <Clock size={12} className="mr-1" / />
+                      <span>Ends in {event.endDate}
                     </div>
-                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center"></div>
-                      <Clock size={12} className="mr-1" /></Clock>
-                      <span>Ends in {event.endDate}</span>
-                    </div>
-                  </div>
                   
-                  <div className="p-4"></div>
-                    <div className="flex justify-between items-center mb-3"></div>
-                      <span className="text-sm text-gray-400">{event.type}</span>
-                      <div className="flex items-center space-x-2"></div>
-                        <div className="flex items-center"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1"></div>
-                          <span className="text-xs">{event.entryFee.gold}</span>
+                  <div className="p-4" />
+                    <div className="flex justify-between items-center mb-3" />
+                      <span className="text-sm text-gray-400">{event.type}
+                      <div className="flex items-center space-x-2" />
+                        <div className="flex items-center" />
+                          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1" />
+                          <span className="text-xs">{event.entryFee.gold}
                         </div>
-                        <div className="flex items-center"></div>
-                          <div className="w-3 h-3 rounded-full bg-purple-500 mr-1"></div>
-                          <span className="text-xs">{event.entryFee.gems}</span>
+                        <div className="flex items-center" />
+                          <div className="w-3 h-3 rounded-full bg-purple-500 mr-1" />
+                          <span className="text-xs">{event.entryFee.gems}
                         </div>
-                      </div>
                     </div>
                     
-                    <div className="flex items-center text-xs text-gray-300 mb-3"></div>
-                      <Award size={14} className="mr-1" /></Award>
-                      <span>{event.rewards}</span>
+                    <div className="flex items-center text-xs text-gray-300 mb-3" />
+                      <Award size={14} className="mr-1" / />
+                      <span>{event.rewards}
                     </div>
                     
-                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium"></button>
+                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium" />
                       Join Event
                     </button>
-                  </div>
                 </div>
               ))}
             </div>
-          </div>
         </div>
-      </div>
       
       {/* Game Menu Overlay */}
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {showMenu && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -634,64 +598,54 @@ const Home = (): any => {
               className="bg-gray-800 rounded-xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6"></div>
+              <div className="flex justify-between items-center mb-6" />
                 <h2 className="text-2xl font-bold">Game Menu</h2>
                 <button 
                   onClick={() => setShowMenu(false)}
                   className="p-2 hover:bg-gray-700 rounded-full"
                 >
-                  <X size={20} /></X>
+                  <X size={20} / />
                 </button>
-              </div>
               
-              <div className="space-y-3"></div>
-                <Link to="/play" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <Play size={20} /></Play>
+              <div className="space-y-3" />
+                <Link to="/play" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <Play size={20} / />
                   <span>Play</span>
-                </Link>
                 
-                <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <Package size={20} /></Package>
+                <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <Package size={20} / />
                   <span>Cards</span>
-                </Link>
                 
-                <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <Shield size={20} /></Shield>
+                <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <Shield size={20} / />
                   <span>Decks</span>
-                </Link>
                 
-                <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <Calendar size={20} /></Calendar>
+                <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <Calendar size={20} / />
                   <span>Events</span>
-                </Link>
                 
-                <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <DollarSign size={20} /></DollarSign>
+                <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <DollarSign size={20} / />
                   <span>Store</span>
-                </Link>
                 
-                <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <User size={20} /></User>
+                <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <User size={20} / />
                   <span>Profile</span>
-                </Link>
                 
-                <div className="h-px bg-gray-700 my-3"></div>
+                <div className="h-px bg-gray-700 my-3" />
                 
-                <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors"></Link>
-                  <Settings size={20} /></Settings>
+                <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
+                  <Settings size={20} / />
                   <span>Settings</span>
-                </Link>
                 
-                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left"></button>
-                  <LogOut size={20} /></LogOut>
+                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left" />
+                  <LogOut size={20} / />
                   <span>Logout</span>
-                </button>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

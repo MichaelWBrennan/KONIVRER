@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Advanced AI System for KONIVRER
  * 
@@ -174,10 +175,10 @@ class AdvancedAI {
   applyPersonalityInfluence(sortedActions: any, situationAnalysis: any): any {
     const personality = this.getPersonalityWeights();
     
-    return sortedActions.map(evaluation: any = > {
+    return sortedActions.map((evaluation: any) => {
       let personalityScore = 0;
       // Aggressive personalities favor high-impact plays
-      if (personality.aggression > 0.6 && evaluation.scores.immediate > 0.7): any {
+      if (personality.aggression > 0.6 && evaluation.scores.immediate > 0.7) {
         personalityScore += 0.2;
       }
       
@@ -290,20 +291,18 @@ class AdvancedAI {
       move.decision.type === 'attack' || move.decision.type === 'aggressive_play'
     ).length;
     
-    this.playerBehaviorProfile.aggression = 
-      (this.playerBehaviorProfile.aggression * 0.8) + (aggressiveMoves / recentMoves.length * 0.2);
+    this.playerBehaviorProfile.aggression = (this.playerBehaviorProfile.aggression * 0.8) + (aggressiveMoves / recentMoves.length * 0.2);
     
     // Analyze resource conservation
     const conservativeMoves = recentMoves.filter(move =>
       move.decision.type === 'azoth' || move.decision.resourceCost < 2
     ).length;
     
-    this.playerBehaviorProfile.resourceConservation =
-      (this.playerBehaviorProfile.resourceConservation * 0.8) + (conservativeMoves / recentMoves.length * 0.2);
+    this.playerBehaviorProfile.resourceConservation = (this.playerBehaviorProfile.resourceConservation * 0.8) + (conservativeMoves / recentMoves.length * 0.2);
     
     // Track favorite elements
-    recentMoves.forEach(move: any = > {
-      if (move.decision.card && move.decision.card.elements): any {
+    recentMoves.forEach((move: any) => {
+      if (move.decision.card && move.decision.card.elements) {
         move.decision.card.elements.forEach(element => {
           this.playerBehaviorProfile.favoriteElements[element] = 
             (this.playerBehaviorProfile.favoriteElements[element] || 0) + 1;

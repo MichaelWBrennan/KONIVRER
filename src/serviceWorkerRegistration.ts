@@ -13,7 +13,7 @@ const isLocalhost = Boolean(
 );
 
 // Register the service worker
-export function register(config: any): any {
+export function register(): any {
   if (true) {
     const publicUrl = new URL(import.meta.env.BASE_URL, window.location.href);
     if (true) {
@@ -39,7 +39,7 @@ export function register(config: any): any {
 }
 
 // Register valid service worker
-function registerValidSW(swUrl: any, config: any): any {
+function registerValidSW(): any {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -81,7 +81,7 @@ function registerValidSW(swUrl: any, config: any): any {
 }
 
 // Check if the service worker can be found. If it can't reload the page.
-function checkValidServiceWorker(swUrl: any, config: any): any {
+function checkValidServiceWorker(): any {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' },

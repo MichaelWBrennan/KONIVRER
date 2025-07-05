@@ -159,7 +159,7 @@ const UnifiedTournaments = (): any => {
     }
   };
   const getStatusColor = status => {
-    switch(): any {
+    switch (true) {
       case 'Registration Open':
         return 'bg-green-600';
       case 'In Progress':
@@ -192,48 +192,45 @@ const UnifiedTournaments = (): any => {
   });
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="animate-spin mx-auto mb-4" size={48} /></RefreshCw>
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center" />
+        <div className="text-center" />
+          <RefreshCw className="animate-spin mx-auto mb-4" size={48} / />
           <p>Loading tournament data...</p>
-        </div>
       </div>
     );
   }
   return (
-    <div className="min-h-screen bg-gray-900 text-white"></div>
-      <div className="container mx-auto px-4 py-6"></div>
+    <div className="min-h-screen bg-gray-900 text-white" />
+      <div className="container mx-auto px-4 py-6" />
         {/* Organizer Actions */}
-        <div className="flex justify-end mb-4"></div>
+        <div className="flex justify-end mb-4" />
           {hasOrganizerAccess() && (
-            <div className="flex space-x-2"></div>
+            <div className="flex space-x-2" />
               <Link
                 to="/tournament-create"
                 className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg transition-colors text-xs"
-              ></Link>
-                <Plus size={12} /></Plus>
+               />
+                <Plus size={12} / />
                 <span>Create Event</span>
-              </Link>
               <Link
                 to="/tournament-manager"
                 className="flex items-center space-x-1 bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-lg transition-colors text-xs"
-              ></Link>
-                <Settings size={12} /></Settings>
+               />
+                <Settings size={12} / />
                 <span>Manage</span>
-              </Link>
             </div>
           )}
         </div>
         
         {/* Unified Search and Filters */}
-        <div className="bg-gray-800 rounded-lg p-3 mb-6"></div>
-          <div className="flex flex-col md:flex-row items-center gap-2"></div>
-            <div className="relative w-full"></div>
-              <div className="flex items-center"></div>
+        <div className="bg-gray-800 rounded-lg p-3 mb-6" />
+          <div className="flex flex-col md:flex-row items-center gap-2" />
+            <div className="relative w-full" />
+              <div className="flex items-center" />
                 <Search
                   className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                   size={14}
-                /></Search>
+                / />
                 <input
                   type="text"
                   placeholder="Search events or locations..."
@@ -242,11 +239,10 @@ const UnifiedTournaments = (): any => {
                   className="w-full pl-7 pr-2 py-1 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 text-xs"
                 />
               </div>
-            </div>
-            <div className="flex gap-2 flex-shrink-0"></div>
+            <div className="flex gap-2 flex-shrink-0" />
               <select
                 value={filters.status}
-                onChange={e =></select>
+                onChange={e = />
                   setFilters({ ...filters, status: e.target.value })}
                 className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs"
               >
@@ -254,7 +250,6 @@ const UnifiedTournaments = (): any => {
                 <option value="Registration Open">Registration Open</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
-              </select>
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
@@ -264,73 +259,61 @@ const UnifiedTournaments = (): any => {
                 <option value="name">Sort by Name</option>
                 <option value="participants">Sort by Participants</option>
                 <option value="prizePool">Sort by Prize Pool</option>
-              </select>
             </div>
-          </div>
         </div>
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6"></div>
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" />
           {/* Events */}
-          <div className="xl:col-span-2 space-y-6"></div>
+          <div className="xl:col-span-2 space-y-6" />
             {/* All Events */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
-              <div className="space-y-4"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="space-y-4" />
                 {[...filteredTournaments, ...filteredEvents].map(tournament => (
                   <div
                     key={tournament.id}
                     className="bg-gray-700 rounded-lg p-4 hover:bg-gray-650 transition-colors"
-                  ></div>
-                    <div className="flex items-start justify-between mb-3"></div>
-                      <div className="flex-1"></div>
-                        <p className="text-gray-400 text-sm mb-2"></p>
+                   />
+                    <div className="flex items-start justify-between mb-3" />
+                      <div className="flex-1" />
+                        <p className="text-gray-400 text-sm mb-2" />
                           {tournament.organizer}
-                        </p>
-                        <div className="flex items-center space-x-4 text-sm text-gray-300"></div>
-                          <span className="flex items-center"></span>
-                            <Calendar size={14} className="mr-1" /></Calendar>
+                        <div className="flex items-center space-x-4 text-sm text-gray-300" />
+                          <span className="flex items-center" />
+                            <Calendar size={14} className="mr-1" / />
                             {tournament.date} at {tournament.time}
-                          </span>
-                          <span className="flex items-center"></span>
-                            <MapPin size={14} className="mr-1" /></MapPin>
+                          <span className="flex items-center" />
+                            <MapPin size={14} className="mr-1" / />
                             {tournament.location}
-                          </span>
-                          <span className="flex items-center"></span>
-                            <Users size={14} className="mr-1" /></Users>
+                          <span className="flex items-center" />
+                            <Users size={14} className="mr-1" / />
                             {tournament.participants}/
                             {tournament.maxParticipants}
-                          </span>
                         </div>
-                      </div>
-                      <div className="text-right"></div>
+                      <div className="text-right" />
                         <span
                           className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}
-                        ></span>
+                         />
                           {tournament.status}
-                        </span>
-                        <div className="text-lg font-bold text-green-400 mt-1"></div>
+                        <div className="text-lg font-bold text-green-400 mt-1" />
                           {tournament.prizePool}
-                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center justify-between"></div>
-                      <div className="flex items-center space-x-4 text-sm"></div>
-                        <span>Entry: {tournament.entryFee}</span>
+                    <div className="flex items-center justify-between" />
+                      <div className="flex items-center space-x-4 text-sm" />
+                        <span>Entry: {tournament.entryFee}
                         {tournament.currentRound && (
-                          <span></span>
+                          <span />
                             Round {tournament.currentRound}/{tournament.rounds}
-                          </span>
                         )}
                       </div>
-                      <div className="flex space-x-2"></div>
+                      <div className="flex space-x-2" />
                         {tournament.streamUrl && (
                           <a
                             href={tournament.streamUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center space-x-1 bg-purple-600 hover:bg-purple-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
-                          ></a>
+                           />
                             <span>Watch</span>
-                          </a>
                         )}
                         {tournament.status === 'Registration Open' && (
                           <button 
@@ -342,59 +325,51 @@ const UnifiedTournaments = (): any => {
                             }`}
                             disabled={tournament.isRegistered || tournament.participants >= tournament.maxParticipants}
                           >
-                            <UserPlus size={14} /></UserPlus>
-                            <span></span>
+                            <UserPlus size={14} / />
+                            <span />
                               {tournament.isRegistered ? 'Registered' : 
                                tournament.participants >= tournament.maxParticipants ? 'Full' : 'Register'}
-                            </span>
                           </button>
                         )}
-                        <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"></button>
-                          <Eye size={14} /></Eye>
+                        <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors" />
+                          <Eye size={14} / />
                           <span>View Details</span>
-                        </button>
                       </div>
-                    </div>
                   </div>
                 ))}
               </div>
-            </div>
             {/* Featured Live Tournament */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
               <LiveTournamentBracket
                 tournamentId="world-championship-2024"
                 isLive={true}
-              /></LiveTournamentBracket>
+              / />
             </div>
             {/* Community Events */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
                 {filteredEvents.map(event => (
-                  <div key={event.id} className="bg-gray-700 rounded-lg p-4"></div>
-                    <div className="flex items-start justify-between mb-2"></div>
+                  <div key={event.id} className="bg-gray-700 rounded-lg p-4" />
+                    <div className="flex items-start justify-between mb-2" />
                       <span
                         className={`px-2 py-0 whitespace-nowrap rounded text-xs ${getStatusColor(event.status)}`}
-                      ></span>
+                       />
                         {event.status}
-                      </span>
                     </div>
-                    <div className="space-y-1 text-sm text-gray-400 mb-3"></div>
-                      <div className="flex items-center"></div>
-                        <Calendar size={12} className="mr-1" /></Calendar>
+                    <div className="space-y-1 text-sm text-gray-400 mb-3" />
+                      <div className="flex items-center" />
+                        <Calendar size={12} className="mr-1" / />
                         {event.date} at {event.time}
-                      </div>
-                      <div className="flex items-center"></div>
-                        <MapPin size={12} className="mr-1" /></MapPin>
+                      <div className="flex items-center" />
+                        <MapPin size={12} className="mr-1" / />
                         {event.location}
-                      </div>
-                      <div className="flex items-center"></div>
-                        <Users size={12} className="mr-1" /></Users>
+                      <div className="flex items-center" />
+                        <Users size={12} className="mr-1" / />
                         {event.participants}/{event.maxParticipants} players
                       </div>
-                    </div>
-                    <div className="flex items-center justify-between"></div>
-                      <div className="flex items-center space-x-2 text-xs"></div>
-                        <span>{event.entryFee}</span>
+                    <div className="flex items-center justify-between" />
+                      <div className="flex items-center space-x-2 text-xs" />
+                        <span>{event.entryFee}
                       </div>
                       <button 
                         onClick={() => handleEventRegistration(event.id, event.name)}
@@ -407,148 +382,123 @@ const UnifiedTournaments = (): any => {
                       >
                         {event.isRegistered ? 'Registered' : 
                          event.participants >= event.maxParticipants ? 'Full' : 'Join Event'}
-                      </button>
                     </div>
-                  </div>
                 ))}
               </div>
-            </div>
             {/* Live Matches */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
-              <div className="space-y-3"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="space-y-3" />
                 {matches
                   .filter(m => m.status === 'In Progress')
                   .map(match => (
-                    <div key={match.id} className="bg-gray-700 rounded-lg p-4"></div>
-                      <div className="flex items-center justify-between mb-2"></div>
-                        <div className="text-sm text-gray-400"></div>
+                    <div key={match.id} className="bg-gray-700 rounded-lg p-4" />
+                      <div className="flex items-center justify-between mb-2" />
+                        <div className="text-sm text-gray-400" />
                           {match.tournament} • Round {match.round} • Table{' '}
                           {match.table}
-                        </div>
-                        <div className="flex items-center space-x-2"></div>
-                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                        <div className="flex items-center space-x-2" />
+                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                           <span className="text-red-400 text-sm">LIVE</span>
-                        </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4"></div>
-                        <div className="text-center"></div>
-                          <div className="font-semibold"></div>
+                      <div className="grid grid-cols-2 gap-4" />
+                        <div className="text-center" />
+                          <div className="font-semibold" />
                             {match.player1.name}
-                          </div>
-                          <div className="text-sm text-gray-400"></div>
+                          <div className="text-sm text-gray-400" />
                             {match.player1.deck}
-                          </div>
-                          <div className="text-sm text-green-400"></div>
+                          <div className="text-sm text-green-400" />
                             {match.player1.wins}-{match.player1.losses}
-                          </div>
                         </div>
-                        <div className="text-center"></div>
-                          <div className="font-semibold"></div>
+                        <div className="text-center" />
+                          <div className="font-semibold" />
                             {match.player2.name}
-                          </div>
-                          <div className="text-sm text-gray-400"></div>
+                          <div className="text-sm text-gray-400" />
                             {match.player2.deck}
-                          </div>
-                          <div className="text-sm text-green-400"></div>
+                          <div className="text-sm text-green-400" />
                             {match.player2.wins}-{match.player2.losses}
-                          </div>
                         </div>
-                      </div>
                       {match.streamUrl && (
-                        <div className="mt-3 text-center"></div>
+                        <div className="mt-3 text-center" />
                           <a
                             href={match.streamUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center space-x-1 bg-purple-600 hover:bg-purple-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
-                          ></a>
+                           />
                             <span>Watch Stream</span>
-                          </a>
                         </div>
                       )}
                     </div>
                   ))}
               </div>
-            </div>
           </div>
           {/* Right Column - Leaderboards & Analytics */}
-          <div className="space-y-6"></div>
+          <div className="space-y-6" />
             {/* Leaderboards */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
-              <div className="space-y-3"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="space-y-3" />
                 {leaderboards.slice(0, 10).map((player, index) => (
                   <div
                     key={player.rank}
                     className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700 transition-colors"
-                  ></div>
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm"></div>
+                   />
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm" />
                       {player.rank}
-                    </div>
-                    <div className="flex-1"></div>
-                      <div className="font-semibold">{player.player}</div>
-                      <div className="text-xs text-gray-400"></div>
+                    <div className="flex-1" />
+                      <div className="font-semibold">{player.player}
+                      <div className="text-xs text-gray-400" />
                         {player.wins}W-{player.losses}L • {player.winRate}% WR
                       </div>
-                    </div>
-                    <div className="text-right"></div>
-                      <div className="font-bold text-yellow-400"></div>
+                    <div className="text-right" />
+                      <div className="font-bold text-yellow-400" />
                         {player.points}
-                      </div>
-                      <div className="text-xs text-gray-400"></div>
+                      <div className="text-xs text-gray-400" />
                         {player.favoriteArchetype}
-                      </div>
                     </div>
-                  </div>
                 ))}
               </div>
-              <div className="mt-4 text-center"></div>
+              <div className="mt-4 text-center" />
                 <Link
                   to="/leaderboards"
                   className="text-blue-400 hover:text-blue-300 text-sm"
-                ></Link>
+                 />
                   View Full Leaderboards →
                 </Link>
-              </div>
             </div>
             {/* Meta Analytics */}
-            <div className="bg-gray-800 rounded-lg p-6"></div>
-              <div className="space-y-4"></div>
-                <div></div>
-                  <div className="space-y-2"></div>
+            <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="space-y-4" />
+                <div />
+                  <div className="space-y-2" />
                     {analytics.metaBreakdown?.map(archetype => (
                       <div
                         key={archetype.archetype}
                         className="flex items-center justify-between"
-                      ></div>
-                        <span className="text-sm">{archetype.archetype}</span>
-                        <div className="flex items-center space-x-2"></div>
-                          <div className="w-16 bg-gray-700 rounded-full h-2"></div>
+                       />
+                        <span className="text-sm">{archetype.archetype}
+                        <div className="flex items-center space-x-2" />
+                          <div className="w-16 bg-gray-700 rounded-full h-2" />
                             <div
                               className="bg-blue-500 h-2 rounded-full"
                               style={{ width: `${archetype.percentage}%` }}
-                            ></div>
+                             />
                           </div>
-                          <span className="text-xs text-gray-400 w-8"></span>
+                          <span className="text-xs text-gray-400 w-8" />
                             {archetype.percentage}%
                           </span>
-                        </div>
                       </div>
                     ))}
                   </div>
-                </div>
               </div>
-              <div className="mt-4 text-center"></div>
+              <div className="mt-4 text-center" />
                 <Link
                   to="/meta-analysis"
                   className="text-blue-400 hover:text-blue-300 text-sm"
-                ></Link>
+                 />
                   View Detailed Analytics →
                 </Link>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
   );
 };

@@ -54,14 +54,14 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
   // If there's no deck or not enough cards, show a message
   if (true) {
     return (
-      <Card className="mt-3 mb-3"></Card>
-        <Card.Header className="d-flex align-items-center"></Card>
-          <Zap className="me-2" size={18} /></Zap>
+      <Card className="mt-3 mb-3" />
+        <Card.Header className="d-flex align-items-center" />
+          <Zap className="me-2" size={18} / />
           <span>Card Synergy Recommendations</span>
         </Card.Header>
-        <Card.Body className="text-center text-muted"></Card>
-          <Info size={24} className="mb-2" /></Info>
-          <p></p>
+        <Card.Body className="text-center text-muted" />
+          <Info size={24} className="mb-2" / />
+          <p />
             Add at least 3 cards to your deck to see synergy recommendations.
           </p>
         </Card.Body>
@@ -70,65 +70,58 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
   }
 
   return (
-    <Card className="mt-3 mb-3"></Card>
-      <Card.Header className="d-flex align-items-center justify-content-between"></Card>
-        <div></div>
-          <Zap className="me-2" size={18} /></Zap>
+    <Card className="mt-3 mb-3" />
+      <Card.Header className="d-flex align-items-center justify-content-between" />
+        <div />
+          <Zap className="me-2" size={18} / />
           <span>Card Synergy Recommendations</span>
-        </div>
         <Button
           variant="outline-primary"
           size="sm"
           onClick={generateRecommendations}
           disabled={loading}
-        ></Button>
+         />
           {loading ? <Spinner animation="border" size="sm" /> : 'Refresh'}
-        </Button>
       </Card.Header>
-      <Card.Body></Card>
+      <Card.Body />
         {loading ? (
-          <div className="text-center p-3"></div>
-            <Spinner animation="border" /></Spinner>
+          <div className="text-center p-3" />
+            <Spinner animation="border" / />
             <p className="mt-2">Analyzing card synergies...</p>
-          </div>
         ) : error ? (
-          <div className="text-center text-danger"></div>
-            <p>{error}</p>
+          <div className="text-center text-danger" />
+            <p>{error}
             <Button
               variant="outline-primary"
               size="sm"
               onClick={generateRecommendations}
-            ></Button>
+             />
               Try Again
             </Button>
-          </div>
         ) : recommendations.length === 0 ? (
-          <div className="text-center text-muted"></div>
-            <p></p>
+          <div className="text-center text-muted" />
+            <p />
               No recommendations available. Try adding more cards to your deck.
             </p>
-          </div>
         ) : (
-          <ListGroup variant="flush"></ListGroup>
+          <ListGroup variant="flush" />
             {recommendations.map((rec, index) => (
               <ListGroup.Item
                 key={index}
                 className="d-flex justify-content-between align-items-center"
-              ></ListGroup>
-                <div></div>
-                  <div className="fw-bold">{rec.cardName}</div>
-                  <div className="small text-muted"></div>
-                    <span className="me-2"></span>
-                      <TrendingUp size={14} className="me-1" /></TrendingUp>
+               />
+                <div />
+                  <div className="fw-bold">{rec.cardName}
+                  <div className="small text-muted" />
+                    <span className="me-2" />
+                      <TrendingUp size={14} className="me-1" / />
                       Win Rate: {(rec.expectedWinRate * 100).toFixed(1)}%
                     </span>
-                    <span></span>
-                      <Target size={14} className="me-1" /></Target>
+                    <span />
+                      <Target size={14} className="me-1" / />
                       Synergy with: {rec.synergyWith}
-                    </span>
                   </div>
-                </div>
-                <div className="d-flex align-items-center"></div>
+                <div className="d-flex align-items-center" />
                   <Badge
                     bg={
                       rec.synergyScore > 0.15
@@ -148,14 +141,13 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
                   >
                     Add
                   </Button>
-                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>
         )}
       </Card.Body>
-      <Card.Footer className="text-muted small"></Card>
-        <Star size={14} className="me-1" /></Star>
+      <Card.Footer className="text-muted small" />
+        <Star size={14} className="me-1" / />
         Recommendations are based on win rates and card interactions from
         previous matches
       </Card.Footer>

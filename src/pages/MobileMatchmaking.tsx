@@ -65,10 +65,10 @@ const MobileMatchmaking = (): any => {
     navigate('/game/online');
   };
   return (
-    <div className="mobile-matchmaking"></div>
+    <div className="mobile-matchmaking" />
       {/* Tabs */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-grid"></div>
+      <div className="mobile-card mobile-mb" />
+        <div className="mobile-grid" />
           <button
             className={`mobile-btn ${activeTab === 'online' ? 'mobile-btn-primary' : ''}`}
             onClick={() => setActiveTab('online')}
@@ -87,19 +87,18 @@ const MobileMatchmaking = (): any => {
           >
             Tournaments
           </button>
-        </div>
       </div>
       {/* Online Matchmaking */}
       {activeTab === 'online' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" />
           {/* Deck Selection */}
           {matchmakingStatus === 'idle' && (
             <>
-              <div className="mobile-card mobile-mb"></div>
+              <div className="mobile-card mobile-mb" />
                 {isAuthenticated ? (
                   <>
                     {userDecks && userDecks.length > 0 ? (
-                      <div className="mobile-list"></div>
+                      <div className="mobile-list" />
                         {userDecks.map(deck => (
                           <button
                             key={deck.id}
@@ -107,88 +106,79 @@ const MobileMatchmaking = (): any => {
                             onClick={() => setSelectedDeck(deck.id)}
                           >
                             {deck.name}
-                          </button>
                         ))}
                       </div>
                     ) : (
-                      <div className="mobile-text-center mobile-mb"></div>
+                      <div className="mobile-text-center mobile-mb" />
                         <p>You don't have any decks yet.</p>
                         <Link
                           to="/deck-builder"
                           className="mobile-btn mobile-btn-primary mobile-mt"
-                        ></Link>
+                         />
                           Create a Deck
                         </Link>
-                      </div>
                     )}
                   </>
                 ) : (
-                  <div className="mobile-text-center"></div>
+                  <div className="mobile-text-center" />
                     <p>Please log in to access your decks.</p>
-                  </div>
                 )}
               </div>
               {/* Start Matchmaking Button */}
-              <div className="mobile-text-center mobile-mb"></div>
+              <div className="mobile-text-center mobile-mb" />
                 <button
                   className="mobile-btn mobile-btn-primary"
                   onClick={startMatchmaking}
                   disabled={!selectedDeck || !isAuthenticated}
-                ></button>
+                 />
                   Start Matchmaking
                 </button>
-              </div>
             </>
           )}
           {/* Searching for Match */}
           {matchmakingStatus === 'searching' && (
-            <div className="mobile-card mobile-text-center mobile-mb"></div>
-              <div className="mobile-mb"></div>
-                <div className="mobile-loading-spinner"></div>
+            <div className="mobile-card mobile-text-center mobile-mb" />
+              <div className="mobile-mb" />
+                <div className="mobile-loading-spinner" />
                 <p>Looking for opponents...</p>
-              </div>
-              <button className="mobile-btn" onClick={cancelMatchmaking}></button>
+              <button className="mobile-btn" onClick={cancelMatchmaking} />
                 Cancel
               </button>
-            </div>
           )}
           {/* Match Found */}
           {matchmakingStatus === 'matched' && (
-            <div className="mobile-card mobile-text-center mobile-mb"></div>
-              <div className="mobile-mb"></div>
+            <div className="mobile-card mobile-text-center mobile-mb" />
+              <div className="mobile-mb" />
                 <p>Opponent: Player123</p>
                 <p>Rating: 1850</p>
-              </div>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mb"
                 onClick={acceptMatch}
-              ></button>
+               />
                 Accept Match
               </button>
-              <button className="mobile-btn" onClick={cancelMatchmaking}></button>
+              <button className="mobile-btn" onClick={cancelMatchmaking} />
                 Decline
               </button>
-            </div>
           )}
         </div>
       )}
       {/* Physical Matchmaking */}
       {activeTab === 'physical' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" />
           {/* Nearby Players */}
-          <div className="mobile-card mobile-mb"></div>
+          <div className="mobile-card mobile-mb" />
             {nearbyPlayers.length > 0 ? (
-              <ul className="mobile-list"></ul>
+              <ul className="mobile-list" />
                 {nearbyPlayers.map(player => (
-                  <li key={player.id} className="mobile-list-item"></li>
-                    <div className="mobile-flex"></div>
-                      <div></div>
-                        <strong>{player.name}</strong>
-                        <div>Rating: {player.rating}</div>
-                        <div>{player.distance}</div>
+                  <li key={player.id} className="mobile-list-item" />
+                    <div className="mobile-flex" />
+                      <div />
+                        <strong>{player.name}
+                        <div>Rating: {player.rating}
+                        <div>{player.distance}
                       </div>
                       <button className="mobile-btn">Challenge</button>
-                    </div>
                   </li>
                 ))}
               </ul>
@@ -197,38 +187,35 @@ const MobileMatchmaking = (): any => {
             )}
           </div>
           {/* QR Code */}
-          <div className="mobile-card mobile-text-center mobile-mb"></div>
+          <div className="mobile-card mobile-text-center mobile-mb" />
             <p>Scan this code to start a physical match</p>
-            <div className="mobile-qr-placeholder mobile-my"></div>
+            <div className="mobile-qr-placeholder mobile-my" />
               [QR Code Placeholder]
             </div>
-            <button className="mobile-btn mobile-btn-primary"></button>
+            <button className="mobile-btn mobile-btn-primary" />
               Generate QR Code
             </button>
-          </div>
         </div>
       )}
       {/* Tournaments */}
       {activeTab === 'tournaments' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" />
           {/* Upcoming Tournaments */}
-          <div className="mobile-card mobile-mb"></div>
+          <div className="mobile-card mobile-mb" />
             {upcomingTournaments.length > 0 ? (
-              <ul className="mobile-list"></ul>
+              <ul className="mobile-list" />
                 {upcomingTournaments.map(tournament => (
-                  <li key={tournament.id} className="mobile-list-item"></li>
-                    <div></div>
-                      <strong>{tournament.name}</strong>
-                      <div>Format: {tournament.format}</div>
-                      <div></div>
+                  <li key={tournament.id} className="mobile-list-item" />
+                    <div />
+                      <strong>{tournament.name}
+                      <div>Format: {tournament.format}
+                      <div />
                         Date: {new Date(tournament.date).toLocaleDateString()}
-                      </div>
-                      <div>Players: {tournament.players}</div>
+                      <div>Players: {tournament.players}
                     </div>
-                    <button className="mobile-btn mobile-btn-primary mobile-mt"></button>
+                    <button className="mobile-btn mobile-btn-primary mobile-mt" />
                       Register
                     </button>
-                  </li>
                 ))}
               </ul>
             ) : (
@@ -236,14 +223,13 @@ const MobileMatchmaking = (): any => {
             )}
           </div>
           {/* Create Tournament */}
-          <div className="mobile-text-center mobile-mb"></div>
+          <div className="mobile-text-center mobile-mb" />
             <Link
               to="/tournaments/create"
               className="mobile-btn mobile-btn-primary"
-            ></Link>
+             />
               Create Tournament
             </Link>
-          </div>
         </div>
       )}
     </div>

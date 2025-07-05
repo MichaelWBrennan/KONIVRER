@@ -50,8 +50,8 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
       setIsInstalled(installed);
     };
 
-    const handleOnlineStatus = () => setIsOnline(navigator.onLine);
-    const handleOfflineStatus = () => setIsOnline(false);
+    const handleOnlineStatus = (handleOnlineStatus: any) => setIsOnline(navigator.onLine);
+    const handleOfflineStatus = (handleOfflineStatus: any) => setIsOnline(false);
 
     // Initial checks
     checkPWAStatus();
@@ -132,17 +132,16 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
   };
 
   return (
-    <div className="mobile-app"></div>
+    <div className="mobile-app" />
       {/* Mobile Header */}
-      <header className="mobile-header esoteric-bg-dark"></header>
-        <div className="mobile-header-title esoteric-text-accent"></div>
+      <header className="mobile-header esoteric-bg-dark" />
+        <div className="mobile-header-title esoteric-text-accent" />
           {getPageTitle()}
-        </div>
 
-        <div className="mobile-header-actions"></div>
+        <div className="mobile-header-actions" />
           {/* Unified Search */}
-          <div className="mobile-header-search"></div>
-            <UnifiedSearch compact={true} /></UnifiedSearch>
+          <div className="mobile-header-search" />
+            <UnifiedSearch compact={true} / />
           </div>
           
           {/* Messaging */}
@@ -158,7 +157,6 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
               className="mobile-btn esoteric-btn"
             >
               {user.displayName?.charAt(0) || '⦿'}
-            </button>
           ) : (
             <button
               onClick={() => setShowAuthModal(true)}
@@ -168,13 +166,12 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
             </button>
           )}
         </div>
-      </header>
 
       {/* Main Content */}
-      <main className="mobile-content">{children}</main>
+      <main className="mobile-content">{children}
 
       {/* Mobile Navigation */}
-      <nav className={`mobile-nav esoteric-bg-dark ${location.pathname !== '/' ? 'mobile-nav-five-items' : 'mobile-nav-four-items'}`}></nav>
+      <nav className={`mobile-nav esoteric-bg-dark ${location.pathname !== '/' ? 'mobile-nav-five-items' : 'mobile-nav-four-items'}`} />
         {navigationItems.map(
           item =>
             // Only show Home when not on the home page
@@ -183,10 +180,10 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
                 key={item.name}
                 to={item.path}
                 className={`mobile-nav-item ${isActive(item.path, item.altPaths) ? 'active' : ''}`}
-                onClick={() =></Link>
+                onClick={() = />
                   analytics.navigationClick(item.path, location.pathname)}
               >
-                <div className="mobile-nav-item-text">{item.name}</div>
+                <div className="mobile-nav-item-text">{item.name}
               </Link>
             ),
         )}
@@ -203,11 +200,10 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
 
       {/* Offline Indicator */}
       {!isOnline && (
-        <div className="offline-indicator esoteric-glow-pulse"></div>
+        <div className="offline-indicator esoteric-glow-pulse" />
           ⚠ The mystical connection has been severed ⚠
         </div>
       )}
-    </div>
   );
 };
 

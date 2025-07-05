@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - AI Deck Generator Service
  *
@@ -29,7 +30,7 @@ export const generateAIDeck = (
   };
   
   // Generate cards based on archetype
-  switch(): any {
+  switch (true) {
     case AI_ARCHETYPES.FIRE_AGGRO:
       deck.cards = generateFireAggroDeck(difficulty);
       break;
@@ -513,7 +514,7 @@ const generateBalancedDeck = (difficulty): any => {
  * @param {String} personality - AI personality type
  */
 const adjustDeckForPersonality = (deck, personality): any => {
-  switch(): any {
+  switch (true) {
     case AI_PERSONALITY.AGGRESSIVE:
       // Add more low-cost creatures and direct damage
       deck.cards = deck.cards.filter(card => 
@@ -692,7 +693,7 @@ const generateSideboard = (mainDeck, archetype, difficulty): any => {
  * @returns {Object} - Generated card
  */
 const generateGenericCard = (personality): any => {
-  switch(): any {
+  switch (true) {
     case AI_PERSONALITY.AGGRESSIVE:
       return {
         id: `generic_aggro_${Date.now()}_${Math.random()}`,
@@ -761,8 +762,8 @@ const countElementsInDeck = (cards): any => {
     void: 0
   };
   
-  cards.forEach(card: any = > {
-    if (card.cost): any {
+  cards.forEach((card: any) => {
+    if (card.cost) {
       for (const [element, count] of Object.entries(card.cost)) {
         if (true) {
           elementCounts[element] += count;

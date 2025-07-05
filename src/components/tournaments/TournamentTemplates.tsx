@@ -220,53 +220,50 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
   // Render template cards
   const renderTemplateCards = (): any => {
     return templates.map(template => (
-      <Col key={template.id} md={6} lg={4} className="mb-4"></Col>
+      <Col key={template.id} md={6} lg={4} className="mb-4" />
         <Card
           className={`h-100 ${selectedTemplate === template.id ? 'border-primary' : ''}`}
           onClick={() => handleSelectTemplate(template.id)}
           style={{ cursor: 'pointer' }}
         >
-          <Card.Header className="d-flex align-items-center"></Card>
-            <div className="me-2">{template.icon}</div>
-            <div></div>
-              <h5 className="mb-0">{template.name}</h5>
+          <Card.Header className="d-flex align-items-center" />
+            <div className="me-2">{template.icon}
+            <div />
+              <h5 className="mb-0">{template.name}
             </div>
           </Card.Header>
-          <Card.Body></Card>
-            <p>{template.description}</p>
+          <Card.Body />
+            <p>{template.description}
 
-            <div className="mb-3"></div>
+            <div className="mb-3" />
               <small className="text-muted d-block mb-1">Features:</small>
               {template.features.map((feature, index) => (
-                <Badge key={index} bg="primary" className="me-1 mb-1"></Badge>
+                <Badge key={index} bg="primary" className="me-1 mb-1" />
                   {feature}
-                </Badge>
               ))}
             </div>
 
-            <div></div>
-              <small className="text-muted d-block mb-1"></small>
+            <div />
+              <small className="text-muted d-block mb-1" />
                 Recommended for:
               </small>
               {template.recommendedFor.map((rec, index) => (
-                <Badge key={index} bg="secondary" className="me-1 mb-1"></Badge>
+                <Badge key={index} bg="secondary" className="me-1 mb-1" />
                   {rec}
-                </Badge>
               ))}
             </div>
           </Card.Body>
-          <Card.Footer></Card>
-            <small className="text-muted"></small>
-              <Users size={14} className="me-1" /></Users>
+          <Card.Footer />
+            <small className="text-muted" />
+              <Users size={14} className="me-1" / />
               {template.minParticipants}-{template.maxParticipants} participants
             </small>
-            <small className="text-muted ms-3"></small>
+            <small className="text-muted ms-3" />
               <Clock size={14} className="me-1" />~{template.timePerRound}{' '}
               min/round
             </small>
           </Card.Footer>
         </Card>
-      </Col>
     ));
   };
 
@@ -281,14 +278,14 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
     const recommendedRounds = calculateRecommendedRounds(participantCount);
 
     return (
-      <Card className="mt-4"></Card>
-        <Card.Header></Card>
+      <Card className="mt-4" />
+        <Card.Header />
           <h4>Customize Tournament Template</h4>
         </Card.Header>
-        <Card.Body></Card>
-          <Row></Row>
-            <Col md={6}></Col>
-              <Form.Group className="mb-3"></Form>
+        <Card.Body />
+          <Row />
+            <Col md={6} />
+              <Form.Group className="mb-3" />
                 <Form.Label>Number of Participants</Form.Label>
                 <Form.Control
                   type="number"
@@ -297,13 +294,13 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                   value={participantCount}
                   onChange={e => setParticipantCount(parseInt(e.target.value))}
                 />
-                <Form.Text className="text-muted"></Form>
+                <Form.Text className="text-muted" />
                   Min: {template.minParticipants}, Max:{' '}
                   {template.maxParticipants}
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group className="mb-3"></Form>
+              <Form.Group className="mb-3" />
                 <Form.Label>Time Constraint (minutes)</Form.Label>
                 <Form.Control
                   type="number"
@@ -313,12 +310,12 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                   value={timeConstraint}
                   onChange={e => setTimeConstraint(parseInt(e.target.value))}
                 />
-                <Form.Text className="text-muted"></Form>
+                <Form.Text className="text-muted" />
                   Total available time for the tournament
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group className="mb-3"></Form>
+              <Form.Group className="mb-3" />
                 <Form.Check
                   type="switch"
                   id="meta-balance-switch"
@@ -326,12 +323,12 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                   checked={metaBalance}
                   onChange={e => setMetaBalance(e.target.checked)}
                 />
-                <Form.Text className="text-muted"></Form>
+                <Form.Text className="text-muted" />
                   Reward players using underrepresented archetypes
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group className="mb-3"></Form>
+              <Form.Group className="mb-3" />
                 <Form.Check
                   type="switch"
                   id="parallel-brackets-switch"
@@ -339,12 +336,12 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                   checked={parallelBrackets}
                   onChange={e => setParallelBrackets(e.target.checked)}
                 />
-                <Form.Text className="text-muted"></Form>
+                <Form.Text className="text-muted" />
                   Run consolation brackets alongside the main event
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group className="mb-3"></Form>
+              <Form.Group className="mb-3" />
                 <Form.Check
                   type="switch"
                   id="tiered-entry-switch"
@@ -352,81 +349,74 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                   checked={tieredEntry}
                   onChange={e => setTieredEntry(e.target.checked)}
                 />
-                <Form.Text className="text-muted"></Form>
+                <Form.Text className="text-muted" />
                   Create qualification paths for players of different skill
                   levels
                 </Form.Text>
               </Form.Group>
             </Col>
 
-            <Col md={6}></Col>
-              <Card className="mb-3"></Card>
+            <Col md={6} />
+              <Card className="mb-3" />
                 <Card.Header>Tournament Summary</Card.Header>
-                <Card.Body></Card>
-                  <div className="mb-3"></div>
+                <Card.Body />
+                  <div className="mb-3" />
                     <strong>Template:</strong> {template.name}
-                  </div>
-                  <div className="mb-3"></div>
+                  <div className="mb-3" />
                     <strong>Participants:</strong> {participantCount}
-                  </div>
-                  <div className="mb-3"></div>
+                  <div className="mb-3" />
                     <strong>Recommended Rounds:</strong> {recommendedRounds}
-                  </div>
-                  <div className="mb-3"></div>
+                  <div className="mb-3" />
                     <strong>Estimated Duration:</strong> {estimatedDuration}{' '}
                     minutes
                     {estimatedDuration > timeConstraint && (
-                      <Alert variant="warning" className="mt-2"></Alert>
-                        <small></small>
+                      <Alert variant="warning" className="mt-2" />
+                        <small />
                           Warning: Estimated duration exceeds time constraint.
                           Consider reducing rounds or increasing time
                           constraint.
                         </small>
-                      </Alert>
                     )}
-                  </div>
-                  <div></div>
+                  <div />
                     <strong>Enabled Features:</strong>
-                    <div className="mt-1"></div>
+                    <div className="mt-1" />
                       {template.features.map((feature, index) => (
-                        <Badge key={index} bg="primary" className="me-1 mb-1"></Badge>
+                        <Badge key={index} bg="primary" className="me-1 mb-1" />
                           {feature}
-                        </Badge>
                       ))}
                       {metaBalance && (
-                        <Badge bg="success" className="me-1 mb-1"></Badge>
+                        <Badge bg="success" className="me-1 mb-1" />
                           meta-balancing
                         </Badge>
                       )}
                       {parallelBrackets && (
-                        <Badge bg="success" className="me-1 mb-1"></Badge>
+                        <Badge bg="success" className="me-1 mb-1" />
                           parallel-brackets
                         </Badge>
                       )}
                       {tieredEntry && (
-                        <Badge bg="success" className="me-1 mb-1"></Badge>
+                        <Badge bg="success" className="me-1 mb-1" />
                           tiered-entry
                         </Badge>
                       )}
-                    </div>
                   </div>
                 </Card.Body>
               </Card>
 
               {metaBalance && metaPrediction && (
-                <Card className="mb-3"></Card>
+                <Card className="mb-3" />
                   <Card.Header>Meta-Balancing Incentives</Card.Header>
-                  <Card.Body></Card>
-                    <p className="small"></p>
+                  <Card.Body />
+                    <p className="small" />
                       Based on meta analysis, the following archetypes will
                       receive incentives:
                     </p>
-                    <ul className="list-unstyled"></ul>
+                    <ul className="list-unstyled" />
                       {metaPrediction
                         .filter(p => p.currentPercentage < 15)
                         .map((archetype, index) => (
-                          <li key={index} className="mb-2"></li>
-                            <Badge bg="success" className="me-2"></Badge>
+                          <li key={index} className="mb-2" />
+                            <Badge bg="success" className="me-2" />
                               +20% points
                             </Badge>
                             {archetype.archetype} ({archetype.currentPercentage}
@@ -438,9 +428,8 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                 </Card>
               )}
             </Col>
-          </Row>
         </Card.Body>
-        <Card.Footer className="d-flex justify-content-end"></Card>
+        <Card.Footer className="d-flex justify-content-end" />
           <Button
             variant="secondary"
             className="me-2"
@@ -448,7 +437,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
           >
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirmTemplate}></Button>
+          <Button variant="primary" onClick={handleConfirmTemplate} />
             Confirm Template
           </Button>
         </Card.Footer>
@@ -457,20 +446,20 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
   };
 
   return (
-    <div></div>
-      <h3 className="mb-4"></h3>
-        <Trophy className="me-2" /></Trophy>
+    <div />
+      <h3 className="mb-4" />
+        <Trophy className="me-2" / />
         Tournament Templates
       </h3>
 
       {!selectedTemplate ? (
         <>
-          <p className="text-muted mb-4"></p>
+          <p className="text-muted mb-4" />
             Select a tournament template to get started. Each template offers
             different features and is optimized for specific tournament goals.
           </p>
 
-          <Row>{renderTemplateCards()}</Row>
+          <Row>{renderTemplateCards()}
         </>
       ) : (
         renderTemplateCustomization()

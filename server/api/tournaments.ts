@@ -147,7 +147,7 @@ if (!fs.existsSync(tournamentsPath)) {
 }
 
 // Helper function to read tournaments
-const getTournaments = () => {
+const getTournaments = (getTournaments: any) => {
   try {
     const data = fs.readFileSync(tournamentsPath, 'utf8');
     return JSON.parse(data);
@@ -158,7 +158,7 @@ const getTournaments = () => {
 };
 
 // Helper function to write tournaments
-const saveTournaments = (tournaments) => {
+const saveTournaments = (saveTournaments: any) => {
   try {
     fs.writeFileSync(tournamentsPath, JSON.stringify(tournaments, null, 2));
     return true;
@@ -169,7 +169,7 @@ const saveTournaments = (tournaments) => {
 };
 
 // Helper function to get user data
-const getUsers = () => {
+const getUsers = (getUsers: any) => {
   try {
     const usersPath = path.join(__dirname, '../data/users.json');
     if (!fs.existsSync(usersPath)) {
@@ -184,7 +184,7 @@ const getUsers = () => {
 };
 
 // Helper function to get username by ID
-const getUsernameById = (userId) => {
+const getUsernameById = (getUsernameById: any) => {
   const users = getUsers();
   const user = users.find(u => u.id === userId);
   return user ? user.username : userId;

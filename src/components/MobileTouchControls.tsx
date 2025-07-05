@@ -280,17 +280,17 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ touchAction: 'none' }}
-      /></div>
+      / />
       {/* Control Panel */}
       <div
         className={`fixed bottom-4 left-4 right-4 transition-transform duration-300 z-50 ${
           showControls ? 'translate-y-0' : 'translate-y-full'
         }`}
-      ></div>
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4"></div>
+       />
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4" />
           {/* Touch Mode Selector */}
-          <div className="flex justify-center mb-4"></div>
-            <div className="bg-gray-100 rounded-lg p-1 flex space-x-1"></div>
+          <div className="flex justify-center mb-4" />
+            <div className="bg-gray-100 rounded-lg p-1 flex space-x-1" />
               {[
                 {
                   mode: 'select',
@@ -318,29 +318,28 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   }`}
                 >
                   {icon}
-                  <span className="hidden sm:inline">{label}</span>
+                  <span className="hidden sm:inline">{label}
                 </button>
               ))}
             </div>
-          </div>
 
           {/* Quick Actions */}
-          <div className="flex justify-center space-x-2 mb-4"></div>
+          <div className="flex justify-center space-x-2 mb-4" />
             {quickActions.map(action => (
               <button
                 key={action.id}
                 onClick={action.action}
                 disabled={action.disabled}
                 className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${action.className}`}
-              ></button>
+               />
                 {action.icon}
-                <span className="hidden sm:inline">{action.label}</span>
+                <span className="hidden sm:inline">{action.label}
               </button>
             ))}
           </div>
 
           {/* Settings */}
-          <div className="flex justify-center space-x-4"></div>
+          <div className="flex justify-center space-x-4" />
             <button
               onClick={toggleVibration}
               className={`p-2 rounded-lg transition-colors ${
@@ -349,8 +348,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   : 'bg-gray-100 text-gray-400'
               }`}
               title={`Vibration ${isVibrationEnabled ? 'On' : 'Off'}`}
-            ></button>
-              <Settings className="w-4 h-4" /></Settings>
+             />
+              <Settings className="w-4 h-4" / />
             </button>
 
             <button
@@ -361,49 +360,43 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   : 'bg-gray-100 text-gray-400'
               }`}
               title={`Sound ${isSoundEnabled ? 'On' : 'Off'}`}
-            ></button>
+             />
               {isSoundEnabled ? (
-                <Volume2 className="w-4 h-4" /></Volume2>
+                <Volume2 className="w-4 h-4" / />
               ) : (
-                <VolumeX className="w-4 h-4" /></VolumeX>
+                <VolumeX className="w-4 h-4" / />
               )}
-            </button>
 
             <button
               onClick={() => setShowControls(!showControls)}
               className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
               title="Toggle Controls"
             >
-              <Settings className="w-4 h-4" /></Settings>
+              <Settings className="w-4 h-4" / />
             </button>
-          </div>
         </div>
-      </div>
 
       {/* Touch Mode Indicator */}
       {gestureState.isGesturing && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-0 whitespace-nowrap rounded-lg z-50"></div>
-          <span className="text-sm font-medium"></span>
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-0 whitespace-nowrap rounded-lg z-50" />
+          <span className="text-sm font-medium" />
             {touchMode === 'select' && 'Tap to select cards'}
             {touchMode === 'pan' && 'Drag to pan view'}
             {touchMode === 'zoom' && 'Pinch to zoom'}
             {touchMode === 'attack' && 'Tap target to attack'}
-          </span>
         </div>
       )}
       {/* Game State Indicator */}
-      <div className="fixed top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-40"></div>
-        <div className="text-center"></div>
+      <div className="fixed top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-40" />
+        <div className="text-center" />
           <div
             className={`w-3 h-3 rounded-full mx-auto mb-1 ${
               isPlayerTurn ? 'bg-green-500' : 'bg-gray-400'
             }`}
-          /></div>
-          <span className="text-xs font-medium text-gray-600"></span>
+          / />
+          <span className="text-xs font-medium text-gray-600" />
             {isPlayerTurn ? 'Your Turn' : 'Waiting'}
-          </span>
         </div>
-      </div>
     </>
   );
 };

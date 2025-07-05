@@ -28,17 +28,14 @@ interface LiveTournamentBracketProps {
   tournament
 }
 
-const LiveTournamentBracket: React.FC<LiveTournamentBracketProps> = ({  tournament  }) => {
-  return (
-    <div className="bg-card rounded-lg p-6"></div>
+const LiveTournamentBracket: React.FC<LiveTournamentBracketProps> = ({  tournament  }) => {return (
+    <div className="bg-card rounded-lg p-6" />
       <h3 className="text-lg font-semibold mb-4">Tournament Bracket</h3>
-      <div className="text-center text-secondary"></div>
+      <div className="text-center text-secondary" />
         <p>Live tournament bracket will be displayed here</p>
-        <p className="text-sm mt-2"></p>
+        <p className="text-sm mt-2" />
           Tournament: {tournament?.name || 'Loading...'}
-        </p>
       </div>
-    </div>
   );
 };
 

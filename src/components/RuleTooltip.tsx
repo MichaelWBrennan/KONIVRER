@@ -83,14 +83,13 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >
-      <div className="flex items-center gap-1 cursor-help"></div>
+      <div className="flex items-center gap-1 cursor-help" />
         {children}
         {showIcon && (
-          <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" /></HelpCircle>
+          <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" / />
         )}
-      </div>
 
-      <AnimatePresence></AnimatePresence>
+      <AnimatePresence />
         {isVisible && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -98,8 +97,8 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15 }}
             className={`absolute z-50 ${positionClasses[position]}`}
-          ></motion>
-            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl max-w-xs"></div>
+           />
+            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl max-w-xs" />
               {/* Arrow */}
               <div
                 className={`absolute w-2 h-2 bg-gray-900 border-gray-700 transform rotate-45 ${
@@ -111,43 +110,36 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
                         ? 'left-full top-1/2 -translate-y-1/2 -ml-1 border-t border-r'
                         : 'right-full top-1/2 -translate-y-1/2 -mr-1 border-b border-l'
                 }`}
-              /></div>
+              / />
               {/* Content */}
-              <div className="relative"></div>
-                <div className="flex items-center gap-2 mb-2"></div>
-                  <Book className="w-4 h-4 text-blue-400" /></Book>
-                  <h4 className="font-semibold text-white text-sm"></h4>
+              <div className="relative" />
+                <div className="flex items-center gap-2 mb-2" />
+                  <Book className="w-4 h-4 text-blue-400" / />
+                  <h4 className="font-semibold text-white text-sm" />
                     {content.title}
-                  </h4>
                   {content.category && (
-                    <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded"></span>
+                    <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded" />
                       {content.category}
-                    </span>
                   )}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed"></p>
+                <p className="text-gray-300 text-sm leading-relaxed" />
                   {content.description}
-                </p>
                 {content.example && (
-                  <div className="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-400"></div>
+                  <div className="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-400" />
                     <strong>Example:</strong> {content.example}
-                  </div>
                 )}
-                <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-700"></div>
+                <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-700" />
                   <button
                     onClick={() => window.open('/rules', '_blank')}
                     className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
                   >
-                    <ExternalLink className="w-3 h-3" /></ExternalLink>
+                    <ExternalLink className="w-3 h-3" / />
                     View Full Rules
                   </button>
-                </div>
               </div>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
   );
 };
 

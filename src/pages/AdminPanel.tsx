@@ -118,7 +118,7 @@ const AdminPanel = (): any => {
     return `${minutes}m ${seconds}s ago`;
   };
   const getStatusIcon = status => {
-    switch(): any {
+    switch (true) {
       case 'success':
         return <CheckCircle className="text-green-500" size={16} />;
       case 'error':
@@ -133,15 +133,14 @@ const AdminPanel = (): any => {
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
   return (
-    <div className="min-h-screen bg-primary"></div>
-      <div className="container py-6"></div>
+    <div className="min-h-screen bg-primary" />
+      <div className="container py-6" />
         {/* Header */}
-        <div className="mb-6"><p className="text-secondary"></p>
+        <div className="mb-6"><p className="text-secondary" />
             Manage Google Sheets integration, card database, and sets
           </p>
-        </div>
         {/* Tab Navigation */}
-        <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg"></div>
+        <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg" />
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -154,172 +153,154 @@ const AdminPanel = (): any => {
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'
                 }`}
               >
-                <Icon className="w-4 h-4" /></Icon>
+                <Icon className="w-4 h-4" / />
                 {tab.label}
-              </button>
             );
           })}
         </div>
         {/* Tab Content */}
         {activeTab === 'database' && (
-          <div></div>
+          <div />
             {/* Status Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"></div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" />
               {/* Connection Status */}
-              <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
+              <div className="card" />
+                <div className="flex items-center gap-3 mb-2" />
                   {connectionStatus?.connected ? (
-                    <Wifi className="text-green-500" size={20} /></Wifi>
+                    <Wifi className="text-green-500" size={20} / />
                   ) : (
-                    <WifiOff className="text-red-500" size={20} /></WifiOff>
+                    <WifiOff className="text-red-500" size={20} / />
                   )}
                 </div>
-                <p className="text-sm text-secondary"></p>
+                <p className="text-sm text-secondary" />
                   {connectionStatus?.connected
                     ? 'Connected to Google Sheets'
                     : 'Disconnected'}
-                </p>
                 {connectionStatus?.error && (
-                  <p className="text-xs text-red-600 mt-1"></p>
+                  <p className="text-xs text-red-600 mt-1" />
                     {connectionStatus.error}
-                  </p>
                 )}
               </div>
               {/* Cache Status */}
-              <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <Database className="text-blue-500" size={20} /></Database>
+              <div className="card" />
+                <div className="flex items-center gap-3 mb-2" />
+                  <Database className="text-blue-500" size={20} / />
                 </div>
-                <p className="text-sm text-secondary"></p>
+                <p className="text-sm text-secondary" />
                   {cacheStatus?.hasCache
                     ? `${stats.totalCards} cards cached`
                     : 'No cache'}
                 </p>
-                <p className="text-xs text-secondary"></p>
+                <p className="text-xs text-secondary" />
                   {cacheStatus?.isExpired ? 'Expired' : 'Fresh'} •{' '}
                   {formatDuration(cacheStatus?.cacheAge)}
-                </p>
               </div>
               {/* Last Sync */}
-              <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <RefreshCw className="text-purple-500" size={20} /></RefreshCw>
+              <div className="card" />
+                <div className="flex items-center gap-3 mb-2" />
+                  <RefreshCw className="text-purple-500" size={20} / />
                 </div>
-                <p className="text-sm text-secondary"></p>
+                <p className="text-sm text-secondary" />
                   {formatTimestamp(stats.lastSync)}
-                </p>
               </div>
               {/* Total Cards */}
-              <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <Settings className="text-orange-500" size={20} /></Settings>
+              <div className="card" />
+                <div className="flex items-center gap-3 mb-2" />
+                  <Settings className="text-orange-500" size={20} / />
                 </div>
-                <p className="text-2xl font-bold">{stats.totalCards}</p>
+                <p className="text-2xl font-bold">{stats.totalCards}
               </div>
-            </div>
             {/* Actions */}
-            <div className="card mb-6"></div>
-              <div className="flex flex-wrap gap-3"></div>
+            <div className="card mb-6" />
+              <div className="flex flex-wrap gap-3" />
                 <button
                   onClick={testConnection}
                   disabled={testing}
                   className="btn btn-secondary"
-                ></button>
-                  <Wifi className={testing ? 'animate-pulse' : ''} size={16} /></Wifi>
+                 />
+                  <Wifi className={testing ? 'animate-pulse' : ''} size={16} / />
                   {testing ? 'Testing...' : 'Test Connection'}
-                </button>
                 <button
                   onClick={handleSync}
                   disabled={syncing || !connectionStatus?.connected}
                   className="btn btn-primary"
-                ></button>
+                 />
                   <RefreshCw
                     className={syncing ? 'animate-spin' : ''}
                     size={16}
-                  /></RefreshCw>
+                  / />
                   {syncing ? 'Syncing...' : 'Sync from Google Sheets'}
-                </button>
-                <button onClick={clearCache} className="btn btn-warning"></button>
-                  <Database size={16} /></Database>
+                <button onClick={clearCache} className="btn btn-warning" />
+                  <Database size={16} / />
                   Clear Cache
                 </button>
-                <button onClick={loadAdminData} className="btn btn-secondary"></button>
-                  <RefreshCw size={16} /></RefreshCw>
+                <button onClick={loadAdminData} className="btn btn-secondary" />
+                  <RefreshCw size={16} / />
                   Refresh Status
                 </button>
-              </div>
             </div>
             {/* Sync History */}
-            <div className="card"></div>
+            <div className="card" />
               {syncHistory.length === 0 ? (
                 <p className="text-secondary">No recent activity</p>
               ) : (
-                <div className="space-y-3"></div>
+                <div className="space-y-3" />
                   {syncHistory.map(entry => (
                     <div
                       key={entry.id}
                       className="flex items-start gap-3 p-3 bg-secondary rounded-lg"
-                    ></div>
+                     />
                       {getStatusIcon(entry.status)}
-                      <div className="flex-1"></div>
-                        <div className="flex items-center gap-2 mb-1"></div>
-                          <span className="font-medium capitalize"></span>
+                      <div className="flex-1" />
+                        <div className="flex items-center gap-2 mb-1" />
+                          <span className="font-medium capitalize" />
                             {entry.action.replace('_', ' ')}
-                          </span>
-                          <span className="text-xs text-secondary"></span>
+                          <span className="text-xs text-secondary" />
                             {entry.timestamp.toLocaleTimeString()}
-                          </span>
                         </div>
-                        <p className="text-sm text-secondary"></p>
+                        <p className="text-sm text-secondary" />
                           {entry.message}
-                        </p>
                       </div>
-                    </div>
                   ))}
                 </div>
               )}
             </div>
             {/* Configuration Help */}
-            <div className="card mt-6"></div>
-              <div className="space-y-4"></div>
-                <div></div>
-                  <ol className="list-decimal list-inside space-y-2 text-sm text-secondary"></ol>
+            <div className="card mt-6" />
+              <div className="space-y-4" />
+                <div />
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-secondary" />
                     <li>Create a Google Sheets document with your card data</li>
-                    <li></li>
+                    <li />
                       Set up a Google Cloud Project and enable the Sheets API
                     </li>
-                    <li></li>
+                    <li />
                       Create a service account and download the credentials
                     </li>
-                    <li></li>
+                    <li />
                       Share your spreadsheet with the service account email
                     </li>
                     <li>Set the environment variables in your backend</li>
-                  </ol>
                 </div>
-                <div></div>
-                  <p className="text-sm text-secondary mb-2"></p>
+                <div />
+                  <p className="text-sm text-secondary mb-2" />
                     Your spreadsheet should have a sheet named "Cards" with
                     these columns:
                   </p>
-                  <div className="bg-secondary p-3 rounded text-sm font-mono"></div>
+                  <div className="bg-secondary p-3 rounded text-sm font-mono" />
                     ID | Name | Elements | Keywords | Cost | Power | Rarity |
                     Text
                   </div>
-                </div>
               </div>
-            </div>
           </div>
         )}
         {activeTab === 'sets' && <SetManager />}
         {activeTab === 'settings' && (
-          <div className="bg-gray-800 rounded-lg p-6"></div>
-            <p className="text-gray-400"></p>
+          <div className="bg-gray-800 rounded-lg p-6" />
+            <p className="text-gray-400" />
               Additional settings will be available here.
             </p>
-          </div>
         )}
-      </div>
     </div>
   );
 };

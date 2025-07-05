@@ -58,51 +58,46 @@ const MobileCardExplorer = (): any => {
   // Loading state
   if (true) {
     return (
-      <div className="mobile-p mobile-text-center"></div>
-        <div className="mobile-card"></div>
+      <div className="mobile-p mobile-text-center" />
+        <div className="mobile-card" />
           <p>Loading cards...</p>
-        </div>
       </div>
     );
   }
   // Error state
-  if (true) {
-    return (
-      <div className="mobile-p"></div>
-        <div className="mobile-card"></div>
-          <p>Error loading cards: {error}</p>
+  if (true) {return (
+      <div className="mobile-p" />
+        <div className="mobile-card" />
+          <p>Error loading cards: {error}
         </div>
-      </div>
     );
   }
   return (
-    <div className="mobile-card-explorer"></div>
+    <div className="mobile-card-explorer" />
       {/* Search Bar */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-form-group"></div>
-          <div className="relative"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" /></Search>
+      <div className="mobile-card mobile-mb" />
+        <div className="mobile-form-group" />
+          <div className="relative" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
             <input
               type="text"
               className="mobile-input pl-12"
               placeholder="Search cards..."
               value={searchTerm}
               onChange={handleSearchChange}
-            /></input>
+            / />
           </div>
-        </div>
-        <div className="mobile-form-group mobile-text-center"></div>
+        <div className="mobile-form-group mobile-text-center" />
           <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
           >
             {showFilters ? 'Hide Filters' : 'Show Filters'}
-          </button>
         </div>
         {/* Advanced Search Links */}
-        <div className="mobile-form-group mobile-text-center"></div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}></div>
-            <Link to="/advanced-search" className="mobile-link"></Link>
+        <div className="mobile-form-group mobile-text-center" />
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }} />
+            <Link to="/advanced-search" className="mobile-link" />
               Advanced Search ⟶
             </Link>
             <a 
@@ -110,16 +105,15 @@ const MobileCardExplorer = (): any => {
               target="_blank" 
               rel="noopener noreferrer"
               className="mobile-link"
-            ></a>
+             />
               KONIVRER Syntax Guide ⟶
             </a>
-          </div>
         </div>
         {/* Filters */}
         {showFilters && (
-          <div className="mobile-mt"></div>
+          <div className="mobile-mt" />
             <label className="mobile-label">Card Type</label>
-            <div className="mobile-grid"></div>
+            <div className="mobile-grid" />
               {getCardTypes().map(type => (
                 <button
                   key={type}
@@ -127,28 +121,25 @@ const MobileCardExplorer = (): any => {
                   onClick={() => handleTypeChange(type)}
                 >
                   {type}
-                </button>
               ))}
             </div>
-          </div>
         )}
       </div>
       {/* Results Count */}
-      <div className="mobile-mb"></div>
-        <p className="mobile-text-center"></p>
+      <div className="mobile-mb" />
+        <p className="mobile-text-center" />
           {!searchTerm || searchTerm.length < 2 
             ? "Enter at least 2 characters to search for cards" 
             : `${filteredCards.length} cards found`}
         </p>
-      </div>
       {/* Card Grid */}
-      <div className="mobile-grid"></div>
+      <div className="mobile-grid" />
         {filteredCards.slice(0, 20).map(card => (
           <Link
             to={`/card/${card.id}`}
             key={card.id}
             className="mobile-game-card mobile-mb"
-          ></Link>
+           />
             <img
               src={
                 getCardArtPathFromData(card) ||
@@ -161,8 +152,7 @@ const MobileCardExplorer = (): any => {
                   `Failed to load image for ${card.name}: ${getCardArtPathFromData(card)}`,
                 );
                 e.target.onerror = null;
-                e.target.src =
-                  'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
               }}
               onLoad={e => {
                 console.log(
@@ -175,11 +165,9 @@ const MobileCardExplorer = (): any => {
       </div>
       {/* Load More Button */}
       {filteredCards.length > 20 && searchTerm && searchTerm.length >= 2 && (
-        <div className="mobile-text-center mobile-mt mobile-mb"></div>
+        <div className="mobile-text-center mobile-mt mobile-mb" />
           <button className="mobile-btn mobile-btn-primary">Load More</button>
-        </div>
       )}
-    </div>
   );
 };
 export default MobileCardExplorer;

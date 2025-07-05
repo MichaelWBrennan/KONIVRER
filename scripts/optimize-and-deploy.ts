@@ -1,13 +1,16 @@
+import fs from 'fs';
+import path from 'path';
+
 
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const { existsSync, writeFileSync } = require('fs');
-const path = require('path');
+import {  execSync  } from 'child_process';
+import {  existsSync, writeFileSync  } from 'fs';
+import path from 'path';
 
-const log = (message) => console.log(`🔧 ${message}`);
-const success = (message) => console.log(`✅ ${message}`);
-const error = (message) => console.error(`❌ ${message}`);
+const log = (log: any) => console.log(`🔧 ${message}`);
+const success = (success: any) => console.log(`✅ ${message}`);
+const error = (error: any) => console.error(`❌ ${message}`);
 
 class OptimizedDeployment {
   constructor() {

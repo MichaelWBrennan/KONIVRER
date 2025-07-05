@@ -115,7 +115,7 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
   }), [isInitialized, isLoading, error, isAuthenticated]);
   
   return (
-    <UnifiedContext.Provider value={contextValue}></UnifiedContext>
+    <UnifiedContext.Provider value={contextValue} />
       {children}
     </UnifiedContext.Provider>
   );

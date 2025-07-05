@@ -42,8 +42,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
 
   useEffect(() => {
     // Network status
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = (handleOnline: any) => setIsOnline(true);
+    const handleOffline = (handleOffline: any) => setIsOnline(false);
 
     // Battery API
     const updateBattery = async () => {
@@ -160,7 +160,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
     <div
       className={`min-h-screen ${orientation === 'landscape' ? 'landscape' : 'portrait'}`}
       style={{ background: 'var(--bg-primary)' }}
-    ></div>
+     />
       {/* Status Bar */}
       <div
         className="bg-tertiary text-primary text-xs flex justify-between items-center px-4 relative z-50"
@@ -172,47 +172,44 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           color: 'var(--text-primary)',
           borderBottom: '1px solid var(--border-primary)',
         }}
-      ></div>
-        <div className="flex items-center space-x-2"></div>
+       />
+        <div className="flex items-center space-x-2" />
           <span className="font-medium">KONIVRER</span>
           {!isOnline && (
             <div
               className="flex items-center space-x-1"
               style={{ color: 'var(--accent-warning)' }}
-            ></div>
-              <WifiOff className="w-3 h-3" /></WifiOff>
+             />
+              <WifiOff className="w-3 h-3" / />
               <span>Offline</span>
-            </div>
           )}
         </div>
 
-        <div className="flex items-center space-x-2"></div>
+        <div className="flex items-center space-x-2" />
           {isOnline ? (
             <Wifi
               className="w-3 h-3"
               style={{ color: 'var(--accent-success)' }}
-            /></Wifi>
+            / />
           ) : (
             <WifiOff
               className="w-3 h-3"
               style={{ color: 'var(--accent-warning)' }}
-            /></WifiOff>
+            / />
           )}
           <Signal
             className="w-3 h-3"
             style={{ color: 'var(--accent-primary)' }}
-          /></Signal>
+          / />
           {batteryLevel !== null && (
-            <div className="flex items-center space-x-1"></div>
+            <div className="flex items-center space-x-1" />
               <Battery
                 className="w-3 h-3"
                 style={{ color: 'var(--accent-info)' }}
-              /></Battery>
+              / />
               <span>{batteryLevel}%</span>
-            </div>
           )}
         </div>
-      </div>
 
       {/* Header */}
       <header
@@ -224,8 +221,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           borderBottom: '1px solid var(--border-primary)',
           boxShadow: 'var(--shadow-md)',
         }}
-      ></header>
-        <div className="flex items-center justify-between p-4"></div>
+       />
+        <div className="flex items-center justify-between p-4" />
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 rounded-lg transition-colors"
@@ -236,19 +233,17 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             }}
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6" /></X>
+              <X className="w-6 h-6" / />
             ) : (
-              <Menu className="w-6 h-6" /></Menu>
+              <Menu className="w-6 h-6" / />
             )}
-          </button>
 
           <h1
             className="text-lg font-bold"
             style={{ color: 'var(--text-primary)' }}
-          ></h1>
+           />
             {navigationItems.find(item => item.id === currentPage)?.label ||
               'KONIVRER'}
-          </h1>
 
           <div
             className="w-10 h-10 flex items-center justify-center rounded-full"
@@ -256,16 +251,14 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
               background: 'var(--gradient-primary)',
               boxShadow: 'var(--shadow-md)',
             }}
-          ></div>
+           />
             <span
               style={{ color: 'var(--text-primary)' }}
               className="font-bold text-sm"
-            ></span>
+             />
               K
             </span>
-          </div>
         </div>
-      </header>
 
       {/* Side Menu Overlay */}
       {isMenuOpen && (
@@ -287,37 +280,35 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           boxShadow: 'var(--shadow-xl)',
           borderRight: '1px solid var(--border-primary)',
         }}
-      ></div>
-        <div className="p-6"></div>
-          <div className="flex items-center space-x-3 mb-8"></div>
+       />
+        <div className="p-6" />
+          <div className="flex items-center space-x-3 mb-8" />
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center mystical-glow"
               style={{
                 background: 'var(--gradient-primary)',
                 boxShadow: 'var(--shadow-md)',
               }}
-            ></div>
+             />
               <span
                 style={{ color: 'var(--text-primary)' }}
                 className="font-bold text-lg"
-              ></span>
+               />
                 K
               </span>
-            </div>
-            <div></div>
+            <div />
               <h2
                 className="font-bold"
                 style={{ color: 'var(--text-primary)' }}
-              ></h2>
+               />
                 KONIVRER
               </h2>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}></p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }} />
                 Ancient Archives
               </p>
-            </div>
           </div>
 
-          <nav className="space-y-2"></nav>
+          <nav className="space-y-2" />
             {navigationItems.map(item => (
               <button
                 key={item.id}
@@ -338,7 +329,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                 }}
               >
                 {item.icon}
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium">{item.label}
               </button>
             ))}
           </nav>
@@ -350,18 +341,18 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
               background: 'var(--bg-tertiary)',
               border: '1px solid var(--border-primary)',
             }}
-          ></div>
-            <div className="flex items-center space-x-2"></div>
+           />
+            <div className="flex items-center space-x-2" />
               {isOnline ? (
                 <>
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{ background: 'var(--accent-success)' }}
-                  ></div>
+                   />
                   <span
                     className="text-sm"
                     style={{ color: 'var(--text-secondary)' }}
-                  ></span>
+                   />
                     Online
                   </span>
                 </>
@@ -370,11 +361,11 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{ background: 'var(--accent-warning)' }}
-                  ></div>
+                   />
                   <span
                     className="text-sm"
                     style={{ color: 'var(--text-secondary)' }}
-                  ></span>
+                   />
                     Offline Mode
                   </span>
                 </>
@@ -383,11 +374,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             <p
               className="text-xs mt-1"
               style={{ color: 'var(--text-tertiary)' }}
-            ></p>
+             />
               {isOnline ? 'All features available' : 'Limited functionality'}
-            </p>
           </div>
-        </div>
       </div>
 
       {/* Main Content */}
@@ -401,9 +390,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           paddingBottom: `${getBottomSafeArea()}px`,
           background: 'var(--bg-primary)',
         }}
-      ></main>
+       />
         {children}
-      </main>
 
       {/* Bottom Navigation (Portrait only) */}
       {orientation === 'portrait' && (
@@ -417,8 +405,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             borderTop: '1px solid var(--border-primary)',
             boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.3)',
           }}
-        ></nav>
-          <div className="flex justify-around py-2"></div>
+         />
+          <div className="flex justify-around py-2" />
             {navigationItems.slice(0, 5).map(item => (
               <button
                 key={item.id}
@@ -446,11 +434,10 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                 }}
               >
                 {item.icon}
-                <span className="text-xs mt-1 font-medium">{item.label}</span>
+                <span className="text-xs mt-1 font-medium">{item.label}
               </button>
             ))}
           </div>
-        </nav>
       )}
       {/* Landscape-specific adjustments */}
       <style jsx>{`
@@ -490,7 +477,6 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           --sar: env(safe-area-inset-right);
         }
       `}</style>
-    </div>
   );
 };
 

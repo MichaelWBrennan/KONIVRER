@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -26,7 +27,7 @@ if (!fs.existsSync(iconsDir)) {
 }
 
 // Generate icon function
-function generateIcon(size) {
+function generateIcon(): void {
   console.log(`Generating ${size}x${size} icon...`);
   
   // Create canvas

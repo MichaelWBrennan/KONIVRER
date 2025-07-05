@@ -1,4 +1,7 @@
-module.exports = {
+import React from 'react';
+import type { Linter } from 'eslint';
+
+const config: Linter.Config = {
   root: true,
   env: {
     browser: true,
@@ -7,18 +10,22 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    '@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.json',
   },
-  plugins: ['react', 'react-hooks', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'jsx-a11y', '@typescript-eslint'],
   settings: {
     react: {
       version: 'detect',
@@ -36,13 +43,20 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
 
-    // General JavaScript
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
-    'no-debugger': 'error',
-    'no-unused-vars': [
+    // TypeScript specific
+    '@typescript-eslint/no-unused-vars': [
       'error',
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'warn',
+    
+    // General JavaScript
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-debugger': 'error',
+    'no-unused-vars': 'off', // Use TypeScript version instead
     'no-var': 'error',
     'prefer-const': 'error',
 
@@ -57,7 +71,12 @@ module.exports = {
     'node_modules/**',
     'coverage/**',
     '*.config.js',
+    '*.config.ts',
     'legacy/**',
     'Backend/**',
+    'public/sw.js',
   ],
 };
+
+
+export default config;

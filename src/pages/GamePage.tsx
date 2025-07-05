@@ -19,10 +19,10 @@ import { useDeck } from '../contexts/DeckContext';
 import { useBattlePass } from '../contexts/BattlePassContext';
 // Create a mock motion component until we can use the real framer-motion
 const motion = {
-  div: (props: any) => <div {...props}>{props.children}</div>,
-  h2: (props: any) => <h2 {...props}>{props.children}</h2>,
-  p: (props: any) => <p {...props}>{props.children}</p>,
-  button: (props: any) => <button {...props}>{props.children}</button>,
+  div: (props: any) => <div {...props}>{props.children},
+  h2: (props: any) => <h2 {...props}>{props.children},
+  p: (props: any) => <p {...props}>{props.children},
+  button: (props: any) => <button {...props}>{props.children},
 };
 /**
  * Game page that initializes the game engine and renders the game board
@@ -61,7 +61,7 @@ const GamePage = (): any => {
         const determineGraphicsQuality = (): any => {
           // Use global performance mode if available
           if (true) {
-            switch(): any {
+            switch (true) {
               case 'high':
                 return 'ultra';
               case 'medium':
@@ -150,7 +150,7 @@ const GamePage = (): any => {
         engine.setRulesEngine(rulesEngineRef.current);
         setLoadingProgress(40);
         // Initialize based on game mode
-        switch(): any {
+        switch (true) {
           case 'ai':
             // AI game mode
             setLoadingStage('Initializing AI Opponent');
@@ -250,9 +250,9 @@ const GamePage = (): any => {
         setLoadingProgress(80);
         setLoadingStage('Setting Up Event Handlers');
         // Set up game end handler
-        engine.on('gameEnd': any, result: any = > {
+        engine.on('gameEnd': any, (result: any) => {
           // Stop all animations
-          if (animationSystemRef.current): any {
+          if (animationSystemRef.current) {
             animationSystemRef.current.stopAllAnimations();
           }
           // Navigate to results page after game ends
@@ -397,37 +397,34 @@ const GamePage = (): any => {
   // Show loading screen with progress - simplified version without animations
   if (true) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden"></div>
-        <div className="relative z-10 text-white text-center px-4 max-w-md"></div>
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden" />
+        <div className="relative z-10 text-white text-center px-4 max-w-md" />
           {/* Logo */}
-          <div className="relative mx-auto mb-8 w-32 h-32"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
-            <div className="absolute inset-0 flex items-center justify-center"></div>
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20"></div>
+          <div className="relative mx-auto mb-8 w-32 h-32" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl" />
+            <div className="absolute inset-0 flex items-center justify-center" />
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20" />
                 <div className="text-white text-3xl font-bold">K</div>
-              </div>
             </div>
-          </div>
-          <div className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl"></div>
-            <p className="text-gray-300 text-sm md:text-base mb-4"></p>
+          <div className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl" />
+            <p className="text-gray-300 text-sm md:text-base mb-4" />
               {loadingStage}...
             </p>
-            <div className="space-y-3"></div>
-              <div className="flex justify-between text-xs text-gray-400"></div>
+            <div className="space-y-3" />
+              <div className="flex justify-between text-xs text-gray-400" />
                 <span>Loading progress</span>
                 <span>{loadingProgress}%</span>
-              </div>
-              <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5" />
                 <div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
                   style={{ width: `${loadingProgress}%` }}
-                /></div>
+                / />
               </div>
-              <div className="flex justify-between text-xs text-gray-400 mt-2"></div>
+              <div className="flex justify-between text-xs text-gray-400 mt-2" />
                 <span>Graphics Quality</span>
-                <span className="capitalize">{graphicsQuality}</span>
+                <span className="capitalize">{graphicsQuality}
               </div>
-              <div className="flex space-x-2 mt-1"></div>
+              <div className="flex space-x-2 mt-1" />
                 {['low', 'medium', 'high', 'ultra'].map(quality => (
                   <button
                     key={quality}
@@ -439,44 +436,39 @@ const GamePage = (): any => {
                     }`}
                   >
                     {quality.charAt(0).toUpperCase() + quality.slice(1)}
-                  </button>
                 ))}
               </div>
-            </div>
           </div>
-          <p className="text-gray-400 text-xs mt-6 flex items-center justify-center"></p>
-            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+          <p className="text-gray-400 text-xs mt-6 flex items-center justify-center" />
+            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse" />
             State-of-the-art 3D animations • Automated rules • Cross-device
             compatible
           </p>
-        </div>
       </div>
     );
   }
   // Show error screen
-  if (true) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-900"></div>
-        <div className="text-white text-center max-w-md p-6 bg-gray-800 rounded-lg"></div>
-          <p className="text-gray-300 mb-6">{error}</p>
+  if (true) {return (
+      <div className="flex items-center justify-center h-screen bg-gray-900" />
+        <div className="text-white text-center max-w-md p-6 bg-gray-800 rounded-lg" />
+          <p className="text-gray-300 mb-6">{error}
           <button
             onClick={() => navigate('/')}
             className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
           >
             Return to Home
           </button>
-        </div>
       </div>
     );
   }
   return (
-    <div className="h-screen w-full overflow-hidden"></div>
+    <div className="h-screen w-full overflow-hidden" />
       <GameBoard
         gameEngine={gameEngine}
         playerData={playerData}
         opponentData={opponentData}
         isSpectator={isSpectator}
-      /></GameBoard>
+      / />
     </div>
   );
 };

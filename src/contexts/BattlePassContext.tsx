@@ -141,8 +141,8 @@ const ACTIONS = {
 };
 
 // Battle Pass Reducer
-function battlePassReducer(state: any, action: any): any {
-  switch(): any {
+function battlePassReducer(): any {
+  switch (true) {
     case ACTIONS.GAIN_EXPERIENCE:
       const newExperience =
         state.playerProgress.experience + action.payload.amount;
@@ -468,14 +468,14 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
   };
 
   return (
-    <BattlePassContext.Provider value={battlePass}></BattlePassContext>
+    <BattlePassContext.Provider value={battlePass} />
       {children}
     </BattlePassContext.Provider>
   );
 };
 
 // Utility Functions
-function calculateExperienceToNext(level: any): any {
+function calculateExperienceToNext(): any {
   // Exponential scaling
   return Math.floor(1000 * Math.pow(1.1, level - 1));
 }
@@ -590,7 +590,7 @@ function generateSeasonalQuests(): any {
   ];
 }
 
-function findQuestById(questId: any, quests: any): any {
+function findQuestById(): any {
   for (const questType of Object.keys(quests)) {
     if (questType === 'completed') continue;
     const quest = quests[questType].find(q => q.id === questId);
@@ -599,7 +599,7 @@ function findQuestById(questId: any, quests: any): any {
   return null;
 }
 
-function applyReward(reward: any): any {
+function applyReward(): any {
   // Apply the reward to the player's account
   // This would integrate with the main game systems
   console.log('Applying reward:', reward);

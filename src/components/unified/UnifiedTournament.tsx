@@ -171,11 +171,10 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   // Render loading state
   if (true) {
     return (
-      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="tournament-loading"></div>
-          <Loader2 className="animate-spin" size={24} /></Loader2>
+      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
+        <div className="tournament-loading" />
+          <Loader2 className="animate-spin" size={24} / />
           <span>Loading tournament...</span>
-        </div>
       </div>
     );
   }
@@ -183,46 +182,43 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   // Render error state
   if (true) {
     return (
-      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="tournament-error"></div>
-          <AlertCircle size={24} /></AlertCircle>
-          <span>{error || 'Tournament not found'}</span>
+      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
+        <div className="tournament-error" />
+          <AlertCircle size={24} / />
+          <span>{error || 'Tournament not found'}
         </div>
-      </div>
     );
   }
   
   return (
-    <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
-      <div className="tournament-header"></div>
-        <div className="tournament-icon"></div>
-          <Trophy size={compact ? 32 : 64} /></Trophy>
+    <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
+      <div className="tournament-header" />
+        <div className="tournament-icon" />
+          <Trophy size={compact ? 32 : 64} / />
         </div>
         
-        <div className="tournament-info"></div>
-          <h2 className="tournament-name">{tournament.name}</h2>
+        <div className="tournament-info" />
+          <h2 className="tournament-name">{tournament.name}
           
-          <div className="tournament-meta"></div>
-            <div className="meta-item"></div>
-              <Calendar size={16} /></Calendar>
-              <span>{formatDateTime(tournament.date, tournament.time)}</span>
+          <div className="tournament-meta" />
+            <div className="meta-item" />
+              <Calendar size={16} / />
+              <span>{formatDateTime(tournament.date, tournament.time)}
             </div>
             
-            <div className="meta-item"></div>
-              <Users size={16} /></Users>
-              <span></span>
+            <div className="meta-item" />
+              <Users size={16} / />
+              <span />
                 {tournament.participants?.length || 0} / {tournament.maxPlayers} Players
               </span>
-            </div>
             
-            <div className={`meta-item status-${tournament.status}`}></div>
-              <Info size={16} /></Info>
-              <span>{tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}</span>
+            <div className={`meta-item status-${tournament.status}`} />
+              <Info size={16} / />
+              <span>{tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
             </div>
-          </div>
         </div>
         
-        <div className="tournament-actions"></div>
+        <div className="tournament-actions" />
           {isAuthenticated && (
             <>
               {isRegistered ? (
@@ -230,25 +226,24 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                   <button 
                     className="notification-toggle"
                     onClick={handleToggleNotifications}
-                  ></button>
+                   />
                     {notificationsEnabled ? (
                       <>
-                        <Bell size={16} /></Bell>
+                        <Bell size={16} / />
                         <span>Notifications On</span>
                       </>
                     ) : (
                       <>
-                        <BellOff size={16} /></BellOff>
+                        <BellOff size={16} / />
                         <span>Notifications Off</span>
                       </>
                     )}
                   </button>
                   
                   {tournament.status === 'upcoming' && (
-                    <button className="leave-button"></button>
-                      <XCircle size={16} /></XCircle>
+                    <button className="leave-button" />
+                      <XCircle size={16} / />
                       <span>Leave Tournament</span>
-                    </button>
                   )}
                 </>
               ) : (
@@ -257,47 +252,43 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                     className="join-button"
                     onClick={handleJoinTournament}
                     disabled={isJoining || !selectedDeck}
-                  ></button>
+                   />
                     {isJoining ? (
-                      <Loader2 className="animate-spin" size={16} /></Loader2>
+                      <Loader2 className="animate-spin" size={16} / />
                     ) : (
-                      <CheckCircle size={16} /></CheckCircle>
+                      <CheckCircle size={16} / />
                     )}
                     <span>Join Tournament</span>
-                  </button>
                 )
               )}
               <button 
                 className="message-organizer"
                 onClick={handleMessageOrganizer}
-              ></button>
-                <MessageSquare size={16} /></MessageSquare>
+               />
+                <MessageSquare size={16} / />
                 <span>Message Organizer</span>
-              </button>
             </>
           )}
         </div>
-      </div>
       
       {joinError && (
-        <div className="join-error"></div>
-          <AlertCircle size={16} /></AlertCircle>
-          <span>{joinError}</span>
+        <div className="join-error" />
+          <AlertCircle size={16} / />
+          <span>{joinError}
         </div>
       )}
       {!isRegistered && tournament.status === 'upcoming' && isAuthenticated && (
-        <div className="deck-selection"></div>
+        <div className="deck-selection" />
           <h3 className="section-title">Select Deck to Register</h3>
           
           {deckList.length === 0 ? (
-            <div className="no-decks"></div>
+            <div className="no-decks" />
               <span>You don't have any decks. Create a deck first to join the tournament.</span>
-              <Link to="/decks/new" className="create-deck-button"></Link>
+              <Link to="/decks/new" className="create-deck-button" />
                 Create Deck
               </Link>
-            </div>
           ) : (
-            <div className="deck-list"></div>
+            <div className="deck-list" />
               <select
                 value={selectedDeck || ''}
                 onChange={(e) => setSelectedDeck(e.target.value)}
@@ -305,9 +296,8 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
               >
                 <option value="" disabled>Select a deck</option>
                 {deckList.map((deck) => (
-                  <option key={deck.id} value={deck.id}></option>
+                  <option key={deck.id} value={deck.id} />
                     {deck.name}
-                  </option>
                 ))}
               </select>
               
@@ -315,7 +305,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                 <Link 
                   to={`/decks/${selectedDeck}`}
                   className="view-deck-button"
-                ></Link>
+                 />
                   View Deck
                 </Link>
               )}
@@ -324,7 +314,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
         </div>
       )}
       {!compact && (
-        <div className="tournament-tabs"></div>
+        <div className="tournament-tabs" />
           <button 
             className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
@@ -349,139 +339,126 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
           >
             Standings
           </button>
-        </div>
       )}
-      <div className="tournament-content"></div>
+      <div className="tournament-content" />
         {activeTab === 'overview' && (
-          <div className="tournament-overview"></div>
-            <div className="info-card"></div>
+          <div className="tournament-overview" />
+            <div className="info-card" />
               <h3 className="card-title">Tournament Details</h3>
               
-              <div className="tournament-details"></div>
-                <div className="detail-item"></div>
+              <div className="tournament-details" />
+                <div className="detail-item" />
                   <div className="detail-label">Format</div>
-                  <div className="detail-value">{tournament.format}</div>
+                  <div className="detail-value">{tournament.format}
                 </div>
                 
-                <div className="detail-item"></div>
+                <div className="detail-item" />
                   <div className="detail-label">Rounds</div>
-                  <div className="detail-value">{tournament.rounds}</div>
+                  <div className="detail-value">{tournament.rounds}
                 </div>
                 
-                <div className="detail-item"></div>
+                <div className="detail-item" />
                   <div className="detail-label">Entry Fee</div>
-                  <div className="detail-value"></div>
+                  <div className="detail-value" />
                     {tournament.entryFee ? `$${tournament.entryFee}` : 'Free'}
                   </div>
-                </div>
                 
-                <div className="detail-item"></div>
+                <div className="detail-item" />
                   <div className="detail-label">Prizes</div>
-                  <div className="detail-value">{tournament.prizes || 'TBD'}</div>
+                  <div className="detail-value">{tournament.prizes || 'TBD'}
                 </div>
                 
-                <div className="detail-item"></div>
+                <div className="detail-item" />
                   <div className="detail-label">Location</div>
-                  <div className="detail-value">{tournament.location || 'Online'}</div>
+                  <div className="detail-value">{tournament.location || 'Online'}
                 </div>
                 
-                <div className="detail-item"></div>
+                <div className="detail-item" />
                   <div className="detail-label">Organizer</div>
-                  <div className="detail-value"></div>
+                  <div className="detail-value" />
                     {tournament.organizer ? (
-                      <Link to={`/users/${tournament.organizer.id}`}></Link>
+                      <Link to={`/users/${tournament.organizer.id}`} />
                         {tournament.organizer.name}
-                      </Link>
                     ) : (
                       'Unknown'
                     )}
                   </div>
-                </div>
               </div>
-            </div>
             
-            <div className="info-card"></div>
+            <div className="info-card" />
               <h3 className="card-title">Description</h3>
               
-              <div className="tournament-description"></div>
+              <div className="tournament-description" />
                 {tournament.description || 'No description provided.'}
-              </div>
             </div>
             
-            <div className="info-card"></div>
+            <div className="info-card" />
               <h3 className="card-title">Rules</h3>
               
-              <div className="tournament-rules"></div>
+              <div className="tournament-rules" />
                 {tournament.rules || 'Standard tournament rules apply.'}
-              </div>
             </div>
-          </div>
         )}
         {activeTab === 'participants' && (
-          <div className="tournament-participants"></div>
-            <h3 className="section-title"></h3>
+          <div className="tournament-participants" />
+            <h3 className="section-title" />
               Participants ({tournament.participants?.length || 0} / {tournament.maxPlayers})
             </h3>
             
             {!tournament.participants || tournament.participants.length === 0 ? (
-              <div className="no-participants"></div>
+              <div className="no-participants" />
                 <span>No participants yet</span>
-              </div>
             ) : (
-              <div className="participants-list"></div>
+              <div className="participants-list" />
                 {tournament.participants.map((participant) => (
                   <Link 
                     key={participant.id}
                     to={`/users/${participant.id}`}
                     className="participant-item"
-                  ></Link>
-                    <div className="participant-avatar"></div>
+                   />
+                    <div className="participant-avatar" />
                       {participant.avatarUrl ? (
-                        <img src={participant.avatarUrl} alt={participant.name} /></img>
+                        <img src={participant.avatarUrl} alt={participant.name} / />
                       ) : (
-                        <User size={24} /></User>
+                        <User size={24} / />
                       )}
                     </div>
                     
-                    <div className="participant-details"></div>
-                      <div className="participant-name">{participant.name}</div>
+                    <div className="participant-details" />
+                      <div className="participant-name">{participant.name}
                       
                       {participant.rating && (
-                        <div className="participant-rating"></div>
-                          <BarChart2 size={14} /></BarChart2>
+                        <div className="participant-rating" />
+                          <BarChart2 size={14} / />
                           <span>{participant.rating} Rating</span>
-                        </div>
                       )}
                     </div>
                     
-                    <ChevronRight size={16} /></ChevronRight>
+                    <ChevronRight size={16} / />
                   </Link>
                 ))}
               </div>
             )}
             {tournament.status === 'upcoming' && tournament.participants?.length < tournament.maxPlayers && (
-              <div className="participants-footer"></div>
+              <div className="participants-footer" />
                 <span>{tournament.maxPlayers - (tournament.participants?.length || 0)} spots remaining</span>
-              </div>
             )}
           </div>
         )}
         {activeTab === 'rounds' && (
-          <div className="tournament-rounds"></div>
-            <h3 className="section-title"></h3>
+          <div className="tournament-rounds" />
+            <h3 className="section-title" />
               Rounds ({tournament.currentRound || 0} / {tournament.rounds})
             </h3>
             
             {tournament.status === 'upcoming' ? (
-              <div className="no-rounds"></div>
+              <div className="no-rounds" />
                 <span>Tournament has not started yet</span>
-              </div>
             ) : tournament.rounds === 0 ? (
-              <div className="no-rounds"></div>
+              <div className="no-rounds" />
                 <span>No rounds scheduled</span>
-              </div>
             ) : (
-              <div className="rounds-list"></div>
+              <div className="rounds-list" />
                 {Array.from({ length: tournament.rounds }).map((_, index) => {
                   const roundNumber = index + 1;
                   const isCurrentRound = roundNumber === tournament.currentRound;
@@ -492,9 +469,9 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                     <div 
                       key={roundNumber}
                       className={`round-item ${isCurrentRound ? 'current' : ''} ${isPastRound ? 'past' : ''} ${isFutureRound ? 'future' : ''}`}
-                    ></div>
-                      <div className="round-header"></div>
-                        <div className="round-number">Round {roundNumber}</div>
+                     />
+                      <div className="round-header" />
+                        <div className="round-number">Round {roundNumber}
                         
                         {isCurrentRound && (
                           <div className="round-status current">In Progress</div>
@@ -505,10 +482,9 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                         {isFutureRound && (
                           <div className="round-status future">Upcoming</div>
                         )}
-                      </div>
                       
                       {(isCurrentRound || isPastRound) && tournament.matches && (
-                        <div className="round-matches"></div>
+                        <div className="round-matches" />
                           {tournament.matches
                             .filter(match => match.round === roundNumber)
                             .map((match) => (
@@ -516,27 +492,26 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                                 key={match.id}
                                 to={`/matches/${match.id}`}
                                 className={`match-item ${match.status}`}
-                              ></Link>
-                                <div className="match-players"></div>
-                                  <div className="player"></div>
-                                    <User size={16} /></User>
-                                    <span>{match.player1Name}</span>
+                               />
+                                <div className="match-players" />
+                                  <div className="player" />
+                                    <User size={16} / />
+                                    <span>{match.player1Name}
                                   </div>
                                   
                                   <div className="vs">vs</div>
                                   
-                                  <div className="player"></div>
-                                    <User size={16} /></User>
-                                    <span>{match.player2Name}</span>
+                                  <div className="player" />
+                                    <User size={16} / />
+                                    <span>{match.player2Name}
                                   </div>
-                                </div>
                                 
-                                <div className="match-result"></div>
+                                <div className="match-result" />
                                   {match.status === 'completed' ? (
                                     <>
-                                      <span className="score">{match.player1Score}</span>
+                                      <span className="score">{match.player1Score}
                                       <span className="separator">-</span>
-                                      <span className="score">{match.player2Score}</span>
+                                      <span className="score">{match.player2Score}
                                     </>
                                   ) : match.status === 'in_progress' ? (
                                     <span className="in-progress">In Progress</span>
@@ -545,7 +520,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                                   )}
                                 </div>
                                 
-                                <ChevronRight size={16} /></ChevronRight>
+                                <ChevronRight size={16} / />
                               </Link>
                             ))}
                         </div>
@@ -558,20 +533,18 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
           </div>
         )}
         {activeTab === 'standings' && (
-          <div className="tournament-standings"></div>
+          <div className="tournament-standings" />
             <h3 className="section-title">Standings</h3>
             
             {tournament.status === 'upcoming' ? (
-              <div className="no-standings"></div>
+              <div className="no-standings" />
                 <span>Tournament has not started yet</span>
-              </div>
             ) : !tournament.standings || tournament.standings.length === 0 ? (
-              <div className="no-standings"></div>
+              <div className="no-standings" />
                 <span>No standings available</span>
-              </div>
             ) : (
-              <div className="standings-table"></div>
-                <div className="table-header"></div>
+              <div className="standings-table" />
+                <div className="table-header" />
                   <div className="header-cell rank">Rank</div>
                   <div className="header-cell player">Player</div>
                   <div className="header-cell record">Record</div>
@@ -579,52 +552,46 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                   {tournament.bayesianRankings && (
                     <div className="header-cell rating">Rating</div>
                   )}
-                </div>
                 
-                <div className="table-body"></div>
+                <div className="table-body" />
                   {tournament.standings.map((standing, index) => (
                     <Link 
                       key={standing.playerId}
                       to={`/users/${standing.playerId}`}
                       className="table-row"
-                    ></Link>
-                      <div className="cell rank"></div>
+                     />
+                      <div className="cell rank" />
                         {index + 1}
                         {index < 3 && (
                           <Trophy 
                             size={14} 
                             className={`trophy-${index + 1}`} 
-                          /></Trophy>
+                          / />
                         )}
                       </div>
                       
-                      <div className="cell player"></div>
-                        <User size={16} /></User>
-                        <span>{standing.playerName}</span>
+                      <div className="cell player" />
+                        <User size={16} / />
+                        <span>{standing.playerName}
                       </div>
                       
-                      <div className="cell record"></div>
+                      <div className="cell record" />
                         {standing.wins}-{standing.losses}-{standing.draws}
-                      </div>
                       
-                      <div className="cell points"></div>
+                      <div className="cell points" />
                         {standing.points}
-                      </div>
                       
                       {tournament.bayesianRankings && (
-                        <div className="cell rating"></div>
+                        <div className="cell rating" />
                           {standing.bayesianRating || '-'}
-                        </div>
                       )}
                     </Link>
                   ))}
                 </div>
-              </div>
             )}
           </div>
         )}
       </div>
-    </div>
   );
 };
 

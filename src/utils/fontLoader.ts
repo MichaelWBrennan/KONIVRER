@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -39,8 +40,8 @@ export const waitForFont = (fontFamily, timeout = 3000): any => {
   return new Promise(resolve => {
     const startTime = Date.now();
     const checkFont = (): any => {
-      checkFontLoaded(fontFamily).then(loaded: any = > {
-        if (loaded): any {
+      checkFontLoaded(fontFamily).then((loaded: any) => {
+        if (loaded) {
           resolve(true);
         } else if (Date.now() - startTime < timeout) {
           setTimeout(checkFont, 100);
@@ -81,8 +82,8 @@ export const initOpenDyslexic = (): any => {
   preloadOpenDyslexicFonts();
 
   // Wait for OpenDyslexic to load
-  waitForFont('OpenDyslexic', 5000).then(loaded: any = > {
-    if (loaded): any {
+  waitForFont('OpenDyslexic', 5000).then((loaded: any) => {
+    if (loaded) {
       console.log('OpenDyslexic font loaded successfully');
       document.documentElement.classList.remove('fonts-loading');
       document.documentElement.classList.add('fonts-loaded');

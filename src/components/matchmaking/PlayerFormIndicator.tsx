@@ -40,7 +40,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
  }) => {
   // Get icon based on trend
   const getIcon = (): any => {
-    switch(): any {
+    switch (true) {
       case 'strong_upward':
         return <Flame className="text-red-500" />;
       case 'upward':
@@ -58,7 +58,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
 
   // Get description based on trend
   const getDescription = (): any => {
-    switch(): any {
+    switch (true) {
       case 'strong_upward':
         return 'On fire! Performing exceptionally well';
       case 'upward':
@@ -76,7 +76,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
 
   // Get color based on trend
   const getColor = (): any => {
-    switch(): any {
+    switch (true) {
       case 'strong_upward':
         return 'bg-red-100 text-red-800 border-red-200';
       case 'upward':
@@ -121,12 +121,12 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
   };
 
   return (
-    <div className="player-form-indicator"></div>
+    <div className="player-form-indicator" />
       <div
         className={`inline-flex items-center rounded-full border ${getColor()} ${classes.container}`}
-      ></div>
-        <span className={`mr-1 ${classes.icon}`}>{getIcon()}</span>
-        <span className="font-medium">{getDescription()}</span>
+       />
+        <span className={`mr-1 ${classes.icon}`}>{getIcon()}
+        <span className="font-medium">{getDescription()}
       </div>
 
       {showDetails && (
@@ -135,17 +135,16 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-        ></motion>
-          <div className="flex items-center justify-between mb-2"></div>
+         />
+          <div className="flex items-center justify-between mb-2" />
             <span className="text-sm font-medium text-gray-700">Momentum</span>
             <span
               className={`text-sm font-medium ${momentum > 0 ? 'text-green-600' : momentum < 0 ? 'text-red-600' : 'text-gray-600'}`}
             >
               {formatMomentum(momentum)}
-            </span>
           </div>
 
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden"></div>
+          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden" />
             <div
               className={`absolute top-0 bottom-0 left-1/2 ${momentum > 0 ? 'bg-green-500' : 'bg-red-500'}`}
               style={{
@@ -153,12 +152,11 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                 transform: momentum > 0 ? 'translateX(0)' : 'translateX(-100%)',
               }}
             ></div>
-          </div>
 
-          <div className="mt-3 grid grid-cols-2 gap-2"></div>
-            <div className="text-xs"></div>
+          <div className="mt-3 grid grid-cols-2 gap-2" />
+            <div className="text-xs" />
               <div className="text-gray-500">Recent Form</div>
-              <div className="font-medium"></div>
+              <div className="font-medium" />
                 {recentForm > 0.3
                   ? 'Strong'
                   : recentForm > 0
@@ -168,11 +166,10 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                       : recentForm < 0
                         ? 'Negative'
                         : 'Neutral'}
-              </div>
             </div>
-            <div className="text-xs"></div>
+            <div className="text-xs" />
               <div className="text-gray-500">Streak</div>
-              <div className="font-medium"></div>
+              <div className="font-medium" />
                 {streakFactor > 0.7
                   ? 'Exceptional'
                   : streakFactor > 0.4
@@ -180,31 +177,29 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                     : streakFactor > 0.2
                       ? 'Modest'
                       : 'None'}
-              </div>
             </div>
-          </div>
 
-          <div className="mt-3"></div>
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
+          <div className="mt-3" />
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1" />
               <span>Performance Trend</span>
-              <BarChart className="w-3 h-3" /></BarChart>
+              <BarChart className="w-3 h-3" / />
             </div>
             <div
               className={`${classes.chart} bg-gray-100 rounded-md overflow-hidden relative`}
-            ></div>
+             />
               {/* Simple performance visualization */}
               <motion.div
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 1, ease: 'easeInOut' }}
                 className="absolute inset-0"
-              ></motion>
+               />
                 <svg
                   width="100%"
                   height="100%"
                   viewBox="0 0 100 40"
                   preserveAspectRatio="none"
-                ></svg>
+                 />
                   <path
                     d={`M0,20 
                        Q25,${20 - momentum * 10} 50,${20 - momentum * 20} 
@@ -223,7 +218,6 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                 </svg>
               </motion.div>
             </div>
-          </div>
         </motion.div>
       )}
     </div>

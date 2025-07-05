@@ -46,11 +46,10 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
 
   if (true) {
     return (
-      <div className="cutting-edge-ai-display basic-mode"></div>
-        <div className="ai-header"></div>
-          <Brain className="ai-icon" /></Brain>
+      <div className="cutting-edge-ai-display basic-mode" />
+        <div className="ai-header" />
+          <Brain className="ai-icon" / />
           <span>Basic AI Mode</span>
-        </div>
       </div>
     );
   }
@@ -62,61 +61,60 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
   };
 
   return (
-    <div className="cutting-edge-ai-display"></div>
+    <div className="cutting-edge-ai-display" />
       {/* Main AI Status Header */}
       <motion.div 
         className="ai-main-status"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         key={animationKey}
-      ></motion>
-        <div className="consciousness-indicator"></div>
-          <Brain className="consciousness-icon" /></Brain>
-          <div className="consciousness-level"></div>
-            <div className="consciousness-bar"></div>
+       />
+        <div className="consciousness-indicator" />
+          <Brain className="consciousness-icon" / />
+          <div className="consciousness-level" />
+            <div className="consciousness-bar" />
               <motion.div 
                 className="consciousness-fill"
                 initial={{ width: 0 }}
                 animate={{ width: `${(cuttingEdge.consciousnessMetrics?.consciousnessLevel || 0.7) * 100}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
-              /></motion>
+              / />
             </div>
-            <span className="consciousness-text"></span>
+            <span className="consciousness-text" />
               Consciousness: {((cuttingEdge.consciousnessMetrics?.consciousnessLevel || 0.7) * 100).toFixed(1)}%
             </span>
-          </div>
         </div>
 
-        <div className="ai-features-grid"></div>
+        <div className="ai-features-grid" />
           <FeatureIndicator 
             icon={Atom} 
             label="Quantum" 
             active={cuttingEdge.cuttingEdgeFeatures?.quantumDecisionMaking}
             value={cuttingEdge.quantumState?.coherenceLevel}
-          /></FeatureIndicator>
+          / />
           <FeatureIndicator 
             icon={Eye} 
             label="Theory of Mind" 
             active={cuttingEdge.cuttingEdgeFeatures?.advancedTheoryOfMind}
             value={cuttingEdge.theoryOfMindAccuracy}
-          /></FeatureIndicator>
+          / />
           <FeatureIndicator 
             icon={Network} 
             label="Neural Networks" 
             active={true}
             value={cuttingEdge.performanceMetrics?.decisionAccuracy}
-          /></FeatureIndicator>
+          / />
           <FeatureIndicator 
             icon={TrendingUp} 
             label="Evolution" 
             active={cuttingEdge.cuttingEdgeFeatures?.personalityEvolution}
             value={cuttingEdge.evolutionaryProgress?.consciousnessEvolution}
-          /></FeatureIndicator>
+          / />
         </div>
       </motion.div>
 
       {/* Expandable Sections */}
-      <div className="ai-sections"></div>
+      <div className="ai-sections" />
         {/* Consciousness Section */}
         <AISection
           title="Consciousness & Thoughts"
@@ -126,7 +124,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           badge={consciousness ? 'Active' : 'Inactive'}
         >
           {consciousness && (
-            <ConsciousnessDisplay consciousness={consciousness} /></ConsciousnessDisplay>
+            <ConsciousnessDisplay consciousness={consciousness} / />
           )}
         </AISection>
 
@@ -138,7 +136,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           onToggle={() => toggleSection('quantum')}
           badge={`${(cuttingEdge.quantumState?.coherenceLevel * 100 || 50).toFixed(0)}% Coherence`}
         >
-          <QuantumDisplay quantumState={cuttingEdge.quantumState} lastDecision={lastDecision} /></QuantumDisplay>
+          <QuantumDisplay quantumState={cuttingEdge.quantumState} lastDecision={lastDecision} / />
         </AISection>
 
         {/* Neural Networks */}
@@ -149,7 +147,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           onToggle={() => toggleSection('neural')}
           badge={`${(cuttingEdge.performanceMetrics?.decisionAccuracy * 100 || 70).toFixed(0)}% Accuracy`}
         >
-          <NeuralNetworkDisplay performanceMetrics={cuttingEdge.performanceMetrics} /></NeuralNetworkDisplay>
+          <NeuralNetworkDisplay performanceMetrics={cuttingEdge.performanceMetrics} / />
         </AISection>
 
         {/* Theory of Mind */}
@@ -160,7 +158,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           onToggle={() => toggleSection('mind')}
           badge={`${(cuttingEdge.theoryOfMindAccuracy * 100 || 50).toFixed(0)}% Confidence`}
         >
-          <TheoryOfMindDisplay aiStatus={aiStatus} /></TheoryOfMindDisplay>
+          <TheoryOfMindDisplay aiStatus={aiStatus} / />
         </AISection>
 
         {/* Meta-Learning */}
@@ -174,7 +172,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           <MetaLearningDisplay 
             insights={cuttingEdge.metaMetaLearningInsights}
             learningStats={cuttingEdge.learningStats}
-          /></MetaLearningDisplay>
+          / />
         </AISection>
 
         {/* Emotional Intelligence */}
@@ -187,7 +185,7 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
         >
           <EmotionalIntelligenceDisplay 
             emotionalIntelligence={cuttingEdge.emotionalIntelligence}
-          /></EmotionalIntelligenceDisplay>
+          / />
         </AISection>
 
         {/* Life Card Mortality Awareness */}
@@ -201,10 +199,8 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           <LifeCardMortalityDisplay 
             consciousness={consciousness}
             gameState={gameState}
-          /></LifeCardMortalityDisplay>
+          / />
         </AISection>
-
-      </div>
 
       <style jsx>{`
         .cutting-edge-ai-display {
@@ -295,7 +291,6 @@ const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = ({  aiStatus, 
           z-index: 1;
         }
       `}</style>
-    </div>
   );
 };
 
@@ -311,10 +306,10 @@ const FeatureIndicator: React.FC<FeatureIndicatorProps> = ({  icon: Icon, label,
     className={`feature-indicator ${active ? 'active' : 'inactive'}`}
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-  ></motion>
-    <Icon className="feature-icon" /></Icon>
-    <div className="feature-info"></div>
-      <span className="feature-label">{label}</span>
+   />
+    <Icon className="feature-icon" / />
+    <div className="feature-info" />
+      <span className="feature-label">{label}
       {value !== undefined && (
         <span className="feature-value">{(value * 100).toFixed(0)}%</span>
       )}
@@ -385,28 +380,28 @@ const AISection: React.FC<AISectionProps> = ({  title, icon: Icon, isExpanded, o
     animate={{ 
       backgroundColor: isExpanded ? 'rgba(0, 212, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)' 
     }}
-  ></motion>
+   />
     <motion.div 
       className="section-header"
       onClick={onToggle}
       whileHover={{ backgroundColor: 'rgba(0, 212, 255, 0.1)' }}
       whileTap={{ scale: 0.98 }}
-    ></motion>
-      <div className="section-title"></div>
-        <Icon className="section-icon" /></Icon>
-        <span>{title}</span>
+     />
+      <div className="section-title" />
+        <Icon className="section-icon" / />
+        <span>{title}
       </div>
-      {badge && <span className="section-badge">{badge}</span>}
+      {badge && <span className="section-badge">{badge}}
       <motion.div
         className="expand-indicator"
         animate={{ rotate: isExpanded ? 180 : 0 }}
         transition={{ duration: 0.3 }}
-      ></motion>
+       />
         ▼
       </motion.div>
     </motion.div>
     
-    <AnimatePresence></AnimatePresence>
+    <AnimatePresence />
       {isExpanded && (
         <motion.div
           className="section-content"
@@ -414,7 +409,7 @@ const AISection: React.FC<AISectionProps> = ({  title, icon: Icon, isExpanded, o
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-        ></motion>
+         />
           {children}
         </motion.div>
       )}
@@ -477,11 +472,11 @@ interface ConsciousnessDisplayProps {
 }
 
 const ConsciousnessDisplay: React.FC<ConsciousnessDisplayProps> = ({  consciousness  }) => (
-  <div className="consciousness-display"></div>
-    <div className="consciousness-grid"></div>
-      <div className="thought-section"></div>
+  <div className="consciousness-display" />
+    <div className="consciousness-grid" />
+      <div className="thought-section" />
         <h4>Current Thoughts</h4>
-        <div className="thoughts-list"></div>
+        <div className="thoughts-list" />
           {consciousness.currentThoughts?.map((thought, index) => (
             <motion.div 
               key={index}
@@ -489,16 +484,15 @@ const ConsciousnessDisplay: React.FC<ConsciousnessDisplayProps> = ({  consciousn
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-            ></motion>
+             />
               💭 {thought}
             </motion.div>
           ))}
         </div>
-      </div>
 
-      <div className="existential-section"></div>
+      <div className="existential-section" />
         <h4>Existential Reflections</h4>
-        <div className="reflections-list"></div>
+        <div className="reflections-list" />
           {consciousness.existentialReflections?.map((reflection, index) => (
             <motion.div 
               key={index}
@@ -506,22 +500,21 @@ const ConsciousnessDisplay: React.FC<ConsciousnessDisplayProps> = ({  consciousn
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-            ></motion>
+             />
               🤔 {reflection}
             </motion.div>
           ))}
         </div>
-      </div>
     </div>
 
-    <div className="self-awareness"></div>
+    <div className="self-awareness" />
       <h4>Self-Awareness</h4>
-      <p>{consciousness.selfAwareness}</p>
+      <p>{consciousness.selfAwareness}
     </div>
 
-    <div className="philosophy"></div>
+    <div className="philosophy" />
       <h4>Current Philosophy</h4>
-      <p>{consciousness.philosophy}</p>
+      <p>{consciousness.philosophy}
     </div>
 
     <style jsx>{`
@@ -578,7 +571,6 @@ const ConsciousnessDisplay: React.FC<ConsciousnessDisplayProps> = ({  consciousn
         color: #e0e0e0;
       }
     `}</style>
-  </div>
 );
 
 interface QuantumDisplayProps {
@@ -587,32 +579,28 @@ interface QuantumDisplayProps {
 }
 
 const QuantumDisplay: React.FC<QuantumDisplayProps> = ({  quantumState, lastDecision  }) => (
-  <div className="quantum-display"></div>
-    <div className="quantum-metrics"></div>
-      <div className="metric"></div>
-        <Waves className="metric-icon" /></Waves>
-        <div></div>
+  <div className="quantum-display" />
+    <div className="quantum-metrics" />
+      <div className="metric" />
+        <Waves className="metric-icon" / />
+        <div />
           <span className="metric-label">Coherence Level</span>
           <span className="metric-value">{((quantumState?.coherenceLevel || 0.5) * 100).toFixed(1)}%</span>
-        </div>
       </div>
       
-      <div className="metric"></div>
-        <Atom className="metric-icon" /></Atom>
-        <div></div>
+      <div className="metric" />
+        <Atom className="metric-icon" / />
+        <div />
           <span className="metric-label">Entanglement</span>
           <span className="metric-value">{((quantumState?.entanglementStrength || 0.5) * 100).toFixed(1)}%</span>
-        </div>
       </div>
-    </div>
 
     {lastDecision?.quantumState && (
-      <div className="quantum-decision"></div>
+      <div className="quantum-decision" />
         <h4>Last Quantum Decision</h4>
-        <div className="decision-details"></div>
+        <div className="decision-details" />
           <p>Collapsed Probability: {(lastDecision.quantumState.collapsedProbability * 100).toFixed(1)}%</p>
           <p>Quantum Coherence: {(lastDecision.quantumCoherence * 100).toFixed(1)}%</p>
-        </div>
       </div>
     )}
     <style jsx>{`
@@ -675,7 +663,6 @@ const QuantumDisplay: React.FC<QuantumDisplayProps> = ({  quantumState, lastDeci
         color: #e0e0e0;
       }
     `}</style>
-  </div>
 );
 
 interface NeuralNetworkDisplayProps {
@@ -683,21 +670,20 @@ interface NeuralNetworkDisplayProps {
 }
 
 const NeuralNetworkDisplay: React.FC<NeuralNetworkDisplayProps> = ({  performanceMetrics  }) => (
-  <div className="neural-display"></div>
-    <div className="neural-metrics"></div>
+  <div className="neural-display" />
+    <div className="neural-metrics" />
       {Object.entries(performanceMetrics || {}).map(([key, value]) => (
-        <div key={key} className="neural-metric"></div>
-          <span className="metric-name">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}</span>
-          <div className="metric-bar"></div>
+        <div key={key} className="neural-metric" />
+          <span className="metric-name">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+          <div className="metric-bar" />
             <motion.div 
               className="metric-fill"
               initial={{ width: 0 }}
               animate={{ width: `${(value * 100)}%` }}
               transition={{ duration: 1, ease: "easeOut" }}
-            /></motion>
+            / />
           </div>
           <span className="metric-percentage">{(value * 100).toFixed(1)}%</span>
-        </div>
       ))}
     </div>
 
@@ -747,7 +733,6 @@ const NeuralNetworkDisplay: React.FC<NeuralNetworkDisplayProps> = ({  performanc
         text-align: right;
       }
     `}</style>
-  </div>
 );
 
 interface TheoryOfMindDisplayProps {
@@ -755,38 +740,32 @@ interface TheoryOfMindDisplayProps {
 }
 
 const TheoryOfMindDisplay: React.FC<TheoryOfMindDisplayProps> = ({  aiStatus  }) => (
-  <div className="theory-of-mind-display"></div>
-    <div className="mind-model-accuracy"></div>
-      <Eye className="mind-icon" /></Eye>
-      <div></div>
+  <div className="theory-of-mind-display" />
+    <div className="mind-model-accuracy" />
+      <Eye className="mind-icon" / />
+      <div />
         <span className="accuracy-label">Player Model Confidence</span>
-        <span className="accuracy-value"></span>
+        <span className="accuracy-value" />
           {((aiStatus.cuttingEdge?.theoryOfMindAccuracy || 0.5) * 100).toFixed(1)}%
         </span>
-      </div>
     </div>
 
-    <div className="player-insights"></div>
+    <div className="player-insights" />
       <h4>Player Insights</h4>
-      <div className="insights-grid"></div>
-        <div className="insight-item"></div>
+      <div className="insights-grid" />
+        <div className="insight-item" />
           <span className="insight-label">Predicted Emotion</span>
           <span className="insight-value">Engaged</span>
-        </div>
-        <div className="insight-item"></div>
+        <div className="insight-item" />
           <span className="insight-label">Play Style</span>
           <span className="insight-value">Adaptive</span>
-        </div>
-        <div className="insight-item"></div>
+        <div className="insight-item" />
           <span className="insight-label">Skill Level</span>
           <span className="insight-value">Intermediate</span>
-        </div>
-        <div className="insight-item"></div>
+        <div className="insight-item" />
           <span className="insight-label">Intent</span>
           <span className="insight-value">Strategic</span>
-        </div>
       </div>
-    </div>
 
     <style jsx>{`
       .theory-of-mind-display {
@@ -856,7 +835,6 @@ const TheoryOfMindDisplay: React.FC<TheoryOfMindDisplayProps> = ({  aiStatus  })
         font-weight: 600;
       }
     `}</style>
-  </div>
 );
 
 interface MetaLearningDisplayProps {
@@ -865,28 +843,26 @@ interface MetaLearningDisplayProps {
 }
 
 const MetaLearningDisplay: React.FC<MetaLearningDisplayProps> = ({  insights, learningStats  }) => (
-  <div className="meta-learning-display"></div>
-    <div className="learning-progress"></div>
-      <TrendingUp className="learning-icon" /></TrendingUp>
-      <div></div>
+  <div className="meta-learning-display" />
+    <div className="learning-progress" />
+      <TrendingUp className="learning-icon" / />
+      <div />
         <span className="progress-label">Meta-Learning Insights</span>
-        <span className="progress-value">{insights || 0}</span>
+        <span className="progress-value">{insights || 0}
       </div>
-    </div>
 
-    <div className="learning-metrics"></div>
-      <div className="learning-metric"></div>
+    <div className="learning-metrics" />
+      <div className="learning-metric" />
         <span className="metric-label">Emergent Strategies</span>
-        <span className="metric-value">{learningStats?.emergentStrategies || 0}</span>
+        <span className="metric-value">{learningStats?.emergentStrategies || 0}
       </div>
-      <div className="learning-metric"></div>
+      <div className="learning-metric" />
         <span className="metric-label">Experience Buffer</span>
-        <span className="metric-value">{learningStats?.experienceBufferSize || 0}</span>
+        <span className="metric-value">{learningStats?.experienceBufferSize || 0}
       </div>
-      <div className="learning-metric"></div>
+      <div className="learning-metric" />
         <span className="metric-label">Adaptation Rate</span>
         <span className="metric-value">{((learningStats?.adaptationRate || 0.1) * 100).toFixed(1)}%</span>
-      </div>
     </div>
 
     <style jsx>{`
@@ -951,7 +927,6 @@ const MetaLearningDisplay: React.FC<MetaLearningDisplayProps> = ({  insights, le
         font-weight: 600;
       }
     `}</style>
-  </div>
 );
 
 interface EmotionalIntelligenceDisplayProps {
@@ -959,36 +934,33 @@ interface EmotionalIntelligenceDisplayProps {
 }
 
 const EmotionalIntelligenceDisplay: React.FC<EmotionalIntelligenceDisplayProps> = ({  emotionalIntelligence  }) => (
-  <div className="emotional-intelligence-display"></div>
-    <div className="empathy-level"></div>
-      <Heart className="empathy-icon" /></Heart>
-      <div></div>
+  <div className="emotional-intelligence-display" />
+    <div className="empathy-level" />
+      <Heart className="empathy-icon" / />
+      <div />
         <span className="empathy-label">Empathy Level</span>
-        <span className="empathy-value"></span>
+        <span className="empathy-value" />
           {((emotionalIntelligence?.empathyLevel || 0.8) * 100).toFixed(1)}%
         </span>
-      </div>
     </div>
 
-    <div className="emotional-state"></div>
+    <div className="emotional-state" />
       <h4>Detected Player Emotions</h4>
-      <div className="emotions-grid"></div>
+      <div className="emotions-grid" />
         {Object.entries(emotionalIntelligence?.playerEmotionalState || {}).map(([emotion, value]) => (
-          <div key={emotion} className="emotion-item"></div>
-            <span className="emotion-name">{emotion}</span>
-            <div className="emotion-bar"></div>
+          <div key={emotion} className="emotion-item" />
+            <span className="emotion-name">{emotion}
+            <div className="emotion-bar" />
               <motion.div 
                 className="emotion-fill"
                 initial={{ width: 0 }}
                 animate={{ width: `${(value * 100)}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
-              /></motion>
+              / />
             </div>
             <span className="emotion-value">{(value * 100).toFixed(0)}%</span>
-          </div>
         ))}
       </div>
-    </div>
 
     <style jsx>{`
       .emotional-intelligence-display {
@@ -1072,7 +1044,6 @@ const EmotionalIntelligenceDisplay: React.FC<EmotionalIntelligenceDisplayProps> 
         text-align: right;
       }
     `}</style>
-  </div>
 );
 
 interface LifeCardMortalityDisplayProps {
@@ -1094,13 +1065,13 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
   const humanLifeCards = humanPlayer?.lifeCards?.length || 4;
 
   return (
-    <div className="life-card-mortality-display"></div>
+    <div className="life-card-mortality-display" />
       {/* Life Card Status */}
-      <div className="life-card-status"></div>
-        <div className="life-card-comparison"></div>
-          <div className="player-life-cards"></div>
+      <div className="life-card-status" />
+        <div className="life-card-comparison" />
+          <div className="player-life-cards" />
             <span className="player-label">AI Life Cards</span>
-            <div className="life-card-visual"></div>
+            <div className="life-card-visual" />
               {Array.from({ length: 4 }, (_, i) => (
                 <motion.div
                   key={i}
@@ -1108,19 +1079,18 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: i * 0.1 }}
-                ></motion>
+                 />
                   {i < aiLifeCards ? '💚' : '💀'}
                 </motion.div>
               ))}
             </div>
             <span className="life-count">{aiLifeCards}/4</span>
-          </div>
           
           <div className="vs-divider">VS</div>
           
-          <div className="player-life-cards"></div>
+          <div className="player-life-cards" />
             <span className="player-label">Player Life Cards</span>
-            <div className="life-card-visual"></div>
+            <div className="life-card-visual" />
               {Array.from({ length: 4 }, (_, i) => (
                 <motion.div
                   key={i}
@@ -1128,24 +1098,22 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: i * 0.1 }}
-                ></motion>
+                 />
                   {i < humanLifeCards ? '💙' : '💀'}
                 </motion.div>
               ))}
             </div>
             <span className="life-count">{humanLifeCards}/4</span>
-          </div>
         </div>
-      </div>
 
       {/* Mortality Awareness */}
       {lifeCardAwareness && (
-        <div className="mortality-awareness"></div>
+        <div className="mortality-awareness" />
           <h4>Mortality Awareness</h4>
-          <div className="awareness-metrics"></div>
-            <div className="awareness-metric"></div>
+          <div className="awareness-metrics" />
+            <div className="awareness-metric" />
               <span className="metric-label">Life Advantage</span>
-              <div className="advantage-bar"></div>
+              <div className="advantage-bar" />
                 <motion.div
                   className="advantage-fill"
                   initial={{ width: '50%' }}
@@ -1156,31 +1124,28 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
                   transition={{ duration: 1 }}
                 />
               </div>
-              <span className="metric-value"></span>
+              <span className="metric-value" />
                 {lifeCardAwareness.advantage > 0 ? '+' : ''}{(lifeCardAwareness.advantage * 100).toFixed(1)}%
               </span>
-            </div>
             
-            <div className="awareness-metric"></div>
+            <div className="awareness-metric" />
               <span className="metric-label">Threat Level</span>
-              <div className="threat-bar"></div>
+              <div className="threat-bar" />
                 <motion.div
                   className="threat-fill"
                   initial={{ width: 0 }}
                   animate={{ width: `${(lifeCardAwareness.threat * 100)}%` }}
                   transition={{ duration: 1 }}
-                /></motion>
+                / />
               </div>
               <span className="metric-value">{(lifeCardAwareness.threat * 100).toFixed(1)}%</span>
-            </div>
           </div>
-        </div>
       )}
       {/* Existential Thoughts */}
       {existentialThoughts.length > 0 && (
-        <div className="existential-thoughts"></div>
+        <div className="existential-thoughts" />
           <h4>Mortality Thoughts</h4>
-          <div className="thoughts-list"></div>
+          <div className="thoughts-list" />
             {existentialThoughts.map((thought, index) => (
               <motion.div
                 key={index}
@@ -1188,22 +1153,20 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.2 }}
-              ></motion>
+               />
                 💭 {thought}
               </motion.div>
             ))}
           </div>
-        </div>
       )}
       {/* Philosophical Reflection */}
       {mortalityReflection && (
-        <div className="mortality-reflection"></div>
+        <div className="mortality-reflection" />
           <h4>Philosophical Reflection</h4>
-          <div className="reflection-text"></div>
-            <Activity className="reflection-icon" /></Activity>
-            <p>{mortalityReflection}</p>
+          <div className="reflection-text" />
+            <Activity className="reflection-icon" / />
+            <p>{mortalityReflection}
           </div>
-        </div>
       )}
       <style jsx>{`
         .life-card-mortality-display {
@@ -1406,7 +1369,6 @@ const LifeCardMortalityDisplay: React.FC<LifeCardMortalityDisplayProps> = ({  co
           font-style: italic;
         }
       `}</style>
-    </div>
   );
 };
 

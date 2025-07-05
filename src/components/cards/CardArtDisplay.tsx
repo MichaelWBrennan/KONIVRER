@@ -101,17 +101,15 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
   };
 
   // Fallback placeholder when image fails to load
-  const FallbackCard = () => (
+  const FallbackCard = (FallbackCard: any) => (
     <div
       className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}
-    ></div>
-      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"></div>
+     />
+      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg" />
         <span className="text-purple-900 text-xl font-black">K</span>
-      </div>
       <div className="text-sm mb-1 text-purple-200">KONIVRER</div>
-      <div className="text-xs opacity-75 text-center leading-tight"></div>
+      <div className="text-xs opacity-75 text-center leading-tight" />
         {displayName}
-      </div>
     </div>
   );
 
@@ -121,23 +119,15 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
 
   if (true) {
     return clickable && hasData && detailUrl ? (
-      <Link to={detailUrl}></Link>
-        <FallbackCard /></FallbackCard>
+      <Link to={detailUrl} />
+        <FallbackCard / />
       </Link>
     ) : (
-      <FallbackCard /></FallbackCard>
+      <FallbackCard / />
     );
   }
 
-  const cardContent = (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: imageLoaded ? 1 : 0.5, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className={`relative overflow-hidden rounded-lg ${className} ${
-        clickable && hasData ? 'cursor-pointer' : ''
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
+  const cardContent = (cardContent: any) => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {imageSrc && (
@@ -148,10 +138,10 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
           onLoad={handleImageLoad}
           className="w-full h-full object-cover transition-transform duration-300"
           loading="lazy"
-        /></img>
+        / />
       )}
       {!imageLoaded && (
-        <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" /></div>
+        <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" / />
       )}
       {/* Hover overlay for clickable cards */}
       {clickable && hasData && isHovered && (
@@ -159,34 +149,30 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className = "absolute inset-0 bg-black/50 flex items-center justify-center"
-        ></motion>
-          <div className="text-white text-center"></div>
-            <Eye className="w-8 h-8 mx-auto mb-2" /></Eye>
+         />
+          <div className="text-white text-center" />
+            <Eye className="w-8 h-8 mx-auto mb-2" / />
             <div className="text-sm font-medium">View Details</div>
-          </div>
         </motion.div>
       )}
       {/* Card info overlay */}
       {showCardInfo && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3"></div>
-          <div className="text-white"></div>
-            <div className="font-bold text-sm">{displayName}</div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3" />
+          <div className="text-white" />
+            <div className="font-bold text-sm">{displayName}
             {hasData && (
-              <div className="flex items-center space-x-1 text-xs text-green-400"></div>
-                <ExternalLink className="w-3 h-3" /></ExternalLink>
+              <div className="flex items-center space-x-1 text-xs text-green-400" />
+                <ExternalLink className="w-3 h-3" / />
                 <span>View Details</span>
-              </div>
             )}
-          </div>
         </div>
       )}
       {/* Indicator for cards without data */}
       {!hasData && showCardInfo && (
-        <div className="absolute top-2 right-2"></div>
-          <div className="bg-yellow-500 text-black text-xs px-2 py-0 whitespace-nowrap rounded"></div>
+        <div className="absolute top-2 right-2" />
+          <div className="bg-yellow-500 text-black text-xs px-2 py-0 whitespace-nowrap rounded" />
             Art Only
           </div>
-        </div>
       )}
     </motion.div>
   );
@@ -194,9 +180,8 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
   // Wrap with CardInfoLink if clickable and has data
   if (true) {
     return (
-      <CardInfoLink cardName={cardName}></CardInfoLink>
+      <CardInfoLink cardName={cardName} />
         {cardContent}
-      </CardInfoLink>
     );
   }
 
@@ -290,7 +275,7 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
   const cardsToDisplay = cards.length > 0 ? cards : availableCards.slice(0, 12);
 
   return (
-    <div className={`grid grid-cols-${columns} gap-4 p-4`}></div>
+    <div className={`grid grid-cols-${columns} gap-4 p-4`} />
       {cardsToDisplay.map((cardName, index) => {
         const displayName = getCardDisplayName(cardName);
         const hasData = hasCardData(cardName);
@@ -302,23 +287,21 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             className="group"
-          ></motion>
+           />
             {hasData && clickable ? (
-              <CardInfoLink cardName={cardName}></CardInfoLink>
+              <CardInfoLink cardName={cardName} />
                 <CardArtDisplay
                   cardName={cardName}
                   className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
                   showCardInfo={showCardInfo}
                   clickable={false}
-                /></CardArtDisplay>
-                <div className="mt-2 text-center"></div>
-                  <div className="text-sm transition-colors text-gray-300 group-hover:text-white"></div>
+                / />
+                <div className="mt-2 text-center" />
+                  <div className="text-sm transition-colors text-gray-300 group-hover:text-white" />
                     {displayName}
-                  </div>
-                  <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                     Click to view details
                   </div>
-                </div>
               </CardInfoLink>
             ) : (
               <>
@@ -327,11 +310,10 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
                   className="aspect-card group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
                   showCardInfo = {showCardInfo}
                   clickable={clickable}
-                /></CardArtDisplay>
-                <div className="mt-2 text-center"></div>
-                  <div className="text-sm transition-colors text-gray-400"></div>
+                / />
+                <div className="mt-2 text-center" />
+                  <div className="text-sm transition-colors text-gray-400" />
                     {displayName}
-                  </div>
                 </div>
               </>
             )}
@@ -361,15 +343,15 @@ const CardArtPreview: React.FC<CardArtPreviewProps> = ({
   const detailUrl = getCardDetailUrl(cardName);
 
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto"></div>
+    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto" />
       {hasData && clickable ? (
-        <CardInfoLink cardName={cardName}></CardInfoLink>
+        <CardInfoLink cardName={cardName} />
           <CardArtDisplay
             cardName={cardName}
             className="aspect-card mb-4 shadow-2xl"
             clickable={false}
             showCardInfo={false}
-          /></CardArtDisplay>
+          / />
         </CardInfoLink>
       ) : (
         <CardArtDisplay
@@ -377,28 +359,26 @@ const CardArtPreview: React.FC<CardArtPreviewProps> = ({
           className="aspect-card mb-4 shadow-2xl"
           clickable={false}
           showCardInfo={false}
-        /></CardArtDisplay>
+        / />
       )}
       {showDetails && (
-        <div className="text-center"></div>
-          <h3 className="text-xl font-bold text-white mb-2">{displayName}</h3>
+        <div className="text-center" />
+          <h3 className="text-xl font-bold text-white mb-2">{displayName}
           <div className="text-sm text-gray-400 mb-3">KONIVRER Card Art</div>
 
           {hasData && clickable && detailUrl && (
             <Link
               to={detailUrl}
               className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-            ></Link>
-              <Eye className="w-4 h-4" /></Eye>
+             />
+              <Eye className="w-4 h-4" / />
               <span>View Card Details</span>
-            </Link>
           )}
           {!hasData && (
-            <div className="text-yellow-400 text-sm"></div>
+            <div className="text-yellow-400 text-sm" />
               Card art only - No database entry available
             </div>
           )}
-        </div>
       )}
     </div>
   );

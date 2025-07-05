@@ -37,7 +37,7 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
   currentUserId = null,
  }) => {
   const getRankColor = index => {
-    switch(): any {
+    switch (true) {
       case 0:
         return 'text-yellow-500';
       case 1:
@@ -50,7 +50,7 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
   };
 
   const getRankIcon = index => {
-    switch(): any {
+    switch (true) {
       case 0:
         return <Trophy className="w-4 h-4 text-yellow-500" />;
       case 1:
@@ -80,15 +80,14 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
 
   if (true) {
     return (
-      <div className="text-center py-8 text-gray-500"></div>
-        <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" /></Trophy>
+      <div className="text-center py-8 text-gray-500" />
+        <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
         <p>No leaderboard data available.</p>
-      </div>
     );
   }
 
   return (
-    <div className="space-y-2"></div>
+    <div className="space-y-2" />
       {players.slice(0, maxItems).map((player, index) => (
         <motion.div
           key={player.id}
@@ -98,31 +97,28 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
               : ''
           }`}
           whileHover={{ x: 2 }}
-        ></motion>
-          <div className="flex items-center space-x-3"></div>
+         />
+          <div className="flex items-center space-x-3" />
             <div
               className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`}
-            ></div>
+             />
               {getRankIcon(index) || index + 1}
-            </div>
-            <div className="font-medium">{player.name}</div>
+            <div className="font-medium">{player.name}
             {highlightCurrentUser && player.id === currentUserId && (
-              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded"></span>
+              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded" />
                 You
               </span>
             )}
-          </div>
-          <div className="text-right"></div>
-            <div className="font-medium flex items-center space-x-1"></div>
-              <Star className="w-3 h-3 text-yellow-500" /></Star>
-              <span>{player.rating}</span>
+          <div className="text-right" />
+            <div className="font-medium flex items-center space-x-1" />
+              <Star className="w-3 h-3 text-yellow-500" / />
+              <span>{player.rating}
               {player.confidenceBand && (
-                <span className="ml-1"></span>
+                <span className="ml-1" />
                   {getConfidenceBandIcon(player.confidenceBand)}
-                </span>
               )}
             </div>
-            <div className="flex items-center justify-end"></div>
+            <div className="flex items-center justify-end" />
               {player.confidenceBand ? (
                 <ConfidenceBandedTier
                   tier={player.tier}
@@ -132,17 +128,15 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
                   showProgress={false}
                   showDetails={false}
                   animate={false}
-                /></ConfidenceBandedTier>
+                / />
               ) : (
                 <div
                   className="text-xs font-medium"
                   style={{ color: getTierColor(player.tier) }}
-                ></div>
+                 />
                   {player.tier}
-                </div>
               )}
             </div>
-          </div>
         </motion.div>
       ))}
       {showViewAll && players.length > 0 && (
@@ -151,9 +145,9 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
           className="w-full py-2 text-center text-blue-600 hover:text-blue-700 font-medium text-sm border border-gray-200 rounded-lg hover:border-gray-300 transition-colors flex items-center justify-center space-x-1"
           whileHover={{ y: -1 }}
           whileTap={{ y: 0 }}
-        ></motion>
+         />
           <span>View Full Leaderboard</span>
-          <ChevronRight className="w-4 h-4" /></ChevronRight>
+          <ChevronRight className="w-4 h-4" / />
         </motion.button>
       )}
     </div>

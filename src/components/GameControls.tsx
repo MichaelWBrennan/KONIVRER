@@ -33,22 +33,21 @@ const GameControls = (): any => {
   };
   
   return (
-    <div className="game-controls"></div>
-      <button className="control-button" onClick={handleDrawCard}></button>
+    <div className="game-controls" />
+      <button className="control-button" onClick={handleDrawCard} />
         Draw
       </button>
       
-      <button className="control-button" onClick={handleNextPhase}></button>
+      <button className="control-button" onClick={handleNextPhase} />
         Next Phase
       </button>
       
-      <button className="control-button danger" onClick={handleConcede}></button>
+      <button className="control-button danger" onClick={handleConcede} />
         Concede
       </button>
       
-      <div className="phase-indicator"></div>
+      <div className="phase-indicator" />
         Current Phase: {gameState.phase.replace('_', ' ')}
-      </div>
     </div>
   );
 };

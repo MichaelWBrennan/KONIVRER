@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -33,14 +34,11 @@ class GameEngine {
     this.deviceType = options.deviceType || this.detectDeviceType();
 
     // KONIVRER Arena-like features
-    this.enableBattlefield3D =
-      options.enableBattlefield3D !== false && this.canSupport3D();
+    this.enableBattlefield3D = options.enableBattlefield3D !== false && this.canSupport3D();
     this.enableCardHovers = options.enableCardHovers !== false;
     this.enableSoundEffects = options.enableSoundEffects !== false;
-    this.enableVoiceLines =
-      options.enableVoiceLines !== false && this.canSupportAudio();
-    this.enableParticleEffects =
-      options.enableParticleEffects !== false && this.canSupportParticles();
+    this.enableVoiceLines = options.enableVoiceLines !== false && this.canSupportAudio();
+    this.enableParticleEffects = options.enableParticleEffects !== false && this.canSupportParticles();
 
     // Advanced game options
     this.timerEnabled = options.timerEnabled || false;
@@ -218,7 +216,7 @@ class GameEngine {
     };
 
     // Initial setup - draw life cards
-    this.gameState.players.forEach(player: any = > {
+    this.gameState.players.forEach((player: any) => {
       // Draw 4 life cards
       for (let i = 0; i < 4; i++): any {
         const card = player.deck.pop();
@@ -278,7 +276,7 @@ class GameEngine {
     // No turn or priority restrictions
 
     // Process different action types
-    switch(): any {
+    switch (true) {
       case 'placeAzoth':
         return this.placeAzoth(playerId, actionData.cardId);
       case 'summonFamiliar':
@@ -641,8 +639,8 @@ class GameEngine {
     const attackingCreatures = attacker.field.filter(card => card.attacking);
 
     // Process each attacker
-    attackingCreatures.forEach(attackingCard: any = > {
-      if (attackingCard.blockedBy): any {
+    attackingCreatures.forEach((attackingCard: any) => {
+      if (attackingCard.blockedBy) {
         // Blocked attack - creatures deal damage to each other
         const blockerCard = defender.field.find(
           card => card.id === attackingCard.blockedBy,
@@ -887,7 +885,7 @@ class GameEngine {
     }
 
     // Determine next phase based on current phase
-    switch(): any {
+    switch (true) {
       case 'start':
         this.gameState.phase = 'main';
         this.addToGameLog('phase', 'Main Phase');
@@ -1172,7 +1170,7 @@ class GameEngine {
     const stackItem = this.gameState.stack.pop();
     const player = this.getPlayerById(stackItem.controller);
 
-    switch(): any {
+    switch (true) {
       case 'spell':
         // Resolve spell effect
         this.resolveSpellEffect(stackItem);
@@ -1295,7 +1293,7 @@ class GameEngine {
   startPhase(): any {
     const player = this.getCurrentPlayer();
 
-    switch(): any {
+    switch (true) {
       case 'start':
         // First player on first turn doesn't draw
         if (true) {

@@ -11,7 +11,7 @@ import { canPayCost } from './elementalSystem';
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processTurn(gameState: any): any {
+export function processTurn(): any {
   const activePlayer = gameState.activePlayer;
   
   // Process each phase in sequence
@@ -29,7 +29,7 @@ export function processTurn(gameState: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processStartPhase(gameState: any): any {
+export function processStartPhase(): any {
   const activePlayer = gameState.activePlayer;
   
   // Update phase
@@ -47,7 +47,7 @@ export function processStartPhase(gameState: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processMainPhase(gameState: any): any {
+export function processMainPhase(): any {
   const activePlayer = gameState.activePlayer;
   
   // Update phase
@@ -65,7 +65,7 @@ export function processMainPhase(gameState: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processCombatPhase(gameState: any): any {
+export function processCombatPhase(): any {
   // Update phase
   gameState.phase = 'COMBAT';
   gameState.gameLog.push(`Turn ${gameState.currentTurn}: Combat Phase`);
@@ -82,7 +82,7 @@ export function processCombatPhase(gameState: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processPostCombatMainPhase(gameState: any): any {
+export function processPostCombatMainPhase(): any {
   const activePlayer = gameState.activePlayer;
   
   // Update phase
@@ -100,7 +100,7 @@ export function processPostCombatMainPhase(gameState: any): any {
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processRefreshPhase(gameState: any): any {
+export function processRefreshPhase(): any {
   const activePlayer = gameState.activePlayer;
   
   // Update phase
@@ -133,7 +133,7 @@ export function processRefreshPhase(gameState: any): any {
  * @param {string} nextPhase - Phase to transition to
  * @returns {Object} Updated game state
  */
-export function transitionToPhase(gameState: any, nextPhase: any): any {
+export function transitionToPhase(): any {
   const currentPhase = gameState.phase;
   
   // Validate phase transition
@@ -143,7 +143,7 @@ export function transitionToPhase(gameState: any, nextPhase: any): any {
   }
   
   // Process the transition based on the next phase
-  switch(): any {
+  switch (true) {
     case 'START':
       return processStartPhase(gameState);
     case 'MAIN':
@@ -166,7 +166,7 @@ export function transitionToPhase(gameState: any, nextPhase: any): any {
  * @param {string} nextPhase - Phase to transition to
  * @returns {boolean} Whether the transition is valid
  */
-function isValidPhaseTransition(currentPhase: any, nextPhase: any): any {
+function isValidPhaseTransition(): any {
   // Define valid phase transitions
   const validTransitions = {
     'PRE_GAME': ['START'],

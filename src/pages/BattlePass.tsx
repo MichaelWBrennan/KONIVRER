@@ -153,7 +153,7 @@ const BattlePass = (): any => {
     },
   ];
   const getRarityColor = rarity => {
-    switch(): any {
+    switch (true) {
       case 'common':
         return 'text-gray-400 border-gray-400';
       case 'rare':
@@ -167,7 +167,7 @@ const BattlePass = (): any => {
     }
   };
   const getRewardIcon = type => {
-    switch(): any {
+    switch (true) {
       case 'avatar':
         return <Crown className="w-6 h-6" />;
       case 'sleeve':
@@ -190,21 +190,20 @@ const BattlePass = (): any => {
   const progressPercentage =
     (userProgress.xp / (userProgress.xp + userProgress.xpToNext)) * 100;
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white"></div>
-      <div className="container mx-auto px-4 py-8"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white" />
+      <div className="container mx-auto px-4 py-8" />
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
-        ></motion>
-          <div className="flex items-center justify-center gap-3 mb-4"></div>
-            <Sparkles className="w-8 h-8 text-yellow-400" /><Sparkles className="w-8 h-8 text-yellow-400" /></Sparkles>
+         />
+          <div className="flex items-center justify-center gap-3 mb-4" />
+            <Sparkles className="w-8 h-8 text-yellow-400" /><Sparkles className="w-8 h-8 text-yellow-400" / />
           </div>
-          <p className="text-xl text-gray-300 mb-2"></p>
+          <p className="text-xl text-gray-300 mb-2" />
             Season {battlePassData.seasonNumber}: {battlePassData.season}
-          </p>
-          <p className="text-gray-400"></p>
+          <p className="text-gray-400" />
             {battlePassData.daysRemaining} days remaining
           </p>
         </motion.div>
@@ -213,31 +212,29 @@ const BattlePass = (): any => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 mb-8 border border-gray-700"
-        ></motion>
-          <div className="flex items-center justify-between mb-4"></div>
-            <div></div>
-              <p className="text-gray-400"></p>
+         />
+          <div className="flex items-center justify-between mb-4" />
+            <div />
+              <p className="text-gray-400" />
                 {userProgress.xp.toLocaleString()} /{' '}
                 {(userProgress.xp + userProgress.xpToNext).toLocaleString()} XP
               </p>
-            </div>
-            <div className="text-right"></div>
+            <div className="text-right" />
               <p className="text-sm text-gray-400">Next Level</p>
-              <p className="text-lg font-semibold"></p>
+              <p className="text-lg font-semibold" />
                 {userProgress.xpToNext.toLocaleString()} XP
               </p>
-            </div>
           </div>
-          <div className="w-full bg-gray-700 rounded-full h-4 mb-4"></div>
+          <div className="w-full bg-gray-700 rounded-full h-4 mb-4" />
             <motion.div
               className="bg-gradient-to-r from-blue-500 to-purple-500 h-4 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercentage}%` }}
               transition={{ duration: 1, ease: 'easeOut' }}
-            /></motion>
+            / />
           </div>
-          <div className="flex justify-between items-center"></div>
-            <div className="flex gap-4"></div>
+          <div className="flex justify-between items-center" />
+            <div className="flex gap-4" />
               <button
                 onClick={() => setSelectedTier('free')}
                 className={`px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
@@ -258,14 +255,12 @@ const BattlePass = (): any => {
               >
                 Premium Track
               </button>
-            </div>
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-0 whitespace-nowrap rounded-lg font-semibold"></div>
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-0 whitespace-nowrap rounded-lg font-semibold" />
               Premium Included
             </div>
-          </div>
         </motion.div>
         {/* Rewards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4" />
           {rewards.map((reward, index) => {
             const isUnlocked = isRewardUnlocked(reward.level);
             const currentReward =
@@ -287,38 +282,35 @@ const BattlePass = (): any => {
                   }
                   ${userProgress.level === reward.level ? 'ring-2 ring-blue-500' : ''}
                 `}
-              ></motion>
+               />
                 {/* Level Badge */}
-                <div className="absolute -top-2 -left-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"></div>
+                <div className="absolute -top-2 -left-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold" />
                   {reward.level}
-                </div>
                 {/* Lock/Check Overlay */}
                 {!isUnlocked || isPremiumLocked ? (
-                  <div className="absolute inset-0 bg-black/60 rounded-xl flex items-center justify-center"></div>
-                    <Lock className="w-8 h-8 text-gray-400" /></Lock>
+                  <div className="absolute inset-0 bg-black/60 rounded-xl flex items-center justify-center" />
+                    <Lock className="w-8 h-8 text-gray-400" / />
                   </div>
                 ) : (
-                  <div className="absolute top-2 right-2"></div>
-                    <CheckCircle className="w-6 h-6 text-green-500" /></CheckCircle>
+                  <div className="absolute top-2 right-2" />
+                    <CheckCircle className="w-6 h-6 text-green-500" / />
                   </div>
                 )}
                 {/* Reward Content */}
-                <div className="text-center"></div>
+                <div className="text-center" />
                   <div
                     className={`mx-auto w-16 h-16 rounded-lg border-2 ${getRarityColor(currentReward.rarity)} flex items-center justify-center mb-3`}
-                  ></div>
+                   />
                     {getRewardIcon(currentReward.type)}
-                  </div>
                   <p
                     className={`text-xs capitalize ${getRarityColor(currentReward.rarity).split(' ')[0]}`}
-                  ></p>
+                   />
                     {currentReward.rarity || currentReward.type}
-                  </p>
                 </div>
                 {/* Premium Badge */}
                 {selectedTier === 'premium' && (
-                  <div className="absolute -top-1 -right-1 bg-yellow-500 rounded-full w-6 h-6 flex items-center justify-center"></div>
-                    <Crown className="w-3 h-3 text-black" /></Crown>
+                  <div className="absolute -top-1 -right-1 bg-yellow-500 rounded-full w-6 h-6 flex items-center justify-center" />
+                    <Crown className="w-3 h-3 text-black" / />
                   </div>
                 )}
               </motion.div>
@@ -331,31 +323,27 @@ const BattlePass = (): any => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-8 bg-gradient-to-r from-yellow-900/50 to-orange-900/50 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/30"
-          ></motion>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-              <div className="text-center"></div>
-                <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" /></Zap>
-                <p className="text-sm text-gray-300"></p>
+           />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
+              <div className="text-center" />
+                <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" / />
+                <p className="text-sm text-gray-300" />
                   Level up faster with bonus experience
                 </p>
-              </div>
-              <div className="text-center"></div>
-                <Gift className="w-8 h-8 text-yellow-400 mx-auto mb-2" /></Gift>
-                <p className="text-sm text-gray-300"></p>
+              <div className="text-center" />
+                <Gift className="w-8 h-8 text-yellow-400 mx-auto mb-2" / />
+                <p className="text-sm text-gray-300" />
                   Legendary avatars, playmats, and more
                 </p>
-              </div>
-              <div className="text-center"></div>
-                <Star className="w-8 h-8 text-yellow-400 mx-auto mb-2" /></Star>
-                <p className="text-sm text-gray-300"></p>
+              <div className="text-center" />
+                <Star className="w-8 h-8 text-yellow-400 mx-auto mb-2" / />
+                <p className="text-sm text-gray-300" />
                   Get new content before everyone else
                 </p>
-              </div>
             </div>
           </motion.div>
         )}
       </div>
-    </div>
   );
 };
 export default BattlePass;

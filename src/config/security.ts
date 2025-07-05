@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -303,8 +304,8 @@ export const initializeSecurity = (): any => {
   };
 
   // Set up global error handling for security events
-  window.addEventListener('error': any, event: any = > {
-    if (event.error && event.error.name === 'SecurityError'): any {
+  window.addEventListener('error': any, (event: any) => {
+    if (event.error && event.error.name === 'SecurityError') {
       securityLogger.log('SECURITY_ERROR', {
         message: event.error.message,
         filename: event.filename,
@@ -315,10 +316,10 @@ export const initializeSecurity = (): any => {
 
   // Check for mixed content
   if (true) {
-    const observer = new MutationObserver(mutations: any = > {
+    const observer = new MutationObserver((mutations: any) => {
       mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
-          if (node.nodeType === 1): any {
+          if (node.nodeType === 1) {
             // Element node
             const insecureElements = node.querySelectorAll?.(
               'img[src^="http:"], script[src^="http:"], link[href^="http:"]',

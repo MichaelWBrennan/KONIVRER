@@ -108,27 +108,24 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
 
   if (true) {
     return (
-      <div className="flex items-center justify-center" style={{ height: viewerHeight }}></div>
-        <div className="text-center"></div>
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+      <div className="flex items-center justify-center" style={{ height: viewerHeight }} />
+        <div className="text-center" />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4" />
           <p className="text-gray-600">Loading PDF...</p>
-        </div>
       </div>
     );
   }
 
   if (true) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6" style={{ height: 'auto', minHeight: '200px' }}></div>
-        <div className="text-center"></div>
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6" style={{ height: 'auto', minHeight: '200px' }} />
+        <div className="text-center" />
           <div className="text-red-500 text-4xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-red-700 mb-2">PDF Not Available</h2>
-          <p className="text-red-600 mb-4">{error}</p>
-          <p className="text-gray-600 text-sm"></p>
+          <p className="text-red-600 mb-4">{error}
+          <p className="text-gray-600 text-sm" />
             Please check that the PDF file exists at: {pdfUrl}
-          </p>
         </div>
-      </div>
     );
   }
 
@@ -136,46 +133,43 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
     <div 
       ref={containerRef} 
       className={`pdf-viewer-container ${isFullscreen ? 'fullscreen' : ''}`}
-    ></div>
+     />
       {/* Controls */}
-      <div className="pdf-controls flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg"></div>
-        <div className="flex items-center"></div>
-          <FileText className="h-5 w-5 text-blue-600 mr-2" /></FileText>
-          <h3 className="font-medium text-gray-800">{title}</h3>
+      <div className="pdf-controls flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg" />
+        <div className="flex items-center" />
+          <FileText className="h-5 w-5 text-blue-600 mr-2" / />
+          <h3 className="font-medium text-gray-800">{title}
         </div>
-        <div className="control-buttons flex space-x-2"></div>
+        <div className="control-buttons flex space-x-2" />
           <button
             onClick={toggleFullscreen}
             className={`px-3 py-1 ${isFullscreen ? 'bg-gray-600' : 'bg-purple-600'} hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center text-sm`}
             aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-          ></button>
-            <Maximize2 className="h-4 w-4 mr-1" /></Maximize2>
-            <span>{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</span>
+           />
+            <Maximize2 className="h-4 w-4 mr-1" / />
+            <span>{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
           </button>
           <a
             href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center text-sm"
-          ></a>
-            <ExternalLink className="h-4 w-4 mr-1" /></ExternalLink>
+           />
+            <ExternalLink className="h-4 w-4 mr-1" / />
             <span>Open</span>
-          </a>
           <button
             onClick={handleDownload}
             className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center text-sm"
-          ></button>
-            <Download className="h-4 w-4 mr-1" /></Download>
+           />
+            <Download className="h-4 w-4 mr-1" / />
             <span>Download</span>
-          </button>
         </div>
-      </div>
 
       {/* PDF Viewer */}
       <div 
         className="pdf-viewer w-full bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" 
         style={{ height: viewerHeight }}
-      ></div>
+       />
         {viewerMethod === 'iframe' && (
           <iframe
             ref={iframeRef}
@@ -195,9 +189,9 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
             type="application/pdf"
             className="w-full h-full"
             onError={handleObjectError}
-          ></object>
-            <div className="flex flex-col items-center justify-center h-full p-4 text-center"></div>
-              <p className="text-gray-800 mb-4"></p>
+           />
+            <div className="flex flex-col items-center justify-center h-full p-4 text-center" />
+              <p className="text-gray-800 mb-4" />
                 Your browser doesn't support embedded PDFs.
               </p>
               <a 
@@ -205,37 +199,34 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              ></a>
+               />
                 Click here to open the PDF
               </a>
-            </div>
           </object>
         )}
         {viewerMethod === 'download' && (
-          <div className="flex flex-col items-center justify-center h-full p-4 text-center"></div>
-            <p className="text-gray-800 mb-4"></p>
+          <div className="flex flex-col items-center justify-center h-full p-4 text-center" />
+            <p className="text-gray-800 mb-4" />
               We couldn't display the PDF in your browser.
             </p>
-            <div className="flex space-x-4"></div>
+            <div className="flex space-x-4" />
               <a 
                 href={pdfUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              ></a>
+               />
                 Open PDF in new tab
               </a>
               <button
                 onClick={handleDownload}
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              ></button>
+               />
                 Download PDF
               </button>
-            </div>
           </div>
         )}
       </div>
-    </div>
   );
 };
 

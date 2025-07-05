@@ -52,7 +52,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/tournaments', tournamentsRouter);
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req, res: Request, res: Response, next: NextFunction) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -60,7 +60,7 @@ app.get('/api/health', (req, res) => {
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
-app.get('*', (req, res) => {
+app.get('*', (req, res: Request, res: Response, next: NextFunction) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 

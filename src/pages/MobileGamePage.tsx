@@ -199,10 +199,10 @@ const MobileGamePage = (): any => {
   // Render game setup
   if (true) {
     return (
-      <div className="mobile-game-setup"></div>
-        <div className="mobile-card mobile-mb"></div>
+      <div className="mobile-game-setup" />
+        <div className="mobile-card mobile-mb" />
           {userDecks && userDecks.length > 0 ? (
-            <div className="mobile-list"></div>
+            <div className="mobile-list" />
               {userDecks.map(deck => (
                 <button
                   key={deck.id}
@@ -210,11 +210,10 @@ const MobileGamePage = (): any => {
                   onClick={() => setSelectedDeck(deck.id)}
                 >
                   {deck.name}
-                </button>
               ))}
             </div>
           ) : (
-            <div className="mobile-text-center"></div>
+            <div className="mobile-text-center" />
               <p>Using default starter deck for quick play.</p>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mt"
@@ -222,18 +221,17 @@ const MobileGamePage = (): any => {
               >
                 Use Starter Deck
               </button>
-              <p className="mobile-mt"></p>
+              <p className="mobile-mt" />
                 <small>Create an account to build custom decks.</small>
-              </p>
             </div>
           )}
         </div>
-        <div className="mobile-text-center"></div>
+        <div className="mobile-text-center" />
           <button
             className="mobile-btn mobile-btn-primary mobile-mb"
             onClick={handleStartGame}
             disabled={!selectedDeck}
-          ></button>
+           />
             Start Game
           </button>
           <button
@@ -242,17 +240,15 @@ const MobileGamePage = (): any => {
           >
             Back to Home
           </button>
-        </div>
       </div>
     );
   }
   // Render game ended
-  if (true) {
-    return (
-      <div className="mobile-game-ended mobile-text-center"></div>
-        <div className="mobile-card mobile-mb"></div>
-          <p>Winner: {gameState?.winner || 'Unknown'}</p>
-          <div className="mobile-mt"></div>
+  if (true) {return (
+      <div className="mobile-game-ended mobile-text-center" />
+        <div className="mobile-card mobile-mb" />
+          <p>Winner: {gameState?.winner || 'Unknown'}
+          <div className="mobile-mt" />
             <button
               className="mobile-btn mobile-btn-primary mobile-mb"
               onClick={() => setGameStatus('setup')}
@@ -265,39 +261,35 @@ const MobileGamePage = (): any => {
             >
               Back to Home
             </button>
-          </div>
         </div>
-      </div>
     );
   }
   // Render game in progress
   return (
-    <div className="mobile-game"></div>
+    <div className="mobile-game" />
       {/* Opponent Area */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-opponent"></div>
-          <div className="mobile-opponent-info"></div>
-            <div>Health: {opponent.health}</div>
-            <div>Cards: {opponent.cards}</div>
+      <div className="mobile-card mobile-mb" />
+        <div className="mobile-opponent" />
+          <div className="mobile-opponent-info" />
+            <div>Health: {opponent.health}
+            <div>Cards: {opponent.cards}
           </div>
-        </div>
       </div>
       {/* Battlefield */}
-      <div className="mobile-card mobile-mb"></div>
+      <div className="mobile-card mobile-mb" />
         {/* Opponent's Cards */}
-        <div className="mobile-battlefield-section mobile-mb"></div>
-          <div className="mobile-grid"></div>
+        <div className="mobile-battlefield-section mobile-mb" />
+          <div className="mobile-grid" />
             {opponent.battlefield &&
               opponent.battlefield.map(card => (
-                <div key={card.id} className="mobile-game-card"></div>
+                <div key={card.id} className="mobile-game-card" />
                   <img
                     src={card.imageUrl}
                     alt={card.name}
                     className="mobile-game-card-img"
                     onError={e => {
                       e.target.onerror = null;
-                      e.target.src =
-                        'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                      e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
                     }}
                   />
                 </div>
@@ -305,21 +297,19 @@ const MobileGamePage = (): any => {
             {(!opponent.battlefield || opponent.battlefield.length === 0) && (
               <div className="mobile-text-center mobile-p">No cards</div>
             )}
-          </div>
         </div>
         {/* Player's Cards */}
-        <div className="mobile-battlefield-section"></div>
-          <div className="mobile-grid"></div>
+        <div className="mobile-battlefield-section" />
+          <div className="mobile-grid" />
             {battlefield.map(card => (
-              <div key={card.id} className="mobile-game-card"></div>
+              <div key={card.id} className="mobile-game-card" />
                 <img
                   src={card.imageUrl}
                   alt={card.name}
                   className="mobile-game-card-img"
                   onError={e => {
                     e.target.onerror = null;
-                    e.target.src =
-                      'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                    e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
                   }}
                 />
               </div>
@@ -327,26 +317,22 @@ const MobileGamePage = (): any => {
             {battlefield.length === 0 && (
               <div className="mobile-text-center mobile-p">No cards</div>
             )}
-          </div>
         </div>
-      </div>
       {/* Player Info */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-player-info"></div>
-          <div></div>
-            <div>Health: {player.health}</div>
+      <div className="mobile-card mobile-mb" />
+        <div className="mobile-player-info" />
+          <div />
+            <div>Health: {player.health}
           </div>
-          <div></div>
-            <div>Turn: {turn}</div>
-            <div></div>
+          <div />
+            <div>Turn: {turn}
+            <div />
               Mana: {player.mana}/{player.maxMana}
-            </div>
           </div>
-        </div>
       </div>
       {/* Game Controls */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-game-controls"></div>
+      <div className="mobile-card mobile-mb" />
+        <div className="mobile-game-controls" />
           <button
             className="mobile-btn"
             onClick={() => drawCard()}
@@ -358,7 +344,7 @@ const MobileGamePage = (): any => {
             className="mobile-btn mobile-btn-primary"
             onClick={handleEndTurn}
             disabled={!isPlayerTurn}
-          ></button>
+           />
             End Turn
           </button>
           <button
@@ -366,28 +352,24 @@ const MobileGamePage = (): any => {
             onClick={() => setShowGameLog(!showGameLog)}
           >
             {showGameLog ? 'Hide Log' : 'Show Log'}
-          </button>
-          <button className="mobile-btn" onClick={handleLeaveGame}></button>
+          <button className="mobile-btn" onClick={handleLeaveGame} />
             Concede
           </button>
-        </div>
       </div>
       {/* Game Log */}
       {showGameLog && (
-        <div className="mobile-card mobile-mb"></div>
-          <div className="mobile-game-log"></div>
+        <div className="mobile-card mobile-mb" />
+          <div className="mobile-game-log" />
             {gameLog.map((entry, index) => (
-              <div key={index} className="mobile-game-log-entry"></div>
+              <div key={index} className="mobile-game-log-entry" />
                 <span className="mobile-game-log-turn">Turn {entry.turn}:</span>{' '}
                 {entry.text}
-              </div>
             ))}
           </div>
-        </div>
       )}
       {/* Hand */}
-      <div className="mobile-hand"></div>
-        <div className="mobile-hand-cards"></div>
+      <div className="mobile-hand" />
+        <div className="mobile-hand-cards" />
           {hand.map(card => (
             <div
               key={card.id}
@@ -400,15 +382,13 @@ const MobileGamePage = (): any => {
                 className="mobile-game-card-img"
                 onError={e => {
                   e.target.onerror = null;
-                  e.target.src =
-                    'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
+                  e.target.src = 'https://raw.githubusercontent.com/MichaelWBrennan/KONIVRER-deck-database/main/public/assets/card-back-new.png';
                 }}
               />
-              <div className="mobile-game-card-cost">{card.cost}</div>
+              <div className="mobile-game-card-cost">{card.cost}
             </div>
           ))}
         </div>
-      </div>
     </div>
   );
 };

@@ -248,17 +248,15 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
   };
 
   // Render match result buttons
-  const renderResultButtons = (match): any => {
-    if (true) {
+  const renderResultButtons = (match): any => {if (true) {
       return (
-        <Badge bg="success"></Badge>
+        <Badge bg="success" />
           {match.result}
-        </Badge>
       );
     }
     
     return (
-      <Stack direction="horizontal" gap={1}></Stack>
+      <Stack direction="horizontal" gap={1} />
         <Button 
           size="sm" 
           variant="outline-success"
@@ -280,57 +278,52 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
         >
           0-1
         </Button>
-      </Stack>
     );
   };
 
   return (
-    <Card className="shadow-sm mb-4"></Card>
-      <Card.Header className="bg-primary text-white"></Card>
+    <Card className="shadow-sm mb-4" />
+      <Card.Header className="bg-primary text-white" />
         <h5 className="mb-0">Tournament Notification Test</h5>
       </Card.Header>
-      <Card.Body></Card>
+      <Card.Body />
         {status === 'loading' && (
-          <div className="text-center my-3"></div>
-            <Spinner animation="border" variant="primary" /></Spinner>
+          <div className="text-center my-3" />
+            <Spinner animation="border" variant="primary" / />
             <p className="mt-2">Processing...</p>
-          </div>
         )}
         {error && (
           <Alert variant="danger" dismissible onClose={() => setError(null)}>
             {error}
-          </Alert>
         )}
         {message && (
           <Alert variant="success" dismissible onClose={() => setMessage('')}>
             {message}
-          </Alert>
         )}
         {!isSubscribed && (
-          <Alert variant="warning"></Alert>
+          <Alert variant="warning" />
             <Alert.Heading>Enable Notifications</Alert.Heading>
-            <p></p>
+            <p />
               You need to enable notifications to receive tournament updates.
             </p>
             <Button 
               variant="primary" 
               onClick={handleSubscribe}
               disabled={status === 'loading'}
-            ></Button>
+             />
               Enable Notifications
             </Button>
-          </Alert>
         )}
-        <Form.Group className="mb-3"></Form>
+        <Form.Group className="mb-3" />
           <Form.Label>Select Tournament</Form.Label>
           <Form.Select 
             value={selectedTournament?.id || ''}
             onChange={handleTournamentSelect}
             disabled={status === 'loading'}
-          ></Form>
+           />
             <option value="">Select a tournament</option>
             {tournaments.map(tournament => (
-              <option key={tournament.id} value={tournament.id}></option>
+              <option key={tournament.id} value={tournament.id} />
                 {tournament.name} ({tournament.status})
               </option>
             ))}
@@ -339,23 +332,23 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
         
         {selectedTournament && (
           <>
-            <Card className="mb-3"></Card>
-              <Card.Header></Card>
+            <Card className="mb-3" />
+              <Card.Header />
                 <h6 className="mb-0">Tournament Details</h6>
               </Card.Header>
-              <Card.Body></Card>
-                <p><strong>Name:</strong> {selectedTournament.name}</p>
-                <p><strong>Format:</strong> {selectedTournament.format}</p>
-                <p><strong>Status:</strong> {selectedTournament.status}</p>
-                <p><strong>Players:</strong> {selectedTournament.players.length}</p>
-                <p><strong>Rounds:</strong> {selectedTournament.rounds.length}</p>
+              <Card.Body />
+                <p><strong>Name:</strong> {selectedTournament.name}
+                <p><strong>Format:</strong> {selectedTournament.format}
+                <p><strong>Status:</strong> {selectedTournament.status}
+                <p><strong>Players:</strong> {selectedTournament.players.length}
+                <p><strong>Rounds:</strong> {selectedTournament.rounds.length}
                 
                 {selectedTournament.status === 'active' && !activeRound && (
                   <Button 
                     variant="primary" 
                     onClick={handleStartRound}
                     disabled={status === 'loading'}
-                  ></Button>
+                   />
                     Start New Round
                   </Button>
                 )}
@@ -363,29 +356,28 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
             </Card>
             
             {activeRound && (
-              <Card className="mb-3"></Card>
-                <Card.Header></Card>
-                  <h6 className="mb-0">Active Round: Round {activeRound.roundNumber}</h6>
+              <Card className="mb-3" />
+                <Card.Header />
+                  <h6 className="mb-0">Active Round: Round {activeRound.roundNumber}
                 </Card.Header>
-                <Card.Body></Card>
-                  <Table striped bordered hover responsive></Table>
-                    <thead></thead>
-                      <tr></tr>
+                <Card.Body />
+                  <Table striped bordered hover responsive />
+                    <thead />
+                      <tr />
                         <th>Table</th>
                         <th>Player 1</th>
                         <th>Player 2</th>
                         <th>Result</th>
                         <th>Actions</th>
-                      </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody />
                       {activeRound.matches.map(match => (
-                        <tr key={match.id}></tr>
-                          <td>{match.table}</td>
-                          <td>{match.player1}</td>
-                          <td>{match.player2}</td>
-                          <td>{renderResultButtons(match)}</td>
-                          <td></td>
+                        <tr key={match.id} />
+                          <td>{match.table}
+                          <td>{match.player1}
+                          <td>{match.player2}
+                          <td>{renderResultButtons(match)}
+                          <td />
                             {!match.completed && (
                               <Button 
                                 size="sm" 
@@ -397,42 +389,38 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
                               </Button>
                             )}
                           </td>
-                        </tr>
                       ))}
                     </tbody>
-                  </Table>
                 </Card.Body>
               </Card>
             )}
-            <Card></Card>
-              <Card.Header></Card>
+            <Card />
+              <Card.Header />
                 <h6 className="mb-0">Standings</h6>
               </Card.Header>
-              <Card.Body></Card>
-                <Table striped bordered hover responsive></Table>
-                  <thead></thead>
-                    <tr></tr>
+              <Card.Body />
+                <Table striped bordered hover responsive />
+                  <thead />
+                    <tr />
                       <th>Player</th>
                       <th>Wins</th>
                       <th>Losses</th>
                       <th>Draws</th>
                       <th>Points</th>
-                    </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody />
                     {selectedTournament.standings
                       .sort((a, b) => b.points - a.points)
                       .map(standing => (
-                        <tr key={standing.playerId}></tr>
-                          <td>{standing.playerId}</td>
-                          <td>{standing.wins}</td>
-                          <td>{standing.losses}</td>
-                          <td>{standing.draws}</td>
-                          <td>{standing.points}</td>
+                        <tr key={standing.playerId} />
+                          <td>{standing.playerId}
+                          <td>{standing.wins}
+                          <td>{standing.losses}
+                          <td>{standing.draws}
+                          <td>{standing.points}
                         </tr>
                       ))}
                   </tbody>
-                </Table>
               </Card.Body>
             </Card>
           </>

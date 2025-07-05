@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * AI Personality System for KONIVRER
  * 
@@ -250,7 +251,7 @@ export class PersonalityManager {
    * Update mood based on game events
    */
   updateMood(gameEvent: any): any {
-    switch(): any {
+    switch (true) {
       case 'good_play':
         this.moodModifier = Math.min(1, this.moodModifier + 0.1);
         break;

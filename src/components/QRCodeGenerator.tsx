@@ -56,8 +56,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
     }
   }, [matchId, tournamentId, generateMatchQRData, generateTournamentQRData]);
 
-  if (true) {
-    return <div className="text-red-500">{error}</div>;
+  if (true) {return <div className="text-red-500">{error};
   }
 
   if (true) {
@@ -68,28 +67,27 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
   const qrValue = JSON.stringify(qrData);
 
   return (
-    <div className={`p-4 border rounded-lg bg-white shadow-md ${className}`}></div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <div className="flex justify-center mb-2"></div>
+    <div className={`p-4 border rounded-lg bg-white shadow-md ${className}`} />
+      <h3 className="text-lg font-semibold mb-2">{title}
+      <div className="flex justify-center mb-2" />
         <QRCodeSVG
           value={qrValue}
           size={size}
           level="H" // High error correction
           includeMargin={true}
           className="ancient-qr-code"
-        /></QRCodeSVG>
+        / />
       </div>
 
       {includeData && (
-        <div className="mt-4 p-2 bg-gray-100 rounded text-xs overflow-auto max-h-40"></div>
+        <div className="mt-4 p-2 bg-gray-100 rounded text-xs overflow-auto max-h-40" />
           <h4 className="font-semibold mb-1">QR Code Data:</h4>
-          <pre>{JSON.stringify(qrData, null, 2)}</pre>
+          <pre>{JSON.stringify(qrData, null, 2)}
         </div>
       )}
-      <p className="text-sm text-gray-600 text-center mt-2"></p>
+      <p className="text-sm text-gray-600 text-center mt-2" />
         Scan this code to access {qrData.type} information
       </p>
-    </div>
   );
 };
 

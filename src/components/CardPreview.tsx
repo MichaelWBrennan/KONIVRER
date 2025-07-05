@@ -5,19 +5,19 @@ import { ELEMENT_SYMBOLS } from '../engine/elementalSystem';
 const CardPreview = ({ card, onClose }): any => {
   if (!card) return null;
   return (
-    <div className="card-preview-overlay" onClick={onClose}></div>
+    <div className="card-preview-overlay" onClick={onClose} />
       <div className="card-preview-container" onClick={(e) => e.stopPropagation()}>
-        <div className={`card-preview ${card.type.toLowerCase()}`}></div>
+        <div className={`card-preview ${card.type.toLowerCase()}`} />
           {/* Card header */}
-          <div className="card-preview-header"></div>
-            <div className="card-preview-name">{card.name}</div>
-            <div className="card-preview-type">{card.type}</div>
+          <div className="card-preview-header" />
+            <div className="card-preview-name">{card.name}
+            <div className="card-preview-type">{card.type}
           </div>
           
           {/* Card image placeholder */}
-          <div className="card-preview-image"></div>
+          <div className="card-preview-image" />
             {/* In a real implementation, this would be an actual card image */}
-            <div className="card-preview-image-placeholder"></div>
+            <div className="card-preview-image-placeholder" />
               {card.type === 'Familiar' && (
                 <div className="familiar-symbol">⚔</div>
               )}
@@ -27,57 +27,52 @@ const CardPreview = ({ card, onClose }): any => {
               {card.type === 'Flag' && (
                 <div className="flag-symbol">⚑</div>
               )}
-            </div>
           </div>
           
           {/* Element costs */}
-          <div className="card-preview-elements"></div>
+          <div className="card-preview-elements" />
             {Object.entries(card.elements || {}).map(([element, count]) => (
               count > 0 && (
-                <div key={element} className={`element-cost ${element}`}></div>
+                <div key={element} className={`element-cost ${element}`} />
                   {ELEMENT_SYMBOLS[element]} {count}
-                </div>
               )
             ))}
           </div>
           
           {/* Card abilities */}
-          <div className="card-preview-abilities"></div>
+          <div className="card-preview-abilities" />
             {card.abilities && card.abilities.map((ability, index) => (
-              <div key={index} className="card-preview-ability"></div>
+              <div key={index} className="card-preview-ability" />
                 {ability.effect}
-              </div>
             ))}
           </div>
           
           {/* Flavor text */}
           {card.flavorText && (
-            <div className="card-preview-flavor">{card.flavorText}</div>
+            <div className="card-preview-flavor">{card.flavorText}
           )}
           {/* Card footer */}
-          <div className="card-preview-footer"></div>
-            <div className="card-preview-set-info"></div>
+          <div className="card-preview-footer" />
+            <div className="card-preview-set-info" />
               {card.set && card.rarity && `${card.set} • ${getRaritySymbol(card.rarity)}`}
             </div>
             
             {card.type === 'Familiar' && (
-              <div className="card-preview-stats"></div>
-                <span className="card-preview-strength">{card.strength}</span>
+              <div className="card-preview-stats" />
+                <span className="card-preview-strength">{card.strength}
                 <span className="card-preview-separator">/</span>
-                <span className="card-preview-health">{card.health}</span>
+                <span className="card-preview-health">{card.health}
               </div>
             )}
           </div>
-        </div>
         
         <button className="card-preview-close" onClick={onClose}>Close</button>
-      </div>
     </div>
   );
 };
 
 // Helper to get rarity symbol
-function getRaritySymbol(rarity: any): any {
+function getRaritySymbol(): any {
   const symbols = {
     common: '🜠',
     uncommon: '☽',

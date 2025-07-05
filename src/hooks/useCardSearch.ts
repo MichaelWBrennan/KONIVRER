@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database - Unified Card Search Hook
  * Modern search functionality with debouncing and caching
@@ -130,7 +131,7 @@ const useCardSearch = (): any => {
       exportedAt: new Date().toISOString()
     };
     
-    switch(): any {
+    switch (true) {
       case 'json':
         return JSON.stringify(exportData, null, 2);
       case 'csv':

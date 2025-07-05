@@ -35,7 +35,7 @@ if (!fs.existsSync(TYPES_DIR) && !DRY_RUN) {
 }
 
 // Helper functions
-function log(message, type = 'info') {
+function log(): void {
   const colors = {
     info: '\x1b[36m%s\x1b[0m',    // Cyan
     success: '\x1b[32m%s\x1b[0m',  // Green
@@ -46,7 +46,7 @@ function log(message, type = 'info') {
   console.log(colors[type], message);
 }
 
-function shouldProcessFile(filePath) {
+function shouldProcessFile(): void {
   const ext = path.extname(filePath);
   return ['.js', '.jsx'].includes(ext) && 
          !filePath.endsWith('.test.js') && 
@@ -56,22 +56,22 @@ function shouldProcessFile(filePath) {
          !filePath.includes('vitest.config');
 }
 
-function getTypeScriptExtension(filePath) {
+function getTypeScriptExtension(): void {
   const ext = path.extname(filePath);
   if (ext === '.js') return '.ts';
   if (ext === '.jsx') return '.tsx';
   return ext;
 }
 
-function hasReactImport(content) {
+function hasReactImport(): void {
   return /import\s+React|import\s+{\s*.*React/.test(content);
 }
 
-function hasJSXSyntax(content) {
+function hasJSXSyntax(): void {
   return /<[A-Z][A-Za-z0-9]*|<[a-z][A-Za-z0-9]*>/.test(content);
 }
 
-function addBasicTypeAnnotations(content, filePath) {
+function addBasicTypeAnnotations(): void {
   // This is a simplified version - a real implementation would use a proper parser
   let modifiedContent = content;
   
@@ -148,7 +148,7 @@ function addBasicTypeAnnotations(content, filePath) {
   return modifiedContent;
 }
 
-function createTypeDefinitionFiles() {
+function createTypeDefinitionFiles(): void {
   // Create card.ts
   const cardTypes = `/**
  * KONIVRER Deck Database - Card Type Definitions
@@ -429,7 +429,7 @@ export interface TournamentCardProps {
 }
 
 // Process a single file
-async function processFile(filePath) {
+async function processFile(): void {
   if (!shouldProcessFile(filePath)) {
     if (VERBOSE) log(`Skipping ${filePath}`, 'warning');
     return false;
@@ -471,7 +471,7 @@ async function processFile(filePath) {
 }
 
 // Walk directory recursively
-async function walkDir(dir) {
+async function walkDir(): void {
   let converted = 0;
   
   const files = fs.readdirSync(dir);
@@ -494,7 +494,7 @@ async function walkDir(dir) {
 }
 
 // Main function
-async function main() {
+async function main(): void {
   log('Starting TypeScript migration...', 'info');
   
   if (DRY_RUN) {

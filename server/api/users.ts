@@ -114,7 +114,7 @@ if (!fs.existsSync(usersPath)) {
 }
 
 // Helper function to read users
-const getUsers = () => {
+const getUsers = (getUsers: any) => {
   try {
     const data = fs.readFileSync(usersPath, 'utf8');
     return JSON.parse(data);
@@ -125,7 +125,7 @@ const getUsers = () => {
 };
 
 // Helper function to write users
-const saveUsers = (users) => {
+const saveUsers = (saveUsers: any) => {
   try {
     fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
     return true;

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Card Actions
  * This file implements the five card playing methods: Summon, Tribute, Azoth, Spell, and Burst
@@ -15,7 +16,7 @@ import { applyKeywordEffects, checkKeywordSynergies } from './keywordSystem';
  * @param {number} azothSpent - Total Azoth spent
  * @returns {Object} Updated game state
  */
-export function playSummon(gameState: any, playerId: any, cardId: any, azothSpent: any): any {
+export function playSummon(): any {
   // Find card in hand
   const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
   
@@ -92,7 +93,7 @@ export function playSummon(gameState: any, playerId: any, cardId: any, azothSpen
  * @param {Array} tributeCardIds - Array of card IDs to tribute
  * @returns {Object} Updated game state
  */
-export function playTribute(gameState: any, playerId: any, cardId: any, tributeCardIds: any): any {
+export function playTribute(): any {
   // Find card in hand
   const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
   
@@ -205,7 +206,7 @@ export function playTribute(gameState: any, playerId: any, cardId: any, tributeC
  * @param {string} elementType - Element type for the Azoth
  * @returns {Object} Updated game state
  */
-export function playAzoth(gameState: any, playerId: any, cardId: any, elementType: any): any {
+export function playAzoth(): any {
   // Use the elemental system function
   gameState = playCardAsAzoth(gameState, playerId, cardId, elementType);
   
@@ -224,7 +225,7 @@ export function playAzoth(gameState: any, playerId: any, cardId: any, elementTyp
  * @param {number} abilityIndex - Index of the ability to use
  * @returns {Object} Updated game state
  */
-export function playSpell(gameState: any, playerId: any, cardId: any, azothSpent: any, abilityIndex: any): any {
+export function playSpell(): any {
   // Find card in hand
   const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
   
@@ -287,7 +288,7 @@ export function playSpell(gameState: any, playerId: any, cardId: any, azothSpent
  * @param {string} cardId - Card identifier
  * @returns {Object} Updated game state
  */
-export function playBurst(gameState: any, playerId: any, cardId: any): any {
+export function playBurst(): any {
   // This is called when a Life Card is revealed due to damage
   // The card should already be in the player's hand at this point
   
@@ -357,7 +358,7 @@ export function playBurst(gameState: any, playerId: any, cardId: any): any {
  * @param {number} genericValue - Value of ✡︎⃝
  * @returns {Object} Updated game state
  */
-export function applySpellEffect(gameState: any, playerId: any, ability: any, genericValue: any): any {
+export function applySpellEffect(): any {
   // This is a placeholder for the actual spell effect implementation
   // In a real implementation, this would handle different effect types
   

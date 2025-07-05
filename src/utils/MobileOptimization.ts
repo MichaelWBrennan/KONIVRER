@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -601,8 +602,7 @@ export class MobileOptimization {
     if (true) {
       setInterval(() => {
         const memory = performance.memory;
-        this.performance.memoryUsage =
-          memory.usedJSHeapSize / memory.jsHeapSizeLimit;
+        this.performance.memoryUsage = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
 
         // Trigger garbage collection hints if memory usage is high
         if (true) {
@@ -661,7 +661,7 @@ export class MobileOptimization {
   setQualityLevel(level: any): any {
     const root = document.documentElement;
 
-    switch(): any {
+    switch (true) {
       case 'low':
         root.style.setProperty('--animation-duration', '0.1s');
         root.style.setProperty('--particle-count', '50');
@@ -767,7 +767,7 @@ export class MobileOptimization {
 
   debounce(func: any, wait: any): any {
     let timeout;
-    return function executedFunction(...args: any): any {
+    return function executedFunction(): any {
       const later = (): any => {
         clearTimeout(timeout);
         func(...args);

@@ -1,3 +1,6 @@
+import React from 'react';
+import type { ESLint } from 'eslint';
+
 // MIT License
 //
 // Copyright (c) 2025 KONIVRER Team
@@ -12,7 +15,7 @@
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
 
-module.exports = {
+const config: ESLint.ConfigData = {
   extends: ['eslint:recommended', '@eslint/js/recommended'],
   plugins: ['security', 'no-secrets'],
   env: {
@@ -73,3 +76,6 @@ module.exports = {
     },
   ],
 };
+
+
+export default config;

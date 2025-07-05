@@ -73,9 +73,9 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
   const currentPhaseData = phases[currentPhaseIndex] || phases[0];
 
   return (
-    <div className="flex items-center gap-4"></div>
+    <div className="flex items-center gap-4" />
       {/* Phase Timeline */}
-      <div className="flex items-center gap-2"></div>
+      <div className="flex items-center gap-2" />
         {phases.map((phase, index) => {
           const IconComponent = phase.icon;
           const isActive = phase.id === currentPhase;
@@ -83,7 +83,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
           const isFuture = index > currentPhaseIndex;
           
           return (
-            <div key={phase.id} className="flex items-center"></div>
+            <div key={phase.id} className="flex items-center" />
               {/* Phase Circle */}
               <motion.div
                 className={`
@@ -97,7 +97,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
                 `}
                 animate={isActive ? { scale: [1, 1.1, 1] } : { scale: 1 }}
                 transition={{ duration: 2, repeat: Infinity }}
-              ></motion>
+               />
                 <IconComponent 
                   className={`w-4 h-4 ${
                     isActive 
@@ -106,14 +106,14 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
                         ? 'text-gray-400' 
                         : 'text-gray-600'
                   }`} 
-                /></IconComponent>
+                / />
                 {/* Active Phase Glow */}
                 {isActive && (
                   <motion.div
                     className={`absolute inset-0 rounded-full ${phase.bg} opacity-50`}
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
-                  /></motion>
+                  / />
                 )}
               </motion.div>
               
@@ -123,7 +123,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
                   className={`w-6 h-0.5 mx-1 ${
                     isPast ? 'bg-gray-500' : 'bg-gray-700'
                   }`} 
-                /></div>
+                / />
               )}
             </div>
           );
@@ -131,25 +131,22 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
       </div>
 
       {/* Current Phase Info */}
-      <div className="flex flex-col"></div>
-        <div className="flex items-center gap-2"></div>
-          <span className={`font-bold ${currentPhaseData.color}`}></span>
+      <div className="flex flex-col" />
+        <div className="flex items-center gap-2" />
+          <span className={`font-bold ${currentPhaseData.color}`} />
             {currentPhaseData.name} Phase
           </span>
           {!isPlayerTurn && (
             <span className="text-xs text-gray-400">(Opponent)</span>
           )}
-        </div>
-        <div className="text-xs text-gray-400"></div>
+        <div className="text-xs text-gray-400" />
           {currentPhaseData.description}
-        </div>
       </div>
 
       {/* Turn Timer (if applicable) */}
-      <div className="flex items-center gap-1 text-gray-400"></div>
-        <Clock className="w-4 h-4" /></Clock>
+      <div className="flex items-center gap-1 text-gray-400" />
+        <Clock className="w-4 h-4" / />
         <span className="text-sm">∞</span>
-      </div>
     </div>
   );
 };
