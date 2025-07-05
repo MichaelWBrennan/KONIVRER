@@ -215,12 +215,7 @@ const ComprehensiveAdvancedSearchPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-md rounded-lg p-6 mb-6 border border-white/20"
         >
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold text-white flex items-center">
-              <Search className="mr-3" />
-              Comprehensive Card Search
-            </h1>
-            <button
+          <div className="flex items-center justify-between mb-4"><button
               onClick={() => setShowSearch(!showSearch)}
               className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
             >

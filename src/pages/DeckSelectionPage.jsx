@@ -47,9 +47,7 @@ const DeckSelectionPage = () => {
           className="mr-4 p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
         >
           <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-3xl font-bold text-white">Select a Deck</h1>
-      </div>
+        </button></div>
 
       <div className="mb-6">
         <button

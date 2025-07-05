@@ -615,11 +615,7 @@ const OrganizationDashboard = () => {
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {organization?.name}
-              </h1>
-              <p className="text-gray-600">
+            <div><p className="text-gray-600">
                 Organization Dashboard
               </p>
             </div>

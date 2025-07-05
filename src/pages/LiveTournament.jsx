@@ -316,9 +316,7 @@ const LiveTournament = () => {
       <div className="bg-card border-b border-color">
         <div className="container py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold mb-1">{tournament.name}</h1>
-              <div className="flex items-center gap-4 text-sm text-secondary">
+            <div><div className="flex items-center gap-4 text-sm text-secondary">
                 <span className="flex items-center gap-1">
                   <Trophy size={14} />
                   {tournament.currentRound}

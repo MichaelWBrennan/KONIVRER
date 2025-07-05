@@ -144,7 +144,7 @@ const AIConsciousnessDemo = () => {
         <div className="header-content">
           <Brain className="header-icon" />
           <div className="header-text">
-            <h1>AI Consciousness Integration Demo</h1>
+
             <p>Experience the cutting-edge AI system with 100% consciousness metrics</p>
           </div>
         </div>

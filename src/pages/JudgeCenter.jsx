@@ -793,10 +793,6 @@ const JudgeCenter = () => {
   return (
     <div className="min-h-screen py-8">
       <div className="container">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Judge Center</h1>
-        </div>
 
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-2 mb-8 border-b border-color">

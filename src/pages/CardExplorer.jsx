@@ -46,9 +46,7 @@ const CardExplorer = () => {
       <div className="bg-card border-b border-color">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <h1 className="text-4xl font-bold">Card Explorer</h1>
-            </div>
+            <div className="flex items-center justify-center gap-3 mb-4"></div>
           </div>
         </div>
       </div>

@@ -173,11 +173,7 @@ const SyntaxGuide = () => {
           </Link>
           
           <div className="flex items-center gap-3 mb-4">
-            <BookOpen className="w-8 h-8 text-purple-400" />
-            <h1 className="text-4xl font-bold text-white">
-              KONIVRER Search Syntax Guide
-            </h1>
-          </div>
+            <BookOpen className="w-8 h-8 text-purple-400" /></div>
         </div>
 
         {/* Quick Reference */}

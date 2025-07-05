@@ -150,9 +150,7 @@ const AdminPanel = () => {
     <div className="min-h-screen bg-primary">
       <div className="container py-6">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">Admin Panel</h1>
-          <p className="text-secondary">
+        <div className="mb-6"><p className="text-secondary">
             Manage Google Sheets integration, card database, and sets
           </p>
         </div>

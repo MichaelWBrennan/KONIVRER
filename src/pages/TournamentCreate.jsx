@@ -753,10 +753,6 @@ const TournamentCreate = () => {
   return (
     <div className="min-h-screen py-8">
       <div className="container max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Create Tournament</h1>
-        </div>
 
         {/* Progress Steps */}
         <div className="flex items-center justify-between mb-8 overflow-x-auto">

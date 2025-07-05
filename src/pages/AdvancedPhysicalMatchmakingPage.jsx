@@ -149,9 +149,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           className="text-center"
         >
           <div className="mb-8">
-            <Sparkles className="w-20 h-20 text-amber-400 mx-auto mb-4" />
-            <h1 className="text-4xl font-bold text-amber-300 mb-2">KONIVRER</h1>
-            <p className="text-xl text-gray-400">Advanced Matchmaking System</p>
+            <Sparkles className="w-20 h-20 text-amber-400 mx-auto mb-4" /><p className="text-xl text-gray-400">Advanced Matchmaking System</p>
           </div>
 
           <div className="w-64 h-2 bg-gray-800 rounded-full mx-auto mb-4 overflow-hidden">
@@ -456,13 +454,7 @@ const AdvancedPhysicalMatchmakingPage = () => {
           {/* Header */}
           <header className="hidden lg:flex items-center justify-between p-4 border-b border-gray-700">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-white">
-                {activeTab === 'dashboard' && 'Analytics Dashboard'}
-                {activeTab === 'tournaments' && 'Tournament Management'}
-                {activeTab === 'decks' && 'Deck Analysis'}
-                {activeTab === 'matchmaking' && 'Physical Matchmaking'}
-                {activeTab === 'players' && 'Player Management'}
-              </h1>
+
 
               {activeTab === 'tournaments' && selectedTournament && (
                 <div className="ml-4 px-3 py-0 whitespace-nowrap bg-amber-900 bg-opacity-30 rounded-lg text-amber-300 text-sm">

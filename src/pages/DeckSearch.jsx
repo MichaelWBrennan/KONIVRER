@@ -364,9 +364,7 @@ const DeckSearch = () => {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <Search className="w-8 h-8 text-blue-500" />
-              <h1 className="text-4xl font-bold">Deck Search</h1>
-            </div>
+              <Search className="w-8 h-8 text-blue-500" /></div>
           </div>
         </div>
       </div>
