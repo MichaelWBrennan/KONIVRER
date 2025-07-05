@@ -90,7 +90,7 @@ const MobileFirstLayout = ({ children }) => {
     { name: 'Cards', path: '/cards' },
     { name: 'Decks', path: '/decks' },
     { name: 'Events', path: '/tournaments' },
-    { name: 'Play', path: '/game/online', altPaths: ['/matchmaking'] }, // Combined Play and Match
+    { name: 'Play', path: '/play', altPaths: ['/game/online', '/matchmaking'] }, // Updated to use new MTG Arena-style interface
     { name: 'Rules', path: '/rules' },
   ];
 

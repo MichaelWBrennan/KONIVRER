@@ -30,12 +30,26 @@ import {
   X,
   ChevronRight,
   Info,
+  Search,
+  Filter,
+  Grid,
+  List,
+  Heart,
+  MessageSquare,
+  Eye,
+  Calendar as CalendarIcon,
+  Tag,
+  ExternalLink,
 } from 'lucide-react';
 
 const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [dailyRewardsClaimed, setDailyRewardsClaimed] = useState(false);
   const [notifications, setNotifications] = useState(3);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('recent');
+  const [viewMode, setViewMode] = useState('grid');
   
   // Mock game data
   const playerLevel = 42;
@@ -48,6 +62,114 @@ const Home = () => {
     rare: 12,
     mythic: 6
   };
+  
+  // Blog posts data
+  const blogPosts = [
+    {
+      id: 1,
+      title: 'New Set Release: Elemental Convergence',
+      excerpt: 'Discover the powerful new mechanics and cards in our latest expansion. Elemental Convergence brings fresh strategies and exciting gameplay to KONIVRER.',
+      author: {
+        name: 'Design Team',
+        avatar: '/api/placeholder/40/40',
+        role: 'Official'
+      },
+      date: '2024-06-15',
+      readTime: '5 min read',
+      category: 'releases',
+      type: 'Set Release',
+      image: '/api/placeholder/600/300',
+      featured: true,
+      views: 15420,
+      likes: 890,
+      comments: 156
+    },
+    {
+      id: 2,
+      title: 'Tournament Meta Analysis: June 2024',
+      excerpt: 'A deep dive into the current competitive landscape. Which archetypes are dominating and what strategies are emerging in the tournament scene.',
+      author: {
+        name: 'Pro Player Council',
+        avatar: '/api/placeholder/40/40',
+        role: 'Expert'
+      },
+      date: '2024-06-12',
+      readTime: '8 min read',
+      category: 'strategy',
+      type: 'Analysis',
+      image: '/api/placeholder/600/300',
+      featured: false,
+      views: 12340,
+      likes: 654,
+      comments: 89
+    },
+    {
+      id: 3,
+      title: 'Community Spotlight: Deck Builder Showcase',
+      excerpt: "Featuring innovative deck builds from our community. See how creative players are pushing the boundaries of what's possible.",
+      author: {
+        name: 'Community Team',
+        avatar: '/api/placeholder/40/40',
+        role: 'Moderator'
+      },
+      date: '2024-06-10',
+      readTime: '6 min read',
+      category: 'community',
+      type: 'Spotlight',
+      image: '/api/placeholder/600/300',
+      featured: true,
+      views: 9870,
+      likes: 432,
+      comments: 67
+    }
+  ];
+  
+  // Categories for filtering
+  const categories = [
+    { id: 'all', name: 'All Posts' },
+    { id: 'releases', name: 'Releases' },
+    { id: 'strategy', name: 'Strategy' },
+    { id: 'community', name: 'Community' },
+    { id: 'rules', name: 'Rules' },
+    { id: 'guides', name: 'Guides' },
+    { id: 'lore', name: 'Lore' }
+  ];
+  
+  // Format date
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+  
+  // Filter and sort posts
+  const filteredPosts = blogPosts.filter(post => {
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
+
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    switch (sortBy) {
+      case 'recent':
+        return new Date(b.date) - new Date(a.date);
+      case 'popular':
+        return b.views - a.views;
+      case 'likes':
+        return b.likes - a.likes;
+      case 'comments':
+        return b.comments - a.comments;
+      default:
+        return 0;
+    }
+  });
   
   // Mock featured events
   const featuredEvents = [
@@ -256,9 +378,174 @@ const Home = () => {
         
         {/* Main Content Area */}
         <div className="flex-1">
+          {/* Blog Search and Filters */}
+          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6">
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search blog posts..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mb-2">
+              {categories.map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-all ${
+                    selectedCategory === category.id
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  <span>{category.name}</span>
+                </button>
+              ))}
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <div className="text-sm text-gray-400">
+                Showing {filteredPosts.length} of {blogPosts.length} posts
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <select
+                  value={sortBy}
+                  onChange={e => setSortBy(e.target.value)}
+                  className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-1 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="recent">Most Recent</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="likes">Most Liked</option>
+                  <option value="comments">Most Discussed</option>
+                </select>
+                
+                <div className="flex items-center bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`p-1 rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    <Grid size={16} />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`p-1 rounded ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    <List size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Blog Posts */}
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'}>
+            {sortedPosts.map((post, index) => (
+              <div
+                key={post.id}
+                className={`bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group ${
+                  post.featured ? 'ring-2 ring-blue-500/30' : ''
+                } ${viewMode === 'list' ? 'flex' : ''}`}
+              >
+                {/* Featured Image */}
+                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`}>
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
+                      viewMode === 'list' ? 'h-full' : 'h-48'
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  {/* Type Badge */}
+                  <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                    post.category === 'releases' ? 'bg-blue-600' :
+                    post.category === 'strategy' ? 'bg-green-600' :
+                    post.category === 'community' ? 'bg-purple-600' :
+                    post.category === 'rules' ? 'bg-red-600' :
+                    post.category === 'guides' ? 'bg-yellow-600' :
+                    post.category === 'lore' ? 'bg-indigo-600' : 'bg-gray-600'
+                  }`}>
+                    {post.type}
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-4 flex-1">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                    {post.title}
+                  </h3>
+                  
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  
+                  <div className="flex items-center mb-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden">
+                      <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium">{post.author.name}</div>
+                      <div className="text-xs text-gray-400">{post.author.role}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center text-xs text-gray-400">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <CalendarIcon size={12} className="mr-1" />
+                        <span>{formatDate(post.date)}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock size={12} className="mr-1" />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <Eye size={12} className="mr-1" />
+                        <span>{post.views.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Heart size={12} className="mr-1" />
+                        <span>{post.likes.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MessageSquare size={12} className="mr-1" />
+                        <span>{post.comments.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 flex justify-between items-center">
+                    <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center">
+                      <span>Read More</span>
+                      <ExternalLink size={14} className="ml-1" />
+                    </Link>
+                    
+                    <div className="flex items-center space-x-2">
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white">
+                        <Heart size={16} />
+                      </button>
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white">
+                        <MessageSquare size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
           {/* Daily Rewards Banner */}
           {!dailyRewardsClaimed && (
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 mb-6">
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6">
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-xl font-medium mb-1">Daily Rewards Available!</h3>
@@ -326,34 +613,6 @@ const Home = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-          
-          {/* Quick Play Options */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Quick Play</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-gradient-to-r from-green-900 to-blue-900 rounded-xl p-6 hover:from-green-800 hover:to-blue-800 transition-all cursor-pointer">
-                <div className="flex items-center mb-3">
-                  <Sword size={24} className="mr-3" />
-                  <h3 className="text-xl font-medium">Regulation Standard</h3>
-                </div>
-                <p className="text-gray-300 mb-4">Play with your constructed decks in the standard format.</p>
-                <button className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium">
-                  Play Now
-                </button>
-              </div>
-              
-              <div className="bg-gradient-to-r from-purple-900 to-red-900 rounded-xl p-6 hover:from-purple-800 hover:to-red-800 transition-all cursor-pointer">
-                <div className="flex items-center mb-3">
-                  <Zap size={24} className="mr-3" />
-                  <h3 className="text-xl font-medium">Quick Draft</h3>
-                </div>
-                <p className="text-gray-300 mb-4">Draft against AI opponents and play against real players.</p>
-                <button className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors text-sm font-medium">
-                  Start Draft
-                </button>
-              </div>
             </div>
           </div>
         </div>
