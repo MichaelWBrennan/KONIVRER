@@ -71,7 +71,7 @@ const RulesCenter = () => {
     setSearchTerm(''); // Clear search when switching tabs
   }, [activeTab]);
 
-  // Tournament Rules Data - Unified approach from MTG, Yu-Gi-Oh!, and Pokemon TCG
+  // Tournament Rules Data - Unified approach from KONIVRER, Yu-Gi-Oh!, and Pokemon TCG
   const tournamentRulesData = {
     tournamentOverview: {
       title: "1. Tournament Overview",

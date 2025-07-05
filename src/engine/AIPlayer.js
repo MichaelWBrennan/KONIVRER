@@ -6,9 +6,9 @@
  */
 
 /**
- * KONIVRER AI Player - MTG Arena Edition
+ * KONIVRER AI Player - KONIVRER Arena Edition
  *
- * This enhanced AI opponent provides an MTG Arena-like experience with:
+ * This enhanced AI opponent provides an KONIVRER Arena-like experience with:
  * - Multiple difficulty levels with distinct play styles
  * - Adaptive strategy based on game state
  * - Personality traits that affect decision making

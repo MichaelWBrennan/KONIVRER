@@ -48,7 +48,8 @@ import CardArtShowcase from './pages/CardArtShowcase';
 
 import AdvancedSearchPage from './pages/AdvancedSearchPage';
 import ComprehensiveAdvancedSearchPage from './pages/ComprehensiveAdvancedSearchPage';
-import ScryfalLikeAdvancedSearchPage from './pages/ScryfalLikeAdvancedSearchPage';
+import AdvancedCardSearchPage from './pages/AdvancedCardSearchPage';
+import CardSearch from './pages/CardSearch';
 import SyntaxGuide from './pages/SyntaxGuide';
 
 // Matchmaking System
@@ -156,7 +157,11 @@ function App() {
                             {/* Cards & Decks */}
                             <Route
                               path="/cards"
-                              element={<ScryfalLikeAdvancedSearchPage />}
+                              element={<CardSearch />}
+                            />
+                            <Route
+                              path="/search"
+                              element={<CardSearch />}
                             />
                             <Route
                               path="/cards/*"
@@ -175,13 +180,18 @@ function App() {
                               element={<CardArtShowcase />}
                             />
 
+                            {/* Legacy search routes - redirect to unified search */}
                             <Route
                               path="/advanced-search"
-                              element={<AdvancedSearchPage />}
+                              element={<Navigate to="/search" replace />}
                             />
                             <Route
                               path="/comprehensive-search"
-                              element={<ComprehensiveAdvancedSearchPage />}
+                              element={<Navigate to="/search" replace />}
+                            />
+                            <Route
+                              path="/scryfall-search"
+                              element={<Navigate to="/search" replace />}
                             />
                             <Route
                               path="/syntax-guide"

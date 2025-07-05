@@ -21,7 +21,7 @@ import { useState, useEffect } from 'react';
 /**
  * Enhanced Card Preview Component
  *
- * A premium MTG Arena-style card preview with:
+ * A premium KONIVRER Arena-style card preview with:
  * - Dynamic 3D perspective effects
  * - Animated foil/premium card treatments
  * - Responsive design for all devices

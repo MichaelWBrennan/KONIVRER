@@ -543,7 +543,7 @@ const AdvancedSearch = ({ onSearch, onClose }) => {
                     >
                       <option value="usd">USD ($)</option>
                       <option value="eur">EUR (€)</option>
-                      <option value="tix">MTGO Tix</option>
+                      <option value="tix">KONIVRERO Tix</option>
                     </select>
                   </div>
                 </div>

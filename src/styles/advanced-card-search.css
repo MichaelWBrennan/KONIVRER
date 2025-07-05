@@ -1,15 +1,15 @@
 /**
- * Scryfall-like Advanced Search Styles
- * Exact replica of Scryfall's advanced search interface
+ * KONIVRER Advanced Card Search Styles
+ * Modern advanced search interface for KONIVRER cards
  */
 
-.scryfall-advanced-search {
+.konivrer-advanced-search {
   background-color: #f8f9fa;
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.scryfall-advanced-search .max-w-4xl {
+.konivrer-advanced-search .max-w-4xl {
   max-width: 56rem;
 }
 

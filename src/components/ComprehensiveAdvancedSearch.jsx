@@ -1,6 +1,6 @@
 /**
  * KONIVRER Deck Database - Comprehensive Advanced Search
- * Based on Scryfall's advanced search with KONIVRER adaptations
+ * Based on Advanced advanced search with KONIVRER adaptations
  *
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
@@ -951,7 +951,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                             >
                               <option value="usd">USD ($)</option>
                               <option value="eur">EUR (€)</option>
-                              <option value="tix">MTGO Tickets</option>
+                              <option value="tix">KONIVRERO Tickets</option>
                             </select>
                             <div className="flex space-x-2">
                               <input

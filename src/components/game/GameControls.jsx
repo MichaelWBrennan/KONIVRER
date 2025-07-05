@@ -31,7 +31,7 @@ import {
 
 /**
  * Game controls component that provides action buttons based on game state
- * Enhanced to be more like MTG Arena
+ * Enhanced to be more like KONIVRER Arena
  */
 const GameControls = ({
   gameState,
@@ -441,7 +441,7 @@ const GameControls = ({
           )}
         </AnimatePresence>
 
-        {/* Phase indicator - MTG Arena style */}
+        {/* Phase indicator - KONIVRER Arena style */}
         {expanded && (
           <div className="mt-2 flex justify-center">
             <div className="flex items-center space-x-1 bg-black/50 rounded-full px-3 py-1">
@@ -472,7 +472,7 @@ const GameControls = ({
         )}
       </motion.div>
 
-      {/* Timer - MTG Arena style */}
+      {/* Timer - KONIVRER Arena style */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

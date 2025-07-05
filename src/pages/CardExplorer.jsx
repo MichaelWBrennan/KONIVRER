@@ -74,12 +74,12 @@ const CardExplorer = () => {
                   <Filter className="w-4 h-4" />
                 </button>
                 <a 
-                  href="https://scryfall.com/docs/syntax" 
+                  href="https://#/syntax-guide" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
                 >
-                  Scryfall Syntax
+                  KONIVRER Syntax
                 </a>
                 {isAuthenticated && (
                   <button
