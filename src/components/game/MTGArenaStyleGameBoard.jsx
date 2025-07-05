@@ -7,6 +7,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdaptiveAI, { ELEMENTS, KEYWORDS } from '../../services/adaptiveAI';
+import DynamicResolutionChain from '../../services/dynamicResolutionChain';
 import { 
   Clock, 
   User, 
@@ -34,8 +35,9 @@ import {
 } from 'lucide-react';
 
 const MTGArenaStyleGameBoard = ({ onExit }) => {
-  // Initialize AI
+  // Initialize AI and DRC
   const aiRef = useRef(new AdaptiveAI());
+  const drcRef = useRef(new DynamicResolutionChain());
   
   // Game state based on KONIVRER rules
   const [gamePhase, setGamePhase] = useState('start'); // start, main, combat, refresh
@@ -171,6 +173,12 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
   const [aiThinking, setAiThinking] = useState(false);
   const [lastAiAction, setLastAiAction] = useState(null);
   
+  // DRC state
+  const [stack, setStack] = useState([]);
+  const [priorityPlayer, setPriorityPlayer] = useState(null);
+  const [isResolving, setIsResolving] = useState(false);
+  const [showStack, setShowStack] = useState(false);
+  
   const gameboardRef = useRef(null);
   const chatInputRef = useRef(null);
   
@@ -192,7 +200,7 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
   
-  // Initialize AI and game on mount
+  // Initialize AI, DRC, and game on mount
   useEffect(() => {
     // Reset AI for a new game
     aiRef.current.reset();
@@ -203,6 +211,31 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
     
     // Set up AI's initial game state
     updateAIGameState();
+    
+    // Initialize DRC
+    drcRef.current.initialize(activePlayer, {
+      onStackUpdate: (newStack) => {
+        setStack(newStack);
+      },
+      onRequestResponse: (player, topEffect) => {
+        setPriorityPlayer(player);
+        if (player === 'opponent' && !aiThinking) {
+          handleAIResponse(topEffect);
+        }
+      },
+      onEffectResolution: (effect) => {
+        setIsResolving(true);
+        resolveEffect(effect);
+      },
+      onChainComplete: () => {
+        setIsResolving(false);
+        setPriorityPlayer(null);
+      }
+    });
+    
+    // Start with an empty stack
+    setStack([]);
+    setPriorityPlayer(activePlayer);
     
     // If AI goes first, let it make a move after a short delay
     if (activePlayer === 'opponent') {
@@ -339,12 +372,18 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
     
     setOpponentAzoth(updatedAzoth);
     
-    // Add Familiar to opponent's field
-    setOpponentField(prev => [...prev, {
+    // Create the Familiar card
+    const familiarCard = {
       ...card,
       id: Date.now(), // Generate a unique ID
       rested: false
-    }]);
+    };
+    
+    // Add to the Dynamic Resolution Chain
+    drcRef.current.addToStack({
+      type: 'familiar',
+      card: familiarCard
+    }, 'opponent');
     
     // Decrease opponent's hand count
     setOpponentHandCount(prev => Math.max(0, prev - 1));
@@ -372,15 +411,23 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
     
     setOpponentAzoth(updatedAzoth);
     
-    // Process spell effects (in a real implementation, this would handle the spell's effects)
-    // For now, just show a message
-    addAIChatMessage(`I cast ${card.name} as a Spell.`);
+    // Create the Spell card
+    const spellCard = {
+      ...card,
+      id: Date.now() // Generate a unique ID
+    };
+    
+    // Add to the Dynamic Resolution Chain
+    drcRef.current.addToStack({
+      type: 'spell',
+      card: spellCard
+    }, 'opponent');
     
     // Decrease opponent's hand count
     setOpponentHandCount(prev => Math.max(0, prev - 1));
     
-    // In KONIVRER, spells go to the bottom of the deck after resolving
-    setOpponentDeckCount(prev => prev + 1);
+    // Add a message to chat
+    addAIChatMessage(`I cast ${card.name} as a Spell.`);
     
     // Draw a card (in KONIVRER, players draw after playing a card)
     setOpponentHandCount(prev => prev + 1);
@@ -531,14 +578,19 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
         
         setPlayerAzoth(updatedAzoth);
         
-        // Play as Familiar or Spell
+        // Add to the Dynamic Resolution Chain
         if (selectedPlayMode === 'familiar' && !card.keywords.includes(KEYWORDS.QUINTESSENCE)) {
           // Play as Familiar
-          setPlayerField(prev => [...prev, {...card, id: Date.now(), rested: false}]);
+          addToStack({
+            type: 'familiar',
+            card: {...card, id: Date.now(), rested: false}
+          });
         } else {
-          // Play as Spell (in a real implementation, this would handle the spell's effects)
-          // For now, just add to the bottom of the deck
-          setPlayerDeckCount(prev => prev + 1);
+          // Play as Spell
+          addToStack({
+            type: 'spell',
+            card: {...card, id: Date.now()}
+          });
         }
         
         // Remove from hand
@@ -697,6 +749,88 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
     };
   };
   
+  // Handle AI response to an effect on the stack
+  const handleAIResponse = (topEffect) => {
+    // Set AI thinking state
+    setAiThinking(true);
+    
+    // Get AI's decision after a short delay to simulate thinking
+    setTimeout(() => {
+      // In a real implementation, the AI would evaluate the effect and decide whether to respond
+      // For now, just have the AI pass priority most of the time
+      if (Math.random() < 0.2) {
+        // 20% chance to respond with a spell
+        const responseCard = generateRandomCard();
+        responseCard.type = 'Spell';
+        responseCard.keywords = [KEYWORDS.SUBMERGED]; // Example keyword
+        
+        // Add the response to the stack
+        drcRef.current.respondToStack({
+          type: 'spell',
+          card: responseCard,
+          target: topEffect
+        }, 'opponent');
+        
+        // Add a message to chat
+        addAIChatMessage(`I respond with ${responseCard.name}.`);
+      } else {
+        // 80% chance to pass priority
+        drcRef.current.passPriority('opponent');
+      }
+      
+      // End AI thinking state
+      setAiThinking(false);
+    }, 1000 + Math.random() * 1000); // Random thinking time between 1-2 seconds
+  };
+  
+  // Add an effect to the stack
+  const addToStack = (effect) => {
+    if (activePlayer === 'player') {
+      drcRef.current.addToStack(effect, 'player');
+    }
+  };
+  
+  // Pass priority without adding to the stack
+  const passPriority = () => {
+    if (priorityPlayer === 'player') {
+      drcRef.current.passPriority('player');
+    }
+  };
+  
+  // Resolve an effect from the stack
+  const resolveEffect = (stackEntry) => {
+    const { effect, player } = stackEntry;
+    
+    // In a real implementation, this would handle the effect's resolution
+    // For now, just show a message
+    if (player === 'player') {
+      // Player effect
+      if (effect.type === 'spell') {
+        // Handle spell resolution
+        console.log('Resolving player spell:', effect.card.name);
+      } else if (effect.type === 'familiar') {
+        // Handle familiar entering the battlefield
+        console.log('Resolving player familiar:', effect.card.name);
+      }
+    } else {
+      // AI effect
+      if (effect.type === 'spell') {
+        // Handle spell resolution
+        console.log('Resolving AI spell:', effect.card.name);
+        addAIChatMessage(`My ${effect.card.name} resolves.`);
+      } else if (effect.type === 'familiar') {
+        // Handle familiar entering the battlefield
+        console.log('Resolving AI familiar:', effect.card.name);
+        addAIChatMessage(`My ${effect.card.name} enters the battlefield.`);
+      }
+    }
+    
+    // After a short delay, mark resolution as complete
+    setTimeout(() => {
+      setIsResolving(false);
+    }, 500);
+  };
+  
   // Handle fullscreen toggle
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -837,6 +971,11 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
               <div>
                 <div className="flex items-center">
                   <span className="font-medium">Opponent</span>
+                  {priorityPlayer === 'opponent' && (
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs">
+                      Priority
+                    </div>
+                  )}
                   {aiThinking && (
                     <div className="ml-2 flex items-center">
                       <div className="animate-pulse text-xs text-blue-400">Thinking...</div>
@@ -958,17 +1097,69 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
             </div>
           )}
           
-          {/* Phase Button */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2">
-            <button 
-              onClick={nextPhase}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
-              disabled={activePlayer !== 'player' || aiThinking}
-            >
-              {gamePhase === 'start' ? 'To Main Phase' : 
-               gamePhase === 'main' ? 'To Combat Phase' : 
-               gamePhase === 'combat' ? 'To Refresh Phase' : 'End Turn'}
-            </button>
+          {/* Phase Button and Stack Controls */}
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2 flex flex-col items-center">
+            <div className="flex space-x-2 mb-2">
+              <button 
+                onClick={nextPhase}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
+                disabled={activePlayer !== 'player' || aiThinking || stack.length > 0}
+              >
+                {gamePhase === 'start' ? 'To Main Phase' : 
+                 gamePhase === 'main' ? 'To Combat Phase' : 
+                 gamePhase === 'combat' ? 'To Refresh Phase' : 'End Turn'}
+              </button>
+              
+              {priorityPlayer === 'player' && stack.length > 0 && (
+                <button 
+                  onClick={passPriority}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg transition-colors"
+                  disabled={aiThinking}
+                >
+                  Pass Priority
+                </button>
+              )}
+              
+              <button 
+                onClick={() => setShowStack(!showStack)}
+                className={`px-4 py-2 ${showStack ? 'bg-purple-600' : 'bg-gray-600'} hover:bg-purple-500 rounded-lg transition-colors`}
+              >
+                {showStack ? 'Hide Stack' : 'Show Stack'}
+              </button>
+            </div>
+            
+            {/* Stack Display */}
+            {showStack && stack.length > 0 && (
+              <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 max-h-40 overflow-y-auto">
+                <div className="text-xs text-gray-400 mb-1">Stack (resolves from top to bottom):</div>
+                <div className="flex flex-col-reverse">
+                  {stack.map((entry, index) => (
+                    <div 
+                      key={entry.timestamp}
+                      className={`flex items-center p-1 rounded mb-1 ${entry.player === 'player' ? 'bg-blue-900/50' : 'bg-red-900/50'}`}
+                    >
+                      <div className="w-4 h-4 flex items-center justify-center bg-gray-800 rounded mr-2">
+                        {stack.length - index}
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs">
+                          {entry.effect.type === 'spell' ? 'Spell: ' : 'Familiar: '}
+                          {entry.effect.card.name}
+                        </div>
+                        {entry.effect.target && (
+                          <div className="text-xs text-gray-400">
+                            Target: {entry.effect.target.effect.card.name}
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {entry.player === 'player' ? 'You' : 'Opponent'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           
           {/* Player Combat Row */}
@@ -1086,6 +1277,11 @@ const MTGArenaStyleGameBoard = ({ onExit }) => {
               <div>
                 <div className="flex items-center">
                   <span className="font-medium">You</span>
+                  {priorityPlayer === 'player' && (
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs">
+                      Priority
+                    </div>
+                  )}
                   <div className="ml-3 flex items-center space-x-1">
                     <button 
                       onClick={() => setPlayerLifeCards(prev => Math.max(0, prev - 1))}
