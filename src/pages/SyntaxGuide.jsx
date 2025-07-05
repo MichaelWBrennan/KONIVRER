@@ -56,13 +56,10 @@ const SyntaxGuide = () => {
           description: 'Search for exact phrases using quotes',
         },
         {
-          syntax: 'fire OR flame',
-          description: 'Find cards containing either "fire" or "flame"',
+          syntax: 'x OR y',
+          description: 'Find cards containing either "x" or "y"',
         },
-        {
-          syntax: 'dragon -token',
-          description: 'Find dragons but exclude tokens',
-        },
+
       ],
     },
     {
@@ -286,7 +283,7 @@ const SyntaxGuide = () => {
             </div>
             <div>
               <span className="text-purple-300 font-mono">OR</span>
-              <span className="text-gray-300 ml-2">Logical OR</span>
+              <span className="text-gray-300 ml-2">OR Logical</span>
             </div>
           </div>
         </div>
