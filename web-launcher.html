@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KONIVRER Deck Database - Web Launcher</title>
+    <style>
+        :root {
+            --primary: #5b25d8;
+            --primary-light: #7c4dff;
+            --primary-dark: #4527a0;
+            --secondary: #257dd8;
+            --background: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e6e6e6;
+            --text-secondary: #a0a0a0;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(91, 37, 216, 0.1) 0%, rgba(0, 0, 0, 0) 40%),
+                radial-gradient(circle at 90% 80%, rgba(37, 109, 216, 0.1) 0%, rgba(0, 0, 0, 0) 40%);
+        }
+        
+        .header {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .card {
+            background-color: rgba(22, 33, 62, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .launch-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .launch-btn {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .launch-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .launch-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .launch-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .status-container {
+            margin-top: 1.5rem;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .status.success {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            color: var(--success);
+            display: block;
+        }
+        
+        .status.error {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: var(--error);
+            display: block;
+        }
+        
+        .status.warning {
+            background-color: rgba(243, 156, 18, 0.2);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            color: var(--warning);
+            display: block;
+        }
+        
+        .status.info {
+            background-color: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            color: var(--info);
+            display: block;
+        }
+        
+        .app-container {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.5s ease;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .app-container.active {
+            height: 80vh;
+            margin-top: 1.5rem;
+        }
+        
+        .app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            background-color: rgba(26, 26, 46, 0.5);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .app-container.active {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="logo">KONIVRER</h1>
+        <p class="subtitle">DECK DATABASE SYSTEM</p>
+    </header>
+    
+    <main class="main-content">
+        <section class="card">
+            <h2 class="card-title">Launch Application</h2>
+            <p>Welcome to the KONIVRER Deck Database System. Launch the application directly in your browser with a single click.</p>
+            
+            <div class="launch-options">
+                <button id="launchBtn" class="launch-btn">
+                    <span id="launchBtnText">Launch Application</span>
+                    <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
+                </button>
+                
+                <button id="demoBtn" class="launch-btn secondary">
+                    Watch Demo
+                </button>
+            </div>
+            
+            <div id="statusContainer" class="status-container">
+                <div id="status" class="status"></div>
+            </div>
+            
+            <div id="appContainer" class="app-container">
+                <iframe id="appFrame" class="app-frame" src="about:blank" allowfullscreen></iframe>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card-title">Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🃏</div>
+                    <h3 class="feature-title">Deck Building</h3>
+                    <p class="feature-desc">Create, edit, and manage your card decks with an intuitive interface. Import and export decks with ease.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">Tournaments</h3>
+                    <p class="feature-desc">Organize and participate in tournaments with real-time notifications for round starts, results, and more.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">Messaging</h3>
+                    <p class="feature-desc">Stay connected with other players through the integrated messaging system with push notifications.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Card Search</h3>
+                    <p class="feature-desc">Powerful search functionality to find cards by name, type, rarity, and other attributes.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analytics</h3>
+                    <p class="feature-desc">Track your performance, view match history, and analyze deck statistics.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Matchmaking</h3>
+                    <p class="feature-desc">Advanced Bayesian matchmaking system for fair and balanced gameplay.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        &copy; 2024 KONIVRER Deck Database. All rights reserved.
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const launchBtn = document.getElementById('launchBtn');
+            const launchBtnText = document.getElementById('launchBtnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const demoBtn = document.getElementById('demoBtn');
+            const status = document.getElementById('status');
+            const appContainer = document.getElementById('appContainer');
+            const appFrame = document.getElementById('appFrame');
+            
+            // Application URLs
+            const appUrl = '/app';
+            const apiUrl = '/api';
+            const demoUrl = '/tournaments/create'; // Demo page within the app
+            
+            // Function to show status message
+            function showStatus(message, type) {
+                status.textContent = message;
+                status.className = `status ${type}`;
+            }
+            
+            // Function to start loading state
+            function startLoading() {
+                launchBtnText.textContent = 'Loading...';
+                loadingSpinner.style.display = 'block';
+                launchBtn.disabled = true;
+            }
+            
+            // Function to end loading state
+            function endLoading() {
+                launchBtnText.textContent = 'Launch Application';
+                loadingSpinner.style.display = 'none';
+                launchBtn.disabled = false;
+            }
+            
+            // Launch application
+            launchBtn.addEventListener('click', function() {
+                startLoading();
+                
+                // Check if the application is available
+                fetch(appUrl, { mode: 'no-cors' })
+                    .then(() => {
+                        // Load the application in the iframe
+                        appFrame.src = appUrl;
+                        appContainer.classList.add('active');
+                        showStatus('Application launched successfully!', 'success');
+                        
+                        // Add event listener to detect when iframe is loaded
+                        appFrame.onload = function() {
+                            endLoading();
+                        };
+                    })
+                    .catch(error => {
+                        console.error('Error launching application:', error);
+                        showStatus('The application is currently unavailable. Please try again later.', 'error');
+                        endLoading();
+                    });
+            });
+            
+            // Launch demo
+            demoBtn.addEventListener('click', function() {
+                startLoading();
+                
+                // Load the demo page in the iframe
+                appFrame.src = `${appUrl}${demoUrl}`;
+                appContainer.classList.add('active');
+                showStatus('Demo launched successfully!', 'info');
+                
+                // Add event listener to detect when iframe is loaded
+                appFrame.onload = function() {
+                    endLoading();
+                    launchBtnText.textContent = 'Launch Full Application';
+                };
+            });
+        });
+    </script>
+</body>
+</html>
