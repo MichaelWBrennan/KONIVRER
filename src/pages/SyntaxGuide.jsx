@@ -48,18 +48,25 @@ const SyntaxGuide = () => {
       description: 'Simple text searches across card names and rules text',
       examples: [
         {
-          syntax: 'lightning',
-          description: 'Find cards with "lightning" in name or text',
+          syntax: 'lightning | dragon | familiar',
+          description: 'Search for any word in card names or rules text',
+          viableWords: 'Any word that appears in card names or text'
         },
         {
-          syntax: '"exact phrase"',
+          syntax: '"exact phrase" | "enters the battlefield"',
           description: 'Search for exact phrases using quotes',
+          viableWords: 'Any exact phrase in quotes'
         },
         {
-          syntax: 'x OR y',
-          description: 'Find cards containing either "x" or "y"',
+          syntax: 'fire OR flame | word1 OR word2',
+          description: 'Find cards containing either word using OR',
+          viableWords: 'Any words connected with OR'
         },
-
+        {
+          syntax: 'dragon -token | word -excluded',
+          description: 'Include one term but exclude another using minus (-)',
+          viableWords: 'Any word to include, any word to exclude with -'
+        },
       ],
     },
     {
@@ -69,20 +76,9 @@ const SyntaxGuide = () => {
       description: 'Search by card types and subtypes',
       examples: [
         {
-          syntax: 't:elemental',
-          description: 'Find all Elemental cards',
-        },
-        {
-          syntax: 't:flag',
-          description: 'Find all Flag cards',
-        },
-        {
-          syntax: 't:ΦLAG',
-          description: 'Find Flag cards using exact type',
-        },
-        {
-          syntax: 'type:elemental',
-          description: 'Alternative syntax for type searches',
+          syntax: 't:familiar | type:familiar',
+          description: 'Search for cards by their type',
+          viableWords: 'familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery'
         },
       ],
     },
@@ -93,33 +89,9 @@ const SyntaxGuide = () => {
       description: 'Search by KONIVRER elements',
       examples: [
         {
-          syntax: 'e:aether',
-          description: 'Find cards with Aether element',
-        },
-        {
-          syntax: 'e:nether',
-          description: 'Find cards with Nether element',
-        },
-        {
-          syntax: 'e:fire',
-          description: 'Find cards with Fire element',
-        },
-        {
-          syntax: 'e:water',
-          description: 'Find cards with Water element',
-        },
-        {
-          syntax: 'e:earth',
-          description: 'Find cards with Earth element',
-        },
-        {
-          syntax: 'e:air',
-          description: 'Find cards with Air element',
-        },
-
-        {
-          syntax: 'e>=2',
-          description: 'Find cards with 2 or more elements',
+          syntax: 'e:fire | element:fire',
+          description: 'Search for cards by their mana cost elements (resources needed to cast)',
+          viableWords: 'fire, water, earth, air, aether, nether, generic'
         },
       ],
     },
@@ -130,16 +102,9 @@ const SyntaxGuide = () => {
       description: 'Search by card keywords and abilities',
       examples: [
         {
-          syntax: 'k:aether',
-          description: 'Find cards with Aether keyword',
-        },
-        {
-          syntax: 'k:nether',
-          description: 'Find cards with Nether keyword',
-        },
-        {
-          syntax: 'keyword:earth',
-          description: 'Alternative syntax for keyword searches',
+          syntax: 'k:brilliance | keyword:brilliance',
+          description: 'Search for cards by their keyword abilities (special powers)',
+          viableWords: 'brilliance, void, gust, submerged, inferno, steadfast'
         },
       ],
     },
@@ -150,20 +115,9 @@ const SyntaxGuide = () => {
       description: 'Search by mana costs and total cost',
       examples: [
         {
-          syntax: 'c:3',
-          description: 'Find cards with cost of 3',
-        },
-        {
-          syntax: 'c>=4',
-          description: 'Find cards with cost 4 or higher',
-        },
-        {
-          syntax: 'c<=2',
-          description: 'Find cards with cost 2 or lower',
-        },
-        {
-          syntax: 'cost:0',
-          description: 'Find cards with cost 0',
+          syntax: 'cmc:3 | mv:3 | cost:3',
+          description: 'Search for cards by their mana cost',
+          viableWords: 'Any number (0, 1, 2, 3, 4, 5+), comparison operators (>=, <=, >, <, =)'
         },
       ],
     },
@@ -174,20 +128,14 @@ const SyntaxGuide = () => {
       description: 'Search by card rarity and set information',
       examples: [
         {
-          syntax: 'r:rare',
-          description: 'Find rare cards',
+          syntax: 'r:rare | rarity:rare',
+          description: 'Search for cards by their rarity level',
+          viableWords: 'common, uncommon, rare, mythic, legendary'
         },
         {
-          syntax: 'r:mythic',
-          description: 'Find mythic rare cards',
-        },
-        {
-          syntax: 's:"prima materia"',
-          description: 'Find cards from Prima Materia set',
-        },
-        {
-          syntax: 'set:pm',
-          description: 'Find cards using set code',
+          syntax: 's:set | set:set',
+          description: 'Search for cards by their set or expansion',
+          viableWords: 'Any set name or set code (e.g., "prima materia", "pm")'
         },
       ],
     },
@@ -198,24 +146,14 @@ const SyntaxGuide = () => {
       description: 'Complex search combinations and operators',
       examples: [
         {
-          syntax: 't:elemental e:aether',
-          description: 'Find Aether Elemental cards',
+          syntax: 'AND | OR | ( ) | -',
+          description: 'Combine multiple search criteria using logical operators',
+          viableWords: 'AND (implicit), OR (explicit), parentheses for grouping, minus (-) for exclusion'
         },
         {
-          syntax: 'e:air e:fire c<=3',
-          description: 'Find low-cost Air/Fire cards',
-        },
-        {
-          syntax: '(t:flag OR t:elemental) e:nether',
-          description: 'Find Nether flags or elementals',
-        },
-        {
-          syntax: 't:elemental e:earth c>=3',
-          description: 'Find expensive Earth elementals',
-        },
-        {
-          syntax: 'r:rare -e:aether',
-          description: 'Find rare cards without Aether',
+          syntax: 't:familiar k:brilliance | (e:fire OR e:water) -token',
+          description: 'Complex searches combining types, keywords, elements, and exclusions',
+          viableWords: 'Any combination of the above syntax types'
         },
       ],
     },
@@ -253,34 +191,41 @@ const SyntaxGuide = () => {
             <Quote className="w-5 h-5 text-purple-400" />
             Quick Reference
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-            <div>
-              <span className="text-purple-300 font-mono">t:</span>
-              <span className="text-gray-300 ml-2">Type</span>
+          <div className="space-y-4">
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
+              <h4 className="text-purple-300 font-semibold mb-2">Syntax and Variations</h4>
+              <div className="flex flex-wrap gap-2 mb-3">
+                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">t:familiar</code>
+                <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">type:familiar</code>
+              </div>
+              <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
+              <p className="text-gray-300 text-sm mb-3">Search for cards by their type</p>
+              <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
+              <p className="text-blue-200 text-sm">familiar, spell, artifact, elemental, legendary, token, land, enchantment, instant, sorcery</p>
             </div>
-            <div>
-              <span className="text-purple-300 font-mono">e:</span>
-              <span className="text-gray-300 ml-2">Element</span>
+            
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
+              <h4 className="text-orange-300 font-semibold mb-2">Syntax and Variations</h4>
+              <div className="flex flex-wrap gap-2 mb-3">
+                <code className="text-orange-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">e:fire</code>
+                <code className="text-orange-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">element:fire</code>
+              </div>
+              <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
+              <p className="text-gray-300 text-sm mb-3">Search for cards by their mana cost elements (resources needed to cast)</p>
+              <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
+              <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, generic</p>
             </div>
-            <div>
-              <span className="text-purple-300 font-mono">k:</span>
-              <span className="text-gray-300 ml-2">Keyword</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">c:</span>
-              <span className="text-gray-300 ml-2">Cost</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">r:</span>
-              <span className="text-gray-300 ml-2">Rarity</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">s:</span>
-              <span className="text-gray-300 ml-2">Set</span>
-            </div>
-            <div>
-              <span className="text-purple-300 font-mono">OR</span>
-              <span className="text-gray-300 ml-2">OR Logical</span>
+            
+            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
+              <h4 className="text-blue-300 font-semibold mb-2">Syntax and Variations</h4>
+              <div className="flex flex-wrap gap-2 mb-3">
+                <code className="text-blue-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">k:brilliance</code>
+                <code className="text-blue-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">keyword:brilliance</code>
+              </div>
+              <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
+              <p className="text-gray-300 text-sm mb-3">Search for cards by their keyword abilities (special powers)</p>
+              <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
+              <p className="text-blue-200 text-sm">brilliance, void, gust, submerged, inferno, steadfast</p>
             </div>
           </div>
         </div>
@@ -309,16 +254,14 @@ const SyntaxGuide = () => {
                     {section.description}
                   </p>
 
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {section.examples.map((example, index) => (
                       <div
                         key={index}
                         className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50"
                       >
-                        <div className="flex items-center justify-between mb-2">
-                          <code className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">
-                            {example.syntax}
-                          </code>
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="text-purple-300 font-semibold">Syntax and Variations</h4>
                           <button
                             onClick={() => copyExample(example.syntax)}
                             className="p-1 text-gray-400 hover:text-purple-300 transition-colors"
@@ -331,9 +274,23 @@ const SyntaxGuide = () => {
                             )}
                           </button>
                         </div>
-                        <p className="text-gray-300 text-sm">
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {example.syntax.split(' | ').map((variant, variantIndex) => (
+                            <code key={variantIndex} className="text-purple-300 font-mono text-sm bg-slate-900/50 px-2 py-1 rounded">
+                              {variant}
+                            </code>
+                          ))}
+                        </div>
+                        <h4 className="text-white font-semibold mb-2">Description of Syntax</h4>
+                        <p className="text-gray-300 text-sm mb-3">
                           {example.description}
                         </p>
+                        {example.viableWords && (
+                          <>
+                            <h4 className="text-blue-300 font-semibold mb-2">Acceptable Words for the Syntax</h4>
+                            <p className="text-blue-200 text-sm">{example.viableWords}</p>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
