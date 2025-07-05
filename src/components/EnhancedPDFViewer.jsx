@@ -1,0 +1,189 @@
+/**
+ * Enhanced PDF Viewer Component
+ * 
+ * This component provides multiple fallback methods for displaying PDFs:
+ * 1. Direct iframe embedding
+ * 2. Object tag embedding
+ * 3. Download link fallback
+ */
+
+import { useState, useEffect, useRef } from 'react';
+import { Download, FileText, ExternalLink } from 'lucide-react';
+
+const EnhancedPDFViewer = ({ pdfUrl, title = 'PDF Document', height = '800px' }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [pdfExists, setPdfExists] = useState(false);
+  const [viewerMethod, setViewerMethod] = useState('iframe');
+  const iframeRef = useRef(null);
+  const objectRef = useRef(null);
+
+  useEffect(() => {
+    // Check if PDF file exists
+    const checkPdfExists = async () => {
+      try {
+        const response = await fetch(pdfUrl, { method: 'HEAD' });
+        if (response.ok) {
+          setPdfExists(true);
+          setError(null);
+        } else {
+          setPdfExists(false);
+          setError('PDF file not found');
+        }
+      } catch (err) {
+        setPdfExists(false);
+        setError('Failed to load PDF file');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkPdfExists();
+  }, [pdfUrl]);
+
+  // Handle iframe load error by switching to object tag
+  const handleIframeError = () => {
+    console.log('Iframe failed to load PDF, switching to object tag');
+    setViewerMethod('object');
+  };
+
+  // Handle object tag load error by showing download link
+  const handleObjectError = () => {
+    console.log('Object tag failed to load PDF, showing download link');
+    setViewerMethod('download');
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    
+    // Extract filename from URL or use default
+    const filename = pdfUrl.split('/').pop() || 'document.pdf';
+    link.download = filename;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center" style={{ height }}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading PDF...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !pdfExists) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6" style={{ height: 'auto', minHeight: '200px' }}>
+        <div className="text-center">
+          <div className="text-red-500 text-4xl mb-4">⚠️</div>
+          <h2 className="text-xl font-semibold text-red-700 mb-2">PDF Not Available</h2>
+          <p className="text-red-600 mb-4">{error}</p>
+          <p className="text-gray-600 text-sm">
+            Please check that the PDF file exists at: {pdfUrl}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pdf-viewer-container">
+      {/* Controls */}
+      <div className="flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg">
+        <div className="flex items-center">
+          <FileText className="h-5 w-5 text-blue-600 mr-2" />
+          <h3 className="font-medium text-gray-800">{title}</h3>
+        </div>
+        <div className="flex space-x-2">
+          <a
+            href={pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center text-sm"
+          >
+            <ExternalLink className="h-4 w-4 mr-1" />
+            <span>Open</span>
+          </a>
+          <button
+            onClick={handleDownload}
+            className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center text-sm"
+          >
+            <Download className="h-4 w-4 mr-1" />
+            <span>Download</span>
+          </button>
+        </div>
+      </div>
+
+      {/* PDF Viewer */}
+      <div className="w-full bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ height }}>
+        {viewerMethod === 'iframe' && (
+          <iframe
+            ref={iframeRef}
+            src={pdfUrl}
+            className="w-full h-full border-0"
+            title={title}
+            onError={handleIframeError}
+            onLoad={() => setIsLoading(false)}
+            allow="fullscreen"
+          />
+        )}
+        
+        {viewerMethod === 'object' && (
+          <object
+            ref={objectRef}
+            data={pdfUrl}
+            type="application/pdf"
+            className="w-full h-full"
+            onError={handleObjectError}
+          >
+            <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+              <p className="text-gray-800 mb-4">
+                Your browser doesn't support embedded PDFs.
+              </p>
+              <a 
+                href={pdfUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Click here to open the PDF
+              </a>
+            </div>
+          </object>
+        )}
+        
+        {viewerMethod === 'download' && (
+          <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+            <p className="text-gray-800 mb-4">
+              We couldn't display the PDF in your browser.
+            </p>
+            <div className="flex space-x-4">
+              <a 
+                href={pdfUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Open PDF in new tab
+              </a>
+              <button
+                onClick={handleDownload}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Download PDF
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default EnhancedPDFViewer;

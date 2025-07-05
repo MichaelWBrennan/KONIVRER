@@ -127,20 +127,41 @@ const PDFViewer = ({ pdfUrl = '/assets/konivrer-rules.pdf', showHeader = true })
       title = 'KONIVRER Code of Conduct';
     }
     
-    // Use PDF.js viewer URL for full functionality
-    const pdfViewerUrl = `/pdfjs/web/viewer.html?file=${encodeURIComponent(currentPdfUrl)}`;
-    
+    // Direct embedding of PDF with multiple fallback methods
     return (
       <div className="w-full h-[800px] bg-white rounded-lg overflow-hidden border border-gray-300 shadow-lg" style={{ backgroundColor: '#ffffff' }}>
+        {/* Primary method: iframe */}
         <iframe
           ref={iframeRef}
-          src={pdfViewerUrl}
+          src={currentPdfUrl}
           className="w-full h-full border-0"
           style={{ backgroundColor: '#ffffff' }}
           title={title}
           onLoad={() => setIsLoading(false)}
           allow="fullscreen"
         />
+        
+        {/* Fallback method: object tag */}
+        <object
+          data={currentPdfUrl}
+          type="application/pdf"
+          className="w-full h-full hidden"
+          style={{ display: 'none' }}
+        >
+          <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+            <p className="text-gray-800 mb-4">
+              Your browser doesn't support embedded PDFs.
+            </p>
+            <a 
+              href={currentPdfUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Click here to download the PDF
+            </a>
+          </div>
+        </object>
       </div>
     );
   };
