@@ -6,6 +6,7 @@
  */
 
 import axios from 'axios';
+import tournamentMatchmakingService from './tournamentMatchmakingService';
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -86,7 +87,44 @@ class TournamentService {
 
   async generateNextRound(id) {
     try {
-      const response = await this.api.post(`/${id}/next-round`);
+      // First, get the tournament data to determine the current round
+      const tournament = await this.getTournament(id);
+      const currentRound = tournament.currentRound || 0;
+      const nextRound = currentRound + 1;
+      
+      // Get all players in the tournament
+      const players = tournament.participants || [];
+      
+      // Get players who are still active in the tournament
+      const activePlayers = players.filter(player => 
+        !player.dropped && !player.disqualified
+      ).map(player => player.id);
+      
+      // Initialize Bayesian matchmaking for this tournament if not already done
+      if (nextRound === 1) {
+        // For the first round, initialize player profiles
+        tournamentMatchmakingService.initializePlayerProfiles(id, players);
+      }
+      
+      // Generate pairings using Bayesian matchmaking
+      const pairings = tournamentMatchmakingService.generatePairings(
+        id, 
+        nextRound, 
+        activePlayers,
+        {
+          // Additional options for pairing generation
+          avoidRematches: true,
+          balanceMatchups: tournament.settings?.balanceMatchups || true,
+          usePlaystyleCompatibility: tournament.settings?.usePlaystyleCompatibility || true
+        }
+      );
+      
+      // Send the generated pairings to the server
+      const response = await this.api.post(`/${id}/next-round`, {
+        round: nextRound,
+        pairings: pairings
+      });
+      
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -96,10 +134,34 @@ class TournamentService {
   // Matchmaking settings
   async updateMatchmakingSettings(id, settings) {
     try {
+      // Update the tournament-specific ranking engine with new settings
+      tournamentMatchmakingService.initializeTournamentEngine(id, {
+        // Convert UI settings to engine settings
+        enableMultiFactorMatchmaking: settings.enabled,
+        enableConfidenceBasedMatching: settings.enabled,
+        enableTimeWeightedPerformance: settings.enabled,
+        enablePlaystyleCompatibility: settings.enabled,
+        enableDynamicKFactor: settings.enabled,
+        
+        // Customize Bayesian parameters
+        tournamentImportanceMultiplier: settings.tournamentImportance || 1.5,
+        dynamicKFactorBase: settings.kFactorBase || 32,
+        
+        // Customize matchmaking weights
+        skillRatingWeight: settings.skillVariance || 0.4,
+        uncertaintyWeight: settings.uncertaintyFactor || 0.2,
+        deckArchetypeWeight: settings.deckDiversityWeight || 0.4,
+        playHistoryWeight: settings.historicalWeight || 0.6,
+        playstyleCompatibilityWeight: settings.preferredMatchupBalance || 0.7,
+        playerPreferencesWeight: 0.1,
+      });
+      
+      // Send settings to the server
       const response = await this.api.put(
         `/${id}/matchmaking-settings`,
         settings,
       );
+      
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -109,7 +171,41 @@ class TournamentService {
   // Tournament data
   async getStandings(id) {
     try {
+      // Get standings from the server
       const response = await this.api.get(`/${id}/standings`);
+      
+      // If Bayesian matchmaking is being used for this tournament,
+      // enhance the standings with Bayesian ratings
+      try {
+        const bayesianStandings = tournamentMatchmakingService.getPlayerStandings(id);
+        
+        if (bayesianStandings && bayesianStandings.length > 0) {
+          // Merge server standings with Bayesian ratings
+          const enhancedStandings = response.data.map(serverStanding => {
+            const bayesianData = bayesianStandings.find(
+              bs => bs.playerId === serverStanding.playerId
+            );
+            
+            if (bayesianData) {
+              return {
+                ...serverStanding,
+                bayesianRating: Math.round(bayesianData.rating),
+                bayesianUncertainty: Math.round(bayesianData.uncertainty),
+                conservativeRating: Math.round(bayesianData.conservativeRating),
+                bayesianRank: bayesianData.rank
+              };
+            }
+            
+            return serverStanding;
+          });
+          
+          return enhancedStandings;
+        }
+      } catch (bayesianError) {
+        console.warn('Failed to get Bayesian standings:', bayesianError);
+        // Continue with server standings if Bayesian fails
+      }
+      
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -119,10 +215,142 @@ class TournamentService {
   async getAnalytics(id) {
     try {
       const response = await this.api.get(`/${id}/analytics`);
+      
+      // Enhance analytics with Bayesian matchmaking data if available
+      try {
+        // Export tournament data from Bayesian matchmaking service
+        const bayesianData = tournamentMatchmakingService.exportTournamentData(id);
+        
+        if (bayesianData) {
+          // Calculate additional analytics from Bayesian data
+          const bayesianAnalytics = this.calculateBayesianAnalytics(bayesianData);
+          
+          // Merge with server analytics
+          return {
+            ...response.data,
+            bayesian: bayesianAnalytics
+          };
+        }
+      } catch (bayesianError) {
+        console.warn('Failed to get Bayesian analytics:', bayesianError);
+        // Continue with server analytics if Bayesian fails
+      }
+      
       return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
+  }
+  
+  /**
+   * Calculate additional analytics from Bayesian matchmaking data
+   * @param {Object} bayesianData - Tournament data from Bayesian matchmaking service
+   * @returns {Object} - Bayesian analytics
+   */
+  calculateBayesianAnalytics(bayesianData) {
+    const playerProfiles = bayesianData.playerProfiles || {};
+    const playerIds = Object.keys(playerProfiles);
+    
+    if (playerIds.length === 0) {
+      return {
+        ratingDistribution: [],
+        matchQualityAverage: 0,
+        uncertaintyAverage: 0,
+        archetypePerformance: {}
+      };
+    }
+    
+    // Calculate rating distribution
+    const ratingBuckets = {
+      '0-1000': 0,
+      '1000-1200': 0,
+      '1200-1400': 0,
+      '1400-1600': 0,
+      '1600-1800': 0,
+      '1800-2000': 0,
+      '2000-2200': 0,
+      '2200-2400': 0,
+      '2400+': 0
+    };
+    
+    // Calculate average uncertainty
+    let totalUncertainty = 0;
+    
+    // Track archetype performance
+    const archetypePerformance = {};
+    
+    // Process each player
+    playerIds.forEach(playerId => {
+      const profile = playerProfiles[playerId];
+      
+      // Add to rating distribution
+      const rating = profile.rating || 1500;
+      if (rating < 1000) ratingBuckets['0-1000']++;
+      else if (rating < 1200) ratingBuckets['1000-1200']++;
+      else if (rating < 1400) ratingBuckets['1200-1400']++;
+      else if (rating < 1600) ratingBuckets['1400-1600']++;
+      else if (rating < 1800) ratingBuckets['1600-1800']++;
+      else if (rating < 2000) ratingBuckets['1800-2000']++;
+      else if (rating < 2200) ratingBuckets['2000-2200']++;
+      else if (rating < 2400) ratingBuckets['2200-2400']++;
+      else ratingBuckets['2400+']++;
+      
+      // Add to uncertainty average
+      totalUncertainty += profile.uncertainty || 0;
+      
+      // Process archetype performance
+      const archetype = profile.deckArchetype;
+      if (archetype) {
+        if (!archetypePerformance[archetype]) {
+          archetypePerformance[archetype] = {
+            count: 0,
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            averageRating: 0,
+            totalRating: 0
+          };
+        }
+        
+        archetypePerformance[archetype].count++;
+        archetypePerformance[archetype].totalRating += rating;
+        
+        // Count wins/losses/draws if match history exists
+        if (profile.matchHistory) {
+          profile.matchHistory.forEach(match => {
+            if (match.result === 'win') archetypePerformance[archetype].wins++;
+            else if (match.result === 'loss') archetypePerformance[archetype].losses++;
+            else if (match.result === 'draw') archetypePerformance[archetype].draws++;
+          });
+        }
+      }
+    });
+    
+    // Calculate average ratings for archetypes
+    Object.keys(archetypePerformance).forEach(archetype => {
+      const data = archetypePerformance[archetype];
+      data.averageRating = data.count > 0 ? Math.round(data.totalRating / data.count) : 0;
+      
+      // Calculate win rate
+      const totalMatches = data.wins + data.losses + data.draws;
+      data.winRate = totalMatches > 0 ? (data.wins / totalMatches).toFixed(2) : 0;
+      
+      // Remove intermediate calculation fields
+      delete data.totalRating;
+    });
+    
+    // Format rating distribution for charts
+    const ratingDistribution = Object.entries(ratingBuckets).map(([range, count]) => ({
+      range,
+      count
+    }));
+    
+    return {
+      ratingDistribution,
+      uncertaintyAverage: playerIds.length > 0 ? Math.round(totalUncertainty / playerIds.length) : 0,
+      archetypePerformance,
+      playerCount: playerIds.length
+    };
   }
 
   // Match operations
@@ -156,6 +384,41 @@ class TournamentService {
         },
       });
 
+      // First, get the match details to get player IDs and tournament ID
+      const matchResponse = await matchApi.get(`/${matchId}`);
+      const match = matchResponse.data;
+      
+      // Update player ratings using Bayesian matchmaking
+      if (match.tournamentId && match.player1Id && match.player2Id) {
+        // Convert UI result format to matchmaking service format
+        let matchResult;
+        if (result.winner === match.player1Id) {
+          matchResult = 'player1';
+        } else if (result.winner === match.player2Id) {
+          matchResult = 'player2';
+        } else {
+          matchResult = 'draw';
+        }
+        
+        // Additional match data for rating calculations
+        const matchData = {
+          matchId: matchId,
+          round: match.round || 1,
+          stage: match.stage || 'swiss',
+          stakes: match.elimination ? 'elimination' : 'normal',
+        };
+        
+        // Update player ratings
+        tournamentMatchmakingService.updatePlayerRatings(
+          match.tournamentId,
+          match.player1Id,
+          match.player2Id,
+          matchResult,
+          matchData
+        );
+      }
+
+      // Send the result to the server
       const response = await matchApi.put(`/${matchId}`, result);
       return response.data;
     } catch (error) {
