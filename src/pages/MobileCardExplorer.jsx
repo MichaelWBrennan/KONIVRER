@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { getCardArtPathFromData } from '../utils/cardArtMapping';
 
@@ -93,13 +94,16 @@ const MobileCardExplorer = () => {
       {/* Search Bar */}
       <div className="mobile-card mobile-mb">
         <div className="mobile-form-group">
-          <input
-            type="text"
-            className="mobile-input"
-            placeholder="Search cards..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              className="mobile-input pl-12"
+              placeholder="Search cards..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
         </div>
 
         <div className="mobile-form-group mobile-text-center">

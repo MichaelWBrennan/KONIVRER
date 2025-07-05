@@ -141,29 +141,35 @@ const AdvancedSearchPage = () => {
             {/* Card Name */}
             <div>
               <label htmlFor="name" className="block text-amber-200 mb-2">Card Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                placeholder="Search by card name"
-              />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg pl-10 pr-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
+                  placeholder="Search by card name"
+                />
+              </div>
             </div>
             
             {/* Card Text */}
             <div>
               <label htmlFor="text" className="block text-amber-200 mb-2">Card Text</label>
-              <input
-                type="text"
-                id="text"
-                name="text"
-                value={formData.text}
-                onChange={handleInputChange}
-                className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                placeholder="Search card text"
-              />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" />
+                <input
+                  type="text"
+                  id="text"
+                  name="text"
+                  value={formData.text}
+                  onChange={handleInputChange}
+                  className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg pl-10 pr-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
+                  placeholder="Search card text"
+                />
+              </div>
             </div>
             
             {/* Card Type */}
