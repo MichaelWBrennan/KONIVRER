@@ -64,6 +64,7 @@ import StandaloneMatchmaking from './components/StandaloneMatchmaking';
 // Tournament System
 import UnifiedTournaments from './pages/UnifiedTournaments';
 import TournamentCreate from './pages/TournamentCreate';
+import EnhancedTournamentCreate from './pages/EnhancedTournamentCreate';
 import LiveTournament from './pages/LiveTournament';
 import JudgeCenter from './pages/JudgeCenter';
 
@@ -236,6 +237,14 @@ function App() {
                             />
                             <Route
                               path="/tournaments/create"
+                              element={
+                                <ProtectedRoute>
+                                  <EnhancedTournamentCreate />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/tournaments/create-legacy"
                               element={
                                 <ProtectedRoute>
                                   <TournamentCreate />
