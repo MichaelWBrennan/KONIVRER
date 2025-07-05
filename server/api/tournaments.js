@@ -193,7 +193,7 @@ const getUsernameById = (userId) => {
 // Helper function to send push notification
 const sendPushNotification = async (userId, title, body, data = {}) => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:3000'}/api/notifications/send`, {
+    const response = await fetch(`${process.env.BACKEND_URL || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev'}/api/notifications/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

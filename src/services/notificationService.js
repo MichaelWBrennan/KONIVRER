@@ -24,7 +24,7 @@ class NotificationService {
     this.swRegistration = null;
     this.isSubscribed = false;
     this.userId = null;
-    this.apiBaseUrl = env.BACKEND_URL || 'http://localhost:3000';
+    this.apiBaseUrl = env.BACKEND_URL || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev';
   }
 
   /**

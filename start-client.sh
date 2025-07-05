@@ -12,4 +12,4 @@ npm install
 
 # Start client
 echo "Starting client..."
-npm run dev -- --port 12000 --host 0.0.0.0
+npm run dev -- --port 12000 --host 0.0.0.0 --strictPort
