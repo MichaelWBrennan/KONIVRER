@@ -208,16 +208,16 @@ const UnifiedTournaments = () => {
             <div className="flex space-x-2">
               <Link
                 to="/tournament-create"
-                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg transition-colors text-xs"
               >
-                <Plus size={16} />
+                <Plus size={12} />
                 <span>Create Tournament</span>
               </Link>
               <Link
                 to="/tournament-manager"
-                className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center space-x-1 bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-lg transition-colors text-xs"
               >
-                <Settings size={16} />
+                <Settings size={12} />
                 <span>Manage</span>
               </Link>
             </div>
@@ -225,20 +225,20 @@ const UnifiedTournaments = () => {
         </div>
         
         {/* Unified Search and Filters */}
-        <div className="bg-gray-800 rounded-lg p-4 mb-6">
-          <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="bg-gray-800 rounded-lg p-3 mb-6">
+          <div className="flex flex-col md:flex-row items-center gap-2">
             <div className="relative w-full">
               <div className="flex items-center">
                 <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                  size={20}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={14}
                 />
                 <input
                   type="text"
                   placeholder="Search tournaments or locations..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-7 pr-2 py-1 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 text-xs"
                 />
               </div>
             </div>
@@ -248,7 +248,7 @@ const UnifiedTournaments = () => {
                 onChange={e =>
                   setFilters({ ...filters, status: e.target.value })
                 }
-                className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+                className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs"
               >
                 <option value="">All Status</option>
                 <option value="Registration Open">Registration Open</option>
@@ -258,7 +258,7 @@ const UnifiedTournaments = () => {
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
-                className="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+                className="bg-gray-700 border border-gray-600 rounded px-2 py-1 text-xs"
               >
                 <option value="date">Sort by Date</option>
                 <option value="name">Sort by Name</option>
