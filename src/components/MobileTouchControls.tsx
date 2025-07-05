@@ -280,18 +280,20 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ touchAction: 'none' }}
-      / />
+      />
       {/* Control Panel */}
       <div
         className={`fixed bottom-4 left-4 right-4 transition-transform duration-300 z-50 ${
           showControls ? 'translate-y-0' : 'translate-y-full'
         }`}
-       />
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4" />
-          {/* Touch Mode Selector */}
-          <div className="flex justify-center mb-4" />
-            <div className="bg-gray-100 rounded-lg p-1 flex space-x-1" />
-              {[
+      >
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4">
+        </div>
+      </div>
+      {/* Touch Mode Selector */}
+      <div className="flex justify-center mb-4">
+        <div className="bg-gray-100 rounded-lg p-1 flex space-x-1">
+          {[
                 {
                   mode: 'select',
                   icon: <Hand className="w-4 h-4" />,

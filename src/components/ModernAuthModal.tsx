@@ -69,9 +69,9 @@ const RegisterSchema = z
   });
 
 interface ModernAuthModalProps {
-  isOpen
-  onClose
-  defaultTab = 'login';
+  isOpen: boolean;
+  onClose: () => void;
+  defaultTab?: string;
 }
 
 const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, defaultTab = 'login'  }) => {

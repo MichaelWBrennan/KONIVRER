@@ -23,8 +23,8 @@ import {
 } from 'lucide-react';
 
 interface MobileLayoutProps {
-  children
-  currentPage = 'home';
+  children: React.ReactNode;
+  currentPage?: string;
 }
 
 const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'home'  }) => {
