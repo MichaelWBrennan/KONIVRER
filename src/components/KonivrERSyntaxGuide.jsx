@@ -107,7 +107,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
         {
           syntax: 'e:fire | element:fire',
           description: 'Search for cards by their mana cost elements - the resources needed to cast cards',
-          viableWords: 'fire, water, earth, air, aether, nether, generic'
+          viableWords: 'fire, water, earth, air, aether, nether, azoth'
         },
         {
           syntax: 'e>=2 | e>1 | e<=3 | e<4 | e=2',
@@ -428,7 +428,7 @@ const KonivrERSyntaxGuide = ({ isExpanded = false, onToggle }) => {
             <h4 className="text-white font-semibold mt-3 mb-2">Description of Syntax</h4>
             <p className="text-gray-300 text-sm">Search for cards by their mana cost elements (resources needed to cast)</p>
             <h4 className="text-blue-300 font-semibold mt-3 mb-2">Acceptable Words for the Syntax</h4>
-            <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, generic</p>
+            <p className="text-blue-200 text-sm">fire, water, earth, air, aether, nether, azoth</p>
           </div>
           
           <div className="bg-white/5 rounded-lg p-4 border border-white/10">
