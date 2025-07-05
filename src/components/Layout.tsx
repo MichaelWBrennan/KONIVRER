@@ -231,6 +231,70 @@ const Layout: React.FC<LayoutProps> = ({
                     Play Now
                   </span>
                 </Link>
+
+                {/* Online Sim */}
+                <Link
+                  to="/game/online"
+                  className={`nav-item nav-link group relative flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-0 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
+                    isActive('/game/online') ? 'animate-border-glow' : 'hover:scale-105'
+                  }`}
+                  style={{
+                    background: isActive('/game/online')
+                      ? 'var(--gradient-primary)'
+                      : 'var(--bg-tertiary)',
+                    color: isActive('/game/online')
+                      ? 'var(--text-primary)'
+                      : 'var(--text-secondary)',
+                    border: `1px solid ${isActive('/game/online') ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
+                    boxShadow: isActive('/game/online') ? 'var(--shadow-md)' : 'none',
+                  }}
+                >
+                  <span
+                    className={`nav-text ${isActive('/game/online') ? 'font-extrabold' : ''}`}
+                    style={
+                      isActive('/game/online')
+                        ? {
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                            color: 'var(--text-primary)',
+                          }
+                        : {}
+                    }
+                  >
+                    Online Sim
+                  </span>
+                </Link>
+
+                {/* Matchmaking */}
+                <Link
+                  to="/matchmaking"
+                  className={`nav-item nav-link group relative flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-0 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
+                    isActive('/matchmaking') ? 'animate-border-glow' : 'hover:scale-105'
+                  }`}
+                  style={{
+                    background: isActive('/matchmaking')
+                      ? 'var(--gradient-primary)'
+                      : 'var(--bg-tertiary)',
+                    color: isActive('/matchmaking')
+                      ? 'var(--text-primary)'
+                      : 'var(--text-secondary)',
+                    border: `1px solid ${isActive('/matchmaking') ? 'var(--accent-primary)' : 'var(--border-primary)'}`,
+                    boxShadow: isActive('/matchmaking') ? 'var(--shadow-md)' : 'none',
+                  }}
+                >
+                  <span
+                    className={`nav-text ${isActive('/matchmaking') ? 'font-extrabold' : ''}`}
+                    style={
+                      isActive('/matchmaking')
+                        ? {
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                            color: 'var(--text-primary)',
+                          }
+                        : {}
+                    }
+                  >
+                    Matchmaking
+                  </span>
+                </Link>
               </nav>
 
               {/* User Menu */}
