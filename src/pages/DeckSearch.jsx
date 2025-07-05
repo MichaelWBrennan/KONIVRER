@@ -186,14 +186,14 @@ const DeckSearch = () => {
 
   const getElementColor = element => {
     const colors = {
-      Inferno: 'text-red-400',
-      Submerged: 'text-blue-400',
-      Steadfast: 'text-yellow-400',
-      Gust: 'text-green-400',
-      Brilliance: 'text-purple-400',
-      Void: 'text-gray-400',
+      Inferno: 'text-black',
+      Submerged: 'text-black',
+      Steadfast: 'text-black',
+      Gust: 'text-black',
+      Brilliance: 'text-black',
+      Void: 'text-black',
     };
-    return colors[element] || 'text-gray-400';
+    return colors[element] || 'text-black';
   };
 
   const getElementIcon = element => {

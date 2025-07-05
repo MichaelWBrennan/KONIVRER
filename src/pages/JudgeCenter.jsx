@@ -68,75 +68,11 @@ const JudgeCenter = () => {
   const [selectedRuleSection, setSelectedRuleSection] =
     useState('comprehensive');
 
-  // Mock data
+  // No demo data - load from actual data source when available
   useEffect(() => {
-    setActiveCalls([
-      {
-        id: 1,
-        tournament: 'Friday Night KONIVRER',
-        table: 5,
-        player1: 'Alex Chen',
-        player2: 'Sarah Wilson',
-        issue: 'Card interaction dispute',
-        priority: 'medium',
-        time: '2 minutes ago',
-        status: 'pending',
-      },
-      {
-        id: 2,
-        tournament: 'Regional Qualifier',
-        table: 12,
-        player1: 'Mike Johnson',
-        player2: 'Emma Davis',
-        issue: 'Timing window question',
-        priority: 'low',
-        time: '5 minutes ago',
-        status: 'investigating',
-      },
-    ]);
-
-    setRecentRulings([
-      {
-        id: 1,
-        case: 'Elemental Fusion timing',
-        ruling: "Player may activate in response to opponent's spell",
-        judge: 'You',
-        time: '1 hour ago',
-        tournament: 'Friday Night KONIVRER',
-      },
-      {
-        id: 2,
-        case: 'Deck registration error',
-        ruling: 'Game loss penalty applied, deck corrected',
-        judge: 'Head Judge Sarah',
-        time: '3 hours ago',
-        tournament: 'Regional Qualifier',
-      },
-    ]);
-
-    setTournaments([
-      {
-        id: 1,
-        name: 'Friday Night KONIVRER',
-        status: 'active',
-        round: 3,
-        totalRounds: 5,
-        players: 24,
-        role: 'Floor Judge',
-        startTime: '7:00 PM',
-      },
-      {
-        id: 2,
-        name: 'Regional Qualifier - East Coast',
-        status: 'upcoming',
-        round: 0,
-        totalRounds: 7,
-        players: 64,
-        role: 'Head Judge',
-        startTime: '9:00 AM',
-        date: '2024-06-20',
-      },
-    ]);
+    setActiveCalls([]);
+    setRecentRulings([]);
+    setTournaments([]);
   }, []);
 
   const getPriorityColor = priority => {

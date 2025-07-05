@@ -168,51 +168,8 @@ const TournamentTemplates = ({ onSelectTemplate }) => {
   const getMetaPrediction = async () => {
     setLoading(true);
     try {
-      // Mock meta prediction data
-      const mockPrediction = [
-        {
-          archetype: 'Aggro Red',
-          currentPercentage: 25,
-          predictedPercentage: 22,
-          percentageChange: -3,
-          trend: 'falling',
-          confidence: 0.8,
-        },
-        {
-          archetype: 'Control Blue',
-          currentPercentage: 20,
-          predictedPercentage: 18,
-          percentageChange: -2,
-          trend: 'falling',
-          confidence: 0.7,
-        },
-        {
-          archetype: 'Midrange Green',
-          currentPercentage: 15,
-          predictedPercentage: 20,
-          percentageChange: 5,
-          trend: 'rising',
-          confidence: 0.85,
-        },
-        {
-          archetype: 'Combo Yellow',
-          currentPercentage: 10,
-          predictedPercentage: 15,
-          percentageChange: 5,
-          trend: 'rising',
-          confidence: 0.75,
-        },
-        {
-          archetype: 'Tempo Purple',
-          currentPercentage: 8,
-          predictedPercentage: 12,
-          percentageChange: 4,
-          trend: 'rising',
-          confidence: 0.65,
-        },
-      ];
-
-      setMetaPrediction(mockPrediction);
+      // Load meta prediction data from actual data source when available
+      setMetaPrediction([]);
     } catch (error) {
       console.error('Error getting meta prediction:', error);
     } finally {

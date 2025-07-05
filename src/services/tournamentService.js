@@ -212,28 +212,7 @@ class TournamentService {
     }
   }
 
-  // Matchmaking simulation methods (for demo purposes)
-  simulateMatchmakingAnalytics() {
-    return {
-      totalMatches: 156,
-      averageQualityScore: 94.7,
-      averageProcessingTime: 1.2,
-      predictionAccuracy: 87.3,
-      surpriseFactorAverage: 12.4,
-      skillDifferenceAverage: 245,
-      deckArchetypeDistribution: {
-        Aggro: 32,
-        Control: 28,
-        Midrange: 25,
-        Combo: 15,
-      },
-      roundAnalytics: [
-        { round: 1, averageQuality: 92.1, processingTime: 1.1 },
-        { round: 2, averageQuality: 94.3, processingTime: 1.2 },
-        { round: 3, averageQuality: 96.2, processingTime: 1.3 },
-      ],
-    };
-  }
+  // Matchmaking analytics will be loaded from actual data source when available
 
   // Default matchmaking settings
   getDefaultMatchmakingSettings() {

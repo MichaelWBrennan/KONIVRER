@@ -125,13 +125,13 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
   ];
 
   const elements = [
-    { name: 'Fire', symbol: '🔥', color: 'text-red-400', description: 'Aggressive, direct damage' },
-    { name: 'Water', symbol: '💧', color: 'text-blue-400', description: 'Control, card draw' },
-    { name: 'Earth', symbol: '🌍', color: 'text-green-400', description: 'Growth, permanents' },
-    { name: 'Air', symbol: '💨', color: 'text-cyan-400', description: 'Speed, evasion' },
-    { name: 'Quintessence', symbol: '✨', color: 'text-purple-400', description: 'Pure energy' },
-    { name: 'Void', symbol: '🕳️', color: 'text-gray-600', description: 'Destruction, exile' },
-    { name: 'Neutral', symbol: '⚪', color: 'text-gray-400', description: 'Colorless' },
+    { name: 'Fire', symbol: '🔥', color: 'text-black', description: 'Aggressive, direct damage' },
+    { name: 'Water', symbol: '💧', color: 'text-black', description: 'Control, card draw' },
+    { name: 'Earth', symbol: '🌍', color: 'text-black', description: 'Growth, permanents' },
+    { name: 'Air', symbol: '💨', color: 'text-black', description: 'Speed, evasion' },
+    { name: 'Quintessence', symbol: '✨', color: 'text-black', description: 'Pure energy' },
+    { name: 'Void', symbol: '🕳️', color: 'text-black', description: 'Destruction, exile' },
+    { name: 'Neutral', symbol: '⚪', color: 'text-black', description: 'Colorless' },
   ];
 
   const keywords = [
