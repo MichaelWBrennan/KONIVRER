@@ -7,8 +7,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Shield, FileText } from 'lucide-react';
-import PDFViewer from '../components/PDFViewer';
+import EnhancedPDFViewer from '../components/EnhancedPDFViewer';
 import ErrorBoundary from '../components/ErrorBoundary';
+
 const Rules = () => {
   const [activeTab, setActiveTab] = useState('basic');
   const tabs = [
@@ -17,6 +18,7 @@ const Rules = () => {
       label: 'Basic Rules',
       icon: FileText,
       pdfUrl: '/assets/konivrer-rules.pdf',
+      title: 'KONIVRER Basic Rules',
       description: 'Core game mechanics and rules'
     },
     {
@@ -24,6 +26,7 @@ const Rules = () => {
       label: 'Tournament Rules',
       icon: Users,
       pdfUrl: '/assets/konivrer-tournament-rules.pdf',
+      title: 'KONIVRER Tournament Rules',
       description: 'Official tournament guidelines and procedures'
     },
     {
@@ -31,10 +34,13 @@ const Rules = () => {
       label: 'Code of Conduct',
       icon: Shield,
       pdfUrl: '/assets/konivrer-code-of-conduct.pdf',
+      title: 'KONIVRER Code of Conduct',
       description: 'Community standards and behavior guidelines'
     }
   ];
+  
   const activeTabData = tabs.find(tab => tab.id === activeTab);
+  
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
@@ -65,6 +71,7 @@ const Rules = () => {
               })}
             </div>
           </motion.div>
+          
           {/* PDF Viewer */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -72,11 +79,16 @@ const Rules = () => {
             transition={{ delay: 0.1 }}
             key={activeTab} // Force re-render when tab changes
           >
-            <PDFViewer pdfUrl={activeTabData?.pdfUrl} showHeader={false} />
+            <EnhancedPDFViewer 
+              pdfUrl={activeTabData?.pdfUrl} 
+              title={activeTabData?.title}
+              height="800px"
+            />
           </motion.div>
         </div>
       </div>
     </ErrorBoundary>
   );
 };
+
 export default Rules;
