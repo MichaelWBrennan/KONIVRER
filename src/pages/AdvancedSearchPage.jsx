@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import cardsData from '../data/cards.json';
-import { Search } from 'lucide-react';
+import ComprehensiveAdvancedSearch from '../components/ComprehensiveAdvancedSearch';
+import { searchCards } from '../utils/comprehensiveSearchEngine';
+import { Search, Grid, List, Filter, SortAsc, Eye, Download } from 'lucide-react';
 
 const AdvancedSearchPage = () => {
   const navigate = useNavigate();
