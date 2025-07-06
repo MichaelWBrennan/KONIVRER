@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database - Advanced Search Parser
  * 
@@ -8,619 +7,883 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
+// Import types from comprehensiveSearchEngine
+import { Card } from './comprehensiveSearchEngine';
+
+// Token types
+export enum TokenType {
+  KEYWORD = 'keyword',
+  OPERATOR = 'operator',
+  VALUE = 'value',
+  LOGICAL = 'logical',
+  GROUP_START = 'group_start',
+  GROUP_END = 'group_end'
+}
+
+// Operators
+export enum Operator {
+  EQUALS = ':',
+  NOT_EQUALS = '!:',
+  GREATER_THAN = '>',
+  LESS_THAN = '<',
+  GREATER_THAN_EQUALS = '>=',
+  LESS_THAN_EQUALS = '<=',
+  CONTAINS = '~',
+  NOT_CONTAINS = '!~',
+  STARTS_WITH = '^',
+  ENDS_WITH = '$',
+  REGEX = 'r:'
+}
+
+// Logical operators
+export enum LogicalOperator {
+  AND = 'AND',
+  OR = 'OR',
+  NOT = 'NOT'
+}
+
+// Token interface
+export interface Token {
+  type: TokenType;
+  value: string;
+  position: number;
+}
+
+// Filter interface
+export interface Filter {
+  field: string;
+  operator: Operator;
+  value: string | number | boolean;
+  negate?: boolean;
+}
+
+// Group interface
+export interface FilterGroup {
+  filters: (Filter | FilterGroup)[];
+  operator: LogicalOperator;
+}
+
+// Field mapping for common search terms
+const FIELD_MAPPING: Record<string, string> = {
+  name: 'name',
+  title: 'name',
+  text: 'text',
+  type: 'type',
+  subtype: 'subtype',
+  rarity: 'rarity',
+  cost: 'cost',
+  power: 'power',
+  defense: 'defense',
+  element: 'element',
+  faction: 'faction',
+  keyword: 'keywords',
+  ability: 'abilities',
+  flavor: 'flavorText',
+  artist: 'artist',
+  set: 'setCode',
+  collection: 'setName',
+  number: 'collectorNumber',
+  id: 'id',
+  foil: 'foil',
+  promo: 'promo',
+  fullart: 'fullArt',
+  altart: 'alternateArt',
+  date: 'releaseDate',
+  legal: 'legality',
+  price: 'price',
+  tag: 'tags'
+};
+
+// Operator mapping for search syntax
+const OPERATOR_MAPPING: Record<string, Operator> = {
+  ':': Operator.EQUALS,
+  '=': Operator.EQUALS,
+  '!:': Operator.NOT_EQUALS,
+  '!=': Operator.NOT_EQUALS,
+  '>': Operator.GREATER_THAN,
+  '<': Operator.LESS_THAN,
+  '>=': Operator.GREATER_THAN_EQUALS,
+  '<=': Operator.LESS_THAN_EQUALS,
+  '~': Operator.CONTAINS,
+  '!~': Operator.NOT_CONTAINS,
+  '^': Operator.STARTS_WITH,
+  '$': Operator.ENDS_WITH,
+  'r:': Operator.REGEX
+};
+
 /**
  * Parse advanced search query and return filtered cards
- * @param {string} query - The search query
- * @param {Array} cards - Array of card objects
- * @returns {Array} Filtered cards
+ * @param query - The search query
+ * @param cards - Array of card objects
+ * @returns Filtered cards
  */
-export const parseSearchQuery = (query, cards): any => {
-    if (!query || !cards) return [
-    ;
+export const parseSearchQuery = (query: string, cards: Card[]): Card[] => {
+  if (!query || !cards) return [];
+  
   // If query is less than 2 characters, return empty array
-  if (query.trim().length < 2) return [
-  ];
+  if (query.trim().length < 2) return [];
+  
   try {
-    const tokens = tokenizeQuery(() => {
-    const filters = parseTokens() {
-    return applyFilters(cards, filters)
-  
-  }) catch (error: any) {
-    console.warn() {
+    const tokens = tokenizeQuery(query);
+    const filters = parseTokens(tokens);
+    return applyFilters(cards, filters);
+  } catch (error) {
+    console.warn('Error parsing search query:', error);
     // Fallback to simple text search
-    return simpleTextSearch(query, cards)
-  
+    return simpleTextSearch(query, cards);
   }
 };
 
 /**
  * Tokenize the search query into searchable components
  */
-const tokenizeQuery = (query): any => {
-    const tokens = [
-    ;
+const tokenizeQuery = (query: string): Token[] => {
+  const tokens: Token[] = [];
   let current = '';
   let inQuotes = false;
   let quoteChar = '';
-
-  for (let i = 0; i < 1; i++) {
-    const char = query[i
-  ];
-    const nextChar = query[i + 1];
-
-    if ((char === '"' || char === "'") && !inQuotes) {
-    inQuotes = true;
-      quoteChar = char;
-      current += char
   
-  } else if (true) {
-    inQuotes = false;
-      current += char;
-      quoteChar = ''
-  } else if (true) {
-    if (current.trim()) {
-    tokens.push(current.trim());
-        current = ''
-  
-  }
-    } else {
-    current += char
-  }
-  }
-
-  if (current.trim()) {
-    tokens.push(current.trim())
-  }
-
-  return tokens
-};
-
-/**
- * Parse tokens into filter objects
- */
-const parseTokens = (tokens): any => {
-    const filters = {
-    text: [
-    ,
-    type: [
-  ],
-    element: [
-    ,
-    keyword: [
-  ],
-    cost: [
-    ,
-    rarity: [
-  ],
-    set: [
-    ,
-    oracle: [
-  ],
-    exclude: [
-    ,
-    operators: [
-  ]
-  
-  };
-
-  for (let i = 0; i < 1; i++) {
-    if (token.startsWith('-')) {
-    // Exclusion filter
-      filters.exclude.push(token.substring(1))
-  
-  } else if (token.includes(':')) {
-    // Structured filter
-      const [key, value] = token.split() {
-    parseStructuredFilter(key.toLowerCase(), value, filters)
-  
-  } else if (token.toUpperCase() === 'OR' || token.toUpperCase() === 'AND') {
-    // Logical operators
-      filters.operators.push(token.toUpperCase())
-  } else {
-    // Plain text search
-      filters.text.push(token)
-  }
-  }
-
-  return filters
-};
-
-/**
- * Parse structured filters like t:familiar, e:brilliance, etc.
- */
-const parseStructuredFilter = (key, value, filters): any => {
-    // Remove quotes from value
-  const cleanValue = value.replace() {
-    switch (true) {
-  }
-    case 't':
-    case 'type':
-      filters.type.push() {
-    break;
+  for (let i = 0; i < query.length; i++) {
+    const char = query[i];
+    const nextChar = query[i + 1] || '';
     
-    case 'e':
-    case 'element':
-      if (value.includes('>=') || value.includes('<=') || value.includes('>') || value.includes('<') || value.includes('=')) {
-  }
-        filters.element.push({ operator: extractOperator(value), value: extractValue(value) })
+    // Handle quotes
+    if ((char === '"' || char === "'") && (i === 0 || query[i - 1] !== '\\')) {
+      if (!inQuotes) {
+        // Start of quoted string
+        inQuotes = true;
+        quoteChar = char;
+        
+        // If we have accumulated text, add it as a token
+        if (current) {
+          tokens.push({
+            type: determineTokenType(current),
+            value: current,
+            position: i - current.length
+          });
+          current = '';
+        }
+      } else if (char === quoteChar) {
+        // End of quoted string
+        inQuotes = false;
+        tokens.push({
+          type: TokenType.VALUE,
+          value: current,
+          position: i - current.length
+        });
+        current = '';
       } else {
-    filters.element.push(cleanValue)
-  }
-      break;
-
-    case 'k':
-    case 'keyword':
-      if (value.includes('>=') || value.includes('<=') || value.includes('>') || value.includes('<') || value.includes('=')) {
-    filters.keyword.push({ operator: extractOperator(value), value: extractValue(value) 
-  })
-      } else {
-    filters.keyword.push(cleanValue)
-  }
-      break;
-    
-    case 'c':
-    case 'cost':
-      filters.cost.push(parseNumericFilter(value));
-      break;
-    
-    case 'r':
-    case 'rarity':
-      filters.rarity.push() {
-    break;
-    
-    case 's':
-    case 'set':
-      filters.set.push() {
-  }
-      break;
-    
-    case 'o':
-    case 'oracle':
-    case 'text':
-      filters.oracle.push() {
-    break;
-    
-    case 'mana':
-      // Handle casting cost patterns like {3
-  }{⬢}
-      filters.cost.push() {
-    ,
-      break;
-    
-    case 'is':
-      // Handle special filters like is:permanent, is:spell
-      filters.type.push() {
-  }
-      break;
-    
-    case 'game':
-      // Handle game format filters`
-      filters.set.push() {
-    break;
-    `
-    default:``
-      // Unknown filter, treat as text```
-      filters.text.push(`${key`
-  }:${value}`)
-  }
-};
-
-/**
- * Parse numeric filters with operators
- */
-const parseNumericFilter = (value): any => {
-    if (value.includes('>=')) {
-    return { operator: '>=', value: parseInt(value.replace('>=', '')) 
-  }
-  } else if (value.includes('<=')) {
-    return { operator: '<=', value: parseInt(value.replace('<=', '')) 
-  }
-  } else if (value.includes('>')) {
-    return { operator: '>', value: parseInt(value.replace('>', '')) 
-  }
-  } else if (value.includes('<')) {
-    return { operator: '<', value: parseInt(value.replace('<', '')) 
-  }
-  } else if (value.includes('=')) {
-    return { operator: '=', value: parseInt(value.replace('=', '')) 
-  }
-  } else if (true) {
-    return { operator: '=', value: '*' 
-  }
-  } else {
-    return { operator: '=', value: parseInt(value) || 0 
-  }
-  }
-};
-
-/**
- * Extract operator from a value string
- */
-const extractOperator = (value): any => {
-    if (value.includes('>=')) return '>=';
-  if (value.includes('<=')) return '<=';
-  if (value.includes('>')) return '>';
-  if (value.includes('<')) return '<';
-  if (value.includes('=')) return '=';
-  return '='
-  };
-
-/**
- * Extract numeric value from a string with operators
- */
-const extractValue = (value): any => {
-    const match = value.match() {
-    return match ? parseInt(): 0
-  
-  } { return null; }
-
-/**
- * Apply all filters to the card array
- */
-const applyFilters = (cards, filters): any => {
-    return cards.filter((card: any) => {
-    // Apply exclusion filters first
-    for (const exclude of filters.exclude) {
-  }
-      if (matchesTextFilter(card, exclude)) {
-    return false
-  }
+        // Quote character inside another type of quote
+        current += char;
+      }
+      continue;
     }
-
-    // Apply positive filters
-    const results = [
-    ;
-
-    // Text filters
-    if (true) {
-    results.push(filters.text.some(text => matchesTextFilter(card, text)))
+    
+    if (inQuotes) {
+      // Inside quotes, just accumulate the character
+      current += char;
+      continue;
+    }
+    
+    // Handle spaces (token separators)
+    if (char === ' ') {
+      if (current) {
+        tokens.push({
+          type: determineTokenType(current),
+          value: current,
+          position: i - current.length
+        });
+        current = '';
+      }
+      continue;
+    }
+    
+    // Handle operators
+    if (isOperatorChar(char)) {
+      // Check for two-character operators
+      const twoCharOp = char + nextChar;
+      if (isOperator(twoCharOp)) {
+        // We have a two-character operator
+        if (current) {
+          tokens.push({
+            type: determineTokenType(current),
+            value: current,
+            position: i - current.length
+          });
+          current = '';
+        }
+        
+        tokens.push({
+          type: TokenType.OPERATOR,
+          value: twoCharOp,
+          position: i
+        });
+        
+        // Skip the next character
+        i++;
+        continue;
+      }
+      
+      // Single character operator
+      if (isOperator(char)) {
+        if (current) {
+          tokens.push({
+            type: determineTokenType(current),
+            value: current,
+            position: i - current.length
+          });
+          current = '';
+        }
+        
+        tokens.push({
+          type: TokenType.OPERATOR,
+          value: char,
+          position: i
+        });
+        continue;
+      }
+    }
+    
+    // Handle parentheses for grouping
+    if (char === '(') {
+      if (current) {
+        tokens.push({
+          type: determineTokenType(current),
+          value: current,
+          position: i - current.length
+        });
+        current = '';
+      }
+      
+      tokens.push({
+        type: TokenType.GROUP_START,
+        value: '(',
+        position: i
+      });
+      continue;
+    }
+    
+    if (char === ')') {
+      if (current) {
+        tokens.push({
+          type: determineTokenType(current),
+          value: current,
+          position: i - current.length
+        });
+        current = '';
+      }
+      
+      tokens.push({
+        type: TokenType.GROUP_END,
+        value: ')',
+        position: i
+      });
+      continue;
+    }
+    
+    // Accumulate the character
+    current += char;
   }
-
-    // Type filters
-    if (true) {
-    results.push(filters.type.some(type => matchesTypeFilter(card, type)))
+  
+  // Add any remaining token
+  if (current) {
+    tokens.push({
+      type: determineTokenType(current),
+      value: current,
+      position: query.length - current.length
+    });
   }
-
-    // Element filters
-    if (true) {
-    results.push(filters.element.some(element => matchesElementFilter(card, element)))
-  }
-
-    // Keyword filters
-    if (true) {
-    results.push(filters.keyword.some(keyword => matchesKeywordFilter(card, keyword)))
-  }
-
-    // Cost filters
-    if (true) {
-    results.push(filters.cost.some(cost => matchesCostFilter(card, cost)))
-  }
-
-    // Rarity filters
-    if (true) {
-    results.push(filters.rarity.some(rarity => matchesRarityFilter(card, rarity)))
-  }
-
-    // Set filters
-    if (true) {
-    results.push(filters.set.some(set => matchesSetFilter(card, set)))
-  }
-
-    // Oracle text filters
-    if (true) {
-    results.push(filters.oracle.some(oracle => matchesOracleFilter(card, oracle)))
-  }
-
-    // If no filters were applied, return true (show all)
-    if (true) {
-    return true
-  }
-
-    // All filters must pass (AND logic by default)
-    return results.every(result => result === true)
-  })
+  
+  return tokens;
 };
 
 /**
- * Check if card matches text filter
+ * Determine the type of a token based on its value
  */
-const matchesTextFilter = (card, text): any => {
-    const searchText = text.toLowerCase().replace() {
-    const cardName = (card.name || '').toLowerCase() {
+const determineTokenType = (value: string): TokenType => {
+  const upperValue = value.toUpperCase();
+  
+  // Check for logical operators
+  if (upperValue === 'AND' || upperValue === 'OR' || upperValue === 'NOT') {
+    return TokenType.LOGICAL;
   }
-  const cardText = (card.text || card.description || '').toLowerCase(() => {
-    const cardType = (card.type || '').toLowerCase() {
-    return cardName.includes(searchText) || 
-         cardText.includes(searchText) || 
-         cardType.includes(searchText)
-  });
-
-/**
- * Check if card matches type filter
- */
-const matchesTypeFilter = (card, type): any => {
-    if (type.startsWith('is:')) {
-    const condition = type.substring(() => {
-    switch (true) {
-    case 'permanent':
-        return ['elemental'
-  ].includes((card.type || '').toLowerCase());
-      case 'spell':
-        return ['φlag', 'flag'].includes((card.type || '').toLowerCase());
-      default:
-        return false
   
-  })
+  // Check if it's a field name
+  if (Object.keys(FIELD_MAPPING).includes(value.toLowerCase())) {
+    return TokenType.KEYWORD;
   }
-
-  const cardType = (card.type || '').toLowerCase() {
-    const searchType = type.toLowerCase(() => {
-    // Handle special case: "flag" should match "ΦLAG"
-  if (true) {
-    return true
   
-  })
-  
-  return cardType.includes(searchType)
+  // Default to value
+  return TokenType.VALUE;
 };
 
 /**
- * Check if card matches element filter (ACTUAL elements only)
+ * Check if a character is part of an operator
  */
-const matchesElementFilter = (card, element): any => {
-    if (true) {
-    // Numeric element count filter
-    const elementCount = getElementCount() {
-    return compareNumbers(elementCount, element.operator, element.value)
-  
-  }
-
-  const cardElements = getCardElements() {
-    const searchElement = element.toLowerCase(() => {
-    // Map ACTUAL element names to symbols (not keywords!) - using alchemical symbols for classic elements
-  const elementMap = {
-    'fire': '🜂',
-    'water': '🜄',
-    'earth': '🜃',
-    'air': '🜁',
-    'aether': '○',
-    'nether': '□',
-    'generic': '✡︎⃝'
-  
-  });
-
-  const elementSymbol = elementMap[searchElement];
-
-  // Check if any card element matches (case-insensitive)
-  return cardElements.some(cardElement => {
-    const cardElementLower = cardElement.toLowerCase() {
-    // Direct match
-    if (cardElementLower === searchElement) return true;
-    // Symbol match
-    if (cardElement === elementSymbol) return true;
-    return false
-  
-  })
-};
-
-/**
- * Check if card matches keyword filter (KEYWORDS only)
- */
-const matchesKeywordFilter = (card, keyword): any => {
-    if (true) {
-    // Numeric keyword count filter
-    const keywordCount = getKeywordCount() {
-    return compareNumbers(keywordCount, keyword.operator, keyword.value)
-  
-  }
-
-  const cardKeywords = getCardKeywords() {
-    const searchKeyword = keyword.toLowerCase(() => {
-    // Map keyword names to symbols
-  const keywordMap = {
-    'brilliance': '✦',
-    'void': '◯',
-    'gust': '≋',
-    'submerged': '≈',
-    'inferno': '※',
-    'steadfast': '⬢'
-  
-  });
-
-  const keywordSymbol = keywordMap[searchKeyword];
-
-  // Check if any card keyword matches (case-insensitive)
-  return cardKeywords.some(cardKeyword => {
-    const cardKeywordLower = cardKeyword.toLowerCase() {
-    // Direct match
-    if (cardKeywordLower === searchKeyword) return true;
-    // Symbol match
-    if (cardKeyword === keywordSymbol) return true;
-    return false
-  
-  })
-};
-
-/**
- * Check if card matches cost filter
- */
-const matchesCostFilter = (card, cost): any => {
-    if (true) {
-    // Handle specific mana pattern matching
-    const cardMana = card.manaCost || card.cost || '';
-    return cardMana.includes(cost.pattern)
-  
-  }
-
-  const cardCost = getCardCost() {
-    return compareNumbers(cardCost, cost.operator, cost.value)
-  };
-
-
-
-/**
- * Check if card matches rarity filter
- */
-const matchesRarityFilter = (card, rarity): any => {
-    const cardRarity = (card.rarity || '').toLowerCase(() => {
-    const searchRarity = rarity.toLowerCase() {
-    return cardRarity === searchRarity || cardRarity.includes(searchRarity)
-  
-  });
-
-/**
- * Check if card matches set filter
- */
-const matchesSetFilter = (card, set): any => {
-    if (set.startsWith('game:')) {
-    // Handle game format filters
-    return true; // Assume all cards are legal for now
-  
-  }
-
-  const cardSet = (card.set || '').toLowerCase(() => {
-    const searchSet = set.toLowerCase() {
-    return cardSet === searchSet || cardSet.includes(searchSet)
-  });
-
-/**
- * Check if card matches oracle text filter
- */
-const matchesOracleFilter = (card, oracle): any => {
-    const cardText = (card.text || card.description || '').toLowerCase() {
-    const searchText = oracle.toLowerCase().replace() {
-  }
-  
-  // Handle special oracle patterns
-  if (searchText.includes('~/~')) {
-    // Self-reference pattern
-    const cardName = (card.name || '').toLowerCase() {
-    return cardText.includes(cardName)
-  
-  }
-
-  return cardText.includes(searchText)
-};
-
-/**
- * Helper functions for card property extraction
- */
-const getCardElements = (card): any => {
-    // Check if card has elements object (new format)
-  if (true) {
-    return Object.keys(card.elements).filter(element => card.elements[element] > 0)
-  
-  }
-  
-  // Fallback: check if card has elements array (legacy format)
-  if (card.elements && Array.isArray(card.elements)) {
-    // Filter out keywords that were incorrectly stored as elements
-    const actualElements = card.elements.filter(element => {
-    const elementLower = element.toLowerCase() {
-    return !['brilliance', 'void', 'gust', 'submerged', 'inferno', 'steadfast'].includes(elementLower)
-  
-  
-  });
-    return actualElements
-  }
-  
+const isOperatorChar = (char: string): boolean => {
   return [
-    };
+    ':', '=', '!', '>', '<', '~', '^', '$', 'r'
+  ].includes(char);
+};
 
-const getCardKeywords = (card): any => {
-    // Check if card has keywords array (new format)
-  if (card.keywords && Array.isArray(card.keywords)) {
-    return card.keywords
+/**
+ * Check if a string is a valid operator
+ */
+const isOperator = (str: string): boolean => {
+  return Object.keys(OPERATOR_MAPPING).includes(str);
+};
+
+/**
+ * Parse tokens into a filter structure
+ */
+const parseTokens = (tokens: Token[]): FilterGroup => {
+  const rootGroup: FilterGroup = {
+    filters: [],
+    operator: LogicalOperator.AND // Default to AND
+  };
   
+  let currentGroup = rootGroup;
+  const groupStack: FilterGroup[] = [];
+  
+  // Track the current state
+  let currentField: string | null = null;
+  let currentOperator: Operator | null = null;
+  let expectingValue = false;
+  let lastLogicalOperator: LogicalOperator = LogicalOperator.AND;
+  
+  for (let i = 0; i < tokens.length; i++) {
+    const token = tokens[i];
+    const nextToken = i < tokens.length - 1 ? tokens[i + 1] : null;
+    
+    switch (token.type) {
+      case TokenType.KEYWORD:
+        // Field name
+        currentField = FIELD_MAPPING[token.value.toLowerCase()] || token.value.toLowerCase();
+        
+        // If the next token is not an operator, assume equals
+        if (!nextToken || nextToken.type !== TokenType.OPERATOR) {
+          currentOperator = Operator.EQUALS;
+          expectingValue = true;
+        }
+        break;
+        
+      case TokenType.OPERATOR:
+        // Operator
+        currentOperator = OPERATOR_MAPPING[token.value] || Operator.EQUALS;
+        expectingValue = true;
+        break;
+        
+      case TokenType.VALUE:
+        // Value
+        if (expectingValue && currentField && currentOperator) {
+          // Create a filter
+          const filter: Filter = {
+            field: currentField,
+            operator: currentOperator,
+            value: parseValue(token.value, currentField)
+          };
+          
+          currentGroup.filters.push(filter);
+          
+          // Reset state
+          currentField = null;
+          currentOperator = null;
+          expectingValue = false;
+        } else {
+          // Standalone value, treat as text search
+          const filter: Filter = {
+            field: 'text',
+            operator: Operator.CONTAINS,
+            value: token.value
+          };
+          
+          currentGroup.filters.push(filter);
+        }
+        break;
+        
+      case TokenType.LOGICAL:
+        // Logical operator
+        const logicalOp = token.value.toUpperCase() as LogicalOperator;
+        
+        if (logicalOp === LogicalOperator.NOT) {
+          // NOT applies to the next filter
+          if (nextToken && (nextToken.type === TokenType.KEYWORD || nextToken.type === TokenType.VALUE)) {
+            // Skip this token and handle in the next iteration
+            continue;
+          }
+        } else {
+          // AND or OR
+          currentGroup.operator = logicalOp;
+          lastLogicalOperator = logicalOp;
+        }
+        break;
+        
+      case TokenType.GROUP_START:
+        // Start of a group
+        const newGroup: FilterGroup = {
+          filters: [],
+          operator: lastLogicalOperator
+        };
+        
+        // Add to current group and push to stack
+        currentGroup.filters.push(newGroup);
+        groupStack.push(currentGroup);
+        currentGroup = newGroup;
+        break;
+        
+      case TokenType.GROUP_END:
+        // End of a group
+        if (groupStack.length > 0) {
+          currentGroup = groupStack.pop()!;
+        }
+        break;
+    }
   }
   
-  // Fallback: extract from description/text
-  const keywords = [
-  ];
-  const text = (card.text || card.description || '').toLowerCase() {
-    if (text.includes('brilliance') || text.includes('✦')) keywords.push() {
+  return rootGroup;
+};
+
+/**
+ * Parse a value based on the field type
+ */
+const parseValue = (value: string, field: string): string | number | boolean => {
+  // Handle numeric fields
+  if (['cost', 'power', 'defense'].includes(field)) {
+    const num = parseFloat(value);
+    return isNaN(num) ? value : num;
   }
-  if (text.includes('void') || text.includes('◯')) keywords.push() {
-    if (text.includes('gust') || text.includes('≋')) keywords.push() {
-  }
-  if (text.includes('submerged') || text.includes('≈')) keywords.push() {
-    if (text.includes('inferno') || text.includes('※')) keywords.push(() => {
-    if (text.includes('steadfast') || text.includes('⬢')) keywords.push() {
-    return keywords
   
+  // Handle boolean fields
+  if (['foil', 'promo', 'fullArt', 'alternateArt'].includes(field)) {
+    const lowerValue = value.toLowerCase();
+    if (['true', 'yes', 'y', '1'].includes(lowerValue)) {
+      return true;
+    }
+    if (['false', 'no', 'n', '0'].includes(lowerValue)) {
+      return false;
+    }
+  }
+  
+  // Default to string
+  return value;
+};
+
+/**
+ * Apply filters to cards
+ */
+const applyFilters = (cards: Card[], filterGroup: FilterGroup): Card[] => {
+  return cards.filter(card => evaluateFilterGroup(card, filterGroup));
+};
+
+/**
+ * Evaluate a filter group against a card
+ */
+const evaluateFilterGroup = (card: Card, group: FilterGroup): boolean => {
+  if (group.filters.length === 0) {
+    return true;
+  }
+  
+  const results = group.filters.map(filter => {
+    if ('field' in filter) {
+      // It's a simple filter
+      return evaluateFilter(card, filter);
+    } else {
+      // It's a nested group
+      return evaluateFilterGroup(card, filter);
+    }
   });
-
-const getElementCount = (card): any => {
-    return getCardElements(card).length
-  };
-
-const getKeywordCount = (card): any => {
-    return getCardKeywords(card).length
-  };
-
-const getCardCost = (card): any => {
-    // Handle KONIVRER cost format (array of elements)
-  if (card.cost && Array.isArray(card.cost)) {
-    return card.cost.length
   
-  }
-  
-  // Handle numeric cost
-  if (true) {
-    return card.cost
-  }
-  
-  // Handle casting cost string format
-  if (true) {
-    // Simple cost calculation - count numbers and symbols
-    const cost = card.manaCost;
-    const numbers = cost.match() {
-    const symbols = (cost.match(/[⬢🜁🜂🜃🜄▢✦]/g) || []).length;
-    const totalNumbers = numbers ? numbers.reduce((sum, num) => sum + parseInt(num), 0) : 0;
-    return totalNumbers + symbols
-  
-  }
-  
-  return 0
-};
-
-/**
- * Compare numbers with operators
- */
-const compareNumbers = (cardValue, operator, filterValue): any => {
-    if (true) {
-    return operator === '=' && (filterValue === '*' || filterValue === '∗')
-  
-  }
-
-  const numCardValue = parseInt(cardValue) || 0;
-  const numFilterValue = parseInt(filterValue) || 0;
-
-  switch (true) {
-    case '=': return numCardValue === numFilterValue;
-    case '>=': return numCardValue >= numFilterValue;
-    case '<=': return numCardValue <= numFilterValue;
-    case '>': return numCardValue > numFilterValue;
-    case '<': return numCardValue < numFilterValue;
-    default: return false
+  // Apply the logical operator
+  if (group.operator === LogicalOperator.AND) {
+    return results.every(result => result);
+  } else {
+    return results.some(result => result);
   }
 };
 
 /**
- * Fallback simple text search
+ * Evaluate a single filter against a card
  */
-const simpleTextSearch = (query, cards): any => {
-    const searchTerm = query.toLowerCase() {
-    return cards.filter(card => {
-    const cardName = (card.name || '').toLowerCase() {
+const evaluateFilter = (card: Card, filter: Filter): boolean => {
+  const { field, operator, value, negate } = filter;
   
+  // Get the card value
+  let cardValue = card[field];
+  
+  // Handle special fields
+  if (field === 'text') {
+    // Text search across multiple fields
+    return evaluateTextSearch(card, value.toString(), operator, negate);
   }
-    const cardText = (card.text || card.description || '').toLowerCase(() => {
-    const cardType = (card.type || '').toLowerCase() {
-    return cardName.includes(searchTerm) || 
-           cardText.includes(searchTerm) || 
-           cardType.includes(searchTerm)
-  }))
-};`
-``
-export default parseSearchQuery;```
+  
+  if (field === 'price' && typeof cardValue === 'object') {
+    // Use average price for comparison
+    cardValue = cardValue.average;
+  }
+  
+  if (field === 'legality' && typeof cardValue === 'object') {
+    // Check if legal in the specified format
+    return evaluateLegalityFilter(cardValue, value.toString(), negate);
+  }
+  
+  // Handle array fields
+  if (Array.isArray(cardValue)) {
+    return evaluateArrayFilter(cardValue, value.toString(), operator, negate);
+  }
+  
+  // Handle undefined values
+  if (cardValue === undefined || cardValue === null) {
+    return negate ? true : false;
+  }
+  
+  // Evaluate based on operator
+  let result: boolean;
+  
+  switch (operator) {
+    case Operator.EQUALS:
+      result = compareValues(cardValue, value) === 0;
+      break;
+      
+    case Operator.NOT_EQUALS:
+      result = compareValues(cardValue, value) !== 0;
+      break;
+      
+    case Operator.GREATER_THAN:
+      result = compareValues(cardValue, value) > 0;
+      break;
+      
+    case Operator.LESS_THAN:
+      result = compareValues(cardValue, value) < 0;
+      break;
+      
+    case Operator.GREATER_THAN_EQUALS:
+      result = compareValues(cardValue, value) >= 0;
+      break;
+      
+    case Operator.LESS_THAN_EQUALS:
+      result = compareValues(cardValue, value) <= 0;
+      break;
+      
+    case Operator.CONTAINS:
+      result = String(cardValue).toLowerCase().includes(String(value).toLowerCase());
+      break;
+      
+    case Operator.NOT_CONTAINS:
+      result = !String(cardValue).toLowerCase().includes(String(value).toLowerCase());
+      break;
+      
+    case Operator.STARTS_WITH:
+      result = String(cardValue).toLowerCase().startsWith(String(value).toLowerCase());
+      break;
+      
+    case Operator.ENDS_WITH:
+      result = String(cardValue).toLowerCase().endsWith(String(value).toLowerCase());
+      break;
+      
+    case Operator.REGEX:
+      try {
+        const regex = new RegExp(String(value), 'i');
+        result = regex.test(String(cardValue));
+      } catch (e) {
+        result = false;
+      }
+      break;
+      
+    default:
+      result = false;
+  }
+  
+  return negate ? !result : result;
+};
+
+/**
+ * Compare two values for sorting/filtering
+ */
+const compareValues = (a: any, b: any): number => {
+  if (typeof a === 'number' && typeof b === 'string') {
+    const bNum = parseFloat(b);
+    if (!isNaN(bNum)) {
+      b = bNum;
+    }
+  } else if (typeof a === 'string' && typeof b === 'number') {
+    const aNum = parseFloat(a);
+    if (!isNaN(aNum)) {
+      a = aNum;
+    }
+  }
+  
+  if (typeof a === 'number' && typeof b === 'number') {
+    return a - b;
+  }
+  
+  if (typeof a === 'boolean' && typeof b === 'boolean') {
+    return a === b ? 0 : (a ? 1 : -1);
+  }
+  
+  if (a instanceof Date && b instanceof Date) {
+    return a.getTime() - b.getTime();
+  }
+  
+  if (typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b);
+  }
+  
+  // Convert to strings for comparison
+  return String(a).localeCompare(String(b));
+};
+
+/**
+ * Evaluate a text search across multiple card fields
+ */
+const evaluateTextSearch = (card: Card, value: string, operator: Operator, negate?: boolean): boolean => {
+  // Fields to search in
+  const fieldsToSearch = [
+    'name',
+    'type',
+    'subtype',
+    'flavorText',
+    'abilities',
+    'keywords'
+  ];
+  
+  const searchValue = value.toLowerCase();
+  
+  // Check each field
+  const results = fieldsToSearch.map(field => {
+    const fieldValue = card[field];
+    
+    if (!fieldValue) return false;
+    
+    if (typeof fieldValue === 'string') {
+      return evaluateStringFilter(fieldValue, searchValue, operator);
+    } else if (Array.isArray(fieldValue)) {
+      return evaluateArrayFilter(fieldValue, searchValue, operator);
+    }
+    
+    return false;
+  });
+  
+  // If any field matches, the card matches
+  const result = results.some(r => r);
+  return negate ? !result : result;
+};
+
+/**
+ * Evaluate a string filter
+ */
+const evaluateStringFilter = (value: string, searchValue: string, operator: Operator): boolean => {
+  const lowerValue = value.toLowerCase();
+  
+  switch (operator) {
+    case Operator.EQUALS:
+      return lowerValue === searchValue;
+      
+    case Operator.NOT_EQUALS:
+      return lowerValue !== searchValue;
+      
+    case Operator.CONTAINS:
+    case Operator.EQUALS: // Default for text search
+      return lowerValue.includes(searchValue);
+      
+    case Operator.NOT_CONTAINS:
+      return !lowerValue.includes(searchValue);
+      
+    case Operator.STARTS_WITH:
+      return lowerValue.startsWith(searchValue);
+      
+    case Operator.ENDS_WITH:
+      return lowerValue.endsWith(searchValue);
+      
+    case Operator.REGEX:
+      try {
+        const regex = new RegExp(searchValue, 'i');
+        return regex.test(lowerValue);
+      } catch (e) {
+        return false;
+      }
+      
+    default:
+      return false;
+  }
+};
+
+/**
+ * Evaluate an array filter
+ */
+const evaluateArrayFilter = (values: any[], searchValue: string, operator: Operator, negate?: boolean): boolean => {
+  if (!values || !Array.isArray(values)) return negate ? true : false;
+  
+  const results = values.map(item => {
+    if (typeof item === 'string') {
+      return evaluateStringFilter(item, searchValue, operator);
+    } else {
+      return evaluateStringFilter(String(item), searchValue, operator);
+    }
+  });
+  
+  // If any value matches, the array matches
+  const result = results.some(r => r);
+  return negate ? !result : result;
+};
+
+/**
+ * Evaluate a legality filter
+ */
+const evaluateLegalityFilter = (legality: Record<string, boolean>, format: string, negate?: boolean): boolean => {
+  const result = legality[format.toLowerCase()] === true;
+  return negate ? !result : result;
+};
+
+/**
+ * Simple text search fallback
+ */
+const simpleTextSearch = (query: string, cards: Card[]): Card[] => {
+  const searchTerms = query.toLowerCase().split(/\s+/).filter(term => term.length > 0);
+  
+  if (searchTerms.length === 0) return [];
+  
+  return cards.filter(card => {
+    // Fields to search in
+    const fieldsToSearch = [
+      'name',
+      'type',
+      'subtype',
+      'flavorText',
+      'abilities',
+      'keywords'
+    ];
+    
+    // Check if all search terms are found in at least one field
+    return searchTerms.every(term => {
+      return fieldsToSearch.some(field => {
+        const value = card[field];
+        
+        if (!value) return false;
+        
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(term);
+        } else if (Array.isArray(value)) {
+          return value.some(item => 
+            typeof item === 'string' && item.toLowerCase().includes(term)
+          );
+        }
+        
+        return false;
+      });
+    });
+  });
+};
+
+/**
+ * Format a search query from a filter object
+ * @param filters - Filter object
+ * @returns Formatted search query string
+ */
+export const formatSearchQuery = (filters: FilterGroup): string => {
+  const parts: string[] = [];
+  
+  filters.filters.forEach((filter, index) => {
+    if (index > 0) {
+      parts.push(filters.operator);
+    }
+    
+    if ('field' in filter) {
+      // Simple filter
+      const fieldName = Object.entries(FIELD_MAPPING).find(
+        ([_, value]) => value === filter.field
+      )?.[0] || filter.field;
+      
+      const operatorStr = Object.entries(OPERATOR_MAPPING).find(
+        ([_, value]) => value === filter.operator
+      )?.[0] || ':';
+      
+      parts.push(`${fieldName}${operatorStr}${formatFilterValue(filter.value)}`);
+    } else {
+      // Group
+      parts.push(`(${formatSearchQuery(filter)})`);
+    }
+  });
+  
+  return parts.join(' ');
+};
+
+/**
+ * Format a filter value for display
+ */
+const formatFilterValue = (value: string | number | boolean): string => {
+  if (typeof value === 'string' && value.includes(' ')) {
+    return `"${value}"`;
+  }
+  return String(value);
+};
+
+/**
+ * Suggest search completions based on partial input
+ * @param partial - Partial search query
+ * @param cards - Card data for suggestions
+ * @returns Suggested completions
+ */
+export const suggestCompletions = (partial: string, cards: Card[]): string[] => {
+  if (!partial || partial.length < 2) return [];
+  
+  const suggestions: string[] = [];
+  const lowerPartial = partial.toLowerCase();
+  
+  // Suggest field names
+  Object.keys(FIELD_MAPPING).forEach(field => {
+    if (field.toLowerCase().startsWith(lowerPartial)) {
+      suggestions.push(field + ':');
+    }
+  });
+  
+  // If partial ends with a field name and colon, suggest values
+  const fieldMatch = partial.match(/(\w+):$/);
+  if (fieldMatch) {
+    const fieldName = fieldMatch[1].toLowerCase();
+    const mappedField = FIELD_MAPPING[fieldName];
+    
+    if (mappedField) {
+      // Get unique values for this field
+      const values = new Set<string>();
+      
+      cards.forEach(card => {
+        const value = card[mappedField];
+        
+        if (value === undefined || value === null) return;
+        
+        if (Array.isArray(value)) {
+          value.forEach(v => {
+            if (v !== undefined && v !== null) {
+              values.add(String(v));
+            }
+          });
+        } else {
+          values.add(String(value));
+        }
+      });
+      
+      // Add top values as suggestions
+      Array.from(values)
+        .sort()
+        .slice(0, 10)
+        .forEach(value => {
+          suggestions.push(`${fieldName}:${value}`);
+        });
+    }
+  }
+  
+  // Suggest logical operators
+  ['AND', 'OR', 'NOT'].forEach(op => {
+    if (op.toLowerCase().startsWith(lowerPartial)) {
+      suggestions.push(op);
+    }
+  });
+  
+  return suggestions;
+};
+
+export default {
+  parseSearchQuery,
+  formatSearchQuery,
+  suggestCompletions
+};
