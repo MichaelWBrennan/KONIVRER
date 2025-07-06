@@ -8,6 +8,10 @@ interface SimpleLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * SimpleLayout component with a top header showing only the logo
+ * and a bottom navigation bar that includes the login button
+ */
 const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
   const location = useLocation();
   const { user, logout, isAuthenticated } = useAuth();
