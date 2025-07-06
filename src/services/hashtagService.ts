@@ -10,52 +10,52 @@ import React from 'react';
 import { announceToScreenReader } from '../utils/modernFeatures';
 
 class HashtagService {
-  constructor(): any {
+  constructor() {
   this.platforms = {
   twitter: {
-  name: 'Twitter/X',
+  name: 'Twitter/X',,
   icon: '𝕏',
   color: '#000000',
   apiEndpoint: '/api/hashtags/twitter',
   enabled: true,
 },
       instagram: {
-        name: 'Instagram',
+        name: 'Instagram',,
         icon: '📷',
         color: '#E4405F',
         apiEndpoint: '/api/hashtags/instagram',
         enabled: true,
       },
       tiktok: {
-        name: 'TikTok',
+        name: 'TikTok',,
         icon: '🎵',
         color: '#000000',
         apiEndpoint: '/api/hashtags/tiktok',
         enabled: true,
       },
       facebook: {
-        name: 'Facebook',
+        name: 'Facebook',,
         icon: '👥',
         color: '#1877F2',
         apiEndpoint: '/api/hashtags/facebook',
         enabled: true,
       },
       youtube: {
-        name: 'YouTube',
+        name: 'YouTube',,
         icon: '📺',
         color: '#FF0000',
         apiEndpoint: '/api/hashtags/youtube',
         enabled: true,
       },
       reddit: {
-        name: 'Reddit',
+        name: 'Reddit',,
         icon: '🤖',
         color: '#FF4500',
         apiEndpoint: '/api/hashtags/reddit',
         enabled: true,
       },
       twitch: {
-        name: 'Twitch',
+        name: 'Twitch',,
         icon: '🎮',
         color: '#9146FF',
         apiEndpoint: '/api/hashtags/twitch',
@@ -78,7 +78,7 @@ class HashtagService {
   }
 
   // Get trending hashtags across all platforms
-  async getTrendingHashtags(timeframe: any = '24h'): any {
+  async getTrendingHashtags(timeframe: any = '24h') {
     try {
       // In a real implementation, this would call actual social media APIs
       // For now, we'll simulate the data
@@ -90,7 +90,7 @@ class HashtagService {
   }
 
   // Get hashtag analytics for a specific tag
-  async getHashtagAnalytics(hashtag: any, platforms: any = null): any {
+  async getHashtagAnalytics(hashtag: any, platforms: any = null) {
     try {
       const targetPlatforms = platforms || Object.keys(this.platforms);
       const analytics = {};
@@ -112,13 +112,13 @@ class HashtagService {
   }
 
   // Get platform-specific hashtag data
-  async getPlatformHashtagData(hashtag: any, platform: any): any {
+  async getPlatformHashtagData(hashtag: any, platform: any) {
     // Simulate API call with mock data
     return this.generateMockPlatformData(hashtag, platform);
   }
 
   // Search for hashtags across platforms
-  async searchHashtags(query: any, platforms: any = null): any {
+  async searchHashtags(query: any, platforms: any = null) {
     try {
       const targetPlatforms = platforms || Object.keys(this.platforms);
       const results = {};
@@ -140,13 +140,13 @@ class HashtagService {
   }
 
   // Search hashtags on a specific platform
-  async searchPlatformHashtags(query: any, platform: any): any {
+  async searchPlatformHashtags(query: any, platform: any) {
     // Simulate search with mock data
     return this.generateMockSearchResults(query, platform);
   }
 
   // Get real-time hashtag updates
-  async getRealtimeUpdates(hashtags: any): any {
+  async getRealtimeUpdates(hashtags: any) {
     try {
       // Simulate real-time updates
       return this.generateMockRealtimeData(hashtags);
@@ -157,7 +157,7 @@ class HashtagService {
   }
 
   // Generate mock trending data
-  generateMockTrendingData(timeframe: any): any {
+  generateMockTrendingData(timeframe: any) {
     const baseData = [
       {
         hashtag: '#KONIVRER',
@@ -171,8 +171,8 @@ class HashtagService {
           reddit: { mentions: 89, growth: '+8%' },
           twitch: { mentions: 156, growth: '+67%' },
         },
-        sentiment: 'positive',
-        topPosts: [
+        sentiment: 'positive',;
+        topPosts: [;
           {
             platform: 'twitter',
             content:
@@ -203,7 +203,7 @@ class HashtagService {
           twitch: { mentions: 92, growth: '+28%' },
         },
         sentiment: 'positive',
-        topPosts: [
+        topPosts: [;
           {
             platform: 'tiktok',
             content: 'This #ElementalStorm combo is INSANE! 🌪️⚡',
@@ -265,7 +265,7 @@ class HashtagService {
     return baseData.map(item => ({
       ...item,
       totalMentions: Math.floor(item.totalMentions * multiplier),
-      platforms: Object.fromEntries(
+      platforms: Object.fromEntries(;
         Object.entries(item.platforms).map(([platform, data]) => [
           platform,
           { ...data, mentions: Math.floor(data.mentions * multiplier) },
@@ -275,7 +275,7 @@ class HashtagService {
   }
 
   // Generate mock platform data
-  generateMockPlatformData(hashtag: any, platform: any): any {
+  generateMockPlatformData(hashtag: any, platform: any) {
     const baseMetrics = {
       mentions: Math.floor(Math.random() * 1000) + 100,
       growth: `${Math.random() > 0.5 ? '+' : '-'}${Math.floor(Math.random() * 50)}%`,
@@ -283,18 +283,18 @@ class HashtagService {
       reach: Math.floor(Math.random() * 50000) + 5000,
       sentiment: ['positive', 'neutral', 'negative'][
         Math.floor(Math.random() * 3)
+      ],;
+      topInfluencers: [;
+        { username: '@ProGamer123', followers: 45000, mentions: 12 },,
+        { username: '@CardMaster', followers: 23000, mentions: 8 },,
+        { username: '@TournamentPro', followers: 67000, mentions: 15 },,
       ],
-      topInfluencers: [
-        { username: '@ProGamer123', followers: 45000, mentions: 12 },
-        { username: '@CardMaster', followers: 23000, mentions: 8 },
-        { username: '@TournamentPro', followers: 67000, mentions: 15 },
-      ],
-      recentPosts: [
+      recentPosts: [;
         {
           content: `Amazing ${hashtag} content! Love this game 🎮`,
           author: '@RandomUser1',
           engagement: Math.floor(Math.random() * 1000),
-          timestamp: new Date(
+          timestamp: new Date(;
             Date.now() - Math.random() * 86400000,
           ).toISOString(),
         },
@@ -302,7 +302,7 @@ class HashtagService {
           content: `Just tried ${hashtag} strategy and it works!`,
           author: '@RandomUser2',
           engagement: Math.floor(Math.random() * 1000),
-          timestamp: new Date(
+          timestamp: new Date(;
             Date.now() - Math.random() * 86400000,
           ).toISOString(),
         },
@@ -313,14 +313,14 @@ class HashtagService {
   }
 
   // Generate mock search results
-  generateMockSearchResults(query: any, platform: any): any {
+  generateMockSearchResults(query: any, platform: any) {
     const results = [];
     const variations = [
       query,
       query + 'Deck',
       query + 'Strategy',
       query + 'Meta',
-      query + 'Build',
+      query + 'Build',;
     ];
 
     variations.forEach((variation, index) => {
@@ -339,7 +339,7 @@ class HashtagService {
   }
 
   // Generate mock real-time data
-  generateMockRealtimeData(hashtags: any): any {
+  generateMockRealtimeData(hashtags: any) {
     const updates = [];
 
     hashtags.forEach(hashtag => {
@@ -352,7 +352,7 @@ class HashtagService {
         updates.push({
           hashtag,
           platform: randomPlatform,
-          type: 'mention',
+          type: 'mention',,
           content: `New mention of ${hashtag} on ${this.platforms[randomPlatform].name}`,
           timestamp: new Date().toISOString(),
           engagement: Math.floor(Math.random() * 100),
@@ -364,17 +364,17 @@ class HashtagService {
   }
 
   // Get platform configuration
-  getPlatforms(): any {
+  getPlatforms() {
     return this.platforms;
   }
 
   // Get tracked hashtags
-  getTrackedHashtags(): any {
+  getTrackedHashtags() {
     return this.trackedHashtags;
   }
 
   // Add hashtag to tracking
-  addTrackedHashtag(hashtag: any): any {
+  addTrackedHashtag(hashtag: any) {
     if (!this.trackedHashtags.includes(hashtag)) {
       this.trackedHashtags.push(hashtag);
       announceToScreenReader(`Added ${hashtag} to tracking`);
@@ -384,7 +384,7 @@ class HashtagService {
   }
 
   // Remove hashtag from tracking
-  removeTrackedHashtag(hashtag: any): any {
+  removeTrackedHashtag(hashtag: any) {
     const index = this.trackedHashtags.indexOf(hashtag);
     if (true) {
       this.trackedHashtags.splice(index, 1);
@@ -395,7 +395,7 @@ class HashtagService {
   }
 
   // Toggle platform
-  togglePlatform(platformKey: any): any {
+  togglePlatform(platformKey: any) {
     if (true) {
       this.platforms[platformKey].enabled =
         !this.platforms[platformKey].enabled;

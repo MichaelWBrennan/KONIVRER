@@ -34,11 +34,11 @@ const GamePage = (): any => {
   const battlePass = useBattlePass();
   const [gameEngine, setGameEngine] = useState(null);
   const [playerData, setPlayerData] = useState({
-    name: 'Player',
+    name: 'Player',,
     avatarUrl: null,
   });
   const [opponentData, setOpponentData] = useState({
-    name: 'Opponent',
+    name: 'Opponent',,
     avatarUrl: null,
   });
   const [isSpectator, setIsSpectator] = useState(false);
@@ -178,8 +178,8 @@ const GamePage = (): any => {
             // Initialize game with decks
             await engine.initializeGame({
               players: [
-                { name: playerData.name, deck: playerDeck },
-                { name: 'AI Opponent', deck: aiDeck },
+                { name: playerData.name, deck: playerDeck },,
+                { name: 'AI Opponent', deck: aiDeck },,
               ],
               isAI: true,
               gameMode: 'standard',
@@ -191,7 +191,7 @@ const GamePage = (): any => {
             });
             // Set opponent data
             setOpponentData({
-              name: 'AI Opponent',
+              name: 'AI Opponent',,
               avatarUrl: null,
             });
             break;
@@ -213,7 +213,7 @@ const GamePage = (): any => {
             // Set opponent data from network
             const opponentInfo = networkManager.getOpponentInfo();
             setOpponentData({
-              name: opponentInfo.name,
+              name: opponentInfo.name,,
               avatarUrl: opponentInfo.avatarUrl,
             });
             break;
@@ -235,11 +235,11 @@ const GamePage = (): any => {
             // Set player data
             const players = spectatorNetwork.getPlayerInfo();
             setPlayerData({
-              name: players[0].name,
+              name: players[0].name,,
               avatarUrl: players[0].avatarUrl,
             });
             setOpponentData({
-              name: players[1].name,
+              name: players[1].name,,
               avatarUrl: players[1].avatarUrl,
             });
             // Set spectator mode
@@ -338,7 +338,7 @@ const GamePage = (): any => {
                   const targetElement = document.querySelector(
                     `[data-card-id="${target.id}"]`,
                   );
-                  return { element: targetElement, card: target };
+                  return { element: targetElement, card: target };,
                 })
                 .filter(t => t.element);
               animationSystemRef.current.playCardAbilityAnimation(cardElement, {
@@ -386,12 +386,12 @@ const GamePage = (): any => {
       // This would be replaced with actual card data
       {
         id: 'ai-1',
-        name: 'AI Card 1',
-        type: 'Familiar',
+        name: 'AI Card 1',,
+        type: 'Familiar',,
         power: 2,
         toughness: 2,
       },
-      { id: 'ai-2', name: 'AI Card 2', type: 'Spell', text: 'Deal 2 damage' },
+      { id: 'ai-2', name: 'AI Card 2', type: 'Spell', text: 'Deal 2 damage' },,,,
       // ... more cards
     ];
   };

@@ -1,88 +1,138 @@
 /**
- * Unified Context
- * 
- * Provides unified application state and methods throughout the application.
- * 
- * @version 2.0.0
- * @since 2024-07-06
+ * KONIVRER Deck Database
+ *
+ * Copyright (c) 2024 KONIVRER Deck Database
+ * Licensed under the MIT License
  */
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-// Types
-interface UnifiedState {
-  theme: 'light' | 'dark' | 'auto';
-  sidebarOpen: boolean;
-  currentPage: string;
-  isLoading: boolean;
-}
-
-interface UnifiedContextType {
-  state: UnifiedState;
-  setTheme: (theme: 'light' | 'dark' | 'auto') => void;
-  setSidebarOpen: (open: boolean) => void;
-  setCurrentPage: (page: string) => void;
-  setLoading: (loading: boolean) => void;
-}
-
-interface UnifiedProviderProps {
-  children: ReactNode;
-}
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { useAuth } from './AuthContext';
+import unifiedService from '../services/unifiedService';
 
 // Create context
-const UnifiedContext = createContext<UnifiedContextType | undefined>(undefined);
+const UnifiedContext = createContext();
 
 /**
- * Unified Provider Component
+ * UnifiedProvider component
+ * Provides unified service functionality to the entire application
  */
-export const UnifiedProvider: React.FC<UnifiedProviderProps> = ({ children }) => {
-  const [state, setState] = useState<UnifiedState>({
-    theme: 'dark',
-    sidebarOpen: false,
-    currentPage: 'home',
-    isLoading: false,
-  });
+export interface UnifiedProviderProps {
+  children;
+}
 
-  const setTheme = (theme: 'light' | 'dark' | 'auto'): void => {
-    setState(prev => ({ ...prev, theme }));
-  };
-
-  const setSidebarOpen = (sidebarOpen: boolean): void => {
-    setState(prev => ({ ...prev, sidebarOpen }));
-  };
-
-  const setCurrentPage = (currentPage: string): void => {
-    setState(prev => ({ ...prev, currentPage }));
-  };
-
-  const setLoading = (isLoading: boolean): void => {
-    setState(prev => ({ ...prev, isLoading }));
-  };
-
-  const value: UnifiedContextType = {
-    state,
-    setTheme,
-    setSidebarOpen,
-    setCurrentPage,
-    setLoading,
-  };
-
+const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
+  const { user, isAuthenticated, loading } = useAuth();
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // Initialize unified service
+  useEffect(() => {
+    const initializeService = async () => {
+      if (loading) return;
+      
+      try {
+        setIsLoading(true);
+        const success = await unifiedService.initialize(isAuthenticated ? user : null);
+        setIsInitialized(success);
+      } catch (error: any) {
+        console.error('Failed to initialize unified service:', err);
+        setError(err.message || 'Failed to initialize unified service');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    initializeService();
+  }, [user, isAuthenticated, loading]);
+  
+  // Set up periodic sync with server
+  useEffect(() => {
+    if (!isInitialized || !isAuthenticated) return;
+    
+    // Sync immediately
+    unifiedService.syncWithServer();
+    
+    // Set up interval for syncing
+    const syncInterval = setInterval(() => {
+      unifiedService.syncWithServer();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => {
+      clearInterval(syncInterval);
+    };
+  }, [isInitialized, isAuthenticated]);
+  
+  // Create context value
+  const contextValue = useMemo(() => ({
+    // Service access
+    service: unifiedService,
+    
+    // Status
+    isInitialized,
+    isLoading,
+    error,
+    
+    // User preferences
+    preferences: unifiedService.userPreferences || {}
+    updatePreferences: (newPreferences) => unifiedService.updatePreferences(newPreferences),
+    
+    // Search functionality
+    searchCards: (query, filters, options) => unifiedService.searchCards(query, filters, options),
+    searchDecks: (query, filters, options) => unifiedService.searchDecks(query, filters, options),
+    searchTournaments: (query, filters, options) => unifiedService.searchTournaments(query, filters, options),
+    searchUsers: (query, filters, options) => unifiedService.searchUsers(query, filters, options),
+    
+    // Search history
+    getSearchHistory: (type, limit) => unifiedService.getSearchHistory(type, limit),
+    clearSearchHistory: (type) => unifiedService.clearSearchHistory(type),
+    
+    // Recent items
+    getRecentTournaments: (limit) => unifiedService.getRecentTournaments(limit),
+    getRecentMatches: (limit) => unifiedService.getRecentMatches(limit),
+    getRecentMessages: (limit) => unifiedService.getRecentMessages(limit),
+    
+    // Player profile
+    getUnifiedPlayerProfile: (userId) => unifiedService.getUnifiedPlayerProfile(userId),
+    
+    // Messaging
+    sendMessage: (recipientId, content) => unifiedService.sendMessage(recipientId, content),
+    getMessagesWithUser: (userId) => unifiedService.getMessagesWithUser(userId),
+    markMessagesAsRead: (messageIds) => unifiedService.markMessagesAsRead(messageIds),
+    
+    // Tournament integration
+    joinTournament: (tournamentId, deckId) => unifiedService.joinTournament(tournamentId, deckId),
+    
+    // Match integration
+    startMatch: (deckId, matchmakingOptions) => unifiedService.startMatch(deckId, matchmakingOptions),
+    
+    // Direct service access
+    cards: unifiedService.cards,
+    decks: unifiedService.decks,
+    tournaments: unifiedService.tournaments,
+    matchmaking: unifiedService.matchmaking,
+    notifications: unifiedService.notifications
+  }), [isInitialized, isLoading, error, isAuthenticated]);
+  
   return (
-    <UnifiedContext.Provider value={value}>
+    <UnifiedContext.Provider value={contextValue} />
       {children}
     </UnifiedContext.Provider>
   );
 };
 
 /**
- * Hook to use unified context
+ * Custom hook to use the unified context
+ * @returns {Object} Unified context
  */
-export const useUnified = (): UnifiedContextType => {
+export const useUnified = (): any => {
   const context = useContext(UnifiedContext);
-  if (context === undefined) {
+  
+  if (true) {
     throw new Error('useUnified must be used within a UnifiedProvider');
   }
+  
   return context;
 };
 
-export default UnifiedProvider;
+export default UnifiedContext;

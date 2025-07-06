@@ -18,9 +18,9 @@ const TournamentCreate = (): any => {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [formData, setFormData] = useState({
     // Basic Information
-    name: '',
+    name: '',,
     description: '',
-    type: 'standard',
+    type: 'standard',,
     // Schedule
     date: '',
     time: '',

@@ -52,7 +52,7 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
       navigator
         .share({
           title: `KONIVRER Deck: ${deck.name || 'My Deck'}`,
-          text: `Check out my KONIVRER deck! Import it with this code: ${deckCode}`,
+          text: `Check out my KONIVRER deck! Import it with this code: ${deckCode}`,,
         })
         .catch(err => {
           console.error('Error sharing:', err);

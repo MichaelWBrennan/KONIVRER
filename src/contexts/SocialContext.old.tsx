@@ -57,7 +57,7 @@ const initialState = {
   chatChannels: {
     global: { messages: [], unread: 0 },
     guild: { messages: [], unread: 0 },
-    friends: {},
+    friends: {}
   },
 
   // Spectator System
@@ -65,7 +65,7 @@ const initialState = {
   spectators: [],
 
   // Social Features
-  playerProfiles: {},
+  playerProfiles: {}
   recentPlayers: [],
 
   // Community Events
@@ -219,7 +219,7 @@ function socialReducer(): any {
         ...state,
         guild: {
           id: action.payload.guildId,
-          name: action.payload.name,
+          name: action.payload.name,,
           description: action.payload.description,
           createdAt: Date.now(),
           memberCount: 1,
@@ -273,7 +273,7 @@ function socialReducer(): any {
                 content: message.content,
                 sender: message.sender,
                 timestamp: Date.now(),
-                type: message.type || 'text',
+                type: message.type || 'text',,
               },
             ],
           },
@@ -413,7 +413,7 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
       const requestId = `req_${Date.now()}`;
 
       dispatch({
-        type: ACTIONS.SEND_FRIEND_REQUEST,
+        type: ACTIONS.SEND_FRIEND_REQUEST,,
         payload: { requestId, targetUser },
       });
 
@@ -429,15 +429,15 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
 
     acceptFriendRequest: requestId => {
       dispatch({
-        type: ACTIONS.ACCEPT_FRIEND_REQUEST,
+        type: ACTIONS.ACCEPT_FRIEND_REQUEST,,
         payload: { requestId },
       });
 
       dispatch({
-        type: ACTIONS.ADD_NOTIFICATION,
+        type: ACTIONS.ADD_NOTIFICATION,,
         payload: {
           notification: {
-            type: 'friend_added',
+            type: 'friend_added',,
             title: 'New Friend!',
             message: 'You are now friends!',
             icon: 'user-plus',
@@ -448,14 +448,14 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
 
     removeFriend: friendId => {
       dispatch({
-        type: ACTIONS.REMOVE_FRIEND,
+        type: ACTIONS.REMOVE_FRIEND,,
         payload: { friendId },
       });
     },
 
     blockUser: (userId, user) => {
       dispatch({
-        type: ACTIONS.BLOCK_USER,
+        type: ACTIONS.BLOCK_USER,,
         payload: { userId, user },
       });
     },
@@ -465,7 +465,7 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
       const guildId = `guild_${Date.now()}`;
 
       dispatch({
-        type: ACTIONS.CREATE_GUILD,
+        type: ACTIONS.CREATE_GUILD,,
         payload: {
           guildId,
           name,
@@ -476,10 +476,10 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
       });
 
       dispatch({
-        type: ACTIONS.ADD_NOTIFICATION,
+        type: ACTIONS.ADD_NOTIFICATION,,
         payload: {
           notification: {
-            type: 'guild_created',
+            type: 'guild_created',,
             title: 'Guild Created!',
             message: `Welcome to ${name}!`,
             icon: 'users',
@@ -490,22 +490,22 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
 
     joinGuild: (guild, members) => {
       dispatch({
-        type: ACTIONS.JOIN_GUILD,
+        type: ACTIONS.JOIN_GUILD,,
         payload: { guild, members },
       });
     },
 
     leaveGuild: () => {
-      dispatch({ type: ACTIONS.LEAVE_GUILD });
+      dispatch({ type: ACTIONS.LEAVE_GUILD });,
     },
 
     inviteToGuild: targetUser => {
       // Send guild invitation
       dispatch({
-        type: ACTIONS.ADD_NOTIFICATION,
+        type: ACTIONS.ADD_NOTIFICATION,,
         payload: {
           notification: {
-            type: 'guild_invite_sent',
+            type: 'guild_invite_sent',,
             title: 'Guild Invite Sent',
             message: `Invited ${targetUser.username} to join your guild`,
             icon: 'mail',
@@ -519,11 +519,11 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
       const message = {
         content,
         sender: user,
-        type: messageType,
+        type: messageType,,
       };
 
       dispatch({
-        type: ACTIONS.SEND_MESSAGE,
+        type: ACTIONS.SEND_MESSAGE,,
         payload: { channelType, channelId, message },
       });
 
@@ -533,7 +533,7 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
 
     markChannelRead: channelKey => {
       dispatch({
-        type: ACTIONS.MARK_CHANNEL_READ,
+        type: ACTIONS.MARK_CHANNEL_READ,,
         payload: { channelKey },
       });
     },
@@ -541,19 +541,19 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
     // Spectator System
     startSpectating: gameId => {
       dispatch({
-        type: ACTIONS.START_SPECTATING,
+        type: ACTIONS.START_SPECTATING,,
         payload: { gameId },
       });
     },
 
     stopSpectating: () => {
-      dispatch({ type: ACTIONS.STOP_SPECTATING });
+      dispatch({ type: ACTIONS.STOP_SPECTATING });,
     },
 
     allowSpectator: spectator => {
       if (!state.privacy.allowSpectators) return false;
       dispatch({
-        type: ACTIONS.ADD_SPECTATOR,
+        type: ACTIONS.ADD_SPECTATOR,,
         payload: { spectator },
       });
 
@@ -563,14 +563,14 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
     // Notifications
     addNotification: notification => {
       dispatch({
-        type: ACTIONS.ADD_NOTIFICATION,
+        type: ACTIONS.ADD_NOTIFICATION,,
         payload: { notification },
       });
     },
 
     removeNotification: notificationId => {
       dispatch({
-        type: ACTIONS.REMOVE_NOTIFICATION,
+        type: ACTIONS.REMOVE_NOTIFICATION,,
         payload: { notificationId },
       });
     },
@@ -578,7 +578,7 @@ const SocialProvider: React.FC<SocialProviderProps> = ({  children  }) => {
     // Privacy Settings
     updatePrivacySettings: settings => {
       dispatch({
-        type: ACTIONS.UPDATE_PRIVACY_SETTINGS,
+        type: ACTIONS.UPDATE_PRIVACY_SETTINGS,,
         payload: { settings },
       });
     },

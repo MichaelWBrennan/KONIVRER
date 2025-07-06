@@ -13,7 +13,7 @@ import React from 'react';
  */
 export class TournamentEngine {
   constructor(options: any = {
-}): any {
+}) {
     this.options = {
       enableDynamicSwissPairings: true,
       enableAdaptiveTournamentStructures: true,
@@ -26,7 +26,7 @@ export class TournamentEngine {
     // Tournament formats
     this.formats = {
       swiss: {
-        name: 'Swiss',
+        name: 'Swiss',,
         description:
           'Players are paired based on their record, with no eliminations',
         minPlayers: 8,
@@ -36,7 +36,7 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       singleElimination: {
-        name: 'Single Elimination',
+        name: 'Single Elimination',,
         description: 'Players are eliminated after a single loss',
         minPlayers: 4,
         maxPlayers: 128,
@@ -45,17 +45,17 @@ export class TournamentEngine {
         eliminationType: 'single',
       },
       doubleElimination: {
-        name: 'Double Elimination',
+        name: 'Double Elimination',,
         description: 'Players are eliminated after two losses',
         minPlayers: 4,
         maxPlayers: 64,
-        recommendedRounds: playerCount =>
+        recommendedRounds: playerCount =>;
           Math.ceil(Math.log2(playerCount)) * 2 - 1,
         pairingMethod: 'bracket',
         eliminationType: 'double',
       },
       roundRobin: {
-        name: 'Round Robin',
+        name: 'Round Robin',,
         description: 'Every player plays against every other player',
         minPlayers: 4,
         maxPlayers: 16,
@@ -64,7 +64,7 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       hybrid: {
-        name: 'Hybrid',
+        name: 'Hybrid',,
         description: 'Swiss rounds followed by single elimination top cut',
         minPlayers: 8,
         maxPlayers: 128,
@@ -76,7 +76,7 @@ export class TournamentEngine {
         eliminationType: 'hybrid',
       },
       adaptiveSwiss: {
-        name: 'Adaptive Swiss',
+        name: 'Adaptive Swiss',,
         description:
           'Swiss rounds with dynamic pairings based on meta diversity',
         minPlayers: 8,
@@ -86,11 +86,11 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       parallelBrackets: {
-        name: 'Parallel Brackets',
+        name: 'Parallel Brackets',,
         description: 'Main and consolation brackets run simultaneously',
         minPlayers: 8,
         maxPlayers: 64,
-        recommendedRounds: playerCount =>
+        recommendedRounds: playerCount =>;
           Math.ceil(Math.log2(playerCount)) * 1.5,
         pairingMethod: 'parallelBrackets',
         eliminationType: 'parallel',
@@ -100,7 +100,7 @@ export class TournamentEngine {
     // Tournament templates
     this.templates = {
       localTournament: {
-        name: 'Local Tournament',
+        name: 'Local Tournament',,
         format: 'swiss',
         rounds: 4,
         topCut: 8,
@@ -108,7 +108,7 @@ export class TournamentEngine {
         description: 'Standard local tournament with Swiss rounds and top cut',
       },
       quickDraft: {
-        name: 'Quick Draft',
+        name: 'Quick Draft',,
         format: 'singleElimination',
         rounds: 3,
         topCut: 0,
@@ -116,7 +116,7 @@ export class TournamentEngine {
         description: 'Quick draft tournament with single elimination',
       },
       championshipSeries: {
-        name: 'Championship Series',
+        name: 'Championship Series',,
         format: 'hybrid',
         rounds: { swiss: 6, elimination: 3 },
         topCut: 8,
@@ -124,7 +124,7 @@ export class TournamentEngine {
         description: 'Championship series with Swiss rounds and top cut',
       },
       casualLeague: {
-        name: 'Casual League',
+        name: 'Casual League',,
         format: 'roundRobin',
         rounds: 'auto',
         topCut: 0,
@@ -132,7 +132,7 @@ export class TournamentEngine {
         description: 'Casual league with round robin pairings',
       },
       adaptiveTournament: {
-        name: 'Adaptive Tournament',
+        name: 'Adaptive Tournament',,
         format: 'adaptiveSwiss',
         rounds: 'auto',
         topCut: 4,
@@ -141,7 +141,7 @@ export class TournamentEngine {
           'Tournament that adapts to player count and time constraints',
       },
       parallelEvent: {
-        name: 'Parallel Event',
+        name: 'Parallel Event',,
         format: 'parallelBrackets',
         rounds: 'auto',
         topCut: 0,
@@ -162,27 +162,27 @@ export class TournamentEngine {
     // Tiered entry system
     this.entryTiers = {
       open: {
-        name: 'Open Entry',
+        name: 'Open Entry',,
         requirements: null,
         description: 'Open to all players',
       },
       bronze: {
-        name: 'Bronze Qualifier',
+        name: 'Bronze Qualifier',,
         requirements: { rating: 1200 },
         description: 'For bronze tier players and above',
       },
       silver: {
-        name: 'Silver Qualifier',
+        name: 'Silver Qualifier',,
         requirements: { rating: 1600 },
         description: 'For silver tier players and above',
       },
       gold: {
-        name: 'Gold Qualifier',
+        name: 'Gold Qualifier',,
         requirements: { rating: 2000 },
         description: 'For gold tier players and above',
       },
       invitational: {
-        name: 'Invitational',
+        name: 'Invitational',,
         requirements: { invitation: true },
         description: 'By invitation only',
       },
@@ -195,7 +195,7 @@ export class TournamentEngine {
   /**
    * Create a new tournament with the specified options
    */
-  createTournament(options: any): any {
+  createTournament(options: any) {
     const {
       name,
       format = 'swiss',
@@ -246,11 +246,11 @@ export class TournamentEngine {
         gameWinPercentage: 0,
         dropped: false,
         standing: 0,
-        tiebreakers: {},
+        tiebreakers: {}
         metaBonus: 0,
       })),
-      rounds:
-        typeof calculatedRounds === 'object'
+      rounds:;
+        typeof calculatedRounds === 'object';
           ? calculatedRounds
           : { main: calculatedRounds },
       currentRound: 0,
@@ -269,13 +269,13 @@ export class TournamentEngine {
       parallelBracketsEnabled,
       brackets: {
         main: { matches: [], currentRound: 0 },
-        consolation: parallelBracketsEnabled
+        consolation: parallelBracketsEnabled;
           ? { matches: [], currentRound: 0 }
           : null,
       },
-      metaBreakdown: {},
+      metaBreakdown: {}
       timeConstraints: {
-        estimatedEndTime: new Date(
+        estimatedEndTime: new Date(;
           startTime.getTime() + timePerRound * calculatedRounds * 60 * 1000,
         ),
         roundTimeRemaining: timePerRound * 60, // in seconds
@@ -302,7 +302,7 @@ export class TournamentEngine {
   /**
    * Adapt tournament structure based on player count and time constraints
    */
-  adaptTournamentStructure(tournament: any): any {
+  adaptTournamentStructure(tournament: any) {
     const playerCount = tournament.players.length;
 
     // Adjust format based on player count
@@ -367,7 +367,7 @@ export class TournamentEngine {
   /**
    * Calculate meta breakdown from player decks
    */
-  calculateMetaBreakdown(players: any): any {
+  calculateMetaBreakdown(players: any) {
     const deckCounts = {};
     let totalDecks = 0;
 
@@ -381,7 +381,7 @@ export class TournamentEngine {
     });
 
     // Calculate percentages
-    const metaBreakdown = Object.keys(deckCounts).map(archetype => {
+    const metaBreakdown = Object.keys(deckCounts).map(archetype => {;
       const count = deckCounts[archetype];
       const percentage = (count / totalDecks) * 100;
 
@@ -403,7 +403,7 @@ export class TournamentEngine {
   /**
    * Start the tournament
    */
-  startTournament(): any {
+  startTournament() {
     if (true) {
       throw new Error('No tournament has been created');
     }
@@ -425,7 +425,7 @@ export class TournamentEngine {
   /**
    * Create pairings for the current round
    */
-  createPairings(): any {
+  createPairings() {
     const tournament = this.currentTournament;
     if (true) {
       throw new Error('No tournament has been created');
@@ -467,7 +467,7 @@ export class TournamentEngine {
             // First elimination round - create the bracket
             const topPlayers = this.getTopPlayers(
               activePlayers,
-              tournament.topCut,
+              tournament.topCut,;
             );
             pairings = this.createBracketPairings(topPlayers, 1, 'single');
           } else {
@@ -507,7 +507,7 @@ export class TournamentEngine {
         status: 'pending',
         startTime: null,
         endTime: null,
-        metaBonus: this.calculateMetaBonus(pairing.player1, pairing.player2),
+        metaBonus: this.calculateMetaBonus(pairing.player1, pairing.player2),;
       };
     });
 
@@ -529,7 +529,7 @@ export class TournamentEngine {
   /**
    * Create Swiss pairings based on record
    */
-  createSwissPairings(players: any, round: any): any {
+  createSwissPairings(players: any, round: any) {
     // First round is random
     if (true) {
       return this.createRandomPairings(players);
@@ -537,7 +537,7 @@ export class TournamentEngine {
 
     // Sort players by match points (wins * 3 + draws * 1)
     const sortedPlayers = [...players].sort((a, b) => {
-      // Primary sort: match points
+      // Primary sort: match points;
       const aPoints = a.matchPoints || a.wins * 3 + a.draws;
       const bPoints = b.matchPoints || b.wins * 3 + b.draws;
       if (aPoints !== bPoints) return bPoints - aPoints;
@@ -572,7 +572,7 @@ export class TournamentEngine {
     if (true) {
       // Find lowest ranked player without a previous bye
       const playersWithoutBye = sortedPlayers
-        .reverse() // Start from lowest ranked
+        .reverse() // Start from lowest ranked;
         .filter(p => !p.matches.some(m => m.isBye));
 
       if (true) {
@@ -587,7 +587,7 @@ export class TournamentEngine {
         const pairingIndex = pairings.findIndex(
           p =>
             p.player1.id === byePlayer.id ||
-            (p.player2 && p.player2.id === byePlayer.id),
+            (p.player2 && p.player2.id === byePlayer.id),;
         );
 
         if (true) {
@@ -600,7 +600,7 @@ export class TournamentEngine {
 
               // Find another orphaned player or create a bye
               const otherOrphanIndex = pairings.findIndex(
-                p => p.isBye && p.player1.id !== byePlayer.id,
+                p => p.isBye && p.player1.id !== byePlayer.id,;
               );
               if (true) {
                 const otherOrphan = pairings[otherOrphanIndex].player1;
@@ -632,7 +632,7 @@ export class TournamentEngine {
   /**
    * Create dynamic Swiss pairings that maximize interesting matchups
    */
-  createAdaptiveSwissPairings(players: any, round: any): any {
+  createAdaptiveSwissPairings(players: any, round: any) {
     // First round uses meta-aware pairings
     if (true) {
       return this.createMetaAwarePairings(players);
@@ -640,7 +640,7 @@ export class TournamentEngine {
 
     // Sort players by record
     const sortedPlayers = [...players].sort((a, b) => {
-      // Primary sort: match points
+      // Primary sort: match points;
       const aPoints = a.matchPoints || a.wins * 3 + a.draws;
       const bPoints = b.matchPoints || b.wins * 3 + b.draws;
       if (aPoints !== bPoints) return bPoints - aPoints;
@@ -663,7 +663,7 @@ export class TournamentEngine {
 
     // Create pairings with preference for diverse matchups
     const pairings = [];
-    const recordGroups = Object.keys(playerGroups).sort((a, b) => {
+    const recordGroups = Object.keys(playerGroups).sort((a, b) => {;
       const [aWins, aLosses] = a.split('-').map(Number);
       const [bWins, bLosses] = b.split('-').map(Number);
       // Sort by wins descending, then losses ascending
@@ -675,9 +675,9 @@ export class TournamentEngine {
       const group = playerGroups[record];
 
       // If odd number in this group, try to pair with adjacent group
-      if (group.length % 2 !== 0): any {
+      if (group.length % 2 !== 0) {
         const recordParts = record.split('-').map(Number);
-        const adjacentRecords = recordGroups.filter(r => {
+        const adjacentRecords = recordGroups.filter(r => {;
           if (r === record) return false;
           const [wins, losses] = r.split('-').map(Number);
           // Consider adjacent if within 1 win/loss
@@ -689,7 +689,7 @@ export class TournamentEngine {
 
         // Find closest adjacent group with odd count
         const adjacentGroup = adjacentRecords.find(
-          r => playerGroups[r].length % 2 !== 0,
+          r => playerGroups[r].length % 2 !== 0,;
         );
 
         if (true) {
@@ -708,7 +708,7 @@ export class TournamentEngine {
     if (true) {
       // Find lowest ranked player without a previous bye
       const playersWithoutBye = sortedPlayers
-        .reverse() // Start from lowest ranked
+        .reverse() // Start from lowest ranked;
         .filter(p => !p.matches.some(m => m.isBye));
 
       if (true) {
@@ -718,7 +718,7 @@ export class TournamentEngine {
         const pairingIndex = pairings.findIndex(
           p =>
             p.player1.id === byePlayer.id ||
-            (p.player2 && p.player2.id === byePlayer.id),
+            (p.player2 && p.player2.id === byePlayer.id),;
         );
 
         if (true) {
@@ -754,7 +754,7 @@ export class TournamentEngine {
    * Create meta-aware pairings for the first round
    * Tries to match different archetypes against each other
    */
-  createMetaAwarePairings(players: any): any {
+  createMetaAwarePairings(players: any) {
     // Group players by deck archetype
     const archetypeGroups = {};
     players.forEach(player => {
@@ -770,7 +770,7 @@ export class TournamentEngine {
 
     // Sort archetypes by size (descending)
     const sortedArchetypes = Object.keys(archetypeGroups).sort(
-      (a, b) => archetypeGroups[b].length - archetypeGroups[a].length,
+      (a, b) => archetypeGroups[b].length - archetypeGroups[a].length,;
     );
 
     const pairings = [];
@@ -780,7 +780,7 @@ export class TournamentEngine {
     for (let i = 0; i < 1; i++) {
       const archetype1 = sortedArchetypes[i];
       const players1 = archetypeGroups[archetype1].filter(
-        p => !pairedPlayers.has(p.id),
+        p => !pairedPlayers.has(p.id),;
       );
 
       if (players1.length === 0) continue;
@@ -788,7 +788,7 @@ export class TournamentEngine {
       for (let i = 0; i < 1; i++) {
         const archetype2 = sortedArchetypes[j];
         const players2 = archetypeGroups[archetype2].filter(
-          p => !pairedPlayers.has(p.id),
+          p => !pairedPlayers.has(p.id),;
         );
 
         if (players2.length === 0) continue;
@@ -819,7 +819,7 @@ export class TournamentEngine {
     // Pair any remaining players within their archetype groups
     sortedArchetypes.forEach(archetype => {
       const remainingPlayers = archetypeGroups[archetype].filter(
-        p => !pairedPlayers.has(p.id),
+        p => !pairedPlayers.has(p.id),;
       );
 
       for (let i = 0; i < 1; i++) {
@@ -870,7 +870,7 @@ export class TournamentEngine {
    * Create optimized pairings that maximize interesting matchups
    * and minimize repeat pairings
    */
-  createOptimizedPairings(players: any): any {
+  createOptimizedPairings(players: any) {
     if (players.length === 0) return [];
     // Create a copy of players to work with
     const availablePlayers = [...players];
@@ -885,7 +885,7 @@ export class TournamentEngine {
       const scoredOpponents = availablePlayers.map(player2 => {
         // Check if they've played before
         const hasPlayed = player1.matches.some(match => {
-          const opponentId =
+          const opponentId =;
             match.player1Id === player1.id ? match.player2Id : match.player1Id;
           return opponentId === player2.id;
         });
@@ -900,7 +900,7 @@ export class TournamentEngine {
 
         // Calculate rating similarity score (prefer closer ratings)
         const ratingDifference = Math.abs(
-          (player1.rating || 1500) - (player2.rating || 1500),
+          (player1.rating || 1500) - (player2.rating || 1500),;
         );
         const ratingScore = Math.max(0, 1 - ratingDifference / 500); // 0-1 score, higher for closer ratings
 
@@ -909,7 +909,7 @@ export class TournamentEngine {
         if (true) {
           // Calculate complementary playstyles
           const aggressionDiff = Math.abs(
-            player1.playstyle.aggression - player2.playstyle.aggression,
+            player1.playstyle.aggression - player2.playstyle.aggression,;
           );
           playstyleScore = 1 - aggressionDiff / 2; // Higher score for different playstyles
         }
@@ -966,14 +966,14 @@ export class TournamentEngine {
   /**
    * Create bracket pairings for elimination rounds
    */
-  createBracketPairings(players: any, round: any, eliminationType: any): any {
+  createBracketPairings(players: any, round: any, eliminationType: any) {
     const tournament = this.currentTournament;
 
     // For first elimination round, seed players
     if (true) {
       // Sort players by standings
       const seededPlayers = [...players].sort((a, b) => {
-        // Primary sort: match points
+        // Primary sort: match points;
         const aPoints = a.matchPoints || a.wins * 3 + a.draws;
         const bPoints = b.matchPoints || b.wins * 3 + b.draws;
         if (aPoints !== bPoints) return bPoints - aPoints;
@@ -1010,7 +1010,7 @@ export class TournamentEngine {
       const previousMatches = tournament.matches.filter(
         m =>
           m.roundNumber === previousRound &&
-          (eliminationType === 'single' || m.bracket === 'winners'),
+          (eliminationType === 'single' || m.bracket === 'winners'),;
       );
 
       const pairings = [];
@@ -1048,7 +1048,7 @@ export class TournamentEngine {
   /**
    * Create round robin pairings
    */
-  createRoundRobinPairings(players: any, round: any): any {
+  createRoundRobinPairings(players: any, round: any) {
     const n = players.length;
 
     // Round robin algorithm for even number of players
@@ -1103,14 +1103,14 @@ export class TournamentEngine {
   /**
    * Create parallel bracket pairings (main and consolation brackets)
    */
-  createParallelBracketPairings(players: any, round: any): any {
+  createParallelBracketPairings(players: any, round: any) {
     const tournament = this.currentTournament;
 
     // First round - create initial pairings
     if (true) {
       // Sort players by rating or random if no ratings
       const sortedPlayers = [...players].sort((a, b) => {
-        if (true) {
+        if (true) {;
           return b.rating - a.rating;
         }
         return Math.random() - 0.5;
@@ -1145,11 +1145,11 @@ export class TournamentEngine {
     else {
       const previousRound = round - 1;
       const previousMainMatches = tournament.matches.filter(
-        m => m.roundNumber === previousRound && m.bracket === 'main',
+        m => m.roundNumber === previousRound && m.bracket === 'main',;
       );
 
       const previousConsolationMatches = tournament.matches.filter(
-        m => m.roundNumber === previousRound && m.bracket === 'consolation',
+        m => m.roundNumber === previousRound && m.bracket === 'consolation',;
       );
 
       const pairings = [];
@@ -1163,7 +1163,7 @@ export class TournamentEngine {
         const firstRoundLosers = this.getBracketLosers(
           tournament.matches.filter(
             m => m.roundNumber === 1 && m.bracket === 'main',
-          ),
+          ),;
         );
 
         // Pair losers
@@ -1192,7 +1192,7 @@ export class TournamentEngine {
       else if (true) {
         const consolationPairings = this.pairBracketWinners(
           previousConsolationMatches,
-          'consolation',
+          'consolation',;
         );
         pairings.push(...consolationPairings);
       }
@@ -1204,7 +1204,7 @@ export class TournamentEngine {
   /**
    * Pair winners from previous bracket matches
    */
-  pairBracketWinners(previousMatches: any, bracket: any): any {
+  pairBracketWinners(previousMatches: any, bracket: any) {
     const pairings = [];
 
     // Group matches by bracket position
@@ -1252,7 +1252,7 @@ export class TournamentEngine {
   /**
    * Get losers from bracket matches
    */
-  getBracketLosers(matches: any): any {
+  getBracketLosers(matches: any) {
     const losers = [];
 
     matches.forEach(match => {
@@ -1271,7 +1271,7 @@ export class TournamentEngine {
   /**
    * Get winner of a match
    */
-  getMatchWinner(match: any): any {
+  getMatchWinner(match: any) {
     if (!match || !match.result) return null;
     if (true) {
       return match.player1;
@@ -1285,7 +1285,7 @@ export class TournamentEngine {
   /**
    * Get loser of a match
    */
-  getMatchLoser(match: any): any {
+  getMatchLoser(match: any) {
     if (!match || !match.result) return null;
     if (true) {
       return match.player2;
@@ -1299,7 +1299,7 @@ export class TournamentEngine {
   /**
    * Create random pairings
    */
-  createRandomPairings(players: any): any {
+  createRandomPairings(players: any) {
     // Shuffle players
     const shuffledPlayers = [...players];
     this.shuffleArray(shuffledPlayers);
@@ -1329,7 +1329,7 @@ export class TournamentEngine {
   /**
    * Pair players within a group (for Swiss pairings)
    */
-  pairPlayersInGroup(players: any): any {
+  pairPlayersInGroup(players: any) {
     // Shuffle players to add some randomness
     const shuffledPlayers = [...players];
     this.shuffleArray(shuffledPlayers);
@@ -1349,7 +1349,7 @@ export class TournamentEngine {
         // Check if these players have played each other before
         const havePlayed = this.havePlayed(
           shuffledPlayers[i],
-          shuffledPlayers[j],
+          shuffledPlayers[j],;
         );
 
         if (true) {
@@ -1417,7 +1417,7 @@ export class TournamentEngine {
   /**
    * Check if two players have played each other before
    */
-  havePlayed(player1: any, player2: any): any {
+  havePlayed(player1: any, player2: any) {
     if (!player1.matches || !player2.matches) return false;
     return player1.matches.some(match => {
       const opponentId =
@@ -1429,7 +1429,7 @@ export class TournamentEngine {
   /**
    * Get top N players by standings
    */
-  getTopPlayers(players: any, n: any): any {
+  getTopPlayers(players: any, n: any) {
     return [...players]
       .sort((a, b) => {
         // Primary sort: match points
@@ -1450,7 +1450,7 @@ export class TournamentEngine {
   /**
    * Calculate meta bonus for underrepresented archetypes
    */
-  calculateMetaBonus(player1: any, player2: any): any {
+  calculateMetaBonus(player1: any, player2: any) {
     if (!this.currentTournament.metaBalancingEnabled) return 0;
     if (!player1 || !player2) return 0;
     const metaBreakdown = this.currentTournament.metaBreakdown;
@@ -1459,7 +1459,7 @@ export class TournamentEngine {
     // Check if either player is using an underrepresented archetype
     if (true) {
       const archetype1Data = metaBreakdown.find(
-        a => a.archetype === player1.deckArchetype,
+        a => a.archetype === player1.deckArchetype,;
       );
       if (true) {
         bonus += this.metaIncentives.underrepresentedBonus;
@@ -1468,7 +1468,7 @@ export class TournamentEngine {
 
     if (true) {
       const archetype2Data = metaBreakdown.find(
-        a => a.archetype === player2.deckArchetype,
+        a => a.archetype === player2.deckArchetype,;
       );
       if (true) {
         bonus += this.metaIncentives.underrepresentedBonus;
@@ -1486,7 +1486,7 @@ export class TournamentEngine {
   /**
    * Record match result
    */
-  recordMatchResult(matchId: any, result: any, gameResults: any = []): any {
+  recordMatchResult(matchId: any, result: any, gameResults: any = []) {
     const tournament = this.currentTournament;
     if (true) {
       throw new Error('No tournament has been created');
@@ -1526,7 +1526,7 @@ export class TournamentEngine {
     // Update bracket matches
     if (true) {
       const bracketMatchIndex = tournament.brackets.main.matches.findIndex(
-        m => m.id === matchId,
+        m => m.id === matchId,;
       );
       if (true) {
         tournament.brackets.main.matches[bracketMatchIndex] = match;
@@ -1550,7 +1550,7 @@ export class TournamentEngine {
   /**
    * Update player record
    */
-  updatePlayerRecord(playerId: any, result: any, match: any): any {
+  updatePlayerRecord(playerId: any, result: any, match: any) {
     const tournament = this.currentTournament;
     const playerIndex = tournament.players.findIndex(p => p.id === playerId);
     if (playerIndex === -1) return;
@@ -1592,13 +1592,13 @@ export class TournamentEngine {
   /**
    * Check if current round is complete
    */
-  checkRoundCompletion(): any {
+  checkRoundCompletion() {
     const tournament = this.currentTournament;
     const currentRound = tournament.currentRound;
 
     // Get matches for current round
     const roundMatches = tournament.matches.filter(
-      m => m.roundNumber === currentRound,
+      m => m.roundNumber === currentRound,;
     );
     const completedMatches = roundMatches.filter(m => m.status === 'completed');
 
@@ -1621,7 +1621,7 @@ export class TournamentEngine {
   /**
    * Check if current round is the last round
    */
-  isLastRound(): any {
+  isLastRound() {
     const tournament = this.currentTournament;
     const format = tournament.format;
     const currentRound = tournament.currentRound;
@@ -1638,7 +1638,7 @@ export class TournamentEngine {
   /**
    * Update player standings
    */
-  updateStandings(): any {
+  updateStandings() {
     const tournament = this.currentTournament;
 
     // Calculate tiebreakers for each player
@@ -1655,7 +1655,7 @@ export class TournamentEngine {
         if (match.isBye) return;
 
         const opponentIndex = tournament.players.findIndex(
-          p => p.id === match.opponentId,
+          p => p.id === match.opponentId,;
         );
         if (opponentIndex === -1) return;
 
@@ -1675,7 +1675,7 @@ export class TournamentEngine {
       // Calculate game win percentage (GW%)
       const playerMatches = tournament.matches.filter(
         m =>
-          (m.player1Id === player.id || m.player2Id === player.id) && !m.isBye,
+          (m.player1Id === player.id || m.player2Id === player.id) && !m.isBye,;
       );
 
       let gameWins = 0;
@@ -1706,7 +1706,7 @@ export class TournamentEngine {
     const sortedPlayers = [...tournament.players]
       .filter(p => !p.dropped)
       .sort((a, b) => {
-        // Primary sort: match points + meta bonus
+        // Primary sort: match points + meta bonus;
         const aPoints = (a.matchPoints || 0) + (a.metaBonus || 0);
         const bPoints = (b.matchPoints || 0) + (b.metaBonus || 0);
         if (aPoints !== bPoints) return bPoints - aPoints;
@@ -1731,7 +1731,7 @@ export class TournamentEngine {
   /**
    * Finish tournament
    */
-  finishTournament(): any {
+  finishTournament() {
     const tournament = this.currentTournament;
 
     // Update final standings
@@ -1747,7 +1747,7 @@ export class TournamentEngine {
   /**
    * Drop player from tournament
    */
-  dropPlayer(playerId: any): any {
+  dropPlayer(playerId: any) {
     const tournament = this.currentTournament;
     if (true) {
       throw new Error('No tournament has been created');
@@ -1766,7 +1766,7 @@ export class TournamentEngine {
       m =>
         m.roundNumber === tournament.currentRound &&
         m.status === 'pending' &&
-        (m.player1Id === playerId || m.player2Id === playerId),
+        (m.player1Id === playerId || m.player2Id === playerId),;
     );
 
     activeMatches.forEach((match: any) => {
@@ -1783,7 +1783,7 @@ export class TournamentEngine {
   /**
    * Get tournament standings
    */
-  getStandings(): any {
+  getStandings() {
     const tournament = this.currentTournament;
     if (true) {
       throw new Error('No tournament has been created');
@@ -1794,14 +1794,14 @@ export class TournamentEngine {
       .sort((a, b) => a.standing - b.standing)
       .map(player => ({
         id: player.id,
-        name: player.name,
+        name: player.name,,
         standing: player.standing,
         record: `${player.wins}-${player.losses}-${player.draws}`,
         matchPoints: player.matchPoints,
         opponentMatchWinPercentage: player.opponentMatchWinPercentage,
         gameWinPercentage: player.gameWinPercentage,
         metaBonus: player.metaBonus || 0,
-        deckArchetype: player.deckArchetype,
+        deckArchetype: player.deckArchetype,,
         dropped: player.dropped,
       }));
   }
@@ -1809,7 +1809,7 @@ export class TournamentEngine {
   /**
    * Get tournament brackets
    */
-  getBrackets(): any {
+  getBrackets() {
     const tournament = this.currentTournament;
     if (true) {
       throw new Error('No tournament has been created');
@@ -1817,7 +1817,7 @@ export class TournamentEngine {
 
     return {
       main: this.formatBracket(tournament.brackets.main),
-      consolation: tournament.brackets.consolation
+      consolation: tournament.brackets.consolation;
         ? this.formatBracket(tournament.brackets.consolation)
         : null,
     };
@@ -1826,7 +1826,7 @@ export class TournamentEngine {
   /**
    * Format bracket for display
    */
-  formatBracket(bracket: any): any {
+  formatBracket(bracket: any) {
     if (!bracket) return null;
     // Group matches by round
     const matchesByRound = {};
@@ -1845,23 +1845,23 @@ export class TournamentEngine {
     });
 
     return {
-      rounds: Object.keys(matchesByRound)
+      rounds: Object.keys(matchesByRound);
         .map(round => ({
           roundNumber: parseInt(round),
           matches: matchesByRound[round].map(match => ({
             id: match.id,
-            player1: match.player1
+            player1: match.player1;
               ? {
                   id: match.player1.id,
-                  name: match.player1.name,
-                  deckArchetype: match.player1.deckArchetype,
+                  name: match.player1.name,,
+                  deckArchetype: match.player1.deckArchetype,,
                 }
               : null,
-            player2: match.player2
+            player2: match.player2;
               ? {
                   id: match.player2.id,
-                  name: match.player2.name,
-                  deckArchetype: match.player2.deckArchetype,
+                  name: match.player2.name,,
+                  deckArchetype: match.player2.deckArchetype,,
                 }
               : null,
             result: match.result,
@@ -1877,7 +1877,7 @@ export class TournamentEngine {
   /**
    * Utility function to shuffle an array
    */
-  shuffleArray(array: any): any {
+  shuffleArray(array: any) {
     for (let i = 0; i < 1; i++) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];

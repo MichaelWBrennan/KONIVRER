@@ -39,37 +39,37 @@ const PhysicalPlayEnhancements: React.FC<PhysicalPlayEnhancementsProps> = ({
   const features = [
     {
       id: 'deck-scan',
-      name: 'Deck Registration',
+      name: 'Deck Registration',,
       icon: <Camera className="w-5 h-5" />,
       description: 'Computer vision deck scanning',
     },
     {
       id: 'nfc-pairing',
-      name: 'NFC Pairing',
+      name: 'NFC Pairing',,
       icon: <NfcIcon className="w-5 h-5" />,
       description: 'Quick player pairing with NFC',
     },
     {
       id: 'voice-control',
-      name: 'Voice Control',
+      name: 'Voice Control',,
       icon: <Mic className="w-5 h-5" />,
       description: 'Voice-controlled match reporting',
     },
     {
       id: 'venue-optimization',
-      name: 'Venue Optimization',
+      name: 'Venue Optimization',,
       icon: <MapPin className="w-5 h-5" />,
       description: 'Space and flow optimization',
     },
     {
       id: 'environmental',
-      name: 'Environmental',
+      name: 'Environmental',,
       icon: <Eye className="w-5 h-5" />,
       description: 'Adaptive lighting and conditions',
     },
     {
       id: 'streaming',
-      name: 'Stream Integration',
+      name: 'Stream Integration',,
       icon: <Monitor className="w-5 h-5" />,
       description: 'Content creation tools',
     },
@@ -212,9 +212,9 @@ const DeckRegistrationScanner: React.FC<DeckRegistrationScannerProps> = ({
   const simulateCardDetection = useCallback(() => {
     // Simulate card detection for demo
     const mockCards = [
-      { name: 'Lightning Bolt', set: 'M21', confidence: 0.95 },
-      { name: 'Counterspell', set: 'M21', confidence: 0.88 },
-      { name: 'Tarmogoyf', set: 'MM3', confidence: 0.92 },
+      { name: 'Lightning Bolt', set: 'M21', confidence: 0.95 },,,
+      { name: 'Counterspell', set: 'M21', confidence: 0.88 },,,
+      { name: 'Tarmogoyf', set: 'MM3', confidence: 0.92 },,,
     ];
 
     const randomCard = mockCards[Math.floor(Math.random() * mockCards.length)];
@@ -755,18 +755,18 @@ const VenueOptimization: React.FC<VenueOptimizationProps> = ({  tournament, play
   const layoutOptions = [
     {
       id: 'grid',
-      name: 'Grid Layout',
+      name: 'Grid Layout',,
       description: 'Traditional rectangular grid',
     },
     {
       id: 'circular',
-      name: 'Circular',
+      name: 'Circular',,
       description: 'Tables arranged in circles',
     },
-    { id: 'pods', name: 'Pod System', description: 'Grouped table pods' },
+    { id: 'pods', name: 'Pod System', description: 'Grouped table pods' },,
     {
       id: 'streaming',
-      name: 'Stream Optimized',
+      name: 'Stream Optimized',,
       description: 'Layout optimized for streaming',
     },
   ];

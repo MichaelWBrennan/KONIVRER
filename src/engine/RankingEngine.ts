@@ -13,7 +13,7 @@ import React from 'react';
  */
 export class RankingEngine {
   constructor(options: any = {
-}): any {
+}) {
     this.options = {
       enableRankedPlay: true,
       enableSeasons: true,
@@ -32,187 +32,187 @@ export class RankingEngine {
     // Each tier has multiple confidence bands (Uncertain, Developing, Established, Proven)
     this.tiers = {
       bronze: {
-        name: 'Bronze',
+        name: 'Bronze',,
         skillRange: [0, 1199],
         color: '#CD7F32',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       silver: {
-        name: 'Silver',
+        name: 'Silver',,
         skillRange: [1200, 1599],
         color: '#C0C0C0',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       gold: {
-        name: 'Gold',
+        name: 'Gold',,
         skillRange: [1600, 1999],
         color: '#FFD700',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       platinum: {
-        name: 'Platinum',
+        name: 'Platinum',,
         skillRange: [2000, 2399],
         color: '#E5E4E2',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       diamond: {
-        name: 'Diamond',
+        name: 'Diamond',,
         skillRange: [2400, 2799],
         color: '#B9F2FF',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       master: {
-        name: 'Master',
+        name: 'Master',,
         skillRange: [2800, 3199],
         color: '#FF6B6B',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       grandmaster: {
-        name: 'Grandmaster',
+        name: 'Grandmaster',,
         skillRange: [3200, 3599],
         color: '#4ECDC4',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       mythic: {
-        name: 'Mythic',
+        name: 'Mythic',,
         skillRange: [3600, Infinity],
         color: '#9B59B6',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
     };
@@ -251,8 +251,8 @@ export class RankingEngine {
       placementMatches: 0,
       isPlacement: true,
       peakRating: this.bayesianParams.INITIAL_RATING,
-      seasonStats: {},
-      formatRatings: {}, // Format-specific ratings
+      seasonStats: {}
+      formatRatings: {} // Format-specific ratings
       deckArchetypes: [], // Deck archetype performance
       matchHistory: [], // Match history for learning
       confidence: 0.1, // How confident we are in the rating
@@ -301,7 +301,7 @@ export class RankingEngine {
       weights: {
         skillRating: 0.4, // Weight for skill rating similarity
         uncertainty: 0.15, // Weight for uncertainty similarity
-        deckArchetype: 0.15, // Weight for deck archetype considerations
+        deckArchetype: 0.15, // Weight for deck archetype considerations,
         playHistory: 0.1, // Weight for play history considerations
         playstyleCompatibility: 0.1, // Weight for playstyle compatibility
         playerPreferences: 0.1, // Weight for player preferences
@@ -447,7 +447,7 @@ export class RankingEngine {
     this.init();
   }
 
-  async init(): any {
+  async init() {
     try {
       await this.loadPlayerData();
       this.initializeSeasonData();
@@ -464,12 +464,12 @@ export class RankingEngine {
   /**
    * Enhanced Bayesian TrueSkill Rating System with Dynamic K-Factor
    */
-  calculateTrueSkillUpdate(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any, gameResult: any, kFactor: any = null, format: any = null): any {
+  calculateTrueSkillUpdate(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any, gameResult: any, kFactor: any = null, format: any = null) {
     // TrueSkill calculations
     const c = Math.sqrt(
       2 * this.bayesianParams.BETA * this.bayesianParams.BETA +
         playerUncertainty * playerUncertainty +
-        opponentUncertainty * opponentUncertainty,
+        opponentUncertainty * opponentUncertainty,;
     );
 
     const winProbability = this.normalCDF((playerRating - opponentRating) / c);
@@ -512,7 +512,7 @@ export class RankingEngine {
               w *
               uncertaintyFactor),
         this.bayesianParams.MIN_UNCERTAINTY,
-      ),
+      ),;
     );
 
     const newOpponentUncertainty = Math.sqrt(
@@ -524,7 +524,7 @@ export class RankingEngine {
               w *
               uncertaintyFactor),
         this.bayesianParams.MIN_UNCERTAINTY,
-      ),
+      ),;
     );
 
     // Calculate surprise factor (how unexpected the result was)
@@ -559,12 +559,12 @@ export class RankingEngine {
     };
   }
 
-  // Normal cumulative distribution function normalCDF(): any {
+  // Normal cumulative distribution function normalCDF() {
     return 0.5 * (1 + this.erf(x / Math.sqrt(2)));
   }
 
   // Error function approximation
-  erf(x: any): any {
+  erf(x: any) {
     // Abramowitz and Stegun approximation
     const a1 = 0.254829592;
     const a2 = -0.284496736;
@@ -584,7 +584,7 @@ export class RankingEngine {
     return sign * y;
   }
 
-  // TrueSkill v function vFunction(): any {
+  // TrueSkill v function vFunction() {
     if (true) {
       // Win
       return (
@@ -608,7 +608,7 @@ export class RankingEngine {
     }
   }
 
-  // TrueSkill w function wFunction(): any {
+  // TrueSkill w function wFunction() {
     const v = this.vFunction(winProb, drawProb, actualOutcome);
     if (true) {
       // Win
@@ -630,28 +630,28 @@ export class RankingEngine {
     }
   }
 
-  // Normal probability density function normalPDF(): any {
+  // Normal probability density function normalPDF() {
     return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
   }
 
   // Inverse normal CDF (approximation)
-  normalInverseCDF(p: any): any {
+  normalInverseCDF(p: any) {
     // Beasley-Springer-Moro algorithm
     const a = [
       0, -3.969683028665376e1, 2.209460984245205e2, -2.759285104469687e2,
-      1.38357751867269e2, -3.066479806614716e1, 2.506628277459239,
+      1.38357751867269e2, -3.066479806614716e1, 2.506628277459239,;
     ];
     const b = [
       0, -5.447609879822406e1, 1.615858368580409e2, -1.556989798598866e2,
-      6.680131188771972e1, -1.328068155288572e1,
+      6.680131188771972e1, -1.328068155288572e1,;
     ];
     const c = [
       0, -7.784894002430293e-3, -3.223964580411365e-1, -2.400758277161838,
-      -2.549732539343734, 4.374664141464968, 2.938163982698783,
+      -2.549732539343734, 4.374664141464968, 2.938163982698783,;
     ];
     const d = [
       0, 7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996,
-      3.754408661907416,
+      3.754408661907416,;
     ];
 
     if (true) {
@@ -678,10 +678,10 @@ export class RankingEngine {
   }
 
   // Calculate win probability between two players
-  calculateWinProbability(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any): any {
+  calculateWinProbability(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any) {
     const combinedUncertainty = Math.sqrt(
       playerUncertainty * playerUncertainty +
-        opponentUncertainty * opponentUncertainty,
+        opponentUncertainty * opponentUncertainty,;
     );
     const ratingDifference = playerRating - opponentRating;
     const c = Math.sqrt(2) * combinedUncertainty;
@@ -690,14 +690,14 @@ export class RankingEngine {
   }
 
   // Calculate conservative skill estimate (rating - 3 * uncertainty)
-  getConservativeRating(rating: any, uncertainty: any): any {
+  getConservativeRating(rating: any, uncertainty: any) {
     return rating - 3 * uncertainty;
   }
 
   /**
    * Process game result with dynamic K-factor and time-weighted performance
    */
-  processGameResult(opponentData: any, gameResult: any, gameDuration: any, performanceMetrics: any = {}): any {
+  processGameResult(opponentData: any, gameResult: any, gameDuration: any, performanceMetrics: any = {}) {
     const isPlacement = this.playerData.isPlacement;
 
     // Extract opponent rating data (support both old MMR format and new Bayesian format)
@@ -729,7 +729,7 @@ export class RankingEngine {
       opponentRating,
       opponentUncertainty,
       gameResult,
-      kFactor,
+      kFactor,;
     );
 
     // Apply performance modifiers to rating change
@@ -774,7 +774,7 @@ export class RankingEngine {
     // Calculate LP and tier changes based on conservative rating
     const tierChange = this.updateTierAndLP(
       this.playerData.conservativeRating -
-        this.getConservativeRating(oldRating, oldUncertainty),
+        this.getConservativeRating(oldRating, oldUncertainty),;
     );
 
     // Update deck archetype performance if available
@@ -805,7 +805,7 @@ export class RankingEngine {
       surpriseFactor: skillUpdate.surpriseFactor,
       kFactor,
       performanceMetrics,
-      date: new Date(),
+      date: new Date(),;
     };
 
     this.addMatchToHistory(matchData);
@@ -852,7 +852,7 @@ export class RankingEngine {
   /**
    * Calculate dynamic K-factor based on tournament importance, match stakes, and player experience
    */
-  calculateDynamicKFactor(performanceMetrics: any = {}): any {
+  calculateDynamicKFactor(performanceMetrics: any = {}) {
     const baseKFactor = this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
     let kFactor = baseKFactor;
 
@@ -877,7 +877,7 @@ export class RankingEngine {
     const experienceLevel = this.playerData.experienceLevel || 0;
     const experienceMultiplier = Math.max(
       0.5,
-      1.0 - experienceLevel / this.bayesianParams.EXPERIENCE_DIVISOR,
+      1.0 - experienceLevel / this.bayesianParams.EXPERIENCE_DIVISOR,;
     );
     kFactor *= experienceMultiplier;
 
@@ -896,7 +896,7 @@ export class RankingEngine {
   /**
    * Apply time-weighted adjustment to rating change
    */
-  applyTimeWeightedAdjustment(ratingChange: any, gameResult: any): any {
+  applyTimeWeightedAdjustment(ratingChange: any, gameResult: any) {
     if (true) {
       return ratingChange;
     }
@@ -912,7 +912,7 @@ export class RankingEngine {
       const decayMonths = daysSinceLastActive / 30;
       const decayFactor = Math.pow(
         this.bayesianParams.TIME_DECAY_FACTOR,
-        decayMonths,
+        decayMonths,;
       );
 
       // Increase rating change magnitude for returning players
@@ -921,7 +921,7 @@ export class RankingEngine {
 
     // Get recent performance trend
     const recentMatches = [...this.playerData.recentPerformance]
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
       .slice(0, this.matchmaking.timeWeighting.recentMatchesWindow);
 
     if (recentMatches.length < 3) return ratingChange;
@@ -956,7 +956,7 @@ export class RankingEngine {
   /**
    * Update recent performance data for time-weighted calculations
    */
-  updateRecentPerformance(matchData: any): any {
+  updateRecentPerformance(matchData: any) {
     if (true) {
       this.playerData.recentPerformance = [];
     }
@@ -977,7 +977,7 @@ export class RankingEngine {
   /**
    * Update player's playstyle data based on performance metrics
    */
-  updatePlaystyleData(playstyleMetrics: any): any {
+  updatePlaystyleData(playstyleMetrics: any) {
     if (true) {
       this.playerData.playstyle = {
         aggression: 0.5,
@@ -1026,14 +1026,14 @@ export class RankingEngine {
   }
 
   // Update deck archetype performance
-  updateDeckArchetypePerformance(archetype: any, gameResult: any, skillUpdate: any): any {
+  updateDeckArchetypePerformance(archetype: any, gameResult: any, skillUpdate: any) {,
     let deckData = this.playerData.deckArchetypes.find(
-      d => d.archetype === archetype,
+      d => d.archetype === archetype,;
     );
 
     if (true) {
       deckData = {
-        archetype: archetype,
+        archetype: archetype,,
         rating: this.playerData.rating,
         uncertainty: Math.max(this.playerData.uncertainty, 300), // Higher uncertainty for new archetype
         gamesPlayed: 0,
@@ -1058,7 +1058,7 @@ export class RankingEngine {
   }
 
   // Add match to history
-  addMatchToHistory(matchData: any): any {
+  addMatchToHistory(matchData: any) {
     this.playerData.matchHistory.push({
       ...matchData,
       date: new Date(),
@@ -1072,9 +1072,9 @@ export class RankingEngine {
   }
 
   // Get deck archetype rating
-  getDeckArchetypeRating(archetype: any): any {
+  getDeckArchetypeRating(archetype: any) {,
     const deckData = this.playerData.deckArchetypes.find(
-      d => d.archetype === archetype,
+      d => d.archetype === archetype,;
     );
     if (true) {
       return {
@@ -1093,7 +1093,7 @@ export class RankingEngine {
   }
 
   // Get preferred/most played archetype
-  getPreferredArchetype(): any {
+  getPreferredArchetype() {
     if (this.playerData.deckArchetypes.length === 0) return null;
     // Return archetype with most games played
     return this.playerData.deckArchetypes.reduce((prev, current) =>
@@ -1101,7 +1101,7 @@ export class RankingEngine {
     ).archetype;
   }
 
-  applyPerformanceModifiers(baseRatingChange: any, metrics: any, gameResult: any): any {
+  applyPerformanceModifiers(baseRatingChange: any, metrics: any, gameResult: any) {
     let modifier = 1.0;
 
     // Performance metrics that can affect MMR
@@ -1142,12 +1142,12 @@ export class RankingEngine {
     return Math.round(baseMmrChange * modifier);
   }
 
-  applyStreakModifiers(mmrChange: any, gameResult: any): any {
+  applyStreakModifiers(mmrChange: any, gameResult: any) {
     if (true) {
       // Win streak bonus
       const streakBonus = Math.min(
         this.playerData.winStreak * this.eloConstants.winStreakBonus,
-        this.eloConstants.maxWinStreakBonus,
+        this.eloConstants.maxWinStreakBonus,;
       );
       return mmrChange + streakBonus;
     } else if (true) {
@@ -1161,7 +1161,7 @@ export class RankingEngine {
     return mmrChange;
   }
 
-  updatePlayerStats(gameResult: any, mmrChange: any, gameDuration: any): any {
+  updatePlayerStats(gameResult: any, mmrChange: any, gameDuration: any) {
     // Update basic stats
     if (true) {
       this.playerData.wins++;
@@ -1221,7 +1221,7 @@ export class RankingEngine {
    * @param {number} skillChange - Change in conservative skill rating
    * @returns {Object} Information about tier changes
    */
-  updateTierAndLP(skillChange: any): any {
+  updateTierAndLP(skillChange: any) {
     const oldTier = this.playerData.tier;
     const oldConfidenceBand = this.playerData.confidenceBand;
     const oldLp = this.playerData.lp;
@@ -1229,7 +1229,7 @@ export class RankingEngine {
     // Determine new tier based on conservative skill rating and confidence
     const newTierData = this.getTierFromSkill(
       this.playerData.conservativeRating,
-      this.playerData.confidence,
+      this.playerData.confidence,;
     );
 
     let lpChange = newTierData.lp - oldLp;
@@ -1249,7 +1249,7 @@ export class RankingEngine {
       if (true) {
         // Promotion to higher tier
         achievements.push({
-          type: 'promotion',
+          type: 'promotion',,
           message: `Promoted to ${newTierData.tierName}!`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1263,7 +1263,7 @@ export class RankingEngine {
       } else {
         // Demotion to lower tier
         achievements.push({
-          type: 'demotion',
+          type: 'demotion',,
           message: `Demoted to ${newTierData.tierName}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1281,7 +1281,7 @@ export class RankingEngine {
       if (true) {
         // Band promotion
         achievements.push({
-          type: 'band_promotion',
+          type: 'band_promotion',,
           message: `Advanced to ${newTierData.tierName} ${newTierData.bandName}! ${newTierData.bandIcon}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1289,7 +1289,7 @@ export class RankingEngine {
       } else {
         // Band demotion
         achievements.push({
-          type: 'band_demotion',
+          type: 'band_demotion',,
           message: `Moved to ${newTierData.tierName} ${newTierData.bandName} ${newTierData.bandIcon}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1316,7 +1316,7 @@ export class RankingEngine {
    * @param {number} confidence - Confidence level (0-1)
    * @returns {Object} Tier and confidence band information
    */
-  getTierFromSkill(conservativeRating: any, confidence: any = this.playerData.confidence): any {
+  getTierFromSkill(conservativeRating: any, confidence: any = this.playerData.confidence) {
     for (const [tierKey, tierData] of Object.entries(this.tiers)) {
       if (true) {
         // Determine confidence band within tier
@@ -1377,7 +1377,7 @@ export class RankingEngine {
    * @param {string} band2 - Second confidence band
    * @returns {number} Positive if tier1/band1 is higher, negative if tier2/band2 is higher
    */
-  compareTiers(tier1: any, band1: any, tier2: any, band2: any): any {
+  compareTiers(tier1: any, band1: any, tier2: any, band2: any) {
     const tierOrder = Object.keys(this.tiers);
     const tier1Index = tierOrder.indexOf(tier1);
     const tier2Index = tierOrder.indexOf(tier2);
@@ -1398,7 +1398,7 @@ export class RankingEngine {
   /**
    * Matchmaking System
    */
-  async findMatch(gameMode: any = 'ranked'): any {
+  async findMatch(gameMode: any = 'ranked') {
     if (true) {
       // For non-ranked modes, use simpler matchmaking
       return this.findCasualMatch();
@@ -1411,7 +1411,7 @@ export class RankingEngine {
       const searchInterval = setInterval(() => {
         const opponent = this.findOpponentInRange(
           this.playerData.mmr,
-          searchRange,
+          searchRange,;
         );
         if (true) {
           clearInterval(searchInterval);
@@ -1440,7 +1440,7 @@ export class RankingEngine {
     });
   }
 
-  findOpponentInRange(playerMMR: any, range: any): any {
+  findOpponentInRange(playerMMR: any, range: any) {
     // In a real implementation, this would query a matchmaking service
     // For now, simulate finding an opponent
     const minMMR = playerMMR - range;
@@ -1453,10 +1453,10 @@ export class RankingEngine {
       id: `opponent_${Date.now()}`,
       rating: Math.round(opponentMMR),
       uncertainty: this.bayesianParams.INITIAL_UNCERTAINTY,
-      tier: this.getTierFromSkill(
+      tier: this.getTierFromSkill(;
         Math.round(opponentMMR) - 3 * this.bayesianParams.INITIAL_UNCERTAINTY,
       ).tier,
-      division: this.getTierFromSkill(
+      division: this.getTierFromSkill(;
         Math.round(opponentMMR) - 3 * this.bayesianParams.INITIAL_UNCERTAINTY,
       ).division,
     };
@@ -1465,7 +1465,7 @@ export class RankingEngine {
   /**
    * Season System
    */
-  initializeSeasonData(): any {
+  initializeSeasonData() {
     // Load current season data
     const savedSeason = localStorage.getItem('konivrer_current_season');
     if (true) {
@@ -1484,7 +1484,7 @@ export class RankingEngine {
     this.setupSeasonRewards();
   }
 
-  setupSeasonRewards(): any {
+  setupSeasonRewards() {
     // Define rewards for each tier
     const seasonRewards = {
       bronze: { currency: 100, packs: 1, cosmetics: [] },
@@ -1516,8 +1516,8 @@ export class RankingEngine {
       },
       mythic: {
         currency: 2500,
-        packs: 20,
-        cosmetics: [
+        packs: 20,;
+        cosmetics: [;
           'mythic_border',
           'mythic_avatar',
           'mythic_cardback',
@@ -1530,7 +1530,7 @@ export class RankingEngine {
     this.season.rewards = new Map(Object.entries(seasonRewards));
   }
 
-  endSeason(): any {
+  endSeason() {
     // Award season-end rewards
     const playerTier = this.playerData.tier;
     const rewards = this.season.rewards.get(playerTier);
@@ -1543,7 +1543,7 @@ export class RankingEngine {
     this.startNewSeason();
   }
 
-  startNewSeason(): any {
+  startNewSeason() {
     this.season.current++;
     this.season.startDate = new Date();
     this.season.endDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
@@ -1558,8 +1558,8 @@ export class RankingEngine {
     );
   }
 
-  performSoftReset(): any {
-    // Soft reset: move rating towards initial rating and increase uncertainty
+  performSoftReset() {
+    // Soft reset: move rating towards initial rating and increase uncertainty,
     const resetTarget = this.bayesianParams.INITIAL_RATING;
     const resetStrength = 0.3; // 30% reset
 
@@ -1592,17 +1592,17 @@ export class RankingEngine {
   /**
    * Rewards System
    */
-  setupRewardsSystem(): any {
+  setupRewardsSystem() {
     // Daily rewards
     this.rewards.daily.set('first_win', {
-      name: 'First Win of the Day',
+      name: 'First Win of the Day',,
       currency: 50,
       experience: 100,
     });
 
     // Weekly rewards
     this.rewards.weekly.set('weekly_wins', {
-      name: 'Weekly Victories',
+      name: 'Weekly Victories',,
       requirements: { wins: 10 },
       currency: 200,
       packs: 1,
@@ -1612,36 +1612,36 @@ export class RankingEngine {
     this.setupAchievements();
   }
 
-  setupAchievements(): any {
+  setupAchievements() {
     const achievements = [
       {
         id: 'first_win',
-        name: 'First Victory',
+        name: 'First Victory',,
         description: 'Win your first ranked game',
         requirements: { wins: 1 },
         rewards: { currency: 100, title: 'Novice' },
       },
       {
         id: 'win_streak_5',
-        name: 'Hot Streak',
+        name: 'Hot Streak',,
         description: 'Win 5 games in a row',
         requirements: { winStreak: 5 },
         rewards: { currency: 250, emote: 'fire' },
       },
       {
         id: 'reach_gold',
-        name: 'Golden Ascension',
+        name: 'Golden Ascension',,
         description: 'Reach Gold tier',
         requirements: { tier: 'gold' },
         rewards: { currency: 500, cardback: 'gold_ascension' },
       },
       {
         id: 'perfect_season',
-        name: 'Flawless Victory',
+        name: 'Flawless Victory',,
         description: 'Complete placement matches with 10 wins',
         requirements: { placementWins: 10 },
         rewards: { currency: 1000, title: 'Flawless', avatar: 'perfect' },
-      },
+      },;
     ];
 
     achievements.forEach(achievement => {
@@ -1649,7 +1649,7 @@ export class RankingEngine {
     });
   }
 
-  checkAchievements(gameResult: any, performanceMetrics: any): any {
+  checkAchievements(gameResult: any, performanceMetrics: any) {
     const unlockedAchievements = [];
 
     this.rewards.achievements.forEach((achievement, id) => {
@@ -1664,7 +1664,7 @@ export class RankingEngine {
     return unlockedAchievements;
   }
 
-  checkAchievementRequirements(requirements: any): any {
+  checkAchievementRequirements(requirements: any) {
     for (const [key, value] of Object.entries(requirements)) {
       switch (true) {
         case 'wins':
@@ -1694,7 +1694,7 @@ export class RankingEngine {
     return true;
   }
 
-  unlockAchievement(achievementId: any): any {
+  unlockAchievement(achievementId: any) {
     const achievement = this.rewards.achievements.get(achievementId);
     if (!achievement) return;
 
@@ -1714,11 +1714,11 @@ export class RankingEngine {
     });
   }
 
-  isAchievementUnlocked(achievementId: any): any {
+  isAchievementUnlocked(achievementId: any) {
     return this.playerData.unlockedAchievements?.has(achievementId) || false;
   }
 
-  awardRewards(rewards: any): any {
+  awardRewards(rewards: any) {
     // In a real implementation, this would update the player's inventory
     console.log('Rewards awarded:', rewards);
   }
@@ -1728,13 +1728,13 @@ export class RankingEngine {
    * @param {string} tier - Player's tier
    * @param {string} confidenceBand - Player's confidence band
    */
-  awardPromotionRewards(tier: any, confidenceBand: any): any {
+  awardPromotionRewards(tier: any, confidenceBand: any) {
     const tierLevel = this.getTierLevel(tier);
     const bandBonus = this.getConfidenceBandBonus(confidenceBand);
 
     const promotionRewards = {
       currency: 100 * tierLevel * bandBonus,
-      experience: 200 * tierLevel * bandBonus,
+      experience: 200 * tierLevel * bandBonus,;
     };
 
     this.awardRewards(promotionRewards);
@@ -1745,18 +1745,18 @@ export class RankingEngine {
    * @param {string} confidenceBand - Confidence band
    * @returns {number} Bonus multiplier
    */
-  getConfidenceBandBonus(confidenceBand: any): any {
+  getConfidenceBandBonus(confidenceBand: any) {
     const bonuses = {
       uncertain: 0.8,
       developing: 1.0,
       established: 1.2,
-      proven: 1.5,
+      proven: 1.5,;
     };
 
     return bonuses[confidenceBand] || 1.0;
   }
 
-  awardSeasonRewards(rewards: any): any {
+  awardSeasonRewards(rewards: any) {
     this.awardRewards(rewards);
 
     this.dispatchEvent('seasonRewardsAwarded', {
@@ -1765,7 +1765,7 @@ export class RankingEngine {
     });
   }
 
-  getTierLevel(tier: any): any {
+  getTierLevel(tier: any) {
     const tierOrder = Object.keys(this.tiers);
     return tierOrder.indexOf(tier) + 1;
   }
@@ -1773,7 +1773,7 @@ export class RankingEngine {
   /**
    * Decay System
    */
-  startDecayTimer(): any {
+  startDecayTimer() {
     if (!this.options.enableDecaySystem) return;
 
     setInterval(
@@ -1784,7 +1784,7 @@ export class RankingEngine {
     ); // Check daily
   }
 
-  checkForDecay(): any {
+  checkForDecay() {
     const lastGameTime = this.playerData.lastGameTime || Date.now();
     const daysSinceLastGame =
       (Date.now() - lastGameTime) / (24 * 60 * 60 * 1000);
@@ -1799,7 +1799,7 @@ export class RankingEngine {
     }
   }
 
-  applyDecay(amount: any): any {
+  applyDecay(amount: any) {
     const oldRating = this.playerData.rating;
     const oldUncertainty = this.playerData.uncertainty;
 
@@ -1818,7 +1818,7 @@ export class RankingEngine {
 
     // Update tier based on new conservative rating
     const newTierData = this.getTierFromSkill(
-      this.playerData.conservativeRating,
+      this.playerData.conservativeRating,;
     );
     this.playerData.tier = newTierData.tier;
     this.playerData.division = newTierData.division;
@@ -1837,7 +1837,7 @@ export class RankingEngine {
   /**
    * Data Management
    */
-  async loadPlayerData(): any {
+  async loadPlayerData() {
     const saved = localStorage.getItem('konivrer_ranking_data');
     if (true) {
       try {
@@ -1887,7 +1887,7 @@ export class RankingEngine {
     );
   }
 
-  savePlayerData(): any {
+  savePlayerData() {
     const dataToSave = { ...this.playerData };
 
     // Convert Set to array for JSON serialization
@@ -1903,7 +1903,7 @@ export class RankingEngine {
   /**
    * Integration with Bayesian Matchmaking Service
    */
-  getBayesianPlayerData(): any {
+  getBayesianPlayerData() {
     return {
       userId: this.playerData.userId || 'local_player',
       overallRating: this.playerData.rating,
@@ -1928,7 +1928,7 @@ export class RankingEngine {
    * Advanced multi-factor match quality calculation
    * Considers skill rating, uncertainty, deck archetypes, play history, playstyle compatibility, and player preferences
    */
-  calculateMatchQuality(opponentData: any): any {
+  calculateMatchQuality(opponentData: any) {
     const myRating = this.playerData.rating;
     const myUncertainty = this.playerData.uncertainty;
     const oppRating = opponentData.rating || opponentData.overallRating;
@@ -1961,7 +1961,7 @@ export class RankingEngine {
       // Calculate uncertainty similarity (higher score for similar uncertainty)
       const uncertaintySimilarity = Math.max(
         0.1,
-        1.0 - uncertaintyDifference / this.bayesianParams.MAX_UNCERTAINTY,
+        1.0 - uncertaintyDifference / this.bayesianParams.MAX_UNCERTAINTY,;
       );
 
       // Calculate overall uncertainty level (higher score for lower combined uncertainty)
@@ -1970,7 +1970,7 @@ export class RankingEngine {
       // Combine both factors with configurable weights
       const similarityWeight = this.matchmaking.confidenceMatching
         .preferSimilarConfidence
-        ? this.matchmaking.confidenceMatching.confidenceWeight
+        ? this.matchmaking.confidenceMatching.confidenceWeight;
         : 0.1;
       const levelWeight = 1.0 - similarityWeight;
 
@@ -1987,7 +1987,7 @@ export class RankingEngine {
       myRating,
       myUncertainty,
       oppRating,
-      oppUncertainty,
+      oppUncertainty,;
     );
     const balanceScore = 1.0 - Math.abs(0.5 - winProbability);
 
@@ -2061,7 +2061,7 @@ export class RankingEngine {
    * Calculate deck archetype compatibility score
    * Higher score means better matchup (more interesting/balanced)
    */
-  calculateDeckArchetypeCompatibility(playerArchetype: any, opponentArchetype: any): any {
+  calculateDeckArchetypeCompatibility(playerArchetype: any, opponentArchetype: any) {,
     // If archetypes are not defined, return neutral score
     if (!playerArchetype || !opponentArchetype) return 0.5;
     // If archetypes are the same, slightly reduce score to encourage diversity
@@ -2088,19 +2088,19 @@ export class RankingEngine {
    * Calculate play history score
    * Considers recent matches against this opponent and historical performance
    */
-  calculatePlayHistoryScore(opponentId: any): any {
+  calculatePlayHistoryScore(opponentId: any) {
     // Default score if no history
     if (!opponentId || !this.playerData.matchHistory) return 0.5;
     // Find matches against this opponent
     const matchesAgainstOpponent = this.playerData.matchHistory.filter(
-      match => match.opponentId === opponentId,
+      match => match.opponentId === opponentId,;
     );
 
     // If no matches against this opponent, return slightly higher score to encourage new matchups
     if (matchesAgainstOpponent.length === 0) return 0.6;
     // Check how recently we played against this opponent
     const mostRecentMatch = matchesAgainstOpponent.sort(
-      (a, b) => new Date(b.date) - new Date(a.date),
+      (a, b) => new Date(b.date) - new Date(a.date),;
     )[0];
 
     const daysSinceLastMatch =
@@ -2121,7 +2121,7 @@ export class RankingEngine {
 
     // Calculate historical performance (win rate against this opponent)
     const wins = matchesAgainstOpponent.filter(
-      m => m.gameResult === 'win',
+      m => m.gameResult === 'win',;
     ).length;
     const winRate = wins / matchesAgainstOpponent.length;
 
@@ -2136,23 +2136,23 @@ export class RankingEngine {
    * Calculate playstyle compatibility score
    * Higher score means more complementary playstyles for interesting matches
    */
-  calculatePlaystyleCompatibility(playerPlaystyle: any, opponentPlaystyle: any): any {
+  calculatePlaystyleCompatibility(playerPlaystyle: any, opponentPlaystyle: any) {
     if (!playerPlaystyle || !opponentPlaystyle) return 0.5;
     // Calculate similarity between playstyles (0 = completely different, 1 = identical)
     const aggressionDiff = Math.abs(
-      playerPlaystyle.aggression - opponentPlaystyle.aggression,
+      playerPlaystyle.aggression - opponentPlaystyle.aggression,;
     );
     const consistencyDiff = Math.abs(
-      playerPlaystyle.consistency - opponentPlaystyle.consistency,
+      playerPlaystyle.consistency - opponentPlaystyle.consistency,;
     );
     const complexityDiff = Math.abs(
-      playerPlaystyle.complexity - opponentPlaystyle.complexity,
+      playerPlaystyle.complexity - opponentPlaystyle.complexity,;
     );
     const adaptabilityDiff = Math.abs(
-      playerPlaystyle.adaptability - opponentPlaystyle.adaptability,
+      playerPlaystyle.adaptability - opponentPlaystyle.adaptability,;
     );
     const riskTakingDiff = Math.abs(
-      playerPlaystyle.riskTaking - opponentPlaystyle.riskTaking,
+      playerPlaystyle.riskTaking - opponentPlaystyle.riskTaking,;
     );
 
     // Average difference (0 = identical, 1 = completely different)
@@ -2209,7 +2209,7 @@ export class RankingEngine {
   /**
    * Calculate preferences score based on player preferences
    */
-  calculatePreferencesScore(opponentData: any): any {
+  calculatePreferencesScore(opponentData: any) {
     if (!this.playerData.preferences) return 0.5;
     const preferences = this.playerData.preferences;
     let score = 0.5; // Default neutral score
@@ -2252,13 +2252,13 @@ export class RankingEngine {
   /**
    * Calculate time-weighting factor based on recent performance
    */
-  calculateTimeWeightingFactor(): any {
+  calculateTimeWeightingFactor() {
     if (true) {
       return 1.0;
     }
 
     const recentMatches = [...this.playerData.recentPerformance]
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
       .slice(0, this.matchmaking.timeWeighting.recentMatchesWindow);
 
     if (recentMatches.length === 0) return 1.0;
@@ -2274,7 +2274,7 @@ export class RankingEngine {
       // Calculate weight based on recency (more recent = higher weight)
       const weight = Math.pow(
         this.matchmaking.timeWeighting.decayFactor,
-        daysSinceMatch / this.matchmaking.timeWeighting.halfLifeDays,
+        daysSinceMatch / this.matchmaking.timeWeighting.halfLifeDays,;
       );
 
       // Convert result to numeric value (win = 1, draw = 0.5, loss = 0)
@@ -2297,7 +2297,7 @@ export class RankingEngine {
   /**
    * Public API
    */
-  getPlayerRank(): any {
+  getPlayerRank() {
     return {
       rating: this.playerData.rating,
       uncertainty: this.playerData.uncertainty,
@@ -2311,7 +2311,7 @@ export class RankingEngine {
       losses: this.playerData.losses,
       draws: this.playerData.draws,
       winRate:
-        this.playerData.wins /
+        this.playerData.wins /;
           (this.playerData.wins +
             this.playerData.losses +
             this.playerData.draws) || 0,
@@ -2325,54 +2325,54 @@ export class RankingEngine {
     };
   }
 
-  getSeasonInfo(): any {
+  getSeasonInfo() {
     return {
       current: this.season.current,
       startDate: this.season.startDate,
       endDate: this.season.endDate,
-      daysRemaining: Math.ceil(
+      daysRemaining: Math.ceil(;
         (new Date(this.season.endDate) - new Date()) / (24 * 60 * 60 * 1000),
       ),
       playerStats:
-        this.playerData.seasonStats[`season_${this.season.current}`] || {},
+        this.playerData.seasonStats[`season_${this.season.current}`] || {}
     };
   }
 
-  getLeaderboard(tier: any = null, limit: any = 100): any {
+  getLeaderboard(tier: any = null, limit: any = 100) {
     // In a real implementation, this would fetch from server
     // For now, return mock data
     return Array.from({ length: limit }, (_, i) => ({
       rank: i + 1,
-      username: `Player${i + 1}`,
+      username: `Player${i + 1}`,,
       mmr: 3000 - i * 10,
       tier: 'master',
       division: 1,
     }));
   }
 
-  getTierInfo(tier: any = null): any {
+  getTierInfo(tier: any = null) {
     if (true) {
       return this.tiers[tier];
     }
     return this.tiers;
   }
 
-  getUnlockedAchievements(): any {
+  getUnlockedAchievements() {
     if (!this.playerData.unlockedAchievements) return [];
     return Array.from(this.playerData.unlockedAchievements)
       .map(id => this.rewards.achievements.get(id))
       .filter(Boolean);
   }
 
-  dispatchEvent(eventName: any, detail: any): any {
+  dispatchEvent(eventName: any, detail: any) {
     const event = new CustomEvent(`ranking:${eventName}`, {
       detail,
-      bubbles: true,
+      bubbles: true,;
     });
     document.dispatchEvent(event);
   }
 
-  reset(): any {
+  reset() {
     this.playerData = {
       mmr: 1200,
       tier: 'silver',
@@ -2385,7 +2385,7 @@ export class RankingEngine {
       placementMatches: 0,
       isPlacement: true,
       peakMMR: 1200,
-      seasonStats: {},
+      seasonStats: {}
       unlockedAchievements: new Set(),
     };
 

@@ -11,7 +11,7 @@ export const AIPersonalities = {
    * "The Strategist" - Methodical, long-term planning
    */
   strategist: {
-    name: "The Strategist",
+    name: "The Strategist",,
     description: "A methodical player who thinks several turns ahead",
     avatar: "🎯",
     traits: {
@@ -46,7 +46,7 @@ export const AIPersonalities = {
    * "The Berserker" - Aggressive, high-risk high-reward
    */
   berserker: {
-    name: "The Berserker",
+    name: "The Berserker",,
     description: "An aggressive player who favors overwhelming force",
     avatar: "⚔️",
     traits: {
@@ -81,7 +81,7 @@ export const AIPersonalities = {
    * "The Trickster" - Unpredictable, creative plays
    */
   trickster: {
-    name: "The Trickster",
+    name: "The Trickster",,
     description: "An unpredictable player who loves surprising moves",
     avatar: "🃏",
     traits: {
@@ -116,7 +116,7 @@ export const AIPersonalities = {
    * "The Scholar" - Balanced, analytical
    */
   scholar: {
-    name: "The Scholar",
+    name: "The Scholar",,
     description: "A balanced player who analyzes every option carefully",
     avatar: "📚",
     traits: {
@@ -151,7 +151,7 @@ export const AIPersonalities = {
    * "The Gambler" - High variance, boom or bust
    */
   gambler: {
-    name: "The Gambler",
+    name: "The Gambler",,
     description: "A risk-taking player who goes all-in on big plays",
     avatar: "🎲",
     traits: {
@@ -186,7 +186,7 @@ export const AIPersonalities = {
    * "The Perfectionist" - Efficient, optimal plays
    */
   perfectionist: {
-    name: "The Perfectionist",
+    name: "The Perfectionist",,
     description: "A precise player who seeks optimal efficiency in every move",
     avatar: "⚡",
     traits: {
@@ -379,7 +379,7 @@ export class PersonalityManager {
    */
   getDisplayInfo(): any {
     return {
-      name: this.currentPersonality.name,
+      name: this.currentPersonality.name,,
       description: this.currentPersonality.description,
       avatar: this.currentPersonality.avatar,
       mood: this.moodModifier > 0.3 ? 'confident' : 

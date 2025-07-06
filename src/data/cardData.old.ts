@@ -32,7 +32,7 @@ export function createFamiliar(): any {
   return {
     id: generateCardId(),
     name,
-    type: 'Familiar',
+    type: 'Familiar',,
     elements,
     baseStrength,
     baseHealth,
@@ -64,7 +64,7 @@ export function createSpell(): any {
   return {
     id: generateCardId(),
     name,
-    type: 'Spell',
+    type: 'Spell',,
     elements,
     abilities,
     flavorText,
@@ -91,7 +91,7 @@ export function createFlag(): any {
   return {
     id: generateCardId(),
     name,
-    type: 'Flag',
+    type: 'Flag',,
     elements,
     primaryElement,
     strongAgainst,

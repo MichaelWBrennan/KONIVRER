@@ -26,7 +26,7 @@ const EnhancedMatchmaking = (): any => {
   const [matchmakingPreferences, setMatchmakingPreferences] = useState({
     prioritizeSkill: true,
     prioritizeConfidence: true,
-    prioritizeDeckArchetype: true,
+    prioritizeDeckArchetype: true,,
     prioritizePlaystyle: true,
     preferComplementaryPlaystyles: true,
     preferSimilarConfidence: true,
@@ -37,7 +37,7 @@ const EnhancedMatchmaking = (): any => {
   const [filterOptions, setFilterOptions] = useState({
     tier: 'all',
     confidenceBand: 'all',
-    deckArchetype: 'all',
+    deckArchetype: 'all',,
     minRating: 0,
     maxRating: 3000,
   });
@@ -302,7 +302,7 @@ const EnhancedMatchmaking = (): any => {
                             onChange={e = />
                               setMatchmakingPreferences({
                                 ...matchmakingPreferences,
-                                prioritizeDeckArchetype: e.target.checked,
+                                prioritizeDeckArchetype: e.target.checked,,
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
@@ -510,7 +510,7 @@ const EnhancedMatchmaking = (): any => {
                 onChange={e = />
                   setFilterOptions({
                     ...filterOptions,
-                    deckArchetype: e.target.value,
+                    deckArchetype: e.target.value,,
                   })}
               >
                 {getDeckArchetypes().map(archetype => (

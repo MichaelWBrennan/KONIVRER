@@ -132,13 +132,13 @@ export class MobileOptimization {
     );
   }
 
-  registerGestureRecognizer(name: any, recognizer: any): any {
+  registerGestureRecognizer(name: any, recognizer: any): any {,
     this.gestures.recognizers.set(name, recognizer);
   }
 
   createTapRecognizer(): any {
     return {
-      name: 'tap',
+      name: 'tap',,
       maxDuration: 300,
       maxDistance: 10,
       recognize: gesture => {
@@ -162,7 +162,7 @@ export class MobileOptimization {
     let lastTap = null;
 
     return {
-      name: 'doubleTap',
+      name: 'doubleTap',,
       maxInterval: 300,
       recognize: gesture => {
         if (gesture.type !== 'tap') return false;
@@ -187,7 +187,7 @@ export class MobileOptimization {
 
   createLongPressRecognizer(): any {
     return {
-      name: 'longPress',
+      name: 'longPress',,
       duration: 500,
       maxDistance: 10,
       recognize: gesture => {
@@ -209,7 +209,7 @@ export class MobileOptimization {
 
   createSwipeRecognizer(): any {
     return {
-      name: 'swipe',
+      name: 'swipe',,
       minDistance: 50,
       maxDuration: 500,
       recognize: gesture => {
@@ -235,7 +235,7 @@ export class MobileOptimization {
 
   createPinchRecognizer(): any {
     return {
-      name: 'pinch',
+      name: 'pinch',,
       minScale: 0.1,
       recognize: gesture => {
         return gesture.touches.length === 2 && gesture.scale !== undefined;
@@ -252,7 +252,7 @@ export class MobileOptimization {
 
   createRotateRecognizer(): any {
     return {
-      name: 'rotate',
+      name: 'rotate',,
       minRotation: 5, // degrees
       recognize: gesture => {
         return (
@@ -272,7 +272,7 @@ export class MobileOptimization {
 
   createDragRecognizer(): any {
     return {
-      name: 'drag',
+      name: 'drag',,
       minDistance: 5,
       recognize: gesture => {
         return (
@@ -299,7 +299,7 @@ export class MobileOptimization {
         start: { x: touch.clientX, y: touch.clientY },
         current: { x: touch.clientX, y: touch.clientY },
         startTime: timestamp,
-        element: document.elementFromPoint(touch.clientX, touch.clientY),
+        element: document.elementFromPoint(touch.clientX, touch.clientY),,
       };
 
       this.gestures.active.set(touch.identifier, gesture);
@@ -746,7 +746,7 @@ export class MobileOptimization {
     }
   }
 
-  isCardElement(element: any): any {
+  isCardElement(element: any): any {,
     return (
       element &&
       (element.classList.contains('game-card') ||
@@ -756,7 +756,7 @@ export class MobileOptimization {
     );
   }
 
-  dispatchCustomEvent(element: any, eventName: any, detail: any): any {
+  dispatchCustomEvent(element: any, eventName: any, detail: any): any {,
     const event = new CustomEvent(eventName, {
       detail,
       bubbles: true,

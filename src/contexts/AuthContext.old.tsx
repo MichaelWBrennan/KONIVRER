@@ -20,7 +20,7 @@ import { initiateOAuth } from '../services/oauthService';
 const UserSchema = z.object({
   id: z.number(),
   email: z.string().email(),
-  username: z.string().min(3).max(20),
+  username: z.string().min(3).max(20),,
   displayName: z.string().min(1).max(50),
   avatar: z.string().url().optional(),
   roles: z.array(z.enum(['player', 'judge', 'organizer', 'admin'])),
@@ -66,7 +66,7 @@ const RegisterSchema = z
         'Password must contain uppercase, lowercase, number, and special character',
       ),
     confirmPassword: z.string(),
-    username: z
+    username: z,
       .string()
       .min(3, 'Username must be at least 3 characters')
       .max(20, 'Username must be less than 20 characters')
@@ -169,7 +169,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
     'user1@example.com': {
       id: 1,
       email: 'user1@example.com',
-      username: 'DragonMaster2024',
+      username: 'DragonMaster2024',,
       displayName: 'Alex Chen',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=alex',
       roles: ['player', 'judge'],
@@ -193,31 +193,31 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
       achievements: [
         {
           id: 1,
-          name: 'First Victory',
+          name: 'First Victory',,
           description: 'Win your first tournament',
           earned: true,
-          rarity: 'common',
+          rarity: 'common',,
         },
         {
           id: 2,
-          name: 'Deck Master',
+          name: 'Deck Master',,
           description: 'Create 20 decks',
           earned: true,
-          rarity: 'rare',
+          rarity: 'rare',,
         },
         {
           id: 3,
-          name: 'Judge Apprentice',
+          name: 'Judge Apprentice',,
           description: 'Become a Level 1 Judge',
           earned: true,
-          rarity: 'epic',
+          rarity: 'epic',,
         },
         {
           id: 4,
-          name: 'Tournament Organizer',
+          name: 'Tournament Organizer',,
           description: 'Organize your first tournament',
           earned: true,
-          rarity: 'epic',
+          rarity: 'epic',,
         },
       ],
       preferences: {
@@ -239,7 +239,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
     'judge@example.com': {
       id: 2,
       email: 'judge@example.com',
-      username: 'JudgeSarah',
+      username: 'JudgeSarah',,
       displayName: 'Sarah Chen',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sarah',
       roles: ['player', 'judge', 'organizer', 'admin'],
@@ -263,52 +263,52 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
       achievements: [
         {
           id: 1,
-          name: 'First Victory',
+          name: 'First Victory',,
           description: 'Win your first tournament',
           earned: true,
-          rarity: 'common',
+          rarity: 'common',,
         },
         {
           id: 2,
-          name: 'Deck Master',
+          name: 'Deck Master',,
           description: 'Create 20 decks',
           earned: true,
-          rarity: 'rare',
+          rarity: 'rare',,
         },
         {
           id: 3,
-          name: 'Judge Apprentice',
+          name: 'Judge Apprentice',,
           description: 'Become a Level 1 Judge',
           earned: true,
-          rarity: 'epic',
+          rarity: 'epic',,
         },
         {
           id: 4,
-          name: 'Tournament Organizer',
+          name: 'Tournament Organizer',,
           description: 'Organize your first tournament',
           earned: true,
-          rarity: 'epic',
+          rarity: 'epic',,
         },
         {
           id: 5,
-          name: 'Head Judge',
+          name: 'Head Judge',,
           description: 'Become a Level 5 Judge',
           earned: true,
-          rarity: 'legendary',
+          rarity: 'legendary',,
         },
         {
           id: 6,
-          name: 'Community Leader',
+          name: 'Community Leader',,
           description: 'Organize 20 tournaments',
           earned: true,
-          rarity: 'legendary',
+          rarity: 'legendary',,
         },
         {
           id: 7,
-          name: 'Platform Admin',
+          name: 'Platform Admin',,
           description: 'Administrative privileges',
           earned: true,
-          rarity: 'mythic',
+          rarity: 'mythic',,
         },
       ],
       preferences: {
@@ -460,7 +460,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
       const newUser = {
         id: userId,
         email: userData.email,
-        username: userData.username,
+        username: userData.username,,
         displayName: userData.displayName,
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}`,
         roles: ['player'],
@@ -484,10 +484,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
         achievements: [
           {
             id: 1,
-            name: 'Welcome to KONIVRER',
+            name: 'Welcome to KONIVRER',,
             description: 'Created your account',
             earned: true,
-            rarity: 'common',
+            rarity: 'common',,
           },
         ],
         preferences: {
@@ -763,7 +763,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
     hasRole: role => user?.roles?.includes(role) || false,
     isJudge: () => user?.roles?.includes('judge') || false,
     isOrganizer: () => user?.roles?.includes('organizer') || false,
-    setShowAuthModal: () => {}, // Will be implemented in MobileFirstLayout
+    setShowAuthModal: () => {} // Will be implemented in MobileFirstLayout
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

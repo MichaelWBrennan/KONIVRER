@@ -53,7 +53,7 @@ class TournamentMatchmakingService {
     tournamentEngine.matchmaking.weights = {
       skillRating: settings.skillRatingWeight ?? 0.4,
       uncertainty: settings.uncertaintyWeight ?? 0.15,
-      deckArchetype: settings.deckArchetypeWeight ?? 0.15,
+      deckArchetype: settings.deckArchetypeWeight ?? 0.15,,
       playHistory: settings.playHistoryWeight ?? 0.1,
       playstyleCompatibility: settings.playstyleCompatibilityWeight ?? 0.1,
       playerPreferences: settings.playerPreferencesWeight ?? 0.1,
@@ -95,7 +95,7 @@ class TournamentMatchmakingService {
         ...JSON.parse(JSON.stringify(engine.playerData)), // Deep clone default player data
         userId: player.id,
         displayName: player.displayName,
-        deckArchetype: player.deckArchetype,
+        deckArchetype: player.deckArchetype,,
         deckList: player.deckList,
         tournamentId: tournamentId,
         // If player has existing rating, use it as a starting point
@@ -453,7 +453,7 @@ class TournamentMatchmakingService {
    * @param {string} deckArchetype - Deck archetype
    * @returns {Object} - Playstyle profile
    */
-  getPlaystyleFromDeckArchetype(deckArchetype: any): any {
+  getPlaystyleFromDeckArchetype(deckArchetype: any): any {,
     // Default playstyle
     const defaultPlaystyle = {
       aggression: 0.5,
@@ -538,7 +538,7 @@ class TournamentMatchmakingService {
           wins: profile.matchHistory?.filter(m => m.result === 'win').length || 0,
           losses: profile.matchHistory?.filter(m => m.result === 'loss').length || 0,
           draws: profile.matchHistory?.filter(m => m.result === 'draw').length || 0,
-          deckArchetype: profile.deckArchetype,
+          deckArchetype: profile.deckArchetype,,
         });
       }
     }

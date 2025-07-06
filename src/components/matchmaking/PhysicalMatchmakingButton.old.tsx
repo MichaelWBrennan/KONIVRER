@@ -24,7 +24,7 @@ const PhysicalMatchmakingButton = (): any => {
     <motion.div
       className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-sm p-6 text-white"
       whileHover={{ y: -5 }}
-      transition={{ type: 'spring', stiffness: 300 }}
+      transition={{ type: 'spring', stiffness: 300 }},
      />
       <div className="flex items-center space-x-2 mb-2"></div>
         <Trophy className="w-5 h-5 text-yellow-300" />

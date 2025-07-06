@@ -29,12 +29,12 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
 
   // Filter options
   const filterOptions = [
-    { id: 'all', name: 'All', icon: null },
-    { id: 'turn', name: 'Turn Actions', icon: Clock },
-    { id: 'combat', name: 'Combat', icon: Sword },
-    { id: 'damage', name: 'Damage', icon: Heart },
-    { id: 'cards', name: 'Card Play', icon: Zap },
-    { id: 'abilities', name: 'Abilities', icon: Flame }
+    { id: 'all', name: 'All', icon: null },,
+    { id: 'turn', name: 'Turn Actions', icon: Clock },,
+    { id: 'combat', name: 'Combat', icon: Sword },,
+    { id: 'damage', name: 'Damage', icon: Heart },,
+    { id: 'cards', name: 'Card Play', icon: Zap },,
+    { id: 'abilities', name: 'Abilities', icon: Flame },
   ];
 
   // Get entry type based on content

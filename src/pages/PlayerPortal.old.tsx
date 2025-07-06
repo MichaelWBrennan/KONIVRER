@@ -31,7 +31,7 @@ const PlayerPortal = (): any => {
       setTournaments([
         {
           id: 1,
-          name: 'Friday Night Magic',
+          name: 'Friday Night Magic',,
           date: '2024-07-05',
           time: '19:00',
           venue: 'Local Game Store',
@@ -42,7 +42,7 @@ const PlayerPortal = (): any => {
         },
         {
           id: 2,
-          name: 'Saturday Standard',
+          name: 'Saturday Standard',,
           date: '2024-07-06',
           time: '14:00',
           venue: 'Community Center',

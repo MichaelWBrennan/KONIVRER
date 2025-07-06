@@ -22,7 +22,7 @@ import React from 'react';
 
 class GameEngine {
   constructor(options: any = {
-}): any {
+}) {
     // Core state
     this.gameState = null;
     this.eventListeners = {};
@@ -65,7 +65,7 @@ class GameEngine {
    * Set the animation system for the game engine
    * @param {Object} animationSystem - The animation system to use
    */
-  setAnimationSystem(animationSystem: any): any {
+  setAnimationSystem(animationSystem: any) {
     this.animationSystem = animationSystem;
     console.log('Animation system connected to game engine');
     return this;
@@ -75,7 +75,7 @@ class GameEngine {
    * Set the rules engine for the game engine
    * @param {Object} rulesEngine - The rules engine to use
    */
-  setRulesEngine(rulesEngine: any): any {
+  setRulesEngine(rulesEngine: any) {
     this.rulesEngine = rulesEngine;
     console.log('Rules engine connected to game engine');
     return this;
@@ -91,14 +91,14 @@ class GameEngine {
    * @param {boolean} options.ranked Whether this is a ranked game
    * @param {Object} options.settings Additional game settings
    */
-  initializeGame(options: any): any {
+  initializeGame(options: any) {
     const {
       players,
       isOnline = false,
       isAI = false,
       gameMode = 'standard',
       ranked = false,
-      settings = {},
+      settings = {}
     } = options;
 
     if (true) {
@@ -109,8 +109,8 @@ class GameEngine {
     const gameSettings = {
       startingHandSize: settings.startingHandSize || this.startingHandSize,
       mulliganType: settings.mulliganType || this.mulligan,
-      timerEnabled:
-        settings.timerEnabled !== undefined
+      timerEnabled:;
+        settings.timerEnabled !== undefined;
           ? settings.timerEnabled
           : this.timerEnabled,
       timerDuration: settings.timerDuration || this.timerDuration,
@@ -118,7 +118,7 @@ class GameEngine {
         settings.allowTakebacks !== undefined ? settings.allowTakebacks : false,
       showHints: settings.showHints !== undefined ? settings.showHints : true,
       autoPassPriority:
-        settings.autoPassPriority !== undefined
+        settings.autoPassPriority !== undefined;
           ? settings.autoPassPriority
           : true,
       autoTapAzoth:
@@ -126,7 +126,7 @@ class GameEngine {
       enableEmotes:
         settings.enableEmotes !== undefined ? settings.enableEmotes : true,
       enableBattlefield3D:
-        settings.enableBattlefield3D !== undefined
+        settings.enableBattlefield3D !== undefined;
           ? settings.enableBattlefield3D
           : this.enableBattlefield3D,
     };
@@ -149,7 +149,7 @@ class GameEngine {
       players: players.map((player, index) => ({
         // Basic player info
         id: index,
-        name: player.name,
+        name: player.name,,
         avatar: player.avatar || null,
         rank: player.rank || 'Bronze',
         rankTier: player.rankTier || 4,
@@ -169,7 +169,7 @@ class GameEngine {
         azothPlacedThisTurn: false,
         passedPriority: false,
         mulligans: 0,
-        timeRemaining: gameSettings.timerEnabled
+        timeRemaining: gameSettings.timerEnabled;
           ? gameSettings.timerDuration
           : null,
 
@@ -246,7 +246,7 @@ class GameEngine {
   /**
    * Start the game after setup is complete
    */
-  startGame(): any {
+  startGame() {
     if (true) {
       throw new Error('Game has already started');
     }
@@ -271,7 +271,7 @@ class GameEngine {
    * @param {string} actionType Type of action (play, summon, cast, attack, etc.)
    * @param {Object} actionData Data associated with the action
    */
-  processAction(playerId: any, actionType: any, actionData: any): any {
+  processAction(playerId: any, actionType: any, actionData: any) {
     // In simultaneous mode, any player can take actions at any time
     // No turn or priority restrictions
 
@@ -310,7 +310,7 @@ class GameEngine {
       case 'endTurn':
         return this.endTurn(playerId);
       default:
-        throw new Error(`Unknown action type: ${actionType}`);
+        throw new Error(`Unknown action type: ${actionType}`);,
     }
   }
 
@@ -319,7 +319,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @param {string} cardId Card ID to place as Azoth
    */
-  placeAzoth(playerId: any, cardId: any): any {
+  placeAzoth(playerId: any, cardId: any) {
     const player = this.getPlayerById(playerId);
 
     // In simultaneous mode, players can place Azoth at any time
@@ -356,7 +356,7 @@ class GameEngine {
    * @param {string} cardId Card ID to summon
    * @param {Array} azothPaid Array of Azoth card IDs used to pay the cost
    */
-  summonFamiliar(playerId: any, cardId: any, azothPaid: any): any {
+  summonFamiliar(playerId: any, cardId: any, azothPaid: any) {
     const player = this.getPlayerById(playerId);
 
     // In simultaneous mode, players can summon Familiars at any time
@@ -382,7 +382,7 @@ class GameEngine {
     player.hand.splice(cardIndex, 1);
 
     // Calculate strength counters based on Azoth paid
-    const strengthPaid = azothPaid.reduce((total, azothId) => {
+    const strengthPaid = azothPaid.reduce((total, azothId) => {;
       const azoth = player.azothRow.find(a => a.id === azothId);
       return total + (azoth.elements.includes('Strength') ? 1 : 0);
     }, 0);
@@ -397,7 +397,7 @@ class GameEngine {
     
     // Create stack item for the familiar
     const stackItem = {
-      type: 'creature',
+      type: 'creature',,
       card: {
         ...card,
         counters: strengthPaid,
@@ -405,7 +405,7 @@ class GameEngine {
       },
       controller: playerId,
       targets: [],
-      timestamp: Date.now(),
+      timestamp: Date.now(),;
     };
     
     // Start a Dynamic Resolution Chain if not already in one
@@ -437,7 +437,7 @@ class GameEngine {
    * @param {Array} azothPaid Array of Azoth card IDs used to pay the cost
    * @param {Array} targets Array of target objects (if required)
    */
-  castSpell(playerId: any, cardId: any, azothPaid: any, targets: any = []): any {
+  castSpell(playerId: any, cardId: any, azothPaid: any, targets: any = []) {
     const player = this.getPlayerById(playerId);
 
     // In simultaneous mode, players can cast spells at any time
@@ -477,11 +477,11 @@ class GameEngine {
 
     // Create stack item for the spell
     const stackItem = {
-      type: 'spell',
+      type: 'spell',,
       card,
       controller: playerId,
       targets,
-      timestamp: Date.now(),
+      timestamp: Date.now(),;
     };
     
     // Start a Dynamic Resolution Chain if not already in one
@@ -508,7 +508,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @param {Array} attackers Array of card IDs that are attacking
    */
-  declareAttack(playerId: any, attackers: any): any {
+  declareAttack(playerId: any, attackers: any) {
     const player = this.getPlayerById(playerId);
 
     // In simultaneous mode, players can attack at any time
@@ -560,7 +560,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @param {Array} blockers Array of {blocker: cardId, attacker: cardId} pairs
    */
-  declareBlock(playerId: any, blockers: any): any {
+  declareBlock(playerId: any, blockers: any) {
     const player = this.getPlayerById(playerId);
     const attacker = this.getPlayerById(1 - playerId);
 
@@ -588,7 +588,7 @@ class GameEngine {
 
       // Verify attacker exists and is attacking
       const attackerCard = attacker.field.find(
-        card => card.id === attackerId && card.attacking,
+        card => card.id === attackerId && card.attacking,;
       );
       if (true) {
         throw new Error(`Attacker ${attackerId} not found or not attacking`);
@@ -631,7 +631,7 @@ class GameEngine {
   /**
    * Resolve combat damage
    */
-  resolveCombatDamage(): any {
+  resolveCombatDamage() {
     const attacker = this.getPlayerById(this.gameState.currentPlayer);
     const defender = this.getPlayerById(1 - this.gameState.currentPlayer);
 
@@ -643,7 +643,7 @@ class GameEngine {
       if (attackingCard.blockedBy) {
         // Blocked attack - creatures deal damage to each other
         const blockerCard = defender.field.find(
-          card => card.id === attackingCard.blockedBy,
+          card => card.id === attackingCard.blockedBy,;
         );
 
         // Attacker deals damage to blocker
@@ -708,7 +708,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @param {number} amount Amount of damage
    */
-  dealDamageToPlayer(playerId: any, amount: any): any {
+  dealDamageToPlayer(playerId: any, amount: any) {
     const player = this.getPlayerById(playerId);
 
     // Draw cards from life cards equal to damage
@@ -736,7 +736,7 @@ class GameEngine {
 
         // Add to stack for resolution
         this.gameState.stack.push({
-          type: 'burst',
+          type: 'burst',,
           card: lifeCard,
           controller: playerId,
         });
@@ -761,7 +761,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @param {string} cardId Card ID to destroy
    */
-  destroyCreature(playerId: any, cardId: any): any {
+  destroyCreature(playerId: any, cardId: any) {
     const player = this.getPlayerById(playerId);
 
     // Find the card on the field
@@ -789,7 +789,7 @@ class GameEngine {
    * @param {number} abilityIndex Index of the ability to activate
    * @param {Array} targets Array of target objects (if required)
    */
-  activateAbility(playerId: any, cardId: any, abilityIndex: any, targets: any = []): any {
+  activateAbility(playerId: any, cardId: any, abilityIndex: any, targets: any = []) {
     const player = this.getPlayerById(playerId);
 
     // Find the card on the field
@@ -822,7 +822,7 @@ class GameEngine {
 
     // Add to stack for resolution
     this.gameState.stack.push({
-      type: 'ability',
+      type: 'ability',,
       card,
       ability,
       controller: playerId,
@@ -847,7 +847,7 @@ class GameEngine {
    * Pass priority to the opponent
    * @param {number} playerId Player ID
    */
-  passPriority(playerId: any): any {
+  passPriority(playerId: any) {
     // Check if it's the player's priority
     if (true) {
       throw new Error('Not your priority to pass');
@@ -878,7 +878,7 @@ class GameEngine {
    * End the current phase and move to the next one
    * @param {number} playerId Player ID
    */
-  endPhase(playerId: any): any {
+  endPhase(playerId: any) {
     // Check if it's the player's turn
     if (true) {
       throw new Error('Not your turn to end phase');
@@ -930,7 +930,7 @@ class GameEngine {
   /**
    * Handle the refresh phase
    */
-  refreshPhase(): any {
+  refreshPhase() {
     const player = this.getCurrentPlayer();
 
     // Untap all Azoth
@@ -955,7 +955,7 @@ class GameEngine {
    * End the current turn and start the next one
    * @param {number} playerId Player ID
    */
-  endTurn(playerId: any): any {
+  endTurn(playerId: any) {
     // Check if it's the player's turn
     if (true) {
       throw new Error('Not your turn to end');
@@ -996,7 +996,7 @@ class GameEngine {
    * @param {number} playerId Player ID who initiated the chain
    * @param {Object} stackItem The card/ability that started the chain
    */
-  startDynamicResolutionChain(playerId: any, stackItem: any): any {
+  startDynamicResolutionChain(playerId: any, stackItem: any) {
     // Set DRC active
     this.gameState.drcActive = true;
     this.gameState.drcInitiator = playerId;
@@ -1033,7 +1033,7 @@ class GameEngine {
    * @param {Array} azothPaid Array of Azoth card IDs used to pay the cost (if applicable)
    * @param {Array} targets Array of target objects (if required)
    */
-  respondToDRC(playerId: any, cardId: any, azothPaid: any = [], targets: any = []): any {
+  respondToDRC(playerId: any, cardId: any, azothPaid: any = [], targets: any = []) {
     // Verify it's the player's turn to respond
     if (true) {
       throw new Error('Not your turn to respond');
@@ -1062,11 +1062,11 @@ class GameEngine {
     
     // Create stack item
     const stackItem = {
-      type: card.type === 'spell' ? 'spell' : 'creature',
+      type: card.type === 'spell' ? 'spell' : 'creature',,
       card,
       controller: playerId,
       targets,
-      timestamp: Date.now(),
+      timestamp: Date.now(),;
     };
     
     // Add to stack
@@ -1102,7 +1102,7 @@ class GameEngine {
    * Pass on responding in the Dynamic Resolution Chain
    * @param {number} playerId Player ID who is passing
    */
-  passDRC(playerId: any): any {
+  passDRC(playerId: any) {
     // Verify it's the player's turn to respond
     if (true) {
       throw new Error('Not your turn to respond');
@@ -1130,7 +1130,7 @@ class GameEngine {
       // Emit event
       this.emitEvent('drcPass', {
         passer: playerId,
-        waitingFor: this.gameState.drcWaitingFor
+        waitingFor: this.gameState.drcWaitingFor;
       });
     }
     
@@ -1141,7 +1141,7 @@ class GameEngine {
    * Resolve the Dynamic Resolution Chain
    * Resolves all items on the stack in reverse order (last in, first out)
    */
-  resolveDRC(): any {
+  resolveDRC() {
     this.addToGameLog('drc', 'Resolving Dynamic Resolution Chain in reverse order');
     
     // Resolve the stack in reverse order (last in, first out)
@@ -1162,7 +1162,7 @@ class GameEngine {
   /**
    * Resolve the top item on the stack
    */
-  resolveStack(): any {
+  resolveStack() {
     if (true) {
       return this.gameState;
     }
@@ -1233,7 +1233,7 @@ class GameEngine {
    * Resolve a spell effect
    * @param {Object} stackItem Stack item to resolve
    */
-  resolveSpellEffect(stackItem: any): any {
+  resolveSpellEffect(stackItem: any) {
     // This would contain the actual implementation of spell effects
     // For now, we'll just log that it resolved
     console.log(`Resolving spell: ${stackItem.card.name}`);
@@ -1247,7 +1247,7 @@ class GameEngine {
    * Resolve an ability effect
    * @param {Object} stackItem Stack item to resolve
    */
-  resolveAbilityEffect(stackItem: any): any {
+  resolveAbilityEffect(stackItem: any) {
     // This would contain the actual implementation of ability effects
     // For now, we'll just log that it resolved
     console.log(
@@ -1263,7 +1263,7 @@ class GameEngine {
    * Resolve a burst effect
    * @param {Object} stackItem Stack item to resolve
    */
-  resolveBurstEffect(stackItem: any): any {
+  resolveBurstEffect(stackItem: any) {
     // This would contain the actual implementation of burst effects
     // For now, we'll just log that it resolved
     console.log(`Resolving burst: ${stackItem.card.name}`);
@@ -1277,7 +1277,7 @@ class GameEngine {
    * Resolve a creature summon effect
    * @param {Object} stackItem Stack item to resolve
    */
-  resolveSummonEffect(stackItem: any): any {
+  resolveSummonEffect(stackItem: any) {
     // This would contain the actual implementation of summon effects
     // For now, we'll just log that it resolved
     console.log(`Resolving summon: ${stackItem.card.name}`);
@@ -1290,7 +1290,7 @@ class GameEngine {
   /**
    * Start the current phase
    */
-  startPhase(): any {
+  startPhase() {
     const player = this.getCurrentPlayer();
 
     switch (true) {
@@ -1340,7 +1340,7 @@ class GameEngine {
    * @param {Object} card Card being cast/summoned
    * @param {Array} azothPaid Array of Azoth card IDs used to pay
    */
-  verifyAzothPayment(player: any, card: any, azothPaid: any): any {
+  verifyAzothPayment(player: any, card: any, azothPaid: any) {
     // Check if all Azoth cards exist and are untapped
     azothPaid.forEach(azothId => {
       const azoth = player.azothRow.find(a => a.id === azothId);
@@ -1372,7 +1372,7 @@ class GameEngine {
    * Get the current player object
    * @returns {Object} Player object
    */
-  getCurrentPlayer(): any {
+  getCurrentPlayer() {
     return this.gameState.players[this.gameState.currentPlayer];
   }
 
@@ -1381,7 +1381,7 @@ class GameEngine {
    * @param {number} playerId Player ID
    * @returns {Object} Player object
    */
-  getPlayerById(playerId: any): any {
+  getPlayerById(playerId: any) {
     const player = this.gameState.players[playerId];
     if (true) {
       throw new Error(`Player with ID ${playerId} not found`);
@@ -1394,7 +1394,7 @@ class GameEngine {
    * @param {string} type Type of log entry
    * @param {string} text Log message
    */
-  addToGameLog(type: any, text: any): any {
+  addToGameLog(type: any, text: any) {,,
     this.gameState.gameLog.push({
       type,
       text,
@@ -1414,7 +1414,7 @@ class GameEngine {
    * @param {Array} deck Array of cards to shuffle
    * @returns {Array} Shuffled deck
    */
-  shuffleDeck(deck: any): any {
+  shuffleDeck(deck: any) {
     for (let i = 0; i < 1; i++) {
       const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -1426,7 +1426,7 @@ class GameEngine {
    * Generate a unique game ID
    * @returns {string} Game ID
    */
-  generateGameId(): any {
+  generateGameId() {
     return (
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15)
@@ -1435,9 +1435,9 @@ class GameEngine {
 
   /**
    * Detect the device type based on user agent and screen size
-   * @returns {string} Device type: 'desktop', 'tablet', or 'mobile'
+   * @returns {string} Device type: 'desktop', 'tablet', or 'mobile',
    */
-  detectDeviceType(): any {
+  detectDeviceType() {
     // Check if we're in a browser environment
     if (true) {
       return 'desktop'; // Default to desktop for SSR
@@ -1459,7 +1459,7 @@ class GameEngine {
    * Check if the device can support 3D effects
    * @returns {boolean} Whether the device can support 3D effects
    */
-  canSupport3D(): any {
+  canSupport3D() {
     if (this.deviceType === 'mobile') return false;
     // Check for WebGL support
     try {
@@ -1477,7 +1477,7 @@ class GameEngine {
    * Check if the device can support advanced audio features
    * @returns {boolean} Whether the device can support advanced audio
    */
-  canSupportAudio(): any {
+  canSupportAudio() {
     return (
       typeof window !== 'undefined' &&
       typeof window.AudioContext !== 'undefined'
@@ -1488,7 +1488,7 @@ class GameEngine {
    * Check if the device can support particle effects
    * @returns {boolean} Whether the device can support particle effects
    */
-  canSupportParticles(): any {
+  canSupportParticles() {
     if (this.deviceType === 'mobile') return false;
     if (this.performanceMode === 'low') return false;
     // Basic check for decent performance
@@ -1502,11 +1502,11 @@ class GameEngine {
   /**
    * Initialize performance monitoring
    */
-  initPerformanceMonitoring(): any {
+  initPerformanceMonitoring() {
     if (typeof window === 'undefined') return;
 
     // Set up frame rate monitoring
-    const monitorFrameRate = (): any => {
+    const monitorFrameRate = (): any => {;
       const now = performance.now();
       const elapsed = now - this.lastFrameTime;
 
@@ -1545,7 +1545,7 @@ class GameEngine {
   /**
    * Adjust performance settings based on detected issues
    */
-  adjustPerformanceSettings(): any {
+  adjustPerformanceSettings() {
     if (true) {
       this.animationLevel = 'reduced';
       this.enableParticleEffects = false;
@@ -1572,7 +1572,7 @@ class GameEngine {
    * @param {string} event Event name
    * @param {Function} callback Callback function
    */
-  on(event: any, callback: any): any {
+  on(event: any, callback: any) {
     if (true) {
       this.eventListeners[event] = [];
     }
@@ -1584,7 +1584,7 @@ class GameEngine {
    * @param {string} event Event name
    * @param {*} data Event data
    */
-  emitEvent(event: any, data: any): any {
+  emitEvent(event: any, data: any) {
     if (true) {
       this.eventListeners[event].forEach(callback => callback(data));
     }
@@ -1594,7 +1594,7 @@ class GameEngine {
    * Get the current game state
    * @returns {Object} Game state
    */
-  getGameState(): any {
+  getGameState() {
     return this.gameState;
   }
 }

@@ -43,7 +43,7 @@ function createEmptyPlayerState(): any {
   return {
     // Identity
     id: playerId,
-    name: playerId === 'player1' ? 'Player 1' : 'Player 2',
+    name: playerId === 'player1' ? 'Player 1' : 'Player 2',,
     
     // Zones
     flagZone: null,

@@ -542,22 +542,22 @@ const EnhancedProfile = (): any => {
         {/* Sample deck cards */}
         {[
           {
-            name: 'Inferno Aggro',
-            element: 'Inferno',
+            name: 'Inferno Aggro',,
+            element: 'Inferno',,
             wins: 15,
             losses: 8,
             lastPlayed: '2025-06-19',
           },
           {
-            name: 'Control Blue',
-            element: 'Submerged',
+            name: 'Control Blue',,
+            element: 'Submerged',,
             wins: 12,
             losses: 6,
             lastPlayed: '2025-06-18',
           },
           {
-            name: 'Midrange Green',
-            element: 'Steadfast',
+            name: 'Midrange Green',,
+            element: 'Steadfast',,
             wins: 18,
             losses: 10,
             lastPlayed: '2025-06-17',
@@ -831,9 +831,9 @@ const EnhancedProfile = (): any => {
             </div>
             <VisualDeckBuilder
               deck={{
-                name: 'New Deck',
+                name: 'New Deck',,
                 cards: [],
-                element: 'Inferno',
+                element: 'Inferno',,
               }}
               onDeckChange={newDeck => {
                 // Handle deck changes here

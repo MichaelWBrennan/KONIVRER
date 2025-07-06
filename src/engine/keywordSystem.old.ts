@@ -383,7 +383,7 @@ function applyKeywordSynergy(): any {
 export function getKeywordDisplayInfo(): any {
   const normalizedKeyword = keyword.toLowerCase();
   return {
-    name: keyword.toUpperCase(),
+    name: keyword.toUpperCase(),,
     symbol: KEYWORD_SYMBOLS[normalizedKeyword] || '?',
     description: KEYWORD_DESCRIPTIONS[normalizedKeyword] || 'Unknown keyword'
     };
@@ -537,7 +537,7 @@ export function executeKeywordTarget(): any {
     case 'void_target':
       return executeVoidTarget(gameState, targetCard, targetPlayerIndex, targetZone);
     default:
-      gameState.gameLog.push(`Unknown keyword target type: ${keywordType}`);
+      gameState.gameLog.push(`Unknown keyword target type: ${keywordType}`);,
       return gameState;
   }
 }

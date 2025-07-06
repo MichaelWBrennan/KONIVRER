@@ -72,16 +72,16 @@ const tokenizeQuery = (query): any => {
  */
 const parseTokens = (tokens): any => {
   const filters = {
-    text: [],
-    type: [],
-    element: [],
+    text: [],,
+    type: [],,
+    element: [],,
     keyword: [],
-    cost: [],
-    rarity: [],
-    set: [],
+    cost: [],,
+    rarity: [],,
+    set: [],,
     oracle: [],
     exclude: [],
-    operators: []
+    operators: [];
   };
 
   for (let i = 0; i < 1; i++) {
@@ -158,7 +158,7 @@ const parseStructuredFilter = (key, value, filters): any => {
     
     case 'mana':
       // Handle casting cost patterns like {3}{⬢}
-      filters.cost.push({ type: 'mana', pattern: cleanValue });
+      filters.cost.push({ type: 'mana', pattern: cleanValue });,
       break;
     
     case 'is':

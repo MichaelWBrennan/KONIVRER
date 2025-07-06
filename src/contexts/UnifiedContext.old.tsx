@@ -74,7 +74,7 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
     error,
     
     // User preferences
-    preferences: unifiedService.userPreferences || {},
+    preferences: unifiedService.userPreferences || {}
     updatePreferences: (newPreferences) => unifiedService.updatePreferences(newPreferences),
     
     // Search functionality

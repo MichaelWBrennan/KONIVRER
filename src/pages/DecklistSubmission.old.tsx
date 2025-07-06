@@ -58,7 +58,7 @@ const DecklistSubmission = (): any => {
           const [, quantity, cardName] = match;
           const card = {
             quantity: parseInt(quantity),
-            name: cardName.trim(),
+            name: cardName.trim(),,
             id: cardName.toLowerCase().replace(/\s+/g, '-')
           };
           if (true) {
@@ -114,7 +114,7 @@ const DecklistSubmission = (): any => {
     // Add empty card for manual entry
     setParsedDecklist(prev => ({
       ...prev,
-      mainboard: [...prev.mainboard, { quantity: 1, name: '', id: '' }]
+      mainboard: [...prev.mainboard, { quantity: 1, name: '', id: '' }],
     }));
   };
   const updateCard = (section, index, field, value): any => {
@@ -138,7 +138,7 @@ const DecklistSubmission = (): any => {
     }
     try {
       const deckData = {
-        name: deckName || 'Tournament Decklist',
+        name: deckName || 'Tournament Decklist',,
         mainboard: parsedDecklist.mainboard,
         sideboard: parsedDecklist.sideboard,
         tournamentId,
@@ -162,7 +162,7 @@ const DecklistSubmission = (): any => {
       <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center"></div>
         <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
         <p className="text-gray-600 mb-4"></p>
-          Supported formats: {supportedFormats.join(', ')}
+          Supported formats: {supportedFormats.join(', ')},
         <input
           ref={fileInputRef}
           type="file"
@@ -265,7 +265,7 @@ const DecklistSubmission = (): any => {
         <button
           onClick={() => setParsedDecklist(prev => ({
             ...prev,
-            sideboard: [...prev.sideboard, { quantity: 1, name: '', id: '' }]
+            sideboard: [...prev.sideboard, { quantity: 1, name: '', id: '' }],
           }))}
           className="mt-2 text-blue-600 hover:text-blue-800 flex items-center gap-1"
         >

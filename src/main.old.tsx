@@ -62,7 +62,7 @@ serviceWorkerRegistration.register({
     if (updateAvailable) {
       // Send message to service worker to skip waiting
       if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });,
       }
       
       // Reload the page to get the new version

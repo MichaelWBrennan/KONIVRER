@@ -30,7 +30,7 @@ const useCardSearch = (): any => {
     sortBy,
     sortOrder,
     page: currentPage,
-    limit: resultsPerPage
+    limit: resultsPerPage;
   }), [query, filters, sortBy, sortOrder, currentPage, resultsPerPage]);
 
   // Create cache key for React Query
@@ -107,13 +107,13 @@ const useCardSearch = (): any => {
       const suggestions = await searchCards({
         query: partialQuery,
         limit: 5,
-        suggestionsOnly: true
+        suggestionsOnly: true;
       });
       return suggestions.results.map(card => ({
-        type: 'card',
+        type: 'card',,
         value: card.name,
         label: card.name,
-        subtitle: `${card.type} - ${card.element || 'Neutral'}`
+        subtitle: `${card.type} - ${card.element || 'Neutral'}`;
       }));
     } catch (error: any) {
       console.error('Suggestions error:', error);
@@ -128,7 +128,7 @@ const useCardSearch = (): any => {
       searchParams,
       results: data.results,
       totalResults: data.totalResults,
-      exportedAt: new Date().toISOString()
+      exportedAt: new Date().toISOString();
     };
     
     switch (true) {
@@ -167,7 +167,7 @@ const useCardSearch = (): any => {
     // Computed values
     hasResults: (data?.results?.length || 0) > 0,
     hasMore: data ? (currentPage * resultsPerPage) < data.totalResults : false,
-    totalPages: data ? Math.ceil(data.totalResults / resultsPerPage) : 0
+    totalPages: data ? Math.ceil(data.totalResults / resultsPerPage) : 0;
   };
 };
 

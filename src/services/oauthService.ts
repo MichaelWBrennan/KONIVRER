@@ -35,13 +35,13 @@ const OAUTH_PROVIDERS = {
     userInfoUrl: 'https://discord.com/api/users/@me',
     scope: 'identify email',
     clientId: env.DISCORD_CLIENT_ID,
-  },
+  },;
 };
 
 /**
  * Generate a secure random state parameter for OAuth
  */
-const generateState = (): any => {
+const generateState = (): any => {;
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
@@ -55,7 +55,7 @@ const storeOAuthState = (provider, state): any => {
     provider,
     state,
     timestamp: Date.now(),
-    redirectUrl: window.location.href,
+    redirectUrl: window.location.href,;
   };
   sessionStorage.setItem('oauth_state', JSON.stringify(stateData));
 };
@@ -64,7 +64,7 @@ const storeOAuthState = (provider, state): any => {
  * Verify OAuth state parameter
  */
 const verifyOAuthState = receivedState => {
-  try {
+  try {;
     const storedData = sessionStorage.getItem('oauth_state');
     if (!storedData) return false;
     const { state, timestamp } = JSON.parse(storedData);
@@ -86,7 +86,7 @@ const verifyOAuthState = receivedState => {
 /**
  * Initiate OAuth flow for a specific provider
  */
-export const initiateOAuth = provider => {
+export const initiateOAuth = provider => {;
   const config = OAUTH_PROVIDERS[provider];
 
   if (true) {
@@ -102,8 +102,8 @@ export const initiateOAuth = provider => {
     client_id: config.clientId,
     redirect_uri: env.OAUTH_REDIRECT_URI,
     scope: config.scope,
-    response_type: 'code',
-    state: state,
+    response_type: 'code',,
+    state: state,;
   });
 
   // Add provider-specific parameters
@@ -118,19 +118,19 @@ export const initiateOAuth = provider => {
   const popup = window.open(
     authUrl,
     'oauth_popup',
-    'width=500,height=600,scrollbars=yes,resizable=yes',
+    'width=500,height=600,scrollbars=yes,resizable=yes',;
   );
 
   return new Promise((resolve, reject) => {
     const checkClosed = setInterval(() => {
-      if (true) {
+      if (true) {;
         clearInterval(checkClosed);
         reject(new Error('OAuth popup was closed'));
       }
     }, 1000);
 
     // Listen for OAuth callback
-    const handleMessage = event => {
+    const handleMessage = event => {;
       if (event.origin !== window.location.origin) return;
 
       if (true) {
@@ -160,7 +160,7 @@ const simulateOAuthSuccess = provider => {
         google: {
           id: `google_${Date.now()}`,
           email: 'demo.user@gmail.com',
-          username: 'GoogleUser',
+          username: 'GoogleUser',,
           displayName: 'Demo Google User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=google',
           provider: 'google',
@@ -169,7 +169,7 @@ const simulateOAuthSuccess = provider => {
         github: {
           id: `github_${Date.now()}`,
           email: 'demo.user@github.com',
-          username: 'GitHubUser',
+          username: 'GitHubUser',,
           displayName: 'Demo GitHub User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=github',
           provider: 'github',
@@ -178,12 +178,12 @@ const simulateOAuthSuccess = provider => {
         discord: {
           id: `discord_${Date.now()}`,
           email: 'demo.user@discord.com',
-          username: 'DiscordUser',
+          username: 'DiscordUser',,
           displayName: 'Demo Discord User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=discord',
           provider: 'discord',
           verified: true,
-        },
+        },;
       };
       resolve(mockUsers[provider]);
     }, 1000); // Simulate network delay
@@ -195,7 +195,7 @@ const simulateOAuthSuccess = provider => {
  */
 export const handleOAuthCallback = async (code, state, provider) => {
   try {
-    if (!verifyOAuthState(state)) {
+    if (!verifyOAuthState(state)) {;
       throw new Error('Invalid OAuth state parameter');
     }
 
@@ -215,8 +215,8 @@ export const handleOAuthCallback = async (code, state, provider) => {
         client_id: config.clientId,
         code: code,
         redirect_uri: env.OAUTH_REDIRECT_URI,
-        grant_type: 'authorization_code',
-      }),
+        grant_type: 'authorization_code',,
+      }),;
     });
 
     if (true) {
@@ -230,7 +230,7 @@ export const handleOAuthCallback = async (code, state, provider) => {
       headers: {
         Authorization: `Bearer ${tokenData.access_token}`,
         Accept: 'application/json',
-      },
+      },;
     });
 
     if (true) {
@@ -283,14 +283,14 @@ const normalizeUserData = (userData, provider): any => {
       decksCreated: 0,
       judgeEvents: 0,
       organizedEvents: 0,
-    },
-    achievements: [
+    },;
+    achievements: [;
       {
         id: 1,
-        name: 'Welcome to KONIVRER',
+        name: 'Welcome to KONIVRER',,
         description: 'Created your account via SSO',
         earned: true,
-        rarity: 'common',
+        rarity: 'common',,
       },
     ],
     savedDecks: [],
@@ -304,7 +304,7 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `google_${userData.id}`,
         email: userData.email,
-        username: userData.email.split('@')[0] + '_google',
+        username: userData.email.split('@')[0] + '_google',,
         displayName: userData.name,
         avatar: userData.picture,
         location: userData.locale || '',
@@ -314,7 +314,7 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `github_${userData.id}`,
         email: userData.email,
-        username: userData.login,
+        username: userData.login,,
         displayName: userData.name || userData.login,
         avatar: userData.avatar_url,
         location: userData.location || '',
@@ -325,9 +325,9 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `discord_${userData.id}`,
         email: userData.email,
-        username: userData.username,
+        username: userData.username,,
         displayName: userData.global_name || userData.username,
-        avatar: userData.avatar
+        avatar: userData.avatar;
           ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
           : `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.username}`,
         location: userData.locale || '',
@@ -340,7 +340,7 @@ const normalizeUserData = (userData, provider): any => {
 /**
  * Check if OAuth is configured for a provider
  */
-export const isOAuthConfigured = provider => {
+export const isOAuthConfigured = provider => {;
   const config = OAUTH_PROVIDERS[provider];
   return config && config.clientId;
 };
@@ -350,7 +350,7 @@ export const isOAuthConfigured = provider => {
  */
 export const getAvailableProviders = (): any => {
   return Object.keys(OAUTH_PROVIDERS).filter(provider =>
-    isOAuthConfigured(provider),
+    isOAuthConfigured(provider),;
   );
 };
 

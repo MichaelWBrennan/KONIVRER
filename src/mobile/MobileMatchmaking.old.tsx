@@ -87,7 +87,7 @@ const MobileMatchmaking = (): any => {
         // Select the best match based on availability and proximity
         setCurrentMatch({
           player1: {
-            name: 'You',
+            name: 'You',,
             tier: 'gold',
             confidenceBand: 'established',
             rating: 1500,
@@ -428,7 +428,7 @@ const MobileMatchmaking = (): any => {
                     onClick={() => {
                       setCurrentMatch({
                         player1: {
-                          name: 'You',
+                          name: 'You',,
                           tier: 'gold',
                           confidenceBand: 'established',
                           rating: 1500,

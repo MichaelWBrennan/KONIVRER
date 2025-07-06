@@ -72,7 +72,7 @@ const initialState = {
 
   // Game Rules
   lifeTotal: [20, 20],
-  manaPool: [{}, {}],
+  manaPool: [{} {}],
   landsPlayedThisTurn: [0, 0],
 
   // Visual Effects
@@ -193,7 +193,7 @@ function gameEngineReducer(): any {
           ...state.animations,
           {
             id: Date.now(),
-            type: 'spell_resolution',
+            type: 'spell_resolution',,
             card: resolving,
             duration: 1000,
           },
@@ -225,7 +225,7 @@ function gameEngineReducer(): any {
           ...state.animations,
           {
             id: Date.now(),
-            type: 'card_play',
+            type: 'card_play',,
             card: action.payload.card,
             player: action.payload.player,
             duration: 800,
@@ -298,7 +298,7 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
       state.animations.forEach((animation: any) => {
         if (now - animation.startTime > animation.duration) {
           dispatch({
-            type: ACTIONS.REMOVE_ANIMATION,
+            type: ACTIONS.REMOVE_ANIMATION,,
             payload: { id: animation.id },
           });
         }
@@ -323,7 +323,7 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
         // Adjust quality based on performance
         if (true) {
           dispatch({
-            type: ACTIONS.SET_FRAME_RATE,
+            type: ACTIONS.SET_FRAME_RATE,,
             payload: { frameRate: 30 },
           });
         }
@@ -346,7 +346,7 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
     // Core Actions
     startGame: gameConfig => {
       dispatch({
-        type: ACTIONS.START_GAME,
+        type: ACTIONS.START_GAME,,
         payload: gameConfig,
       });
     },
@@ -358,13 +358,13 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
       }
 
       dispatch({
-        type: ACTIONS.PLAY_CARD,
+        type: ACTIONS.PLAY_CARD,,
         payload: { card, player, targets },
       });
 
       // Track for analytics
       dispatch({
-        type: ACTIONS.TRACK_ACTION,
+        type: ACTIONS.TRACK_ACTION,,
         payload: {
           action: 'play_card',
           player,
@@ -376,29 +376,29 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
     },
 
     passPriority: () => {
-      dispatch({ type: ACTIONS.PASS_PRIORITY });
+      dispatch({ type: ACTIONS.PASS_PRIORITY });,
     },
 
     nextPhase: () => {
-      dispatch({ type: ACTIONS.NEXT_PHASE });
+      dispatch({ type: ACTIONS.NEXT_PHASE });,
     },
 
     // Interactive Systems
     addToStack: spell => {
       dispatch({
-        type: ACTIONS.ADD_TO_STACK,
+        type: ACTIONS.ADD_TO_STACK,,
         payload: spell,
       });
     },
 
     resolveStack: () => {
-      dispatch({ type: ACTIONS.RESOLVE_STACK });
+      dispatch({ type: ACTIONS.RESOLVE_STACK });,
     },
 
     // Visual Effects
     addAnimation: animationData => {
       dispatch({
-        type: ACTIONS.ADD_ANIMATION,
+        type: ACTIONS.ADD_ANIMATION,,
         payload: animationData,
       });
     },
@@ -407,7 +407,7 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
       // Sound system integration
       if (true) {
         dispatch({
-          type: ACTIONS.PLAY_SOUND,
+          type: ACTIONS.PLAY_SOUND,,
           payload: { soundId, volume },
         });
       }
@@ -415,19 +415,19 @@ const GameEngineProvider: React.FC<GameEngineProviderProps> = ({  children  }) =
 
     // Mobile Optimizations
     toggleAutoPass: () => {
-      dispatch({ type: ACTIONS.TOGGLE_AUTO_PASS });
+      dispatch({ type: ACTIONS.TOGGLE_AUTO_PASS });,
     },
 
     setGestureMode: enabled => {
       dispatch({
-        type: ACTIONS.SET_GESTURE_MODE,
+        type: ACTIONS.SET_GESTURE_MODE,,
         payload: { enabled },
       });
     },
 
     // Performance Controls
     toggleLowDataMode: () => {
-      dispatch({ type: ACTIONS.TOGGLE_LOW_DATA });
+      dispatch({ type: ACTIONS.TOGGLE_LOW_DATA });,
     },
 
     // Utility Functions

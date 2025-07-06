@@ -30,7 +30,7 @@ import RankProgressBar from './RankProgressBar';
  * Comprehensive player profile with confidence bands, form, and deck archetype information
  */
 const EnhancedPlayerProfile = ({
-  player = {},
+  player = {}
   showDetails = false,
   expandable = true,
   className = '',

@@ -21,7 +21,7 @@ const cardRules = new Map();
  * @param {string} cardId - Card ID
  * @returns {Object|null} Card rules or null if not found
  */
-export function getCardRules(): any {
+export function getCardRules() {
   return cardRules.get(cardId) || null;
 }
 
@@ -30,7 +30,7 @@ export function getCardRules(): any {
  * @param {string} cardId - Card ID
  * @param {Object} rules - Card rules
  */
-function registerCardRules(): any {
+function registerCardRules() {
   cardRules.set(cardId, rules);
 }
 
@@ -40,7 +40,7 @@ function registerCardRules(): any {
 
 // Fire Elemental
 registerCardRules('fire-elemental', {
-  name: 'Fire Elemental',
+  name: 'Fire Elemental',,
   description: 'A powerful elemental creature of pure flame.',
 
   // Static effect
@@ -70,8 +70,8 @@ registerCardRules('fire-elemental', {
         opponentCard.toughness -= 1;
 
         gameState.gameLog.push({
-          type: 'damage',
-          text: `Fire Elemental deals 1 damage to ${opponentCard.name}.`,
+          type: 'damage',,
+          text: `Fire Elemental deals 1 damage to ${opponentCard.name}.`,,
         });
       }
     });
@@ -80,11 +80,11 @@ registerCardRules('fire-elemental', {
   },
 
   // Activated abilities
-  activatedAbilities: [
+  activatedAbilities: [;
     {
       description:
         'Deal 2 damage to target Familiar. Tap Fire Elemental and pay 2 Azoth to activate this ability.',
-      cost: 2,
+      cost: 2,,
       requiresTap: true,
       targetType: 'Familiar',
 
@@ -97,8 +97,8 @@ registerCardRules('fire-elemental', {
           target.toughness -= 2;
 
           gameState.gameLog.push({
-            type: 'ability',
-            text: `${card.name} deals 2 damage to ${target.name}.`,
+            type: 'ability',,
+            text: `${card.name} deals 2 damage to ${target.name}.`,,
           });
 
           // Check if target is destroyed
@@ -116,8 +116,8 @@ registerCardRules('fire-elemental', {
               targetPlayer.graveyard.push(destroyedCard);
 
               gameState.gameLog.push({
-                type: 'destroy',
-                text: `${target.name} was destroyed.`,
+                type: 'destroy',,
+                text: `${target.name} was destroyed.`,,
               });
             }
           }
@@ -131,7 +131,7 @@ registerCardRules('fire-elemental', {
 
 // Water Elemental
 registerCardRules('water-elemental', {
-  name: 'Water Elemental',
+  name: 'Water Elemental',,
   description: 'A fluid elemental creature that can freeze opponents.',
 
   // Static effect
@@ -160,8 +160,8 @@ registerCardRules('water-elemental', {
       blocker.attacker.frozen = true;
 
       gameState.gameLog.push({
-        type: 'effect',
-        text: `${blocker.attacker.name} is frozen and won't untap during its controller's next untap step.`,
+        type: 'effect',,
+        text: `${blocker.attacker.name} is frozen and won't untap during its controller's next untap step.`,,
       });
     }
 
@@ -169,11 +169,11 @@ registerCardRules('water-elemental', {
   },
 
   // Activated abilities
-  activatedAbilities: [
+  activatedAbilities: [;
     {
       description:
         "Tap target Familiar. It doesn't untap during its controller's next untap step. Tap Water Elemental and pay 3 Azoth to activate this ability.",
-      cost: 3,
+      cost: 3,,
       requiresTap: true,
       targetType: 'Familiar',
 
@@ -186,8 +186,8 @@ registerCardRules('water-elemental', {
           target.frozen = true;
 
           gameState.gameLog.push({
-            type: 'ability',
-            text: `${card.name} taps and freezes ${target.name}.`,
+            type: 'ability',,
+            text: `${card.name} taps and freezes ${target.name}.`,,
           });
         }
 
@@ -199,7 +199,7 @@ registerCardRules('water-elemental', {
 
 // Lightning Bolt
 registerCardRules('lightning-bolt', {
-  name: 'Lightning Bolt',
+  name: 'Lightning Bolt',,
   description: 'A powerful spell that deals 3 damage to any target.',
 
   // Spell effect
@@ -216,8 +216,8 @@ registerCardRules('lightning-bolt', {
       target.toughness -= 3;
 
       gameState.gameLog.push({
-        type: 'spell',
-        text: `Lightning Bolt deals 3 damage to ${target.name}.`,
+        type: 'spell',,
+        text: `Lightning Bolt deals 3 damage to ${target.name}.`,,
       });
 
       // Check if target is destroyed
@@ -234,8 +234,8 @@ registerCardRules('lightning-bolt', {
           targetPlayer.graveyard.push(destroyedCard);
 
           gameState.gameLog.push({
-            type: 'destroy',
-            text: `${target.name} was destroyed.`,
+            type: 'destroy',,
+            text: `${target.name} was destroyed.`,,
           });
         }
       }
@@ -249,8 +249,8 @@ registerCardRules('lightning-bolt', {
         lifeCard.damage = (lifeCard.damage || 0) + 3;
 
         gameState.gameLog.push({
-          type: 'spell',
-          text: `Lightning Bolt deals 3 damage to ${targetPlayer.name}'s life card.`,
+          type: 'spell',,
+          text: `Lightning Bolt deals 3 damage to ${targetPlayer.name}'s life card.`,,
         });
 
         // Check if life card is destroyed
@@ -260,8 +260,8 @@ registerCardRules('lightning-bolt', {
           targetPlayer.graveyard.push(destroyedCard);
 
           gameState.gameLog.push({
-            type: 'destroy',
-            text: `${targetPlayer.name}'s life card was destroyed.`,
+            type: 'destroy',,
+            text: `${targetPlayer.name}'s life card was destroyed.`,,
           });
         }
       }
@@ -273,7 +273,7 @@ registerCardRules('lightning-bolt', {
 
 // Dragon
 registerCardRules('dragon', {
-  name: 'Dragon',
+  name: 'Dragon',,
   description: 'A powerful flying dragon that breathes fire.',
 
   // Static effect - Dragon has flying
@@ -305,8 +305,8 @@ registerCardRules('dragon', {
         opponentCard.toughness -= 2;
 
         gameState.gameLog.push({
-          type: 'damage',
-          text: `Dragon deals 2 damage to ${opponentCard.name}.`,
+          type: 'damage',,
+          text: `Dragon deals 2 damage to ${opponentCard.name}.`,,
         });
 
         // Check if target is destroyed
@@ -321,8 +321,8 @@ registerCardRules('dragon', {
             opponent.graveyard.push(destroyedCard);
 
             gameState.gameLog.push({
-              type: 'destroy',
-              text: `${opponentCard.name} was destroyed.`,
+              type: 'destroy',,
+              text: `${opponentCard.name} was destroyed.`,,
             });
           }
         }
@@ -333,11 +333,11 @@ registerCardRules('dragon', {
   },
 
   // Activated abilities
-  activatedAbilities: [
+  activatedAbilities: [;
     {
       description:
         'Dragon deals 3 damage divided as you choose among any number of target Familiars. Pay 2 Azoth to activate this ability.',
-      cost: 2,
+      cost: 2,,
       requiresTap: false,
       targetType: 'Familiar',
       multipleTargets: true,
@@ -365,8 +365,8 @@ registerCardRules('dragon', {
           remainingDamage -= damageToAssign;
 
           gameState.gameLog.push({
-            type: 'ability',
-            text: `Dragon deals ${damageToAssign} damage to ${targetCard.name}.`,
+            type: 'ability',,
+            text: `Dragon deals ${damageToAssign} damage to ${targetCard.name}.`,,
           });
 
           // Check if target is destroyed
@@ -384,8 +384,8 @@ registerCardRules('dragon', {
               targetPlayer.graveyard.push(destroyedCard);
 
               gameState.gameLog.push({
-                type: 'destroy',
-                text: `${targetCard.name} was destroyed.`,
+                type: 'destroy',,
+                text: `${targetCard.name} was destroyed.`,,
               });
             }
           }
@@ -399,7 +399,7 @@ registerCardRules('dragon', {
 
 // Healing Spring
 registerCardRules('healing-spring', {
-  name: 'Healing Spring',
+  name: 'Healing Spring',,
   description: 'A spell that restores life and heals Familiars.',
 
   // Spell effect
@@ -413,8 +413,8 @@ registerCardRules('healing-spring', {
         fieldCard.toughness = fieldCard.baseToughness;
 
         gameState.gameLog.push({
-          type: 'spell',
-          text: `Healing Spring heals ${fieldCard.name}.`,
+          type: 'spell',,
+          text: `Healing Spring heals ${fieldCard.name}.`,,
         });
       }
     });
@@ -432,8 +432,8 @@ registerCardRules('healing-spring', {
         player.lifeCards.push({ ...lifeCard, faceDown: true });
 
         gameState.gameLog.push({
-          type: 'spell',
-          text: `Healing Spring restores a life card for ${player.name}.`,
+          type: 'spell',,
+          text: `Healing Spring restores a life card for ${player.name}.`,,
         });
       }
     }
@@ -444,7 +444,7 @@ registerCardRules('healing-spring', {
 
 // Counterspell
 registerCardRules('counterspell', {
-  name: 'Counterspell',
+  name: 'Counterspell',,
   description: 'A spell that counters another spell.',
 
   // Spell effect
@@ -471,8 +471,8 @@ registerCardRules('counterspell', {
         spellOwner.graveyard.push(counteredSpell.card);
 
         gameState.gameLog.push({
-          type: 'spell',
-          text: `Counterspell counters ${counteredSpell.card.name}.`,
+          type: 'spell',,
+          text: `Counterspell counters ${counteredSpell.card.name}.`,,
         });
       }
     }
@@ -483,7 +483,7 @@ registerCardRules('counterspell', {
 
 // Growth Spell
 registerCardRules('growth-spell', {
-  name: 'Growth Spell',
+  name: 'Growth Spell',,
   description: 'A spell that strengthens your Familiars.',
 
   // Spell effect
@@ -502,7 +502,7 @@ registerCardRules('growth-spell', {
         }
 
         fieldCard.temporaryEffects.push({
-          type: 'statBuff',
+          type: 'statBuff',,
           source: 'Growth Spell',
           power: 2,
           toughness: 2,
@@ -510,8 +510,8 @@ registerCardRules('growth-spell', {
         });
 
         gameState.gameLog.push({
-          type: 'spell',
-          text: `Growth Spell gives ${fieldCard.name} +2/+2 until end of turn.`,
+          type: 'spell',,
+          text: `Growth Spell gives ${fieldCard.name} +2/+2 until end of turn.`,,
         });
       }
     });
@@ -522,7 +522,7 @@ registerCardRules('growth-spell', {
 
 // Mana Crystal
 registerCardRules('mana-crystal', {
-  name: 'Mana Crystal',
+  name: 'Mana Crystal',,
   description: 'An Azoth card that provides additional resources.',
 
   // Static effect
@@ -548,8 +548,8 @@ registerCardRules('mana-crystal', {
     this.drawCard(gameState, player.id);
 
     gameState.gameLog.push({
-      type: 'effect',
-      text: `${player.name} draws a card from Mana Crystal's effect.`,
+      type: 'effect',,
+      text: `${player.name} draws a card from Mana Crystal's effect.`,,
     });
 
     return gameState;

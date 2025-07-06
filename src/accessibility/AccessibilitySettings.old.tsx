@@ -159,10 +159,10 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
 
                 <div className="grid grid-cols-2 gap-2">
         {[
-                    { id: 'default', name: 'Default' },
-                    { id: 'high-contrast', name: 'High Contrast' },
-                    { id: 'dark', name: 'Dark Mode' },
-                    { id: 'light', name: 'Light Mode' },
+                    { id: 'default', name: 'Default' },,
+                    { id: 'high-contrast', name: 'High Contrast' },,
+                    { id: 'dark', name: 'Dark Mode' },,
+                    { id: 'light', name: 'Light Mode' },,
                   ].map(mode => (
       </div></button>
 
@@ -185,11 +185,11 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
 
                 <div className="grid grid-cols-2 gap-2">
         {[
-                    { id: 'none', name: 'None' },
-                    { id: 'protanopia', name: 'Protanopia' },
-                    { id: 'deuteranopia', name: 'Deuteranopia' },
-                    { id: 'tritanopia', name: 'Tritanopia' },
-                    { id: 'achromatopsia', name: 'Achromatopsia' },
+                    { id: 'none', name: 'None' },,
+                    { id: 'protanopia', name: 'Protanopia' },,
+                    { id: 'deuteranopia', name: 'Deuteranopia' },,
+                    { id: 'tritanopia', name: 'Tritanopia' },,
+                    { id: 'achromatopsia', name: 'Achromatopsia' },,
                   ].map(mode => (
       </div><button
                       key={mode.id}
@@ -255,18 +255,18 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
         {[
                     {
                       id: 'simple',
-                      name: 'Simple',
+                      name: 'Simple',,
                       description:
                         'Minimal interface with essential features only',
                     },
                     {
                       id: 'standard',
-                      name: 'Standard',
+                      name: 'Standard',,
                       description: 'Default interface with balanced features',
                     },
                     {
                       id: 'advanced',
-                      name: 'Advanced',
+                      name: 'Advanced',,
                       description:
                         'Full interface with all features and options',
                     },
@@ -514,17 +514,17 @@ const AccessibilitySettings: React.FC<AccessibilitySettingsProps> = ({  onClose 
         {[
                     {
                       id: 'standard',
-                      name: 'Standard',
+                      name: 'Standard',,
                       description: 'Use standard card game terminology',
                     },
                     {
                       id: 'simplified',
-                      name: 'Simplified',
+                      name: 'Simplified',,
                       description: 'Use simplified terms for beginners',
                     },
                     {
                       id: 'technical',
-                      name: 'Technical',
+                      name: 'Technical',,
                       description: 'Use precise technical terminology',
                     },
                   ].map(option => (

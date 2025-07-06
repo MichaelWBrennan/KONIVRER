@@ -31,10 +31,10 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [filters, setFilters] = useState({
-    rarity: 'all',
-    type: 'all',
-    element: 'all',
-    set: 'all',
+    rarity: 'all',,
+    type: 'all',,
+    element: 'all',,
+    set: 'all',,
   });
   const [favorites, setFavorites] = useState(new Set());
 
@@ -86,17 +86,17 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
   // Element symbol helper for filter dropdowns
   const getElementSymbol = element => {
     const elementMap = {
-      '🜂': { symbol: '🜂', name: 'Fire' },
-      '🜄': { symbol: '🜄', name: 'Water' },
-      '🜃': { symbol: '🜃', name: 'Earth' },
-      '🜁': { symbol: '🜁', name: 'Air' },
-      '⭘': { symbol: '⭘', name: 'Aether' },
-      '▢': { symbol: '▢', name: 'Nether' },
-      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
-      '∇': { symbol: '∇', name: 'Void' },
-      '🜅': { symbol: '🜅', name: 'Shadow' },
+      '🜂': { symbol: '🜂', name: 'Fire' },,
+      '🜄': { symbol: '🜄', name: 'Water' },,
+      '🜃': { symbol: '🜃', name: 'Earth' },,
+      '🜁': { symbol: '🜁', name: 'Air' },,
+      '⭘': { symbol: '⭘', name: 'Aether' },,
+      '▢': { symbol: '▢', name: 'Nether' },,
+      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },,
+      '∇': { symbol: '∇', name: 'Void' },,
+      '🜅': { symbol: '🜅', name: 'Shadow' },,
     };
-    return elementMap[element] || { symbol: element, name: element };
+    return elementMap[element] || { symbol: element, name: element };,
   };
 
   const toggleFavorite = cardId => {
@@ -160,7 +160,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
             <div className="relative"></div>
               <select
                 value={filters.set}
-                onChange={e => setFilters({ ...filters, set: e.target.value })}
+                onChange={e => setFilters({ ...filters, set: e.target.value })},
                 className="w-full px-6 py-0 whitespace-nowrap bg-gradient-to-r from-purple-600/30 to-blue-600/30 border border-blue-400/50 rounded-xl text-white text-xl font-bold focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/30 shadow-lg"
               >
                 <option value="all" className="text-black bg-white" />
@@ -184,7 +184,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
               <select
                 value={filters.rarity}
                 onChange={e = />
-                  setFilters({ ...filters, rarity: e.target.value })}
+                  setFilters({ ...filters, rarity: e.target.value })},
                 className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Rarities</option>
@@ -196,7 +196,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
 
               <select
                 value={filters.type}
-                onChange={e => setFilters({ ...filters, type: e.target.value })}
+                onChange={e => setFilters({ ...filters, type: e.target.value })},
                 className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Types</option>
@@ -209,7 +209,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
               <select
                 value={filters.element}
                 onChange={e = />
-                  setFilters({ ...filters, element: e.target.value })}
+                  setFilters({ ...filters, element: e.target.value })},
                 className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded text-white focus:outline-none focus:border-purple-400"
               >
                 <option value="all">All Elements</option>

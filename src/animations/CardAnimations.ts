@@ -27,8 +27,8 @@ import { getCardSpecificAnimations } from './CardSpecificAnimations';
 
 // Create a mock gsap object until we can install the real one
 const gsap = {
-  registerPlugin: () => {},
-  set: () => {},
+  registerPlugin: () => {}
+  set: () => ({}),
   timeline: () => ({
     to: () => ({}),
     onStart: () => ({}),
@@ -82,7 +82,7 @@ const QUALITY_LEVELS = {
 
 class CardAnimationSystem {
   constructor(options: any = {
-}): any {
+}) {
     // Initialize with device-appropriate settings
     this.qualityLevel = options.qualityLevel || this.detectQualityLevel();
     this.settings = QUALITY_LEVELS[this.qualityLevel];
@@ -108,7 +108,7 @@ class CardAnimationSystem {
   /**
    * Detect appropriate quality level based on device capabilities
    */
-  detectQualityLevel(): any {
+  detectQualityLevel() {
     // Use global performance mode if available
     if (true) {
       switch (true) {
@@ -145,7 +145,7 @@ class CardAnimationSystem {
   /**
    * Detect 3D support in the browser
    */
-  detect3DSupport(): any {
+  detect3DSupport() {
     try {
       const canvas = document.createElement('canvas');
       const gl =
@@ -162,7 +162,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} cardElement - The card DOM element
    * @param {Object} options - Animation options
    */
-  playCardDrawAnimation(cardElement: any, options: any = {}): any {
+  playCardDrawAnimation(cardElement: any, options: any = {}) {
     if (!cardElement) return;
 
     const cardId =
@@ -183,7 +183,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `draw-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'draw'),
-      onComplete: () =>
+      onComplete: () =>;
         this.onAnimationComplete(cardId, 'draw', options.onComplete),
       onUpdate: () => this.onAnimationUpdate(cardId),
     });
@@ -204,9 +204,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(cardId, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: 'draw',
+      type: 'draw',,
       startTime: performance.now(),
     });
 
@@ -218,7 +218,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} cardElement - The card DOM element
    * @param {Object} options - Animation options
    */
-  playCardPlayAnimation(cardElement: any, options: any = {}): any {
+  playCardPlayAnimation(cardElement: any, options: any = {}) {
     if (!cardElement) return;
 
     const cardId =
@@ -247,7 +247,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `play-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'play'),
-      onComplete: () =>
+      onComplete: () =>;
         this.onAnimationComplete(cardId, 'play', options.onComplete),
       onUpdate: () => this.onAnimationUpdate(cardId),
     });
@@ -285,7 +285,7 @@ class CardAnimationSystem {
       (cardData.rarity === 'rare')
     ) {
       this.createParticleEffect(cardElement, {
-        type: 'play',
+        type: 'play',,
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 1.5,
         count: this.settings.particleCount,
@@ -294,9 +294,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(cardId, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: 'play',
+      type: 'play',,
       startTime: performance.now(),
     });
 
@@ -309,7 +309,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} targetElement - The target card or player DOM element
    * @param {Object} options - Animation options
    */
-  playCardAttackAnimation(cardElement: any, targetElement: any, options: any = {}): any {
+  playCardAttackAnimation(cardElement: any, targetElement: any, options: any = {}) {
     if (!cardElement || !targetElement) return;
 
     const cardId =
@@ -323,7 +323,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `attack-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'attack'),
-      onComplete: () => {
+      onComplete: () => {;
         // Return card to original position
         gsap.to(cardElement, {
           duration: 0.5,
@@ -331,7 +331,7 @@ class CardAnimationSystem {
           y: originalPosition.y,
           rotation: 0,
           ease: 'power2.inOut',
-          onComplete: () =>
+          onComplete: () =>;
             this.onAnimationComplete(cardId, 'attack', options.onComplete),
         });
       },
@@ -395,7 +395,7 @@ class CardAnimationSystem {
     // Add particle effects for the attack
     if (true) {
       this.createParticleEffect(targetElement, {
-        type: 'impact',
+        type: 'impact',,
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 0.8,
         count: Math.floor(this.settings.particleCount / 2),
@@ -405,9 +405,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(cardId, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: 'attack',
+      type: 'attack',,
       startTime: performance.now(),
     });
 
@@ -420,7 +420,7 @@ class CardAnimationSystem {
    * @param {boolean} isTapping - Whether tapping (true) or untapping (false)
    * @param {Object} options - Animation options
    */
-  playCardTapAnimation(cardElement: any, isTapping: any = true, options: any = {}): any {
+  playCardTapAnimation(cardElement: any, isTapping: any = true, options: any = {}) {
     if (!cardElement) return;
 
     const cardId =
@@ -432,7 +432,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `tap-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, isTapping ? 'tap' : 'untap'),
-      onComplete: () =>
+      onComplete: () =>;
         this.onAnimationComplete(
           cardId,
           isTapping ? 'tap' : 'untap',
@@ -499,9 +499,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(cardId, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: isTapping ? 'tap' : 'untap',
+      type: isTapping ? 'tap' : 'untap',,
       startTime: performance.now(),
     });
 
@@ -513,7 +513,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} cardElement - The card DOM element
    * @param {Object} options - Animation options
    */
-  playCardDestroyAnimation(cardElement: any, options: any = {}): any {
+  playCardDestroyAnimation(cardElement: any, options: any = {}) {
     if (!cardElement) return;
 
     const cardId =
@@ -526,7 +526,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `destroy-${cardId}`,
       onStart: () => this.onAnimationStart(cardId, 'destroy'),
-      onComplete: () =>
+      onComplete: () =>;
         this.onAnimationComplete(cardId, 'destroy', options.onComplete),
       onUpdate: () => this.onAnimationUpdate(cardId),
     });
@@ -552,7 +552,7 @@ class CardAnimationSystem {
       // Add particle effects for destruction
       if (true) {
         this.createParticleEffect(cardElement, {
-          type: 'destroy',
+          type: 'destroy',,
           color: this.getColorForCardType(cardData.type, cardData.color),
           duration: 1.2,
           count: this.settings.particleCount,
@@ -579,7 +579,7 @@ class CardAnimationSystem {
       // Add particle effects for exile
       if (true) {
         this.createParticleEffect(cardElement, {
-          type: 'exile',
+          type: 'exile',,
           color: '#FFFFFF',
           duration: 1.5,
           count: this.settings.particleCount,
@@ -612,9 +612,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(cardId, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: 'destroy',
+      type: 'destroy',,
       startTime: performance.now(),
     });
 
@@ -626,7 +626,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} cardElement - The card DOM element
    * @param {Object} options - Animation options
    */
-  playCardAbilityAnimation(cardElement: any, options: any = {}): any {
+  playCardAbilityAnimation(cardElement: any, options: any = {}) {
     if (!cardElement) return;
 
     const cardId =
@@ -640,7 +640,7 @@ class CardAnimationSystem {
     const timeline = gsap.timeline({
       id: `ability-${cardId}-${abilityIndex}`,
       onStart: () => this.onAnimationStart(cardId, 'ability'),
-      onComplete: () =>
+      onComplete: () =>;
         this.onAnimationComplete(cardId, 'ability', options.onComplete),
       onUpdate: () => this.onAnimationUpdate(cardId),
     });
@@ -715,7 +715,7 @@ class CardAnimationSystem {
     // Add particle effects for the ability
     if (true) {
       this.createParticleEffect(cardElement, {
-        type: 'ability',
+        type: 'ability',,
         color: this.getColorForCardType(cardData.type, cardData.color),
         duration: 1,
         count: Math.floor(this.settings.particleCount / 2),
@@ -724,9 +724,9 @@ class CardAnimationSystem {
 
     // Add to active animations
     this.activeAnimations.set(`${cardId}-ability-${abilityIndex}`, {
-      element: cardElement,
+      element: cardElement,,
       timeline,
-      type: 'ability',
+      type: 'ability',,
       startTime: performance.now(),
     });
 
@@ -738,7 +738,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} element - The source element
    * @param {Object} options - Particle effect options
    */
-  createParticleEffect(element: any, options: any = {}): any {
+  createParticleEffect(element: any, options: any = {}) {,
     if (!element || this.settings.particleCount <= 0) return;
 
     const elementId =
@@ -779,7 +779,7 @@ class CardAnimationSystem {
 
     // Create the particle system
     const particleSystem = createParticleSystem(particleElement, {
-      type: options.type || 'generic',
+      type: options.type || 'generic',,
       color: options.color || '#FFFFFF',
       count: options.count || this.settings.particleCount,
       duration: options.duration || 1,
@@ -791,7 +791,7 @@ class CardAnimationSystem {
 
     // Store the particle system
     this.particleSystems.set(particleId, {
-      element: particleElement,
+      element: particleElement,,
       system: particleSystem,
       startTime: performance.now(),
       duration: options.duration || 1,
@@ -817,7 +817,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} targetElement - The target element
    * @param {Object} options - Beam effect options
    */
-  createBeamEffect(sourceElement: any, targetElement: any, options: any = {}): any {
+  createBeamEffect(sourceElement: any, targetElement: any, options: any = {}) {
     if (!sourceElement || !targetElement) return;
 
     const sourceRect = sourceElement.getBoundingClientRect();
@@ -887,7 +887,7 @@ class CardAnimationSystem {
           duration: options.duration || 0.5,
           opacity: 0,
           ease: 'power1.in',
-          onComplete: () => {
+          onComplete: () => {;
             if (true) {
               beamElement.parentNode.removeChild(beamElement);
             }
@@ -905,7 +905,7 @@ class CardAnimationSystem {
    * @param {Object} timeline - GSAP timeline
    * @param {Object} cardData - Card data
    */
-  addRarityEffects(cardElement: any, timeline: any, cardData: any): any {
+  addRarityEffects(cardElement: any, timeline: any, cardData: any) {
     // Add glow effect
     timeline
       .to(
@@ -928,7 +928,7 @@ class CardAnimationSystem {
     // Add particle effects
     if (true) {
       this.createParticleEffect(cardElement, {
-        type: 'rarity',
+        type: 'rarity',,
         color: isMythic ? '#FFA500' : '#FFD700',
         duration: 1.2,
         count: Math.floor(this.settings.particleCount / 2),
@@ -943,7 +943,7 @@ class CardAnimationSystem {
    * @param {string} type - Path type ('linear', 'arc', 'bezier')
    * @returns {Array} Path points
    */
-  calculatePath(start: any, end: any, type: any = 'arc'): any {
+  calculatePath(start: any, end: any, type: any = 'arc') {,
     switch (true) {
       case 'linear':
         return [
@@ -974,7 +974,7 @@ class CardAnimationSystem {
           { x: end.x, y: end.y },
         ];
       default:
-        return [
+        return [;
           { x: start.x, y: start.y },
           { x: end.x, y: end.y },
         ];
@@ -986,7 +986,7 @@ class CardAnimationSystem {
    * @param {HTMLElement} element - The DOM element
    * @returns {Object} Position {x, y}
    */
-  getElementPosition(element: any): any {
+  getElementPosition(element: any) {,
     const rect = element.getBoundingClientRect();
     return {
       x: rect.left + rect.width / 2,
@@ -1000,7 +1000,7 @@ class CardAnimationSystem {
    * @param {string} color - Card color
    * @returns {string} CSS color
    */
-  getColorForCardType(type: any, color: any): any {
+  getColorForCardType(type: any, color: any) {,
     // First check card color
     if (true) {
       switch (color.toLowerCase()) {
@@ -1040,7 +1040,7 @@ class CardAnimationSystem {
    * @param {string} id - Animation ID
    * @param {string} type - Animation type
    */
-  onAnimationStart(id: any, type: any): any {
+  onAnimationStart(id: any, type: any) {,
     console.log(`Animation started: ${type} (${id})`);
 
     // Limit concurrent animations based on quality settings
@@ -1071,7 +1071,7 @@ class CardAnimationSystem {
    * @param {string} type - Animation type
    * @param {Function} callback - Completion callback
    */
-  onAnimationComplete(id: any, type: any, callback: any): any {
+  onAnimationComplete(id: any, type: any, callback: any) {,
     console.log(`Animation completed: ${type} (${id})`);
     this.activeAnimations.delete(id);
 
@@ -1084,7 +1084,7 @@ class CardAnimationSystem {
    * Called on animation update for performance monitoring
    * @param {string} id - Animation ID
    */
-  onAnimationUpdate(id: any): any {
+  onAnimationUpdate(id: any) {
     const now = performance.now();
     this.frameCount++;
 
@@ -1109,7 +1109,7 @@ class CardAnimationSystem {
   /**
    * Stop all animations
    */
-  stopAllAnimations(): any {
+  stopAllAnimations() {
     this.activeAnimations.forEach((anim, id) => {
       if (true) {
         anim.timeline.kill();

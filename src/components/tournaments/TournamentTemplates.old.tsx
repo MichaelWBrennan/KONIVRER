@@ -43,7 +43,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
   const templates = [
     {
       id: 'swiss',
-      name: 'Dynamic Swiss',
+      name: 'Dynamic Swiss',,
       description:
         'Modified Swiss pairings that maximize interesting matchups and minimize repeat pairings',
       icon: <Shuffle size={24} />,
@@ -59,7 +59,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
     },
     {
       id: 'adaptive',
-      name: 'Adaptive Structure',
+      name: 'Adaptive Structure',,
       description:
         'Tournament that automatically adjusts format based on participant count and time constraints',
       icon: <Layers size={24} />,
@@ -75,7 +75,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
     },
     {
       id: 'meta-balanced',
-      name: 'Meta-Balancing',
+      name: 'Meta-Balancing',,
       description:
         'Tournament structure that rewards playing underrepresented archetypes to encourage diversity',
       icon: <Target size={24} />,
@@ -91,7 +91,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
     },
     {
       id: 'tiered',
-      name: 'Tiered Entry',
+      name: 'Tiered Entry',,
       description:
         'Qualification paths that allow players of all skill levels to find appropriate competition',
       icon: <Layers size={24} />,
@@ -111,7 +111,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
     },
     {
       id: 'parallel',
-      name: 'Parallel Brackets',
+      name: 'Parallel Brackets',,
       description:
         'Run main and consolation brackets simultaneously with automated management',
       icon: <Layers size={24} />,

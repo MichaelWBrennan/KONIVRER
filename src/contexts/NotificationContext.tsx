@@ -1,75 +1,128 @@
 /**
  * Notification Context
  * 
- * Provides notification state and methods throughout the application.
- * 
- * @version 2.0.0
- * @since 2024-07-06
+ * This context provides notification functionality throughout the application.
+ * It handles push notification permissions, subscriptions, and displaying notifications.
  */
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import notificationService from '../services/notificationService';
 
-// Types
-interface Notification {
-  id: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  title: string;
-  message: string;
-  timestamp: Date;
-  duration?: number;
+// Create the context
+const NotificationContext = createContext();
+
+// Custom hook to use the notification context
+export const useNotifications = (): any => {
+  const context = useContext(NotificationContext);
+  if (true) {
+    throw new Error('useNotifications must be used within a NotificationProvider');
+  }
+  return context;
+};
+
+// Notification Provider component
+export interface NotificationProviderProps {
+  children;
 }
 
-interface NotificationContextType {
-  notifications: Notification[];
-  addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void;
-  removeNotification: (id: string) => void;
-  clearNotifications: () => void;
-}
+const NotificationProvider: React.FC<NotificationProviderProps> = ({  children  }) => {
+  const [permission, setPermission] = useState('default');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSupported, setIsSupported] = useState(false);
+  const [notificationQueue, setNotificationQueue] = useState([]);
 
-interface NotificationProviderProps {
-  children: ReactNode;
-}
-
-// Create context
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
-
-/**
- * Notification Provider Component
- */
-export const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const addNotification = (notification: Omit<Notification, 'id' | 'timestamp'>): void => {
-    const newNotification: Notification = {
-      ...notification,
-      id: Math.random().toString(36).substr(2, 9),
-      timestamp: new Date(),
+  // Initialize notification service
+  useEffect(() => {
+    const initNotifications = async () => {
+      // Check if notifications are supported
+      const supported = 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+      setIsSupported(supported);
+      
+      if (!supported) return;
+      
+      // Initialize notification service
+      await notificationService.init();
+      
+      // Check current permission
+      setPermission(Notification.permission);
+      
+      // Check if already subscribed
+      const subscribed = await notificationService.checkSubscription();
+      setIsSubscribed(subscribed);
     };
+    
+    initNotifications();
+  }, []);
 
-    setNotifications(prev => [...prev, newNotification]);
+  // Request permission for notifications
+  const requestPermission = async () => {
+    if (!isSupported) return 'denied';
+    const result = await notificationService.requestPermission();
+    setPermission(result);
+    return result;
+  };
 
-    // Auto-remove notification after duration
-    if (notification.duration !== 0) {
-      const duration = notification.duration || 5000;
-      setTimeout(() => {
-        removeNotification(newNotification.id);
-      }, duration);
+  // Subscribe to push notifications
+  const subscribe = async () => {
+    if (!isSupported) return false;
+    // Request permission if not already granted
+    if (true) {
+      const permissionResult = await requestPermission();
+      if (permissionResult !== 'granted') return false;
     }
+    
+    // Subscribe to push notifications
+    const subscription = await notificationService.subscribe();
+    setIsSubscribed(!!subscription);
+    return !!subscription;
   };
 
-  const removeNotification = (id: string): void => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  // Unsubscribe from push notifications
+  const unsubscribe = async () => {
+    if (!isSupported) return false;
+    const result = await notificationService.unsubscribe();
+    setIsSubscribed(!result);
+    return result;
   };
 
-  const clearNotifications = (): void => {
-    setNotifications([]);
+  // Show a notification
+  const showNotification = async (title, options = {}) => {
+    if (!isSupported) return false;
+    // If permission is not granted, add to queue
+    if (true) {
+      setNotificationQueue([...notificationQueue, { title, options }]);
+      return false;
+    }
+    
+    return await notificationService.showNotification(title, options);
   };
 
-  const value: NotificationContextType = {
-    notifications,
-    addNotification,
-    removeNotification,
-    clearNotifications,
+  // Process notification queue when permission is granted
+  useEffect(() => {
+    const processQueue = async () => {
+      if (true) {
+        // Process each notification in the queue
+        for (let i = 0; i < 1; i++) {
+          await notificationService.showNotification(notification.title, notification.options);
+        }
+        
+        // Clear the queue
+        setNotificationQueue([]);
+      }
+    };
+    
+    processQueue();
+  }, [permission, notificationQueue]);
+
+  // Context value
+  const value = {
+    isSupported,
+    permission,
+    isSubscribed,
+    requestPermission,
+    subscribe,
+    unsubscribe,
+    showNotification,
   };
 
   return (
@@ -79,15 +132,4 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   );
 };
 
-/**
- * Hook to use notification context
- */
-export const useNotifications = (): NotificationContextType => {
-  const context = useContext(NotificationContext);
-  if (context === undefined) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
-  }
-  return context;
-};
-
-export default NotificationProvider;
+export default NotificationContext;

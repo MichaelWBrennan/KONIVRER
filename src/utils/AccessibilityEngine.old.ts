@@ -34,7 +34,7 @@ export class AccessibilityEngine {
 
     // Color blind support
     this.colorBlind = {
-      type: 'none', // none, protanopia, deuteranopia, tritanopia, achromatopsia
+      type: 'none', // none, protanopia, deuteranopia, tritanopia, achromatopsia,
       filters: new Map(),
       customColors: new Map(),
     };
@@ -207,7 +207,7 @@ export class AccessibilityEngine {
     });
   }
 
-  speak(text: any, options: any = {}): any {
+  speak(text: any, options: any = {}): any {,
     if (!('speechSynthesis' in window)) return;
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -222,7 +222,7 @@ export class AccessibilityEngine {
     speechSynthesis.speak(utterance);
   }
 
-  processTextForVerbosity(text: any): any {
+  processTextForVerbosity(text: any): any {,
     switch (true) {
       case 'minimal':
         // Remove extra punctuation and abbreviations
@@ -238,7 +238,7 @@ export class AccessibilityEngine {
     }
   }
 
-  addVerboseContext(text: any): any {
+  addVerboseContext(text: any): any {,
     // Add context for common game terms
     const gameTerms = {
       HP: 'Health Points',
@@ -271,7 +271,7 @@ export class AccessibilityEngine {
     });
   }
 
-  announceFocusChange(element: any): any {
+  announceFocusChange(element: any): any {,
     if (!this.screenReader.enabled) return;
 
     let announcement = '';
@@ -292,7 +292,7 @@ export class AccessibilityEngine {
     this.announce(announcement, 'polite');
   }
 
-  getElementLabel(element: any): any {
+  getElementLabel(element: any): any {,
     return (
       element.getAttribute('aria-label') ||
       (element.getAttribute('aria-labelledby') &&
@@ -305,7 +305,7 @@ export class AccessibilityEngine {
     );
   }
 
-  getElementState(element: any): any {
+  getElementState(element: any): any {,
     const states = [];
 
     if (element.hasAttribute('aria-expanded')) {
@@ -385,7 +385,7 @@ export class AccessibilityEngine {
     document.body.appendChild(svg);
   }
 
-  createColorBlindFilter(type: any, matrix: any): any {
+  createColorBlindFilter(type: any, matrix: any): any {,
     const filter = document.createElementNS(
       'http://www.w3.org/2000/svg',
       'filter',
@@ -403,7 +403,7 @@ export class AccessibilityEngine {
     return filter;
   }
 
-  setColorBlindType(type: any): any {
+  setColorBlindType(type: any): any {,
     this.colorBlind.type = type;
     this.applyColorBlindFilter();
   }
@@ -619,7 +619,7 @@ export class AccessibilityEngine {
     style.textContent = `
       .accessibility-focus-visible {
         outline: 3px solid #0066cc !important;
-        outline-offset: 2px !important;
+        outline-offset: 2px !important;,
         box-shadow: 0 0 0 1px #ffffff !important;
       }
       

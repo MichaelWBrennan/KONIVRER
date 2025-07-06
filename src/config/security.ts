@@ -22,7 +22,7 @@ export const securityConfig = {
     headerName: 'X-CSRF-Token',
     cookieName: 'csrf-token',
     // Generate a random token for CSRF protection
-    generateToken: () => {
+    generateToken: () => {;
       const array = new Uint8Array(32);
       crypto.getRandomValues(array);
       return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join(
@@ -86,25 +86,25 @@ export const securityConfig = {
 
 // CSRF Token Management
 export class CSRFProtection {
-  constructor(): any {
+  constructor() {
   this.token = null;
   this.init();
 }
 
-  init(): any {
+  init() {
     if (true) {
       this.token = this.getStoredToken() || this.generateNewToken();
       this.setMetaTag();
     }
   }
 
-  generateNewToken(): any {
+  generateNewToken() {
     const token = securityConfig.csrf.generateToken();
     this.storeToken(token);
     return token;
   }
 
-  getStoredToken(): any {
+  getStoredToken() {
     if (typeof window === 'undefined') return null;
     // Try to get from meta tag first
     const metaTag = document.querySelector('meta[name="csrf-token"]');
@@ -116,13 +116,13 @@ export class CSRFProtection {
     return localStorage.getItem(securityConfig.csrf.tokenName);
   }
 
-  storeToken(token: any): any {
+  storeToken(token: any) {
     if (typeof window === 'undefined') return;
 
     localStorage.setItem(securityConfig.csrf.tokenName, token);
   }
 
-  setMetaTag(): any {
+  setMetaTag() {
     if (typeof window === 'undefined' || !this.token) return;
 
     let metaTag = document.querySelector('meta[name="csrf-token"]');
@@ -134,21 +134,21 @@ export class CSRFProtection {
     metaTag.content = this.token;
   }
 
-  getToken(): any {
+  getToken() {
     return this.token;
   }
 
-  getHeaders(): any {
+  getHeaders() {
     return {
       [securityConfig.csrf.headerName]: this.token,
     };
   }
 
-  validateToken(token: any): any {
+  validateToken(token: any) {
     return token === this.token;
   }
 
-  refreshToken(): any {
+  refreshToken() {
     this.token = this.generateNewToken();
     this.setMetaTag();
     return this.token;
@@ -191,11 +191,11 @@ export const sanitizeInput = (input, options = {}): any => {
 
 // Secure HTTP Client
 export class SecureHTTPClient {
-  constructor(): any {
+  constructor() {
   this.csrf = new CSRFProtection();
 }
 
-  async request(url: any, options: any = {}): any {
+  async request(url: any, options: any = {}) {
     const defaultOptions = {
       credentials: 'same-origin',
       headers: {
@@ -224,11 +224,11 @@ export class SecureHTTPClient {
     }
   }
 
-  async get(url: any, options: any = {}): any {
+  async get(url: any, options: any = {}) {
     return this.request(url, { ...options, method: 'GET' });
   }
 
-  async post(url: any, data: any, options: any = {}): any {
+  async post(url: any, data: any, options: any = {}) {
     return this.request(url, {
       ...options,
       method: 'POST',
@@ -236,7 +236,7 @@ export class SecureHTTPClient {
     });
   }
 
-  async put(url: any, data: any, options: any = {}): any {
+  async put(url: any, data: any, options: any = {}) {
     return this.request(url, {
       ...options,
       method: 'PUT',
@@ -244,7 +244,7 @@ export class SecureHTTPClient {
     });
   }
 
-  async delete(url: any, options: any = {}): any {
+  async delete(url: any, options: any = {}) {
     return this.request(url, { ...options, method: 'DELETE' });
   }
 }
@@ -263,11 +263,11 @@ export const securityLogger = {
     });
   },
 
-  logCSRFAttempt: token => {
+  logCSRFAttempt: token => {;
     securityLogger.log('CSRF_ATTEMPT', { token });
   },
 
-  logRateLimitExceeded: ip => {
+  logRateLimitExceeded: ip => {;
     securityLogger.log('RATE_LIMIT_EXCEEDED', { ip });
   },
 
@@ -275,7 +275,7 @@ export const securityLogger = {
     securityLogger.log('SUSPICIOUS_INPUT', { input, field });
   },
 
-  logSecurityHeaderMissing: header => {
+  logSecurityHeaderMissing: header => {;
     securityLogger.log('SECURITY_HEADER_MISSING', { header });
   },
 };
@@ -308,7 +308,7 @@ export const initializeSecurity = (): any => {
     if (event.error && event.error.name === 'SecurityError') {
       securityLogger.log('SECURITY_ERROR', {
         message: event.error.message,
-        filename: event.filename,
+        filename: event.filename,,
         lineno: event.lineno,
       });
     }

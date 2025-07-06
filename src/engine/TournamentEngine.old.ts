@@ -26,7 +26,7 @@ export class TournamentEngine {
     // Tournament formats
     this.formats = {
       swiss: {
-        name: 'Swiss',
+        name: 'Swiss',,
         description:
           'Players are paired based on their record, with no eliminations',
         minPlayers: 8,
@@ -36,7 +36,7 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       singleElimination: {
-        name: 'Single Elimination',
+        name: 'Single Elimination',,
         description: 'Players are eliminated after a single loss',
         minPlayers: 4,
         maxPlayers: 128,
@@ -45,7 +45,7 @@ export class TournamentEngine {
         eliminationType: 'single',
       },
       doubleElimination: {
-        name: 'Double Elimination',
+        name: 'Double Elimination',,
         description: 'Players are eliminated after two losses',
         minPlayers: 4,
         maxPlayers: 64,
@@ -55,7 +55,7 @@ export class TournamentEngine {
         eliminationType: 'double',
       },
       roundRobin: {
-        name: 'Round Robin',
+        name: 'Round Robin',,
         description: 'Every player plays against every other player',
         minPlayers: 4,
         maxPlayers: 16,
@@ -64,7 +64,7 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       hybrid: {
-        name: 'Hybrid',
+        name: 'Hybrid',,
         description: 'Swiss rounds followed by single elimination top cut',
         minPlayers: 8,
         maxPlayers: 128,
@@ -76,7 +76,7 @@ export class TournamentEngine {
         eliminationType: 'hybrid',
       },
       adaptiveSwiss: {
-        name: 'Adaptive Swiss',
+        name: 'Adaptive Swiss',,
         description:
           'Swiss rounds with dynamic pairings based on meta diversity',
         minPlayers: 8,
@@ -86,7 +86,7 @@ export class TournamentEngine {
         eliminationType: 'none',
       },
       parallelBrackets: {
-        name: 'Parallel Brackets',
+        name: 'Parallel Brackets',,
         description: 'Main and consolation brackets run simultaneously',
         minPlayers: 8,
         maxPlayers: 64,
@@ -100,7 +100,7 @@ export class TournamentEngine {
     // Tournament templates
     this.templates = {
       localTournament: {
-        name: 'Local Tournament',
+        name: 'Local Tournament',,
         format: 'swiss',
         rounds: 4,
         topCut: 8,
@@ -108,7 +108,7 @@ export class TournamentEngine {
         description: 'Standard local tournament with Swiss rounds and top cut',
       },
       quickDraft: {
-        name: 'Quick Draft',
+        name: 'Quick Draft',,
         format: 'singleElimination',
         rounds: 3,
         topCut: 0,
@@ -116,7 +116,7 @@ export class TournamentEngine {
         description: 'Quick draft tournament with single elimination',
       },
       championshipSeries: {
-        name: 'Championship Series',
+        name: 'Championship Series',,
         format: 'hybrid',
         rounds: { swiss: 6, elimination: 3 },
         topCut: 8,
@@ -124,7 +124,7 @@ export class TournamentEngine {
         description: 'Championship series with Swiss rounds and top cut',
       },
       casualLeague: {
-        name: 'Casual League',
+        name: 'Casual League',,
         format: 'roundRobin',
         rounds: 'auto',
         topCut: 0,
@@ -132,7 +132,7 @@ export class TournamentEngine {
         description: 'Casual league with round robin pairings',
       },
       adaptiveTournament: {
-        name: 'Adaptive Tournament',
+        name: 'Adaptive Tournament',,
         format: 'adaptiveSwiss',
         rounds: 'auto',
         topCut: 4,
@@ -141,7 +141,7 @@ export class TournamentEngine {
           'Tournament that adapts to player count and time constraints',
       },
       parallelEvent: {
-        name: 'Parallel Event',
+        name: 'Parallel Event',,
         format: 'parallelBrackets',
         rounds: 'auto',
         topCut: 0,
@@ -162,27 +162,27 @@ export class TournamentEngine {
     // Tiered entry system
     this.entryTiers = {
       open: {
-        name: 'Open Entry',
+        name: 'Open Entry',,
         requirements: null,
         description: 'Open to all players',
       },
       bronze: {
-        name: 'Bronze Qualifier',
+        name: 'Bronze Qualifier',,
         requirements: { rating: 1200 },
         description: 'For bronze tier players and above',
       },
       silver: {
-        name: 'Silver Qualifier',
+        name: 'Silver Qualifier',,
         requirements: { rating: 1600 },
         description: 'For silver tier players and above',
       },
       gold: {
-        name: 'Gold Qualifier',
+        name: 'Gold Qualifier',,
         requirements: { rating: 2000 },
         description: 'For gold tier players and above',
       },
       invitational: {
-        name: 'Invitational',
+        name: 'Invitational',,
         requirements: { invitation: true },
         description: 'By invitation only',
       },
@@ -246,7 +246,7 @@ export class TournamentEngine {
         gameWinPercentage: 0,
         dropped: false,
         standing: 0,
-        tiebreakers: {},
+        tiebreakers: {}
         metaBonus: 0,
       })),
       rounds:
@@ -273,7 +273,7 @@ export class TournamentEngine {
           ? { matches: [], currentRound: 0 }
           : null,
       },
-      metaBreakdown: {},
+      metaBreakdown: {}
       timeConstraints: {
         estimatedEndTime: new Date(
           startTime.getTime() + timePerRound * calculatedRounds * 60 * 1000,
@@ -1794,14 +1794,14 @@ export class TournamentEngine {
       .sort((a, b) => a.standing - b.standing)
       .map(player => ({
         id: player.id,
-        name: player.name,
+        name: player.name,,
         standing: player.standing,
         record: `${player.wins}-${player.losses}-${player.draws}`,
         matchPoints: player.matchPoints,
         opponentMatchWinPercentage: player.opponentMatchWinPercentage,
         gameWinPercentage: player.gameWinPercentage,
         metaBonus: player.metaBonus || 0,
-        deckArchetype: player.deckArchetype,
+        deckArchetype: player.deckArchetype,,
         dropped: player.dropped,
       }));
   }
@@ -1853,15 +1853,15 @@ export class TournamentEngine {
             player1: match.player1
               ? {
                   id: match.player1.id,
-                  name: match.player1.name,
-                  deckArchetype: match.player1.deckArchetype,
+                  name: match.player1.name,,
+                  deckArchetype: match.player1.deckArchetype,,
                 }
               : null,
             player2: match.player2
               ? {
                   id: match.player2.id,
-                  name: match.player2.name,
-                  deckArchetype: match.player2.deckArchetype,
+                  name: match.player2.name,,
+                  deckArchetype: match.player2.deckArchetype,,
                 }
               : null,
             result: match.result,

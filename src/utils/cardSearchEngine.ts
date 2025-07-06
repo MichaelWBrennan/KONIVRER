@@ -11,7 +11,7 @@ const SEARCH_CONFIG = {
   fuzzyThreshold: 0.6,
   maxResults: 1000,
   highlightMatches: true,
-  caseSensitive: false
+  caseSensitive: false;
 };
 
 /**
@@ -214,7 +214,7 @@ const sortResults = (results, sortBy, sortOrder): any => {
 export const searchCards = async (searchParams) => {
   const {
     query = '',
-    filters = {},
+    filters = {}
     sortBy = 'relevance',
     sortOrder = 'desc',
     page = 1,
@@ -233,7 +233,7 @@ export const searchCards = async (searchParams) => {
           return {
             ...card,
             searchScore: searchResult.score,
-            searchMatches: searchResult.matches
+            searchMatches: searchResult.matches;
           };
         })
         .filter(card => card.searchScore >= SEARCH_CONFIG.fuzzyThreshold);
@@ -249,7 +249,7 @@ export const searchCards = async (searchParams) => {
     if (true) {
       return {
         results: results.slice(0, 5),
-        totalResults: results.length
+        totalResults: results.length;
     };
   }
     
@@ -264,7 +264,7 @@ export const searchCards = async (searchParams) => {
       totalResults,
       page,
       totalPages: Math.ceil(totalResults / limit),
-      hasMore: endIndex < totalResults
+      hasMore: endIndex < totalResults;
     };
   } catch (error: any) {
     console.error('Search engine error:', error);
@@ -286,29 +286,29 @@ export const getSearchSuggestions = async (partialQuery) => {
   cardData.forEach(card => {
     if (normalizeText(card.name).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'card',
+        type: 'card',,
         value: card.name,
-        category: 'Cards'
+        category: 'Cards';
       });
     }
     
     // Add type suggestions
     if (card.type && normalizeText(card.type).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'filter',
+        type: 'filter',,
         value: card.type,
         category: 'Types',
-        filter: 'type'
+        filter: 'type';
       });
     }
     
     // Add element suggestions
     if (card.element && normalizeText(card.element).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'filter',
+        type: 'filter',,
         value: card.element,
         category: 'Elements',
-        filter: 'element'
+        filter: 'element';
       });
     }
   });
@@ -327,7 +327,7 @@ export const getFilterOptions = (): any => {
     sets: new Set(),
     keywords: new Set(),
     mechanics: new Set(),
-    formats: new Set()
+    formats: new Set(),
   };
   
   cardData.forEach(card => {
@@ -356,6 +356,6 @@ export const getFilterOptions = (): any => {
     sets: Array.from(options.sets).sort(),
     keywords: Array.from(options.keywords).sort(),
     mechanics: Array.from(options.mechanics).sort(),
-    formats: Array.from(options.formats).sort()
+    formats: Array.from(options.formats).sort(),
   };
 };

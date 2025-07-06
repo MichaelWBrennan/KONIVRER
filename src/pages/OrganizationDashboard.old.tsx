@@ -31,8 +31,8 @@ const OrganizationDashboard = (): any => {
       // Mock data
       setOrganization({
         id: 1,
-        name: 'Local Game Store',
-        type: 'retail',
+        name: 'Local Game Store',,
+        type: 'retail',,
         description: 'Premier gaming destination for card games and tournaments',
         website: 'https://localgamestore.com',
         email: 'info@localgamestore.com',
@@ -46,7 +46,7 @@ const OrganizationDashboard = (): any => {
       setTournaments([
         {
           id: 1,
-          name: 'Friday Night Magic',
+          name: 'Friday Night Magic',,
           date: '2024-07-05',
           time: '19:00',
           status: 'active',
@@ -57,7 +57,7 @@ const OrganizationDashboard = (): any => {
         },
         {
           id: 2,
-          name: 'Saturday Standard',
+          name: 'Saturday Standard',,
           date: '2024-07-06',
           time: '14:00',
           status: 'registration',
@@ -70,7 +70,7 @@ const OrganizationDashboard = (): any => {
       setStaff([
         {
           id: 1,
-          name: 'John Smith',
+          name: 'John Smith',,
           email: 'john@localgamestore.com',
           role: 'organizer',
           permissions: ['create_tournaments', 'manage_staff', 'view_analytics'],
@@ -79,7 +79,7 @@ const OrganizationDashboard = (): any => {
         },
         {
           id: 2,
-          name: 'Sarah Johnson',
+          name: 'Sarah Johnson',,
           email: 'sarah@localgamestore.com',
           role: 'judge',
           permissions: ['judge_tournaments', 'submit_results'],
@@ -90,7 +90,7 @@ const OrganizationDashboard = (): any => {
       setLocations([
         {
           id: 1,
-          name: 'Main Store',
+          name: 'Main Store',,
           address: '123 Main St, Anytown, ST 12345',
           capacity: 64,
           tables: 16,
@@ -99,7 +99,7 @@ const OrganizationDashboard = (): any => {
         },
         {
           id: 2,
-          name: 'Community Center',
+          name: 'Community Center',,
           address: '456 Oak Ave, Anytown, ST 12345',
           capacity: 128,
           tables: 32,
@@ -114,10 +114,10 @@ const OrganizationDashboard = (): any => {
         averageParticipants: 28,
         monthlyGrowth: 12.5,
         popularFormats: [
-          { name: 'Standard', count: 45 },
-          { name: 'Modern', count: 32 },
-          { name: 'Draft', count: 28 },
-          { name: 'Flag', count: 24 }
+          { name: 'Standard', count: 45 },,
+          { name: 'Modern', count: 32 },,
+          { name: 'Draft', count: 28 },,
+          { name: 'Flag', count: 24 },
         ]
       });
     } catch (error: any) {

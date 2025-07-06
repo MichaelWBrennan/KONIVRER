@@ -12,7 +12,7 @@ export const ELEMENT_ABILITIES = {
   NETHER: 'Void',
   FIRE: 'Inferno',
   EARTH: 'Steadfast',
-  WATER: 'Submerged'
+  WATER: 'Submerged';
 };
 
 // Ability to Element Mapping (reverse lookup)
@@ -63,7 +63,7 @@ export const ABILITY_COLORS = {
  * @param {string} ability - The ability name
  * @returns {string|null} The corresponding element or null if not found
  */
-export function getElementForAbility(): any {
+export function getElementForAbility() {
   return ABILITY_ELEMENTS[ability] || null;
 }
 
@@ -72,7 +72,7 @@ export function getElementForAbility(): any {
  * @param {string} element - The element name
  * @returns {string|null} The corresponding ability or null if not found
  */
-export function getAbilityForElement(): any {
+export function getAbilityForElement() {
   return ELEMENT_ABILITIES[element] || null;
 }
 
@@ -81,7 +81,7 @@ export function getAbilityForElement(): any {
  * @param {string} ability - The ability to check
  * @returns {boolean} True if it's a valid ability
  */
-export function isValidAbility(): any {
+export function isValidAbility() {
   return CARD_ABILITIES.includes(ability);
 }
 
@@ -90,12 +90,12 @@ export function isValidAbility(): any {
  * @param {string} ability - The ability name
  * @returns {Object} Object with symbol, color, and element info
  */
-export function getAbilityDisplayInfo(): any {
+export function getAbilityDisplayInfo() {
   return {
     symbol: ABILITY_SYMBOLS[ability] || '?',
     color: ABILITY_COLORS[ability] || '#808080',
-    element: getElementForAbility(ability),
-    isValid: isValidAbility(ability)
+    element: getElementForAbility(ability),,
+    isValid: isValidAbility(ability);
     };
   }
 
@@ -114,10 +114,10 @@ export const ALL_ELEMENTS = [
  * @param {Array} elements - Array of element/ability names from card
  * @returns {Array} Array of display objects
  */
-export function parseCardElements(): any {
+export function parseCardElements() {
   if (!Array.isArray(elements)) return [];
   return elements.map(element => ({
-    name: element,
+    name: element,,
     ...getAbilityDisplayInfo(element)
   }));
 }

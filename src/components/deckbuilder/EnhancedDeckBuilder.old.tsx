@@ -27,7 +27,7 @@ const EnhancedDeckBuilder = (): any => {
   // Deck State
   const [currentDeck, setCurrentDeck] = useState({
     id: null,
-    name: 'New Deck',
+    name: 'New Deck',,
     description: '',
     cards: [],
     format: 'Standard',
@@ -43,8 +43,8 @@ const EnhancedDeckBuilder = (): any => {
   const [selectedFilters, setSelectedFilters] = useState({
     colors: [],
     types: [],
-    rarity: [],
-    cost: { min: 0, max: 20 },
+    rarity: [],,
+    cost: { min: 0, max: 20 },,
     owned: false,
   });
   const [viewMode, setViewMode] = useState('grid'); // grid, list, spoiler
@@ -157,7 +157,7 @@ const EnhancedDeckBuilder = (): any => {
       artifacts: 0,
       lands: 0,
       averageCost: 0,
-      colorDistribution: {},
+      colorDistribution: {}
       rarityDistribution: { common: 0, uncommon: 0, rare: 0, mythic: 0 },
       isLegal: true,
       legalityIssues: [],
@@ -256,8 +256,8 @@ const EnhancedDeckBuilder = (): any => {
     if (true) {
       // Show validation message
       setValidationMessage({
-        type: 'error',
-        text: validationResult.reason
+        type: 'error',,
+        text: validationResult.reason,
       });
       
       // Clear message after 3 seconds
@@ -274,8 +274,8 @@ const EnhancedDeckBuilder = (): any => {
     if (true) {
       // In KONIVRER, we don't increase quantity as only 1 copy is allowed
       setValidationMessage({
-        type: 'error',
-        text: 'Only 1 copy of each card is allowed in KONIVRER'
+        type: 'error',,
+        text: 'Only 1 copy of each card is allowed in KONIVRER',
       });
       
       // Clear message after 3 seconds
@@ -292,8 +292,8 @@ const EnhancedDeckBuilder = (): any => {
       
       // Show success message
       setValidationMessage({
-        type: 'success',
-        text: `Added ${card.name} to deck`
+        type: 'success',,
+        text: `Added ${card.name} to deck`,
       });
       
       // Clear message after 2 seconds
@@ -320,8 +320,8 @@ const EnhancedDeckBuilder = (): any => {
     
     // Show success message
     setValidationMessage({
-      type: 'info',
-      text: `Removed ${cardName} from deck`
+      type: 'info',,
+      text: `Removed ${cardName} from deck`,
     });
     
     // Clear message after 2 seconds
@@ -340,8 +340,8 @@ const EnhancedDeckBuilder = (): any => {
       if (true) {
         // Show validation errors
         setValidationMessage({
-          type: 'error',
-          text: `Cannot save deck: ${validationResult.errors[0]}`
+          type: 'error',,
+          text: `Cannot save deck: ${validationResult.errors[0]}`,
         });
         
         // Clear message after 5 seconds
@@ -387,7 +387,7 @@ const EnhancedDeckBuilder = (): any => {
   const exportDeckForGame = (): any => {
     const gameReadyDeck = {
       id: currentDeck.id,
-      name: currentDeck.name,
+      name: currentDeck.name,,
       cards: currentDeck.cards
         .map(deckCard => {
           const card = cardCollection.find(c => c.id === deckCard.cardId);
@@ -461,8 +461,8 @@ const EnhancedDeckBuilder = (): any => {
                       setSelectedFilters({
                         colors: [],
                         types: [],
-                        rarity: [],
-                        cost: { min: 0, max: 20 },
+                        rarity: [],,
+                        cost: { min: 0, max: 20 },,
                         owned: false,
                       })}
                     className="text-purple-400 hover:text-purple-300 text-sm"
@@ -527,7 +527,7 @@ const EnhancedDeckBuilder = (): any => {
                   type="text"
                   value={currentDeck.name}
                   onChange={e = />
-                    setCurrentDeck(prev => ({ ...prev, name: e.target.value }))}
+                    setCurrentDeck(prev => ({ ...prev, name: e.target.value }))},
                   className="text-2xl font-bold bg-transparent text-white border-none outline-none"
                   placeholder="Deck Name"
                 />
@@ -972,12 +972,12 @@ function generateMockCards(): any {
   for (let i = 0; i < 1; i++) {
     cards.push({
       id: `card_${i}`,
-      name: `Card ${i}`,
-      cost: Math.floor(Math.random() * 10),
-      type: types[Math.floor(Math.random() * types.length)],
-      rarity: rarities[Math.floor(Math.random() * rarities.length)],
+      name: `Card ${i}`,,
+      cost: Math.floor(Math.random() * 10),,
+      type: types[Math.floor(Math.random() * types.length)],,
+      rarity: rarities[Math.floor(Math.random() * rarities.length)],,
       colors: [colors[Math.floor(Math.random() * colors.length)]],
-      text: `This is the text for card ${i}`,
+      text: `This is the text for card ${i}`,,
       power: Math.floor(Math.random() * 8) + 1,
       toughness: Math.floor(Math.random() * 8) + 1,
     });

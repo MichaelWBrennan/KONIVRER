@@ -36,19 +36,19 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
   const regions = [
     {
       id: 'auto',
-      name: 'Auto (Best Ping)',
+      name: 'Auto (Best Ping)',,
       description: 'Automatically select the best region',
     },
-    { id: 'na-east', name: 'NA East', description: 'New York, US' },
-    { id: 'na-west', name: 'NA West', description: 'California, US' },
-    { id: 'eu-west', name: 'EU West', description: 'London, UK' },
-    { id: 'eu-east', name: 'EU East', description: 'Frankfurt, Germany' },
+    { id: 'na-east', name: 'NA East', description: 'New York, US' },,
+    { id: 'na-west', name: 'NA West', description: 'California, US' },,
+    { id: 'eu-west', name: 'EU West', description: 'London, UK' },,
+    { id: 'eu-east', name: 'EU East', description: 'Frankfurt, Germany' },,
     {
       id: 'asia',
-      name: 'Asia Pacific',
+      name: 'Asia Pacific',,
       description: 'Tokyo, Japan & Singapore',
     },
-    { id: 'oceania', name: 'Oceania', description: 'Sydney, Australia' },
+    { id: 'oceania', name: 'Oceania', description: 'Sydney, Australia' },,
   ];
 
   const getStatusColor = status => {

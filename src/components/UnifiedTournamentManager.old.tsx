@@ -39,7 +39,7 @@ type TournamentStatus = 'upcoming' | 'registration' | 'check-in' | 'in-progress'
 
 interface Player {
   id: string;
-  name: string;
+  name: string;,
   displayName?: string;
   avatar?: string;
   confirmed?: boolean;
@@ -90,7 +90,7 @@ interface Round {
 
 interface Tournament {
   id: string;
-  name: string;
+  name: string;,
   format: TournamentFormat;
   status: TournamentStatus;
   description?: string;
@@ -106,11 +106,11 @@ interface Tournament {
   checkInEnd?: Date;
   organizer: {
     id: string;
-    name: string;
+    name: string;,
   };
   judges?: {
     id: string;
-    name: string;
+    name: string;,
   }[];
   players: Player[];
   rounds?: Round[];
@@ -124,7 +124,7 @@ interface Tournament {
 
 interface TournamentTemplate {
   id: string;
-  name: string;
+  name: string;,
   format: TournamentFormat;
   description?: string;
   rounds?: number;
@@ -195,7 +195,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
   const [registrationCodes, setRegistrationCodes] = useState<RegistrationCode[]>([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    name: '',,
     format: 'swiss' as TournamentFormat,
     description: '',
     location: '',
@@ -221,7 +221,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
     draws: 0
   });
   const [showConfirmation, setShowConfirmation] = useState<{
-    type: 'delete-tournament' | 'drop-player' | 'disqualify-player' | 'cancel-tournament' | 'finalize-tournament';
+    type: 'delete-tournament' | 'drop-player' | 'disqualify-player' | 'cancel-tournament' | 'finalize-tournament';,
     id: string;
     message: string;
   } | null>(null);
@@ -238,7 +238,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
         const mockTournaments: Tournament[] = [
           {
             id: '1',
-            name: 'KONIVRER Championship Series',
+            name: 'KONIVRER Championship Series',,
             format: 'swiss',
             status: 'upcoming',
             description: 'The premier KONIVRER tournament series',
@@ -248,7 +248,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
             currentPlayers: 64,
             organizer: {
               id: '1',
-              name: 'KONIVRER Official'
+              name: 'KONIVRER Official',
             },
             players: [],
             isPublic: true,
@@ -256,7 +256,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
           },
           {
             id: '2',
-            name: 'Local Game Store Weekly',
+            name: 'Local Game Store Weekly',,
             format: 'single-elimination',
             status: 'registration',
             description: 'Weekly tournament at your local game store',
@@ -266,7 +266,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
             currentPlayers: 12,
             organizer: {
               id: '2',
-              name: 'Card Kingdom'
+              name: 'Card Kingdom',
             },
             players: [],
             isPublic: true,
@@ -274,7 +274,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
           },
           {
             id: '3',
-            name: 'KONIVRER Online Cup',
+            name: 'KONIVRER Online Cup',,
             format: 'double-elimination',
             status: 'in-progress',
             description: 'Monthly online cup with prizes',
@@ -286,7 +286,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
             currentRound: 3,
             organizer: {
               id: '1',
-              name: 'KONIVRER Official'
+              name: 'KONIVRER Official',
             },
             players: [],
             isPublic: true,
@@ -325,7 +325,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
         const mockTemplates: TournamentTemplate[] = [
           {
             id: '1',
-            name: 'Standard Swiss',
+            name: 'Standard Swiss',,
             format: 'swiss',
             description: 'Standard Swiss tournament with top 8 cut',
             rounds: 5,
@@ -335,7 +335,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
           },
           {
             id: '2',
-            name: 'Single Elimination',
+            name: 'Single Elimination',,
             format: 'single-elimination',
             description: 'Single elimination bracket',
             rules: 'Standard KONIVRER rules apply',
@@ -344,7 +344,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
           },
           {
             id: '3',
-            name: 'Double Elimination',
+            name: 'Double Elimination',,
             format: 'double-elimination',
             description: 'Double elimination bracket',
             rules: 'Standard KONIVRER rules apply',
@@ -496,7 +496,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
         currentPlayers: 0,
         organizer: {
           id: user?.uid || '0',
-          name: user?.displayName || 'Unknown'
+          name: user?.displayName || 'Unknown',
         },
         players: [],
         isPublic: formData.isPublic
@@ -505,7 +505,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
       setTournaments(prev => [...prev, newTournament]);
       setShowCreateForm(false);
       setFormData({
-        name: '',
+        name: '',,
         format: 'swiss',
         description: '',
         location: '',
@@ -588,7 +588,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
       // For now, we'll just update the local state
       const newPlayer: Player = {
         id: user.uid,
-        name: user.displayName || 'Unknown',
+        name: user.displayName || 'Unknown',,
         avatar: user.photoURL || undefined,
         confirmed: true,
         checkedIn: false
@@ -1139,7 +1139,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                         type="text"
                         id="name"
                         value={formData.name}
-                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))},
                         required
                       />
                     </div>
@@ -1391,7 +1391,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                   <button 
                     type="button"
                     onClick={() => setShowConfirmation({
-                      type: 'finalize-tournament',
+                      type: 'finalize-tournament',,
                       id: selectedTournament.id,
                       message: 'Are you sure you want to finalize this tournament? This action cannot be undone.'
                     })}
@@ -1406,7 +1406,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                   <button 
                     type="button"
                     onClick={() => setShowConfirmation({
-                      type: 'cancel-tournament',
+                      type: 'cancel-tournament',,
                       id: selectedTournament.id,
                       message: 'Are you sure you want to cancel this tournament? This action cannot be undone.'
                     })}
@@ -1420,7 +1420,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                 <button 
                   type="button"
                   onClick={() => setShowConfirmation({
-                    type: 'delete-tournament',
+                    type: 'delete-tournament',,
                     id: selectedTournament.id,
                     message: 'Are you sure you want to delete this tournament? This action cannot be undone.'
                   })}
@@ -1678,7 +1678,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowConfirmation({
-                                  type: 'drop-player',
+                                  type: 'drop-player',,
                                   id: player.id,
                                   message: `Are you sure you want to drop ${player.name} from the tournament?`
                                 });
@@ -1694,7 +1694,7 @@ const UnifiedTournamentManager: React.FC<UnifiedTournamentManagerProps> = ({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setShowConfirmation({
-                                  type: 'disqualify-player',
+                                  type: 'disqualify-player',,
                                   id: player.id,
                                   message: `Are you sure you want to disqualify ${player.name} from the tournament?`
                                 });

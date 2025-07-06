@@ -362,7 +362,7 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 20 }}
+            transition={{ type: 'spring', damping: 20 }},
           >
             <div className="log-header">
               <h3>Game Log</h3>

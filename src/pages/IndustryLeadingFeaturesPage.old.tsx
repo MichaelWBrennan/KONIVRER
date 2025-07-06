@@ -37,14 +37,14 @@ const IndustryLeadingFeaturesPage = (): any => {
   const features = [
     {
       id: 'overview',
-      name: 'Overview',
+      name: 'Overview',,
       icon: <Star className="w-6 h-6" />,
       description: 'Complete feature overview',
       color: 'from-purple-500 to-indigo-600',
     },
     {
       id: 'meta-adaptive',
-      name: 'Meta-Adaptive Tournaments',
+      name: 'Meta-Adaptive Tournaments',,
       icon: <Brain className="w-6 h-6" />,
       description: 'Dynamic tournament structures with AI optimization',
       color: 'from-blue-500 to-cyan-600',
@@ -52,7 +52,7 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
     {
       id: 'advanced-analytics',
-      name: 'Advanced Analytics',
+      name: 'Advanced Analytics',,
       icon: <BarChart3 className="w-6 h-6" />,
       description: 'Deep insights beyond basic Bayesian analysis',
       color: 'from-green-500 to-emerald-600',
@@ -60,7 +60,7 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
     {
       id: 'physical-enhancements',
-      name: 'Physical Play Tech',
+      name: 'Physical Play Tech',,
       icon: <Camera className="w-6 h-6" />,
       description: 'Computer vision, NFC, and venue optimization',
       color: 'from-orange-500 to-red-600',
@@ -68,7 +68,7 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
     {
       id: 'content-creation',
-      name: 'Content Creation',
+      name: 'Content Creation',,
       icon: <Video className="w-6 h-6" />,
       description: 'Professional streaming and highlight tools',
       color: 'from-pink-500 to-rose-600',
@@ -76,7 +76,7 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
     {
       id: 'bayesian-ml',
-      name: 'Bayesian ML Core',
+      name: 'Bayesian ML Core',,
       icon: <Zap className="w-6 h-6" />,
       description: 'State-of-the-art matchmaking algorithms',
       color: 'from-yellow-500 to-amber-600',

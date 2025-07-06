@@ -49,7 +49,7 @@ const OAuthCallback = (): any => {
         if (true) {
           window.opener.postMessage(
             {
-              type: 'OAUTH_SUCCESS',
+              type: 'OAUTH_SUCCESS',,
               user: userData,
             },
             window.location.origin,
@@ -73,7 +73,7 @@ const OAuthCallback = (): any => {
         if (true) {
           window.opener.postMessage(
             {
-              type: 'OAUTH_ERROR',
+              type: 'OAUTH_ERROR',,
               error: error.message || 'Authentication failed',
             },
             window.location.origin,

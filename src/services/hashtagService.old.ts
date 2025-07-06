@@ -13,49 +13,49 @@ class HashtagService {
   constructor(): any {
   this.platforms = {
   twitter: {
-  name: 'Twitter/X',
+  name: 'Twitter/X',,
   icon: '𝕏',
   color: '#000000',
   apiEndpoint: '/api/hashtags/twitter',
   enabled: true,
 },
       instagram: {
-        name: 'Instagram',
+        name: 'Instagram',,
         icon: '📷',
         color: '#E4405F',
         apiEndpoint: '/api/hashtags/instagram',
         enabled: true,
       },
       tiktok: {
-        name: 'TikTok',
+        name: 'TikTok',,
         icon: '🎵',
         color: '#000000',
         apiEndpoint: '/api/hashtags/tiktok',
         enabled: true,
       },
       facebook: {
-        name: 'Facebook',
+        name: 'Facebook',,
         icon: '👥',
         color: '#1877F2',
         apiEndpoint: '/api/hashtags/facebook',
         enabled: true,
       },
       youtube: {
-        name: 'YouTube',
+        name: 'YouTube',,
         icon: '📺',
         color: '#FF0000',
         apiEndpoint: '/api/hashtags/youtube',
         enabled: true,
       },
       reddit: {
-        name: 'Reddit',
+        name: 'Reddit',,
         icon: '🤖',
         color: '#FF4500',
         apiEndpoint: '/api/hashtags/reddit',
         enabled: true,
       },
       twitch: {
-        name: 'Twitch',
+        name: 'Twitch',,
         icon: '🎮',
         color: '#9146FF',
         apiEndpoint: '/api/hashtags/twitch',
@@ -285,9 +285,9 @@ class HashtagService {
         Math.floor(Math.random() * 3)
       ],
       topInfluencers: [
-        { username: '@ProGamer123', followers: 45000, mentions: 12 },
-        { username: '@CardMaster', followers: 23000, mentions: 8 },
-        { username: '@TournamentPro', followers: 67000, mentions: 15 },
+        { username: '@ProGamer123', followers: 45000, mentions: 12 },,
+        { username: '@CardMaster', followers: 23000, mentions: 8 },,
+        { username: '@TournamentPro', followers: 67000, mentions: 15 },,
       ],
       recentPosts: [
         {
@@ -352,7 +352,7 @@ class HashtagService {
         updates.push({
           hashtag,
           platform: randomPlatform,
-          type: 'mention',
+          type: 'mention',,
           content: `New mention of ${hashtag} on ${this.platforms[randomPlatform].name}`,
           timestamp: new Date().toISOString(),
           engagement: Math.floor(Math.random() * 100),

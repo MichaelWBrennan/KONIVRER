@@ -33,7 +33,7 @@ const PlayerProfile = (): any => {
       setEvents([
         {
           id: 1,
-          name: 'Friday Night KONIVRER',
+          name: 'Friday Night KONIVRER',,
           date: '2025-07-05',
           time: '19:00',
           venue: 'Local Game Store',
@@ -60,7 +60,7 @@ const PlayerProfile = (): any => {
         },
         {
           id: 2,
-          name: 'Saturday Standard Showdown',
+          name: 'Saturday Standard Showdown',,
           date: '2025-07-06',
           time: '14:00',
           venue: 'Community Center',
@@ -88,7 +88,7 @@ const PlayerProfile = (): any => {
       setNotifications([
         {
           id: 1,
-          type: 'pairing',
+          type: 'pairing',,
           title: 'Round 2 Pairing Available',
           message: 'Your Round 2 opponent has been assigned. Check your current match!',
           timestamp: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
@@ -97,7 +97,7 @@ const PlayerProfile = (): any => {
         },
         {
           id: 2,
-          type: 'deadline',
+          type: 'deadline',,
           title: 'Decklist Deadline Approaching',
           message: 'Submit your decklist for Saturday Standard Showdown by 12:00 PM tomorrow.',
           timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
@@ -186,7 +186,7 @@ const PlayerProfile = (): any => {
 
   const playerData = {
     id: 'player123',
-    username: 'ProPlayer123',
+    username: 'ProPlayer123',,
     displayName: 'Alex Chen',
     avatar: '/api/placeholder/120/120',
     joinDate: '2023-03-15',
@@ -208,50 +208,50 @@ const PlayerProfile = (): any => {
     achievements: [
       {
         id: 1,
-        name: 'Tournament Champion',
+        name: 'Tournament Champion',,
         description: 'Win a major tournament',
         icon: Trophy,
-        rarity: 'legendary',
+        rarity: 'legendary',,
         earned: true,
       },
       {
         id: 2,
-        name: 'Win Streak Master',
+        name: 'Win Streak Master',,
         description: 'Win 10 games in a row',
         icon: Target,
-        rarity: 'rare',
+        rarity: 'rare',,
         earned: true,
       },
       {
         id: 3,
-        name: 'Meta Breaker',
+        name: 'Meta Breaker',,
         description: 'Win with an off-meta deck',
         icon: Star,
-        rarity: 'epic',
+        rarity: 'epic',,
         earned: true,
       },
       {
         id: 4,
-        name: 'Perfect Record',
+        name: 'Perfect Record',,
         description: 'Go undefeated in a tournament',
         icon: Crown,
-        rarity: 'legendary',
+        rarity: 'legendary',,
         earned: false,
       },
       {
         id: 5,
-        name: 'Deck Master',
+        name: 'Deck Master',,
         description: 'Create 50 unique decks',
         icon: Sword,
-        rarity: 'rare',
+        rarity: 'rare',,
         earned: true,
       },
       {
         id: 6,
-        name: 'Community Leader',
+        name: 'Community Leader',,
         description: 'Help 100 new players',
         icon: Users,
-        rarity: 'epic',
+        rarity: 'epic',,
         earned: false,
       },
     ],
@@ -293,7 +293,7 @@ const PlayerProfile = (): any => {
     tournamentHistory: [
       {
         id: 1,
-        name: 'KONIVRER Championship Series #1',
+        name: 'KONIVRER Championship Series #1',,
         date: '2025-06-01',
         format: 'Classic Constructed',
         placement: 2,
@@ -304,7 +304,7 @@ const PlayerProfile = (): any => {
       },
       {
         id: 2,
-        name: 'Weekly Blitz Tournament',
+        name: 'Weekly Blitz Tournament',,
         date: '2025-05-28',
         format: 'Blitz',
         placement: 1,
@@ -315,7 +315,7 @@ const PlayerProfile = (): any => {
       },
       {
         id: 3,
-        name: 'Draft Masters Cup',
+        name: 'Draft Masters Cup',,
         date: '2025-05-20',
         placement: 5,
         participants: 24,
@@ -327,7 +327,7 @@ const PlayerProfile = (): any => {
     deckCollection: [
       {
         id: 1,
-        name: 'Elemental Storm Control',
+        name: 'Elemental Storm Control',,
         hero: 'Zephyr',
         format: 'Classic Constructed',
         winRate: 73.2,
@@ -337,7 +337,7 @@ const PlayerProfile = (): any => {
       },
       {
         id: 2,
-        name: 'Crystal Guardian',
+        name: 'Crystal Guardian',,
         hero: 'Prism',
         format: 'Classic Constructed',
         winRate: 68.5,
@@ -347,7 +347,7 @@ const PlayerProfile = (): any => {
       },
       {
         id: 3,
-        name: 'Lightning Rush',
+        name: 'Lightning Rush',,
         hero: 'Zephyr',
         format: 'Blitz',
         winRate: 75.8,

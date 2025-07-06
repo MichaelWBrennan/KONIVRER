@@ -20,14 +20,13 @@ import axios from 'axios';
 export class MatchmakingAPI {
   /**
   * Create a new MatchmakingAPI instance
-  * @param {Object
-} config - API configuration
+  * @param config - API configuration
    */
-  constructor() any = {}): any {
+  constructor(config: any = {}) {
     const {
       baseURL = '/api',
       timeout = 10000,
-      headers = {},
+      headers = {}
       authToken = null,
     } = config;
 
@@ -53,7 +52,7 @@ export class MatchmakingAPI {
    * @param {Error} error - Error object
    * @returns {Promise} Rejected promise with error details
    */
-  handleError(error: any): any {
+  handleError(error: any) {
     let errorMessage = 'An unknown error occurred';
     let errorCode = 'UNKNOWN_ERROR';
     let statusCode = 500;
@@ -87,14 +86,14 @@ export class MatchmakingAPI {
    * Set authentication token
    * @param {string} token - Authentication token
    */
-  setAuthToken(token: any): any {
+  setAuthToken(token: any) {
     this.client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
   /**
    * Clear authentication token
    */
-  clearAuthToken(): any {
+  clearAuthToken() {
     delete this.client.defaults.headers.common['Authorization'];
   }
 
@@ -103,7 +102,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Object>} Player data
    */
-  async getPlayer(playerId: any): any {
+  async getPlayer(playerId: any) {
     const response = await this.client.get(`/players/${playerId}`);
     return response.data;
   }
@@ -112,7 +111,7 @@ export class MatchmakingAPI {
    * Get current player profile
    * @returns {Promise<Object>} Current player data
    */
-  async getCurrentPlayer(): any {
+  async getCurrentPlayer() {
     const response = await this.client.get('/players/me');
     return response.data;
   }
@@ -123,7 +122,7 @@ export class MatchmakingAPI {
    * @param {Object} data - Player data to update
    * @returns {Promise<Object>} Updated player data
    */
-  async updatePlayer(playerId: any, data: any): any {
+  async updatePlayer(playerId: any, data: any) {
     const response = await this.client.patch(`/players/${playerId}`, data);
     return response.data;
   }
@@ -134,7 +133,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Match history
    */
-  async getPlayerMatches(playerId: any, options: any = {}): any {
+  async getPlayerMatches(playerId: any, options: any = {}) {
     const {
       limit = 20,
       offset = 0,
@@ -154,7 +153,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Object>} Player statistics
    */
-  async getPlayerStats(playerId: any): any {
+  async getPlayerStats(playerId: any) {
     const response = await this.client.get(`/players/${playerId}/stats`);
     return response.data;
   }
@@ -165,7 +164,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Matchmaking options
    * @returns {Promise<Object>} Match data
    */
-  async findMatch(playerId: any, options: any = {}): any {
+  async findMatch(playerId: any, options: any = {}) {
     const response = await this.client.post(`/matchmaking/find`, {
       playerId,
       ...options,
@@ -180,7 +179,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Object>} Match data
    */
-  async acceptMatch(matchId: any, playerId: any): any {
+  async acceptMatch(matchId: any, playerId: any) {
     const response = await this.client.post(
       `/matchmaking/matches/${matchId}/accept`,
       {
@@ -197,7 +196,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Object>} Result
    */
-  async declineMatch(matchId: any, playerId: any): any {
+  async declineMatch(matchId: any, playerId: any) {
     const response = await this.client.post(
       `/matchmaking/matches/${matchId}/decline`,
       {
@@ -214,7 +213,7 @@ export class MatchmakingAPI {
    * @param {Object} result - Match result
    * @returns {Promise<Object>} Updated match data
    */
-  async reportMatchResult(matchId: any, result: any): any {
+  async reportMatchResult(matchId: any, result: any) {
     const response = await this.client.post(
       `/matchmaking/matches/${matchId}/result`,
       result,
@@ -227,7 +226,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Leaderboard data
    */
-  async getLeaderboard(options: any = {}): any {
+  async getLeaderboard(options: any = {}) {
     const {
       limit = 100,
       offset = 0,
@@ -251,7 +250,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Tournament data
    */
-  async getTournaments(options: any = {}): any {
+  async getTournaments(options: any = {}) {
     const {
       limit = 20,
       offset = 0,
@@ -271,7 +270,7 @@ export class MatchmakingAPI {
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Object>} Tournament data
    */
-  async getTournament(tournamentId: any): any {
+  async getTournament(tournamentId: any) {
     const response = await this.client.get(`/tournaments/${tournamentId}`);
     return response.data;
   }
@@ -283,7 +282,7 @@ export class MatchmakingAPI {
    * @param {Object} registrationData - Registration data
    * @returns {Promise<Object>} Registration result
    */
-  async registerForTournament(tournamentId: any, playerId: any, registrationData: any = {}): any {
+  async registerForTournament(tournamentId: any, playerId: any, registrationData: any = {}) {
     const response = await this.client.post(
       `/tournaments/${tournamentId}/register`,
       {
@@ -300,7 +299,7 @@ export class MatchmakingAPI {
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Array>} Tournament standings
    */
-  async getTournamentStandings(tournamentId: any): any {
+  async getTournamentStandings(tournamentId: any) {
     const response = await this.client.get(
       `/tournaments/${tournamentId}/standings`,
     );
@@ -313,7 +312,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Tournament matches
    */
-  async getTournamentMatches(tournamentId: any, options: any = {}): any {
+  async getTournamentMatches(tournamentId: any, options: any = {}) {
     const { round = null, status = null, playerId = null } = options;
 
     const params = {};
@@ -333,7 +332,7 @@ export class MatchmakingAPI {
    * @param {Object} tournamentData - Tournament data
    * @returns {Promise<Object>} Created tournament
    */
-  async createTournament(tournamentData: any): any {
+  async createTournament(tournamentData: any) {
     const response = await this.client.post('/tournaments', tournamentData);
     return response.data;
   }
@@ -344,7 +343,7 @@ export class MatchmakingAPI {
    * @param {Object} tournamentData - Tournament data to update
    * @returns {Promise<Object>} Updated tournament
    */
-  async updateTournament(tournamentId: any, tournamentData: any): any {
+  async updateTournament(tournamentId: any, tournamentData: any) {
     const response = await this.client.patch(
       `/tournaments/${tournamentId}`,
       tournamentData,
@@ -357,7 +356,7 @@ export class MatchmakingAPI {
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Object>} Tournament data
    */
-  async startTournament(tournamentId: any): any {
+  async startTournament(tournamentId: any) {
     const response = await this.client.post(
       `/tournaments/${tournamentId}/start`,
     );
@@ -369,7 +368,7 @@ export class MatchmakingAPI {
    * @param {string} tournamentId - Tournament ID
    * @returns {Promise<Object>} Tournament data
    */
-  async endTournament(tournamentId: any): any {
+  async endTournament(tournamentId: any) {
     const response = await this.client.post(`/tournaments/${tournamentId}/end`);
     return response.data;
   }
@@ -379,7 +378,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Object>} Meta data
    */
-  async getMetaData(options: any = {}): any {
+  async getMetaData(options: any = {}) {
     const { timeFrame = 'current', region = null } = options;
 
     const params = { timeFrame };
@@ -393,7 +392,7 @@ export class MatchmakingAPI {
    * Get deck archetypes
    * @returns {Promise<Array>} Deck archetypes
    */
-  async getDeckArchetypes(): any {
+  async getDeckArchetypes() {
     const response = await this.client.get('/decks/archetypes');
     return response.data;
   }
@@ -403,7 +402,7 @@ export class MatchmakingAPI {
    * @param {string} archetype - Deck archetype
    * @returns {Promise<Object>} Matchup data
    */
-  async getDeckMatchups(archetype: any): any {
+  async getDeckMatchups(archetype: any) {,
     const response = await this.client.get(
       `/decks/archetypes/${archetype}/matchups`,
     );
@@ -415,7 +414,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Array>} Deck collection
    */
-  async getPlayerDecks(playerId: any): any {
+  async getPlayerDecks(playerId: any) {
     const response = await this.client.get(`/players/${playerId}/decks`);
     return response.data;
   }
@@ -426,7 +425,7 @@ export class MatchmakingAPI {
    * @param {Object} deckData - Deck data
    * @returns {Promise<Object>} Created deck
    */
-  async createPlayerDeck(playerId: any, deckData: any): any {
+  async createPlayerDeck(playerId: any, deckData: any) {
     const response = await this.client.post(
       `/players/${playerId}/decks`,
       deckData,
@@ -441,7 +440,7 @@ export class MatchmakingAPI {
    * @param {Object} deckData - Deck data to update
    * @returns {Promise<Object>} Updated deck
    */
-  async updatePlayerDeck(playerId: any, deckId: any, deckData: any): any {
+  async updatePlayerDeck(playerId: any, deckId: any, deckData: any) {
     const response = await this.client.patch(
       `/players/${playerId}/decks/${deckId}`,
       deckData,
@@ -455,7 +454,7 @@ export class MatchmakingAPI {
    * @param {string} deckId - Deck ID
    * @returns {Promise<Object>} Result
    */
-  async deletePlayerDeck(playerId: any, deckId: any): any {
+  async deletePlayerDeck(playerId: any, deckId: any) {
     const response = await this.client.delete(
       `/players/${playerId}/decks/${deckId}`,
     );
@@ -468,7 +467,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Notifications
    */
-  async getPlayerNotifications(playerId: any, options: any = {}): any {
+  async getPlayerNotifications(playerId: any, options: any = {}) {
     const { limit = 20, offset = 0, unreadOnly = false } = options;
 
     const response = await this.client.get(
@@ -487,7 +486,7 @@ export class MatchmakingAPI {
    * @param {string} notificationId - Notification ID
    * @returns {Promise<Object>} Result
    */
-  async markNotificationRead(playerId: any, notificationId: any): any {
+  async markNotificationRead(playerId: any, notificationId: any) {
     const response = await this.client.post(
       `/players/${playerId}/notifications/${notificationId}/read`,
     );
@@ -499,7 +498,7 @@ export class MatchmakingAPI {
    * @param {string} playerId - Player ID
    * @returns {Promise<Array>} Achievements
    */
-  async getPlayerAchievements(playerId: any): any {
+  async getPlayerAchievements(playerId: any) {
     const response = await this.client.get(`/players/${playerId}/achievements`);
     return response.data;
   }
@@ -510,7 +509,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Object>} Analytics data
    */
-  async getPlayerAnalytics(playerId: any, options: any = {}): any {
+  async getPlayerAnalytics(playerId: any, options: any = {}) {
     const {
       timeFrame = 'season',
       includeMatchups = true,
@@ -537,7 +536,7 @@ export class MatchmakingAPI {
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Events
    */
-  async getNearbyEvents(location: any, options: any = {}): any {
+  async getNearbyEvents(location: any, options: any = {}) {
     const {
       radius = 50, // km
       limit = 20,
@@ -567,7 +566,7 @@ export class MatchmakingAPI {
    * @param {Object} registrationData - Registration data
    * @returns {Promise<Object>} Registration result
    */
-  async registerForEvent(eventId: any, playerId: any, registrationData: any = {}): any {
+  async registerForEvent(eventId: any, playerId: any, registrationData: any = {}) {
     const response = await this.client.post(`/events/${eventId}/register`, {
       playerId,
       ...registrationData,

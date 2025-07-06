@@ -34,11 +34,11 @@ const EnhancedGamePage = (): any => {
   const [error, setError] = useState(null);
   // Player data
   const [playerData, setPlayerData] = useState({
-    name: 'Player',
+    name: 'Player',,
     avatarUrl: null,
   });
   const [opponentData, setOpponentData] = useState({
-    name: gameMode === 'ai-testing' ? 'Cutting-Edge AI' : 'Opponent',
+    name: gameMode === 'ai-testing' ? 'Cutting-Edge AI' : 'Opponent',,
     avatarUrl: null,
   });
   // Initialize game engine and AI systems
@@ -151,7 +151,7 @@ const EnhancedGamePage = (): any => {
     // Return a default deck structure
     return {
       id: 'default',
-      name: 'Default Deck',
+      name: 'Default Deck',,
       cards: [], // Would be populated with actual cards
       flagCard: null,
       ancientHero: null,
@@ -161,7 +161,7 @@ const EnhancedGamePage = (): any => {
     // Return an AI-optimized deck
     return {
       id: 'ai-deck',
-      name: 'AI Strategic Deck',
+      name: 'AI Strategic Deck',,
       cards: [], // Would be populated with AI-optimized cards
       flagCard: null,
       ancientHero: null,

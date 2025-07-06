@@ -84,7 +84,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   initializeGame(players: any): any {
     this.gameState = {
       gameId: this.gameId,
-      players: {},
+      players: {}
       currentTurn: 1,
       activePlayer: 'player1',
       phase: this.phases.START,
@@ -131,7 +131,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
 
     return {
       id: playerId,
-      name: playerData.name,
+      name: playerData.name,,
       flag: flag,
       lifeCards: lifeCards,
       deck: deck,
@@ -259,7 +259,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play a card using one of the inherent methods
    */
-  playCard(cardId: any, method: any, azothSpent: any = {}, additionalParams: any = {}): any {
+  playCard(cardId: any, method: any, azothSpent: any = {} additionalParams: any = {}): any {
     const player = this.gameState.players[this.gameState.activePlayer];
     const card = this.findCardInHand(player, cardId);
     
@@ -713,7 +713,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         if (true) {
           const turnSuccess = this.evaluateAITurnSuccess();
           this.aiPersonality.updateMood({ 
-            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' 
+            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' ,
           });
         }
         
@@ -906,10 +906,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       player.hand.forEach((card, index) => {
         if (this.canPlayCard(player, card)) {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             cardIndex: index,
             card: card,
-            cost: card.cost || 0,
+            cost: card.cost || 0,,
             power: card.power || 0,
             aggressive: card.power > 5,
             defensive: card.type === 'defense',
@@ -921,8 +921,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     // Add other possible actions
     actions.push({
-      type: 'pass',
-      cost: 0,
+      type: 'pass',,
+      cost: 0,,
       power: 0,
       defensive: true
     });

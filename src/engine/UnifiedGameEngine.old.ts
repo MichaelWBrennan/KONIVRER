@@ -39,8 +39,8 @@ export type AIDifficulty = 'easy' | 'medium' | 'hard' | 'expert' | 'master';
 
 export interface Card {
   id: string;
-  name: string;
-  type: CardType;
+  name: string;,
+  type: CardType;,
   subtype?: string;
   elements: Record<Element, number>;
   abilities?: {
@@ -81,7 +81,7 @@ export interface Card {
 
 export interface Player {
   id: string;
-  name: string;
+  name: string;,
   deck: Card[];
   hand: Card[];
   field: Card[];
@@ -134,7 +134,7 @@ export interface GameState {
   }
 
 export interface GameAction {
-  type: string;
+  type: string;,
   playerId: string;
   targetId?: string;
   cardId?: string;
@@ -144,7 +144,7 @@ export interface GameAction {
 }
 
 export interface GameEvent {
-  type: string;
+  type: string;,
   data: any;
   timestamp: number;
 }
@@ -1237,7 +1237,7 @@ export class UnifiedGameEngine {
    */
   private emitEvent(eventType: string, data: any): void {
     const event: GameEvent = {
-      type: eventType,
+      type: eventType,,
       data,
       timestamp: Date.now()
     };
@@ -1433,7 +1433,7 @@ class AIDecisionEngine {
       if (azothCards.length > 0) {
         decisions.push({
           action: {
-            type: 'playCard',
+            type: 'playCard',,
             playerId: player.id,
             cardId: azothCards[0].id
           },
@@ -1502,7 +1502,7 @@ class AIDecisionEngine {
       
       decisions.push({
         action: {
-          type: 'playCard',
+          type: 'playCard',,
           playerId: player.id,
           cardId: card.id
         },
@@ -1537,7 +1537,7 @@ class AIDecisionEngine {
           
           decisions.push({
             action: {
-              type: 'activateAbility',
+              type: 'activateAbility',,
               playerId: player.id,
               cardId: card.id,
               value: i
@@ -1588,7 +1588,7 @@ class AIDecisionEngine {
       if (shouldAttack) {
         decisions.push({
           action: {
-            type: 'attack',
+            type: 'attack',,
             playerId: player.id,
             cardId: card.id,
             targetId
@@ -1654,7 +1654,7 @@ class AIDecisionEngine {
           if (blockerSurvives || blockerKills) {
             decisions.push({
               action: {
-                type: 'block',
+                type: 'block',,
                 playerId: player.id,
                 cardId: bestBlocker.id,
                 targetId: attackingCard.id

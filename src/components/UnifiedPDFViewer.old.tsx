@@ -551,7 +551,7 @@ const UnifiedPDFViewer: React.FC<UnifiedPDFViewerProps> = ({
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 20 }}
+            transition={{ type: 'spring', damping: 20 }},
           >
             <div className="controls-header">
               <h3>PDF Controls</h3>

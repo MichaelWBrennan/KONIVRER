@@ -68,7 +68,7 @@ class AdvancedAnalytics {
       const winRate = wins + losses > 0 ? (wins / (wins + losses)) * 100 : 0;
 
       return {
-        archetype: deck,
+        archetype: deck,,
         count,
         metaPercentage,
         wins,
@@ -236,7 +236,7 @@ class AdvancedAnalytics {
       // Store performance data
       performance[player.id] = {
         id: player.id,
-        name: player.name,
+        name: player.name,,
         matches: playerMatches.length,
         wins,
         losses,
@@ -497,7 +497,7 @@ class AdvancedAnalytics {
       }
 
       return {
-        archetype: deck.archetype,
+        archetype: deck.archetype,,
         currentPercentage: deck.metaPercentage,
         predictedPercentage: Math.max(0, deck.metaPercentage + predictedChange),
         predictedChange,
@@ -800,7 +800,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
         uncertainty:
           player2.uncertainty ||
           rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
-        deckArchetype: player2.deckArchetype,
+        deckArchetype: player2.deckArchetype,,
         playstyle: player2.playstyle,
       });
     }
@@ -869,7 +869,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
         uncertainty:
           player2.uncertainty ||
           rankingEngine.bayesianParams.INITIAL_UNCERTAINTY,
-        deckArchetype: player2.deckArchetypes?.[0]?.archetype,
+        deckArchetype: player2.deckArchetypes?.[0]?.archetype,,
         playstyle: player2.playstyle,
         matchHistory: player2.matchHistory,
       });
@@ -899,7 +899,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
     player1Id,
     player2Id,
     result,
-    matchDetails = {},
+    matchDetails = {}
   ): any => {
     const player1 = players.find(p => p.id === player1Id);
     const player2 = players.find(p => p.id === player2Id);
@@ -1095,18 +1095,18 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
       result,
       date: new Date().toISOString(),
       player1: {
-        name: player1.name,
+        name: player1.name,,
         oldRating: player1.rating,
         newRating: updatedPlayer1.rating,
         ratingChange: player1RatingChange,
-        deckArchetype: matchDetails.player1Deck,
+        deckArchetype: matchDetails.player1Deck,,
       },
       player2: {
-        name: player2.name,
+        name: player2.name,,
         oldRating: player2.rating,
         newRating: updatedPlayer2.rating,
         ratingChange: player2RatingChange,
-        deckArchetype: matchDetails.player2Deck,
+        deckArchetype: matchDetails.player2Deck,,
       },
       winProbability: skillUpdate.winProbability,
       surpriseFactor: skillUpdate.surpriseFactor,
@@ -1235,14 +1235,14 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
         return {
           tier: tierKey,
           division: Math.max(1, Math.min(division, tierData.divisions)),
-          name: tierData.name,
+          name: tierData.name,,
           color: tierData.color,
         };
       }
     }
 
     // Default to bronze if no match
-    return { tier: 'bronze', division: 4, name: 'Bronze', color: '#CD7F32' };
+    return { tier: 'bronze', division: 4, name: 'Bronze', color: '#CD7F32' };,
   };
 
   // Tournament management with Bayesian matchmaking
@@ -1693,16 +1693,16 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
     const player2 = players.find(p => p.id === match.player2.id);
 
     return {
-      type: 'match',
+      type: 'match',,
       id: match.id,
       player1: {
         id: match.player1.id,
-        name: player1?.name || 'Unknown',
+        name: player1?.name || 'Unknown',,
         rating: player1?.rating || 1500,
       },
       player2: {
         id: match.player2.id,
-        name: player2?.name || 'Unknown',
+        name: player2?.name || 'Unknown',,
         rating: player2?.rating || 1500,
       },
       format: match.format,
@@ -1722,15 +1722,15 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
         const player = players.find(p => p.id === playerId);
         return {
           id: playerId,
-          name: player?.name || 'Unknown',
+          name: player?.name || 'Unknown',,
           rating: player?.rating || 1500,
         };
       }) || [];
 
     return {
-      type: 'tournament',
+      type: 'tournament',,
       id: tournament.id,
-      name: tournament.name,
+      name: tournament.name,,
       format: tournament.format,
       tournamentType: tournament.type,
       participants: participantDetails,
@@ -1813,7 +1813,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
         id: player2.id,
         rating: player2.rating,
         uncertainty: player2.uncertainty,
-        deckArchetype: player2.deckArchetype,
+        deckArchetype: player2.deckArchetype,,
         playstyle: player2.playstyle,
       }),
     calculateDynamicKFactor: performanceMetrics =>

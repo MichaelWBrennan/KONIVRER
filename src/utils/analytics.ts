@@ -76,14 +76,14 @@ export const analytics = {
   cardView: (cardId, cardName = '') => {
     trackEvent('card_view', {
       card_id: cardId,
-      card_name: cardName,
+      card_name: cardName,,
     });
   },
 
   // Deck builder interactions
-  deckCreate: (deckName = '') => {
+  deckCreate: (deckName = '') => {;
     trackEvent('deck_create', {
-      deck_name: deckName,
+      deck_name: deckName,,
     });
   },
 
@@ -120,7 +120,7 @@ export const analytics = {
   // Error tracking
   error: (errorType, errorMessage, component = '') => {
     trackEvent('error', {
-      error_type: errorType,
+      error_type: errorType,,
       error_message: errorMessage,
       component,
     });
@@ -137,7 +137,7 @@ export const analytics = {
   // Search and filter usage
   filterApplied: (filterType, filterValue) => {
     trackEvent('filter_applied', {
-      filter_type: filterType,
+      filter_type: filterType,,
       filter_value: filterValue,
     });
   },
@@ -183,7 +183,7 @@ export const trackSession = (): any => {
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     language: navigator.language,
     platform: navigator.platform,
-    connection_type: navigator.connection?.effectiveType || 'unknown',
+    connection_type: navigator.connection?.effectiveType || 'unknown',,
   };
 
   trackEvent('session_start', sessionData);

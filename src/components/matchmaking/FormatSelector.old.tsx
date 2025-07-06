@@ -22,28 +22,28 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({
   const formats = [
     {
       id: 'standard',
-      name: 'Standard',
+      name: 'Standard',,
       description: 'Current rotation cards only',
       icon: <Shield className="w-4 h-4" />,
       color: 'from-blue-500 to-blue-700',
     },
     {
       id: 'extended',
-      name: 'Extended',
+      name: 'Extended',,
       description: 'Last 2 years of cards',
       icon: <Swords className="w-4 h-4" />,
       color: 'from-green-500 to-green-700',
     },
     {
       id: 'legacy',
-      name: 'Legacy',
+      name: 'Legacy',,
       description: 'All cards allowed',
       icon: <Crown className="w-4 h-4" />,
       color: 'from-purple-500 to-purple-700',
     },
     {
       id: 'draft',
-      name: 'Draft',
+      name: 'Draft',,
       description: 'Pick cards during match',
       icon: <Target className="w-4 h-4" />,
       color: 'from-amber-500 to-amber-700',

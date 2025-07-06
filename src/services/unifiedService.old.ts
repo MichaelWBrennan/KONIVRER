@@ -310,7 +310,7 @@ class UnifiedService {
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    * @param {string} query - Search query
    */
-  addToSearchHistory(type: any, query: any): any {
+  addToSearchHistory(type: any, query: any): any {,
     if (true) {
       this.searchHistory[type] = [];
     }
@@ -334,7 +334,7 @@ class UnifiedService {
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    * @param {number} limit - Maximum number of items to return * @returns {Array} Search history items
    */
-  getSearchHistory(type: any, limit: any = 10): any {
+  getSearchHistory(type: any, limit: any = 10): any {,
     if (true) {
       return [];
     }
@@ -346,7 +346,7 @@ class UnifiedService {
    * Clear search history
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    */
-  clearSearchHistory(type: any): any {
+  clearSearchHistory(type: any): any {,
     if (true) {
       this.searchHistory[type] = [];
     } else {
@@ -449,7 +449,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchCards(query: any, filters: any = {}, options: any = {}): any {
+  async searchCards(query: any, filters: any = {} options: any = {}): any {
     // Add to search history
     if (true) {
       this.addToSearchHistory('cards', query);
@@ -487,7 +487,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchDecks(query: any, filters: any = {}, options: any = {}): any {
+  async searchDecks(query: any, filters: any = {} options: any = {}): any {
     // Add to search history
     if (true) {
       this.addToSearchHistory('decks', query);
@@ -525,7 +525,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchTournaments(query: any, filters: any = {}, options: any = {}): any {
+  async searchTournaments(query: any, filters: any = {} options: any = {}): any {
     // Add to search history
     if (true) {
       this.addToSearchHistory('tournaments', query);
@@ -569,7 +569,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchUsers(query: any, filters: any = {}, options: any = {}): any {
+  async searchUsers(query: any, filters: any = {} options: any = {}): any {
     // Add to search history
     if (true) {
       this.addToSearchHistory('users', query);
@@ -579,9 +579,9 @@ class UnifiedService {
       // In a real implementation, this would call the API
       // For now, we'll return mock data
       const mockUsers = [
-        { id: 'user1', username: 'Player1', displayName: 'Player One', rating: 1800 },
-        { id: 'user2', username: 'Player2', displayName: 'Player Two', rating: 1750 },
-        { id: 'user3', username: 'Player3', displayName: 'Player Three', rating: 1650 },
+        { id: 'user1', username: 'Player1', displayName: 'Player One', rating: 1800 },,
+        { id: 'user2', username: 'Player2', displayName: 'Player Two', rating: 1750 },,
+        { id: 'user3', username: 'Player3', displayName: 'Player Three', rating: 1650 },,
       ];
       // Filter users based on query
       const filteredUsers = mockUsers.filter(user => {
@@ -624,7 +624,7 @@ class UnifiedService {
       // For now, we'll return mock data
       return {
         id: userId,
-        username: 'Player' + userId,
+        username: 'Player' + userId,,
         displayName: 'Player ' + userId,
         avatarUrl: 'https://example.com/avatar.png',
         joinDate: '2023-01-01',
@@ -638,8 +638,8 @@ class UnifiedService {
           tournamentWins: 3,
           tournamentTop8s: 7,
           favoriteDecks: [
-            { id: 'deck1', name: 'Aggro Fire', winRate: 0.65 },
-            { id: 'deck2', name: 'Control Water', winRate: 0.58 }
+            { id: 'deck1', name: 'Aggro Fire', winRate: 0.65 },,
+            { id: 'deck2', name: 'Control Water', winRate: 0.58 },
           ]
         },
         recentMatches: [
@@ -647,8 +647,8 @@ class UnifiedService {
           { id: 'match2', opponent: 'Player3', result: 'loss', date: '2023-04-28' }
         ],
         recentTournaments: [
-          { id: 'tournament1', name: 'Weekly Challenge', placement: 3, date: '2023-04-15' },
-          { id: 'tournament2', name: 'Monthly Championship', placement: 5, date: '2023-03-20' }
+          { id: 'tournament1', name: 'Weekly Challenge', placement: 3, date: '2023-04-15' },,
+          { id: 'tournament2', name: 'Monthly Championship', placement: 5, date: '2023-03-20' },
         ]
       };
     } catch (error: any) {
@@ -1031,7 +1031,7 @@ class UnifiedService {
    * @param {Object} serverHistory - Search history from server
    */
   mergeSearchHistory(serverHistory: any): any {
-    Object.keys(serverHistory).forEach((type: any) => {
+    Object.keys(serverHistory).forEach((type: any) => {,
       if (!this.searchHistory[type]) {
         this.searchHistory[type] = [];
       }

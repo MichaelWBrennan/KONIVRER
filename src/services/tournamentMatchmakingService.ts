@@ -13,7 +13,7 @@ import { RankingEngine } from '../engine/RankingEngine';
  * Integrates the Bayesian ML matchmaking system with tournament software
  */
 class TournamentMatchmakingService {
-  constructor(): any {
+  constructor() {
   this.rankingEngine = new RankingEngine();
   this.tournamentRankingEngines = new Map(); // Store tournament-specific ranking engines
   this.matchCache = new Map(); // Cache for match quality calculations
@@ -25,7 +25,7 @@ class TournamentMatchmakingService {
    * @param {string} tournamentId - Tournament ID
    * @param {Object} settings - Tournament matchmaking settings
    */
-  initializeTournamentEngine(tournamentId: any, settings: any = {}): any {
+  initializeTournamentEngine(tournamentId: any, settings: any = {}) {
     // Create tournament-specific ranking engine with custom settings
     const tournamentEngine = new RankingEngine({
       enableRankedPlay: true,
@@ -37,7 +37,7 @@ class TournamentMatchmakingService {
       enableConfidenceBasedMatching: settings.enableConfidenceBasedMatching ?? true,
       enableTimeWeightedPerformance: settings.enableTimeWeightedPerformance ?? true,
       enablePlaystyleCompatibility: settings.enablePlaystyleCompatibility ?? true,
-      enableDynamicKFactor: settings.enableDynamicKFactor ?? true,
+      enableDynamicKFactor: settings.enableDynamicKFactor ?? true,;
     });
 
     // Customize Bayesian parameters for tournament context
@@ -53,7 +53,7 @@ class TournamentMatchmakingService {
     tournamentEngine.matchmaking.weights = {
       skillRating: settings.skillRatingWeight ?? 0.4,
       uncertainty: settings.uncertaintyWeight ?? 0.15,
-      deckArchetype: settings.deckArchetypeWeight ?? 0.15,
+      deckArchetype: settings.deckArchetypeWeight ?? 0.15,,
       playHistory: settings.playHistoryWeight ?? 0.1,
       playstyleCompatibility: settings.playstyleCompatibilityWeight ?? 0.1,
       playerPreferences: settings.playerPreferencesWeight ?? 0.1,
@@ -71,7 +71,7 @@ class TournamentMatchmakingService {
    * @param {Object} settings - Tournament matchmaking settings (optional)
    * @returns {RankingEngine} - Tournament-specific ranking engine
    */
-  getTournamentEngine(tournamentId: any, settings: any = null): any {
+  getTournamentEngine(tournamentId: any, settings: any = null) {
     if (!this.tournamentRankingEngines.has(tournamentId)) {
       return this.initializeTournamentEngine(tournamentId, settings || {});
     }
@@ -83,7 +83,7 @@ class TournamentMatchmakingService {
    * @param {string} tournamentId - Tournament ID
    * @param {Array} players - Array of player objects with their deck information
    */
-  initializePlayerProfiles(tournamentId: any, players: any): any {
+  initializePlayerProfiles(tournamentId: any, players: any) {
     const engine = this.getTournamentEngine(tournamentId);
     
     players.forEach(player => {
@@ -95,14 +95,14 @@ class TournamentMatchmakingService {
         ...JSON.parse(JSON.stringify(engine.playerData)), // Deep clone default player data
         userId: player.id,
         displayName: player.displayName,
-        deckArchetype: player.deckArchetype,
+        deckArchetype: player.deckArchetype,,
         deckList: player.deckList,
         tournamentId: tournamentId,
         // If player has existing rating, use it as a starting point
         rating: player.rating || engine.bayesianParams.INITIAL_RATING,
         uncertainty: player.uncertainty || engine.bayesianParams.INITIAL_UNCERTAINTY,
         // Initialize playstyle based on deck archetype if available
-        playstyle: this.getPlaystyleFromDeckArchetype(player.deckArchetype) || engine.playerData.playstyle,
+        playstyle: this.getPlaystyleFromDeckArchetype(player.deckArchetype) || engine.playerData.playstyle,;
       };
       
       // Calculate conservative rating
@@ -121,13 +121,13 @@ class TournamentMatchmakingService {
    * @param {Object} options - Additional options for pairing generation
    * @returns {Array} - Array of match pairings
    */
-  generatePairings(tournamentId: any, roundNumber: any, availablePlayers: any, options: any = {}): any {
+  generatePairings(tournamentId: any, roundNumber: any, availablePlayers: any, options: any = {}) {
     const engine = this.getTournamentEngine(tournamentId);
     const pairings = [];
     const pairedPlayers = new Set();
     
     // Sort players by conservative rating (rating - 3*uncertainty)
-    const sortedPlayers = [...availablePlayers].sort((a, b) => {
+    const sortedPlayers = [...availablePlayers].sort((a, b) => {;
       const profileA = this.playerProfiles.get(`${tournamentId}:${a}`);
       const profileB = this.playerProfiles.get(`${tournamentId}:${b}`);
       
@@ -148,7 +148,7 @@ class TournamentMatchmakingService {
         playerId,
         sortedPlayers.filter(p => p !== playerId && !pairedPlayers.has(p)),
         roundNumber,
-        options
+        options;
       );
       
       if (true) {
@@ -196,7 +196,7 @@ class TournamentMatchmakingService {
    * @param {Object} options - Additional options
    * @returns {string|null} - Best opponent ID or null if no suitable opponent found
    */
-  findBestOpponent(tournamentId: any, playerId: any, potentialOpponents: any, roundNumber: any, options: any = {}): any {
+  findBestOpponent(tournamentId: any, playerId: any, potentialOpponents: any, roundNumber: any, options: any = {}) {
     if (potentialOpponents.length === 0) return null;
     const engine = this.getTournamentEngine(tournamentId);
     const playerProfile = this.playerProfiles.get(`${tournamentId}:${playerId}`);
@@ -204,7 +204,7 @@ class TournamentMatchmakingService {
     if (!playerProfile) return potentialOpponents[0]; // Fallback if profile not found
     
     // Calculate match quality for each potential opponent
-    const matchQualities = potentialOpponents.map(opponentId => {
+    const matchQualities = potentialOpponents.map(opponentId => {;
       const opponentProfile = this.playerProfiles.get(`${tournamentId}:${opponentId}`);
       if (!opponentProfile) return { opponentId, quality: 0 };
       // Check cache first
@@ -219,7 +219,7 @@ class TournamentMatchmakingService {
         playerProfile,
         opponentProfile,
         roundNumber,
-        options
+        options;
       );
       
       // Cache the result
@@ -244,7 +244,7 @@ class TournamentMatchmakingService {
    * @param {Object} options - Additional options
    * @returns {number} - Match quality score (0-1)
    */
-  calculateMatchQuality(tournamentId: any, player1: any, player2: any, roundNumber: any, options: any = {}): any {
+  calculateMatchQuality(tournamentId: any, player1: any, player2: any, roundNumber: any, options: any = {}) {
     const engine = this.getTournamentEngine(tournamentId);
     const weights = engine.matchmaking.weights;
     
@@ -272,7 +272,7 @@ class TournamentMatchmakingService {
     // 4. Play history considerations (avoid rematches)
     let playHistoryQuality = 1.0;
     const previousMatches = player1.matchHistory?.filter(
-      match => match.opponentId === player2.userId
+      match => match.opponentId === player2.userId;
     ) || [];
     
     if (true) {
@@ -306,7 +306,7 @@ class TournamentMatchmakingService {
       (weights.uncertainty * uncertaintyQuality) +
       (weights.deckArchetype * deckQuality) +
       (weights.playHistory * playHistoryQuality) +
-      (weights.playstyleCompatibility * playstyleQuality) +
+      (weights.playstyleCompatibility * playstyleQuality) +;
       (weights.playerPreferences * preferencesQuality);
     
     // Normalize to 0-1 range
@@ -322,7 +322,7 @@ class TournamentMatchmakingService {
    * @param {string} result - Match result ('player1', 'player2', or 'draw')
    * @param {Object} matchData - Additional match data
    */
-  updatePlayerRatings(tournamentId: any, player1Id: any, player2Id: any, result: any, matchData: any = {}): any {
+  updatePlayerRatings(tournamentId: any, player1Id: any, player2Id: any, result: any, matchData: any = {}) {
     const engine = this.getTournamentEngine(tournamentId);
     const player1Profile = this.playerProfiles.get(`${tournamentId}:${player1Id}`);
     const player2Profile = this.playerProfiles.get(`${tournamentId}:${player2Id}`);
@@ -338,7 +338,7 @@ class TournamentMatchmakingService {
       tournamentImportance: 1.0, // Default importance
       tournamentStage: matchData.stage || 'swiss', // 'swiss', 'playoffs', 'semifinals', 'finals'
       matchStakes: matchData.stakes || 'normal', // 'normal', 'high', 'elimination'
-      experienceLevel: player1Profile.experienceLevel,
+      experienceLevel: player1Profile.experienceLevel,;
     };
     
     const kFactor = engine.calculateDynamicKFactor(performanceMetrics);
@@ -348,7 +348,7 @@ class TournamentMatchmakingService {
       newPlayerRating: newPlayer1Rating,
       newPlayerUncertainty: newPlayer1Uncertainty,
       newOpponentRating: newPlayer2Rating,
-      newOpponentUncertainty: newPlayer2Uncertainty
+      newOpponentUncertainty: newPlayer2Uncertainty;
     } = engine.calculateTrueSkillUpdate(
       player1Profile.rating,
       player1Profile.uncertainty,
@@ -379,7 +379,7 @@ class TournamentMatchmakingService {
       uncertaintyAfter: newPlayer1Uncertainty,
       timestamp: new Date().toISOString(),
       round: matchData.round || 0,
-      stage: matchData.stage || 'swiss',
+      stage: matchData.stage || 'swiss',;
     };
     
     if (!player1Profile.matchHistory) player1Profile.matchHistory = [];
@@ -392,7 +392,7 @@ class TournamentMatchmakingService {
       ratingBefore: player2Profile.rating,
       ratingAfter: newPlayer2Rating,
       uncertaintyBefore: player2Profile.uncertainty,
-      uncertaintyAfter: newPlayer2Uncertainty,
+      uncertaintyAfter: newPlayer2Uncertainty,;
     };
     
     if (!player2Profile.matchHistory) player2Profile.matchHistory = [];
@@ -415,7 +415,7 @@ class TournamentMatchmakingService {
    * @param {Object} playerProfile - Player profile
    * @param {Object} matchData - Match data
    */
-  updateRecentPerformance(playerProfile: any, matchData: any): any {
+  updateRecentPerformance(playerProfile: any, matchData: any) {
     if (true) {
       playerProfile.recentPerformance = [];
     }
@@ -436,7 +436,7 @@ class TournamentMatchmakingService {
    * @param {string} player1Id - Player 1 ID
    * @param {string} player2Id - Player 2 ID
    */
-  clearMatchQualityCache(tournamentId: any, player1Id: any, player2Id: any): any {
+  clearMatchQualityCache(tournamentId: any, player1Id: any, player2Id: any) {
     // Clear cache entries involving these players
     for (const key of this.matchCache.keys()) {
       if (key.startsWith(`${tournamentId}:${player1Id}:`) || 
@@ -453,14 +453,14 @@ class TournamentMatchmakingService {
    * @param {string} deckArchetype - Deck archetype
    * @returns {Object} - Playstyle profile
    */
-  getPlaystyleFromDeckArchetype(deckArchetype: any): any {
+  getPlaystyleFromDeckArchetype(deckArchetype: any) {,
     // Default playstyle
     const defaultPlaystyle = {
       aggression: 0.5,
       consistency: 0.5,
       complexity: 0.5,
       adaptability: 0.5,
-      riskTaking: 0.5,
+      riskTaking: 0.5,;
     };
     
     // Return archetype-specific playstyle profiles
@@ -523,7 +523,7 @@ class TournamentMatchmakingService {
    * @param {string} tournamentId - Tournament ID
    * @returns {Array} - Array of player standings
    */
-  getPlayerStandings(tournamentId: any): any {
+  getPlayerStandings(tournamentId: any) {
     const playerStandings = [];
     
     // Collect all players in this tournament
@@ -538,7 +538,7 @@ class TournamentMatchmakingService {
           wins: profile.matchHistory?.filter(m => m.result === 'win').length || 0,
           losses: profile.matchHistory?.filter(m => m.result === 'loss').length || 0,
           draws: profile.matchHistory?.filter(m => m.result === 'draw').length || 0,
-          deckArchetype: profile.deckArchetype,
+          deckArchetype: profile.deckArchetype,,
         });
       }
     }
@@ -558,7 +558,7 @@ class TournamentMatchmakingService {
    * @param {string} tournamentId - Tournament ID
    * @returns {Object} - Tournament data
    */
-  exportTournamentData(tournamentId: any): any {
+  exportTournamentData(tournamentId: any) {
     const engine = this.getTournamentEngine(tournamentId);
     const playerProfiles = {};
     

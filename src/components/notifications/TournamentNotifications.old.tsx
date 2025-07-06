@@ -28,7 +28,7 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
     // Mock tournament data for demonstration
     const mockTournament = {
       id: tournamentId,
-      name: 'KONIVRER Championship Series',
+      name: 'KONIVRER Championship Series',,
       startTime: new Date(Date.now() + 2 * 3600000).toISOString(), // 2 hours from now
       format: 'Standard',
       players: 32,

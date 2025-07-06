@@ -108,7 +108,7 @@ const SingularityControlCenter = (): any => {
               className="achievement-banner"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 300 }},
              />
               <p></p>
       </p>

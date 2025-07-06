@@ -55,7 +55,7 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
       total: 3,
       reward: '500 Gold',
       expiryDate: new Date(Date.now() + 86400000 * 2),
-      type: 'daily',
+      type: 'daily',,
     },
     {
       id: 'challenge_2',
@@ -65,7 +65,7 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
       total: 5,
       reward: '1 Premium Pack',
       expiryDate: new Date(Date.now() + 86400000 * 7),
-      type: 'weekly',
+      type: 'weekly',,
     },
     {
       id: 'challenge_3',
@@ -75,7 +75,7 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
       total: 1,
       reward: '300 Gold',
       expiryDate: new Date(Date.now() + 86400000),
-      type: 'daily',
+      type: 'daily',,
     },
     {
       id: 'challenge_4',
@@ -85,7 +85,7 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
       total: 10,
       reward: '1000 XP',
       expiryDate: new Date(Date.now() + 86400000 * 7),
-      type: 'weekly',
+      type: 'weekly',,
       completed: true,
     },
   ];

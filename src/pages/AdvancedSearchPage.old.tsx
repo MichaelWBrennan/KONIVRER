@@ -6,13 +6,13 @@ import { searchCards } from '../utils/comprehensiveSearchEngine';
 const AdvancedSearchPage = (): any => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    text: '',
-    type: '',
-    element: '',
-    cost: '',
-    rarity: '',
-    set: 'prima-materia',
+    name: '',,
+    text: '',,
+    type: '',,
+    element: '',,
+    cost: '',,
+    rarity: '',,
+    set: 'prima-materia',,
   });
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -101,13 +101,13 @@ const AdvancedSearchPage = (): any => {
   };
   const handleReset = (): any => {
     setFormData({
-      name: '',
-      text: '',
-      type: '',
-      element: '',
-      cost: '',
-      rarity: '',
-      set: 'prima-materia',
+      name: '',,
+      text: '',,
+      type: '',,
+      element: '',,
+      cost: '',,
+      rarity: '',,
+      set: 'prima-materia',,
     });
     setSearchResults([]);
     setHasSearched(false);

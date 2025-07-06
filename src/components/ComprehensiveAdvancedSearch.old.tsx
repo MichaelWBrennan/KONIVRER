@@ -18,7 +18,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     // Basic Search
     cardName: '',
     nameComparison: 'contains', // contains, exact, starts, ends
-    text: '',
+    text: '',,
     textComparison: 'contains', // contains, exact, word-order-matters
     
     // Type Line
@@ -50,7 +50,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     // Sets & Rarity
     sets: [],
     setComparison: 'including', // including, excluding
-    rarity: [],
+    rarity: [],,
     rarityComparison: 'including', // including, excluding
     
     // Collector Info
@@ -63,9 +63,9 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     priceComparison: 'between', // between, less, greater
     
     // Flavor & Lore
-    artist: '',
+    artist: '',,
     artistComparison: 'contains', // contains, exact
-    flavorText: '',
+    flavorText: '',,
     flavorComparison: 'contains', // contains, exact, word-order-matters
     loreFinder: '', // searches all text fields
     
@@ -102,13 +102,13 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
   ];
 
   const elements = [
-    { name: 'Fire', symbol: '🔥', color: 'text-black', description: 'Aggressive, direct damage' },
-    { name: 'Water', symbol: '💧', color: 'text-black', description: 'Control, card draw' },
-    { name: 'Earth', symbol: '🌍', color: 'text-black', description: 'Growth, permanents' },
-    { name: 'Air', symbol: '💨', color: 'text-black', description: 'Speed, evasion' },
-    { name: 'Quintessence', symbol: '✨', color: 'text-black', description: 'Pure energy' },
-    { name: 'Void', symbol: '🕳️', color: 'text-black', description: 'Destruction, exile' },
-    { name: 'Neutral', symbol: '⚪', color: 'text-black', description: 'Colorless' },
+    { name: 'Fire', symbol: '🔥', color: 'text-black', description: 'Aggressive, direct damage' },,
+    { name: 'Water', symbol: '💧', color: 'text-black', description: 'Control, card draw' },,
+    { name: 'Earth', symbol: '🌍', color: 'text-black', description: 'Growth, permanents' },,
+    { name: 'Air', symbol: '💨', color: 'text-black', description: 'Speed, evasion' },,
+    { name: 'Quintessence', symbol: '✨', color: 'text-black', description: 'Pure energy' },,
+    { name: 'Void', symbol: '🕳️', color: 'text-black', description: 'Destruction, exile' },,
+    { name: 'Neutral', symbol: '⚪', color: 'text-black', description: 'Colorless' },,
   ];
 
   const keywords = [
@@ -124,15 +124,15 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
 
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'es', name: 'Spanish' },
-    { code: 'fr', name: 'French' },
-    { code: 'de', name: 'German' },
-    { code: 'it', name: 'Italian' },
-    { code: 'pt', name: 'Portuguese' },
-    { code: 'ja', name: 'Japanese' },
-    { code: 'ko', name: 'Korean' },
-    { code: 'zh', name: 'Chinese' },
+    { code: 'en', name: 'English' },,
+    { code: 'es', name: 'Spanish' },,
+    { code: 'fr', name: 'French' },,
+    { code: 'de', name: 'German' },,
+    { code: 'it', name: 'Italian' },,
+    { code: 'pt', name: 'Portuguese' },,
+    { code: 'ja', name: 'Japanese' },,
+    { code: 'ko', name: 'Korean' },,
+    { code: 'zh', name: 'Chinese' },,
   ];
 
   const operators = [
@@ -206,7 +206,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
     setSearchCriteria({
       cardName: '',
       nameComparison: 'contains',
-      text: '',
+      text: '',,
       textComparison: 'contains',
       typeLine: '',
       allowPartialTypes: true,
@@ -226,16 +226,16 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
       abilities: [],
       sets: [],
       setComparison: 'including',
-      rarity: [],
+      rarity: [],,
       rarityComparison: 'including',
       collectorNumber: '',
       collectorComparison: 'exact',
       collectorRange: { min: '', max: '' },
       priceRange: { min: '', max: '', currency: 'usd' },
       priceComparison: 'between',
-      artist: '',
+      artist: '',,
       artistComparison: 'contains',
-      flavorText: '',
+      flavorText: '',,
       flavorComparison: 'contains',
       loreFinder: '',
 

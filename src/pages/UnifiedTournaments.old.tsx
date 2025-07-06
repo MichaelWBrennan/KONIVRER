@@ -20,7 +20,7 @@ const UnifiedTournaments = (): any => {
     status: '',
     dateRange: '',
     location: '',
-    type: '',
+    type: '',,
     prizeMin: '',
     prizeMax: '',
   });

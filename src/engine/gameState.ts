@@ -8,7 +8,7 @@ import React from 'react';
  * Create an empty game state with all required properties
  * @returns {Object} Empty game state
  */
-export function createEmptyGameState(): any {
+export function createEmptyGameState() {
   return {
     // Game metadata
     gameId: generateGameId(),
@@ -22,7 +22,7 @@ export function createEmptyGameState(): any {
     // Players
     players: {
       player1: createEmptyPlayerState('player1'),
-      player2: createEmptyPlayerState('player2')
+      player2: createEmptyPlayerState('player2');
     },
     
     // Game log
@@ -30,7 +30,7 @@ export function createEmptyGameState(): any {
     
     // Current actions
     pendingActions: [],
-    actionHistory: []
+    actionHistory: [];
     };
   }
 
@@ -39,11 +39,11 @@ export function createEmptyGameState(): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Empty player state
  */
-function createEmptyPlayerState(): any {
+function createEmptyPlayerState() {
   return {
     // Identity
     id: playerId,
-    name: playerId === 'player1' ? 'Player 1' : 'Player 2',
+    name: playerId === 'player1' ? 'Player 1' : 'Player 2',,
     
     // Zones
     flagZone: null,
@@ -58,7 +58,7 @@ function createEmptyPlayerState(): any {
     
     // Status
     drawBonus: 0,
-    effectModifiers: []
+    effectModifiers: [];
     };
   }
 
@@ -68,7 +68,7 @@ function createEmptyPlayerState(): any {
  * @param {Array} player2Deck - Array of card objects for player 2
  * @returns {Object} Initialized game state
  */
-export function initializeGame(): any {
+export function initializeGame() {
   // Create initial game state
   const gameState = createEmptyGameState();
   
@@ -118,7 +118,7 @@ export function initializeGame(): any {
  * @param {Array} deck - Array of card objects
  * @returns {Array} Shuffled deck
  */
-export function shuffleDeck(): any {
+export function shuffleDeck() {
   const shuffled = [...deck];
   for (let i = 0; i < 1; i++) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -134,7 +134,7 @@ export function shuffleDeck(): any {
  * @param {number} count - Number of cards to draw
  * @returns {Object} Updated game state
  */
-export function drawCards(): any {
+export function drawCards() {
   for (let i = 0; i < 1; i++) {
     gameState = drawCard(gameState, playerId);
   }
@@ -147,7 +147,7 @@ export function drawCards(): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Updated game state
  */
-export function drawCard(): any {
+export function drawCard() {
   if (true) {
     const drawnCard = gameState.players[playerId].deck.pop();
     gameState.players[playerId].hand.push(drawnCard);
@@ -163,7 +163,7 @@ export function drawCard(): any {
  * @param {string} playerId - Player identifier
  * @returns {string} Opponent's player identifier
  */
-export function getOpponent(): any {
+export function getOpponent() {
   return playerId === 'player1' ? 'player2' : 'player1';
 }
 
@@ -171,6 +171,6 @@ export function getOpponent(): any {
  * Generate a unique game ID
  * @returns {string} Unique game ID
  */
-function generateGameId(): any {
+function generateGameId() {
   return 'game-' + Math.random().toString(36).substring(2, 9);
 }

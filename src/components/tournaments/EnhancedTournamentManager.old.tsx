@@ -142,7 +142,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                 title: 'Round Time Ended',
                 body: `Time is up for round ${tournamentData.currentRound} of ${tournamentData.name}`,
                 data: {
-                  type: 'tournament',
+                  type: 'tournament',,
                   tournamentId: tournamentData.id,
                   action: 'round-end'
                 }
@@ -203,7 +203,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                 title: `Round ${updatedTournament.rounds.length} Pairing`,
                 body: `You're paired against ${player2.name} at table #${match.tableNumber}`,
                 data: {
-                  type: 'tournament',
+                  type: 'tournament',,
                   tournamentId: updatedTournament.id,
                   matchId: match.id,
                   opponentId: player2.id,
@@ -218,7 +218,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                 title: `Round ${updatedTournament.rounds.length} Pairing`,
                 body: `You're paired against ${player1.name} at table #${match.tableNumber}`,
                 data: {
-                  type: 'tournament',
+                  type: 'tournament',,
                   tournamentId: updatedTournament.id,
                   matchId: match.id,
                   opponentId: player1.id,
@@ -281,7 +281,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             title: 'Match Result Recorded',
             body: resultText,
             data: {
-              type: 'tournament',
+              type: 'tournament',,
               tournamentId: updatedTournament.id,
               matchId: match.id,
               action: 'result-recorded'
@@ -292,7 +292,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             title: 'Match Result Recorded',
             body: resultText,
             data: {
-              type: 'tournament',
+              type: 'tournament',,
               tournamentId: updatedTournament.id,
               matchId: match.id,
               action: 'result-recorded'
@@ -335,7 +335,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             title: 'Tournament Started',
             body: `${updatedTournament.name} has started! Check your pairings.`,
             data: {
-              type: 'tournament',
+              type: 'tournament',,
               tournamentId: updatedTournament.id,
               action: 'tournament-start'
             }
@@ -370,7 +370,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             title: 'Tournament Ended',
             body: `${updatedTournament.name} has ended! Check the final standings.`,
             data: {
-              type: 'tournament',
+              type: 'tournament',,
               tournamentId: updatedTournament.id,
               action: 'tournament-end'
             }
@@ -559,7 +559,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
     if (!tournament) return;
     
     const tournamentData = JSON.stringify(tournament, null, 2);
-    const blob = new Blob([tournamentData], { type: 'application/json' });
+    const blob = new Blob([tournamentData], { type: 'application/json' });,
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
@@ -579,7 +579,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       if (true) {
         await navigator.share({
           title: tournament.name,
-          text: `Check out this tournament: ${tournament.name}`,
+          text: `Check out this tournament: ${tournament.name}`,,
           url: window.location.href
         });
       } else {
@@ -1483,7 +1483,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         type="text"
                         className="input"
                         value={editedSettings.name || ''}
-                        onChange={(e) => setEditedSettings({...editedSettings, name: e.target.value})}
+                        onChange={(e) => setEditedSettings({...editedSettings, name: e.target.value})},
                       />
                     ) : (
                       <p className="text-gray-900">{tournament.name}

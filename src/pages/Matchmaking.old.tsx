@@ -131,7 +131,7 @@ const Matchmaking = (): any => {
       {
         id: 'match_1',
         opponent: {
-          name: 'DragonMaster',
+          name: 'DragonMaster',,
           avatar: '🐉',
           rating: 1550,
           tier: 'Silver',
@@ -146,7 +146,7 @@ const Matchmaking = (): any => {
       {
         id: 'match_2',
         opponent: {
-          name: 'ElementalForce',
+          name: 'ElementalForce',,
           avatar: '🌟',
           rating: 1620,
           tier: 'Silver',
@@ -161,7 +161,7 @@ const Matchmaking = (): any => {
       {
         id: 'match_3',
         opponent: {
-          name: 'ShadowBlade',
+          name: 'ShadowBlade',,
           avatar: '⚔️',
           rating: 1480,
           tier: 'Bronze',
@@ -178,7 +178,7 @@ const Matchmaking = (): any => {
     setLeaderboard([
       {
         id: 'player_1',
-        name: 'VoidWalker',
+        name: 'VoidWalker',,
         rating: 2150,
         tier: 'Mythic',
         wins: 152,
@@ -186,7 +186,7 @@ const Matchmaking = (): any => {
       },
       {
         id: 'player_2',
-        name: 'CrystalGuard',
+        name: 'CrystalGuard',,
         rating: 2080,
         tier: 'Mythic',
         wins: 134,
@@ -194,7 +194,7 @@ const Matchmaking = (): any => {
       },
       {
         id: 'player_3',
-        name: 'DragonMaster',
+        name: 'DragonMaster',,
         rating: 1980,
         tier: 'Diamond',
         wins: 112,
@@ -202,7 +202,7 @@ const Matchmaking = (): any => {
       },
       {
         id: 'player_4',
-        name: 'ElementalForce',
+        name: 'ElementalForce',,
         rating: 1920,
         tier: 'Diamond',
         wins: 98,
@@ -210,7 +210,7 @@ const Matchmaking = (): any => {
       },
       {
         id: 'player_5',
-        name: 'ShadowBlade',
+        name: 'ShadowBlade',,
         rating: 1870,
         tier: 'Diamond',
         wins: 87,
@@ -223,28 +223,28 @@ const Matchmaking = (): any => {
     setFriends([
       {
         id: 'friend_1',
-        name: 'CrystalGuard',
+        name: 'CrystalGuard',,
         status: 'online',
         activity: 'In Match',
         lastSeen: new Date(),
       },
       {
         id: 'friend_2',
-        name: 'VoidWalker',
+        name: 'VoidWalker',,
         status: 'online',
         activity: 'In Queue',
         lastSeen: new Date(),
       },
       {
         id: 'friend_3',
-        name: 'ElementalForce',
+        name: 'ElementalForce',,
         status: 'offline',
         activity: null,
         lastSeen: new Date(Date.now() - 3600000),
       },
       {
         id: 'friend_4',
-        name: 'ShadowBlade',
+        name: 'ShadowBlade',,
         status: 'away',
         activity: 'Deck Building',
         lastSeen: new Date(),
@@ -317,37 +317,37 @@ const Matchmaking = (): any => {
       playerStats.rating + (Math.random() - 0.5) * skillVariance;
     const opponents = [
       {
-        name: 'DragonMaster',
+        name: 'DragonMaster',,
         avatar: '🐉',
         specialty: 'Aggro',
         hero: 'Vynnset, Iron Maiden',
       },
       {
-        name: 'MysticSage',
+        name: 'MysticSage',,
         avatar: '🔮',
         specialty: 'Control',
         hero: 'Oldhim, Grandfather of Eternity',
       },
       {
-        name: 'ShadowBlade',
+        name: 'ShadowBlade',,
         avatar: '⚔️',
         specialty: 'Combo',
         hero: 'Katsu, the Wanderer',
       },
       {
-        name: 'ElementalForce',
+        name: 'ElementalForce',,
         avatar: '🌟',
         specialty: 'Midrange',
         hero: 'Briar, Warden of Thorns',
       },
       {
-        name: 'VoidWalker',
+        name: 'VoidWalker',,
         avatar: '👻',
         specialty: 'Tempo',
         hero: 'Chane, Bound by Shadow',
       },
       {
-        name: 'CrystalGuard',
+        name: 'CrystalGuard',,
         avatar: '💎',
         specialty: 'Defense',
         hero: 'Prism, Sculptor of Arc Light',
@@ -391,7 +391,7 @@ const Matchmaking = (): any => {
       'Crystal Caverns',
       'Shadow Realm',
     ];
-    return maps.slice(0, 3).map(map => ({ name: map, votes: 0 }));
+    return maps.slice(0, 3).map(map => ({ name: map, votes: 0 }));,
   };
   const cancelMatchmaking = (): any => {
     setIsSearching(false);
@@ -440,19 +440,19 @@ const Matchmaking = (): any => {
   const skillRanges = [
     {
       id: 'strict',
-      name: 'Strict',
+      name: 'Strict',,
       description: '±50 rating',
       waitTime: 'Longer',
     },
     {
       id: 'balanced',
-      name: 'Balanced',
+      name: 'Balanced',,
       description: '±150 rating',
       waitTime: 'Medium',
     },
     {
       id: 'wide',
-      name: 'Wide',
+      name: 'Wide',,
       description: '±300 rating',
       waitTime: 'Shorter',
     },

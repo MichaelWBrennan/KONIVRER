@@ -56,20 +56,20 @@ const CardViewer: React.FC<CardViewerProps> = ({
 
   const getElementInfo = element => {
     const elementMap = {
-      '🜂': { symbol: '🜂', name: 'Fire' },
-      '🜄': { symbol: '🜄', name: 'Water' },
-      '🜃': { symbol: '🜃', name: 'Earth' },
-      '🜁': { symbol: '🜁', name: 'Air' },
-      '⭘': { symbol: '⭘', name: 'Aether' },
-      '▢': { symbol: '▢', name: 'Nether' },
-      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
-      '∇': { symbol: '∇', name: 'Void' },
-      '🜅': { symbol: '🜅', name: 'Shadow' },
-      Inferno: { symbol: '🔥', name: 'Inferno' },
-      Steadfast: { symbol: '🛡️', name: 'Steadfast' },
-      Submerged: { symbol: '🌊', name: 'Submerged' },
+      '🜂': { symbol: '🜂', name: 'Fire' },,
+      '🜄': { symbol: '🜄', name: 'Water' },,
+      '🜃': { symbol: '🜃', name: 'Earth' },,
+      '🜁': { symbol: '🜁', name: 'Air' },,
+      '⭘': { symbol: '⭘', name: 'Aether' },,
+      '▢': { symbol: '▢', name: 'Nether' },,
+      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },,
+      '∇': { symbol: '∇', name: 'Void' },,
+      '🜅': { symbol: '🜅', name: 'Shadow' },,
+      Inferno: { symbol: '🔥', name: 'Inferno' },,
+      Steadfast: { symbol: '🛡️', name: 'Steadfast' },,
+      Submerged: { symbol: '🌊', name: 'Submerged' },,
     };
-    return elementMap[element] || { symbol: element, name: element };
+    return elementMap[element] || { symbol: element, name: element };,
   };
 
   // Mock pricing data

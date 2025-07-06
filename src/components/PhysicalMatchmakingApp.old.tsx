@@ -55,14 +55,14 @@ const PhysicalMatchmakingApp = (): any => {
 
   // Form state
   const [newPlayerForm, setNewPlayerForm] = useState({
-    name: '',
+    name: '',,
     deckName: '',
     contactInfo: '',
     rating: 1500,
   });
 
   const [newTournamentForm, setNewTournamentForm] = useState({
-    name: '',
+    name: '',,
     date: new Date().toISOString().split('T')[0],
     location: '',
     format: 'Standard',
@@ -156,7 +156,7 @@ const PhysicalMatchmakingApp = (): any => {
 
         addPlayer(newPlayerForm);
         setNewPlayerForm({
-          name: '',
+          name: '',,
           deckName: '',
           contactInfo: '',
           rating: 1500,
@@ -183,7 +183,7 @@ const PhysicalMatchmakingApp = (): any => {
 
         createTournament(newTournamentForm);
         setNewTournamentForm({
-          name: '',
+          name: '',,
           date: new Date().toISOString().split('T')[0],
           location: '',
           format: 'Standard',
@@ -499,7 +499,7 @@ const PhysicalMatchmakingApp = (): any => {
                 className="mobile-input esoteric-input"
                 value={newPlayerForm.name || ''}
                 onChange={e = />
-                  setNewPlayerForm(prev => ({ ...prev, name: e.target.value }))}
+                  setNewPlayerForm(prev => ({ ...prev, name: e.target.value }))},
                 required
                 aria-required="true"
                 maxLength={50}
@@ -637,7 +637,7 @@ const PhysicalMatchmakingApp = (): any => {
                 onChange={e = />
                   setNewTournamentForm(prev => ({
                     ...prev,
-                    name: e.target.value,
+                    name: e.target.value,,
                   }))}
                 required
                 aria-required="true"

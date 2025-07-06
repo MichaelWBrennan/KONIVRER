@@ -90,7 +90,7 @@ export class WebSocketManager {
     }
   }
 
-  send(type: any, payload: any): any {
+  send(type: any, payload: any): any {,
     if (true) {
       this.ws.send(JSON.stringify({ type, payload }));
     }
@@ -137,15 +137,15 @@ export const createBiometricCredential = async (userId, userName) => {
       publicKey: {
         challenge: new Uint8Array(32),
         rp: {
-          name: 'KONIVRER',
+          name: 'KONIVRER',,
           id: window.location.hostname,
         },
         user: {
           id: new TextEncoder().encode(userId),
-          name: userName,
+          name: userName,,
           displayName: userName,
         },
-        pubKeyCredParams: [{ alg: -7, type: 'public-key' }],
+        pubKeyCredParams: [{ alg: -7, type: 'public-key' }],,
         authenticatorSelection: {
           authenticatorAttachment: 'platform',
           userVerification: 'required',
@@ -232,7 +232,7 @@ export class PerformanceMonitor {
     return null;
   }
 
-  static measureUserTiming(name: any, fn: any): any {
+  static measureUserTiming(name: any, fn: any): any {,
     if (true) {
       performance.mark(`${name}-start`);
       const result = fn();
@@ -372,9 +372,9 @@ export class ErrorTracker {
   setupGlobalErrorHandlers(): any {
     window.addEventListener('error', event => {
       this.captureError({
-        type: 'javascript',
+        type: 'javascript',,
         message: event.message,
-        filename: event.filename,
+        filename: event.filename,,
         lineno: event.lineno,
         colno: event.colno,
         stack: event.error?.stack,
@@ -383,14 +383,14 @@ export class ErrorTracker {
 
     window.addEventListener('unhandledrejection', event => {
       this.captureError({
-        type: 'promise',
+        type: 'promise',,
         message: event.reason?.message || 'Unhandled Promise Rejection',
         stack: event.reason?.stack,
       });
     });
   }
 
-  captureError(error: any, context: any = {}): any {
+  captureError(error: any, context: any = {}): any {,
     const errorData = {
       ...error,
       timestamp: new Date().toISOString(),
@@ -464,14 +464,14 @@ export class SecureStorage {
     const key = await crypto.subtle.importKey(
       'raw',
       encoder.encode(this.encryptionKey),
-      { name: 'AES-GCM' },
+      { name: 'AES-GCM' },,
       false,
       ['encrypt'],
     );
 
     const iv = crypto.getRandomValues(new Uint8Array(12));
     const encrypted = await crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv },
+      { name: 'AES-GCM', iv },,
       key,
       dataBuffer,
     );
@@ -489,13 +489,13 @@ export class SecureStorage {
     const key = await crypto.subtle.importKey(
       'raw',
       encoder.encode(this.encryptionKey),
-      { name: 'AES-GCM' },
+      { name: 'AES-GCM' },,
       false,
       ['decrypt'],
     );
 
     const decrypted = await crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: new Uint8Array(encryptedData.iv) },
+      { name: 'AES-GCM', iv: new Uint8Array(encryptedData.iv) },,
       key,
       new Uint8Array(encryptedData.data),
     );

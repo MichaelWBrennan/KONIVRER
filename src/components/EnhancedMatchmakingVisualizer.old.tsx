@@ -26,10 +26,10 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
   // Visualization state
   const [visualizationData, setVisualizationData] = useState({
     ratingDistribution: [],
-    matchQualityFactors: {},
-    playstyleCompatibility: {},
-    contextualFactors: {},
-    metaAdaptation: {},
+    matchQualityFactors: {}
+    playstyleCompatibility: {}
+    contextualFactors: {}
+    metaAdaptation: {}
   });
 
   // Process match data for visualization
@@ -419,27 +419,27 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     // Draw playstyle factors
     const factors = [
       {
-        name: 'Aggression',
+        name: 'Aggression',,
         player: data.player.aggression,
         opponent: data.opponent.aggression,
       },
       {
-        name: 'Consistency',
+        name: 'Consistency',,
         player: data.player.consistency,
         opponent: data.opponent.consistency,
       },
       {
-        name: 'Complexity',
+        name: 'Complexity',,
         player: data.player.complexity,
         opponent: data.opponent.complexity,
       },
       {
-        name: 'Adaptability',
+        name: 'Adaptability',,
         player: data.player.adaptability,
         opponent: data.opponent.adaptability,
       },
       {
-        name: 'Risk Taking',
+        name: 'Risk Taking',,
         player: data.player.riskTaking,
         opponent: data.opponent.riskTaking,
       },
