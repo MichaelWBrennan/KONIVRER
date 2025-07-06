@@ -12,76 +12,80 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-    Home,
+  Home,
   Database,
   Layers,
   Trophy,
   Play,
   LogIn,
   User
-  } from 'lucide-react';
+} from 'lucide-react';
 
 interface GoldenMenuBarProps {
   className?: string;
-  onLoginClick?: () => void
-  
+  onLoginClick?: () => void;
+}
+
+interface MenuItem {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  path: string;
 }
 
 const GoldenMenuBar: React.FC<GoldenMenuBarProps> = ({
-    className = '', 
+  className = '', 
   onLoginClick 
-  }) => {
-    const location = useLocation() {
-    const { isAuthenticated, user, logout 
-  } = useAuth(() => {
-    const menuItems = [
+}) => {
+  const location = useLocation();
+  const { isAuthenticated, user, logout } = useAuth();
+  
+  const menuItems: MenuItem[] = [
     {
-    id: 'home',
+      id: 'home',
       label: 'Home',
       icon: Home,
       path: '/'
-  }),
+    },
     {
-    id: 'cards',
+      id: 'cards',
       label: 'Cards',
       icon: Database,
       path: '/cards'
-  },
+    },
     {
-    id: 'decks',
+      id: 'decks',
       label: 'Decks',
       icon: Layers,
       path: '/decks'
-  },
+    },
     {
-    id: 'tournaments',
+      id: 'tournaments',
       label: 'Tourna.',
       path: '/tournaments',
       icon: Trophy
-  },
+    },
     {
-    id: 'play',
+      id: 'play',
       label: 'Play',
       icon: Play,
       path: '/play'
-  }
+    }
   ];
 
   const handleAuthAction = () => {
     if (isAuthenticated) {
-    logout()
-  
-  } else if (onLoginClick) {
-    onLoginClick()
-  }
+      logout();
+    } else if (onLoginClick) {
+      onLoginClick();
+    }
   };
 
-  const isActiveRoute = (path: string) => {
+  const isActiveRoute = (path: string): boolean => {
     if (path === '/') {
-    return location.pathname === '/'
-  
-  }
-    return location.pathname.startsWith(path)
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
   };
 
   const menuBarStyle: React.CSSProperties = {
@@ -142,53 +146,52 @@ const GoldenMenuBar: React.FC<GoldenMenuBarProps> = ({
   };
 
   return (
-    <nav style={menuBarStyle} className={className} />
-    <div style={containerStyle} /></div>
+    <nav style={menuBarStyle} className={className}>
+      <div style={containerStyle}>
         {/* Main navigation items */}
-        <div style={itemsStyle} /></div>
+        <div style={itemsStyle}>
           {menuItems.map((item) => {
-    const IconComponent = item.icon;
-            const isActive = isActiveRoute() {
-    return (
+            const IconComponent = item.icon;
+            const isActive = isActiveRoute(item.path);
+            return (
               <Link
-                key={item.id
-  }
+                key={item.id}
                 to={item.path}
                 style={isActive ? activeItemStyle : itemStyle}
-               />
-    <div style={iconStyle} />
-    <IconComponent size={24}  / /></IconComponent>
+              >
+                <div style={iconStyle}>
+                  <IconComponent size={24} />
                 </div>
                 <span style={labelStyle}>{item.label}</span>
               </Link>
-            )
+            );
           })}
         </div>
 
         {/* Login/Profile section */}
-        <div style={{ display: 'flex', alignItems: 'center' }} /></div>
-          {isAuthenticated ? (param: null
-            <div style={{ position: 'relative' }} />
-    <div style={itemStyle} onClick={handleAuthAction} />
-    <div style={iconStyle} />
-    <User size={24}  / /></User>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {isAuthenticated ? (
+            <div style={{ position: 'relative' }}>
+              <div style={itemStyle} onClick={handleAuthAction}>
+                <div style={iconStyle}>
+                  <User size={24} />
                 </div>
-                <span style={labelStyle} /></span>
-                  {user? .displayName || 'Profile'}
+                <span style={labelStyle}>
+                  {user?.displayName || 'Profile'}
                 </span>
               </div>
-            </div> : null
+            </div>
           ) : (
             <div 
               style={{
-    ...itemStyle,
+                ...itemStyle,
                 background: 'rgba(212, 175, 55, 0.1)',
                 border: '1px solid rgba(212, 175, 55, 0.3)'
-  }} 
+              }} 
               onClick={handleAuthAction}
-             />
-    <div style={iconStyle} />
-    <LogIn size={24}  / /></LogIn>
+            >
+              <div style={iconStyle}>
+                <LogIn size={24} />
               </div>
               <span style={labelStyle}>Login</span>
             </div>
@@ -196,7 +199,7 @@ const GoldenMenuBar: React.FC<GoldenMenuBarProps> = ({
         </div>
       </div>
     </nav>
-  )
+  );
 };
 
 export default GoldenMenuBar;
