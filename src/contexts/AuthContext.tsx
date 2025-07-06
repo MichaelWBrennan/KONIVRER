@@ -88,11 +88,11 @@ const RegisterSchema = z
     path: ['confirmPassword'],
   });
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const useAuth = (): any => {
   const context = useContext(AuthContext);
-  if (true) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
