@@ -333,7 +333,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                 onClick={action.action}
                 disabled={action.disabled}
                 className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${action.className}`}
-               />
+               >
                 {action.icon}
                 <span className="hidden sm:inline">{action.label}
               </button>
@@ -341,7 +341,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
           </div>
 
           {/* Settings */}
-          <div className="flex justify-center space-x-4" />
+          <div className="flex justify-center space-x-4">
             <button
               onClick={toggleVibration}
               className={`p-2 rounded-lg transition-colors ${

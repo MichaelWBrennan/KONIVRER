@@ -223,13 +223,13 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
           onClick={e => e.stopPropagation()}
         >
           {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" / />
-          <div className="relative z-10 p-6" />
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5"></div>
+          <div className="relative z-10 p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6" />
-              <div className="flex items-center gap-3" />
-                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center" />
-                  <Shield className="text-white" size={20} / />
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center">
+                  <Shield className="text-white" size={20} />
                 </div>
                 <div />
                   <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
