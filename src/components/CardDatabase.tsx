@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import cardsData from '../data/cards.json';
-import { getCardArtPathFromData } from '../utils/cardArtMapping';
+import UnifiedCardItem from './UnifiedCardItem';
 
 interface CardDatabaseProps {
   cards: Cards;
@@ -93,21 +93,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
     setFilteredCards(filtered);
   }, [cards, searchTerm, filters]);
 
-  const getRarityColor = rarity => {
-    switch (true) {
-      case 'common':
-        return 'border-gray-400 bg-gray-50';
-      case 'uncommon':
-        return 'border-green-400 bg-green-50';
-      case 'rare':
-        return 'border-blue-400 bg-blue-50';
-      case 'legendary':
-        return 'border-yellow-400 bg-yellow-50';
-      default:
-        return 'border-gray-400 bg-gray-50';
-    }
-  };
-
+  // Element symbol helper for filter dropdowns
   const getElementSymbol = element => {
     const elementMap = {
       '🜂': { symbol: '🜂', name: 'Fire' },
@@ -142,187 +128,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
     sets: [...new Set(cards.map(card = > card.set))],
   };
 
-  interface CardGridItemProps {
-  card;
-}
-
-const CardGridItem: React.FC<CardGridItemProps> = ({  card  }) => (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      whileHover={{ scale: 1.02 }}
-      className={`relative bg-white rounded-lg border-2 p-4 cursor-pointer transition-all duration-200 hover:shadow-lg ${getRarityColor(card.rarity)}`}
-      onClick={() = />
-        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)}
-    >
-      {/* Card Image */}
-      <div className="mb-3 flex justify-center"></div>
-        {(() => {
-          const localImagePath = getCardArtPathFromData(card);
-          console.log(`Card: ${card.name}, Local Image Path: ${localImagePath}`);
-          
-          return (
-            <img
-              src={localImagePath || '/assets/card-back-new.png'}
-              alt={card.name}
-              className="w-32 h-44 object-cover rounded-lg border border-gray-200"
-              onError={e => {
-                console.log(
-                  `Failed to load WebP image for ${card.name}: ${localImagePath}`,
-                );
-                // Try PNG fallback if WebP fails
-                if (localImagePath && localImagePath.endsWith('.webp')) {
-                  const pngPath = localImagePath.replace('.webp', '.png');
-                  console.log(`Trying PNG fallback: ${pngPath}`);
-                  e.target.onerror = () => {
-                    console.log(`PNG fallback also failed for ${card.name}`);
-                    e.target.onerror = null;
-                    e.target.src = '/assets/card-back-new.png';
-                  };
-                  e.target.src = pngPath;
-                } else {
-                  e.target.onerror = null;
-                  e.target.src = '/assets/card-back-new.png';
-                }
-              }}
-              onLoad={e => {
-                console.log(
-                  `Successfully loaded image for ${card.name}: ${e.target.src}`,
-                );
-              }}
-            />
-          );
-        })()}
-      </div>
-
-      {/* Card Header */}
-      <div className="flex items-start justify-between mb-3"></div>
-        <div className="flex-1"></div>
-          <h3 className="font-bold text-lg text-gray-900 mb-1">{card.name}
-          <div className="flex items-center gap-2 mb-2"></div>
-            {card.elements.map((element, index) => {
-              const elementInfo = getElementSymbol(element);
-              return (
-                <span key={index} className="text-xl" title={elementInfo.name}></span>
-                  {elementInfo.symbol}
-              );
-            })}
-          </div>
-        <div className="flex flex-col items-end gap-1"></div>
-          <span className="text-sm font-medium text-gray-600"></span>
-            {typeof card.cost === 'string' ? card.cost : card.cost}
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              toggleFavorite(card.id);
-            }}
-            className={`p-1 rounded ${favorites.has(card.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
-          >
-            <Heart
-              size={16}
-              fill={favorites.has(card.id) ? 'currentColor' : 'none'}
-            / />
-          </button>
-      </div>
-
-      {/* Card Type */}
-      <div className="mb-2"></div>
-        <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-0 whitespace-nowrap rounded"></span>
-          {card.type}
-      </div>
-
-      {/* Keywords */}
-      {card.keywords.length > 0 && (
-        <div className="mb-3"></div>
-          <div className="flex flex-wrap gap-1"></div>
-            {card.keywords.map((keyword, index) => (
-              <span
-                key={index}
-                className="text-xs bg-blue-100 text-blue-800 px-2 py-0 whitespace-nowrap rounded"
-               />
-                {keyword}
-            ))}
-          </div>
-      )}
-      {/* Card Text */}
-      <div className="mb-3"></div>
-        <p className="text-sm text-gray-700 line-clamp-3">{card.text}
-      </div>
-
-      {/* Power/Stats */}
-      {card.power !== undefined && (
-        <div className="flex items-center justify-between text-sm"></div>
-          <span className="text-gray-600">Power: {card.power}
-          <span className = "text-gray-600 capitalize">{card.rarity}
-        </div>
-      )}
-      {/* Set Info */}
-      <div className="absolute top-2 right-2"></div>
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-0 whitespace-nowrap rounded-full shadow-lg"></div>
-          {card.set}
-        {card.setNumber && (
-          <div className="text-xs text-gray-500 text-center mt-1"></div>
-            {card.setNumber}
-        )}
-      </div>
-    </motion.div>
-  );
-
-  interface CardListItemProps {
-  card;
-}
-
-const CardListItem: React.FC<CardListItemProps> = ({  card  }) => (
-    <motion.div
-      layout
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow cursor-pointer"
-      onClick={() = />
-        onCardClick ? onCardClick(card) : navigate(`/card/${card.id}`)}
-    >
-      <div className="flex items-center justify-between"></div>
-        <div className="flex items-center gap-4"></div>
-          <div className="flex items-center gap-2"></div>
-            {card.elements.map((element, index) => {
-              const elementInfo = getElementSymbol(element);
-              return (
-                <span key={index} className="text-lg" title={elementInfo.name}></span>
-                  {elementInfo.symbol}
-              );
-            })}
-          </div>
-          <div></div>
-            <h3 className="font-semibold text-gray-900">{card.name}
-            <p className="text-sm text-gray-600">{card.type}
-          </div>
-        <div className="flex items-center gap-4"></div>
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-2 py-0 whitespace-nowrap rounded-full"></div>
-            {card.set}
-          <span className="text-sm font-medium"></span>
-            {typeof card.cost === 'string' ? card.cost : card.cost}
-          <span
-            className={`px-2 py-0 whitespace-nowrap rounded text-xs font-medium ${getRarityColor(card.rarity)}`}
-           />
-            {card.rarity}
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              toggleFavorite(card.id);
-            }}
-            className={`p-1 rounded ${favorites.has(card.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
-          >
-            <Heart
-              size={16}
-              fill={favorites.has(card.id) ? 'currentColor' : 'none'}
-            / />
-          </button>
-      </div>
-    </motion.div>
-  );
+  // Using UnifiedCardItem instead of separate CardGridItem and CardListItem components
 
   return (
     <div className="space-y-6"></div>
@@ -453,13 +259,16 @@ const CardListItem: React.FC<CardListItemProps> = ({  card  }) => (
             : 'space-y-3'
         }
        />
-        {filteredCards.map(card =>
-          viewMode === 'grid' ? (
-            <CardGridItem key={card.id} card={card} / />
-          ) : (
-            <CardListItem key={card.id} card={card} / />
-          ),
-        )}
+        {filteredCards.map(card => (
+          <UnifiedCardItem 
+            key={card.id} 
+            card={card} 
+            variant={viewMode === 'grid' ? 'grid' : 'list'} 
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            onCardClick={onCardClick}
+          />
+        ))}
       </div>
 
       {/* No Results */}
