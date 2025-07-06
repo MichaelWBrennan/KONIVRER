@@ -185,12 +185,12 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           )}
         </div>
 
-        <div className="flex items-center space-x-2" />
+        <div className="flex items-center space-x-2">
           {isOnline ? (
             <Wifi
               className="w-3 h-3"
               style={{ color: 'var(--accent-success)' }}
-            / />
+            />
           ) : (
             <WifiOff
               className="w-3 h-3"

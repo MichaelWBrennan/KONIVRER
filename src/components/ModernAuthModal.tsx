@@ -242,8 +242,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
-               />
-                <X size={20} / />
+               >
+                <X size={20} />
               </button>
 
             {/* Tab Navigation */}
