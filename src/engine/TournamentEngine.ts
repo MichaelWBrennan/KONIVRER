@@ -69,12 +69,29 @@ interface Player {
   };
 }
 
+interface TournamentRounds {
+  main: number;
+  swiss?: number;
+  elimination?: number;
+}
+
+interface Bracket {
+  matches: any[];
+  currentRound: number;
+}
+
+interface TimeConstraints {
+  estimatedEndTime: Date;
+  roundTimeRemaining: number;
+  isTimeLimited: boolean;
+}
+
 interface Tournament {
   id: string;
   name: string;
   format: string;
   players: Player[];
-  rounds: { main: number } | { swiss: number; elimination: number };
+  rounds: TournamentRounds;
   currentRound: number;
   matches: any[];
   topCut: number;
@@ -90,15 +107,29 @@ interface Tournament {
   adaptiveStructureEnabled: boolean;
   parallelBracketsEnabled: boolean;
   brackets: {
-    main: { matches: any[]; currentRound: number };
-    consolation: { matches: any[]; currentRound: number } | null;
+    main: Bracket;
+    consolation: Bracket | null;
   };
-  metaBreakdown?: any;
-  timeConstraints?: {
-    estimatedEndTime: Date;
-    roundTimeRemaining: number;
-    isTimeLimited: boolean;
-  };
+  metaBreakdown?: any[];
+  timeConstraints?: TimeConstraints;
+}
+
+interface TournamentCreateOptions {
+  name: string;
+  format?: string;
+  players?: Player[];
+  rounds?: number | { swiss: number; elimination: number } | 'auto';
+  topCut?: number;
+  timePerRound?: number;
+  startTime?: Date;
+  location?: string;
+  organizer?: string;
+  description?: string;
+  entryRequirements?: any;
+  metaBalancingEnabled?: boolean;
+  adaptiveStructureEnabled?: boolean;
+  parallelBracketsEnabled?: boolean;
+  timeLimited?: boolean;
 }
 
 export class TournamentEngine {
@@ -289,23 +320,7 @@ export class TournamentEngine {
   /**
    * Create a new tournament with the specified options
    */
-  createTournament(options: {
-    name: string;
-    format?: string;
-    players?: Player[];
-    rounds?: number | { swiss: number; elimination: number } | 'auto';
-    topCut?: number;
-    timePerRound?: number;
-    startTime?: Date;
-    location?: string;
-    organizer?: string;
-    description?: string;
-    entryRequirements?: any;
-    metaBalancingEnabled?: boolean;
-    adaptiveStructureEnabled?: boolean;
-    parallelBracketsEnabled?: boolean;
-    timeLimited?: boolean;
-  }): Tournament {
+  createTournament(options: TournamentCreateOptions): Tournament {
     const {
       name,
       format = 'swiss',
@@ -320,7 +335,8 @@ export class TournamentEngine {
       entryRequirements = null,
       metaBalancingEnabled = this.options.enableMetaBalancingIncentives,
       adaptiveStructureEnabled = this.options.enableAdaptiveTournamentStructures,
-      parallelBracketsEnabled = this.options.enableParallelBracketSystems
+      parallelBracketsEnabled = this.options.enableParallelBracketSystems,
+      timeLimited = false
     } = options;
 
     // Validate format
@@ -329,13 +345,13 @@ export class TournamentEngine {
     }
 
     // Calculate recommended rounds if auto
-    let calculatedRounds: any = rounds;
+    let calculatedRounds: number | { swiss: number; elimination: number } = 
+      typeof rounds === 'string' && rounds === 'auto' ? 3 : rounds;
+    
     if (rounds === 'auto') {
       const formatInfo = this.formats[format];
       if (typeof formatInfo.recommendedRounds === 'function') {
         calculatedRounds = formatInfo.recommendedRounds(players.length);
-      } else {
-        calculatedRounds = 3; // Default fallback
       }
     }
 
@@ -359,7 +375,9 @@ export class TournamentEngine {
           metaBonus: 0
         }
       })),
-      rounds: typeof calculatedRounds === 'object' ? calculatedRounds : { main: calculatedRounds },
+      rounds: typeof calculatedRounds === 'object' 
+        ? { main: 0, ...calculatedRounds } 
+        : { main: calculatedRounds },
       currentRound: 0,
       matches: [],
       topCut,
@@ -381,11 +399,11 @@ export class TournamentEngine {
       timeConstraints: {
         estimatedEndTime: new Date(
           startTime.getTime() + timePerRound * (typeof calculatedRounds === 'object' ? 
-            calculatedRounds.swiss + calculatedRounds.elimination : 
+            (calculatedRounds.swiss || 0) + (calculatedRounds.elimination || 0) : 
             calculatedRounds) * 60 * 1000
         ),
         roundTimeRemaining: timePerRound * 60, // in seconds
-        isTimeLimited: options.timeLimited || false
+        isTimeLimited: timeLimited
       }
     };
 
@@ -433,6 +451,7 @@ export class TournamentEngine {
       // For very large tournaments, use hybrid with top 8
       tournament.format = 'hybrid';
       tournament.rounds = {
+        main: 0,
         swiss: Math.ceil(Math.log2(playerCount)),
         elimination: 3, // Top 8
       };
@@ -446,9 +465,9 @@ export class TournamentEngine {
         (60 * 1000);
       const maxRounds = Math.floor(availableMinutes / tournament.timePerRound);
 
-      if (maxRounds < (tournament.rounds as any).main) {
+      if (maxRounds < tournament.rounds.main) {
         // Reduce rounds if time is limited
-        (tournament.rounds as any).main = maxRounds;
+        tournament.rounds.main = maxRounds;
 
         // Adjust top cut based on reduced rounds
         if (tournament.topCut > 0) {
@@ -535,184 +554,180 @@ export class TournamentEngine {
     }
 
     if (tournament.status !== 'in_progress') {
-      throw new Error(`Cannot create pairings for ${tournament.status} tournament`);
+      throw new Error(`Cannot create pairings for a tournament that is ${tournament.status}`);
     }
 
-    const round = tournament.currentRound;
-    const format = tournament.format;
-    const activePlayers = tournament.players.filter(p => !p.dropped);
-    let pairings: any[] = [];
+    // Get active players (not dropped)
+    const activePlayers = tournament.players.filter(player => !player.dropped);
 
-    // Choose pairing method based on format
-    switch (this.formats[format].pairingMethod) {
-      case 'record':
-        pairings = this.createSwissPairings(activePlayers, round);
+    // Different pairing methods based on format
+    let pairings: any[] = [];
+    
+    switch (tournament.format) {
+      case 'swiss':
+        pairings = this.createSwissPairings(activePlayers, tournament.currentRound);
         break;
-      case 'bracket':
-        pairings = this.createBracketPairings(activePlayers, round, this.formats[format].eliminationType);
+        
+      case 'singleElimination':
+      case 'doubleElimination':
+        pairings = this.createEliminationPairings(activePlayers, tournament);
         break;
+        
       case 'roundRobin':
-        pairings = this.createRoundRobinPairings(activePlayers, round);
+        pairings = this.createRoundRobinPairings(activePlayers, tournament.currentRound);
         break;
+        
       case 'hybrid':
-        if (round <= (tournament.rounds as any).swiss) {
-          pairings = this.createSwissPairings(activePlayers, round);
+        // Swiss rounds first, then elimination
+        if (tournament.currentRound <= (tournament.rounds.swiss || 0)) {
+          pairings = this.createSwissPairings(activePlayers, tournament.currentRound);
         } else {
-          // Create top cut bracket
-          if (round === (tournament.rounds as any).swiss + 1) {
-            // First elimination round - create the bracket
-            const topPlayers = this.getTopPlayers(tournament.topCut);
-            pairings = this.createBracketPairings(topPlayers, 1, 'single');
-          } else {
-            // Continue elimination rounds
-            pairings = this.createBracketPairings(
-              null,
-              round - (tournament.rounds as any).swiss,
-              'single'
-            );
-          }
+          // Create top cut for elimination rounds
+          pairings = this.createEliminationPairings(
+            this.getTopPlayers(tournament.players, tournament.topCut),
+            tournament
+          );
         }
         break;
+        
       case 'adaptiveSwiss':
-        pairings = this.createAdaptiveSwissPairings(activePlayers, round);
+        pairings = this.createAdaptiveSwissPairings(activePlayers, tournament);
         break;
+        
       case 'parallelBrackets':
-        pairings = this.createParallelBracketPairings(activePlayers, round);
+        // Create pairings for both main and consolation brackets
+        const mainBracketPairings = this.createEliminationPairings(
+          this.getTopPlayers(tournament.players, tournament.players.length / 2),
+          tournament,
+          'main'
+        );
+        
+        const consolationBracketPairings = this.createEliminationPairings(
+          tournament.players.filter(p => !this.getTopPlayers(tournament.players, tournament.players.length / 2).includes(p)),
+          tournament,
+          'consolation'
+        );
+        
+        pairings = [...mainBracketPairings, ...consolationBracketPairings];
         break;
+        
       default:
-        pairings = this.createSwissPairings(activePlayers, round);
+        throw new Error(`Unsupported tournament format: ${tournament.format}`);
     }
 
-    // Create match objects
-    const matches = pairings.map((pairing, index) => {
-      return {
-        id: `match_${tournament.id}_R${round}_${index}`,
-        roundNumber: round,
-        player1Id: pairing.player1.id,
-        player2Id: pairing.player2 ? pairing.player2.id : null, // Handle byes
-        player1: pairing.player1,
-        player2: pairing.player2,
-        result: null,
-        games: [],
-        isBye: !pairing.player2,
-        bracket: pairing.bracket || 'main',
-        table: index + 1,
-        status: 'pending',
-        startTime: null,
-        endTime: null,
-        metaBonus: this.calculateMetaBonus(pairing.player1, pairing.player2),
-      };
-    });
-
-    // Add matches to tournament
-    tournament.matches = [...tournament.matches, ...matches];
-
-    // Add matches to appropriate bracket
-    matches.forEach(match => {
-      if (match.bracket === 'main') {
-        tournament.brackets.main.matches.push(match);
-      } else if (tournament.brackets.consolation) {
-        tournament.brackets.consolation.matches.push(match);
+    // Add pairings to tournament
+    tournament.matches.push(...pairings);
+    
+    // Add to appropriate bracket
+    if (tournament.format === 'parallelBrackets') {
+      // Split pairings between main and consolation brackets
+      const mainPairings = pairings.filter(p => p.bracket === 'main');
+      const consolationPairings = pairings.filter(p => p.bracket === 'consolation');
+      
+      tournament.brackets.main.matches.push(...mainPairings);
+      if (tournament.brackets.consolation) {
+        tournament.brackets.consolation.matches.push(...consolationPairings);
       }
-    });
+    } else if (tournament.format === 'hybrid' && tournament.currentRound > (tournament.rounds.swiss || 0)) {
+      // Add to main bracket for elimination rounds
+      tournament.brackets.main.matches.push(...pairings);
+      tournament.brackets.main.currentRound = tournament.currentRound - (tournament.rounds.swiss || 0);
+    } else {
+      // Add to main bracket for all other formats
+      tournament.brackets.main.matches.push(...pairings);
+      tournament.brackets.main.currentRound = tournament.currentRound;
+    }
 
-    return matches;
+    return pairings;
   }
 
   /**
-   * Create Swiss pairings based on record
+   * Create Swiss pairings
    */
-  createSwissPairings(players: Player[], round: number): any[] {
+  private createSwissPairings(players: Player[], round: number): any[] {
     // First round is random
     if (round === 1) {
       return this.createRandomPairings(players);
     }
-
-    // Sort players by match points (wins * 3 + draws * 1)
-    const sortedPlayers = [...players].sort((a, b) => {
-      // Primary sort: match points
-      const aPoints = a.matchPoints || (a.wins || 0) * 3 + (a.draws || 0);
-      const bPoints = b.matchPoints || (b.wins || 0) * 3 + (b.draws || 0);
-      if (aPoints !== bPoints) return bPoints - aPoints;
-      
-      // Secondary sort: opponent match win percentage
-      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
-        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
-      }
-
-      // Tertiary sort: game win percentage
-      return b.gameWinPercentage - a.gameWinPercentage;
-    });
-
-    // Group players by match points
-    const playerGroups: Record<number, Player[]> = {};
-    sortedPlayers.forEach(player => {
-      const points = player.matchPoints || (player.wins || 0) * 3 + (player.draws || 0);
-      if (!playerGroups[points]) playerGroups[points] = [];
-      playerGroups[points].push(player);
-    });
-
-    // Create pairings within each group
-    const pairings: any[] = [];
-    const pointGroups = Object.keys(playerGroups).map(Number).sort((a, b) => b - a);
     
-    // Stub implementation - would be more complex in reality
-    // For now, just pair players within each point group
-    pointGroups.forEach(points => {
-      const group = playerGroups[points];
-      for (let i = 0; i < group.length; i += 2) {
-        if (i + 1 < group.length) {
-          pairings.push({
-            player1: group[i],
-            player2: group[i + 1],
-            bracket: 'main'
-          });
-        } else {
-          // Odd player gets paired down to next group
-          const nextGroup = pointGroups.find(p => p < points);
-          if (nextGroup !== undefined && playerGroups[nextGroup].length > 0) {
-            pairings.push({
-              player1: group[i],
-              player2: playerGroups[nextGroup].shift(),
-              bracket: 'main'
-            });
-          } else {
-            // No next group or empty next group, give a bye
-            pairings.push({
-              player1: group[i],
-              player2: null,
-              bracket: 'main'
-            });
+    // Sort players by match points (wins * 3 + draws)
+    const sortedPlayers = [...players].sort((a, b) => {
+      const aPoints = (a.matchPoints || 0);
+      const bPoints = (b.matchPoints || 0);
+      
+      if (aPoints !== bPoints) {
+        return bPoints - aPoints; // Higher points first
+      }
+      
+      // Tiebreakers
+      const aTiebreaker = (a.opponentMatchWinPercentage || 0);
+      const bTiebreaker = (b.opponentMatchWinPercentage || 0);
+      
+      return bTiebreaker - aTiebreaker;
+    });
+    
+    // Create pairings by matching players with similar records
+    const pairings: any[] = [];
+    const paired: Set<string> = new Set();
+    
+    for (let i = 0; i < sortedPlayers.length; i++) {
+      const player = sortedPlayers[i];
+      
+      if (paired.has(player.id)) continue;
+      
+      // Find the next unpaired player with the same record if possible
+      let opponent = null;
+      for (let j = i + 1; j < sortedPlayers.length; j++) {
+        const potentialOpponent = sortedPlayers[j];
+        
+        if (!paired.has(potentialOpponent.id) && 
+            !this.havePlayedBefore(player, potentialOpponent)) {
+          opponent = potentialOpponent;
+          break;
+        }
+      }
+      
+      // If no suitable opponent found, pair with the next available player
+      if (!opponent && i + 1 < sortedPlayers.length) {
+        for (let j = i + 1; j < sortedPlayers.length; j++) {
+          if (!paired.has(sortedPlayers[j].id)) {
+            opponent = sortedPlayers[j];
+            break;
           }
         }
       }
-    });
-
-    return pairings;
-  }
-
-  /**
-   * Create random pairings for the first round
-   */
-  createRandomPairings(players: Player[]): any[] {
-    // Shuffle players
-    const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
-    
-    const pairings: any[] = [];
-    for (let i = 0; i < shuffledPlayers.length; i += 2) {
-      if (i + 1 < shuffledPlayers.length) {
+      
+      // Create pairing if opponent found
+      if (opponent) {
+        paired.add(player.id);
+        paired.add(opponent.id);
+        
         pairings.push({
-          player1: shuffledPlayers[i],
-          player2: shuffledPlayers[i + 1],
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round,
+          player1: player,
+          player2: opponent,
+          result: null,
+          status: 'pending',
           bracket: 'main'
         });
-      } else {
-        // Odd player gets a bye
+      } else if (!paired.has(player.id)) {
+        // Player gets a bye
+        paired.add(player.id);
+        
         pairings.push({
-          player1: shuffledPlayers[i],
-          player2: null,
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round,
+          player1: player,
+          player2: null, // Bye
+          result: { winner: player.id, player1Score: 2, player2Score: 0 },
+          status: 'completed',
           bracket: 'main'
         });
+        
+        // Award points for bye
+        player.wins = (player.wins || 0) + 1;
+        player.matchPoints = (player.matchPoints || 0) + 3;
       }
     }
     
@@ -720,92 +735,197 @@ export class TournamentEngine {
   }
 
   /**
-   * Create bracket pairings for elimination rounds
+   * Create random pairings (for first round)
    */
-  createBracketPairings(players: Player[] | null, round: number, eliminationType: string): any[] {
-    // Stub implementation - would be more complex in reality
+  private createRandomPairings(players: Player[]): any[] {
+    // Shuffle players
+    const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
+    
+    // Create pairings
+    const pairings: any[] = [];
+    
+    for (let i = 0; i < shuffledPlayers.length; i += 2) {
+      if (i + 1 < shuffledPlayers.length) {
+        // Regular pairing
+        pairings.push({
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round: 1,
+          player1: shuffledPlayers[i],
+          player2: shuffledPlayers[i + 1],
+          result: null,
+          status: 'pending',
+          bracket: 'main'
+        });
+      } else {
+        // Odd number of players, last player gets a bye
+        pairings.push({
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round: 1,
+          player1: shuffledPlayers[i],
+          player2: null, // Bye
+          result: { winner: shuffledPlayers[i].id, player1Score: 2, player2Score: 0 },
+          status: 'completed',
+          bracket: 'main'
+        });
+        
+        // Award points for bye
+        shuffledPlayers[i].wins = (shuffledPlayers[i].wins || 0) + 1;
+        shuffledPlayers[i].matchPoints = (shuffledPlayers[i].matchPoints || 0) + 3;
+      }
+    }
+    
+    return pairings;
+  }
+
+  /**
+   * Create elimination bracket pairings
+   */
+  private createEliminationPairings(players: Player[], tournament: Tournament, bracket: string = 'main'): any[] {
+    // Implementation would depend on the specific tournament structure
+    // This is a simplified version
+    
+    // For the first elimination round, seed players based on Swiss results
+    if ((bracket === 'main' && tournament.brackets.main.currentRound === 0) ||
+        (bracket === 'consolation' && tournament.brackets.consolation && tournament.brackets.consolation.currentRound === 0)) {
+      
+      // Sort players by standings
+      const seededPlayers = [...players].sort((a, b) => (a.standing || 0) - (b.standing || 0));
+      
+      // Create pairings (1 vs 8, 2 vs 7, etc. for 8 players)
+      const pairings: any[] = [];
+      const numPlayers = seededPlayers.length;
+      
+      for (let i = 0; i < numPlayers / 2; i++) {
+        pairings.push({
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round: 1,
+          player1: seededPlayers[i],
+          player2: seededPlayers[numPlayers - 1 - i],
+          result: null,
+          status: 'pending',
+          bracket
+        });
+      }
+      
+      return pairings;
+    }
+    
+    // For subsequent rounds, pair winners from previous round
+    // This would require tracking winners from previous rounds
+    // Simplified implementation
     return [];
   }
 
   /**
    * Create round robin pairings
    */
-  createRoundRobinPairings(players: Player[], round: number): any[] {
-    // Stub implementation - would be more complex in reality
-    return [];
+  private createRoundRobinPairings(players: Player[], round: number): any[] {
+    // Round robin algorithm (circle method)
+    // For n players, each player plays n-1 rounds
+    const numPlayers = players.length;
+    
+    // If odd number of players, add a "bye" player
+    const effectivePlayers = numPlayers % 2 === 1 ? [...players, null] : [...players];
+    const numEffectivePlayers = effectivePlayers.length;
+    
+    // Create pairings for this round
+    const pairings: any[] = [];
+    
+    // In the circle method, player 0 stays fixed and others rotate
+    const fixedPlayer = effectivePlayers[0];
+    const rotatingPlayers = effectivePlayers.slice(1);
+    
+    // Rotate players based on the round
+    for (let i = 1; i < round; i++) {
+      rotatingPlayers.unshift(rotatingPlayers.pop() as Player);
+    }
+    
+    // Create pairings
+    pairings.push({
+      id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      round,
+      player1: fixedPlayer,
+      player2: rotatingPlayers[0],
+      result: null,
+      status: 'pending',
+      bracket: 'main'
+    });
+    
+    for (let i = 1; i < numEffectivePlayers / 2; i++) {
+      const player1 = rotatingPlayers[i];
+      const player2 = rotatingPlayers[numEffectivePlayers - 1 - i];
+      
+      if (player1 && player2) {
+        pairings.push({
+          id: `match_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+          round,
+          player1,
+          player2,
+          result: null,
+          status: 'pending',
+          bracket: 'main'
+        });
+      }
+    }
+    
+    return pairings;
   }
 
   /**
    * Create adaptive Swiss pairings that consider meta diversity
    */
-  createAdaptiveSwissPairings(players: Player[], round: number): any[] {
-    // Stub implementation - would be more complex in reality
-    return this.createSwissPairings(players, round);
+  private createAdaptiveSwissPairings(players: Player[], tournament: Tournament): any[] {
+    // Base pairings on Swiss algorithm
+    const basePairings = this.createSwissPairings(players, tournament.currentRound);
+    
+    // If meta balancing is not enabled, return base pairings
+    if (!tournament.metaBalancingEnabled) {
+      return basePairings;
+    }
+    
+    // Try to avoid pairing same archetypes if possible
+    // This would be more complex in a real implementation
+    return basePairings;
   }
 
   /**
-   * Create parallel bracket pairings for main and consolation brackets
+   * Check if two players have played before
    */
-  createParallelBracketPairings(players: Player[], round: number): any[] {
-    // Stub implementation - would be more complex in reality
-    return [];
+  private havePlayedBefore(player1: Player, player2: Player): boolean {
+    if (!player1.matches || !player2.matches) return false;
+    
+    return player1.matches.some((match: any) => 
+      match.player1Id === player2.id || match.player2Id === player2.id
+    );
   }
 
   /**
-   * Get top players for elimination rounds
+   * Get top N players by standings
    */
-  getTopPlayers(count: number): Player[] {
-    if (!this.currentTournament) {
-      throw new Error('No tournament has been created');
-    }
-    
-    // Sort players by standing
-    const sortedPlayers = [...this.currentTournament.players]
-      .filter(p => !p.dropped)
-      .sort((a, b) => (a.standing || 0) - (b.standing || 0));
-    
-    return sortedPlayers.slice(0, count);
+  private getTopPlayers(players: Player[], count: number): Player[] {
+    return [...players]
+      .sort((a, b) => {
+        // Sort by match points first
+        const aPoints = (a.matchPoints || 0);
+        const bPoints = (b.matchPoints || 0);
+        
+        if (aPoints !== bPoints) {
+          return bPoints - aPoints;
+        }
+        
+        // Then by tiebreakers
+        const aTiebreaker = (a.opponentMatchWinPercentage || 0);
+        const bTiebreaker = (b.opponentMatchWinPercentage || 0);
+        
+        return bTiebreaker - aTiebreaker;
+      })
+      .slice(0, count);
   }
 
   /**
-   * Calculate meta bonus for a match
+   * Record a match result
    */
-  calculateMetaBonus(player1: Player, player2: Player | null): number {
-    if (!this.currentTournament || !this.currentTournament.metaBalancingEnabled) {
-      return 0;
-    }
-    
-    // No bonus for byes
-    if (!player2) return 0;
-    
-    // No bonus if either player doesn't have a deck archetype
-    if (!player1.deckArchetype || !player2.deckArchetype) return 0;
-    
-    let bonus = 0;
-    
-    // Check if either deck is underrepresented
-    const metaBreakdown = this.currentTournament.metaBreakdown || [];
-    const player1Meta = metaBreakdown.find(m => m.archetype === player1.deckArchetype);
-    const player2Meta = metaBreakdown.find(m => m.archetype === player2.deckArchetype);
-    
-    if (player1Meta && player1Meta.isUnderrepresented) {
-      bonus += this.metaIncentives.underrepresentedBonus;
-    }
-    
-    if (player2Meta && player2Meta.isUnderrepresented) {
-      bonus += this.metaIncentives.underrepresentedBonus;
-    }
-    
-    return bonus;
-  }
-
-  /**
-   * Submit a match result
-   */
-  submitResult(matchId: string, result: {
-    winner: string;
-    games: { winner: string; score?: { player1: number; player2: number } }[];
-  }): Tournament {
+  recordMatchResult(matchId: string, result: { winner: string; player1Score: number; player2Score: number }): Tournament {
     if (!this.currentTournament) {
       throw new Error('No tournament has been created');
     }
@@ -813,57 +933,78 @@ export class TournamentEngine {
     // Find the match
     const match = this.currentTournament.matches.find(m => m.id === matchId);
     if (!match) {
-      throw new Error(`Match ${matchId} not found`);
+      throw new Error(`Match not found: ${matchId}`);
     }
     
     // Update match result
     match.result = result;
     match.status = 'completed';
-    match.endTime = new Date();
     
     // Update player records
-    const player1 = this.currentTournament.players.find(p => p.id === match.player1Id);
-    const player2 = this.currentTournament.players.find(p => p.id === match.player2Id);
+    const player1 = this.currentTournament.players.find(p => p.id === match.player1.id);
+    const player2 = match.player2 ? this.currentTournament.players.find(p => p.id === match.player2.id) : null;
     
-    if (player1) {
+    if (player1 && player2) {
+      // Regular match
       if (result.winner === player1.id) {
         player1.wins = (player1.wins || 0) + 1;
-      } else if (result.winner === 'draw') {
-        player1.draws = (player1.draws || 0) + 1;
-      } else {
-        player1.losses = (player1.losses || 0) + 1;
-      }
-      player1.matchPoints = (player1.wins || 0) * 3 + (player1.draws || 0);
-    }
-    
-    if (player2) {
-      if (result.winner === player2.id) {
-        player2.wins = (player2.wins || 0) + 1;
-      } else if (result.winner === 'draw') {
-        player2.draws = (player2.draws || 0) + 1;
-      } else {
+        player1.matchPoints = (player1.matchPoints || 0) + 3;
         player2.losses = (player2.losses || 0) + 1;
+      } else if (result.winner === player2.id) {
+        player2.wins = (player2.wins || 0) + 1;
+        player2.matchPoints = (player2.matchPoints || 0) + 3;
+        player1.losses = (player1.losses || 0) + 1;
+      } else {
+        // Draw
+        player1.draws = (player1.draws || 0) + 1;
+        player2.draws = (player2.draws || 0) + 1;
+        player1.matchPoints = (player1.matchPoints || 0) + 1;
+        player2.matchPoints = (player2.matchPoints || 0) + 1;
       }
-      player2.matchPoints = (player2.wins || 0) * 3 + (player2.draws || 0);
+      
+      // Update match history
+      if (player1.matches) {
+        player1.matches.push({
+          matchId,
+          round: match.round,
+          player1Id: player1.id,
+          player2Id: player2.id,
+          result
+        });
+      }
+      
+      if (player2.matches) {
+        player2.matches.push({
+          matchId,
+          round: match.round,
+          player1Id: player2.id,
+          player2Id: player1.id,
+          result: {
+            winner: result.winner,
+            player1Score: result.player2Score,
+            player2Score: result.player1Score
+          }
+        });
+      }
+    } else if (player1) {
+      // Bye
+      // Points already awarded when creating the pairing
     }
     
-    // Check if all matches in the round are completed
-    const roundMatches = this.currentTournament.matches.filter(
-      m => m.roundNumber === this.currentTournament!.currentRound
+    // Check if all matches in the current round are completed
+    const currentRoundMatches = this.currentTournament.matches.filter(
+      m => m.round === this.currentTournament!.currentRound
     );
     
-    const allCompleted = roundMatches.every(m => m.status === 'completed');
+    const allMatchesCompleted = currentRoundMatches.every(m => m.status === 'completed');
     
-    if (allCompleted) {
-      // Update standings
-      this.updateStandings();
+    if (allMatchesCompleted) {
+      // Update tiebreakers
+      this.updateTiebreakers();
       
       // Check if tournament is complete
       if (this.isTournamentComplete()) {
-        this.finishTournament();
-      } else {
-        // Advance to next round
-        this.currentTournament.currentRound++;
+        this.completeTournament();
       }
     }
     
@@ -871,34 +1012,86 @@ export class TournamentEngine {
   }
 
   /**
-   * Update player standings
+   * Update tiebreakers for all players
    */
-  updateStandings(): void {
+  private updateTiebreakers(): void {
     if (!this.currentTournament) return;
     
-    // Calculate tiebreakers
-    this.calculateTiebreakers();
+    // Calculate opponent match win percentage (OMW%)
+    this.currentTournament.players.forEach(player => {
+      if (!player.matches) return;
+      
+      const opponents = player.matches.map(match => 
+        match.player1Id === player.id ? match.player2Id : match.player1Id
+      );
+      
+      const opponentWinPercentages = opponents.map(opponentId => {
+        const opponent = this.currentTournament!.players.find(p => p.id === opponentId);
+        if (!opponent) return 0;
+        
+        const totalMatches = (opponent.wins || 0) + (opponent.losses || 0) + (opponent.draws || 0);
+        if (totalMatches === 0) return 0;
+        
+        return ((opponent.wins || 0) + (opponent.draws || 0) * 0.5) / totalMatches;
+      });
+      
+      // Average of opponent win percentages
+      player.opponentMatchWinPercentage = opponentWinPercentages.length > 0 
+        ? opponentWinPercentages.reduce((sum, pct) => sum + pct, 0) / opponentWinPercentages.length
+        : 0;
+      
+      // Apply meta bonus if enabled
+      if (this.currentTournament.metaBalancingEnabled && player.deckArchetype && this.currentTournament.metaBreakdown) {
+        const archetypeInfo = this.currentTournament.metaBreakdown.find(
+          meta => meta.archetype === player.deckArchetype
+        );
+        
+        if (archetypeInfo && archetypeInfo.isUnderrepresented && player.tiebreakers) {
+          player.tiebreakers.metaBonus = this.metaIncentives.underrepresentedBonus;
+        }
+      }
+    });
     
-    // Sort players by match points and tiebreakers
+    // Update standings
+    this.updateStandings();
+  }
+
+  /**
+   * Update player standings
+   */
+  private updateStandings(): void {
+    if (!this.currentTournament) return;
+    
+    // Sort players by match points, then tiebreakers
     const sortedPlayers = [...this.currentTournament.players].sort((a, b) => {
-      // Primary sort: match points
-      const aPoints = a.matchPoints || (a.wins || 0) * 3 + (a.draws || 0);
-      const bPoints = b.matchPoints || (b.wins || 0) * 3 + (b.draws || 0);
-      if (aPoints !== bPoints) return bPoints - aPoints;
+      // Match points (3 for win, 1 for draw)
+      const aPoints = (a.matchPoints || 0);
+      const bPoints = (b.matchPoints || 0);
       
-      // Secondary sort: opponent match win percentage
-      if (a.opponentMatchWinPercentage !== b.opponentMatchWinPercentage) {
-        return b.opponentMatchWinPercentage - a.opponentMatchWinPercentage;
+      if (aPoints !== bPoints) {
+        return bPoints - aPoints;
       }
       
-      // Tertiary sort: game win percentage
-      if (a.gameWinPercentage !== b.gameWinPercentage) {
-        return b.gameWinPercentage - a.gameWinPercentage;
+      // Opponent match win percentage
+      const aOMW = (a.opponentMatchWinPercentage || 0);
+      const bOMW = (b.opponentMatchWinPercentage || 0);
+      
+      if (aOMW !== bOMW) {
+        return bOMW - aOMW;
       }
       
-      // Fourth sort: meta bonus
-      const aMetaBonus = a.tiebreakers?.metaBonus || 0;
-      const bMetaBonus = b.tiebreakers?.metaBonus || 0;
+      // Game win percentage
+      const aGWP = (a.gameWinPercentage || 0);
+      const bGWP = (b.gameWinPercentage || 0);
+      
+      if (aGWP !== bGWP) {
+        return bGWP - aGWP;
+      }
+      
+      // Meta bonus (if applicable)
+      const aMetaBonus = (a.tiebreakers?.metaBonus || 0);
+      const bMetaBonus = (b.tiebreakers?.metaBonus || 0);
+      
       return bMetaBonus - aMetaBonus;
     });
     
@@ -909,123 +1102,68 @@ export class TournamentEngine {
   }
 
   /**
-   * Calculate tiebreakers for all players
-   */
-  calculateTiebreakers(): void {
-    if (!this.currentTournament) return;
-    
-    this.currentTournament.players.forEach(player => {
-      // Calculate opponent match win percentage
-      const opponents = this.getPlayerOpponents(player.id);
-      if (opponents.length > 0) {
-        const opponentWinPercentages = opponents.map(opp => {
-          const totalMatches = (opp.wins || 0) + (opp.losses || 0) + (opp.draws || 0);
-          if (totalMatches === 0) return 0.33; // Default for no matches
-          return ((opp.wins || 0) + (opp.draws || 0) * 0.5) / totalMatches;
-        });
-        
-        player.opponentMatchWinPercentage = opponentWinPercentages.reduce((sum, pct) => sum + pct, 0) / 
-          opponentWinPercentages.length;
-      } else {
-        player.opponentMatchWinPercentage = 0;
-      }
-      
-      // Calculate game win percentage
-      const playerMatches = this.getPlayerMatches(player.id);
-      let gamesWon = 0;
-      let gamesPlayed = 0;
-      
-      playerMatches.forEach(match => {
-        if (match.result && match.result.games) {
-          match.result.games.forEach(game => {
-            gamesPlayed++;
-            if (game.winner === player.id) {
-              gamesWon++;
-            }
-          });
-        }
-      });
-      
-      player.gameWinPercentage = gamesPlayed > 0 ? gamesWon / gamesPlayed : 0;
-      
-      // Calculate meta bonus
-      if (this.currentTournament.metaBalancingEnabled && player.deckArchetype) {
-        const metaBreakdown = this.currentTournament.metaBreakdown || [];
-        const playerMeta = metaBreakdown.find(m => m.archetype === player.deckArchetype);
-        
-        if (playerMeta && playerMeta.isUnderrepresented) {
-          player.tiebreakers = player.tiebreakers || {};
-          player.tiebreakers.metaBonus = this.metaIncentives.underrepresentedBonus;
-        }
-      }
-    });
-  }
-
-  /**
-   * Get all opponents a player has faced
-   */
-  getPlayerOpponents(playerId: string): Player[] {
-    if (!this.currentTournament) return [];
-    
-    const opponents: Player[] = [];
-    const playerMatches = this.getPlayerMatches(playerId);
-    
-    playerMatches.forEach(match => {
-      if (match.player1Id === playerId && match.player2) {
-        const opponent = this.currentTournament!.players.find(p => p.id === match.player2Id);
-        if (opponent) opponents.push(opponent);
-      } else if (match.player2Id === playerId) {
-        const opponent = this.currentTournament!.players.find(p => p.id === match.player1Id);
-        if (opponent) opponents.push(opponent);
-      }
-    });
-    
-    return opponents;
-  }
-
-  /**
-   * Get all matches a player has played
-   */
-  getPlayerMatches(playerId: string): any[] {
-    if (!this.currentTournament) return [];
-    
-    return this.currentTournament.matches.filter(
-      m => (m.player1Id === playerId || m.player2Id === playerId) && m.status === 'completed'
-    );
-  }
-
-  /**
    * Check if the tournament is complete
    */
-  isTournamentComplete(): boolean {
+  private isTournamentComplete(): boolean {
     if (!this.currentTournament) return false;
     
     const format = this.currentTournament.format;
     const currentRound = this.currentTournament.currentRound;
     
+    // Check if we've reached the final round
     if (format === 'hybrid') {
-      // For hybrid, check if we've completed all Swiss and elimination rounds
-      return currentRound >= (this.currentTournament.rounds as any).swiss + 
-        (this.currentTournament.rounds as any).elimination;
+      return currentRound >= (this.currentTournament.rounds.swiss || 0) + (this.currentTournament.rounds.elimination || 0);
     } else {
-      // For other formats, check if we've completed all main rounds
-      return currentRound >= (this.currentTournament.rounds as any).main;
+      return currentRound >= this.currentTournament.rounds.main;
     }
   }
 
   /**
-   * Finish the tournament
+   * Complete the tournament
    */
-  finishTournament(): Tournament {
-    if (!this.currentTournament) {
-      throw new Error('No tournament has been created');
-    }
+  private completeTournament(): void {
+    if (!this.currentTournament) return;
     
     this.currentTournament.status = 'completed';
     this.currentTournament.endTime = new Date();
     
-    // Final standings update
-    this.updateStandings();
+    // Final standings are already calculated in updateStandings
+  }
+
+  /**
+   * Advance to the next round
+   */
+  advanceToNextRound(): Tournament {
+    if (!this.currentTournament) {
+      throw new Error('No tournament has been created');
+    }
+    
+    if (this.currentTournament.status !== 'in_progress') {
+      throw new Error(`Cannot advance a tournament that is ${this.currentTournament.status}`);
+    }
+    
+    // Check if all matches in the current round are completed
+    const currentRoundMatches = this.currentTournament.matches.filter(
+      m => m.round === this.currentTournament!.currentRound
+    );
+    
+    const allMatchesCompleted = currentRoundMatches.every(m => m.status === 'completed');
+    
+    if (!allMatchesCompleted) {
+      throw new Error('Cannot advance to next round until all matches are completed');
+    }
+    
+    // Increment round
+    this.currentTournament.currentRound++;
+    
+    // Check if tournament is complete
+    if (this.isTournamentComplete()) {
+      this.completeTournament();
+      return this.currentTournament;
+    }
+    
+    // Create pairings for the next round
+    this.createPairings();
     
     return this.currentTournament;
   }
@@ -1033,35 +1171,73 @@ export class TournamentEngine {
   /**
    * Drop a player from the tournament
    */
-  dropPlayer(playerId: string): Player {
+  dropPlayer(playerId: string): Tournament {
     if (!this.currentTournament) {
       throw new Error('No tournament has been created');
     }
     
     const player = this.currentTournament.players.find(p => p.id === playerId);
     if (!player) {
-      throw new Error(`Player ${playerId} not found`);
+      throw new Error(`Player not found: ${playerId}`);
     }
     
     player.dropped = true;
     
-    return player;
+    // If there are pending matches for this player, mark them as completed
+    const pendingMatches = this.currentTournament.matches.filter(
+      m => m.status === 'pending' && 
+          ((m.player1 && m.player1.id === playerId) || 
+           (m.player2 && m.player2.id === playerId))
+    );
+    
+    pendingMatches.forEach(match => {
+      if (match.player1 && match.player1.id === playerId) {
+        // Player 1 dropped, player 2 wins
+        this.recordMatchResult(match.id, {
+          winner: match.player2 ? match.player2.id : '',
+          player1Score: 0,
+          player2Score: 2
+        });
+      } else if (match.player2 && match.player2.id === playerId) {
+        // Player 2 dropped, player 1 wins
+        this.recordMatchResult(match.id, {
+          winner: match.player1.id,
+          player1Score: 2,
+          player2Score: 0
+        });
+      }
+    });
+    
+    return this.currentTournament;
   }
 
   /**
-   * Get tournament standings
+   * Get the current tournament
    */
-  getStandings(): Player[] {
-    if (!this.currentTournament) {
-      throw new Error('No tournament has been created');
-    }
-    
-    // Make sure standings are up to date
-    this.updateStandings();
-    
-    // Return players sorted by standing
-    return [...this.currentTournament.players].sort((a, b) => 
-      (a.standing || 0) - (b.standing || 0)
-    );
+  getCurrentTournament(): Tournament | null {
+    return this.currentTournament;
+  }
+
+  /**
+   * Get available tournament formats
+   */
+  getAvailableFormats(): Record<string, TournamentFormat> {
+    return this.formats;
+  }
+
+  /**
+   * Get tournament templates
+   */
+  getTournamentTemplates(): Record<string, TournamentTemplate> {
+    return this.templates;
+  }
+
+  /**
+   * Get entry tiers
+   */
+  getEntryTiers(): Record<string, EntryTier> {
+    return this.entryTiers;
   }
 }
+
+export default TournamentEngine;
