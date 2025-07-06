@@ -43,9 +43,9 @@ const Rules = (): any => {
   const activeTabData = tabs.find(tab => tab.id === activeTab);
   
   return (
-    <ErrorBoundary />
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
-        <div className="max-w-6xl mx-auto"></div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+        <div className="max-w-6xl mx-auto">
           {/* Tab Navigation */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}

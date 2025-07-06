@@ -11,7 +11,7 @@ import React from 'react';
  * Supports Google, GitHub, and Discord OAuth flows
  */
 
-import { env } from '../config/env.js';
+import { env } from '../config/env';
 
 // OAuth provider configurations
 const OAUTH_PROVIDERS = {

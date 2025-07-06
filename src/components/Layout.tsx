@@ -1127,15 +1127,19 @@ const Layout: React.FC<LayoutProps> = ({
       </footer>
 
       {/* Auth Modal */}
+      {/* ModernAuthModal - Temporarily disabled for debugging */}
+      {/* 
       <ModernAuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+      */}
 
-      {/* PWA Install Prompt */}
-      {!isInstalled && <PWAInstallPrompt />}
+      {/* PWA Install Prompt - Temporarily disabled for debugging */}
+      {/* {!isInstalled && <PWAInstallPrompt />} */}
 
-      {/* Mobile Touch Controls */}
+      {/* Mobile Touch Controls - Temporarily disabled for debugging */}
+      {/* 
       {showTouchControls && (
         <MobileTouchControls
           onCardAction={(action: string) => {
@@ -1158,6 +1162,7 @@ const Layout: React.FC<LayoutProps> = ({
           isPlayerTurn={true}
         />
       )}
+      */}
     </div>
   );
 };
