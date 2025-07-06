@@ -209,18 +209,18 @@ const StandaloneMatchmaking = (): any => {
     };
 
     return (
-      <div className="space-y-4 md:space-y-6" />
+      <div className="space-y-4 md:space-y-6"></div>
         {/* Player Selection */}
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6" />
-          <div className="flex items-center justify-between mb-4" />
+        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h3 className="text-lg font-semibold text-gray-900" />
               Select Players
             </h3>
-            <span className="text-sm text-gray-500" />
+            <span className="text-sm text-gray-500"></span>
               {selectedPlayers.length} selected
             </span>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto"></div>
             {players.map(player => (
               <div
                 key={player.id}
@@ -231,13 +231,13 @@ const StandaloneMatchmaking = (): any => {
                     : 'border-gray-200 hover:border-gray-300 active:bg-gray-50'
                 }`}
               >
-                <div className="flex items-center space-x-3" />
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold" />
+                <div className="flex items-center space-x-3"></div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold"></div>
                     {player.name[0].toUpperCase()}
-                  <div className="min-w-0 flex-1" />
-                    <div className="font-medium text-gray-900 truncate" />
+                  <div className="min-w-0 flex-1"></div>
+                    <div className="font-medium text-gray-900 truncate"></div>
                       {player.name}
-                    <div className="text-sm text-gray-500" />
+                    <div className="text-sm text-gray-500"></div>
                       Rating: {player.rating} • {player.wins}W-{player.losses}L
                     </div>
                 </div>
@@ -245,7 +245,7 @@ const StandaloneMatchmaking = (): any => {
           </div>
 
           {players.length === 0 && (
-            <div className="text-center py-8 text-gray-500" />
+            <div className="text-center py-8 text-gray-500"></div>
               <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
               <p>No players added yet.</p>
               <button
@@ -258,14 +258,14 @@ const StandaloneMatchmaking = (): any => {
         </div>
 
         {/* Match Settings */}
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6" />
+        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4" />
             Match Settings
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Format
               </label>
               <select
@@ -279,8 +279,8 @@ const StandaloneMatchmaking = (): any => {
                 <option value="draft">Draft</option>
             </div>
 
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Best of
               </label>
               <select
@@ -293,7 +293,7 @@ const StandaloneMatchmaking = (): any => {
                 <option value={5}>Best of 5</option>
             </div>
 
-            <div className="flex items-end" />
+            <div className="flex items-end"></div>
               <button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
@@ -304,18 +304,18 @@ const StandaloneMatchmaking = (): any => {
           </div>
 
         {/* Active Matches */}
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6" />
+        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4" />
             Active Matches
           </h3>
 
           {currentMatches.filter(m => m.status === 'active').length === 0 ? (
-            <div className="text-center py-8 text-gray-500" />
+            <div className="text-center py-8 text-gray-500"></div>
               <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
               <p>No active matches.</p>
               <p className="text-sm">Create some matches above!</p>
           ) : (
-            <div className = "space-y-3" />
+            <div className = "space-y-3"></div>
               {currentMatches
                 .filter(m => m.status === 'active')
                 .map(match => (
@@ -376,29 +376,29 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     ).length;
 
     return (
-      <div className="border border-gray-200 rounded-lg p-4" />
-        <div className="flex items-center justify-between mb-3" />
-          <div className="flex items-center space-x-4" />
-            <div className="text-center" />
-              <div className="font-medium text-sm md:text-base" />
+      <div className="border border-gray-200 rounded-lg p-4"></div>
+        <div className="flex items-center justify-between mb-3"></div>
+          <div className="flex items-center space-x-4"></div>
+            <div className="text-center"></div>
+              <div className="font-medium text-sm md:text-base"></div>
                 {match.player1.name}
               <div className="text-2xl font-bold text-blue-600">{p1Wins}
             </div>
             <div className="text-gray-400 text-sm">VS</div>
-            <div className="text-center" />
-              <div className="font-medium text-sm md:text-base" />
+            <div className="text-center"></div>
+              <div className="font-medium text-sm md:text-base"></div>
                 {match.player2.name}
               <div className="text-2xl font-bold text-red-600">{p2Wins}
             </div>
 
-          <div className="text-right" />
+          <div className="text-right"></div>
             <div className="text-sm text-gray-500">{match.format}
-            <div className="text-sm text-gray-500" />
+            <div className="text-sm text-gray-500"></div>
               Best of {match.maxRounds}
           </div>
 
         {match.status === 'active' && (
-          <div className="flex space-x-2" />
+          <div className="flex space-x-2"></div>
             <button
               onClick={() => recordGame(match.player1.id)}
               className="flex-1 bg-blue-100 text-blue-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-blue-200 active:bg-blue-300 transition-colors touch-manipulation"
@@ -413,7 +413,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
             </button>
         )}
         {match.status === 'completed' && (
-          <div className="text-center py-2 bg-green-100 text-green-700 rounded font-medium" />
+          <div className="text-center py-2 bg-green-100 text-green-700 rounded font-medium"></div>
             Winner: {players.find(p => p.id === match.winner)?.name}
         )}
       </div>
@@ -438,9 +438,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     };
 
     return (
-      <div className="space-y-4 md:space-y-6" />
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6" />
-          <div className="flex items-center justify-between mb-4" />
+      <div className="space-y-4 md:space-y-6"></div>
+        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h3 className="text-lg font-semibold text-gray-900" />
               Player Management
             </h3>
@@ -452,7 +452,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
               <span>Add Player</span>
           </div>
 
-          <div className="overflow-x-auto" />
+          <div className="overflow-x-auto"></div>
             <table className="w-full" />
               <thead />
                 <tr className="border-b border-gray-200" />
@@ -476,13 +476,13 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                     className="border-b border-gray-100 hover:bg-gray-50"
                    />
                     <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <div className="flex items-center space-x-3" />
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm" />
+                      <div className="flex items-center space-x-3"></div>
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm"></div>
                           {player.name[0].toUpperCase()}
-                        <div className="min-w-0" />
-                          <div className="font-medium text-gray-900 truncate" />
+                        <div className="min-w-0"></div>
+                          <div className="font-medium text-gray-900 truncate"></div>
                             {player.name}
-                          <div className="text-sm text-gray-500 truncate" />
+                          <div className="text-sm text-gray-500 truncate"></div>
                             {player.email}
                         </div>
                     </td>
@@ -490,11 +490,11 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                       <span className="font-medium">{player.rating}
                     </td>
                     <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <span className="text-sm" />
+                      <span className="text-sm"></span>
                         {player.wins}W-{player.losses}L-{player.draws}D
                       </span>
                     <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <div className="flex items-center space-x-2" />
+                      <div className="flex items-center space-x-2"></div>
                         <button
                           onClick={() => editPlayer(player)}
                           className="text-blue-600 hover:text-blue-700 p-1 touch-manipulation"
@@ -513,7 +513,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
           </div>
 
           {players.length === 0 && (
-            <div className="text-center py-8 text-gray-500" />
+            <div className="text-center py-8 text-gray-500"></div>
               <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
               <p>No players added yet.</p>
               <button
@@ -568,9 +568,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" />
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 max-h-screen overflow-y-auto" />
-          <div className="flex items-center justify-between mb-4" />
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 max-h-screen overflow-y-auto"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h2 className="text-xl font-bold text-gray-900" />
               {playerProfile ? 'Edit Player' : 'Add Player'}
             <button
@@ -581,8 +581,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
             </button>
 
           <form onSubmit={handleSubmit} className="space-y-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                 Name
               </label>
               <input
@@ -595,8 +595,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
               />
             </div>
 
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                 Email (optional)
               </label>
               <input
@@ -608,9 +608,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Rating
                 </label>
                 <input
@@ -622,8 +622,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 />
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Wins
                 </label>
                 <input
@@ -636,9 +636,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 />
               </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Losses
                 </label>
                 <input
@@ -651,8 +651,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 />
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Draws
                 </label>
                 <input
@@ -665,7 +665,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 />
               </div>
 
-            <div className="flex space-x-3 pt-4" />
+            <div className="flex space-x-3 pt-4"></div>
               <button
                 type="button"
                 onClick={() => setShowPlayerModal(false)}
@@ -685,12 +685,12 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50" />
+    <div className="min-h-screen bg-gray-50"></div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b sticky top-0 z-40" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex items-center justify-between h-16" />
-            <div className="flex items-center space-x-4" />
+      <div className="bg-white shadow-sm border-b sticky top-0 z-40"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex items-center justify-between h-16"></div>
+            <div className="flex items-center space-x-4"></div>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
@@ -701,7 +701,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
               <h1 className="text-xl md:text-2xl font-bold text-gray-900" />
                 KONIVRER Matchmaking
               </h1>
-              <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500" />
+              <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500"></div>
                 {isOfflineMode ? (
                   <>
                     <WifiOff className="w-4 h-4 text-orange-500" / />
@@ -715,7 +715,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 )}
             </div>
 
-            <div className="flex items-center space-x-2 md:space-x-4" />
+            <div className="flex items-center space-x-2 md:space-x-4"></div>
               <button
                 onClick={generateQRCode}
                 className="text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
@@ -742,8 +742,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b shadow-sm" />
-          <div className="px-4 py-0 whitespace-nowrap space-y-1" />
+        <div className="md:hidden bg-white border-b shadow-sm"></div>
+          <div className="px-4 py-0 whitespace-nowrap space-y-1"></div>
             {[
               {
                 id: 'quickMatch',
@@ -775,9 +775,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
           </div>
       )}
       {/* Navigation Tabs - Desktop */}
-      <div className="hidden md:block bg-white border-b" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex space-x-8" />
+      <div className="hidden md:block bg-white border-b"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex space-x-8"></div>
             {[
               {
                 id: 'quickMatch',
@@ -807,7 +807,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 whitespace-nowrap md:py-8" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-0 whitespace-nowrap md:py-8"></div>
         {activeTab === 'quickMatch' && <QuickMatchTab />}
         {activeTab === 'players' && <PlayersTab />}
 
@@ -816,9 +816,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
 
       {/* Export/Import Modal */}
       {showExportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" />
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" />
-            <div className="flex items-center justify-between mb-4" />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"></div>
+            <div className="flex items-center justify-between mb-4"></div>
               <h2 className="text-xl font-bold text-gray-900" />
                 Data Management
               </h2>
@@ -829,7 +829,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 <X className="w-5 h-5" / />
               </button>
 
-            <div className="space-y-4" />
+            <div className="space-y-4"></div>
               <button
                 onClick={() => {
                   exportData();
@@ -840,8 +840,8 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 <Download className="w-4 h-4" / />
                 <span>Export Data</span>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-2" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                   Import Data
                 </label>
                 <input
@@ -852,7 +852,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 / />
               </div>
 
-              <div className="text-xs text-gray-500" />
+              <div className="text-xs text-gray-500"></div>
                 Export your player data and matches to backup or share with
                 others. Import previously exported data to restore your
                 matchmaking setup.

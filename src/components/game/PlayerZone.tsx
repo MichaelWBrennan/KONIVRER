@@ -73,7 +73,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
       </div>
 
       {/* Hand */}
-      <div className={`absolute ${zonePositions.hand} pointer-events-auto`} />
+      <div className={`absolute ${zonePositions.hand} pointer-events-auto`}></div>
         <CardZone
           cards={hand}
           zone="hand"
@@ -89,7 +89,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
       </div>
 
       {/* Field */}
-      <div className={`absolute ${zonePositions.field} pointer-events-auto`} />
+      <div className={`absolute ${zonePositions.field} pointer-events-auto`}></div>
         <CardZone
           cards={field}
           zone="field"
@@ -104,7 +104,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
       </div>
 
       {/* Azoth Row */}
-      <div className={`absolute ${zonePositions.azothRow} pointer-events-auto`} />
+      <div className={`absolute ${zonePositions.azothRow} pointer-events-auto`}></div>
         <CardZone
           cards={azothRow}
           zone="azothRow"
@@ -119,15 +119,15 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
       </div>
 
       {/* Deck */}
-      <div className={`absolute ${zonePositions.deck} pointer-events-auto`} />
-        <div className="relative" />
+      <div className={`absolute ${zonePositions.deck} pointer-events-auto`}></div>
+        <div className="relative"></div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="w-20 h-28 bg-blue-900 border border-blue-700 rounded-lg shadow-lg flex items-center justify-center"
            />
             <span className="text-white font-bold">{deck.length}
           </motion.div>
-          <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center" />
+          <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center"></div>
             {deck.length}
         </div>
 
@@ -135,21 +135,21 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
       <div
         className={`absolute ${zonePositions.lifeCards} pointer-events-auto`}
        />
-        <div className="relative" />
+        <div className="relative"></div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="w-20 h-28 bg-purple-900 border border-purple-700 rounded-lg shadow-lg flex items-center justify-center"
            />
             <span className="text-white font-bold">Life</span>
           </motion.div>
-          <div className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center" />
+          <div className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center"></div>
             {lifeCards.length}
         </div>
 
       {/* Active Player Indicator */}
       {isActive && (
-        <div className="absolute inset-0 pointer-events-none" />
-          <div className="absolute inset-0 border-2 border-yellow-400 rounded-lg opacity-50" />
+        <div className="absolute inset-0 pointer-events-none"></div>
+          <div className="absolute inset-0 border-2 border-yellow-400 rounded-lg opacity-50"></div>
           <div
             className={`absolute ${isOpponent ? 'top-2' : 'bottom-2'} left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-3 py-0 whitespace-nowrap rounded-full text-sm font-bold`}
            />

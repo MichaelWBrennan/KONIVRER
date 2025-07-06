@@ -209,15 +209,15 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
           onClick={e => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="mobile-card-header esoteric-card-header" />
+          <div className="mobile-card-header esoteric-card-header"></div>
             <h2 className="mobile-card-title esoteric-rune" />
               {activeTab === 'login' ? 'Login' : 'Create Account'}
-            <button onClick={onClose} className="mobile-btn esoteric-btn-small" />
+            <button onClick={onClose} className="mobile-btn esoteric-btn-small"></button>
               ✕
             </button>
 
           {/* Tab Navigation */}
-          <div className="mobile-tabs" />
+          <div className="mobile-tabs"></div>
             <button
               onClick={() => setActiveTab('login')}
               className={`mobile-tab ${activeTab === 'login' ? 'active esoteric-tab-active' : ''}`}
@@ -244,7 +244,7 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                 className="mobile-p"
                />
                 {/* Login Form */}
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Email</label>
                   <input
                     {...loginForm.register('email')}
@@ -253,14 +253,14 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                     placeholder="Enter your email"
                   / />
                   {loginForm.formState.errors.email && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {loginForm.formState.errors.email.message}
                   )}
                 </div>
 
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Password</label>
-                  <div className="mobile-input-group" />
+                  <div className="mobile-input-group"></div>
                     <input
                       {...loginForm.register('password')}
                       type={showPassword ? 'text' : 'password'}
@@ -275,13 +275,13 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       {showPassword ? '👁️' : '👁️‍🗨️'}
                   </div>
                   {loginForm.formState.errors.password && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {loginForm.formState.errors.password.message}
                   )}
                 </div>
 
                 {loginForm.formState.errors.root && (
-                  <div className="mobile-error-box mobile-mb" />
+                  <div className="mobile-error-box mobile-mb"></div>
                     {loginForm.formState.errors.root.message}
                 )}
                 <button
@@ -294,20 +294,20 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                     : 'Sign In'}
 
                 {/* SSO Login Options */}
-                <div className="mobile-mt mobile-mb" />
-                  <div className="mobile-divider esoteric-divider" />
-                    <span className="esoteric-text-muted" />
+                <div className="mobile-mt mobile-mb"></div>
+                  <div className="mobile-divider esoteric-divider"></div>
+                    <span className="esoteric-text-muted"></span>
                       or continue with
                     </span>
 
-                  <div className="mobile-sso-buttons" />
+                  <div className="mobile-sso-buttons"></div>
                     <button
                       type="button"
                       onClick={() => handleSSOLogin('google')}
                       disabled={ssoLoading}
                       className="mobile-sso-btn esoteric-sso-btn"
                     >
-                      <div className="mobile-sso-icon" />
+                      <div className="mobile-sso-icon"></div>
                         <svg viewBox="0 0 24 24" width="24" height="24" />
                           <path
                             fill="currentColor"
@@ -316,7 +316,7 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                         </svg>
                       <span>Google</span>
                       {ssoLoading === 'google' && (
-                        <div className="mobile-spinner esoteric-spinner-small" />
+                        <div className="mobile-spinner esoteric-spinner-small"></div>
                       )}
 
                     <button
@@ -325,7 +325,7 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       disabled={ssoLoading}
                       className="mobile-sso-btn esoteric-sso-btn"
                     >
-                      <div className="mobile-sso-icon" />
+                      <div className="mobile-sso-icon"></div>
                         <svg viewBox="0 0 24 24" width="24" height="24" />
                           <path
                             fill="currentColor"
@@ -334,7 +334,7 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                         </svg>
                       <span>GitHub</span>
                       {ssoLoading === 'github' && (
-                        <div className="mobile-spinner esoteric-spinner-small" />
+                        <div className="mobile-spinner esoteric-spinner-small"></div>
                       )}
 
                     <button
@@ -343,7 +343,7 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       disabled={ssoLoading}
                       className="mobile-sso-btn esoteric-sso-btn"
                     >
-                      <div className="mobile-sso-icon" />
+                      <div className="mobile-sso-icon"></div>
                         <svg viewBox="0 0 24 24" width="24" height="24" />
                           <path
                             fill="currentColor"
@@ -352,16 +352,16 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                         </svg>
                       <span>Discord</span>
                       {ssoLoading === 'discord' && (
-                        <div className="mobile-spinner esoteric-spinner-small" />
+                        <div className="mobile-spinner esoteric-spinner-small"></div>
                       )}
                   </div>
 
-                <div className="mobile-text-center mobile-mt mobile-text-small esoteric-text-muted" />
+                <div className="mobile-text-center mobile-mt mobile-text-small esoteric-text-muted"></div>
                   <p className="mobile-mb-sm">Demo accounts:</p>
-                  <p className="mobile-mb-sm" />
+                  <p className="mobile-mb-sm"></p>
                     <strong>user1@example.com</strong> / password
                   </p>
-                  <p className="mobile-mb-sm" />
+                  <p className="mobile-mb-sm"></p>
                     <strong>judge@example.com</strong> / password
                   </p>
               </motion.form>
@@ -377,8 +377,8 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                 className="mobile-p"
                />
                 {/* Register Form */}
-                <div className="mobile-grid mobile-grid-2 mobile-gap" />
-                  <div />
+                <div className="mobile-grid mobile-grid-2 mobile-gap"></div>
+                  <div></div>
                     <label className="mobile-label">Username</label>
                     <input
                       {...registerForm.register('username')}
@@ -387,12 +387,12 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       placeholder="Username"
                     / />
                     {registerForm.formState.errors.username && (
-                      <p className="mobile-error" />
+                      <p className="mobile-error"></p>
                         {registerForm.formState.errors.username.message}
                     )}
                   </div>
 
-                  <div />
+                  <div></div>
                     <label className="mobile-label">Display Name</label>
                     <input
                       {...registerForm.register('displayName')}
@@ -401,12 +401,12 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       placeholder="Your name"
                     / />
                     {registerForm.formState.errors.displayName && (
-                      <p className="mobile-error" />
+                      <p className="mobile-error"></p>
                         {registerForm.formState.errors.displayName.message}
                     )}
                   </div>
 
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Email</label>
                   <input
                     {...registerForm.register('email')}
@@ -415,14 +415,14 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                     placeholder="Enter your email"
                   / />
                   {registerForm.formState.errors.email && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {registerForm.formState.errors.email.message}
                   )}
                 </div>
 
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Password</label>
-                  <div className="mobile-input-group" />
+                  <div className="mobile-input-group"></div>
                     <input
                       {...registerForm.register('password')}
                       type={showPassword ? 'text' : 'password'}
@@ -437,25 +437,25 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       {showPassword ? '👁️' : '👁️‍🗨️'}
                   </div>
                   {registerForm.formState.errors.password && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {registerForm.formState.errors.password.message}
                   )}
                   {/* Password strength meter */}
                   {watchedPassword && (
-                    <div className="mobile-mt-sm" />
-                      <div className="mobile-progress-bg" />
+                    <div className="mobile-mt-sm"></div>
+                      <div className="mobile-progress-bg"></div>
                         <div
                           className={`mobile-progress esoteric-progress-${getPasswordStrengthText().toLowerCase()}`}
                           style={{ width: `${passwordStrength}%` }}
                          />
                       </div>
-                      <div className="mobile-text-small mobile-text-right esoteric-text-muted" />
+                      <div className="mobile-text-small mobile-text-right esoteric-text-muted"></div>
                         {getPasswordStrengthText()}
                     </div>
                   )}
                 </div>
 
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Confirm Password</label>
                   <input
                     {...registerForm.register('confirmPassword')}
@@ -464,12 +464,12 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                     placeholder="Confirm your password"
                   / />
                   {registerForm.formState.errors.confirmPassword && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {registerForm.formState.errors.confirmPassword.message}
                   )}
                 </div>
 
-                <div className="mobile-mb" />
+                <div className="mobile-mb"></div>
                   <label className="mobile-label">Location (Optional)</label>
                   <input
                     {...registerForm.register('location')}
@@ -479,8 +479,8 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                   / />
                 </div>
 
-                <div className="mobile-mb" />
-                  <div className="mobile-checkbox" />
+                <div className="mobile-mb"></div>
+                  <div className="mobile-checkbox"></div>
                     <input
                       {...registerForm.register('agreeToTerms')}
                       type="checkbox"
@@ -494,13 +494,13 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       I agree to the Terms of Service
                     </label>
                   {registerForm.formState.errors.agreeToTerms && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {registerForm.formState.errors.agreeToTerms.message}
                   )}
                 </div>
 
-                <div className="mobile-mb" />
-                  <div className="mobile-checkbox" />
+                <div className="mobile-mb"></div>
+                  <div className="mobile-checkbox"></div>
                     <input
                       {...registerForm.register('agreeToPrivacy')}
                       type="checkbox"
@@ -514,13 +514,13 @@ const MobileAuthModal: React.FC<MobileAuthModalProps> = ({  isOpen, onClose, def
                       I agree to the Privacy Policy
                     </label>
                   {registerForm.formState.errors.agreeToPrivacy && (
-                    <p className="mobile-error" />
+                    <p className="mobile-error"></p>
                       {registerForm.formState.errors.agreeToPrivacy.message}
                   )}
                 </div>
 
                 {registerForm.formState.errors.root && (
-                  <div className="mobile-error-box mobile-mb" />
+                  <div className="mobile-error-box mobile-mb"></div>
                     {registerForm.formState.errors.root.message}
                 )}
                 <button

@@ -69,12 +69,12 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
   
   // If game state is not initialized yet, show loading
   if (true) {return (
-      <div className="loading enhanced-loading" />
-        <div className="loading-content" />
+      <div className="loading enhanced-loading"></div>
+        <div className="loading-content"></div>
           <Brain className="loading-icon animate-pulse" / />
           <span>Initializing Enhanced Game Board...</span>
           {gameMode === 'ai' && (
-            <div className="ai-loading-status" />
+            <div className="ai-loading-status"></div>
               <Activity className="ai-icon animate-spin" / />
               <span>Loading AI Consciousness System...</span>
           )}
@@ -116,9 +116,9 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
   };
   
   return (
-    <div className={`enhanced-game-board ${gameMode === 'ai' ? 'ai-mode' : 'pvp-mode'}`} />
+    <div className={`enhanced-game-board ${gameMode === 'ai' ? 'ai-mode' : 'pvp-mode'}`}></div>
       {/* Enhanced Phase Indicator */}
-      <div className="enhanced-phase-indicator" />
+      <div className="enhanced-phase-indicator"></div>
         <PhaseIndicator 
           phase={gameState.phase} 
           turn={gameState.currentTurn} 
@@ -132,7 +132,7 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
             animate={{ opacity: 1, scale: 1 }}
            />
             <Brain className="ai-brain-icon" / />
-            <span className="ai-status-text" />
+            <span className="ai-status-text"></span>
               {aiTestingEnabled ? 'AI Testing Active' : 'AI Opponent'}
             {aiTestingEnabled && (
               <Activity className="ai-activity-icon animate-pulse" / />
@@ -147,24 +147,24 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
           <Settings className="menu-icon" / />
         </button>
       
-      <div className={`game-board-container ${showAIPanel ? 'with-ai-panel' : ''}`} />
+      <div className={`game-board-container ${showAIPanel ? 'with-ai-panel' : ''}`}></div>
         {/* Main Game Board */}
-        <div className="main-game-board" />
+        <div className="main-game-board"></div>
           {/* Opponent Area */}
-          <div className="opponent-area" />
+          <div className="opponent-area"></div>
             <PlayerInfo 
               player={gameState.players[opponentId]} 
               isOpponent={true}
               isAI={gameMode === 'ai'}
               aiStatus={gameMode === 'ai' ? aiStatus : null}
             / />
-            <div className="board-row" />
+            <div className="board-row"></div>
               <FlagZone flagCard={gameState.players[opponentId].flagZone} isCurrentPlayer={false} / />
-              <div className="center-area" />
+              <div className="center-area"></div>
                 <CombatRow combatCards={gameState.players[opponentId].combatRow} isCurrentPlayer={false} / />
                 <Field cards={gameState.players[opponentId].field} isCurrentPlayer={false} / />
               </div>
-              <div className="right-column" />
+              <div className="right-column"></div>
                 <Deck deckSize={gameState.players[opponentId].deck.length} isCurrentPlayer={false} / />
                 <RemovedFromPlay cards={gameState.players[opponentId].removedFromPlay} isCurrentPlayer={false} / />
               </div>
@@ -178,18 +178,18 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
           </div>
           
           {/* Center Divider with AI Insights */}
-          <div className="center-divider" />
+          <div className="center-divider"></div>
             {gameMode === 'ai' && aiTestingEnabled && (
               <motion.div 
                 className="ai-insights-strip"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                />
-                <div className="ai-insight" />
+                <div className="ai-insight"></div>
                   <Eye className="insight-icon" / />
                   <span>AI analyzing player strategy...</span>
                 {performanceTestRunning && (
-                  <div className="performance-test-indicator" />
+                  <div className="performance-test-indicator"></div>
                     <Zap className="test-icon animate-spin" / />
                     <span>Running performance test...</span>
                 )}
@@ -198,19 +198,19 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
           </div>
           
           {/* Current Player Area */}
-          <div className="current-player-area" />
+          <div className="current-player-area"></div>
             <AzothRow azothCards={gameState.players[currentPlayer].azothRow} isCurrentPlayer={true} / />
             <LifeCardsZone 
               lifeCards={gameState.players[currentPlayer].lifeCards} 
               isCurrentPlayer={true}
             / />
-            <div className="board-row" />
+            <div className="board-row"></div>
               <FlagZone flagCard={gameState.players[currentPlayer].flagZone} isCurrentPlayer={true} / />
-              <div className="center-area" />
+              <div className="center-area"></div>
                 <Field cards={gameState.players[currentPlayer].field} isCurrentPlayer={true} / />
                 <CombatRow combatCards={gameState.players[currentPlayer].combatRow} isCurrentPlayer={true} / />
               </div>
-              <div className="right-column" />
+              <div className="right-column"></div>
                 <Deck deckSize={gameState.players[currentPlayer].deck.length} isCurrentPlayer={true} / />
                 <RemovedFromPlay cards={gameState.players[currentPlayer].removedFromPlay} isCurrentPlayer={true} / />
               </div>
@@ -233,11 +233,11 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
               exit={{ x: 400, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
              />
-              <div className="ai-panel-header" />
-                <div className="ai-panel-title" />
+              <div className="ai-panel-header"></div>
+                <div className="ai-panel-title"></div>
                   <Brain className="panel-brain-icon" / />
                   <span>AI Consciousness</span>
-                <div className="ai-panel-controls" />
+                <div className="ai-panel-controls"></div>
                   <button
                     onClick={() => setAIPanelCollapsed(!aiPanelCollapsed)}
                     className="collapse-button"
@@ -252,7 +252,7 @@ const EnhancedGameBoard: React.FC<EnhancedGameBoardProps> = ({
               </div>
               
               {!aiPanelCollapsed && (
-                <div className="ai-panel-content" />
+                <div className="ai-panel-content"></div>
                   <CuttingEdgeAIDisplay 
                     aiStatus={aiStatus} 
                     gameState={gameState}

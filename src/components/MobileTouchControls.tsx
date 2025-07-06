@@ -288,10 +288,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
         }`}
       >
         <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4">
-        </div>
-      </div>
-      {/* Touch Mode Selector */}
-      <div className="flex justify-center mb-4">
+          {/* Touch Mode Selector */}
+          <div className="flex justify-center mb-4">
         <div className="bg-gray-100 rounded-lg p-1 flex space-x-1">
           {[
                 {
@@ -376,7 +374,9 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
             >
               <Settings className="w-4 h-4" />
             </button>
+          </div>
         </div>
+      </div>
 
       {/* Touch Mode Indicator */}
       {gestureState.isGesturing && (

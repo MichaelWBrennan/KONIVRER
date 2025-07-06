@@ -34,7 +34,7 @@ const ValidationMessage: React.FC<ValidationMessageProps> = ({  message, onClose
         {getIcon()}
         <span className="validation-text">{message.text}
         {onClose && (
-          <button className="validation-close" onClick={onClose} />
+          <button className="validation-close" onClick={onClose}></button>
             ×
           </button>
         )}

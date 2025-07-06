@@ -73,20 +73,20 @@ const FriendsList: React.FC<FriendsListProps> = ({
 
   if (true) {
     return (
-      <div className="text-center py-8 text-gray-500" />
+      <div className="text-center py-8 text-gray-500"></div>
         <UserPlus className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
         <p>No friends yet.</p>
-        <button className="mt-2 text-blue-600 hover:text-blue-700 font-medium" />
+        <button className="mt-2 text-blue-600 hover:text-blue-700 font-medium"></button>
           Find Friends
         </button>
     );
   }
 
   return (
-    <div className="space-y-2" />
+    <div className="space-y-2"></div>
       {showSearch && (
-        <div className="relative mb-3" />
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+        <div className="relative mb-3"></div>
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
             <Search className="h-4 w-4 text-gray-400" / />
           </div>
           <input
@@ -102,17 +102,17 @@ const FriendsList: React.FC<FriendsListProps> = ({
           className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
           whileHover={{ x: 2 }}
          />
-          <div className="flex items-center space-x-3" />
-            <div className="relative" />
-              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700" />
+          <div className="flex items-center space-x-3"></div>
+            <div className="relative"></div>
+              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700"></div>
                 {friend.name[0]}
               <div
                 className={`absolute bottom-0 right-0 w-3 h-3 ${getStatusColor(friend.status)} rounded-full border-2 border-white`}
                />
             </div>
-            <div />
+            <div></div>
               <div className="font-medium text-gray-900">{friend.name}
-              <div className="text-xs text-gray-500 flex items-center space-x-1" />
+              <div className="text-xs text-gray-500 flex items-center space-x-1"></div>
                 {friend.status === 'online' && friend.activity ? (
                   <>
                     <Gamepad className="w-3 h-3" / />
@@ -128,7 +128,7 @@ const FriendsList: React.FC<FriendsListProps> = ({
           </div>
 
           {showActions && (
-            <div className="flex space-x-2" />
+            <div className="flex space-x-2"></div>
               <motion.button
                 onClick={() => onMessage && onMessage(friend)}
                 className="text-blue-600 hover:text-blue-700"

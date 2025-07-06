@@ -132,11 +132,11 @@ const StreamlinedGamePlatform = (): any => {
     switch (true) {
       case 'card-explorer':
         return (
-          <div className="space-y-6" />
+          <div className="space-y-6"></div>
             {/* Search Interface */}
-            <div className="bg-card rounded-lg p-6" />
-              <div className="flex items-center gap-4 mb-6" />
-                <div className="flex-1 relative" />
+            <div className="bg-card rounded-lg p-6"></div>
+              <div className="flex items-center gap-4 mb-6"></div>
+                <div className="flex-1 relative"></div>
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
                   <input
                     type="text"
@@ -152,9 +152,9 @@ const StreamlinedGamePlatform = (): any => {
                   Advanced Search
                 </button>
               {activeSearchCriteria && (
-                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg" />
-                  <div className="flex items-center justify-between" />
-                    <span className="text-sm text-blue-800" />
+                <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg"></div>
+                  <div className="flex items-center justify-between"></div>
+                    <span className="text-sm text-blue-800"></span>
                       Active search: {JSON.stringify(activeSearchCriteria)}
                     <button
                       onClick={() => {
@@ -178,27 +178,27 @@ const StreamlinedGamePlatform = (): any => {
         );
       case 'deck-workshop':
         return (
-          <div className="grid lg:grid-cols-3 gap-6" />
+          <div className="grid lg:grid-cols-3 gap-6"></div>
             {/* Deck Builder */}
-            <div className="lg:col-span-2" />
-              <div className="bg-card rounded-lg p-6" />
-                <div className="flex items-center gap-3 mb-6" />
+            <div className="lg:col-span-2"></div>
+              <div className="bg-card rounded-lg p-6"></div>
+                <div className="flex items-center gap-3 mb-6"></div>
                   <Wrench className="w-6 h-6 text-green-500" / />
-                  <div />
+                  <div></div>
                     <p className="text-secondary">Visual deck construction</p>
                 </div>
                 <VisualDeckBuilder deck={sampleDeck} / />
               </div>
             {/* Deck Stats & Collection */}
-            <div className="space-y-6" />
-              <div className="bg-card rounded-lg p-6" />
-                <div className="flex items-center gap-3 mb-4" />
+            <div className="space-y-6"></div>
+              <div className="bg-card rounded-lg p-6"></div>
+                <div className="flex items-center gap-3 mb-4"></div>
                   <BarChart3 className="w-5 h-5 text-blue-500" / />
                 </div>
                 <DeckStats deck={sampleDeck} / />
               </div>
-              <div className="bg-card rounded-lg p-6" />
-                <div className="flex items-center gap-3 mb-4" />
+              <div className="bg-card rounded-lg p-6"></div>
+                <div className="flex items-center gap-3 mb-4"></div>
                   <Package className="w-5 h-5 text-purple-500" / />
                 </div>
                 <CollectionManager / />
@@ -207,12 +207,12 @@ const StreamlinedGamePlatform = (): any => {
         );
       case 'game-simulator':
         return (
-          <div className="bg-card rounded-lg overflow-hidden" />
-            <div className="p-6 border-b border-color" />
-              <div className="flex items-center gap-3" />
+          <div className="bg-card rounded-lg overflow-hidden"></div>
+            <div className="p-6 border-b border-color"></div>
+              <div className="flex items-center gap-3"></div>
                 <Gamepad2 className="w-6 h-6 text-purple-500" / />
-                <div />
-                  <p className="text-secondary" />
+                <div></div>
+                  <p className="text-secondary"></p>
                     Tournament-quality gameplay experience
                   </p>
               </div>
@@ -221,13 +221,13 @@ const StreamlinedGamePlatform = (): any => {
         );
       case 'analytics-hub':
         return (
-          <div className="space-y-6" />
+          <div className="space-y-6"></div>
             {/* Meta Analysis */}
-            <div className="bg-card rounded-lg p-6" />
-              <div className="flex items-center gap-3 mb-6" />
+            <div className="bg-card rounded-lg p-6"></div>
+              <div className="flex items-center gap-3 mb-6"></div>
                 <TrendingUp className="w-6 h-6 text-orange-500" / />
-                <div />
-                  <p className="text-secondary" />
+                <div></div>
+                  <p className="text-secondary"></p>
                     Real-time competitive landscape insights
                   </p>
               </div>
@@ -236,13 +236,13 @@ const StreamlinedGamePlatform = (): any => {
         );
       case 'community-tools':
         return (
-          <div className="grid lg:grid-cols-2 gap-6" />
+          <div className="grid lg:grid-cols-2 gap-6"></div>
             {/* Battle Pass */}
-            <div className="bg-card rounded-lg p-6" />
-              <div className="flex items-center gap-3 mb-6" />
+            <div className="bg-card rounded-lg p-6"></div>
+              <div className="flex items-center gap-3 mb-6"></div>
                 <Trophy className="w-6 h-6 text-yellow-500" / />
-                <div />
-                  <p className="text-secondary" />
+                <div></div>
+                  <p className="text-secondary"></p>
                     Season 3: Elemental Convergence
                   </p>
               </div>
@@ -250,11 +250,11 @@ const StreamlinedGamePlatform = (): any => {
             </div>
             {/* AI Assistant */}
             {isAuthenticated && (
-              <div className="bg-card rounded-lg p-6" />
-                <div className="flex items-center gap-3 mb-6" />
+              <div className="bg-card rounded-lg p-6"></div>
+                <div className="flex items-center gap-3 mb-6"></div>
                   <Bot className="w-6 h-6 text-blue-500" / />
-                  <div />
-                    <p className="text-secondary" />
+                  <div></div>
+                    <p className="text-secondary"></p>
                       Smart deck analysis and suggestions
                     </p>
                 </div>
@@ -267,15 +267,15 @@ const StreamlinedGamePlatform = (): any => {
     }
   };
   return (
-    <div className="min-h-screen bg-background" />
+    <div className="min-h-screen bg-background"></div>
       {/* Header */}
-      <div className="bg-card border-b border-color" />
-        <div className="max-w-7xl mx-auto px-6 py-8" />
-          <div className="text-center mb-8"><p className="text-secondary text-lg" />
+      <div className="bg-card border-b border-color"></div>
+        <div className="max-w-7xl mx-auto px-6 py-8"></div>
+          <div className="text-center mb-8"><p className="text-secondary text-lg"></div>
               Your complete toolkit for KONIVRER card game mastery
             </p>
           {/* Platform Sections Navigation */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"></div>
             {platformSections.map(section => {
               const Icon = section.icon;
               const isActive = activeSection === section.id;
@@ -293,11 +293,11 @@ const StreamlinedGamePlatform = (): any => {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex items-center gap-3 mb-3" />
+                  <div className="flex items-center gap-3 mb-3"></div>
                     <Icon
                       className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`}
                     / />
-                    <div />
+                    <div></div>
                       <p
                         className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}
                        />
@@ -321,7 +321,7 @@ const StreamlinedGamePlatform = (): any => {
           </div>
       </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8" />
+      <div className="max-w-7xl mx-auto px-6 py-8"></div>
         <AnimatePresence mode="wait" />
           <motion.div
             key={activeSection}

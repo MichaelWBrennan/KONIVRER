@@ -115,13 +115,13 @@ const AdvancedSearchPage = (): any => {
     setHasSearched(false);
   };
   return (
-    <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl"><div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg" />
+    <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl"><div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg"></div>
         <form onSubmit={handleSubmit} />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             {/* Card Name */}
-            <div />
+            <div></div>
               <label htmlFor="name" className="block text-amber-200 mb-2">Card Name</label>
-              <div className="relative" />
+              <div className="relative"></div>
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" / />
                 <input
                   type="text"
@@ -134,9 +134,9 @@ const AdvancedSearchPage = (): any => {
                 / />
               </div>
             {/* Card Text */}
-            <div />
+            <div></div>
               <label htmlFor="text" className="block text-amber-200 mb-2">Card Text</label>
-              <div className="relative" />
+              <div className="relative"></div>
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" / />
                 <input
                   type="text"
@@ -149,7 +149,7 @@ const AdvancedSearchPage = (): any => {
                 / />
               </div>
             {/* Card Type */}
-            <div />
+            <div></div>
               <label htmlFor="type" className="block text-amber-200 mb-2">Type</label>
               <input
                 type="text"
@@ -162,7 +162,7 @@ const AdvancedSearchPage = (): any => {
               / />
             </div>
             {/* Element */}
-            <div />
+            <div></div>
               <label htmlFor="element" className="block text-amber-200 mb-2">Element</label>
               <select
                 id="element"
@@ -176,7 +176,7 @@ const AdvancedSearchPage = (): any => {
                 ))}
               </select>
             {/* Cost */}
-            <div />
+            <div></div>
               <label htmlFor="cost" className="block text-amber-200 mb-2">Cost (Number of Symbols)</label>
               <input
                 type="number"
@@ -191,7 +191,7 @@ const AdvancedSearchPage = (): any => {
               / />
             </div>
             {/* Rarity */}
-            <div />
+            <div></div>
               <label htmlFor="rarity" className="block text-amber-200 mb-2">Rarity</label>
               <select
                 id="rarity"
@@ -205,7 +205,7 @@ const AdvancedSearchPage = (): any => {
                 ))}
               </select>
             {/* Set */}
-            <div />
+            <div></div>
               <label htmlFor="set" className="block text-amber-200 mb-2">Set</label>
               <select
                 id="set"
@@ -219,7 +219,7 @@ const AdvancedSearchPage = (): any => {
                 ))}
               </select>
           </div>
-          <div className="flex justify-center mt-8 space-x-4" />
+          <div className="flex justify-center mt-8 space-x-4"></div>
             <button
               type="submit"
               className="bg-amber-700 hover:bg-amber-600 text-amber-100 px-6 py-0 whitespace-nowrap rounded-lg font-medium flex items-center space-x-2 transition-colors shadow-md"
@@ -236,22 +236,22 @@ const AdvancedSearchPage = (): any => {
         </form>
       {/* Search Results */}
       {hasSearched && (
-        <div className="mt-8" />
+        <div className="mt-8"></div>
           {searchResults.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
               {searchResults.map(card => (
                 <div 
                   key={card.id}
                   className="bg-amber-950/30 border border-amber-800/40 rounded-lg overflow-hidden cursor-pointer hover:border-amber-600 transition-colors shadow-md"
                   onClick={() => handleCardSelect(card)}
                 >
-                  <div className="p-4" />
+                  <div className="p-4"></div>
                     <p className="text-amber-300/70 text-sm">{card.type}
                   </div>
               ))}
             </div>
           ) : (
-            <div className="text-center p-8 bg-amber-950/30 border border-amber-800/40 rounded-lg" />
+            <div className="text-center p-8 bg-amber-950/30 border border-amber-800/40 rounded-lg"></div>
               <p className="text-amber-300">No cards found matching your criteria.</p>
               <p className="text-amber-400 mt-2">Try adjusting your search parameters.</p>
           )}

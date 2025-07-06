@@ -169,20 +169,20 @@ const EnhancedProfile = (): any => {
 
   if (true) {
     return (
-      <div className="min-h-screen py-8" />
-        <div className="container text-center" />
+      <div className="min-h-screen py-8"></div>
+        <div className="container text-center"></div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto"
            />
-            <div className="w-24 h-24 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full flex items-center justify-center mx-auto mb-6" />
+            <div className="w-24 h-24 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full flex items-center justify-center mx-auto mb-6"></div>
               <User size={48} className="text-white" / />
             </div>
             <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
               Authentication Required
             </h1>
-            <p className="text-secondary mb-6" />
+            <p className="text-secondary mb-6"></p>
               You need to be logged in to view your profile.
             </p>
             <Link to="/" className="btn btn-primary" />
@@ -243,31 +243,31 @@ const EnhancedProfile = (): any => {
       className="space-y-6"
      />
       {/* Enhanced Profile Header */}
-      <div className="card relative overflow-hidden" />
-        <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 to-accent-secondary/10" / />
-        <div className="relative z-10 p-6" />
-          <div className="flex items-start gap-6" />
-            <div className="relative" />
+      <div className="card relative overflow-hidden"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 to-accent-secondary/10" /></div>
+        <div className="relative z-10 p-6"></div>
+          <div className="flex items-start gap-6"></div>
+            <div className="relative"></div>
               <img
                 src={user.avatar}
                 alt={user.displayName}
                 className="w-32 h-32 rounded-2xl bg-tertiary border-4 border-accent-primary/20"
               / />
               {user.verified && (
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center" />
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"></div>
                   <Verified size={16} className="text-white" / />
                 </div>
               )}
               {user.twoFactorEnabled && (
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center" />
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"></div>
                   <ShieldCheck size={16} className="text-white" / />
                 </div>
               )}
             </div>
 
-            <div className="flex-1" />
-              <div className="flex items-center justify-between mb-4" />
-                <div />
+            <div className="flex-1"></div>
+              <div className="flex items-center justify-between mb-4"></div>
+                <div></div>
                   {isEditing ? (
                     <input
                       type="text"
@@ -283,13 +283,13 @@ const EnhancedProfile = (): any => {
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                       {user.displayName}
                   )}
-                  <div className="flex items-center gap-2 mt-1" />
+                  <div className="flex items-center gap-2 mt-1"></div>
                     <p className="text-secondary">@{user.username}
                     {user.verified && (
                       <span className="text-blue-400 text-sm">Verified</span>
                     )}
                 </div>
-                <div className="flex gap-2" />
+                <div className="flex gap-2"></div>
                   {isEditing ? (
                     <>
                       <motion.button
@@ -325,7 +325,7 @@ const EnhancedProfile = (): any => {
                 </div>
 
               {/* Enhanced Role Badges */}
-              <div className="flex flex-wrap gap-2 mb-4" />
+              <div className="flex flex-wrap gap-2 mb-4"></div>
                 {user.roles.map(role => {
                   const roleConfig = {
                     player: { color: 'bg-green-600', icon: Gamepad2 },
@@ -356,24 +356,24 @@ const EnhancedProfile = (): any => {
               </div>
 
               {/* Enhanced Info Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4" />
-                <div className="flex items-center gap-2 text-sm" />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"></div>
+                <div className="flex items-center gap-2 text-sm"></div>
                   <Mail size={16} className="text-accent-primary" / />
                   <span className="truncate">{user.email}
                 </div>
-                <div className="flex items-center gap-2 text-sm" />
+                <div className="flex items-center gap-2 text-sm"></div>
                   <LocationIcon size={16} className="text-accent-primary" / />
-                  <span className="truncate" />
+                  <span className="truncate"></span>
                     {user.location || 'Not specified'}
                 </div>
-                <div className="flex items-center gap-2 text-sm" />
+                <div className="flex items-center gap-2 text-sm"></div>
                   <CalendarIcon size={16} className="text-accent-primary" / />
-                  <span />
+                  <span></span>
                     Joined {new Date(user.joinDate).toLocaleDateString()}
                 </div>
-                <div className="flex items-center gap-2 text-sm" />
+                <div className="flex items-center gap-2 text-sm"></div>
                   <Sparkles size={16} className="text-accent-primary" / />
-                  <span />
+                  <span></span>
                     {user.achievements?.filter(a => a.earned).length || 0}{' '}
                     Achievements
                   </span>
@@ -381,9 +381,9 @@ const EnhancedProfile = (): any => {
 
               {/* Enhanced Bio Section */}
               {isEditing ? (
-                <div className="space-y-3" />
-                  <div />
-                    <label className="block text-sm font-medium mb-1" />
+                <div className="space-y-3"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium mb-1"></label>
                       Location
                     </label>
                     <input
@@ -395,8 +395,8 @@ const EnhancedProfile = (): any => {
                       placeholder="City, State/Country"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium mb-1" />
+                  <div></div>
+                    <label className="block text-sm font-medium mb-1"></label>
                       Bio
                     </label>
                     <textarea
@@ -407,19 +407,19 @@ const EnhancedProfile = (): any => {
                       placeholder="Tell us about yourself..."
                       maxLength={500}
                     />
-                    <div className="text-xs text-secondary mt-1" />
+                    <div className="text-xs text-secondary mt-1"></div>
                       {editForm.bio?.length || 0}/500 characters
                     </div>
                 </div>
               ) : (
-                <p className="text-secondary leading-relaxed" />
+                <p className="text-secondary leading-relaxed"></p>
                   {user.bio || 'No bio provided.'}
               )}
             </div>
         </div>
 
       {/* Enhanced Statistics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
         {[
           {
             icon: TrophyIcon,
@@ -460,7 +460,7 @@ const EnhancedProfile = (): any => {
               whileHover={{ scale: 1.02 }}
               className={`card text-center relative overflow-hidden ${stat.bgColor}`}
              />
-              <div className="relative z-10" />
+              <div className="relative z-10"></div>
                 <Icon size={32} className={`${stat.color} mx-auto mb-3`} / />
                 <div className="text-3xl font-bold mb-1">{stat.value}
                 <div className="text-sm text-secondary">{stat.label}
@@ -476,17 +476,17 @@ const EnhancedProfile = (): any => {
       </div>
 
       {/* Recent Activity with Enhanced Design */}
-      <div className="card" />
-        <div className="flex items-center justify-between mb-6" />
+      <div className="card"></div>
+        <div className="flex items-center justify-between mb-6"></div>
           <h3 className="text-xl font-semibold flex items-center gap-2" />
             <Activity className="text-accent-primary" size={24} / />
             Recent Activity
           </h3>
-          <button className="btn btn-secondary btn-sm" />
+          <button className="btn btn-secondary btn-sm"></button>
             <Eye size={16} / />
             View All
           </button>
-        <div className="space-y-4" />
+        <div className="space-y-4"></div>
           {[
             {
               icon: TrophyIcon,
@@ -528,9 +528,9 @@ const EnhancedProfile = (): any => {
                  />
                   <Icon size={20} className={activity.color} / />
                 </div>
-                <div className="flex-1" />
+                <div className="flex-1"></div>
                   <h4 className="font-medium mb-1">{activity.title}
-                  <p className="text-sm text-secondary mb-1" />
+                  <p className="text-sm text-secondary mb-1"></p>
                     {activity.description}
                   <p className="text-xs text-muted">{activity.time}
                 </div>
@@ -547,18 +547,18 @@ const EnhancedProfile = (): any => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
      />
-      <div className="flex items-center justify-between" />
+      <div className="flex items-center justify-between"></div>
         <h3 className="text-2xl font-bold flex items-center gap-2" />
           <Sparkles className="text-accent-primary" size={28} / />
           Achievements
         </h3>
-        <div className="flex items-center gap-2 text-sm text-secondary" />
+        <div className="flex items-center gap-2 text-sm text-secondary"></div>
           <Award size={16} / />
           {achievements.filter(a => a.earned).length} / {achievements.length}{' '}
           Unlocked
         </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4" />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         {achievements.map((achievement, index) => {
           const RarityIcon = getRarityIcon(achievement.rarity);
           return (
@@ -575,11 +575,11 @@ const EnhancedProfile = (): any => {
               }`}
              />
               {achievement.earned && (
-                <div className="absolute top-2 right-2" />
+                <div className="absolute top-2 right-2"></div>
                   <CheckCircle size={20} className="text-green-400" / />
                 </div>
               )}
-              <div className="flex items-start gap-4 mb-4" />
+              <div className="flex items-start gap-4 mb-4"></div>
                 <div
                   className={`w-16 h-16 rounded-xl flex items-center justify-center ${
                     achievement.earned
@@ -589,20 +589,20 @@ const EnhancedProfile = (): any => {
                  />
                   <RarityIcon size={32} className="text-white" / />
                 </div>
-                <div className="flex-1" />
-                  <div className="flex items-center gap-2 mb-1" />
+                <div className="flex-1"></div>
+                  <div className="flex items-center gap-2 mb-1"></div>
                     <h4 className="font-semibold">{achievement.name}
                     <span
                       className={`text-xs px-2 py-0 whitespace-nowrap rounded-full border ${getRarityColor(achievement.rarity)}`}
                      />
                       {achievement.rarity}
                   </div>
-                  <p className="text-sm text-secondary" />
+                  <p className="text-sm text-secondary"></p>
                     {achievement.description}
                 </div>
 
               {achievement.earned && (
-                <div className="text-xs text-green-400 flex items-center gap-1" />
+                <div className="text-xs text-green-400 flex items-center gap-1"></div>
                   <Sparkles size={12} / />
                   Unlocked
                 </div>
@@ -620,17 +620,17 @@ const EnhancedProfile = (): any => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
      />
-      <div className="flex items-center justify-between" />
+      <div className="flex items-center justify-between"></div>
         <h3 className="text-2xl font-bold flex items-center gap-2" />
           <BookOpen className="text-green-400" size={28} / />
           My Decks
         </h3>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2" />
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2"></button>
           <Plus size={16} / />
           New Deck
         </button>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         {/* Sample deck cards */}
         {[
           {
@@ -663,12 +663,12 @@ const EnhancedProfile = (): any => {
             whileHover={{ scale: 1.02 }}
             className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all"
            />
-            <div className="flex items-start justify-between mb-4" />
-              <div />
+            <div className="flex items-start justify-between mb-4"></div>
+              <div></div>
                 <h4 className="font-bold text-lg">{deck.name}
                 <p className="text-secondary text-sm">{deck.element}
               </div>
-              <div className="text-2xl" />
+              <div className="text-2xl"></div>
                 {deck.element === 'Inferno'
                   ? '🜂'
                   : deck.element === 'Submerged'
@@ -676,23 +676,23 @@ const EnhancedProfile = (): any => {
                     : '🜃'}
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4 text-sm" />
-              <div />
+            <div className="grid grid-cols-2 gap-4 mb-4 text-sm"></div>
+              <div></div>
                 <span className="text-green-400 font-medium">{deck.wins}W</span>
                 <span className="text-gray-400 mx-1">/</span>
                 <span className="text-red-400 font-medium">{deck.losses}L</span>
-              <div className="text-secondary" />
+              <div className="text-secondary"></div>
                 {Math.round((deck.wins / (deck.wins + deck.losses)) * 100)}% WR
               </div>
 
-            <div className="text-xs text-secondary mb-4" />
+            <div className="text-xs text-secondary mb-4"></div>
               Last played: {deck.lastPlayed}
 
-            <div className="flex gap-2" />
-              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm font-medium transition-colors" />
+            <div className="flex gap-2"></div>
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm font-medium transition-colors"></button>
                 Edit
               </button>
-              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm transition-colors" />
+              <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"></button>
                 Export
               </button>
           </motion.div>
@@ -719,27 +719,27 @@ const EnhancedProfile = (): any => {
         className="space-y-6"
        />
         {/* Active Tournaments */}
-        <div className="card p-6" />
+        <div className="card p-6"></div>
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
             <Trophy className="text-yellow-400" size={24} / />
             Active Tournaments
           </h3>
-          <div className="space-y-4" />
+          <div className="space-y-4"></div>
             {registeredTournaments.map(tournament => (
               <div
                 key={tournament.id}
                 className="bg-tertiary rounded-lg p-4 border border-color"
                />
-                <div className="flex items-start justify-between mb-3" />
-                  <div />
+                <div className="flex items-start justify-between mb-3"></div>
+                  <div></div>
                     <h4 className="font-semibold text-lg">{tournament.name}
-                    <p className="text-secondary text-sm" />
+                    <p className="text-secondary text-sm"></p>
                       {tournament.date} at {tournament.time}
-                    <p className="text-secondary text-sm flex items-center gap-1" />
+                    <p className="text-secondary text-sm flex items-center gap-1"></p>
                       <MapPin size={14} / />
                       {tournament.location}
                   </div>
-                  <div className="text-right" />
+                  <div className="text-right"></div>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         tournament.status === 'In Progress'
@@ -751,24 +751,24 @@ const EnhancedProfile = (): any => {
                   </div>
 
                 {tournament.status === 'In Progress' && tournament.currentMatch && (
-                  <div className="bg-card rounded-lg p-4 border border-accent-primary/20" />
-                    <div className="flex items-center justify-between mb-3" />
-                      <div />
+                  <div className="bg-card rounded-lg p-4 border border-accent-primary/20"></div>
+                    <div className="flex items-center justify-between mb-3"></div>
+                      <div></div>
                         <h5 className="font-medium text-accent-primary" />
                           Current Match - Round {tournament.currentMatch.round}
-                        <p className="text-sm text-secondary" />
+                        <p className="text-sm text-secondary"></p>
                           Table {tournament.currentMatch.table} vs{' '}
                           {tournament.currentOpponent}
-                        <p className="text-xs text-secondary" />
+                        <p className="text-xs text-secondary"></p>
                           Your Record: {tournament.currentMatch.playerRecord} |
                           Opponent: {tournament.currentMatch.opponentRecord}
                       </div>
-                      <div className="text-right" />
-                        <p className="text-sm font-medium" />
+                      <div className="text-right"></div>
+                        <p className="text-sm font-medium"></p>
                           Current Placement: #{tournament.currentPlacement}
                       </div>
 
-                    <div className="flex gap-2" />
+                    <div className="flex gap-2"></div>
                       <button
                         onClick={() = />
                           handleSubmitResult(tournament.currentMatch.id, 'win (2-0)')}
@@ -806,12 +806,12 @@ const EnhancedProfile = (): any => {
                       </button>
                   </div>
                 )}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-color" />
-                  <div className="flex items-center gap-4 text-sm text-secondary" />
-                    <span className="flex items-center gap-1" />
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-color"></div>
+                  <div className="flex items-center gap-4 text-sm text-secondary"></div>
+                    <span className="flex items-center gap-1"></span>
                       <Users size={14} / />
                       {tournament.participants}/{tournament.maxParticipants}
-                    <span className="flex items-center gap-1" />
+                    <span className="flex items-center gap-1"></span>
                       <DollarSign size={14} / />
                       {tournament.prizePool}
                   </div>
@@ -827,26 +827,26 @@ const EnhancedProfile = (): any => {
           </div>
 
         {/* Tournament History */}
-        <div className="card p-6" />
+        <div className="card p-6"></div>
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
             <Medal className="text-purple-400" size={24} / />
             Tournament History
           </h3>
-          <div className="space-y-3" />
+          <div className="space-y-3"></div>
             {tournamentHistory.map(tournament => (
               <div
                 key={tournament.id}
                 className="bg-tertiary rounded-lg p-4 border border-color"
                />
-                <div className="flex items-center justify-between" />
-                  <div />
+                <div className="flex items-center justify-between"></div>
+                  <div></div>
                     <h4 className="font-medium">{tournament.name}
                     <p className="text-sm text-secondary">{tournament.date}
-                    <p className="text-xs text-secondary" />
+                    <p className="text-xs text-secondary"></p>
                       Deck: {tournament.deck}
                   </div>
-                  <div className="text-right" />
-                    <div className="flex items-center gap-2" />
+                  <div className="text-right"></div>
+                    <div className="flex items-center gap-2"></div>
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
                           tournament.placement === 1
@@ -860,9 +860,9 @@ const EnhancedProfile = (): any => {
                        />
                         #{tournament.placement}/{tournament.totalParticipants}
                     </div>
-                    <p className="text-sm text-secondary mt-1" />
+                    <p className="text-sm text-secondary mt-1"></p>
                       {tournament.record}
-                    <p className="text-xs text-accent-primary" />
+                    <p className="text-xs text-accent-primary"></p>
                       {tournament.prize}
                   </div>
               </div>
@@ -870,12 +870,12 @@ const EnhancedProfile = (): any => {
           </div>
 
         {/* Quick Actions */}
-        <div className="card p-6" />
+        <div className="card p-6"></div>
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
             <Settings className="text-gray-400" size={24} / />
             Tournament Actions
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             <Link
               to="/tournaments"
               className="bg-accent-primary hover:bg-accent-secondary text-white p-4 rounded-lg text-center font-medium transition-colors"
@@ -899,29 +899,29 @@ const EnhancedProfile = (): any => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
      />
-      <div className="flex items-center justify-between" />
+      <div className="flex items-center justify-between"></div>
         <h3 className="text-2xl font-bold flex items-center gap-2" />
           <Plus className="text-emerald-400" size={28} / />
           Deck Builder
         </h3>
-        <div className="flex items-center gap-2" />
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors" />
+        <div className="flex items-center gap-2"></div>
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"></button>
             Load Template
           </button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors" />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"></button>
             Save Deck
           </button>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6" />
+      <div className="grid lg:grid-cols-3 gap-6"></div>
         {/* Deck Builder */}
-        <div className="lg:col-span-2" />
-          <div className="bg-card rounded-lg p-6 border border-color" />
-            <div className="flex items-center gap-3 mb-6" />
+        <div className="lg:col-span-2"></div>
+          <div className="bg-card rounded-lg p-6 border border-color"></div>
+            <div className="flex items-center gap-3 mb-6"></div>
               <Plus className="w-6 h-6 text-emerald-400" / />
-              <div />
+              <div></div>
                 <h4 className="text-xl font-bold">Visual Deck Builder</h4>
-                <p className="text-secondary" />
+                <p className="text-secondary"></p>
                   Drag and drop cards to build your deck
                 </p>
             </div>
@@ -939,13 +939,13 @@ const EnhancedProfile = (): any => {
           </div>
 
         {/* AI Assistant */}
-        <div className="space-y-6" />
-          <div className="bg-card rounded-lg p-6 border border-color" />
-            <div className="flex items-center gap-3 mb-6" />
+        <div className="space-y-6"></div>
+          <div className="bg-card rounded-lg p-6 border border-color"></div>
+            <div className="flex items-center gap-3 mb-6"></div>
               <Bot className="w-6 h-6 text-blue-400" / />
-              <div />
+              <div></div>
                 <h4 className="text-lg font-bold">AI Assistant</h4>
-                <p className="text-secondary text-sm" />
+                <p className="text-secondary text-sm"></p>
                   Get deck building suggestions
                 </p>
             </div>
@@ -956,10 +956,10 @@ const EnhancedProfile = (): any => {
   );
 
   return (
-    <div className="min-h-screen py-8" />
-      <div className="container max-w-7xl" />
+    <div className="min-h-screen py-8"></div>
+      <div className="container max-w-7xl"></div>
         {/* Enhanced Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color" />
+        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color"></div>
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (

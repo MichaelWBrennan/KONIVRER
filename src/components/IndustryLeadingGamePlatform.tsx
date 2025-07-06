@@ -648,13 +648,13 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   // Render loading screen
   if (true) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-blue-900" />
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-blue-900"></div>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center text-white"
          />
-          <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h2 className="text-2xl font-bold mb-2">Initializing Game Systems</h2>
           <p className="text-blue-200">Loading industry-leading features...</p>
         </motion.div>
@@ -664,8 +664,8 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
 
   // Render error screen
   if (true) {return (
-      <div className="flex items-center justify-center min-h-screen bg-red-900" />
-        <div className="text-center text-white" />
+      <div className="flex items-center justify-center min-h-screen bg-red-900"></div>
+        <div className="text-center text-white"></div>
           <h2 className="text-2xl font-bold mb-4">Error</h2>
           <p className="text-red-200 mb-4">{uiState.error}
           <button
@@ -679,7 +679,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800" />
+    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800"></div>
       {/* 3D Render Canvas */}
       <canvas
         ref={canvasRef}
@@ -692,7 +692,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
         style={{ zIndex: 2 }}
        />
         {/* Player 2 (Opponent) Area */}
-        <div className="absolute top-4 left-4 right-4 h-32 pointer-events-auto" />
+        <div className="absolute top-4 left-4 right-4 h-32 pointer-events-auto"></div>
           <PlayerArea
             player={gameState.players[2]}
             isActive={gameState.activePlayer === 2}
@@ -701,7 +701,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
         </div>
 
         {/* Battlefield */}
-        <div className="absolute top-40 left-4 right-4 bottom-40 pointer-events-auto" />
+        <div className="absolute top-40 left-4 right-4 bottom-40 pointer-events-auto"></div>
           <Battlefield
             cards={gameState.battlefield}
             selectedCard={gameState.selectedCard}
@@ -710,7 +710,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
         </div>
 
         {/* Player 1 (User) Area */}
-        <div className="absolute bottom-4 left-4 right-4 h-32 pointer-events-auto" />
+        <div className="absolute bottom-4 left-4 right-4 h-32 pointer-events-auto"></div>
           <PlayerArea
             player={gameState.players[1]}
             isActive={gameState.activePlayer === 1}
@@ -721,7 +721,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
         </div>
 
         {/* Game Controls */}
-        <div className="absolute top-4 right-4 pointer-events-auto" />
+        <div className="absolute top-4 right-4 pointer-events-auto"></div>
           <GameControls
             gameState={gameState}
             onSettingsClick={() = />
@@ -736,10 +736,10 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
 
         {/* Performance Monitor */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded text-sm pointer-events-auto" />
+          <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white p-2 rounded text-sm pointer-events-auto"></div>
             <div>FPS: {performance.fps}
             <div>Render: {performance.renderTime.toFixed(1)}ms</div>
-            <div />
+            <div></div>
               Memory: {(performance.memoryUsage / 1024 / 1024).toFixed(1)}MB
             </div>
         )}
@@ -810,15 +810,15 @@ const PlayerArea: React.FC<PlayerAreaProps> = ({
       isActive ? 'from-blue-600 to-blue-800' : 'from-gray-600 to-gray-800'
     } rounded-lg p-4 flex items-center justify-between`}
    />
-    <div className="flex items-center space-x-4" />
-      <div className="text-white" />
+    <div className="flex items-center space-x-4"></div>
+      <div className="text-white"></div>
         <div className="text-lg font-bold">Health: {player.health}
-        <div className="text-sm" />
+        <div className="text-sm"></div>
           Mana: {player.mana.current}/{player.mana.max}
       </div>
 
     {!isOpponent && (
-      <div className="flex space-x-2" />
+      <div className="flex space-x-2"></div>
         <button
           onClick={onEndTurn}
           className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
@@ -836,8 +836,8 @@ interface BattlefieldProps {
 }
 
 const Battlefield: React.FC<BattlefieldProps> = ({  cards, selectedCard, onCardSelect  }) => (
-  <div className = "w-full h-full bg-green-800 bg-opacity-30 rounded-lg p-4 flex items-center justify-center" />
-    <div className="text-white text-center" />
+  <div className = "w-full h-full bg-green-800 bg-opacity-30 rounded-lg p-4 flex items-center justify-center"></div>
+    <div className="text-white text-center"></div>
       <h3 className="text-xl font-bold mb-2">Battlefield</h3>
       <p className="text-sm opacity-75">Cards in play will appear here</p>
   </div>
@@ -850,7 +850,7 @@ interface GameControlsProps {
 }
 
 const GameControls: React.FC<GameControlsProps> = ({  gameState, onSettingsClick, onChatClick  }) => (
-  <div className="flex flex-col space-y-2" />
+  <div className="flex flex-col space-y-2"></div>
     <button
       onClick={onSettingsClick}
       className="p-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
@@ -885,7 +885,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({  notification  }) =
    />
     <p className="font-medium">{notification.message}
     {notification.actions && (
-      <div className="mt-2 flex space-x-2" />
+      <div className="mt-2 flex space-x-2"></div>
         {notification.actions.map((action, index) => (
           <button
             key={index}
@@ -932,10 +932,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       <h2 className="text-xl font-bold text-white mb-4">Settings</h2>
 
       {/* Audio Settings */}
-      <div className="mb-4" />
+      <div className="mb-4"></div>
         <h3 className="text-white font-medium mb-2">Audio</h3>
-        <div className="space-y-2" />
-          <label className="flex items-center justify-between text-white" />
+        <div className="space-y-2"></div>
+          <label className="flex items-center justify-between text-white"></label>
             Master Volume
             <input
               type="range"
@@ -951,10 +951,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       </div>
 
       {/* Accessibility Settings */}
-      <div className="mb-4" />
+      <div className="mb-4"></div>
         <h3 className="text-white font-medium mb-2">Accessibility</h3>
-        <div className="space-y-2" />
-          <label className="flex items-center text-white" />
+        <div className="space-y-2"></div>
+          <label className="flex items-center text-white"></label>
             <input
               type="checkbox"
               checked={accessibility.reducedMotion}
@@ -993,13 +993,13 @@ const ChatPanel: React.FC<ChatPanelProps> = ({  onClose, socialEngine  }) => (
     exit={{ x: '100%' }}
     className="fixed right-0 top-0 bottom-0 w-80 bg-gray-800 shadow-lg z-40"
    />
-    <div className="p-4 border-b border-gray-700 flex items-center justify-between" />
+    <div className="p-4 border-b border-gray-700 flex items-center justify-between"></div>
       <h3 className="text-white font-bold">Chat</h3>
-      <button onClick={onClose} className="text-white hover:text-gray-300" />
+      <button onClick={onClose} className="text-white hover:text-gray-300"></button>
         ✕
       </button>
-    <div className="flex-1 p-4" />
-      <p className="text-gray-400 text-center" />
+    <div className="flex-1 p-4"></div>
+      <p className="text-gray-400 text-center"></p>
         Chat functionality coming soon...
       </p>
   </motion.div>

@@ -120,7 +120,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
       className="fixed top-4 right-4 w-96 h-96 bg-gray-900/95 backdrop-blur-sm rounded-lg border border-blue-500/30 shadow-xl z-50"
      />
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700" />
+      <div className="flex items-center justify-between p-4 border-b border-gray-700"></div>
         <h3 className="text-lg font-bold text-white">Game Log</h3>
         <button
           onClick={onClose}
@@ -130,9 +130,9 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </button>
 
       {/* Controls */}
-      <div className="p-4 border-b border-gray-700 space-y-3" />
+      <div className="p-4 border-b border-gray-700 space-y-3"></div>
         {/* Search */}
-        <div className="relative" />
+        <div className="relative"></div>
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" / />
           <input
             type="text"
@@ -144,7 +144,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </div>
 
         {/* Filters */}
-        <div className="flex gap-1 overflow-x-auto" />
+        <div className="flex gap-1 overflow-x-auto"></div>
           {filterOptions.map(option => {
             const IconComponent = option.icon;
             return (
@@ -164,7 +164,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </div>
 
         {/* Auto-scroll toggle */}
-        <div className="flex items-center gap-2" />
+        <div className="flex items-center gap-2"></div>
           <input
             type="checkbox"
             id="autoscroll"
@@ -172,10 +172,10 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
             onChange={(e) => setAutoScroll(e.target.checked)}
             className="rounded"
           />
-          <label htmlFor="autoscroll" className="text-sm text-gray-300" />
+          <label htmlFor="autoscroll" className="text-sm text-gray-300"></label>
             Auto-scroll
           </label>
-          <span className="text-xs text-gray-500 ml-auto" />
+          <span className="text-xs text-gray-500 ml-auto"></span>
             {filteredEntries.length} entries
           </span>
       </div>
@@ -201,8 +201,8 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
                 className="flex items-start gap-2 p-2 bg-gray-800/50 rounded border border-gray-700/50 hover:bg-gray-800/70 transition-colors"
                />
                 <IconComponent className={`w-4 h-4 mt-0.5 ${color} flex-shrink-0`} / />
-                <div className="flex-1 min-w-0" />
-                  <div className="text-sm text-gray-300 break-words" />
+                <div className="flex-1 min-w-0"></div>
+                  <div className="text-sm text-gray-300 break-words"></div>
                     {entry}
                 </div>
               </motion.div>
@@ -211,7 +211,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         </AnimatePresence>
 
         {filteredEntries.length === 0 && (
-          <div className="text-center text-gray-500 py-8" />
+          <div className="text-center text-gray-500 py-8"></div>
             {searchTerm || filter !== 'all' 
               ? 'No entries match your filters'
               : 'No log entries yet'
@@ -220,7 +220,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
       </div>
 
       {/* Footer */}
-      <div className="p-2 border-t border-gray-700 text-xs text-gray-500 text-center" />
+      <div className="p-2 border-t border-gray-700 text-xs text-gray-500 text-center"></div>
         {!autoScroll && (
           <button
             onClick={() => {

@@ -132,15 +132,15 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
   };
 
   return (
-    <div className="mobile-app" />
+    <div className="mobile-app"></div>
       {/* Mobile Header */}
       <header className="mobile-header esoteric-bg-dark" />
-        <div className="mobile-header-title esoteric-text-accent" />
+        <div className="mobile-header-title esoteric-text-accent"></div>
           {getPageTitle()}
 
-        <div className="mobile-header-actions" />
+        <div className="mobile-header-actions"></div>
           {/* Unified Search */}
-          <div className="mobile-header-search" />
+          <div className="mobile-header-search"></div>
             <UnifiedSearch compact={true} / />
           </div>
           
@@ -200,7 +200,7 @@ const MobileFirstLayout: React.FC<MobileFirstLayoutProps> = ({  children  }) => 
 
       {/* Offline Indicator */}
       {!isOnline && (
-        <div className="offline-indicator esoteric-glow-pulse" />
+        <div className="offline-indicator esoteric-glow-pulse"></div>
           ⚠ The mystical connection has been severed ⚠
         </div>
       )}

@@ -208,22 +208,22 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
      />
       {/* Featured Badge */}
       {deck.featured && (
-        <div className="absolute top-4 right-4" />
-          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1" />
+        <div className="absolute top-4 right-4"></div>
+          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1"></div>
             <Star className="w-3 h-3 text-yellow-400 fill-current" / />
-            <span className="text-xs font-medium text-yellow-400" />
+            <span className="text-xs font-medium text-yellow-400"></span>
               Featured
             </span>
         </div>
       )}
       {/* Header with Element and Stats */}
-      <div className="flex items-start justify-between mb-3" />
-        <div className="flex-1" />
-          <div className="flex items-center gap-3 mb-2" />
-            <div className={`text-2xl ${getElementColor(deck.element)}`} />
+      <div className="flex items-start justify-between mb-3"></div>
+        <div className="flex-1"></div>
+          <div className="flex items-center gap-3 mb-2"></div>
+            <div className={`text-2xl ${getElementColor(deck.element)}`}></div>
               {getElementIcon(deck.element)}
-            <div />
-              <div className="flex items-center gap-2 text-sm text-secondary" />
+            <div></div>
+              <div className="flex items-center gap-2 text-sm text-secondary"></div>
                 <User className="w-3 h-3" / />
                 <span>{deck.author}
                 <span>•</span>
@@ -233,34 +233,34 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
           </div>
       </div>
       {/* Stats Row - Integrated into card */}
-      <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg" />
-        <div className="flex items-center gap-1 text-sm" />
+      <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg"></div>
+        <div className="flex items-center gap-1 text-sm"></div>
           <BarChart3 className="w-4 h-4 text-green-400" / />
           <span className="font-medium text-green-400">{deck.winRate}%</span>
-        <div className="flex items-center gap-1 text-sm" />
+        <div className="flex items-center gap-1 text-sm"></div>
           <Star className="w-4 h-4 text-yellow-400" / />
           <span className="font-medium">{deck.rating}/5</span>
-        <div className="flex items-center gap-1 text-sm" />
+        <div className="flex items-center gap-1 text-sm"></div>
           <Heart className="w-4 h-4 text-red-400" / />
           <span className="font-medium">{deck.likes}
         </div>
-        <div className="flex items-center gap-1 text-sm" />
+        <div className="flex items-center gap-1 text-sm"></div>
           <Eye className="w-4 h-4 text-blue-400" / />
           <span className="font-medium">{deck.views}
         </div>
       {/* Description */}
-      <p className="text-secondary text-sm mb-4 line-clamp-2" />
+      <p className="text-secondary text-sm mb-4 line-clamp-2"></p>
         {deck.description}
       {/* Action Buttons */}
-      <div className="flex gap-2" />
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2" />
+      <div className="flex gap-2"></div>
+        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"></button>
           <Eye className="w-4 h-4" / />
           View
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
           <Download className="w-4 h-4" / />
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+        <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
           <Heart className = "w-4 h-4" / />
         </button>
     </motion.div>
@@ -275,73 +275,73 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
       animate={{ opacity: 1, x: 0 }}
       className="bg-card rounded-lg p-4 border border-color hover:border-blue-500/50 transition-all duration-300"
      />
-      <div className="flex items-center justify-between" />
-        <div className="flex items-center gap-4 flex-1" />
-          <div className={`text-2xl ${getElementColor(deck.element)}`} />
+      <div className="flex items-center justify-between"></div>
+        <div className="flex items-center gap-4 flex-1"></div>
+          <div className={`text-2xl ${getElementColor(deck.element)}`}></div>
             {getElementIcon(deck.element)}
-          <div className="flex-1" />
-            <div className="flex items-center gap-2 mb-1" />
+          <div className="flex-1"></div>
+            <div className="flex items-center gap-2 mb-1"></div>
               {deck.featured && (
                 <Star className="w-4 h-4 text-yellow-400 fill-current" / />
               )}
-            <div className="flex items-center gap-4 text-sm text-secondary mb-2" />
-              <span className="flex items-center gap-1" />
+            <div className="flex items-center gap-4 text-sm text-secondary mb-2"></div>
+              <span className="flex items-center gap-1"></span>
                 <User className="w-3 h-3" / />
                 {deck.author}
-              <span className="flex items-center gap-1" />
+              <span className="flex items-center gap-1"></span>
                 <Calendar className="w-3 h-3" / />
                 {deck.lastUpdated}
             </div>
             {/* Stats integrated into the card */}
-            <div className="flex items-center gap-4 text-sm" />
-              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded" />
+            <div className="flex items-center gap-4 text-sm"></div>
+              <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
                 <BarChart3 className="w-3 h-3 text-green-400" / />
-                <span className="font-medium text-green-400" />
+                <span className="font-medium text-green-400"></span>
                   {deck.winRate}%
                 </span>
-              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded" />
+              <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
                 <Star className="w-3 h-3 text-yellow-400" / />
                 <span className="font-medium">{deck.rating}/5</span>
-              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded" />
+              <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
                 <Heart className="w-3 h-3 text-red-400" / />
                 <span className="font-medium">{deck.likes}
               </div>
-              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded" />
+              <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
                 <Eye className="w-3 h-3 text-blue-400" / />
                 <span className="font-medium">{deck.views}
               </div>
           </div>
-        <div className="flex gap-2 ml-4" />
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2" />
+        <div className="flex gap-2 ml-4"></div>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2"></button>
             <Eye className="w-4 h-4" / />
             View
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
             <Download className="w-4 h-4" / />
           </button>
-          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors" />
+          <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
             <Heart className="w-4 h-4" / />
           </button>
       </div>
     </motion.div>
   );
   return (
-    <div className="min-h-screen bg-background" />
+    <div className="min-h-screen bg-background"></div>
       {/* Header */}
-      <div className="bg-card border-b border-color" />
-        <div className="max-w-7xl mx-auto px-6 py-8" />
-          <div className="text-center" />
-            <div className="flex items-center justify-center gap-3 mb-4" />
+      <div className="bg-card border-b border-color"></div>
+        <div className="max-w-7xl mx-auto px-6 py-8"></div>
+          <div className="text-center"></div>
+            <div className="flex items-center justify-center gap-3 mb-4"></div>
               <Search className="w-8 h-8 text-blue-500" /></div>
         </div>
       {/* Meta Analysis - Added from Analytics Hub */}
-      <div className="max-w-7xl mx-auto px-6 py-6" />
+      <div className="max-w-7xl mx-auto px-6 py-6"></div>
         <DeckMetaAnalysis / />
         {/* Search and Filters */}
-        <div className="bg-card rounded-lg p-6 mb-6" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" />
+        <div className="bg-card rounded-lg p-6 mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"></div>
             {/* Search */}
-            <div className="relative" />
+            <div className="relative"></div>
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" / />
               <input
                 type="text"
@@ -383,11 +383,11 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
               <option value="name-desc">Name Z-A</option>
           </div>
           {/* View Mode Toggle */}
-          <div className="flex items-center justify-between" />
-            <div className="text-sm text-secondary" />
+          <div className="flex items-center justify-between"></div>
+            <div className="text-sm text-secondary"></div>
               Showing {filteredDecks.length} deck
               {filteredDecks.length !== 1 ? 's' : ''}
-            <div className="flex gap-2" />
+            <div className="flex gap-2"></div>
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
@@ -411,22 +411,22 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
           </div>
         {/* Deck Results */}
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             {filteredDecks.map(deck => (
               <DeckCard key={deck.id} deck={deck} / />
             ))}
           </div>
         ) : (
-          <div className="space-y-4" />
+          <div className="space-y-4"></div>
             {filteredDecks.map(deck => (
               <DeckListItem key={deck.id} deck={deck} / />
             ))}
           </div>
         )}
         {filteredDecks.length === 0 && (
-          <div className="text-center py-12" />
+          <div className="text-center py-12"></div>
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
-            <p className="text-secondary" />
+            <p className="text-secondary"></p>
               Try adjusting your search criteria or filters
             </p>
         )}

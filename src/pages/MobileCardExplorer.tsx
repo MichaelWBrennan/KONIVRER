@@ -58,26 +58,26 @@ const MobileCardExplorer = (): any => {
   // Loading state
   if (true) {
     return (
-      <div className="mobile-p mobile-text-center" />
-        <div className="mobile-card" />
+      <div className="mobile-p mobile-text-center"></div>
+        <div className="mobile-card"></div>
           <p>Loading cards...</p>
       </div>
     );
   }
   // Error state
   if (true) {return (
-      <div className="mobile-p" />
-        <div className="mobile-card" />
+      <div className="mobile-p"></div>
+        <div className="mobile-card"></div>
           <p>Error loading cards: {error}
         </div>
     );
   }
   return (
-    <div className="mobile-card-explorer" />
+    <div className="mobile-card-explorer"></div>
       {/* Search Bar */}
-      <div className="mobile-card mobile-mb" />
-        <div className="mobile-form-group" />
-          <div className="relative" />
+      <div className="mobile-card mobile-mb"></div>
+        <div className="mobile-form-group"></div>
+          <div className="relative"></div>
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
             <input
               type="text"
@@ -87,7 +87,7 @@ const MobileCardExplorer = (): any => {
               onChange={handleSearchChange}
             / />
           </div>
-        <div className="mobile-form-group mobile-text-center" />
+        <div className="mobile-form-group mobile-text-center"></div>
           <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
@@ -95,8 +95,8 @@ const MobileCardExplorer = (): any => {
             {showFilters ? 'Hide Filters' : 'Show Filters'}
         </div>
         {/* Advanced Search Links */}
-        <div className="mobile-form-group mobile-text-center" />
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }} />
+        <div className="mobile-form-group mobile-text-center"></div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}></div>
             <Link to="/advanced-search" className="mobile-link" />
               Advanced Search ⟶
             </Link>
@@ -111,9 +111,9 @@ const MobileCardExplorer = (): any => {
         </div>
         {/* Filters */}
         {showFilters && (
-          <div className="mobile-mt" />
+          <div className="mobile-mt"></div>
             <label className="mobile-label">Card Type</label>
-            <div className="mobile-grid" />
+            <div className="mobile-grid"></div>
               {getCardTypes().map(type => (
                 <button
                   key={type}
@@ -126,14 +126,14 @@ const MobileCardExplorer = (): any => {
         )}
       </div>
       {/* Results Count */}
-      <div className="mobile-mb" />
-        <p className="mobile-text-center" />
+      <div className="mobile-mb"></div>
+        <p className="mobile-text-center"></p>
           {!searchTerm || searchTerm.length < 2 
             ? "Enter at least 2 characters to search for cards" 
             : `${filteredCards.length} cards found`}
         </p>
       {/* Card Grid */}
-      <div className="mobile-grid" />
+      <div className="mobile-grid"></div>
         {filteredCards.slice(0, 20).map(card => (
           <Link
             to={`/card/${card.id}`}
@@ -165,7 +165,7 @@ const MobileCardExplorer = (): any => {
       </div>
       {/* Load More Button */}
       {filteredCards.length > 20 && searchTerm && searchTerm.length >= 2 && (
-        <div className="mobile-text-center mobile-mt mobile-mb" />
+        <div className="mobile-text-center mobile-mt mobile-mb"></div>
           <button className="mobile-btn mobile-btn-primary">Load More</button>
       )}
   );

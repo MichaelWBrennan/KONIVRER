@@ -195,7 +195,7 @@ const MobileJudgeTools = (): any => {
     );
 
     return (
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         {filteredPairings.map((pairing) => (
           <motion.div
             key={pairing.id}
@@ -203,14 +203,14 @@ const MobileJudgeTools = (): any => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
            />
-            <div className="flex justify-between items-start mb-3" />
-              <div />
+            <div className="flex justify-between items-start mb-3"></div>
+              <div></div>
                 <h3 className="font-semibold text-gray-900">Table {pairing.table}
                 <p className="text-sm text-gray-600">Round {pairing.round}
               </div>
-              <div className="flex items-center gap-2" />
+              <div className="flex items-center gap-2"></div>
                 {pairing.status === 'active' && (
-                  <div className="text-orange-600 font-mono text-sm" />
+                  <div className="text-orange-600 font-mono text-sm"></div>
                     {formatTime(pairing.timeRemaining)}
                 )}
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -221,19 +221,19 @@ const MobileJudgeTools = (): any => {
                   {pairing.status}
               </div>
 
-            <div className="space-y-2 mb-4" />
-              <div className="flex justify-between items-center p-2 bg-gray-50 rounded" />
+            <div className="space-y-2 mb-4"></div>
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded"></div>
                 <span className="font-medium">{pairing.player1.name}
                 <span className="text-sm text-gray-600">{pairing.player1.record}
               </div>
               <div className="text-center text-gray-400 text-sm">vs</div>
-              <div className="flex justify-between items-center p-2 bg-gray-50 rounded" />
+              <div className="flex justify-between items-center p-2 bg-gray-50 rounded"></div>
                 <span className="font-medium">{pairing.player2.name}
                 <span className="text-sm text-gray-600">{pairing.player2.record}
               </div>
 
             {pairing.status === 'active' && (
-              <div className="grid grid-cols-3 gap-2" />
+              <div className="grid grid-cols-3 gap-2"></div>
                 <button
                   onClick={() => submitResult(pairing.id, pairing.player1.id, '2-0')}
                   className="bg-green-600 text-white px-3 py-2 rounded text-sm hover:bg-green-700 transition-colors"
@@ -254,10 +254,10 @@ const MobileJudgeTools = (): any => {
                 </button>
             )}
             {pairing.status === 'completed' && pairing.result && (
-              <div className="bg-green-50 p-3 rounded-lg" />
-                <div className="flex items-center gap-2 text-green-800" />
+              <div className="bg-green-50 p-3 rounded-lg"></div>
+                <div className="flex items-center gap-2 text-green-800"></div>
                   <CheckCircle className="h-4 w-4" / />
-                  <span className="text-sm font-medium" />
+                  <span className="text-sm font-medium"></span>
                     {pairing.result.winner === pairing.player1.id ? pairing.player1.name :
                      pairing.result.winner === pairing.player2.id ? pairing.player2.name :
                      'Draw'} - {pairing.result.score}
@@ -276,7 +276,7 @@ const MobileJudgeTools = (): any => {
     );
 
     return (
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         {filteredPlayers.map((player) => (
           <motion.div
             key={player.id}
@@ -285,14 +285,14 @@ const MobileJudgeTools = (): any => {
             onClick={() => setSelectedPlayer(player)}
             className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 cursor-pointer hover:bg-gray-50 transition-colors"
           >
-            <div className="flex justify-between items-start" />
-              <div />
+            <div className="flex justify-between items-start"></div>
+              <div></div>
                 <h3 className="font-semibold text-gray-900">{player.name}
-                <div className="flex items-center gap-4 text-sm text-gray-600 mt-1" />
+                <div className="flex items-center gap-4 text-sm text-gray-600 mt-1"></div>
                   <span>Record: {player.record}
                   <span>Penalties: {player.penalties}
                 </div>
-              <div className="flex items-center gap-2" />
+              <div className="flex items-center gap-2"></div>
                 {player.penalties > 0 && (
                   <AlertTriangle className="h-4 w-4 text-orange-500" / />
                 )}
@@ -310,8 +310,8 @@ const MobileJudgeTools = (): any => {
   };
 
   const renderPenalties = (renderPenalties: any) => (
-    <div className="space-y-4" />
-      <div className="flex justify-between items-center" />
+    <div className="space-y-4"></div>
+      <div className="flex justify-between items-center"></div>
         <h3 className="text-lg font-semibold text-gray-900">Recent Penalties</h3>
         <button
           onClick={() => setShowPenaltyForm(true)}
@@ -328,10 +328,10 @@ const MobileJudgeTools = (): any => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
          />
-          <div className="flex justify-between items-start mb-2" />
-            <div />
+          <div className="flex justify-between items-start mb-2"></div>
+            <div></div>
               <h4 className="font-semibold text-gray-900">{penalty.playerName}
-              <p className="text-sm text-gray-600" />
+              <p className="text-sm text-gray-600"></p>
                 {penalty.infraction} - Round {penalty.round}, Table {penalty.table}
             </div>
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -343,7 +343,7 @@ const MobileJudgeTools = (): any => {
               {penalty.type.replace('_', ' ')}
           </div>
           <p className="text-sm text-gray-700 mb-2">{penalty.notes}
-          <p className="text-xs text-gray-500" />
+          <p className="text-xs text-gray-500"></p>
             {new Date(penalty.timestamp).toLocaleString()}
         </motion.div>
       ))}
@@ -365,9 +365,9 @@ const MobileJudgeTools = (): any => {
        />
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Issue Penalty</h3>
         
-        <div className="space-y-4" />
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div className="space-y-4"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Player
             </label>
             <select className="w-full p-3 border border-gray-300 rounded-lg" />
@@ -378,8 +378,8 @@ const MobileJudgeTools = (): any => {
               ))}
             </select>
 
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Infraction
             </label>
             <select className="w-full p-3 border border-gray-300 rounded-lg" />
@@ -391,8 +391,8 @@ const MobileJudgeTools = (): any => {
               <option value="Communication Policy Violation">Communication Policy Violation</option>
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Penalty Level
             </label>
             <select className="w-full p-3 border border-gray-300 rounded-lg" />
@@ -402,8 +402,8 @@ const MobileJudgeTools = (): any => {
               <option value="disqualification">Disqualification</option>
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Notes
             </label>
             <textarea
@@ -413,7 +413,7 @@ const MobileJudgeTools = (): any => {
             / />
           </div>
 
-        <div className="flex gap-2 mt-6" />
+        <div className="flex gap-2 mt-6"></div>
           <button
             onClick={() => setShowPenaltyForm(false)}
             className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
@@ -435,8 +435,8 @@ const MobileJudgeTools = (): any => {
 
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center" />
-        <div className="text-center" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
+        <div className="text-center"></div>
           <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
           <p className="text-gray-600">Loading judge tools...</p>
       </div>
@@ -444,33 +444,33 @@ const MobileJudgeTools = (): any => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50" />
+    <div className="min-h-screen bg-gray-50"></div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40" />
-        <div className="px-4 py-4" />
-          <div className="flex justify-between items-center mb-4" />
-            <div />
+      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40"></div>
+        <div className="px-4 py-4"></div>
+          <div className="flex justify-between items-center mb-4"></div>
+            <div></div>
               <h1 className="text-xl font-bold text-gray-900">Judge Tools</h1>
               <p className="text-sm text-gray-600">{tournament?.name}
             </div>
-            <div className="flex items-center gap-2" />
+            <div className="flex items-center gap-2"></div>
               <Shield className="h-5 w-5 text-blue-600" / />
               <span className="text-sm font-medium text-blue-600">Judge Mode</span>
           </div>
 
           {/* Tournament Status */}
-          <div className="bg-blue-50 rounded-lg p-3 mb-4" />
-            <div className="flex justify-between items-center" />
-              <div />
-                <span className="text-sm font-medium text-blue-900" />
+          <div className="bg-blue-50 rounded-lg p-3 mb-4"></div>
+            <div className="flex justify-between items-center"></div>
+              <div></div>
+                <span className="text-sm font-medium text-blue-900"></span>
                   Round {tournament?.currentRound} of {tournament?.totalRounds}
               </div>
-              <div className="text-blue-900 font-mono text-sm" />
+              <div className="text-blue-900 font-mono text-sm"></div>
                 {formatTime(tournament?.timeRemaining || 0)}
             </div>
 
           {/* Search */}
-          <div className="relative" />
+          <div className="relative"></div>
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" / />
             <input
               type="text"
@@ -482,7 +482,7 @@ const MobileJudgeTools = (): any => {
           </div>
 
         {/* Navigation Tabs */}
-        <div className="border-t border-gray-200" />
+        <div className="border-t border-gray-200"></div>
           <nav className="flex" />
             {[
               { id: 'pairings', label: 'Pairings', icon: Users },
@@ -505,7 +505,7 @@ const MobileJudgeTools = (): any => {
       </div>
 
       {/* Content */}
-      <div className="p-4" />
+      <div className="p-4"></div>
         <AnimatePresence mode="wait" />
           <motion.div
             key={activeTab}
@@ -525,11 +525,11 @@ const MobileJudgeTools = (): any => {
         {showPenaltyForm && renderPenaltyForm()}
 
       {/* Quick Actions */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-2" />
-        <button className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-colors" />
+      <div className="fixed bottom-6 right-6 flex flex-col gap-2"></div>
+        <button className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-colors"></button>
           <AlertTriangle className="h-6 w-6" / />
         </button>
-        <button className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors" />
+        <button className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"></button>
           <Bell className="h-6 w-6" / />
         </button>
     </div>

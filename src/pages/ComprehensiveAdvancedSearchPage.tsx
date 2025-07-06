@@ -120,15 +120,15 @@ const ComprehensiveAdvancedSearchPage = (): any => {
           onClick={() => handleCardClick(card)}
           className="col-span-full bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg p-4 cursor-pointer transition-all hover:border-purple-400/50 flex items-center space-x-4"
         >
-          <div className="flex-1" />
-            <div className="flex items-center justify-between mb-2" />
-              <div className="flex items-center space-x-2" />
+          <div className="flex-1"></div>
+            <div className="flex items-center justify-between mb-2"></div>
+              <div className="flex items-center space-x-2"></div>
                 {card.elements?.map(element => (
-                  <span key={element} className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded" />
+                  <span key={element} className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded"></span>
                     {element}
                 ))}
               </div>
-            <div className="flex items-center space-x-4 text-sm text-gray-300 mb-2" />
+            <div className="flex items-center space-x-4 text-sm text-gray-300 mb-2"></div>
               <span>{card.type}
               <span>•</span>
               <span>{card.rarity}
@@ -143,7 +143,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
             </div>
             <p className="text-gray-300 text-sm line-clamp-2">{card.description}
           </div>
-          <div className="text-right" />
+          <div className="text-right"></div>
             <Eye className="w-5 h-5 text-gray-400" / />
           </div>
         </motion.div>
@@ -158,14 +158,14 @@ const ComprehensiveAdvancedSearchPage = (): any => {
         onClick={() => handleCardClick(card)}
         className="bg-white/5 hover:bg-white/10 border border-white/20 rounded-lg p-4 cursor-pointer transition-all hover:scale-105 hover:border-purple-400/50"
       >
-        <div className="flex items-center justify-between mb-2" />
-          <div className="flex space-x-1" />
+        <div className="flex items-center justify-between mb-2"></div>
+          <div className="flex space-x-1"></div>
             {card.elements?.slice(0, 2).map(element => (
-              <div key={element} className="w-3 h-3 rounded-full bg-purple-400/30" title={element} / />
+              <div key={element} className="w-3 h-3 rounded-full bg-purple-400/30" title={element} /></div>
             ))}
           </div>
         <p className="text-gray-300 text-xs mb-2">{card.type}
-        <div className="flex items-center justify-between text-xs text-gray-400 mb-2" />
+        <div className="flex items-center justify-between text-xs text-gray-400 mb-2"></div>
           <span>{card.rarity}
           <span>{card.collectorNumber}
         </div>
@@ -174,8 +174,8 @@ const ComprehensiveAdvancedSearchPage = (): any => {
     );
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4" />
-      <div className="max-w-7xl mx-auto" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
+      <div className="max-w-7xl mx-auto"></div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -190,18 +190,18 @@ const ComprehensiveAdvancedSearchPage = (): any => {
               <span className="text-white">{showSearch ? 'Hide' : 'Show'} Search</span>
           </div>
           {hasSearched && (
-            <div className="flex items-center justify-between" />
-              <div className="text-gray-300" />
+            <div className="flex items-center justify-between"></div>
+              <div className="text-gray-300"></div>
                 Found {totalResults} cards
                 {searchResults.some(card => card.isGroupHeader) && ' (grouped)'}
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <button
                   onClick={exportResults}
                   className="flex items-center space-x-2 px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-white text-sm transition-colors"
                  />
                   <Download className="w-4 h-4" / />
                   <span>Export CSV</span>
-                <div className="flex items-center space-x-2" />
+                <div className="flex items-center space-x-2"></div>
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded transition-colors ${
@@ -244,7 +244,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
             animate={{ opacity: 1 }}
             className="bg-white/10 backdrop-blur-md rounded-lg p-12 border border-white/20 text-center"
            />
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4" />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
             <p className="text-white text-lg">Searching cards...</p>
           </motion.div>
         )}
@@ -256,9 +256,9 @@ const ComprehensiveAdvancedSearchPage = (): any => {
             className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20"
            />
             {searchResults.length === 0 ? (
-              <div className="text-center py-12" />
+              <div className="text-center py-12"></div>
                 <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
-                <p className="text-gray-300" />
+                <p className="text-gray-300"></p>
                   Try adjusting your search criteria or using different keywords.
                 </p>
             ) : (
@@ -272,8 +272,8 @@ const ComprehensiveAdvancedSearchPage = (): any => {
                   {paginatedResults.map((card, index) => renderCard(card, index))}
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20" />
-                    <div className="flex items-center space-x-2" />
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20"></div>
+                    <div className="flex items-center space-x-2"></div>
                       <span className="text-gray-300 text-sm">Results per page:</span>
                       <select
                         value={resultsPerPage}
@@ -288,7 +288,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
                         <option value={50}>50</option>
                         <option value={100}>100</option>
                     </div>
-                    <div className="flex items-center space-x-2" />
+                    <div className="flex items-center space-x-2"></div>
                       <button
                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
@@ -296,7 +296,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
                       >
                         Previous
                       </button>
-                      <span className="text-gray-300 text-sm" />
+                      <span className="text-gray-300 text-sm"></span>
                         Page {currentPage} of {totalPages}
                       <button
                         onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}

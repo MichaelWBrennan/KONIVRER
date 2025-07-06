@@ -250,9 +250,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
   // If game state is not loaded yet, show KONIVRER Arena-style loading screen
   if (true) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden" />
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden"></div>
         {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden" />
+        <div className="absolute inset-0 overflow-hidden"></div>
           {[...Array(30)].map((_, i) => (
             <motion.div
               key={i}
@@ -279,7 +279,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         </div>
 
         {/* Floating cards in background */}
-        <div className="absolute inset-0 overflow-hidden opacity-20" />
+        <div className="absolute inset-0 overflow-hidden opacity-20"></div>
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
@@ -304,7 +304,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           ))}
         </div>
 
-        <div className="relative z-10 text-white text-center px-4 max-w-md" />
+        <div className="relative z-10 text-white text-center px-4 max-w-md"></div>
           {/* Premium logo animation */}
           <motion.div
             className="relative mx-auto mb-8 w-32 h-32"
@@ -317,9 +317,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
               scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
             }}
            />
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl" />
-            <div className="absolute inset-0 flex items-center justify-center" />
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
+            <div className="absolute inset-0 flex items-center justify-center"></div>
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20"></div>
                 <Sparkles className="w-12 h-12 text-white" / />
               </div>
 
@@ -355,7 +355,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   rotate: { duration: 3, repeat: Infinity, ease: 'linear' },
                 }}
                />
-                <div className="w-4 h-4 rounded-full bg-white/80" />
+                <div className="w-4 h-4 rounded-full bg-white/80"></div>
               </motion.div>
             ))}
           </motion.div>
@@ -366,7 +366,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
            />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400" />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"></span>
               KONIVRER Premium Simulator
             </span>
           </motion.h2>
@@ -377,15 +377,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
            />
-            <p className="text-gray-300 text-sm md:text-base mb-4" />
+            <p className="text-gray-300 text-sm md:text-base mb-4"></p>
               Initializing state-of-the-art game engine...
             </p>
 
-            <div className="space-y-3" />
-              <div className="flex justify-between text-xs text-gray-400" />
+            <div className="space-y-3"></div>
+              <div className="flex justify-between text-xs text-gray-400"></div>
                 <span>Loading game assets</span>
                 <span>100%</span>
-              <div className="w-full bg-gray-800/50 rounded-full h-1.5" />
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
                 <motion.div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
                   initial={{ width: '0%' }}
@@ -394,10 +394,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 / />
               </div>
 
-              <div className="flex justify-between text-xs text-gray-400" />
+              <div className="flex justify-between text-xs text-gray-400"></div>
                 <span>Optimizing for your device</span>
                 <span>82%</span>
-              <div className="w-full bg-gray-800/50 rounded-full h-1.5" />
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
                 <motion.div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
                   initial={{ width: '0%' }}
@@ -406,10 +406,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 / />
               </div>
 
-              <div className="flex justify-between text-xs text-gray-400" />
+              <div className="flex justify-between text-xs text-gray-400"></div>
                 <span>Connecting to network</span>
                 <span>65%</span>
-              <div className="w-full bg-gray-800/50 rounded-full h-1.5" />
+              <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
                 <motion.div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
                   initial={{ width: '0%' }}
@@ -425,7 +425,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
            />
-            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse" />
+            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
             Optimized for all devices • KONIVRER Arena-quality experience
           </motion.p>
         </div>
@@ -440,15 +440,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }`}
      />
       {/* Dynamic background elements - KONIVRER Arena style */}
-      <div className="absolute inset-0 z-0 overflow-hidden" />
+      <div className="absolute inset-0 z-0 overflow-hidden"></div>
         {/* Background pattern */}
-        <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[url('/assets/card-pattern.png')] opacity-5 mix-blend-overlay"></div>
 
         {/* Dynamic light effects */}
         {showEffects && (
           <>
-            <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-900/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-900/20 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-900/20 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
             <motion.div
               className="absolute top-0 left-0 w-full h-full opacity-30"
               initial={{
@@ -471,8 +471,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
       </div>
 
       {/* Game Header - Enhanced KONIVRER Arena style */}
-      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-lg border-b border-blue-900/50" />
-        <div className="flex items-center space-x-3" />
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md z-10 flex items-center justify-between px-4 shadow-lg border-b border-blue-900/50"></div>
+        <div className="flex items-center space-x-3"></div>
           <motion.button
             onClick={() => setShowMenu(true)}
             className="p-2 rounded-full bg-gray-800/80 hover:bg-gray-700/80 transition-all hover:scale-105 shadow-md"
@@ -481,14 +481,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <Menu className="w-5 h-5 text-blue-400" / />
           </motion.button>
 
-          <div className="flex items-center" />
+          <div className="flex items-center"></div>
             <motion.h1
               className="text-white font-bold text-lg hidden md:block"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
              />
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" />
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"></span>
                 KONIVRER
               </span>
             </motion.h1>
@@ -498,12 +498,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
              />
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" />
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"></span>
                 KON
               </span>
             </motion.h1>
 
-            <div className="ml-2 px-2 py-0.5 bg-blue-900/30 rounded-md border border-blue-800/50 hidden md:block" />
+            <div className="ml-2 px-2 py-0.5 bg-blue-900/30 rounded-md border border-blue-800/50 hidden md:block"></div>
               <span className="text-xs text-blue-300 font-medium">PREMIUM</span>
           </div>
 
@@ -513,7 +513,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           playerName={playerData?.name}
           opponentName={opponentData?.name}
         / />
-        <div className="flex items-center space-x-2" />
+        <div className="flex items-center space-x-2"></div>
           {/* Game Log Button */}
           <motion.button
             onClick={() => setShowLog(!showLog)}
@@ -581,13 +581,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
         targets={targets}
       / />
       {/* Battlefield */}
-      <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 h-1/4 flex justify-center items-center" />
-        <div className="w-full max-w-5xl flex justify-between items-center px-4" />
+      <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 h-1/4 flex justify-center items-center"></div>
+        <div className="w-full max-w-5xl flex justify-between items-center px-4"></div>
           {/* Stack */}
           <CardStack stack={gameState.stack} onCardHover={handleCardHover} / />
           {/* Current Animation */}
           {animations.length > 0 && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -663,11 +663,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md text-white px-5 md:px-7 py-0 whitespace-nowrap rounded-xl shadow-2xl border border-blue-500/30 pointer-events-auto max-w-[90%] md:max-w-md"
              />
-              <div className="text-center mb-3" />
+              <div className="text-center mb-3"></div>
                 <h3 className="text-lg md:text-xl font-bold text-blue-300" />
                   Select Targets
                 </h3>
-                <div className="flex items-center justify-center mt-1 space-x-1" />
+                <div className="flex items-center justify-center mt-1 space-x-1"></div>
                   {[...Array(gameEngine.getRequiredTargets())].map((_, i) => (
                     <div
                       key={i}
@@ -679,14 +679,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     / />
                   ))}
                 </div>
-                <p className="text-gray-300 text-sm mt-2" />
+                <p className="text-gray-300 text-sm mt-2"></p>
                   {targets.length}/{gameEngine.getRequiredTargets()} targets
                   selected
                 </p>
 
               {/* Selected targets list */}
               {targets.length > 0 && (
-                <div className="bg-black/30 rounded-lg p-2 mb-3 max-h-24 overflow-y-auto" />
+                <div className="bg-black/30 rounded-lg p-2 mb-3 max-h-24 overflow-y-auto"></div>
                   {targets.map((target, index) => (
                     <div
                       key={index}
@@ -703,7 +703,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   ))}
                 </div>
               )}
-              <div className="flex justify-center space-x-4" />
+              <div className="flex justify-center space-x-4"></div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

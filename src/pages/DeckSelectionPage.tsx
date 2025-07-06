@@ -35,15 +35,15 @@ const DeckSelectionPage = (): any => {
     }
   };
   return (
-    <div className="container mx-auto px-4 py-8" />
-      <div className="flex items-center mb-6" />
+    <div className="container mx-auto px-4 py-8"></div>
+      <div className="flex items-center mb-6"></div>
         <button
           onClick={() => navigate('/')}
           className="mr-4 p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
         >
           <ArrowLeft size={20} / />
         </button>
-      <div className="mb-6" />
+      <div className="mb-6"></div>
         <button
           onClick={handleCreateNewDeck}
           disabled={isCreatingDeck}

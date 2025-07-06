@@ -132,7 +132,7 @@ const PlayerPortal = (): any => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
   const renderTournaments = (renderTournaments: any) => (
-    <div className="space-y-4" />
+    <div className="space-y-4"></div>
       {tournaments.map((tournament) => (
         <motion.div
           key={tournament.id}
@@ -140,16 +140,16 @@ const PlayerPortal = (): any => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
          />
-          <div className="flex justify-between items-start mb-4" />
-            <div />
-              <div className="flex items-center gap-4 text-sm text-gray-600 mt-2" />
-                <div className="flex items-center gap-1" />
+          <div className="flex justify-between items-start mb-4"></div>
+            <div></div>
+              <div className="flex items-center gap-4 text-sm text-gray-600 mt-2"></div>
+                <div className="flex items-center gap-1"></div>
                   <Calendar className="h-4 w-4" / />
                   {new Date(tournament.date).toLocaleDateString()}
-                <div className="flex items-center gap-1" />
+                <div className="flex items-center gap-1"></div>
                   <Clock className="h-4 w-4" / />
                   {tournament.time}
-                <div className="flex items-center gap-1" />
+                <div className="flex items-center gap-1"></div>
                   <MapPin className="h-4 w-4" / />
                   {tournament.venue}
               </div>
@@ -162,21 +162,21 @@ const PlayerPortal = (): any => {
               {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
           </div>
           {tournament.status === 'registered' && (
-            <div className="bg-gray-50 rounded-lg p-4 mb-4" />
-              <div className="flex justify-between items-center mb-2" />
-                <span className="text-sm font-medium text-gray-700" />
+            <div className="bg-gray-50 rounded-lg p-4 mb-4"></div>
+              <div className="flex justify-between items-center mb-2"></div>
+                <span className="text-sm font-medium text-gray-700"></span>
                   Round {tournament.round} of {tournament.totalRounds}
-                <span className="text-sm text-gray-600" />
+                <span className="text-sm text-gray-600"></span>
                   Record: {tournament.record}
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2" />
+              <div className="w-full bg-gray-200 rounded-full h-2"></div>
                 <div 
                   className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(tournament.round / tournament.totalRounds) * 100}%` }}
                 / />
               </div>
           )}
-          <div className="flex gap-2" />
+          <div className="flex gap-2"></div>
             {tournament.status === 'registered' && (
               <>
                 <Link
@@ -207,9 +207,9 @@ const PlayerPortal = (): any => {
         </motion.div>
       ))}
       {tournaments.length === 0 && !loading && (
-        <div className="text-center py-12" />
+        <div className="text-center py-12"></div>
           <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
-          <p className="text-gray-600 mb-4" />
+          <p className="text-gray-600 mb-4"></p>
             You're not registered for any tournaments yet.
           </p>
           <Link
@@ -221,7 +221,7 @@ const PlayerPortal = (): any => {
       )}
   );
   const renderPairings = (renderPairings: any) => (
-    <div className="space-y-4" />
+    <div className="space-y-4"></div>
       {pairings.map((pairing) => (
         <motion.div
           key={pairing.id}
@@ -229,25 +229,25 @@ const PlayerPortal = (): any => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
          />
-          <div className="flex justify-between items-start mb-4" />
-            <div />
-              <p className="text-gray-600" />
+          <div className="flex justify-between items-start mb-4"></div>
+            <div></div>
+              <p className="text-gray-600"></p>
                 vs {pairing.opponent}
-              <p className="text-sm text-gray-500" />
+              <p className="text-sm text-gray-500"></p>
                 Table {pairing.table}
             </div>
             {pairing.status === 'active' && (
-              <div className="text-right" />
-                <div className="text-lg font-mono font-bold text-orange-600" />
+              <div className="text-right"></div>
+                <div className="text-lg font-mono font-bold text-orange-600"></div>
                   {formatTimeRemaining(pairing.timeRemaining)}
-                <div className="text-xs text-gray-500" />
+                <div className="text-xs text-gray-500"></div>
                   Time Remaining
                 </div>
             )}
           </div>
           {pairing.status === 'active' && (
-            <div className="bg-gray-50 rounded-lg p-4" />
-              <div className="flex gap-2" />
+            <div className="bg-gray-50 rounded-lg p-4"></div>
+              <div className="flex gap-2"></div>
                 <button
                   onClick={() => submitResult(pairing.id, 'win', '2-0')}
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex-1"
@@ -281,7 +281,7 @@ const PlayerPortal = (): any => {
             </div>
           )}
           {pairing.status === 'completed' && (
-            <div className="flex items-center gap-2 text-green-600" />
+            <div className="flex items-center gap-2 text-green-600"></div>
               <CheckCircle className="h-4 w-4" / />
               Result submitted: {pairing.submittedResult} ({pairing.submittedScore})
             </div>
@@ -289,15 +289,15 @@ const PlayerPortal = (): any => {
         </motion.div>
       ))}
       {pairings.length === 0 && !loading && (
-        <div className="text-center py-12" />
+        <div className="text-center py-12"></div>
           <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
-          <p className="text-gray-600" />
+          <p className="text-gray-600"></p>
             You don't have any active matches right now.
           </p>
       )}
   );
   const renderResults = (renderResults: any) => (
-    <div className="space-y-4" />
+    <div className="space-y-4"></div>
       {results.map((result) => (
         <motion.div
           key={result.id}
@@ -305,50 +305,50 @@ const PlayerPortal = (): any => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
          />
-          <div className="flex justify-between items-center" />
-            <div />
-              <p className="text-gray-600" />
+          <div className="flex justify-between items-center"></div>
+            <div></div>
+              <p className="text-gray-600"></p>
                 vs {result.opponent}
             </div>
-            <div className="text-right" />
+            <div className="text-right"></div>
               <div className={`text-lg font-bold ${
                 result.result === 'win' ? 'text-green-600' :
                 result.result === 'loss' ? 'text-red-600' :
                 'text-gray-600'
               }`} />
                 {result.result.toUpperCase()}
-              <div className="text-sm text-gray-500" />
+              <div className="text-sm text-gray-500"></div>
                 {result.score}
             </div>
         </motion.div>
       ))}
       {results.length === 0 && !loading && (
-        <div className="text-center py-12" />
+        <div className="text-center py-12"></div>
           <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
-          <p className="text-gray-600" />
+          <p className="text-gray-600"></p>
             Your match results will appear here.
           </p>
       )}
   );
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center" />
-        <div className="text-center" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
+        <div className="text-center"></div>
           <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
           <p className="text-gray-600">Loading player data...</p>
       </div>
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50" />
+    <div className="min-h-screen bg-gray-50"></div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200" />
-        <div className="max-w-4xl mx-auto px-4 py-6" />
-          <div className="flex justify-between items-center" />
-            <div><p className="text-gray-600" />
+      <div className="bg-white shadow-sm border-b border-gray-200"></div>
+        <div className="max-w-4xl mx-auto px-4 py-6"></div>
+          <div className="flex justify-between items-center"></div>
+            <div><p className="text-gray-600"></div>
                 Welcome back, {user?.name || 'Player'}
             </div>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <Link
                 to="/profile"
                 className="text-gray-600 hover:text-gray-800 flex items-center gap-2"
@@ -366,8 +366,8 @@ const PlayerPortal = (): any => {
           </div>
       </div>
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200" />
-        <div className="max-w-4xl mx-auto px-4" />
+      <div className="bg-white border-b border-gray-200"></div>
+        <div className="max-w-4xl mx-auto px-4"></div>
           <nav className="flex space-x-8" />
             {[
               { id: 'tournaments', label: 'My Tournaments', icon: Trophy },
@@ -389,7 +389,7 @@ const PlayerPortal = (): any => {
           </nav>
       </div>
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8" />
+      <div className="max-w-4xl mx-auto px-4 py-8"></div>
         <AnimatePresence mode="wait" />
           <motion.div
             key={activeTab}
@@ -404,8 +404,8 @@ const PlayerPortal = (): any => {
           </motion.div>
         </AnimatePresence>
       {/* Quick Actions */}
-      <div className="fixed bottom-6 right-6" />
-        <div className="flex flex-col gap-2" />
+      <div className="fixed bottom-6 right-6"></div>
+        <div className="flex flex-col gap-2"></div>
           <Link
             to="/tournaments"
             className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"

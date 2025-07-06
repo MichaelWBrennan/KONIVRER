@@ -44,15 +44,15 @@ const Rules = (): any => {
   
   return (
     <ErrorBoundary />
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4" />
-        <div className="max-w-6xl mx-auto" />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
+        <div className="max-w-6xl mx-auto"></div>
           {/* Tab Navigation */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/10 backdrop-blur-md rounded-lg p-6 mb-6 border border-white/20"
            />
-            <div className="flex flex-wrap gap-2 justify-center" />
+            <div className="flex flex-wrap gap-2 justify-center"></div>
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (

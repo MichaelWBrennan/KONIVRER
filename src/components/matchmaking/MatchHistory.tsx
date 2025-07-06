@@ -68,12 +68,12 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" />
-      <div className="flex items-center justify-between mb-6" />
-        <div className="flex items-center space-x-2" />
+    <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"></div>
+      <div className="flex items-center justify-between mb-6"></div>
+        <div className="flex items-center space-x-2"></div>
           <Trophy className="w-6 h-6 text-blue-600" / />
           <h2 className="text-xl font-bold text-gray-900">Match History</h2>
-        <div className="flex items-center space-x-3" />
+        <div className="flex items-center space-x-3"></div>
           <motion.button
             onClick={onExport}
             className="text-gray-600 hover:text-gray-800 flex items-center space-x-1"
@@ -93,9 +93,9 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
           </motion.button>
         </div>
 
-      <div className="flex items-center justify-between mb-4" />
-        <div className="relative flex-1 max-w-sm" />
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+      <div className="flex items-center justify-between mb-4"></div>
+        <div className="relative flex-1 max-w-sm"></div>
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
             <Search className="h-4 w-4 text-gray-400" / />
           </div>
           <input
@@ -130,8 +130,8 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
           exit={{ opacity: 0, height: 0 }}
           className="grid grid-cols-3 gap-4 mb-4 bg-gray-50 p-4 rounded-lg"
          />
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-1" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-1"></label>
               Format
             </label>
             <select
@@ -146,8 +146,8 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
               <option value="draft">Draft</option>
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-1" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-1"></label>
               Result
             </label>
             <select
@@ -160,8 +160,8 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
               <option value="loss">Losses</option>
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-1" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-1"></label>
               Time Period
             </label>
             <select
@@ -177,7 +177,7 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
           </div>
         </motion.div>
       )}
-      <div className="flex-1 overflow-y-auto" />
+      <div className="flex-1 overflow-y-auto"></div>
         <RecentMatches
           matches={currentMatches}
           maxItems={itemsPerPage}
@@ -185,15 +185,15 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
         / />
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200" />
-        <div className="text-sm text-gray-700" />
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200"></div>
+        <div className="text-sm text-gray-700"></div>
           Showing <span className="font-medium">{startIndex + 1} to{' '}
-          <span className="font-medium" />
+          <span className="font-medium"></span>
             {Math.min(endIndex, matches.length)}{' '}
           of <span className="font-medium">{matches.length} matches
         </div>
 
-        <div className="flex items-center space-x-2" />
+        <div className="flex items-center space-x-2"></div>
           <motion.button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -204,7 +204,7 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
             <ArrowLeft className="w-4 h-4" / />
           </motion.button>
 
-          <span className="text-sm text-gray-700" />
+          <span className="text-sm text-gray-700"></span>
             Page {currentPage} of {totalPages}
 
           <motion.button

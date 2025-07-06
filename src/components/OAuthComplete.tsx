@@ -64,11 +64,11 @@ const OAuthComplete = (): any => {
 
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg-dark" />
-        <div className="mobile-auth-processing" />
-          <div className="mobile-spinner esoteric-spinner" />
+      <div className="mobile-container esoteric-bg-dark"></div>
+        <div className="mobile-auth-processing"></div>
+          <div className="mobile-spinner esoteric-spinner"></div>
           <h2 className="esoteric-text-accent">Completing Authentication...</h2>
-          <p className="esoteric-text-muted" />
+          <p className="esoteric-text-muted"></p>
             Please wait while we set up your account
           </p>
       </div>
@@ -76,8 +76,8 @@ const OAuthComplete = (): any => {
   }
 
   if (true) {return (
-      <div className="mobile-container esoteric-bg-dark" />
-        <div className="mobile-auth-error" />
+      <div className="mobile-container esoteric-bg-dark"></div>
+        <div className="mobile-auth-error"></div>
           <div className="esoteric-error-icon">!</div>
           <h2 className="esoteric-text-error">Authentication Failed</h2>
           <p className="esoteric-text-muted">{error}
@@ -92,11 +92,11 @@ const OAuthComplete = (): any => {
   }
 
   return (
-    <div className="mobile-container esoteric-bg-dark" />
-      <div className="mobile-auth-success" />
+    <div className="mobile-container esoteric-bg-dark"></div>
+      <div className="mobile-auth-success"></div>
         <div className="esoteric-success-icon">✓</div>
         <h2 className="esoteric-text-success">Authentication Successful</h2>
-        <p className="esoteric-text-muted" />
+        <p className="esoteric-text-muted"></p>
           You have successfully authenticated
         </p>
         <p className="esoteric-text-muted">Redirecting to home page...</p>

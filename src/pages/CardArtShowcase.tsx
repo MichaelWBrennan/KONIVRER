@@ -87,24 +87,24 @@ const CardArtShowcase = (): any => {
   const linkedCards = allCardArts.filter(art => art.hasData).length;
   const artOnlyCards = allCardArts.length - linkedCards;
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
-      <div className="max-w-7xl mx-auto p-4" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+      <div className="max-w-7xl mx-auto p-4"></div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"
-        ><p className="text-gray-300 mb-4" />
+        ><p className="text-gray-300 mb-4"></p>
             Explore the complete collection of {allCards.length} card arts for
             the KONIVRER deck database.
           </p>
           {/* Statistics */}
-          <div className="flex flex-wrap gap-4 text-sm" />
-            <div className="bg-green-600/20 text-green-400 px-3 py-0 whitespace-nowrap rounded-full" />
+          <div className="flex flex-wrap gap-4 text-sm"></div>
+            <div className="bg-green-600/20 text-green-400 px-3 py-0 whitespace-nowrap rounded-full"></div>
               <Database className="w-4 h-4 inline mr-1" / />
               {linkedCards} Linked to Database
             </div>
-            <div className="bg-yellow-600/20 text-yellow-400 px-3 py-0 whitespace-nowrap rounded-full" />
+            <div className="bg-yellow-600/20 text-yellow-400 px-3 py-0 whitespace-nowrap rounded-full"></div>
               <ExternalLink className="w-4 h-4 inline mr-1" / />
               {artOnlyCards} Art Only
             </div>
@@ -116,9 +116,9 @@ const CardArtShowcase = (): any => {
           transition={{ delay: 0.1 }}
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"
          />
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between" />
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between"></div>
             {/* Search */}
-            <div className="relative flex-1 max-w-md" />
+            <div className="relative flex-1 max-w-md"></div>
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
               <input
                 type="text"
@@ -129,7 +129,7 @@ const CardArtShowcase = (): any => {
               />
             </div>
             {/* Category Filter */}
-            <div className="flex items-center space-x-2" />
+            <div className="flex items-center space-x-2"></div>
               <Filter className="w-5 h-5 text-gray-400" / />
               <select
                 value={categoryFilter}
@@ -157,8 +157,8 @@ const CardArtShowcase = (): any => {
                 </option>
             </div>
             {/* Database Filter */}
-            <div className="flex items-center space-x-2" />
-              <label className="flex items-center space-x-2 text-gray-300 cursor-pointer" />
+            <div className="flex items-center space-x-2"></div>
+              <label className="flex items-center space-x-2 text-gray-300 cursor-pointer"></label>
                 <input
                   type="checkbox"
                   checked={showOnlyLinked}
@@ -169,7 +169,7 @@ const CardArtShowcase = (): any => {
                 <span className="text-sm">Linked only</span>
             </div>
             {/* View Mode */}
-            <div className="flex items-center space-x-2" />
+            <div className="flex items-center space-x-2"></div>
               <button
                 onClick={() => setViewMode('gallery')}
                 className={`p-2 rounded transition-colors ${
@@ -192,7 +192,7 @@ const CardArtShowcase = (): any => {
               </button>
           </div>
           {/* Results count */}
-          <div className="mt-4 text-sm text-gray-400" />
+          <div className="mt-4 text-sm text-gray-400"></div>
             Showing {filteredCards.length} of {allCards.length} cards
           </div>
         </motion.div>
@@ -203,7 +203,7 @@ const CardArtShowcase = (): any => {
           transition={{ delay: 0.2 }}
          />
           {viewMode === 'gallery' ? (
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
               <CardArtGallery
                 cards={filteredCards}
                 columns={5}
@@ -212,11 +212,11 @@ const CardArtShowcase = (): any => {
               / />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
               {/* Card List */}
-              <div className="lg:col-span-1" />
-                <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 max-h-96 overflow-y-auto" />
-                  <div className="space-y-2" />
+              <div className="lg:col-span-1"></div>
+                <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 max-h-96 overflow-y-auto"></div>
+                  <div className="space-y-2"></div>
                     {filteredCards.map(card => {
                       const cardArt = allCardArts.find(
                         art => art.artName === card,
@@ -231,8 +231,8 @@ const CardArtShowcase = (): any => {
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                           }`}
                         >
-                          <div className="flex items-center justify-between" />
-                            <span />
+                          <div className="flex items-center justify-between"></div>
+                            <span></span>
                               {cardArt?.displayName || card.replace(/_/g, ' ')}
                             {cardArt?.hasData && (
                               <Database className="w-4 h-4 text-green-400" / />
@@ -243,7 +243,7 @@ const CardArtShowcase = (): any => {
                   </div>
               </div>
               {/* Card Preview */}
-              <div className="lg:col-span-2" />
+              <div className="lg:col-span-2"></div>
                 <CardArtPreview cardName={selectedCard} clickable={true} / />
               </div>
           )}
@@ -255,9 +255,9 @@ const CardArtShowcase = (): any => {
           transition={{ delay: 0.3 }}
           className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mt-6"
          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-300" />
-            <div />
-              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-300"></div>
+            <div></div>
+              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto"></p>
                 {`import CardArtDisplay from './CardArtDisplay';
 <CardArtDisplay 
   cardName="ABISS" 
@@ -266,8 +266,8 @@ const CardArtShowcase = (): any => {
   showCardInfo={true}
 />`}
               </pre>
-            <div />
-              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto" />
+            <div></div>
+              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto"></p>
                 {`import { CardArtGallery } from './CardArtDisplay';
 <CardArtGallery 
   cards={['ABISS', 'ANGEL']}
@@ -276,13 +276,13 @@ const CardArtShowcase = (): any => {
   showCardInfo={true}
 />`}
               </pre>
-            <div />
-              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto" />
+            <div></div>
+              <pre className="bg-gray-800 p-3 rounded text-sm overflow-x-auto"></p>
                 {`/assets/cards/ABISS.png
 /assets/cards/CHAOSLAVA.png
 /assets/cards/FLAG.png`}
             </div>
-          <div className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30" />
+          <div className="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30"></div>
             <ul className="text-sm text-gray-300 space-y-1" />
               <li>• Cards with database entries are automatically clickable</li>
               <li>• Hover over cards to see "View Details" overlay</li>

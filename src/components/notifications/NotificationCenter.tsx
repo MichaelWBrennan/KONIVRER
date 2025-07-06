@@ -115,7 +115,7 @@ const NotificationCenter = (): any => {
   }
 
   return (
-    <div className="notification-center" />
+    <div className="notification-center"></div>
       {/* Notification Bell */}
       <button 
         className="notification-bell"
@@ -128,23 +128,23 @@ const NotificationCenter = (): any => {
           <BellOff size={24} / />
         )}
         {notifications.filter(n => !n.read).length > 0 && (
-          <span className="notification-badge" />
+          <span className="notification-badge"></span>
             {notifications.filter(n => !n.read).length}
         )}
       </button>
 
       {/* Notification Panel */}
       {showNotifications && (
-        <div className="notification-panel" />
-          <div className="notification-header" />
+        <div className="notification-panel"></div>
+          <div className="notification-header"></div>
             <h3>Notifications</h3>
-            <div className="notification-actions" />
+            <div className="notification-actions"></div>
               <button 
                 className="notification-action"
                 onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
                />
                 {isSubscribed ? 'Disable' : 'Enable'}
-              <button className="notification-action" />
+              <button className="notification-action"></button>
                 <Settings size={16} / />
               </button>
               <button 
@@ -155,9 +155,9 @@ const NotificationCenter = (): any => {
               </button>
           </div>
           
-          <div className="notification-list" />
+          <div className="notification-list"></div>
             {notifications.length === 0 ? (
-              <div className="notification-empty" />
+              <div className="notification-empty"></div>
                 <p>No notifications</p>
             ) : (
               notifications.map(notification => (
@@ -165,10 +165,10 @@ const NotificationCenter = (): any => {
                   key={notification.id} 
                   className={`notification-item ${!notification.read ? 'unread' : ''}`}
                  />
-                  <div className="notification-content" />
+                  <div className="notification-content"></div>
                     <h4>{notification.title}
                     <p>{notification.message}
-                    <span className="notification-time" />
+                    <span className="notification-time"></span>
                       {formatTime(notification.timestamp)}
                   </div>
               ))
@@ -177,11 +177,11 @@ const NotificationCenter = (): any => {
       )}
       {/* Notification Permission Prompt */}
       {showPrompt && (
-        <div className="notification-prompt" />
-          <div className="notification-prompt-content" />
+        <div className="notification-prompt"></div>
+          <div className="notification-prompt-content"></div>
             <h4>Enable Notifications</h4>
             <p>Get notified about tournaments, messages, and matches</p>
-            <div className="notification-prompt-actions" />
+            <div className="notification-prompt-actions"></div>
               <button 
                 className="notification-prompt-action primary"
                 onClick={handleSubscribe}

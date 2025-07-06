@@ -108,27 +108,27 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
   }
 
   return (
-    <div className="tournament-notifications" />
-      <div className="tournament-header" />
+    <div className="tournament-notifications"></div>
+      <div className="tournament-header"></div>
         <h2>{tournament.name}
-        <div className="tournament-meta" />
-          <span className="tournament-format" />
+        <div className="tournament-meta"></div>
+          <span className="tournament-format"></span>
             <Trophy size={16} / />
             {tournament.format}
-          <span className="tournament-players" />
+          <span className="tournament-players"></span>
             <Users size={16} / />
             {tournament.players} Players
           </span>
-          <span className="tournament-time" />
+          <span className="tournament-time"></span>
             <Clock size={16} / />
             {timeRemaining}
         </div>
 
       {/* Notification Subscribe Button */}
       {isSupported && (
-        <div className="tournament-notification-subscribe" />
+        <div className="tournament-notification-subscribe"></div>
           {isSubscribedToTournament ? (
-            <div className="tournament-subscribed" />
+            <div className="tournament-subscribed"></div>
               <Bell size={16} / />
               <span>You'll receive notifications for this tournament</span>
           ) : (
@@ -142,30 +142,30 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
         </div>
       )}
       {/* Tournament Details */}
-      <div className="tournament-details" />
-        <div className="tournament-detail" />
+      <div className="tournament-details"></div>
+        <div className="tournament-detail"></div>
           <strong>Start Time:</strong>
           <span>{new Date(tournament.startTime).toLocaleString()}
         </div>
-        <div className="tournament-detail" />
+        <div className="tournament-detail"></div>
           <strong>Format:</strong>
           <span>{tournament.format}
         </div>
-        <div className="tournament-detail" />
+        <div className="tournament-detail"></div>
           <strong>Rounds:</strong>
           <span>{tournament.rounds}
         </div>
-        <div className="tournament-detail" />
+        <div className="tournament-detail"></div>
           <strong>Prize:</strong>
           <span>{tournament.prize}
         </div>
-        <div className="tournament-detail" />
+        <div className="tournament-detail"></div>
           <strong>Location:</strong>
           <span>{tournament.location}
         </div>
 
       {/* Tournament Actions */}
-      <div className="tournament-actions" />
+      <div className="tournament-actions"></div>
         <Link to={`/tournaments/${tournamentId}/live`} className="tournament-action primary" />
           View Tournament
         </Link>
@@ -175,10 +175,10 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
 
       {/* Subscribe Prompt */}
       {showSubscribePrompt && (
-        <div className="tournament-subscribe-prompt" />
-          <div className="tournament-subscribe-prompt-content" />
+        <div className="tournament-subscribe-prompt"></div>
+          <div className="tournament-subscribe-prompt-content"></div>
             <h4>Tournament Notifications</h4>
-            <p />
+            <p></p>
               Get notified about important events for this tournament:
             </p>
             <ul />
@@ -186,7 +186,7 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
               <li>Round start notifications</li>
               <li>Match pairings</li>
               <li>Tournament results</li>
-            <div className="tournament-subscribe-prompt-actions" />
+            <div className="tournament-subscribe-prompt-actions"></div>
               <button 
                 className="tournament-subscribe-prompt-action primary"
                 onClick={handleSubscribeToTournament}

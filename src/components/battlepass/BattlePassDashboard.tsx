@@ -70,38 +70,38 @@ const BattlePassDashboard = (): any => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
       {/* Header */}
-      <div className="max-w-7xl mx-auto" />
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
-          <div className="flex items-center justify-between" />
-            <div />
+      <div className="max-w-7xl mx-auto"></div>
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
+          <div className="flex items-center justify-between"></div>
+            <div></div>
               <h1 className="text-3xl font-bold text-white mb-2" />
                 {battlePass.currentSeason.name}
-              <p className="text-gray-300" />
+              <p className="text-gray-300"></p>
                 Season {battlePass.currentSeason.id} •{' '}
                 {battlePass.getDaysRemaining()} days remaining
               </p>
 
-            <div className="flex items-center space-x-4" />
-              <div className="text-center" />
-                <div className="text-2xl font-bold text-white" />
+            <div className="flex items-center space-x-4"></div>
+              <div className="text-center"></div>
+                <div className="text-2xl font-bold text-white"></div>
                   {battlePass.playerProgress.level}
                 <div className="text-sm text-gray-300">Level</div>
 
-              <div className="text-center" />
-                <div className="text-2xl font-bold text-yellow-400" />
+              <div className="text-center"></div>
+                <div className="text-2xl font-bold text-yellow-400"></div>
                   {battlePass.playerProgress.experience}
                 <div className="text-sm text-gray-300">XP</div>
             </div>
 
           {/* Progress Bar */}
-          <div className="mt-6" />
-            <div className="flex justify-between text-sm text-gray-300 mb-2" />
+          <div className="mt-6"></div>
+            <div className="flex justify-between text-sm text-gray-300 mb-2"></div>
               <span>Level {battlePass.playerProgress.level}
               <span>Level {battlePass.playerProgress.level + 1}
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-3" />
+            <div className="w-full bg-gray-700 rounded-full h-3"></div>
               <motion.div
                 className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full"
                 initial={{ width: 0 }}
@@ -109,7 +109,7 @@ const BattlePassDashboard = (): any => {
                 transition={{ duration: 1, ease: 'easeOut' }}
               / />
             </div>
-            <div className="text-center text-sm text-gray-300 mt-2" />
+            <div className="text-center text-sm text-gray-300 mt-2"></div>
               {battlePass.playerProgress.experienceToNext -
                 battlePass.playerProgress.experience}{' '}
               XP to next level
@@ -117,8 +117,8 @@ const BattlePassDashboard = (): any => {
         </div>
 
         {/* Pass Type Selector */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
             {/* Free Pass */}
             <div
               className={`p-4 rounded-lg border-2 ${
@@ -127,50 +127,50 @@ const BattlePassDashboard = (): any => {
                   : 'border-gray-600 bg-gray-800/50'
               }`}
              />
-              <div className="flex items-center justify-between mb-2" />
+              <div className="flex items-center justify-between mb-2"></div>
                 <h3 className="text-lg font-bold text-white">Free Pass</h3>
                 <Circle className="w-5 h-5 text-gray-400" / />
               </div>
-              <p className="text-gray-300 text-sm mb-4" />
+              <p className="text-gray-300 text-sm mb-4"></p>
                 Basic rewards and progression
               </p>
               <div className="text-2xl font-bold text-white">FREE</div>
 
             {/* Premium Pass - Now Free */}
-            <div className="p-4 rounded-lg border-2 border-yellow-500 bg-yellow-500/20" />
-              <div className="flex items-center justify-between mb-2" />
+            <div className="p-4 rounded-lg border-2 border-yellow-500 bg-yellow-500/20"></div>
+              <div className="flex items-center justify-between mb-2"></div>
                 <h3 className="text-lg font-bold text-white">Premium Pass</h3>
                 <Star className="w-5 h-5 text-yellow-400" / />
               </div>
-              <p className="text-gray-300 text-sm mb-4" />
+              <p className="text-gray-300 text-sm mb-4"></p>
                 Enhanced rewards + exclusive content
               </p>
-              <div className="flex items-center justify-between" />
+              <div className="flex items-center justify-between"></div>
                 <div className="text-2xl font-bold text-yellow-400">FREE</div>
                 <div className="text-sm text-green-400">Included</div>
             </div>
 
             {/* Premium Plus Pass - Now Free */}
-            <div className="p-4 rounded-lg border-2 border-purple-500 bg-purple-500/20" />
-              <div className="flex items-center justify-between mb-2" />
+            <div className="p-4 rounded-lg border-2 border-purple-500 bg-purple-500/20"></div>
+              <div className="flex items-center justify-between mb-2"></div>
                 <h3 className="text-lg font-bold text-white">Premium+</h3>
                 <Crown className="w-5 h-5 text-purple-400" / />
               </div>
-              <p className="text-gray-300 text-sm mb-4" />
+              <p className="text-gray-300 text-sm mb-4"></p>
                 Ultimate rewards + instant unlocks
               </p>
-              <div className="flex items-center justify-between" />
+              <div className="flex items-center justify-between"></div>
                 <div className="text-2xl font-bold text-purple-400">FREE</div>
                 <div className="text-sm text-green-400">Included</div>
             </div>
         </div>
 
         {/* Rewards Track */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
           <h2 className="text-2xl font-bold text-white mb-6">Rewards Track</h2>
 
-          <div className="overflow-x-auto" />
-            <div className="flex space-x-4 pb-4" style={{ minWidth: '1200px' }} />
+          <div className="overflow-x-auto"></div>
+            <div className="flex space-x-4 pb-4" style={{ minWidth: '1200px' }}></div>
               {Array.from(
                 { length: Math.min(20, battlePass.currentSeason.maxLevel) },
                 (_, i) => {
@@ -238,26 +238,26 @@ const BattlePassDashboard = (): any => {
         </div>
 
         {/* Quests Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
           {/* Daily Quests */}
-          <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6" />
+          <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
             <h3 className="text-xl font-bold text-white mb-4 flex items-center" />
               <Calendar className="w-5 h-5 mr-2" / />
               Daily Quests
             </h3>
-            <div className="space-y-3" />
+            <div className="space-y-3"></div>
               {battlePass.quests.daily.map(quest => (
                 <QuestCard key={quest.id} quest={quest} / />
               ))}
             </div>
 
           {/* Weekly Quests */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6" />
+          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
             <h3 className="text-xl font-bold text-white mb-4 flex items-center" />
               <Clock className="w-5 h-5 mr-2" / />
               Weekly Quests
             </h3>
-            <div className="space-y-3" />
+            <div className="space-y-3"></div>
               {battlePass.quests.weekly.map(quest => (
                 <QuestCard key={quest.id} quest={quest} / />
               ))}
@@ -335,13 +335,13 @@ const RewardCard: React.FC<RewardCardProps> = ({
       `}
       onClick={canClaim ? onClaim : undefined}
      />
-      <div className="p-2 text-white text-center" />
+      <div className="p-2 text-white text-center"></div>
         <div className="flex justify-center mb-1">{getRewardIcon()}
         <div className="text-xs font-medium">{reward.amount || 1}
       </div>
 
       {/* Lock/Unlock Indicator */}
-      <div className="absolute top-1 right-1" />
+      <div className="absolute top-1 right-1"></div>
         {!isUnlocked && <Lock className="w-3 h-3 text-gray-400" />}
         {isClaimed && <CheckCircle className="w-3 h-3 text-green-400" />}
         {canClaim && <Gift className="w-3 h-3 text-yellow-400 animate-pulse" />}
@@ -371,20 +371,20 @@ interface QuestCardProps {
 const QuestCard: React.FC<QuestCardProps> = ({  quest  }) => {const progressPercentage = (quest.progress / quest.target) * 100;
 
   return (
-    <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-600" />
-      <div className="flex items-center justify-between mb-2" />
+    <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-600"></div>
+      <div className="flex items-center justify-between mb-2"></div>
         <h4 className="text-white font-medium">{quest.name}
-        <div className="flex items-center text-yellow-400" />
+        <div className="flex items-center text-yellow-400"></div>
           <Star className="w-4 h-4 mr-1" / />
           <span className="text-sm">{quest.experience} XP</span>
       </div>
 
-      <div className="mb-2" />
-        <div className="flex justify-between text-sm text-gray-300 mb-1" />
-          <span />
+      <div className="mb-2"></div>
+        <div className="flex justify-between text-sm text-gray-300 mb-1"></div>
+          <span></span>
             {quest.progress} / {quest.target}
           <span>{Math.round(progressPercentage)}%</span>
-        <div className="w-full bg-gray-700 rounded-full h-2" />
+        <div className="w-full bg-gray-700 rounded-full h-2"></div>
           <motion.div
             className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
             initial={{ width: 0 }}
@@ -394,7 +394,7 @@ const QuestCard: React.FC<QuestCardProps> = ({  quest  }) => {const progressPerc
         </div>
 
       {quest.completed && (
-        <div className = "flex items-center text-green-400 text-sm" />
+        <div className = "flex items-center text-green-400 text-sm"></div>
           <CheckCircle className="w-4 h-4 mr-1" / />
           Completed!
         </div>
@@ -433,10 +433,10 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
       >
         <h3 className="text-2xl font-bold text-white mb-4">Premium Features</h3>
 
-        <div className="space-y-4" />
+        <div className="space-y-4"></div>
           {/* Premium Option - Now Free */}
-          <div className="border border-yellow-500 rounded-lg p-4 bg-yellow-500/10" />
-            <div className="flex items-center justify-between mb-2" />
+          <div className="border border-yellow-500 rounded-lg p-4 bg-yellow-500/10"></div>
+            <div className="flex items-center justify-between mb-2"></div>
               <h4 className="text-lg font-bold text-yellow-400" />
                 Premium Pass
               </h4>
@@ -447,13 +447,13 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
               <li>• Exclusive cosmetics</li>
               <li>• 2x XP boost</li>
               <li>• Priority matchmaking</li>
-            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center" />
+            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center"></div>
               FREE FOR EVERYONE
             </div>
 
           {/* Premium Plus Option - Now Free */}
-          <div className="border border-purple-500 rounded-lg p-4 bg-purple-500/10" />
-            <div className="flex items-center justify-between mb-2" />
+          <div className="border border-purple-500 rounded-lg p-4 bg-purple-500/10"></div>
+            <div className="flex items-center justify-between mb-2"></div>
               <h4 className="text-lg font-bold text-purple-400" />
                 Premium+ Pass
               </h4>
@@ -464,7 +464,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
               <li>• Instant level 25 unlock</li>
               <li>• Exclusive legendary rewards</li>
               <li>• VIP support</li>
-            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center" />
+            <div className="w-full bg-green-500 text-white py-2 rounded-lg font-medium text-center"></div>
               FREE FOR EVERYONE
             </div>
         </div>

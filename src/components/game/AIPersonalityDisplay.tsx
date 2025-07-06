@@ -109,16 +109,16 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
       className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 border border-gray-600 max-w-sm"
      />
       {/* AI Header */}
-      <div className="flex items-center gap-3 mb-3" />
+      <div className="flex items-center gap-3 mb-3"></div>
         <div className="text-2xl">{personalityInfo.avatar}
-        <div />
+        <div></div>
           <div className="font-bold text-white text-sm">{personalityInfo.name}
           <div className="text-xs text-gray-400">{personalityInfo.description}
         </div>
 
       {/* Current Status */}
-      <div className="flex items-center gap-2 mb-3" />
-        <div className={`flex items-center gap-1 ${getMoodColor(personalityInfo.mood)}`} />
+      <div className="flex items-center gap-2 mb-3"></div>
+        <div className={`flex items-center gap-1 ${getMoodColor(personalityInfo.mood)}`}></div>
           {getMoodIcon(personalityInfo.mood)}
           <span className="text-xs font-medium capitalize">{personalityInfo.mood}
         </div>
@@ -138,9 +138,9 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
         </AnimatePresence>
 
       {/* Personality Traits */}
-      <div className="space-y-1" />
+      <div className="space-y-1"></div>
         <div className="text-xs text-gray-400 font-medium">Traits:</div>
-        <div className="flex flex-wrap gap-2" />
+        <div className="flex flex-wrap gap-2"></div>
           {getPersonalityTraits().map((trait, index) => (
             <div
               key={index}
@@ -175,7 +175,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
             exit={{ opacity: 0 }}
             className="mt-3 flex justify-center"
            />
-            <div className="flex space-x-1" />
+            <div className="flex space-x-1"></div>
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}

@@ -37,14 +37,14 @@ const CardInfoLink: React.FC<CardInfoLinkProps> = ({  cardName, children, classN
   const infoUrl = `/card/konivrer/${cardId}/${cleanFormattedName}`;
   
   return (
-    <div className={`group relative ${className}`} />
+    <div className={`group relative ${className}`}></div>
       <Link to={infoUrl} className="block" />
         {children}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center" />
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center"></div>
           <ExternalLink className="w-6 h-6 text-white mb-2" / />
-          <div className="text-white text-sm font-medium text-center px-2" />
+          <div className="text-white text-sm font-medium text-center px-2"></div>
             {displayName}
-          <div className="text-gray-300 text-xs mt-1" />
+          <div className="text-gray-300 text-xs mt-1"></div>
             View Card Details
           </div>
       </Link>

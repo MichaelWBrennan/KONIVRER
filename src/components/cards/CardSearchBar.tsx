@@ -72,8 +72,8 @@ const CardSearchBar: React.FC<CardSearchBarProps> = ({  className = ''  }) => {
   };
 
   return (
-    <div className={`${className}`} />
-      <div className="relative" />
+    <div className={`${className}`}></div>
+      <div className="relative"></div>
         <form onSubmit={handleSubmit} className="relative" />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/80 w-5 h-5" / />
           <input
@@ -94,12 +94,12 @@ const CardSearchBar: React.FC<CardSearchBarProps> = ({  className = ''  }) => {
           </button>
 
         {/* Advanced Search Links below search bar */}
-        <div className="flex justify-center mt-2 space-x-4" />
+        <div className="flex justify-center mt-2 space-x-4"></div>
           <div 
             className="cursor-pointer"
             onClick={() => navigate('/advanced-search')}
           >
-            <span className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors" />
+            <span className="text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors"></span>
               Advanced Search ⟶
             </span>
           <a 
@@ -113,7 +113,7 @@ const CardSearchBar: React.FC<CardSearchBarProps> = ({  className = ''  }) => {
       </div>
 
       {showResults && (
-        <div className="absolute z-50 top-full mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto" />
+        <div className="absolute z-50 top-full mt-1 w-full bg-amber-950/90 border border-amber-800/40 rounded-lg shadow-lg max-h-80 overflow-y-auto"></div>
           {searchResults.length > 0 ? (
             <>
               {searchResults.map(card => (
@@ -131,7 +131,7 @@ const CardSearchBar: React.FC<CardSearchBarProps> = ({  className = ''  }) => {
               ))}
             </>
           ) : (
-            <div className="p-3 text-center" />
+            <div className="p-3 text-center"></div>
               <div className="text-amber-300/70">No results found</div>
           )}
         </div>

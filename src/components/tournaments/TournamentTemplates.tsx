@@ -228,14 +228,14 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
         >
           <Card.Header className="d-flex align-items-center" />
             <div className="me-2">{template.icon}
-            <div />
+            <div></div>
               <h5 className="mb-0">{template.name}
             </div>
           </Card.Header>
           <Card.Body />
             <p>{template.description}
 
-            <div className="mb-3" />
+            <div className="mb-3"></div>
               <small className="text-muted d-block mb-1">Features:</small>
               {template.features.map((feature, index) => (
                 <Badge key={index} bg="primary" className="me-1 mb-1" />
@@ -243,7 +243,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
               ))}
             </div>
 
-            <div />
+            <div></div>
               <small className="text-muted d-block mb-1" />
                 Recommended for:
               </small>
@@ -360,13 +360,13 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
               <Card className="mb-3" />
                 <Card.Header>Tournament Summary</Card.Header>
                 <Card.Body />
-                  <div className="mb-3" />
+                  <div className="mb-3"></div>
                     <strong>Template:</strong> {template.name}
-                  <div className="mb-3" />
+                  <div className="mb-3"></div>
                     <strong>Participants:</strong> {participantCount}
-                  <div className="mb-3" />
+                  <div className="mb-3"></div>
                     <strong>Recommended Rounds:</strong> {recommendedRounds}
-                  <div className="mb-3" />
+                  <div className="mb-3"></div>
                     <strong>Estimated Duration:</strong> {estimatedDuration}{' '}
                     minutes
                     {estimatedDuration > timeConstraint && (
@@ -377,9 +377,9 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                           constraint.
                         </small>
                     )}
-                  <div />
+                  <div></div>
                     <strong>Enabled Features:</strong>
-                    <div className="mt-1" />
+                    <div className="mt-1"></div>
                       {template.features.map((feature, index) => (
                         <Badge key={index} bg="primary" className="me-1 mb-1" />
                           {feature}
@@ -407,7 +407,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                 <Card className="mb-3" />
                   <Card.Header>Meta-Balancing Incentives</Card.Header>
                   <Card.Body />
-                    <p className="small" />
+                    <p className="small"></p>
                       Based on meta analysis, the following archetypes will
                       receive incentives:
                     </p>
@@ -446,7 +446,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
   };
 
   return (
-    <div />
+    <div></div>
       <h3 className="mb-4" />
         <Trophy className="me-2" / />
         Tournament Templates
@@ -454,7 +454,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
 
       {!selectedTemplate ? (
         <>
-          <p className="text-muted mb-4" />
+          <p className="text-muted mb-4"></p>
             Select a tournament template to get started. Each template offers
             different features and is optimized for specific tournament goals.
           </p>

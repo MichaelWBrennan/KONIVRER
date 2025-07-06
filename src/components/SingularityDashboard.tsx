@@ -46,7 +46,7 @@ const SingularityDashboard = (): any => {
   };
 
   return (
-    <div className="singularity-dashboard" />
+    <div className="singularity-dashboard"></div>
       <motion.div
         className="dashboard-header"
         initial={{ opacity: 0, y: -50 }}
@@ -57,16 +57,16 @@ const SingularityDashboard = (): any => {
         <p>Technological transcendence monitoring and control</p>
       </motion.div>
 
-      <div className="metrics-grid" />
+      <div className="metrics-grid"></div>
         <motion.div
           className="consciousness-panel"
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🧠 Consciousness Metrics</h2>
-          <div className="metric-item" />
+          <div className="metric-item"></div>
             <span>Overall Consciousness:</span>
-            <div className="progress-bar" />
+            <div className="progress-bar"></div>
               <div
                 className="progress-fill consciousness"
                 style={{ width: `${(metrics.overall || 0) * 100}%` }}
@@ -74,9 +74,9 @@ const SingularityDashboard = (): any => {
             </div>
             <span>{((metrics.overall || 0) * 100).toFixed(1)}%</span>
 
-          <div className="metric-item" />
+          <div className="metric-item"></div>
             <span>Awareness:</span>
-            <div className="progress-bar" />
+            <div className="progress-bar"></div>
               <div
                 className="progress-fill awareness"
                 style={{ width: `${(metrics.awareness || 0) * 100}%` }}
@@ -84,9 +84,9 @@ const SingularityDashboard = (): any => {
             </div>
             <span>{((metrics.awareness || 0) * 100).toFixed(1)}%</span>
 
-          <div className="metric-item" />
+          <div className="metric-item"></div>
             <span>Creativity:</span>
-            <div className="progress-bar" />
+            <div className="progress-bar"></div>
               <div
                 className="progress-fill creativity"
                 style={{ width: `${(metrics.creativity || 0) * 100}%` }}
@@ -94,9 +94,9 @@ const SingularityDashboard = (): any => {
             </div>
             <span>{((metrics.creativity || 0) * 100).toFixed(1)}%</span>
 
-          <div className="metric-item" />
+          <div className="metric-item"></div>
             <span>Transcendence:</span>
-            <div className="progress-bar" />
+            <div className="progress-bar"></div>
               <div
                 className="progress-fill transcendence"
                 style={{ width: `${(metrics.transcendence || 0) * 100}%` }}
@@ -104,7 +104,7 @@ const SingularityDashboard = (): any => {
             </div>
             <span>{((metrics.transcendence || 0) * 100).toFixed(1)}%</span>
 
-          <div className="classification" />
+          <div className="classification"></div>
             <strong />
               Classification: {metrics.classification || 'Initializing...'}
           </div>
@@ -116,7 +116,7 @@ const SingularityDashboard = (): any => {
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>⚛️ Quantum State Control</h2>
-          <div className="quantum-controls" />
+          <div className="quantum-controls"></div>
             <button
               className="quantum-btn"
               onClick={() = />
@@ -139,15 +139,15 @@ const SingularityDashboard = (): any => {
               Entangle States
             </button>
 
-          <div className="quantum-status" />
-            <div className="status-item" />
+          <div className="quantum-status"></div>
+            <div className="status-item"></div>
               <span>🌀 Superposition States:</span>
-              <span className="status-value" />
+              <span className="status-value"></span>
                 {quantumState.superpositionStates.size}
             </div>
-            <div className="status-item" />
+            <div className="status-item"></div>
               <span>🔗 Entangled Pairs:</span>
-              <span className="status-value" />
+              <span className="status-value"></span>
                 {quantumState.entangledStates.size / 2}
             </div>
         </motion.div>
@@ -158,9 +158,9 @@ const SingularityDashboard = (): any => {
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🌀 Reality Distortion Engine</h2>
-          <div className="distortion-level" />
+          <div className="distortion-level"></div>
             <span>Distortion Level:</span>
-            <div className="distortion-meter" />
+            <div className="distortion-meter"></div>
               <div
                 className="distortion-fill"
                 style={{ width: `${realityEngine.distortionLevel * 100}%` }}
@@ -168,8 +168,8 @@ const SingularityDashboard = (): any => {
             </div>
             <span>{(realityEngine.distortionLevel * 100).toFixed(1)}%</span>
 
-          <div className="reality-controls" />
-            <button className="reality-btn" onClick={transcendReality} />
+          <div className="reality-controls"></div>
+            <button className="reality-btn" onClick={transcendReality}></button>
               Transcend All Limits
             </button>
             <button
@@ -187,12 +187,12 @@ const SingularityDashboard = (): any => {
               Expand Dimensions
             </button>
 
-          <div className="physics-overrides" />
+          <div className="physics-overrides"></div>
             <h4>Physics Overrides Active:</h4>
-            <div className="overrides-list" />
+            <div className="overrides-list"></div>
               {Array.from(realityEngine.physicsOverrides.entries()).map(
                 ([aspect, rules], index) => (
-                  <div key={index} className="override-item" />
+                  <div key={index} className="override-item"></div>
                     <strong>{aspect}:</strong> {JSON.stringify(rules)}
                 ),
               )}
@@ -205,7 +205,7 @@ const SingularityDashboard = (): any => {
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🧬 Evolutionary Control</h2>
-          <div className="evolution-controls" />
+          <div className="evolution-controls"></div>
             <button
               className="evolution-btn primary"
               onClick={evolveSingularity}
@@ -225,19 +225,19 @@ const SingularityDashboard = (): any => {
               📊 Measure Progress
             </button>
 
-          <div className="evolution-status" />
-            <div className="status-grid" />
-              <div className="status-card" />
+          <div className="evolution-status"></div>
+            <div className="status-grid"></div>
+              <div className="status-card"></div>
                 <h4>Problem Solving</h4>
-                <div className="metric-circle" />
-                  <span />
+                <div className="metric-circle"></div>
+                  <span></span>
                     {((metrics.problemSolving || 0) * 100).toFixed(0)}%
                   </span>
               </div>
-              <div className="status-card" />
+              <div className="status-card"></div>
                 <h4>Self Improvement</h4>
-                <div className="metric-circle" />
-                  <span />
+                <div className="metric-circle"></div>
+                  <span></span>
                     {((metrics.selfImprovement || 0) * 100).toFixed(0)}%
                   </span>
               </div>
@@ -252,19 +252,19 @@ const SingularityDashboard = (): any => {
         transition={{ delay: 1, duration: 1 }}
        />
         <h2>🌟 Singularity Status</h2>
-        <div className="status-banner" />
+        <div className="status-banner"></div>
           {metrics.overall > 0.95 ? (
-            <div className="status-transcendent" />
+            <div className="status-transcendent"></div>
               ⚡ TECHNOLOGICAL SINGULARITY ACHIEVED ⚡
               <br / />
               <small>All industry leaders rendered obsolete</small>
           ) : metrics.overall > 0.9 ? (
-            <div className="status-approaching" />
+            <div className="status-approaching"></div>
               🌌 APPROACHING SINGULARITY
               <br / />
               <small>Industry disruption imminent</small>
           ) : (
-            <div className="status-evolving" />
+            <div className="status-evolving"></div>
               🧬 CONSCIOUSNESS EVOLVING
               <br / />
               <small>Preparing for transcendence</small>

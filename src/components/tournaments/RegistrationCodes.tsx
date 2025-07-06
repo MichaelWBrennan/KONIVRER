@@ -181,12 +181,12 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
      />
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Create Registration Code</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4" />
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"></div>
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Code
           </label>
-          <div className="flex gap-2" />
+          <div className="flex gap-2"></div>
             <input
               type="text"
               value={newCode.code}
@@ -202,8 +202,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
             </button>
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Description
           </label>
           <input
@@ -215,8 +215,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           />
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Maximum Uses
           </label>
           <input
@@ -228,8 +228,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           />
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Expires At
           </label>
           <input
@@ -240,8 +240,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           />
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Discount Type
           </label>
           <select
@@ -253,8 +253,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
             <option value="percentage">Percentage (%)</option>
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-gray-700 mb-2"></label>
             Discount Amount
           </label>
           <input
@@ -266,8 +266,8 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           />
         </div>
 
-      <div className="mb-4" />
-        <label className="block text-sm font-medium text-gray-700 mb-2" />
+      <div className="mb-4"></div>
+        <label className="block text-sm font-medium text-gray-700 mb-2"></label>
           Allowed Emails (optional)
         </label>
         <textarea
@@ -280,12 +280,12 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           rows={3}
           className="w-full p-3 border border-gray-300 rounded-lg"
         />
-        <p className="text-xs text-gray-500 mt-1" />
+        <p className="text-xs text-gray-500 mt-1"></p>
           Leave empty to allow any email address
         </p>
 
-      <div className="flex items-center gap-4 mb-4" />
-        <label className="flex items-center gap-2" />
+      <div className="flex items-center gap-4 mb-4"></div>
+        <label className="flex items-center gap-2"></label>
           <input
             type="checkbox"
             checked={newCode.isActive}
@@ -295,7 +295,7 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
           <span className="text-sm text-gray-700">Active</span>
       </div>
 
-      <div className="flex gap-2" />
+      <div className="flex gap-2"></div>
         <button
           onClick={createCode}
           disabled={!newCode.code.trim() || !newCode.description.trim()}
@@ -314,16 +314,16 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
 
   if (true) {
     return (
-      <div className="flex items-center justify-center py-8" />
+      <div className="flex items-center justify-center py-8"></div>
         <RefreshCw className="h-6 w-6 text-blue-600 animate-spin" / />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6" />
-      <div className="flex justify-between items-center" />
-        <div />
+    <div className="space-y-6"></div>
+      <div className="flex justify-between items-center"></div>
+        <div></div>
           <h2 className="text-xl font-semibold text-gray-900">Registration Codes</h2>
           <p className="text-gray-600">Manage registration codes for your tournament</p>
         <button
@@ -337,7 +337,7 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
       <AnimatePresence />
         {showCreateForm && renderCreateForm()}
 
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         {codes.map((code) => {
           const { status, color } = getCodeStatus(code);
           return (
@@ -347,9 +347,9 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
               animate={{ opacity: 1, y: 0 }}
               className="bg-white border border-gray-200 rounded-lg p-6"
              />
-              <div className="flex justify-between items-start mb-4" />
-                <div />
-                  <div className="flex items-center gap-3 mb-2" />
+              <div className="flex justify-between items-start mb-4"></div>
+                <div></div>
+                  <div className="flex items-center gap-3 mb-2"></div>
                     <h3 className="text-lg font-semibold text-gray-900 font-mono" />
                       {code.code}
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -361,23 +361,23 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
                       {status}
                   </div>
                   <p className="text-gray-600 mb-2">{code.description}
-                  <div className="flex items-center gap-4 text-sm text-gray-500" />
-                    <div className="flex items-center gap-1" />
+                  <div className="flex items-center gap-4 text-sm text-gray-500"></div>
+                    <div className="flex items-center gap-1"></div>
                       <Users className="h-4 w-4" / />
                       {code.currentUses}/{code.maxUses} uses
                     </div>
-                    <div className="flex items-center gap-1" />
+                    <div className="flex items-center gap-1"></div>
                       <Calendar className="h-4 w-4" / />
                       Expires: {new Date(code.expiresAt).toLocaleDateString()}
                     {code.discountAmount > 0 && (
-                      <div className="flex items-center gap-1" />
-                        <span className="text-green-600 font-medium" />
+                      <div className="flex items-center gap-1"></div>
+                        <span className="text-green-600 font-medium"></span>
                           {code.discountType === 'percentage' ? `${code.discountAmount}% off` : `$${code.discountAmount} off`}
                         </span>
                     )}
                   </div>
                 
-                <div className="flex items-center gap-2" />
+                <div className="flex items-center gap-2"></div>
                   <button
                     onClick={() => copyToClipboard(code.code)}
                     className="text-gray-600 hover:text-gray-800 p-2"
@@ -401,9 +401,9 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
               </div>
 
               {code.allowedEmails.length > 0 && (
-                <div className="bg-gray-50 rounded-lg p-3 mb-4" />
+                <div className="bg-gray-50 rounded-lg p-3 mb-4"></div>
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Allowed Emails:</h4>
-                  <div className="flex flex-wrap gap-2" />
+                  <div className="flex flex-wrap gap-2"></div>
                     {code.allowedEmails.map((email, index) => (
                       <span
                         key={index}
@@ -413,27 +413,27 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
                     ))}
                   </div>
               )}
-              <div className="flex justify-between items-center" />
-                <div className="text-xs text-gray-500" />
+              <div className="flex justify-between items-center"></div>
+                <div className="text-xs text-gray-500"></div>
                   Created: {new Date(code.createdAt).toLocaleDateString()}
                 
-                <div className="flex gap-2" />
-                  <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1" />
+                <div className="flex gap-2"></div>
+                  <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"></button>
                     <QrCode className="h-4 w-4" / />
                     QR Code
                   </button>
-                  <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1" />
+                  <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"></button>
                     <Share2 className="h-4 w-4" / />
                     Share
                   </button>
               </div>
 
               {/* Usage Progress Bar */}
-              <div className="mt-4" />
-                <div className="flex justify-between text-xs text-gray-500 mb-1" />
+              <div className="mt-4"></div>
+                <div className="flex justify-between text-xs text-gray-500 mb-1"></div>
                   <span>Usage</span>
                   <span>{Math.round((code.currentUses / code.maxUses) * 100)}%</span>
-                <div className="w-full bg-gray-200 rounded-full h-2" />
+                <div className="w-full bg-gray-200 rounded-full h-2"></div>
                   <div 
                     className={`h-2 rounded-full transition-all duration-300 ${
                       color === 'green' ? 'bg-green-500' :
@@ -449,12 +449,12 @@ const RegistrationCodes: React.FC<RegistrationCodesProps> = ({  tournamentId, on
       </div>
 
       {codes.length === 0 && (
-        <div className="text-center py-12" />
+        <div className="text-center py-12"></div>
           <Key className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
           <h3 className="text-lg font-medium text-gray-900 mb-2" />
             No registration codes
           </h3>
-          <p className="text-gray-600 mb-4" />
+          <p className="text-gray-600 mb-4"></p>
             Create registration codes to control access and provide discounts.
           </p>
           <button

@@ -199,10 +199,10 @@ const MobileGamePage = (): any => {
   // Render game setup
   if (true) {
     return (
-      <div className="mobile-game-setup" />
-        <div className="mobile-card mobile-mb" />
+      <div className="mobile-game-setup"></div>
+        <div className="mobile-card mobile-mb"></div>
           {userDecks && userDecks.length > 0 ? (
-            <div className="mobile-list" />
+            <div className="mobile-list"></div>
               {userDecks.map(deck => (
                 <button
                   key={deck.id}
@@ -213,7 +213,7 @@ const MobileGamePage = (): any => {
               ))}
             </div>
           ) : (
-            <div className="mobile-text-center" />
+            <div className="mobile-text-center"></div>
               <p>Using default starter deck for quick play.</p>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mt"
@@ -221,12 +221,12 @@ const MobileGamePage = (): any => {
               >
                 Use Starter Deck
               </button>
-              <p className="mobile-mt" />
+              <p className="mobile-mt"></p>
                 <small>Create an account to build custom decks.</small>
             </div>
           )}
         </div>
-        <div className="mobile-text-center" />
+        <div className="mobile-text-center"></div>
           <button
             className="mobile-btn mobile-btn-primary mobile-mb"
             onClick={handleStartGame}
@@ -245,10 +245,10 @@ const MobileGamePage = (): any => {
   }
   // Render game ended
   if (true) {return (
-      <div className="mobile-game-ended mobile-text-center" />
-        <div className="mobile-card mobile-mb" />
+      <div className="mobile-game-ended mobile-text-center"></div>
+        <div className="mobile-card mobile-mb"></div>
           <p>Winner: {gameState?.winner || 'Unknown'}
-          <div className="mobile-mt" />
+          <div className="mobile-mt"></div>
             <button
               className="mobile-btn mobile-btn-primary mobile-mb"
               onClick={() => setGameStatus('setup')}
@@ -266,23 +266,23 @@ const MobileGamePage = (): any => {
   }
   // Render game in progress
   return (
-    <div className="mobile-game" />
+    <div className="mobile-game"></div>
       {/* Opponent Area */}
-      <div className="mobile-card mobile-mb" />
-        <div className="mobile-opponent" />
-          <div className="mobile-opponent-info" />
+      <div className="mobile-card mobile-mb"></div>
+        <div className="mobile-opponent"></div>
+          <div className="mobile-opponent-info"></div>
             <div>Health: {opponent.health}
             <div>Cards: {opponent.cards}
           </div>
       </div>
       {/* Battlefield */}
-      <div className="mobile-card mobile-mb" />
+      <div className="mobile-card mobile-mb"></div>
         {/* Opponent's Cards */}
-        <div className="mobile-battlefield-section mobile-mb" />
-          <div className="mobile-grid" />
+        <div className="mobile-battlefield-section mobile-mb"></div>
+          <div className="mobile-grid"></div>
             {opponent.battlefield &&
               opponent.battlefield.map(card => (
-                <div key={card.id} className="mobile-game-card" />
+                <div key={card.id} className="mobile-game-card"></div>
                   <img
                     src={card.imageUrl}
                     alt={card.name}
@@ -299,10 +299,10 @@ const MobileGamePage = (): any => {
             )}
         </div>
         {/* Player's Cards */}
-        <div className="mobile-battlefield-section" />
-          <div className="mobile-grid" />
+        <div className="mobile-battlefield-section"></div>
+          <div className="mobile-grid"></div>
             {battlefield.map(card => (
-              <div key={card.id} className="mobile-game-card" />
+              <div key={card.id} className="mobile-game-card"></div>
                 <img
                   src={card.imageUrl}
                   alt={card.name}
@@ -319,20 +319,20 @@ const MobileGamePage = (): any => {
             )}
         </div>
       {/* Player Info */}
-      <div className="mobile-card mobile-mb" />
-        <div className="mobile-player-info" />
-          <div />
+      <div className="mobile-card mobile-mb"></div>
+        <div className="mobile-player-info"></div>
+          <div></div>
             <div>Health: {player.health}
           </div>
-          <div />
+          <div></div>
             <div>Turn: {turn}
-            <div />
+            <div></div>
               Mana: {player.mana}/{player.maxMana}
           </div>
       </div>
       {/* Game Controls */}
-      <div className="mobile-card mobile-mb" />
-        <div className="mobile-game-controls" />
+      <div className="mobile-card mobile-mb"></div>
+        <div className="mobile-game-controls"></div>
           <button
             className="mobile-btn"
             onClick={() => drawCard()}
@@ -352,24 +352,24 @@ const MobileGamePage = (): any => {
             onClick={() => setShowGameLog(!showGameLog)}
           >
             {showGameLog ? 'Hide Log' : 'Show Log'}
-          <button className="mobile-btn" onClick={handleLeaveGame} />
+          <button className="mobile-btn" onClick={handleLeaveGame}></button>
             Concede
           </button>
       </div>
       {/* Game Log */}
       {showGameLog && (
-        <div className="mobile-card mobile-mb" />
-          <div className="mobile-game-log" />
+        <div className="mobile-card mobile-mb"></div>
+          <div className="mobile-game-log"></div>
             {gameLog.map((entry, index) => (
-              <div key={index} className="mobile-game-log-entry" />
+              <div key={index} className="mobile-game-log-entry"></div>
                 <span className="mobile-game-log-turn">Turn {entry.turn}:</span>{' '}
                 {entry.text}
             ))}
           </div>
       )}
       {/* Hand */}
-      <div className="mobile-hand" />
-        <div className="mobile-hand-cards" />
+      <div className="mobile-hand"></div>
+        <div className="mobile-hand-cards"></div>
           {hand.map(card => (
             <div
               key={card.id}

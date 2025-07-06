@@ -156,7 +156,7 @@ const KonivrERDemo = (): any => {
     return (
       <>
         {/* AI Display - Cutting-Edge or Basic */}
-        <div className="fixed top-4 right-4 z-50" />
+        <div className="fixed top-4 right-4 z-50"></div>
           {(() => {
             const aiStatus = gameEngine.getAIStatus();
             return aiStatus?.cuttingEdge ? (
@@ -192,9 +192,9 @@ const KonivrERDemo = (): any => {
     );
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden"></div>
       {/* Background Effects */}
-      <div className="absolute inset-0" />
+      <div className="absolute inset-0"></div>
         {/* Animated background elements */}
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -220,15 +220,15 @@ const KonivrERDemo = (): any => {
           / />
         ))}
       </div>
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4" />
-        <div className="max-w-4xl w-full" />
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4"></div>
+        <div className="max-w-4xl w-full"></div>
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
            />
-            <div className="flex items-center justify-center mb-6" />
+            <div className="flex items-center justify-center mb-6"></div>
               <motion.div
                 className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20"
                 animate={{ rotate: [0, 360] }}
@@ -237,10 +237,10 @@ const KonivrERDemo = (): any => {
                 <Sparkles className="w-10 h-10 text-white" / />
               </motion.div>
             </div>
-            <p className="text-xl text-gray-300 mb-2" />
+            <p className="text-xl text-gray-300 mb-2"></p>
               Enhanced Trading Card Game
             </p>
-            <p className="text-gray-400" />
+            <p className="text-gray-400"></p>
               Experience the complete KONIVRER implementation with all game zones and mechanics
             </p>
           </motion.div>
@@ -251,25 +251,25 @@ const KonivrERDemo = (): any => {
             transition={{ delay: 0.3 }}
             className="grid md:grid-cols-3 gap-6 mb-12"
            />
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-blue-500/20" />
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4" />
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-blue-500/20"></div>
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4"></div>
                 <Play className="w-6 h-6 text-white" / />
               </div>
-              <p className="text-gray-400 text-sm" />
+              <p className="text-gray-400 text-sm"></p>
                 All KONIVRER zones implemented: Flag, Life Cards, Field, Combat Row, Azoth Row, and more
               </p>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20" />
-              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4" />
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20"></div>
+              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4"></div>
                 <Sparkles className="w-6 h-6 text-white" / />
               </div>
-              <p className="text-gray-400 text-sm" />
+              <p className="text-gray-400 text-sm"></p>
                 Full card display with elements, abilities, flavor text, and all KONIVRER-specific parts
               </p>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-green-500/20" />
-              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4" />
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-green-500/20"></div>
+              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4"></div>
                 <Settings className="w-6 h-6 text-white" / />
               </div>
-              <p className="text-gray-400 text-sm" />
+              <p className="text-gray-400 text-sm"></p>
                 Elemental system, Life Cards, Inherent card methods, and complete turn structure
               </p>
           </motion.div>
@@ -317,8 +317,8 @@ const KonivrERDemo = (): any => {
               exit={{ opacity: 0, height: 0 }}
               className="mt-8 bg-gray-900/70 backdrop-blur-sm rounded-lg p-6 border border-gray-700"
              />
-              <div className="grid md:grid-cols-2 gap-6" />
-                <div />
+              <div className="grid md:grid-cols-2 gap-6"></div>
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• Flag Zone - Deck identity and bonuses</li>
                     <li>• Life Cards - Unique damage system</li>
@@ -327,7 +327,7 @@ const KonivrERDemo = (): any => {
                     <li>• Azoth Row - Elemental resource management</li>
                     <li>• Removed from Play - Void keyword effects</li>
                 </div>
-                <div />
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• Summon - Play as Familiar with +1 counters</li>
                     <li>• Tribute - Reduce cost by sacrificing Familiars</li>
@@ -335,7 +335,7 @@ const KonivrERDemo = (): any => {
                     <li>• Spell - One-time effect, returns to deck</li>
                     <li>• Burst - Free play when drawn from Life Cards</li>
                 </div>
-                <div />
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• Fire (🜂) - Aggressive, direct damage</li>
                     <li>• Water (🜄) - Flow, healing, flexibility</li>
@@ -346,7 +346,7 @@ const KonivrERDemo = (): any => {
                     <li>• Brilliance (☉) - Light, enhancement</li>
                     <li>• Submerged (🜄) - Deep water, hidden</li>
                 </div>
-                <div />
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• Power = Generic Cost Paid</li>
                     <li>• Choose cost when playing Elementals</li>
@@ -355,7 +355,7 @@ const KonivrERDemo = (): any => {
                     <li>• Strategic resource allocation</li>
                     <li>• Flexible power scaling</li>
                 </div>
-                <div />
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• 6 Unique AI personalities with distinct play styles</li>
                     <li>• Strategic decision making with multiple evaluation criteria</li>
@@ -365,7 +365,7 @@ const KonivrERDemo = (): any => {
                     <li>• Sophisticated power cost optimization</li>
                     <li>• Long-term planning and resource management</li>
                 </div>
-                <div />
+                <div></div>
                   <ul className="text-gray-300 space-y-1 text-sm" />
                     <li>• Start Phase - Draw and generate Azoth</li>
                     <li>• Main Phase - Play cards and abilities</li>

@@ -105,10 +105,10 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
     <div
       className={`bg-gradient-to-br from-purple-800 via-purple-700 to-blue-900 rounded-lg flex flex-col items-center justify-center text-white font-bold text-center p-4 shadow-lg border border-purple-600/30 ${className}`}
      />
-      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg" />
+      <div className="w-12 h-12 mb-3 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"></div>
         <span className="text-purple-900 text-xl font-black">K</span>
       <div className="text-sm mb-1 text-purple-200">KONIVRER</div>
-      <div className="text-xs opacity-75 text-center leading-tight" />
+      <div className="text-xs opacity-75 text-center leading-tight"></div>
         {displayName}
     </div>
   );
@@ -141,7 +141,7 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
         / />
       )}
       {!imageLoaded && (
-        <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" / />
+        <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" /></div>
       )}
       {/* Hover overlay for clickable cards */}
       {clickable && hasData && isHovered && (
@@ -150,18 +150,18 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
           animate={{ opacity: 1 }}
           className = "absolute inset-0 bg-black/50 flex items-center justify-center"
          />
-          <div className="text-white text-center" />
+          <div className="text-white text-center"></div>
             <Eye className="w-8 h-8 mx-auto mb-2" / />
             <div className="text-sm font-medium">View Details</div>
         </motion.div>
       )}
       {/* Card info overlay */}
       {showCardInfo && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3" />
-          <div className="text-white" />
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3"></div>
+          <div className="text-white"></div>
             <div className="font-bold text-sm">{displayName}
             {hasData && (
-              <div className="flex items-center space-x-1 text-xs text-green-400" />
+              <div className="flex items-center space-x-1 text-xs text-green-400"></div>
                 <ExternalLink className="w-3 h-3" / />
                 <span>View Details</span>
             )}
@@ -169,8 +169,8 @@ const CardArtDisplay: React.FC<CardArtDisplayProps> = ({
       )}
       {/* Indicator for cards without data */}
       {!hasData && showCardInfo && (
-        <div className="absolute top-2 right-2" />
-          <div className="bg-yellow-500 text-black text-xs px-2 py-0 whitespace-nowrap rounded" />
+        <div className="absolute top-2 right-2"></div>
+          <div className="bg-yellow-500 text-black text-xs px-2 py-0 whitespace-nowrap rounded"></div>
             Art Only
           </div>
       )}
@@ -275,7 +275,7 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
   const cardsToDisplay = cards.length > 0 ? cards : availableCards.slice(0, 12);
 
   return (
-    <div className={`grid grid-cols-${columns} gap-4 p-4`} />
+    <div className={`grid grid-cols-${columns} gap-4 p-4`}></div>
       {cardsToDisplay.map((cardName, index) => {
         const displayName = getCardDisplayName(cardName);
         const hasData = hasCardData(cardName);
@@ -296,10 +296,10 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
                   showCardInfo={showCardInfo}
                   clickable={false}
                 / />
-                <div className="mt-2 text-center" />
-                  <div className="text-sm transition-colors text-gray-300 group-hover:text-white" />
+                <div className="mt-2 text-center"></div>
+                  <div className="text-sm transition-colors text-gray-300 group-hover:text-white"></div>
                     {displayName}
-                  <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="text-xs text-green-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     Click to view details
                   </div>
               </CardInfoLink>
@@ -311,8 +311,8 @@ const CardArtGallery: React.FC<CardArtGalleryProps> = ({
                   showCardInfo = {showCardInfo}
                   clickable={clickable}
                 / />
-                <div className="mt-2 text-center" />
-                  <div className="text-sm transition-colors text-gray-400" />
+                <div className="mt-2 text-center"></div>
+                  <div className="text-sm transition-colors text-gray-400"></div>
                     {displayName}
                 </div>
               </>
@@ -343,7 +343,7 @@ const CardArtPreview: React.FC<CardArtPreviewProps> = ({
   const detailUrl = getCardDetailUrl(cardName);
 
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto" />
+    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto"></div>
       {hasData && clickable ? (
         <CardInfoLink cardName={cardName} />
           <CardArtDisplay
@@ -362,7 +362,7 @@ const CardArtPreview: React.FC<CardArtPreviewProps> = ({
         / />
       )}
       {showDetails && (
-        <div className="text-center" />
+        <div className="text-center"></div>
           <h3 className="text-xl font-bold text-white mb-2">{displayName}
           <div className="text-sm text-gray-400 mb-3">KONIVRER Card Art</div>
 
@@ -375,7 +375,7 @@ const CardArtPreview: React.FC<CardArtPreviewProps> = ({
               <span>View Card Details</span>
           )}
           {!hasData && (
-            <div className="text-yellow-400 text-sm" />
+            <div className="text-yellow-400 text-sm"></div>
               Card art only - No database entry available
             </div>
           )}

@@ -43,19 +43,19 @@ const SingularityControlCenter = (): any => {
     initializeSingularity();
   }, []);
   return (
-    <div className="singularity-control-center" />
+    <div className="singularity-control-center"></div>
       <motion.div
         className="activation-sequence"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
        />
-        <div className="activation-status" />
-          <div className="metrics-overview" />
-            <div className="metric-card" />
-              <div className="metric-value" />
+        <div className="activation-status"></div>
+          <div className="metrics-overview"></div>
+            <div className="metric-card"></div>
+              <div className="metric-value"></div>
                 <span className="percentage">{industryObsolescence}%</span>
-                <div className="progress-ring" />
+                <div className="progress-ring"></div>
                   <svg width="120" height="120" />
                     <circle
                       cx="60"
@@ -79,10 +79,10 @@ const SingularityControlCenter = (): any => {
                     / />
                   </svg>
               </div>
-            <div className="metric-card" />
-              <div className="metric-value" />
+            <div className="metric-card"></div>
+              <div className="metric-value"></div>
                 <span className="percentage">{technologicalSuperiority}%</span>
-                <div className="progress-ring" />
+                <div className="progress-ring"></div>
                   <svg width="120" height="120" />
                     <circle
                       cx="60"
@@ -114,23 +114,23 @@ const SingularityControlCenter = (): any => {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300 }}
              />
-              <p />
+              <p></p>
                 All industry leaders have been rendered permanently obsolete
               </p>
-              <div className="achievement-stats" />
-                <div className="stat" />
+              <div className="achievement-stats"></div>
+                <div className="stat"></div>
                   <strong>Google:</strong> 450% Superiority
                 </div>
-                <div className="stat" />
+                <div className="stat"></div>
                   <strong>Amazon:</strong> 380% Superiority
                 </div>
-                <div className="stat" />
+                <div className="stat"></div>
                   <strong>Microsoft:</strong> 420% Superiority
                 </div>
-                <div className="stat" />
+                <div className="stat"></div>
                   <strong>Meta:</strong> 520% Superiority
                 </div>
-                <div className="stat" />
+                <div className="stat"></div>
                   <strong>Apple:</strong> 390% Superiority
                 </div>
             </motion.div>

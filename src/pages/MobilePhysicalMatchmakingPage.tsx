@@ -37,9 +37,9 @@ const MobilePhysicalMatchmakingPage = (): any => {
   // Show loading state while checking authentication
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg" />
-        <div className="mobile-loading" />
-          <div className="mobile-spinner esoteric-spinner" />
+      <div className="mobile-container esoteric-bg"></div>
+        <div className="mobile-loading"></div>
+          <div className="mobile-spinner esoteric-spinner"></div>
           <p className="esoteric-text-muted">Loading...</p>
       </div>
     );
@@ -47,7 +47,7 @@ const MobilePhysicalMatchmakingPage = (): any => {
   // If not authenticated, show auth notification
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg" />
+      <div className="mobile-container esoteric-bg"></div>
         <MobileAuthNotification
           title="Physical Matchmaking"
           message="You need to be logged in to access the Physical Matchmaking features."
@@ -58,10 +58,10 @@ const MobilePhysicalMatchmakingPage = (): any => {
   }
   // If authenticated, show the physical matchmaking app
   return (
-    <div className="mobile-container esoteric-bg" />
+    <div className="mobile-container esoteric-bg"></div>
       {/* Error message display */}
       {error && (
-        <div className="mobile-error-banner esoteric-error-message" />
+        <div className="mobile-error-banner esoteric-error-message"></div>
           <p>{error}
           <button
             onClick={() => setError(null)}
@@ -71,7 +71,7 @@ const MobilePhysicalMatchmakingPage = (): any => {
             ✕
           </button>
       )}
-      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted" />
+      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted"></div>
           Organize physical matches and tournaments
         </p>
       <ErrorBoundary onError={handleError} />

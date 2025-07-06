@@ -168,23 +168,23 @@ const GameCard: React.FC<GameCardProps> = ({
     >
       {/* Card Content */}
       {!faceDown ? (
-        <div className="w-full h-full p-1 flex flex-col relative" />
+        <div className="w-full h-full p-1 flex flex-col relative"></div>
           {/* Card Name with Legendary Crown if applicable */}
-          <div className="text-white text-xs font-bold truncate mb-1 flex items-center" />
+          <div className="text-white text-xs font-bold truncate mb-1 flex items-center"></div>
             {isLegendary && (
               <Crown className="w-3 h-3 text-yellow-400 mr-0.5 inline-block" / />
             )}
             {card.name}
 
           {/* Card Image/Placeholder with gradient overlay */}
-          <div className="flex-grow bg-black/40 rounded mb-1 relative overflow-hidden" />
+          <div className="flex-grow bg-black/40 rounded mb-1 relative overflow-hidden"></div>
             {/* Simulated card art with gradient */}
             <div
               className={`absolute inset-0 bg-gradient-to-b ${getCardFrameStyle()}`}
              />
 
             {/* Card type icon overlay */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-30" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-30"></div>
               {card.type === 'Familiar' && (
                 <Shield className="w-8 h-8 text-white" / />
               )}
@@ -195,65 +195,65 @@ const GameCard: React.FC<GameCardProps> = ({
           </div>
 
           {/* Card Type and Stats */}
-          <div className="flex justify-between items-center" />
+          <div className="flex justify-between items-center"></div>
             <div className="text-white text-[8px]">{card.type}
 
             {card.type === 'Familiar' && (
-              <div className="text-white text-xs font-bold" />
+              <div className="text-white text-xs font-bold"></div>
                 {card.power}/{card.toughness}
             )}
           </div>
 
           {/* Ability indicator */}
           {hasAbility && (
-            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-3 h-3" />
-              <div className="w-full h-full bg-purple-500 rounded-full animate-pulse" />
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-3 h-3"></div>
+              <div className="w-full h-full bg-purple-500 rounded-full animate-pulse"></div>
             </div>
           )}
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-800 to-blue-900" />
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 flex items-center justify-center shadow-inner" />
+        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-800 to-blue-900"></div>
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-700 to-blue-800 flex items-center justify-center shadow-inner"></div>
             <span className="text-white font-bold text-lg">K</span>
         </div>
       )}
       {/* Status Indicators */}
-      <div className="absolute top-0 right-0 flex flex-col items-end p-0.5 space-y-0.5" />
+      <div className="absolute top-0 right-0 flex flex-col items-end p-0.5 space-y-0.5"></div>
         {isAttacking && (
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-0.5 shadow-lg" />
+          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-full p-0.5 shadow-lg"></div>
             <Sword className="w-3 h-3 text-white" / />
           </div>
         )}
         {isBlocking && (
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-full p-0.5 shadow-lg" />
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-full p-0.5 shadow-lg"></div>
             <Shield className="w-3 h-3 text-white" / />
           </div>
         )}
         {hasCounters && (
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-lg" />
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-lg"></div>
             {card.counters}
         )}
       </div>
 
       {/* Damage Indicator */}
       {hasDamage && (
-        <div className="absolute bottom-0 right-0 bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center m-0.5 shadow-lg" />
+        <div className="absolute bottom-0 right-0 bg-gradient-to-br from-red-500 to-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center m-0.5 shadow-lg"></div>
           {card.damage}
       )}
       {/* Summoning Sickness Indicator */}
       {hasSummoningSickness && (
-        <div className="absolute bottom-0 left-0 m-0.5" />
+        <div className="absolute bottom-0 left-0 m-0.5"></div>
           <Clock className="w-4 h-4 text-gray-300 drop-shadow-lg" / />
         </div>
       )}
       {/* Azoth Cost Indicator (for cards in hand) */}
       {!faceDown && card.azothCost && zone === 'hand' && (
-        <div className="absolute top-0 left-0 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-xs font-bold rounded-br-lg px-1 py-0.5 flex items-center shadow-lg" />
+        <div className="absolute top-0 left-0 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-xs font-bold rounded-br-lg px-1 py-0.5 flex items-center shadow-lg"></div>
           <Zap className="w-3 h-3 mr-0.5" / />
           {card.azothCost}
       )}
       {/* Foil overlay effect for premium cards */}
       {!faceDown && card.isPremium && (
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none rounded-lg" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 mix-blend-overlay pointer-events-none rounded-lg"></div>
       )}
     </motion.div>
   );

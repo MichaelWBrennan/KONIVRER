@@ -73,9 +73,9 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
   const currentPhaseData = phases[currentPhaseIndex] || phases[0];
 
   return (
-    <div className="flex items-center gap-4" />
+    <div className="flex items-center gap-4"></div>
       {/* Phase Timeline */}
-      <div className="flex items-center gap-2" />
+      <div className="flex items-center gap-2"></div>
         {phases.map((phase, index) => {
           const IconComponent = phase.icon;
           const isActive = phase.id === currentPhase;
@@ -83,7 +83,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
           const isFuture = index > currentPhaseIndex;
           
           return (
-            <div key={phase.id} className="flex items-center" />
+            <div key={phase.id} className="flex items-center"></div>
               {/* Phase Circle */}
               <motion.div
                 className={`
@@ -131,20 +131,20 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
       </div>
 
       {/* Current Phase Info */}
-      <div className="flex flex-col" />
-        <div className="flex items-center gap-2" />
-          <span className={`font-bold ${currentPhaseData.color}`} />
+      <div className="flex flex-col"></div>
+        <div className="flex items-center gap-2"></div>
+          <span className={`font-bold ${currentPhaseData.color}`}></span>
             {currentPhaseData.name} Phase
           </span>
           {!isPlayerTurn && (
             <span className="text-xs text-gray-400">(Opponent)</span>
           )}
-        <div className="text-xs text-gray-400" />
+        <div className="text-xs text-gray-400"></div>
           {currentPhaseData.description}
       </div>
 
       {/* Turn Timer (if applicable) */}
-      <div className="flex items-center gap-1 text-gray-400" />
+      <div className="flex items-center gap-1 text-gray-400"></div>
         <Clock className="w-4 h-4" / />
         <span className="text-sm">∞</span>
     </div>

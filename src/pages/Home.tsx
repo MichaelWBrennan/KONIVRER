@@ -229,60 +229,60 @@ const Home = (): any => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white" />
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white"></div>
       {/* Top Navigation Bar */}
       <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4" />
-        <div className="container mx-auto flex justify-between items-center" />
+        <div className="container mx-auto flex justify-between items-center"></div>
           {/* Logo and Title */}
-          <div className="flex items-center" />
-            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent" />
+          <div className="flex items-center"></div>
+            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"></div>
               KONIVRER
             </div>
           
           {/* Player Info */}
-          <div className="flex items-center space-x-6" />
+          <div className="flex items-center space-x-6"></div>
             {/* Currency */}
-            <div className="flex items-center space-x-4" />
-              <div className="flex items-center" />
-                <div className="w-5 h-5 rounded-full bg-yellow-500 mr-2" />
+            <div className="flex items-center space-x-4"></div>
+              <div className="flex items-center"></div>
+                <div className="w-5 h-5 rounded-full bg-yellow-500 mr-2"></div>
                 <span>{playerGold.toLocaleString()}
               </div>
-              <div className="flex items-center" />
-                <div className="w-5 h-5 rounded-full bg-purple-500 mr-2" />
+              <div className="flex items-center"></div>
+                <div className="w-5 h-5 rounded-full bg-purple-500 mr-2"></div>
                 <span>{playerGems.toLocaleString()}
               </div>
             
             {/* Wildcards */}
-            <div className="hidden md:flex items-center space-x-2" />
-              <div className="flex items-center" />
-                <div className="w-4 h-4 rounded-full bg-gray-400 mr-1" />
+            <div className="hidden md:flex items-center space-x-2"></div>
+              <div className="flex items-center"></div>
+                <div className="w-4 h-4 rounded-full bg-gray-400 mr-1"></div>
                 <span className="text-sm">{playerWildcards.common}
               </div>
-              <div className="flex items-center" />
-                <div className="w-4 h-4 rounded-full bg-blue-400 mr-1" />
+              <div className="flex items-center"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-400 mr-1"></div>
                 <span className="text-sm">{playerWildcards.uncommon}
               </div>
-              <div className="flex items-center" />
-                <div className="w-4 h-4 rounded-full bg-yellow-400 mr-1" />
+              <div className="flex items-center"></div>
+                <div className="w-4 h-4 rounded-full bg-yellow-400 mr-1"></div>
                 <span className="text-sm">{playerWildcards.rare}
               </div>
-              <div className="flex items-center" />
-                <div className="w-4 h-4 rounded-full bg-orange-400 mr-1" />
+              <div className="flex items-center"></div>
+                <div className="w-4 h-4 rounded-full bg-orange-400 mr-1"></div>
                 <span className="text-sm">{playerWildcards.mythic}
               </div>
             
             {/* Notifications */}
-            <button className="relative p-2 rounded-full hover:bg-gray-700" />
+            <button className="relative p-2 rounded-full hover:bg-gray-700"></button>
               <Bell size={20} / />
               {notifications > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center" />
+                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center"></span>
                   {notifications}
               )}
             </button>
             
             {/* Profile */}
-            <div className="flex items-center" />
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2" />
+            <div className="flex items-center"></div>
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2"></div>
                 <User size={16} / />
               </div>
               <span className="hidden md:inline">{playerName}
@@ -299,15 +299,15 @@ const Home = (): any => {
         </div>
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6" />
+      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6"></div>
         {/* Left Navigation */}
-        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit" />
+        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit"></div>
           <nav className="space-y-2" />
             <Link to="/play" className="flex items-center space-x-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors" />
               <Play size={20} / />
               <span className="font-medium">Play</span>
             
-            <div className="h-px bg-gray-700 my-3" />
+            <div className="h-px bg-gray-700 my-3"></div>
             
             <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
               <Package size={20} / />
@@ -329,7 +329,7 @@ const Home = (): any => {
               <User size={20} / />
               <span>Profile</span>
             
-            <div className="h-px bg-gray-700 my-3" />
+            <div className="h-px bg-gray-700 my-3"></div>
             
             <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
               <Settings size={20} / />
@@ -337,24 +337,24 @@ const Home = (): any => {
           </nav>
           
           {/* Daily Quests */}
-          <div className="mt-6" />
+          <div className="mt-6"></div>
             <h3 className="text-lg font-medium mb-3">Daily Quests</h3>
-            <div className="space-y-3" />
+            <div className="space-y-3"></div>
               {dailyQuests.map(quest => (
-                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3" />
-                  <div className="flex justify-between items-start mb-2" />
+                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3"></div>
+                  <div className="flex justify-between items-start mb-2"></div>
                     <p className="text-sm">{quest.description}
-                    <div className="flex items-center" />
-                      <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1" />
+                    <div className="flex items-center"></div>
+                      <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1"></div>
                       <span className="text-sm">{quest.reward.gold}
                     </div>
-                  <div className="w-full bg-gray-600 rounded-full h-2" />
+                  <div className="w-full bg-gray-600 rounded-full h-2"></div>
                     <div 
                       className="bg-blue-500 h-2 rounded-full" 
                       style={{ width: `${(quest.progress / quest.total) * 100}%` }}
                      />
                   </div>
-                  <div className="text-xs text-gray-400 mt-1 text-right" />
+                  <div className="text-xs text-gray-400 mt-1 text-right"></div>
                     {quest.progress}/{quest.total}
                 </div>
               ))}
@@ -362,10 +362,10 @@ const Home = (): any => {
         </div>
         
         {/* Main Content Area */}
-        <div className="flex-1" />
+        <div className="flex-1"></div>
           {/* Blog Search and Filters */}
-          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6" />
-            <div className="relative mb-4" />
+          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
+            <div className="relative mb-4"></div>
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" / />
               <input
                 type="text"
@@ -376,7 +376,7 @@ const Home = (): any => {
               />
             </div>
             
-            <div className="flex flex-wrap gap-2 mb-2" />
+            <div className="flex flex-wrap gap-2 mb-2"></div>
               {categories.map(category => (
                 <button
                   key={category.id}
@@ -392,12 +392,12 @@ const Home = (): any => {
               ))}
             </div>
             
-            <div className="flex justify-between items-center" />
-              <div className="text-sm text-gray-400" />
+            <div className="flex justify-between items-center"></div>
+              <div className="text-sm text-gray-400"></div>
                 Showing {filteredPosts.length} of {blogPosts.length} posts
               </div>
               
-              <div className="flex items-center space-x-3" />
+              <div className="flex items-center space-x-3"></div>
                 <select
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
@@ -408,7 +408,7 @@ const Home = (): any => {
                   <option value="likes">Most Liked</option>
                   <option value="comments">Most Discussed</option>
                 
-                <div className="flex items-center bg-gray-700 rounded-lg p-1" />
+                <div className="flex items-center bg-gray-700 rounded-lg p-1"></div>
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-1 rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
@@ -425,7 +425,7 @@ const Home = (): any => {
           </div>
           
           {/* Blog Posts */}
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'} />
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'}></div>
             {sortedPosts.map((post, index) => (
               <div
                 key={post.id}
@@ -434,7 +434,7 @@ const Home = (): any => {
                 } ${viewMode === 'list' ? 'flex' : ''}`}
                />
                 {/* Featured Image */}
-                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`} />
+                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`}></div>
                   <img
                     src={post.image}
                     alt={post.title}
@@ -442,7 +442,7 @@ const Home = (): any => {
                       viewMode === 'list' ? 'h-full' : 'h-48'
                     }`}
                   / />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" / />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /></div>
                   {/* Type Badge */}
                   <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${
                     post.category === 'releases' ? 'bg-blue-600' :
@@ -456,59 +456,59 @@ const Home = (): any => {
                 </div>
                 
                 {/* Content */}
-                <div className="p-4 flex-1" />
+                <div className="p-4 flex-1"></div>
                   <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors" />
                     {post.title}
                   
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-2" />
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2"></p>
                     {post.excerpt}
                   
-                  <div className="flex items-center mb-3" />
-                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden" />
+                  <div className="flex items-center mb-3"></div>
+                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden"></div>
                       <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" / />
                     </div>
-                    <div />
+                    <div></div>
                       <div className="text-sm font-medium">{post.author.name}
                       <div className="text-xs text-gray-400">{post.author.role}
                     </div>
                   
-                  <div className="flex justify-between items-center text-xs text-gray-400" />
-                    <div className="flex items-center space-x-3" />
-                      <div className="flex items-center" />
+                  <div className="flex justify-between items-center text-xs text-gray-400"></div>
+                    <div className="flex items-center space-x-3"></div>
+                      <div className="flex items-center"></div>
                         <CalendarIcon size={12} className="mr-1" / />
                         <span>{formatDate(post.date)}
                       </div>
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <Clock size={12} className="mr-1" / />
                         <span>{post.readTime}
                       </div>
                     
-                    <div className="flex items-center space-x-3" />
-                      <div className="flex items-center" />
+                    <div className="flex items-center space-x-3"></div>
+                      <div className="flex items-center"></div>
                         <Eye size={12} className="mr-1" / />
                         <span>{post.views.toLocaleString()}
                       </div>
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <Heart size={12} className="mr-1" / />
                         <span>{post.likes.toLocaleString()}
                       </div>
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <MessageSquare size={12} className="mr-1" / />
                         <span>{post.comments.toLocaleString()}
                       </div>
                   </div>
                   
-                  <div className="mt-4 flex justify-between items-center" />
+                  <div className="mt-4 flex justify-between items-center"></div>
                     <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center" />
                       <span>Read More</span>
                       <ExternalLink size={14} className="ml-1" / />
                     </Link>
                     
-                    <div className="flex items-center space-x-2" />
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white" />
+                    <div className="flex items-center space-x-2"></div>
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
                         <Heart size={16} / />
                       </button>
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white" />
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
                         <MessageSquare size={16} / />
                       </button>
                   </div>
@@ -518,9 +518,9 @@ const Home = (): any => {
           
           {/* Daily Rewards Banner */}
           {!dailyRewardsClaimed && (
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6" />
-              <div className="flex justify-between items-center" />
-                <div />
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6"></div>
+              <div className="flex justify-between items-center"></div>
+                <div></div>
                   <h3 className="text-xl font-medium mb-1">Daily Rewards Available!</h3>
                   <p className="text-gray-300 text-sm">Claim your daily rewards and get bonus gold.</p>
                 <button 
@@ -532,48 +532,48 @@ const Home = (): any => {
             </div>
           )}
           {/* Featured Events */}
-          <div className="mb-6" />
-            <div className="flex justify-between items-center mb-4" />
+          <div className="mb-6"></div>
+            <div className="flex justify-between items-center mb-4"></div>
               <h2 className="text-2xl font-bold">Featured Events</h2>
               <Link to="/events" className="text-blue-400 hover:text-blue-300 flex items-center" />
                 <span className="text-sm">View All</span>
                 <ChevronRight size={16} / />
               </Link>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
               {featuredEvents.map(event => (
-                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group" />
-                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative" />
-                    <div className="absolute inset-0 flex items-center justify-center" />
+                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group"></div>
+                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative"></div>
+                    <div className="absolute inset-0 flex items-center justify-center"></div>
                       <span className="text-xl font-bold">{event.name}
                     </div>
-                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs" />
+                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs"></div>
                       {event.format}
-                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center" />
+                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center"></div>
                       <Clock size={12} className="mr-1" / />
                       <span>Ends in {event.endDate}
                     </div>
                   
-                  <div className="p-4" />
-                    <div className="flex justify-between items-center mb-3" />
+                  <div className="p-4"></div>
+                    <div className="flex justify-between items-center mb-3"></div>
                       <span className="text-sm text-gray-400">{event.type}
-                      <div className="flex items-center space-x-2" />
-                        <div className="flex items-center" />
-                          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1" />
+                      <div className="flex items-center space-x-2"></div>
+                        <div className="flex items-center"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1"></div>
                           <span className="text-xs">{event.entryFee.gold}
                         </div>
-                        <div className="flex items-center" />
-                          <div className="w-3 h-3 rounded-full bg-purple-500 mr-1" />
+                        <div className="flex items-center"></div>
+                          <div className="w-3 h-3 rounded-full bg-purple-500 mr-1"></div>
                           <span className="text-xs">{event.entryFee.gems}
                         </div>
                     </div>
                     
-                    <div className="flex items-center text-xs text-gray-300 mb-3" />
+                    <div className="flex items-center text-xs text-gray-300 mb-3"></div>
                       <Award size={14} className="mr-1" / />
                       <span>{event.rewards}
                     </div>
                     
-                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium" />
+                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium"></button>
                       Join Event
                     </button>
                 </div>
@@ -598,7 +598,7 @@ const Home = (): any => {
               className="bg-gray-800 rounded-xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6" />
+              <div className="flex justify-between items-center mb-6"></div>
                 <h2 className="text-2xl font-bold">Game Menu</h2>
                 <button 
                   onClick={() => setShowMenu(false)}
@@ -607,7 +607,7 @@ const Home = (): any => {
                   <X size={20} / />
                 </button>
               
-              <div className="space-y-3" />
+              <div className="space-y-3"></div>
                 <Link to="/play" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
                   <Play size={20} / />
                   <span>Play</span>
@@ -632,13 +632,13 @@ const Home = (): any => {
                   <User size={20} / />
                   <span>Profile</span>
                 
-                <div className="h-px bg-gray-700 my-3" />
+                <div className="h-px bg-gray-700 my-3"></div>
                 
                 <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
                   <Settings size={20} / />
                   <span>Settings</span>
                 
-                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left" />
+                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left"></button>
                   <LogOut size={20} / />
                   <span>Logout</span>
               </div>

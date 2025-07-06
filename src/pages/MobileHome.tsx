@@ -35,21 +35,21 @@ const MobileHome = (): any => {
     },
   ]);
   return (
-    <div className="mobile-home" />
+    <div className="mobile-home"></div>
       {/* Welcome Section */}
       <section className="mobile-p mobile-text-center mobile-mb esoteric-scroll" />
-        <div className="esoteric-divider" />
+        <div className="esoteric-divider"></div>
           <span className="esoteric-divider-symbol">✧</span>
         <p className="esoteric-rune">Trading Card Game</p>
-        <div className="esoteric-divider" />
+        <div className="esoteric-divider"></div>
           <span className="esoteric-divider-symbol">✧</span>
       </section>
       {/* Quick Access */}
       <section className="mobile-mb" />
         {/* Main Game Demo */}
-        <div className="mobile-card esoteric-card mobile-mb" />
-          <div className="mobile-card-content mobile-text-center" />
-            <p className="mobile-mb" />
+        <div className="mobile-card esoteric-card mobile-mb"></div>
+          <div className="mobile-card-content mobile-text-center"></div>
+            <p className="mobile-mb"></p>
               Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
             </p>
             <Link 
@@ -70,17 +70,17 @@ const MobileHome = (): any => {
             </Link>
         </div>
         {/* AI Testing Mode */}
-        <div className="mobile-card esoteric-card mobile-mb" />
-          <div className="mobile-card-content mobile-text-center" />
-            <p className="mobile-mb" />
+        <div className="mobile-card esoteric-card mobile-mb"></div>
+          <div className="mobile-card-content mobile-text-center"></div>
+            <p className="mobile-mb"></p>
               Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
             </p>
-            <div className="ai-features-list mobile-mb" />
+            <div className="ai-features-list mobile-mb"></div>
               <div className="ai-feature">💯 100% Consciousness Level</div>
               <div className="ai-feature">💀 Life Card Mortality Awareness</div>
               <div className="ai-feature">⚛️ Quantum Decision Engine</div>
               <div className="ai-feature">👁️ Theory of Mind Analysis</div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }} />
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}></div>
               <Link 
                 to="/ai-consciousness-demo" 
                 className="mobile-button esoteric-glow-hover"
@@ -121,9 +121,9 @@ const MobileHome = (): any => {
               </Link>
           </div>
         {/* Player vs Player */}
-        <div className="mobile-card esoteric-card" />
-          <div className="mobile-card-content mobile-text-center" />
-            <p className="mobile-mb" />
+        <div className="mobile-card esoteric-card"></div>
+          <div className="mobile-card-content mobile-text-center"></div>
+            <p className="mobile-mb"></p>
               Challenge other players in classic KONIVRER matches with full game mechanics and competitive play.
             </p>
             <Link 
@@ -145,14 +145,14 @@ const MobileHome = (): any => {
         </div>
       {/* News & Updates */}
       <section className="mobile-mb" />
-        <div className="mobile-card esoteric-card" />
+        <div className="mobile-card esoteric-card"></div>
           {newsItems.map((item, index) => (
-            <div key={item.id} />
-              <div className="mobile-card-content" />
+            <div key={item.id}></div>
+              <div className="mobile-card-content"></div>
                 <p>{item.content}
               </div>
               {index < newsItems.length - 1 && (
-                <div className="esoteric-divider" />
+                <div className="esoteric-divider"></div>
                   <span className="esoteric-divider-symbol">✦</span>
               )}
           ))}

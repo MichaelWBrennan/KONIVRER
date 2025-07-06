@@ -514,14 +514,14 @@ const Matchmaking = (): any => {
   ];
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4" />
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4"></div>
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center"></div>
           <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
-          <p className="text-gray-600 mb-6" />
+          <p className="text-gray-600 mb-6"></p>
             Matchmaking requires an internet connection. You can still play
             against AI opponents or practice with your decks.
           </p>
-          <div className="flex flex-col space-y-3" />
+          <div className="flex flex-col space-y-3"></div>
             <button
               onClick={() => navigate('/game/ai')}
               className="bg-blue-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors"
@@ -538,22 +538,22 @@ const Matchmaking = (): any => {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50" />
+    <div className="min-h-screen bg-gray-50"></div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex items-center justify-between h-16" />
-            <div className="flex items-center space-x-4" />
-              <Users className="w-8 h-8 text-blue-600" /><div className="flex items-center space-x-2 text-sm text-gray-500" />
+      <div className="bg-white shadow-sm border-b"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex items-center justify-between h-16"></div>
+            <div className="flex items-center space-x-4"></div>
+              <Users className="w-8 h-8 text-blue-600" /><div className="flex items-center space-x-2 text-sm text-gray-500"></div>
                 <Wifi className="w-4 h-4 text-green-500" / />
                 <span>Online</span>
             </div>
             {playerStats && (
-              <div className="flex items-center space-x-4" />
-                <div className="text-right" />
-                  <div className="text-sm font-medium text-gray-900" />
+              <div className="flex items-center space-x-4"></div>
+                <div className="text-right"></div>
+                  <div className="text-sm font-medium text-gray-900"></div>
                     {playerStats.tier.toUpperCase()} {playerStats.division}
-                  <div className="text-xs text-gray-500" />
+                  <div className="text-xs text-gray-500"></div>
                     {playerStats.rating} MMR ({playerStats.wins}W-
                     {playerStats.losses}L)
                   </div>
@@ -566,9 +566,9 @@ const Matchmaking = (): any => {
           </div>
       </div>
       {/* Tab Navigation */}
-      <div className="bg-white border-b" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex space-x-1 overflow-x-auto" />
+      <div className="bg-white border-b"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex space-x-1 overflow-x-auto"></div>
             <button
               onClick={() => setActiveTab('play')}
               className={`px-4 py-0 whitespace-nowrap font-medium text-sm border-b-2 transition-colors ${
@@ -577,7 +577,7 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <Play className="w-4 h-4" / />
                 <span>Play</span>
             </button>
@@ -589,7 +589,7 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <Trophy className="w-4 h-4" / />
                 <span>Tournaments</span>
             </button>
@@ -601,7 +601,7 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <BarChart className="w-4 h-4" / />
                 <span>Stats</span>
             </button>
@@ -613,7 +613,7 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <Clock className="w-4 h-4" / />
                 <span>History</span>
             </button>
@@ -625,7 +625,7 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <Users className="w-4 h-4" / />
                 <span>Friends</span>
             </button>
@@ -637,36 +637,36 @@ const Matchmaking = (): any => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <Settings className="w-4 h-4" / />
                 <span>Settings</span>
             </button>
         </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"></div>
         {activeTab === 'play' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8"></div>
             {/* Main Matchmaking Panel */}
-            <div className="lg:col-span-2 space-y-6" />
+            <div className="lg:col-span-2 space-y-6"></div>
               {/* Format note - KONIVRER only has one format */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
-                <div className="flex items-center space-x-3 mb-2" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                <div className="flex items-center space-x-3 mb-2"></div>
                   <Shield className="w-5 h-5 text-blue-600" / />
                 </div>
-                <p className="text-sm text-gray-600" />
+                <p className="text-sm text-gray-600"></p>
                   KONIVRER uses a single standardized format for all matches.
                 </p>
               {/* Deck Selection */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
                 {selectedDeck ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg" />
-                    <div className="flex items-center space-x-3" />
-                      <div className="w-12 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-sm" />
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"></div>
+                    <div className="flex items-center space-x-3"></div>
+                      <div className="w-12 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-sm"></div>
                         {selectedDeck.name?.[0] || 'D'}
-                      <div />
-                        <div className="font-medium text-gray-900" />
+                      <div></div>
+                        <div className="font-medium text-gray-900"></div>
                           {selectedDeck.name || 'My Deck'}
-                        <div className="text-sm text-gray-500" />
+                        <div className="text-sm text-gray-500"></div>
                           {selectedDeck.cards?.length || 60} cards •{' '}
                           {selectedDeck.archetype || 'Custom'}
                       </div>
@@ -677,7 +677,7 @@ const Matchmaking = (): any => {
                       Change Deck
                     </button>
                 ) : (
-                  <div className="text-center py-8" />
+                  <div className="text-center py-8"></div>
                     <div className="text-gray-400 mb-2">No deck selected</div>
                     <button
                       className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg hover:bg-blue-700 transition-colors"
@@ -688,8 +688,8 @@ const Matchmaking = (): any => {
                 )}
               </div>
               {/* Matchmaking Preferences */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
-                <div className="flex items-center justify-between mb-4" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                <div className="flex items-center justify-between mb-4"></div>
                   <button
                     onClick={() => setShowPreferences(!showPreferences)}
                     className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
@@ -701,12 +701,12 @@ const Matchmaking = (): any => {
                       <ChevronDown className="w-4 h-4" / />
                     )}
                 </div>
-                <div className="space-y-4" />
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-2" />
+                <div className="space-y-4"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                       Skill Range
                     </label>
-                    <div className="grid grid-cols-3 gap-2" />
+                    <div className="grid grid-cols-3 gap-2"></div>
                       {skillRanges.map(range => (
                         <motion.button
                           key={range.id}
@@ -723,11 +723,11 @@ const Matchmaking = (): any => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <div className="font-medium text-sm" />
+                          <div className="font-medium text-sm"></div>
                             {range.name}
-                          <div className="text-xs text-gray-500" />
+                          <div className="text-xs text-gray-500"></div>
                             {range.description}
-                          <div className="text-xs text-blue-600 mt-1" />
+                          <div className="text-xs text-blue-600 mt-1"></div>
                             {range.waitTime}
                         </motion.button>
                       ))}
@@ -741,9 +741,9 @@ const Matchmaking = (): any => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                        />
-                        <div className="grid grid-cols-2 gap-4 pt-2" />
-                          <div />
-                            <label className="block text-sm font-medium text-gray-700 mb-2" />
+                        <div className="grid grid-cols-2 gap-4 pt-2"></div>
+                          <div></div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                               Game Mode
                             </label>
                             <select
@@ -759,8 +759,8 @@ const Matchmaking = (): any => {
                               <option value="casual">Casual</option>
                               <option value="tournament">Tournament</option>
                           </div>
-                          <div />
-                            <label className="block text-sm font-medium text-gray-700 mb-2" />
+                          <div></div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                               Region
                             </label>
                             <select
@@ -780,14 +780,14 @@ const Matchmaking = (): any => {
                               <option value="asia">Asia Pacific</option>
                               <option value="oceania">Oceania</option>
                           </div>
-                        <div className="mt-4 space-y-3" />
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-2" />
+                        <div className="mt-4 space-y-3"></div>
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-2"></div>
                               <Laptop className="w-4 h-4 text-gray-500" / />
-                              <span className="text-sm text-gray-700" />
+                              <span className="text-sm text-gray-700"></span>
                                 Cross-Platform Play
                               </span>
-                            <label className="relative inline-flex items-center cursor-pointer" />
+                            <label className="relative inline-flex items-center cursor-pointer"></label>
                               <input
                                 type="checkbox"
                                 className="sr-only peer"
@@ -798,15 +798,15 @@ const Matchmaking = (): any => {
                                     crossPlay: !prev.crossPlay,
                                   }))}
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </label>
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-2" />
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-2"></div>
                               <Headphones className="w-4 h-4 text-gray-500" / />
-                              <span className="text-sm text-gray-700" />
+                              <span className="text-sm text-gray-700"></span>
                                 Voice Chat
                               </span>
-                            <label className="relative inline-flex items-center cursor-pointer" />
+                            <label className="relative inline-flex items-center cursor-pointer"></label>
                               <input
                                 type="checkbox"
                                 className="sr-only peer"
@@ -817,15 +817,15 @@ const Matchmaking = (): any => {
                                     voiceChat: !prev.voiceChat,
                                   }))}
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </label>
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-2" />
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-2"></div>
                               <Trophy className="w-4 h-4 text-gray-500" / />
-                              <span className="text-sm text-gray-700" />
+                              <span className="text-sm text-gray-700"></span>
                                 Show Rank
                               </span>
-                            <label className="relative inline-flex items-center cursor-pointer" />
+                            <label className="relative inline-flex items-center cursor-pointer"></label>
                               <input
                                 type="checkbox"
                                 className="sr-only peer"
@@ -836,7 +836,7 @@ const Matchmaking = (): any => {
                                     showRank: !prev.showRank,
                                   }))}
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                             </label>
                         </div>
                       </motion.div>
@@ -844,12 +844,12 @@ const Matchmaking = (): any => {
                   </AnimatePresence>
               </div>
               {/* Start Matchmaking Button */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
                 {isSearching ? (
-                  <div className="space-y-4" />
-                    <div className="flex items-center justify-between" />
-                      <div />
-                        <p className="text-sm text-gray-500" />
+                  <div className="space-y-4"></div>
+                    <div className="flex items-center justify-between"></div>
+                      <div></div>
+                        <p className="text-sm text-gray-500"></p>
                           {formatSearchTime(searchTime)} • Queue Position:{' '}
                           {getQueuePosition()}
                       </div>
@@ -859,7 +859,7 @@ const Matchmaking = (): any => {
                        />
                         Cancel
                       </button>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5" />
+                    <div className="w-full bg-gray-200 rounded-full h-2.5"></div>
                       <motion.div
                         className="bg-blue-600 h-2.5 rounded-full"
                         initial={{ width: '5%' }}
@@ -872,16 +872,16 @@ const Matchmaking = (): any => {
                         }}
                       ></motion.div>
                     </div>
-                    <div className="flex items-center space-x-3 text-sm text-gray-500" />
-                      <div className="flex items-center space-x-1" />
+                    <div className="flex items-center space-x-3 text-sm text-gray-500"></div>
+                      <div className="flex items-center space-x-1"></div>
                         <Target className="w-4 h-4" / />
                         <span>{selectedFormat}
                       </div>
-                      <div className="flex items-center space-x-1" />
+                      <div className="flex items-center space-x-1"></div>
                         <Trophy className="w-4 h-4" / />
                         <span>{preferences.gameMode}
                       </div>
-                      <div className="flex items-center space-x-1" />
+                      <div className="flex items-center space-x-1"></div>
                         <Globe className="w-4 h-4" / />
                         <span>{preferences.region}
                       </div>
@@ -900,8 +900,8 @@ const Matchmaking = (): any => {
                 )}
               </div>
               {/* Recent Matches */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
-                <div className="flex items-center justify-between mb-4" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                <div className="flex items-center justify-between mb-4"></div>
                   <button
                     onClick={() => setShowHistory(!showHistory)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -910,39 +910,39 @@ const Matchmaking = (): any => {
                     <ChevronDown className="w-4 h-4" / />
                   </button>
                 {recentMatches.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500" />
+                  <div className="text-center py-8 text-gray-500"></div>
                     <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
                     <p>No recent matches.</p>
-                    <p className="text-sm" />
+                    <p className="text-sm"></p>
                       Start playing to see your match history!
                     </p>
                 ) : (
-                  <div className="space-y-3" />
+                  <div className="space-y-3"></div>
                     {recentMatches.map(match => (
                       <div
                         key={match.id}
                         className="border border-gray-200 rounded-lg p-4"
                        />
-                        <div className="flex items-center justify-between" />
-                          <div className="flex items-center space-x-3" />
+                        <div className="flex items-center justify-between"></div>
+                          <div className="flex items-center space-x-3"></div>
                             <div
                               className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}
                              />
                               {match.result === 'win' ? 'W' : 'L'}
-                            <div />
-                              <div className="font-medium" />
+                            <div></div>
+                              <div className="font-medium"></div>
                                 vs {match.opponent.name}
-                              <div className="text-sm text-gray-500" />
+                              <div className="text-sm text-gray-500"></div>
                                 {match.opponent.hero} • {match.score}
                             </div>
-                          <div className="text-right" />
+                          <div className="text-right"></div>
                             <div
                               className={`font-medium ${match.ratingChange > 0 ? 'text-green-600' : 'text-red-600'}`}
                             >
                               {match.ratingChange > 0 ? '+' : ''}
                               {match.ratingChange} MMR
                             </div>
-                            <div className="text-sm text-gray-500" />
+                            <div className="text-sm text-gray-500"></div>
                               {new Date(match.date).toLocaleDateString()}
                           </div>
                       </div>
@@ -951,46 +951,46 @@ const Matchmaking = (): any => {
                 )}
               </div>
             {/* Sidebar */}
-            <div className="space-y-6" />
+            <div className="space-y-6"></div>
               {/* Player Stats */}
               {playerStats && (
-                <div className="bg-white rounded-xl shadow-sm p-6" />
-                  <div className="flex items-center space-x-4 mb-4" />
+                <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                  <div className="flex items-center space-x-4 mb-4"></div>
                     <div
                       className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}
                      />
                       {playerStats.rankIcon}
-                    <div />
-                      <div className="text-xl font-bold text-gray-900" />
+                    <div></div>
+                      <div className="text-xl font-bold text-gray-900"></div>
                         {playerStats.tier.toUpperCase()} {playerStats.division}
-                      <div className="text-sm text-gray-500" />
+                      <div className="text-sm text-gray-500"></div>
                         {playerStats.rating} MMR
                       </div>
                   </div>
-                  <div className="space-y-3" />
-                    <div />
-                      <div className="flex items-center justify-between text-sm mb-1" />
+                  <div className="space-y-3"></div>
+                    <div></div>
+                      <div className="flex items-center justify-between text-sm mb-1"></div>
                         <span className="text-gray-600">Rank Progress</span>
-                        <span className="font-medium" />
+                        <span className="font-medium"></span>
                           {playerStats.rankProgress}%
                         </span>
-                      <div className="w-full bg-gray-200 rounded-full h-2" />
+                      <div className="w-full bg-gray-200 rounded-full h-2"></div>
                         <div
                           className="bg-blue-600 h-2 rounded-full"
                           style={{ width: `${playerStats.rankProgress}%` }}
                          />
                       </div>
-                    <div className="grid grid-cols-3 gap-2 text-center" />
-                      <div className="bg-gray-50 rounded-lg p-2" />
-                        <div className="text-lg font-bold text-gray-900" />
+                    <div className="grid grid-cols-3 gap-2 text-center"></div>
+                      <div className="bg-gray-50 rounded-lg p-2"></div>
+                        <div className="text-lg font-bold text-gray-900"></div>
                           {playerStats.wins}
                         <div className="text-xs text-gray-500">Wins</div>
-                      <div className="bg-gray-50 rounded-lg p-2" />
-                        <div className="text-lg font-bold text-gray-900" />
+                      <div className="bg-gray-50 rounded-lg p-2"></div>
+                        <div className="text-lg font-bold text-gray-900"></div>
                           {playerStats.losses}
                         <div className="text-xs text-gray-500">Losses</div>
-                      <div className="bg-gray-50 rounded-lg p-2" />
-                        <div className="text-lg font-bold text-gray-900" />
+                      <div className="bg-gray-50 rounded-lg p-2"></div>
+                        <div className="text-lg font-bold text-gray-900"></div>
                           {(
                             (playerStats.wins /
                               (playerStats.wins + playerStats.losses)) *
@@ -1000,36 +1000,36 @@ const Matchmaking = (): any => {
                         </div>
                         <div className="text-xs text-gray-500">Win Rate</div>
                     </div>
-                    <div className="pt-2" />
-                      <div className="flex items-center justify-between text-sm" />
-                        <div className="flex items-center space-x-1" />
+                    <div className="pt-2"></div>
+                      <div className="flex items-center justify-between text-sm"></div>
+                        <div className="flex items-center space-x-1"></div>
                           <Flame className="w-4 h-4 text-orange-500" / />
                           <span>Current Streak</span>
-                        <span className="font-medium" />
+                        <span className="font-medium"></span>
                           {playerStats.streak > 0
                             ? `+${playerStats.streak}`
                             : playerStats.streak}
                         </span>
-                      <div className="flex items-center justify-between text-sm" />
-                        <div className="flex items-center space-x-1" />
+                      <div className="flex items-center justify-between text-sm"></div>
+                        <div className="flex items-center space-x-1"></div>
                           <Trophy className="w-4 h-4 text-yellow-500" / />
                           <span>Best Rank</span>
-                        <span className="font-medium" />
+                        <span className="font-medium"></span>
                           {playerStats.bestRank}
                       </div>
-                      <div className="flex items-center justify-between text-sm" />
-                        <div className="flex items-center space-x-1" />
+                      <div className="flex items-center justify-between text-sm"></div>
+                        <div className="flex items-center space-x-1"></div>
                           <Target className="w-4 h-4 text-blue-500" / />
                           <span>Season Highest</span>
-                        <span className="font-medium" />
+                        <span className="font-medium"></span>
                           {playerStats.seasonHighest} MMR
                         </span>
                     </div>
                 </div>
               )}
               {/* Leaderboard Preview */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
-                <div className="flex items-center justify-between mb-4" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                <div className="flex items-center justify-between mb-4"></div>
                   <button
                     onClick={() => setShowLeaderboard(!showLeaderboard)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -1037,28 +1037,28 @@ const Matchmaking = (): any => {
                     <span>View Full</span>
                     <ChevronDown className="w-4 h-4" / />
                   </button>
-                <div className="space-y-2" />
+                <div className="space-y-2"></div>
                   {leaderboard.slice(0, 5).map((player, index) => (
                     <div
                       key={player.id}
                       className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
                      />
-                      <div className="flex items-center space-x-3" />
-                        <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center font-medium text-gray-700" />
+                      <div className="flex items-center space-x-3"></div>
+                        <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center font-medium text-gray-700"></div>
                           {index + 1}
                         <div className="font-medium">{player.name}
                       </div>
-                      <div className="text-right" />
+                      <div className="text-right"></div>
                         <div className="font-medium">{player.rating}
-                        <div className="text-xs text-gray-500" />
+                        <div className="text-xs text-gray-500"></div>
                           {player.tier}
                       </div>
                   ))}
                 </div>
               {/* Tournament section moved to dedicated Tournaments tab */}
               {/* Friends Online */}
-              <div className="bg-white rounded-xl shadow-sm p-6" />
-                <div className="flex items-center justify-between mb-4" />
+              <div className="bg-white rounded-xl shadow-sm p-6"></div>
+                <div className="flex items-center justify-between mb-4"></div>
                   <button
                     onClick={() => setShowFriends(!showFriends)}
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
@@ -1066,7 +1066,7 @@ const Matchmaking = (): any => {
                     <span>View All</span>
                     <ChevronDown className="w-4 h-4" / />
                   </button>
-                <div className="space-y-2" />
+                <div className="space-y-2"></div>
                   {friends
                     .filter(f => f.status === 'online')
                     .slice(0, 3)
@@ -1075,35 +1075,35 @@ const Matchmaking = (): any => {
                         key={friend.id}
                         className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
                        />
-                        <div className="flex items-center space-x-3" />
-                          <div className="relative" />
-                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700" />
+                        <div className="flex items-center space-x-3"></div>
+                          <div className="relative"></div>
+                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700"></div>
                               {friend.name[0]}
-                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                           </div>
-                          <div />
+                          <div></div>
                             <div className="font-medium">{friend.name}
-                            <div className="text-xs text-gray-500" />
+                            <div className="text-xs text-gray-500"></div>
                               {friend.activity}
                           </div>
-                        <div className="flex space-x-2" />
-                          <button className="text-blue-600 hover:text-blue-700" />
+                        <div className="flex space-x-2"></div>
+                          <button className="text-blue-600 hover:text-blue-700"></button>
                             <MessageCircle className="w-4 h-4" / />
                           </button>
-                          <button className="text-green-600 hover:text-green-700" />
+                          <button className="text-green-600 hover:text-green-700"></button>
                             <UserPlus className="w-4 h-4" / />
                           </button>
                       </div>
                     ))}
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-100" />
-                  <button className="w-full text-center text-blue-600 hover:text-blue-700 text-sm font-medium" />
+                <div className="mt-3 pt-3 border-t border-gray-100"></div>
+                  <button className="w-full text-center text-blue-600 hover:text-blue-700 text-sm font-medium"></button>
                     Find Friends
                   </button>
               </div>
               {/* Physical Matchmaking Button */}
-              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-sm p-6 text-white" />
-                <p className="text-sm text-purple-200 mb-4" />
+              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-sm p-6 text-white"></div>
+                <p className="text-sm text-purple-200 mb-4"></p>
                   Use our physical matchmaking system for in-person tournaments
                   and casual play.
                 </p>
@@ -1119,88 +1119,88 @@ const Matchmaking = (): any => {
           </div>
         )}
         {activeTab === 'tournaments' && (
-          <div className="space-y-6" />
-            <div className="bg-white rounded-xl shadow-sm p-6" />
-              <div className="flex items-center space-x-3 mb-6" />
+          <div className="space-y-6"></div>
+            <div className="bg-white rounded-xl shadow-sm p-6"></div>
+              <div className="flex items-center space-x-3 mb-6"></div>
                 <Trophy className="w-8 h-8 text-yellow-500" / />
               </div>
-              <div className="mb-6" />
-                <p className="text-gray-600 mb-4" />
+              <div className="mb-6"></div>
+                <p className="text-gray-600 mb-4"></p>
                   Join official KONIVRER tournaments to compete for prizes,
                   glory, and qualification points. Register for upcoming events
                   or browse past tournament results.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" />
-                  <div className="bg-blue-50 rounded-lg p-4 text-center" />
-                    <div className="text-2xl font-bold text-blue-600 mb-1" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+                  <div className="bg-blue-50 rounded-lg p-4 text-center"></div>
+                    <div className="text-2xl font-bold text-blue-600 mb-1"></div>
                       {tournaments.length}
-                    <div className="text-sm text-blue-700" />
+                    <div className="text-sm text-blue-700"></div>
                       Upcoming Tournaments
                     </div>
-                  <div className="bg-green-50 rounded-lg p-4 text-center" />
-                    <div className="text-2xl font-bold text-green-600 mb-1" />
+                  <div className="bg-green-50 rounded-lg p-4 text-center"></div>
+                    <div className="text-2xl font-bold text-green-600 mb-1"></div>
                       $75,000
                     </div>
-                    <div className="text-sm text-green-700" />
+                    <div className="text-sm text-green-700"></div>
                       Total Prize Pool
                     </div>
-                  <div className="bg-purple-50 rounded-lg p-4 text-center" />
-                    <div className="text-2xl font-bold text-purple-600 mb-1" />
+                  <div className="bg-purple-50 rounded-lg p-4 text-center"></div>
+                    <div className="text-2xl font-bold text-purple-600 mb-1"></div>
                       3
                     </div>
-                    <div className="text-sm text-purple-700" />
+                    <div className="text-sm text-purple-700"></div>
                       Your Registrations
                     </div>
                 </div>
-              <div className="border-t border-gray-200 pt-6" />
-                <div className="space-y-4" />
+              <div className="border-t border-gray-200 pt-6"></div>
+                <div className="space-y-4"></div>
                   {tournaments.map(tournament => (
                     <motion.div
                       key={tournament.id}
                       className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
                       whileHover={{ y: -2 }}
                      />
-                      <div className="flex justify-between items-start mb-3" />
-                        <div />
-                          <div className="flex items-center space-x-2 text-sm text-gray-500 mt-1" />
-                            <div className="flex items-center space-x-1" />
+                      <div className="flex justify-between items-start mb-3"></div>
+                        <div></div>
+                          <div className="flex items-center space-x-2 text-sm text-gray-500 mt-1"></div>
+                            <div className="flex items-center space-x-1"></div>
                               <Shield className="w-4 h-4 text-blue-500" / />
                               <span>KONIVRER Format</span>
                             <span>•</span>
-                            <div className="flex items-center space-x-1" />
+                            <div className="flex items-center space-x-1"></div>
                               <Calendar className="w-4 h-4" / />
-                              <span />
+                              <span></span>
                                 {new Date(
                                   tournament.startDate,
                                 ).toLocaleDateString()}
                             </div>
                         </div>
-                        <span className="bg-green-100 text-green-700 text-xs px-2 py-0 whitespace-nowrap rounded-full" />
+                        <span className="bg-green-100 text-green-700 text-xs px-2 py-0 whitespace-nowrap rounded-full"></span>
                           Registration Open
                         </span>
-                      <div className="grid grid-cols-3 gap-2 mt-3" />
-                        <div className="bg-gray-50 rounded p-2 text-center" />
+                      <div className="grid grid-cols-3 gap-2 mt-3"></div>
+                        <div className="bg-gray-50 rounded p-2 text-center"></div>
                           <div className="text-xs text-gray-500">Entry Fee</div>
-                          <div className="font-medium text-gray-900 flex items-center justify-center" />
+                          <div className="font-medium text-gray-900 flex items-center justify-center"></div>
                             <DollarSign className="w-3 h-3 mr-0.5" / />
                             {tournament.entryFee}
                         </div>
-                        <div className="bg-gray-50 rounded p-2 text-center" />
-                          <div className="text-xs text-gray-500" />
+                        <div className="bg-gray-50 rounded p-2 text-center"></div>
+                          <div className="text-xs text-gray-500"></div>
                             Prize Pool
                           </div>
-                          <div className="font-medium text-gray-900 flex items-center justify-center" />
+                          <div className="font-medium text-gray-900 flex items-center justify-center"></div>
                             <DollarSign className="w-3 h-3 mr-0.5" / />
                             {tournament.prizePool.toLocaleString()}
                         </div>
-                        <div className="bg-gray-50 rounded p-2 text-center" />
+                        <div className="bg-gray-50 rounded p-2 text-center"></div>
                           <div className="text-xs text-gray-500">Players</div>
-                          <div className="font-medium text-gray-900 flex items-center justify-center" />
+                          <div className="font-medium text-gray-900 flex items-center justify-center"></div>
                             <Users className="w-3 h-3 mr-0.5" / />
                             {tournament.participants}
                         </div>
-                      <div className="mt-4 pt-2 border-t border-gray-100 flex justify-between items-center" />
-                        <div className="text-sm text-gray-500" />
+                      <div className="mt-4 pt-2 border-t border-gray-100 flex justify-between items-center"></div>
+                        <div className="text-sm text-gray-500"></div>
                           KONIVRER Format • Best of 1 • Single Elimination
                         </div>
                         <motion.button
@@ -1234,42 +1234,42 @@ const Matchmaking = (): any => {
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden"
              />
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center" />
-                <p className="text-blue-100" />
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center"></div>
+                <p className="text-blue-100"></p>
                   Accept or decline within 30 seconds
                 </p>
-              <div className="p-6" />
-                <div className="flex items-center justify-between mb-6" />
-                  <div className="text-center" />
+              <div className="p-6"></div>
+                <div className="flex items-center justify-between mb-6"></div>
+                  <div className="text-center"></div>
                     <div className="text-sm text-gray-500">You</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       {user?.displayName || 'Player'}
-                    <div className="text-sm text-gray-500" />
+                    <div className="text-sm text-gray-500"></div>
                       {playerStats?.tier} {playerStats?.division}
                   </div>
                   <div className="text-2xl font-bold text-gray-400">VS</div>
-                  <div className="text-center" />
+                  <div className="text-center"></div>
                     <div className="text-sm text-gray-500">Opponent</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       {currentMatch?.opponent.name}
-                    <div className="text-sm text-gray-500" />
+                    <div className="text-sm text-gray-500"></div>
                       {currentMatch?.opponent.tier}
                   </div>
-                <div className="space-y-3 mb-6" />
-                  <div className="flex items-center justify-between text-sm" />
+                <div className="space-y-3 mb-6"></div>
+                  <div className="flex items-center justify-between text-sm"></div>
                     <div className="text-gray-500">Format</div>
                     <div className="font-medium">{currentMatch?.format}
                   </div>
-                  <div className="flex items-center justify-between text-sm" />
+                  <div className="flex items-center justify-between text-sm"></div>
                     <div className="text-gray-500">Game Mode</div>
                     <div className="font-medium">{currentMatch?.gameMode}
                   </div>
-                  <div className="flex items-center justify-between text-sm" />
+                  <div className="flex items-center justify-between text-sm"></div>
                     <div className="text-gray-500">Estimated Duration</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       {currentMatch?.estimatedDuration}
                   </div>
-                <div className="flex space-x-3" />
+                <div className="flex space-x-3"></div>
                   <motion.button
                     onClick={declineMatch}
                     className="flex-1 bg-red-100 text-red-600 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-red-200 transition-colors"
@@ -1306,16 +1306,16 @@ const Matchmaking = (): any => {
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
              />
-              <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-600 p-4 text-white" />
+              <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-600 p-4 text-white"></div>
                 <button
                   onClick={() => setShowPhysicalMatchmaking(false)}
                   className="text-white hover:text-purple-200"
                 >
                   <X className="w-6 h-6" / />
                 </button>
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-4rem)]" />
-                <div className="space-y-4" />
-                  <div className="flex space-x-4" />
+              <div className="p-6 overflow-y-auto max-h-[calc(90vh-4rem)]"></div>
+                <div className="space-y-4"></div>
+                  <div className="flex space-x-4"></div>
                     <motion.button
                       onClick={() => navigate('/matchmaking')}
                       className="flex-1 bg-purple-100 text-purple-700 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-purple-200 transition-colors flex items-center justify-center space-x-2"
@@ -1335,39 +1335,39 @@ const Matchmaking = (): any => {
                       <span>Standalone PWA</span>
                     </motion.button>
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-4" />
-                    <div className="space-y-2 text-sm text-gray-600" />
-                      <p />
+                  <div className="bg-gray-50 rounded-lg p-4"></div>
+                    <div className="space-y-2 text-sm text-gray-600"></div>
+                      <p></p>
                         <strong>Integrated Version:</strong> Full integration
                         with your KONIVRER account, synchronized with online
                         rankings.
                       </p>
-                      <p />
+                      <p></p>
                         <strong>Standalone PWA:</strong> Independent operation,
                         no account required, perfect for local tournaments and
                         offline use.
                       </p>
                   </div>
-                  <div className="bg-blue-50 rounded-lg p-4" />
-                    <div className="space-y-2 text-sm text-blue-800" />
-                      <p />
+                  <div className="bg-blue-50 rounded-lg p-4"></div>
+                    <div className="space-y-2 text-sm text-blue-800"></div>
+                      <p></p>
                         Both versions can be installed as Progressive Web Apps
                         on your device for easy access.
                       </p>
-                      <div className="grid grid-cols-3 gap-2 mt-2" />
-                        <div className="text-center" />
+                      <div className="grid grid-cols-3 gap-2 mt-2"></div>
+                        <div className="text-center"></div>
                           <Smartphone className="w-6 h-6 mx-auto mb-1" / />
                           <p className="text-xs">iOS/Android</p>
-                        <div className="text-center" />
+                        <div className="text-center"></div>
                           <Tablet className="w-6 h-6 mx-auto mb-1" / />
                           <p className="text-xs">Tablets</p>
-                        <div className="text-center" />
+                        <div className="text-center"></div>
                           <Laptop className="w-6 h-6 mx-auto mb-1" / />
                           <p className="text-xs">Computers</p>
                       </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-                    <div className="bg-green-50 rounded-lg p-4" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <div className="bg-green-50 rounded-lg p-4"></div>
                       <ul className="space-y-1 text-sm text-green-800" />
                         <li className="flex items-center space-x-2" />
                           <CheckCircle className="w-4 h-4 flex-shrink-0" / />
@@ -1385,7 +1385,7 @@ const Matchmaking = (): any => {
                           <CheckCircle className="w-4 h-4 flex-shrink-0" / />
                           <span>Offline functionality</span>
                       </ul>
-                    <div className="bg-amber-50 rounded-lg p-4" />
+                    <div className="bg-amber-50 rounded-lg p-4"></div>
                       <ul className="space-y-1 text-sm text-amber-800" />
                         <li className="flex items-center space-x-2" />
                           <CheckCircle className="w-4 h-4 flex-shrink-0" / />
@@ -1411,15 +1411,15 @@ const Matchmaking = (): any => {
       </AnimatePresence>
       {/* Tournament Deck Selection Modal */}
       {showDeckSelectionModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" />
-          <div className="bg-white rounded-xl p-6 max-w-md w-full" />
-            <p className="text-sm text-gray-600 mb-4" />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"></div>
+          <div className="bg-white rounded-xl p-6 max-w-md w-full"></div>
+            <p className="text-sm text-gray-600 mb-4"></p>
               Please select a deck from your account to register for this
               tournament.
             </p>
-            <div className="max-h-60 overflow-y-auto mb-4" />
+            <div className="max-h-60 overflow-y-auto mb-4"></div>
               {userDecks && userDecks.length > 0 ? (
-                <div className="space-y-2" />
+                <div className="space-y-2"></div>
                   {userDecks.map(deck => (
                     <div
                       key={deck.id}
@@ -1433,19 +1433,19 @@ const Matchmaking = (): any => {
                       }}
                     >
                       <div className="font-medium">{deck.name}
-                      <div className="text-sm text-gray-500" />
+                      <div className="text-sm text-gray-500"></div>
                         {deck.hero} • {deck.cards?.length || 0} cards
                       </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-4" />
-                  <p className="text-gray-500" />
+                <div className="text-center py-4"></div>
+                  <p className="text-gray-500"></p>
                     No decks found. Please create a deck first.
                   </p>
               )}
             </div>
-            <div className="flex justify-end space-x-3" />
+            <div className="flex justify-end space-x-3"></div>
               <button
                 className="px-4 py-0 whitespace-nowrap border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 onClick={() => setShowDeckSelectionModal(false)}

@@ -126,19 +126,19 @@ const AIConsciousnessDemo = (): any => {
     }
   };
   return (
-    <div className="ai-consciousness-demo" />
+    <div className="ai-consciousness-demo"></div>
       {/* Header */}
       <motion.div 
         className="demo-header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
        />
-        <div className="header-content" />
+        <div className="header-content"></div>
           <Brain className="header-icon" / />
-          <div className="header-text" />
+          <div className="header-text"></div>
             <p>Experience the cutting-edge AI system with 100% consciousness metrics</p>
         </div>
-        <div className="demo-controls" />
+        <div className="demo-controls"></div>
           <button
             onClick={() => setTestingMode(!testingMode)}
             className={`control-button ${testingMode ? 'active' : ''}`}
@@ -156,10 +156,10 @@ const AIConsciousnessDemo = (): any => {
         </div>
       </motion.div>
       {/* Main Demo Content */}
-      <div className="demo-content" />
+      <div className="demo-content"></div>
         {/* AI Consciousness Panel */}
-        <div className="consciousness-section" />
-          <div className="consciousness-container" />
+        <div className="consciousness-section"></div>
+          <div className="consciousness-container"></div>
             {aiStatus && (
               <CuttingEdgeAIDisplay 
                 aiStatus={aiStatus} 
@@ -168,9 +168,9 @@ const AIConsciousnessDemo = (): any => {
             )}
           </div>
         {/* Life Card Mortality Demo */}
-        <div className="mortality-section" />
-          <div className="mortality-demo" />
-            <div className="life-cards-control" />
+        <div className="mortality-section"></div>
+          <div className="mortality-demo"></div>
+            <div className="life-cards-control"></div>
               <label>Player Life Cards: {lifeCards}
               <input
                 type="range"
@@ -181,8 +181,8 @@ const AIConsciousnessDemo = (): any => {
                 className="life-slider"
               />
             </div>
-            <div className="mortality-visualization" />
-              <div className="life-cards-display" />
+            <div className="mortality-visualization"></div>
+              <div className="life-cards-display"></div>
                 {Array(lifeCards).fill(0).map((_, index) => (
                   <motion.div
                     key={index}
@@ -191,31 +191,31 @@ const AIConsciousnessDemo = (): any => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
                    />
-                    <div className="card-back" />
+                    <div className="card-back"></div>
                     {lifeCards <= 3 && (
-                      <div className="mortality-indicator" />
+                      <div className="mortality-indicator"></div>
                         <Skull className="skull-icon" / />
                       </div>
                     )}
                   </motion.div>
                 ))}
               </div>
-              <div className="mortality-status" />
-                <div className={`status-indicator ${lifeCards <= 2 ? 'critical' : lifeCards <= 4 ? 'danger' : 'stable'}`} />
+              <div className="mortality-status"></div>
+                <div className={`status-indicator ${lifeCards <= 2 ? 'critical' : lifeCards <= 4 ? 'danger' : 'stable'}`}></div>
                   <Activity className="status-icon" / />
-                  <span />
+                  <span></span>
                     {lifeCards <= 2 ? 'CRITICAL MORTALITY RISK' : 
                      lifeCards <= 4 ? 'ELEVATED MORTALITY RISK' : 
                      'STABLE LIFE FORCE'}
                 </div>
-                <div className="ai-analysis" />
+                <div className="ai-analysis"></div>
                   <Brain className="analysis-icon" / />
                   <span>AI analyzing mortality implications...</span>
               </div>
           </div>
         {/* Feature Highlights */}
-        <div className="features-section" />
-          <div className="features-grid" />
+        <div className="features-section"></div>
+          <div className="features-grid"></div>
             <motion.div 
               className="feature-card"
               whileHover={{ scale: 1.05 }}

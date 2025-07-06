@@ -123,18 +123,18 @@ const PhysicalMatchmaking = (): any => {
     };
 
     return (
-      <div className="space-y-6" />
+      <div className="space-y-6"></div>
         {/* Player Selection */}
-        <div className="bg-white rounded-xl shadow-sm p-6" />
-          <div className="flex items-center justify-between mb-4" />
+        <div className="bg-white rounded-xl shadow-sm p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h3 className="text-lg font-semibold text-gray-900" />
               Select Players
             </h3>
-            <span className="text-sm text-gray-500" />
+            <span className="text-sm text-gray-500"></span>
               {selectedPlayers.length} selected
             </span>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto"></div>
             {players.map(player => (
               <div
                 key={player.id}
@@ -145,13 +145,13 @@ const PhysicalMatchmaking = (): any => {
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="flex items-center space-x-3" />
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold" />
+                <div className="flex items-center space-x-3"></div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold"></div>
                     {player.name[0].toUpperCase()}
-                  <div />
-                    <div className="font-medium text-gray-900" />
+                  <div></div>
+                    <div className="font-medium text-gray-900"></div>
                       {player.name}
-                    <div className="text-sm text-gray-500" />
+                    <div className="text-sm text-gray-500"></div>
                       Rating: {player.rating} • {player.wins}W-{player.losses}L
                     </div>
                 </div>
@@ -159,14 +159,14 @@ const PhysicalMatchmaking = (): any => {
           </div>
 
         {/* Match Settings */}
-        <div className="bg-white rounded-xl shadow-sm p-6" />
+        <div className="bg-white rounded-xl shadow-sm p-6"></div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4" />
             Match Settings
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Format
               </label>
               <select
@@ -180,8 +180,8 @@ const PhysicalMatchmaking = (): any => {
                 <option value="draft">Draft</option>
             </div>
 
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Best of
               </label>
               <select
@@ -194,7 +194,7 @@ const PhysicalMatchmaking = (): any => {
                 <option value={5}>Best of 5</option>
             </div>
 
-            <div className="flex items-end" />
+            <div className="flex items-end"></div>
               <button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
@@ -205,17 +205,17 @@ const PhysicalMatchmaking = (): any => {
           </div>
 
         {/* Active Matches */}
-        <div className="bg-white rounded-xl shadow-sm p-6" />
+        <div className="bg-white rounded-xl shadow-sm p-6"></div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4" />
             Active Matches
           </h3>
 
           {currentMatches.filter(m => m.status === 'active').length === 0 ? (
-            <div className="text-center py-8 text-gray-500" />
+            <div className="text-center py-8 text-gray-500"></div>
               No active matches. Create some matches above!
             </div>
           ) : (
-            <div className="space-y-3" />
+            <div className="space-y-3"></div>
               {currentMatches
                 .filter(m => m.status === 'active')
                 .map(match => (
@@ -239,10 +239,10 @@ const PhysicalMatchmaking = (): any => {
     };
 
     return (
-      <div className="space-y-6" />
+      <div className="space-y-6"></div>
         {/* Tournament Creation */}
-        <div className="bg-white rounded-xl shadow-sm p-6" />
-          <div className="flex items-center justify-between mb-4" />
+        <div className="bg-white rounded-xl shadow-sm p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h3 className="text-lg font-semibold text-gray-900">Tournaments</h3>
             <button
               onClick={createTournament}
@@ -252,7 +252,7 @@ const PhysicalMatchmaking = (): any => {
               <span>New Tournament</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             {tournaments.map(tournament => (
               <TournamentCard
                 key={tournament.id}
@@ -291,9 +291,9 @@ const PhysicalMatchmaking = (): any => {
     };
 
     return (
-      <div className="space-y-6" />
-        <div className="bg-white rounded-xl shadow-sm p-6" />
-          <div className="flex items-center justify-between mb-4" />
+      <div className="space-y-6"></div>
+        <div className="bg-white rounded-xl shadow-sm p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h3 className="text-lg font-semibold text-gray-900" />
               Player Management
             </h3>
@@ -305,7 +305,7 @@ const PhysicalMatchmaking = (): any => {
               <span>Add Player</span>
           </div>
 
-          <div className="overflow-x-auto" />
+          <div className="overflow-x-auto"></div>
             <table className="w-full" />
               <thead />
                 <tr className="border-b border-gray-200" />
@@ -332,13 +332,13 @@ const PhysicalMatchmaking = (): any => {
                     className="border-b border-gray-100 hover:bg-gray-50"
                    />
                     <td className="py-3 px-4" />
-                      <div className="flex items-center space-x-3" />
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm" />
+                      <div className="flex items-center space-x-3"></div>
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm"></div>
                           {player.name[0].toUpperCase()}
-                        <div />
-                          <div className="font-medium text-gray-900" />
+                        <div></div>
+                          <div className="font-medium text-gray-900"></div>
                             {player.name}
-                          <div className="text-sm text-gray-500" />
+                          <div className="text-sm text-gray-500"></div>
                             {player.email}
                         </div>
                     </td>
@@ -346,11 +346,11 @@ const PhysicalMatchmaking = (): any => {
                       <span className="font-medium">{player.rating}
                     </td>
                     <td className="py-3 px-4" />
-                      <span />
+                      <span></span>
                         {player.wins}W-{player.losses}L-{player.draws}D
                       </span>
                     <td className="py-3 px-4" />
-                      <span />
+                      <span></span>
                         {(
                           (player.wins /
                             (player.wins + player.losses + player.draws)) *
@@ -359,7 +359,7 @@ const PhysicalMatchmaking = (): any => {
                         %
                       </span>
                     <td className="py-3 px-4" />
-                      <div className="flex items-center space-x-2" />
+                      <div className="flex items-center space-x-2"></div>
                         <button
                           onClick={() => editPlayer(player)}
                           className="text-blue-600 hover:text-blue-700"
@@ -425,27 +425,27 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     ).length;
 
     return (
-      <div className="border border-gray-200 rounded-lg p-4" />
-        <div className="flex items-center justify-between mb-3" />
-          <div className="flex items-center space-x-4" />
-            <div className="text-center" />
+      <div className="border border-gray-200 rounded-lg p-4"></div>
+        <div className="flex items-center justify-between mb-3"></div>
+          <div className="flex items-center space-x-4"></div>
+            <div className="text-center"></div>
               <div className="font-medium">{match.player1.name}
               <div className="text-2xl font-bold text-blue-600">{p1Wins}
             </div>
             <div className="text-gray-400">VS</div>
-            <div className="text-center" />
+            <div className="text-center"></div>
               <div className="font-medium">{match.player2.name}
               <div className="text-2xl font-bold text-red-600">{p2Wins}
             </div>
 
-          <div className="text-right" />
+          <div className="text-right"></div>
             <div className="text-sm text-gray-500">{match.format}
-            <div className="text-sm text-gray-500" />
+            <div className="text-sm text-gray-500"></div>
               Best of {match.maxRounds}
           </div>
 
         {match.status === 'active' && (
-          <div className="flex space-x-2" />
+          <div className="flex space-x-2"></div>
             <button
               onClick={() => recordGame(match.player1.id)}
               className="flex-1 bg-blue-100 text-blue-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-blue-200 transition-colors"
@@ -460,7 +460,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
             </button>
         )}
         {match.status === 'completed' && (
-          <div className="text-center py-2 bg-green-100 text-green-700 rounded font-medium" />
+          <div className="text-center py-2 bg-green-100 text-green-700 rounded font-medium"></div>
             Winner: {players.find(p = > p.id === match.winner)?.name}
         )}
       </div>
@@ -477,7 +477,7 @@ const TournamentCard: React.FC<TournamentCardProps> = ({  tournament, onClick  }
       onClick={onClick}
       className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-blue-300 transition-colors"
      />
-      <div className="flex items-center justify-between mb-2" />
+      <div className="flex items-center justify-between mb-2"></div>
         <h4 className="font-medium text-gray-900">{tournament.name}
         <span
           className={`px-2 py-0 whitespace-nowrap rounded text-xs font-medium ${
@@ -490,9 +490,9 @@ const TournamentCard: React.FC<TournamentCardProps> = ({  tournament, onClick  }
          />
           {tournament.status}
       </div>
-      <div className = "text-sm text-gray-600" />
+      <div className = "text-sm text-gray-600"></div>
         <div>{tournament.players.length} players</div>
-        <div />
+        <div></div>
           {tournament.format} • {tournament.type}
         <div>{new Date(tournament.startDate).toLocaleDateString()}
       </div>
@@ -504,31 +504,31 @@ const TournamentCard: React.FC<TournamentCardProps> = ({  tournament, onClick  }
 }
 
 const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onClose  }) => (
-    <div className="bg-white rounded-xl shadow-sm p-6" />
-      <div className="flex items-center justify-between mb-4" />
+    <div className="bg-white rounded-xl shadow-sm p-6"></div>
+      <div className="flex items-center justify-between mb-4"></div>
         <h3 className="text-lg font-semibold text-gray-900" />
           {tournament.name}
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600" />
+        <button onClick={onClose} className="text-gray-400 hover:text-gray-600"></button>
           <X className="w-5 h-5" / />
         </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-        <div />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <div></div>
           <h4 className="font-medium text-gray-900 mb-2">Tournament Info</h4>
-          <div className="space-y-1 text-sm text-gray-600" />
+          <div className="space-y-1 text-sm text-gray-600"></div>
             <div>Format: {tournament.format}
             <div>Type: {tournament.type}
             <div>Players: {tournament.players.length}
             <div>Status: {tournament.status}
           </div>
 
-        <div />
+        <div></div>
           <h4 className="font-medium text-gray-900 mb-2">Participants</h4>
-          <div className="space-y-1" />
+          <div className="space-y-1"></div>
             {tournament.players.map(playerId => {
               const player = players.find(p => p.id === playerId);
               return player ? (
-                <div key={playerId} className="text-sm text-gray-600" />
+                <div key={playerId} className="text-sm text-gray-600"></div>
                   {player.name} ({player.rating})
                 </div>
               ) : null;
@@ -578,9 +578,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
     };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" />
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" />
-          <div className="flex items-center justify-between mb-4" />
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h2 className="text-xl font-bold text-gray-900" />
               {playerProfile ? 'Edit Player' : 'Add Player'}
             <button
@@ -591,8 +591,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
             </button>
 
           <form onSubmit={handleSubmit} className="space-y-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                 Name
               </label>
               <input
@@ -605,8 +605,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
               />
             </div>
 
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                 Email
               </label>
               <input
@@ -618,9 +618,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Rating
                 </label>
                 <input
@@ -632,8 +632,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 />
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Wins
                 </label>
                 <input
@@ -646,9 +646,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 />
               </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Losses
                 </label>
                 <input
@@ -661,8 +661,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 />
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Draws
                 </label>
                 <input
@@ -675,7 +675,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 />
               </div>
 
-            <div className="flex space-x-3 pt-4" />
+            <div className="flex space-x-3 pt-4"></div>
               <button
                 type="button"
                 onClick={() => setShowPlayerModal(false)}
@@ -719,9 +719,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
     };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" />
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6" />
-          <div className="flex items-center justify-between mb-4" />
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h2 className="text-xl font-bold text-gray-900" />
               Create Tournament
             </h2>
@@ -733,8 +733,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
             </button>
 
           <form onSubmit={handleSubmit} className="space-y-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                 Tournament Name
               </label>
               <input
@@ -747,9 +747,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Format
                 </label>
                 <select
@@ -764,8 +764,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                   <option value="draft">Draft</option>
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Type
                 </label>
                 <select
@@ -780,9 +780,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                   <option value="round-robin">Round Robin</option>
               </div>
 
-            <div className="grid grid-cols-2 gap-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+            <div className="grid grid-cols-2 gap-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Max Players
                 </label>
                 <select
@@ -800,8 +800,8 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                   <option value={32}>32 Players</option>
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                   Start Date
                 </label>
                 <input
@@ -816,7 +816,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 />
               </div>
 
-            <div className="flex space-x-3 pt-4" />
+            <div className="flex space-x-3 pt-4"></div>
               <button
                 type="button"
                 onClick={() => setShowTournamentModal(false)}
@@ -836,17 +836,17 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
   };
 
   return (
-    <div className="min-h-screen bg-gray-50" />
+    <div className="min-h-screen bg-gray-50"></div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex items-center justify-between h-16" />
-            <div className="flex items-center space-x-4" />
+      <div className="bg-white shadow-sm border-b"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex items-center justify-between h-16"></div>
+            <div className="flex items-center space-x-4"></div>
               <Users className="w-8 h-8 text-blue-600" / />
               <h1 className="text-2xl font-bold text-gray-900" />
                 KONIVRER Matchmaking
               </h1>
-              <div className="flex items-center space-x-2 text-sm text-gray-500" />
+              <div className="flex items-center space-x-2 text-sm text-gray-500"></div>
                 {isOfflineMode ? (
                   <>
                     <WifiOff className="w-4 h-4 text-orange-500" / />
@@ -860,23 +860,23 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 )}
             </div>
 
-            <div className="flex items-center space-x-4" />
-              <button className="text-gray-600 hover:text-gray-900" />
+            <div className="flex items-center space-x-4"></div>
+              <button className="text-gray-600 hover:text-gray-900"></button>
                 <QrCode className="w-5 h-5" / />
               </button>
-              <button className="text-gray-600 hover:text-gray-900" />
+              <button className="text-gray-600 hover:text-gray-900"></button>
                 <Share2 className="w-5 h-5" / />
               </button>
-              <button className="text-gray-600 hover:text-gray-900" />
+              <button className="text-gray-600 hover:text-gray-900"></button>
                 <Settings className="w-5 h-5" / />
               </button>
           </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white border-b" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" />
-          <div className="flex space-x-8" />
+      <div className="bg-white border-b"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
+          <div className="flex space-x-8"></div>
             {[
               {
                 id: 'quickMatch',
@@ -911,7 +911,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"></div>
         {activeTab === 'quickMatch' && <QuickMatchTab />}
         {activeTab === 'tournaments' && <TournamentTab />}
         {activeTab === 'players' && <PlayersTab />}

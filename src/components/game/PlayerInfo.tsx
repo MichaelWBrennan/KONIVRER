@@ -66,8 +66,8 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
       }`}
      />
       {/* Player Avatar with Rank Badge */}
-      <div className="relative" />
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner" />
+      <div className="relative"></div>
+        <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner"></div>
           {avatarUrl ? (
             <img
               src={avatarUrl}
@@ -100,13 +100,13 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
       </div>
 
       {/* Player Info */}
-      <div />
-        <div className="text-white font-medium text-sm flex items-center" />
+      <div></div>
+        <div className="text-white font-medium text-sm flex items-center"></div>
           {playerName}
           {isActive && <Clock className="w-3 h-3 text-yellow-400 ml-1" />}
 
         {/* Resources */}
-        <div className="flex items-center space-x-2 mt-1" />
+        <div className="flex items-center space-x-2 mt-1"></div>
           {/* Life */}
           <motion.div
             className="flex items-center space-x-1 bg-gradient-to-r from-red-900/70 to-red-800/70 rounded-full px-2 py-0.5 shadow-sm"
@@ -114,7 +114,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             whileTap={{ scale: 0.95 }}
            />
             <Heart className="w-3 h-3 text-red-400" / />
-            <span className="text-white text-xs font-medium" />
+            <span className="text-white text-xs font-medium"></span>
               {lifeCards.length}
           </motion.div>
 
@@ -134,13 +134,13 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
            />
-            <span className="text-white text-xs font-medium" />
+            <span className="text-white text-xs font-medium"></span>
               {hand.length}
           </motion.div>
         </div>
 
       {/* Deck Count */}
-      <div className="ml-1" />
+      <div className="ml-1"></div>
         <motion.div
           className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg px-2 py-0 whitespace-nowrap shadow-inner"
           whileHover={{ scale: 1.05 }}

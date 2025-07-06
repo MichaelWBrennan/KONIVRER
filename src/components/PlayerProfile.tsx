@@ -436,48 +436,48 @@ const PlayerProfile = (): any => {
   };
 
   const renderOverview = (renderOverview: any) => (
-    <div className="space-y-6" />
+    <div className="space-y-6"></div>
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4" />
-        <div className="bg-secondary border border-color rounded-xl p-4 text-center" />
-          <div className="text-2xl font-bold text-primary mb-1" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        <div className="bg-secondary border border-color rounded-xl p-4 text-center"></div>
+          <div className="text-2xl font-bold text-primary mb-1"></div>
             {playerData.stats.totalGames}
           <div className="text-sm text-secondary">Total Games</div>
-        <div className="bg-secondary border border-color rounded-xl p-4 text-center" />
-          <div className="text-2xl font-bold text-green-500 mb-1" />
+        <div className="bg-secondary border border-color rounded-xl p-4 text-center"></div>
+          <div className="text-2xl font-bold text-green-500 mb-1"></div>
             {playerData.stats.winRate}%
           </div>
           <div className="text-sm text-secondary">Win Rate</div>
-        <div className="bg-secondary border border-color rounded-xl p-4 text-center" />
-          <div className="text-2xl font-bold text-yellow-500 mb-1" />
+        <div className="bg-secondary border border-color rounded-xl p-4 text-center"></div>
+          <div className="text-2xl font-bold text-yellow-500 mb-1"></div>
             {playerData.stats.tournamentWins}
           <div className="text-sm text-secondary">Tournament Wins</div>
-        <div className="bg-secondary border border-color rounded-xl p-4 text-center" />
-          <div className="text-2xl font-bold text-purple-500 mb-1" />
+        <div className="bg-secondary border border-color rounded-xl p-4 text-center"></div>
+          <div className="text-2xl font-bold text-purple-500 mb-1"></div>
             {playerData.stats.averageFinish}
           <div className="text-sm text-secondary">Avg Finish</div>
       </div>
 
       {/* Recent Matches */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h3 className="text-xl font-bold text-primary mb-4">Recent Matches</h3>
-        <div className="space-y-3" />
+        <div className="space-y-3"></div>
           {playerData.recentMatches.map(match => (
             <div
               key={match.id}
               className="flex items-center justify-between p-3 border border-color rounded-lg hover:bg-tertiary transition-colors"
              />
-              <div className="flex items-center gap-3" />
+              <div className="flex items-center gap-3"></div>
                 <div
                   className={`w-3 h-3 rounded-full ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}
                  />
-                <div />
-                  <div className="font-medium text-primary" />
+                <div></div>
+                  <div className="font-medium text-primary"></div>
                     vs {match.opponent}
-                  <div className="text-sm text-secondary" />
+                  <div className="text-sm text-secondary"></div>
                     {match.format} • {match.date}
                 </div>
-              <div className="text-right" />
+              <div className="text-right"></div>
                 <div className="font-medium text-primary">{match.score}
                 <div className="text-sm text-secondary">{match.duration}
               </div>
@@ -485,9 +485,9 @@ const PlayerProfile = (): any => {
         </div>
 
       {/* Achievements */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h3 className="text-xl font-bold text-primary mb-4">Achievements</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4" />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
           {playerData.achievements.map(achievement => {
             const Icon = achievement.icon;
             return (
@@ -502,7 +502,7 @@ const PlayerProfile = (): any => {
                 </div>
                 <h4 className="font-semibold text-primary mb-1" />
                   {achievement.name}
-                <p className="text-sm text-secondary" />
+                <p className="text-sm text-secondary"></p>
                   {achievement.description}
               </div>
             );
@@ -512,47 +512,47 @@ const PlayerProfile = (): any => {
   );
 
   const renderTournaments = (renderTournaments: any) => (
-    <div className="bg-secondary border border-color rounded-xl p-6" />
+    <div className="bg-secondary border border-color rounded-xl p-6"></div>
       <h3 className="text-xl font-bold text-primary mb-6" />
         Tournament History
       </h3>
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         {playerData.tournamentHistory.map(tournament => (
           <div
             key={tournament.id}
             className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
            />
-            <div className="flex items-center justify-between mb-3" />
-              <div />
+            <div className="flex items-center justify-between mb-3"></div>
+              <div></div>
                 <h4 className="font-semibold text-primary" />
                   {tournament.name}
-                <div className="flex items-center gap-2 text-sm text-secondary" />
+                <div className="flex items-center gap-2 text-sm text-secondary"></div>
                   <Calendar size={14} / />
                   <span>{tournament.date}
                 </div>
-              <div className="text-right" />
+              <div className="text-right"></div>
                 <div
                   className={`text-lg font-bold ${tournament.placement <= 3 ? 'text-yellow-500' : 'text-primary'}`}
                  />
                   #{tournament.placement}
-                <div className="text-sm text-secondary" />
+                <div className="text-sm text-secondary"></div>
                   of {tournament.participants}
               </div>
 
-            <div className="grid grid-cols-3 gap-4 text-sm" />
-              <div />
+            <div className="grid grid-cols-3 gap-4 text-sm"></div>
+              <div></div>
                 <span className="text-secondary">Deck:</span>
-                <div className="font-medium text-primary" />
+                <div className="font-medium text-primary"></div>
                   {tournament.deck}
               </div>
-              <div />
+              <div></div>
                 <span className="text-secondary">Record:</span>
-                <div className="font-medium text-primary" />
+                <div className="font-medium text-primary"></div>
                   {tournament.record}
               </div>
-              <div />
+              <div></div>
                 <span className="text-secondary">Prize:</span>
-                <div className="font-medium text-green-500" />
+                <div className="font-medium text-green-500"></div>
                   {tournament.prizeWon}
               </div>
           </div>
@@ -561,16 +561,16 @@ const PlayerProfile = (): any => {
   );
 
   const renderDecks = (renderDecks: any) => (
-    <div className="bg-secondary border border-color rounded-xl p-6" />
+    <div className="bg-secondary border border-color rounded-xl p-6"></div>
       <h3 className="text-xl font-bold text-primary mb-6">Deck Collection</h3>
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         {playerData.deckCollection.map(deck => (
           <div
             key={deck.id}
             className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
            />
-            <div className="flex items-center justify-between mb-3" />
-              <div className="flex items-center gap-3" />
+            <div className="flex items-center justify-between mb-3"></div>
+              <div className="flex items-center gap-3"></div>
                 <h4 className="font-semibold text-primary">{deck.name}
                 {deck.isFavorite && (
                   <Star className="text-yellow-500" size={16} / />
@@ -579,24 +579,24 @@ const PlayerProfile = (): any => {
               <div className="text-sm text-secondary">{deck.format}
             </div>
 
-            <div className="grid grid-cols-4 gap-4 text-sm" />
-              <div />
+            <div className="grid grid-cols-4 gap-4 text-sm"></div>
+              <div></div>
                 <span className="text-secondary">Hero:</span>
                 <div className="font-medium text-primary">{deck.hero}
               </div>
-              <div />
+              <div></div>
                 <span className="text-secondary">Win Rate:</span>
-                <div className="font-medium text-green-500" />
+                <div className="font-medium text-green-500"></div>
                   {deck.winRate}%
                 </div>
-              <div />
+              <div></div>
                 <span className="text-secondary">Games:</span>
-                <div className="font-medium text-primary" />
+                <div className="font-medium text-primary"></div>
                   {deck.gamesPlayed}
               </div>
-              <div />
+              <div></div>
                 <span className="text-secondary">Last Played:</span>
-                <div className="font-medium text-primary" />
+                <div className="font-medium text-primary"></div>
                   {deck.lastPlayed}
               </div>
           </div>
@@ -605,10 +605,10 @@ const PlayerProfile = (): any => {
   );
   
   const renderEvents = (renderEvents: any) => (
-    <div className="space-y-6" />
+    <div className="space-y-6"></div>
       {/* Active Events */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
-        <div className="flex justify-between items-center mb-4" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
+        <div className="flex justify-between items-center mb-4"></div>
           <h3 className="text-xl font-bold text-primary">Registered Events</h3>
           <button
             onClick={() => loadPlayerEvents(playerId)}
@@ -617,58 +617,58 @@ const PlayerProfile = (): any => {
           >
             <RefreshCw size={16} / />
           </button>
-        <div className="space-y-4" />
+        <div className="space-y-4"></div>
           {events.filter(event => event.status === 'active' || event.status === 'upcoming').map(event => (
             <div
               key={event.id}
               className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
              />
-              <div className="flex justify-between items-start mb-3" />
-                <div className="flex-1" />
-                  <div className="flex items-center gap-3 mb-2" />
+              <div className="flex justify-between items-start mb-3"></div>
+                <div className="flex-1"></div>
+                  <div className="flex items-center gap-3 mb-2"></div>
                     <h4 className="font-semibold text-primary">{event.name}
                     {event.isStreamed && (
-                      <div className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs" />
+                      <div className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs"></div>
                         <Wifi size={12} / />
                         <span>Live</span>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-secondary mb-2" />
-                    <div className="flex items-center gap-1" />
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-secondary mb-2"></div>
+                    <div className="flex items-center gap-1"></div>
                       <Calendar size={14} / />
                       <span>{event.date}
                     </div>
-                    <div className="flex items-center gap-1" />
+                    <div className="flex items-center gap-1"></div>
                       <Clock size={14} / />
                       <span>{event.time}
                     </div>
-                    <div className="flex items-center gap-1" />
+                    <div className="flex items-center gap-1"></div>
                       <MapPin size={14} / />
                       <span>{event.venue}
                     </div>
-                    <div className="flex items-center gap-1" />
+                    <div className="flex items-center gap-1"></div>
                       <Users size={14} / />
                       <span>{event.currentParticipants || event.totalParticipants}/{event.maxParticipants || event.totalParticipants}
                     </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm" />
-                    <div />
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm"></div>
+                    <div></div>
                       <span className="text-secondary">Format:</span>
                       <span className="ml-1 font-medium text-primary">{event.format}
                     </div>
-                    <div />
+                    <div></div>
                       <span className="text-secondary">Entry:</span>
                       <span className="ml-1 font-medium text-primary">{event.entryFee}
                     </div>
-                    <div />
+                    <div></div>
                       <span className="text-secondary">Prize Pool:</span>
                       <span className="ml-1 font-medium text-green-600">{event.prizePool}
                     </div>
-                    <div />
+                    <div></div>
                       <span className="text-secondary">Bracket:</span>
                       <span className="ml-1 font-medium text-primary">{event.bracketType}
                     </div>
                 </div>
-                <div className="flex flex-col items-end gap-2" />
+                <div className="flex flex-col items-end gap-2"></div>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     event.status === 'active' ? 'bg-green-100 text-green-800' :
                     event.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
@@ -686,51 +686,51 @@ const PlayerProfile = (): any => {
                 </div>
               
               {event.status === 'active' && (
-                <div className="bg-tertiary rounded-lg p-4 mb-4" />
-                  <div className="flex justify-between items-center mb-2" />
-                    <span className="text-sm font-medium text-primary" />
+                <div className="bg-tertiary rounded-lg p-4 mb-4"></div>
+                  <div className="flex justify-between items-center mb-2"></div>
+                    <span className="text-sm font-medium text-primary"></span>
                       Round {event.round} of {event.totalRounds}
-                    <span className="text-sm text-secondary" />
+                    <span className="text-sm text-secondary"></span>
                       Record: {event.record}
                   </div>
-                  <div className="w-full bg-quaternary rounded-full h-2" />
+                  <div className="w-full bg-quaternary rounded-full h-2"></div>
                     <div 
                       className="bg-accent-primary h-2 rounded-full transition-all duration-300"
                       style={{ width: `${(event.round / event.totalRounds) * 100}%` }}
                     / />
                   </div>
-                  <div className="mt-3 text-sm" />
+                  <div className="mt-3 text-sm"></div>
                     <span className="text-secondary">Current Placement:</span>
-                    <span className="ml-2 font-medium text-primary" />
+                    <span className="ml-2 font-medium text-primary"></span>
                       #{event.currentPlacement} of {event.totalParticipants}
                   </div>
               )}
               {/* Current Pairing */}
               {event.status === 'active' && pairings.filter(p => p.eventId === event.id).map(pairing => (
-                <div key={pairing.id} className="border border-color rounded-lg p-4 mb-4" />
-                  <div className="flex justify-between items-start mb-3" />
-                    <div />
+                <div key={pairing.id} className="border border-color rounded-lg p-4 mb-4"></div>
+                  <div className="flex justify-between items-start mb-3"></div>
+                    <div></div>
                       <h5 className="font-medium text-primary">Current Match</h5>
-                      <p className="text-secondary" />
+                      <p className="text-secondary"></p>
                         vs {pairing.opponent}
-                      <p className="text-sm text-secondary" />
+                      <p className="text-sm text-secondary"></p>
                         Table {pairing.table}
                     </div>
                     
                     {pairing.status === 'active' && (
-                      <div className="text-right" />
-                        <div className="text-lg font-mono font-bold text-accent-secondary" />
+                      <div className="text-right"></div>
+                        <div className="text-lg font-mono font-bold text-accent-secondary"></div>
                           {formatTimeRemaining(pairing.timeRemaining)}
-                        <div className="text-xs text-secondary" />
+                        <div className="text-xs text-secondary"></div>
                           Time Remaining
                         </div>
                     )}
                   </div>
                   
                   {pairing.status === 'active' && (
-                    <div className="bg-quaternary rounded-lg p-4" />
+                    <div className="bg-quaternary rounded-lg p-4"></div>
                       <h5 className="font-medium mb-3 text-primary">Submit Match Result</h5>
-                      <div className="flex gap-2" />
+                      <div className="flex gap-2"></div>
                         <button
                           onClick={() => submitResult(pairing.id, 'win', '2-0')}
                           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex-1"
@@ -764,14 +764,14 @@ const PlayerProfile = (): any => {
                     </div>
                   )}
                   {pairing.status === 'completed' && (
-                    <div className="flex items-center gap-2 text-green-600" />
+                    <div className="flex items-center gap-2 text-green-600"></div>
                       <CheckCircle size={16} / />
                       Result submitted: {pairing.submittedResult} ({pairing.submittedScore})
                     </div>
                   )}
                 </div>
               ))}
-              <div className="flex flex-wrap gap-2" />
+              <div className="flex flex-wrap gap-2"></div>
                 {event.status === 'active' && (
                   <>
                     <Link
@@ -834,54 +834,54 @@ const PlayerProfile = (): any => {
         </div>
       
       {/* Past Events */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h3 className="text-xl font-bold text-primary mb-4">Past Events</h3>
-        <div className="space-y-4" />
+        <div className="space-y-4"></div>
           {events.filter(event => event.status === 'completed').map(event => (
             <div
               key={event.id}
               className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
              />
-              <div className="flex justify-between items-start mb-3" />
-                <div />
+              <div className="flex justify-between items-start mb-3"></div>
+                <div></div>
                   <h4 className="font-semibold text-primary">{event.name}
-                  <div className="flex items-center gap-4 text-sm text-secondary mt-1" />
-                    <div className="flex items-center gap-1" />
+                  <div className="flex items-center gap-4 text-sm text-secondary mt-1"></div>
+                    <div className="flex items-center gap-1"></div>
                       <Calendar size={14} / />
                       <span>{event.date}
                     </div>
-                    <div className="flex items-center gap-1" />
+                    <div className="flex items-center gap-1"></div>
                       <MapPin size={14} / />
                       <span>{event.venue}
                     </div>
                 </div>
-                <div className="text-right" />
-                  <div className={`text-lg font-bold ${event.finalPlacement <= 3 ? 'text-yellow-500' : 'text-primary'}`} />
+                <div className="text-right"></div>
+                  <div className={`text-lg font-bold ${event.finalPlacement <= 3 ? 'text-yellow-500' : 'text-primary'}`}></div>
                     #{event.finalPlacement}
-                  <div className="text-sm text-secondary" />
+                  <div className="text-sm text-secondary"></div>
                     of {event.totalParticipants}
                 </div>
               
-              <div className="grid grid-cols-3 gap-4 text-sm" />
-                <div />
+              <div className="grid grid-cols-3 gap-4 text-sm"></div>
+                <div></div>
                   <span className="text-secondary">Record:</span>
-                  <div className="font-medium text-primary" />
+                  <div className="font-medium text-primary"></div>
                     {event.record}
                 </div>
-                <div />
+                <div></div>
                   <span className="text-secondary">Prize:</span>
-                  <div className="font-medium text-green-500" />
+                  <div className="font-medium text-green-500"></div>
                     {event.prizeWon}
                 </div>
             </div>
           ))}
           {events.filter(event => event.status === 'completed').length === 0 && (
-            <div className="text-center py-8" />
+            <div className="text-center py-8"></div>
               <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" / />
               <h3 className="text-lg font-medium text-primary mb-2" />
                 No past events
               </h3>
-              <p className="text-secondary" />
+              <p className="text-secondary"></p>
                 Your completed events will appear here.
               </p>
           )}
@@ -889,12 +889,12 @@ const PlayerProfile = (): any => {
       
       {/* No Events Message */}
       {events.length === 0 && !loading && (
-        <div className="text-center py-12 bg-secondary border border-color rounded-xl" />
+        <div className="text-center py-12 bg-secondary border border-color rounded-xl"></div>
           <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" / />
           <h3 className="text-lg font-medium text-primary mb-2" />
             No events found
           </h3>
-          <p className="text-secondary mb-4" />
+          <p className="text-secondary mb-4"></p>
             You're not registered for any events yet.
           </p>
           <Link
@@ -905,28 +905,28 @@ const PlayerProfile = (): any => {
           </Link>
       )}
       {loading && (
-        <div className="text-center py-12 bg-secondary border border-color rounded-xl" />
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-primary mx-auto mb-4" />
+        <div className="text-center py-12 bg-secondary border border-color rounded-xl"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-primary mx-auto mb-4"></div>
           <p className="text-secondary">Loading events...</p>
       )}
   );
 
   return (
-    <div className="min-h-screen bg-primary" />
-      <div className="container py-8" />
+    <div className="min-h-screen bg-primary"></div>
+      <div className="container py-8"></div>
         {/* Profile Header */}
-        <div className="bg-secondary border border-color rounded-xl p-6 mb-8" />
-          <div className="flex items-center gap-6" />
+        <div className="bg-secondary border border-color rounded-xl p-6 mb-8"></div>
+          <div className="flex items-center gap-6"></div>
             <img
               src={playerData.avatar}
               alt={playerData.displayName}
               className="w-24 h-24 rounded-xl object-cover"
             / />
-            <div className="flex-1" />
-              <div className="flex items-center gap-3 mb-2" />
+            <div className="flex-1"></div>
+              <div className="flex items-center gap-3 mb-2"></div>
                 <h1 className="text-2xl font-bold text-primary" />
                   {playerData.displayName}
-                <span className="text-lg text-secondary" />
+                <span className="text-lg text-secondary"></span>
                   @{playerData.username}
                 <div
                   className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium text-white bg-gradient-to-r ${getRankColor(playerData.rank)}`}
@@ -934,36 +934,36 @@ const PlayerProfile = (): any => {
                   {playerData.rank}
               </div>
 
-              <div className="flex items-center gap-4 text-sm text-secondary mb-3" />
-                <div className="flex items-center gap-1" />
+              <div className="flex items-center gap-4 text-sm text-secondary mb-3"></div>
+                <div className="flex items-center gap-1"></div>
                   <MapPin size={14} / />
                   <span>{playerData.location}
                 </div>
-                <div className="flex items-center gap-1" />
+                <div className="flex items-center gap-1"></div>
                   <Calendar size={14} / />
                   <span>Joined {playerData.joinDate}
                 </div>
-                <div className="flex items-center gap-1" />
+                <div className="flex items-center gap-1"></div>
                   <Crown size={14} / />
                   <span>Level {playerData.level}
                 </div>
 
-              <div className="flex items-center gap-6" />
-                <div />
+              <div className="flex items-center gap-6"></div>
+                <div></div>
                   <span className="text-sm text-secondary">Rank Points:</span>
-                  <span className="ml-2 font-semibold text-primary" />
+                  <span className="ml-2 font-semibold text-primary"></span>
                     {playerData.rankPoints}
                 </div>
-                <div />
+                <div></div>
                   <span className="text-sm text-secondary">Favorite Hero:</span>
-                  <span className="ml-2 font-semibold text-primary" />
+                  <span className="ml-2 font-semibold text-primary"></span>
                     {playerData.favoriteHero}
                 </div>
             </div>
 
-            <div className="flex gap-2" />
+            <div className="flex gap-2"></div>
               {/* Notifications */}
-              <div className="relative" />
+              <div className="relative"></div>
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
                   className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors relative"
@@ -974,17 +974,17 @@ const PlayerProfile = (): any => {
                     <Bell size={16} / />
                   )}
                   {notifications.filter(n => !n.read).length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-accent-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" />
+                    <span className="absolute -top-1 -right-1 bg-accent-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                       {notifications.filter(n => !n.read).length}
                   )}
                 </button>
                 
                 {showNotifications && (
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-secondary border border-color rounded-xl shadow-lg z-50" />
-                    <div className="p-4 border-b border-color" />
-                      <div className="flex justify-between items-center" />
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-secondary border border-color rounded-xl shadow-lg z-50"></div>
+                    <div className="p-4 border-b border-color"></div>
+                      <div className="flex justify-between items-center"></div>
                         <h3 className="font-semibold text-primary">Notifications</h3>
-                        <div className="flex gap-2" />
+                        <div className="flex gap-2"></div>
                           <button
                             onClick={clearAllNotifications}
                             className="text-xs text-secondary hover:text-primary"
@@ -998,9 +998,9 @@ const PlayerProfile = (): any => {
                             <X size={16} / />
                           </button>
                       </div>
-                    <div className="max-h-80 overflow-y-auto" />
+                    <div className="max-h-80 overflow-y-auto"></div>
                       {notifications.length === 0 ? (
-                        <div className="p-4 text-center text-secondary" />
+                        <div className="p-4 text-center text-secondary"></div>
                           No notifications
                         </div>
                       ) : (
@@ -1014,7 +1014,7 @@ const PlayerProfile = (): any => {
                               }`}
                               onClick={() => markNotificationAsRead(notification.id)}
                             >
-                              <div className="flex gap-3" />
+                              <div className="flex gap-3"></div>
                                 <div className={`p-2 rounded-lg ${
                                   notification.type === 'pairing' ? 'bg-blue-100 text-blue-600' :
                                   notification.type === 'deadline' ? 'bg-yellow-100 text-yellow-600' :
@@ -1023,16 +1023,16 @@ const PlayerProfile = (): any => {
                                 }`} />
                                   <Icon size={16} / />
                                 </div>
-                                <div className="flex-1" />
+                                <div className="flex-1"></div>
                                   <h4 className="font-medium text-primary text-sm" />
                                     {notification.title}
-                                  <p className="text-secondary text-sm mt-1" />
+                                  <p className="text-secondary text-sm mt-1"></p>
                                     {notification.message}
-                                  <p className="text-xs text-secondary mt-2" />
+                                  <p className="text-xs text-secondary mt-2"></p>
                                     {formatRelativeTime(notification.timestamp)}
                                 </div>
                                 {!notification.read && (
-                                  <div className="w-2 h-2 bg-accent-primary rounded-full mt-2" />
+                                  <div className="w-2 h-2 bg-accent-primary rounded-full mt-2"></div>
                                 )}
                             </div>
                           );
@@ -1042,16 +1042,16 @@ const PlayerProfile = (): any => {
                 )}
               </div>
               
-              <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors" />
+              <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"></button>
                 <Share2 size={16} / />
               </button>
-              <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors" />
+              <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"></button>
                 <Settings size={16} / />
               </button>
           </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2" />
+        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2"></div>
           {[
             { id: 'overview', label: 'Overview', icon: User },
             { id: 'events', label: 'Events', icon: Calendar },
@@ -1082,11 +1082,11 @@ const PlayerProfile = (): any => {
         {activeTab === 'tournaments' && renderTournaments()}
         {activeTab === 'decks' && renderDecks()}
         {activeTab === 'stats' && (
-          <div className="bg-secondary border border-color rounded-xl p-6" />
+          <div className="bg-secondary border border-color rounded-xl p-6"></div>
             <h3 className="text-xl font-bold text-primary mb-4" />
               Detailed Statistics
             </h3>
-            <p className="text-secondary" />
+            <p className="text-secondary"></p>
               Advanced statistics and analytics coming soon...
             </p>
         )}

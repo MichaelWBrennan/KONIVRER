@@ -376,32 +376,32 @@ const EnhancedCardSearch = (): any => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
-      <div className="max-w-7xl mx-auto p-4" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+      <div className="max-w-7xl mx-auto p-4"></div>
         {/* Header */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
-          <div className="flex items-center justify-between mb-4" />
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
+          <div className="flex items-center justify-between mb-4"></div>
             <h1 className="text-3xl font-bold text-white">Card Search</h1>
 
-            <div className="flex items-center space-x-4" />
-              <div className="text-center" />
-                <div className="text-lg font-bold text-white" />
+            <div className="flex items-center space-x-4"></div>
+              <div className="text-center"></div>
+                <div className="text-lg font-bold text-white"></div>
                   {ownedCards.size}
                 <div className="text-sm text-gray-300">Owned</div>
 
-              <div className="text-center" />
-                <div className="text-lg font-bold text-yellow-400" />
+              <div className="text-center"></div>
+                <div className="text-lg font-bold text-yellow-400"></div>
                   {wishlist.size}
                 <div className="text-sm text-gray-300">Wishlist</div>
 
-              <div className="text-center" />
-                <div className="text-lg font-bold text-red-400" />
+              <div className="text-center"></div>
+                <div className="text-lg font-bold text-red-400"></div>
                   {favorites.size}
                 <div className="text-sm text-gray-300">Favorites</div>
             </div>
 
           {/* Search Bar */}
-          <div className="relative mb-4" />
+          <div className="relative mb-4"></div>
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
             <input
               type="text"
@@ -413,7 +413,7 @@ const EnhancedCardSearch = (): any => {
           </div>
 
           {/* Quick Filters */}
-          <div className="flex flex-wrap gap-2 mb-4" />
+          <div className="flex flex-wrap gap-2 mb-4"></div>
             <button
               onClick={() = />
                 setAdvancedSearch(prev => ({ ...prev, type: 'creature' }))}
@@ -470,14 +470,14 @@ const EnhancedCardSearch = (): any => {
         </AnimatePresence>
 
         {/* Controls Bar */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6" />
-          <div className="flex items-center justify-between" />
-            <div className="flex items-center space-x-4" />
-              <span className="text-gray-300" />
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
+          <div className="flex items-center justify-between"></div>
+            <div className="flex items-center space-x-4"></div>
+              <span className="text-gray-300"></span>
                 {filteredCards.length} cards found
               </span>
 
-              <div className="flex items-center space-x-2" />
+              <div className="flex items-center space-x-2"></div>
                 <span className="text-gray-300 text-sm">View:</span>
                 <button
                   onClick={() => setViewMode('grid')}
@@ -501,7 +501,7 @@ const EnhancedCardSearch = (): any => {
                 </button>
             </div>
 
-            <div className="flex items-center space-x-4" />
+            <div className="flex items-center space-x-4"></div>
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
@@ -534,9 +534,9 @@ const EnhancedCardSearch = (): any => {
         </div>
 
         {/* Card Grid/List */}
-        <div className="mb-6" />
+        <div className="mb-6"></div>
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
               {paginatedCards.map(card => (
                 <CardGridItem
                   key={card.id}
@@ -552,7 +552,7 @@ const EnhancedCardSearch = (): any => {
               ))}
             </div>
           ) : (
-            <div className="space-y-2" />
+            <div className="space-y-2"></div>
               {paginatedCards.map(card => (
                 <CardListItem
                   key={card.id}
@@ -572,8 +572,8 @@ const EnhancedCardSearch = (): any => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4" />
-            <div className="flex items-center justify-center space-x-2" />
+          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4"></div>
+            <div className="flex items-center justify-center space-x-2"></div>
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
@@ -582,7 +582,7 @@ const EnhancedCardSearch = (): any => {
                 Previous
               </button>
 
-              <span className="text-white" />
+              <span className="text-white"></span>
                 Page {currentPage} of {totalPages}
 
               <button
@@ -649,12 +649,12 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" />
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       {/* Text Searches */}
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         <h4 className="text-white font-medium">Text Search</h4>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-1">Card Name</label>
           <input
             type="text"
@@ -665,7 +665,7 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
           />
         </div>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-1">Card Text</label>
           <input
             type="text"
@@ -677,12 +677,12 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
         </div>
 
       {/* Colors and Rarity */}
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         <h4 className="text-white font-medium">Elements & Rarity</h4>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-2">Elements</label>
-          <div className="flex flex-wrap gap-2" />
+          <div className="flex flex-wrap gap-2"></div>
             {colors.map(color => (
               <button
                 key={color}
@@ -697,9 +697,9 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
             ))}
           </div>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-2">Rarity</label>
-          <div className="flex flex-wrap gap-2" />
+          <div className="flex flex-wrap gap-2"></div>
             {rarities.map(rarity => (
               <button
                 key={rarity}
@@ -716,12 +716,12 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
       </div>
 
       {/* Numeric Filters */}
-      <div className="space-y-4" />
+      <div className="space-y-4"></div>
         <h4 className="text-white font-medium">Numeric Filters</h4>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-2">Mana Cost</label>
-          <div className="flex space-x-2" />
+          <div className="flex space-x-2"></div>
             <input
               type="number"
               placeholder="Min"
@@ -746,9 +746,9 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
             />
           </div>
 
-        <div />
+        <div></div>
           <label className="block text-gray-300 text-sm mb-2">Power</label>
-          <div className="flex space-x-2" />
+          <div className="flex space-x-2"></div>
             <input
               type="number"
               placeholder="Min"
@@ -821,7 +821,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
       onClick={onView}
      />
       {/* Card Image */}
-      <div className="aspect-card relative" />
+      <div className="aspect-card relative"></div>
         {cardDataHasArt(card) ? (
           <CardArtDisplay
             cardName={card.name}
@@ -830,8 +830,8 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
             showFallback={true}
           / />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center" />
-            <div className="text-white text-center p-2" />
+          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center"></div>
+            <div className="text-white text-center p-2"></div>
               <div className="font-bold text-sm mb-1">{card.name}
               <div className="text-xs opacity-75">{card.cost}
             </div>
@@ -839,8 +839,8 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
       </div>
 
       {/* Card Info */}
-      <div className="p-2" />
-        <div className="text-white text-sm font-medium truncate" />
+      <div className="p-2"></div>
+        <div className="text-white text-sm font-medium truncate"></div>
           {card.name}
         <div className="text-gray-400 text-xs">{card.type}
 
@@ -850,18 +850,18 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
         )}
         {/* Show attack/defense for creatures */}
         {card.attack !== null && card.attack !== undefined && (
-          <div className="text-gray-300 text-xs" />
+          <div className="text-gray-300 text-xs"></div>
             {card.attack}/{card.defense || 0}
         )}
       </div>
 
       {/* Owned Indicator */}
       {owned > 0 && (
-        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full" />
+        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full"></div>
           {owned}
       )}
       {/* Action Buttons */}
-      <div className="absolute top-2 right-2 flex space-x-1" />
+      <div className="absolute top-2 right-2 flex space-x-1"></div>
         <button
           onClick={e => {
             e.stopPropagation();
@@ -936,24 +936,24 @@ const CardListItem: React.FC<CardListItemProps> = ({
       className="bg-gray-800/50 rounded-lg p-4 border border-gray-600 hover:border-purple-500 transition-all cursor-pointer"
       onClick={onView}
      />
-      <div className="flex items-center justify-between" />
-        <div className="flex items-center space-x-4" />
-          <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center" />
+      <div className="flex items-center justify-between"></div>
+        <div className="flex items-center space-x-4"></div>
+          <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center"></div>
             <span className="text-white text-xs font-bold">{card.cost}
           </div>
 
-          <div />
+          <div></div>
             <div className="text-white font-medium">{card.name}
             <div className="text-gray-400 text-sm">{card.type}
             {card.type === 'creature' && (
-              <div className="text-gray-300 text-sm" />
+              <div className="text-gray-300 text-sm"></div>
                 {card.power}/{card.toughness}
             )}
           </div>
 
-        <div className="flex items-center space-x-2" />
+        <div className="flex items-center space-x-2"></div>
           {owned > 0 && (
-            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded" />
+            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded"></span>
               Owned: {owned}
           )}
           <button
@@ -1038,7 +1038,7 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
         onClick={e => e.stopPropagation()}
         className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="flex justify-between items-start mb-4" />
+        <div className="flex justify-between items-start mb-4"></div>
           <h2 className="text-2xl font-bold text-white">{card.name}
           <button
             onClick={onClose}
@@ -1047,42 +1047,42 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
             <X className="w-6 h-6" / />
           </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
           {/* Card Image */}
-          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center" />
-            <div className="text-white text-center p-4" />
+          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center"></div>
+            <div className="text-white text-center p-4"></div>
               <div className="text-2xl font-bold mb-2">{card.name}
               <div className="text-lg">{card.cost}
             </div>
 
           {/* Card Details */}
-          <div className="space-y-4" />
-            <div />
+          <div className="space-y-4"></div>
+            <div></div>
               <h3 className="text-white font-medium mb-2">Details</h3>
-              <div className="space-y-2 text-gray-300" />
+              <div className="space-y-2 text-gray-300"></div>
                 <div>Type: {card.type}
                 <div>Rarity: {card.rarity}
                 <div>Cost: {card.cost}
                 {card.type === 'creature' && (
-                  <div />
+                  <div></div>
                     Power/Toughness: {card.power}/{card.toughness}
                 )}
                 <div>Elements: {(card.elements || []).join(', ')}
               </div>
 
-            <div />
+            <div></div>
               <h3 className="text-white font-medium mb-2">Card Text</h3>
               <p className="text-gray-300">{card.text}
             </div>
 
-            <div />
+            <div></div>
               <h3 className="text-white font-medium mb-2">Collection</h3>
-              <div className="text-gray-300" />
+              <div className="text-gray-300"></div>
                 {owned > 0 ? `You own ${owned} copies` : 'Not in collection'}
               </div>
 
             {/* Action Buttons */}
-            <div className="flex space-x-2" />
+            <div className="flex space-x-2"></div>
               <button
                 onClick={onToggleFavorite}
                 className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
@@ -1108,7 +1108,7 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
                 ) : (
                   <Bookmark className="w-4 h-4" / />
                 )}
-                <span />
+                <span></span>
                   {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
               </button>
 

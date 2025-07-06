@@ -62,7 +62,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
           exit={{ scale: 0.9, opacity: 0 }}
           className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden"
          />
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center relative" />
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white text-center relative"></div>
             <motion.div
               className="absolute top-0 left-0 h-1 bg-white bg-opacity-30"
               initial={{ width: '100%' }}
@@ -70,48 +70,48 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
               transition={{ duration: timeLimit, ease: 'linear' }}
             / />
             <h3 className="text-xl font-bold">Match Found!</h3>
-            <div className="flex items-center justify-center space-x-2 text-blue-100" />
+            <div className="flex items-center justify-center space-x-2 text-blue-100"></div>
               <Clock className="w-4 h-4" / />
               <p>Accept or decline within {timeLeft} seconds</p>
           </div>
 
-          <div className="p-6" />
-            <div className="flex items-center justify-between mb-6" />
-              <div className="text-center flex-1" />
+          <div className="p-6"></div>
+            <div className="flex items-center justify-between mb-6"></div>
+              <div className="text-center flex-1"></div>
                 <div className="text-sm text-gray-500 mb-2">You</div>
                 <PlayerCard player={player} size="small" showStats={false} / />
-                <div className="text-sm text-gray-500 mt-1" />
+                <div className="text-sm text-gray-500 mt-1"></div>
                   {player?.tier} {player?.division}
               </div>
 
               <div className="text-2xl font-bold text-gray-400 px-4">VS</div>
 
-              <div className="text-center flex-1" />
+              <div className="text-center flex-1"></div>
                 <div className="text-sm text-gray-500 mb-2">Opponent</div>
                 <PlayerCard
                   player={match.opponent}
                   size="small"
                   showStats={false}
                 / />
-                <div className="text-sm text-gray-500 mt-1" />
+                <div className="text-sm text-gray-500 mt-1"></div>
                   {match.opponent?.tier}
               </div>
 
-            <div className="space-y-3 mb-6" />
-              <div className="flex items-center justify-between text-sm" />
+            <div className="space-y-3 mb-6"></div>
+              <div className="flex items-center justify-between text-sm"></div>
                 <div className="text-gray-500">Format</div>
                 <div className="font-medium">{match.format}
               </div>
-              <div className="flex items-center justify-between text-sm" />
+              <div className="flex items-center justify-between text-sm"></div>
                 <div className="text-gray-500">Game Mode</div>
                 <div className="font-medium">{match.gameMode}
               </div>
-              <div className="flex items-center justify-between text-sm" />
+              <div className="flex items-center justify-between text-sm"></div>
                 <div className="text-gray-500">Estimated Duration</div>
                 <div className="font-medium">{match.estimatedDuration}
               </div>
               {match.opponent.ping && (
-                <div className="flex items-center justify-between text-sm" />
+                <div className="flex items-center justify-between text-sm"></div>
                   <div className="text-gray-500">Ping</div>
                   <div
                     className={`font-medium ${match.opponent.ping < 50 ? 'text-green-600' : match.opponent.ping < 100 ? 'text-yellow-600' : 'text-red-600'}`}
@@ -121,7 +121,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
               )}
             </div>
 
-            <div className="flex space-x-3" />
+            <div className="flex space-x-3"></div>
               <motion.button
                 onClick={onDecline}
                 className="flex-1 bg-red-100 text-red-600 py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-red-200 transition-colors flex items-center justify-center space-x-2"

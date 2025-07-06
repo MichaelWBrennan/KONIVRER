@@ -14,8 +14,8 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
   const mortalityStatus = getMortalityStatus();
 
   return (
-    <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`} />
-      <div className="zone-header" />
+    <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`}></div>
+      <div className="zone-header"></div>
         <div className="zone-label">LIFE CARDS</div>
         {showMortalityAwareness && !isCurrentPlayer && (
           <motion.div 
@@ -37,7 +37,7 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
         )}
       </div>
       
-      <div className="cards-container" />
+      <div className="cards-container"></div>
         {lifeCards.map((card, index) => (
           <motion.div 
             key={index} 
@@ -50,18 +50,18 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
             {/* Always show card back for Life Cards */}
             <img src="/assets/card-back-new.png" alt="Life Card" / />
             {showMortalityAwareness && (
-              <div className="mortality-overlay" />
-                <div className="mortality-pulse" />
+              <div className="mortality-overlay"></div>
+                <div className="mortality-pulse"></div>
               </div>
             )}
           </motion.div>
         ))}
       </div>
       
-      <div className={`life-count ${showMortalityAwareness ? 'mortality-count' : ''}`} />
+      <div className={`life-count ${showMortalityAwareness ? 'mortality-count' : ''}`}></div>
         {lifeCards.length}
         {showMortalityAwareness && (
-          <div className="mortality-analysis" />
+          <div className="mortality-analysis"></div>
             <span className="analysis-text">AI analyzing mortality risk...</span>
         )}
 

@@ -9,10 +9,10 @@ interface FlagZoneProps {
 
 const FlagZone: React.FC<FlagZoneProps> = ({  flagCard, isCurrentPlayer  }) => {
   return (
-    <div className={`flag-zone ${isCurrentPlayer ? 'your' : 'opponent'}`} />
+    <div className={`flag-zone ${isCurrentPlayer ? 'your' : 'opponent'}`}></div>
       <div className="zone-label">FLAG</div>
       {flagCard ? (
-        <div className="flag-card" />
+        <div className="flag-card"></div>
           <Card card={flagCard} location="flag" / />
         </div>
       ) : (

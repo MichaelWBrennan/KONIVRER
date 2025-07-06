@@ -174,20 +174,20 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
       className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
      />
       {/* Header */}
-      <div className="p-6 border-b border-white/20" />
-        <div className="flex items-center justify-between" />
-          <div className="flex items-center space-x-3" />
+      <div className="p-6 border-b border-white/20"></div>
+        <div className="flex items-center justify-between"></div>
+          <div className="flex items-center space-x-3"></div>
             <Search className="w-6 h-6 text-purple-400" / />
             <h2 className="text-2xl font-bold text-white">Advanced Search</h2>
-            <span className="px-3 py-0 whitespace-nowrap bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full" />
+            <span className="px-3 py-0 whitespace-nowrap bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full"></span>
               Powered by KONIVRER
             </span>
-          <div className="flex items-center space-x-2" />
+          <div className="flex items-center space-x-2"></div>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
             >
-              <span className="text-white text-sm" />
+              <span className="text-white text-sm"></span>
                 {isExpanded ? 'Simple' : 'Advanced'}
               {isExpanded ? (
                 <ChevronUp className="w-4 h-4 text-white" / />
@@ -202,11 +202,11 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
             </button>
         </div>
 
-      <div className="p-6" />
+      <div className="p-6"></div>
         {/* Basic Search */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" />
-          <div />
-            <label className="block text-sm font-medium text-white mb-2" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-white mb-2"></label>
               <Type className="w-4 h-4 inline mr-2" / />
               Card Name
             </label>
@@ -219,8 +219,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
             />
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-white mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-white mb-2"></label>
               <BookOpen className="w-4 h-4 inline mr-2" / />
               Rules Text
             </label>
@@ -242,14 +242,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               className="space-y-8"
              />
               {/* Type Line */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <Filter className="w-5 h-5 mr-2" / />
                   Type & Mechanics
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Type Line
                     </label>
                     <input
@@ -260,11 +260,11 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Card Types
                     </label>
-                    <div className="flex flex-wrap gap-2" />
+                    <div className="flex flex-wrap gap-2"></div>
                       {cardTypes.map(type => (
                         <button
                           key={type}
@@ -282,17 +282,17 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                 </div>
 
               {/* Elements & Colors */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <Palette className="w-5 h-5 mr-2" / />
                   Elements & Identity
                 </h3>
-                <div className="space-y-4" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="space-y-4"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Elements
                     </label>
-                    <div className="flex flex-wrap gap-2" />
+                    <div className="flex flex-wrap gap-2"></div>
                       {elements.map(element => (
                         <button
                           key={element.name}
@@ -304,14 +304,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                               : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
                           }`}
                         >
-                          <span className={`text-lg ${element.color}`} />
+                          <span className={`text-lg ${element.color}`}></span>
                             {element.symbol}
                           <span>{element.name}
                         </button>
                       ))}
                     </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Element Comparison
                     </label>
                     <select
@@ -329,14 +329,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               </div>
 
               {/* Mana & Stats */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <Zap className="w-5 h-5 mr-2" / />
                   Mana & Statistics
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Mana Cost
                     </label>
                     <input
@@ -347,11 +347,11 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Power
                     </label>
-                    <div className="flex space-x-2" />
+                    <div className="flex space-x-2"></div>
                       <select
                         value={searchCriteria.power.operator}
                         onChange={e = />
@@ -376,11 +376,11 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                         className="flex-1 px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                       />
                     </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Toughness
                     </label>
-                    <div className="flex space-x-2" />
+                    <div className="flex space-x-2"></div>
                       <select
                         value={searchCriteria.toughness.operator}
                         onChange={e = />
@@ -412,17 +412,17 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                 </div>
 
               {/* Sets & Rarity */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <Calendar className="w-5 h-5 mr-2" / />
                   Sets & Rarity
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Sets
                     </label>
-                    <div className="flex flex-wrap gap-2" />
+                    <div className="flex flex-wrap gap-2"></div>
                       {sets.map(set => (
                         <button
                           key={set}
@@ -436,11 +436,11 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                           {set}
                       ))}
                     </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Rarity
                     </label>
-                    <div className="flex flex-wrap gap-2" />
+                    <div className="flex flex-wrap gap-2"></div>
                       {rarities.map(rarity => (
                         <button
                           key={rarity}
@@ -459,14 +459,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                 </div>
 
               {/* Price & Market */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <DollarSign className="w-5 h-5 mr-2" / />
                   Price & Market
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Min Price
                     </label>
                     <input
@@ -483,8 +483,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Max Price
                     </label>
                     <input
@@ -501,8 +501,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Currency
                     </label>
                     <select
@@ -522,14 +522,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               </div>
 
               {/* Flavor & Lore */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <BookOpen className="w-5 h-5 mr-2" / />
                   Flavor & Lore
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Artist
                     </label>
                     <input
@@ -540,8 +540,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Flavor Text
                     </label>
                     <input
@@ -553,8 +553,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Lore Finder™
                     </label>
                     <input
@@ -569,14 +569,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               </div>
 
               {/* Display Options */}
-              <div />
+              <div></div>
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
                   <Settings className="w-5 h-5 mr-2" / />
                   Display Options
                 </h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Sort By
                     </label>
                     <select
@@ -593,8 +593,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       <option value="price">Price</option>
                       <option value="released">Release Date</option>
                   </div>
-                  <div />
-                    <label className="block text-sm font-medium text-white mb-2" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-white mb-2"></label>
                       Sort Order
                     </label>
                     <select
@@ -606,8 +606,8 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       <option value="asc">Ascending</option>
                       <option value="desc">Descending</option>
                   </div>
-                <div className="flex flex-wrap gap-4 mt-4" />
-                  <label className="flex items-center space-x-2 cursor-pointer" />
+                <div className="flex flex-wrap gap-4 mt-4"></div>
+                  <label className="flex items-center space-x-2 cursor-pointer"></label>
                     <input
                       type="checkbox"
                       checked={searchCriteria.showAllPrints}
@@ -616,7 +616,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-4 h-4 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500"
                     />
                     <span className="text-white text-sm">Show all prints</span>
-                  <label className="flex items-center space-x-2 cursor-pointer" />
+                  <label className="flex items-center space-x-2 cursor-pointer"></label>
                     <input
                       type="checkbox"
                       checked={searchCriteria.includeTokens}
@@ -624,7 +624,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                         updateCriteria('includeTokens', e.target.checked)}
                       className="w-4 h-4 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500"
                     />
-                    <span className="text-white text-sm" />
+                    <span className="text-white text-sm"></span>
                       Include tokens & extras
                     </span>
                 </div>
@@ -633,15 +633,15 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
         </AnimatePresence>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20" />
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20"></div>
           <button
             onClick={clearAll}
             className="px-6 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
            />
             Clear All
           </button>
-          <div className="flex items-center space-x-4" />
-            <span className="text-sm text-gray-400" />
+          <div className="flex items-center space-x-4"></div>
+            <span className="text-sm text-gray-400"></span>
               {
                 Object.values(searchCriteria).filter(v =>
                   Array.isArray(v)
