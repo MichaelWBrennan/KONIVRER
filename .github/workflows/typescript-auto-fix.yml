@@ -1,0 +1,316 @@
+name: TypeScript Auto-Fix
+
+on:
+  # Run on schedule (every day at midnight)
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # Run on push to main branch
+  push:
+    branches:
+      - main
+    paths:
+      - '**.ts'
+      - '**.tsx'
+      - 'tsconfig.json'
+      - 'package.json'
+  
+  # Run on pull request to main branch
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.ts'
+      - '**.tsx'
+      - 'tsconfig.json'
+      - 'package.json'
+  
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  typescript-auto-fix:
+    name: TypeScript Auto-Fix
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check for TypeScript errors
+        id: ts-check
+        run: |
+          ERROR_COUNT=$(npx tsc --noEmit 2>&1 | grep -o "error TS" | wc -l)
+          echo "error_count=$ERROR_COUNT" >> $GITHUB_OUTPUT
+          if [ "$ERROR_COUNT" -gt 0 ]; then
+            echo "TypeScript errors found: $ERROR_COUNT"
+            exit 0  # Don't fail the workflow
+          else
+            echo "No TypeScript errors found"
+          fi
+      
+      - name: Set up Git
+        if: steps.ts-check.outputs.error_count > 0
+        run: |
+          git config --local user.name "TypeScript Auto-Fix Bot"
+          git config --local user.email "typescript-bot@all-hands.dev"
+      
+      - name: Create auto-fix branch
+        if: steps.ts-check.outputs.error_count > 0
+        run: |
+          BRANCH_NAME="auto-fix-typescript-$(date +%Y%m%d%H%M%S)"
+          git checkout -b $BRANCH_NAME
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+      
+      - name: Run TypeScript Auto-Fix
+        if: steps.ts-check.outputs.error_count > 0
+        run: |
+          # Install required packages for auto-fixing
+          npm install -g typescript-auto-fixer ts-morph
+
+          # Create a script to fix TypeScript errors
+          cat > fix-typescript.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const { execSync } = require('child_process');
+          const { Project } = require('ts-morph');
+
+          // Initialize TS project
+          const project = new Project({
+            tsConfigFilePath: 'tsconfig.json',
+          });
+
+          // Get all source files
+          const sourceFiles = project.getSourceFiles();
+
+          // Get error information
+          const errorOutput = execSync('npx tsc --noEmit', { encoding: 'utf8' });
+          const errorLines = errorOutput.split('\n');
+
+          // Parse errors
+          const errors = [];
+          for (const line of errorLines) {
+            const match = line.match(/(.+)\((\d+),(\d+)\): error TS(\d+): (.+)/);
+            if (match) {
+              const [_, filePath, line, column, code, message] = match;
+              errors.push({
+                filePath: filePath.trim(),
+                line: parseInt(line),
+                column: parseInt(column),
+                code: parseInt(code),
+                message: message.trim(),
+              });
+            }
+          }
+
+          // Group errors by file
+          const fileErrors = {};
+          for (const error of errors) {
+            if (!fileErrors[error.filePath]) {
+              fileErrors[error.filePath] = [];
+            }
+            fileErrors[error.filePath].push(error);
+          }
+
+          // Process files with errors
+          for (const filePath in fileErrors) {
+            console.log(`Processing file: ${filePath}`);
+            
+            try {
+              const sourceFile = project.getSourceFile(filePath);
+              if (!sourceFile) {
+                console.log(`  Source file not found: ${filePath}`);
+                continue;
+              }
+
+              // Fix common TypeScript errors
+              fixMissingTypes(sourceFile);
+              fixImplicitAny(sourceFile, fileErrors[filePath]);
+              fixMissingInterfaces(sourceFile);
+              fixSyntaxErrors(sourceFile);
+              
+              // Save changes
+              sourceFile.saveSync();
+              console.log(`  Fixed issues in: ${filePath}`);
+            } catch (err) {
+              console.error(`  Error processing ${filePath}:`, err.message);
+            }
+          }
+
+          // Fix missing types
+          function fixMissingTypes(sourceFile) {
+            // Add proper return types to functions
+            sourceFile.getFunctions().forEach(func => {
+              if (!func.getReturnType().getText()) {
+                func.setReturnType('any');
+              }
+            });
+
+            // Add types to method parameters
+            sourceFile.getMethods().forEach(method => {
+              method.getParameters().forEach(param => {
+                if (!param.getType().getText()) {
+                  param.setType('any');
+                }
+              });
+            });
+
+            // Add types to variables
+            sourceFile.getVariableDeclarations().forEach(variable => {
+              if (!variable.getType().getText()) {
+                variable.setType('any');
+              }
+            });
+          }
+
+          // Fix implicit any errors
+          function fixImplicitAny(sourceFile, errors) {
+            const implicitAnyErrors = errors.filter(e => e.code === 7006);
+            
+            for (const error of implicitAnyErrors) {
+              const line = error.line - 1; // 0-based line number
+              const lineText = sourceFile.getFullText().split('\n')[line];
+              
+              // Add type annotation
+              if (lineText.includes('function') || lineText.includes('=>')) {
+                // Function parameter
+                const paramMatch = error.message.match(/Parameter '(\w+)'/);
+                if (paramMatch) {
+                  const paramName = paramMatch[1];
+                  const regex = new RegExp(`(${paramName})(?!\\s*:)`, 'g');
+                  const newLineText = lineText.replace(regex, `${paramName}: any`);
+                  
+                  // Replace the line
+                  const startPos = sourceFile.getPositionOfLineAndCharacter(line, 0);
+                  const endPos = sourceFile.getPositionOfLineAndCharacter(line, lineText.length);
+                  sourceFile.replaceText([startPos, endPos], newLineText);
+                }
+              }
+            }
+          }
+
+          // Fix missing interfaces
+          function fixMissingInterfaces(sourceFile) {
+            // Find object literals that could benefit from interfaces
+            sourceFile.getDescendantsOfKind(project.SyntaxKind.ObjectLiteralExpression).forEach(obj => {
+              const parent = obj.getParent();
+              
+              // If it's a variable declaration
+              if (parent.getKind() === project.SyntaxKind.VariableDeclaration) {
+                const varDecl = parent;
+                if (!varDecl.getTypeNode()) {
+                  // Create an interface name based on variable name
+                  const varName = varDecl.getName();
+                  if (varName) {
+                    const interfaceName = varName.charAt(0).toUpperCase() + varName.slice(1) + 'Interface';
+                    
+                    // Create interface
+                    const properties = obj.getProperties();
+                    if (properties.length > 0) {
+                      let interfaceText = `interface ${interfaceName} {\n`;
+                      
+                      properties.forEach(prop => {
+                        const propName = prop.getName();
+                        interfaceText += `  ${propName}: any;\n`;
+                      });
+                      
+                      interfaceText += '}\n\n';
+                      
+                      // Add interface before the variable declaration
+                      sourceFile.insertText(0, interfaceText);
+                      
+                      // Add type to variable
+                      varDecl.setType(interfaceName);
+                    }
+                  }
+                }
+              }
+            });
+          }
+
+          // Fix syntax errors
+          function fixSyntaxErrors(sourceFile) {
+            const text = sourceFile.getFullText();
+            let fixedText = text;
+            
+            // Fix missing closing braces
+            const openBraces = (text.match(/{/g) || []).length;
+            const closeBraces = (text.match(/}/g) || []).length;
+            
+            if (openBraces > closeBraces) {
+              const diff = openBraces - closeBraces;
+              fixedText += '\n' + '}'.repeat(diff);
+            }
+            
+            // Fix missing semicolons
+            fixedText = fixedText.replace(/(\w+)\s*\n/g, '$1;\n');
+            
+            // Apply fixes if changes were made
+            if (fixedText !== text) {
+              sourceFile.replaceWithText(fixedText);
+            }
+          }
+          EOF
+
+          # Run the fix script
+          node fix-typescript.js
+
+          # Check if there are still errors
+          REMAINING_ERRORS=$(npx tsc --noEmit 2>&1 | grep -o "error TS" | wc -l)
+          echo "Remaining TypeScript errors: $REMAINING_ERRORS"
+          echo "REMAINING_ERRORS=$REMAINING_ERRORS" >> $GITHUB_ENV
+      
+      - name: Commit changes
+        if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS < steps.ts-check.outputs.error_count
+        run: |
+          FIXED_COUNT=$((steps.ts-check.outputs.error_count - env.REMAINING_ERRORS))
+          git add .
+          git commit -m "Auto-fix TypeScript errors ($FIXED_COUNT errors fixed, $REMAINING_ERRORS remaining)"
+          git push origin $BRANCH_NAME
+      
+      - name: Create Pull Request
+        if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS < steps.ts-check.outputs.error_count
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Auto-fix TypeScript errors"
+          title: "Auto-fix TypeScript errors"
+          body: |
+            This PR was automatically created by the TypeScript Auto-Fix workflow.
+            
+            - Fixed ${{ steps.ts-check.outputs.error_count - env.REMAINING_ERRORS }} TypeScript errors
+            - ${{ env.REMAINING_ERRORS }} errors still remain
+            
+            The changes were made automatically to fix TypeScript type errors.
+            Please review the changes carefully before merging.
+          branch: ${{ env.BRANCH_NAME }}
+          base: main
+          labels: typescript, automated-pr, self-healing
+      
+      - name: Create Issue if errors remain
+        if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS > 0
+        uses: peter-evans/create-issue@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "TypeScript errors need manual attention"
+          body: |
+            The TypeScript Auto-Fix workflow has attempted to fix TypeScript errors, but some errors still remain.
+            
+            - Fixed ${{ steps.ts-check.outputs.error_count - env.REMAINING_ERRORS }} TypeScript errors
+            - ${{ env.REMAINING_ERRORS }} errors still remain
+            
+            Please review the remaining errors and fix them manually.
+            
+            A PR with the automated fixes has been created: #${{ github.event.number }}
+          labels: typescript, needs-attention, self-healing

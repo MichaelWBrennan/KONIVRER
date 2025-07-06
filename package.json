@@ -25,6 +25,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "lint:types": "tsc --noEmit && eslint . --ext .ts,.tsx",
     "dev:typed": "npm run type-check && npm run dev",
+    "fix:typescript": "node scripts/fix-typescript-errors.js",
+    "fix:typescript:auto": "node scripts/fix-typescript-errors.js --auto",
     "automation": "tsx automation/cli.ts",
     "automation:start": "tsx automation/cli.ts start",
     "automation:start:bg": "tsx automation/cli.ts start --background",
