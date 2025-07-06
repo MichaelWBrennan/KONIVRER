@@ -14,7 +14,7 @@ import {
   useCallback,
 } from 'react';
 import { z } from 'zod';
-import { initiateOAuth } from '../services/oauthService.js';
+import { initiateOAuth } from '../services/oauthService';
 
 // Validation schemas using Zod for type safety
 const UserSchema = z.object({
@@ -88,11 +88,11 @@ const RegisterSchema = z
     path: ['confirmPassword'],
   });
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const useAuth = (): any => {
   const context = useContext(AuthContext);
-  if (true) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
@@ -768,3 +768,5 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export { AuthProvider, AuthContext };
