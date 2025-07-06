@@ -217,7 +217,7 @@ const MobileJudgeTools = (): any => {
                   pairing.status === 'active' ? 'bg-orange-100 text-orange-800' :
                   pairing.status === 'completed' ? 'bg-green-100 text-green-800' :
                   'bg-gray-100 text-gray-800'
-                }`} />
+                }`}></span>
                   {pairing.status}
               </div>
 
@@ -256,7 +256,7 @@ const MobileJudgeTools = (): any => {
             {pairing.status === 'completed' && pairing.result && (
               <div className="bg-green-50 p-3 rounded-lg"></div>
                 <div className="flex items-center gap-2 text-green-800"></div>
-                  <CheckCircle className="h-4 w-4" / />
+                  <CheckCircle className="h-4 w-4" />
                   <span className="text-sm font-medium"></span>
                     {pairing.result.winner === pairing.player1.id ? pairing.player1.name :
                      pairing.result.winner === pairing.player2.id ? pairing.player2.name :
@@ -294,13 +294,13 @@ const MobileJudgeTools = (): any => {
                 </div>
               <div className="flex items-center gap-2"></div>
                 {player.penalties > 0 && (
-                  <AlertTriangle className="h-4 w-4 text-orange-500" / />
+                  <AlertTriangle className="h-4 w-4 text-orange-500" />
                 )}
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                   player.status === 'active' ? 'bg-green-100 text-green-800' :
                   player.status === 'dropped' ? 'bg-red-100 text-red-800' :
                   'bg-gray-100 text-gray-800'
-                }`} />
+                }`}></span>
                   {player.status}
               </div>
           </motion.div>
@@ -317,7 +317,7 @@ const MobileJudgeTools = (): any => {
           onClick={() => setShowPenaltyForm(true)}
           className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
         >
-          <Plus className="h-4 w-4" / />
+          <Plus className="h-4 w-4" />
           Issue Penalty
         </button>
 
@@ -339,7 +339,7 @@ const MobileJudgeTools = (): any => {
               penalty.type === 'game_loss' ? 'bg-red-100 text-red-800' :
               penalty.type === 'match_loss' ? 'bg-red-100 text-red-800' :
               'bg-gray-100 text-gray-800'
-            }`} />
+            }`}></span>
               {penalty.type.replace('_', ' ')}
           </div>
           <p className="text-sm text-gray-700 mb-2">{penalty.notes}
@@ -409,8 +409,7 @@ const MobileJudgeTools = (): any => {
             <textarea
               rows={3}
               className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Additional details about the infraction..."
-            / />
+              placeholder="Additional details about the infraction..." />
           </div>
 
         <div className="flex gap-2 mt-6"></div>
@@ -435,12 +434,13 @@ const MobileJudgeTools = (): any => {
 
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
+      <div className="text-center"></div>
+      <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" />
           <p className="text-gray-600">Loading judge tools...</p>
-      </div>
-    );
+    </>
+  );
   }
 
   return (
@@ -454,7 +454,7 @@ const MobileJudgeTools = (): any => {
               <p className="text-sm text-gray-600">{tournament?.name}
             </div>
             <div className="flex items-center gap-2"></div>
-              <Shield className="h-5 w-5 text-blue-600" / />
+              <Shield className="h-5 w-5 text-blue-600" />
               <span className="text-sm font-medium text-blue-600">Judge Mode</span>
           </div>
 
@@ -471,7 +471,7 @@ const MobileJudgeTools = (): any => {
 
           {/* Search */}
           <div className="relative"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" / />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
@@ -483,7 +483,7 @@ const MobileJudgeTools = (): any => {
 
         {/* Navigation Tabs */}
         <div className="border-t border-gray-200"></div>
-          <nav className="flex" />
+          <nav className="flex"></nav>
             {[
               { id: 'pairings', label: 'Pairings', icon: Users },
               { id: 'players', label: 'Players', icon: Target },
@@ -498,7 +498,7 @@ const MobileJudgeTools = (): any => {
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
-                <Icon className="h-4 w-4" / />
+                <Icon className="h-4 w-4" />
                 {label}
             ))}
           </nav>
@@ -527,10 +527,10 @@ const MobileJudgeTools = (): any => {
       {/* Quick Actions */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-2"></div>
         <button className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-colors"></button>
-          <AlertTriangle className="h-6 w-6" / />
+          <AlertTriangle className="h-6 w-6" />
         </button>
         <button className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"></button>
-          <Bell className="h-6 w-6" / />
+          <Bell className="h-6 w-6" />
         </button>
     </div>
   );

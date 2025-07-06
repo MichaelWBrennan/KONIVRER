@@ -137,18 +137,17 @@ const StreamlinedGamePlatform = (): any => {
             <div className="bg-card rounded-lg p-6"></div>
               <div className="flex items-center gap-4 mb-6"></div>
                 <div className="flex-1 relative"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
                     placeholder="Quick search cards, decks, players... or use Advanced Search for detailed filtering"
-                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  / />
+                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
                   className="btn btn-primary flex items-center gap-2"
                 >
-                  <Filter className="w-4 h-4" / />
+                  <Filter className="w-4 h-4" />
                   Advanced Search
                 </button>
               {activeSearchCriteria && (
@@ -172,8 +171,7 @@ const StreamlinedGamePlatform = (): any => {
             <CardDatabase
               cards={searchResults}
               searchCriteria={activeSearchCriteria}
-              showSearchInterface={true}
-            / />
+              showSearchInterface={true} />
           </div>
         );
       case 'deck-workshop':
@@ -183,55 +181,56 @@ const StreamlinedGamePlatform = (): any => {
             <div className="lg:col-span-2"></div>
               <div className="bg-card rounded-lg p-6"></div>
                 <div className="flex items-center gap-3 mb-6"></div>
-                  <Wrench className="w-6 h-6 text-green-500" / />
+                  <Wrench className="w-6 h-6 text-green-500" />
                   <div></div>
                     <p className="text-secondary">Visual deck construction</p>
                 </div>
-                <VisualDeckBuilder deck={sampleDeck} / />
+                <VisualDeckBuilder deck={sampleDeck} />
               </div>
             {/* Deck Stats & Collection */}
             <div className="space-y-6"></div>
               <div className="bg-card rounded-lg p-6"></div>
                 <div className="flex items-center gap-3 mb-4"></div>
-                  <BarChart3 className="w-5 h-5 text-blue-500" / />
+                  <BarChart3 className="w-5 h-5 text-blue-500" />
                 </div>
-                <DeckStats deck={sampleDeck} / />
+                <DeckStats deck={sampleDeck} />
               </div>
               <div className="bg-card rounded-lg p-6"></div>
                 <div className="flex items-center gap-3 mb-4"></div>
-                  <Package className="w-5 h-5 text-purple-500" / />
+                  <Package className="w-5 h-5 text-purple-500" />
                 </div>
-                <CollectionManager / />
+                <CollectionManager />
               </div>
           </div>
         );
       case 'game-simulator':
         return (
-          <div className="bg-card rounded-lg overflow-hidden"></div>
-            <div className="p-6 border-b border-color"></div>
-              <div className="flex items-center gap-3"></div>
-                <Gamepad2 className="w-6 h-6 text-purple-500" / />
+    <>
+      <div className="bg-card rounded-lg overflow-hidden"></div>
+      <div className="p-6 border-b border-color"></div>
+      <div className="flex items-center gap-3"></div>
+      <Gamepad2 className="w-6 h-6 text-purple-500" />
                 <div></div>
-                  <p className="text-secondary"></p>
-                    Tournament-quality gameplay experience
-                  </p>
+      <p className="text-secondary"></p>
+      </p>
               </div>
-            <GameSimulator / />
+      <GameSimulator />
           </div>
-        );
+    </>
+  );
       case 'analytics-hub':
         return (
           <div className="space-y-6"></div>
             {/* Meta Analysis */}
             <div className="bg-card rounded-lg p-6"></div>
               <div className="flex items-center gap-3 mb-6"></div>
-                <TrendingUp className="w-6 h-6 text-orange-500" / />
+                <TrendingUp className="w-6 h-6 text-orange-500" />
                 <div></div>
                   <p className="text-secondary"></p>
                     Real-time competitive landscape insights
                   </p>
               </div>
-              <MetaAnalysis / />
+              <MetaAnalysis />
             </div>
         );
       case 'community-tools':
@@ -240,25 +239,25 @@ const StreamlinedGamePlatform = (): any => {
             {/* Battle Pass */}
             <div className="bg-card rounded-lg p-6"></div>
               <div className="flex items-center gap-3 mb-6"></div>
-                <Trophy className="w-6 h-6 text-yellow-500" / />
+                <Trophy className="w-6 h-6 text-yellow-500" />
                 <div></div>
                   <p className="text-secondary"></p>
                     Season 3: Elemental Convergence
                   </p>
               </div>
-              <BattlePass / />
+              <BattlePass />
             </div>
             {/* AI Assistant */}
             {isAuthenticated && (
               <div className="bg-card rounded-lg p-6"></div>
                 <div className="flex items-center gap-3 mb-6"></div>
-                  <Bot className="w-6 h-6 text-blue-500" / />
+                  <Bot className="w-6 h-6 text-blue-500" />
                   <div></div>
                     <p className="text-secondary"></p>
                       Smart deck analysis and suggestions
                     </p>
                 </div>
-                <AIAssistant / />
+                <AIAssistant />
               </div>
             )}
         );
@@ -271,7 +270,7 @@ const StreamlinedGamePlatform = (): any => {
       {/* Header */}
       <div className="bg-card border-b border-color"></div>
         <div className="max-w-7xl mx-auto px-6 py-8"></div>
-          <div className="text-center mb-8"><p className="text-secondary text-lg"></div>
+          <div className="text-center mb-8"><p className="text-secondary text-lg"></p>
               Your complete toolkit for KONIVRER card game mastery
             </p>
           {/* Platform Sections Navigation */}
@@ -295,25 +294,21 @@ const StreamlinedGamePlatform = (): any => {
                 >
                   <div className="flex items-center gap-3 mb-3"></div>
                     <Icon
-                      className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`}
-                    / />
+                      className={`w-6 h-6 ${isActive ? 'text-white' : 'text-primary'}`} />
                     <div></div>
                       <p
-                        className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}
-                       />
+                        className={`text-sm ${isActive ? 'text-white/80' : 'text-secondary'}`}></p>
                         {section.subtitle}
                     </div>
                   <p
-                    className={`text-sm ${isActive ? 'text-white/90' : 'text-secondary'}`}
-                   />
+                    className={`text-sm ${isActive ? 'text-white/90' : 'text-secondary'}`}></p>
                     {section.description}
                   {isActive && (
                     <motion.div
                       className="absolute inset-0 rounded-xl border-2 border-white/30"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    / />
+                      transition={{ duration: 0.3 }} />
                   )}
                 </motion.button>
               );

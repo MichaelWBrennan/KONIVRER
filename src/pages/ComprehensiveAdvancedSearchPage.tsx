@@ -144,7 +144,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
             <p className="text-gray-300 text-sm line-clamp-2">{card.description}
           </div>
           <div className="text-right"></div>
-            <Eye className="w-5 h-5 text-gray-400" / />
+            <Eye className="w-5 h-5 text-gray-400" />
           </div>
         </motion.div>
       );
@@ -174,10 +174,10 @@ const ComprehensiveAdvancedSearchPage = (): any => {
     );
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4"></div>
       <div className="max-w-7xl mx-auto"></div>
-        {/* Header */}
-        <motion.div
+      <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-md rounded-lg p-6 mb-6 border border-white/20"
@@ -186,40 +186,37 @@ const ComprehensiveAdvancedSearchPage = (): any => {
               onClick={() => setShowSearch(!showSearch)}
               className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
             >
-              <Filter className="w-4 h-4" / />
+              <Filter className="w-4 h-4" />
               <span className="text-white">{showSearch ? 'Hide' : 'Show'} Search</span>
-          </div>
+      </div>
           {hasSearched && (
             <div className="flex items-center justify-between"></div>
-              <div className="text-gray-300"></div>
-                Found {totalResults} cards
-                {searchResults.some(card => card.isGroupHeader) && ' (grouped)'}
-              <div className="flex items-center space-x-2"></div>
-                <button
+      <div className="text-gray-300"></div>
+      <div className="flex items-center space-x-2"></div>
+      <button
                   onClick={exportResults}
-                  className="flex items-center space-x-2 px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-white text-sm transition-colors"
-                 />
-                  <Download className="w-4 h-4" / />
+                  className="flex items-center space-x-2 px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-white text-sm transition-colors"></button>
+      <Download className="w-4 h-4" />
                   <span>Export CSV</span>
-                <div className="flex items-center space-x-2"></div>
-                  <button
+      <div className="flex items-center space-x-2"></div>
+      <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded transition-colors ${
                       viewMode === 'grid' ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
-                    <Grid className="w-4 h-4" / />
+                    <Grid className="w-4 h-4" />
                   </button>
-                  <button
+      <button
                     onClick={() => setViewMode('list')}
                     className={`p-2 rounded transition-colors ${
                       viewMode === 'list' ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                   >
-                    <List className="w-4 h-4" / />
+                    <List className="w-4 h-4" />
                   </button>
-              </div>
-          )}
+    </>
+  )}
         </motion.div>
         {/* Search Component */}
         <AnimatePresence />
@@ -257,7 +254,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
            />
             {searchResults.length === 0 ? (
               <div className="text-center py-12"></div>
-                <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
+                <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-300"></p>
                   Try adjusting your search criteria or using different keywords.
                 </p>
@@ -268,7 +265,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
                   viewMode === 'grid' 
                     ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5' 
                     : 'grid-cols-1'
-                }`} />
+                }`}></div>
                   {paginatedResults.map((card, index) => renderCard(card, index))}
                 {/* Pagination */}
                 {totalPages > 1 && (

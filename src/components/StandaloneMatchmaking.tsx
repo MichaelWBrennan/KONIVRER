@@ -213,7 +213,7 @@ const StandaloneMatchmaking = (): any => {
         {/* Player Selection */}
         <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
           <div className="flex items-center justify-between mb-4"></div>
-            <h3 className="text-lg font-semibold text-gray-900" />
+            <h3 className="text-lg font-semibold text-gray-900"></h3>
               Select Players
             </h3>
             <span className="text-sm text-gray-500"></span>
@@ -246,7 +246,7 @@ const StandaloneMatchmaking = (): any => {
 
           {players.length === 0 && (
             <div className="text-center py-8 text-gray-500"></div>
-              <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+              <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" />
               <p>No players added yet.</p>
               <button
                 onClick={() => setShowPlayerModal(true)}
@@ -259,7 +259,7 @@ const StandaloneMatchmaking = (): any => {
 
         {/* Match Settings */}
         <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
             Match Settings
           </h3>
 
@@ -297,21 +297,20 @@ const StandaloneMatchmaking = (): any => {
               <button
                 onClick={createQuickMatch}
                 disabled={selectedPlayers.length < 2}
-                className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-manipulation"
-               />
+                className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors touch-manipulation"></button>
                 Create Matches
               </button>
           </div>
 
         {/* Active Matches */}
         <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
             Active Matches
           </h3>
 
           {currentMatches.filter(m => m.status === 'active').length === 0 ? (
             <div className="text-center py-8 text-gray-500"></div>
-              <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+              <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
               <p>No active matches.</p>
               <p className="text-sm">Create some matches above!</p>
           ) : (
@@ -322,8 +321,7 @@ const StandaloneMatchmaking = (): any => {
                   <MatchCard
                     key={match.id}
                     match={match}
-                    onUpdate={updateMatch}
-                  / />
+                    onUpdate={updateMatch} />
                 ))}
             </div>
           )}
@@ -376,42 +374,40 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     ).length;
 
     return (
+    <>
       <div className="border border-gray-200 rounded-lg p-4"></div>
-        <div className="flex items-center justify-between mb-3"></div>
-          <div className="flex items-center space-x-4"></div>
-            <div className="text-center"></div>
-              <div className="font-medium text-sm md:text-base"></div>
-                {match.player1.name}
-              <div className="text-2xl font-bold text-blue-600">{p1Wins}
+      <div className="flex items-center justify-between mb-3"></div>
+      <div className="flex items-center space-x-4"></div>
+      <div className="text-center"></div>
+      <div className="font-medium text-sm md:text-base"></div>
+      <div className="text-2xl font-bold text-blue-600">{p1Wins}
             </div>
-            <div className="text-gray-400 text-sm">VS</div>
-            <div className="text-center"></div>
-              <div className="font-medium text-sm md:text-base"></div>
-                {match.player2.name}
-              <div className="text-2xl font-bold text-red-600">{p2Wins}
+      <div className="text-gray-400 text-sm">VS</div>
+      <div className="text-center"></div>
+      <div className="font-medium text-sm md:text-base"></div>
+      <div className="text-2xl font-bold text-red-600">{p2Wins}
             </div>
-
-          <div className="text-right"></div>
-            <div className="text-sm text-gray-500">{match.format}
+      <div className="text-right"></div>
+      <div className="text-sm text-gray-500">{match.format}
             <div className="text-sm text-gray-500"></div>
-              Best of {match.maxRounds}
-          </div>
+      </div>
 
         {match.status === 'active' && (
           <div className="flex space-x-2"></div>
-            <button
+      <button
               onClick={() => recordGame(match.player1.id)}
               className="flex-1 bg-blue-100 text-blue-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-blue-200 active:bg-blue-300 transition-colors touch-manipulation"
             >
               {match.player1.name} Wins
             </button>
-            <button
+      <button
               onClick={() => recordGame(match.player2.id)}
               className="flex-1 bg-red-100 text-red-700 py-0 whitespace-nowrap px-3 rounded font-medium hover:bg-red-200 active:bg-red-300 transition-colors touch-manipulation"
             >
               {match.player2.name} Wins
             </button>
-        )}
+    </>
+  )}
         {match.status === 'completed' && (
           <div className="text-center py-2 bg-green-100 text-green-700 rounded font-medium"></div>
             Winner: {players.find(p => p.id === match.winner)?.name}
@@ -438,88 +434,76 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     };
 
     return (
+    <>
       <div className="space-y-4 md:space-y-6"></div>
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
-          <div className="flex items-center justify-between mb-4"></div>
-            <h3 className="text-lg font-semibold text-gray-900" />
-              Player Management
-            </h3>
+      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <h3 className="text-lg font-semibold text-gray-900"></h3>
+      </h3>
             <button
               onClick={addPlayer}
-              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2 touch-manipulation"
-             />
-              <Plus className="w-4 h-4" / />
+              className="bg-blue-600 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center space-x-2 touch-manipulation"></button>
+      <Plus className="w-4 h-4" />
               <span>Add Player</span>
-          </div>
+      </div>
 
           <div className="overflow-x-auto"></div>
-            <table className="w-full" />
-              <thead />
-                <tr className="border-b border-gray-200" />
-                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900" />
-                    Player
-                  </th>
-                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900" />
-                    Rating
-                  </th>
-                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900" />
-                    Record
-                  </th>
-                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900" />
-                    Actions
-                  </th>
+      <table className="w-full"></table>
+      <thead></thead>
+      <tr className="border-b border-gray-200"></tr>
+      <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900"></th>
+      </th>
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900"></th>
+      </th>
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900"></th>
+      </th>
+                  <th className="text-left py-0 whitespace-nowrap px-2 md:px-4 font-medium text-gray-900"></th>
+      </th>
               </thead>
-              <tbody />
-                {players.map(player => (
-                  <tr
+      <tbody></tbody>
+      <tr
                     key={player.id}
-                    className="border-b border-gray-100 hover:bg-gray-50"
-                   />
-                    <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <div className="flex items-center space-x-3"></div>
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm"></div>
-                          {player.name[0].toUpperCase()}
-                        <div className="min-w-0"></div>
-                          <div className="font-medium text-gray-900 truncate"></div>
-                            {player.name}
-                          <div className="text-sm text-gray-500 truncate"></div>
-                            {player.email}
-                        </div>
+                    className="border-b border-gray-100 hover:bg-gray-50"></tr>
+      <td className="py-0 whitespace-nowrap px-2 md:px-4"></td>
+      <div className="flex items-center space-x-3"></div>
+      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm"></div>
+      <div className="min-w-0"></div>
+      <div className="font-medium text-gray-900 truncate"></div>
+      <div className="text-sm text-gray-500 truncate"></div>
+      </div>
                     </td>
-                    <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <span className="font-medium">{player.rating}
+      <td className="py-0 whitespace-nowrap px-2 md:px-4"></td>
+      <span className="font-medium">{player.rating}
                     </td>
-                    <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <span className="text-sm"></span>
-                        {player.wins}W-{player.losses}L-{player.draws}D
-                      </span>
-                    <td className="py-0 whitespace-nowrap px-2 md:px-4" />
-                      <div className="flex items-center space-x-2"></div>
-                        <button
+      <td className="py-0 whitespace-nowrap px-2 md:px-4"></td>
+      <span className="text-sm"></span>
+      </span>
+                    <td className="py-0 whitespace-nowrap px-2 md:px-4"></td>
+      <div className="flex items-center space-x-2"></div>
+      <button
                           onClick={() => editPlayer(player)}
                           className="text-blue-600 hover:text-blue-700 p-1 touch-manipulation"
                         >
-                          <Edit className="w-4 h-4" / />
+                          <Edit className="w-4 h-4" />
                         </button>
-                        <button
+      <button
                           onClick={() => deletePlayer(player.id)}
                           className="text-red-600 hover:text-red-700 p-1 touch-manipulation"
                         >
-                          <Trash2 className="w-4 h-4" / />
+                          <Trash2 className="w-4 h-4" />
                         </button>
-                    </td>
-                ))}
+    </>
+  ))}
               </tbody>
           </div>
 
           {players.length === 0 && (
             <div className="text-center py-8 text-gray-500"></div>
-              <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+              <Users className="w-12 h-12 mx-auto mb-2 text-gray-300" />
               <p>No players added yet.</p>
               <button
                 onClick={addPlayer}
-                className="mt-2 text-blue-600 hover:text-blue-700 font-medium"
-               />
+                className="mt-2 text-blue-600 hover:text-blue-700 font-medium"></button>
                 Add your first player
               </button>
           )}
@@ -568,23 +552,21 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
     };
 
     return (
+    <>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 max-h-screen overflow-y-auto"></div>
-          <div className="flex items-center justify-between mb-4"></div>
-            <h2 className="text-xl font-bold text-gray-900" />
-              {playerProfile ? 'Edit Player' : 'Add Player'}
-            <button
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 max-h-screen overflow-y-auto"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <h2 className="text-xl font-bold text-gray-900"></h2>
+      <button
               onClick={() => setShowPlayerModal(false)}
               className="text-gray-400 hover:text-gray-600 p-1 touch-manipulation"
             >
-              <X className="w-5 h-5" / />
+              <X className="w-5 h-5" />
             </button>
-
-          <form onSubmit={handleSubmit} className="space-y-4" />
-            <div></div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                Name
-              </label>
+      <form onSubmit={handleSubmit} className="space-y-4"></form>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
               <input
                 type="text"
                 required
@@ -594,11 +576,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
               />
             </div>
-
-            <div></div>
-              <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                Email (optional)
-              </label>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
               <input
                 type="email"
                 value={formData.email}
@@ -607,12 +587,10 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
               />
             </div>
-
-            <div className="grid grid-cols-2 gap-4"></div>
-              <div></div>
-                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                  Rating
-                </label>
+      <div className="grid grid-cols-2 gap-4"></div>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
                 <input
                   type="number"
                   value={formData.rating}
@@ -621,11 +599,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
-
-              <div></div>
-                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                  Wins
-                </label>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
                 <input
                   type="number"
                   min="0"
@@ -635,12 +611,10 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
-
-            <div className="grid grid-cols-2 gap-4"></div>
-              <div></div>
-                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                  Losses
-                </label>
+      <div className="grid grid-cols-2 gap-4"></div>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
                 <input
                   type="number"
                   min="0"
@@ -650,11 +624,9 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
-
-              <div></div>
-                <label className="block text-sm font-medium text-gray-700 mb-1"></label>
-                  Draws
-                </label>
+      <div></div>
+      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+      </label>
                 <input
                   type="number"
                   min="0"
@@ -664,24 +636,21 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
                 />
               </div>
-
-            <div className="flex space-x-3 pt-4"></div>
-              <button
+      <div className="flex space-x-3 pt-4"></div>
+      <button
                 type="button"
                 onClick={() => setShowPlayerModal(false)}
                 className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors touch-manipulation"
               >
                 Cancel
               </button>
-              <button
+      <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation"
-               />
-                {playerProfile ? 'Update' : 'Add'} Player
-              </button>
+                className="flex-1 bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation"></button>
+      </button>
           </form>
-      </div>
-    );
+    </>
+  );
   };
 
   return (
@@ -695,21 +664,21 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
               >
-                <Menu className="w-6 h-6" / />
+                <Menu className="w-6 h-6" />
               </button>
-              <Users className="w-8 h-8 text-blue-600" / />
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900" />
+              <Users className="w-8 h-8 text-blue-600" />
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900"></h1>
                 KONIVRER Matchmaking
               </h1>
               <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500"></div>
                 {isOfflineMode ? (
                   <>
-                    <WifiOff className="w-4 h-4 text-orange-500" / />
+                    <WifiOff className="w-4 h-4 text-orange-500" />
                     <span>Offline</span>
                   </>
                 ) : (
                   <>
-                    <Wifi className="w-4 h-4 text-green-500" / />
+                    <Wifi className="w-4 h-4 text-green-500" />
                     <span>Online</span>
                   </>
                 )}
@@ -719,23 +688,21 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
               <button
                 onClick={generateQRCode}
                 className="text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
-                title="Generate QR Code"
-               />
-                <QrCode className="w-5 h-5" / />
+                title="Generate QR Code"></button>
+                <QrCode className="w-5 h-5" />
               </button>
               <button
                 onClick={shareMatchmaking}
                 className="text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
-                title="Share"
-               />
-                <Share2 className="w-5 h-5" / />
+                title="Share"></button>
+                <Share2 className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setShowExportModal(true)}
                 className="text-gray-600 hover:text-gray-900 p-1 touch-manipulation"
                 title="Export/Import Data"
               >
-                <Settings className="w-5 h-5" / />
+                <Settings className="w-5 h-5" />
               </button>
           </div>
       </div>
@@ -819,14 +786,14 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"></div>
             <div className="flex items-center justify-between mb-4"></div>
-              <h2 className="text-xl font-bold text-gray-900" />
+              <h2 className="text-xl font-bold text-gray-900"></h2>
                 Data Management
               </h2>
               <button
                 onClick={() => setShowExportModal(false)}
                 className="text-gray-400 hover:text-gray-600 p-1 touch-manipulation"
               >
-                <X className="w-5 h-5" / />
+                <X className="w-5 h-5" />
               </button>
 
             <div className="space-y-4"></div>
@@ -837,7 +804,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 }}
                 className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 touch-manipulation"
               >
-                <Download className="w-4 h-4" / />
+                <Download className="w-4 h-4" />
                 <span>Export Data</span>
 
               <div></div>
@@ -848,8 +815,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                   type="file"
                   accept=".json"
                   onChange={importData}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                / />
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
               </div>
 
               <div className="text-xs text-gray-500"></div>

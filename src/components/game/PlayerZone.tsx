@@ -59,17 +59,14 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
 
   return (
     <div
-      className={`absolute ${isOpponent ? 'top-12' : 'bottom-0'} left-0 right-0 h-2/5 pointer-events-none`}
-     />
+      className={`absolute ${isOpponent ? 'top-12' : 'bottom-0'} left-0 right-0 h-2/5 pointer-events-none`}></div>
       {/* Player Info */}
       <div
-        className={`absolute ${isOpponent ? 'top-4' : 'bottom-4'} right-32 pointer-events-auto`}
-       />
+        className={`absolute ${isOpponent ? 'top-4' : 'bottom-4'} right-32 pointer-events-auto`}></div>
         <PlayerInfo
           player={player}
           gameState={gameState}
-          isOpponent={isOpponent}
-        / />
+          isOpponent={isOpponent} />
       </div>
 
       {/* Hand */}
@@ -84,8 +81,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
           selectedCard={selectedCard}
           targetMode={targetMode}
           targets={targets}
-          isInteractive={!isOpponent}
-        / />
+          isInteractive={!isOpponent} />
       </div>
 
       {/* Field */}
@@ -99,8 +95,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
           selectedCard={selectedCard}
           targetMode={targetMode}
           targets={targets}
-          isInteractive={true}
-        / />
+          isInteractive={true} />
       </div>
 
       {/* Azoth Row */}
@@ -114,8 +109,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
           selectedCard={selectedCard}
           targetMode={targetMode}
           targets={targets}
-          isInteractive={true}
-        / />
+          isInteractive={true} />
       </div>
 
       {/* Deck */}
@@ -133,8 +127,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
 
       {/* Life Cards */}
       <div
-        className={`absolute ${zonePositions.lifeCards} pointer-events-auto`}
-       />
+        className={`absolute ${zonePositions.lifeCards} pointer-events-auto`}></div>
         <div className="relative"></div>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -151,8 +144,7 @@ const PlayerZone: React.FC<PlayerZoneProps> = ({
         <div className="absolute inset-0 pointer-events-none"></div>
           <div className="absolute inset-0 border-2 border-yellow-400 rounded-lg opacity-50"></div>
           <div
-            className={`absolute ${isOpponent ? 'top-2' : 'bottom-2'} left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-3 py-0 whitespace-nowrap rounded-full text-sm font-bold`}
-           />
+            className={`absolute ${isOpponent ? 'top-2' : 'bottom-2'} left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-3 py-0 whitespace-nowrap rounded-full text-sm font-bold`}></div>
             Active Player
           </div>
       )}

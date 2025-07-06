@@ -14,11 +14,11 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
   const mortalityStatus = getMortalityStatus();
 
   return (
-    <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`}></div>
+    <>
+      <div className={`life-cards-zone ${isCurrentPlayer ? 'your' : 'opponent'} ${showMortalityAwareness ? 'mortality-aware' : ''}`}></div>
       <div className="zone-header"></div>
-        <div className="zone-label">LIFE CARDS</div>
-        {showMortalityAwareness && !isCurrentPlayer && (
-          <motion.div 
+      <div className="zone-label">LIFE CARDS</div>
+      <motion.div 
             className="mortality-indicator"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -26,15 +26,12 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
            />
             <mortalityStatus.icon 
               className="mortality-icon" 
-              style={{ color: mortalityStatus.color }}
-            / />
+              style={{ color: mortalityStatus.color }} />
             <span 
               className="mortality-text"
-              style={{ color: mortalityStatus.color }}
-             />
-              {mortalityStatus.level.toUpperCase()}
-          </motion.div>
-        )}
+              style={{ color: mortalityStatus.color }}></span>
+    </>
+  )}
       </div>
       
       <div className="cards-container"></div>
@@ -48,7 +45,7 @@ const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = fa
             whileHover={showMortalityAwareness ? { scale: 1.05 } : {}}
            />
             {/* Always show card back for Life Cards */}
-            <img src="/assets/card-back-new.png" alt="Life Card" / />
+            <img src="/assets/card-back-new.png" alt="Life Card" />
             {showMortalityAwareness && (
               <div className="mortality-overlay"></div>
                 <div className="mortality-pulse"></div>

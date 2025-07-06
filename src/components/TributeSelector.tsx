@@ -34,20 +34,19 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
   };
   
   return (
-    <div className="tribute-selector-overlay"></div>
+    <>
+      <div className="tribute-selector-overlay"></div>
       <div className="tribute-selector-container"></div>
-        <h3>Select Cards to Tribute</h3>
-        
-        <div className="tribute-requirements"></div>
-          <p>Select {requiredCount} card{requiredCount !== 1 ? 's' : ''} to tribute</p>
-          <p className="tribute-count"></p>
-            Selected: {selectedCards.length}/{requiredCount}
-        </div>
+      <h3>Select Cards to Tribute</h3>
+      <div className="tribute-requirements"></div>
+      <p>Select {requiredCount} card{requiredCount !== 1 ? 's' : ''} to tribute</p>
+      <p className="tribute-count"></p>
+      </div>
         
         <div className="eligible-cards"></div>
-          {eligibleCards.length === 0 ? (
-            <div className="no-cards">No eligible cards for tribute</div>
-          ) : (
+      <div className="no-cards">No eligible cards for tribute</div>
+    </>
+  ) : (
             <div className="cards-grid"></div>
               {eligibleCards.map(card => (
                 <div 
@@ -69,8 +68,7 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
           <button 
             className="confirm-button" 
             onClick={handleConfirm}
-            disabled={selectedCards.length !== requiredCount}
-           />
+            disabled={selectedCards.length !== requiredCount}></button>
             Confirm
           </button>
           <button className="cancel-button" onClick={onCancel}></button>

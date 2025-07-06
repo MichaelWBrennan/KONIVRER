@@ -17,10 +17,12 @@ const LiveTournament = (): any => {
   const { tournamentId } = useParams();
 
   return (
-    <div className="min-h-screen bg-background"></div>
-      <EnhancedTournamentManager tournamentId={tournamentId} / />
-      <TournamentNotifications tournamentId={tournamentId} / />
+    <>
+      <div className="min-h-screen bg-background"></div>
+      <EnhancedTournamentManager tournamentId={tournamentId} />
+      <TournamentNotifications tournamentId={tournamentId} />
     </div>
+    </>
   );
 };
 

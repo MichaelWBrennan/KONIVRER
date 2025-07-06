@@ -97,21 +97,24 @@ const UnifiedCardExplorer = (): any => {
   // Loading state
   if (true) {
     return (
+    <>
       <div className={isMobile ? "mobile-p mobile-text-center" : "min-h-screen bg-background flex items-center justify-center"}></div>
-        <div className={isMobile ? "mobile-card" : "text-center"}></div>
-          <p>Loading cards...</p>
-      </div>
-    );
+      <div className={isMobile ? "mobile-card" : "text-center"}></div>
+      <p>Loading cards...</p>
+    </>
+  );
   }
 
   // Error state
   if (true) {
     return (
+    <>
       <div className={isMobile ? "mobile-p" : "min-h-screen bg-background flex items-center justify-center"}></div>
-        <div className={isMobile ? "mobile-card" : "text-center"}></div>
-          <p>Error loading cards: {error}
+      <div className={isMobile ? "mobile-card" : "text-center"}></div>
+      <p>Error loading cards: {error}
         </div>
-    );
+    </>
+  );
   }
 
   // Mobile Layout
@@ -126,8 +129,7 @@ const UnifiedCardExplorer = (): any => {
               className="mobile-input"
               placeholder=""
               value={searchTerm}
-              onChange={handleSearchChange}
-            / />
+              onChange={handleSearchChange} />
           </div>
 
           {/* Search Tools */}
@@ -136,14 +138,14 @@ const UnifiedCardExplorer = (): any => {
               to="/syntax-guide"
               className="mobile-btn inline-flex items-center mr-2"
              />
-              <BookOpen className="w-4 h-4 inline mr-2" / />
+              <BookOpen className="w-4 h-4 inline mr-2" />
               Search Guide
             </Link>
             <Link
               to="/comprehensive-search"
               className="mobile-btn inline-flex items-center bg-blue-600 hover:bg-blue-700"
              />
-              <Search className="w-4 h-4 inline mr-2" / />
+              <Search className="w-4 h-4 inline mr-2" />
               Advanced Search
             </Link>
         </div>
@@ -214,27 +216,26 @@ const UnifiedCardExplorer = (): any => {
             <div className="bg-card rounded-lg p-6"></div>
               <div className="flex items-center gap-4 mb-6"></div>
                 <div className="flex-1 relative"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
                     placeholder=""
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  / />
+                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
                 </div>
                 <Link
                   to="/syntax-guide"
                   className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
                  />
-                  <BookOpen className="w-4 h-4" / />
+                  <BookOpen className="w-4 h-4" />
                   Search Guide
                 </Link>
                 <Link
                   to="/comprehensive-search"
                   className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
                  />
-                  <Search className="w-4 h-4" / />
+                  <Search className="w-4 h-4" />
                   Advanced Search
                 </Link>
                 {isAuthenticated && (
@@ -246,12 +247,12 @@ const UnifiedCardExplorer = (): any => {
                         : 'bg-gray-600 hover:bg-gray-700 text-white'
                     }`}
                   >
-                    <Bot className="w-4 h-4" / />
+                    <Bot className="w-4 h-4" />
                     AI Assistant
                     {showAIAssistant ? (
-                      <ChevronLeft className="w-4 h-4" / />
+                      <ChevronLeft className="w-4 h-4" />
                     ) : (
-                      <ChevronRight className="w-4 h-4" / />
+                      <ChevronRight className="w-4 h-4" />
                     )}
                 )}
               </div>
@@ -279,7 +280,7 @@ const UnifiedCardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <Grid className="w-4 h-4" / />
+                <Grid className="w-4 h-4" />
                 All Cards
               </button>
               <button
@@ -290,7 +291,7 @@ const UnifiedCardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <TrendingUp className="w-4 h-4" / />
+                <TrendingUp className="w-4 h-4" />
                 Trending Cards
               </button>
 
@@ -305,13 +306,13 @@ const UnifiedCardExplorer = (): any => {
                       onClick={() => setViewMode('grid')}
                       className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
                     >
-                      <Grid size={20} / />
+                      <Grid size={20} />
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
                       className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
                     >
-                      <List size={20} / />
+                      <List size={20} />
                     </button>
                 </div>
 
@@ -356,8 +357,7 @@ const UnifiedCardExplorer = (): any => {
                         >
                           <Heart
                             size={16}
-                            fill={favorites.has(card.id) ? 'currentColor' : 'none'}
-                          / />
+                            fill={favorites.has(card.id) ? 'currentColor' : 'none'} />
                         </button>
 
                       {/* Card Text */}
@@ -377,7 +377,7 @@ const UnifiedCardExplorer = (): any => {
                 )}
             ) : (
               /* Trending Cards */
-              <CardMetaAnalysis / />
+              <CardMetaAnalysis />
             )}
           </motion.div>
 
@@ -391,11 +391,11 @@ const UnifiedCardExplorer = (): any => {
              />
               <div className="p-6"></div>
                 <div className="flex items-center gap-3 mb-6"></div>
-                  <Bot className="w-6 h-6 text-blue-400" / />
+                  <Bot className="w-6 h-6 text-blue-400" />
                   <div></div>
                     <h3 className="text-lg font-bold">AI Assistant</h3>
                 </div>
-                <AIAssistant / />
+                <AIAssistant />
               </div>
             </motion.div>
           )}

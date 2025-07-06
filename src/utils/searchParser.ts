@@ -224,7 +224,7 @@ const extractValue = (value): any => {
 const applyFilters = (cards, filters): any => {
   return cards.filter((card: any) => {
     // Apply exclusion filters first
-    for (const exclude of filters.exclude): any {
+    for (const exclude of filters.exclude) {
       if (matchesTextFilter(card, exclude)) {
         return false;
       }

@@ -35,16 +35,14 @@ const MatchmakingQueue: React.FC<MatchmakingQueueProps> = ({
   };
 
   return (
-    <div className="space-y-4"></div>
+    <>
+      <div className="space-y-4"></div>
       <div className="flex items-center justify-between"></div>
-        <div></div>
-          <h3 className="text-lg font-semibold text-gray-900" />
-            Searching for Match
-          </h3>
+      <div></div>
+      <h3 className="text-lg font-semibold text-gray-900"></h3>
+      </h3>
           <p className="text-sm text-gray-500"></p>
-            {formatSearchTime(searchTime)} • Queue Position: {queuePosition}
-            {estimatedTime && ` • Est. Wait: ~${estimatedTime}`}
-          </p>
+      </p>
         <motion.button
           onClick={onCancel}
           className="bg-red-100 text-red-600 px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-red-200 transition-colors"
@@ -52,13 +50,12 @@ const MatchmakingQueue: React.FC<MatchmakingQueueProps> = ({
           whileTap={{ scale: 0.95 }}
          />
           <span className="flex items-center space-x-1"></span>
-            <X className="w-4 h-4" / />
+      <X className="w-4 h-4" />
             <span>Cancel</span>
-        </motion.button>
+      </motion.button>
       </div>
-
       <div className="w-full bg-gray-200 rounded-full h-2.5"></div>
-        <motion.div
+      <motion.div
           className="bg-blue-600 h-2.5 rounded-full"
           initial={{ width: '5%' }}
           animate={{ width: ['5%', '95%'] }}
@@ -72,23 +69,23 @@ const MatchmakingQueue: React.FC<MatchmakingQueueProps> = ({
       </div>
 
       <div className="flex items-center space-x-3 text-sm text-gray-500"></div>
-        <div className="flex items-center space-x-1"></div>
-          <Target className="w-4 h-4" / />
+      <div className="flex items-center space-x-1"></div>
+      <Target className="w-4 h-4" />
           <span>{selectedFormat}
         </div>
-        <div className="flex items-center space-x-1"></div>
-          <Trophy className="w-4 h-4" / />
+      <div className="flex items-center space-x-1"></div>
+      <Trophy className="w-4 h-4" />
           <span>{preferences.gameMode}
         </div>
-        <div className="flex items-center space-x-1"></div>
-          <Globe className="w-4 h-4" / />
+      <div className="flex items-center space-x-1"></div>
+      <Globe className="w-4 h-4" />
           <span>{preferences.region}
         </div>
-        <div className="flex items-center space-x-1"></div>
-          <Clock className="w-4 h-4" / />
+      <div className="flex items-center space-x-1"></div>
+      <Clock className="w-4 h-4" />
           <span>{formatSearchTime(searchTime)}
         </div>
-    </div>
+    </>
   );
 };
 

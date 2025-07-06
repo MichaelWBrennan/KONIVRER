@@ -57,14 +57,13 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
   };
 
   return (
-    <div className="space-y-4"></div>
+    <>
+      <div className="space-y-4"></div>
       <div></div>
-        <label className="block text-sm font-medium text-gray-700 mb-2"></label>
-          Skill Range
-        </label>
+      <label className="block text-sm font-medium text-gray-700 mb-2"></label>
+      </label>
         <div className="grid grid-cols-3 gap-2"></div>
-          {skillRanges.map(range => (
-            <motion.button
+      <motion.button
               key={range.id}
               onClick={() => handleChange('skillRange', range.id)}
               className={`p-3 rounded-lg border text-center transition-all ${
@@ -79,26 +78,26 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
               <div className="text-xs text-gray-500">{range.description}
               <div className="text-xs text-blue-600 mt-1">{range.waitTime}
             </motion.button>
-          ))}
+    </>
+  ))}
         </div>
 
       {showAdvanced && (
         <div></div>
           <div className="flex items-center justify-between mb-2"></div>
             <div className="flex items-center space-x-2"></div>
-              <Sliders className="w-4 h-4 text-gray-500" / />
+              <Sliders className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700"></span>
                 Advanced Options
               </span>
             <button
               onClick={onToggleAdvanced}
-              className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
-             />
+              className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"></button>
               <span className="text-sm">Advanced</span>
               {isAdvancedOpen ? (
-                <ChevronUp className="w-4 h-4" / />
+                <ChevronUp className="w-4 h-4" />
               ) : (
-                <ChevronDown className="w-4 h-4" / />
+                <ChevronDown className="w-4 h-4" />
               )}
           </div>
 
@@ -147,7 +146,7 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
                 {/* Note: KONIVRER is always best of 1, so this dropdown is not needed */}
                 <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200"></div>
                   <div className="flex items-center space-x-2"></div>
-                    <Trophy className="w-4 h-4 text-blue-500" / />
+                    <Trophy className="w-4 h-4 text-blue-500" />
                     <span className="text-sm font-medium text-gray-700"></span>
                       Match Format: Best of 1
                     </span>
@@ -158,7 +157,7 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
                 <div className="mt-4 space-y-3"></div>
                   <div className="flex items-center justify-between"></div>
                     <div className="flex items-center space-x-2"></div>
-                      <Laptop className="w-4 h-4 text-gray-500" / />
+                      <Laptop className="w-4 h-4 text-gray-500" />
                       <span className="text-sm text-gray-700"></span>
                         Cross-Platform Play
                       </span>
@@ -175,7 +174,7 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
 
                   <div className="flex items-center justify-between"></div>
                     <div className="flex items-center space-x-2"></div>
-                      <Headphones className="w-4 h-4 text-gray-500" / />
+                      <Headphones className="w-4 h-4 text-gray-500" />
                       <span className="text-sm text-gray-700">Voice Chat</span>
                     <label className="relative inline-flex items-center cursor-pointer"></label>
                       <input
@@ -190,7 +189,7 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
 
                   <div className="flex items-center justify-between"></div>
                     <div className="flex items-center space-x-2"></div>
-                      <Trophy className="w-4 h-4 text-gray-500" / />
+                      <Trophy className="w-4 h-4 text-gray-500" />
                       <span className="text-sm text-gray-700">Show Rank</span>
                     <label className="relative inline-flex items-center cursor-pointer"></label>
                       <input

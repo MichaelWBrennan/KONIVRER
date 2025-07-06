@@ -1134,8 +1134,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
                       className="stat-value-fill"
                       style={{ 
                         width: `${(count / deck.mainDeck.length) * 100}%` 
-                      }}
-                    ></div>
+                      }}></div>
                   </div>
                   <div className="stat-count">{count}</div>
                 </div>

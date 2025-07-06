@@ -142,37 +142,32 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const available = getAvailableAzoth();
     
     return (
+    <>
       <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600"></div>
-        <div className="text-sm text-gray-300 mb-2">Spend Azoth:</div>
-        <div className="grid grid-cols-4 gap-2"></div>
-          {Object.entries(available).map(([element, amount]) => {
-            const config = elementConfig[element];
-            const spent = azothSpent[element] || 0;
-            const IconComponent = config?.icon || Circle;
-            
-            return (
-              <div key={element} className="flex flex-col items-center gap-1"></div>
-                <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`}></div>
-                  <IconComponent className="w-4 h-4" / />
+      <div className="text-sm text-gray-300 mb-2">Spend Azoth:</div>
+      <div className="grid grid-cols-4 gap-2"></div>
+      <div key={element} className="flex flex-col items-center gap-1"></div>
+      <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`}></div>
+      <IconComponent className="w-4 h-4" />
                   <span className="text-xs">{spent}/{amount}
                 </div>
-                <div className="flex gap-1"></div>
-                  <button
+      <div className="flex gap-1"></div>
+      <button
                     onClick={() => adjustAzothSpent(element, -1)}
                     disabled={spent === 0}
                     className="w-6 h-6 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white flex items-center justify-center"
                   >
-                    <Minus className="w-3 h-3" / />
+                    <Minus className="w-3 h-3" />
                   </button>
-                  <button
+      <button
                     onClick={() => adjustAzothSpent(element, 1)}
                     disabled={spent >= amount}
                     className="w-6 h-6 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white flex items-center justify-center"
                   >
-                    <Plus className="w-3 h-3" / />
+                    <Plus className="w-3 h-3" />
                   </button>
-              </div>
-            );
+    </>
+  );
           })}
         </div>
     );
@@ -203,7 +198,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             disabled={!canSummon}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Play className="w-4 h-4" / />
+            <Play className="w-4 h-4" />
             Summon
           </button>
 
@@ -213,7 +208,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             disabled={!canTribute}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Sword className="w-4 h-4" / />
+            <Sword className="w-4 h-4" />
             Tribute
           </button>
 
@@ -222,7 +217,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             onClick={() => handleCardAction('azoth')}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm"
           >
-            <Sparkles className="w-4 h-4" / />
+            <Sparkles className="w-4 h-4" />
             Azoth
           </button>
 
@@ -232,7 +227,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
             disabled={!canSpell}
             className="flex items-center gap-2 px-3 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:opacity-50 rounded text-white text-sm"
           >
-            <Zap className="w-4 h-4" / />
+            <Zap className="w-4 h-4" />
             Spell
           </button>
 
@@ -303,7 +298,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
               onClick={() => handlePhaseAction('declareAttackers')}
               className="px-4 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded text-white text-sm"
             >
-              <Sword className="w-4 h-4 inline mr-1" / />
+              <Sword className="w-4 h-4 inline mr-1" />
               Attack
             </button>
             <button
@@ -320,7 +315,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
               onClick={() => handlePhaseAction('declareBlockers')}
               className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
-              <Shield className="w-4 h-4 inline mr-1" / />
+              <Shield className="w-4 h-4 inline mr-1" />
               Block
             </button>
             <button
@@ -352,23 +347,22 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40"></div>
+    <>
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40"></div>
       <div className="flex flex-col items-center gap-4"></div>
-        {/* Card Actions Panel */}
-        <AnimatePresence />
+      <AnimatePresence />
           {selectedCard && showCardActions && renderCardActions()}
 
         {/* Main Controls */}
         <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm"></div>
-          {/* Card Action Button */}
-          {selectedCard && (
-            <button
+      <button
               onClick={() => setShowCardActions(!showCardActions)}
               className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
               Play Card
             </button>
-          )}
+    </>
+  )}
           {/* Phase Controls */}
           {renderPhaseControls()}
           {/* Quick Actions */}

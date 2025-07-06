@@ -71,22 +71,22 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto"></div>
+    <>
+      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto"></div>
       <div className="flex justify-between items-center mb-6"></div>
-        <h2 className="text-2xl font-bold text-white">Select a Deck</h2>
-        {onClose && (
-          <button
+      <h2 className="text-2xl font-bold text-white">Select a Deck</h2>
+      <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
-           />
-            <X size={24} / />
+            className="text-gray-400 hover:text-white transition-colors"></button>
+      <X size={24} />
           </button>
-        )}
+    </>
+  )}
       </div>
 
       <div className="mb-6"></div>
         <div className="relative"></div>
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
             value={searchTerm}
@@ -125,14 +125,14 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
                     className="p-1 text-gray-400 hover:text-white transition-colors"
                     title="Edit Deck"
                   >
-                    <Edit size={16} / />
+                    <Edit size={16} />
                   </button>
                   <button
                     onClick={e => handleDeleteDeck(e, deck.id)}
                     className="p-1 text-gray-400 hover:text-red-400 transition-colors"
                     title="Delete Deck"
                   >
-                    <Trash2 size={16} / />
+                    <Trash2 size={16} />
                   </button>
               </div>
 
@@ -149,8 +149,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
                       style={{
                         backgroundColor: getColorHex(color),
                       }}
-                      title={color}
-                    / />
+                      title={color}></div>
                   ))}
               </div>
 
@@ -159,7 +158,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
                 disabled={loading}
                 className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Gamepad2 size={18} className="mr-2" / />
+                <Gamepad2 size={18} className="mr-2" />
                 {loading ? 'Loading...' : 'Use This Deck'}
             </motion.div>
           ))}

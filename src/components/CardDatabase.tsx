@@ -138,7 +138,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
           <div className="flex flex-col lg:flex-row gap-4"></div>
             {/* Search */}
             <div className="flex-1 relative"></div>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder=""
@@ -154,13 +154,13 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded ${viewMode === 'grid' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
               >
-                <Grid size={20} / />
+                <Grid size={20} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded ${viewMode === 'list' ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-300'}`}
               >
-                <List size={20} / />
+                <List size={20} />
               </button>
           </div>
 
@@ -257,8 +257,7 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
           viewMode === 'grid'
             ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
             : 'space-y-3'
-        }
-       />
+        }></div>
         {filteredCards.map(card => (
           <UnifiedCardItem 
             key={card.id} 
@@ -277,20 +276,20 @@ const CardDatabase: React.FC<CardDatabaseProps> = ({
           <div className="text-gray-400 mb-4"></div>
             {cards.length === 0 ? (
               <>
-                <Search size={48} className="mx-auto mb-4" / />
-                <h3 className="text-xl font-semibold mb-2" />
+                <Search size={48} className="mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2"></h3>
                   No card sets are currently active
                 </h3>
                 <p>Contact an administrator to activate card sets</p>
               </>
             ) : filters.set === 'all' ? (
               <>
-                <Database size={64} className="mx-auto mb-6 text-yellow-400" / />
+                <Database size={64} className="mx-auto mb-6 text-yellow-400" />
               </>
             ) : (
               <>
-                <Search size={48} className="mx-auto mb-4" / />
-                <h3 className="text-xl font-semibold mb-2" />
+                <Search size={48} className="mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2"></h3>
                   No cards found in {filters.set}
                 <p>Try adjusting your search terms or other filters</p>
               </>

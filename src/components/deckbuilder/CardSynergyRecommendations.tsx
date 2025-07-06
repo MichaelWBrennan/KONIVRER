@@ -56,11 +56,11 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
     return (
       <Card className="mt-3 mb-3" />
         <Card.Header className="d-flex align-items-center" />
-          <Zap className="me-2" size={18} / />
+          <Zap className="me-2" size={18} />
           <span>Card Synergy Recommendations</span>
         </Card.Header>
         <Card.Body className="text-center text-muted" />
-          <Info size={24} className="mb-2" / />
+          <Info size={24} className="mb-2" />
           <p></p>
             Add at least 3 cards to your deck to see synergy recommendations.
           </p>
@@ -73,7 +73,7 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
     <Card className="mt-3 mb-3" />
       <Card.Header className="d-flex align-items-center justify-content-between" />
         <div></div>
-          <Zap className="me-2" size={18} / />
+          <Zap className="me-2" size={18} />
           <span>Card Synergy Recommendations</span>
         <Button
           variant="outline-primary"
@@ -86,7 +86,7 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
       <Card.Body />
         {loading ? (
           <div className="text-center p-3"></div>
-            <Spinner animation="border" / />
+            <Spinner animation="border" />
             <p className="mt-2">Analyzing card synergies...</p>
         ) : error ? (
           <div className="text-center text-danger"></div>
@@ -114,11 +114,11 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
                   <div className="fw-bold">{rec.cardName}
                   <div className="small text-muted"></div>
                     <span className="me-2"></span>
-                      <TrendingUp size={14} className="me-1" / />
+                      <TrendingUp size={14} className="me-1" />
                       Win Rate: {(rec.expectedWinRate * 100).toFixed(1)}%
                     </span>
                     <span></span>
-                      <Target size={14} className="me-1" / />
+                      <Target size={14} className="me-1" />
                       Synergy with: {rec.synergyWith}
                   </div>
                 <div className="d-flex align-items-center"></div>
@@ -147,7 +147,7 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
         )}
       </Card.Body>
       <Card.Footer className="text-muted small" />
-        <Star size={14} className="me-1" / />
+        <Star size={14} className="me-1" />
         Recommendations are based on win rates and card interactions from
         previous matches
       </Card.Footer>

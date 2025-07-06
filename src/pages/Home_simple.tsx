@@ -213,7 +213,7 @@ const Home = (): any => {
   return (
     <div className="min-h-screen bg-gray-900 text-white"></div>
       {/* Latest News Section */}
-      <section className="py-12" />
+      <section className="py-12"></section>
         <div className="container mx-auto px-4"></div>
           <div className="max-w-6xl mx-auto"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
@@ -230,11 +230,9 @@ const Home = (): any => {
                     <img
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-48 object-cover"
-                    / />
+                      className="w-full h-48 object-cover" />
                     <div
-                      className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${getTypeColor(post.type)}`}
-                     />
+                      className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${getTypeColor(post.type)}`}></div>
                       {post.type}
                     {post.featured && (
                       <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white"></div>
@@ -249,11 +247,11 @@ const Home = (): any => {
                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4"></div>
                       <div className="flex items-center space-x-4"></div>
                         <span className="flex items-center space-x-1"></span>
-                          <User size={14} / />
+                          <User size={14} />
                           <span>{post.author}
                         </span>
                         <span className="flex items-center space-x-1"></span>
-                          <Clock size={14} / />
+                          <Clock size={14} />
                           <span>{post.readTime}
                         </span>
                       <span>{formatDate(post.date)}
@@ -262,11 +260,11 @@ const Home = (): any => {
                     <div className="flex items-center justify-between"></div>
                       <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
                         <span className="flex items-center space-x-1"></span>
-                          <Eye size={14} / />
+                          <Eye size={14} />
                           <span>{post.views.toLocaleString()}
                         </span>
                         <span className="flex items-center space-x-1"></span>
-                          <Heart size={14} / />
+                          <Heart size={14} />
                           <span>{post.likes}
                         </span>
                       <Link
@@ -274,7 +272,7 @@ const Home = (): any => {
                         className="inline-flex items-center space-x-1 text-blue-400 hover:text-blue-300 text-sm font-medium"
                        />
                         <span>Read More</span>
-                        <ExternalLink size={14} / />
+                        <ExternalLink size={14} />
                       </Link>
                   </div>
                 </motion.article>

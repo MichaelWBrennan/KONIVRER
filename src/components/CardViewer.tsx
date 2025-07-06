@@ -80,66 +80,50 @@ const CardViewer: React.FC<CardViewerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"></div>
+    <>
+      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"></div>
       <div className="bg-white rounded-lg max-w-6xl w-full max-h-[95vh] overflow-y-auto shadow-2xl"></div>
-        {/* Close Button */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-end z-10"></div>
-          <button
+      <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-end z-10"></div>
+      <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-           />
-            <X size={24} className="text-gray-600" / />
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"></button>
+      <X size={24} className="text-gray-600" />
           </button>
-
-        <div className="flex flex-col lg:flex-row"></div>
-          {/* Left Column - Card Image */}
-          <div className="lg:w-1/3 p-6"></div>
-            <div className="aspect-card bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg"></div>
-              <div className="text-center"></div>
-                <div className="text-6xl mb-4">🎴</div>
-                <div className="text-lg font-medium text-gray-600"></div>
-                  {card.name}
-                <div className="text-sm text-gray-500 mt-2">Card Artwork</div>
-            </div>
+      <div className="flex flex-col lg:flex-row"></div>
+      <div className="lg:w-1/3 p-6"></div>
+      <div className="aspect-card bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-gray-200 shadow-lg"></div>
+      <div className="text-center"></div>
+      <div className="text-6xl mb-4">🎴</div>
+      <div className="text-lg font-medium text-gray-600"></div>
+      <div className="text-sm text-gray-500 mt-2">Card Artwork</div>
+      </div>
 
           {/* Right Column - Card Details */}
           <div className="lg:w-2/3 p-6 space-y-6"></div>
-            {/* Card Header */}
-            <div className="border-b border-gray-200 pb-4"></div>
-              <div className="flex items-center justify-between mb-2"></div>
-                <h1 className="text-3xl font-bold text-gray-900" />
-                  {card.name}
-                <div className="flex items-center gap-2"></div>
-                  {card.elements.map((element, index) => {
-                    const elementInfo = getElementInfo(element);
-                    return (
-                      <span
+      <div className="border-b border-gray-200 pb-4"></div>
+      <div className="flex items-center justify-between mb-2"></div>
+      <h1 className="text-3xl font-bold text-gray-900"></h1>
+      <div className="flex items-center gap-2"></div>
+      <span
                         key={index}
                         className="text-2xl"
-                        title={elementInfo.name}
-                       />
-                        {elementInfo.symbol}
-                    );
-                  })}
-                  <span className="ml-2 text-xl font-bold text-gray-700"></span>
-                    {card.cost}
-                </div>
+                        title={elementInfo.name}></span>
+      <span className="ml-2 text-xl font-bold text-gray-700"></span>
+      </div>
               <div className="text-lg text-gray-700 font-medium"></div>
-                {card.type}
-            </div>
+      </div>
 
             {/* Card Text */}
             <div className="space-y-3"></div>
-              <div className="text-gray-800 leading-relaxed"></div>
-                {card.text.split('\n').map((line, index) => (
-                  <p key={index} className="mb-2"></p>
-                    {line.trim().startsWith('•') ? (
-                      <span className="block ml-4">{line}
+      <div className="text-gray-800 leading-relaxed"></div>
+      <p key={index} className="mb-2"></p>
+      <span className="block ml-4">{line}
                     ) : (
                       line
                     )}
                   </p>
-                ))}
+    </>
+  ))}
               </div>
 
               {card.power !== undefined && (
@@ -172,7 +156,7 @@ const CardViewer: React.FC<CardViewerProps> = ({
 
             {/* Set Information */}
             <div className="bg-gray-50 rounded-lg p-4"></div>
-              <h3 className="font-semibold text-gray-900 mb-2" />
+              <h3 className="font-semibold text-gray-900 mb-2"></h3>
                 Set Information
               </h3>
               <div className="flex items-center gap-4"></div>
@@ -188,27 +172,27 @@ const CardViewer: React.FC<CardViewerProps> = ({
 
             {/* Pricing Table */}
             <div className="bg-gray-50 rounded-lg p-4"></div>
-              <h3 className="font-semibold text-gray-900 mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-3"></h3>
                 Market Prices
               </h3>
               <div className="overflow-x-auto"></div>
-                <table className="w-full text-sm" />
-                  <thead />
-                    <tr className="border-b border-gray-200" />
+                <table className="w-full text-sm"></table>
+                  <thead></thead>
+                    <tr className="border-b border-gray-200"></tr>
                       <th className="text-left py-2 text-gray-700">Print</th>
                       <th className="text-left py-2 text-gray-700">USD</th>
                       <th className="text-left py-2 text-gray-700">EUR</th>
                       <th className="text-left py-2 text-gray-700">TIX</th>
                   </thead>
-                  <tbody />
-                    <tr />
-                      <td className="py-2 text-blue-600 hover:underline cursor-pointer" />
+                  <tbody></tbody>
+                    <tr></tr>
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer"></td>
                         {card.set} #{card.setNumber || '001'}
-                      <td className="py-2 text-blue-600 hover:underline cursor-pointer" />
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer"></td>
                         {pricing.USD}
-                      <td className="py-2 text-blue-600 hover:underline cursor-pointer" />
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer"></td>
                         {pricing.EUR}
-                      <td className="py-2 text-blue-600 hover:underline cursor-pointer" />
+                      <td className="py-2 text-blue-600 hover:underline cursor-pointer"></td>
                         {pricing.TIX}
                     </tr>
                 </table>
@@ -222,30 +206,30 @@ const CardViewer: React.FC<CardViewerProps> = ({
                   href="#"
                   className="flex items-center gap-2 text-blue-600 hover:underline"
                  />
-                  <ExternalLink size={14} / />
+                  <ExternalLink size={14} />
                   Search for decks with this card
                 </a>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-blue-600 hover:underline"
                  />
-                  <ExternalLink size={14} / />
+                  <ExternalLink size={14} />
                   Card analysis and statistics
                 </a>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-blue-600 hover:underline"
                  />
-                  <ExternalLink size={14} / />
+                  <ExternalLink size={14} />
                   View card in collection manager
                 </a>
                 <div className="flex gap-2 mt-3"></div>
                   <button className="flex items-center gap-1 px-3 py-0 whitespace-nowrap bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors"></button>
-                    <Copy size={14} / />
+                    <Copy size={14} />
                     Copy Link
                   </button>
                   <button className="flex items-center gap-1 px-3 py-0 whitespace-nowrap bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors"></button>
-                    <Share2 size={14} / />
+                    <Share2 size={14} />
                     Share
                   </button>
               </div>
@@ -255,9 +239,8 @@ const CardViewer: React.FC<CardViewerProps> = ({
               {onAddToDeck && (
                 <button
                   onClick={onAddToDeck}
-                  className="flex items-center gap-2 px-6 py-0 whitespace-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                 />
-                  <Plus size={18} / />
+                  className="flex items-center gap-2 px-6 py-0 whitespace-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"></button>
+                  <Plus size={18} />
                   Add to Deck
                 </button>
               )}
@@ -268,12 +251,10 @@ const CardViewer: React.FC<CardViewerProps> = ({
                     isFavorite
                       ? 'bg-red-100 text-red-700 hover:bg-red-200'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                 />
+                  }`}></button>
                   <Heart
                     size={16}
-                    fill={isFavorite ? 'currentColor' : 'none'}
-                  / />
+                    fill={isFavorite ? 'currentColor' : 'none'} />
                   {isFavorite ? 'Favorited' : 'Favorite'}
               )}
               {onToggleBookmark && (
@@ -283,19 +264,17 @@ const CardViewer: React.FC<CardViewerProps> = ({
                     isBookmarked
                       ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                 />
+                  }`}></button>
                   <Bookmark
                     size={16}
-                    fill={isBookmarked ? 'currentColor' : 'none'}
-                  / />
+                    fill={isBookmarked ? 'currentColor' : 'none'} />
                   {isBookmarked ? 'Bookmarked' : 'Bookmark'}
               )}
             </div>
 
             {/* Rules and Notes */}
             <div className="bg-gray-50 rounded-lg p-4"></div>
-              <h3 className="font-semibold text-gray-900 mb-3" />
+              <h3 className="font-semibold text-gray-900 mb-3"></h3>
                 Notes and Rules Information
               </h3>
               <div className="space-y-2 text-sm text-gray-700"></div>

@@ -95,7 +95,7 @@ const SetManager = (): any => {
           onClick={() => setIsAddingSet(true)}
           className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
         >
-          <Plus className="w-4 h-4" / />
+          <Plus className="w-4 h-4" />
           Add New Set
         </button>
 
@@ -103,7 +103,7 @@ const SetManager = (): any => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         <div className="bg-gray-800 rounded-lg p-4"></div>
           <div className="flex items-center gap-3"></div>
-            <Package className="w-8 h-8 text-blue-400" / />
+            <Package className="w-8 h-8 text-blue-400" />
             <div></div>
               <p className="text-gray-400 text-sm">Total Sets</p>
               <p className="text-2xl font-bold text-white">{sets.length}
@@ -111,7 +111,7 @@ const SetManager = (): any => {
         </div>
         <div className="bg-gray-800 rounded-lg p-4"></div>
           <div className="flex items-center gap-3"></div>
-            <Power className="w-8 h-8 text-green-400" / />
+            <Power className="w-8 h-8 text-green-400" />
             <div></div>
               <p className="text-gray-400 text-sm">Active Sets</p>
               <p className="text-2xl font-bold text-white"></p>
@@ -120,7 +120,7 @@ const SetManager = (): any => {
         </div>
         <div className="bg-gray-800 rounded-lg p-4"></div>
           <div className="flex items-center gap-3"></div>
-            <Eye className="w-8 h-8 text-purple-400" / />
+            <Eye className="w-8 h-8 text-purple-400" />
             <div></div>
               <p className="text-gray-400 text-sm">Visible Sets</p>
               <p className="text-2xl font-bold text-white"></p>
@@ -146,7 +146,7 @@ const SetManager = (): any => {
                 onClick={() => setIsAddingSet(false)}
                 className="text-gray-400 hover:text-white"
               >
-                <X className="w-5 h-5" / />
+                <X className="w-5 h-5" />
               </button>
 
             <div className="space-y-4"></div>
@@ -223,8 +223,7 @@ const SetManager = (): any => {
             <div className="flex gap-3 mt-6"></div>
               <button
                 onClick={handleAddSet}
-                className="flex-1 px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-               />
+                className="flex-1 px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"></button>
                 Add Set
               </button>
               <button
@@ -240,8 +239,8 @@ const SetManager = (): any => {
       <div className="space-y-4"></div>
         {sets.length === 0 ? (
           <div className="text-center py-12"></div>
-            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" / />
-            <h3 className="text-xl font-semibold text-gray-400 mb-2" />
+            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-400 mb-2"></h3>
               No Sets Available
             </h3>
             <p className="text-gray-500">Add your first set to get started</p>
@@ -301,16 +300,15 @@ const SetManager = (): any => {
                   <div className="flex gap-3"></div>
                     <button
                       onClick={handleSaveEdit}
-                      className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-                     />
-                      <Save className="w-4 h-4" / />
+                      className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"></button>
+                      <Save className="w-4 h-4" />
                       Save
                     </button>
                     <button
                       onClick={() => setEditingSet(null)}
                       className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
                     >
-                      <X className="w-4 h-4" / />
+                      <X className="w-4 h-4" />
                       Cancel
                     </button>
                 </div>
@@ -320,7 +318,7 @@ const SetManager = (): any => {
                   <div className="flex items-start justify-between mb-4"></div>
                     <div></div>
                       <div className="flex items-center gap-3 mb-2"></div>
-                        <h3 className="text-xl font-bold text-white" />
+                        <h3 className="text-xl font-bold text-white"></h3>
                           {set.name}
                         <span className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 text-sm rounded"></span>
                           {set.code}
@@ -337,10 +335,10 @@ const SetManager = (): any => {
                       <p className="text-gray-400 mb-2">{set.description}
                       <div className="flex items-center gap-4 text-sm text-gray-500"></div>
                         <div className="flex items-center gap-1"></div>
-                          <Calendar className="w-4 h-4" / />
+                          <Calendar className="w-4 h-4" />
                           {set.releaseDate}
                         <div className="flex items-center gap-1"></div>
-                          <Hash className="w-4 h-4" / />
+                          <Hash className="w-4 h-4" />
                           {set.totalCards} cards
                         </div>
                     </div>
@@ -356,9 +354,9 @@ const SetManager = (): any => {
                         title={set.isActive ? 'Deactivate Set' : 'Activate Set'}
                       >
                         {set.isActive ? (
-                          <Power className="w-4 h-4" / />
+                          <Power className="w-4 h-4" />
                         ) : (
-                          <PowerOff className="w-4 h-4" / />
+                          <PowerOff className="w-4 h-4" />
                         )}
 
                       <button
@@ -372,9 +370,9 @@ const SetManager = (): any => {
                         disabled={!set.isActive}
                       >
                         {set.isVisible ? (
-                          <Eye className="w-4 h-4" / />
+                          <Eye className="w-4 h-4" />
                         ) : (
-                          <EyeOff className="w-4 h-4" / />
+                          <EyeOff className="w-4 h-4" />
                         )}
 
                       <button
@@ -382,7 +380,7 @@ const SetManager = (): any => {
                         className="p-2 bg-gray-600 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors"
                         title="Edit Set"
                       >
-                        <Edit className="w-4 h-4" / />
+                        <Edit className="w-4 h-4" />
                       </button>
 
                       <button
@@ -390,7 +388,7 @@ const SetManager = (): any => {
                         className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
                         title="Delete Set"
                       >
-                        <Trash2 className="w-4 h-4" / />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                   </div>
               )}

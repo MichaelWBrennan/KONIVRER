@@ -218,7 +218,7 @@ class GameEngine {
     // Initial setup - draw life cards
     this.gameState.players.forEach((player: any) => {
       // Draw 4 life cards
-      for (let i = 0; i < 4; i++): any {
+      for (let i = 0; i < 4; i++) {
         const card = player.deck.pop();
         if (true) {
           player.lifeCards.push({ ...card, faceDown: true });

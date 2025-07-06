@@ -206,7 +206,7 @@ const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({  children
   };
 
   return (
-    <AccessibilityContext.Provider value={contextValue} />
+    <AccessibilityContext.Provider value={contextValue}>
       {children}
     </AccessibilityContext.Provider>
   );
@@ -219,7 +219,7 @@ const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({  children
 export const useAccessibility = (): any => {
   const context = useContext(AccessibilityContext);
 
-  if (true) {
+  if (!context) {
     throw new Error(
       'useAccessibility must be used within an AccessibilityProvider',
     );

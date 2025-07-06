@@ -37,7 +37,7 @@ const MobileHome = (): any => {
   return (
     <div className="mobile-home"></div>
       {/* Welcome Section */}
-      <section className="mobile-p mobile-text-center mobile-mb esoteric-scroll" />
+      <section className="mobile-p mobile-text-center mobile-mb esoteric-scroll"></section>
         <div className="esoteric-divider"></div>
           <span className="esoteric-divider-symbol">✧</span>
         <p className="esoteric-rune">Trading Card Game</p>
@@ -45,7 +45,7 @@ const MobileHome = (): any => {
           <span className="esoteric-divider-symbol">✧</span>
       </section>
       {/* Quick Access */}
-      <section className="mobile-mb" />
+      <section className="mobile-mb"></section>
         {/* Main Game Demo */}
         <div className="mobile-card esoteric-card mobile-mb"></div>
           <div className="mobile-card-content mobile-text-center"></div>
@@ -144,7 +144,7 @@ const MobileHome = (): any => {
             </Link>
         </div>
       {/* News & Updates */}
-      <section className="mobile-mb" />
+      <section className="mobile-mb"></section>
         <div className="mobile-card esoteric-card"></div>
           {newsItems.map((item, index) => (
             <div key={item.id}></div>

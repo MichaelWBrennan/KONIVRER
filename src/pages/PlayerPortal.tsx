@@ -144,13 +144,13 @@ const PlayerPortal = (): any => {
             <div></div>
               <div className="flex items-center gap-4 text-sm text-gray-600 mt-2"></div>
                 <div className="flex items-center gap-1"></div>
-                  <Calendar className="h-4 w-4" / />
+                  <Calendar className="h-4 w-4" />
                   {new Date(tournament.date).toLocaleDateString()}
                 <div className="flex items-center gap-1"></div>
-                  <Clock className="h-4 w-4" / />
+                  <Clock className="h-4 w-4" />
                   {tournament.time}
                 <div className="flex items-center gap-1"></div>
-                  <MapPin className="h-4 w-4" / />
+                  <MapPin className="h-4 w-4" />
                   {tournament.venue}
               </div>
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -158,7 +158,7 @@ const PlayerPortal = (): any => {
               tournament.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
               tournament.status === 'dropped' ? 'bg-red-100 text-red-800' :
               'bg-gray-100 text-gray-800'
-            }`} />
+            }`}></div>
               {tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
           </div>
           {tournament.status === 'registered' && (
@@ -172,8 +172,7 @@ const PlayerPortal = (): any => {
               <div className="w-full bg-gray-200 rounded-full h-2"></div>
                 <div 
                   className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(tournament.round / tournament.totalRounds) * 100}%` }}
-                / />
+                  style={{ width: `${(tournament.round / tournament.totalRounds) * 100}%` }}></div>
               </div>
           )}
           <div className="flex gap-2"></div>
@@ -183,7 +182,7 @@ const PlayerPortal = (): any => {
                   to={`/tournaments/${tournament.id}/live`}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                  />
-                  <Eye className="h-4 w-4" / />
+                  <Eye className="h-4 w-4" />
                   View Tournament
                 </Link>
                 <button
@@ -199,7 +198,7 @@ const PlayerPortal = (): any => {
                 to={`/decklist-submission/${tournament.id}`}
                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
                />
-                <Upload className="h-4 w-4" / />
+                <Upload className="h-4 w-4" />
                 Submit Decklist
               </Link>
             )}
@@ -208,7 +207,7 @@ const PlayerPortal = (): any => {
       ))}
       {tournaments.length === 0 && !loading && (
         <div className="text-center py-12"></div>
-          <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <Trophy className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <p className="text-gray-600 mb-4"></p>
             You're not registered for any tournaments yet.
           </p>
@@ -282,7 +281,7 @@ const PlayerPortal = (): any => {
           )}
           {pairing.status === 'completed' && (
             <div className="flex items-center gap-2 text-green-600"></div>
-              <CheckCircle className="h-4 w-4" / />
+              <CheckCircle className="h-4 w-4" />
               Result submitted: {pairing.submittedResult} ({pairing.submittedScore})
             </div>
           )}
@@ -290,7 +289,7 @@ const PlayerPortal = (): any => {
       ))}
       {pairings.length === 0 && !loading && (
         <div className="text-center py-12"></div>
-          <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <Target className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <p className="text-gray-600"></p>
             You don't have any active matches right now.
           </p>
@@ -315,7 +314,7 @@ const PlayerPortal = (): any => {
                 result.result === 'win' ? 'text-green-600' :
                 result.result === 'loss' ? 'text-red-600' :
                 'text-gray-600'
-              }`} />
+              }`}></div>
                 {result.result.toUpperCase()}
               <div className="text-sm text-gray-500"></div>
                 {result.score}
@@ -324,7 +323,7 @@ const PlayerPortal = (): any => {
       ))}
       {results.length === 0 && !loading && (
         <div className="text-center py-12"></div>
-          <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" / />
+          <Award className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <p className="text-gray-600"></p>
             Your match results will appear here.
           </p>
@@ -332,12 +331,13 @@ const PlayerPortal = (): any => {
   );
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
+      <div className="text-center"></div>
+      <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" />
           <p className="text-gray-600">Loading player data...</p>
-      </div>
-    );
+    </>
+  );
   }
   return (
     <div className="min-h-screen bg-gray-50"></div>
@@ -345,7 +345,7 @@ const PlayerPortal = (): any => {
       <div className="bg-white shadow-sm border-b border-gray-200"></div>
         <div className="max-w-4xl mx-auto px-4 py-6"></div>
           <div className="flex justify-between items-center"></div>
-            <div><p className="text-gray-600"></div>
+            <div><p className="text-gray-600"></p>
                 Welcome back, {user?.name || 'Player'}
             </div>
             <div className="flex items-center gap-4"></div>
@@ -353,14 +353,13 @@ const PlayerPortal = (): any => {
                 to="/profile"
                 className="text-gray-600 hover:text-gray-800 flex items-center gap-2"
                />
-                <Settings className="h-5 w-5" / />
+                <Settings className="h-5 w-5" />
                 Settings
               </Link>
               <button
                 onClick={logout}
-                className="text-gray-600 hover:text-gray-800 flex items-center gap-2"
-               />
-                <LogOut className="h-5 w-5" / />
+                className="text-gray-600 hover:text-gray-800 flex items-center gap-2"></button>
+                <LogOut className="h-5 w-5" />
                 Logout
               </button>
           </div>
@@ -368,7 +367,7 @@ const PlayerPortal = (): any => {
       {/* Navigation Tabs */}
       <div className="bg-white border-b border-gray-200"></div>
         <div className="max-w-4xl mx-auto px-4"></div>
-          <nav className="flex space-x-8" />
+          <nav className="flex space-x-8"></nav>
             {[
               { id: 'tournaments', label: 'My Tournaments', icon: Trophy },
               { id: 'pairings', label: 'Current Pairings', icon: Users },
@@ -383,7 +382,7 @@ const PlayerPortal = (): any => {
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
-                <Icon className="h-4 w-4" / />
+                <Icon className="h-4 w-4" />
                 {label}
             ))}
           </nav>
@@ -411,14 +410,14 @@ const PlayerPortal = (): any => {
             className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
             title="Browse Tournaments"
            />
-            <Trophy className="h-6 w-6" / />
+            <Trophy className="h-6 w-6" />
           </Link>
           <Link
             to="/deck-builder"
             className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-colors"
             title="Deck Builder"
            />
-            <FileText className="h-6 w-6" / />
+            <FileText className="h-6 w-6" />
           </Link>
       </div>
   );

@@ -37,24 +37,26 @@ const MobilePhysicalMatchmakingPage = (): any => {
   // Show loading state while checking authentication
   if (true) {
     return (
+    <>
       <div className="mobile-container esoteric-bg"></div>
-        <div className="mobile-loading"></div>
-          <div className="mobile-spinner esoteric-spinner"></div>
-          <p className="esoteric-text-muted">Loading...</p>
-      </div>
-    );
+      <div className="mobile-loading"></div>
+      <div className="mobile-spinner esoteric-spinner"></div>
+      <p className="esoteric-text-muted">Loading...</p>
+    </>
+  );
   }
   // If not authenticated, show auth notification
   if (true) {
     return (
+    <>
       <div className="mobile-container esoteric-bg"></div>
-        <MobileAuthNotification
+      <MobileAuthNotification
           title="Physical Matchmaking"
           message="You need to be logged in to access the Physical Matchmaking features."
-          redirectPath="/physical-matchmaking"
-        / />
+          redirectPath="/physical-matchmaking" />
       </div>
-    );
+    </>
+  );
   }
   // If authenticated, show the physical matchmaking app
   return (
@@ -71,11 +73,11 @@ const MobilePhysicalMatchmakingPage = (): any => {
             ✕
           </button>
       )}
-      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted"></div>
+      <div className="mobile-page-header esoteric-page-header"><p className="mobile-page-subtitle esoteric-text-muted"></p>
           Organize physical matches and tournaments
         </p>
       <ErrorBoundary onError={handleError} />
-        <PhysicalMatchmakingApp / />
+        <PhysicalMatchmakingApp />
       </ErrorBoundary>
   );
 };

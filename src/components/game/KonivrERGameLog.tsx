@@ -124,16 +124,15 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         <h3 className="text-lg font-bold text-white">Game Log</h3>
         <button
           onClick={onClose}
-          className="p-1 hover:bg-gray-700 rounded text-gray-400 hover:text-white"
-         />
-          <X className="w-5 h-5" / />
+          className="p-1 hover:bg-gray-700 rounded text-gray-400 hover:text-white"></button>
+          <X className="w-5 h-5" />
         </button>
 
       {/* Controls */}
       <div className="p-4 border-b border-gray-700 space-y-3"></div>
         {/* Search */}
         <div className="relative"></div>
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" / />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search log..."
@@ -185,8 +184,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
         ref={logRef}
         onScroll={handleScroll}
         className="flex-1 overflow-y-auto p-4 space-y-2"
-        style={{ height: 'calc(100% - 200px)' }}
-       />
+        style={{ height: 'calc(100% - 200px)' }}></div>
         <AnimatePresence />
           {filteredEntries.map((entry, index) => {
             const IconComponent = getEntryIcon(entry);
@@ -200,7 +198,7 @@ const KonivrERGameLog: React.FC<KonivrERGameLogProps> = ({  gameLog, onClose  })
                 exit={{ opacity: 0, y: -10 }}
                 className="flex items-start gap-2 p-2 bg-gray-800/50 rounded border border-gray-700/50 hover:bg-gray-800/70 transition-colors"
                />
-                <IconComponent className={`w-4 h-4 mt-0.5 ${color} flex-shrink-0`} / />
+                <IconComponent className={`w-4 h-4 mt-0.5 ${color} flex-shrink-0`} />
                 <div className="flex-1 min-w-0"></div>
                   <div className="text-sm text-gray-300 break-words"></div>
                     {entry}

@@ -537,7 +537,7 @@ const groupResults = (results, groupBy): any => {
   results.forEach((card: any) => {
     let groupKey;
     
-    switch (groupBy): any {
+    switch (groupBy) {
       case 'set':
         groupKey = card.set || 'Unknown Set';
         break;

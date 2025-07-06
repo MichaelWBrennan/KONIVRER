@@ -43,12 +43,13 @@ const JudgeCenter = (): any => {
   // Show loading while checking authentication
   if (true) {
     return (
+    <>
       <div className="min-h-screen flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary">Loading...</p>
-      </div>
-    );
+      <div className="text-center"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+      <p className="text-secondary">Loading...</p>
+    </>
+  );
   }
   // Redirect if not authenticated or not a judge
   if (!hasJudgeAccess()) {
@@ -96,19 +97,19 @@ const JudgeCenter = (): any => {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
         <div className="card text-center"></div>
-          <Shield size={24} className="text-accent-primary mx-auto mb-2" / />
+          <Shield size={24} className="text-accent-primary mx-auto mb-2" />
           <div className="text-2xl font-bold">Level {judgeLevel}
           <div className="text-sm text-secondary">Judge Certification</div>
         <div className="card text-center"></div>
-          <Users size={24} className="text-green-400 mx-auto mb-2" / />
+          <Users size={24} className="text-green-400 mx-auto mb-2" />
           <div className="text-2xl font-bold">{activeCalls.length}
           <div className="text-sm text-secondary">Active Calls</div>
         <div className="card text-center"></div>
-          <CheckCircle size={24} className="text-blue-400 mx-auto mb-2" / />
+          <CheckCircle size={24} className="text-blue-400 mx-auto mb-2" />
           <div className="text-2xl font-bold">47</div>
           <div className="text-sm text-secondary">Rulings Today</div>
         <div className="card text-center"></div>
-          <Award size={24} className="text-yellow-400 mx-auto mb-2" / />
+          <Award size={24} className="text-yellow-400 mx-auto mb-2" />
           <div className="text-2xl font-bold">156</div>
           <div className="text-sm text-secondary">Events Judged</div>
       </div>
@@ -116,7 +117,7 @@ const JudgeCenter = (): any => {
       <div className="card"></div>
         <div className="flex items-center justify-between mb-4"></div>
           <button className="btn btn-sm btn-primary"></button>
-            <Plus size={14} / />
+            <Plus size={14} />
             New Call
           </button>
         {activeCalls.length > 0 ? (
@@ -124,13 +125,11 @@ const JudgeCenter = (): any => {
             {activeCalls.map(call => (
               <div
                 key={call.id}
-                className="p-4 bg-secondary rounded-lg border border-color"
-               />
+                className="p-4 bg-secondary rounded-lg border border-color"></div>
                 <div className="flex items-start justify-between mb-2"></div>
                   <div className="flex items-center gap-2"></div>
                     <span
-                      className={`px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}
-                     />
+                      className={`px-2 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}></span>
                       {call.priority.toUpperCase()}
                     <span className="text-sm text-secondary"></span>
                       Table {call.table}
@@ -144,7 +143,7 @@ const JudgeCenter = (): any => {
                   <span className="text-xs text-muted">{call.time}
                   <div className="flex gap-2"></div>
                     <button className="btn btn-sm btn-secondary"></button>
-                      <Eye size={14} / />
+                      <Eye size={14} />
                       View
                     </button>
                     <button className="btn btn-sm btn-primary">Respond</button>
@@ -153,7 +152,7 @@ const JudgeCenter = (): any => {
           </div>
         ) : (
           <div className="text-center py-8"></div>
-            <CheckCircle size={48} className="text-green-400 mx-auto mb-4" / />
+            <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
             <p className="text-secondary">No active judge calls</p>
         )}
       </div>
@@ -163,8 +162,7 @@ const JudgeCenter = (): any => {
           {recentRulings.map(ruling => (
             <div
               key={ruling.id}
-              className="p-3 bg-tertiary rounded border border-color"
-             />
+              className="p-3 bg-tertiary rounded border border-color"></div>
               <div className="flex items-start justify-between mb-2"></div>
                 <span className="text-xs text-muted">{ruling.time}
               </div>
@@ -181,7 +179,7 @@ const JudgeCenter = (): any => {
     <div className="space-y-6"></div>
       <div className="flex items-center justify-between"></div>
         <Link to="/tournaments/create" className="btn btn-primary" />
-          <Plus size={16} / />
+          <Plus size={16} />
           Create Tournament
         </Link>
       <div className="grid gap-4"></div>
@@ -198,8 +196,7 @@ const JudgeCenter = (): any => {
                     tournament.status === 'active'
                       ? 'bg-green-600 text-white'
                       : 'bg-blue-600 text-white'
-                  }`}
-                 />
+                  }`}></span>
                   {tournament.status.charAt(0).toUpperCase() +
                     tournament.status.slice(1)}
               </div>
@@ -226,14 +223,14 @@ const JudgeCenter = (): any => {
                 to={`/tournaments/${tournament.id}/judge`}
                 className="btn btn-primary flex-1"
                />
-                <Gavel size={16} / />
+                <Gavel size={16} />
                 Judge Panel
               </Link>
               <Link
                 to={`/tournaments/${tournament.id}`}
                 className="btn btn-secondary"
                />
-                <Eye size={16} / />
+                <Eye size={16} />
                 View
               </Link>
           </div>
@@ -423,11 +420,11 @@ const JudgeCenter = (): any => {
       <div className="flex items-center justify-between"></div>
         <div className="flex gap-2"></div>
           <button className="btn btn-secondary"></button>
-            <Download size={16} / />
+            <Download size={16} />
             Download All PDFs
           </button>
           <button className="btn btn-secondary"></button>
-            <Search size={16} / />
+            <Search size={16} />
             Search Rules
           </button>
       </div>
@@ -445,7 +442,7 @@ const JudgeCenter = (): any => {
                   : 'border-transparent text-secondary hover:text-primary'
               }`}
             >
-              <Icon size={16} / />
+              <Icon size={16} />
               {section.name}
           );
         })}
@@ -463,12 +460,12 @@ const JudgeCenter = (): any => {
                   <span>Version {currentSection.version}
                   <span>•</span>
                   <span className="flex items-center"></span>
-                    <Calendar className="w-4 h-4 mr-1" / />
+                    <Calendar className="w-4 h-4 mr-1" />
                     Updated{' '}
                     {new Date(currentSection.lastUpdated).toLocaleDateString()}
                 </div>
               <button className="btn btn-primary"></button>
-                <Download className="w-4 h-4" / />
+                <Download className="w-4 h-4" />
                 Download PDF
               </button>
             {/* Table of Contents */}
@@ -476,14 +473,12 @@ const JudgeCenter = (): any => {
               {currentSection.sections.map(section => (
                 <div
                   key={section.id}
-                  className="border border-color rounded-lg p-4 hover:border-accent-primary transition-colors"
-                 />
-                  <ul className="space-y-1" />
+                  className="border border-color rounded-lg p-4 hover:border-accent-primary transition-colors"></div>
+                  <ul className="space-y-1"></ul>
                     {section.subsections.map((subsection, index) => (
                       <li
                         key={index}
-                        className="text-secondary hover:text-accent-primary cursor-pointer transition-colors text-sm"
-                       />
+                        className="text-secondary hover:text-accent-primary cursor-pointer transition-colors text-sm"></li>
                         {subsection}
                     ))}
                   </ul>
@@ -496,25 +491,25 @@ const JudgeCenter = (): any => {
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
                  />
-                  <ExternalLink className="w-4 h-4" / />
+                  <ExternalLink className="w-4 h-4" />
                   <span>Official FAQ</span>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
                  />
-                  <ExternalLink className="w-4 h-4" / />
+                  <ExternalLink className="w-4 h-4" />
                   <span>Judge Resources</span>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
                  />
-                  <ExternalLink className="w-4 h-4" / />
+                  <ExternalLink className="w-4 h-4" />
                   <span>Tournament Organizer Guide</span>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors"
                  />
-                  <ExternalLink className="w-4 h-4" / />
+                  <ExternalLink className="w-4 h-4" />
                   <span>Player Education</span>
               </div>
           </div>
@@ -526,8 +521,7 @@ const JudgeCenter = (): any => {
               {recentUpdates.map((update, index) => (
                 <div
                   key={index}
-                  className="border-l-4 border-accent-primary pl-4"
-                 />
+                  className="border-l-4 border-accent-primary pl-4"></div>
                   <div className="flex items-center justify-between mb-1"></div>
                     <span className="text-sm text-muted"></span>
                       {new Date(update.date).toLocaleDateString()}
@@ -594,7 +588,7 @@ const JudgeCenter = (): any => {
   const renderCertification = (renderCertification: any) => (
     <div className="space-y-6"></div>
       <div className="text-center"></div>
-        <Shield size={64} className="text-accent-primary mx-auto mb-4" / />
+        <Shield size={64} className="text-accent-primary mx-auto mb-4" />
         <p className="text-secondary">Current Level: {judgeLevel}
       </div>
       <div className="grid md:grid-cols-3 gap-4"></div>
@@ -636,8 +630,7 @@ const JudgeCenter = (): any => {
             <div className="w-full bg-tertiary rounded-full h-2"></div>
               <div
                 className="bg-accent-primary h-2 rounded-full"
-                style={{ width: '95%' }}
-               />
+                style={{ width: '95%' }}></div>
             </div>
           <div></div>
             <div className="flex justify-between mb-2"></div>
@@ -646,8 +639,7 @@ const JudgeCenter = (): any => {
             <div className="w-full bg-tertiary rounded-full h-2"></div>
               <div
                 className="bg-accent-primary h-2 rounded-full"
-                style={{ width: '88%' }}
-               />
+                style={{ width: '88%' }}></div>
             </div>
           <div></div>
             <div className="flex justify-between mb-2"></div>
@@ -656,8 +648,7 @@ const JudgeCenter = (): any => {
             <div className="w-full bg-tertiary rounded-full h-2"></div>
               <div
                 className="bg-accent-primary h-2 rounded-full"
-                style={{ width: '92%' }}
-               />
+                style={{ width: '92%' }}></div>
             </div>
         </div>
     </div>
@@ -669,14 +660,11 @@ const JudgeCenter = (): any => {
     { id: 'certification', label: 'Certification', icon: Award },
   ];
   return (
-    <div className="min-h-screen py-8"></div>
+    <>
+      <div className="min-h-screen py-8"></div>
       <div className="container"></div>
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-color"></div>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            return (
-              <button
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-color"></div>
+      <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap border-b-2 transition-colors ${
@@ -685,17 +673,12 @@ const JudgeCenter = (): any => {
                     : 'border-transparent text-secondary hover:text-primary'
                 }`}
               >
-                <Icon size={16} / />
+                <Icon size={16} />
                 {tab.label}
             );
           })}
         </div>
-        {/* Tab Content */}
-        {activeTab === 'dashboard' && renderDashboard()}
-        {activeTab === 'tournaments' && renderTournaments()}
-        {activeTab === 'rules' && renderRulesReference()}
-        {activeTab === 'certification' && renderCertification()}
-    </div>
+    </>
   );
 };
 export { JudgeCenter };

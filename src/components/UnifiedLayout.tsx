@@ -18,8 +18,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { useUnified } from '../contexts/UnifiedContext';
 import { useMessaging } from '../contexts/MessagingContext';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import ModernAuthModal from './ModernAuthModal';
-import MobileAuthModal from './MobileAuthModal';
+import UnifiedAuthModal from './UnifiedAuthModal';
+
 import PWAInstallPrompt from './PWAInstallPrompt';
 import NotificationCenter from './notifications/NotificationCenter';
 import UnifiedMessaging from './unified/UnifiedMessaging';
@@ -458,7 +458,7 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         
         {/* Auth Modal */}
         {showAuthModal && (
-          <MobileAuthModal onClose={() => setShowAuthModal(false)} />
+          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
         )}
       </div>
     );
@@ -588,7 +588,7 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         
         {/* Auth Modal */}
         {showAuthModal && (
-          <MobileAuthModal onClose={() => setShowAuthModal(false)} />
+          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
         )}
         
         {/* PWA Install Prompt */}
@@ -771,7 +771,7 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         
         {/* Auth Modal */}
         {showAuthModal && (
-          <ModernAuthModal onClose={() => setShowAuthModal(false)} />
+          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
         )}
       </div>
     );

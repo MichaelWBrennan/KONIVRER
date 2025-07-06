@@ -514,28 +514,27 @@ const Matchmaking = (): any => {
   ];
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4"></div>
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center"></div>
-          <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center"></div>
+      <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600 mb-6"></p>
-            Matchmaking requires an internet connection. You can still play
-            against AI opponents or practice with your decks.
-          </p>
+      </p>
           <div className="flex flex-col space-y-3"></div>
-            <button
+      <button
               onClick={() => navigate('/game/ai')}
               className="bg-blue-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Play vs AI
             </button>
-            <button
+      <button
               onClick={() => setShowPhysicalMatchmaking(true)}
               className="bg-purple-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-purple-700 transition-colors"
             >
               Physical Matchmaking
             </button>
-        </div>
-    );
+    </>
+  );
   }
   return (
     <div className="min-h-screen bg-gray-50"></div>
@@ -545,7 +544,7 @@ const Matchmaking = (): any => {
           <div className="flex items-center justify-between h-16"></div>
             <div className="flex items-center space-x-4"></div>
               <Users className="w-8 h-8 text-blue-600" /><div className="flex items-center space-x-2 text-sm text-gray-500"></div>
-                <Wifi className="w-4 h-4 text-green-500" / />
+                <Wifi className="w-4 h-4 text-green-500" />
                 <span>Online</span>
             </div>
             {playerStats && (
@@ -558,8 +557,7 @@ const Matchmaking = (): any => {
                     {playerStats.losses}L)
                   </div>
                 <div
-                  className={`w-10 h-10 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white font-bold`}
-                 />
+                  className={`w-10 h-10 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white font-bold`}></div>
                   {playerStats.rankIcon}
               </div>
             )}
@@ -578,7 +576,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <Play className="w-4 h-4" / />
+                <Play className="w-4 h-4" />
                 <span>Play</span>
             </button>
             <button
@@ -590,7 +588,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <Trophy className="w-4 h-4" / />
+                <Trophy className="w-4 h-4" />
                 <span>Tournaments</span>
             </button>
             <button
@@ -602,7 +600,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <BarChart className="w-4 h-4" / />
+                <BarChart className="w-4 h-4" />
                 <span>Stats</span>
             </button>
             <button
@@ -614,7 +612,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <Clock className="w-4 h-4" / />
+                <Clock className="w-4 h-4" />
                 <span>History</span>
             </button>
             <button
@@ -626,7 +624,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <Users className="w-4 h-4" / />
+                <Users className="w-4 h-4" />
                 <span>Friends</span>
             </button>
             <button
@@ -638,7 +636,7 @@ const Matchmaking = (): any => {
               }`}
             >
               <div className="flex items-center space-x-2"></div>
-                <Settings className="w-4 h-4" / />
+                <Settings className="w-4 h-4" />
                 <span>Settings</span>
             </button>
         </div>
@@ -651,7 +649,7 @@ const Matchmaking = (): any => {
               {/* Format note - KONIVRER only has one format */}
               <div className="bg-white rounded-xl shadow-sm p-6"></div>
                 <div className="flex items-center space-x-3 mb-2"></div>
-                  <Shield className="w-5 h-5 text-blue-600" / />
+                  <Shield className="w-5 h-5 text-blue-600" />
                 </div>
                 <p className="text-sm text-gray-600"></p>
                   KONIVRER uses a single standardized format for all matches.
@@ -696,9 +694,9 @@ const Matchmaking = (): any => {
                   >
                     <span>Advanced</span>
                     {showPreferences ? (
-                      <ChevronUp className="w-4 h-4" / />
+                      <ChevronUp className="w-4 h-4" />
                     ) : (
-                      <ChevronDown className="w-4 h-4" / />
+                      <ChevronDown className="w-4 h-4" />
                     )}
                 </div>
                 <div className="space-y-4"></div>
@@ -783,7 +781,7 @@ const Matchmaking = (): any => {
                         <div className="mt-4 space-y-3"></div>
                           <div className="flex items-center justify-between"></div>
                             <div className="flex items-center space-x-2"></div>
-                              <Laptop className="w-4 h-4 text-gray-500" / />
+                              <Laptop className="w-4 h-4 text-gray-500" />
                               <span className="text-sm text-gray-700"></span>
                                 Cross-Platform Play
                               </span>
@@ -802,7 +800,7 @@ const Matchmaking = (): any => {
                             </label>
                           <div className="flex items-center justify-between"></div>
                             <div className="flex items-center space-x-2"></div>
-                              <Headphones className="w-4 h-4 text-gray-500" / />
+                              <Headphones className="w-4 h-4 text-gray-500" />
                               <span className="text-sm text-gray-700"></span>
                                 Voice Chat
                               </span>
@@ -821,7 +819,7 @@ const Matchmaking = (): any => {
                             </label>
                           <div className="flex items-center justify-between"></div>
                             <div className="flex items-center space-x-2"></div>
-                              <Trophy className="w-4 h-4 text-gray-500" / />
+                              <Trophy className="w-4 h-4 text-gray-500" />
                               <span className="text-sm text-gray-700"></span>
                                 Show Rank
                               </span>
@@ -855,8 +853,7 @@ const Matchmaking = (): any => {
                       </div>
                       <button
                         onClick={cancelMatchmaking}
-                        className="bg-red-100 text-red-600 px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-red-200 transition-colors"
-                       />
+                        className="bg-red-100 text-red-600 px-4 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-red-200 transition-colors"></button>
                         Cancel
                       </button>
                     <div className="w-full bg-gray-200 rounded-full h-2.5"></div>
@@ -874,15 +871,15 @@ const Matchmaking = (): any => {
                     </div>
                     <div className="flex items-center space-x-3 text-sm text-gray-500"></div>
                       <div className="flex items-center space-x-1"></div>
-                        <Target className="w-4 h-4" / />
+                        <Target className="w-4 h-4" />
                         <span>{selectedFormat}
                       </div>
                       <div className="flex items-center space-x-1"></div>
-                        <Trophy className="w-4 h-4" / />
+                        <Trophy className="w-4 h-4" />
                         <span>{preferences.gameMode}
                       </div>
                       <div className="flex items-center space-x-1"></div>
-                        <Globe className="w-4 h-4" / />
+                        <Globe className="w-4 h-4" />
                         <span>{preferences.region}
                       </div>
                   </div>
@@ -894,7 +891,7 @@ const Matchmaking = (): any => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                    />
-                    <Play className="w-6 h-6" / />
+                    <Play className="w-6 h-6" />
                     <span>Find Match</span>
                   </motion.button>
                 )}
@@ -907,11 +904,11 @@ const Matchmaking = (): any => {
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
                   >
                     <span>View All</span>
-                    <ChevronDown className="w-4 h-4" / />
+                    <ChevronDown className="w-4 h-4" />
                   </button>
                 {recentMatches.length === 0 ? (
                   <div className="text-center py-8 text-gray-500"></div>
-                    <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+                    <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                     <p>No recent matches.</p>
                     <p className="text-sm"></p>
                       Start playing to see your match history!
@@ -921,13 +918,11 @@ const Matchmaking = (): any => {
                     {recentMatches.map(match => (
                       <div
                         key={match.id}
-                        className="border border-gray-200 rounded-lg p-4"
-                       />
+                        className="border border-gray-200 rounded-lg p-4"></div>
                         <div className="flex items-center justify-between"></div>
                           <div className="flex items-center space-x-3"></div>
                             <div
-                              className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}
-                             />
+                              className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}></div>
                               {match.result === 'win' ? 'W' : 'L'}
                             <div></div>
                               <div className="font-medium"></div>
@@ -957,8 +952,7 @@ const Matchmaking = (): any => {
                 <div className="bg-white rounded-xl shadow-sm p-6"></div>
                   <div className="flex items-center space-x-4 mb-4"></div>
                     <div
-                      className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}
-                     />
+                      className={`w-16 h-16 bg-gradient-to-br ${playerStats.rankColor} rounded-full flex items-center justify-center text-white text-2xl font-bold`}></div>
                       {playerStats.rankIcon}
                     <div></div>
                       <div className="text-xl font-bold text-gray-900"></div>
@@ -977,8 +971,7 @@ const Matchmaking = (): any => {
                       <div className="w-full bg-gray-200 rounded-full h-2"></div>
                         <div
                           className="bg-blue-600 h-2 rounded-full"
-                          style={{ width: `${playerStats.rankProgress}%` }}
-                         />
+                          style={{ width: `${playerStats.rankProgress}%` }}></div>
                       </div>
                     <div className="grid grid-cols-3 gap-2 text-center"></div>
                       <div className="bg-gray-50 rounded-lg p-2"></div>
@@ -1003,7 +996,7 @@ const Matchmaking = (): any => {
                     <div className="pt-2"></div>
                       <div className="flex items-center justify-between text-sm"></div>
                         <div className="flex items-center space-x-1"></div>
-                          <Flame className="w-4 h-4 text-orange-500" / />
+                          <Flame className="w-4 h-4 text-orange-500" />
                           <span>Current Streak</span>
                         <span className="font-medium"></span>
                           {playerStats.streak > 0
@@ -1012,14 +1005,14 @@ const Matchmaking = (): any => {
                         </span>
                       <div className="flex items-center justify-between text-sm"></div>
                         <div className="flex items-center space-x-1"></div>
-                          <Trophy className="w-4 h-4 text-yellow-500" / />
+                          <Trophy className="w-4 h-4 text-yellow-500" />
                           <span>Best Rank</span>
                         <span className="font-medium"></span>
                           {playerStats.bestRank}
                       </div>
                       <div className="flex items-center justify-between text-sm"></div>
                         <div className="flex items-center space-x-1"></div>
-                          <Target className="w-4 h-4 text-blue-500" / />
+                          <Target className="w-4 h-4 text-blue-500" />
                           <span>Season Highest</span>
                         <span className="font-medium"></span>
                           {playerStats.seasonHighest} MMR
@@ -1035,14 +1028,13 @@ const Matchmaking = (): any => {
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
                   >
                     <span>View Full</span>
-                    <ChevronDown className="w-4 h-4" / />
+                    <ChevronDown className="w-4 h-4" />
                   </button>
                 <div className="space-y-2"></div>
                   {leaderboard.slice(0, 5).map((player, index) => (
                     <div
                       key={player.id}
-                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
-                     />
+                      className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"></div>
                       <div className="flex items-center space-x-3"></div>
                         <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center font-medium text-gray-700"></div>
                           {index + 1}
@@ -1064,7 +1056,7 @@ const Matchmaking = (): any => {
                     className="text-blue-600 hover:text-blue-700 text-sm flex items-center space-x-1"
                   >
                     <span>View All</span>
-                    <ChevronDown className="w-4 h-4" / />
+                    <ChevronDown className="w-4 h-4" />
                   </button>
                 <div className="space-y-2"></div>
                   {friends
@@ -1073,8 +1065,7 @@ const Matchmaking = (): any => {
                     .map(friend => (
                       <div
                         key={friend.id}
-                        className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
-                       />
+                        className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"></div>
                         <div className="flex items-center space-x-3"></div>
                           <div className="relative"></div>
                             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-medium text-gray-700"></div>
@@ -1088,10 +1079,10 @@ const Matchmaking = (): any => {
                           </div>
                         <div className="flex space-x-2"></div>
                           <button className="text-blue-600 hover:text-blue-700"></button>
-                            <MessageCircle className="w-4 h-4" / />
+                            <MessageCircle className="w-4 h-4" />
                           </button>
                           <button className="text-green-600 hover:text-green-700"></button>
-                            <UserPlus className="w-4 h-4" / />
+                            <UserPlus className="w-4 h-4" />
                           </button>
                       </div>
                     ))}
@@ -1122,7 +1113,7 @@ const Matchmaking = (): any => {
           <div className="space-y-6"></div>
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
               <div className="flex items-center space-x-3 mb-6"></div>
-                <Trophy className="w-8 h-8 text-yellow-500" / />
+                <Trophy className="w-8 h-8 text-yellow-500" />
               </div>
               <div className="mb-6"></div>
                 <p className="text-gray-600 mb-4"></p>
@@ -1164,11 +1155,11 @@ const Matchmaking = (): any => {
                         <div></div>
                           <div className="flex items-center space-x-2 text-sm text-gray-500 mt-1"></div>
                             <div className="flex items-center space-x-1"></div>
-                              <Shield className="w-4 h-4 text-blue-500" / />
+                              <Shield className="w-4 h-4 text-blue-500" />
                               <span>KONIVRER Format</span>
                             <span>•</span>
                             <div className="flex items-center space-x-1"></div>
-                              <Calendar className="w-4 h-4" / />
+                              <Calendar className="w-4 h-4" />
                               <span></span>
                                 {new Date(
                                   tournament.startDate,
@@ -1182,7 +1173,7 @@ const Matchmaking = (): any => {
                         <div className="bg-gray-50 rounded p-2 text-center"></div>
                           <div className="text-xs text-gray-500">Entry Fee</div>
                           <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                            <DollarSign className="w-3 h-3 mr-0.5" / />
+                            <DollarSign className="w-3 h-3 mr-0.5" />
                             {tournament.entryFee}
                         </div>
                         <div className="bg-gray-50 rounded p-2 text-center"></div>
@@ -1190,13 +1181,13 @@ const Matchmaking = (): any => {
                             Prize Pool
                           </div>
                           <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                            <DollarSign className="w-3 h-3 mr-0.5" / />
+                            <DollarSign className="w-3 h-3 mr-0.5" />
                             {tournament.prizePool.toLocaleString()}
                         </div>
                         <div className="bg-gray-50 rounded p-2 text-center"></div>
                           <div className="text-xs text-gray-500">Players</div>
                           <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                            <Users className="w-3 h-3 mr-0.5" / />
+                            <Users className="w-3 h-3 mr-0.5" />
                             {tournament.participants}
                         </div>
                       <div className="mt-4 pt-2 border-t border-gray-100 flex justify-between items-center"></div>
@@ -1311,7 +1302,7 @@ const Matchmaking = (): any => {
                   onClick={() => setShowPhysicalMatchmaking(false)}
                   className="text-white hover:text-purple-200"
                 >
-                  <X className="w-6 h-6" / />
+                  <X className="w-6 h-6" />
                 </button>
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-4rem)]"></div>
                 <div className="space-y-4"></div>
@@ -1322,7 +1313,7 @@ const Matchmaking = (): any => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Users className="w-5 h-5" / />
+                      <Users className="w-5 h-5" />
                       <span>Integrated Version</span>
                     </motion.button>
                     <motion.button
@@ -1331,7 +1322,7 @@ const Matchmaking = (): any => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Smartphone className="w-5 h-5" / />
+                      <Smartphone className="w-5 h-5" />
                       <span>Standalone PWA</span>
                     </motion.button>
                   </div>
@@ -1356,51 +1347,51 @@ const Matchmaking = (): any => {
                       </p>
                       <div className="grid grid-cols-3 gap-2 mt-2"></div>
                         <div className="text-center"></div>
-                          <Smartphone className="w-6 h-6 mx-auto mb-1" / />
+                          <Smartphone className="w-6 h-6 mx-auto mb-1" />
                           <p className="text-xs">iOS/Android</p>
                         <div className="text-center"></div>
-                          <Tablet className="w-6 h-6 mx-auto mb-1" / />
+                          <Tablet className="w-6 h-6 mx-auto mb-1" />
                           <p className="text-xs">Tablets</p>
                         <div className="text-center"></div>
-                          <Laptop className="w-6 h-6 mx-auto mb-1" / />
+                          <Laptop className="w-6 h-6 mx-auto mb-1" />
                           <p className="text-xs">Computers</p>
                       </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                     <div className="bg-green-50 rounded-lg p-4"></div>
-                      <ul className="space-y-1 text-sm text-green-800" />
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                      <ul className="space-y-1 text-sm text-green-800"></ul>
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Player management</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Quick match creation</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Tournament organization</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Match tracking</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Offline functionality</span>
                       </ul>
                     <div className="bg-amber-50 rounded-lg p-4"></div>
-                      <ul className="space-y-1 text-sm text-amber-800" />
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                      <ul className="space-y-1 text-sm text-amber-800"></ul>
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Local game store tournaments</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Casual play groups</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Large tournaments</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Home tournaments</span>
-                        <li className="flex items-center space-x-2" />
-                          <CheckCircle className="w-4 h-4 flex-shrink-0" / />
+                        <li className="flex items-center space-x-2"></li>
+                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
                           <span>Data sharing between devices</span>
                       </ul>
                   </div>

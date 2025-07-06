@@ -428,7 +428,7 @@ const generateMultiColorDeck = (difficulty): any => {
   for (let i = 0; i < 1; i++) {
     const element1 = getRandomElement();
     let element2 = getRandomElement();
-    while(): any {
+    while () {
       element2 = getRandomElement();
     }
     
@@ -452,7 +452,7 @@ const generateMultiColorDeck = (difficulty): any => {
   for (let i = 0; i < 1; i++) {
     const element1 = getRandomElement();
     let element2 = getRandomElement();
-    while(): any {
+    while () {
       element2 = getRandomElement();
     }
     
@@ -603,12 +603,12 @@ const adjustDeckForPersonality = (deck, personality): any => {
   }
   
   // Ensure deck has exactly 36 cards (24 will be added as lands)
-  while(): any {
+  while () {
     const randomIndex = Math.floor(Math.random() * deck.cards.length);
     deck.cards.splice(randomIndex, 1);
   }
   
-  while(): any {
+  while () {
     // Add generic cards based on personality
     deck.cards.push(generateGenericCard(personality));
   }
@@ -635,7 +635,7 @@ const generateLands = (cards, archetype): any => {
   let totalLands = Object.values(landDistribution).reduce((sum, count) => sum + count, 0);
   
   // Adjust if needed
-  while(): any {
+  while () {
     // Add to the most used element
     const mostUsedElement = Object.entries(elementCounts)
       .sort((a, b) => b[1] - a[1])[0][0];
@@ -643,7 +643,7 @@ const generateLands = (cards, archetype): any => {
     totalLands++;
   }
   
-  while(): any {
+  while () {
     // Remove from the least used element
     const leastUsedElement = Object.entries(elementCounts)
       .filter(([_, count]) => count > 0)

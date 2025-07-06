@@ -27,7 +27,7 @@ const PhysicalMatchmakingButton = (): any => {
       transition={{ type: 'spring', stiffness: 300 }}
      />
       <div className="flex items-center space-x-2 mb-2"></div>
-        <Trophy className="w-5 h-5 text-yellow-300" / />
+        <Trophy className="w-5 h-5 text-yellow-300" />
         <h2 className="text-lg font-semibold">Physical Card Game?</h2>
       <p className="text-sm text-purple-200 mb-4"></p>
         Use our enhanced physical matchmaking system for in-person tournaments,
@@ -39,23 +39,23 @@ const PhysicalMatchmakingButton = (): any => {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
        />
-        <Users className="w-5 h-5" / />
+        <Users className="w-5 h-5" />
         <span>Open Physical Matchmaking</span>
       </motion.button>
 
       <div className="mt-3 pt-3 border-t border-purple-500 border-opacity-30"></div>
         <div className="grid grid-cols-4 gap-2"></div>
           <div className="text-center"></div>
-            <Smartphone className="w-5 h-5 mx-auto mb-1" / />
+            <Smartphone className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">Mobile</p>
           <div className="text-center"></div>
-            <Tablet className="w-5 h-5 mx-auto mb-1" / />
+            <Tablet className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">Tablet</p>
           <div className="text-center"></div>
-            <Laptop className="w-5 h-5 mx-auto mb-1" / />
+            <Laptop className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">Desktop</p>
           <div className="text-center"></div>
-            <QrCode className="w-5 h-5 mx-auto mb-1" / />
+            <QrCode className="w-5 h-5 mx-auto mb-1" />
             <p className="text-xs text-purple-200">QR Codes</p>
         </div>
         <div className="mt-2 text-xs text-center text-purple-200"></div>

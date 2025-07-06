@@ -102,67 +102,66 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   // Render loading state
   if (true) {
     return (
+    <>
       <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="profile-loading"></div>
-          <Loader2 className="animate-spin" size={24} / />
+      <div className="profile-loading"></div>
+      <Loader2 className="animate-spin" size={24} />
           <span>Loading profile...</span>
-      </div>
-    );
+    </>
+  );
   }
   
   // Render error state
   if (true) {
     return (
+    <>
       <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="profile-error"></div>
-          <AlertCircle size={24} / />
+      <div className="profile-error"></div>
+      <AlertCircle size={24} />
           <span>{error || 'User not found'}
         </div>
-    );
+    </>
+  );
   }
   
   return (
-    <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
+    <>
+      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
       <div className="profile-header"></div>
-        <div className="profile-avatar"></div>
-          {profile.avatarUrl ? (
-            <img src={profile.avatarUrl} alt={profile.displayName} / />
+      <div className="profile-avatar"></div>
+      <img src={profile.avatarUrl} alt={profile.displayName} />
           ) : (
-            <User size={compact ? 32 : 64} / />
+            <User size={compact ? 32 : 64} />
           )}
         </div>
-        
-        <div className="profile-info"></div>
-          <h2 className="profile-name">{profile.displayName}
+      <div className="profile-info"></div>
+      <h2 className="profile-name">{profile.displayName}
           <div className="profile-username">@{profile.username}
           
           <div className="profile-stats"></div>
-            <div className="stat-item"></div>
-              <Trophy size={16} / />
+      <div className="stat-item"></div>
+      <Trophy size={16} />
               <span>{profile.stats.rank}
             </div>
-            
-            <div className="stat-item"></div>
-              <BarChart2 size={16} / />
+      <div className="stat-item"></div>
+      <BarChart2 size={16} />
               <span>{profile.stats.rating} Rating</span>
-            
-            <div className="stat-item"></div>
-              <Calendar size={16} / />
+      <div className="stat-item"></div>
+      <Calendar size={16} />
               <span>Joined {new Date(profile.joinDate).toLocaleDateString()}
             </div>
-        </div>
+      </div>
         
         {!isCurrentUser && !compact && (
           <div className="profile-actions"></div>
-            <button className="message-button" onClick={() => navigate('/messages/' + userId)}>
-              <MessageSquare size={16} / />
+      <button className="message-button" onClick={() => navigate('/messages/' + userId)}>
+              <MessageSquare size={16} />
               <span>Message</span>
-            
-            <button className="challenge-button"></button>
-              <Trophy size={16} / />
+      <button className="challenge-button"></button>
+      <Trophy size={16} />
               <span>Challenge</span>
-          </div>
-        )}
+    </>
+  )}
       </div>
       
       {!compact && (
@@ -196,8 +195,8 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
         {activeTab === 'overview' && (
           <div className="profile-overview"></div>
             <div className="stats-card"></div>
-              <h3 className="card-title" />
-                <Trophy size={16} / />
+              <h3 className="card-title"></h3>
+                <Trophy size={16} />
                 <span>Game Stats</span>
               
               <div className="stats-grid"></div>
@@ -219,8 +218,8 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
               </div>
             
             <div className="stats-card"></div>
-              <h3 className="card-title" />
-                <Award size={16} / />
+              <h3 className="card-title"></h3>
+                <Award size={16} />
                 <span>Tournament Stats</span>
               
               <div className="stats-grid"></div>
@@ -234,8 +233,8 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
               </div>
             
             <div className="stats-card"></div>
-              <h3 className="card-title" />
-                <Package size={16} / />
+              <h3 className="card-title"></h3>
+                <Package size={16} />
                 <span>Favorite Decks</span>
               
               <div className="favorite-decks"></div>
@@ -247,15 +246,15 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                    />
                     <div className="deck-name">{deck.name}
                     <div className="deck-winrate">{(deck.winRate * 100).toFixed(1)}% Win Rate</div>
-                    <ChevronRight size={16} / />
+                    <ChevronRight size={16} />
                   </Link>
                 ))}
               </div>
             
             {!compact && !isCurrentUser && (
               <div className="message-card"></div>
-                <h3 className="card-title" />
-                  <MessageSquare size={16} / />
+                <h3 className="card-title"></h3>
+                  <MessageSquare size={16} />
                   <span>Send Message</span>
                 
                 <div className="message-form"></div>
@@ -269,12 +268,11 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                   <button 
                     className="send-button"
                     onClick={handleSendMessage}
-                    disabled={!messageText.trim() || isSending}
-                   />
+                    disabled={!messageText.trim() || isSending}></button>
                     {isSending ? (
-                      <Loader2 className="animate-spin" size={16} / />
+                      <Loader2 className="animate-spin" size={16} />
                     ) : (
-                      <MessageSquare size={16} / />
+                      <MessageSquare size={16} />
                     )}
                     <span>Send</span>
                 </div>
@@ -300,19 +298,19 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     
                     <div className="match-details"></div>
                       <div className="match-opponent"></div>
-                        <Users size={16} / />
+                        <Users size={16} />
                         <span>vs. {match.opponent}
                       </div>
                       
                       <div className="match-date"></div>
-                        <Clock size={14} / />
+                        <Clock size={14} />
                         <span>{new Date(match.date).toLocaleDateString()}
                       </div>
                     
                     <div className="match-result-text"></div>
                       {match.result.toUpperCase()}
                     
-                    <ChevronRight size={16} / />
+                    <ChevronRight size={16} />
                   </Link>
                 ))
               )}
@@ -334,7 +332,7 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     className="tournament-item"
                    />
                     <div className="tournament-icon"></div>
-                      <Trophy size={20} / />
+                      <Trophy size={20} />
                     </div>
                     
                     <div className="tournament-details"></div>
@@ -342,17 +340,17 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                       
                       <div className="tournament-meta"></div>
                         <div className="tournament-date"></div>
-                          <Calendar size={14} / />
+                          <Calendar size={14} />
                           <span>{new Date(tournament.date).toLocaleDateString()}
                         </div>
                         
                         <div className="tournament-placement"></div>
-                          <Award size={14} / />
+                          <Award size={14} />
                           <span>Placed {tournament.placement}
                         </div>
                     </div>
                     
-                    <ChevronRight size={16} / />
+                    <ChevronRight size={16} />
                   </Link>
                 ))
               )}
@@ -374,14 +372,14 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     className="deck-card"
                    />
                     <div className="deck-icon"></div>
-                      <Package size={24} / />
+                      <Package size={24} />
                     </div>
                     
                     <div className="deck-details"></div>
                       <div className="deck-name">{deck.name}
                       <div className="deck-winrate">{(deck.winRate * 100).toFixed(1)}% Win Rate</div>
                     
-                    <ChevronRight size={16} / />
+                    <ChevronRight size={16} />
                   </Link>
                 ))
               )}

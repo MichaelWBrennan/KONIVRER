@@ -105,15 +105,13 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
                       : isPast 
                         ? 'text-gray-400' 
                         : 'text-gray-600'
-                  }`} 
-                / />
+                  }`} />
                 {/* Active Phase Glow */}
                 {isActive && (
                   <motion.div
                     className={`absolute inset-0 rounded-full ${phase.bg} opacity-50`}
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  / />
+                    transition={{ duration: 2, repeat: Infinity }} />
                 )}
               </motion.div>
               
@@ -122,8 +120,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
                 <div 
                   className={`w-6 h-0.5 mx-1 ${
                     isPast ? 'bg-gray-500' : 'bg-gray-700'
-                  }`} 
-                / />
+                  }`}></div>
               )}
             </div>
           );
@@ -145,7 +142,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
 
       {/* Turn Timer (if applicable) */}
       <div className="flex items-center gap-1 text-gray-400"></div>
-        <Clock className="w-4 h-4" / />
+        <Clock className="w-4 h-4" />
         <span className="text-sm">∞</span>
     </div>
   );

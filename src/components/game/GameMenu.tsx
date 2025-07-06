@@ -54,7 +54,7 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
         <div className="flex items-center justify-between mb-6"></div>
           <h2 className="text-white text-xl font-bold">Game Menu</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white"></button>
-            <X className="w-6 h-6" / />
+            <X className="w-6 h-6" />
           </button>
 
         <div className="space-y-4"></div>
@@ -65,20 +65,19 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
           >
             <div className="flex items-center space-x-3"></div>
               {soundEnabled ? (
-                <Volume2 className="w-5 h-5 text-blue-400" / />
+                <Volume2 className="w-5 h-5 text-blue-400" />
               ) : (
-                <VolumeX className="w-5 h-5 text-gray-400" / />
+                <VolumeX className="w-5 h-5 text-gray-400" />
               )}
               <span className="text-white">Sound Effects</span>
             <div
-              className={`w-10 h-6 rounded-full flex items-center ${soundEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'}`}
-             />
+              className={`w-10 h-6 rounded-full flex items-center ${soundEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'}`}></div>
               <div className="w-4 h-4 bg-white rounded-full mx-1"></div>
             </div>
 
           {/* Settings */}
           <button className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg"></button>
-            <Settings className="w-5 h-5 text-purple-400" / />
+            <Settings className="w-5 h-5 text-purple-400" />
             <span className="text-white">Game Settings</span>
 
           {/* AI Testing Mode Toggle */}
@@ -95,15 +94,14 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
               }`}
             >
               <div className="flex items-center space-x-3"></div>
-                <Brain className={`w-5 h-5 ${aiTestingEnabled ? 'text-blue-300' : 'text-blue-400'}`} / />
+                <Brain className={`w-5 h-5 ${aiTestingEnabled ? 'text-blue-300' : 'text-blue-400'}`} />
                 <span className="text-white">AI Testing Mode</span>
               <div className="flex items-center space-x-2"></div>
                 {aiTestingEnabled && <Activity className="w-4 h-4 text-blue-300 animate-pulse" />}
                 <div
                   className={`w-10 h-6 rounded-full flex items-center ${
                     aiTestingEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-600 justify-start'
-                  }`}
-                 />
+                  }`}></div>
                   <div className="w-4 h-4 bg-white rounded-full mx-1"></div>
                 </div>
             </button>
@@ -121,7 +119,7 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
                   : 'bg-gray-800 hover:bg-gray-700'
               }`}
             >
-              <Eye className={`w-5 h-5 ${showAIPanel ? 'text-purple-300' : 'text-purple-400'}`} / />
+              <Eye className={`w-5 h-5 ${showAIPanel ? 'text-purple-300' : 'text-purple-400'}`} />
               <span className="text-white">AI Consciousness Panel</span>
               {showAIPanel && <Zap className="w-4 h-4 text-purple-300 animate-pulse" />}
           )}
@@ -134,12 +132,12 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
               }}
               className="w-full flex items-center space-x-3 p-3 bg-green-900 hover:bg-green-800 rounded-lg border border-green-400"
             >
-              <TestTube className="w-5 h-5 text-green-300" / />
+              <TestTube className="w-5 h-5 text-green-300" />
               <span className="text-white">Run AI Performance Test</span>
           )}
           {/* Help */}
           <button className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg"></button>
-            <HelpCircle className="w-5 h-5 text-green-400" / />
+            <HelpCircle className="w-5 h-5 text-green-400" />
             <span className="text-white">Game Rules</span>
 
           {/* Concede */}
@@ -150,7 +148,7 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
             }}
             className="w-full flex items-center space-x-3 p-3 bg-red-900 hover:bg-red-800 rounded-lg"
           >
-            <Flag className="w-5 h-5 text-red-300" / />
+            <Flag className="w-5 h-5 text-red-300" />
             <span className="text-white">Concede Game</span>
 
           {/* Return to Home */}
@@ -158,7 +156,7 @@ const GameMenu: React.FC<GameMenuProps> = ({  onClose, onAction, gameMode, aiTes
             to="/"
             className="w-full flex items-center space-x-3 p-3 bg-gray-800 hover:bg-gray-700 rounded-lg"
            />
-            <Home className="w-5 h-5 text-blue-400" / />
+            <Home className="w-5 h-5 text-blue-400" />
             <span className="text-white">Exit to Main Menu</span>
         </div>
       </motion.div>

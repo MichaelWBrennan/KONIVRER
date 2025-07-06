@@ -11,17 +11,17 @@ interface PlayerInfoProps {
 
 const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, isOpponent, isAI = false, aiStatus = null  }) => {
   return (
-    <div className={`player-info ${isOpponent ? 'opponent' : 'you'} ${isAI ? 'ai-player' : ''}`}></div>
+    <>
+      <div className={`player-info ${isOpponent ? 'opponent' : 'you'} ${isAI ? 'ai-player' : ''}`}></div>
       <div className="player-header"></div>
-        <h2 />
-          {isOpponent ? (isAI ? 'Cutting-Edge AI' : 'Opponent') : 'You'}
-          {isAI && <Brain className="ai-brain-icon" />}
+      <h2></h2>
+      <Brain className="ai-brain-icon" />}
         {isAI && aiStatus && (
           <div className="ai-status-mini"></div>
-            <div className="consciousness-mini"></div>
-              <span>Consciousness: {((aiStatus.cuttingEdge?.consciousnessMetrics?.consciousnessLevel || 0.7) * 100).toFixed(0)}%</span>
-          </div>
-        )}
+      <div className="consciousness-mini"></div>
+      <span>Consciousness: {((aiStatus.cuttingEdge?.consciousnessMetrics?.consciousnessLevel || 0.7) * 100).toFixed(0)}%</span>
+    </>
+  )}
       </div>
       
       <div className="info-row"></div>
@@ -53,13 +53,13 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, isOpponent, isAI = fal
         {isAI && aiStatus && (
           <div className="ai-quick-stats"></div>
             <div className="ai-stat"></div>
-              <Eye className="stat-icon" / />
+              <Eye className="stat-icon" />
               <span>{((aiStatus.cuttingEdge?.theoryOfMindAccuracy || 0.5) * 100).toFixed(0)}%</span>
             <div className="ai-stat"></div>
-              <Heart className="stat-icon" / />
+              <Heart className="stat-icon" />
               <span>{((aiStatus.cuttingEdge?.emotionalIntelligence?.empathyLevel || 0.8) * 100).toFixed(0)}%</span>
             <div className="ai-stat"></div>
-              <Activity className="stat-icon" / />
+              <Activity className="stat-icon" />
               <span>{((aiStatus.cuttingEdge?.performanceMetrics?.decisionAccuracy || 0.7) * 100).toFixed(0)}%</span>
           </div>
         )}

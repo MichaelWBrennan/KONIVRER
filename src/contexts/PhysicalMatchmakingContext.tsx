@@ -1378,7 +1378,7 @@ const PhysicalMatchmakingProvider: React.FC<PhysicalMatchmakingProviderProps> = 
       possiblePairings.sort((a, b) => b.score - a.score);
 
       // Create pairings greedily
-      while(): any {
+      while () {
         const bestPairing = possiblePairings.shift();
 
         // Skip if either player already paired

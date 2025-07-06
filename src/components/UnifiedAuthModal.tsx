@@ -48,7 +48,7 @@ import {
   Facebook,
   Twitter,
   Apple,
-  Google,
+
   ArrowLeft,
   ArrowRight,
   HelpCircle,
@@ -382,7 +382,7 @@ const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
                     onClick={() => handleSocialLogin('Google')}
                     className="flex items-center justify-center p-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
                   >
-                    <Google size={20} />
+                    <Chrome size={20} />
                   </button>
                   <button
                     type="button"
@@ -830,7 +830,7 @@ const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
                     onClick={() => handleSocialLogin('Google')}
                     className="social-button"
                   >
-                    <Google size={20} />
+                    <Chrome size={20} />
                   </button>
                   <button
                     type="button"

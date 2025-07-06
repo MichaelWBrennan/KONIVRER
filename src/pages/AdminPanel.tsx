@@ -133,18 +133,14 @@ const AdminPanel = (): any => {
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
   return (
-    <div className="min-h-screen bg-primary"></div>
+    <>
+      <div className="min-h-screen bg-primary"></div>
       <div className="container py-6"></div>
-        {/* Header */}
-        <div className="mb-6"><p className="text-secondary"></div>
-            Manage Google Sheets integration, card database, and sets
-          </p>
+      <div className="mb-6"><p className="text-secondary"></p>
+      </p>
         {/* Tab Navigation */}
         <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg"></div>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            return (
-              <button
+      <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-md transition-colors ${
@@ -153,103 +149,81 @@ const AdminPanel = (): any => {
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'
                 }`}
               >
-                <Icon className="w-4 h-4" / />
+                <Icon className="w-4 h-4" />
                 {tab.label}
             );
           })}
         </div>
-        {/* Tab Content */}
-        {activeTab === 'database' && (
-          <div></div>
-            {/* Status Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"></div>
-              {/* Connection Status */}
-              <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  {connectionStatus?.connected ? (
-                    <Wifi className="text-green-500" size={20} / />
+      <div></div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"></div>
+      <div className="card"></div>
+      <div className="flex items-center gap-3 mb-2"></div>
+      <Wifi className="text-green-500" size={20} />
                   ) : (
-                    <WifiOff className="text-red-500" size={20} / />
+                    <WifiOff className="text-red-500" size={20} />
                   )}
                 </div>
-                <p className="text-sm text-secondary"></p>
-                  {connectionStatus?.connected
-                    ? 'Connected to Google Sheets'
-                    : 'Disconnected'}
-                {connectionStatus?.error && (
-                  <p className="text-xs text-red-600 mt-1"></p>
-                    {connectionStatus.error}
-                )}
-              </div>
+      <p className="text-sm text-secondary"></p>
+      <p className="text-xs text-red-600 mt-1"></p>
+      </div>
               {/* Cache Status */}
               <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <Database className="text-blue-500" size={20} / />
+      <div className="flex items-center gap-3 mb-2"></div>
+      <Database className="text-blue-500" size={20} />
                 </div>
-                <p className="text-sm text-secondary"></p>
-                  {cacheStatus?.hasCache
-                    ? `${stats.totalCards} cards cached`
-                    : 'No cache'}
-                </p>
+      <p className="text-sm text-secondary"></p>
+      </p>
                 <p className="text-xs text-secondary"></p>
-                  {cacheStatus?.isExpired ? 'Expired' : 'Fresh'} •{' '}
-                  {formatDuration(cacheStatus?.cacheAge)}
-              </div>
+      </div>
               {/* Last Sync */}
               <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <RefreshCw className="text-purple-500" size={20} / />
+      <div className="flex items-center gap-3 mb-2"></div>
+      <RefreshCw className="text-purple-500" size={20} />
                 </div>
-                <p className="text-sm text-secondary"></p>
-                  {formatTimestamp(stats.lastSync)}
-              </div>
+      <p className="text-sm text-secondary"></p>
+      </div>
               {/* Total Cards */}
               <div className="card"></div>
-                <div className="flex items-center gap-3 mb-2"></div>
-                  <Settings className="text-orange-500" size={20} / />
+      <div className="flex items-center gap-3 mb-2"></div>
+      <Settings className="text-orange-500" size={20} />
                 </div>
-                <p className="text-2xl font-bold">{stats.totalCards}
+      <p className="text-2xl font-bold">{stats.totalCards}
               </div>
-            {/* Actions */}
-            <div className="card mb-6"></div>
-              <div className="flex flex-wrap gap-3"></div>
-                <button
+      <div className="card mb-6"></div>
+      <div className="flex flex-wrap gap-3"></div>
+      <button
                   onClick={testConnection}
                   disabled={testing}
-                  className="btn btn-secondary"
-                 />
-                  <Wifi className={testing ? 'animate-pulse' : ''} size={16} / />
+                  className="btn btn-secondary"></button>
+      <Wifi className={testing ? 'animate-pulse' : ''} size={16} />
                   {testing ? 'Testing...' : 'Test Connection'}
                 <button
                   onClick={handleSync}
                   disabled={syncing || !connectionStatus?.connected}
-                  className="btn btn-primary"
-                 />
-                  <RefreshCw
+                  className="btn btn-primary"></button>
+      <RefreshCw
                     className={syncing ? 'animate-spin' : ''}
-                    size={16}
-                  / />
+                    size={16} />
                   {syncing ? 'Syncing...' : 'Sync from Google Sheets'}
                 <button onClick={clearCache} className="btn btn-warning"></button>
-                  <Database size={16} / />
+      <Database size={16} />
                   Clear Cache
                 </button>
-                <button onClick={loadAdminData} className="btn btn-secondary"></button>
-                  <RefreshCw size={16} / />
+      <button onClick={loadAdminData} className="btn btn-secondary"></button>
+      <RefreshCw size={16} />
                   Refresh Status
                 </button>
-            </div>
+      </div>
             {/* Sync History */}
             <div className="card"></div>
-              {syncHistory.length === 0 ? (
-                <p className="text-secondary">No recent activity</p>
-              ) : (
+      <p className="text-secondary">No recent activity</p>
+    </>
+  ) : (
                 <div className="space-y-3"></div>
                   {syncHistory.map(entry => (
                     <div
                       key={entry.id}
-                      className="flex items-start gap-3 p-3 bg-secondary rounded-lg"
-                     />
+                      className="flex items-start gap-3 p-3 bg-secondary rounded-lg"></div>
                       {getStatusIcon(entry.status)}
                       <div className="flex-1"></div>
                         <div className="flex items-center gap-2 mb-1"></div>
@@ -269,15 +243,15 @@ const AdminPanel = (): any => {
             <div className="card mt-6"></div>
               <div className="space-y-4"></div>
                 <div></div>
-                  <ol className="list-decimal list-inside space-y-2 text-sm text-secondary" />
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-secondary"></ol>
                     <li>Create a Google Sheets document with your card data</li>
-                    <li />
+                    <li></li>
                       Set up a Google Cloud Project and enable the Sheets API
                     </li>
-                    <li />
+                    <li></li>
                       Create a service account and download the credentials
                     </li>
-                    <li />
+                    <li></li>
                       Share your spreadsheet with the service account email
                     </li>
                     <li>Set the environment variables in your backend</li>

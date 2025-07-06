@@ -66,14 +66,13 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
      />
       <button
         onClick={onClose}
-        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-       />
-        <X className="w-4 h-4" / />
+        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"></button>
+        <X className="w-4 h-4" />
       </button>
 
       <div className="flex items-start space-x-3"></div>
         <div className="bg-yellow-100 rounded-full p-2 text-yellow-700"></div>
-          <Lightbulb className="w-5 h-5" / />
+          <Lightbulb className="w-5 h-5" />
         </div>
 
         <div className="flex-1"></div>
@@ -87,7 +86,7 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
              />
               <div className="flex items-center space-x-2 mb-1"></div>
                 <span className="text-2xl">{tips[currentTip].icon}
-                <h3 className="font-medium text-gray-900" />
+                <h3 className="font-medium text-gray-900"></h3>
                   {tips[currentTip].title}
               </div>
               <p className="text-sm text-gray-600"></p>
@@ -106,7 +105,7 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                />
-                <ChevronLeft className="w-4 h-4" / />
+                <ChevronLeft className="w-4 h-4" />
               </motion.button>
 
               <motion.button
@@ -115,7 +114,7 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                />
-                <ChevronRight className="w-4 h-4" / />
+                <ChevronRight className="w-4 h-4" />
               </motion.button>
             </div>
         </div>

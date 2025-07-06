@@ -25,7 +25,6 @@
     "build:types": "tsc --emitDeclarationOnly",
     "lint:types": "tsc --noEmit && eslint . --ext .ts,.tsx",
     "dev:typed": "npm run type-check && npm run dev",
-    
     "automation": "tsx automation/cli.ts",
     "automation:start": "tsx automation/cli.ts start",
     "automation:start:bg": "tsx automation/cli.ts start --background",
@@ -40,12 +39,10 @@
     "automation:dashboard": "npx serve -s automation/dashboard -l 3001",
     "automation:docker": "cd automation && docker-compose up -d",
     "automation:docker:stop": "cd automation && docker-compose down",
-    
     "automation:legacy:run": "tsx scripts/enterprise-automation.ts --run",
     "automation:legacy:security": "tsx scripts/enterprise-automation.ts --security-only",
     "automation:legacy:performance": "tsx scripts/enterprise-automation.ts --performance-only",
     "automation:legacy:full": "npm run security:full && npm run quality:check && npm run build:analyze",
-    
     "security:check": "tsx scripts/security-check.ts",
     "security:audit": "npm audit --audit-level moderate",
     "security:scan": "npm audit && tsx scripts/security-check.ts",
@@ -62,18 +59,15 @@
     "deps:check": "npm outdated",
     "deps:update": "npm update",
     "deps:audit": "npm audit fix",
-    
     "heal": "tsx scripts/auto-heal.ts",
     "heal:quick": "tsx scripts/auto-heal.ts --quick",
     "heal:full": "tsx scripts/auto-heal.ts --full",
     "fix:all": "npm run heal && npm run lint:fix && npm run format",
     "health:check": "npm run lint && npm run format:check && npm run deps:audit && npm run build",
     "self:heal": "npm run heal && npm run fix:all && npm run health:check",
-    
     "cards:setup": "./scripts/setup-card-images.sh",
     "cards:process": "tsx scripts/add-card-images.ts",
     "cards:status": "./scripts/setup-card-images.sh",
-    
     "ai": "node scripts/unified-ai.js",
     "ai:start": "node scripts/unified-ai.js start",
     "ai:stop": "node scripts/unified-ai.js end",
@@ -91,7 +85,6 @@
     "ai:demo:performance": "node scripts/unified-ai.js demo performance",
     "ai:demo:security": "node scripts/unified-ai.js demo security",
     "ai:integrate": "node scripts/unified-ai.js integrate",
-    
     "dev:auto": "npm run automation:start:bg && npm run dev",
     "build:auto": "npm run automation:run:full",
     "deploy:auto": "npm run automation:run:full && npm run deploy",
@@ -120,6 +113,9 @@
     "chokidar": "^4.0.3",
     "depcheck": "^1.4.7",
     "eslint-plugin-no-secrets": "^2.2.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-security": "^3.0.1",
     "jscpd": "^4.0.5",
     "license-checker": "^25.0.1",

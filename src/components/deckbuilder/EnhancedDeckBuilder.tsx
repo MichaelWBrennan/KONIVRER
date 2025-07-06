@@ -472,7 +472,7 @@ const EnhancedDeckBuilder = (): any => {
               {/* Search and Filters */}
               <div className="p-4 border-b border-purple-500/30"></div>
                 <div className="relative mb-4"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" / />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <input
                     type="text"
                     placeholder="Search cards..."
@@ -485,7 +485,7 @@ const EnhancedDeckBuilder = (): any => {
                 <div className="flex items-center justify-between mb-4"></div>
                   <h3 className="text-white font-medium">Filters</h3>
                   <button
-                    onClick={() = />
+                    onClick={() =></button>
                       setSelectedFilters({
                         colors: [],
                         types: [],
@@ -500,8 +500,7 @@ const EnhancedDeckBuilder = (): any => {
 
                 <FilterPanel
                   filters={selectedFilters}
-                  onFiltersChange={setSelectedFilters}
-                / />
+                  onFiltersChange={setSelectedFilters} />
               </div>
 
               {/* Card List */}
@@ -549,7 +548,7 @@ const EnhancedDeckBuilder = (): any => {
                   onClick={() => setShowSidebar(!showSidebar)}
                   className="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
                 >
-                  <Filter className="w-5 h-5 text-white" / />
+                  <Filter className="w-5 h-5 text-white" />
                 </button>
 
                 <input
@@ -566,25 +565,22 @@ const EnhancedDeckBuilder = (): any => {
                     deckStats.isLegal
                       ? 'bg-green-500/20 text-green-400'
                       : 'bg-red-500/20 text-red-400'
-                  }`}
-                 />
+                  }`}></div>
                   {deckStats.isLegal ? 'Legal' : 'Illegal'}
               </div>
 
               <div className="flex items-center space-x-2"></div>
                 <button
                   onClick={saveDeck}
-                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                 />
-                  <Save className="w-4 h-4" / />
+                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
+                  <Save className="w-4 h-4" />
                   <span>Save</span>
 
                 <button
                   onClick={startGameWithDeck}
                   disabled={!deckStats.isLegal}
-                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"
-                 />
-                  <Play className="w-4 h-4" / />
+                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
+                  <Play className="w-4 h-4" />
                   <span>Play</span>
               </div>
 
@@ -611,31 +607,28 @@ const EnhancedDeckBuilder = (): any => {
                 deck={currentDeck}
                 cardCollection={cardCollection}
                 onRemoveCard={removeCardFromDeck}
-                onAddCard={addCardToDeck}
-              / />
+                onAddCard={addCardToDeck} />
             )}
             {activeTab === 'stats' && (
               <>
-                <DeckRules deck={getFormattedDeckCards()} / />
-                <DeckStatsPanel stats={deckStats} / />
+                <DeckRules deck={getFormattedDeckCards()} />
+                <DeckStatsPanel stats={deckStats} />
               </>
             )}
             {activeTab === 'meta' && (
               <>
-                <DeckMetaAnalysis deck={currentDeck} / />
+                <DeckMetaAnalysis deck={currentDeck} />
                 <div className="mt-6"></div>
                   <CardSynergyRecommendations
                     currentDeck={currentDeck}
-                    onAddCard={addCardToDeck}
-                  / />
+                    onAddCard={addCardToDeck} />
                 </div>
               </>
             )}
             {activeTab === 'export' && (
               <DeckExportPanel
                 deck={currentDeck}
-                onExport={exportDeckForGame}
-              / />
+                onExport={exportDeckForGame} />
             )}
           </div>
       </div>
@@ -814,7 +807,7 @@ const DeckCardsList: React.FC<DeckCardsListProps> = ({  deck, cardCollection, on
     <div className="space-y-6"></div>
       {Object.entries(groupedCards).map(([type, cards]) => (
         <div key={type} className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
-          <h3 className="text-xl font-bold text-white mb-4 capitalize" />
+          <h3 className="text-xl font-bold text-white mb-4 capitalize"></h3>
             {type}s ({cards.reduce((sum, card) => sum + card.quantity, 0)})
           </h3>
 
@@ -867,15 +860,13 @@ const DeckCardItem: React.FC<DeckCardItemProps> = ({  card, onRemove, onAdd  }) 
         <div className="flex items-center space-x-2"></div>
           <button
             onClick={onRemove}
-            className="p-1 bg-red-600 hover:bg-red-700 rounded transition-colors"
-           />
-            <Minus className="w-4 h-4 text-white" / />
+            className="p-1 bg-red-600 hover:bg-red-700 rounded transition-colors"></button>
+            <Minus className="w-4 h-4 text-white" />
           </button>
           <button
             onClick={onAdd}
-            className="p-1 bg-green-600 hover:bg-green-700 rounded transition-colors"
-           />
-            <Plus className = "w-4 h-4 text-white" / />
+            className="p-1 bg-green-600 hover:bg-green-700 rounded transition-colors"></button>
+            <Plus className = "w-4 h-4 text-white" />
           </button>
       </div>
     </motion.div>
@@ -930,19 +921,17 @@ const DeckStatsPanel: React.FC<DeckStatsPanelProps> = ({  stats  }) => {
             stats.isLegal
               ? 'bg-green-500/20 border border-green-500'
               : 'bg-red-500/20 border border-red-500'
-          }`}
-         />
+          }`}></div>
           <div className="flex items-center space-x-2 mb-2"></div>
             {stats.isLegal ? (
-              <CheckCircle className="w-5 h-5 text-green-400" / />
+              <CheckCircle className="w-5 h-5 text-green-400" />
             ) : (
-              <AlertCircle className="w-5 h-5 text-red-400" / />
+              <AlertCircle className="w-5 h-5 text-red-400" />
             )}
             <span
               className={`font-medium ${
                 stats.isLegal ? 'text-green-400' : 'text-red-400'
-              }`}
-             />
+              }`}></span>
               {stats.isLegal ? 'Legal for Play' : 'Not Legal'}
           </div>
 
@@ -966,9 +955,11 @@ interface DeckMetaAnalysisProps {
 
 const DeckMetaAnalysis: React.FC<DeckMetaAnalysisProps> = ({  deck  }) => {
   return (
-    <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+    <>
+      <div className = "bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
       <h3 className="text-xl font-bold text-white mb-4">Meta Analysis</h3>
       <div className="text-gray-400">Meta analysis features coming soon...</div>
+    </>
   );
 };
 
@@ -980,25 +971,22 @@ interface DeckExportPanelProps {
 
 const DeckExportPanel: React.FC<DeckExportPanelProps> = ({  deck, onExport  }) => {
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
+    <>
+      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6"></div>
       <h3 className="text-xl font-bold text-white mb-4">Export Deck</h3>
-
       <div className="space-y-4"></div>
-        <button
+      <button
           onClick={onExport}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-         />
-          Export for Game
-        </button>
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+      </button>
 
         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
-          Share Deck
-        </button>
+      </button>
 
         <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
-          Download as Text
-        </button>
+      </button>
     </div>
+    </>
   );
 };
 

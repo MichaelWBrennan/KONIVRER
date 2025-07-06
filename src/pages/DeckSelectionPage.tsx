@@ -35,21 +35,21 @@ const DeckSelectionPage = (): any => {
     }
   };
   return (
-    <div className="container mx-auto px-4 py-8"></div>
+    <>
+      <div className="container mx-auto px-4 py-8"></div>
       <div className="flex items-center mb-6"></div>
-        <button
+      <button
           onClick={() => navigate('/')}
           className="mr-4 p-2 rounded-full bg-gray-800 text-white hover:bg-gray-700 transition-colors"
         >
-          <ArrowLeft size={20} / />
+          <ArrowLeft size={20} />
         </button>
       <div className="mb-6"></div>
-        <button
+      <button
           onClick={handleCreateNewDeck}
           disabled={isCreatingDeck}
-          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-         />
-          <Plus size={18} className="mr-2" / />
+          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"></button>
+      <Plus size={18} className="mr-2" />
           {isCreatingDeck ? 'Creating...' : 'Create New Deck'}
       </div>
       <motion.div
@@ -57,9 +57,9 @@ const DeckSelectionPage = (): any => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
        />
-        <DeckSelector onSelect={handleDeckSelected} / />
+        <DeckSelector onSelect={handleDeckSelected} />
       </motion.div>
-    </div>
+    </>
   );
 };
 export default DeckSelectionPage;

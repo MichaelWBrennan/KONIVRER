@@ -51,7 +51,7 @@ const GenericCostSelector: React.FC<GenericCostSelectorProps> = ({
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
      />
       <div className="bg-gray-800 rounded-lg p-6 border border-gray-600 max-w-md w-full mx-4"></div>
-        <h3 className="text-xl font-bold text-white mb-4 text-center" />
+        <h3 className="text-xl font-bold text-white mb-4 text-center"></h3>
           Choose Generic Cost
         </h3>
         
@@ -69,11 +69,11 @@ const GenericCostSelector: React.FC<GenericCostSelectorProps> = ({
             disabled={selectedCost <= minCost}
             className="p-2 rounded bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
-            <Minus className="w-4 h-4 text-white" / />
+            <Minus className="w-4 h-4 text-white" />
           </button>
 
           <div className="flex items-center gap-2 bg-gray-700 rounded px-4 py-2"></div>
-            <Circle className="w-5 h-5 text-gray-400" / />
+            <Circle className="w-5 h-5 text-gray-400" />
             <span className="text-2xl font-bold text-white min-w-[2rem] text-center"></span>
               {selectedCost}
           </div>
@@ -83,12 +83,12 @@ const GenericCostSelector: React.FC<GenericCostSelectorProps> = ({
             disabled={selectedCost >= maxCost}
             className="p-2 rounded bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
-            <Plus className="w-4 h-4 text-white" / />
+            <Plus className="w-4 h-4 text-white" />
           </button>
 
         <div className="text-center mb-6"></div>
           <div className="flex items-center justify-center gap-2 text-lg"></div>
-            <Star className="w-5 h-5 text-yellow-400" / />
+            <Star className="w-5 h-5 text-yellow-400" />
             <span className="text-white"></span>
               Power: <span className="font-bold text-yellow-400">{calculatePower()}
             </span>
@@ -97,14 +97,12 @@ const GenericCostSelector: React.FC<GenericCostSelectorProps> = ({
         <div className="flex gap-3"></div>
           <button
             onClick={onCancel}
-            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-gray-600 hover:bg-gray-700 text-white transition-colors"
-           />
+            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-gray-600 hover:bg-gray-700 text-white transition-colors"></button>
             Cancel
           </button>
           <button
             onClick={handleConfirm}
-            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-blue-600 hover:bg-blue-700 text-white transition-colors"
-           />
+            className="flex-1 py-0 whitespace-nowrap px-4 rounded bg-blue-600 hover:bg-blue-700 text-white transition-colors"></button>
             Play Card
           </button>
 

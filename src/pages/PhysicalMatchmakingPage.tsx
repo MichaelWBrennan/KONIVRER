@@ -12,25 +12,23 @@ import '../styles/ancient-esoteric-theme.css';
 import '../styles/esoteric-theme.css';
 const PhysicalMatchmakingPage = (): any => {
   return (
-    <div className="ancient-theme"></div>
-      <div className="page-header"><p className="text-center mb-8 text-accent-primary"></div>
-          Track physical matches, organize tournaments, and generate QR codes
-          with Bayesian matchmaking
-        </p>
+    <>
+      <div className="ancient-theme"></div>
+      <div className="page-header"><p className="text-center mb-8 text-accent-primary"></p>
+      </p>
         <div className="text-center mb-6"></div>
-          <span className="bg-green-600 text-white px-4 py-0 whitespace-nowrap rounded-full inline-block"></span>
-            All Premium Features Included For Free
-          </span>
+      <span className="bg-green-600 text-white px-4 py-0 whitespace-nowrap rounded-full inline-block"></span>
+      </span>
       </div>
       <div className="grid grid-cols-1 gap-8"></div>
-        <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
-          <PhysicalMatchmakingProvider />
-            <PhysicalMatchmakingApp / />
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
+      <PhysicalMatchmakingProvider />
+            <PhysicalMatchmakingApp />
           </PhysicalMatchmakingProvider>
-        <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
-          <EnhancedPhysicalMatchmaking / />
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
+      <EnhancedPhysicalMatchmaking />
         </div>
-    </div>
+    </>
   );
 };
 export default PhysicalMatchmakingPage;

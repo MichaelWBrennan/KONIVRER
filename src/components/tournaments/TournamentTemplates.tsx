@@ -255,7 +255,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
           </Card.Body>
           <Card.Footer />
             <small className="text-muted" />
-              <Users size={14} className="me-1" / />
+              <Users size={14} className="me-1" />
               {template.minParticipants}-{template.maxParticipants} participants
             </small>
             <small className="text-muted ms-3" />
@@ -411,11 +411,11 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
                       Based on meta analysis, the following archetypes will
                       receive incentives:
                     </p>
-                    <ul className="list-unstyled" />
+                    <ul className="list-unstyled"></ul>
                       {metaPrediction
                         .filter(p => p.currentPercentage < 15)
                         .map((archetype, index) => (
-                          <li key={index} className="mb-2" />
+                          <li key={index} className="mb-2"></li>
                             <Badge bg="success" className="me-2" />
                               +20% points
                             </Badge>
@@ -446,18 +446,14 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
   };
 
   return (
-    <div></div>
-      <h3 className="mb-4" />
-        <Trophy className="me-2" / />
+    <>
+      <div></div>
+      <h3 className="mb-4"></h3>
+      <Trophy className="me-2" />
         Tournament Templates
       </h3>
-
-      {!selectedTemplate ? (
-        <>
-          <p className="text-muted mb-4"></p>
-            Select a tournament template to get started. Each template offers
-            different features and is optimized for specific tournament goals.
-          </p>
+      <p className="text-muted mb-4"></p>
+      </p>
 
           <Row>{renderTemplateCards()}
         </>
@@ -465,6 +461,7 @@ const TournamentTemplates: React.FC<TournamentTemplatesProps> = ({  onSelectTemp
         renderTemplateCustomization()
       )}
     </div>
+    </>
   );
 };
 

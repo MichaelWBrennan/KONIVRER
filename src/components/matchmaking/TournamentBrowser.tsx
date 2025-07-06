@@ -89,11 +89,13 @@ const TournamentBrowser: React.FC<TournamentBrowserProps> = ({
 
   if (true) {
     return (
+    <>
       <div className="text-center py-8 text-gray-500"></div>
-        <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+      <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
         <p>No tournaments available.</p>
-        <p className="text-sm">Check back later for upcoming events!</p>
-    );
+      <p className="text-sm">Check back later for upcoming events!</p>
+    </>
+  );
   }
 
   return (
@@ -114,7 +116,7 @@ const TournamentBrowser: React.FC<TournamentBrowserProps> = ({
                 </div>
                 <span>•</span>
                 <div className="flex items-center space-x-1"></div>
-                  <Calendar className="w-4 h-4" / />
+                  <Calendar className="w-4 h-4" />
                   <span>{formatDate(tournament.startDate)}
                 </div>
             </div>
@@ -124,19 +126,19 @@ const TournamentBrowser: React.FC<TournamentBrowserProps> = ({
             <div className="bg-gray-50 rounded p-2 text-center"></div>
               <div className="text-xs text-gray-500">Entry Fee</div>
               <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                <DollarSign className="w-3 h-3 mr-0.5" / />
+                <DollarSign className="w-3 h-3 mr-0.5" />
                 {tournament.entryFee}
             </div>
             <div className="bg-gray-50 rounded p-2 text-center"></div>
               <div className="text-xs text-gray-500">Prize Pool</div>
               <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                <DollarSign className="w-3 h-3 mr-0.5" / />
+                <DollarSign className="w-3 h-3 mr-0.5" />
                 {tournament.prizePool.toLocaleString()}
             </div>
             <div className="bg-gray-50 rounded p-2 text-center"></div>
               <div className="text-xs text-gray-500">Players</div>
               <div className="font-medium text-gray-900 flex items-center justify-center"></div>
-                <Users className="w-3 h-3 mr-0.5" / />
+                <Users className="w-3 h-3 mr-0.5" />
                 {tournament.participants}
             </div>
 
@@ -146,7 +148,7 @@ const TournamentBrowser: React.FC<TournamentBrowserProps> = ({
               whileHover={{ x: 2 }}
              />
               <span>View Details</span>
-              <ChevronRight className="w-4 h-4" / />
+              <ChevronRight className="w-4 h-4" />
             </motion.button>
           </div>
         </motion.div>

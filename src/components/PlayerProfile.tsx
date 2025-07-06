@@ -465,12 +465,10 @@ const PlayerProfile = (): any => {
           {playerData.recentMatches.map(match => (
             <div
               key={match.id}
-              className="flex items-center justify-between p-3 border border-color rounded-lg hover:bg-tertiary transition-colors"
-             />
+              className="flex items-center justify-between p-3 border border-color rounded-lg hover:bg-tertiary transition-colors"></div>
               <div className="flex items-center gap-3"></div>
                 <div
-                  className={`w-3 h-3 rounded-full ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}
-                 />
+                  className={`w-3 h-3 rounded-full ${match.result === 'win' ? 'bg-green-500' : 'bg-red-500'}`}></div>
                 <div></div>
                   <div className="font-medium text-primary"></div>
                     vs {match.opponent}
@@ -491,21 +489,18 @@ const PlayerProfile = (): any => {
           {playerData.achievements.map(achievement => {
             const Icon = achievement.icon;
             return (
-              <div
+    <>
+      <div
                 key={achievement.id}
-                className={`border border-color rounded-lg p-4 ${achievement.earned ? 'bg-tertiary' : 'opacity-50'}`}
-               />
-                <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 bg-gradient-to-br ${getAchievementColor(achievement.rarity)}`}
-                 />
-                  <Icon className="text-white" size={24} / />
+                className={`border border-color rounded-lg p-4 ${achievement.earned ? 'bg-tertiary' : 'opacity-50'}`}></div>
+      <div
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 bg-gradient-to-br ${getAchievementColor(achievement.rarity)}`}></div>
+      <Icon className="text-white" size={24} />
                 </div>
-                <h4 className="font-semibold text-primary mb-1" />
-                  {achievement.name}
-                <p className="text-sm text-secondary"></p>
-                  {achievement.description}
-              </div>
-            );
+      <h4 className="font-semibold text-primary mb-1"></h4>
+      <p className="text-sm text-secondary"></p>
+    </>
+  );
           })}
         </div>
     </div>
@@ -513,27 +508,25 @@ const PlayerProfile = (): any => {
 
   const renderTournaments = (renderTournaments: any) => (
     <div className="bg-secondary border border-color rounded-xl p-6"></div>
-      <h3 className="text-xl font-bold text-primary mb-6" />
+      <h3 className="text-xl font-bold text-primary mb-6"></h3>
         Tournament History
       </h3>
       <div className="space-y-4"></div>
         {playerData.tournamentHistory.map(tournament => (
           <div
             key={tournament.id}
-            className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
-           />
+            className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"></div>
             <div className="flex items-center justify-between mb-3"></div>
               <div></div>
-                <h4 className="font-semibold text-primary" />
+                <h4 className="font-semibold text-primary"></h4>
                   {tournament.name}
                 <div className="flex items-center gap-2 text-sm text-secondary"></div>
-                  <Calendar size={14} / />
+                  <Calendar size={14} />
                   <span>{tournament.date}
                 </div>
               <div className="text-right"></div>
                 <div
-                  className={`text-lg font-bold ${tournament.placement <= 3 ? 'text-yellow-500' : 'text-primary'}`}
-                 />
+                  className={`text-lg font-bold ${tournament.placement <= 3 ? 'text-yellow-500' : 'text-primary'}`}></div>
                   #{tournament.placement}
                 <div className="text-sm text-secondary"></div>
                   of {tournament.participants}
@@ -567,13 +560,12 @@ const PlayerProfile = (): any => {
         {playerData.deckCollection.map(deck => (
           <div
             key={deck.id}
-            className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
-           />
+            className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"></div>
             <div className="flex items-center justify-between mb-3"></div>
               <div className="flex items-center gap-3"></div>
                 <h4 className="font-semibold text-primary">{deck.name}
                 {deck.isFavorite && (
-                  <Star className="text-yellow-500" size={16} / />
+                  <Star className="text-yellow-500" size={16} />
                 )}
               </div>
               <div className="text-sm text-secondary">{deck.format}
@@ -615,39 +607,38 @@ const PlayerProfile = (): any => {
             className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"
             title="Refresh events"
           >
-            <RefreshCw size={16} / />
+            <RefreshCw size={16} />
           </button>
         <div className="space-y-4"></div>
           {events.filter(event => event.status === 'active' || event.status === 'upcoming').map(event => (
             <div
               key={event.id}
-              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
-             />
+              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"></div>
               <div className="flex justify-between items-start mb-3"></div>
                 <div className="flex-1"></div>
                   <div className="flex items-center gap-3 mb-2"></div>
                     <h4 className="font-semibold text-primary">{event.name}
                     {event.isStreamed && (
                       <div className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs"></div>
-                        <Wifi size={12} / />
+                        <Wifi size={12} />
                         <span>Live</span>
                     )}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-secondary mb-2"></div>
                     <div className="flex items-center gap-1"></div>
-                      <Calendar size={14} / />
+                      <Calendar size={14} />
                       <span>{event.date}
                     </div>
                     <div className="flex items-center gap-1"></div>
-                      <Clock size={14} / />
+                      <Clock size={14} />
                       <span>{event.time}
                     </div>
                     <div className="flex items-center gap-1"></div>
-                      <MapPin size={14} / />
+                      <MapPin size={14} />
                       <span>{event.venue}
                     </div>
                     <div className="flex items-center gap-1"></div>
-                      <Users size={14} / />
+                      <Users size={14} />
                       <span>{event.currentParticipants || event.totalParticipants}/{event.maxParticipants || event.totalParticipants}
                     </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm"></div>
@@ -673,14 +664,14 @@ const PlayerProfile = (): any => {
                     event.status === 'active' ? 'bg-green-100 text-green-800' :
                     event.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
                     'bg-gray-100 text-gray-800'
-                  }`} />
+                  }`}></div>
                     {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
                   {event.decklistRequired && (
                     <div className={`px-2 py-1 rounded text-xs ${
                       event.decklistSubmitted 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
-                    }`} />
+                    }`}></div>
                       {event.decklistSubmitted ? 'Decklist ✓' : 'Decklist Required'}
                   )}
                 </div>
@@ -696,8 +687,7 @@ const PlayerProfile = (): any => {
                   <div className="w-full bg-quaternary rounded-full h-2"></div>
                     <div 
                       className="bg-accent-primary h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${(event.round / event.totalRounds) * 100}%` }}
-                    / />
+                      style={{ width: `${(event.round / event.totalRounds) * 100}%` }}></div>
                   </div>
                   <div className="mt-3 text-sm"></div>
                     <span className="text-secondary">Current Placement:</span>
@@ -765,7 +755,7 @@ const PlayerProfile = (): any => {
                   )}
                   {pairing.status === 'completed' && (
                     <div className="flex items-center gap-2 text-green-600"></div>
-                      <CheckCircle size={16} / />
+                      <CheckCircle size={16} />
                       Result submitted: {pairing.submittedResult} ({pairing.submittedScore})
                     </div>
                   )}
@@ -778,14 +768,14 @@ const PlayerProfile = (): any => {
                       to={`/tournaments/${event.id}/live`}
                       className="bg-accent-primary text-white px-4 py-2 rounded-lg hover:bg-accent-secondary transition-colors flex items-center gap-2"
                      />
-                      <Eye size={16} / />
+                      <Eye size={16} />
                       View Tournament
                     </Link>
                     <Link
                       to={`/tournaments/${event.id}/bracket`}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                      />
-                      <BarChart3 size={16} / />
+                      <BarChart3 size={16} />
                       Bracket
                     </Link>
                     {event.isStreamed && event.streamUrl && (
@@ -795,7 +785,7 @@ const PlayerProfile = (): any => {
                         rel="noopener noreferrer"
                         className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
                        />
-                        <ExternalLink size={16} / />
+                        <ExternalLink size={16} />
                         Watch Stream
                       </a>
                     )}
@@ -808,7 +798,7 @@ const PlayerProfile = (): any => {
                         to={`/decklist-submission/${event.id}`}
                         className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
                        />
-                        <Upload size={16} / />
+                        <Upload size={16} />
                         Submit Decklist
                       </Link>
                     )}
@@ -816,7 +806,7 @@ const PlayerProfile = (): any => {
                       to={`/tournaments/${event.id}`}
                       className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
                      />
-                      <Info size={16} / />
+                      <Info size={16} />
                       Event Details
                     </Link>
                   </>
@@ -826,7 +816,7 @@ const PlayerProfile = (): any => {
                   className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
                   title="Copy event link"
                 >
-                  <Share2 size={16} / />
+                  <Share2 size={16} />
                   Share
                 </button>
             </div>
@@ -840,18 +830,17 @@ const PlayerProfile = (): any => {
           {events.filter(event => event.status === 'completed').map(event => (
             <div
               key={event.id}
-              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"
-             />
+              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-colors"></div>
               <div className="flex justify-between items-start mb-3"></div>
                 <div></div>
                   <h4 className="font-semibold text-primary">{event.name}
                   <div className="flex items-center gap-4 text-sm text-secondary mt-1"></div>
                     <div className="flex items-center gap-1"></div>
-                      <Calendar size={14} / />
+                      <Calendar size={14} />
                       <span>{event.date}
                     </div>
                     <div className="flex items-center gap-1"></div>
-                      <MapPin size={14} / />
+                      <MapPin size={14} />
                       <span>{event.venue}
                     </div>
                 </div>
@@ -877,8 +866,8 @@ const PlayerProfile = (): any => {
           ))}
           {events.filter(event => event.status === 'completed').length === 0 && (
             <div className="text-center py-8"></div>
-              <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" / />
-              <h3 className="text-lg font-medium text-primary mb-2" />
+              <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" />
+              <h3 className="text-lg font-medium text-primary mb-2"></h3>
                 No past events
               </h3>
               <p className="text-secondary"></p>
@@ -890,8 +879,8 @@ const PlayerProfile = (): any => {
       {/* No Events Message */}
       {events.length === 0 && !loading && (
         <div className="text-center py-12 bg-secondary border border-color rounded-xl"></div>
-          <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" / />
-          <h3 className="text-lg font-medium text-primary mb-2" />
+          <Trophy className="mx-auto h-12 w-12 text-secondary mb-4" />
+          <h3 className="text-lg font-medium text-primary mb-2"></h3>
             No events found
           </h3>
           <p className="text-secondary mb-4"></p>
@@ -912,98 +901,82 @@ const PlayerProfile = (): any => {
   );
 
   return (
-    <div className="min-h-screen bg-primary"></div>
+    <>
+      <div className="min-h-screen bg-primary"></div>
       <div className="container py-8"></div>
-        {/* Profile Header */}
-        <div className="bg-secondary border border-color rounded-xl p-6 mb-8"></div>
-          <div className="flex items-center gap-6"></div>
-            <img
+      <div className="bg-secondary border border-color rounded-xl p-6 mb-8"></div>
+      <div className="flex items-center gap-6"></div>
+      <img
               src={playerData.avatar}
               alt={playerData.displayName}
-              className="w-24 h-24 rounded-xl object-cover"
-            / />
+              className="w-24 h-24 rounded-xl object-cover" />
             <div className="flex-1"></div>
-              <div className="flex items-center gap-3 mb-2"></div>
-                <h1 className="text-2xl font-bold text-primary" />
-                  {playerData.displayName}
-                <span className="text-lg text-secondary"></span>
-                  @{playerData.username}
-                <div
-                  className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium text-white bg-gradient-to-r ${getRankColor(playerData.rank)}`}
-                 />
-                  {playerData.rank}
-              </div>
+      <div className="flex items-center gap-3 mb-2"></div>
+      <h1 className="text-2xl font-bold text-primary"></h1>
+      <span className="text-lg text-secondary"></span>
+      <div
+                  className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium text-white bg-gradient-to-r ${getRankColor(playerData.rank)}`}></div>
+      </div>
 
               <div className="flex items-center gap-4 text-sm text-secondary mb-3"></div>
-                <div className="flex items-center gap-1"></div>
-                  <MapPin size={14} / />
+      <div className="flex items-center gap-1"></div>
+      <MapPin size={14} />
                   <span>{playerData.location}
                 </div>
-                <div className="flex items-center gap-1"></div>
-                  <Calendar size={14} / />
+      <div className="flex items-center gap-1"></div>
+      <Calendar size={14} />
                   <span>Joined {playerData.joinDate}
                 </div>
-                <div className="flex items-center gap-1"></div>
-                  <Crown size={14} / />
+      <div className="flex items-center gap-1"></div>
+      <Crown size={14} />
                   <span>Level {playerData.level}
                 </div>
-
-              <div className="flex items-center gap-6"></div>
+      <div className="flex items-center gap-6"></div>
+      <div></div>
+      <span className="text-sm text-secondary">Rank Points:</span>
+      <span className="ml-2 font-semibold text-primary"></span>
+      </div>
                 <div></div>
-                  <span className="text-sm text-secondary">Rank Points:</span>
-                  <span className="ml-2 font-semibold text-primary"></span>
-                    {playerData.rankPoints}
-                </div>
-                <div></div>
-                  <span className="text-sm text-secondary">Favorite Hero:</span>
-                  <span className="ml-2 font-semibold text-primary"></span>
-                    {playerData.favoriteHero}
-                </div>
+      <span className="text-sm text-secondary">Favorite Hero:</span>
+      <span className="ml-2 font-semibold text-primary"></span>
+      </div>
             </div>
-
-            <div className="flex gap-2"></div>
-              {/* Notifications */}
-              <div className="relative"></div>
-                <button 
+      <div className="flex gap-2"></div>
+      <div className="relative"></div>
+      <button 
                   onClick={() => setShowNotifications(!showNotifications)}
                   className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors relative"
                 >
                   {notifications.filter(n => !n.read).length > 0 ? (
-                    <BellRing size={16} className="text-accent-primary" / />
+                    <BellRing size={16} className="text-accent-primary" />
                   ) : (
-                    <Bell size={16} / />
+                    <Bell size={16} />
                   )}
                   {notifications.filter(n => !n.read).length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-accent-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
-                      {notifications.filter(n => !n.read).length}
-                  )}
-                </button>
+      </button>
                 
                 {showNotifications && (
                   <div className="absolute right-0 top-full mt-2 w-80 bg-secondary border border-color rounded-xl shadow-lg z-50"></div>
-                    <div className="p-4 border-b border-color"></div>
-                      <div className="flex justify-between items-center"></div>
-                        <h3 className="font-semibold text-primary">Notifications</h3>
-                        <div className="flex gap-2"></div>
-                          <button
+      <div className="p-4 border-b border-color"></div>
+      <div className="flex justify-between items-center"></div>
+      <h3 className="font-semibold text-primary">Notifications</h3>
+      <div className="flex gap-2"></div>
+      <button
                             onClick={clearAllNotifications}
-                            className="text-xs text-secondary hover:text-primary"
-                           />
-                            Mark all read
-                          </button>
+                            className="text-xs text-secondary hover:text-primary"></button>
+      </button>
                           <button
                             onClick={() => setShowNotifications(false)}
                             className="text-secondary hover:text-primary"
                           >
-                            <X size={16} / />
+                            <X size={16} />
                           </button>
-                      </div>
+      </div>
                     <div className="max-h-80 overflow-y-auto"></div>
-                      {notifications.length === 0 ? (
-                        <div className="p-4 text-center text-secondary"></div>
-                          No notifications
-                        </div>
-                      ) : (
+      <div className="p-4 text-center text-secondary"></div>
+    </>
+  ) : (
                         notifications.map(notification => {
                           const Icon = getNotificationIcon(notification.type);
                           return (
@@ -1020,11 +993,11 @@ const PlayerProfile = (): any => {
                                   notification.type === 'deadline' ? 'bg-yellow-100 text-yellow-600' :
                                   notification.type === 'result' ? 'bg-green-100 text-green-600' :
                                   'bg-gray-100 text-gray-600'
-                                }`} />
-                                  <Icon size={16} / />
+                                }`}></div>
+                                  <Icon size={16} />
                                 </div>
                                 <div className="flex-1"></div>
-                                  <h4 className="font-medium text-primary text-sm" />
+                                  <h4 className="font-medium text-primary text-sm"></h4>
                                     {notification.title}
                                   <p className="text-secondary text-sm mt-1"></p>
                                     {notification.message}
@@ -1043,10 +1016,10 @@ const PlayerProfile = (): any => {
               </div>
               
               <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"></button>
-                <Share2 size={16} / />
+                <Share2 size={16} />
               </button>
               <button className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded-lg transition-colors"></button>
-                <Settings size={16} / />
+                <Settings size={16} />
               </button>
           </div>
 
@@ -1070,7 +1043,7 @@ const PlayerProfile = (): any => {
                     : 'text-secondary hover:text-primary hover:bg-tertiary'
                 }`}
               >
-                <Icon size={16} / />
+                <Icon size={16} />
                 {tab.label}
             );
           })}
@@ -1083,7 +1056,7 @@ const PlayerProfile = (): any => {
         {activeTab === 'decks' && renderDecks()}
         {activeTab === 'stats' && (
           <div className="bg-secondary border border-color rounded-xl p-6"></div>
-            <h3 className="text-xl font-bold text-primary mb-4" />
+            <h3 className="text-xl font-bold text-primary mb-4"></h3>
               Detailed Statistics
             </h3>
             <p className="text-secondary"></p>

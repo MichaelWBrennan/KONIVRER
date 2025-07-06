@@ -93,14 +93,13 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
               <h2 className="text-xl font-bold text-white">Import Deck</h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors"
-               />
-                <X size={20} / />
+                className="text-gray-400 hover:text-white transition-colors"></button>
+                <X size={20} />
               </button>
 
             {error && (
               <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200"></div>
-                <AlertTriangle size={18} className="mr-2 flex-shrink-0" / />
+                <AlertTriangle size={18} className="mr-2 flex-shrink-0" />
                 <span className="text-sm">{error}
               </div>
             )}
@@ -133,15 +132,13 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
               <div className="flex justify-end space-x-3 pt-2"></div>
                 <button
                   onClick={onClose}
-                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-                 />
+                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"></button>
                   Cancel
                 </button>
                 <button
                   onClick={handleImport}
                   disabled={isImporting}
-                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                 />
+                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"></button>
                   {isImporting ? (
                     <>
                       <span className="animate-spin mr-2">⟳</span>
@@ -149,7 +146,7 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                     </>
                   ) : (
                     <>
-                      <Check size={18} className="mr-2" / />
+                      <Check size={18} className="mr-2" />
                       Import Deck
                     </>
                   )}

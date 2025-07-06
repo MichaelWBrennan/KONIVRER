@@ -144,8 +144,7 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
           </div>
       )}
       <div
-        className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}
-       />
+        className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}></div>
         {animate ? (
           <motion.div
             className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
@@ -156,8 +155,7 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
         ) : (
           <div
             className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
-            style={{ width: `${progress}%` }}
-           />
+            style={{ width: `${progress}%` }}></div>
         )}
       </div>
 
