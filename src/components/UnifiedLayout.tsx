@@ -1,69 +1,83 @@
-import { motion } from 'framer-motion';
-/**
- * UnifiedLayout Component
- * 
- * Minimal TypeScript-compliant version.
- * 
- * @version 2.0.0
- * @since 2024-07-06
- */
-
 import React from 'react';
-import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface UnifiedLayoutProps {
-  [key: string]: any;
+  children: React.ReactNode;
+  variant?: 'standard' | 'golden' | 'mobile';
+  currentPage?: string;
 }
 
-const UnifiedLayout: React.FC<UnifiedLayoutProps> = () => {
+const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({ 
+  children, 
+  variant = 'standard', 
+  currentPage = '' 
+}) => {
+  const getVariantStyles = () => {
+    switch (variant) {
+      case 'golden':
+        return {
+          backgroundColor: '#fef3c7',
+          color: '#92400e',
+          borderColor: '#f59e0b'
+        };
+      case 'mobile':
+        return {
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+          borderColor: '#d1d5db'
+        };
+      default:
+        return {
+          backgroundColor: '#ffffff',
+          color: '#1f2937',
+          borderColor: '#e5e7eb'
+        };
+    }
+  };
+
+  const styles = getVariantStyles();
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen bg-gray-50 py-8"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Settings className="w-8 h-8 text-blue-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Unified Layout</h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Component implementation coming soon...
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: styles.backgroundColor,
+      color: styles.color 
+    }}>
+      {/* Header */}
+      <header style={{
+        borderBottom: `1px solid ${styles.borderColor}`,
+        padding: '1rem 0',
+        backgroundColor: variant === 'golden' ? '#fbbf24' : '#ffffff'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <h1 style={{ 
+            fontSize: '1.5rem', 
+            fontWeight: 'bold',
+            color: variant === 'golden' ? '#92400e' : '#1f2937'
+          }}>
+            KONIVRER {currentPage && `- ${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)}`}
+          </h1>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main style={{ flex: 1 }}>
+        {children}
+      </main>
+
+      {/* Footer */}
+      <footer style={{
+        borderTop: `1px solid ${styles.borderColor}`,
+        padding: '2rem 0',
+        marginTop: '2rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>
+            © 2024 KONIVRER. All rights reserved.
           </p>
         </div>
-
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="text-center p-6 bg-blue-50 rounded-lg">
-              <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">User-Friendly</h3>
-              <p className="text-gray-600">Intuitive interface design</p>
-            </div>
-            <div className="text-center p-6 bg-green-50 rounded-lg">
-              <Zap className="w-8 h-8 text-green-600 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">High Performance</h3>
-              <p className="text-gray-600">Optimized for speed</p>
-            </div>
-            <div className="text-center p-6 bg-purple-50 rounded-lg">
-              <Star className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Feature Rich</h3>
-              <p className="text-gray-600">Comprehensive functionality</p>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg">
-              <Clock className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Under Development</span>
-            </div>
-            <p className="text-gray-500 mt-4">
-              This component is being actively developed. Check back soon for updates!
-            </p>
-          </div>
-        </div>
-      </div>
-    </motion.div>
+      </footer>
+    </div>
   );
 };
 

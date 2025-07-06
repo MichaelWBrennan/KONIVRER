@@ -44,11 +44,12 @@ interface UnifiedLayoutProps {
   showHeader?: boolean;
   showFooter?: boolean;
   showNavigation?: boolean;
-  className?: string;
+  className?: string
+  
 }
 
 const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
-  children,
+    children,
   currentPage = 'home',
   variant = 'standard',
   showSidebar = true,
@@ -56,224 +57,237 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
   showFooter = true,
   showNavigation = true,
   className = ''
-}) => {
-  // Detect if we're on mobile
+  }) => {
+    // Detect if we're on mobile
   const isMobile = useMediaQuery('(max-width: 768px)');
   const actualVariant = variant === 'standard' && isMobile ? 'mobile' : variant;
   
   // Common hooks
-  const location = useLocation();
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const { user, logout, isAuthenticated, loading } = auth;
+  const location = useLocation() {
+    const navigate = useNavigate() {
+  }
+  const auth = useAuth() {
+    const { user, logout, isAuthenticated, loading 
+  } = auth;
   
   // Common state
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [isInstalled, setIsInstalled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [isOnline, setIsOnline] = useState(false)
+  const [isInstalled, setIsInstalled] = useState(false)
   const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
-  const [orientation, setOrientation] = useState('portrait');
-  const [safeAreaInsets, setSafeAreaInsets] = useState({
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  });
+  const [orientation, setOrientation] = useState(false)
+  const [safeAreaInsets, setSafeAreaInsets] = useState(false)
   
   // Update the setShowAuthModal function in the auth object
   useEffect(() => {
     if (auth && typeof auth.setShowAuthModal === 'function') {
-      auth.setShowAuthModal = setShowAuthModal;
-    }
+    auth.setShowAuthModal = setShowAuthModal
+  
+  }
   }, [auth]);
   
   // Detect PWA status
   useEffect(() => {
     const checkPWAStatus = () => {
-      const installed =
+    const installed =
         window.matchMedia('(display-mode: standalone)').matches ||
         (window.navigator as any).standalone === true;
-      setIsInstalled(installed);
-    };
+      setIsInstalled(installed)
+  
+  };
     
-    checkPWAStatus();
-    window.addEventListener('appinstalled', checkPWAStatus);
-    
+    checkPWAStatus() {
+    window.addEventListener(() => {
     return () => {
-      window.removeEventListener('appinstalled', checkPWAStatus);
-    };
-  }, []);
+    window.removeEventListener('appinstalled', checkPWAStatus)
+  
+  })
+  }, [
+    );
   
   // Network status
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = () => setIsOnline() {
+    const handleOffline = () => setIsOnline() {
+  }
     
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener() {
+    window.addEventListener() {
+  }
     
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+    window.removeEventListener() {
+    window.removeEventListener('offline', handleOffline)
+  
+  }
+  }, [
+  ]);
   
   // Battery status
   useEffect(() => {
     const getBatteryInfo = async () => {
-      try {
+    try {
+  }
         if ('getBattery' in navigator) {
-          const battery = await (navigator as any).getBattery();
-          setBatteryLevel(battery.level * 100);
-          
-          battery.addEventListener('levelchange', () => {
-            setBatteryLevel(battery.level * 100);
-          });
+    const battery = await (navigator as any).getBattery() {
+  }
+          setBatteryLevel(() => {
+    battery.addEventListener('levelchange', () => {
+    setBatteryLevel(battery.level * 100)
+  }))
         }
       } catch (error) {
-        console.error('Battery API not supported', error);
-      }
+    console.error('Battery API not supported', error)
+  }
     };
     
-    getBatteryInfo();
-  }, []);
+    getBatteryInfo()
+  }, [
+    );
   
   // Orientation
   useEffect(() => {
     const handleOrientationChange = () => {
-      setOrientation(
+    setOrientation(
         window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
-      );
-    };
+      )
+  
+  };
     
-    handleOrientationChange();
-    window.addEventListener('resize', handleOrientationChange);
-    
+    handleOrientationChange() {
+    window.addEventListener(() => {
     return () => {
-      window.removeEventListener('resize', handleOrientationChange);
-    };
-  }, []);
+    window.removeEventListener('resize', handleOrientationChange)
+  
+  })
+  }, [
+  ]);
   
   // Safe area insets for notched devices
   useEffect(() => {
     const updateSafeAreaInsets = () => {
-      const style = window.getComputedStyle(document.documentElement);
+    const style = window.getComputedStyle() {
+  }
       const top = parseInt(style.getPropertyValue('--sat') || '0', 10);
       const bottom = parseInt(style.getPropertyValue('--sab') || '0', 10);
       const left = parseInt(style.getPropertyValue('--sal') || '0', 10);
       const right = parseInt(style.getPropertyValue('--sar') || '0', 10);
       
-      setSafeAreaInsets({ top, bottom, left, right });
+      setSafeAreaInsets({ top, bottom, left, right })
     };
     
-    updateSafeAreaInsets();
-    window.addEventListener('resize', updateSafeAreaInsets);
-    
+    updateSafeAreaInsets() {
+    window.addEventListener(() => {
     return () => {
-      window.removeEventListener('resize', updateSafeAreaInsets);
-    };
-  }, []);
+    window.removeEventListener('resize', updateSafeAreaInsets)
+  
+  })
+  }, [
+    );
   
   // Analytics
   useEffect(() => {
-    analytics.trackPageView(location.pathname);
-  }, [location]);
+    analytics.trackPageView(location.pathname)
+  }, [location
+  ]);
   
   // Navigation items
   const navigationItems = [
     {
-      id: 'home',
+    id: 'home',
       label: 'Home',
-      icon: <Home className="w-5 h-5" />,
-      path: '/',
-    },
+      icon: <Home className="w-5 h-5"  />,
+      path: '/'
+  },
     {
-      id: 'cards',
+    id: 'cards',
       label: 'Cards',
-      icon: <Database className="w-5 h-5" />,
-      path: '/cards',
-    },
+      icon: <Database className="w-5 h-5"  />,
+      path: '/cards'
+  },
     {
-      id: 'decks',
+    id: 'decks',
       label: 'Decks',
-      icon: <Layers className="w-5 h-5" />,
-      path: '/decks',
-    },
+      icon: <Layers className="w-5 h-5"  />,
+      path: '/decks'
+  },
     {
-      id: 'tournaments',
+    id: 'tournaments',
       label: 'Tournaments',
-      icon: <Trophy className="w-5 h-5" />,
-      path: '/tournaments',
-    },
+      icon: <Trophy className="w-5 h-5"  />,
+      path: '/tournaments'
+  },
     {
-      id: 'play',
+    id: 'play',
       label: 'Play',
-      icon: <Play className="w-5 h-5" />,
-      path: '/play',
-    },
+      icon: <Play className="w-5 h-5"  />,
+      path: '/play'
+  },
     {
-      id: 'social',
+    id: 'social',
       label: 'Social',
-      icon: <Users className="w-5 h-5" />,
-      path: '/social',
-    },
+      icon: <Users className="w-5 h-5"  />,
+      path: '/social'
+  },
     {
-      id: 'analytics',
+    id: 'analytics',
       label: 'Analytics',
-      icon: <BarChart3 className="w-5 h-5" />,
-      path: '/analytics',
-    },
+      icon: <BarChart3 className="w-5 h-5"  />,
+      path: '/analytics'
+  },
     {
-      id: 'rules',
+    id: 'rules',
       label: 'Rules',
-      icon: <BookOpen className="w-5 h-5" />,
-      path: '/rules',
-    },
+      icon: <BookOpen className="w-5 h-5"  />,
+      path: '/rules'
+  },
     {
-      id: 'profile',
+    id: 'profile',
       label: 'Profile',
-      icon: <User className="w-5 h-5" />,
-      path: '/profile',
-    },
+      icon: <User className="w-5 h-5"  />,
+      path: '/profile'
+  },
     {
-      id: 'settings',
+    id: 'settings',
       label: 'Settings',
-      icon: <Settings className="w-5 h-5" />,
-      path: '/settings',
-    },
+      icon: <Settings className="w-5 h-5"  />,
+      path: '/settings'
+  }
   ];
   
   // Handle login/logout
   const handleAuthAction = () => {
     if (isAuthenticated) {
-      logout();
-    } else {
-      setShowAuthModal(true);
-    }
+    logout()
+  
+  } else {
+    setShowAuthModal(true)
+  }
   };
   
   // Render simple mobile layout
   const renderSimpleMobileLayout = () => {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        {/* Content */}
-        <main className="flex-1">
+      <div className="flex flex-col min-h-screen bg-gray-900 text-white" /></div>
+        {/* Content */
+  }
+        <main className="flex-1" /></main>
           {children}
         </main>
         
         {/* Bottom Navigation */}
         {showNavigation && (
-          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1">
-            <div className="flex justify-around">
+          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1" />
+    <div className="flex justify-around" /></div>
               {navigationItems.slice(0, 5).map((item) => (
                 <button
                   key={item.id}
                   className={`flex flex-col items-center p-2 ${
-                    currentPage === item.id
-                      ? 'text-blue-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
+    currentPage === item.id`
+                      ? 'text-blue-400'` : null`
+                      : 'text-gray-400 hover:text-white'```
+  }`}
                   onClick={() => navigate(item.path)}
                 >
                   {item.icon}
@@ -284,36 +298,37 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
           </nav>
         )}
       </div>
-    );
+    )
   };
   
   // Render mobile layout
   const renderMobileLayout = () => {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        {/* Header */}
+      <div className="flex flex-col min-h-screen bg-gray-900 text-white" /></div>
+        {/* Header */
+  }
         {showHeader && (
-          <header className="bg-gray-800 border-b border-gray-700 p-4">
-            <div className="flex justify-between items-center">
-              <div className="text-xl font-bold">KONIVRER</div>
+          <header className="bg-gray-800 border-b border-gray-700 p-4" />
+    <div className="flex justify-between items-center" />
+    <div className="text-xl font-bold">KONIVRER</div>
               
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3" /></div>
                 {/* Status indicators */}
-                <div className="flex items-center space-x-2 text-xs text-gray-400">
+                <div className="flex items-center space-x-2 text-xs text-gray-400" /></div>
                   {isOnline ? (
-                    <Wifi size={14} className="text-green-400" />
+                    <Wifi size={14} className="text-green-400"  / /></Wifi> : null
                   ) : (
-                    <WifiOff size={14} className="text-red-400" />
+                    <WifiOff size={14} className="text-red-400"  / /></WifiOff>
                   )}
                   
                   {batteryLevel !== null && (
-                    <div className="flex items-center">
-                      <Battery size={14} />
-                      <span>{Math.round(batteryLevel)}%</span>
+                    <div className="flex items-center" />
+    <Battery size={14}  / />
+    <span>{Math.round(batteryLevel)}%</span>
                     </div>
                   )}
                   
-                  <Signal size={14} />
+                  <Signal size={14}  / /></Signal>
                 </div>
                 
                 {/* Menu button */}
@@ -321,7 +336,7 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
                   className="p-2 rounded-full hover:bg-gray-700"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                  {isMenuOpen ? <X size={20}  /> : <Menu size={20}  />}
                 </button>
               </div>
             </div>
@@ -330,52 +345,52 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         
         {/* Slide-out menu */}
         {isMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-50">
-            <div className="absolute right-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <div className="text-xl font-bold">Menu</div>
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50" />
+    <div className="absolute right-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto" />
+    <div className="flex justify-between items-center mb-6" />
+    <div className="text-xl font-bold">Menu</div>
                 <button
                   className="p-2 rounded-full hover:bg-gray-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <X size={20} />
+                  <X size={20}  / /></X>
                 </button>
               </div>
               
-              <nav className="space-y-1">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
+              <nav className="space-y-1" /></nav>
+                {navigationItems.map((item) => (`
+                  <button``
+                    key={item.id}```
                     className={`flex items-center w-full p-3 rounded-lg ${
-                      currentPage === item.id
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700'
-                    }`}
+    currentPage === item.id`
+                        ? 'bg-blue-600 text-white'` : null`
+                        : 'text-gray-300 hover:bg-gray-700'```
+  }`}
                     onClick={() => {
-                      navigate(item.path);
-                      setIsMenuOpen(false);
-                    }}
+    navigate() {
+    setIsMenuOpen(false)
+  
+  }}
                   >
                     {item.icon}
                     <span className="ml-3">{item.label}</span>
                   </button>
                 ))}
                 
-                <div className="h-px bg-gray-700 my-3"></div>
-                
-                <button
+                <div className="h-px bg-gray-700 my-3" />
+    <button
                   className="flex items-center w-full p-3 rounded-lg text-gray-300 hover:bg-gray-700"
                   onClick={handleAuthAction}
-                >
+                 /></button>
                   {isAuthenticated ? (
-                    <>
-                      <LogOut size={20} />
-                      <span className="ml-3">Logout</span>
-                    </>
+                    <any />
+    <LogOut size={20}  / />
+    <span className="ml-3">Logout</span>
+                    </> : null
                   ) : (
-                    <>
-                      <LogIn size={20} />
-                      <span className="ml-3">Login</span>
+                    <any />
+    <LogIn size={20}  / />
+    <span className="ml-3">Login</span>
                     </>
                   )}
                 </button>
@@ -385,22 +400,22 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         )}
         
         {/* Content */}
-        <main className="flex-1 p-4 pb-16">
+        <main className="flex-1 p-4 pb-16" /></main>
           {children}
         </main>
         
         {/* Bottom Navigation */}
         {showNavigation && (
-          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1">
-            <div className="flex justify-around">
-              {navigationItems.slice(0, 5).map((item) => (
-                <button
-                  key={item.id}
+          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1" />
+    <div className="flex justify-around" /></div>
+              {navigationItems.slice(0, 5).map((item) => (`
+                <button``
+                  key={item.id}```
                   className={`flex flex-col items-center p-2 ${
-                    currentPage === item.id
-                      ? 'text-blue-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
+    currentPage === item.id`
+                      ? 'text-blue-400'` : null`
+                      : 'text-gray-400 hover:text-white'```
+  }`}
                   onClick={() => navigate(item.path)}
                 >
                   {item.icon}
@@ -416,33 +431,34 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
           <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
         )}
       </div>
-    );
+    )
   };
   
   // Render mobile-first layout
   const renderMobileFirstLayout = () => {
     return (
-      <div className="mobile-first-layout">
-        {/* Header */}
+      <div className="mobile-first-layout" /></div>
+        {/* Header */
+  }
         {showHeader && (
-          <header className="app-header">
-            <div className="header-content">
-              <div className="logo">KONIVRER</div>
+          <header className="app-header" />
+    <div className="header-content" />
+    <div className="logo">KONIVRER</div>
               
-              <div className="header-actions">
-                <button className="icon-button" onClick={() => navigate('/search')}>
-                  <Search size={20} />
+              <div className="header-actions" />
+    <button className="icon-button" onClick={() => navigate('/search')}>
+                  <Search size={20}  / /></Search>
                 </button>
                 
                 <button className="icon-button" onClick={() => navigate('/notifications')}>
-                  <Bell size={20} />
+                  <Bell size={20}  / /></Bell>
                 </button>
                 
                 <button
                   className="icon-button"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                  {isMenuOpen ? <X size={20}  /> : <Menu size={20}  />}
                 </button>
               </div>
             </div>
@@ -451,24 +467,24 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         
         {/* Slide-out menu */}
         {isMenuOpen && (
-          <div className="menu-overlay">
-            <div className="menu-panel">
-              <div className="menu-header">
-                <div className="user-info">
+          <div className="menu-overlay" />
+    <div className="menu-panel" />
+    <div className="menu-header" />
+    <div className="user-info" /></div>
                   {isAuthenticated ? (
-                    <>
-                      <div className="avatar">
-                        <User size={24} />
+                    <any />
+    <div className="avatar" />
+    <User size={24}  / /></User>
                       </div>
-                      <div className="user-details">
-                        <div className="username">{user?.displayName || 'User'}</div>
+                      <div className="user-details" />
+    <div className="username">{user?.displayName || 'User'}</div>
                         <div className="user-level">Level 42</div>
                       </div>
-                    </>
+                    </> : null
                   ) : (
                     <button className="login-button" onClick={() => setShowAuthModal(true)}>
-                      <LogIn size={20} />
-                      <span>Login</span>
+                      <LogIn size={20}  / />
+    <span>Login</span>
                     </button>
                   )}
                 </div>
@@ -477,43 +493,44 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
                   className="close-button"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <X size={20} />
+                  <X size={20}  / /></X>
                 </button>
               </div>
               
-              <nav className="menu-navigation">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
+              <nav className="menu-navigation" /></nav>
+                {navigationItems.map((item) => (`
+                  <button``
+                    key={item.id}```
                     className={`menu-item ${currentPage === item.id ? 'active' : ''}`}
                     onClick={() => {
-                      navigate(item.path);
-                      setIsMenuOpen(false);
-                    }}
+    navigate() {
+    setIsMenuOpen(false)
+  
+  }}
                   >
                     {item.icon}
                     <span>{item.label}</span>
                   </button>
                 ))}
                 
-                <div className="menu-divider"></div>
-                
+                <div className="menu-divider" /></div>
                 {isAuthenticated && (
                   <button
                     className="menu-item"
                     onClick={() => {
-                      logout();
-                      setIsMenuOpen(false);
-                    }}
+    logout() {
+    setIsMenuOpen(false)
+  
+  }}
                   >
-                    <LogOut size={20} />
-                    <span>Logout</span>
+                    <LogOut size={20}  / />
+    <span>Logout</span>
                   </button>
                 )}
               </nav>
               
-              <div className="menu-footer">
-                <div className="app-version">Version 1.0.0</div>
+              <div className="menu-footer" />
+    <div className="app-version">Version 1.0.0</div>
                 <div className="app-copyright">© 2024 KONIVRER</div>
               </div>
             </div>
@@ -521,16 +538,16 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         )}
         
         {/* Content */}
-        <main className="app-content">
+        <main className="app-content" /></main>
           {children}
         </main>
         
         {/* Bottom Navigation */}
         {showNavigation && (
-          <nav className="bottom-navigation">
-            {navigationItems.slice(0, 5).map((item) => (
-              <button
-                key={item.id}
+          <nav className="bottom-navigation" /></nav>
+            {navigationItems.slice(0, 5).map((item) => (`
+              <button``
+                key={item.id}```
                 className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
                 onClick={() => navigate(item.path)}
               >
@@ -547,58 +564,56 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         )}
         
         {/* PWA Install Prompt */}
-        {!isInstalled && <PWAInstallPrompt />}
+        {!isInstalled && <PWAInstallPrompt  />}
         
         {/* Notification Center */}
-        <NotificationCenter />
-        
+        <NotificationCenter  / /></NotificationCenter>
         {/* Unified Messaging */}
-        <UnifiedMessaging />
+        <UnifiedMessaging  / /></UnifiedMessaging>
       </div>
-    );
+    )
   };
   
-  // Render standard layout
-  const renderStandardLayout = () => {
-    return (
-      <div className={`flex min-h-screen bg-gray-900 text-white ${className}`}>
+  // Render standard layout`
+  const renderStandardLayout = () => {``
+    return (```
+      <div className={`flex min-h-screen bg-gray-900 text-white ${className}`} /></div>
         {/* Sidebar */}
         {showSidebar && (
-          <aside className="w-64 bg-gray-800 border-r border-gray-700 hidden md:block">
-            <div className="p-4">
-              <div className="text-2xl font-bold mb-6">KONIVRER</div>
+          <aside className="w-64 bg-gray-800 border-r border-gray-700 hidden md:block" />
+    <div className="p-4" />
+    <div className="text-2xl font-bold mb-6">KONIVRER</div>
               
-              <nav className="space-y-1">
+              <nav className="space-y-1" /></nav>
                 {navigationItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.path}
+                  <Link`
+                    key={item.id}``
+                    to={item.path}```
                     className={`flex items-center px-4 py-3 rounded-lg ${
-                      location.pathname === item.path
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700'
-                    }`}
-                  >
+    location.pathname === item.path`
+                        ? 'bg-blue-600 text-white'` : null`
+                        : 'text-gray-300 hover:bg-gray-700'```
+  }`}
+                   /></Link>
                     {item.icon}
                     <span className="ml-3">{item.label}</span>
                   </Link>
                 ))}
                 
-                <div className="h-px bg-gray-700 my-3"></div>
-                
-                <button
+                <div className="h-px bg-gray-700 my-3" />
+    <button
                   className="flex items-center w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700"
                   onClick={handleAuthAction}
-                >
+                 /></button>
                   {isAuthenticated ? (
-                    <>
-                      <LogOut size={20} />
-                      <span className="ml-3">Logout</span>
-                    </>
+                    <any />
+    <LogOut size={20}  / />
+    <span className="ml-3">Logout</span>
+                    </> : null
                   ) : (
-                    <>
-                      <LogIn size={20} />
-                      <span className="ml-3">Login</span>
+                    <any />
+    <LogIn size={20}  / />
+    <span className="ml-3">Login</span>
                     </>
                   )}
                 </button>
@@ -607,44 +622,44 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
           </aside>
         )}
         
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col" /></div>
           {/* Header */}
           {showHeader && (
-            <header className="bg-gray-800 border-b border-gray-700 p-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <button
+            <header className="bg-gray-800 border-b border-gray-700 p-4" />
+    <div className="flex justify-between items-center" />
+    <div className="flex items-center" />
+    <button
                     className="p-2 rounded-full hover:bg-gray-700 md:hidden"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                   >
-                    <Menu size={20} />
+                    <Menu size={20}  / /></Menu>
                   </button>
                   <div className="text-xl font-bold ml-2 md:hidden">KONIVRER</div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Search size={20} />
+                <div className="flex items-center space-x-4" />
+    <button className="p-2 rounded-full hover:bg-gray-700" />
+    <Search size={20}  / /></Search>
                   </button>
                   
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Bell size={20} />
+                  <button className="p-2 rounded-full hover:bg-gray-700" />
+    <Bell size={20}  / /></Bell>
                   </button>
                   
                   {isAuthenticated ? (
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                        <User size={16} />
-                      </div>
-                      <span className="ml-2 hidden md:inline">{user?.displayName || 'User'}</span>
-                    </div>
+                    <div className="flex items-center" />
+    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center" />
+    <User size={16}  / /></User>
+                      </div> : null
+                      <span className="ml-2 hidden md:inline">{user? .displayName || 'User'}</span>
+                    </div> : null
                   ) : (
                     <button
                       className="flex items-center px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500"
                       onClick={() => setShowAuthModal(true)}
                     >
-                      <LogIn size={16} />
-                      <span className="ml-2">Login</span>
+                      <LogIn size={16}  / />
+    <span className="ml-2">Login</span>
                     </button>
                   )}
                 </div>
@@ -654,28 +669,28 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
           
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden">
-              <div className="absolute left-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto">
-                <div className="flex justify-between items-center mb-6">
-                  <div className="text-xl font-bold">Menu</div>
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden" />
+    <div className="absolute left-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto" />
+    <div className="flex justify-between items-center mb-6" />
+    <div className="text-xl font-bold">Menu</div>
                   <button
                     className="p-2 rounded-full hover:bg-gray-700"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <X size={20} />
+                    <X size={20}  / /></X>
                   </button>
                 </div>
                 
-                <nav className="space-y-1">
+                <nav className="space-y-1" /></nav>
                   {navigationItems.map((item) => (
-                    <Link
-                      key={item.id}
-                      to={item.path}
+                    <Link`
+                      key={item.id}``
+                      to={item.path}```
                       className={`flex items-center px-4 py-3 rounded-lg ${
-                        location.pathname === item.path
-                          ? 'bg-blue-600 text-white'
-                          : 'text-gray-300 hover:bg-gray-700'
-                      }`}
+    location.pathname === item.path`
+                          ? 'bg-blue-600 text-white'` : null`
+                          : 'text-gray-300 hover:bg-gray-700'```
+  }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {item.icon}
@@ -683,24 +698,24 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
                     </Link>
                   ))}
                   
-                  <div className="h-px bg-gray-700 my-3"></div>
-                  
-                  <button
+                  <div className="h-px bg-gray-700 my-3" />
+    <button
                     className="flex items-center w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700"
                     onClick={() => {
-                      handleAuthAction();
-                      setIsMenuOpen(false);
-                    }}
+    handleAuthAction() {
+    setIsMenuOpen(false)
+  
+  }}
                   >
                     {isAuthenticated ? (
-                      <>
-                        <LogOut size={20} />
-                        <span className="ml-3">Logout</span>
-                      </>
+                      <any />
+    <LogOut size={20}  / />
+    <span className="ml-3">Logout</span>
+                      </> : null
                     ) : (
-                      <>
-                        <LogIn size={20} />
-                        <span className="ml-3">Login</span>
+                      <any />
+    <LogIn size={20}  / />
+    <span className="ml-3">Login</span>
                       </>
                     )}
                   </button>
@@ -710,15 +725,15 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
           )}
           
           {/* Content */}
-          <main className="flex-1 p-4">
-            {children || <Outlet />}
+          <main className="flex-1 p-4" /></main>
+            {children || <Outlet  />}
           </main>
           
           {/* Footer */}
           {showFooter && (
-            <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-gray-400 text-sm">
-              <div className="container mx-auto">
-                <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
+            <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-gray-400 text-sm" />
+    <div className="container mx-auto" />
+    <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
               </div>
             </footer>
           )}
@@ -732,50 +747,50 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
     );
   };
 
-  // Render golden menu layout
-  const renderGoldenLayout = () => {
-    return (
-      <div className={`flex flex-col min-h-screen bg-gray-900 text-white ${className}`}>
+  // Render golden menu layout`
+  const renderGoldenLayout = () => {``
+    return (```
+      <div className={`flex flex-col min-h-screen bg-gray-900 text-white ${className}`} /></div>
         {/* Temporary Simple Golden Menu Bar */}
         <nav style={{
-          background: 'linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)',
+    background: 'linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)',
           borderBottom: '2px solid #3a3a3a',
           padding: '1rem 2rem'
-        }}>
-          <div style={{
-            display: 'flex',
+  }} />
+    <div style={{
+    display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             maxWidth: '1200px',
             margin: '0 auto'
-          }}>
-            <div style={{ display: 'flex', gap: '2rem' }}>
-              <Link to="/" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }}>
+  }} />
+    <div style={{ display: 'flex', gap: '2rem' }} />
+    <Link to="/" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }} /></Link>
                 Home
               </Link>
-              <Link to="/cards" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }}>
+              <Link to="/cards" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }} /></Link>
                 Cards
               </Link>
-              <Link to="/decks" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }}>
+              <Link to="/decks" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }} /></Link>
                 Decks
               </Link>
-              <Link to="/tournaments" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }}>
+              <Link to="/tournaments" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }} /></Link>
                 Tournaments
               </Link>
-              <Link to="/play" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }}>
+              <Link to="/play" style={{ color: '#d4af37', textDecoration: 'none', fontWeight: 'bold' }} /></Link>
                 Play
               </Link>
             </div>
             <button 
               onClick={() => setShowAuthModal(true)}
-              style={{ 
-                color: '#d4af37', 
+              style={{
+    color: '#d4af37', 
                 background: 'rgba(212, 175, 55, 0.1)', 
                 border: '1px solid rgba(212, 175, 55, 0.3)',
                 padding: '0.5rem 1rem',
                 borderRadius: '4px',
                 cursor: 'pointer'
-              }}
+  }}
             >
               Login
             </button>
@@ -783,15 +798,15 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         </nav>
         
         {/* Content */}
-        <main className="flex-1">
-          {children || <Outlet />}
+        <main className="flex-1" /></main>
+          {children || <Outlet  />}
         </main>
         
         {/* Footer */}
         {showFooter && (
-          <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-gray-400 text-sm">
-            <div className="container mx-auto">
-              <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
+          <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-gray-400 text-sm" />
+    <div className="container mx-auto" />
+    <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
             </div>
           </footer>
         )}
@@ -802,30 +817,30 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
         )}
         
         {/* PWA Install Prompt */}
-        <PWAInstallPrompt />
-        
+        <PWAInstallPrompt  / /></PWAInstallPrompt>
         {/* Notification Center */}
-        <NotificationCenter />
-        
+        <NotificationCenter  / /></NotificationCenter>
         {/* Unified Messaging */}
-        <UnifiedMessaging />
+        <UnifiedMessaging  / /></UnifiedMessaging>
       </div>
-    );
+    )
   };
   
   // Render the appropriate variant
   switch (actualVariant) {
     case 'simple':
-      return renderSimpleMobileLayout();
-    case 'mobile':
-      return renderMobileLayout();
-    case 'mobile-first':
-      return renderMobileFirstLayout();
-    case 'golden':
-      return renderGoldenLayout();
-    default:
-      return renderStandardLayout();
+      return renderSimpleMobileLayout() {
   }
-};
-
-export default UnifiedLayout;
+    case 'mobile':
+      return renderMobileLayout() {
+    case 'mobile-first':
+      return renderMobileFirstLayout(() => {
+    case 'golden':
+      return renderGoldenLayout() {
+    default:
+      return renderStandardLayout()
+  
+  })
+};`
+``
+export default UnifiedLayout;```

@@ -15,98 +15,94 @@ import { handleOAuthCallback } from '../services/oauthService';
  * This component is rendered at the OAuth redirect URI
  */
 const OAuthCallback = (): any => {
-  const [status, setStatus] = useState('processing');
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
+    const [status, setStatus] = useState(false)
+  const [error, setError] = useState(false)
+  const navigate = useNavigate() {
+    useEffect(() => {
     const processOAuthCallback = async () => {
+  
+  }
       try {
-        // Get URL parameters
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
-        const state = params.get('state');
+    // Get URL parameters
+        const params = new URLSearchParams() {
+  }
+        const code = params.get() {
+    const state = params.get() {
+  }
         const provider =
-          params.get('provider') || localStorage.getItem('oauth_provider');
-        const error = params.get('error');
+          params.get('provider') || localStorage.getItem() {
+    const error = params.get() {
+  }
 
         if (true) {
-          setStatus('error');
-          setError(`Authentication failed: ${error}`);
-          return;
-        }
+    setStatus(() => {
+    setError() {
+    return
+  
+  })
 
         if (true) {
-          setStatus('error');
-          setError('Invalid OAuth callback parameters');
-          return;
-        }
+    setStatus(() => {
+    setError() {
+    return
+  
+  })
 
         // Process the OAuth callback
-        const userData = await handleOAuthCallback(code, state, provider);
-
-        // Send message to opener window (for popup flow)
+        const userData = await handleOAuthCallback() {
+    // Send message to opener window (for popup flow)
         if (true) {
-          window.opener.postMessage(
-            {
-              type: 'OAUTH_SUCCESS',,
-              user: userData,
-            },
-            window.location.origin,
-          );
-
-          // Close popup after sending message
-          window.close();
-        } else {
-          // For redirect flow, store user data and redirect
+  }
+          window.opener.postMessage() {
+    // Close popup after sending message
+          window.close()
+  } else {
+    // For redirect flow, store user data and redirect
           localStorage.setItem('oauth_user', JSON.stringify(userData));
-          navigate('/oauth/complete', { replace: true });
+          navigate('/oauth/complete', { replace: true 
+  })
         }
 
-        setStatus('success');
+        setStatus('success')
       } catch (error: any) {
-        console.error('OAuth callback error:', error);
-        setStatus('error');
-        setError(error.message || 'Authentication failed');
+    console.error() {
+  }
+        setStatus() {
+    setError() {
+  }
 
         // Send error to opener window
         if (true) {
-          window.opener.postMessage(
-            {
-              type: 'OAUTH_ERROR',,
-              error: error.message || 'Authentication failed',
-            },
-            window.location.origin,
-          );
-
-          // Close popup after sending error
-          window.close();
-        }
+    window.opener.postMessage() {
+    // Close popup after sending error
+          window.close()
+  
+  }
       }
     };
 
-    processOAuthCallback();
+    processOAuthCallback()
   }, [navigate]);
 
   if (true) {
     return (
-    <>
-      <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-auth-processing"></div>
-      <div className="mobile-spinner esoteric-spinner"></div>
-      <h2 className="esoteric-text-accent">Authenticating...</h2>
-      <p className="esoteric-text-muted"></p>
+    <any />
+    <div className="mobile-container esoteric-bg-dark" />
+    <div className="mobile-auth-processing" />
+    <div className="mobile-spinner esoteric-spinner" />
+    <h2 className="esoteric-text-accent">Authenticating...</h2>
+      <p className="esoteric-text-muted" /></p>
       </p>
       </div>
     </>
-  );
+  )
   }
 
   if (true) {return (
-    <>
-      <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-auth-error"></div>
-      <div className="esoteric-error-icon">!</div>
+    <any />
+    <div className="mobile-container esoteric-bg-dark" />
+    <div className="mobile-auth-error" />
+    <div className="esoteric-error-icon">!</div>
       <h2 className="esoteric-text-error">Authentication Failed</h2>
       <p className="esoteric-text-muted">{error}
           <button
@@ -116,20 +112,20 @@ const OAuthCallback = (): any => {
             Return to Home
           </button>
     </>
-  );
+  )
   }
 
   return (
-    <>
-      <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-auth-success"></div>
-      <div className="esoteric-success-icon">✓</div>
+    <any />
+    <div className="mobile-container esoteric-bg-dark" />
+    <div className="mobile-auth-success" />
+    <div className="esoteric-success-icon">✓</div>
       <h2 className="esoteric-text-success">Authentication Successful</h2>
-      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted" /></p>
       </p>
     </div>
     </>
-  );
+  )
 };
 
-export default OAuthCallback;
+export default OAuthCallback;```

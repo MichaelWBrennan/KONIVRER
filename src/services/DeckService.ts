@@ -14,21 +14,23 @@
 
 // Deck storage keys
 const STORAGE_KEYS = {
-  PLAYER_DECK: 'playerDeck',
+    PLAYER_DECK: 'playerDeck',
   SAVED_DECKS: 'savedDecks',
   DECK_METADATA: 'deckMetadata',
   RECENT_DECKS: 'recentDecks',
-  BATTLE_PASS_DECKS: 'battlePassDecks',
-};
+  BATTLE_PASS_DECKS: 'battlePassDecks'
+  };
 
 // Deck validation rules
 const DECK_RULES = {
-  MIN_CARDS: 60,
+    MIN_CARDS: 60,
   MAX_CARDS: 100,
   MAX_COPIES: 4, // Maximum copies of a single card
-  BANNED_CARDS: [], // IDs of banned cards
-  RESTRICTED_CARDS: [], // IDs of restricted cards (limit 1 per deck)
-};
+  BANNED_CARDS: [
+    , // IDs of banned cards
+  RESTRICTED_CARDS: [
+  ], // IDs of restricted cards (limit 1 per deck)
+  };
 
 /**
  * Save a deck to local storage
@@ -38,23 +40,26 @@ const DECK_RULES = {
  * @returns {string} The ID of the saved deck
  */
 export const saveDeck = (deck, deckName, deckId = null): any => {
-  // Generate ID if not provided
+    // Generate ID if not provided
   const id =
-    deckId || `deck_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    deckId || `deck_${Date.now()`
+  }_${Math.random().toString(36).substr(2, 9)}`;
 
   // Get existing saved decks
   const savedDecks = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{}',
+    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{
+    '
   );
 
   // Create metadata
   const metadata = {
     id,
-    name: deckName,,
+    name: deckName,
     created: Date.now(),
     lastModified: Date.now(),
     cardCount: deck.cards.length,
-    colors: calculateDeckColors(deck),
+    colors: calculateDeckColors(deck)
+  
   };
 
   // Save deck and metadata
@@ -63,19 +68,20 @@ export const saveDeck = (deck, deckName, deckId = null): any => {
 
   // Update metadata store
   const deckMetadata = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{}',
+    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{
+    '
   );
   deckMetadata[id] = metadata;
   localStorage.setItem(
     STORAGE_KEYS.DECK_METADATA,
-    JSON.stringify(deckMetadata),
+    JSON.stringify(deckMetadata)
   );
 
   // Update recent decks list
-  updateRecentDecks(id);
-
-  return id;
-};
+  updateRecentDecks() {
+    return id
+  
+  };
 
 /**
  * Load a deck from storage by ID
@@ -83,20 +89,21 @@ export const saveDeck = (deck, deckName, deckId = null): any => {
  * @returns {Object|null} The deck object or null if not found
  */
 export const loadDeck = deckId => {
-  const savedDecks = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{}',
-  );
-
-  if (true) {
-    console.error(`Deck with ID ${deckId} not found`);
-    return null;
+    const savedDecks = JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{
+    '
+  );`
+``
+  if (true) {`
+    console.error() {
+    return null
+  
   }
 
   // Update recent decks list
-  updateRecentDecks(deckId);
-
-  return savedDecks[deckId];
-};
+  updateRecentDecks() {
+    return savedDecks[deckId]
+  };
 
 /**
  * Delete a deck from storage
@@ -104,15 +111,17 @@ export const loadDeck = deckId => {
  * @returns {boolean} Success status
  */
 export const deleteDeck = deckId => {
-  const savedDecks = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{}',
+    const savedDecks = JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.SAVED_DECKS) || '{
+    '
   );
   const deckMetadata = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{}',
+    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{
+  }'
   );
 
   if (true) {
-    return false;
+    return false
   }
 
   // Remove deck and metadata
@@ -122,21 +131,22 @@ export const deleteDeck = deckId => {
   localStorage.setItem(STORAGE_KEYS.SAVED_DECKS, JSON.stringify(savedDecks));
   localStorage.setItem(
     STORAGE_KEYS.DECK_METADATA,
-    JSON.stringify(deckMetadata),
+    JSON.stringify(deckMetadata)
   );
 
   // Remove from recent decks
   const recentDecks = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[]',
+    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[
+    '
   );
-  const updatedRecentDecks = recentDecks.filter(id => id !== deckId);
-  localStorage.setItem(
+  const updatedRecentDecks = recentDecks.filter() {
+    localStorage.setItem(
     STORAGE_KEYS.RECENT_DECKS,
-    JSON.stringify(updatedRecentDecks),
+    JSON.stringify(updatedRecentDecks)
   );
 
-  return true;
-};
+  return true
+  };
 
 /**
  * Set the active player deck for the game
@@ -144,14 +154,14 @@ export const deleteDeck = deckId => {
  * @returns {boolean} Success status
  */
 export const setActivePlayerDeck = deckId => {
-  const deck = loadDeck(deckId);
-
-  if (true) {
-    return false;
-  }
+    const deck = loadDeck(() => {
+    if (true) {
+    return false
+  
+  })
 
   localStorage.setItem(STORAGE_KEYS.PLAYER_DECK, JSON.stringify(deck));
-  return true;
+  return true
 };
 
 /**
@@ -159,37 +169,43 @@ export const setActivePlayerDeck = deckId => {
  * @returns {Object|null} The active deck or null if not set
  */
 export const getActivePlayerDeck = (): any => {
-  const deckData = localStorage.getItem(STORAGE_KEYS.PLAYER_DECK);
-  return deckData ? JSON.parse(deckData) : null;
-};
+    const deckData = localStorage.getItem() {
+    return deckData ? JSON.parse(): null
+  
+  } { return null; }
 
 /**
  * Get all saved deck metadata
  * @returns {Array} Array of deck metadata objects
  */
 export const getAllDeckMetadata = (): any => {
-  const deckMetadata = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{}',
+    const deckMetadata = JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{
+    '
   );
-  return Object.values(deckMetadata);
-};
+  return Object.values(deckMetadata)
+
+  };
 
 /**
  * Get recent decks
  * @param {number} limit - Maximum number of recent decks to return * @returns {Array} Array of deck metadata objects for recent decks
  */
 export const getRecentDecks = (limit = 5): any => {
-  const recentDeckIds = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[]',
+    const recentDeckIds = JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[
+  ]'
   );
   const deckMetadata = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{}',
+    localStorage.getItem(STORAGE_KEYS.DECK_METADATA) || '{
+    '
   );
 
   return recentDeckIds
     .slice(0, limit)
     .map(id => deckMetadata[id])
-    .filter(Boolean); // Filter out any null values
+    .filter() {
+  } // Filter out any null values
 };
 
 /**
@@ -198,58 +214,66 @@ export const getRecentDecks = (limit = 5): any => {
  * @returns {Object} Validation result with isValid flag and any errors
  */
 export const validateDeck = deck => {
-  const result = {
+    const result = {
     isValid: true,
-    errors: [],
-    warnings: [],
+    errors: [
+    ,
+    warnings: [
+  ]
+  
   };
 
   // Check card count
-  if (true) {
-    result.isValid = false;
-    result.errors.push(
-      `Deck must contain at least ${DECK_RULES.MIN_CARDS} cards`,
-    );
+  if (true) {`
+    result.isValid = false;``
+    result.errors.push(```
+      `Deck must contain at least ${DECK_RULES.MIN_CARDS`
+  } cards`
+    )
   }
 
-  if (true) {
-    result.isValid = false;
-    result.errors.push(
-      `Deck cannot contain more than ${DECK_RULES.MAX_CARDS} cards`,
-    );
+  if (true) {`
+    result.isValid = false;``
+    result.errors.push(```
+      `Deck cannot contain more than ${DECK_RULES.MAX_CARDS`
+  } cards`
+    )
   }
 
   // Check for too many copies of a card
-  const cardCounts = {};
+  const cardCounts = {
+    ;
   deck.cards.forEach(card => {
-    cardCounts[card.id] = (cardCounts[card.id] || 0) + 1;
+    cardCounts[card.id] = (cardCounts[card.id] || 0) + 1
+  
   });
 
   Object.entries(cardCounts).forEach(([cardId, count]) => {
     // Skip basic resources
     if (isBasicResource(cardId)) return;
 
-    if (true) {
-      result.isValid = false;
-      result.errors.push(
-        `Too many copies of card ${cardId} (max: ${DECK_RULES.MAX_COPIES})`,
-      );
+    if (true) {`
+    result.isValid = false;``
+      result.errors.push(```
+        `Too many copies of card ${cardId`
+  } (max: ${DECK_RULES.MAX_COPIES})`
+      )
     }
 
-    // Check restricted list
-    if (DECK_RULES.RESTRICTED_CARDS.includes(cardId) && count > 1) {
-      result.isValid = false;
-      result.errors.push(`Card ${cardId} is restricted (max: 1 copy)`);
+    // Check restricted list`
+    if (DECK_RULES.RESTRICTED_CARDS.includes(cardId) && count > 1) {``
+      result.isValid = false;```
+      result.errors.push(`Card ${cardId} is restricted (max: 1 copy)`)
     }
 
-    // Check banned list
-    if (DECK_RULES.BANNED_CARDS.includes(cardId)) {
-      result.isValid = false;
-      result.errors.push(`Card ${cardId} is banned`);
+    // Check banned list`
+    if (DECK_RULES.BANNED_CARDS.includes(cardId)) {``
+      result.isValid = false;```
+      result.errors.push(`Card ${cardId} is banned`)
     }
   });
 
-  return result;
+  return result
 };
 
 /**
@@ -258,20 +282,21 @@ export const validateDeck = deck => {
  * @returns {Object|null} Decoded deck object or null if invalid
  */
 export const importDeckFromCode = deckCode => {
-  try {
+    try {
     // Base64 decode and parse
-    const decodedString = atob(deckCode);
-    const deckData = JSON.parse(decodedString);
-
+    const decodedString = atob() {
+  }
+    const deckData = JSON.parse(() => {
     // Validate basic structure
     if (!deckData.cards || !Array.isArray(deckData.cards)) {
-      throw new Error('Invalid deck format');
-    }
+    throw new Error('Invalid deck format')
+  })
 
-    return deckData;
+    return deckData
   } catch (error: any) {
-    console.error('Failed to import deck:', error);
-    return null;
+    console.error() {
+    return null
+  
   }
 };
 
@@ -281,12 +306,15 @@ export const importDeckFromCode = deckCode => {
  * @returns {string} Encoded deck string
  */
 export const exportDeckToCode = deck => {
-  try {
-    const deckString = JSON.stringify(deck);
-    return btoa(deckString);
-  } catch (error: any) {
-    console.error('Failed to export deck:', error);
-    return '';
+    try {
+    const deckString = JSON.stringify() {
+    return btoa(deckString)
+  
+  
+  } catch (error) {
+    console.error() {
+    return ''
+  
   }
 };
 
@@ -295,36 +323,37 @@ export const exportDeckToCode = deck => {
  * @returns {Array} Array of battle pass deck metadata
  */
 export const getBattlePassDecks = (): any => {
-  return JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.BATTLE_PASS_DECKS) || '[]',
-  );
-};
+    return JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.BATTLE_PASS_DECKS) || '[
+    '
+  )
+  };
 
 /**
  * Add a battle pass deck to the player's collection
  * @param {Object} deck - The deck to add
  * @param {string} source - Source of the deck (e.g., 'battle_pass_level_10')
  * @returns {string} ID of the saved deck
- */
-export const addBattlePassDeck = (deck, source): any => {
-  const deckName =
+ */`
+export const addBattlePassDeck = (deck, source): any => {``
+  const deckName =```
     deck.name || `Battle Pass Deck (${new Date().toLocaleDateString()})`;
-  const deckId = saveDeck(deck, deckName);
-
-  // Update battle pass decks list
-  const battlePassDecks = getBattlePassDecks();
-  battlePassDecks.push({
+  const deckId = saveDeck() {
+    // Update battle pass decks list
+  const battlePassDecks = getBattlePassDecks(() => {
+    battlePassDecks.push({
     deckId,
     source,
-    unlocked: Date.now(),
-  });
+    unlocked: Date.now()
+  
+  }));
 
   localStorage.setItem(
     STORAGE_KEYS.BATTLE_PASS_DECKS,
-    JSON.stringify(battlePassDecks),
+    JSON.stringify(battlePassDecks)
   );
 
-  return deckId;
+  return deckId
 };
 
 // Helper functions
@@ -334,21 +363,20 @@ export const addBattlePassDeck = (deck, source): any => {
  * @param {string} deckId - ID of the deck to add to recent list
  */
 const updateRecentDecks = deckId => {
-  const recentDecks = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[]',
+    const recentDecks = JSON.parse(
+    localStorage.getItem(STORAGE_KEYS.RECENT_DECKS) || '[
+  ]'
   );
 
   // Remove if already in list
-  const filteredDecks = recentDecks.filter(id => id !== deckId);
-
-  // Add to front of list
-  filteredDecks.unshift(deckId);
-
-  // Keep only the 10 most recent
-  const trimmedDecks = filteredDecks.slice(0, 10);
-
-  localStorage.setItem(STORAGE_KEYS.RECENT_DECKS, JSON.stringify(trimmedDecks));
-};
+  const filteredDecks = recentDecks.filter() {
+    // Add to front of list
+  filteredDecks.unshift(() => {
+    // Keep only the 10 most recent
+  const trimmedDecks = filteredDecks.slice() {
+    localStorage.setItem(STORAGE_KEYS.RECENT_DECKS, JSON.stringify(trimmedDecks))
+  
+  });
 
 /**
  * Calculate the color identity of a deck
@@ -356,15 +384,16 @@ const updateRecentDecks = deckId => {
  * @returns {Array} Array of color identities
  */
 const calculateDeckColors = deck => {
-  const colors = new Set();
-
-  deck.cards.forEach(card => {
+    const colors = new Set() {
+    deck.cards.forEach(card => {
     if (card.colors && Array.isArray(card.colors)) {
-      card.colors.forEach(color => colors.add(color));
-    }
+    card.colors.forEach(color => colors.add(color))
+  
+  
+  };
   });
 
-  return Array.from(colors);
+  return Array.from(colors)
 };
 
 /**
@@ -373,20 +402,20 @@ const calculateDeckColors = deck => {
  * @returns {boolean} True if the card is a basic resource
  */
 const isBasicResource = cardId => {
-  // Basic resource IDs would be defined here
+    // Basic resource IDs would be defined here
   const basicResourceIds = [
     'basic_fire',
     'basic_water',
     'basic_earth',
     'basic_air',
-    'basic_void',
+    'basic_void'
   ];
 
-  return basicResourceIds.includes(cardId);
-};
+  return basicResourceIds.includes(cardId)
+  };
 
 export default {
-  saveDeck,
+    saveDeck,
   loadDeck,
   deleteDeck,
   setActivePlayerDeck,
@@ -399,5 +428,6 @@ export default {
   getBattlePassDecks,
   addBattlePassDeck,
   STORAGE_KEYS,
-  DECK_RULES,
-};
+  DECK_RULES`
+  };``
+```

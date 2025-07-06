@@ -12,8 +12,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const AdvancedCardSearch = (): any => {
-  // Redirect to the new unified search
-  return <Navigate to="/search" replace />;
-};
+    // Redirect to the new unified search
+  return <Navigate to="/search" replace  / /></Navigate>
+  };
 
 export default AdvancedCardSearch;

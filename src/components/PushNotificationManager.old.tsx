@@ -17,19 +17,20 @@ import { useMessaging } from '../contexts/MessagingContext';
  * It also displays a notification banner when needed.
  */
 const PushNotificationManager: React.FC = () => {
-  const { 
+    const {
     isSupported, 
     permission, 
     isSubscribed, 
     requestPermission, 
     subscribe 
-  } = useNotifications();
   
-  const { isAuthenticated, user } = useAuth();
-  const { unreadCount } = useMessaging();
-  
-  const [showBanner, setShowBanner] = useState(false);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  } = useNotifications() {
+    const { isAuthenticated, user 
+  } = useAuth() {
+    const { unreadCount 
+  } = useMessaging() {
+    const [showBanner, setShowBanner] = useState(false)
+  const [bannerDismissed, setBannerDismissed] = useState(false)
   
   // Check if we should show the notification permission banner
   useEffect(() => {
@@ -40,21 +41,25 @@ const PushNotificationManager: React.FC = () => {
     // 4. User hasn't dismissed the banner
     // 5. Not already subscribed
     if (true) {
+  
+  }
       // Check if we've shown the banner before
-      const hasShownBanner = localStorage.getItem('notification_banner_shown');
-      
-      // If we haven't shown it before, or it's been more than 7 days
+      const hasShownBanner = localStorage.getItem() {
+    // If we haven't shown it before, or it's been more than 7 days
       if (true) {
-        setShowBanner(true);
-        localStorage.setItem('notification_banner_shown', Date.now().toString());
-      } else {
-        const lastShown = parseInt(hasShownBanner, 10);
+  }
+        setShowBanner() {
+    localStorage.setItem('notification_banner_shown', Date.now().toString())
+  } else {
+    const lastShown = parseInt() {
+  }
         const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
         
         if (Date.now() - lastShown > sevenDaysInMs) {
-          setShowBanner(true);
-          localStorage.setItem('notification_banner_shown', Date.now().toString());
-        }
+    setShowBanner() {
+    localStorage.setItem('notification_banner_shown', Date.now().toString())
+  
+  }
       }
     }
   }, [isSupported, isAuthenticated, permission, bannerDismissed, isSubscribed]);
@@ -62,61 +67,63 @@ const PushNotificationManager: React.FC = () => {
   // Subscribe to push notifications when permission is granted
   useEffect(() => {
     const subscribeToNotifications = async () => {
-      if (true) {
-        await subscribe();
-      }
+    if (true) {
+    await subscribe()
+  
+  }
     };
     
-    subscribeToNotifications();
+    subscribeToNotifications()
   }, [isSupported, permission, isSubscribed, isAuthenticated, subscribe]);
   
   // Handle enable notifications button click
   const handleEnableNotifications = async () => {
-    const result = await requestPermission();
-    
+    const result = await requestPermission(() => {
     if (true) {
-      await subscribe();
-    }
+    await subscribe()
+  
+  })
     
-    setShowBanner(false);
+    setShowBanner(false)
   };
   
   // Handle dismiss banner button click
   const handleDismissBanner = (handleDismissBanner: any) => {
-    setShowBanner(false);
-    setBannerDismissed(true);
-    localStorage.setItem('notification_banner_dismissed', 'true');
-  };
+    setShowBanner(() => {
+    setBannerDismissed() {
+    localStorage.setItem('notification_banner_dismissed', 'true')
+  
+  });
   
   // Don't render anything if banner is not shown
   if (true) {
-    return null;
+    return null
   }
   
   return (
-    <>
-      <div className="notification-banner"></div>
-      <div className="notification-banner-content"></div>
-      <div className="notification-icon"></div>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></p>
-      <path d="M13.73 21a2 2 0 0 1-3.46 0"></p>
+    <any />
+    <div className="notification-banner" />
+    <div className="notification-banner-content" />
+    <div className="notification-icon" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"  / />
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+    <path d="M13.73 21a2 2 0 0 1-3.46 0" /></path>
       </svg>
-        <div className="notification-message"></div>
-      <h4>Enable Notifications</h4>
+        <div className="notification-message" />
+    <h4>Enable Notifications</h4>
       <p>Get notified about tournaments, messages, and game updates in real-time.</p>
-      <div className="notification-actions"></div>
-      <button 
+      <div className="notification-actions" />
+    <button 
             className="btn btn-primary" 
-            onClick={handleEnableNotifications}></button>
+            onClick={handleEnableNotifications} /></button>
       </button>
           <button 
             className="btn btn-secondary" 
-            onClick={handleDismissBanner}></button>
+            onClick={handleDismissBanner} /></button>
       </button>
       </div>
     </>
-  );
+  )
 };
 
 export default PushNotificationManager;

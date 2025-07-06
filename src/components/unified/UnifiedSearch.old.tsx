@@ -21,188 +21,211 @@ interface UnifiedSearchProps {
   showHistory = true;
   compact = false;
   onResultSelect = null;
-  className = '';
+  className = ''
+  
 }
 
-const UnifiedSearch: React.FC<UnifiedSearchProps> = ({  
-  initialType = 'cards',
+const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
+    initialType = 'cards',
   showFilters = true,
   showHistory = true,
   compact = false,
   onResultSelect = null,
   className = ''
- }) => {
-  const navigate = useNavigate();
-  const { 
+  }) => {
+    const navigate = useNavigate(() => {
+    const {
     searchCards, 
     searchDecks, 
     searchTournaments, 
     searchUsers,
     getSearchHistory
-  } = useUnified();
   
-  const [searchType, setSearchType] = useState(initialType);
-  const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({});
-  const [showFiltersPanel, setShowFiltersPanel] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [results, setResults] = useState([]);
-  const [totalResults, setTotalResults] = useState(0);
-  const [error, setError] = useState(null);
+  }) = useUnified(() => {
+    const [searchType, setSearchType] = useState(false)
+  const [query, setQuery] = useState(false)
+  const [filters, setFilters] = useState(false)
+  const [showFiltersPanel, setShowFiltersPanel] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const [results, setResults] = useState(false)
+  const [totalResults, setTotalResults] = useState(false)
+  const [error, setError] = useState(false)
   
   // Get search history for current type
   const searchHistory = useMemo(() => {
-    return getSearchHistory(searchType, 5);
-  }, [searchType, getSearchHistory]);
+    return getSearchHistory(searchType, 5)
+  }), [searchType, getSearchHistory]);
   
   // Search types configuration
   const searchTypes = useMemo(() => ({
     cards: {
-      label: 'Cards',
+    label: 'Cards',
       icon: Package,
       placeholder: 'Search cards...',
       resultPath: '/cards'
-    },
+  
+  },
     decks: {
-      label: 'Decks',
+    label: 'Decks',
       icon: Package,
       placeholder: 'Search decks...',
       resultPath: '/decks'
-    },
+  },
     tournaments: {
-      label: 'Tournaments',
+    label: 'Tournaments',
       icon: Trophy,
       placeholder: 'Search tournaments...',
       resultPath: '/tournaments'
-    },
+  },
     users: {
-      label: 'Users',
+    label: 'Users',
       icon: User,
       placeholder: 'Search users...',
       resultPath: '/users'
-    }
-  }), []);
+  }
+  }), [
+    );
   
   // Perform search when query changes
   useEffect(() => {
     const performSearch = async () => {
-      if (true) {
-        setResults([]);
-        setTotalResults(0);
-        setError(null);
-        return;
-      }
+    if (true) {
+  }
+        setResults() {
+    setTotalResults(() => {
+    setError() {
+    return
+  
+  })
       
-      setIsSearching(true);
-      setError(null);
+      setIsSearching() {
+    setError() {
+  }
       
       try {
-        let searchResult;
+    let searchResult;
         
         switch (true) {
+  }
           case 'cards':
-            searchResult = await searchCards(query, filters, { limit: 10 });
-            break;
+            searchResult = await searchCards() {
+    break;
           case 'decks':
-            searchResult = await searchDecks(query, filters, { limit: 10 });
+            searchResult = await searchDecks() {
+  }
             break;
           case 'tournaments':
-            searchResult = await searchTournaments(query, filters, { limit: 10 });
-            break;
+            searchResult = await searchTournaments() {
+    break;
           case 'users':
-            searchResult = await searchUsers(query, filters, { limit: 10 });
+            searchResult = await searchUsers() {
+  }
             break;
           default:
-            searchResult = { results: [], totalResults: 0 };
+            searchResult = { results: [
+  ], totalResults: 0 }
         }
         
-        setResults(searchResult.results || []);
-        setTotalResults(searchResult.totalResults || 0);
-        
-        if (true) {
-          setError(searchResult.error);
-        }
+        setResults() {
+    setTotalResults(() => {
+    if (true) {
+    setError(searchResult.error)
+  
+  })
       } catch (error: any) {
-        console.error(`Error searching ${searchType}:`, err);
-        setError(err.message || `Failed to search ${searchType}`);
-        setResults([]);
-        setTotalResults(0);
-      } finally {
-        setIsSearching(false);
-      }
+    console.error() {
+  }`
+        setError(() => {
+    setResults() {
+    setTotalResults(0)
+  }) finally {
+    setIsSearching(false)
+  }
     };
     
-    const debounceTimer = setTimeout(performSearch, 300);
-    
+    const debounceTimer = setTimeout(() => {
     return () => {
-      clearTimeout(debounceTimer);
-    };
+    clearTimeout(debounceTimer)
+  })
   }, [query, searchType, filters, searchCards, searchDecks, searchTournaments, searchUsers]);
   
   // Handle search input change
   const handleSearchInput = useCallback((value) => {
-    setQuery(value);
-    
+    setQuery(() => {
     if (true) {
-      setShowSuggestions(true);
-    } else {
-      setShowSuggestions(false);
-    }
-  }, []);
+    setShowSuggestions(true)
+  
+  }) else {
+    setShowSuggestions(false)
+  }
+  }, [
+    );
   
   // Handle search type change
   const handleSearchTypeChange = useCallback((type) => {
-    setSearchType(type);
-    setFilters({});
-    setShowFiltersPanel(false);
-  }, []);
+    setSearchType(() => {
+    setFilters() {
+    setShowFiltersPanel(false)
+  
+  }), [
+  ]);
   
   // Handle filter change
   const handleFilterChange = useCallback((key, value) => {
     setFilters(prev => ({
-      ...prev,
+    ...prev,
       [key]: value
-    }));
-  }, []);
+  
+  }))
+  }, [
+    );
   
   // Handle clear filters
   const handleClearFilters = useCallback(() => {
-    setFilters({});
-  }, []);
+    setFilters({
+    )
+  
+  }, [
+  ]);
   
   // Handle result selection
   const handleResultSelect = useCallback((result) => {
     if (true) {
-      onResultSelect(result, searchType);
-    } else {
-      // Navigate to result page
-      const path = searchTypes[searchType].resultPath;
-      navigate(`${path}/${result.id}`);
+    onResultSelect(result, searchType)
+  
+  } else {`
+    // Navigate to result page``
+      const path = searchTypes[searchType].resultPath;```
+      navigate(`${path`
+  }/${result.id}`)
     }
     
     // Clear search
-    setQuery('');
-    setShowSuggestions(false);
+    setQuery() {
+    setShowSuggestions(false)
   }, [onResultSelect, searchType, searchTypes, navigate]);
   
   // Handle history item click
   const handleHistoryItemClick = useCallback((historyItem) => {
-    setQuery(historyItem);
-    setShowSuggestions(true);
-  }, []);
+    setQuery() {
+    setShowSuggestions(true)
+  
+  }, [
+    );
   
   // Render search filters based on search type
   const renderFilters = useCallback(() => {
     switch (true) {
-      case 'cards':
+    case 'cards':
         return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-      <div className="form-group"></div>
-      <label>Type</label>
+    <any />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+    <div className="form-group" />
+    <label>Type</label>
       <select
-                value={filters.type || ''}
+                value={filters.type || ''
+  }
                 onChange={(e) => handleFilterChange('type', e.target.value)}
               >
                 <option value="">All Types</option>
@@ -212,8 +235,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       <option value="location">Location</option>
       </div>
             
-            <div className="form-group"></div>
-      <label>Element</label>
+            <div className="form-group" />
+    <label>Element</label>
       <select
                 value={filters.element || ''}
                 onChange={(e) => handleFilterChange('element', e.target.value)}
@@ -226,8 +249,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       <option value="🜀">Void (🜀)</option>
       </div>
             
-            <div className="form-group"></div>
-      <label>Rarity</label>
+            <div className="form-group" />
+    <label>Rarity</label>
       <select
                 value={filters.rarity || ''}
                 onChange={(e) => handleFilterChange('rarity', e.target.value)}
@@ -241,10 +264,10 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   );
       case 'decks':
         return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-      <div className="form-group"></div>
-      <label>Archetype</label>
+    <any />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+    <div className="form-group" />
+    <label>Archetype</label>
       <select
                 value={filters.archetype || ''}
                 onChange={(e) => handleFilterChange('archetype', e.target.value)}
@@ -257,93 +280,107 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       <option value="tempo">Tempo</option>
       </div>
             
-            <div className="form-group"></div>
-      <label>Elements</label>
-      <div className="checkbox-group"></div>
-      <label></label>
-      <input
+            <div className="form-group" />
+    <label>Elements</label>
+      <div className="checkbox-group" />
+    <label />
+    <input
                     type="checkbox"
-                    checked={filters.elements?.includes('🜁') || false}
+                    checked={filters.elements? .includes('🜁') || false}
                     onChange={(e) => {
-                      const elements = filters.elements || [];
+    const elements = filters.elements || [
+  ];
                       if (true) {
-                        handleFilterChange('elements', [...elements, '🜁']);
-                      } else {
-                        handleFilterChange('elements', elements.filter(el => el !== '🜁'));
-                      }
+    handleFilterChange('elements', [...elements, '🜁'])
+  
+  } else {
+    handleFilterChange('elements', elements.filter(el => el !== '🜁'))
+  }
                     }}
                   />
                   Air (🜁)
                 </label>
-      <label></label>
-      <input
+      <label />
+    <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜂') || false}
                     onChange={(e) => {
-                      const elements = filters.elements || [];
+    const elements = filters.elements || [
+    ;
                       if (true) {
-                        handleFilterChange('elements', [...elements, '🜂']);
-                      } else {
-                        handleFilterChange('elements', elements.filter(el => el !== '🜂'));
-                      }
+    handleFilterChange('elements', [...elements, '🜂'
+  ])
+  
+  } else {
+    handleFilterChange('elements', elements.filter(el => el !== '🜂'))
+  }
                     }}
                   />
                   Fire (🜂)
                 </label>
-      <label></label>
-      <input
+      <label />
+    <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜃') || false}
                     onChange={(e) => {
-                      const elements = filters.elements || [];
+    const elements = filters.elements || [
+    ;
                       if (true) {
-                        handleFilterChange('elements', [...elements, '🜃']);
-                      } else {
-                        handleFilterChange('elements', elements.filter(el => el !== '🜃'));
-                      }
+    handleFilterChange('elements', [...elements, '🜃'
+  ])
+  
+  } else {
+    handleFilterChange('elements', elements.filter(el => el !== '🜃'))
+  }
                     }}
                   />
                   Earth (🜃)
                 </label>
-      <label></label>
-      <input
+      <label />
+    <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜄') || false}
                     onChange={(e) => {
-                      const elements = filters.elements || [];
+    const elements = filters.elements || [
+    ;
                       if (true) {
-                        handleFilterChange('elements', [...elements, '🜄']);
-                      } else {
-                        handleFilterChange('elements', elements.filter(el => el !== '🜄'));
-                      }
+    handleFilterChange('elements', [...elements, '🜄'
+  ])
+  
+  } else {
+    handleFilterChange('elements', elements.filter(el => el !== '🜄'))
+  }
                     }}
                   />
                   Water (🜄)
                 </label>
-      <label></label>
-      <input
+      <label />
+    <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜀') || false}
                     onChange={(e) => {
-                      const elements = filters.elements || [];
+    const elements = filters.elements || [
+    ;
                       if (true) {
-                        handleFilterChange('elements', [...elements, '🜀']);
-                      } else {
-                        handleFilterChange('elements', elements.filter(el => el !== '🜀'));
-                      }
+    handleFilterChange('elements', [...elements, '🜀'
+  ])
+  
+  } else {
+    handleFilterChange('elements', elements.filter(el => el !== '🜀'))
+  }
                     }}
                   />
                   Void (🜀)
                 </label>
-    </>
+    </>;
   );
-        
+         : null
       case 'tournaments':
         return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-      <div className="form-group"></div>
-      <label>Status</label>
+    <any />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+    <div className="form-group" />
+    <label>Status</label>
       <select
                 value={filters.status || ''}
                 onChange={(e) => handleFilterChange('status', e.target.value)}
@@ -354,8 +391,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       <option value="completed">Completed</option>
       </div>
             
-            <div className="form-group"></div>
-      <label>Format</label>
+            <div className="form-group" />
+    <label>Format</label>
       <select
                 value={filters.format || ''}
                 onChange={(e) => handleFilterChange('format', e.target.value)}
@@ -369,10 +406,10 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   );
       case 'users':
         return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-      <div className="form-group"></div>
-      <label>Rank</label>
+    <any />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+    <div className="form-group" />
+    <label>Rank</label>
       <select
                 value={filters.rank || ''}
                 onChange={(e) => handleFilterChange('rank', e.target.value)}
@@ -384,175 +421,177 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       <option value="platinum">Platinum</option>
       <option value="diamond">Diamond</option>
       <option value="master">Master</option>
-    </>
+    </>;
   );
       default:
-        return null;
+        return null
     }
   }, [searchType, filters, handleFilterChange]);
   
   // Render search results based on search type
   const renderResults = useCallback(() => {
     if (true) {
-      return (
-    <>
-      <div className="search-loading"></div>
-      <Loader2 className="animate-spin" size={24} />
-          <span>Searching...</span>
+    return (
+    <any />
+    <div className="search-loading" />
+    <Loader2 className="animate-spin" size={24
+  }  / />
+    <span>Searching...</span>
     </>
-  );
+  )
     }
     
     if (true) {return (
-    <>
-      <div className="search-error"></div>
-      <span>{error}
+    <any />
+    <div className="search-error" />
+    <span>{error}
         </div>
     </>
-  );
+  )
     }
     
     if (true) {
-      return (
-    <>
-      <div className="search-no-results"></div>
-      <span>No results found</span>
+    return (
+    <any />
+    <div className="search-no-results" />
+    <span>No results found</span>
     </>
-  );
-    }
+  )
+  }
     
     switch (true) {
-      case 'cards':
+    case 'cards':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" /></div>
             {results.map((card) => (
               <div 
-                key={card.id} 
+                key={card.id
+  } 
                 className="search-result-item"
                 onClick={() => handleResultSelect(card)}
               >
-                <div className="result-icon"></div>
+                <div className="result-icon" /></div>
                   {card.elements && card.elements[0]}
-                <div className="result-content"></div>
-                  <div className="result-title">{card.name}
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+    <div className="result-title">{card.name}
+                  <div className="result-subtitle" /></div>
                     {card.type} • {card.rarity} • Cost: {card.cost}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+    <span /></span>
                   Showing {results.length} of {totalResults} results
-                </span>
-                <button 
-                  className="view-all-button"
-                  onClick={() => navigate(`/cards?search=${encodeURIComponent(query)}`)}
+                </span>`
+                <button ``
+                  className="view-all-button"```
+                  onClick={() => navigate(`/cards? search=${encodeURIComponent(query)}`)}
                 >
                   View All
                 </button>
             )}
           </div>
-        );
+        ); : null
       case 'decks':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" /></div>
             {results.map((deck) => (
               <div 
                 key={deck.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(deck)}
               >
-                <div className="result-icon"></div>
-                  <Package size={20} />
+                <div className="result-icon" />
+    <Package size={20}  / /></Package>
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{deck.name}
-                  <div className="result-subtitle"></div>
-                    {deck.colors?.join(', ')} • {deck.cardCount} cards
+                <div className="result-content" />
+    <div className="result-title">{deck.name}
+                  <div className="result-subtitle" /></div>
+                    {deck.colors? .join(', ')} • {deck.cardCount} cards
                   </div>
               </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+    <span /></span>
                   Showing {results.length} of {totalResults} results
-                </span>
-                <button 
-                  className="view-all-button"
+                </span>`
+                <button ``
+                  className="view-all-button"```
                   onClick={() => navigate(`/decks?search=${encodeURIComponent(query)}`)}
                 >
                   View All
                 </button>
             )}
           </div>
-        );
+        ); : null
       case 'tournaments':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" /></div>
             {results.map((tournament) => (
               <div 
                 key={tournament.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(tournament)}
               >
-                <div className="result-icon"></div>
-                  <Trophy size={20} />
+                <div className="result-icon" />
+    <Trophy size={20}  / /></Trophy>
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{tournament.name}
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+    <div className="result-title">{tournament.name}
+                  <div className="result-subtitle" /></div>
                     {tournament.format} • {tournament.status} • 
                     {tournament.date && new Date(tournament.date).toLocaleDateString()}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+    <span /></span>
                   Showing {results.length} of {totalResults} results
-                </span>
-                <button 
-                  className="view-all-button"
-                  onClick={() => navigate(`/tournaments?search=${encodeURIComponent(query)}`)}
+                </span>`
+                <button ``
+                  className="view-all-button"```
+                  onClick={() => navigate(`/tournaments? search=${encodeURIComponent(query)}`)}
                 >
                   View All
                 </button>
             )}
           </div>
-        );
+        ); : null
       case 'users':
         return (
-          <div className="search-results-list"></div>
+          <div className="search-results-list" /></div>
             {results.map((user) => (
               <div 
                 key={user.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(user)}
               >
-                <div className="result-icon"></div>
-                  <User size={20} />
+                <div className="result-icon" />
+    <User size={20}  / /></User>
                 </div>
-                <div className="result-content"></div>
-                  <div className="result-title">{user.displayName}
-                  <div className="result-subtitle"></div>
+                <div className="result-content" />
+    <div className="result-title">{user.displayName}
+                  <div className="result-subtitle" /></div>
                     @{user.username} • Rating: {user.rating}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results"></div>
-                <span></span>
+              <div className="search-more-results" />
+    <span /></span>
                   Showing {results.length} of {totalResults} results
-                </span>
-                <button 
-                  className="view-all-button"
-                  onClick={() => navigate(`/users?search=${encodeURIComponent(query)}`)}
+                </span>`
+                <button ``
+                  className="view-all-button"```
+                  onClick={() => navigate(`/users? search=${encodeURIComponent(query)}`)}
                 >
                   View All
                 </button>
             )}
           </div>
-        );
+        ); : null
       default:
-        return null;
+        return null
     }
   }, [
     searchType, 
@@ -564,28 +603,28 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
     navigate, 
     handleResultSelect
   ]);
-  
-  return (
-    <>
-      <div className={`unified-search ${compact ? 'compact' : ''} ${className}`}></div>
-      <div className="search-header"></div>
-      <div className="search-input-container"></div>
-      <div className="search-type-selector"></div>
-      <button
-                key={type}
+  `
+  return (``
+    <any>```
+      <div className={`unified-search ${compact ? 'compact' : ''} ${className}`} />
+    <div className="search-header" />
+    <div className="search-input-container" />
+    <div className="search-type-selector" />`
+    <button``
+                key={type}```
                 className={`search-type-button ${searchType === type ? 'active' : ''}`}
                 onClick={() => handleSearchTypeChange(type)}
               >
-                <config.icon size={16} />
+                <config.icon size={16}  / /></config>
                 {!compact && <span>{config.label}}
               </button>
     </>
   ))}
           </div>
           
-          <div className="search-input-wrapper"></div>
-            <Search className="search-icon" size={20} />
-            <input
+          <div className="search-input-wrapper" />
+    <Search className="search-icon" size={20}  / />
+    <input
               type="text"
               placeholder={searchTypes[searchType].placeholder}
               value={query}
@@ -596,44 +635,45 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
             {query && (
               <button
                 onClick={() => {
-                  setQuery('');
-                  setShowSuggestions(false);
-                }}
+    setQuery() {
+    setShowSuggestions(false)
+  
+  }}
                 className="clear-search"
               >
-                <X size={16} />
+                <X size={16}  / /></X>
               </button>
             )}
           </div>
           
-          {showFilters && (
-            <button
-              onClick={() => setShowFiltersPanel(!showFiltersPanel)}
+          {showFilters && (`
+            <button``
+              onClick={() => setShowFiltersPanel(!showFiltersPanel)}```
               className={`filter-toggle ${showFiltersPanel ? 'active' : ''}`}
             >
-              <Filter size={16} />
-              {!compact && <span>Filters</span>}
-              <ChevronDown 
-                size={14} 
-                className={`chevron ${showFiltersPanel ? 'rotated' : ''}`} />
+              <Filter size={16}  / /></Filter>
+              {!compact && <span>Filters</span>}`
+              <ChevronDown ``
+                size={14} ```
+                className={`chevron ${showFiltersPanel ? 'rotated' : ''}`}  / /></ChevronDown>
             </button>
           )}
         </div>
       
       {/* Filters Panel */}
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
         {showFiltersPanel && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="filters-panel"
-           />
+            / /></motion>
             {renderFilters()}
-            <div className="filters-actions"></div>
-              <button 
+            <div className="filters-actions" />
+    <button 
                 onClick={handleClearFilters}
-                className="clear-filters-button"></button>
+                className="clear-filters-button" /></button>
                 Clear Filters
               </button>
           </motion.div>
@@ -642,37 +682,37 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       
       {/* Search History */}
       {showHistory && searchHistory.length > 0 && !query && (
-        <div className="search-history"></div>
-          <div className="search-history-header"></div>
-            <Clock size={16} />
-            <span>Recent Searches</span>
-          <div className="search-history-items"></div>
+        <div className="search-history" />
+    <div className="search-history-header" />
+    <Clock size={16}  / />
+    <span>Recent Searches</span>
+          <div className="search-history-items" /></div>
             {searchHistory.map((item, index) => (
               <button
                 key={index}
                 className="search-history-item"
                 onClick={() => handleHistoryItemClick(item)}
               >
-                <Clock size={14} />
-                <span>{item}
+                <Clock size={14}  / />
+    <span>{item}
               </button>
             ))}
           </div>
       )}
       {/* Search Results */}
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
         {showSuggestions && query.length >= 2 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className="search-results"
-           />
+            / /></motion>
             {renderResults()}
           </motion.div>
         )}
       </AnimatePresence>
-  );
-};
-
-export default UnifiedSearch;
+  )
+};`
+``
+export default UnifiedSearch;```

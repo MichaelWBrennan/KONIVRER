@@ -13,13 +13,13 @@ interface AdvancedCardSearchPageProps {
   [key: string]: any;
 }
 
-const AdvancedCardSearchPage: React.FC<AdvancedCardSearchPageProps> = () => {
+const AdvancedCardSearchPage: React.FC = () => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">AdvancedCardSearchPage</h2>
+    <div className="p-4 bg-white rounded-lg shadow-sm" />
+    <h2 className="text-xl font-bold mb-4">AdvancedCardSearchPage</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </div>
-  );
+  )
 };
 
 export default AdvancedCardSearchPage;

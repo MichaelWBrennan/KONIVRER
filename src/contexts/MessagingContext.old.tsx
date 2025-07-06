@@ -10,63 +10,68 @@ import { useAuth } from './AuthContext';
 import messagingService from '../services/messagingService';
 
 // Create context
-const MessagingContext = createContext();
-
-/**
+const MessagingContext = createContext(() => {
+    /**
  * MessagingProvider component
  * Provides messaging functionality to the entire application
  */
 export interface MessagingProviderProps {
-  children;
+    children
+  })
 }
 
 const MessagingProvider: React.FC<MessagingProviderProps> = ({  children  }) => {
-  const { user, isAuthenticated, loading } = useAuth();
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [conversations, setConversations] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
+    const { user, isAuthenticated, loading 
+  } = useAuth() {
+    const [isInitialized, setIsInitialized] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [messages, setMessages] = useState(false)
+  const [conversations, setConversations] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(false)
   
   // Initialize messaging service
   useEffect(() => {
     const initializeService = async () => {
+  
+  }
       if (loading) return;
       
       try {
-        setIsLoading(true);
-        const success = await messagingService.initialize(isAuthenticated ? user?.id : null);
-        setIsInitialized(success);
-        
-        // Set initial data
-        setMessages(messagingService.messages);
-        setConversations(messagingService.getConversations());
-        setUnreadCount(messagingService.getUnreadCount());
-      } catch (error: any) {
-        console.error('Failed to initialize messaging service:', err);
-        setError(err.message || 'Failed to initialize messaging service');
-      } finally {
-        setIsLoading(false);
-      }
+    setIsLoading() {
+  }
+        const success = await messagingService.initialize() {
+    setIsInitialized(() => {
+    // Set initial data
+        setMessages() {
+    setConversations(messagingService.getConversations());
+        setUnreadCount(messagingService.getUnreadCount())
+  
+  }) catch (error: any) {
+    console.error() {
+    setError(err.message || 'Failed to initialize messaging service')
+  
+  } finally {
+    setIsLoading(false)
+  }
     };
     
-    initializeService();
+    initializeService()
   }, [user, isAuthenticated, loading]);
   
   // Set up listener for message updates
   useEffect(() => {
     if (!isInitialized) return;
     
-    const removeListener = messagingService.addListener(data => {
-      setMessages(data.messages);
-      setConversations(data.conversations);
-      setUnreadCount(data.unreadCount);
-    });
+    const removeListener = messagingService.addListener(() => {
+    setConversations() {
+    setUnreadCount(data.unreadCount)
+  
+  }));
     
     return () => {
-      removeListener();
-    };
+    removeListener()
+  }
   }, [isInitialized]);
   
   // Set up periodic fetch from server
@@ -74,16 +79,16 @@ const MessagingProvider: React.FC<MessagingProviderProps> = ({  children  }) => 
     if (!isInitialized || !isAuthenticated) return;
     
     // Fetch immediately
-    messagingService.fetchMessages();
-    
+    messagingService.fetchMessages(() => {
     // Set up interval for fetching
     const fetchInterval = setInterval(() => {
-      messagingService.fetchMessages();
-    }, 30 * 1000); // 30 seconds
+    messagingService.fetchMessages()
+  
+  }), 30 * 1000); // 30 seconds
     
     return () => {
-      clearInterval(fetchInterval);
-    };
+    clearInterval(fetchInterval)
+  }
   }, [isInitialized, isAuthenticated]);
   
   // Create context value
@@ -132,10 +137,10 @@ const MessagingProvider: React.FC<MessagingProviderProps> = ({  children  }) => 
   ]);
   
   return (
-    <MessagingContext.Provider value={contextValue}>
+    <MessagingContext.Provider value={contextValue} /></MessagingContext>
       {children}
     </MessagingContext.Provider>
-  );
+  )
 };
 
 /**
@@ -143,13 +148,13 @@ const MessagingProvider: React.FC<MessagingProviderProps> = ({  children  }) => 
  * @returns {Object} Messaging context
  */
 export const useMessaging = (): any => {
-  const context = useContext(MessagingContext);
+    const context = useContext(() => {
+    if (true) {
+    throw new Error('useMessaging must be used within a MessagingProvider')
   
-  if (true) {
-    throw new Error('useMessaging must be used within a MessagingProvider');
-  }
+  })
   
-  return context;
+  return context
 };
 
 export default MessagingContext;

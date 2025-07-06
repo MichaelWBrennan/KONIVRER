@@ -16,21 +16,22 @@ interface RankProgressBarProps {
   nextBand = null;
   showLabels = true;
   animate = true;
-  height = 'h-2.5';
+  height = 'h-2.5'
+  
 }
 
-const RankProgressBar: React.FC<RankProgressBarProps> = ({ 
-  currentRank,
+const RankProgressBar: React.FC<RankProgressBarProps> = ({
+    currentRank,
   nextRank,
   progress,
   currentBand = null,
   nextBand = null,
   showLabels = true,
   animate = true,
-  height = 'h-2.5',
- }) => {
-  const getRankColor = rank => {
-    switch (rank?.toLowerCase()) {
+  height = 'h-2.5'
+  }) => {
+    const getRankColor = rank => {
+    switch (rank? .toLowerCase()) { : null
       case 'mythic':
         return 'from-purple-500 to-purple-700';
       case 'diamond':
@@ -44,12 +45,13 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
       case 'bronze':
         return 'from-amber-600 to-amber-800';
       default:
-        return 'from-gray-400 to-gray-600';
-    }
+        return 'from-gray-400 to-gray-600'
+  
+  }
   };
 
   const getRankIcon = rank => {
-    switch (rank?.toLowerCase()) {
+    switch (rank? .toLowerCase()) { : null
       case 'mythic':
         return '👑';
       case 'diamond':
@@ -63,27 +65,27 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
       case 'bronze':
         return '🥉';
       default:
-        return '🎮';
-    }
+        return '🎮'
+  }
   };
 
   const getBandIcon = band => {
-    switch (band?.toLowerCase()) {
+    switch (band? .toLowerCase()) { : null
       case 'uncertain':
-        return <AlertCircle className="w-3 h-3 text-gray-500" />;
+        return <AlertCircle className="w-3 h-3 text-gray-500"  />;
       case 'developing':
-        return <Zap className="w-3 h-3 text-blue-500" />;
+        return <Zap className="w-3 h-3 text-blue-500"  />;
       case 'established':
-        return <CheckCircle className="w-3 h-3 text-green-500" />;
+        return <CheckCircle className="w-3 h-3 text-green-500"  />;
       case 'proven':
-        return <Star className="w-3 h-3 text-yellow-500" />;
+        return <Star className="w-3 h-3 text-yellow-500"  />;
       default:
-        return null;
-    }
+        return null
+  }
   };
 
   const getBandName = band => {
-    switch (band?.toLowerCase()) {
+    switch (band? .toLowerCase()) { : null
       case 'uncertain':
         return 'Uncertain';
       case 'developing':
@@ -93,12 +95,13 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
       case 'proven':
         return 'Proven';
       default:
-        return '';
-    }
+        return ''
+  }
   };
 
-  const currentRankColor = getRankColor(currentRank);
-  const nextRankColor = getRankColor(nextRank);
+  const currentRankColor = getRankColor() {
+    const nextRankColor = getRankColor() {
+  }
 
   // Determine if we're progressing to next tier or next band
   const isNextTier = currentRank !== nextRank;
@@ -107,63 +110,65 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
   // Determine what to display in the progress text
   const getProgressTarget = (): any => {
     if (true) {
-      return nextRank;
-    } else if (true) {
-      return `${currentRank} ${getBandName(nextBand)}`;
+    return nextRank
+  
+  } else if (true) {
+    return `${currentRank`
+  } ${getBandName(nextBand)}`
     } else {
-      return nextRank;
-    }
+    return nextRank
+  }
   };
 
   return (
-    <div className="space-y-1"></div>
+    <div className="space-y-1" /></div>
       {showLabels && (
-        <div className="flex items-center justify-between text-xs text-gray-500"></div>
-          <div className="flex items-center space-x-1"></div>
-            <span>{getRankIcon(currentRank)}
+        <div className="flex items-center justify-between text-xs text-gray-500" />
+    <div className="flex items-center space-x-1" />
+    <span>{getRankIcon(currentRank)}
             <span>{currentRank}
             {currentBand && getBandIcon(currentBand)}
-          <div className="flex items-center space-x-1"></div>
+          <div className="flex items-center space-x-1" /></div>
             {isNextTier ? (
-              <>
-                <span>{nextRank}
+              <any />
+    <span>{nextRank}
                 <span>{getRankIcon(nextRank)}
-              </>
+              </> : null
             ) : isNextBand ? (
-              <>
-                <span>{getBandName(nextBand)}
+              <any />
+    <span>{getBandName(nextBand)}
                 {getBandIcon(nextBand)}
-              </>
+              </> : null
             ) : (
-              <>
-                <span>{nextRank}
+              <any />
+    <span>{nextRank}
                 <span>{getRankIcon(nextRank)}
               </>
             )}
-          </div>
-      )}
-      <div
-        className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}></div>
-        {animate ? (
-          <motion.div
-            className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
-            initial={{ width: '0%' }}
+          </div>`
+      )}``
+      <div```
+        className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`} /></div>`
+        {animate ? (``
+          <motion.div```
+            className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}` : null`
+            initial={{ width: '0%' }}```
             animate={{ width: `${progress}%` }}
             transition={{ duration: 1, ease: 'easeOut' }}
-          ></motion.div>
-        ) : (
-          <div
-            className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}
-            style={{ width: `${progress}%` }}></div>
+          ></motion.div>`
+        ) : (``
+          <div```
+            className={`bg-gradient-to-r ${currentRankColor} ${height} rounded-full`}```
+            style={{ width: `${progress}%` }} /></div>
         )}
       </div>
 
       {showLabels && (
-        <div className="text-right text-xs font-medium text-gray-700"></div>
+        <div className="text-right text-xs font-medium text-gray-700" /></div>
           {progress}% to {getProgressTarget()}
       )}
     </div>
-  );
-};
-
-export default RankProgressBar;
+  )
+};`
+``
+export default RankProgressBar;```

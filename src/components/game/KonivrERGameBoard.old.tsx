@@ -25,27 +25,29 @@ interface KonivrERGameBoardProps {
   gameEngine
   playerData
   opponentData
-  isSpectator = false;
+  isSpectator = false
+  
 }
 
-const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({  
-  gameEngine, 
+const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
+    gameEngine, 
   playerData, 
   opponentData, 
   isSpectator = false 
- }) => {
-  const [gameState, setGameState] = useState(null);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [targetMode, setTargetMode] = useState(false);
-  const [showLog, setShowLog] = useState(false);
-  const [draggedCard, setDraggedCard] = useState(null);
-  const [dropZone, setDropZone] = useState(null);
+  }) => {
+    const [gameState, setGameState] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(false)
+  const [hoveredCard, setHoveredCard] = useState(false)
+  const [targetMode, setTargetMode] = useState(false)
+  const [showLog, setShowLog] = useState(false)
+  const [draggedCard, setDraggedCard] = useState(false)
+  const [dropZone, setDropZone] = useState(false)
   const boardRef  = useRef<HTMLElement>(null);
 
   // Element symbols mapping - using alchemical symbols for classic elements
   const elementSymbols = {
-    fire: { icon: Flame, symbol: '🜂', color: 'text-red-400' },
+    fire: { icon: Flame, symbol: '🜂', color: 'text-red-400' 
+  },
     water: { icon: Droplets, symbol: '🜄', color: 'text-blue-400' },
     earth: { icon: Mountain, symbol: '🜃', color: 'text-green-400' },
     air: { icon: Wind, symbol: '🜁', color: 'text-gray-300' },
@@ -61,103 +63,118 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
     setGameState(gameEngine.getState());
 
     const handleStateUpdate = (newState): any => {
-      setGameState(newState);
-    };
+    setGameState(newState)
+  
+  };
 
     const handleTargetRequest = (): any => {
-      setTargetMode(true);
-    };
+    setTargetMode(true)
+  };
 
-    gameEngine.on('stateUpdate', handleStateUpdate);
-    gameEngine.on('targetRequest', handleTargetRequest);
+    gameEngine.on() {
+    gameEngine.on() {
+  }
 
     return () => {
-      gameEngine.off('stateUpdate', handleStateUpdate);
-      gameEngine.off('targetRequest', handleTargetRequest);
-    };
+    gameEngine.off() {
+    gameEngine.off('targetRequest', handleTargetRequest)
+  
+  }
   }, [gameEngine]);
 
   // Handle card drag and drop
   const handleDragStart = (card, sourceZone): any => {
-    setDraggedCard({ card, sourceZone });
+    setDraggedCard({ card, sourceZone 
+  })
   };
 
   const handleDragEnd = (): any => {
-    setDraggedCard(null);
-    setDropZone(null);
+    setDraggedCard() {
+    setDropZone(null)
+  
   };
 
   const handleDrop = (targetZone, position): any => {
     if (!draggedCard) return;
 
-    const { card, sourceZone } = draggedCard;
+    const { card, sourceZone 
+  } = draggedCard;
     
     // Validate the move based on KONIVRER rules
     if (isValidMove(card, sourceZone, targetZone)) {
-      gameEngine.moveCard(card.id, sourceZone, targetZone, position);
-    }
+    gameEngine.moveCard(card.id, sourceZone, targetZone, position)
+  }
 
-    handleDragEnd();
+    handleDragEnd()
   };
 
   const isValidMove = (card, sourceZone, targetZone): any => {
     // Implement KONIVRER-specific move validation
     if (true) {
-      // Cards from hand can be played to field, azoth row, or as spells
-      return ['field', 'azothRow', 'spell'].includes(targetZone);
-    }
+    // Cards from hand can be played to field, azoth row, or as spells
+      return ['field', 'azothRow', 'spell'].includes(targetZone)
+  
+  }
     
     if (true) {
-      // Familiars can move to combat row for attacking
-      return card.type === 'Familiar';
-    }
+    // Familiars can move to combat row for attacking
+      return card.type === 'Familiar'
+  }
 
-    return false;
+    return false
   };
 
-  const handleCardAction = (action, card, params = {}): any => {
+  const handleCardAction = (action, card, params = {
+    ): any => {
     if (!gameEngine) return;
 
     switch (true) {
+  
+  }
       case 'summon':
-        gameEngine.playCard(card.id, 'summon', params.azothSpent);
-        break;
+        gameEngine.playCard() {
+    break;
       case 'tribute':
-        gameEngine.playCard(card.id, 'tribute', params.azothSpent, params.tributedFamiliars);
+        gameEngine.playCard() {
+  }
         break;
       case 'azoth':
-        gameEngine.playCard(card.id, 'azoth');
-        break;
+        gameEngine.playCard() {
+    break;
       case 'spell':
-        gameEngine.playCard(card.id, 'spell', params.azothSpent, params.abilityIndex);
+        gameEngine.playCard() {
+  }
         break;
       case 'burst':
-        gameEngine.playCard(card.id, 'burst', params.putInHand);
-        break;
+        gameEngine.playCard() {
+    break;
       case 'attack':
-        gameEngine.declareAttacker(card.id);
+        gameEngine.declareAttacker() {
+  }
         break;
       case 'block':
-        gameEngine.declareBlocker(card.id, params.attackerId);
-        break;
+        gameEngine.declareBlocker() {
+    break;
       default:
-        console.warn(`Unknown card action: ${action}`);
+        console.warn(`Unknown card action: ${action`
+  }`)
     }
   };
 
   if (true) {
     return (
-    <>
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950"></div>
-      <div className="text-white text-center"></div>
-      <motion.div
+    <any />
+    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950" />
+    <div className="text-white text-center" />
+    <motion.div
             className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
-          <h2 className="text-xl font-bold mb-2">Loading KONIVRER Game</h2>
+            animate={{ rotate: 360 
+  }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}  / />
+    <h2 className="text-xl font-bold mb-2">Loading KONIVRER Game</h2>
       <p className="text-gray-400">Initializing game state...</p>
     </>
-  );
+  )
   }
 
   const currentPlayer = gameState.players[gameState.activePlayer];
@@ -167,48 +184,48 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
   return (
     <div 
       ref={boardRef}
-      className="h-screen w-full bg-gradient-to-br from-gray-950 via-blue-950/30 to-gray-900 overflow-hidden relative"></div>
+      className="h-screen w-full bg-gradient-to-br from-gray-950 via-blue-950/30 to-gray-900 overflow-hidden relative" /></div>
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10"></div>
-        <div className="absolute inset-0 bg-[url('/assets/konivrer-pattern.png')] bg-repeat opacity-20" /></div>
+      <div className="absolute inset-0 opacity-10" />
+    <div className="absolute inset-0 bg-[url('/assets/konivrer-pattern.png')] bg-repeat opacity-20"  / /></div>
       </div>
 
       {/* Main Game Layout */}
-      <div className="relative z-10 h-full flex flex-col"></div>
+      <div className="relative z-10 h-full flex flex-col" /></div>
         {/* Opponent Area */}
-        <div className="h-1/3 p-4 border-b border-blue-500/20"></div>
-          <div className="h-full grid grid-cols-12 gap-2"></div>
+        <div className="h-1/3 p-4 border-b border-blue-500/20" />
+    <div className="h-full grid grid-cols-12 gap-2" /></div>
             {/* Opponent Flag Zone */}
-            <div className="col-span-2 flex flex-col gap-2"></div>
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Flag</div>
+            <div className="col-span-2 flex flex-col gap-2" />
+    <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Flag</div>
                 {opponent.flag && (
                   <KonivrERCard
                     card={opponent.flag}
                     size="small"
                     zone="flag"
-                    isInteractive={false} />
+                    isInteractive={false}  / /></KonivrERCard>
                 )}
               </div>
               
               {/* Opponent Life Cards */}
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Life Cards</div>
-                <div className="flex items-center gap-1"></div>
-                  <Heart className="w-4 h-4 text-red-400" />
-                  <span className="text-sm text-white">{opponent.lifeCards?.length || 0}
+              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Life Cards</div>
+                <div className="flex items-center gap-1" />
+    <Heart className="w-4 h-4 text-red-400"  / />
+    <span className="text-sm text-white">{opponent.lifeCards? .length || 0}
                 </div>
-                <div className="flex gap-1 mt-1"></div>
-                  {Array.from({ length: opponent.lifeCards?.length || 0 }).map((_, i) => (
-                    <div key={i} className="w-3 h-4 bg-red-900 rounded-sm border border-red-700" /></div>
+                <div className="flex gap-1 mt-1" /></div> : null
+                  {Array.from({ length: opponent.lifeCards? .length || 0 }).map((_, i) => (
+                    <div key={i} className="w-3 h-4 bg-red-900 rounded-sm border border-red-700"  / /></div>
                   ))}
                 </div>
             </div>
 
             {/* Opponent Combat Row */}
-            <div className="col-span-8 bg-red-900/20 rounded-lg border border-red-500/30 p-2"></div>
-              <div className="text-xs text-red-400 mb-2">Opponent Combat Row</div>
-              <div className="flex gap-2 h-full"></div>
+            <div className="col-span-8 bg-red-900/20 rounded-lg border border-red-500/30 p-2" />
+    <div className="text-xs text-red-400 mb-2">Opponent Combat Row</div>
+              <div className="flex gap-2 h-full" /></div>
                 {opponent.combatRow?.map((card, index) => (
                   <KonivrERCard
                     key={card.id}
@@ -219,98 +236,98 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                   />
                 ))}
                 {(!opponent.combatRow || opponent.combatRow.length === 0) && (
-                  <div className="flex-1 flex items-center justify-center text-gray-500 text-sm"></div>
+                  <div className="flex-1 flex items-center justify-center text-gray-500 text-sm" /></div>
                     No attacking creatures
                   </div>
                 )}
             </div>
 
             {/* Opponent Deck & Removed */}
-            <div className="col-span-2 flex flex-col gap-2"></div>
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Deck</div>
-                <div className="flex items-center gap-1"></div>
-                  <div className="w-8 h-10 bg-blue-900 rounded border border-blue-700" /></div>
-                  <span className="text-sm text-white">{opponent.deck?.length || 0}
+            <div className="col-span-2 flex flex-col gap-2" />
+    <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Deck</div>
+                <div className="flex items-center gap-1" />
+    <div className="w-8 h-10 bg-blue-900 rounded border border-blue-700"  / />
+    <span className="text-sm text-white">{opponent.deck?.length || 0}
                 </div>
               
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Removed</div>
+              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Removed</div>
                 <div className="text-sm text-white">{opponent.removedFromPlay?.length || 0}
               </div>
           </div>
 
           {/* Opponent Field */}
-          <div className="mt-2 bg-gray-800/30 rounded-lg border border-gray-600/30 p-2 h-20"></div>
-            <div className="text-xs text-gray-400 mb-1">Opponent Field</div>
-            <div className="flex gap-2 overflow-x-auto h-full"></div>
+          <div className="mt-2 bg-gray-800/30 rounded-lg border border-gray-600/30 p-2 h-20" />
+    <div className="text-xs text-gray-400 mb-1">Opponent Field</div>
+            <div className="flex gap-2 overflow-x-auto h-full" /></div>
               {opponent.field?.map((card, index) => (
                 <KonivrERCard
                   key={card.id}
                   card={card}
                   zone="field"
                   isInteractive={false}
-                  size="small" />
+                  size="small"  / /></KonivrERCard>
               ))}
               {(!opponent.field || opponent.field.length === 0) && (
-                <div className="flex items-center justify-center text-gray-500 text-sm w-full"></div>
+                <div className="flex items-center justify-center text-gray-500 text-sm w-full" /></div>
                   No cards on field
                 </div>
               )}
           </div>
 
         {/* Middle Section - Phase Indicator & Game Info */}
-        <div className="h-16 flex items-center justify-between px-4 bg-gray-900/50 border-y border-blue-500/20"></div>
-          <div className="flex items-center gap-4"></div>
-            <KonivrERPhaseIndicator 
+        <div className="h-16 flex items-center justify-between px-4 bg-gray-900/50 border-y border-blue-500/20" />
+    <div className="flex items-center gap-4" />
+    <KonivrERPhaseIndicator 
               currentPhase={gameState.phase}
-              isPlayerTurn={isPlayerTurn} />
-            <div className="text-white"></div>
-              <span className="text-sm">Turn {gameState.currentTurn}
+              isPlayerTurn={isPlayerTurn}  / />
+    <div className="text-white" />
+    <span className="text-sm">Turn {gameState.currentTurn}
             </div>
           
-          <div className="flex items-center gap-4"></div>
-            <button
-              onClick={() => setShowLog(!showLog)}
+          <div className="flex items-center gap-4" />
+    <button
+              onClick={() => setShowLog(!showLog)} : null
               className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
             >
               {showLog ? 'Hide Log' : 'Show Log'}
           </div>
 
         {/* Player Area */}
-        <div className="flex-1 p-4"></div>
-          <div className="h-full grid grid-cols-12 gap-2"></div>
+        <div className="flex-1 p-4" />
+    <div className="h-full grid grid-cols-12 gap-2" /></div>
             {/* Player Flag Zone */}
-            <div className="col-span-2 flex flex-col gap-2"></div>
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Flag</div>
+            <div className="col-span-2 flex flex-col gap-2" />
+    <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Flag</div>
                 {currentPlayer.flag && (
                   <KonivrERCard
                     card={currentPlayer.flag}
                     size="small"
                     zone="flag"
-                    isInteractive={false} />
+                    isInteractive={false}  / /></KonivrERCard>
                 )}
               </div>
               
               {/* Player Life Cards */}
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Life Cards</div>
-                <div className="flex items-center gap-1"></div>
-                  <Heart className="w-4 h-4 text-red-400" />
-                  <span className="text-sm text-white">{currentPlayer.lifeCards?.length || 0}
+              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Life Cards</div>
+                <div className="flex items-center gap-1" />
+    <Heart className="w-4 h-4 text-red-400"  / />
+    <span className="text-sm text-white">{currentPlayer.lifeCards? .length || 0}
                 </div>
-                <div className="flex gap-1 mt-1"></div>
-                  {Array.from({ length: currentPlayer.lifeCards?.length || 0 }).map((_, i) => (
-                    <div key={i} className="w-3 h-4 bg-red-900 rounded-sm border border-red-700" /></div>
+                <div className="flex gap-1 mt-1" /></div> : null
+                  {Array.from({ length: currentPlayer.lifeCards? .length || 0 }).map((_, i) => (
+                    <div key={i} className="w-3 h-4 bg-red-900 rounded-sm border border-red-700"  / /></div>
                   ))}
                 </div>
             </div>
 
             {/* Player Combat Row */}
-            <div className="col-span-8 bg-green-900/20 rounded-lg border border-green-500/30 p-2"></div>
-              <div className="text-xs text-green-400 mb-2">Your Combat Row</div>
-              <div className="flex gap-2 h-full"></div>
+            <div className="col-span-8 bg-green-900/20 rounded-lg border border-green-500/30 p-2" />
+    <div className="text-xs text-green-400 mb-2">Your Combat Row</div>
+              <div className="flex gap-2 h-full" /></div>
                 {currentPlayer.combatRow?.map((card, index) => (
                   <KonivrERCard
                     key={card.id}
@@ -321,31 +338,31 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                   />
                 ))}
                 {(!currentPlayer.combatRow || currentPlayer.combatRow.length === 0) && (
-                  <div className="flex-1 flex items-center justify-center text-gray-500 text-sm"></div>
+                  <div className="flex-1 flex items-center justify-center text-gray-500 text-sm" /></div>
                     No attacking creatures
                   </div>
                 )}
             </div>
 
             {/* Player Deck & Removed */}
-            <div className="col-span-2 flex flex-col gap-2"></div>
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Deck</div>
-                <div className="flex items-center gap-1"></div>
+            <div className="col-span-2 flex flex-col gap-2" />
+    <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Deck</div>
+                <div className="flex items-center gap-1" /></div> : null
                   <div className="w-8 h-10 bg-blue-900 rounded border border-blue-700 cursor-pointer hover:bg-blue-800"
                        onClick={() => gameEngine.drawCard()} />
-                  <span className="text-sm text-white">{currentPlayer.deck?.length || 0}
+                  <span className="text-sm text-white">{currentPlayer.deck? .length || 0}
                 </div>
               
-              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
-                <div className="text-xs text-gray-400 mb-1">Removed</div>
+              <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2" />
+    <div className="text-xs text-gray-400 mb-1">Removed</div>
                 <div className="text-sm text-white">{currentPlayer.removedFromPlay?.length || 0}
               </div>
           </div>
 
           {/* Player Field */}
-          <div className="mt-2 bg-gray-800/30 rounded-lg border border-gray-600/30 p-2 h-20"></div>
-            <div className="text-xs text-gray-400 mb-1">Your Field</div>
+          <div className="mt-2 bg-gray-800/30 rounded-lg border border-gray-600/30 p-2 h-20" />
+    <div className="text-xs text-gray-400 mb-1">Your Field</div>
             <div 
               className="flex gap-2 overflow-x-auto h-full"
               onDragOver={(e) => e.preventDefault()}
@@ -363,15 +380,15 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                 />
               ))}
               {(!currentPlayer.field || currentPlayer.field.length === 0) && (
-                <div className="flex items-center justify-center text-gray-500 text-sm w-full"></div>
+                <div className="flex items-center justify-center text-gray-500 text-sm w-full" /></div>
                   Drop cards here to play them
                 </div>
               )}
           </div>
 
           {/* Player Azoth Row */}
-          <div className="mt-2 bg-yellow-900/20 rounded-lg border border-yellow-500/30 p-2 h-16"></div>
-            <div className="text-xs text-yellow-400 mb-1">Azoth Row</div>
+          <div className="mt-2 bg-yellow-900/20 rounded-lg border border-yellow-500/30 p-2 h-16" />
+    <div className="text-xs text-yellow-400 mb-1">Azoth Row</div>
             <div 
               className="flex gap-2 overflow-x-auto h-full"
               onDragOver={(e) => e.preventDefault()}
@@ -388,16 +405,16 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                 />
               ))}
               {(!currentPlayer.azothRow || currentPlayer.azothRow.length === 0) && (
-                <div className="flex items-center justify-center text-gray-500 text-sm w-full"></div>
+                <div className="flex items-center justify-center text-gray-500 text-sm w-full" /></div>
                   Drop cards here for Azoth
                 </div>
               )}
           </div>
 
         {/* Player Hand */}
-        <div className="h-32 bg-gray-900/50 border-t border-blue-500/20 p-4"></div>
-          <div className="text-xs text-gray-400 mb-2">Your Hand</div>
-          <div className="flex gap-2 overflow-x-auto h-full"></div>
+        <div className="h-32 bg-gray-900/50 border-t border-blue-500/20 p-4" />
+    <div className="text-xs text-gray-400 mb-2">Your Hand</div>
+          <div className="flex gap-2 overflow-x-auto h-full" /></div>
             {currentPlayer.hand?.map((card, index) => (
               <KonivrERCard
                 key={card.id}
@@ -411,7 +428,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
               />
             ))}
             {(!currentPlayer.hand || currentPlayer.hand.length === 0) && (
-              <div className="flex items-center justify-center text-gray-500 text-sm w-full"></div>
+              <div className="flex items-center justify-center text-gray-500 text-sm w-full" /></div>
                 No cards in hand
               </div>
             )}
@@ -427,7 +444,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
       />
 
       {/* Game Log */}
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
         {showLog && (
           <KonivrERGameLog
             gameLog={gameState.gameLog}
@@ -437,23 +454,23 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
       </AnimatePresence>
 
       {/* Card Preview */}
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
         {hoveredCard && (
-          <motion.div
+          <motion.div : null
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             className="fixed top-4 right-4 z-50"
-           />
-            <KonivrERCard
+            / />
+    <KonivrERCard
               card={hoveredCard}
               size="large"
               isInteractive={false}
-              showDetails={true} />
+              showDetails={true}  / /></KonivrERCard>
           </motion.div>
         )}
       </AnimatePresence>
-  );
-};
-
-export default KonivrERGameBoard;
+  )
+};`
+``
+export default KonivrERGameBoard;```

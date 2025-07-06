@@ -10,18 +10,21 @@ const useSearchStore = create()(
   devtools(
     persist(
       (set, get) => ({
-        // Search state
+    // Search state
         query: '',
         filters: {
-          type: '',,
-          element: '',,
+  }
+          type: '',
+          element: '',
           strength: { min: '', max: '' },
-          cost: { min: '', max: '' },,
-          rarity: '',,
-          set: '',,
+          cost: { min: '', max: '' },
+          rarity: '',
+          set: '',
           format: '',
-          keywords: [],
-          mechanics: []
+          keywords: [
+    ,
+          mechanics: [
+  ]
         },
         sortBy: 'name',
         sortOrder: 'asc',
@@ -30,34 +33,42 @@ const useSearchStore = create()(
         currentPage: 1,
         
         // Search results
-        results: [],
+        results: [
+    ,
         totalResults: 0,
         isLoading: false,
         error: null,
         
         // Search history
-        searchHistory: [],
-        savedSearches: [],
+        searchHistory: [
+  ],
+        savedSearches: [
+    ,
         
         // Actions
         setQuery: (query) => set({ query, currentPage: 1 }),
         
         setFilter: (filterKey, value) => set((state) => ({
-          filters: { ...state.filters, [filterKey]: value },
+    filters: { ...state.filters, [filterKey
+  ]: value 
+  },
           currentPage: 1
         })),
         
         clearFilters: () => set({
-          filters: {
-            type: '',,
-            element: '',,
+    filters: {
+  }
+            type: '',
+            element: '',
             strength: { min: '', max: '' },
-            cost: { min: '', max: '' },,
-            rarity: '',,
-            set: '',,
+            cost: { min: '', max: '' },
+            rarity: '',
+            set: '',
             format: '',
-            keywords: [],
-            mechanics: []
+            keywords: [
+    ,
+            mechanics: [
+  ]
           },
           currentPage: 1
         }),
@@ -68,28 +79,29 @@ const useSearchStore = create()(
         
         setPage: (page) => set({ currentPage: page }),
         
-        setResults: (results, totalResults) => set({ 
-          results, 
+        setResults: (results, totalResults) => set({
+    results, 
           totalResults, 
           isLoading: false, 
           error: null 
-        }),
+  }),
         
         setLoading: (isLoading) => set({ isLoading }),
         
         setError: (error) => set({ error, isLoading: false }),
         
         addToHistory: (searchTerm) => set((state) => ({
-          searchHistory: [
-            searchTerm,
+    searchHistory: [
+    searchTerm,
             ...state.searchHistory.filter(term => term !== searchTerm)
-          ].slice(0, 10) // Keep only last 10 searches
-        })),
+  ].slice(0, 10) // Keep only last 10 searches
+  })),
         
         saveSearch: (name, searchConfig) => set((state) => ({
-          savedSearches: [
-            ...state.savedSearches,
+    savedSearches: [
+    ...state.savedSearches,
             {
+  }
               id: Date.now(),
               name,
               query: searchConfig.query,
@@ -97,31 +109,32 @@ const useSearchStore = create()(
               sortBy: searchConfig.sortBy,
               sortOrder: searchConfig.sortOrder,
               createdAt: new Date().toISOString()}
-          ]
+  ]
         })),
         
         loadSavedSearch: (savedSearch) => set({
-          query: savedSearch.query,
+    query: savedSearch.query,
           filters: savedSearch.filters,
           sortBy: savedSearch.sortBy,
           sortOrder: savedSearch.sortOrder,
           currentPage: 1
-        }),
+  }),
         
         deleteSavedSearch: (id) => set((state) => ({
-          savedSearches: state.savedSearches.filter(search => search.id !== id)
-        }))
+    savedSearches: state.savedSearches.filter(search => search.id !== id)
+  }))
       }),
       {
-        name: 'konivrer-search-store',,
+    name: 'konivrer-search-store',
         partialize: (state) => ({
-          searchHistory: state.searchHistory,
+    searchHistory: state.searchHistory,
           savedSearches: state.savedSearches,
           viewMode: state.viewMode,
           resultsPerPage: state.resultsPerPage
-        })}
+  
+  })}
     ),
-    { name: 'SearchStore' },
+    { name: 'SearchStore' }
   )
 );
 

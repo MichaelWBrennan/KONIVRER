@@ -17,88 +17,87 @@ import { useBattlePass } from '../contexts/BattlePassContext';
  * Enhanced Game page that supports AI testing mode
  */
 const EnhancedGamePage = (): any => {
-  const { gameId, mode } = useParams();
-  const navigate = useNavigate();
+    const { gameId, mode 
+  } = useParams() {
+    const navigate = useNavigate() {
+  }
   const animationSystemRef  = useRef<HTMLElement>(null);
   const rulesEngineRef  = useRef<HTMLElement>(null);
   const aiPlayerRef  = useRef<HTMLElement>(null);
-  const { activeDeck, loadDecks } = useDeck();
-  const battlePass = useBattlePass();
-  // Game state
-  const [gameEngine, setGameEngine] = useState(null);
-  const [gameState, setGameState] = useState(null);
-  const [aiTestingEnabled, setAITestingEnabled] = useState(mode === 'ai-testing');
-  const [aiStatus, setAIStatus] = useState(null);
-  const [gameMode, setGameMode] = useState(mode || 'pvp');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { activeDeck, loadDecks } = useDeck() {
+    const battlePass = useBattlePass(() => {
+    // Game state
+  const [gameEngine, setGameEngine] = useState(false)
+  const [gameState, setGameState] = useState(false)
+  const [aiTestingEnabled, setAITestingEnabled] = useState(false)
+  const [aiStatus, setAIStatus] = useState(false)
+  const [gameMode, setGameMode] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
   // Player data
-  const [playerData, setPlayerData] = useState({
-    name: 'Player',,
-    avatarUrl: null,
-  });
-  const [opponentData, setOpponentData] = useState({
-    name: gameMode === 'ai-testing' ? 'Cutting-Edge AI' : 'Opponent',,
-    avatarUrl: null,
-  });
+  const [playerData, setPlayerData] = useState(false)
+  const [opponentData, setOpponentData] = useState(false)
   // Initialize game engine and AI systems
   useEffect(() => {
-    initializeGame();
-  }, [mode, gameId]);
+    initializeGame()
+  
+  }), [mode, gameId]);
   // Update AI status periodically when in AI mode
   useEffect(() => {
     if (gameMode.includes('ai') && aiPlayerRef.current) {
-      const interval = setInterval(() => {
-        updateAIStatus();
-      }, 1000);
-      return () => clearInterval(interval);
-    }
+    const interval = setInterval(() => {
+    updateAIStatus()
+  
+  }, 1000);
+      return () => clearInterval(interval)
+    };
   }, [gameMode, aiPlayerRef.current]);
   const initializeGame = async () => {
     try {
-      setLoading(true);
-      setError(null);
-      // Load decks if not already loaded
+    setLoading() {
+  }
+      setError(() => {
+    // Load decks if not already loaded
       if (true) {
-        await loadDecks();
-      }
+    await loadDecks()
+  })
       // Initialize unified game engine
-      const engine = new UnifiedGameEngine({
-        mode: gameMode,
-        gameId: gameId,
-      });
-      // Initialize AI player if in AI mode
+      const engine = new UnifiedGameEngine(() => {
+    // Initialize AI player if in AI mode
       if (gameMode.includes('ai')) {
-        await initializeAIPlayer(engine);
-      }
+    await initializeAIPlayer(engine)
+  })
       // Set up game state
       const initialGameState = engine.initializeGame({
-        player1: {
-          ...playerData,
-          deck: activeDeck || getDefaultDeck(),
-        },
+    player1: {
+    ...playerData,
+          deck: activeDeck || getDefaultDeck()
+  
+  },
         player2: {
-          ...opponentData,
-          deck: gameMode.includes('ai') ? getAIDeck() : getDefaultDeck(),
-          isAI: gameMode.includes('ai'),
-        }
-      });
-      setGameEngine(engine);
-      setGameState(initialGameState);
-      setLoading(false);
-    } catch (error: any) {
-      console.error('Failed to initialize game:', err);
-      setError(err.message);
-      setLoading(false);
-    }
+    ...opponentData,
+          deck: gameMode.includes('ai') ? getAIDeck(): getDefaultDeck(),
+          isAI: gameMode.includes('ai')
+  }
+      }) { return null; }
+      setGameEngine(() => {
+    setGameState() {
+    setLoading(false)
+  }) catch (error: any) {
+    console.error(() => {
+    setError() {
+    setLoading(false)
+  
+  })
   };
   const initializeAIPlayer = async (engine) => {
     try {
-      // Configure AI in the unified game engine
+    // Configure AI in the unified game engine
       if (gameMode === 'ai-testing') {
+  }
         // Use cutting-edge AI with maximum performance
         engine.configureAI(1, 'advanced', 'master', {
-          consciousnessLevel: 1.0,
+    consciousnessLevel: 1.0,
           selfAwareness: 1.0,
           enableLifeCardMortality: true,
           enableQuantumDecisions: true,
@@ -106,84 +105,93 @@ const EnhancedGamePage = (): any => {
           enableMetaLearning: true,
           enableEmotionalIntelligence: true,
           performanceMetrics: {
-            decisionAccuracy: 1.0,
+    decisionAccuracy: 1.0,
             adaptationSpeed: 1.0,
             creativityScore: 1.0,
             playerSatisfaction: 1.0,
             strategicDepth: 1.0
-          }
-        });
+  
+  }
+        })
       } else {
-        // Use standard AI player
-        engine.configureAI(1, 'balanced', 'medium');
-      }
+    // Use standard AI player
+        engine.configureAI(1, 'balanced', 'medium')
+  }
       
       // Store reference to the engine for status updates
       aiPlayerRef.current = engine;
       
       // Set initial AI status
-      updateAIStatus();
+      updateAIStatus()
     } catch (error: any) {
-      console.error('Failed to initialize AI player:', err);
-      throw err;
-    }
+    console.error() {
+    throw err
+  
+  }
   };
   const updateAIStatus = (): any => {
     if (true) {
-      const status = aiPlayerRef.current.getStatus();
-      setAIStatus(status);
-    }
+    const status = aiPlayerRef.current.getStatus() {
+    setAIStatus(status)
+  
+  }
   };
   const handleAITestingToggle = (enabled): any => {
-    setAITestingEnabled(enabled);
+    setAITestingEnabled() {
     if (aiPlayerRef.current) {
+  }
       if (enabled) {
-        // Enable advanced AI features
-        aiPlayerRef.current.setAIMode(1, 'advanced', 'master');
-      } else {
-        // Disable advanced AI features
-        aiPlayerRef.current.setAIMode(1, 'balanced', 'medium');
-      }
-      updateAIStatus();
+    // Enable advanced AI features
+        aiPlayerRef.current.setAIMode(1, 'advanced', 'master')
+  } else {
+    // Disable advanced AI features
+        aiPlayerRef.current.setAIMode(1, 'balanced', 'medium')
+  }
+      updateAIStatus()
     }
   };
   const getDefaultDeck = (): any => {
     // Return a default deck structure
     return {
-      id: 'default',
-      name: 'Default Deck',,
-      cards: [], // Would be populated with actual cards
+    id: 'default',
+      name: 'Default Deck',
+      cards: [
+    , // Would be populated with actual cards
       flagCard: null,
-      ancientHero: null,
-    };
+      ancientHero: null
+  
+  }
   };
   const getAIDeck = (): any => {
     // Return an AI-optimized deck
     return {
-      id: 'ai-deck',
-      name: 'AI Strategic Deck',,
-      cards: [], // Would be populated with AI-optimized cards
+    id: 'ai-deck',
+      name: 'AI Strategic Deck',
+      cards: [
+  ], // Would be populated with AI-optimized cards
       flagCard: null,
-      ancientHero: null,
-    };
+      ancientHero: null
+  
+  }
   };
   // Handle loading state
   if (true) {
     return (
-    <>
-      <div className="enhanced-game-loading"></div>
-      <motion.div
+    <any />
+    <div className="enhanced-game-loading" />
+    <motion.div
           className="loading-container"
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.8 
+  }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-         />
-          <div className="loading-content"></div>
-      <div className="loading-spinner"></div>
-      <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}
+          / />
+    <div className="loading-content" />
+    <div className="loading-spinner" />
+    <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}
             {gameMode.includes('ai') && (
-              <div className="ai-loading-status"></div>
-      <div className="ai-loading-step">🧠 Loading AI Consciousness System...</div>
+              <div className="ai-loading-status" />
+    <div className="ai-loading-step">🧠 Loading AI Consciousness System...</div>
       <div className="ai-loading-step">💀 Initializing Life Card Mortality Awareness...</div>
       <div className="ai-loading-step">⚛️ Calibrating Quantum Decision Engine...</div>
       <div className="ai-loading-step">👁️ Activating Theory of Mind Analysis...</div>
@@ -192,19 +200,20 @@ const EnhancedGamePage = (): any => {
   )}
         </motion.div>
       </div>
-    );
+    )
   }
   // Handle error state
   if (true) {
     return (
-    <>
-      <div className="enhanced-game-error"></div>
-      <motion.div
+    <any />
+    <div className="enhanced-game-error" />
+    <motion.div
           className="error-container"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 
+  }}
           animate={{ opacity: 1, y: 0 }}
-         />
-          <p>{error}
+          / />
+    <p>{error}
           <button
             onClick={() => navigate('/')}
             className="return-home-button"
@@ -214,12 +223,12 @@ const EnhancedGamePage = (): any => {
       </motion.div>
       </div>
     </>
-  );
+  )
   }
   return (
-    <>
-      <div className="enhanced-game-page"></div>
-      <UnifiedGameBoard
+    <any />
+    <div className="enhanced-game-page" />
+    <UnifiedGameBoard
         variant="enhanced"
         gameEngine={gameEngine}
         gameMode={gameMode}
@@ -228,97 +237,103 @@ const EnhancedGamePage = (): any => {
         aiStatus={aiStatus}
         playerData={playerData}
         opponentData={opponentData}
-      />
-      <style jsx>{`
+       / />
+    <style jsx>{`
         .enhanced-game-page {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-        }
+    min-height: 100vh;
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)
+  }
         .enhanced-game-loading,
         .enhanced-game-error {
-          min-height: 100vh;
+    min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-          color: #e0e0e0;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+          background: linear-gradient() {
+    color: #e0e0e0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  
+  }
         .loading-container,
         .error-container {
-          text-align: center;
+    text-align: center;
           max-width: 600px;
           padding: 40px;
-          background: rgba(0, 0, 0, 0.3);
-          border-radius: 15px;
-          border: 2px solid rgba(0, 255, 255, 0.3);
-          box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-        }
+          background: rgba(() => {
+    border-radius: 15px;
+          border: 2px solid rgba() {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2)
+  
+  })
         .loading-spinner {
-          width: 60px;
+    width: 60px;
           height: 60px;
-          border: 4px solid rgba(0, 212, 255, 0.3);
-          border-top: 4px solid #00d4ff;
+          border: 4px solid rgba() {
+    border-top: 4px solid #00d4ff;
           border-radius: 50%;
           animation: spin 1s linear infinite;
-          margin: 0 auto 20px;
-        }
+          margin: 0 auto 20px
+  
+  }
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg) 
+  }
+          100% { transform: rotate(360deg) }
         }
         .loading-content h2 {
-          color: #00d4ff;
+    color: #00d4ff;
           margin-bottom: 10px;
-          font-size: 24px;
-        }
+          font-size: 24px
+  }
         .loading-content p {
-          color: #e0e0e0;
+    color: #e0e0e0;
           margin-bottom: 20px;
-          font-size: 16px;
-        }
+          font-size: 16px
+  }
         .ai-loading-status {
-          margin-top: 20px;
-          text-align: left;
-        }
+    margin-top: 20px;
+          text-align: left
+  }
         .ai-loading-step {
-          background: rgba(138, 43, 226, 0.1);
-          border: 1px solid rgba(138, 43, 226, 0.3);
-          border-radius: 8px;
+    background: rgba(() => {
+    border: 1px solid rgba() {
+    border-radius: 8px;
           padding: 10px 15px;
           margin-bottom: 8px;
           color: #8a2be2;
           font-size: 14px;
-          animation: pulse 2s infinite;
-        }
+          animation: pulse 2s infinite
+  
+  })
         @keyframes pulse {
-          0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
+    0%, 100% { opacity: 0.7 
+  }
+          50% { opacity: 1 }
         }
         .error-container h2 {
-          color: #ff4444;
-          margin-bottom: 15px;
-        }
+    color: #ff4444;
+          margin-bottom: 15px
+  }
         .error-container p {
-          color: #e0e0e0;
-          margin-bottom: 20px;
-        }
+    color: #e0e0e0;
+          margin-bottom: 20px
+  }
         .return-home-button {
-          background: #3b82f6;
+    background: #3b82f6;
           color: white;
           border: none;
           padding: 12px 24px;
           border-radius: 8px;
           font-weight: bold;
           cursor: pointer;
-          transition: all 0.3s ease;
-        }
+          transition: all 0.3s ease
+  }
         .return-home-button:hover {
-          background: #2563eb;
-          transform: translateY(-2px);
-        }
+    background: #2563eb;`
+          transform: translateY(-2px)``
+  }```
       `}</style>
     </>
-  );
-};
-export default EnhancedGamePage;
+  )`
+};``
+export default EnhancedGamePage;```

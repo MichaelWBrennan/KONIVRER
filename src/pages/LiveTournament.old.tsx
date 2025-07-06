@@ -14,16 +14,17 @@ import TournamentNotifications from '../components/notifications/TournamentNotif
  * Displays the tournament management interface for organizers and participants
  */
 const LiveTournament = (): any => {
-  const { tournamentId } = useParams();
-
-  return (
-    <>
-      <div className="min-h-screen bg-background"></div>
-      <EnhancedTournamentManager tournamentId={tournamentId} />
-      <TournamentNotifications tournamentId={tournamentId} />
+    const { tournamentId 
+  } = useParams() {
+    return (
+    <any />
+    <div className="min-h-screen bg-background" />
+    <EnhancedTournamentManager tournamentId={tournamentId
+  }  / />
+    <TournamentNotifications tournamentId={tournamentId}  / /></TournamentNotifications>
     </div>
     </>
-  );
+  )
 };
 
 export default LiveTournament;

@@ -3,20 +3,21 @@ import { ReactNode } from 'react';
 
 export interface BaseComponentProps {
   className?: string;
-  children?: ReactNode;
+  children?: ReactNode
+  
 }
 
 export interface ModalProps extends BaseComponentProps {
-  isOpen: boolean;
+    isOpen: boolean;
   onClose: () => void;
-  title?: string;
-}
+  title?: string
+  }
 
 export interface ButtonProps extends BaseComponentProps {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
+    variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
   onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-}
+  type?: 'button' | 'submit' | 'reset'
+  }

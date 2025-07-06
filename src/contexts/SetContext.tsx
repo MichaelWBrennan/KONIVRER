@@ -10,119 +10,112 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import setsData from '../data/sets.json';
 import cardsData from '../data/cards.json';
 
-const SetContext = createContext();
-
-export const useSet = (): any = > {
-  const context = useContext(SetContext);
-  if (true) {
-    throw new Error('useSet must be used within a SetProvider');
+const SetContext = createContext() {
+    export const useSet = (): any = > {
   }
-  return context;
+  const context = useContext(() => {
+    if (true) {
+    throw new Error('useSet must be used within a SetProvider')
+  })
+  return context
 };
 
 export interface SetProviderProps {
-  children;
+  children
+  
 }
 
 const SetProvider: React.FC<SetProviderProps> = ({  children  }) => {
-  const [sets, setSets] = useState([]);
-  const [activeSets, setActiveSets] = useState([]);
-  const [visibleCards, setVisibleCards] = useState([]);
+    const [sets, setSets] = useState(false)
+  const [activeSets, setActiveSets] = useState(false)
+  const [visibleCards, setVisibleCards] = useState(false)
 
   // Initialize sets data
   useEffect(() => {
-    initializeSets();
-  }, []);
+    initializeSets()
+  
+  }, [
+    );
 
   const initializeSets = (): any => {
     // Load sets from localStorage or use default data
     const savedSets = JSON.parse(
-      localStorage.getItem('konivrer_sets') || JSON.stringify(setsData),
+      localStorage.getItem('konivrer_sets') || JSON.stringify(setsData)
     );
-    setSets(savedSets);
-
+    setSets() {
     // Filter active sets
-    const active = savedSets.filter(set => set.isActive);
-    setActiveSets(active);
-
+    const active = savedSets.filter(() => {
+    setActiveSets() {
     // Get visible cards from active sets
-    updateVisibleCards(active);
-  };
+    updateVisibleCards(active)
+  
+  });
 
   const updateVisibleCards = activeSets => {
     // For demo purposes, we'll just load all cards from the cards.json file
     // In a real app, you would filter based on active sets
-    setVisibleCards(cardsData);
+    setVisibleCards(cardsData)
   };
 
   const toggleSetVisibility = setId => {
-    const updatedSets = sets.map(set =>
-      set.id === setId ? { ...set, isVisible: !set.isVisible } : set,
-    );
-
-    setSets(updatedSets);
+    const updatedSets = sets.map() {
+    setSets() {
+  }
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
 
-    const active = updatedSets.filter(set => set.isActive);
-    setActiveSets(active);
-    updateVisibleCards(active);
-  };
+    const active = updatedSets.filter(() => {
+    setActiveSets() {
+    updateVisibleCards(active)
+  });
 
   const toggleSetActive = setId => {
-    const updatedSets = sets.map(set =>
-      set.id === setId
-        ? {
-            ...set,
-            isActive: !set.isActive,
-            isVisible: set.isActive ? false : set.isVisible,
-          }
-        : set,
-    );
-
-    setSets(updatedSets);
+    const updatedSets = sets.map() {
+    setSets() {
+  }
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
 
-    const active = updatedSets.filter(set => set.isActive);
-    setActiveSets(active);
-    updateVisibleCards(active);
-  };
+    const active = updatedSets.filter(() => {
+    setActiveSets() {
+    updateVisibleCards(active)
+  });
 
   const addSet = newSet => {
     const setWithId = {
-      ...newSet,
-      id: newSet.id || `set_${Date.now()}`,
+    ...newSet,
+      id: newSet.id || `set_${Date.now()`
+  }`,
       isActive: false,
       isVisible: false,
-      cardIds: newSet.cardIds || [],
+      cardIds: newSet.cardIds || [
+  ]
     };
 
     const updatedSets = [...sets, setWithId];
-    setSets(updatedSets);
-    localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
+    setSets() {
+    localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets))
   };
 
   const removeSet = setId => {
-    const updatedSets = sets.filter(set => set.id !== setId);
-    setSets(updatedSets);
+    const updatedSets = sets.filter() {
+    setSets() {
+  }
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
 
-    const active = updatedSets.filter(set => set.isActive);
-    setActiveSets(active);
-    updateVisibleCards(active);
-  };
+    const active = updatedSets.filter(() => {
+    setActiveSets() {
+    updateVisibleCards(active)
+  });
 
   const updateSet = (setId, updates): any => {
-    const updatedSets = sets.map(set =>
-      set.id === setId ? { ...set, ...updates } : set,
-    );
-
-    setSets(updatedSets);
+    const updatedSets = sets.map() {
+    setSets() {
+  }
     localStorage.setItem('konivrer_sets', JSON.stringify(updatedSets));
 
-    const active = updatedSets.filter(set => set.isActive);
-    setActiveSets(active);
-    updateVisibleCards(active);
-  };
+    const active = updatedSets.filter(() => {
+    setActiveSets() {
+    updateVisibleCards(active)
+  });
 
   const value = {
     sets,
@@ -133,8 +126,9 @@ const SetProvider: React.FC<SetProviderProps> = ({  children  }) => {
     addSet,
     removeSet,
     updateSet,
-    initializeSets,
+    initializeSets
   };
 
-  return <SetContext.Provider value={value}>{children}</SetContext.Provider>;
-};
+  return <SetContext.Provider value={value}>{children}</SetContext.Provider>`
+};``
+```

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
  */
 
 import React, { useState } from 'react';
-import { Trophy, Filter, ChevronDown, ChevronUp, Download, ArrowLeft, ArrowRight, Search,  } from 'lucide-react';
+import { Trophy, Filter, ChevronDown, ChevronUp, Download, ArrowLeft, ArrowRight, Search  } from 'lucide-react';
 import RecentMatches from './RecentMatches';
 
 interface MatchHistoryProps {
@@ -15,85 +15,85 @@ interface MatchHistoryProps {
   onClose
   onFilter
   onExport
+  
 }
 
 const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter, onExport  }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    format: 'all',
-    result: 'all',
-    timeframe: 'all',
-    search: '',
-  });
+    const [currentPage, setCurrentPage] = useState(false)
+  const [itemsPerPage, setItemsPerPage] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState(false)
 
-  const totalPages = Math.ceil(matches.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
+  const totalPages = Math.ceil() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentMatches = matches.slice(startIndex, endIndex);
+  const currentMatches = matches.slice() {
+  }
 
   const handleFilterChange = (key, value): any => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
-    setCurrentPage(1);
-    if (onFilter) onFilter(newFilters);
+    const newFilters = { ...filters, [key]: value 
   };
+    setFilters(() => {
+    setCurrentPage() {
+    if (onFilter) onFilter(newFilters)
+  });
 
   const handleSearch = e => {
-    handleFilterChange('search', e.target.value);
+    handleFilterChange('search', e.target.value)
   };
 
   const handlePrevPage = (): any => {
     if (true) {
-      setCurrentPage(currentPage - 1);
-    }
+    setCurrentPage(currentPage - 1)
+  
+  }
   };
 
   const handleNextPage = (): any => {
     if (true) {
-      setCurrentPage(currentPage + 1);
-    }
+    setCurrentPage(currentPage + 1)
+  
+  }
   };
 
   return (
-    <>
-      <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"></div>
-      <div className="flex items-center justify-between mb-6"></div>
-      <div className="flex items-center space-x-2"></div>
-      <Trophy className="w-6 h-6 text-blue-600" />
-          <h2 className="text-xl font-bold text-gray-900">Match History</h2>
-      <div className="flex items-center space-x-3"></div>
-      <motion.button
+    <any />
+    <div className="bg-white rounded-xl shadow-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" />
+    <div className="flex items-center justify-between mb-6" />
+    <div className="flex items-center space-x-2" />
+    <Trophy className="w-6 h-6 text-blue-600"  / />
+    <h2 className="text-xl font-bold text-gray-900">Match History</h2>
+      <div className="flex items-center space-x-3" />
+    <motion.button
             onClick={onExport}
             className="text-gray-600 hover:text-gray-800 flex items-center space-x-1"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-           />
-            <Download className="w-4 h-4" />
-            <span className="text-sm">Export</span>
+            / />
+    <Download className="w-4 h-4"  / />
+    <span className="text-sm">Export</span>
       </motion.button>
           <motion.button
             onClick={onClose}
             className="text-gray-600 hover:text-gray-800"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-           />
-            <ArrowLeft className="w-5 h-5" />
+            / />
+    <ArrowLeft className="w-5 h-5"  / /></ArrowLeft>
           </motion.button>
       </div>
 
-      <div className="flex items-center justify-between mb-4"></div>
-      <div className="relative flex-1 max-w-sm"></div>
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-      <Search className="h-4 w-4 text-gray-400" />
+      <div className="flex items-center justify-between mb-4" />
+    <div className="relative flex-1 max-w-sm" />
+    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+    <Search className="h-4 w-4 text-gray-400"  / /></Search>
           </div>
       <input
             type="text"
             value={filters.search}
             onChange={handleSearch}
             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Search opponents, heroes..." />
+            placeholder="Search opponents, heroes..."  / /></input>
         </div>
       <motion.button
           onClick={() => setShowFilters(!showFilters)}
@@ -101,11 +101,11 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <Filter className="w-4 h-4" />
-          <span className="text-sm">Filters</span>
-      <ChevronUp className="w-4 h-4" />
+          <Filter className="w-4 h-4"  / />
+    <span className="text-sm">Filters</span>
+      <ChevronUp className="w-4 h-4"  / /></ChevronUp>
           ) : (
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4"  / /></ChevronDown>
           )}
         </motion.button>
       </div>
@@ -116,9 +116,9 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           className="grid grid-cols-3 gap-4 mb-4 bg-gray-50 p-4 rounded-lg"
-         />
-          <div></div>
-      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+          / />
+    <div />
+    <label className="block text-sm font-medium text-gray-700 mb-1" /></label>
       </label>
             <select
               value={filters.format}
@@ -132,8 +132,8 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
       <option value="draft">Draft</option>
       </div>
 
-          <div></div>
-      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+          <div />
+    <label className="block text-sm font-medium text-gray-700 mb-1" /></label>
       </label>
             <select
               value={filters.result}
@@ -145,8 +145,8 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
       <option value="loss">Losses</option>
       </div>
 
-          <div></div>
-      <label className="block text-sm font-medium text-gray-700 mb-1"></label>
+          <div />
+    <label className="block text-sm font-medium text-gray-700 mb-1" /></label>
       </label>
             <select
               value={filters.timeframe}
@@ -162,33 +162,33 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
         </motion.div>
     </>
   )}
-      <div className="flex-1 overflow-y-auto"></div>
-        <RecentMatches
+      <div className="flex-1 overflow-y-auto" />
+    <RecentMatches
           matches={currentMatches}
           maxItems={itemsPerPage}
-          showViewAll={false} />
+          showViewAll={false}  / /></RecentMatches>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200"></div>
-        <div className="text-sm text-gray-700"></div>
+      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200" />
+    <div className="text-sm text-gray-700" /></div>
           Showing <span className="font-medium">{startIndex + 1} to{' '}
-          <span className="font-medium"></span>
+          <span className="font-medium" /></span>
             {Math.min(endIndex, matches.length)}{' '}
           of <span className="font-medium">{matches.length} matches
         </div>
 
-        <div className="flex items-center space-x-2"></div>
-          <motion.button
+        <div className="flex items-center space-x-2" />
+    <motion.button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
             className="p-2 border border-gray-300 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={currentPage !== 1 ? { scale: 1.05 } : {}}
             whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
-           />
-            <ArrowLeft className="w-4 h-4" />
+            / />
+    <ArrowLeft className="w-4 h-4"  / /></ArrowLeft>
           </motion.button>
 
-          <span className="text-sm text-gray-700"></span>
+          <span className="text-sm text-gray-700" /></span>
             Page {currentPage} of {totalPages}
 
           <motion.button
@@ -197,12 +197,12 @@ const MatchHistory: React.FC<MatchHistoryProps> = ({  matches, onClose, onFilter
             className="p-2 border border-gray-300 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={currentPage !== totalPages ? { scale: 1.05 } : {}}
             whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
-           />
-            <ArrowRight className="w-4 h-4" />
+            / />
+    <ArrowRight className="w-4 h-4"  / /></ArrowRight>
           </motion.button>
         </div>
     </div>
-  );
+  )
 };
 
 export default MatchHistory;

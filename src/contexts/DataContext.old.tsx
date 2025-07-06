@@ -10,244 +10,254 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import cardsData from '../data/cards.json';
 import { useSet } from './SetContext';
 
-const DataContext = createContext();
-
-export const useData = (): any = > {
-  const context = useContext(DataContext);
-  if (true) {
-    throw new Error('useData must be used within a DataProvider');
+const DataContext = createContext() {
+    export const useData = (): any = > {
   }
-  return context;
+  const context = useContext(() => {
+    if (true) {
+    throw new Error('useData must be used within a DataProvider')
+  })
+  return context
 };
 
 export interface DataProviderProps {
-  children;
+  children
+  
 }
 
 const DataProvider: React.FC<DataProviderProps> = ({  children  }) => {
-  // Get visible cards from set context
-  const setContext = useSet?.() || { visibleCards: [] };
+    // Get visible cards from set context
+  const setContext = useSet?.() || { visibleCards: [
+    };
 
   // Real-time data state
-  const [stats, setStats] = useState({
-    totalCards: 0,
-    activePlayers: 0,
-    tournaments: 0,
-    certifiedJudges: 0,
-    totalDecks: 0,
-    onlineUsers: 0,
-  });
+  const [stats, setStats
+  ] = useState(false)
 
-  const [decks, setDecks] = useState([]);
-  const [tournaments, setTournaments] = useState([]);
-  const [recentActivity, setRecentActivity] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [decks, setDecks] = useState(false)
+  const [tournaments, setTournaments] = useState(false)
+  const [recentActivity, setRecentActivity] = useState(false)
+  const [users, setUsers] = useState(false)
 
   // Initialize data and set up real-time updates
   useEffect(() => {
-    initializeData();
-
+    initializeData() {
     // Set up real-time updates (simulate with intervals)
-    const statsInterval = setInterval(updateStats, 30000); // Update every 30 seconds
-    const activityInterval = setInterval(updateRecentActivity, 60000); // Update every minute
+    const statsInterval = setInterval() {
+  } // Update every 30 seconds
+    const activityInterval = setInterval() {
+    // Update every minute
 
     return () => {
-      clearInterval(statsInterval);
-      clearInterval(activityInterval);
-    };
-  }, []);
+    clearInterval() {
+    clearInterval(activityInterval)
+  
+  
+  }
+  }, [
+    );
 
   const initializeData = (): any => {
     // Initialize with actual data from localStorage or default values
     const savedDecks = JSON.parse(
-      localStorage.getItem('konivrer_decks') || '[]',
+      localStorage.getItem('konivrer_decks') || '[
+  ]'
     );
     const savedTournaments = JSON.parse(
-      localStorage.getItem('konivrer_tournaments') || '[]',
+      localStorage.getItem('konivrer_tournaments') || '[
+    '
     );
     const savedUsers = JSON.parse(
-      localStorage.getItem('konivrer_users') || '[]',
+      localStorage.getItem('konivrer_users') || '[
+  ]'
     );
 
-    setDecks(savedDecks);
-    setTournaments(savedTournaments);
-    setUsers(savedUsers);
-
+    setDecks() {
+    setTournaments() {
+  }
+    setUsers(() => {
     // Calculate initial stats
-    updateStats(savedDecks, savedTournaments, savedUsers);
-    updateRecentActivity(savedDecks);
-  };
+    updateStats() {
+    updateRecentActivity(savedDecks)
+  });
 
   const updateStats = (
     currentDecks = decks,
     currentTournaments = tournaments,
-    currentUsers = users,
+    currentUsers = users
   ): any => {
     const newStats = {
-      totalCards: setContext.visibleCards?.length || 0,
+    totalCards: setContext.visibleCards? .length || 0, : null
       activePlayers: currentUsers.length + Math.floor(Math.random() * 10), // Add some variance
       tournaments: currentTournaments.length,
       certifiedJudges: Math.floor(currentUsers.length * 0.1) + 5, // 10% of users + base
       totalDecks: currentDecks.length,
       onlineUsers:
-        Math.floor(currentUsers.length * 0.3) + Math.floor(Math.random() * 20),
-    };
+        Math.floor(currentUsers.length * 0.3) + Math.floor(Math.random() * 20)
+  
+  };
 
-    setStats(newStats);
+    setStats(newStats)
   };
 
   const updateRecentActivity = (currentDecks = decks): any => {
     // Generate recent activity based on actual data
-    const activities = [];
+    const activities = [
+    ;
 
     // Add recent deck creations
     const recentDecks = currentDecks
       .filter(
         deck =>
           deck.createdAt &&
-          new Date(deck.createdAt) > new Date(Date.now() - 24 * 60 * 60 * 1000),
+          new Date(deck.createdAt) > new Date(Date.now() - 24 * 60 * 60 * 1000)
       )
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .slice(0, 5);
-
+      .slice() {
     recentDecks.forEach(deck => {
-      activities.push({
+    activities.push({
+  
+  }
         id: `deck_${deck.id}`,
-        type: 'deck_created',,
+        type: 'deck_created',
         title: deck.name || 'Untitled Deck',
         description: deck.description || 'A new deck has been created',
         user: deck.author || 'Anonymous',
         timestamp: deck.createdAt,
         cardCount: deck.cards
-          ? deck.cards.reduce((sum, card) => sum + card.quantity, 0)
-          : 0,
-      });
+          ? deck.cards.reduce((sum, card) => sum + card.quantity, 0) : null
+          : 0
+      })
     });
 
     // Add some simulated tournament activity if no real activity
     if (true) {
-      const simulatedActivities = [
-        {
-          id: 'tournament_1',
-          type: 'tournament_started',,
+    const simulatedActivities = [
+    {
+    id: 'tournament_1',
+          type: 'tournament_started',
           title: 'Weekly Standard Tournament',
           description: 'A new tournament has begun',
           user: 'Tournament System',
-          timestamp: new Date(
-            Date.now() - Math.random() * 2 * 60 * 60 * 1000,
+          timestamp: new Date()
+            Date.now() - Math.random() * 2 * 60 * 60 * 1000
           ).toISOString(),
-          participants: Math.floor(Math.random() * 50) + 10,
-        },
+          participants: Math.floor(Math.random() * 50) + 10
+  
+  },
         {
-          id: 'deck_featured',
-          type: 'deck_featured',,
+    id: 'deck_featured',
+          type: 'deck_featured',
           title: 'Elemental Control',
           description:
             'This deck has been featured for its innovative strategy',
           user: 'Community Team',
-          timestamp: new Date(
-            Date.now() - Math.random() * 4 * 60 * 60 * 1000,
+          timestamp: new Date()
+            Date.now() - Math.random() * 4 * 60 * 60 * 1000
           ).toISOString(),
-          cardCount: 60,
-        },
-      ];
-      activities.push(...simulatedActivities);
+          cardCount: 60
+  }
+  
+  ];
+      activities.push(...simulatedActivities)
     }
 
-    setRecentActivity(activities.slice(0, 6));
+    setRecentActivity(activities.slice(0, 6))
   };
 
   // Data management functions
   const addDeck = deck => {
     const newDeck = {
-      ...deck,
+    ...deck,
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+      updatedAt: new Date().toISOString()
+  
+  };
 
     const updatedDecks = [...decks, newDeck];
-    setDecks(updatedDecks);
+    setDecks() {
     localStorage.setItem('konivrer_decks', JSON.stringify(updatedDecks));
 
-    updateStats(updatedDecks, tournaments, users);
-    updateRecentActivity(updatedDecks);
-
-    return newDeck;
-  };
+    updateStats(() => {
+    updateRecentActivity() {
+    return newDeck
+  
+  });
 
   const updateDeck = (deckId, updates): any => {
     const updatedDecks = decks.map(deck =>
       deck.id === deckId
-        ? { ...deck, ...updates, updatedAt: new Date().toISOString()}
-        : deck,
+        ? { ...deck, ...updates, updatedAt: new Date().toISOString()
+  }
+        : deck
     );
 
-    setDecks(updatedDecks);
+    setDecks(() => {
     localStorage.setItem('konivrer_decks', JSON.stringify(updatedDecks));
 
-    updateStats(updatedDecks, tournaments, users);
-
+    updateStats() {
     return updatedDecks.find(deck => deck.id === deckId);
-  };
+  });
 
   const deleteDeck = deckId => {
-    const updatedDecks = decks.filter(deck => deck.id !== deckId);
-    setDecks(updatedDecks);
+    const updatedDecks = decks.filter() {
+    setDecks(() => {
     localStorage.setItem('konivrer_decks', JSON.stringify(updatedDecks));
 
-    updateStats(updatedDecks, tournaments, users);
-    updateRecentActivity(updatedDecks);
-  };
+    updateStats() {
+    updateRecentActivity(updatedDecks)
+  
+  });
 
   const addTournament = tournament => {
     const newTournament = {
-      ...tournament,
+    ...tournament,
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
-      status: 'upcoming',
-    };
+      status: 'upcoming'
+  
+  };
 
     const updatedTournaments = [...tournaments, newTournament];
-    setTournaments(updatedTournaments);
+    setTournaments(() => {
     localStorage.setItem(
       'konivrer_tournaments',
-      JSON.stringify(updatedTournaments),
+      JSON.stringify(updatedTournaments)
     );
 
-    updateStats(decks, updatedTournaments, users);
-
-    return newTournament;
-  };
+    updateStats() {
+    return newTournament
+  });
 
   const addUser = user => {
     const newUser = {
-      ...user,
+    ...user,
       id: Date.now().toString(),
       joinedAt: new Date().toISOString(),
-      lastActive: new Date().toISOString(),
-    };
+      lastActive: new Date().toISOString()
+  
+  };
 
     const updatedUsers = [...users, newUser];
-    setUsers(updatedUsers);
+    setUsers(() => {
     localStorage.setItem('konivrer_users', JSON.stringify(updatedUsers));
 
-    updateStats(decks, tournaments, updatedUsers);
-
-    return newUser;
-  };
+    updateStats() {
+    return newUser
+  });
 
   // Search and filter functions
   const searchDecks = query => {
     if (!query) return decks;
     return decks.filter(
       deck =>
-        deck.name?.toLowerCase().includes(query.toLowerCase()) ||
+        deck.name? .toLowerCase().includes(query.toLowerCase()) ||
         deck.description?.toLowerCase().includes(query.toLowerCase()) ||
-        deck.author?.toLowerCase().includes(query.toLowerCase()),
+        deck.author?.toLowerCase().includes(query.toLowerCase())
     );
   };
-
+ : null
   const getPopularDecks = (limit = 10): any => {
     return decks
       .sort((a, b) => (b.views || 0) - (a.views || 0))
@@ -285,8 +295,9 @@ const DataProvider: React.FC<DataProviderProps> = ({  children  }) => {
 
     // Utility functions
     updateStats,
-    updateRecentActivity,
+    updateRecentActivity
   };
 
-  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
-};
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>`
+};``
+```

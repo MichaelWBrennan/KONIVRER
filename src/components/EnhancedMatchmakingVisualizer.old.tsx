@@ -16,48 +16,49 @@ import '../styles/esoteric-theme.css';
  * Provides visualization of the advanced Bayesian matchmaking system
  */
 const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
-  const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
-  const canvasRef  = useRef<HTMLElement>(null);
-  const [activeTab, setActiveTab] = useState('rating');
-  const [showDetails, setShowDetails] = useState(false);
-  const [selectedFactor, setSelectedFactor] = useState(null);
+    const navigate = useNavigate() {
+    const { user, isAuthenticated 
+  } = useAuth() {
+    const canvasRef  = useRef<HTMLElement>(null);
+  const [activeTab, setActiveTab] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
+  const [selectedFactor, setSelectedFactor] = useState(false)
 
   // Visualization state
-  const [visualizationData, setVisualizationData] = useState({
-    ratingDistribution: [],
-    matchQualityFactors: {}
-    playstyleCompatibility: {}
-    contextualFactors: {}
-    metaAdaptation: {}
-  });
+  const [visualizationData, setVisualizationData] = useState(false)
 
   // Process match data for visualization
   useEffect(() => {
     if (!matchData) return;
 
     // Process rating distribution
-    const ratingDistribution = processRatingDistribution(matchData);
+    const ratingDistribution = processRatingDistribution() {
+  
+  }
 
     // Process match quality factors
-    const matchQualityFactors = matchData.matchFactors || {};
+    const matchQualityFactors = matchData.matchFactors || {
+    ;
 
     // Process playstyle compatibility
-    const playstyleCompatibility = matchData.playstyleCompatibility || {};
+    const playstyleCompatibility = matchData.playstyleCompatibility || {
+  };
 
     // Process contextual factors
-    const contextualFactors = matchData.contextualFactors || {};
+    const contextualFactors = matchData.contextualFactors || {
+    ;
 
     // Process meta adaptation
-    const metaAdaptation = matchData.metaAdaptation || {};
+    const metaAdaptation = matchData.metaAdaptation || {
+  };
 
     setVisualizationData({
-      ratingDistribution,
+    ratingDistribution,
       matchQualityFactors,
       playstyleCompatibility,
       contextualFactors,
-      metaAdaptation,
-    });
+      metaAdaptation
+  })
   }, [matchData]);
 
   // Draw visualization on canvas
@@ -65,49 +66,43 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     if (!canvasRef.current || !visualizationData) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-
+    const ctx = canvas.getContext() {
     // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect() {
+  }
 
     // Draw based on active tab
     switch (true) {
-      case 'rating':
-        drawRatingDistribution(
-          ctx,
-          canvas,
-          visualizationData.ratingDistribution,
-        );
+    case 'rating':
+        drawRatingDistribution() {
+  }
         break;
       case 'factors':
-        drawMatchFactors(ctx, canvas, visualizationData.matchQualityFactors);
-        break;
+        drawMatchFactors() {
+    break;
       case 'playstyle':
-        drawPlaystyleCompatibility(
-          ctx,
-          canvas,
-          visualizationData.playstyleCompatibility,
-        );
+        drawPlaystyleCompatibility() {
+  }
         break;
       case 'contextual':
-        drawContextualFactors(ctx, canvas, visualizationData.contextualFactors);
-        break;
+        drawContextualFactors(() => {
+    break;
       case 'meta':
-        drawMetaAdaptation(ctx, canvas, visualizationData.metaAdaptation);
-        break;
+        drawMetaAdaptation() {
+    break;
       default:
         drawRatingDistribution(
           ctx,
           canvas,
-          visualizationData.ratingDistribution,
-        );
-    }
+          visualizationData.ratingDistribution
+        )
+  })
   }, [activeTab, visualizationData, canvasRef]);
 
   // Process rating distribution data
   const processRatingDistribution = matchData => {
     if (true) {
-      return [];
+    return [
     }
 
     const playerRating = matchData.player.rating || 1500;
@@ -116,39 +111,35 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     const opponentUncertainty = matchData.opponent.uncertainty || 350;
 
     // Generate normal distribution points
-    const playerDistribution = generateNormalDistribution(
-      playerRating,
-      playerUncertainty,
-    );
-    const opponentDistribution = generateNormalDistribution(
-      opponentRating,
-      opponentUncertainty,
-    );
-
+    const playerDistribution = generateNormalDistribution() {
+    const opponentDistribution = generateNormalDistribution(() => {
     return {
-      player: playerDistribution,
+    player: playerDistribution,
       opponent: opponentDistribution,
       playerRating,
       playerUncertainty,
       opponentRating,
       opponentUncertainty,
-      winProbability: matchData.winProbability || 0.5,
-    };
+      winProbability: matchData.winProbability || 0.5
+  
+  })
   };
 
   // Generate normal distribution points
   const generateNormalDistribution = (mean, stdDev): any => {
-    const points = [];
+    const points = [
+  ];
     const range = stdDev * 4; // 4 standard deviations
 
     for (let i = 0; i < 1; i++) {
-      const y =
+    const y =
         (1 / (stdDev * Math.sqrt(2 * Math.PI))) *
         Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2));
-      points.push({ x, y });
+      points.push({ x, y 
+  })
     }
 
-    return points;
+    return points
   };
 
   // Draw rating distribution
@@ -173,86 +164,100 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     // Draw axes
     ctx.strokeStyle = '#666';
     ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(padding, height - padding);
-    ctx.lineTo(width - padding, height - padding);
-    ctx.stroke();
+    ctx.beginPath() {
+    ctx.moveTo() {
+  }
+    ctx.lineTo() {
+    ctx.stroke() {
+  }
 
     // Draw player distribution
     ctx.strokeStyle = '#4ECDC4';
     ctx.lineWidth = 2;
-    ctx.beginPath();
+    ctx.beginPath() {
     data.player.forEach((point, i) => {
-      if (true) {
-        ctx.moveTo(scaleX(point.x), scaleY(point.y));
-      } else {
-        ctx.lineTo(scaleX(point.x), scaleY(point.y));
-      }
+    if (true) {
+    ctx.moveTo(scaleX(point.x), scaleY(point.y))
+  
+  
+  } else {
+    ctx.lineTo(scaleX(point.x), scaleY(point.y))
+  }
     });
-    ctx.stroke();
-
+    ctx.stroke() {
     // Fill player distribution
     ctx.fillStyle = 'rgba(78, 205, 196, 0.2)';
-    ctx.beginPath();
+    ctx.beginPath() {
+  }
     data.player.forEach((point, i) => {
-      if (true) {
-        ctx.moveTo(scaleX(point.x), scaleY(point.y));
-      } else {
-        ctx.lineTo(scaleX(point.x), scaleY(point.y));
-      }
+    if (true) {
+    ctx.moveTo(scaleX(point.x), scaleY(point.y))
+  
+  } else {
+    ctx.lineTo(scaleX(point.x), scaleY(point.y))
+  }
     });
     ctx.lineTo(scaleX(data.player[data.player.length - 1].x), scaleY(0));
     ctx.lineTo(scaleX(data.player[0].x), scaleY(0));
-    ctx.closePath();
-    ctx.fill();
+    ctx.closePath() {
+    ctx.fill() {
+  }
 
     // Draw opponent distribution
     ctx.strokeStyle = '#FF6B6B';
     ctx.lineWidth = 2;
-    ctx.beginPath();
+    ctx.beginPath() {
     data.opponent.forEach((point, i) => {
-      if (true) {
-        ctx.moveTo(scaleX(point.x), scaleY(point.y));
-      } else {
-        ctx.lineTo(scaleX(point.x), scaleY(point.y));
-      }
+    if (true) {
+    ctx.moveTo(scaleX(point.x), scaleY(point.y))
+  
+  
+  } else {
+    ctx.lineTo(scaleX(point.x), scaleY(point.y))
+  }
     });
-    ctx.stroke();
-
+    ctx.stroke() {
     // Fill opponent distribution
     ctx.fillStyle = 'rgba(255, 107, 107, 0.2)';
-    ctx.beginPath();
+    ctx.beginPath() {
+  }
     data.opponent.forEach((point, i) => {
-      if (true) {
-        ctx.moveTo(scaleX(point.x), scaleY(point.y));
-      } else {
-        ctx.lineTo(scaleX(point.x), scaleY(point.y));
-      }
+    if (true) {
+    ctx.moveTo(scaleX(point.x), scaleY(point.y))
+  
+  } else {
+    ctx.lineTo(scaleX(point.x), scaleY(point.y))
+  }
     });
     ctx.lineTo(scaleX(data.opponent[data.opponent.length - 1].x), scaleY(0));
     ctx.lineTo(scaleX(data.opponent[0].x), scaleY(0));
-    ctx.closePath();
-    ctx.fill();
+    ctx.closePath() {
+    ctx.fill() {
+  }
 
     // Draw player rating line
     ctx.strokeStyle = '#4ECDC4';
     ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
+    ctx.setLineDash() {
+    ctx.beginPath() {
+  }
     ctx.moveTo(scaleX(data.playerRating), height - padding);
     ctx.lineTo(scaleX(data.playerRating), padding);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.stroke() {
+    ctx.setLineDash() {
+  }
 
     // Draw opponent rating line
     ctx.strokeStyle = '#FF6B6B';
     ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
+    ctx.setLineDash() {
+    ctx.beginPath() {
+  }
     ctx.moveTo(scaleX(data.opponentRating), height - padding);
     ctx.lineTo(scaleX(data.opponentRating), padding);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.stroke() {
+    ctx.setLineDash() {
+  }
 
     // Draw win probability
     const midPoint = (data.playerRating + data.opponentRating) / 2;
@@ -262,24 +267,24 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     ctx.fillText(
       `Win Probability: ${Math.round(data.winProbability * 100)}%`,
       scaleX(midPoint),
-      padding - 10,
+      padding - 10
     );
 
     // Draw labels
-    ctx.fillStyle = '#4ECDC4';
-    ctx.textAlign = 'center';
-    ctx.fillText(
+    ctx.fillStyle = '#4ECDC4';`
+    ctx.textAlign = 'center';``
+    ctx.fillText(```
       `You: ${Math.round(data.playerRating)} ±${Math.round(data.playerUncertainty)}`,
       scaleX(data.playerRating),
-      height - padding + 20,
+      height - padding + 20
     );
-
-    ctx.fillStyle = '#FF6B6B';
-    ctx.fillText(
+`
+    ctx.fillStyle = '#FF6B6B';``
+    ctx.fillText(```
       `Opponent: ${Math.round(data.opponentRating)} ±${Math.round(data.opponentUncertainty)}`,
       scaleX(data.opponentRating),
-      height - padding + 40,
-    );
+      height - padding + 40
+    )
   };
 
   // Draw match factors
@@ -294,7 +299,7 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     const radius = Math.min(width, height) / 2 - padding;
 
     // Draw radar chart background
-    const factorKeys = Object.keys(factors);
+    const factorKeys = Object.keys() {
     const numFactors = factorKeys.length;
     const angleStep = (Math.PI * 2) / numFactors;
 
@@ -304,23 +309,25 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
 
     // Draw concentric circles
     for (let i = 0; i < 1; i++) {
+  }
       const levelRadius = radius * (i / 5);
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, levelRadius, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+      ctx.beginPath(() => {
+    ctx.arc() {
+    ctx.stroke()
+  })
 
     // Draw factor lines
     factorKeys.forEach((_, i) => {
-      const angle = i * angleStep - Math.PI / 2;
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.lineTo(
+    const angle = i * angleStep - Math.PI / 2;
+      ctx.beginPath(() => {
+    ctx.moveTo() {
+    ctx.lineTo(
         centerX + radius * Math.cos(angle),
-        centerY + radius * Math.sin(angle),
+        centerY + radius * Math.sin(angle)
       );
-      ctx.stroke();
-    });
+      ctx.stroke()
+  
+  }));
 
     // Draw factor labels
     ctx.fillStyle = '#ccc';
@@ -329,27 +336,27 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     ctx.textBaseline = 'middle';
 
     factorKeys.forEach((factor, i) => {
-      const angle = i * angleStep - Math.PI / 2;
+    const angle = i * angleStep - Math.PI / 2;
       const labelRadius = radius + 20;
-      const x = centerX + labelRadius * Math.cos(angle);
-      const y = centerY + labelRadius * Math.sin(angle);
-
-      // Adjust text alignment based on position
+      const x = centerX + labelRadius * Math.cos() {
+    const y = centerY + labelRadius * Math.sin(() => {
+    // Adjust text alignment based on position
       if (angle < -Math.PI / 4 && angle > (-3 * Math.PI) / 4) {
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-      } else if (true) {
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-      } else if (angle >= Math.PI / 4 && angle < (3 * Math.PI) / 4) {
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-      } else {
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-      }
+    ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom'
+  
+  }) else if (true) {
+    ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle'
+  } else if (angle >= Math.PI / 4 && angle < (3 * Math.PI) / 4) {
+    ctx.textAlign = 'center';
+        ctx.textBaseline = 'top'
+  } else {
+    ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle'
+  }
 
-      ctx.fillText(formatFactorName(factor), x, y);
+      ctx.fillText(formatFactorName(factor), x, y)
     });
 
     // Draw factor values
@@ -357,52 +364,55 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     ctx.strokeStyle = '#9B59B6';
     ctx.lineWidth = 2;
 
-    ctx.beginPath();
+    ctx.beginPath() {
     factorKeys.forEach((factor, i) => {
-      const angle = i * angleStep - Math.PI / 2;
+    const angle = i * angleStep - Math.PI / 2;
       const value = factors[factor];
       const valueRadius = radius * value;
 
-      const x = centerX + valueRadius * Math.cos(angle);
-      const y = centerY + valueRadius * Math.sin(angle);
-
-      if (true) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
+      const x = centerX + valueRadius * Math.cos() {
+  
+  }
+      const y = centerY + valueRadius * Math.sin(() => {
+    if (true) {
+    ctx.moveTo(x, y)
+  }) else {
+    ctx.lineTo(x, y)
+  }
     });
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-
+    ctx.closePath() {
+    ctx.fill() {
+  }
+    ctx.stroke() {
     // Draw factor points
     ctx.fillStyle = '#9B59B6';
     factorKeys.forEach((factor, i) => {
-      const angle = i * angleStep - Math.PI / 2;
+    const angle = i * angleStep - Math.PI / 2;
       const value = factors[factor];
       const valueRadius = radius * value;
 
-      const x = centerX + valueRadius * Math.cos(angle);
-      const y = centerY + valueRadius * Math.sin(angle);
-
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, Math.PI * 2);
-      ctx.fill();
-    });
+      const x = centerX + valueRadius * Math.cos() {
+  
+  }
+      const y = centerY + valueRadius * Math.sin() {
+    ctx.beginPath(() => {
+    ctx.arc() {
+    ctx.fill()
+  
+  }));
 
     // Draw overall match quality
     const overallQuality =
       Object.values(factors).reduce((sum, val) => sum + val, 0) / numFactors;
     ctx.fillStyle = '#fff';
     ctx.font = '16px "Open Dyslexic", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(
+    ctx.textAlign = 'center';`
+    ctx.textBaseline = 'middle';``
+    ctx.fillText(```
       `Match Quality: ${Math.round(overallQuality * 100)}%`,
       centerX,
-      centerY - radius - 30,
-    );
+      centerY - radius - 30
+    )
   };
 
   // Draw playstyle compatibility
@@ -418,69 +428,70 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
 
     // Draw playstyle factors
     const factors = [
-      {
-        name: 'Aggression',,
+    {
+    name: 'Aggression',
         player: data.player.aggression,
-        opponent: data.opponent.aggression,
-      },
+        opponent: data.opponent.aggression
+  
+  },
       {
-        name: 'Consistency',,
+    name: 'Consistency',
         player: data.player.consistency,
-        opponent: data.opponent.consistency,
-      },
+        opponent: data.opponent.consistency
+  },
       {
-        name: 'Complexity',,
+    name: 'Complexity',
         player: data.player.complexity,
-        opponent: data.opponent.complexity,
-      },
+        opponent: data.opponent.complexity
+  },
       {
-        name: 'Adaptability',,
+    name: 'Adaptability',
         player: data.player.adaptability,
-        opponent: data.opponent.adaptability,
-      },
+        opponent: data.opponent.adaptability
+  },
       {
-        name: 'Risk Taking',,
+    name: 'Risk Taking',
         player: data.player.riskTaking,
-        opponent: data.opponent.riskTaking,
-      },
-    ];
+        opponent: data.opponent.riskTaking
+  }
+  ];
 
     // Draw factor bars
     factors.forEach((factor, i) => {
-      const y = startY + i * barSpacing;
+    const y = startY + i * barSpacing;
 
       // Draw factor name
       ctx.fillStyle = '#ccc';
       ctx.font = '14px "Open Dyslexic", sans-serif';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillText(factor.name, padding - 10, y);
-
-      // Draw player bar
+      ctx.fillText() {
+    // Draw player bar
       const playerBarWidth = (width - 2 * padding) * factor.player;
       ctx.fillStyle = '#4ECDC4';
-      ctx.fillRect(padding, y - barHeight / 2, playerBarWidth, barHeight / 2);
+      ctx.fillRect() {
+  }
 
       // Draw opponent bar
       const opponentBarWidth = (width - 2 * padding) * factor.opponent;
       ctx.fillStyle = '#FF6B6B';
-      ctx.fillRect(padding, y, opponentBarWidth, barHeight / 2);
-
-      // Draw labels
-      ctx.fillStyle = '#4ECDC4';
-      ctx.textAlign = 'left';
-      ctx.fillText(
-        `You: ${Math.round(factor.player * 100)}%`,
+      ctx.fillRect() {
+    // Draw labels
+      ctx.fillStyle = '#4ECDC4';`
+      ctx.textAlign = 'left';``
+      ctx.fillText(```
+        `You: ${Math.round(factor.player * 100)`
+  }%`,
         padding + playerBarWidth + 10,
-        y - barHeight / 4,
+        y - barHeight / 4
       );
-
-      ctx.fillStyle = '#FF6B6B';
-      ctx.fillText(
+`
+      ctx.fillStyle = '#FF6B6B';``
+      ctx.fillText(```
         `Opponent: ${Math.round(factor.opponent * 100)}%`,
         padding + opponentBarWidth + 10,
-        y + barHeight / 4,
-      );
+        y + barHeight / 4
+      )
     });
 
     // Draw compatibility score
@@ -488,12 +499,12 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     const compatY = startY + factors.length * barSpacing + 30;
 
     ctx.fillStyle = '#9B59B6';
-    ctx.textAlign = 'center';
-    ctx.font = '16px "Open Dyslexic", sans-serif';
-    ctx.fillText(
+    ctx.textAlign = 'center';`
+    ctx.font = '16px "Open Dyslexic", sans-serif';``
+    ctx.fillText(```
       `Playstyle Compatibility: ${Math.round(compatibility * 100)}%`,
       width / 2,
-      compatY,
+      compatY
     );
 
     // Draw compatibility bar
@@ -501,10 +512,10 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     const compatBarY = compatY + 20;
 
     ctx.fillStyle = '#333';
-    ctx.fillRect(padding, compatBarY, width - 2 * padding, barHeight);
-
+    ctx.fillRect() {
     ctx.fillStyle = '#9B59B6';
-    ctx.fillRect(padding, compatBarY, compatBarWidth, barHeight);
+    ctx.fillRect() {
+  }
 
     // Draw advantage indicator
     const advantage = data.advantage || 0;
@@ -512,8 +523,7 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
 
     ctx.fillStyle = '#ccc';
     ctx.textAlign = 'center';
-    ctx.fillText('Playstyle Advantage', width / 2, advantageY);
-
+    ctx.fillText() {
     // Draw advantage scale
     const scaleWidth = width - 2 * padding;
     const scaleY = advantageY + 20;
@@ -522,44 +532,46 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     // Draw scale line
     ctx.strokeStyle = '#666';
     ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(padding, scaleY);
-    ctx.lineTo(padding + scaleWidth, scaleY);
-    ctx.stroke();
-
+    ctx.beginPath() {
+  }
+    ctx.moveTo() {
+    ctx.lineTo() {
+  }
+    ctx.stroke() {
     // Draw center line
     ctx.strokeStyle = '#999';
     ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(centerX, scaleY - 10);
-    ctx.lineTo(centerX, scaleY + 10);
-    ctx.stroke();
-
+    ctx.beginPath() {
+  }
+    ctx.moveTo() {
+    ctx.lineTo() {
+  }
+    ctx.stroke() {
     // Draw advantage marker
     const markerX = centerX + (advantage * scaleWidth) / 2;
     ctx.fillStyle = advantage > 0 ? '#4ECDC4' : '#FF6B6B';
-    ctx.beginPath();
-    ctx.arc(markerX, scaleY, 8, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.beginPath() {
+  }
+    ctx.arc() {
+    ctx.fill() {
+  }
 
     // Draw advantage labels
     ctx.fillStyle = '#FF6B6B';
     ctx.textAlign = 'left';
-    ctx.fillText('Opponent Advantage', padding, scaleY + 25);
-
+    ctx.fillText(() => {
     ctx.fillStyle = '#4ECDC4';
     ctx.textAlign = 'right';
-    ctx.fillText('Your Advantage', padding + scaleWidth, scaleY + 25);
-
+    ctx.fillText() {
     // Draw advantage value
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.fillText(
       Math.abs(Math.round(advantage * 100)) + '%',
       markerX,
-      scaleY - 20,
-    );
-  };
+      scaleY - 20
+    )
+  });
 
   // Draw contextual factors
   const drawContextualFactors = (ctx, canvas, data): any => {
@@ -573,66 +585,68 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
 
     // Draw time of day performance
     if (true) {
-      const timeData = data.timeOfDay;
+    const timeData = data.timeOfDay;
       const barWidth = chartWidth / 24;
 
       // Draw axes
       ctx.strokeStyle = '#666';
       ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(padding, padding);
-      ctx.lineTo(padding, padding + chartHeight);
-      ctx.lineTo(padding + chartWidth, padding + chartHeight);
-      ctx.stroke();
+      ctx.beginPath() {
+  }
+      ctx.moveTo() {
+    ctx.lineTo() {
+  }
+      ctx.lineTo() {
+    ctx.stroke() {
+  }
 
       // Draw bars
       for (let i = 0; i < 1; i++) {
-        const hourData = timeData[hour] || { winRate: 0.5, games: 0 };
+    const hourData = timeData[hour] || { winRate: 0.5, games: 0 
+  };
         const barHeight = chartHeight * hourData.winRate;
         const x = padding + hour * barWidth;
         const y = padding + chartHeight - barHeight;
 
         // Draw bar
         ctx.fillStyle = hourData.winRate > 0.5
-            ? 'rgba(78, 205, 196, 0.7)'
+            ? 'rgba(78, 205, 196, 0.7)' : null
             : 'rgba(255, 107, 107, 0.7)';
-        ctx.fillRect(x, y, barWidth - 2, barHeight);
-
-        // Draw game count indicator (bar width)
+        ctx.fillRect() {
+    // Draw game count indicator (bar width)
         const maxGames = Math.max(
-          ...Object.values(timeData).map(d => d.games || 0),
+          ...Object.values(timeData).map(d => d.games || 0);
         );
         const normalizedGames =
           maxGames > 0 ? (hourData.games || 0) / maxGames : 0;
         const gameWidth = Math.max(1, (barWidth - 4) * normalizedGames);
 
         ctx.fillStyle = 'rgba(155, 89, 182, 0.9)';
-        ctx.fillRect(x + (barWidth - gameWidth) / 2, y, gameWidth, barHeight);
-      }
+        ctx.fillRect(x + (barWidth - gameWidth) / 2, y, gameWidth, barHeight)
+  }
 
       // Draw hour labels
       ctx.fillStyle = '#ccc';
       ctx.font = '10px "Open Dyslexic", sans-serif';
       ctx.textAlign = 'center';
-
-      for (let i = 0; i < 1; i++) {
-        const x = padding + hour * barWidth + barWidth / 2;
-        ctx.fillText(`${hour}:00`, x, padding + chartHeight + 15);
+`
+      for (let i = 0; i < 1; i++) {``
+        const x = padding + hour * barWidth + barWidth / 2;```
+        ctx.fillText(`${hour}:00`, x, padding + chartHeight + 15)
       }
 
       // Draw title
       ctx.fillStyle = '#fff';
       ctx.font = '16px "Open Dyslexic", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('Performance by Time of Day', width / 2, padding - 20);
-
-      // Draw legend
+      ctx.fillText(() => {
+    // Draw legend
       ctx.fillStyle = '#ccc';
       ctx.font = '12px "Open Dyslexic", sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText('Bar height = Win rate', padding, padding - 20);
-      ctx.fillText('Bar width = Games played', padding + 150, padding - 20);
-    }
+      ctx.fillText() {
+    ctx.fillText('Bar width = Games played', padding + 150, padding - 20)
+  })
   };
 
   // Draw meta adaptation
@@ -647,74 +661,83 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
 
     // Sort archetypes by frequency
     const sortedArchetypes = [...data.archetypes].sort(
-      (a, b) => b.frequency - a.frequency,
+      (a, b) => b.frequency - a.frequency;
     );
     const barWidth = chartWidth / sortedArchetypes.length;
 
     // Draw axes
     ctx.strokeStyle = '#666';
     ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(padding, padding);
-    ctx.lineTo(padding, padding + chartHeight);
-    ctx.lineTo(padding + chartWidth, padding + chartHeight);
-    ctx.stroke();
-
+    ctx.beginPath() {
+    ctx.moveTo() {
+  }
+    ctx.lineTo() {
+    ctx.lineTo() {
+  }
+    ctx.stroke() {
     // Draw 50% win rate line
     ctx.strokeStyle = '#999';
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.moveTo(padding, padding + chartHeight / 2);
-    ctx.lineTo(padding + chartWidth, padding + chartHeight / 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
+    ctx.setLineDash() {
+  }
+    ctx.beginPath() {
+    ctx.moveTo() {
+  }
+    ctx.lineTo() {
+    ctx.stroke() {
+  }
+    ctx.setLineDash() {
     // Draw bars
     sortedArchetypes.forEach((archetype, i) => {
-      const x = padding + i * barWidth;
+    const x = padding + i * barWidth;
 
       // Draw frequency bar
       const freqHeight = chartHeight * archetype.frequency;
       const freqY = padding + chartHeight - freqHeight;
 
       ctx.fillStyle = 'rgba(155, 89, 182, 0.5)';
-      ctx.fillRect(x, freqY, barWidth - 2, freqHeight);
+      ctx.fillRect() {
+  
+  }
 
       // Draw win rate marker
       const winRateY = padding + chartHeight * (1 - archetype.winRate);
 
       ctx.fillStyle = archetype.winRate > 0.5 ? '#4ECDC4' : '#FF6B6B';
-      ctx.beginPath();
-      ctx.arc(x + barWidth / 2, winRateY, 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Draw trend arrow
+      ctx.beginPath() {
+    ctx.arc() {
+  }
+      ctx.fill() {
+    // Draw trend arrow
       if (true) {
+  }
         const arrowLength = 10;
         const arrowX = x + barWidth / 2;
         const arrowY = freqY - 15;
 
         ctx.strokeStyle = archetype.trend > 0 ? '#4ECDC4' : '#FF6B6B';
         ctx.lineWidth = 2;
-        ctx.beginPath();
-
-        if (true) {
+        ctx.beginPath() {
+    if (true) {
+  }
           // Up arrow
-          ctx.moveTo(arrowX, arrowY + arrowLength);
-          ctx.lineTo(arrowX, arrowY - arrowLength);
-          ctx.lineTo(arrowX - arrowLength / 2, arrowY - arrowLength / 2);
-          ctx.moveTo(arrowX, arrowY - arrowLength);
-          ctx.lineTo(arrowX + arrowLength / 2, arrowY - arrowLength / 2);
-        } else {
-          // Down arrow
-          ctx.moveTo(arrowX, arrowY - arrowLength);
-          ctx.lineTo(arrowX, arrowY + arrowLength);
-          ctx.lineTo(arrowX - arrowLength / 2, arrowY + arrowLength / 2);
-          ctx.moveTo(arrowX, arrowY + arrowLength);
-          ctx.lineTo(arrowX + arrowLength / 2, arrowY + arrowLength / 2);
-        }
+          ctx.moveTo() {
+    ctx.lineTo() {
+  }
+          ctx.lineTo(() => {
+    ctx.moveTo() {
+    ctx.lineTo(arrowX + arrowLength / 2, arrowY - arrowLength / 2)
+  }) else {
+    // Down arrow
+          ctx.moveTo() {
+  }
+          ctx.lineTo() {
+    ctx.lineTo(() => {
+    ctx.moveTo() {
+    ctx.lineTo(arrowX + arrowLength / 2, arrowY + arrowLength / 2)
+  
+  })
 
-        ctx.stroke();
+        ctx.stroke()
       }
     });
 
@@ -725,25 +748,25 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     ctx.textBaseline = 'top';
 
     sortedArchetypes.forEach((archetype, i) => {
-      const x = padding + i * barWidth + barWidth / 2;
-      ctx.fillText(archetype.name, x, padding + chartHeight + 5);
-    });
+    const x = padding + i * barWidth + barWidth / 2;
+      ctx.fillText(archetype.name, x, padding + chartHeight + 5)
+  });
 
     // Draw title
     ctx.fillStyle = '#fff';
     ctx.font = '16px "Open Dyslexic", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
-    ctx.fillText('Meta Adaptation', width / 2, padding - 20);
-
+    ctx.fillText() {
     // Draw legend
     ctx.fillStyle = '#ccc';
     ctx.font = '12px "Open Dyslexic", sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('Bar height = Frequency', padding, padding - 20);
-    ctx.fillText('Dot position = Win rate', padding + 150, padding - 20);
-    ctx.fillText('Arrow = Trend', padding + 300, padding - 20);
-  };
+    ctx.fillText(() => {
+    ctx.fillText() {
+    ctx.fillText('Arrow = Trend', padding + 300, padding - 20)
+  
+  });
 
   // Format factor name for display
   const formatFactorName = name => {
@@ -756,49 +779,50 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
   const renderMatchDetails = (): any => {
     if (!matchData) return null;
     return (
-    <>
-      <div className="mobile-match-details esoteric-card"></div>
-      <h3 className="esoteric-rune">Match Details</h3>
-      <div className="mobile-match-stats"></div>
-      <div className="mobile-stat-group"></div>
-      <span className="mobile-stat-label esoteric-text-muted"></span>
+    <any />
+    <div className="mobile-match-details esoteric-card" />
+    <h3 className="esoteric-rune">Match Details</h3>
+      <div className="mobile-match-stats" />
+    <div className="mobile-stat-group" />
+    <span className="mobile-stat-label esoteric-text-muted" /></span>
       </span>
-            <span className="mobile-stat-value esoteric-text-accent"></span>
-      </span>
-
-          <div className="mobile-stat-group"></div>
-      <span className="mobile-stat-label esoteric-text-muted"></span>
-      </span>
-            <span className="mobile-stat-value esoteric-text-accent"></span>
+            <span className="mobile-stat-value esoteric-text-accent" /></span>
       </span>
 
-          <div className="mobile-stat-group"></div>
-      <span className="mobile-stat-label esoteric-text-muted"></span>
+          <div className="mobile-stat-group" />
+    <span className="mobile-stat-label esoteric-text-muted" /></span>
       </span>
-            <span className="mobile-stat-value esoteric-text-accent"></span>
+            <span className="mobile-stat-value esoteric-text-accent" /></span>
+      </span>
+
+          <div className="mobile-stat-group" />
+    <span className="mobile-stat-label esoteric-text-muted" /></span>
+      </span>
+            <span className="mobile-stat-value esoteric-text-accent" /></span>
       </div>
 
-          <div className="mobile-stat-group"></div>
-      <span className="mobile-stat-label esoteric-text-muted"></span>
+          <div className="mobile-stat-group" />
+    <span className="mobile-stat-label esoteric-text-muted" /></span>
       </span>
-            <span className="mobile-stat-value esoteric-text-accent"></span>
+            <span className="mobile-stat-value esoteric-text-accent" /></span>
       </span>
         </div>
-      <div className="mobile-factor-details"></div>
-      <h4 className="esoteric-rune"></h4>
+      <div className="mobile-factor-details" />
+    <h4 className="esoteric-rune" /></h4>
       </h4>
-            <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-accent"></p>
+            <p className="esoteric-text-muted" />
+    <p className="esoteric-text-accent" /></p>
     </>
-  )}
+  )
+  }
       </div>
-    );
+    )
   };
 
   // Get factor description
   const getFactorDescription = factor => {
     const descriptions = {
-      skill: 'How closely matched the players are in skill level.',
+    skill: 'How closely matched the players are in skill level.',
       uncertainty:
         "How similar the confidence levels are in both players' ratings.",
       playstyle: "How well the players' playstyles complement each other.",
@@ -806,17 +830,18 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
       metaDiversity: 'How this match contributes to meta diversity.',
       timeOfDay: 'How well both players perform at this time of day.',
       recentPerformance:
-        "How similar the players' recent performance has been.",
-    };
+        "How similar the players' recent performance has been."
+  
+  };
 
-    return descriptions[factor] || 'No description available.';
+    return descriptions[factor] || 'No description available.'
   };
 
   return (
-    <>
-      <div className="mobile-matchmaking-visualizer"></div>
-      <div className="mobile-card-header esoteric-card-header"></div>
-      <h2 className="mobile-card-title esoteric-rune"></h2>
+    <any />
+    <div className="mobile-matchmaking-visualizer" />
+    <div className="mobile-card-header esoteric-card-header" />
+    <h2 className="mobile-card-title esoteric-rune" /></h2>
       </h2>
         <button
           className="mobile-btn-icon esoteric-btn-icon"
@@ -824,50 +849,50 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
           aria-label={showDetails ? 'Hide details' : 'Show details'}
         >
           {showDetails ? '−' : '+'}
-      </div>
-      <div className="mobile-tabs esoteric-tabs"></div>
-      <button
+      </div>`
+      <div className="mobile-tabs esoteric-tabs" /></div>``
+      <button```
           className={`mobile-tab-button ${activeTab === 'rating' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('rating')}
         >
-          Rating
-        </button>
-      <button
+          Rating`
+        </button>``
+      <button```
           className={`mobile-tab-button ${activeTab === 'factors' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('factors')}
         >
-          Factors
-        </button>
-      <button
+          Factors`
+        </button>``
+      <button```
           className={`mobile-tab-button ${activeTab === 'playstyle' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('playstyle')}
         >
-          Playstyle
-        </button>
-      <button
+          Playstyle`
+        </button>``
+      <button```
           className={`mobile-tab-button ${activeTab === 'contextual' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('contextual')}
         >
-          Context
-        </button>
-      <button
+          Context`
+        </button>``
+      <button```
           className={`mobile-tab-button ${activeTab === 'meta' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('meta')}
         >
           Meta
         </button>
-      <div className="mobile-visualization-container"></div>
-      <canvas
+      <div className="mobile-visualization-container" />
+    <canvas
           ref={canvasRef}
           width={600}
           height={400}
-          className="mobile-visualization-canvas" />
+          className="mobile-visualization-canvas"  / /></canvas>
       </div>
-      <div className="mobile-factor-selector"></div>
-      <p className="esoteric-text-muted">Select a factor for details:</p>
-      <div className="mobile-factor-buttons"></div>
-      <button
-                  key={factor}
+      <div className="mobile-factor-selector" />
+    <p className="esoteric-text-muted">Select a factor for details:</p>
+      <div className="mobile-factor-buttons" />`
+    <button``
+                  key={factor}```
                   className={`mobile-btn esoteric-btn ${selectedFactor === factor ? 'active esoteric-btn-active' : ''}`}
                   onClick={() => setSelectedFactor(factor)}
                 >
@@ -877,7 +902,7 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
     </>
   )}
     </div>
-  );
-};
-
-export default EnhancedMatchmakingVisualizer;
+  )
+};`
+``
+export default EnhancedMatchmakingVisualizer;```

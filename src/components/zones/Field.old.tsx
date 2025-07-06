@@ -5,25 +5,26 @@ import '../../styles/zones.css';
 interface FieldProps {
   cards
   isCurrentPlayer
+  
 }
 
-const Field: React.FC<FieldProps> = ({  cards, isCurrentPlayer  }) => {
+const Field: React.FC = () => {
   return (
-    <>
-      <div className={`field-zone ${isCurrentPlayer ? 'your' : 'opponent'}`}></div>
-      <div className="zone-label">{isCurrentPlayer ? 'YOUR CARDS' : "OPPONENT'S CARDS"}
-      <div className="cards-container"></div>
-      <div className="empty-zone">No cards</div>
+    <any />
+    <div className={`field-zone ${isCurrentPlayer ? 'your' : 'opponent'}`} />
+    <div className="zone-label">{isCurrentPlayer ? 'YOUR CARDS' : "OPPONENT'S CARDS"}
+      <div className="cards-container" />
+    <div className="empty-zone">No cards</div>
     </>
   ) : (
           cards.map(card => (
-            <div key={card.id} className="field-card"></div>
-              <UnifiedCard variant="standard" card={card} location="field" />
+            <div key={card.id} className="field-card" />
+    <UnifiedCard variant="standard" card={card} location="field"  / /></UnifiedCard>
             </div>
           ))
         )}
       </div>
-  );
-};
-
-export default Field;
+  )
+};`
+``
+export default Field;```

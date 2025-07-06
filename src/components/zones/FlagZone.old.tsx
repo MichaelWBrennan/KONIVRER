@@ -5,22 +5,15 @@ import '../../styles/zones.css';
 interface FlagZoneProps {
   flagCard
   isCurrentPlayer
+  
 }
 
-const FlagZone: React.FC<FlagZoneProps> = ({  flagCard, isCurrentPlayer  }) => {
-  return (
-    <>
-      <div className={`flag-zone ${isCurrentPlayer ? 'your' : 'opponent'}`}></div>
-      <div className="zone-label">FLAG</div>
-      <div className="flag-card"></div>
-      <UnifiedCard variant="standard" card={flagCard} location="flag" />
-        </div>
-    </>
-  ) : (
+const FlagZone: React.FC = () => {
+  return(): (
         <div className="empty-zone">No Flag</div>
       )}
     </div>
-  );
-};
+  )
+} { return null; }
 
-export default FlagZone;
+export default FlagZone;```

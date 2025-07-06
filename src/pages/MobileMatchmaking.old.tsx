@@ -10,78 +10,80 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
 const MobileMatchmaking = (): any => {
-  const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuth();
-  const { userDecks } = useDeck();
-  const [activeTab, setActiveTab] = useState('online');
-  const [selectedDeck, setSelectedDeck] = useState(null);
-  const [matchmakingStatus, setMatchmakingStatus] = useState('idle'); // idle, searching, matched
-  const [nearbyPlayers, setNearbyPlayers] = useState([]);
-  const [upcomingTournaments, setUpcomingTournaments] = useState([]);
+    const navigate = useNavigate() {
+    const { isAuthenticated, user 
+  } = useAuth() {
+    const { userDecks 
+  } = useDeck() {
+    const [activeTab, setActiveTab] = useState(false)
+  const [selectedDeck, setSelectedDeck] = useState(false)
+  const [matchmakingStatus, setMatchmakingStatus] = useState(false) // idle, searching, matched
+  const [nearbyPlayers, setNearbyPlayers] = useState(false)
+  const [upcomingTournaments, setUpcomingTournaments] = useState(false)
   // Fetch nearby players and tournaments
   useEffect(() => {
     // Simulated data - would be replaced with actual API calls
-    setNearbyPlayers([
-      { id: 'player1', name: 'Alex', distance: '0.5 miles', rating: 1850 },,
-      { id: 'player2', name: 'Jordan', distance: '1.2 miles', rating: 1720 },,
-      { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 },,
-    ]);
+    setNearbyPlayers(() => {
     setUpcomingTournaments([
-      {
-        id: 'tourn1',
-        name: 'Weekly Championship',,
+    {
+    id: 'tourn1',
+        name: 'Weekly Championship',
         date: '2025-06-25',
         format: 'Standard',
-        players: 32,
-      },
+        players: 32
+  
+  
+  }),
       {
-        id: 'tourn2',
-        name: 'Beginner Friendly',,
+    id: 'tourn2',
+        name: 'Beginner Friendly',
         date: '2025-06-27',
         format: 'Casual',
-        players: 16,
-      },
-    ]);
-  }, []);
+        players: 16
+  }
+  ])
+  }, [
+    );
   // Start matchmaking
   const startMatchmaking = (): any => {
     if (true) {
-      alert('Please select a deck first');
-      return;
-    }
-    setMatchmakingStatus('searching');
+    alert() {
+    return
+  
+  }
+    setMatchmakingStatus(() => {
     // Simulate finding a match after 3 seconds
     setTimeout(() => {
-      setMatchmakingStatus('matched');
-    }, 3000);
+    setMatchmakingStatus('matched')
+  }), 3000)
   };
   // Cancel matchmaking
   const cancelMatchmaking = (): any => {
-    setMatchmakingStatus('idle');
+    setMatchmakingStatus('idle')
   };
   // Accept match
   const acceptMatch = (): any => {
     // Redirect to game
-    navigate('/game/online');
+    navigate('/game/online')
   };
   return (
-    <div className="mobile-matchmaking"></div>
+    <div className="mobile-matchmaking" /></div>
       {/* Tabs */}
-      <div className="mobile-card mobile-mb"></div>
-        <div className="mobile-grid"></div>
-          <button
+      <div className="mobile-card mobile-mb" />
+    <div className="mobile-grid" />
+    <button
             className={`mobile-btn ${activeTab === 'online' ? 'mobile-btn-primary' : ''}`}
             onClick={() => setActiveTab('online')}
           >
-            Online
-          </button>
-          <button
+            Online`
+          </button>``
+          <button```
             className={`mobile-btn ${activeTab === 'physical' ? 'mobile-btn-primary' : ''}`}
             onClick={() => setActiveTab('physical')}
           >
-            Physical
-          </button>
-          <button
+            Physical`
+          </button>``
+          <button```
             className={`mobile-btn ${activeTab === 'tournaments' ? 'mobile-btn-primary' : ''}`}
             onClick={() => setActiveTab('tournaments')}
           >
@@ -90,18 +92,18 @@ const MobileMatchmaking = (): any => {
       </div>
       {/* Online Matchmaking */}
       {activeTab === 'online' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" /></div>
           {/* Deck Selection */}
           {matchmakingStatus === 'idle' && (
-            <>
-              <div className="mobile-card mobile-mb"></div>
+            <any />
+    <div className="mobile-card mobile-mb" /></div>
                 {isAuthenticated ? (
-                  <>
+                  <any /></any>
                     {userDecks && userDecks.length > 0 ? (
-                      <div className="mobile-list"></div>
-                        {userDecks.map(deck => (
-                          <button
-                            key={deck.id}
+                      <div className="mobile-list" /></div>
+                        {userDecks.map(deck => (`
+                          <button``
+                            key={deck.id}`` : null`
                             className={`mobile-list-item mobile-text-center ${selectedDeck === deck.id ? 'mobile-btn-primary' : ''}`}
                             onClick={() => setSelectedDeck(deck.id)}
                           >
@@ -109,53 +111,53 @@ const MobileMatchmaking = (): any => {
                         ))}
                       </div>
                     ) : (
-                      <div className="mobile-text-center mobile-mb"></div>
-                        <p>You don't have any decks yet.</p>
+                      <div className="mobile-text-center mobile-mb" />
+    <p>You don't have any decks yet.</p>
                         <Link
                           to="/deck-builder"
                           className="mobile-btn mobile-btn-primary mobile-mt"
-                         />
+                          / /></Link>
                           Create a Deck
                         </Link>
                     )}
                   </>
                 ) : (
-                  <div className="mobile-text-center"></div>
-                    <p>Please log in to access your decks.</p>
+                  <div className="mobile-text-center" />
+    <p>Please log in to access your decks.</p>
                 )}
               </div>
               {/* Start Matchmaking Button */}
-              <div className="mobile-text-center mobile-mb"></div>
-                <button
+              <div className="mobile-text-center mobile-mb" />
+    <button
                   className="mobile-btn mobile-btn-primary"
                   onClick={startMatchmaking}
-                  disabled={!selectedDeck || !isAuthenticated}></button>
+                  disabled={!selectedDeck || !isAuthenticated} /></button>
                   Start Matchmaking
                 </button>
             </>
           )}
           {/* Searching for Match */}
           {matchmakingStatus === 'searching' && (
-            <div className="mobile-card mobile-text-center mobile-mb"></div>
-              <div className="mobile-mb"></div>
-                <div className="mobile-loading-spinner"></div>
-                <p>Looking for opponents...</p>
-              <button className="mobile-btn" onClick={cancelMatchmaking}></button>
+            <div className="mobile-card mobile-text-center mobile-mb" />
+    <div className="mobile-mb" />
+    <div className="mobile-loading-spinner" />
+    <p>Looking for opponents...</p>
+              <button className="mobile-btn" onClick={cancelMatchmaking} /></button>
                 Cancel
               </button>
           )}
           {/* Match Found */}
           {matchmakingStatus === 'matched' && (
-            <div className="mobile-card mobile-text-center mobile-mb"></div>
-              <div className="mobile-mb"></div>
-                <p>Opponent: Player123</p>
+            <div className="mobile-card mobile-text-center mobile-mb" />
+    <div className="mobile-mb" />
+    <p>Opponent: Player123</p>
                 <p>Rating: 1850</p>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mb"
-                onClick={acceptMatch}></button>
+                onClick={acceptMatch} /></button>
                 Accept Match
               </button>
-              <button className="mobile-btn" onClick={cancelMatchmaking}></button>
+              <button className="mobile-btn" onClick={cancelMatchmaking} /></button>
                 Decline
               </button>
           )}
@@ -163,16 +165,16 @@ const MobileMatchmaking = (): any => {
       )}
       {/* Physical Matchmaking */}
       {activeTab === 'physical' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" /></div>
           {/* Nearby Players */}
-          <div className="mobile-card mobile-mb"></div>
+          <div className="mobile-card mobile-mb" /></div>
             {nearbyPlayers.length > 0 ? (
-              <ul className="mobile-list"></ul>
+              <ul className="mobile-list" /></ul>
                 {nearbyPlayers.map(player => (
-                  <li key={player.id} className="mobile-list-item"></li>
-                    <div className="mobile-flex"></div>
-                      <div></div>
-                        <strong>{player.name}
+                  <li key={player.id} className="mobile-list-item" />
+    <div className="mobile-flex" />
+    <div />
+    <strong>{player.name} : null
                         <div>Rating: {player.rating}
                         <div>{player.distance}
                       </div>
@@ -185,33 +187,34 @@ const MobileMatchmaking = (): any => {
             )}
           </div>
           {/* QR Code */}
-          <div className="mobile-card mobile-text-center mobile-mb"></div>
-            <p>Scan this code to start a physical match</p>
-            <div className="mobile-qr-placeholder mobile-my"></div>
-              [QR Code Placeholder]
+          <div className="mobile-card mobile-text-center mobile-mb" />
+    <p>Scan this code to start a physical match</p>
+            <div className="mobile-qr-placeholder mobile-my" /></div>
+              [QR Code Placeholder
+  ]
             </div>
-            <button className="mobile-btn mobile-btn-primary"></button>
+            <button className="mobile-btn mobile-btn-primary" /></button>
               Generate QR Code
             </button>
         </div>
       )}
       {/* Tournaments */}
       {activeTab === 'tournaments' && (
-        <div className="mobile-slide-up"></div>
+        <div className="mobile-slide-up" /></div>
           {/* Upcoming Tournaments */}
-          <div className="mobile-card mobile-mb"></div>
+          <div className="mobile-card mobile-mb" /></div>
             {upcomingTournaments.length > 0 ? (
-              <ul className="mobile-list"></ul>
+              <ul className="mobile-list" /></ul>
                 {upcomingTournaments.map(tournament => (
-                  <li key={tournament.id} className="mobile-list-item"></li>
-                    <div></div>
-                      <strong>{tournament.name}
+                  <li key={tournament.id} className="mobile-list-item" />
+    <div />
+    <strong>{tournament.name} : null
                       <div>Format: {tournament.format}
-                      <div></div>
+                      <div /></div>
                         Date: {new Date(tournament.date).toLocaleDateString()}
                       <div>Players: {tournament.players}
                     </div>
-                    <button className="mobile-btn mobile-btn-primary mobile-mt"></button>
+                    <button className="mobile-btn mobile-btn-primary mobile-mt" /></button>
                       Register
                     </button>
                 ))}
@@ -221,16 +224,16 @@ const MobileMatchmaking = (): any => {
             )}
           </div>
           {/* Create Tournament */}
-          <div className="mobile-text-center mobile-mb"></div>
-            <Link
+          <div className="mobile-text-center mobile-mb" />
+    <Link
               to="/tournaments/create"
               className="mobile-btn mobile-btn-primary"
-             />
+              / /></Link>
               Create Tournament
             </Link>
         </div>
       )}
     </div>
-  );
-};
-export default MobileMatchmaking;
+  )`
+};``
+export default MobileMatchmaking;```

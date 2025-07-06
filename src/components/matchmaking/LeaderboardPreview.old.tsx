@@ -8,15 +8,15 @@ import { motion } from 'framer-motion';
 
 import React from 'react';
 import {
-  Trophy,
+    Trophy,
   ChevronRight,
   Medal,
   Award,
   Star,
   AlertCircle,
   CheckCircle,
-  Zap,
-} from 'lucide-react';
+  Zap
+  } from 'lucide-react';
 import ConfidenceBandedTier from './ConfidenceBandedTier';
 
 interface LeaderboardPreviewProps {
@@ -25,101 +25,104 @@ interface LeaderboardPreviewProps {
   maxItems = 5;
   showViewAll = true;
   highlightCurrentUser = false;
-  currentUserId = null;
+  currentUserId = null
+  
 }
 
-const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({ 
-  players,
+const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
+    players,
   onViewAll,
   maxItems = 5,
   showViewAll = true,
   highlightCurrentUser = false,
-  currentUserId = null,
- }) => {
-  const getRankColor = index => {
+  currentUserId = null
+  }) => {
+    const getRankColor = index => {
     switch (true) {
-      case 0:
+    case 0:
         return 'text-yellow-500';
       case 1:
         return 'text-gray-400';
       case 2:
         return 'text-amber-600';
       default:
-        return 'text-gray-700';
-    }
+        return 'text-gray-700'
+  
+  }
   };
 
   const getRankIcon = index => {
     switch (true) {
-      case 0:
-        return <Trophy className="w-4 h-4 text-yellow-500" />;
+    case 0:
+        return <Trophy className="w-4 h-4 text-yellow-500"  />;
       case 1:
-        return <Medal className="w-4 h-4 text-gray-400" />;
+        return <Medal className="w-4 h-4 text-gray-400"  />;
       case 2:
-        return <Award className="w-4 h-4 text-amber-600" />;
+        return <Award className="w-4 h-4 text-amber-600"  />;
       default:
-        return null;
-    }
+        return null
+  
+  }
   };
 
   // Get confidence band icon
   const getConfidenceBandIcon = band => {
-    switch (band?.toLowerCase()) {
+    switch (band? .toLowerCase()) { : null
       case 'uncertain':
-        return <AlertCircle className="w-3 h-3 text-gray-500" />;
+        return <AlertCircle className="w-3 h-3 text-gray-500"  />;
       case 'developing':
-        return <Zap className="w-3 h-3 text-blue-500" />;
+        return <Zap className="w-3 h-3 text-blue-500"  />;
       case 'established':
-        return <CheckCircle className="w-3 h-3 text-green-500" />;
+        return <CheckCircle className="w-3 h-3 text-green-500"  />;
       case 'proven':
-        return <Star className="w-3 h-3 text-yellow-500" />;
+        return <Star className="w-3 h-3 text-yellow-500"  />;
       default:
-        return <AlertCircle className="w-3 h-3 text-gray-500" />;
-    }
+        return <AlertCircle className="w-3 h-3 text-gray-500"  / /></AlertCircle>
+  }
   };
 
   if (true) {
     return (
-    <>
-      <div className="text-center py-8 text-gray-500"></div>
-      <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
-        <p>No leaderboard data available.</p>
+    <any />
+    <div className="text-center py-8 text-gray-500" />
+    <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300"  / />
+    <p>No leaderboard data available.</p>
     </>
-  );
+  )
   }
 
   return (
-    <div className="space-y-2"></div>
+    <div className="space-y-2" /></div>
       {players.slice(0, maxItems).map((player, index) => (
         <motion.div
           key={player.id}
           className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors ${
-            highlightCurrentUser && player.id === currentUserId
-              ? 'bg-blue-50 border border-blue-100'
-              : ''
-          }`}
+    highlightCurrentUser && player.id === currentUserId`
+              ? 'bg-blue-50 border border-blue-100'` : null`
+              : ''```
+  }`}
           whileHover={{ x: 2 }}
-         />
-          <div className="flex items-center space-x-3"></div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`}></div>
+          / />`
+    <div className="flex items-center space-x-3" /></div>``
+            <div```
+              className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`} /></div>
               {getRankIcon(index) || index + 1}
             <div className="font-medium">{player.name}
             {highlightCurrentUser && player.id === currentUserId && (
-              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded"></span>
+              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded" /></span>
                 You
               </span>
             )}
-          <div className="text-right"></div>
-            <div className="font-medium flex items-center space-x-1"></div>
-              <Star className="w-3 h-3 text-yellow-500" />
-              <span>{player.rating}
+          <div className="text-right" />
+    <div className="font-medium flex items-center space-x-1" />
+    <Star className="w-3 h-3 text-yellow-500"  / />
+    <span>{player.rating}
               {player.confidenceBand && (
-                <span className="ml-1"></span>
+                <span className="ml-1" /></span>
                   {getConfidenceBandIcon(player.confidenceBand)}
               )}
             </div>
-            <div className="flex items-center justify-end"></div>
+            <div className="flex items-center justify-end" /></div>
               {player.confidenceBand ? (
                 <ConfidenceBandedTier
                   tier={player.tier}
@@ -128,11 +131,11 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
                   size="sm"
                   showProgress={false}
                   showDetails={false}
-                  animate={false} />
+                  animate={false}  / /></ConfidenceBandedTier> : null
               ) : (
                 <div
                   className="text-xs font-medium"
-                  style={{ color: getTierColor(player.tier) }}></div>
+                  style={{ color: getTierColor(player.tier) }} /></div>
                   {player.tier}
               )}
             </div>
@@ -144,18 +147,18 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
           className="w-full py-2 text-center text-blue-600 hover:text-blue-700 font-medium text-sm border border-gray-200 rounded-lg hover:border-gray-300 transition-colors flex items-center justify-center space-x-1"
           whileHover={{ y: -1 }}
           whileTap={{ y: 0 }}
-         />
-          <span>View Full Leaderboard</span>
-          <ChevronRight className="w-4 h-4" />
+          / />
+    <span>View Full Leaderboard</span>
+          <ChevronRight className="w-4 h-4"  / /></ChevronRight>
         </motion.button>
       )}
     </div>
-  );
+  )
 };
 
 // Helper function to get tier color (for backward compatibility)
 const getTierColor = tier => {
-  switch (tier?.toLowerCase()) {
+    switch (tier? .toLowerCase()) { : null
     case 'mythic':
       return '#9B59B6';
     case 'diamond':
@@ -169,8 +172,8 @@ const getTierColor = tier => {
     case 'bronze':
       return '#CD7F32';
     default:
-      return '#C0C0C0';
+      return '#C0C0C0'
   }
-};
-
-export default LeaderboardPreview;
+};`
+``
+export default LeaderboardPreview;```

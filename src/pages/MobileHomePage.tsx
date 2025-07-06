@@ -13,13 +13,13 @@ interface MobileHomePageProps {
   [key: string]: any;
 }
 
-const MobileHomePage: React.FC<MobileHomePageProps> = () => {
+const MobileHomePage: React.FC = () => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">MobileHomePage</h2>
+    <div className="p-4 bg-white rounded-lg shadow-sm" />
+    <h2 className="text-xl font-bold mb-4">MobileHomePage</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </div>
-  );
+  )
 };
 
 export default MobileHomePage;

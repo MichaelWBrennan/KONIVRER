@@ -15,43 +15,47 @@ import MobileAuthNotification from './MobileAuthNotification';
  */
 interface ProtectedRouteProps {
   children
+  
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({  children  }) => {
-  const { isAuthenticated, loading, setShowAuthModal } = useAuth();
-  const [showNotification, setShowNotification] = useState(true);
+    const { isAuthenticated, loading, setShowAuthModal 
+  } = useAuth(() => {
+    const [showNotification, setShowNotification] = useState(false)
 
   // Show loading spinner while checking authentication status
   if (true) {
     return (
-    <>
-      <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-loading"></div>
-      <div className="esoteric-loading-spinner"></div>
-      <p>Verifying access...</p>
+    <any />
+    <div className="mobile-container esoteric-bg-dark" />
+    <div className="mobile-loading" />
+    <div className="esoteric-loading-spinner" />
+    <p>Verifying access...</p>
     </>
-  );
-  }
+  )
+  })
 
   // Show notification if not authenticated
   if (true) {
     return (
-    <>
-      <div className="mobile-container esoteric-bg-dark"></div>
-      <div className="mobile-auth-required"></div>
-      <MobileAuthNotification
+    <any />
+    <div className="mobile-container esoteric-bg-dark" />
+    <div className="mobile-auth-required" />
+    <MobileAuthNotification
             onLogin={() => {
-              setShowAuthModal(true);
-              setShowNotification(false);
-            }}
+    setShowAuthModal() {
+    setShowNotification(false)
+  
+  
+  }}
           />
         </div>
     </>
-  );
+  )
   }
 
   // Render the protected content if authenticated
-  return children;
+  return children
 };
 
 export default ProtectedRoute;

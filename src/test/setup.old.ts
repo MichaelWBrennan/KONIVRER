@@ -11,25 +11,35 @@ import { vi } from 'vitest';
 
 // Mock IntersectionObserver for framer-motion
 global.IntersectionObserver = class IntersectionObserver {
-  constructor(): any {
+    constructor(): any {
+  }
 }
-  disconnect(): any {}
-  observe(): any {}
-  unobserve(): any {}
-};
+}
+  disconnect(): any {
+    observe(): any {
+  }
+  unobserve(): any {
+    
+
+  };
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
-  constructor(): any {
+    constructor(): any {
+  }
 }
-  disconnect(): any {}
-  observe(): any {}
-  unobserve(): any {}
-};
+}
+  disconnect(): any {
+    observe(): any {
+  }
+  unobserve(): any {
+    
+
+  };
 
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
-  writable: true,
+    writable: true,
   value: vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
@@ -38,12 +48,13 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: vi.fn(), // deprecated
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
+    dispatchEvent: vi.fn()
+  
+  }))
 });
 
 // Mock scrollTo
 Object.defineProperty(window, 'scrollTo', {
-  writable: true,
-  value: vi.fn(),
-});
+    writable: true,
+  value: vi.fn()
+  });

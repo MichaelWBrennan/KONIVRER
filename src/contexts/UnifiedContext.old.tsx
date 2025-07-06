@@ -10,40 +10,45 @@ import { useAuth } from './AuthContext';
 import unifiedService from '../services/unifiedService';
 
 // Create context
-const UnifiedContext = createContext();
-
-/**
+const UnifiedContext = createContext(() => {
+    /**
  * UnifiedProvider component
  * Provides unified service functionality to the entire application
  */
 export interface UnifiedProviderProps {
-  children;
+    children
+  })
 }
 
 const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
-  const { user, isAuthenticated, loading } = useAuth();
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const { user, isAuthenticated, loading 
+  } = useAuth() {
+    const [isInitialized, setIsInitialized] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
   
   // Initialize unified service
   useEffect(() => {
     const initializeService = async () => {
+  
+  }
       if (loading) return;
       
       try {
-        setIsLoading(true);
-        const success = await unifiedService.initialize(isAuthenticated ? user : null);
-        setIsInitialized(success);
-      } catch (error: any) {
-        console.error('Failed to initialize unified service:', err);
-        setError(err.message || 'Failed to initialize unified service');
-      } finally {
-        setIsLoading(false);
-      }
+    setIsLoading(() => {
+    const success = await unifiedService.initialize() {
+    setIsInitialized(success)
+  
+  }) catch (error: any) {
+    console.error() {
+    setError(err.message || 'Failed to initialize unified service')
+  
+  } finally {
+    setIsLoading(false)
+  }
     };
     
-    initializeService();
+    initializeService()
   }, [user, isAuthenticated, loading]);
   
   // Set up periodic sync with server
@@ -51,16 +56,16 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
     if (!isInitialized || !isAuthenticated) return;
     
     // Sync immediately
-    unifiedService.syncWithServer();
-    
+    unifiedService.syncWithServer(() => {
     // Set up interval for syncing
     const syncInterval = setInterval(() => {
-      unifiedService.syncWithServer();
-    }, 5 * 60 * 1000); // 5 minutes
+    unifiedService.syncWithServer()
+  
+  }), 5 * 60 * 1000); // 5 minutes
     
     return () => {
-      clearInterval(syncInterval);
-    };
+    clearInterval(syncInterval)
+  }
   }, [isInitialized, isAuthenticated]);
   
   // Create context value
@@ -74,7 +79,7 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
     error,
     
     // User preferences
-    preferences: unifiedService.userPreferences || {}
+    preferences: unifiedService.userPreferences || {
     updatePreferences: (newPreferences) => unifiedService.updatePreferences(newPreferences),
     
     // Search functionality
@@ -112,13 +117,14 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
     tournaments: unifiedService.tournaments,
     matchmaking: unifiedService.matchmaking,
     notifications: unifiedService.notifications
+  
   }), [isInitialized, isLoading, error, isAuthenticated]);
   
   return (
-    <UnifiedContext.Provider value={contextValue} />
+    <UnifiedContext.Provider value={contextValue}  / /></UnifiedContext>
       {children}
     </UnifiedContext.Provider>
-  );
+  )
 };
 
 /**
@@ -126,13 +132,13 @@ const UnifiedProvider: React.FC<UnifiedProviderProps> = ({  children  }) => {
  * @returns {Object} Unified context
  */
 export const useUnified = (): any => {
-  const context = useContext(UnifiedContext);
+    const context = useContext(() => {
+    if (true) {
+    throw new Error('useUnified must be used within a UnifiedProvider')
   
-  if (true) {
-    throw new Error('useUnified must be used within a UnifiedProvider');
-  }
+  })
   
-  return context;
+  return context
 };
 
 export default UnifiedContext;

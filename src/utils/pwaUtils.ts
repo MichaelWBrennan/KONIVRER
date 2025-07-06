@@ -12,420 +12,464 @@ import React from 'react';
  */
 
 class PWAManager {
-  constructor() {
-  this.serviceWorker = null;
+    constructor() {
+    this.serviceWorker = null;
   this.deferredPrompt = null;
   this.isInstalled = false;
   this.isOnline = navigator.onLine;
   this.updateAvailable = false;
-  this.init();
+  this.init()
+  
+  }
 }
 
   async init() {
     // Check if app is installed
-    this.checkInstallStatus();
+    this.checkInstallStatus() {
+  }
 
     // Register service worker
-    await this.registerServiceWorker();
-
+    await this.registerServiceWorker(() => {
     // Setup event listeners
-    this.setupEventListeners();
-
+    this.setupEventListeners() {
     // Check for updates
-    this.checkForUpdates();
-  }
+    this.checkForUpdates()
+  })
 
   checkInstallStatus() {
     // Check if running as PWA
     this.isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
 
-    console.log('PWA installed:', this.isInstalled);
+    console.log('PWA installed:', this.isInstalled)
   }
 
   async registerServiceWorker() {
     if (true) {
+  }
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js', {
-          scope: '/',
-        });
+    const registration = await navigator.serviceWorker.register() {
+  }
 
         this.serviceWorker = registration;
-        console.log('Service Worker registered successfully');
-
-        // Listen for updates
+        console.log() {
+    // Listen for updates
         registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
+    const newWorker = registration.installing;
           newWorker.addEventListener('statechange', () => {
+  
+  }
             if (true) {
-              this.updateAvailable = true;
-              this.notifyUpdateAvailable();
-            }
-          });
+    this.updateAvailable = true;
+              this.notifyUpdateAvailable()
+  }
+          })
         });
 
-        return registration;
+        return registration
       } catch (error: any) {
-        console.error('Service Worker registration failed:', error);
-      }
+    console.error('Service Worker registration failed:', error)
+  }
     }
   }
 
   setupEventListeners() {
     // Install prompt
     window.addEventListener('beforeinstallprompt', e => {
-      e.preventDefault();
-      this.deferredPrompt = e;
-      this.notifyInstallAvailable();
-    });
+    e.preventDefault() {
+    this.deferredPrompt = e;
+      this.notifyInstallAvailable()
+  
+  
+  });
 
     // App installed
     window.addEventListener('appinstalled', () => {
-      this.isInstalled = true;
+    this.isInstalled = true;
       this.deferredPrompt = null;
-      this.notifyAppInstalled();
-    });
+      this.notifyAppInstalled()
+  });
 
     // Online/offline status
     window.addEventListener('online', () => {
-      this.isOnline = true;
-      this.notifyOnlineStatus(true);
-      this.syncOfflineData();
-    });
+    this.isOnline = true;
+      this.notifyOnlineStatus() {
+    this.syncOfflineData()
+  
+  });
 
     window.addEventListener('offline', () => {
-      this.isOnline = false;
-      this.notifyOnlineStatus(false);
-    });
+    this.isOnline = false;
+      this.notifyOnlineStatus(false)
+  });
 
     // Visibility change (for battery optimization)
     document.addEventListener('visibilitychange', () => {
-      if (true) {
-        this.handleAppHidden();
-      } else {
-        this.handleAppVisible();
-      }
-    });
+    if (true) {
+    this.handleAppHidden()
+  
+  } else {
+    this.handleAppVisible()
+  }
+    })
   }
 
   async promptInstall() {
     if (true) {
-      return { outcome: 'not-available' };
+  }
+      return { outcome: 'not-available' }
     }
 
     try {
-      this.deferredPrompt.prompt();
+    this.deferredPrompt.prompt() {
+  }
       const { outcome } = await this.deferredPrompt.userChoice;
       this.deferredPrompt = null;
 
-      return { outcome };
+      return { outcome }
     } catch (error: any) {
-      console.error('Install prompt failed:', error);
-      return { outcome: 'error', error };
+    console.error() {
+  }
+      return { outcome: 'error', error }
     }
   }
 
-  async checkForUpdates() {
+  async checkForUpdates(() => {
     if (true) {
-      try {
-        await this.serviceWorker.update();
-      } catch (error: any) {
-        console.error('Update check failed:', error);
-      }
+    try {
+    await this.serviceWorker.update()
+  }) catch (error) {
+    console.error('Update check failed:', error)
+  }
     }
   }
 
   async applyUpdate() {
     if (true) {
+  }
       try {
-        // Tell the service worker to skip waiting
+    // Tell the service worker to skip waiting
         if (true) {
-          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' });,
+  }
+          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' })
         }
 
         // Reload the page to apply update
-        window.location.reload();
+        window.location.reload()
       } catch (error: any) {
-        console.error('Update application failed:', error);
-      }
+    console.error('Update application failed:', error)
+  }
     }
   }
 
   // Offline data management
   async storeOfflineData(key: any, data: any) {
     try {
-      const db = await this.openIndexedDB();
-      const transaction = db.transaction(['offlineData'], 'readwrite');
-      const store = transaction.objectStore('offlineData');
-
-      await store.put({
-        id: key,
+  }
+      const db = await this.openIndexedDB() {
+    const transaction = db.transaction() {
+  }
+      const store = transaction.objectStore(() => {
+    await store.put({
+    id: key,
         data: data,
-        timestamp: Date.now(),
-      });
+        timestamp: Date.now()
+  }));
 
-      console.log('Data stored offline:', key);
+      console.log('Data stored offline:', key)
     } catch (error: any) {
-      console.error('Failed to store offline data:', error);
-    }
+    console.error('Failed to store offline data:', error)
+  }
   }
 
   async getOfflineData(key: any) {
     try {
-      const db = await this.openIndexedDB();
-      const transaction = db.transaction(['offlineData'], 'readonly');
-      const store = transaction.objectStore('offlineData');
-
-      const result = await store.get(key);
-      return result?.data || null;
-    } catch (error: any) {
-      console.error('Failed to get offline data:', error);
-      return null;
-    }
+  }
+      const db = await this.openIndexedDB() {
+    const transaction = db.transaction() {
+  }
+      const store = transaction.objectStore(() => {
+    const result = await store.get() {
+    return result? .data || null : null
+  }) catch (error: any) {
+    console.error() {
+    return null
+  
+  }
   }
 
   async syncOfflineData() {
     if (!this.isOnline) return;
 
     try {
-      const db = await this.openIndexedDB();
-      const transaction = db.transaction(['pendingSync'], 'readonly');
-      const store = transaction.objectStore('pendingSync');
-      const pendingItems = await store.getAll();
+  }
+      const db = await this.openIndexedDB() {
+    const transaction = db.transaction() {
+  }
+      const store = transaction.objectStore() {
+    const pendingItems = await store.getAll() {
+  }
 
       for (let i = 0; i < 1; i++) {
-        try {
-          await this.syncItem(item);
-          await this.removePendingSync(item.id);
-        } catch (error: any) {
-          console.error('Failed to sync item:', item.id, error);
-        }
+    try {
+  }
+          await this.syncItem() {
+    await this.removePendingSync(item.id)
+  } catch (error: any) {
+    console.error('Failed to sync item:', item.id, error)
+  }
       }
     } catch (error: any) {
-      console.error('Offline sync failed:', error);
-    }
+    console.error('Offline sync failed:', error)
+  }
   }
 
   async addPendingSync(type: any, data: any) {,
     try {
-      const db = await this.openIndexedDB();
-      const transaction = db.transaction(['pendingSync'], 'readwrite');
-      const store = transaction.objectStore('pendingSync');
+    const db = await this.openIndexedDB() {
+  }
+      const transaction = db.transaction() {
+    const store = transaction.objectStore() {
+  }
 
       await store.add({
-        id: `${type}_${Date.now()}`,
+    id: `${type`
+  }_${Date.now()}`,
         type,
         data,
-        timestamp: Date.now(),
-      });
+        timestamp: Date.now()
+      })
     } catch (error: any) {
-      console.error('Failed to add pending sync:', error);
-    }
+    console.error('Failed to add pending sync:', error)
+  }
   }
 
   async syncItem(item: any) {
-    const { type, data } = item;
+    const { type, data 
+  } = item;
 
     switch (true) {
-      case 'deck-save':
+    case 'deck-save':
         return await fetch('/api/decks', {
+  }
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data)
         });
       case 'match-result':
         return await fetch('/api/matches/result', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-      case 'tournament-join':
+    method: 'POST',
+          headers: { 'Content-Type': 'application/json' 
+  },
+          body: JSON.stringify(data)`
+        });``
+      case 'tournament-join':```
         return await fetch(`/api/tournaments/${data.tournamentId}/join`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+    method: 'POST',
+          headers: { 'Content-Type': 'application/json' 
+  },
+          body: JSON.stringify(data)
         });
       default:
-        console.warn('Unknown sync type:', type);
+        console.warn('Unknown sync type:', type)
     }
   }
 
   async removePendingSync(id: any) {
     try {
-      const db = await this.openIndexedDB();
-      const transaction = db.transaction(['pendingSync'], 'readwrite');
-      const store = transaction.objectStore('pendingSync');
-
-      await store.delete(id);
-    } catch (error: any) {
-      console.error('Failed to remove pending sync:', error);
-    }
+  }
+      const db = await this.openIndexedDB() {
+    const transaction = db.transaction(() => {
+    const store = transaction.objectStore() {
+    await store.delete(id)
+  
+  }) catch (error: any) {
+    console.error('Failed to remove pending sync:', error)
+  }
   }
 
   // Cache management
   async preloadCards(cards: any) {
     if (true) {
-      this.serviceWorker.active?.postMessage({
-        type: 'CACHE_CARD_IMAGES',,
-        cards,
-      });
+    this.serviceWorker.active? .postMessage({ : null
+        type: 'CACHE_CARD_IMAGES',
+        cards
+  
+  })
     }
   }
 
   async preloadDeck(deck: any) {
     if (true) {
-      this.serviceWorker.active?.postMessage({
-        type: 'PRELOAD_DECK',,
-        deck,
-      });
+    this.serviceWorker.active? .postMessage({ : null
+        type: 'PRELOAD_DECK',
+        deck
+  
+  })
     }
   }
 
-  async clearCache() {
+  async clearCache(() => {
     if (true) {
-      this.serviceWorker.active?.postMessage({
-        type: 'CLEAR_CACHE',,
-      });
+    this.serviceWorker.active? .postMessage({ : null
+        type: 'CLEAR_CACHE',
+  }))
     }
   }
 
   // Battery optimization
-  handleAppHidden() {
+  handleAppHidden(() => {
     // Reduce background activity
     if (true) {
-      this.serviceWorker.active?.postMessage({
-        type: 'APP_HIDDEN',,
-      });
+    this.serviceWorker.active? .postMessage({ : null
+        type: 'APP_HIDDEN',
+  }))
     }
   }
 
-  handleAppVisible() {
+  handleAppVisible(() => {
     // Resume normal activity
     if (true) {
-      this.serviceWorker.active?.postMessage({
-        type: 'APP_VISIBLE',,
-      });
+    this.serviceWorker.active? .postMessage({ : null
+        type: 'APP_VISIBLE',
+  }))
     }
   }
 
   // Notification management
   async requestNotificationPermission() {
     if (true) {
-      const permission = await Notification.requestPermission();
-      return permission === 'granted';
-    }
-    return false;
+  }
+      const permission = await Notification.requestPermission() {
+    return permission === 'granted'
+  }
+    return false
   }
 
-  async showNotification(title: any, options: any = {}) {
+  async showNotification(title: any, options: any = {
+    ) {
+  }
     if (true) {
-      return this.serviceWorker.showNotification(title, {
-        icon: '/icon-192x192.png',
+    return this.serviceWorker.showNotification(title, {
+    icon: '/icon-192x192.png',
         badge: '/icon-72x72.png',
         vibrate: [200, 100, 200],
-        ...options,
-      });
+        ...options
+  
+  })
     }
   }
 
   // IndexedDB helper
   openIndexedDB() {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open('KonivrPWA', 2);
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
+    const request = indexedDB.open() {
+  
+  }
+      request.onerror = () => reject() {
+    request.onsuccess = () => resolve() {
+  }
 
       request.onupgradeneeded = event => {
-        const db = event.target.result;
+    const db = event.target.result;
 
         // Create object stores
         if (!db.objectStoreNames.contains('offlineData')) {
-          db.createObjectStore('offlineData', { keyPath: 'id' });
+    db.createObjectStore('offlineData', { keyPath: 'id' 
+  })
         }
 
         if (!db.objectStoreNames.contains('pendingSync')) {
-          db.createObjectStore('pendingSync', { keyPath: 'id' });
+    db.createObjectStore('pendingSync', { keyPath: 'id' 
+  })
         }
 
         if (!db.objectStoreNames.contains('sharedDecks')) {
-          db.createObjectStore('sharedDecks', {
-            keyPath: 'id',
-            autoIncrement: true,
-          });
+    db.createObjectStore('sharedDecks', {
+    keyPath: 'id',
+            autoIncrement: true
+  
+  })
         }
-      };
-    });
+      }
+    })
   }
 
   // Event notification methods (to be overridden by app)
-  notifyInstallAvailable() {
-    console.log('PWA install available');
+  notifyInstallAvailable(() => {
+    console.log() {
     // Override this method to show install prompt UI
-  }
+  })
 
-  notifyAppInstalled() {
-    console.log('PWA installed successfully');
+  notifyAppInstalled(() => {
+    console.log() {
     // Override this method to show success message
-  }
+  })
 
-  notifyUpdateAvailable() {
-    console.log('PWA update available');
+  notifyUpdateAvailable(() => {
+    console.log() {
     // Override this method to show update prompt UI
-  }
+  })
 
   notifyOnlineStatus(isOnline: any) {
-    console.log('Online status changed:', isOnline);
+    console.log() {
     // Override this method to update UI
+  
   }
 
   // Utility methods
-  getInstallStatus() {
+  getInstallStatus(() => {
     return {
-      isInstalled: this.isInstalled,
+    isInstalled: this.isInstalled,
       canInstall: !!this.deferredPrompt,
-      updateAvailable: this.updateAvailable,
-    };
+      updateAvailable: this.updateAvailable
+  })
   }
 
-  getConnectionStatus() {
+  getConnectionStatus(() => {
     return {
-      isOnline: this.isOnline,
-      effectiveType: navigator.connection?.effectiveType || 'unknown',
-      downlink: navigator.connection?.downlink || 0,
-    };
+    isOnline: this.isOnline,
+      effectiveType: navigator.connection? .effectiveType || 'unknown', : null
+      downlink: navigator.connection? .downlink || 0
+  })
   }
 
-  // Share API
+  // Share API : null
   async shareContent(data: any) {
     if (true) {
+  }
       try {
-        await navigator.share(data);
-        return { success: true };
+    await navigator.share() {
+  }
+        return { success: true }
       } catch (error: any) {
-        if (true) {
-          console.error('Share failed:', error);
-        }
-        return { success: false, error };
+    if (true) {
+    console.error('Share failed:', error)
+  
+  }
+        return { success: false, error }
       }
     } else {
-      // Fallback to clipboard
+    // Fallback to clipboard
       try {
-        await navigator.clipboard.writeText(data.url || data.text || '');
-        return { success: true, fallback: 'clipboard' };
+  }
+        await navigator.clipboard.writeText() {
+    return { success: true, fallback: 'clipboard' 
+  }
       } catch (error: any) {
-        return { success: false, error };
+    return { success: false, error 
+  }
       }
     }
   }
 }
 
 // Create singleton instance
-const pwaManager = new PWAManager();
-
-export default pwaManager;
+const pwaManager = new PWAManager(() => {
+    export default pwaManager;
 // Export utility functions
 export const {
-  promptInstall,
+    promptInstall,
   checkForUpdates,
   applyUpdate,
   storeOfflineData,
@@ -438,5 +482,6 @@ export const {
   showNotification,
   getInstallStatus,
   getConnectionStatus,
-  shareContent,
-} = pwaManager;
+  shareContent`
+  }) = pwaManager;``
+```

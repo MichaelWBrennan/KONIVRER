@@ -27,18 +27,19 @@ import React from 'react';
 interface VisualDeckBuilderProps {
   deck
   onDeckChange
+  
 }
 
 const VisualDeckBuilder: React.FC<VisualDeckBuilderProps> = ({  deck, onDeckChange  }) => {return (
-    <>
-      <div className="bg-card rounded-lg p-6"></div>
-      <h3 className="text-lg font-semibold mb-4">Visual Deck Builder</h3>
-      <div className="text-center text-secondary"></div>
-      <p>Visual deck building interface will be displayed here</p>
-      <p className="text-sm mt-2">Deck: {deck?.name || 'New Deck'}
+    <any />
+    <div className="bg-card rounded-lg p-6" />
+    <h3 className="text-lg font-semibold mb-4">Visual Deck Builder</h3>
+      <div className="text-center text-secondary" />
+    <p>Visual deck building interface will be displayed here</p>
+      <p className="text-sm mt-2">Deck: {deck? .name || 'New Deck'}
       </div>
     </>
-  );
+  )
 };
 
-export default VisualDeckBuilder;
+export default VisualDeckBuilder; : null

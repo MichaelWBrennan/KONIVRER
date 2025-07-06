@@ -9,10 +9,10 @@
 
 describe('App Component', () => {
   test('renders without crashing', () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+});
 
   test('displays main content', () => {
-    expect(1 + 1).toBe(2);
-  });
+    expect(1 + 1).toBe(2)
+  })
 });

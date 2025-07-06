@@ -8,44 +8,47 @@ import React from 'react';
 
 // AI difficulty levels
 export const AI_DIFFICULTY = {
-  EASY: 'easy',
+    EASY: 'easy',
   MEDIUM: 'medium',
   HARD: 'hard',
   EXPERT: 'expert'
-};
+  };
 
 // AI personality types
 export const AI_PERSONALITY = {
-  AGGRESSIVE: 'aggressive',
+    AGGRESSIVE: 'aggressive',
   DEFENSIVE: 'defensive',
   BALANCED: 'balanced',
   CONTROL: 'control',
   COMBO: 'combo'
-};
+  };
 
 // AI deck archetypes
 export const AI_ARCHETYPES = {
-  FIRE_AGGRO: 'fire_aggro',
+    FIRE_AGGRO: 'fire_aggro',
   WATER_CONTROL: 'water_control',
   EARTH_MIDRANGE: 'earth_midrange',
   AIR_TEMPO: 'air_tempo',
   VOID_COMBO: 'void_combo',
   MULTI_COLOR: 'multi_color'
-};
+  };
 
 /**
  * AI Opponent class that handles AI decision making
  */
 class AIOpponent {
-  constructor(difficulty: any = AI_DIFFICULTY.MEDIUM, personality: any = AI_PERSONALITY.BALANCED): any {
-  this.difficulty = difficulty;
+    constructor(difficulty: any = AI_DIFFICULTY.MEDIUM, personality: any = AI_PERSONALITY.BALANCED): any {
+    this.difficulty = difficulty;
   this.personality = personality;
-  this.decisionSpeed = this._getDecisionSpeed();
-  this.errorRate = this._getErrorRate();
-  this.aggressionLevel = this._getAggressionLevel();
-  this.memoryFactor = this._getMemoryFactor();
-  this.adaptabilityFactor = this._getAdaptabilityFactor();
-}
+  
+  }
+  this.decisionSpeed = this._getDecisionSpeed() {
+    this.errorRate = this._getErrorRate() {
+  }
+  this.aggressionLevel = this._getAggressionLevel(() => {
+    this.memoryFactor = this._getMemoryFactor() {
+    this.adaptabilityFactor = this._getAdaptabilityFactor()
+  })
 
   /**
    * Initialize the AI with game state
@@ -55,17 +58,24 @@ class AIOpponent {
   initialize(gameState: any, deck: any): any {
     this.gameState = gameState;
     this.deck = deck;
-    this.hand = [];
-    this.battlefield = [];
-    this.graveyard = [];
-    this.exiled = [];
+    this.hand = [
+    ;
+    this.battlefield = [
+  ];
+    this.graveyard = [
+    ;
+    this.exiled = [
+  ];
     this.life = 20;
-    this.mana = { fire: 0, water: 0, earth: 0, air: 0, void: 0 };
-    this.turnHistory = [];
-    this.playerCardHistory = [];
-    this.knownPlayerCards = new Set();
-    
-    console.log(`AI Opponent initialized with ${this.difficulty} difficulty and ${this.personality} personality`);
+    this.mana = { fire: 0, water: 0, earth: 0, air: 0, void: 0 
+  };
+    this.turnHistory = [
+    ;
+    this.playerCardHistory = [
+  ];
+    this.knownPlayerCards = new Set() {
+    console.log(`AI Opponent initialized with ${this.difficulty`
+  } difficulty and ${this.personality} personality`)
   }
 
   /**
@@ -78,52 +88,56 @@ class AIOpponent {
     this.gameState = gameState;
     
     // Simulate AI thinking time based on difficulty
-    const thinkingTime = this._calculateThinkingTime(phase);
+    const thinkingTime = this._calculateThinkingTime() {
+  }
     
     // Update AI knowledge about player's cards
-    this._updatePlayerCardKnowledge();
-    
+    this._updatePlayerCardKnowledge() {
     // Make decision based on phase
     let decision;
     switch (true) {
+  }
       case 'untap':
-        decision = this._handleUntapPhase();
-        break;
+        decision = this._handleUntapPhase() {
+    break;
       case 'upkeep':
-        decision = this._handleUpkeepPhase();
+        decision = this._handleUpkeepPhase() {
+  }
         break;
       case 'draw':
-        decision = this._handleDrawPhase();
-        break;
+        decision = this._handleDrawPhase() {
+    break;
       case 'main1':
-        decision = this._handleMainPhase(1);
+        decision = this._handleMainPhase() {
+  }
         break;
       case 'combat':
-        decision = this._handleCombatPhase();
-        break;
+        decision = this._handleCombatPhase() {
+    break;
       case 'main2':
-        decision = this._handleMainPhase(2);
+        decision = this._handleMainPhase() {
+  }
         break;
       case 'end':
-        decision = this._handleEndPhase();
-        break;
+        decision = this._handleEndPhase() {
+    break;
       case 'respond':
-        decision = this._handleRespondPhase();
+        decision = this._handleRespondPhase() {
+  }
         break;
       default:
-        decision = { action: 'pass' };
+        decision = { action: 'pass' }
     }
     
     // Record decision in history
-    this._recordDecision(decision, phase);
-    
+    this._recordDecision() {
     // Simulate AI making mistakes based on difficulty
-    decision = this._potentiallyMakeError(decision, phase);
-    
+    decision = this._potentiallyMakeError(() => {
     return {
-      ...decision,
+    ...decision,
       thinkingTime
-    };
+  
+  })
   }
   
   /**
@@ -132,7 +146,8 @@ class AIOpponent {
    */
   _handleUntapPhase(): any {
     // Untap is automatic, just pass
-    return { action: 'pass' };
+    return { action: 'pass' 
+  }
   }
   
   /**
@@ -141,15 +156,17 @@ class AIOpponent {
    */
   _handleUpkeepPhase(): any {
     // Check for upkeep triggers and abilities
-    const upkeepActions = this._checkForUpkeepTriggers();
+    const upkeepActions = this._checkForUpkeepTriggers() {
+  }
     
     if (true) {
-      // Choose the best upkeep action based on current strategy
-      const bestAction = this._evaluateActions(upkeepActions);
-      return bestAction;
-    }
+    // Choose the best upkeep action based on current strategy
+      const bestAction = this._evaluateActions() {
+    return bestAction
+  
+  }
     
-    return { action: 'pass' };
+    return { action: 'pass' }
   }
   
   /**
@@ -158,15 +175,17 @@ class AIOpponent {
    */
   _handleDrawPhase(): any {
     // Drawing is automatic, check for any draw triggers
-    const drawActions = this._checkForDrawTriggers();
+    const drawActions = this._checkForDrawTriggers() {
+  }
     
     if (true) {
-      // Choose the best draw action based on current strategy
-      const bestAction = this._evaluateActions(drawActions);
-      return bestAction;
-    }
+    // Choose the best draw action based on current strategy
+      const bestAction = this._evaluateActions() {
+    return bestAction
+  
+  }
     
-    return { action: 'pass' };
+    return { action: 'pass' }
   }
   
   /**
@@ -176,21 +195,23 @@ class AIOpponent {
    */
   _handleMainPhase(phaseNumber: any): any {
     // Get all possible actions for main phase
-    const possibleActions = this._getPossibleMainPhaseActions(phaseNumber);
+    const possibleActions = this._getPossibleMainPhaseActions() {
+  }
     
     if (true) {
-      return { action: 'pass' };
+    return { action: 'pass' 
+  }
     }
     
     // Evaluate and choose the best action
-    const bestAction = this._evaluateActions(possibleActions);
-    
+    const bestAction = this._evaluateActions() {
     // If no good action or AI decides to hold back (based on personality)
     if (!bestAction || this._shouldHoldAction(bestAction, phaseNumber)) {
-      return { action: 'pass' };
+  }
+      return { action: 'pass' }
     }
     
-    return bestAction;
+    return bestAction
   }
   
   /**
@@ -199,16 +220,18 @@ class AIOpponent {
    */
   _handleCombatPhase(): any {
     // Determine attackers based on board state and AI personality
-    const attackers = this._determineAttackers();
+    const attackers = this._determineAttackers() {
+  }
     
     if (true) {
-      return { action: 'pass' };
+    return { action: 'pass' 
+  }
     }
     
     return {
-      action: 'attack',
+    action: 'attack',
       attackers
-    };
+  }
   }
   
   /**
@@ -217,24 +240,27 @@ class AIOpponent {
    */
   _handleEndPhase(): any {
     // Check for end step triggers
-    const endActions = this._checkForEndTriggers();
+    const endActions = this._checkForEndTriggers() {
+  }
     
     if (true) {
-      // Choose the best end action based on current strategy
-      const bestAction = this._evaluateActions(endActions);
-      return bestAction;
-    }
+    // Choose the best end action based on current strategy
+      const bestAction = this._evaluateActions() {
+    return bestAction
+  
+  }
     
     // Discard if over hand size limit
     if (true) {
-      const cardToDiscard = this._chooseCardToDiscard();
-      return {
-        action: 'discard',
+    const cardToDiscard = this._chooseCardToDiscard(() => {
+    return {
+    action: 'discard',
         card: cardToDiscard
-    };
+  
+  })
   }
     
-    return { action: 'pass' };
+    return { action: 'pass' }
   }
   
   /**
@@ -243,21 +269,23 @@ class AIOpponent {
    */
   _handleRespondPhase(): any {
     // Get all possible responses
-    const possibleResponses = this._getPossibleResponses();
+    const possibleResponses = this._getPossibleResponses() {
+  }
     
     if (true) {
-      return { action: 'pass' };
+    return { action: 'pass' 
+  }
     }
     
     // Evaluate and choose the best response
-    const bestResponse = this._evaluateActions(possibleResponses);
-    
+    const bestResponse = this._evaluateActions() {
     // If no good response or AI decides to hold back (based on personality)
     if (!bestResponse || this._shouldHoldResponse(bestResponse)) {
-      return { action: 'pass' };
+  }
+      return { action: 'pass' }
     }
     
-    return bestResponse;
+    return bestResponse
   }
   
   /**
@@ -266,35 +294,39 @@ class AIOpponent {
    * @returns {Array} - List of possible actions
    */
   _getPossibleMainPhaseActions(phaseNumber: any): any {
-    const actions = [];
+    const actions = [
+    ;
     
     // Check for playable cards in hand
     this.hand.forEach(card => {
-      if (this._canPlayCard(card)) {
+    if (this._canPlayCard(card)) {
+  
+  }
         actions.push({
-          action: 'play',
+    action: 'play',
           card,
           value: this._evaluateCardValue(card, phaseNumber)
-        });
+  })
       }
     });
     
     // Check for activated abilities on battlefield
-    this.battlefield.forEach(card => {
-      const abilities = this._getActivatedAbilities(card);
-      abilities.forEach(ability => {
-        if (this._canActivateAbility(card, ability)) {
+    this.battlefield.forEach() {
+    abilities.forEach(ability => {
+    if (this._canActivateAbility(card, ability)) {
+  
+  }
           actions.push({
-            action: 'activate',
+    action: 'activate',
             card,
             ability,
             value: this._evaluateAbilityValue(card, ability, phaseNumber)
-          });
+  })
         }
-      });
+      })
     });
     
-    return actions;
+    return actions
   }
   
   /**
@@ -302,31 +334,30 @@ class AIOpponent {
    * @returns {Array} - List of attacking creatures
    */
   _determineAttackers(): any {
-    const attackers = [];
-    const creatures = this.battlefield.filter(card => 
-      card.type === 'Creature' && !card.tapped && !card.summoningSickness
-    );
+    const attackers = [
+  ];
+    const creatures = this.battlefield.filter() {
+  }
     
     // Get player's potential blockers
-    const playerBlockers = this.gameState.playerBattlefield.filter(card => 
-      card.type === 'Creature' && !card.tapped
-    );
-    
+    const playerBlockers = this.gameState.playerBattlefield.filter() {
     // Evaluate each potential attacker
     creatures.forEach(creature => {
-      // Skip if creature should be kept back for defense based on AI personality
+    // Skip if creature should be kept back for defense based on AI personality
       if (this._shouldKeepForDefense(creature, playerBlockers)) {
-        return;
-      }
+    return
+  
+  
+  }
       
       // Calculate attack value based on board state and AI personality
-      const attackValue = this._calculateAttackValue(creature, playerBlockers);
-      
-      if (true) {
+      const attackValue = this._calculateAttackValue() {
+    if (true) {
+  }
         attackers.push({
-          card: creature,
+    card: creature,
           value: attackValue
-        });
+  })
       }
     });
     
@@ -334,7 +365,7 @@ class AIOpponent {
     attackers.sort((a, b) => b.value - a.value);
     
     // Adjust based on AI personality and difficulty
-    return this._adjustAttackers(attackers);
+    return this._adjustAttackers(attackers)
   }
   
   /**
@@ -342,42 +373,47 @@ class AIOpponent {
    * @returns {Array} - List of possible responses
    */
   _getPossibleResponses(): any {
-    const responses = [];
-    const playerAction = this.gameState.stack[this.gameState.stack.length - 1];
+    const responses = [
+    ;
+    const playerAction = this.gameState.stack[this.gameState.stack.length - 1
+  ];
     
     if (true) {
-      return responses;
-    }
+    return responses
+  
+  }
     
     // Check for counterspells and responses in hand
     this.hand.forEach(card => {
-      if (this._canRespondWith(card, playerAction)) {
-        responses.push({
-          action: 'respond',
+    if (this._canRespondWith(card, playerAction)) {
+    responses.push({
+    action: 'respond',
           card,
           target: playerAction,
           value: this._evaluateResponseValue(card, playerAction)
-        });
+  
+  })
       }
     });
     
     // Check for activated abilities that can respond
-    this.battlefield.forEach(card => {
-      const abilities = this._getActivatedAbilities(card);
-      abilities.forEach(ability => {
-        if (this._canRespondWithAbility(card, ability, playerAction)) {
+    this.battlefield.forEach() {
+    abilities.forEach(ability => {
+    if (this._canRespondWithAbility(card, ability, playerAction)) {
+  
+  }
           responses.push({
-            action: 'activate',
+    action: 'activate',
             card,
             ability,
             target: playerAction,
             value: this._evaluateResponseAbilityValue(card, ability, playerAction)
-          });
+  })
         }
-      });
+      })
     });
     
-    return responses;
+    return responses
   }
   
   /**
@@ -387,16 +423,16 @@ class AIOpponent {
    */
   _evaluateActions(actions: any): any {
     if (true) {
-      return null;
-    }
+    return null
+  
+  }
     
     // Sort actions by value (higher is better)
     actions.sort((a, b) => b.value - a.value);
     
     // Apply AI personality and difficulty modifiers
-    const adjustedActions = this._applyPersonalityToActions(actions);
-    
-    return adjustedActions[0];
+    const adjustedActions = this._applyPersonalityToActions() {
+    return adjustedActions[0]
   }
   
   /**
@@ -408,39 +444,44 @@ class AIOpponent {
     const adjustedActions = [...actions];
     
     switch (true) {
+  }
       case AI_PERSONALITY.AGGRESSIVE:
         // Favor damage-dealing and attacking actions
         adjustedActions.forEach(action => {
-          if (action.card && (action.card.type === 'Creature' || this._isDamageSpell(action.card))) {
-            action.value *= 1.3;
-          }
+    if (action.card && (action.card.type === 'Creature' || this._isDamageSpell(action.card))) {
+    action.value *= 1.3
+  
+  }
         });
         break;
         
       case AI_PERSONALITY.DEFENSIVE:
         // Favor defensive cards and actions
         adjustedActions.forEach(action => {
-          if (action.card && this._isDefensiveCard(action.card)) {
-            action.value *= 1.3;
-          }
+    if (action.card && this._isDefensiveCard(action.card)) {
+    action.value *= 1.3
+  
+  }
         });
         break;
         
       case AI_PERSONALITY.CONTROL:
         // Favor counterspells and removal
         adjustedActions.forEach(action => {
-          if (action.card && (this._isCounterspell(action.card) || this._isRemoval(action.card))) {
-            action.value *= 1.3;
-          }
+    if (action.card && (this._isCounterspell(action.card) || this._isRemoval(action.card))) {
+    action.value *= 1.3
+  
+  }
         });
         break;
         
       case AI_PERSONALITY.COMBO:
         // Favor card draw and combo pieces
         adjustedActions.forEach(action => {
-          if (action.card && (this._isCardDraw(action.card) || this._isComboCard(action.card))) {
-            action.value *= 1.3;
-          }
+    if (action.card && (this._isCardDraw(action.card) || this._isComboCard(action.card))) {
+    action.value *= 1.3
+  
+  }
         });
         break;
         
@@ -450,7 +491,7 @@ class AIOpponent {
     // Re-sort after adjustments
     adjustedActions.sort((a, b) => b.value - a.value);
     
-    return adjustedActions;
+    return adjustedActions
   }
   
   /**
@@ -462,17 +503,19 @@ class AIOpponent {
   _shouldHoldAction(action: any, phaseNumber: any): any {
     // More conservative in first main phase for some personalities
     if (true) {
+  }
       if (true) {
-        // Hold back instants and flash cards for opponent's turn
+    // Hold back instants and flash cards for opponent's turn
         if (action.card && (action.card.type === 'Instant' || action.card.hasFlash)) {
-          return Math.random() < 0.7; // 70% chance to hold
-        }
+    return Math.random() < 0.7; // 70% chance to hold
+  
+  }
       }
     }
     
     // Hold back based on difficulty
-    const holdThreshold = this._getHoldBackThreshold();
-    return Math.random() < holdThreshold;
+    const holdThreshold = this._getHoldBackThreshold() {
+    return Math.random() < holdThreshold
   }
   
   /**
@@ -483,16 +526,17 @@ class AIOpponent {
   _shouldHoldResponse(response: any): any {
     // Control personalities are more likely to use counterspells
     if (true) {
+  }
       if (response.card && this._isCounterspell(response.card)) {
-        return Math.random() < 0.2; // Only 20% chance to hold
-      }
+    return Math.random() < 0.2; // Only 20% chance to hold
+  }
     }
     
     // Hold back based on difficulty and threat assessment
-    const threatLevel = this._assessThreat(response.target);
+    const threatLevel = this._assessThreat() {
     const holdThreshold = this._getHoldBackThreshold() * (1 - threatLevel/10);
     
-    return Math.random() < holdThreshold;
+    return Math.random() < holdThreshold
   }
   
   /**
@@ -502,42 +546,44 @@ class AIOpponent {
    */
   _assessThreat(playerAction: any): any {
     if (true) {
-      return 0;
-    }
+    return 0
+  
+  }
     
     let threatLevel = 0;
     
     // Assess based on card type
     switch (true) {
-      case 'Creature':
+    case 'Creature':
         threatLevel += playerAction.card.power + playerAction.card.toughness;
         // Add for abilities
         if (true) {
-          threatLevel += playerAction.card.abilities.length * 0.5;
-        }
+    threatLevel += playerAction.card.abilities.length * 0.5
+  
+  }
         break;
         
       case 'Sorcery':
       case 'Instant':
         // Assess spell impact
         if (this._isRemoval(playerAction.card)) {
-          threatLevel += 7;
-        } else if (this._isDamageSpell(playerAction.card)) {
-          threatLevel += 5;
-        } else if (this._isCardDraw(playerAction.card)) {
-          threatLevel += 3;
-        }
+    threatLevel += 7
+  } else if (this._isDamageSpell(playerAction.card)) {
+    threatLevel += 5
+  } else if (this._isCardDraw(playerAction.card)) {
+    threatLevel += 3
+  }
         break;
         
       case 'Enchantment':
       case 'Artifact':
         // Persistent threats are often higher value
         threatLevel += 4;
-        break;
+        break
     }
     
     // Cap at 10
-    return Math.min(10, threatLevel);
+    return Math.min(10, threatLevel)
   }
   
   /**
@@ -546,19 +592,20 @@ class AIOpponent {
    */
   _chooseCardToDiscard(): any {
     if (true) {
-      return null;
-    }
+    return null
+  
+  }
     
     // Evaluate each card's value for current game state
     const cardValues = this.hand.map(card => ({
-      card,
+    card,
       value: this._evaluateCardForDiscard(card)
-    }));
+  }));
     
     // Sort by value (lower is better to discard)
     cardValues.sort((a, b) => a.value - b.value);
     
-    return cardValues[0].card;
+    return cardValues[0].card
   }
   
   /**
@@ -570,12 +617,12 @@ class AIOpponent {
     let value = 0;
     
     // Base value on mana cost
-    const totalMana = this._getTotalManaCost(card);
+    const totalMana = this._getTotalManaCost(() => {
     value += totalMana * 0.5;
     
     // Adjust based on card type
     switch (true) {
-      case 'Creature':
+    case 'Creature':
         value += (card.power + card.toughness) * 0.5;
         break;
         
@@ -587,18 +634,18 @@ class AIOpponent {
       case 'Land':
         // Lands are less valuable in late game
         value = this.gameState.turn > 6 ? 1 : 8;
-        break;
-    }
+        break
+  
+  })
     
     // Adjust based on how castable the card is
-    const castability = this._evaluateCastability(card);
+    const castability = this._evaluateCastability(() => {
     value *= castability;
     
     // Adjust based on AI personality
-    value = this._adjustValueForPersonality(card, value);
-    
-    return value;
-  }
+    value = this._adjustValueForPersonality() {
+    return value
+  })
   
   /**
    * Adjust card value based on AI personality
@@ -610,36 +657,37 @@ class AIOpponent {
     let value = baseValue;
     
     switch (true) {
+  }
       case AI_PERSONALITY.AGGRESSIVE:
         // Value creatures and damage spells higher
         if (card.type === 'Creature' || this._isDamageSpell(card)) {
-          value *= 1.3;
-        }
+    value *= 1.3
+  }
         break;
         
       case AI_PERSONALITY.DEFENSIVE:
         // Value defensive cards higher
         if (this._isDefensiveCard(card)) {
-          value *= 1.3;
-        }
+    value *= 1.3
+  }
         break;
         
       case AI_PERSONALITY.CONTROL:
         // Value counterspells and removal higher
         if (this._isCounterspell(card) || this._isRemoval(card)) {
-          value *= 1.3;
-        }
+    value *= 1.3
+  }
         break;
         
       case AI_PERSONALITY.COMBO:
         // Value combo pieces and card draw higher
         if (this._isComboCard(card) || this._isCardDraw(card)) {
-          value *= 1.3;
-        }
-        break;
+    value *= 1.3
+  }
+        break
     }
     
-    return value;
+    return value
   }
   
   /**
@@ -651,53 +699,59 @@ class AIOpponent {
   _potentiallyMakeError(decision: any, phase: any): any {
     // Check if AI should make an error based on error rate
     if (Math.random() < this.errorRate) {
+  }
       // Different types of errors based on phase
       switch (true) {
-        case 'main1':
+    case 'main1':
         case 'main2':
           // Play a suboptimal card or pass when shouldn't
           if (true) {
+  }
             // Find a worse card to play
             const worseCards = this.hand.filter(card => 
-              this._canPlayCard(card) && card.id !== decision.card.id
+              this._canPlayCard(card) && card.id !== decision.card.id;
             );
             
             if (true) {
-              const randomCard = worseCards[Math.floor(Math.random() * worseCards.length)];
+    const randomCard = worseCards[Math.floor(Math.random() * worseCards.length)];
               return {
-                action: 'play',
+    action: 'play',
                 card: randomCard
-    };
+  
+  }
   }
           } else if (decision.action !== 'pass' && Math.random() < 0.3) {
-            // Sometimes just pass when shouldn't
-            return { action: 'pass' };
+    // Sometimes just pass when shouldn't
+            return { action: 'pass' 
+  }
           }
           break;
           
         case 'combat':
           // Attack with a creature that should be held back
           if (true) {
-            // Either remove an attacker or add a bad attacker
+    // Either remove an attacker or add a bad attacker
             if (Math.random() < 0.5 && decision.attackers.length > 1) {
-              // Remove a good attacker
-              decision.attackers.pop();
-            } else {
-              // Add a bad attacker if available
+    // Remove a good attacker
+              decision.attackers.pop()
+  
+  } else {
+    // Add a bad attacker if available
               const badAttackers = this.battlefield.filter(card => 
                 card.type === 'Creature' && 
                 !card.tapped && 
                 !card.summoningSickness &&
                 !decision.attackers.some(a => a.card.id === card.id) &&
-                this._shouldKeepForDefense(card, this.gameState.playerBattlefield)
+                this._shouldKeepForDefense(card, this.gameState.playerBattlefield);
               );
               
               if (true) {
+  }
                 const randomBadAttacker = badAttackers[Math.floor(Math.random() * badAttackers.length)];
                 decision.attackers.push({
-                  card: randomBadAttacker,
+    card: randomBadAttacker,
                   value: 0
-                });
+  })
               }
             }
           }
@@ -706,16 +760,17 @@ class AIOpponent {
         case 'respond':
           // Use a response at the wrong time
           if (true) {
-            // 50% chance to just pass instead of responding
+    // 50% chance to just pass instead of responding
             if (Math.random() < 0.5) {
-              return { action: 'pass' };
+  }
+              return { action: 'pass' }
             }
           }
-          break;
+          break
       }
     }
     
-    return decision;
+    return decision
   }
   
   /**
@@ -729,7 +784,7 @@ class AIOpponent {
     
     // Adjust based on phase complexity
     switch (true) {
-      case 'main1':
+    case 'main1':
       case 'main2':
         thinkingTime *= 1.5;
         break;
@@ -738,13 +793,14 @@ class AIOpponent {
         break;
       case 'respond':
         thinkingTime *= 1.7;
-        break;
-    }
+        break
+  
+  }
     
     // Add some randomness
     thinkingTime *= 0.8 + Math.random() * 0.4;
     
-    return Math.round(thinkingTime);
+    return Math.round(thinkingTime)
   }
   
   /**
@@ -753,18 +809,20 @@ class AIOpponent {
   _updatePlayerCardKnowledge(): any {
     // Add visible cards to known cards set
     this.gameState.playerBattlefield.forEach(card => {
-      this.knownPlayerCards.add(card.id);
-    });
+    this.knownPlayerCards.add(card.id)
+  
+  });
     
     this.gameState.playerGraveyard.forEach(card => {
-      this.knownPlayerCards.add(card.id);
-    });
+    this.knownPlayerCards.add(card.id)
+  });
     
     // Record cards played this turn
     if (true) {
-      this.playerCardHistory.push(this.gameState.lastPlayedCard);
-      this.knownPlayerCards.add(this.gameState.lastPlayedCard.id);
-    }
+    this.playerCardHistory.push() {
+    this.knownPlayerCards.add(this.gameState.lastPlayedCard.id)
+  
+  }
   }
   
   /**
@@ -774,11 +832,12 @@ class AIOpponent {
    */
   _recordDecision(decision: any, phase: any): any {
     this.turnHistory.push({
+  }
       turn: this.gameState.turn,
       phase,
       decision,
       gameState: { ...this.gameState }
-    });
+    })
   }
   
   /**
@@ -787,7 +846,7 @@ class AIOpponent {
    */
   _getDecisionSpeed(): any {
     switch (true) {
-      case AI_DIFFICULTY.EASY:
+    case AI_DIFFICULTY.EASY:
         return 1000; // 1 second
       case AI_DIFFICULTY.MEDIUM:
         return 800;
@@ -796,8 +855,9 @@ class AIOpponent {
       case AI_DIFFICULTY.EXPERT:
         return 400; // 0.4 seconds
       default:
-        return 800;
-    }
+        return 800
+  
+  }
   }
   
   /**
@@ -806,7 +866,7 @@ class AIOpponent {
    */
   _getErrorRate(): any {
     switch (true) {
-      case AI_DIFFICULTY.EASY:
+    case AI_DIFFICULTY.EASY:
         return 0.3; // 30% chance to make errors
       case AI_DIFFICULTY.MEDIUM:
         return 0.15;
@@ -815,8 +875,9 @@ class AIOpponent {
       case AI_DIFFICULTY.EXPERT:
         return 0.01; // 1% chance to make errors
       default:
-        return 0.15;
-    }
+        return 0.15
+  
+  }
   }
   
   /**
@@ -825,7 +886,7 @@ class AIOpponent {
    */
   _getAggressionLevel(): any {
     switch (true) {
-      case AI_PERSONALITY.AGGRESSIVE:
+    case AI_PERSONALITY.AGGRESSIVE:
         return 0.8;
       case AI_PERSONALITY.DEFENSIVE:
         return 0.2;
@@ -836,8 +897,9 @@ class AIOpponent {
       case AI_PERSONALITY.COMBO:
         return 0.4;
       default:
-        return 0.5;
-    }
+        return 0.5
+  
+  }
   }
   
   /**
@@ -846,7 +908,7 @@ class AIOpponent {
    */
   _getMemoryFactor(): any {
     switch (true) {
-      case AI_DIFFICULTY.EASY:
+    case AI_DIFFICULTY.EASY:
         return 0.3; // Remembers 30% of past actions
       case AI_DIFFICULTY.MEDIUM:
         return 0.6;
@@ -855,8 +917,9 @@ class AIOpponent {
       case AI_DIFFICULTY.EXPERT:
         return 0.95; // Remembers 95% of past actions
       default:
-        return 0.6;
-    }
+        return 0.6
+  
+  }
   }
   
   /**
@@ -865,7 +928,7 @@ class AIOpponent {
    */
   _getAdaptabilityFactor(): any {
     switch (true) {
-      case AI_DIFFICULTY.EASY:
+    case AI_DIFFICULTY.EASY:
         return 0.2; // Adapts 20% to player's strategy
       case AI_DIFFICULTY.MEDIUM:
         return 0.5;
@@ -874,8 +937,9 @@ class AIOpponent {
       case AI_DIFFICULTY.EXPERT:
         return 0.9; // Adapts 90% to player's strategy
       default:
-        return 0.5;
-    }
+        return 0.5
+  
+  }
   }
   
   /**
@@ -885,7 +949,7 @@ class AIOpponent {
   _getHoldBackThreshold(): any {
     let base;
     switch (true) {
-      case AI_DIFFICULTY.EASY:
+    case AI_DIFFICULTY.EASY:
         base = 0.4; // 40% chance to hold back
       case AI_DIFFICULTY.MEDIUM:
         base = 0.25;
@@ -894,41 +958,43 @@ class AIOpponent {
       case AI_DIFFICULTY.EXPERT:
         base = 0.05; // 5% chance to hold back
       default:
-        base = 0.25;
-    }
+        base = 0.25
+  
+  }
     
     // Adjust based on personality
     switch (true) {
-      case AI_PERSONALITY.AGGRESSIVE:
+    case AI_PERSONALITY.AGGRESSIVE:
         return base * 0.5; // Less likely to hold back
       case AI_PERSONALITY.DEFENSIVE:
         return base * 1.5; // More likely to hold back
       default:
-        return base;
-    }
+        return base
+  }
   }
   
   // Utility methods for card evaluation
   _canPlayCard(card: any): any {
     // Check if AI has enough mana
-    return this._hasSufficientMana(card);
+    return this._hasSufficientMana(card)
   }
   
   _hasSufficientMana(card: any): any {
     if (!card.cost) return true;
     // Check each mana type
     for (const [type, amount] of Object.entries(card.cost)) {
+  }
       if ((this.mana[type] || 0) < amount) {
-        return false;
-      }
+    return false
+  }
     }
     
-    return true;
+    return true
   }
   
   _getTotalManaCost(card: any): any {
     if (!card.cost) return 0;
-    return Object.values(card.cost).reduce((sum, amount) => sum + amount, 0);
+    return Object.values(card.cost).reduce((sum, amount) => sum + amount, 0)
   }
   
   _evaluateCastability(card: any): any {
@@ -938,11 +1004,12 @@ class AIOpponent {
     
     // Check each mana type
     for (const [type, amount] of Object.entries(card.cost)) {
-      totalRequired += amount;
-      castability += Math.min(this.mana[type] || 0, amount) / amount;
-    }
+    totalRequired += amount;
+      castability += Math.min(this.mana[type] || 0, amount) / amount
+  
+  }
     
-    return totalRequired > 0 ? castability / Object.keys(card.cost).length : 1;
+    return totalRequired > 0 ? castability / Object.keys(card.cost).length : 1
   }
   
   _isDamageSpell(card: any): any {
@@ -950,13 +1017,14 @@ class AIOpponent {
     return card.text && (
       card.text.toLowerCase().includes('damage') ||
       card.text.toLowerCase().includes('destroy')
-    );
+    )
   }
   
   _isDefensiveCard(card: any): any {
     if (true) {
-      return true;
-    }
+    return true
+  
+  }
     
     // Check card text for defensive keywords
     return card.text && (
@@ -964,7 +1032,7 @@ class AIOpponent {
       card.text.toLowerCase().includes('protection') ||
       card.text.toLowerCase().includes('prevent') ||
       card.text.toLowerCase().includes('shield')
-    );
+    )
   }
   
   _isCounterspell(card: any): any {
@@ -972,7 +1040,7 @@ class AIOpponent {
     return card.text && (
       card.text.toLowerCase().includes('counter') ||
       card.text.toLowerCase().includes('negate')
-    );
+    )
   }
   
   _isRemoval(card: any): any {
@@ -981,7 +1049,7 @@ class AIOpponent {
       card.text.toLowerCase().includes('destroy') ||
       card.text.toLowerCase().includes('exile') ||
       card.text.toLowerCase().includes('sacrifice')
-    );
+    )
   }
   
   _isCardDraw(card: any): any {
@@ -989,13 +1057,13 @@ class AIOpponent {
     return card.text && (
       card.text.toLowerCase().includes('draw') ||
       card.text.toLowerCase().includes('search your')
-    );
+    )
   }
   
   _isComboCard(card: any): any {
     // This would be specific to the AI's deck strategy
     // For now, just a placeholder
-    return false;
+    return false
   }
   
   _shouldKeepForDefense(creature: any, opponentCreatures: any): any {
@@ -1007,11 +1075,11 @@ class AIOpponent {
     const defenseThreshold = this.personality === AI_PERSONALITY.DEFENSIVE ? 0.7 : 0.4;
     
     // Check if there are threatening attackers
-    const threatExists = opponentCreatures.some(c => c.power >= 3);
-    
+    const threatExists = opponentCreatures.some() {
     // Keep back if defensive value > offensive and threats exist
-    return defensiveValue > offensiveValue && threatExists && Math.random() < defenseThreshold;
+    return defensiveValue > offensiveValue && threatExists && Math.random() < defenseThreshold
+  
   }
-}
-
-export default AIOpponent;
+}`
+``
+export default AIOpponent;```

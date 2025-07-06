@@ -7,8 +7,10 @@
 
 // Analytics Engine - Placeholder
 export class AnalyticsEngine {
-  static track(): any {
-  // Placeholder method
+    static track(): any {
+    // Placeholder method
+  
+  }
 }
 
   static trackEvent(): any {

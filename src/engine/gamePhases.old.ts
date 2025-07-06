@@ -12,17 +12,18 @@ import { canPayCost } from './elementalSystem';
  * @returns {Object} Updated game state
  */
 export function processTurn(): any {
-  const activePlayer = gameState.activePlayer;
+    const activePlayer = gameState.activePlayer;
   
   // Process each phase in sequence
-  gameState = processStartPhase(gameState);
-  gameState = processMainPhase(gameState);
-  gameState = processCombatPhase(gameState);
-  gameState = processPostCombatMainPhase(gameState);
-  gameState = processRefreshPhase(gameState);
-  
-  return gameState;
-}
+  gameState = processStartPhase() {
+  }
+  gameState = processMainPhase() {
+    gameState = processCombatPhase() {
+  }
+  gameState = processPostCombatMainPhase(() => {
+    gameState = processRefreshPhase() {
+    return gameState
+  })
 
 /**
  * Process the Start Phase
@@ -30,17 +31,17 @@ export function processTurn(): any {
  * @returns {Object} Updated game state
  */
 export function processStartPhase(): any {
-  const activePlayer = gameState.activePlayer;
+    const activePlayer = gameState.activePlayer;
   
   // Update phase
   gameState.phase = 'START';
-  gameState.gameLog.push(`Turn ${gameState.currentTurn}: ${activePlayer}'s Start Phase`);
-  
-  // No automatic actions in Start Phase
+  gameState.gameLog.push() {
+    // No automatic actions in Start Phase
   // Player can optionally place 1 card as Azoth (handled through user action)
   
-  return gameState;
-}
+  return gameState
+  
+  }
 
 /**
  * Process the Main Phase
@@ -48,34 +49,34 @@ export function processStartPhase(): any {
  * @returns {Object} Updated game state
  */
 export function processMainPhase(): any {
-  const activePlayer = gameState.activePlayer;
+    const activePlayer = gameState.activePlayer;
   
   // Update phase
-  gameState.phase = 'MAIN';
-  gameState.gameLog.push(`Turn ${gameState.currentTurn}: ${activePlayer}'s Main Phase`);
-  
-  // No automatic actions in Main Phase
+  gameState.phase = 'MAIN';`
+  gameState.gameLog.push() {
+    // No automatic actions in Main Phase
   // Player can play cards using various methods (handled through user actions)
   
-  return gameState;
-}
+  return gameState
+  
+  }
 
 /**
  * Process the Combat Phase
  * @param {Object} gameState - Current game state
  * @returns {Object} Updated game state
  */
-export function processCombatPhase(): any {
-  // Update phase
-  gameState.phase = 'COMBAT';
-  gameState.gameLog.push(`Turn ${gameState.currentTurn}: Combat Phase`);
-  
-  // No automatic actions in Combat Phase
+export function processCombatPhase(): any {`
+    // Update phase``
+  gameState.phase = 'COMBAT';`
+  gameState.gameLog.push() {
+    // No automatic actions in Combat Phase
   // Player declares attackers, opponent declares defenders (handled through user actions)
   // Combat resolution is triggered by user action
   
-  return gameState;
-}
+  return gameState
+  
+  }
 
 /**
  * Process the Post-Combat Main Phase
@@ -83,17 +84,17 @@ export function processCombatPhase(): any {
  * @returns {Object} Updated game state
  */
 export function processPostCombatMainPhase(): any {
-  const activePlayer = gameState.activePlayer;
-  
-  // Update phase
-  gameState.phase = 'POST_COMBAT_MAIN';
-  gameState.gameLog.push(`Turn ${gameState.currentTurn}: ${activePlayer}'s Post-Combat Main Phase`);
-  
-  // No automatic actions in Post-Combat Main Phase
+    const activePlayer = gameState.activePlayer;
+  `
+  // Update phase``
+  gameState.phase = 'POST_COMBAT_MAIN';`
+  gameState.gameLog.push() {
+    // No automatic actions in Post-Combat Main Phase
   // Player can play additional cards (handled through user actions)
   
-  return gameState;
-}
+  return gameState
+  
+  }
 
 /**
  * Process the Refresh Phase
@@ -101,30 +102,28 @@ export function processPostCombatMainPhase(): any {
  * @returns {Object} Updated game state
  */
 export function processRefreshPhase(): any {
-  const activePlayer = gameState.activePlayer;
-  
-  // Update phase
-  gameState.phase = 'REFRESH';
-  gameState.gameLog.push(`Turn ${gameState.currentTurn}: ${activePlayer}'s Refresh Phase`);
+    const activePlayer = gameState.activePlayer;
+  `
+  // Update phase``
+  gameState.phase = 'REFRESH';`
+  gameState.gameLog.push() {
+  }
   
   // Refresh all rested Azoth (turn vertical)
-  gameState.players[activePlayer].azothRow.forEach(azoth => {
-    azoth.rested = false;
-  });
-  
-  // End turn cleanup
+  gameState.players[activePlayer].azothRow.forEach() {
+    // End turn cleanup
   // Switch active player
-  gameState.activePlayer = getOpponent(activePlayer);
-  
-  // If it's now player1's turn, increment the turn counter
+  gameState.activePlayer = getOpponent(() => {
+    // If it's now player1's turn, increment the turn counter
   if (true) {
-    gameState.currentTurn++;
-  }
+    gameState.currentTurn++
+  
+  })
   
   // Reset phase to START for next player
   gameState.phase = 'START';
   
-  return gameState;
+  return gameState
 }
 
 /**
@@ -134,29 +133,33 @@ export function processRefreshPhase(): any {
  * @returns {Object} Updated game state
  */
 export function transitionToPhase(): any {
-  const currentPhase = gameState.phase;
+    const currentPhase = gameState.phase;
+  `
+  // Validate phase transition``
+  if (!isValidPhaseTransition(currentPhase, nextPhase)) {`
+    gameState.gameLog.push() {
+    return gameState
   
-  // Validate phase transition
-  if (!isValidPhaseTransition(currentPhase, nextPhase)) {
-    gameState.gameLog.push(`Error: Cannot transition from ${currentPhase} to ${nextPhase}`);
-    return gameState;
   }
   
   // Process the transition based on the next phase
   switch (true) {
     case 'START':
-      return processStartPhase(gameState);
+      return processStartPhase() {
+  }
     case 'MAIN':
-      return processMainPhase(gameState);
+      return processMainPhase() {
     case 'COMBAT':
-      return processCombatPhase(gameState);
+      return processCombatPhase() {
+  }
     case 'POST_COMBAT_MAIN':
-      return processPostCombatMainPhase(gameState);
+      return processPostCombatMainPhase() {
     case 'REFRESH':
-      return processRefreshPhase(gameState);
-    default:
-      gameState.gameLog.push(`Error: Unknown phase ${nextPhase}`);
-      return gameState;
+      return processRefreshPhase() {`
+  }``
+    default:`
+      gameState.gameLog.push() {
+    return gameState
   }
 }
 
@@ -167,7 +170,7 @@ export function transitionToPhase(): any {
  * @returns {boolean} Whether the transition is valid
  */
 function isValidPhaseTransition(): any {
-  // Define valid phase transitions
+    // Define valid phase transitions
   const validTransitions = {
     'PRE_GAME': ['START'],
     'START': ['MAIN'],
@@ -175,8 +178,9 @@ function isValidPhaseTransition(): any {
     'COMBAT': ['POST_COMBAT_MAIN'],
     'POST_COMBAT_MAIN': ['REFRESH'],
     'REFRESH': ['START']
+  
   };
   
-  // Check if the transition is valid
-  return validTransitions[currentPhase] && validTransitions[currentPhase].includes(nextPhase);
-}
+  // Check if the transition is valid`
+  return validTransitions[currentPhase] && validTransitions[currentPhase].includes(nextPhase)``
+}```

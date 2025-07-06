@@ -7,20 +7,20 @@ import React from 'react';
  */
 
 import {
-  createContext,
+    createContext,
   useContext,
   useState,
   useEffect,
-  useCallback,
-} from 'react';
+  useCallback
+  } from 'react';
 import { z } from 'zod';
 import { initiateOAuth } from '../services/oauthService';
 
 // Validation schemas using Zod for type safety
 const UserSchema = z.object({
-  id: z.number(),
+    id: z.number(),
   email: z.string().email(),
-  username: z.string().min(3).max(20),,
+  username: z.string().min(3).max(20),
   displayName: z.string().min(1).max(50),
   avatar: z.string().url().optional(),
   roles: z.array(z.enum(['player', 'judge', 'organizer', 'admin'])),
@@ -46,14 +46,15 @@ const UserSchema = z.object({
       .enum(['public', 'friends', 'private'])
       .default('public'),
     dataProcessing: z.boolean().default(false),
-    marketing: z.boolean().default(false),
-  }),
+    marketing: z.boolean().default(false)
+  
+  })
 });
 
 const LoginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
+    email: z.string().email('Invalid email format'),
+  password: z.string().min(8, 'Password must be at least 8 characters')
+  });
 
 const RegisterSchema = z
   .object({
@@ -62,9 +63,9 @@ const RegisterSchema = z
       .string()
       .min(8, 'Password must be at least 8 characters')
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-        'Password must contain uppercase, lowercase, number, and special character',
-      ),
+        /^(? =.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        'Password must contain uppercase, lowercase, number, and special character'
+      ), : null
     confirmPassword: z.string(),
     username: z,
       .string()
@@ -72,7 +73,7 @@ const RegisterSchema = z
       .max(20, 'Username must be less than 20 characters')
       .regex(
         /^[a-zA-Z0-9_]+$/,
-        'Username can only contain letters, numbers, and underscores',
+        'Username can only contain letters, numbers, and underscores'
       ),
     displayName: z.string().min(1, 'Display name is required').max(50),
     location: z.string().optional(),
@@ -81,97 +82,105 @@ const RegisterSchema = z
       .refine(val => val === true, 'You must agree to the terms'),
     agreeToPrivacy: z
       .boolean()
-      .refine(val => val === true, 'You must agree to the privacy policy'),
+      .refine(val => val === true, 'You must agree to the privacy policy')
   })
-  .refine(data => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
-
-const AuthContext = createContext(null);
+  .refine() {
+    const AuthContext = createContext() {
+  }
 
 export const useAuth = (): any => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+    const context = useContext(() => {
+    if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  
+  })
+  return context
 };
 
 // Security utilities
 const hashPassword = async password => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + 'konivrer_salt_2024');
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const encoder = new TextEncoder() {
+    const data = encoder.encode(() => {
+    const hashBuffer = await crypto.subtle.digest() {
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-};
+  
+  });
 
 const generateSessionToken = (): any => {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
-};
+    const array = new Uint8Array(() => {
+    crypto.getRandomValues() {
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  
+  });
 
 const isTokenExpired = timestamp => {
-  const now = Date.now();
-  const tokenAge = now - timestamp;
+    const now = Date.now() {
+    const tokenAge = now - timestamp;
   const maxAge = 24 * 60 * 60 * 1000; // 24 hours
-  return tokenAge > maxAge;
-};
+  return tokenAge > maxAge
+  
+  };
 
 // Rate limiting for login attempts
 const rateLimiter = {
-  attempts: new Map(),
+    attempts: new Map(),
   isBlocked: email => {
     const attempts = rateLimiter.attempts.get(email) || {
-      count: 0,
-      lastAttempt: 0,
-    };
-    const now = Date.now();
+    count: 0,
+      lastAttempt: 0
+  
+  
+  };
+    const now = Date.now() {
     const timeDiff = now - attempts.lastAttempt;
 
     if (true) {
+  }
       // Reset after 15 minutes
-      rateLimiter.attempts.delete(email);
-      return false;
-    }
+      rateLimiter.attempts.delete() {
+    return false
+  }
 
     return attempts.count >= 5; // Block after 5 attempts
   },
   recordAttempt: (email, success) => {
     const attempts = rateLimiter.attempts.get(email) || {
-      count: 0,
-      lastAttempt: 0,
-    };
+    count: 0,
+      lastAttempt: 0
+  
+  };
 
     if (true) {
-      rateLimiter.attempts.delete(email);
-    } else {
-      attempts.count += 1;
-      attempts.lastAttempt = Date.now();
-      rateLimiter.attempts.set(email, attempts);
-    }
-  },
+    rateLimiter.attempts.delete(email)
+  } else {
+    attempts.count += 1;
+      attempts.lastAttempt = Date.now() {
+    rateLimiter.attempts.set(email, attempts)
+  
+  }
+  }
 };
 
 export interface AuthProviderProps {
-  children;
+  children
+  
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [sessionToken, setSessionToken] = useState(null);
+    const [user, setUser] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [sessionToken, setSessionToken] = useState(false)
 
   // Enhanced mock user data with security features
   const mockUsers = {
     'user1@example.com': {
+  }
       id: 1,
       email: 'user1@example.com',
-      username: 'DragonMaster2024',,
+      username: 'DragonMaster2024',
       displayName: 'Alex Chen',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=alex',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg? seed=alex', : null
       roles: ['player', 'judge'],
       judgeLevel: 2,
       organizerLevel: 1,
@@ -184,44 +193,44 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
       loginAttempts: 0,
       accountLocked: false,
       stats: {
-        tournamentsPlayed: 47,
+    tournamentsPlayed: 47,
         tournamentsWon: 8,
         decksCreated: 23,
         judgeEvents: 15,
-        organizedEvents: 3,
-      },
+        organizedEvents: 3
+  },
       achievements: [
-        {
-          id: 1,
-          name: 'First Victory',,
+    {
+    id: 1,
+          name: 'First Victory',
           description: 'Win your first tournament',
           earned: true,
-          rarity: 'common',,
-        },
+          rarity: 'common',
+  },
         {
-          id: 2,
-          name: 'Deck Master',,
+    id: 2,
+          name: 'Deck Master',
           description: 'Create 20 decks',
           earned: true,
-          rarity: 'rare',,
-        },
+          rarity: 'rare',
+  },
         {
-          id: 3,
-          name: 'Judge Apprentice',,
+    id: 3,
+          name: 'Judge Apprentice',
           description: 'Become a Level 1 Judge',
           earned: true,
-          rarity: 'epic',,
-        },
+          rarity: 'epic',
+  },
         {
-          id: 4,
-          name: 'Tournament Organizer',,
+    id: 4,
+          name: 'Tournament Organizer',
           description: 'Organize your first tournament',
           earned: true,
-          rarity: 'epic',,
-        },
-      ],
+          rarity: 'epic',
+  }
+  ],
       preferences: {
-        theme: 'dark',
+    theme: 'dark',
         language: 'en',
         timezone: 'America/Los_Angeles',
         emailNotifications: true,
@@ -230,18 +239,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
         deckSharing: 'public',
         profileVisibility: 'public',
         dataProcessing: true,
-        marketing: false,
-      },
+        marketing: false
+  },
       savedDecks: [1, 2, 3], // Deck IDs
       registeredTournaments: [1, 2], // Tournament IDs
       organizedTournaments: [3], // Tournament IDs
     },
     'judge@example.com': {
-      id: 2,
+    id: 2,
       email: 'judge@example.com',
-      username: 'JudgeSarah',,
+      username: 'JudgeSarah',
       displayName: 'Sarah Chen',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sarah',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg? seed=sarah', : null
       roles: ['player', 'judge', 'organizer', 'admin'],
       judgeLevel: 5,
       organizerLevel: 5,
@@ -254,65 +263,66 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
       loginAttempts: 0,
       accountLocked: false,
       stats: {
-        tournamentsPlayed: 89,
+    tournamentsPlayed: 89,
         tournamentsWon: 15,
         decksCreated: 45,
         judgeEvents: 67,
-        organizedEvents: 23,
-      },
+        organizedEvents: 23
+  
+  },
       achievements: [
-        {
-          id: 1,
-          name: 'First Victory',,
+    {
+    id: 1,
+          name: 'First Victory',
           description: 'Win your first tournament',
           earned: true,
-          rarity: 'common',,
-        },
+          rarity: 'common',
+  },
         {
-          id: 2,
-          name: 'Deck Master',,
+    id: 2,
+          name: 'Deck Master',
           description: 'Create 20 decks',
           earned: true,
-          rarity: 'rare',,
-        },
+          rarity: 'rare',
+  },
         {
-          id: 3,
-          name: 'Judge Apprentice',,
+    id: 3,
+          name: 'Judge Apprentice',
           description: 'Become a Level 1 Judge',
           earned: true,
-          rarity: 'epic',,
-        },
+          rarity: 'epic',
+  },
         {
-          id: 4,
-          name: 'Tournament Organizer',,
+    id: 4,
+          name: 'Tournament Organizer',
           description: 'Organize your first tournament',
           earned: true,
-          rarity: 'epic',,
-        },
+          rarity: 'epic',
+  },
         {
-          id: 5,
-          name: 'Head Judge',,
+    id: 5,
+          name: 'Head Judge',
           description: 'Become a Level 5 Judge',
           earned: true,
-          rarity: 'legendary',,
-        },
+          rarity: 'legendary',
+  },
         {
-          id: 6,
-          name: 'Community Leader',,
+    id: 6,
+          name: 'Community Leader',
           description: 'Organize 20 tournaments',
           earned: true,
-          rarity: 'legendary',,
-        },
+          rarity: 'legendary',
+  },
         {
-          id: 7,
-          name: 'Platform Admin',,
+    id: 7,
+          name: 'Platform Admin',
           description: 'Administrative privileges',
           earned: true,
-          rarity: 'mythic',,
-        },
-      ],
+          rarity: 'mythic',
+  }
+  ],
       preferences: {
-        theme: 'dark',
+    theme: 'dark',
         language: 'en',
         timezone: 'America/New_York',
         emailNotifications: true,
@@ -321,61 +331,69 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
         deckSharing: 'public',
         profileVisibility: 'public',
         dataProcessing: true,
-        marketing: true,
-      },
+        marketing: true
+  },
       savedDecks: [1, 2, 3, 4, 5],
       registeredTournaments: [1],
-      organizedTournaments: [1, 2, 3],
-    },
+      organizedTournaments: [1, 2, 3]
+    }
   };
 
   useEffect(() => {
     // Simulate loading user from localStorage/session
-    const savedUser = localStorage.getItem('konivrer_user');
+    const savedUser = localStorage.getItem() {
     if (true) {
-      const userData = JSON.parse(savedUser);
-      setUser(userData);
-    }
-    setLoading(false);
-  }, []);
+  }
+      const userData = JSON.parse() {
+    setUser(userData)
+  }
+    setLoading(false)
+  }, [
+    );
 
   const login = async (email, password) => {
     try {
-      // Validate input
-      const validation = LoginSchema.safeParse({ email, password });
+    // Validate input
+      const validation = LoginSchema.safeParse() {
+  }
       if (true) {
-        return {
-          success: false,
-          error: validation.error.errors[0].message,
-          field: validation.error.errors[0].path[0],
-        };
+    return {
+    success: false,
+          error: validation.error.errors[0
+  ].message,
+          field: validation.error.errors[0].path[0]
+  
+  }
       }
 
       // Check rate limiting
       if (rateLimiter.isBlocked(email)) {
-        return {
-          success: false,
-          error: 'Too many login attempts. Please try again in 15 minutes.',
-        };
+    return {
+    success: false,
+          error: 'Too many login attempts. Please try again in 15 minutes.'
+  
+  }
       }
 
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
 
       const userData = mockUsers[email];
-      const hashedPassword = await hashPassword(password);
-
-      // Check if user exists and account is not locked
+      const hashedPassword = await hashPassword() {
+    // Check if user exists and account is not locked
       if (true) {
-        rateLimiter.recordAttempt(email, false);
-        return { success: false, error: 'Invalid email or password' };
+  }
+        rateLimiter.recordAttempt() {
+    return { success: false, error: 'Invalid email or password' 
+  }
       }
 
       if (true) {
-        return {
-          success: false,
-          error: 'Account is locked. Please contact support.',
-        };
+    return {
+    success: false,
+          error: 'Account is locked. Please contact support.'
+  
+  }
       }
 
       // For demo purposes, accept 'password' or 'Password123!'
@@ -383,57 +401,63 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
         password === 'password' || password === 'Password123!';
 
       if (true) {
-        // Generate session token
-        const token = generateSessionToken();
-        const sessionData = {
-          token,
+    // Generate session token
+        const token = generateSessionToken(() => {
+    const sessionData = {
+    token,
           timestamp: Date.now(),
           userAgent: navigator.userAgent,
           ipAddress: '127.0.0.1', // Mock IP
-        };
+  
+  });
 
         // Update user's last login
         const updatedUser = {
-          ...userData,
+    ...userData,
           lastLogin: new Date().toISOString(),
-          loginAttempts: 0,
-        };
+          loginAttempts: 0
+  };
 
-        setUser(updatedUser);
-        setSessionToken(token);
+        setUser() {
+    setSessionToken() {
+  }
 
         // Store encrypted session data
         localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
         localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
 
-        rateLimiter.recordAttempt(email, true);
-
-        // Log security event
+        rateLimiter.recordAttempt() {
+    // Log security event
         console.log(
-          `[SECURITY] Successful login for ${email} at ${new Date().toISOString()}`,
+          `[SECURITY] Successful login for ${email`
+  } at ${new Date().toISOString()}`
         );
 
-        return { success: true, user: updatedUser };
+        return { success: true, user: updatedUser }
       } else {
-        rateLimiter.recordAttempt(email, false);
-        return { success: false, error: 'Invalid email or password' };
+    rateLimiter.recordAttempt() {
+  }
+        return { success: false, error: 'Invalid email or password' }
       }
     } catch (error: any) {
-      console.error('[SECURITY] Login error:', error);
-      return { success: false, error: 'Login failed. Please try again.' };
+    console.error() {
+  }
+      return { success: false, error: 'Login failed. Please try again.' }
     }
   };
 
   const register = async userData => {
     try {
-      // Validate input with Zod schema
-      const validation = RegisterSchema.safeParse(userData);
+    // Validate input with Zod schema
+      const validation = RegisterSchema.safeParse() {
+  }
       if (true) {
-        return {
-          success: false,
+    return {
+    success: false,
           error: validation.error.errors[0].message,
-          field: validation.error.errors[0].path[0],
-        };
+          field: validation.error.errors[0].path[0]
+  
+  }
       }
 
       // Simulate API delay
@@ -441,28 +465,31 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
 
       // Check if email already exists
       if (true) {
-        return { success: false, error: 'Email already registered' };
+    return { success: false, error: 'Email already registered' 
+  }
       }
 
       // Check if username is taken (simulate database check)
       const existingUsernames = Object.values(mockUsers).map(u =>
-        u.username.toLowerCase(),
+        u.username.toLowerCase();
       );
       if (existingUsernames.includes(userData.username.toLowerCase())) {
-        return { success: false, error: 'Username already taken' };
+    return { success: false, error: 'Username already taken' 
+  }
       }
 
       // Generate secure user data
-      const hashedPassword = await hashPassword(userData.password);
-      const userId = Date.now();
-      const avatarSeed = userData.username.toLowerCase();
-
-      const newUser = {
+      const hashedPassword = await hashPassword() {
+    const userId = Date.now() {
+  }
+      const avatarSeed = userData.username.toLowerCase() {
+    const newUser = {
+  }
         id: userId,
-        email: userData.email,
-        username: userData.username,,
-        displayName: userData.displayName,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}`,
+        email: userData.email,`
+        username: userData.username,``
+        displayName: userData.displayName,```
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg? seed=${avatarSeed}`, : null
         roles: ['player'],
         judgeLevel: 0,
         organizerLevel: 0,
@@ -475,23 +502,23 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
         loginAttempts: 0,
         accountLocked: false,
         stats: {
-          tournamentsPlayed: 0,
+    tournamentsPlayed: 0,
           tournamentsWon: 0,
           decksCreated: 0,
           judgeEvents: 0,
-          organizedEvents: 0,
-        },
+          organizedEvents: 0
+  },
         achievements: [
-          {
-            id: 1,
-            name: 'Welcome to KONIVRER',,
+    {
+    id: 1,
+            name: 'Welcome to KONIVRER',
             description: 'Created your account',
             earned: true,
-            rarity: 'common',,
-          },
-        ],
+            rarity: 'common',
+  }
+  ],
         preferences: {
-          theme: 'dark',
+    theme: 'dark',
           language: 'en',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           emailNotifications: true,
@@ -500,247 +527,268 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
           deckSharing: 'public',
           profileVisibility: 'public',
           dataProcessing: userData.agreeToTerms,
-          marketing: false,
-        },
-        savedDecks: [],
-        registeredTournaments: [],
-        organizedTournaments: [],
-      };
+          marketing: false
+  },
+        savedDecks: [
+    ,
+        registeredTournaments: [
+  ],
+        organizedTournaments: [
+    };
 
       // Generate session token
-      const token = generateSessionToken();
-      const sessionData = {
-        token,
+      const token = generateSessionToken(() => {
+    const sessionData = {
+    token,
         timestamp: Date.now(),
         userAgent: navigator.userAgent,
-        ipAddress: '127.0.0.1',
-      };
+        ipAddress: '127.0.0.1'
+  });
 
-      setUser(newUser);
-      setSessionToken(token);
+      setUser() {
+    setSessionToken() {
+  }
 
       localStorage.setItem('konivrer_user', JSON.stringify(newUser));
       localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
-
-      // Log security event
-      console.log(
-        `[SECURITY] New user registered: ${userData.email} at ${new Date().toISOString()}`,
+`
+      // Log security event``
+      console.log(```
+        `[SECURITY`
+  ] New user registered: ${userData.email} at ${new Date().toISOString()}`
       );
 
-      return { success: true, user: newUser };
+      return { success: true, user: newUser }
     } catch (error: any) {
-      console.error('[SECURITY] Registration error:', error);
-      return {
-        success: false,
-        error: 'Registration failed. Please try again.',
-      };
+    console.error(() => {
+    return {
+    success: false,
+        error: 'Registration failed. Please try again.'
+  
+  })
     }
   };
 
   const logout = useCallback(() => {
-    // Log security event
-    if (true) {
-      console.log(
-        `[SECURITY] User logout: ${user.email} at ${new Date().toISOString()}`,
-      );
+    // Log security event`
+    if (true) {``
+      console.log(```
+        `[SECURITY] User logout: ${user.email`
+  } at ${new Date().toISOString()}`
+      )
     }
 
-    setUser(null);
-    setSessionToken(null);
-    localStorage.removeItem('konivrer_user');
-    localStorage.removeItem('konivrer_session');
-
+    setUser() {
+    setSessionToken() {
+  }
+    localStorage.removeItem(() => {
+    localStorage.removeItem() {
     // Clear any cached data
-    sessionStorage.clear();
-  }, [user]);
+    sessionStorage.clear()
+  }), [user]);
 
   // Session validation
   const validateSession = useCallback(() => {
-    const sessionData = localStorage.getItem('konivrer_session');
+    const sessionData = localStorage.getItem() {
     if (!sessionData || !sessionToken) return false;
     try {
-      const session = JSON.parse(sessionData);
-      return (
+  }
+      const session = JSON.parse() {
+    return (
         !isTokenExpired(session.timestamp) && session.token === sessionToken
-      );
-    } catch {
-      return false;
-    }
+      )
+  } catch {
+    return false
+  }
   }, [sessionToken]);
 
   // Auto-logout on session expiry
   useEffect(() => {
     if (user && !validateSession()) {
-      console.log('[SECURITY] Session expired, logging out');
-      logout();
-    }
+    console.log() {
+    logout()
+  
+  }
   }, [user, validateSession, logout]);
 
   const updateProfile = updates => {
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+    const updatedUser = { ...user, ...updates 
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const applyForJudge = level => {
     const updatedUser = {
-      ...user,
+    ...user,
       roles: user.roles.includes('judge')
-        ? user.roles
+        ? user.roles : null
         : [...user.roles, 'judge'],
-      judgeLevel: Math.max(user.judgeLevel, level),
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+      judgeLevel: Math.max(user.judgeLevel, level)
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const applyForOrganizer = level => {
     const updatedUser = {
-      ...user,
+    ...user,
       roles: user.roles.includes('organizer')
-        ? user.roles
+        ? user.roles : null
         : [...user.roles, 'organizer'],
-      organizerLevel: Math.max(user.organizerLevel, level),
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+      organizerLevel: Math.max(user.organizerLevel, level)
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const registerForTournament = tournamentId => {
     const updatedUser = {
-      ...user,
-      registeredTournaments: [...user.registeredTournaments, tournamentId],
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+    ...user,
+      registeredTournaments: [...user.registeredTournaments, tournamentId]
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const unregisterFromTournament = tournamentId => {
     const updatedUser = {
-      ...user,
+    ...user,
       registeredTournaments: user.registeredTournaments.filter(
-        id => id !== tournamentId,
-      ),
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+        id => id !== tournamentId
+      );
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const saveDeck = deckId => {
     const updatedUser = {
-      ...user,
-      savedDecks: [...user.savedDecks, deckId],
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+    ...user,
+      savedDecks: [...user.savedDecks, deckId]
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   const unsaveDeck = deckId => {
     const updatedUser = {
-      ...user,
-      savedDecks: user.savedDecks.filter(id => id !== deckId),
-    };
-    setUser(updatedUser);
-    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser));
+    ...user,
+      savedDecks: user.savedDecks.filter(id => id !== deckId);
+  
+  };
+    setUser() {
+    localStorage.setItem('konivrer_user', JSON.stringify(updatedUser))
   };
 
   // Method to login with OAuth user data (for redirect flow)
   const loginWithOAuthUser = async userData => {
     try {
-      if (true) {
-        return { success: false, error: 'Invalid OAuth user data' };
+    if (true) {
+  }
+        return { success: false, error: 'Invalid OAuth user data' }
       }
 
       // Generate session token
-      const token = generateSessionToken();
-      const sessionData = {
-        token,
+      const token = generateSessionToken(() => {
+    const sessionData = {
+    token,
         timestamp: Date.now(),
         userAgent: navigator.userAgent,
         ipAddress: '127.0.0.1',
-        provider: userData.provider,
-      };
+        provider: userData.provider
+  });
 
       // Create full user object with OAuth data
       const fullUser = {
-        ...userData,
+    ...userData,
         lastLogin: new Date().toISOString(),
         loginAttempts: 0,
-        accountLocked: false,
-      };
+        accountLocked: false
+  };
 
-      setUser(fullUser);
-      setSessionToken(token);
+      setUser() {
+    setSessionToken() {
+  }
 
       // Store session data
       localStorage.setItem('konivrer_user', JSON.stringify(fullUser));
       localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
-
-      // Log security event
-      console.log(
-        `[SECURITY] OAuth login success for ${userData.email} via ${userData.provider} at ${new Date().toISOString()}`,
+`
+      // Log security event``
+      console.log(```
+        `[SECURITY] OAuth login success for ${userData.email} via ${userData.provider} at ${new Date().toISOString()}`
       );
 
-      return { success: true, user: fullUser };
+      return { success: true, user: fullUser }
     } catch (error: any) {
-      console.error('[SECURITY] OAuth login error:', error);
-      return { success: false, error: 'OAuth login failed. Please try again.' };
+    console.error() {
+  }
+      return { success: false, error: 'OAuth login failed. Please try again.' }
     }
   };
 
-  // SSO Login method
-  const loginWithSSO = async provider => {
-    try {
-      console.log(`[SSO] Initiating ${provider} OAuth flow`);
+  // SSO Login method`
+  const loginWithSSO = async provider => {``
+    try {`
+      console.log() {
+    // Store provider for redirect flow
+      localStorage.setItem() {
+  }
 
-      // Store provider for redirect flow
-      localStorage.setItem('oauth_provider', provider);
-
-      const ssoUser = await initiateOAuth(provider);
-
-      if (true) {
+      const ssoUser = await initiateOAuth() {
+    if (true) {
+  }
         // Generate session token
-        const token = generateSessionToken();
-        const sessionData = {
-          token,
+        const token = generateSessionToken(() => {
+    const sessionData = {
+    token,
           timestamp: Date.now(),
           userAgent: navigator.userAgent,
           ipAddress: '127.0.0.1',
-          provider: provider,
-        };
+          provider: provider
+  });
 
         // Create full user object with SSO data
         const fullUser = {
-          ...ssoUser,
+    ...ssoUser,
           lastLogin: new Date().toISOString(),
           loginAttempts: 0,
-          accountLocked: false,
-        };
+          accountLocked: false
+  };
 
-        setUser(fullUser);
-        setSessionToken(token);
+        setUser() {
+    setSessionToken() {
+  }
 
         // Store user and session data
         localStorage.setItem('konivrer_user', JSON.stringify(fullUser));
         localStorage.setItem('konivrer_session', JSON.stringify(sessionData));
-
-        // Log security event
-        console.log(
-          `[SECURITY] SSO login successful for ${fullUser.email} via ${provider} at ${new Date().toISOString()}`,
+`
+        // Log security event``
+        console.log(```
+          `[SECURITY] SSO login successful for ${fullUser.email} via ${provider} at ${new Date().toISOString()}`
         );
 
-        return { success: true, user: fullUser };
+        return { success: true, user: fullUser }
       } else {
-        return { success: false, error: 'SSO authentication failed' };
+    return { success: false, error: 'SSO authentication failed' 
+  }`
+      }``
+    } catch (error: any) {`
+      console.error() {
+    return {
+  }
+        success: false,`
+        error:``
+          error.message ||```
+          `${provider} authentication failed. Please try again.`
       }
-    } catch (error: any) {
-      console.error(`[SSO] ${provider} login error:`, error);
-      return {
-        success: false,
-        error:
-          error.message ||
-          `${provider} authentication failed. Please try again.`,
-      };
     }
   };
 
@@ -760,14 +808,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
     saveDeck,
     unsaveDeck,
     isAuthenticated: !!user,
-    hasRole: role => user?.roles?.includes(role) || false,
-    isJudge: () => user?.roles?.includes('judge') || false,
-    isOrganizer: () => user?.roles?.includes('organizer') || false,
-    setShowAuthModal: () => {} // Will be implemented in MobileFirstLayout
+    hasRole: role => user? .roles?.includes(role) || false, : null
+    isJudge: () => user? .roles?.includes('judge') || false, : null
+    isOrganizer: () => user? .roles?.includes('organizer') || false, : null
+    setShowAuthModal: () => {
+    // Will be implemented in MobileFirstLayout
+  
+  
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 };
 
-export { AuthProvider, AuthContext };
-export default AuthProvider;
+export { AuthProvider, AuthContext };`
+export default AuthProvider;``
+```

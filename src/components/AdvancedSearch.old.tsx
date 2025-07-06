@@ -8,53 +8,16 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { Search, ChevronDown, ChevronUp, X, Filter, Zap, Type, Palette, DollarSign, Calendar, Star, BookOpen, Settings,  } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, X, Filter, Zap, Type, Palette, DollarSign, Calendar, Star, BookOpen, Settings  } from 'lucide-react';
 
 interface AdvancedSearchProps {
-  onSearch
+    onSearch
   onClose
 
+  }
 const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [searchCriteria, setSearchCriteria] = useState({
-    // Basic Search
-    cardName: '',
-    text: '',,
-
-    // Type & Mechanics
-    typeLine: '',
-    allowPartialTypes: true,
-    selectedTypes: [],
-
-    // Elements & Keywords
-    elements: [],
-    elementComparison: 'including', // including, exactly, at-most
-    keywords: [],
-    keywordComparison: 'including', // including, exactly, at-most
-
-    // Mana & Stats
-    manaCost: '',
-    power: { operator: '=', value: '' },
-    toughness: { operator: '=', value: '' },
-
-    // Sets & Rarity
-    sets: [],
-    rarity: [],,
-
-    // Price & Market
-    priceRange: { min: '', max: '', currency: 'usd' },
-
-    // Flavor & Lore
-    artist: '',,
-    flavorText: '',,
-    loreFinder: '',
-
-    // Display Options
-    sortBy: 'name',
-    sortOrder: 'asc',
-    showAllPrints: false,
-    includeTokens: false,
-  });
+    const [isExpanded, setIsExpanded] = useState(false)
+  const [searchCriteria, setSearchCriteria] = useState(false)
 
   // KONIVRER specific data
   const cardTypes = [
@@ -63,28 +26,29 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
     'Artifact',
     'Enchantment',
     'Land',
-    'Planeswalker',
+    'Planeswalker'
   ];
 
   // KONIVRER Elements (for costs and Azoth generation) - using alchemical symbols for classic elements
   const elements = [
-    { name: 'Fire', symbol: '🜂', color: 'text-black' },,
-    { name: 'Water', symbol: '🜄', color: 'text-black' },,
-    { name: 'Earth', symbol: '🜃', color: 'text-black' },,
-    { name: 'Air', symbol: '🜁', color: 'text-black' },,
-    { name: 'Aether', symbol: '○', color: 'text-black' },,
-    { name: 'Nether', symbol: '□', color: 'text-black' },,
-    { name: 'Generic', symbol: '✡︎⃝', color: 'text-black' },,
+    { name: 'Fire', symbol: '🜂', color: 'text-black' 
+  },
+    { name: 'Water', symbol: '🜄', color: 'text-black' },
+    { name: 'Earth', symbol: '🜃', color: 'text-black' },
+    { name: 'Air', symbol: '🜁', color: 'text-black' },
+    { name: 'Aether', symbol: '○', color: 'text-black' },
+    { name: 'Nether', symbol: '□', color: 'text-black' },
+    { name: 'Generic', symbol: '✡︎⃝', color: 'text-black' },
   ];
 
   // KONIVRER Keywords (special abilities, separate from elements)
   const keywords = [
-    { name: 'Brilliance', symbol: '✦', color: 'text-yellow-400' },,
-    { name: 'Void', symbol: '◯', color: 'text-purple-400' },,
-    { name: 'Gust', symbol: '≋', color: 'text-blue-400' },,
-    { name: 'Submerged', symbol: '≈', color: 'text-cyan-400' },,
-    { name: 'Inferno', symbol: '※', color: 'text-red-400' },,
-    { name: 'Steadfast', symbol: '⬢', color: 'text-green-400' },,
+    { name: 'Brilliance', symbol: '✦', color: 'text-yellow-400' },
+    { name: 'Void', symbol: '◯', color: 'text-purple-400' },
+    { name: 'Gust', symbol: '≋', color: 'text-blue-400' },
+    { name: 'Submerged', symbol: '≈', color: 'text-cyan-400' },
+    { name: 'Inferno', symbol: '※', color: 'text-red-400' },
+    { name: 'Steadfast', symbol: '⬢', color: 'text-green-400' },
   ];
 
   const rarities = ['Common', 'Uncommon', 'Rare', 'Mythic', 'Legendary'];
@@ -95,101 +59,106 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
   const updateCriteria = (field, value): any => {
     setSearchCriteria(prev => ({
-      ...prev,
-      [field]: value,
-    }));
+    ...prev,
+      [field]: value
+  
+  }))
   };
 
   const updateNestedCriteria = (field, subfield, value): any => {
     setSearchCriteria(prev => ({
-      ...prev,
+    ...prev,
       [field]: {
-        ...prev[field],
-        [subfield]: value,
-      },
-    }));
+    ...prev[field],
+        [subfield]: value
+  
+  }
+    }))
   };
 
   const toggleArrayValue = (field, value): any => {
     setSearchCriteria(prev => ({
-      ...prev,
+    ...prev,
       [field]: prev[field].includes(value)
-        ? prev[field].filter(item => item !== value)
-        : [...prev[field], value],
-    }));
-  };
+        ? prev[field].filter(): [...prev[field], value]
+  
+  }))
+  } { return null; }
 
   const handleSearch = (): any => {
-    onSearch(searchCriteria);
+    onSearch(searchCriteria)
   };
 
   const clearAll = (): any => {
     setSearchCriteria({
-      cardName: '',
-      text: '',,
+    cardName: '',
+      text: '',
       typeLine: '',
       allowPartialTypes: true,
-      selectedTypes: [],
-      colors: [],
+      selectedTypes: [
+    ,
+      colors: [
+  ],
       colorComparison: 'including',
-      colorIdentity: [],
+      colorIdentity: [
+    ,
       manaCost: '',
-      power: { operator: '=', value: '' },
+      power: { operator: '=', value: '' 
+  },
       toughness: { operator: '=', value: '' },
-      sets: [],
-      rarity: [],,
+      sets: [
+  ],
+      rarity: [],
       priceRange: { min: '', max: '', currency: 'usd' },
-      artist: '',,
-      flavorText: '',,
+      artist: '',
+      flavorText: '',
       loreFinder: '',
       sortBy: 'name',
       sortOrder: 'asc',
       showAllPrints: false,
-      includeTokens: false,
-    });
+      includeTokens: false
+    })
   };
 
   return (
-    <>
+    <any />
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden"
-     />
+      / /></motion>
       {/* Header */}
-      <div className="p-6 border-b border-white/20"></div>
-        <div className="flex items-center justify-between"></div>
-          <div className="flex items-center space-x-3"></div>
-            <Search className="w-6 h-6 text-purple-400" />
-            <h2 className="text-2xl font-bold text-white">Advanced Search</h2>
-            <span className="px-3 py-0 whitespace-nowrap bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full"></span>
+      <div className="p-6 border-b border-white/20" />
+    <div className="flex items-center justify-between" />
+    <div className="flex items-center space-x-3" />
+    <Search className="w-6 h-6 text-purple-400"  / />
+    <h2 className="text-2xl font-bold text-white">Advanced Search</h2>
+            <span className="px-3 py-0 whitespace-nowrap bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full" /></span>
               Powered by KONIVRER
 
-          <div className="flex items-center space-x-2"></div>
-            <button
+          <div className="flex items-center space-x-2" />
+    <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
             ></button>
-              <span className="text-white text-sm"></span>
+              <span className="text-white text-sm" /></span>
                 {isExpanded ? 'Simple' : 'Advanced'}
               {isExpanded ? (
-                <ChevronUp className="w-4 h-4 text-white" />
+                <ChevronUp className="w-4 h-4 text-white"  / /></ChevronUp> : null
               ) : (
-                <ChevronDown className="w-4 h-4 text-white" />
+                <ChevronDown className="w-4 h-4 text-white"  / /></ChevronDown>
               )}
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"></button>
-              <X className="w-5 h-5 text-white" />
-
-
-      <div className="p-6"></div>
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors" />
+    <X className="w-5 h-5 text-white"  / />
+    <div className="p-6" /></div>
         {/* Basic Search */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"></div>
-          <div></div>
-            <label className="block text-sm font-medium text-white mb-2"></label>
-              <Type className="w-4 h-4 inline mr-2" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" />
+    <Type className="w-4 h-4 inline mr-2"  / /></Type>
               Card Name
 
             <input
@@ -200,9 +169,9 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
             />
 
-          <div></div>
-            <label className="block text-sm font-medium text-white mb-2"></label>
-              <BookOpen className="w-4 h-4 inline mr-2" />
+          <div />
+    <label className="block text-sm font-medium text-white mb-2" />
+    <BookOpen className="w-4 h-4 inline mr-2"  / /></BookOpen>
               Rules Text
 
             <input
@@ -213,23 +182,23 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
               className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
             />
 
-        <AnimatePresence />
+        <AnimatePresence  / /></AnimatePresence>
           {isExpanded && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               className="space-y-8"
-             />
+              / /></motion>
               {/* Type Line */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <Filter className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <Filter className="w-5 h-5 mr-2"  / /></Filter>
                   Type & Mechanics
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Type Line
 
                     <input
@@ -240,66 +209,66 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Card Types
 
-                    <div className="flex flex-wrap gap-2"></div>
+                    <div className="flex flex-wrap gap-2" /></div>
                       {cardTypes.map(type => (
                         <button
                           key={type}
-                          onClick={() =></button>
+                          onClick={null}
                             toggleArrayValue('selectedTypes', type)}
                           className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
-                            searchCriteria.selectedTypes.includes(type)
-                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
-                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
-                          }`}
+    searchCriteria.selectedTypes.includes(type)`
+                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'` : null`
+                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'```
+  }`}
                         >
                           {type}
                       ))}
 
 
               {/* Elements & Colors */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <Palette className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <Palette className="w-5 h-5 mr-2"  / /></Palette>
                   Elements & Identity
 
-                <div className="space-y-4"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="space-y-4" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Elements
 
-                    <div className="flex flex-wrap gap-2"></div>
+                    <div className="flex flex-wrap gap-2" /></div>
                       {elements.map(element => (
                         <button
                           key={element.name}
-                          onClick={() =></button>
-                            toggleArrayValue('colors', element.name)}
+                          onClick={null}`
+                            toggleArrayValue('colors', element.name)}```
                           className={`flex items-center space-x-2 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
-                            searchCriteria.colors.includes(element.name)
-                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
-                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
-                          }`}
-                        >
-                          <span className={`text-lg ${element.color}`}></span>
+    searchCriteria.colors.includes(element.name)`
+                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'` : null`
+                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'```
+  }`}``
+                        >```
+                          <span className={`text-lg ${element.color}`} /></span>
                             {element.symbol}
                           <span>{element.name}</span>
 
                       ))}
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Element Comparison
 
                     <select
                       value={searchCriteria.colorComparison}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('colorComparison', e.target.value)}
                       className="px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
-                      <option value="including" />
+                      <option value="including"  / /></option>
                         Including (with or without others)
 
                       <option value="exactly">Exactly these elements</option>
@@ -307,14 +276,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
 
               {/* Mana & Stats */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <Zap className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <Zap className="w-5 h-5 mr-2"  / /></Zap>
                   Mana & Statistics
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Mana Cost
 
                     <input
@@ -325,63 +294,51 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Power
 
-                    <div className="flex space-x-2"></div>
-                      <select
+                    <div className="flex space-x-2" />
+    <select
                         value={searchCriteria.power.operator}
-                        onChange={e = />
-                          updateNestedCriteria(
-                            'power',
-                            'operator',
-                            e.target.value,
+                        onChange={null}
                           )}
                         className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                       >
                         {operators.map(op => (
-                          <option key={op} value={op} />
+                          <option key={op} value={op}  / /></option>
                             {op}
                         ))}
 
                       <input
                         type="number"
                         value={searchCriteria.power.value}
-                        onChange={e = />
+                        onChange={null}
                           updateNestedCriteria('power', 'value', e.target.value)}
                         placeholder="0"
                         className="flex-1 px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                       />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Toughness
 
-                    <div className="flex space-x-2"></div>
-                      <select
+                    <div className="flex space-x-2" />
+    <select
                         value={searchCriteria.toughness.operator}
-                        onChange={e = />
-                          updateNestedCriteria(
-                            'toughness',
-                            'operator',
-                            e.target.value,
+                        onChange={null}
                           )}
                         className="px-3 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                       >
                         {operators.map(op => (
-                          <option key={op} value={op} />
+                          <option key={op} value={op}  / /></option>
                             {op}
                         ))}
 
                       <input
                         type="number"
                         value={searchCriteria.toughness.value}
-                        onChange={e = />
-                          updateNestedCriteria(
-                            'toughness',
-                            'value',
-                            e.target.value,
+                        onChange={null}
                           )}
                         placeholder="0"
                         className="flex-1 px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
@@ -389,105 +346,93 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
 
               {/* Sets & Rarity */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <Calendar className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <Calendar className="w-5 h-5 mr-2"  / /></Calendar>
                   Sets & Rarity
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Sets
 
-                    <div className="flex flex-wrap gap-2"></div>
+                    <div className="flex flex-wrap gap-2" /></div>
                       {sets.map(set => (
-                        <button
-                          key={set}
-                          onClick={() => toggleArrayValue('sets', set)}
+                        <button`
+                          key={set}``
+                          onClick={() => toggleArrayValue('sets', set)}```
                           className={`px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
-                            searchCriteria.sets.includes(set)
-                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
-                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
-                          }`}
+    searchCriteria.sets.includes(set)`
+                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'` : null`
+                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'```
+  }`}
                         >
                           {set}
                       ))}</button>
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Rarity
 
-                    <div className="flex flex-wrap gap-2"></div>
+                    <div className="flex flex-wrap gap-2" /></div>
                       {rarities.map(rarity => (
-                        <button
-                          key={rarity}
-                          onClick={() => toggleArrayValue('rarity', rarity)}
+                        <button`
+                          key={rarity}``
+                          onClick={() => toggleArrayValue('rarity', rarity)}```
                           className={`flex items-center space-x-2 px-3 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors ${
-                            searchCriteria.rarity.includes(rarity)
-                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'
-                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
-                          }`}
+    searchCriteria.rarity.includes(rarity)`
+                              ? 'bg-purple-500/30 text-purple-300 border border-purple-400'` : null`
+                              : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'```
+  }`}
                         ></button>
-                          <Star className="w-4 h-4" />
-                          <span>{rarity}</span>
+                          <Star className="w-4 h-4"  / />
+    <span>{rarity}</span>
 
                       ))}
 
 
               {/* Price & Market */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <DollarSign className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <DollarSign className="w-5 h-5 mr-2"  / /></DollarSign>
                   Price & Market
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Min Price
 
                     <input
                       type="number"
                       value={searchCriteria.priceRange.min}
-                      onChange={e = />
-                        updateNestedCriteria(
-                          'priceRange',
-                          'min',
-                          e.target.value,
+                      onChange={null}
                         )}
                       placeholder="0.00"
                       step="0.01"
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Max Price
 
                     <input
                       type="number"
                       value={searchCriteria.priceRange.max}
-                      onChange={e = />
-                        updateNestedCriteria(
-                          'priceRange',
-                          'max',
-                          e.target.value,
+                      onChange={null}
                         )}
                       placeholder="999.99"
                       step="0.01"
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Currency
 
                     <select
                       value={searchCriteria.priceRange.currency}
-                      onChange={e = />
-                        updateNestedCriteria(
-                          'priceRange',
-                          'currency',
-                          e.target.value,
+                      onChange={null}
                         )}
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
@@ -497,14 +442,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
 
               {/* Flavor & Lore */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <BookOpen className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <BookOpen className="w-5 h-5 mr-2"  / /></BookOpen>
                   Flavor & Lore
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Artist
 
                     <input
@@ -515,27 +460,27 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Flavor Text
 
                     <input
                       type="text"
                       value={searchCriteria.flavorText}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('flavorText', e.target.value)}
                       placeholder="Flavor text..."
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
                     />
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Lore Finder™
 
                     <input
                       type="text"
                       value={searchCriteria.loreFinder}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('loreFinder', e.target.value)}
                       placeholder="Character or lore..."
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
@@ -543,14 +488,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
 
               {/* Display Options */}
-              <div></div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
-                  <Settings className="w-5 h-5 mr-2" />
+              <div />
+    <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
+    <Settings className="w-5 h-5 mr-2"  / /></Settings>
                   Display Options
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" />
+    <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Sort By
 
                     <select
@@ -567,38 +512,38 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                       <option value="price">Price</option>
                       <option value="released">Release Date</option>
 
-                  <div></div>
-                    <label className="block text-sm font-medium text-white mb-2"></label>
+                  <div />
+    <label className="block text-sm font-medium text-white mb-2" /></label>
                       Sort Order
 
                     <select
                       value={searchCriteria.sortOrder}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('sortOrder', e.target.value)}
                       className="w-full px-4 py-0 whitespace-nowrap bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-purple-400"
                     >
                       <option value="asc">Ascending</option>
                       <option value="desc">Descending</option>
 
-                <div className="flex flex-wrap gap-4 mt-4"></div>
-                  <label className="flex items-center space-x-2 cursor-pointer"></label>
-                    <input
+                <div className="flex flex-wrap gap-4 mt-4" />
+    <label className="flex items-center space-x-2 cursor-pointer" />
+    <input
                       type="checkbox"
                       checked={searchCriteria.showAllPrints}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('showAllPrints', e.target.checked)}
                       className="w-4 h-4 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500"
                     />
                     <span className="text-white text-sm">Show all prints</span>
-                  <label className="flex items-center space-x-2 cursor-pointer"></label>
-                    <input
+                  <label className="flex items-center space-x-2 cursor-pointer" />
+    <input
                       type="checkbox"
                       checked={searchCriteria.includeTokens}
-                      onChange={e = />
+                      onChange={null}
                         updateCriteria('includeTokens', e.target.checked)}
                       className="w-4 h-4 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500"
                     />
-                    <span className="text-white text-sm"></span>
+                    <span className="text-white text-sm" /></span>
                       Include tokens & extras
 
 
@@ -607,18 +552,18 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
   )}
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20"></div>
-          <button
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/20" />
+    <button
             onClick={clearAll}
-            className="px-6 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"></button>
+            className="px-6 py-0 whitespace-nowrap bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors" /></button>
             Clear All
 
-          <div className="flex items-center space-x-4"></div>
-            <span className="text-sm text-gray-400"></span>
+          <div className="flex items-center space-x-4" />
+    <span className="text-sm text-gray-400" /></span>
               {
-                Object.values(searchCriteria).filter(v =>
+    Object.values(searchCriteria).filter(v =>
                   Array.isArray(v)
-                    ? v.length > 0
+                    ? v.length > 0 : null
                     : typeof v === 'object'
                       ? Object.values(v).some(
                           val =>
@@ -628,26 +573,26 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
                             val !== 'including' &&
                             val !== 'name' &&
                             val !== 'asc' &&
-                            val !== false,
-                        )
+                            val !== false
+                        ) : null
                       : v !== '' &&
                         v !== 'including' &&
                         v !== 'name' &&
                         v !== 'asc' &&
                         v !== false &&
-                        v !== true,
+                        v !== true
                 ).length
-              }{' '}
+  }{' '}
               filters active
 
             <button
               onClick={handleSearch}
-              className="px-8 py-0 whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105"></button>
+              className="px-8 py-0 whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105" /></button>
               Search Cards
 
 
 
-  );
-};
-
-export default AdvancedSearch;
+  )
+};`
+``
+export default AdvancedSearch;```
