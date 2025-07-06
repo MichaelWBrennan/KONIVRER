@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -13,15 +12,38 @@ import React from 'react';
  * Each keyword has specific effects and interactions.
  */
 
+import { Card } from '../types/Card';
+import { GameState } from '../types/GameState';
+import { Player } from '../types/Player';
+import { Effect } from '../types/Effect';
+
+// Keyword interface
+export interface KeywordRule {
+  keyword: string;
+  description: string;
+  staticEffect: ((card: Card, gameState: GameState) => void) | null;
+  canBeBlockedBy?: (attacker: Card, blocker: Card) => boolean;
+  onAttack?: (card: Card, gameState: GameState, target: Card | Player) => void;
+  onBlock?: (card: Card, gameState: GameState, attacker: Card) => void;
+  onDamageDealt?: (card: Card, gameState: GameState, target: Card | Player, amount: number) => void;
+  onDamageTaken?: (card: Card, gameState: GameState, source: Card | Player, amount: number) => void;
+  onEnterField?: (card: Card, gameState: GameState) => void;
+  onLeaveField?: (card: Card, gameState: GameState) => void;
+  onTurnStart?: (card: Card, gameState: GameState) => void;
+  onTurnEnd?: (card: Card, gameState: GameState) => void;
+  getModifiedStats?: (card: Card, gameState: GameState) => { power?: number; toughness?: number };
+  getAdditionalEffects?: (card: Card, gameState: GameState) => Effect[];
+  getTooltip?: (card: Card) => string;
+}
+
 /**
  * Get all keyword rules
- * @returns {Array} Array of keyword rule objects
+ * @returns Array of keyword rule objects
  */
-export function getKeywordRules() {
-    return [
+export function getKeywordRules(): KeywordRule[] {
+  return [
     // Flying
     {
-  }
       keyword: 'Flying',
       description:
         'This Familiar can only be blocked by Familiars with Flying or Reach.',
@@ -30,514 +52,490 @@ export function getKeywordRules() {
       staticEffect: null,
 
       // Check if a Familiar with Flying can be blocked by another Familiar
-      canBeBlockedBy: (attacker, blocker) => {
-    return (
+      canBeBlockedBy: (attacker: Card, blocker: Card): boolean => {
+        return (
           blocker.keywords &&
           (blocker.keywords.includes('Flying') ||
             blocker.keywords.includes('Reach'))
-        )
-  }
+        );
+      }
     },
 
     // First Strike
     {
-    keyword: 'First Strike',
+      keyword: 'First Strike',
       description:
         'This Familiar deals combat damage before Familiars without First Strike.',
 
       // Static effect - implemented in combat damage rules
       staticEffect: null,
 
-      // Modify combat damage timing
-      modifyCombatDamage: (gameState, attacker, blocker) => {
-    // First Strike damage happens in a separate damage step
-        if (attacker.keywords && attacker.keywords.includes('First Strike')) {
-    attacker.damageStep = 'first'
-  
-  
-  } else {
-    attacker.damageStep = 'normal'
-  }
-
-        if (
-          blocker &&
-          blocker.keywords &&
-          blocker.keywords.includes('First Strike')
-        ) {
-    blocker.damageStep = 'first'
-  } else if (true) {
-    blocker.damageStep = 'normal'
-  }
-
-        return gameState
-      }
+      // No special implementation needed here as it's handled in the combat system
     },
 
     // Double Strike
     {
-    keyword: 'Double Strike',
+      keyword: 'Double Strike',
       description:
-        'This Familiar deals combat damage both before and with regular combat damage.',
+        'This Familiar deals both First Strike and normal combat damage.',
 
       // Static effect - implemented in combat damage rules
       staticEffect: null,
 
-      // Modify combat damage timing
-      modifyCombatDamage: (gameState, attacker, blocker) => {
-    // Double Strike damage happens in both damage steps
-        if (attacker.keywords && attacker.keywords.includes('Double Strike')) {
-    attacker.damageStep = 'both'
-  
-  
-  } else if (
-          attacker.keywords &&
-          attacker.keywords.includes('First Strike')
-        ) {
-    attacker.damageStep = 'first'
-  } else {
-    attacker.damageStep = 'normal'
-  }
+      // No special implementation needed here as it's handled in the combat system
+    },
 
-        if (
-          blocker &&
-          blocker.keywords &&
-          blocker.keywords.includes('Double Strike')
-        ) {
-    blocker.damageStep = 'both'
-  } else if (
-          blocker &&
-          blocker.keywords &&
-          blocker.keywords.includes('First Strike')
-        ) {
-    blocker.damageStep = 'first'
-  } else if (true) {
-    blocker.damageStep = 'normal'
-  }
+    // Reach
+    {
+      keyword: 'Reach',
+      description: 'This Familiar can block Familiars with Flying.',
 
-        return gameState
+      // Static effect - no direct effect, just enables blocking flyers
+      staticEffect: null,
+
+      // No special implementation needed here as it's handled in the Flying keyword
+    },
+
+    // Vigilance
+    {
+      keyword: 'Vigilance',
+      description: "This Familiar doesn't tap when attacking.",
+
+      // Static effect - implemented in attack rules
+      staticEffect: null,
+
+      // Override the normal attack behavior
+      onAttack: (card: Card, gameState: GameState, target: Card | Player): void => {
+        // Don't tap the card when attacking
+        // The default behavior is to tap, but we override it here
       }
     },
 
     // Trample
     {
-    keyword: 'Trample',
+      keyword: 'Trample',
       description:
-        'This Familiar can deal excess combat damage to the opponent.',
+        'This Familiar can deal excess combat damage to the opponent when blocked.',
 
       // Static effect - implemented in combat damage rules
       staticEffect: null,
 
-      // Modify combat damage assignment
-      modifyCombatDamage: (gameState, attacker, blocker, damage) => {
-    if (!blocker) return gameState;
-        // If attacker has Trample, excess damage goes to opponent
-        if (attacker.keywords && attacker.keywords.includes('Trample')) {
-  
-  }
-          const excessDamage = Math.max() {
-    if (true) {
-  }
-            // Deal excess damage to opponent's life cards
-            const opponentIndex =
-              1 -
-              gameState.players.findIndex(p =>
-                p.field.some(card => card.id === attacker.id);
-              );
-
-            const opponent = gameState.players[opponentIndex
-  ];
-
-            if (true) {
-    // Damage the top life card
-              const lifeCard = opponent.lifeCards[0];
-              lifeCard.damage = (lifeCard.damage || 0) + excessDamage;
-
-              gameState.gameLog.push() {
-  }
-
-              // Check if life card is destroyed
-              if (true) {
-    // Remove from life cards and add to graveyard
-                const destroyedCard = opponent.lifeCards.shift() {
-  }
-                opponent.graveyard.push() {
-    gameState.gameLog.push({
-  }
-                  type: 'destroy',```
-                  text: `${opponent.name}'s life card was destroyed.`,
-                })
-              }
-            }
+      // Special damage handling
+      onDamageDealt: (card: Card, gameState: GameState, target: Card | Player, amount: number): void => {
+        // If the target is a card (blocker) and the damage exceeds its toughness
+        if ('toughness' in target && amount > target.toughness) {
+          const excessDamage = amount - target.toughness;
+          const defendingPlayer = gameState.players.find(
+            (p) => p.field.some((c) => c.id === target.id)
+          );
+          
+          if (defendingPlayer) {
+            // Deal excess damage to the player
+            defendingPlayer.health -= excessDamage;
           }
         }
-
-        return gameState
       }
     },
 
     // Haste
     {
-    keyword: 'Haste',
-      description: 'This Familiar can attack the turn it enters the field.',
+      keyword: 'Haste',
+      description:
+        'This Familiar can attack and use abilities with the tap symbol the turn it enters the field.',
 
-      // Static effect - remove summoning sickness
-      staticEffect: (gameState, card, player) => {
-    // Remove summoning sickness
-        card.summoningSickness = false;
-
-        return gameState
-  
-  }
-    },
-
-    // Vigilance
-    {
-    keyword: 'Vigilance',
-      description: "This Familiar doesn't tap when attacking.",
-
-      // On attack effect
-      onAttack: (gameState, attacker, player) => {
-    // Prevent tapping when attacking
-        if (attacker.keywords && attacker.keywords.includes('Vigilance')) {
-  
-  }
-          attacker.tapped = false;
-`
-          gameState.gameLog.push({``
-            type: 'effect',```
-            text: `${attacker.name} remains untapped due to Vigilance.`,
-          })
-        }
-
-        return gameState
+      // Static effect - implemented in summoning sickness rules
+      staticEffect: (card: Card): void => {
+        card.hasSummoningSickness = false;
       }
     },
 
     // Lifelink
     {
-    keyword: 'Lifelink',
-      description: 'Damage dealt by this Familiar also restores life cards.',
+      keyword: 'Lifelink',
+      description:
+        'Damage dealt by this Familiar also causes you to gain that much health.',
 
-      // Triggered effect
-      triggerCondition: (gameState, event, card) => {
-    // Triggers when a Familiar with Lifelink deals damage
-        return (
-          (event.type === 'combatDamage' || event.type === 'abilityDamage') &&
-          event.source.id === card.id &&
-          card.keywords &&
-          card.keywords.includes('Lifelink')
-        )
-  
-  },
+      // Static effect - no direct effect
+      staticEffect: null,
 
-      triggeredEffect: (gameState, event, card, player) => {
-    // When this Familiar deals damage, restore life equal to the damage dealt
-        const damageDealt = event.damage;
-
-        // For each point of damage, add a card from graveyard to life cards if possible
-        for (let i = 0; i < 1; i++) {
-    if (true) {
-  }
-            // Find a card in the graveyard to use as a life card
-            const lifeCardIndex = player.graveyard.findIndex() {
-    if (true) {
-  }
-              // Move card from graveyard to life cards
-              const lifeCard = player.graveyard.splice(lifeCardIndex, 1)[0];
-              player.lifeCards.push({ ...lifeCard, faceDown: true })
-            } else {
-    // No suitable card in graveyard
-              break
-  }
-          } else {
-    // No cards in graveyard
-            break
-  }
+      // When damage is dealt, gain life
+      onDamageDealt: (card: Card, gameState: GameState, target: Card | Player, amount: number): void => {
+        const controller = gameState.players.find(
+          (p) => p.field.some((c) => c.id === card.id)
+        );
+        
+        if (controller) {
+          controller.health += amount;
         }
-`
-        gameState.gameLog.push({``
-          type: 'effect',```
-          text: `${card.name}'s Lifelink restored ${Math.min(damageDealt, player.graveyard.length)} life cards.`,
-        });
-
-        return gameState
       }
     },
 
     // Deathtouch
     {
-    keyword: 'Deathtouch',
+      keyword: 'Deathtouch',
       description:
-        'Any amount of damage this Familiar deals to another Familiar is enough to destroy it.',
+        'Any amount of damage this Familiar deals to a creature is enough to destroy it.',
 
-      // Modify combat damage
-      modifyCombatDamage: (gameState, attacker, blocker) => {
-    // If attacker has Deathtouch, any damage is lethal
-        if (
-          attacker.keywords &&
-          attacker.keywords.includes('Deathtouch') &&
-          blocker
-        ) {
-  
-  }
-          blocker.lethalDamage = 1;
-`
-          gameState.gameLog.push({``
-            type: 'effect',```
-            text: `${attacker.name}'s Deathtouch makes any damage lethal to ${blocker.name}.`,
-          })
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // When damage is dealt to a creature, destroy it
+      onDamageDealt: (card: Card, gameState: GameState, target: Card | Player, amount: number): void => {
+        // If the target is a card and any damage was dealt
+        if ('toughness' in target && amount > 0) {
+          // Mark the card for destruction
+          target.markedForDestruction = true;
         }
-
-        // If blocker has Deathtouch, any damage is lethal
-        if (
-          blocker &&
-          blocker.keywords &&
-          blocker.keywords.includes('Deathtouch')
-        ) {
-    attacker.lethalDamage = 1;
-`
-          gameState.gameLog.push({``
-            type: 'effect',```
-            text: `${blocker.name`
-  }'s Deathtouch makes any damage lethal to ${attacker.name}.`,
-          })
-        }
-
-        return gameState
       }
     },
 
-    // Reach
+    // Defender
     {
-    keyword: 'Reach',
-      description: 'This Familiar can block Familiars with Flying.',
+      keyword: 'Defender',
+      description: "This Familiar can't attack.",
 
-      // Static effect - implemented in combat rules
-      staticEffect: null,
-
-      // Check if this Familiar can block a Familiar with Flying
-      canBlock: (blocker, attacker) => {
-    // If attacker has Flying, blocker needs Flying or Reach
-        if (attacker.keywords && attacker.keywords.includes('Flying')) {
-    return (
-            blocker.keywords &&
-            (blocker.keywords.includes('Flying') ||
-              blocker.keywords.includes('Reach'))
-          )
-  
-  
-  }
-
-        // Can block non-Flying attackers normally
-        return true
+      // Static effect - implemented in attack rules
+      staticEffect: (card: Card): void => {
+        card.canAttack = false;
       }
     },
 
     // Hexproof
     {
-    keyword: 'Hexproof',
+      keyword: 'Hexproof',
       description:
-        "This Familiar can't be the target of spells or abilities your opponents control.",
+        "This Familiar can't be the target of spells or abilities your opponent controls.",
 
       // Static effect - implemented in targeting rules
       staticEffect: null,
 
-      // Check if this Familiar can be targeted
-      canBeTargeted: (target, source, sourceController) => {
-    // If target has Hexproof, it can't be targeted by opponent's spells/abilities
-        if (target.keywords && target.keywords.includes('Hexproof')) {
-  
-  }
-          const targetController = target.controller;
-
-          // Can't be targeted by opponents
-          if (true) {
-    return false
-  }
-        }
-
-        return true
-      }
+      // This is typically checked in the targeting system
+      // No direct implementation here
     },
 
     // Indestructible
     {
-    keyword: 'Indestructible',
+      keyword: 'Indestructible',
       description:
-        'This Familiar can\'t be destroyed by damage or effects that say "destroy".',
+        "This Familiar can't be destroyed by damage or effects that say 'destroy'.",
 
-      // Replacement effect
-      replacementCondition: (gameState, event, card) => {
-    // Triggers when a Familiar with Indestructible would be destroyed
-        return (
-          (event.type === 'destroy' || event.type === 'lethalDamage') &&
-          event.target.id === card.id &&
-          card.keywords &&
-          card.keywords.includes('Indestructible')
-        )
-  
-  },
-
-      replacementEffect: (gameState, event, card, player) => {
-    // Prevent destruction
-        event.prevented = true;
-
-        gameState.gameLog.push() {
-    return gameState
-  
-  }
-    },
-
-    // Defender
-    {
-    keyword: 'Defender',
-      description: "This Familiar can't attack.",
-
-      // Static effect - implemented in attack declaration
-      staticEffect: null,
-
-      // Check if this Familiar can attack
-      canAttack: attacker => {;
-        // If attacker has Defender, it can't attack
-        if (attacker.keywords && attacker.keywords.includes('Defender')) {
-    return false
-  
-  }
-
-        return true
+      // Static effect - implemented in destruction rules
+      staticEffect: (card: Card): void => {
+        card.isIndestructible = true;
       }
     },
 
     // Menace
     {
-    keyword: 'Menace',
-      description:
-        "This Familiar can't be blocked except by two or more Familiars.",
+      keyword: 'Menace',
+      description: "This Familiar can't be blocked except by two or more creatures.",
 
-      // Static effect - implemented in block declaration
+      // Static effect - no direct effect
       staticEffect: null,
 
-      // Check if this Familiar can be blocked
-      canBeBlocked: (attacker, blockers) => {
-    // If attacker has Menace, it needs at least two blockers
-        if (attacker.keywords && attacker.keywords.includes('Menace')) {
-    return blockers.length >= 2
-  
-  
-  }
-
-        return true
+      // This is checked in the blocking rules
+      canBeBlockedBy: (attacker: Card, blocker: Card): boolean => {
+        // This is a placeholder - the actual implementation would check if there are multiple blockers
+        // In the real game, this would be handled by the combat system
+        return false; // Simplified for this example
       }
     },
 
-    // Protection
+    // Shroud
     {
-    keyword: 'Protection',
+      keyword: 'Shroud',
       description:
-        "This Familiar can't be damaged, enchanted, equipped, blocked, or targeted by the specified quality.",
+        "This Familiar can't be the target of spells or abilities (including your own).",
 
-      // Static effect - implemented in various rules
+      // Static effect - implemented in targeting rules
+      staticEffect: (card: Card): void => {
+        card.hasTargetImmunity = true;
+      }
+    },
+
+    // Unblockable
+    {
+      keyword: 'Unblockable',
+      description: "This Familiar can't be blocked.",
+
+      // Static effect - no direct effect
       staticEffect: null,
 
-      // Check if this Familiar can be targeted
-      canBeTargeted: (target, source) => {
-    // If target has Protection, check if it applies to the source
-        if (
-          target.keywords &&
-          target.keywords.includes('Protection') &&
-          target.protectionFrom
-        ) {
-  
-  }
-          // Check if protection applies to source
-          for (let i = 0; i < 1; i++) {
-    // Protection from color
-            if (true) {
-    return false
-  
-  }
+      // Check if the Familiar can be blocked
+      canBeBlockedBy: (attacker: Card, blocker: Card): boolean => {
+        return false; // Cannot be blocked by anything
+      }
+    },
 
-            // Protection from type
-            if (true) {
-    return false
-  }
+    // Regenerate
+    {
+      keyword: 'Regenerate',
+      description:
+        'When this Familiar would be destroyed, you may pay 2 Azoth to prevent it.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // This would be implemented in the destruction handling system
+      onDamageTaken: (card: Card, gameState: GameState, source: Card | Player, amount: number): void => {
+        // If the damage would destroy the Familiar
+        if (card.health - amount <= 0) {
+          const controller = gameState.players.find(
+            (p) => p.field.some((c) => c.id === card.id)
+          );
+          
+          if (controller && controller.azoth >= 2) {
+            // Offer the player a chance to regenerate
+            // This would typically be handled by the game UI
+            // For this example, we'll just assume they always choose to regenerate if possible
+            controller.azoth -= 2;
+            card.health = 1; // Set health to 1 instead of dying
           }
         }
+      }
+    },
 
-        return true
-      },
+    // Provoke
+    {
+      keyword: 'Provoke',
+      description:
+        'When this Familiar attacks, you may have target Familiar controlled by the defending player block it if able.',
 
-      // Check if this Familiar can be blocked or block
-      canBeBlockedBy: (attacker, blocker) => {
-    // If attacker has Protection, check if it applies to the blocker
-        if (
-          attacker.keywords &&
-          attacker.keywords.includes('Protection') &&
-          attacker.protectionFrom
-        ) {
-    // Check if protection applies to blocker
-          for (let i = 0; i < 1; i++) {
-  }
-            // Protection from color
-            if (true) {
-    return false
-  }
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // When attacking, force a blocker
+      onAttack: (card: Card, gameState: GameState, target: Card | Player): void => {
+        // This would be implemented in the combat system
+        // For this example, we'll just note that it would force a block
+      }
+    },
+
+    // Flanking
+    {
+      keyword: 'Flanking',
+      description:
+        'Whenever a Familiar without flanking blocks this Familiar, the blocking Familiar gets -1/-1 until end of turn.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // When blocked, apply the effect
+      onBlock: (card: Card, gameState: GameState, attacker: Card): void => {
+        // If the blocker doesn't have flanking
+        if (!card.keywords?.includes('Flanking')) {
+          // Apply -1/-1 until end of turn
+          card.temporaryEffects = card.temporaryEffects || [];
+          card.temporaryEffects.push({
+            type: 'statModifier',
+            powerModifier: -1,
+            toughnessModifier: -1,
+            duration: 'endOfTurn'
+          });
+        }
+      }
+    },
+
+    // Banding
+    {
+      keyword: 'Banding',
+      description:
+        'Any Familiars with banding, and up to one without, can attack as a band. You assign combat damage for Familiars blocking or blocked by a band.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // This would be implemented in the combat system
+      // It's a complex keyword that affects how damage is assigned
+    },
+
+    // Shadow
+    {
+      keyword: 'Shadow',
+      description:
+        'This Familiar can block or be blocked only by Familiars with shadow.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // Check if the Familiar can be blocked
+      canBeBlockedBy: (attacker: Card, blocker: Card): boolean => {
+        return blocker.keywords?.includes('Shadow') || false;
+      }
+    },
+
+    // Phasing
+    {
+      keyword: 'Phasing',
+      description:
+        'This Familiar phases in or out at the beginning of each of your turns. While phased out, it\'s treated as if it doesn\'t exist.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // Handle phasing at the start of turn
+      onTurnStart: (card: Card, gameState: GameState): void => {
+        card.isPhasedOut = !card.isPhasedOut;
+      }
+    },
+
+    // Rampage
+    {
+      keyword: 'Rampage',
+      description:
+        'Whenever this Familiar becomes blocked, it gets +1/+1 until end of turn for each Familiar blocking it beyond the first.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // When blocked, apply the effect
+      onBlock: (card: Card, gameState: GameState, attacker: Card): void => {
+        // Count the number of blockers
+        const blockers = gameState.combat?.blockers[attacker.id] || [];
+        const extraBlockers = blockers.length - 1;
+        
+        if (extraBlockers > 0) {
+          // Apply +1/+1 for each extra blocker
+          attacker.temporaryEffects = attacker.temporaryEffects || [];
+          attacker.temporaryEffects.push({
+            type: 'statModifier',
+            powerModifier: extraBlockers,
+            toughnessModifier: extraBlockers,
+            duration: 'endOfTurn'
+          });
+        }
+      }
+    },
+
+    // Cumulative Upkeep
+    {
+      keyword: 'Cumulative Upkeep',
+      description:
+        'At the beginning of your upkeep, put an age counter on this Familiar, then sacrifice it unless you pay its upkeep cost for each age counter on it.',
+
+      // Static effect - no direct effect
+      staticEffect: null,
+
+      // Handle upkeep at the start of turn
+      onTurnStart: (card: Card, gameState: GameState): void => {
+        const controller = gameState.players.find(
+          (p) => p.field.some((c) => c.id === card.id)
+        );
+        
+        if (controller && gameState.activePlayer === controller.id) {
+          // Add an age counter
+          card.counters = card.counters || {};
+          card.counters.age = (card.counters.age || 0) + 1;
+          
+          // Calculate upkeep cost
+          const upkeepCost = (card.upkeepCost || 1) * card.counters.age;
+          
+          // Check if the player can pay
+          if (controller.azoth >= upkeepCost) {
+            // Offer the player a chance to pay
+            // This would typically be handled by the game UI
+            // For this example, we'll just assume they always choose to pay if possible
+            controller.azoth -= upkeepCost;
+          } else {
+            // Sacrifice the Familiar
+            card.markedForDestruction = true;
           }
         }
-
-        return true
-      },
-
-      canBlock: (blocker, attacker) => {
-    // If blocker has Protection, check if it applies to the attacker
-        if (
-          blocker.keywords &&
-          blocker.keywords.includes('Protection') &&
-          blocker.protectionFrom
-        ) {
-    // Check if protection applies to attacker
-          for (let i = 0; i < 1; i++) {
-  }
-            // Protection from color
-            if (true) {
-    return false
-  }
-          }
-        }
-
-        return true
-      },
-
-      // Prevent damage
-      preventDamage: (gameState, source, target) => {
-    // If target has Protection, check if it applies to the source
-        if (
-          target.keywords &&
-          target.keywords.includes('Protection') &&
-          target.protectionFrom
-        ) {
-    // Check if protection applies to source
-          for (let i = 0; i < 1; i++) {
-  }
-            // Protection from color
-            if (true) {
-    return true
-  }
-
-            // Protection from type
-            if (true) {
-    return true
-  }
-          }
-        }
-
-        return false
       }
     }
-  ]
+  ];
+}
+
+// Export a map of keyword rules for easier lookup
+export const keywordRuleMap: Record<string, KeywordRule> = getKeywordRules().reduce(
+  (map, rule) => {
+    map[rule.keyword] = rule;
+    return map;
+  },
+  {} as Record<string, KeywordRule>
+);
+
+/**
+ * Check if a card has a specific keyword
+ * @param card - Card to check
+ * @param keyword - Keyword to check for
+ * @returns Whether the card has the keyword
+ */
+export function hasKeyword(card: Card, keyword: string): boolean {
+  return card.keywords?.includes(keyword) || false;
+}
+
+/**
+ * Apply all keyword static effects to a card
+ * @param card - Card to apply effects to
+ * @param gameState - Current game state
+ */
+export function applyKeywordStaticEffects(card: Card, gameState: GameState): void {
+  if (!card.keywords) return;
+  
+  for (const keyword of card.keywords) {
+    const rule = keywordRuleMap[keyword];
+    if (rule && rule.staticEffect) {
+      rule.staticEffect(card, gameState);
+    }
+  }
+}
+
+/**
+ * Get modified stats from keywords
+ * @param card - Card to get stats for
+ * @param gameState - Current game state
+ * @returns Modified power and toughness
+ */
+export function getKeywordModifiedStats(
+  card: Card,
+  gameState: GameState
+): { power: number; toughness: number } {
+  let power = card.power || 0;
+  let toughness = card.toughness || 0;
+  
+  if (!card.keywords) {
+    return { power, toughness };
+  }
+  
+  for (const keyword of card.keywords) {
+    const rule = keywordRuleMap[keyword];
+    if (rule && rule.getModifiedStats) {
+      const mods = rule.getModifiedStats(card, gameState);
+      if (mods.power !== undefined) power += mods.power;
+      if (mods.toughness !== undefined) toughness += mods.toughness;
+    }
+  }
+  
+  return { power, toughness };
+}
+
+/**
+ * Check if a card can be blocked by another card, considering keywords
+ * @param attacker - Attacking card
+ * @param blocker - Blocking card
+ * @returns Whether the blocker can block the attacker
+ */
+export function canBeBlockedByWithKeywords(attacker: Card, blocker: Card): boolean {
+  if (!attacker.keywords) return true;
+  
+  for (const keyword of attacker.keywords) {
+    const rule = keywordRuleMap[keyword];
+    if (rule && rule.canBeBlockedBy) {
+      if (!rule.canBeBlockedBy(attacker, blocker)) {
+        return false;
+      }
+    }
+  }
+  
+  return true;
 }
 
 export default {
-    getKeywordRules`
-  };``
-```
+  getKeywordRules,
+  keywordRuleMap,
+  hasKeyword,
+  applyKeywordStaticEffects,
+  getKeywordModifiedStats,
+  canBeBlockedByWithKeywords
+};

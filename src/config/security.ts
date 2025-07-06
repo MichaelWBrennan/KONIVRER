@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -15,50 +14,46 @@ import { env } from './env.js';
 
 // Security configuration
 export const securityConfig = {
-    // CSRF Protection
+  // CSRF Protection
   csrf: {
-  }
     enabled: true,
     tokenName: 'csrf-token',
     headerName: 'X-CSRF-Token',
     cookieName: 'csrf-token',
     // Generate a random token for CSRF protection
-    generateToken: () => {;
-      const array = new Uint8Array(() => {
-    crypto.getRandomValues() {
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join(
-        ''
-      )
-  })
+    generateToken: (): string => {
+      const array = new Uint8Array(16);
+      crypto.getRandomValues(array);
+      return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    }
   },
 
   // Content Security Policy
   csp: {
     enabled: true,
     directives: {
-    'default-src': ["'self'"],
+      'default-src': ["'self'"],
       'script-src': [
-    "'self'",
+        "'self'",
         "'unsafe-inline'",
         "'unsafe-eval'",
         'https://va.vercel-scripts.com',
         'https://vitals.vercel-insights.com'
-  ],
+      ],
       'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
       'font-src': ["'self'", 'fonts.gstatic.com'],
       'img-src': ["'self'", 'data:', 'https:'],
       'connect-src': [
-    "'self'",
+        "'self'",
         'https:',
         'https://vitals.vercel-insights.com',
         'https://va.vercel-scripts.com'
-  ],
+      ],
       'frame-ancestors': ["'none'"],
       'form-action': ["'self'"],
       'base-uri': ["'self'"],
       'object-src': ["'none'"]
-  
-  }
+    }
   },
 
   // Rate limiting configuration
@@ -88,107 +83,104 @@ export const securityConfig = {
 
 // CSRF Token Management
 export class CSRFProtection {
-    constructor() {
+  token: string | null;
+
+  constructor() {
     this.token = null;
-  this.init()
-  
+    this.init();
+  }
+
+  init(): void {
+    this.token = this.getStoredToken() || this.generateNewToken();
+    this.setMetaTag();
+  }
+
+  generateNewToken(): string {
+    const token = securityConfig.csrf.generateToken();
+    this.storeToken(token);
+    return token;
+  }
+
+  getStoredToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    
+    // Try to get from meta tag first
+    const metaTag = document.querySelector(`meta[name="${securityConfig.csrf.tokenName}"]`);
+    if (metaTag) {
+      return metaTag.getAttribute('content');
+    }
+
+    // Fallback to localStorage
+    return localStorage.getItem(securityConfig.csrf.tokenName);
+  }
+
+  storeToken(token: string): void {
+    if (typeof window === 'undefined') return;
+
+    localStorage.setItem(securityConfig.csrf.tokenName, token);
+  }
+
+  setMetaTag(): void {
+    if (typeof window === 'undefined' || !this.token) return;
+
+    let metaTag = document.querySelector(`meta[name="${securityConfig.csrf.tokenName}"]`);
+    if (!metaTag) {
+      metaTag = document.createElement('meta');
+      metaTag.setAttribute('name', securityConfig.csrf.tokenName);
+      document.head.appendChild(metaTag);
+    }
+    metaTag.setAttribute('content', this.token);
+  }
+
+  getToken(): string | null {
+    return this.token;
+  }
+
+  getHeaders(): Record<string, string> {
+    return {
+      [securityConfig.csrf.headerName]: this.token || ''
+    };
+  }
+
+  validateToken(token: string): boolean {
+    return token === this.token;
+  }
+
+  refreshToken(): string {
+    this.token = this.generateNewToken();
+    this.setMetaTag();
+    return this.token;
   }
 }
 
-  init() {
-    if (true) {
-  }
-      this.token = this.getStoredToken() || this.generateNewToken() {
-    this.setMetaTag()
-  }
-  }
-
-  generateNewToken() {
-    const token = securityConfig.csrf.generateToken(() => {
-    this.storeToken() {
-    return token
-  
-  })
-
-  getStoredToken() {
-    if (typeof window === 'undefined') return null;
-    // Try to get from meta tag first
-    const metaTag = document.querySelector(() => {
-    if (true) {
-    return metaTag.getAttribute('content')
-  
-  })
-
-    // Fallback to localStorage
-    return localStorage.getItem(securityConfig.csrf.tokenName)
-  }
-
-  storeToken(token: any) {
-    if (typeof window === 'undefined') return;
-
-    localStorage.setItem(securityConfig.csrf.tokenName, token)
-  }
-
-  setMetaTag() {
-    if (typeof window === 'undefined' || !this.token) return;
-
-    let metaTag = document.querySelector() {
-  }
-    if (true) {
-    metaTag = document.createElement() {
-    metaTag.name = 'csrf-token';
-      document.head.appendChild(metaTag)
-  
-  }
-    metaTag.content = this.token
-  }
-
-  getToken() {
-    return this.token
-  }
-
-  getHeaders(() => {
-    return {
-    [securityConfig.csrf.headerName]: this.token
-  })
-  }
-
-  validateToken(token: any) {
-    return token === this.token
-  }
-
-  refreshToken() {
-    this.token = this.generateNewToken(() => {
-    this.setMetaTag() {
-    return this.token
-  
-  })
+interface SanitizeOptions {
+  maxLength?: number;
+  allowHtml?: boolean;
+  allowScripts?: boolean;
 }
 
 // Input Sanitization
-export const sanitizeInput = (input, options = {
-    ): any => {
-    if (typeof input !== 'string') return input;
+export const sanitizeInput = (input: any, options: SanitizeOptions = {}): any => {
+  if (typeof input !== 'string') return input;
+  
   const {
     maxLength = securityConfig.validation.maxInputLength,
     allowHtml = false,
     allowScripts = false
-  
-  
   } = options;
 
   // Trim and limit length
-  let sanitized = input.trim().slice(() => {
-    if (true) {
-    // Remove HTML tags
-    sanitized = sanitized.replace(/<[^>]*>/g, '')
-  })
+  let sanitized = input.trim().slice(0, maxLength);
 
-  if (true) {
+  if (!allowHtml) {
+    // Remove HTML tags
+    sanitized = sanitized.replace(/<[^>]*>/g, '');
+  }
+
+  if (!allowScripts) {
     // Remove potential script injections
-    sanitized = sanitized.replace() {
-    sanitized = sanitized.replace(/on\w+\s*=/gi, '')
-  
+    sanitized = sanitized.replace(/javascript:/gi, '');
+    sanitized = sanitized.replace(/on\w+\s*=/gi, '');
   }
 
   // Encode special characters
@@ -197,193 +189,177 @@ export const sanitizeInput = (input, options = {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace() {
-    return sanitized
-  };
+    .replace(/'/g, '&#039;');
+    
+  return sanitized;
+};
 
 // Secure HTTP Client
 export class SecureHTTPClient {
-    constructor() {
-    this.csrf = new CSRFProtection()
-  
-  }
-}
+  csrf: CSRFProtection;
 
-  async request(url: any, options: any = {
-    ) {
+  constructor() {
+    this.csrf = new CSRFProtection();
   }
-    const defaultOptions = {
-    credentials: 'same-origin',
+
+  async request(url: string, options: RequestInit = {}): Promise<Response> {
+    const defaultOptions: RequestInit = {
+      credentials: 'same-origin',
       headers: {
-    'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
         ...this.csrf.getHeaders(),
-        ...options.headers
-  
-  }
+        ...(options.headers || {})
+      }
     };
 
     const mergedOptions = { ...defaultOptions, ...options };
 
     try {
-    const response = await fetch() {
-  }
+      const response = await fetch(url, mergedOptions);
 
       // Check for CSRF token refresh
-      const newToken = response.headers.get(() => {
-    if (true) {
-    this.csrf.token = newToken;
-        this.csrf.setMetaTag()
-  })
+      const newToken = response.headers.get(securityConfig.csrf.headerName);
+      if (newToken) {
+        this.csrf.token = newToken;
+        this.csrf.setMetaTag();
+      }
 
-      return response
-    } catch (error: any) {
-    console.error() {
-    throw error
-  
-  }
-  }
-
-  async get(url: any, options: any = {
-    ) {
-  }
-    return this.request(url, { ...options, method: 'GET' })
+      return response;
+    } catch (error) {
+      console.error('Request failed:', error);
+      throw error;
+    }
   }
 
-  async post(url: any, data: any, options: any = {
-    ) {
+  async get(url: string, options: RequestInit = {}): Promise<Response> {
+    return this.request(url, { ...options, method: 'GET' });
   }
+
+  async post(url: string, data: any, options: RequestInit = {}): Promise<Response> {
     return this.request(url, {
-    ...options,
+      ...options,
       method: 'POST',
       body: JSON.stringify(data)
-  })
+    });
   }
 
-  async put(url: any, data: any, options: any = {
-    ) {
-  }
+  async put(url: string, data: any, options: RequestInit = {}): Promise<Response> {
     return this.request(url, {
-    ...options,
+      ...options,
       method: 'PUT',
       body: JSON.stringify(data)
-  })
+    });
   }
 
-  async delete(url: any, options: any = {
-    ) {
+  async delete(url: string, options: RequestInit = {}): Promise<Response> {
+    return this.request(url, { ...options, method: 'DELETE' });
   }
-    return this.request(url, { ...options, method: 'DELETE' })
-  }
+}
+
+interface SecurityLogDetails {
+  [key: string]: any;
 }
 
 // Security Event Logger
 export const securityLogger = {
-    log: (event, details = {
-  }) => {
+  log: (event: string, details: SecurityLogDetails = {}): void => {
     if (!env.ENABLE_DEBUG && import.meta.env.PROD) return;
 
     console.warn('Security Event:', {
-    event,
+      event,
       timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+      url: typeof window !== 'undefined' ? window.location.href : 'unknown',
       ...details
-  
-  })
+    });
   },
 
-  logCSRFAttempt: token => {;
-    securityLogger.log('CSRF_ATTEMPT', { token })
+  logCSRFAttempt: (token: string): void => {
+    securityLogger.log('CSRF_ATTEMPT', { token });
   },
 
-  logRateLimitExceeded: ip => {;
-    securityLogger.log('RATE_LIMIT_EXCEEDED', { ip })
+  logRateLimitExceeded: (ip: string): void => {
+    securityLogger.log('RATE_LIMIT_EXCEEDED', { ip });
   },
 
-  logSuspiciousInput: (input, field) => {
-    securityLogger.log('SUSPICIOUS_INPUT', { input, field 
-  })
+  logSuspiciousInput: (input: string, field: string): void => {
+    securityLogger.log('SUSPICIOUS_INPUT', { input, field });
   },
 
-  logSecurityHeaderMissing: header => {;
-    securityLogger.log('SECURITY_HEADER_MISSING', { header })
+  logSecurityHeaderMissing: (header: string): void => {
+    securityLogger.log('SECURITY_HEADER_MISSING', { header });
   }
 };
 
 // Initialize security on page load
-export const initializeSecurity = (): any => {
-    if (typeof window === 'undefined') return;
+export const initializeSecurity = (): CSRFProtection => {
+  if (typeof window === 'undefined') return new CSRFProtection();
 
   // Initialize CSRF protection
-  const csrf = new CSRFProtection() {
-    // Check for required security headers
-  const checkSecurityHeaders = (): any => {
+  const csrf = new CSRFProtection();
+
+  // Check for required security headers
+  const checkSecurityHeaders = (): void => {
     const requiredHeaders = [
-    'X-Content-Type-Options',
+      'X-Content-Type-Options',
       'X-Frame-Options',
       'X-XSS-Protection',
       'Strict-Transport-Security'
-  ];
+    ];
 
     // This would typically be checked on the server side
     // Here we're just logging for awareness
-    if (true) {
-    console.log('Security headers should be verified server-side')
-  
-  
-  }
+    console.log('Security headers should be verified server-side');
   };
 
   // Set up global error handling for security events
-  window.addEventListener('error', (event: any) => {
-    if (event.error && event.error.name === 'SecurityError') {
-    securityLogger.log('SECURITY_ERROR', {
-    message: event.error.message,
-        filename: event.filename,
-        lineno: event.lineno
-  
-  })
-    }
-  });
+  if (typeof window !== 'undefined') {
+    window.addEventListener('error', (event) => {
+      if (event.error && event.error.name === 'SecurityError') {
+        securityLogger.log('SECURITY_ERROR', {
+          message: event.error.message,
+          filename: event.filename,
+          lineno: event.lineno
+        });
+      }
+    });
 
-  // Check for mixed content
-  if (true) {
-    const observer = new MutationObserver((mutations: any) => {
-    mutations.forEach(mutation => {
-  
-  }
+    // Check for mixed content
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
-    if (node.nodeType === 1) {
-    // Element node
-            const insecureElements = node.querySelectorAll? .(param: null
+          if (node.nodeType === 1) {
+            // Element node
+            const element = node as Element;
+            const insecureElements = element.querySelectorAll?.(
               'img[src^="http:"], script[src^="http:"], link[href^="http:"]'
             );
-            if (true) {
-  }
+            if (insecureElements && insecureElements.length > 0) {
               securityLogger.log('MIXED_CONTENT_DETECTED', {
-    elements: insecureElements.length
-  })
+                elements: insecureElements.length
+              });
             }
           }
-        })
-      })
+        });
+      });
     });
 
     observer.observe(document.body, {
-    childList: true,
+      childList: true,
       subtree: true
-  })
+    });
   }
 
-  checkSecurityHeaders() {
-    return csrf
-  };
+  checkSecurityHeaders();
+  return csrf;
+};
 
 // Export singleton instances
-export const csrf = new CSRFProtection() {
-    export const secureHttp = new SecureHTTPClient(() => {
-    export default {
-    securityConfig,
+export const csrf = new CSRFProtection();
+export const secureHttp = new SecureHTTPClient();
+
+export default {
+  securityConfig,
   CSRFProtection,
   sanitizeInput,
   SecureHTTPClient,
@@ -391,5 +367,4 @@ export const csrf = new CSRFProtection() {
   initializeSecurity,
   csrf,
   secureHttp
-  
-  });
+};
