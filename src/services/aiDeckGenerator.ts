@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database - AI Deck Generator Service
  *
@@ -8,1195 +7,1147 @@ import React from 'react';
 
 import { AI_ARCHETYPES, AI_DIFFICULTY, AI_PERSONALITY } from './aiOpponent';
 
-/**
- * Generate an AI deck based on archetype, difficulty, and personality
- * @param {String} archetype - Deck archetype
- * @param {String} difficulty - AI difficulty level
- * @param {String} personality - AI personality type
- * @returns {Object} - Generated deck
- */
-export const generateAIDeck = (
-  archetype = AI_ARCHETYPES.BALANCED,
-  difficulty = AI_DIFFICULTY.MEDIUM,
-  personality = AI_PERSONALITY.BALANCED
-): any => {
-    // Base deck structure
-  const deck = {
-    id: `ai_${archetype`
-  }_${Date.now()}`,
-    name: getArchetypeName(archetype, difficulty),
-    cards: [
-    ;
-    lands: [
-  ];
-    sideboard: [
-    };
-  
-  // Generate cards based on archetype
-  switch (true) {
-    case AI_ARCHETYPES.FIRE_AGGRO:
-      deck.cards = generateFireAggroDeck() {
-  }
-      break;
-    case AI_ARCHETYPES.WATER_CONTROL:
-      deck.cards = generateWaterControlDeck() {
-    break;
-    case AI_ARCHETYPES.EARTH_MIDRANGE:
-      deck.cards = generateEarthMidrangeDeck() {
-  }
-      break;
-    case AI_ARCHETYPES.AIR_TEMPO:
-      deck.cards = generateAirTempoDeck() {
-    break;
-    case AI_ARCHETYPES.VOID_COMBO:
-      deck.cards = generateVoidComboDeck(() => {
-    break;
-    case AI_ARCHETYPES.MULTI_COLOR:
-      deck.cards = generateMultiColorDeck() {
-    break;
-    default:
-      deck.cards = generateBalancedDeck(difficulty)
-  
-  })
-  
-  // Adjust deck based on personality
-  adjustDeckForPersonality() {
-    // Generate lands
-  deck.lands = generateLands(() => {
-    // Generate sideboard if needed
-  if (true) {
-    deck.sideboard = generateSideboard(deck.cards, archetype, difficulty)
-  
-  })
-  
-  return deck
+// Card interfaces
+interface Card {
+  id: string;
+  name: string;
+  cost: number;
+  type: string;
+  elements: string[];
+  rarity: string;
+  power?: number;
+  health?: number;
+  text?: string;
+  keywords?: string[];
+  effects?: CardEffect[];
+  imageUrl?: string;
+  flavorText?: string;
+  artist?: string;
+  set?: string;
+  [key: string]: any;
+}
+
+interface CardEffect {
+  type: string;
+  value?: number | string;
+  target?: string;
+  condition?: string;
+  [key: string]: any;
+}
+
+// Deck interfaces
+interface Deck {
+  id: string;
+  name: string;
+  cards: Card[];
+  lands: Card[];
+  sideboard: Card[];
+  archetype: string;
+  difficulty: string;
+  personality: string;
+  strategy: string;
+  mainColors: string[];
+  splashColors: string[];
+  averageCost: number;
+  creatureCount: number;
+  spellCount: number;
+  landCount: number;
+  [key: string]: any;
+}
+
+// Card database (simplified for example)
+const cardDatabase: Record<string, Card[]> = {
+  fire: [],
+  water: [],
+  earth: [],
+  air: [],
+  void: [],
+  multi: [],
+  lands: []
 };
 
+// Initialize card database with sample cards
+const initializeCardDatabase = (): void => {
+  // Fire cards
+  cardDatabase.fire = [
+    {
+      id: 'fire_1',
+      name: 'Flame Elemental',
+      cost: 3,
+      type: 'familiar',
+      elements: ['fire'],
+      rarity: 'common',
+      power: 3,
+      health: 2,
+      keywords: ['rush'],
+      text: 'Rush (Can attack the turn it enters play)'
+    },
+    {
+      id: 'fire_2',
+      name: 'Inferno Blast',
+      cost: 2,
+      type: 'spell',
+      elements: ['fire'],
+      rarity: 'common',
+      text: 'Deal 3 damage to target familiar or player'
+    },
+    // More fire cards would be defined here
+  ];
+
+  // Water cards
+  cardDatabase.water = [
+    {
+      id: 'water_1',
+      name: 'Tide Manipulator',
+      cost: 2,
+      type: 'familiar',
+      elements: ['water'],
+      rarity: 'common',
+      power: 1,
+      health: 3,
+      text: 'When this enters play, draw a card'
+    },
+    {
+      id: 'water_2',
+      name: 'Counterspell',
+      cost: 2,
+      type: 'spell',
+      elements: ['water'],
+      rarity: 'uncommon',
+      text: 'Counter target spell'
+    },
+    // More water cards would be defined here
+  ];
+
+  // Earth cards
+  cardDatabase.earth = [
+    {
+      id: 'earth_1',
+      name: 'Stone Guardian',
+      cost: 4,
+      type: 'familiar',
+      elements: ['earth'],
+      rarity: 'common',
+      power: 2,
+      health: 5,
+      keywords: ['guard'],
+      text: 'Guard (Opponents must attack this if able)'
+    },
+    {
+      id: 'earth_2',
+      name: 'Growth Spell',
+      cost: 3,
+      type: 'spell',
+      elements: ['earth'],
+      rarity: 'common',
+      text: 'Target familiar gets +2/+2 until end of turn'
+    },
+    // More earth cards would be defined here
+  ];
+
+  // Air cards
+  cardDatabase.air = [
+    {
+      id: 'air_1',
+      name: 'Wind Sprite',
+      cost: 1,
+      type: 'familiar',
+      elements: ['air'],
+      rarity: 'common',
+      power: 1,
+      health: 1,
+      keywords: ['evasion'],
+      text: 'Evasion (This can\'t be blocked by familiars with power 2 or greater)'
+    },
+    {
+      id: 'air_2',
+      name: 'Gust of Wind',
+      cost: 1,
+      type: 'spell',
+      elements: ['air'],
+      rarity: 'common',
+      text: 'Return target familiar to its owner\'s hand'
+    },
+    // More air cards would be defined here
+  ];
+
+  // Void cards
+  cardDatabase.void = [
+    {
+      id: 'void_1',
+      name: 'Shadow Lurker',
+      cost: 2,
+      type: 'familiar',
+      elements: ['void'],
+      rarity: 'uncommon',
+      power: 2,
+      health: 1,
+      text: 'When this deals damage to a player, they discard a card'
+    },
+    {
+      id: 'void_2',
+      name: 'Soul Drain',
+      cost: 3,
+      type: 'spell',
+      elements: ['void'],
+      rarity: 'uncommon',
+      text: 'Target player discards two cards'
+    },
+    // More void cards would be defined here
+  ];
+
+  // Multi-element cards
+  cardDatabase.multi = [
+    {
+      id: 'multi_1',
+      name: 'Elemental Fusion',
+      cost: 4,
+      type: 'familiar',
+      elements: ['fire', 'water'],
+      rarity: 'rare',
+      power: 3,
+      health: 3,
+      text: 'When this enters play, deal 2 damage to target familiar and draw a card'
+    },
+    {
+      id: 'multi_2',
+      name: 'Nature\'s Wrath',
+      cost: 5,
+      type: 'spell',
+      elements: ['earth', 'air'],
+      rarity: 'rare',
+      text: 'Put two 2/2 Elemental familiar tokens into play and they gain rush until end of turn'
+    },
+    // More multi-element cards would be defined here
+  ];
+
+  // Land cards
+  cardDatabase.lands = [
+    {
+      id: 'land_1',
+      name: 'Fire Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['fire'],
+      rarity: 'common',
+      text: 'Tap: Add one Fire Azoth to your pool'
+    },
+    {
+      id: 'land_2',
+      name: 'Water Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['water'],
+      rarity: 'common',
+      text: 'Tap: Add one Water Azoth to your pool'
+    },
+    {
+      id: 'land_3',
+      name: 'Earth Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['earth'],
+      rarity: 'common',
+      text: 'Tap: Add one Earth Azoth to your pool'
+    },
+    {
+      id: 'land_4',
+      name: 'Air Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['air'],
+      rarity: 'common',
+      text: 'Tap: Add one Air Azoth to your pool'
+    },
+    {
+      id: 'land_5',
+      name: 'Void Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['void'],
+      rarity: 'common',
+      text: 'Tap: Add one Void Azoth to your pool'
+    },
+    {
+      id: 'land_6',
+      name: 'Dual Azoth',
+      cost: 0,
+      type: 'azoth',
+      elements: ['fire', 'water'],
+      rarity: 'uncommon',
+      text: 'Tap: Add one Fire or Water Azoth to your pool'
+    },
+    // More land cards would be defined here
+  ];
+};
+
+// Initialize the card database
+initializeCardDatabase();
+
 /**
- * Get a name for the AI deck based on archetype and difficulty
- * @param {String} archetype - Deck archetype
- * @param {String} difficulty - AI difficulty level
- * @returns {String} - Deck name
+ * Get a name for the deck based on archetype and difficulty
  */
-const getArchetypeName = (archetype, difficulty): any => {
-    const archetypeNames = {
-    [AI_ARCHETYPES.FIRE_AGGRO
-  ]: 'Blazing Assault',
-    [AI_ARCHETYPES.WATER_CONTROL]: 'Tidal Dominance',
-    [AI_ARCHETYPES.EARTH_MIDRANGE]: 'Terra Firma',
-    [AI_ARCHETYPES.AIR_TEMPO]: 'Windswept Tactics',
-    [AI_ARCHETYPES.VOID_COMBO]: 'Void Convergence',
+const getArchetypeName = (archetype: string, difficulty: string): string => {
+  const archetypeNames: Record<string, string> = {
+    [AI_ARCHETYPES.FIRE_AGGRO]: 'Blazing Assault',
+    [AI_ARCHETYPES.WATER_CONTROL]: 'Tide Mastery',
+    [AI_ARCHETYPES.EARTH_MIDRANGE]: 'Stone Bulwark',
+    [AI_ARCHETYPES.AIR_TEMPO]: 'Swift Winds',
+    [AI_ARCHETYPES.VOID_COMBO]: 'Shadow Convergence',
     [AI_ARCHETYPES.MULTI_COLOR]: 'Elemental Harmony'
-  
   };
-  
-  const difficultyPrefix = {
+
+  const difficultyPrefix: Record<string, string> = {
     [AI_DIFFICULTY.EASY]: 'Novice',
     [AI_DIFFICULTY.MEDIUM]: 'Adept',
     [AI_DIFFICULTY.HARD]: 'Expert',
     [AI_DIFFICULTY.EXPERT]: 'Master'
   };
-  
-  const baseName = archetypeNames[archetype] || 'Balanced Strategy';`
-  const prefix = difficultyPrefix[difficulty] || 'Standard';``
-  ```
-  return `${prefix} ${baseName}`
+
+  const baseName = archetypeNames[archetype] || 'Unknown Deck';
+  const prefix = difficultyPrefix[difficulty] || '';
+
+  return `${prefix} ${baseName}`;
 };
 
 /**
  * Generate a Fire Aggro deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateFireAggroDeck = (difficulty): any => {
-    // This would normally pull from a card database
-  // For now, we'll create mock cards
-  ;
-  const cards = [
-    ;
+const generateFireAggroDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
   
-  // Add creatures`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `fire_creature_${i`
-  }`,
-      name: getRandomFireCreatureName(),
-      type: 'Creature',
-      cost: { fire: Math.min(Math.floor(i/8) + 1, 3) },
-      power: Math.min(Math.floor(i/6) + 2, 5),
-      toughness: Math.min(Math.floor(i/8) + 1, 3),
-      text: getRandomFireAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add core fire aggro cards
+  const fireCards = cardDatabase.fire.filter(card => 
+    (card.type === 'familiar' && (card.power || 0) >= 2) || 
+    (card.type === 'spell' && card.text?.includes('damage'))
+  );
   
-  // Add spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `fire_spell_${i}`,
-      name: getRandomFireSpellName(),
-      type: i % 3 === 0 ? 'Instant' : 'Sorcery',
-      cost: { fire: Math.min(Math.floor(i/4) + 1, 4) },
-      text: getRandomFireSpellText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 16 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 18 :
+                       difficulty === AI_DIFFICULTY.HARD ? 20 : 22;
   
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (true) {
-    cards[index
-  ].power += 1
-  } else {
-    // Improve spell text
-        cards[index].text = cards[index].text.replace('2 damage', '3 damage')
-  }
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 6 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 8 :
+                    difficulty === AI_DIFFICULTY.HARD ? 10 : 12;
+  
+  // Add creatures
+  for (let i = 0; i < creatureCount; i++) {
+    if (fireCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * fireCards.length);
+      const card = fireCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
+  // Add spells
+  for (let i = 0; i < spellCount; i++) {
+    if (fireCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * fireCards.length);
+      const card = fireCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
+  
+  // Adjust based on personality
+  if (personality === AI_PERSONALITY.AGGRESSIVE) {
+    // Add more aggressive cards
+    const aggressiveCards = cardDatabase.fire.filter(card => 
+      card.keywords?.includes('rush') || 
+      (card.type === 'familiar' && (card.power || 0) > (card.health || 0))
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (aggressiveCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * aggressiveCards.length);
+        cards.push({ ...aggressiveCards[randomIndex] });
+      }
+    }
+  } else if (personality === AI_PERSONALITY.DEFENSIVE) {
+    // Add more defensive cards
+    const defensiveCards = cardDatabase.fire.filter(card => 
+      card.keywords?.includes('guard') || 
+      (card.type === 'familiar' && (card.health || 0) > (card.power || 0))
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (defensiveCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * defensiveCards.length);
+        cards.push({ ...defensiveCards[randomIndex] });
+      }
+    }
+  }
+  
+  return cards;
 };
 
 /**
  * Generate a Water Control deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateWaterControlDeck = (difficulty): any => {;
-  const cards = [
-    ;
+const generateWaterControlDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
   
-  // Add creatures`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `water_creature_${i}`,
-      name: getRandomWaterCreatureName(),
-      type: 'Creature',
-      cost: { water: Math.min(Math.floor(i/5) + 1, 4) },
-      power: Math.min(Math.floor(i/8) + 1, 3),
-      toughness: Math.min(Math.floor(i/6) + 2, 5),
-      text: getRandomWaterAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add core water control cards
+  const waterCards = cardDatabase.water.filter(card => 
+    (card.type === 'spell' && card.text?.includes('counter')) || 
+    (card.type === 'familiar' && card.text?.includes('draw'))
+  );
   
-  // Add counterspells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `water_counter_${i}`,
-      name: getRandomCounterspellName(),
-      type: 'Instant',
-      cost: { water: Math.min(Math.floor(i/4) + 1, 4) },
-      text: getRandomCounterspellText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 12 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 14 :
+                       difficulty === AI_DIFFICULTY.HARD ? 16 : 18;
   
-  // Add card draw`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `water_draw_${i}`,
-      name: getRandomCardDrawName(),
-      type: i % 3 === 0 ? 'Instant' : 'Sorcery',
-      cost: { water: Math.min(Math.floor(i/3) + 1, 5) },
-      text: getRandomCardDrawText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 10 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 12 :
+                    difficulty === AI_DIFFICULTY.HARD ? 14 : 16;
   
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (true) {
-    cards[index
-  ].toughness += 1
-  } else if (cards[index].text.includes('counter')) {
-    // Improve counterspell
-        cards[index].text = cards[index].text.replace('counter target spell', 'counter target spell. Draw a card')
-  } else if (cards[index].text.includes('draw')) {
-    // Improve card draw
-        cards[index].text = cards[index].text.replace('Draw a card', 'Draw two cards')
-  }
+  // Add creatures
+  for (let i = 0; i < creatureCount; i++) {
+    if (waterCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * waterCards.length);
+      const card = waterCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
+  // Add spells
+  for (let i = 0; i < spellCount; i++) {
+    if (waterCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * waterCards.length);
+      const card = waterCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
+  
+  // Adjust based on personality
+  if (personality === AI_PERSONALITY.CONTROL) {
+    // Add more control cards
+    const controlCards = cardDatabase.water.filter(card => 
+      card.text?.includes('counter') || 
+      card.text?.includes('return')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (controlCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * controlCards.length);
+        cards.push({ ...controlCards[randomIndex] });
+      }
+    }
+  } else if (personality === AI_PERSONALITY.COMBO) {
+    // Add more combo-oriented cards
+    const comboCards = cardDatabase.water.filter(card => 
+      card.text?.includes('draw') || 
+      card.text?.includes('search')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (comboCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * comboCards.length);
+        cards.push({ ...comboCards[randomIndex] });
+      }
+    }
+  }
+  
+  return cards;
 };
 
 /**
  * Generate an Earth Midrange deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateEarthMidrangeDeck = (difficulty): any => {;
-  const cards = [
-    ;
+const generateEarthMidrangeDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
   
-  // Add creatures`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `earth_creature_${i}`,
-      name: getRandomEarthCreatureName(),
-      type: 'Creature',
-      cost: { earth: Math.min(Math.floor(i/6) + 1, 5) },
-      power: Math.min(Math.floor(i/7) + 2, 4),
-      toughness: Math.min(Math.floor(i/5) + 2, 6),
-      text: getRandomEarthAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add core earth midrange cards
+  const earthCards = cardDatabase.earth.filter(card => 
+    (card.type === 'familiar' && (card.health || 0) >= 3) || 
+    (card.type === 'spell' && card.text?.includes('+'))
+  );
   
-  // Add ramp spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `earth_ramp_${i}`,
-      name: getRandomRampSpellName(),
-      type: 'Sorcery',
-      cost: { earth: Math.min(Math.floor(i/4) + 1, 3) },
-      text: getRandomRampSpellText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 14 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 16 :
+                       difficulty === AI_DIFFICULTY.HARD ? 18 : 20;
   
-  // Add utility spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `earth_utility_${i}`,
-      name: getRandomEarthUtilityName(),
-      type: i % 2 === 0 ? 'Instant' : 'Sorcery',
-      cost: { earth: Math.min(Math.floor(i/3) + 1, 4) },
-      text: getRandomEarthUtilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 8 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 10 :
+                    difficulty === AI_DIFFICULTY.HARD ? 12 : 14;
   
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (true) {
-    cards[index
-  ].power += 1;
-        cards[index].toughness += 1
-  } else if (cards[index].text.includes('search')) {
-    // Improve ramp
-        cards[index].text = cards[index].text.replace('search for a basic land', 'search for two basic lands')
-  }
+  // Add creatures
+  for (let i = 0; i < creatureCount; i++) {
+    if (earthCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * earthCards.length);
+      const card = earthCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
+  // Add spells
+  for (let i = 0; i < spellCount; i++) {
+    if (earthCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * earthCards.length);
+      const card = earthCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
+  
+  // Adjust based on personality
+  if (personality === AI_PERSONALITY.DEFENSIVE) {
+    // Add more defensive cards
+    const defensiveCards = cardDatabase.earth.filter(card => 
+      card.keywords?.includes('guard') || 
+      (card.type === 'familiar' && (card.health || 0) >= 4)
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (defensiveCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * defensiveCards.length);
+        cards.push({ ...defensiveCards[randomIndex] });
+      }
+    }
+  } else if (personality === AI_PERSONALITY.BALANCED) {
+    // Add balanced mix of cards
+    const balancedCards = cardDatabase.earth.filter(card => 
+      (card.type === 'familiar' && (card.power || 0) === (card.health || 0)) || 
+      card.text?.includes('token')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (balancedCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * balancedCards.length);
+        cards.push({ ...balancedCards[randomIndex] });
+      }
+    }
+  }
+  
+  return cards;
 };
 
 /**
  * Generate an Air Tempo deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateAirTempoDeck = (difficulty): any => {;
-  const cards = [
-    ;
+const generateAirTempoDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
   
-  // Add creatures`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `air_creature_${i}`,
-      name: getRandomAirCreatureName(),
-      type: 'Creature',
-      cost: { air: Math.min(Math.floor(i/7) + 1, 4) },
-      power: Math.min(Math.floor(i/6) + 1, 3),
-      toughness: Math.min(Math.floor(i/8) + 1, 3),
-      text: getRandomAirAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add core air tempo cards
+  const airCards = cardDatabase.air.filter(card => 
+    (card.type === 'familiar' && card.keywords?.includes('evasion')) || 
+    (card.type === 'spell' && card.text?.includes('return'))
+  );
   
-  // Add bounce spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `air_bounce_${i}`,
-      name: getRandomBounceSpellName(),
-      type: 'Instant',
-      cost: { air: Math.min(Math.floor(i/5) + 1, 3) },
-      text: getRandomBounceSpellText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 16 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 18 :
+                       difficulty === AI_DIFFICULTY.HARD ? 20 : 22;
   
-  // Add utility spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `air_utility_${i}`,
-      name: getRandomAirUtilityName(),
-      type: i % 2 === 0 ? 'Instant' : 'Sorcery',
-      cost: { air: Math.min(Math.floor(i/3) + 1, 4) },
-      text: getRandomAirUtilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 6 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 8 :
+                    difficulty === AI_DIFFICULTY.HARD ? 10 : 12;
   
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (true) {
-    // Add flying
-        if (!cards[index
-  ].text.includes('Flying')) {
-    cards[index].text = 'Flying. ' + cards[index].text
-  
-  }
-      } else if (cards[index].text.includes('return')) {
-    // Improve bounce
-        cards[index].text = cards[index].text.replace('return target creature', 'return up to two target creatures')
-  }
+  // Add creatures
+  for (let i = 0; i < creatureCount; i++) {
+    if (airCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * airCards.length);
+      const card = airCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
+  // Add spells
+  for (let i = 0; i < spellCount; i++) {
+    if (airCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * airCards.length);
+      const card = airCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
+  
+  // Adjust based on personality
+  if (personality === AI_PERSONALITY.AGGRESSIVE) {
+    // Add more aggressive cards
+    const aggressiveCards = cardDatabase.air.filter(card => 
+      card.keywords?.includes('rush') || 
+      (card.type === 'familiar' && (card.power || 0) >= 2)
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (aggressiveCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * aggressiveCards.length);
+        cards.push({ ...aggressiveCards[randomIndex] });
+      }
+    }
+  } else if (personality === AI_PERSONALITY.CONTROL) {
+    // Add more control cards
+    const controlCards = cardDatabase.air.filter(card => 
+      card.text?.includes('return') || 
+      card.text?.includes('tap')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (controlCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * controlCards.length);
+        cards.push({ ...controlCards[randomIndex] });
+      }
+    }
+  }
+  
+  return cards;
 };
 
 /**
  * Generate a Void Combo deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateVoidComboDeck = (difficulty): any => {;
-  const cards = [
-    ;
+const generateVoidComboDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
   
-  // Add creatures`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `void_creature_${i}`,
-      name: getRandomVoidCreatureName(),
-      type: 'Creature',
-      cost: { void: Math.min(Math.floor(i/6) + 1, 4) },
-      power: Math.min(Math.floor(i/7) + 1, 3),
-      toughness: Math.min(Math.floor(i/7) + 1, 3),
-      text: getRandomVoidAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add core void combo cards
+  const voidCards = cardDatabase.void.filter(card => 
+    (card.type === 'familiar' && card.text?.includes('discard')) || 
+    (card.type === 'spell' && card.text?.includes('discard'))
+  );
   
-  // Add combo pieces`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `void_combo_${i}`,
-      name: getRandomVoidComboName(),
-      type: i % 3 === 0 ? 'Creature' : (i % 3 === 1 ? 'Enchantment' : 'Artifact'),
-      cost: { void: Math.min(Math.floor(i/4) + 1, 5) },
-      text: getRandomVoidComboText(),
-      image: '/api/placeholder/200/280'
-    });
-    
-    // Add power/toughness for creatures
-    if (true) {
-    cards[cards.length - 1
-  ].power = Math.min(Math.floor(i/6) + 1, 3);
-      cards[cards.length - 1].toughness = Math.min(Math.floor(i/6) + 1, 3)
-  }
-  }
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 12 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 14 :
+                       difficulty === AI_DIFFICULTY.HARD ? 16 : 18;
   
-  // Add utility spells`
-  for (let i = 0; i < 1; i++) {``
-    cards.push({```
-      id: `void_utility_${i}`,
-      name: getRandomVoidUtilityName(),
-      type: i % 2 === 0 ? 'Instant' : 'Sorcery',
-      cost: { void: Math.min(Math.floor(i/3) + 1, 4) },
-      text: getRandomVoidUtilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 10 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 12 :
+                    difficulty === AI_DIFFICULTY.HARD ? 14 : 16;
   
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (cards[index].text.includes('sacrifice')) {
-    // Improve sacrifice effects
-        cards[index].text = cards[index].text.replace('sacrifice a creature', 'sacrifice a creature: draw a card')
-  } else if (cards[index].text.includes('search')) {
-    // Improve tutoring
-        cards[index].text = cards[index].text.replace('search your library', 'search your library for any card')
-  }
+  // Add creatures
+  for (let i = 0; i < creatureCount; i++) {
+    if (voidCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * voidCards.length);
+      const card = voidCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
+  // Add spells
+  for (let i = 0; i < spellCount; i++) {
+    if (voidCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * voidCards.length);
+      const card = voidCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
+  
+  // Adjust based on personality
+  if (personality === AI_PERSONALITY.COMBO) {
+    // Add more combo cards
+    const comboCards = cardDatabase.void.filter(card => 
+      card.text?.includes('search') || 
+      card.text?.includes('graveyard')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (comboCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * comboCards.length);
+        cards.push({ ...comboCards[randomIndex] });
+      }
+    }
+  } else if (personality === AI_PERSONALITY.CONTROL) {
+    // Add more control cards
+    const controlCards = cardDatabase.void.filter(card => 
+      card.text?.includes('discard') || 
+      card.text?.includes('sacrifice')
+    );
+    
+    for (let i = 0; i < 4; i++) {
+      if (controlCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * controlCards.length);
+        cards.push({ ...controlCards[randomIndex] });
+      }
+    }
+  }
+  
+  return cards;
 };
 
 /**
  * Generate a Multi-Color deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
  */
-const generateMultiColorDeck = (difficulty): any => {;
-  const cards = [
-    ;
+const generateMultiColorDeck = (difficulty: string, personality: string): Card[] => {
+  const cards: Card[] = [];
+  
+  // Add core multi-color cards
+  const multiCards = cardDatabase.multi;
+  
+  // Add creatures based on difficulty
+  const creatureCount = difficulty === AI_DIFFICULTY.EASY ? 14 : 
+                       difficulty === AI_DIFFICULTY.MEDIUM ? 16 :
+                       difficulty === AI_DIFFICULTY.HARD ? 18 : 20;
+  
+  // Add spells based on difficulty
+  const spellCount = difficulty === AI_DIFFICULTY.EASY ? 8 : 
+                    difficulty === AI_DIFFICULTY.MEDIUM ? 10 :
+                    difficulty === AI_DIFFICULTY.HARD ? 12 : 14;
   
   // Add multi-color creatures
-  for (let i = 0; i < 1; i++) {
-    const element1 = getRandomElement() {
-  }
-    let element2 = getRandomElement(() => {
-    while () {
-    element2 = getRandomElement()
-  })
-    
-    const cost = {
-    ;
-    cost[element1
-  ] = Math.min(Math.floor(i/10) + 1, 2);
-    cost[element2] = Math.min(Math.floor(i/10) + 1, 2);`
-    ``
-    cards.push({```
-      id: `multi_creature_${i`
-  }`,
-      name: getRandomMultiCreatureName(),
-      type: 'Creature',
-      cost: cost,
-      power: Math.min(Math.floor(i/6) + 2, 4),
-      toughness: Math.min(Math.floor(i/6) + 2, 4),
-      text: getRandomMultiAbilityText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
-  
-  // Add multi-color spells
-  for (let i = 0; i < 1; i++) {
-    const element1 = getRandomElement() {
-  }
-    let element2 = getRandomElement(() => {
-    while () {
-    element2 = getRandomElement()
-  })
-    
-    const cost = {
-    ;
-    cost[element1] = Math.min(Math.floor(i/8) + 1, 2);
-    cost[element2] = Math.min(Math.floor(i/8) + 1, 2);`
-    ``
-    cards.push({```
-      id: `multi_spell_${i`
-  }`,
-      name: getRandomMultiSpellName(),
-      type: i % 3 === 0 ? 'Instant' : 'Sorcery',
-      cost: cost,
-      text: getRandomMultiSpellText(),
-      image: '/api/placeholder/200/280'
-    })
-  }
-  
-  // Adjust based on difficulty
-  if (true) {
-    // Replace some cards with better versions
-    for (let i = 0; i < 1; i++) {
-  }
-      const index = Math.floor(Math.random() * cards.length);
-      if (true) {
-    cards[index].power += 1;
-        cards[index].toughness += 1
-  } else {
-    // Improve spell effects
-        cards[index].text = cards[index].text.replace('target creature', 'up to two target creatures')
-  }
+  for (let i = 0; i < Math.floor(creatureCount / 2); i++) {
+    if (multiCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * multiCards.length);
+      const card = multiCards[randomIndex];
+      if (card.type === 'familiar') {
+        cards.push({ ...card });
+      }
     }
   }
   
-  return cards
-};
-
-/**
- * Generate a balanced deck
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Deck cards
- */
-const generateBalancedDeck = (difficulty): any => {;
-  const cards = [
-    ;
+  // Add multi-color spells
+  for (let i = 0; i < Math.floor(spellCount / 2); i++) {
+    if (multiCards.length > 0) {
+      const randomIndex = Math.floor(Math.random() * multiCards.length);
+      const card = multiCards[randomIndex];
+      if (card.type === 'spell') {
+        cards.push({ ...card });
+      }
+    }
+  }
   
-  // Add a mix of cards from different elements
-  const fireCards = generateFireAggroDeck(difficulty).slice() {
-    const waterCards = generateWaterControlDeck(difficulty).slice() {
-  }
-  const earthCards = generateEarthMidrangeDeck(difficulty).slice() {
-    const airCards = generateAirTempoDeck(difficulty).slice() {
-  }
-  const voidCards = generateVoidComboDeck(difficulty).slice(() => {
-    cards.push() {
-    return cards
+  // Add some single-color cards from each element
+  const elements = ['fire', 'water', 'earth', 'air', 'void'];
+  
+  elements.forEach(element => {
+    const elementCards = cardDatabase[element as keyof typeof cardDatabase];
+    
+    // Add 2-3 creatures from each element
+    for (let i = 0; i < 2 + Math.floor(Math.random() * 2); i++) {
+      if (elementCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * elementCards.length);
+        const card = elementCards[randomIndex];
+        if (card.type === 'familiar') {
+          cards.push({ ...card });
+        }
+      }
+    }
+    
+    // Add 1-2 spells from each element
+    for (let i = 0; i < 1 + Math.floor(Math.random() * 2); i++) {
+      if (elementCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * elementCards.length);
+        const card = elementCards[randomIndex];
+        if (card.type === 'spell') {
+          cards.push({ ...card });
+        }
+      }
+    }
   });
-
-/**
- * Adjust deck based on AI personality
- * @param {Object} deck - Deck to adjust
- * @param {String} personality - AI personality type
- */
-const adjustDeckForPersonality = (deck, personality): any => {
-    switch (true) {
-    case AI_PERSONALITY.AGGRESSIVE:
-      // Add more low-cost creatures and direct damage
-      deck.cards = deck.cards.filter(card => 
-        !(card.type === 'Creature' && getTotalCost(card) > 4);
-      );
-      
-      // Add some aggressive replacements`
-      for (let i = 0; i < 1; i++) {``
-        deck.cards.push({```
-          id: `aggro_creature_${i`
-  }`,
-          name: getRandomFireCreatureName(),
-          type: 'Creature',
-          cost: { fire: 1 },
-          power: 2,
-          toughness: 1,
-          text: 'Haste',
-          image: '/api/placeholder/200/280'
-        })
-      }
-      break;
-      
-    case AI_PERSONALITY.DEFENSIVE:
-      // Add more high-toughness creatures and defensive spells
-      deck.cards = deck.cards.filter(card => 
-        !(card.type === 'Creature' && card.power > card.toughness + 1);
-      );
-      
-      // Add some defensive replacements`
-      for (let i = 0; i < 1; i++) {``
-        deck.cards.push({```
-          id: `defensive_creature_${i}`,
-          name: getRandomEarthCreatureName(),
-          type: 'Creature',
-          cost: { earth: 2 },
-          power: 1,
-          toughness: 4,
-          text: 'Defender',
-          image: '/api/placeholder/200/280'
-        })
-      }
-      break;
-      
-    case AI_PERSONALITY.CONTROL:
-      // Add more counterspells and removal
-      deck.cards = deck.cards.filter(card => 
-        !(card.type === 'Creature' && getTotalCost(card) < 3);
-      );
-      
-      // Add some control replacements`
-      for (let i = 0; i < 1; i++) {``
-        deck.cards.push({```
-          id: `control_spell_${i}`,
-          name: getRandomCounterspellName(),
-          type: 'Instant',
-          cost: { water: 2 },
-          text: 'Counter target spell.',
-          image: '/api/placeholder/200/280'
-        })
-      }
-      break;
-      
-    case AI_PERSONALITY.COMBO:
-      // Add more card draw and combo pieces
-      deck.cards = deck.cards.filter(card => 
-        !(card.type === 'Creature' && !card.text.includes('draw') && !card.text.includes('search'));
-      );
-      
-      // Add some combo replacements`
-      for (let i = 0; i < 1; i++) {``
-        deck.cards.push({```
-          id: `combo_piece_${i}`,
-          name: getRandomVoidComboName(),
-          type: i % 2 === 0 ? 'Creature' : 'Enchantment',
-          cost: { void: 2 },
-          text: 'Whenever you cast a spell, draw a card.',
-          image: '/api/placeholder/200/280'
-        });
-        
-        // Add power/toughness for creatures
-        if (true) {
-    deck.cards[deck.cards.length - 1
-  ].power = 1;
-          deck.cards[deck.cards.length - 1].toughness = 2
-  }
-      }
-      break
-  }
   
-  // Ensure deck has exactly 36 cards (24 will be added as lands)
-  while () {
-    const randomIndex = Math.floor(Math.random() * deck.cards.length);
-    deck.cards.splice(randomIndex, 1)
-  }
-  
-  while () {
-    // Add generic cards based on personality
-    deck.cards.push(generateGenericCard(personality))
-  }
+  return cards;
 };
 
 /**
  * Generate lands for a deck
- * @param {Array} cards - Deck cards
- * @param {String} archetype - Deck archetype
- * @returns {Array} - Land cards
  */
-const generateLands = (cards, archetype): any => {;
-  const lands = [
-    ;
-  const elementCounts = countElementsInDeck() {
-    const totalElements = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+const generateLands = (cards: Card[], difficulty: string): Card[] => {
+  const lands: Card[] = [];
   
-  // Calculate land distribution
-  const landDistribution = {
-  };
-  for (const [element, count
-  ] of Object.entries(elementCounts)) {
-    landDistribution[element] = Math.round((count / totalElements) * 24)
-  }
-  
-  // Ensure we have exactly 24 lands
-  let totalLands = Object.values(landDistribution).reduce((sum, count) => sum + count, 0);
-  
-  // Adjust if needed
-  while(() => {
-    // Add to the most used element
-    const mostUsedElement = Object.entries() {
-    .sort((a, b) => b[1] - a[1])[0][0];
-    landDistribution[mostUsedElement]++;
-    totalLands++
-  })
-  
-  while () {
-    // Remove from the least used element
-    const leastUsedElement = Object.entries(elementCounts)
-      .filter(([_, count]) => count > 0);
-      .sort((a, b) => a[1] - b[1])[0][0];
-    landDistribution[leastUsedElement]--;
-    totalLands--
-  }
-  
-  // Create land cards
-  for (const [element, count] of Object.entries(landDistribution)) {`
-    for (let i = 0; i < 1; i++) {``
-      lands.push({```
-        id: `${element`
-  }_land_${i}`,```
-        name: `${capitalizeFirstLetter(element)} Source`,``
-        type: 'Land',```
-        text: `Tap: Add one ${element} mana to your mana pool.`,
-        image: '/api/placeholder/200/280'
-      })
-    }
-  }
-  
-  return lands
-};
-
-/**
- * Generate a sideboard for a deck
- * @param {Array} mainDeck - Main deck cards
- * @param {String} archetype - Deck archetype
- * @param {String} difficulty - AI difficulty level
- * @returns {Array} - Sideboard cards
- */
-const generateSideboard = (mainDeck, archetype, difficulty): any => {
-    // This would be more complex in a real implementation
-  // For now, just generate 15 generic cards;
-  const sideboard = [
-    ;
-  
-  for (let i = 0; i < 1; i++) {
-    sideboard.push(generateGenericCard(AI_PERSONALITY.BALANCED))
-  
-  }
-  
-  return sideboard
-};
-
-/**
- * Generate a generic card based on personality
- * @param {String} personality - AI personality type
- * @returns {Object} - Generated card
- */
-const generateGenericCard = (personality): any => {
-    switch (true) {`
-    case AI_PERSONALITY.AGGRESSIVE:``
-      return {```
-        id: `generic_aggro_${Date.now()`
-  }_${Math.random()}`,
-        name: getRandomFireCreatureName(),
-        type: 'Creature',
-        cost: { fire: 2 },
-        power: 3,
-        toughness: 1,
-        text: 'Haste';
-        image: '/api/placeholder/200/280'
-      };`
-    case AI_PERSONALITY.DEFENSIVE:``
-      return {```
-        id: `generic_defense_${Date.now()}_${Math.random()}`,
-        name: getRandomEarthCreatureName(),
-        type: 'Creature',
-        cost: { earth: 2 },
-        power: 1,
-        toughness: 4,
-        text: 'Defender',
-        image: '/api/placeholder/200/280'
-      };`
-    case AI_PERSONALITY.CONTROL:``
-      return {```
-        id: `generic_control_${Date.now()}_${Math.random()}`,
-        name: getRandomCounterspellName(),
-        type: 'Instant',
-        cost: { water: 2 },
-        text: 'Counter target spell.',
-        image: '/api/placeholder/200/280'
-      };`
-    case AI_PERSONALITY.COMBO:``
-      return {```
-        id: `generic_combo_${Date.now()}_${Math.random()}`,
-        name: getRandomCardDrawName(),
-        type: 'Sorcery',
-        cost: { void: 2 },
-        text: 'Draw two cards.',
-        image: '/api/placeholder/200/280'
-      };`
-    default:``
-      return {;```
-        id: `generic_balanced_${Date.now()}_${Math.random()}`,
-        name: getRandomMultiCreatureName(),
-        type: 'Creature',
-        cost: { [getRandomElement()
-  ]: 2 },
-        power: 2,
-        toughness: 2,
-        text: 'When this creature enters the battlefield, draw a card.',
-        image: '/api/placeholder/200/280'
-    }
-  }
-};
-
-/**
- * Count the elements used in a deck
- * @param {Array} cards - Deck cards
- * @returns {Object} - Element counts
- */
-const countElementsInDeck = (cards): any => {
-    const elementCounts = {
+  // Count elements in the deck
+  const elementCounts: Record<string, number> = {
     fire: 0,
     water: 0,
     earth: 0,
-    air: 0;
+    air: 0,
     void: 0
-  
   };
   
-  cards.forEach((card: any) => {
-    if (card.cost) {
-    for (const [element, count] of Object.entries(card.cost)) {
-  }
-        if (true) {
-    elementCounts[element] += count
-  }
+  cards.forEach(card => {
+    card.elements.forEach(element => {
+      if (elementCounts[element] !== undefined) {
+        elementCounts[element]++;
+      }
+    });
+  });
+  
+  // Determine total land count based on difficulty
+  const totalLandCount = difficulty === AI_DIFFICULTY.EASY ? 22 : 
+                        difficulty === AI_DIFFICULTY.MEDIUM ? 24 :
+                        difficulty === AI_DIFFICULTY.HARD ? 26 : 28;
+  
+  // Calculate land distribution based on element counts
+  const totalElementCount = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+  const landDistribution: Record<string, number> = {};
+  
+  Object.keys(elementCounts).forEach(element => {
+    const ratio = totalElementCount > 0 ? elementCounts[element] / totalElementCount : 0;
+    landDistribution[element] = Math.max(1, Math.round(ratio * totalLandCount));
+  });
+  
+  // Add lands based on distribution
+  Object.keys(landDistribution).forEach(element => {
+    const count = landDistribution[element];
+    const elementLands = cardDatabase.lands.filter(land => 
+      land.elements.includes(element) && land.elements.length === 1
+    );
+    
+    for (let i = 0; i < count; i++) {
+      if (elementLands.length > 0) {
+        const randomIndex = Math.floor(Math.random() * elementLands.length);
+        lands.push({ ...elementLands[randomIndex] });
       }
     }
   });
   
-  return elementCounts
+  // Add some dual lands for higher difficulties
+  if (difficulty === AI_DIFFICULTY.HARD || difficulty === AI_DIFFICULTY.EXPERT) {
+    const dualLands = cardDatabase.lands.filter(land => land.elements.length > 1);
+    
+    for (let i = 0; i < 4; i++) {
+      if (dualLands.length > 0) {
+        const randomIndex = Math.floor(Math.random() * dualLands.length);
+        lands.push({ ...dualLands[randomIndex] });
+      }
+    }
+  }
+  
+  return lands;
 };
 
 /**
- * Get total mana cost of a card
- * @param {Object} card - Card to evaluate
- * @returns {Number} - Total mana cost
+ * Generate a sideboard for a deck
  */
-const getTotalCost = (card): any => {;
-  if (!card.cost) return 0;
-  return Object.values(card.cost).reduce((sum, count) => sum + count, 0);
+const generateSideboard = (mainDeck: Card[], difficulty: string): Card[] => {
+  const sideboard: Card[] = [];
+  
+  // Only generate sideboards for higher difficulties
+  if (difficulty === AI_DIFFICULTY.EASY) {
+    return sideboard;
+  }
+  
+  // Count elements in the main deck
+  const elementCounts: Record<string, number> = {
+    fire: 0,
+    water: 0,
+    earth: 0,
+    air: 0,
+    void: 0
+  };
+  
+  mainDeck.forEach(card => {
+    card.elements.forEach(element => {
+      if (elementCounts[element] !== undefined) {
+        elementCounts[element]++;
+      }
+    });
+  });
+  
+  // Find primary elements
+  const primaryElements = Object.keys(elementCounts)
+    .filter(element => elementCounts[element] > 0)
+    .sort((a, b) => elementCounts[b] - elementCounts[a])
+    .slice(0, 2);
+  
+  // Add sideboard cards from primary elements
+  primaryElements.forEach(element => {
+    const elementCards = cardDatabase[element as keyof typeof cardDatabase];
+    
+    // Add cards that aren't in the main deck
+    const uniqueCards = elementCards.filter(card => 
+      !mainDeck.some(mainCard => mainCard.id === card.id)
+    );
+    
+    // Add 3-5 cards from each primary element
+    for (let i = 0; i < 3 + Math.floor(Math.random() * 3); i++) {
+      if (uniqueCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * uniqueCards.length);
+        sideboard.push({ ...uniqueCards[randomIndex] });
+      }
+    }
+  });
+  
+  // Add some utility cards from other elements
+  const otherElements = Object.keys(elementCounts)
+    .filter(element => !primaryElements.includes(element));
+  
+  otherElements.forEach(element => {
+    const elementCards = cardDatabase[element as keyof typeof cardDatabase];
+    
+    // Add 1-2 cards from each other element
+    for (let i = 0; i < 1 + Math.floor(Math.random() * 2); i++) {
+      if (elementCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * elementCards.length);
+        sideboard.push({ ...elementCards[randomIndex] });
+      }
+    }
+  });
+  
+  return sideboard.slice(0, 15); // Limit to 15 cards
 };
 
 /**
- * Get a random element
- * @returns {String} - Random element
+ * Calculate deck statistics
  */
-const getRandomElement = (): any => {;
-  const elements = ['fire', 'water', 'earth', 'air', 'void'];
-  return elements[Math.floor(Math.random() * elements.length)]
+const calculateDeckStats = (deck: Deck): Deck => {
+  // Calculate average cost
+  const nonLandCards = deck.cards.filter(card => card.type !== 'azoth');
+  const totalCost = nonLandCards.reduce((sum, card) => sum + card.cost, 0);
+  deck.averageCost = nonLandCards.length > 0 ? totalCost / nonLandCards.length : 0;
+  
+  // Count card types
+  deck.creatureCount = deck.cards.filter(card => card.type === 'familiar').length;
+  deck.spellCount = deck.cards.filter(card => card.type === 'spell').length;
+  deck.landCount = deck.lands.length;
+  
+  // Determine main colors
+  const elementCounts: Record<string, number> = {
+    fire: 0,
+    water: 0,
+    earth: 0,
+    air: 0,
+    void: 0
+  };
+  
+  deck.cards.forEach(card => {
+    card.elements.forEach(element => {
+      if (elementCounts[element] !== undefined) {
+        elementCounts[element]++;
+      }
+    });
+  });
+  
+  // Main colors are the top 1-2 elements
+  deck.mainColors = Object.keys(elementCounts)
+    .filter(element => elementCounts[element] > 0)
+    .sort((a, b) => elementCounts[b] - elementCounts[a])
+    .slice(0, 2);
+  
+  // Splash colors are elements with fewer cards
+  deck.splashColors = Object.keys(elementCounts)
+    .filter(element => 
+      elementCounts[element] > 0 && 
+      !deck.mainColors.includes(element)
+    );
+  
+  return deck;
 };
 
 /**
- * Capitalize the first letter of a string
- * @param {String} string - String to capitalize
- * @returns {String} - Capitalized string
+ * Generate an AI deck based on archetype, difficulty, and personality
  */
-const capitalizeFirstLetter = (string): any => {;
-  return string.charAt(0).toUpperCase() + string.slice(1)
-};
-
-// Random name generators for cards
-const getRandomFireCreatureName = (): any => {;
-  const prefixes = ['Blazing', 'Fiery', 'Burning', 'Molten', 'Inferno', 'Ember', 'Flame', 'Volcanic'];`
-  const suffixes = ['Elemental', 'Warrior', 'Mage', 'Dragon', 'Phoenix', 'Berserker', 'Shaman', 'Knight'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomFireSpellName = (): any => {;
-  const prefixes = ['Searing', 'Blazing', 'Fiery', 'Burning', 'Molten', 'Inferno', 'Volcanic'];`
-  const suffixes = ['Blast', 'Strike', 'Bolt', 'Wave', 'Eruption', 'Surge', 'Barrage', 'Fury'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomWaterCreatureName = (): any => {;
-  const prefixes = ['Tidal', 'Aquatic', 'Oceanic', 'Abyssal', 'Coral', 'Wave', 'Frost', 'Deep'];`
-  const suffixes = ['Elemental', 'Mage', 'Serpent', 'Leviathan', 'Merfolk', 'Guardian', 'Kraken', 'Hydra'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomCounterspellName = (): any => {;
-  const prefixes = ['Mystic', 'Arcane', 'Cryptic', 'Sudden', 'Forceful', 'Mental', 'Psychic', 'Thought'];`
-  const suffixes = ['Denial', 'Negation', 'Counterspell', 'Dissipation', 'Nullification', 'Rejection', 'Cancellation', 'Veto'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomCardDrawName = (): any => {;
-  const prefixes = ['Deep', 'Careful', 'Thoughtful', 'Insightful', 'Profound', 'Ancestral', 'Mystical', 'Arcane'];`
-  const suffixes = ['Insight', 'Study', 'Meditation', 'Contemplation', 'Analysis', 'Divination', 'Revelation', 'Epiphany'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomEarthCreatureName = (): any => {;
-  const prefixes = ['Ancient', 'Verdant', 'Primal', 'Towering', 'Massive', 'Colossal', 'Primordial', 'Titanic'];`
-  const suffixes = ['Elemental', 'Wurm', 'Beast', 'Treefolk', 'Golem', 'Guardian', 'Behemoth', 'Colossus'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomRampSpellName = (): any => {;
-  const prefixes = ['Natural', 'Wild', 'Primal', 'Verdant', 'Fertile', 'Abundant', 'Lush', 'Thriving'];`
-  const suffixes = ['Growth', 'Cultivation', 'Abundance', 'Flourishing', 'Renewal', 'Expansion', 'Enrichment', 'Vitality'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomEarthUtilityName = (): any => {;
-  const prefixes = ['Natural', 'Primal', 'Verdant', 'Wild', 'Earthen', 'Sylvan', 'Gaea\'s', 'Titanic'];`
-  const suffixes = ['Might', 'Vigor', 'Blessing', 'Strength', 'Resilience', 'Endurance', 'Fortitude', 'Resolve'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomAirCreatureName = (): any => {;
-  const prefixes = ['Windswept', 'Aerial', 'Soaring', 'Nimble', 'Swift', 'Zephyr', 'Tempest', 'Cyclonic'];`
-  const suffixes = ['Elemental', 'Djinn', 'Sphinx', 'Eagle', 'Falcon', 'Sprite', 'Harpy', 'Drake'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomBounceSpellName = (): any => {;
-  const prefixes = ['Sudden', 'Swift', 'Temporal', 'Ethereal', 'Fleeting', 'Momentary', 'Transient', 'Ephemeral'];`
-  const suffixes = ['Displacement', 'Banishment', 'Expulsion', 'Repulsion', 'Rejection', 'Departure', 'Retreat', 'Dismissal'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomAirUtilityName = (): any => {;
-  const prefixes = ['Windswept', 'Aerial', 'Swift', 'Nimble', 'Zephyr\'s', 'Tempest', 'Cyclonic', 'Gust'];`
-  const suffixes = ['Tactics', 'Maneuver', 'Stratagem', 'Approach', 'Method', 'Technique', 'Ploy', 'Gambit'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomVoidCreatureName = (): any => {;
-  const prefixes = ['Void', 'Shadow', 'Spectral', 'Ethereal', 'Phantom', 'Umbral', 'Abyssal', 'Nether'];`
-  const suffixes = ['Elemental', 'Wraith', 'Specter', 'Shade', 'Revenant', 'Apparition', 'Phantom', 'Entity'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomVoidComboName = (): any => {;
-  const prefixes = ['Void', 'Dark', 'Forbidden', 'Unholy', 'Sinister', 'Malevolent', 'Nefarious', 'Eldritch'];`
-  const suffixes = ['Pact', 'Ritual', 'Covenant', 'Bargain', 'Contract', 'Communion', 'Convergence', 'Synthesis'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomVoidUtilityName = (): any => {;
-  const prefixes = ['Void', 'Dark', 'Shadow', 'Nether', 'Umbral', 'Abyssal', 'Eldritch', 'Occult'];`
-  const suffixes = ['Manipulation', 'Exploitation', 'Utilization', 'Machination', 'Calculation', 'Operation', 'Orchestration', 'Manifestation'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomMultiCreatureName = (): any => {;
-  const prefixes = ['Elemental', 'Prismatic', 'Chromatic', 'Iridescent', 'Kaleidoscopic', 'Convergent', 'Harmonic', 'Synergistic'];`
-  const suffixes = ['Avatar', 'Archon', 'Sovereign', 'Paragon', 'Champion', 'Harbinger', 'Exemplar', 'Incarnation'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-const getRandomMultiSpellName = (): any => {;
-  const prefixes = ['Elemental', 'Prismatic', 'Chromatic', 'Convergent', 'Harmonic', 'Synergistic', 'Unified', 'Coalescent'];`
-  const suffixes = ['Confluence', 'Fusion', 'Synthesis', 'Convergence', 'Harmony', 'Synergy', 'Unity', 'Coalescence'];``
-  ```
-  return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`
-};
-
-// Random ability text generators
-const getRandomFireAbilityText = (): any => {
-    const abilities = [
-    'When this creature enters the battlefield, it deals 1 damage to target creature or player.',
-    'Whenever this creature attacks, it deals 1 damage to target creature or player.',
-    'Sacrifice this creature: It deals 2 damage to target creature or player.',
-    'Haste',
-    'First Strike',
-    'When this creature dies, it deals 2 damage to target creature or player.',
-    'Whenever you cast a fire spell, this creature gets +1/+0 until end of turn.',
-    'Whenever this creature deals combat damage to a player, it deals 1 damage to each creature that player controls.';
-  ];
+export const generateAIDeck = (
+  archetype: string = AI_ARCHETYPES.BALANCED,
+  difficulty: string = AI_DIFFICULTY.MEDIUM,
+  personality: string = AI_PERSONALITY.BALANCED
+): Deck => {
+  // Base deck structure
+  const deck: Deck = {
+    id: `ai_${archetype}_${Date.now()}`,
+    name: getArchetypeName(archetype, difficulty),
+    cards: [],
+    lands: [],
+    sideboard: [],
+    archetype,
+    difficulty,
+    personality,
+    strategy: '',
+    mainColors: [],
+    splashColors: [],
+    averageCost: 0,
+    creatureCount: 0,
+    spellCount: 0,
+    landCount: 0
+  };
   
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
-
-const getRandomFireSpellText = (): any => {
-    const spellTexts = [
-    'Deal 3 damage to target creature or player.',
-    'Deal 2 damage to each creature your opponents control.',
-    'Deal 4 damage to target creature.',
-    'Deal 1 damage to each creature. Creatures dealt damage this way can\'t block this turn.',
-    'Target creature gets +2/+0 and gains first strike until end of turn.',
-    'Creatures you control get +1/+0 until end of turn.',
-    'Destroy target artifact.',
-    'Deal 2 damage to target creature. If that creature would die this turn, exile it instead.';
-  ];
+  // Generate cards based on archetype
+  switch (archetype) {
+    case AI_ARCHETYPES.FIRE_AGGRO:
+      deck.cards = generateFireAggroDeck(difficulty, personality);
+      deck.strategy = 'Aggressive deck that aims to win quickly with direct damage and fast creatures';
+      break;
+    case AI_ARCHETYPES.WATER_CONTROL:
+      deck.cards = generateWaterControlDeck(difficulty, personality);
+      deck.strategy = 'Control deck that counters opponent\'s spells and draws cards for card advantage';
+      break;
+    case AI_ARCHETYPES.EARTH_MIDRANGE:
+      deck.cards = generateEarthMidrangeDeck(difficulty, personality);
+      deck.strategy = 'Midrange deck that plays efficient creatures and buffs them for value';
+      break;
+    case AI_ARCHETYPES.AIR_TEMPO:
+      deck.cards = generateAirTempoDeck(difficulty, personality);
+      deck.strategy = 'Tempo deck that plays evasive creatures and disrupts the opponent\'s game plan';
+      break;
+    case AI_ARCHETYPES.VOID_COMBO:
+      deck.cards = generateVoidComboDeck(difficulty, personality);
+      deck.strategy = 'Combo deck that disrupts the opponent\'s hand while setting up powerful combinations';
+      break;
+    case AI_ARCHETYPES.MULTI_COLOR:
+      deck.cards = generateMultiColorDeck(difficulty, personality);
+      deck.strategy = 'Flexible deck that uses cards from multiple elements for versatility';
+      break;
+    default:
+      deck.cards = generateMultiColorDeck(difficulty, personality);
+      deck.strategy = 'Balanced deck with a mix of creatures and spells';
+  }
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
-
-const getRandomWaterAbilityText = (): any => {
-    const abilities = [
-    'When this creature enters the battlefield, draw a card.',
-    'Whenever you cast a water spell, you may tap or untap target creature.',
-    'Tap: Draw a card, then discard a card.',
-    'This creature can\'t be blocked.',
-    'When this creature enters the battlefield, return target creature to its owner\'s hand.',
-    'Whenever this creature deals combat damage to a player, you may draw a card.',
-    'This creature gets +1/+1 as long as you control a water source.',
-    'When this creature dies, draw a card.';
-  ];
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
-
-const getRandomCounterspellText = (): any => {
-    const spellTexts = [
-    'Counter target spell.',
-    'Counter target creature spell.',
-    'Counter target non-creature spell.',
-    'Counter target spell unless its controller pays 2 mana.',
-    'Counter target spell. Its controller may draw a card.',
-    'Counter target spell with converted mana cost 3 or less.',
-    'Counter target spell. If that spell is countered this way, exile it instead of putting it into its owner\'s graveyard.',
-    'Counter target spell. You lose 2 life.';
-  ];
+  // Generate lands
+  deck.lands = generateLands(deck.cards, difficulty);
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
-
-const getRandomCardDrawText = (): any => {
-    const spellTexts = [
-    'Draw two cards.',
-    'Draw a card, then draw another card if you control a water source.',
-    'Draw three cards, then discard a card.',
-    'Look at the top three cards of your library. Put one into your hand and the rest on the bottom of your library in any order.',
-    'Draw a card for each water source you control.',
-    'Target player draws two cards.',
-    'Each player draws a card.',
-    'Draw a card. If you control three or more water sources, draw another card.';
-  ];
+  // Generate sideboard
+  deck.sideboard = generateSideboard(deck.cards, difficulty);
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
+  // Calculate deck statistics
+  return calculateDeckStats(deck);
+};
 
-const getRandomEarthAbilityText = (): any => {
-    const abilities = [
-    'When this creature enters the battlefield, you may search your library for a basic land card, reveal it, put it into your hand, then shuffle.',
-    'This creature gets +0/+2 as long as you control an earth source.',
-    'Whenever this creature blocks, it gets +0/+3 until end of turn.',
-    'When this creature enters the battlefield, you gain 3 life.',
-    'This creature can block an additional creature each combat.',
-    'Whenever another creature enters the battlefield under your control, this creature gets +1/+1 until end of turn.',
-    'Tap: Add one mana of any color.',
-    'This creature can\'t be the target of fire spells or abilities from fire sources.';
-  ];
+/**
+ * Generate multiple AI decks for a tournament
+ */
+export const generateAIDecksForTournament = (
+  count: number,
+  difficultyRange: string[] = [AI_DIFFICULTY.MEDIUM, AI_DIFFICULTY.HARD],
+  personalityDistribution: Record<string, number> = {
+    [AI_PERSONALITY.AGGRESSIVE]: 0.3,
+    [AI_PERSONALITY.DEFENSIVE]: 0.2,
+    [AI_PERSONALITY.BALANCED]: 0.2,
+    [AI_PERSONALITY.CONTROL]: 0.2,
+    [AI_PERSONALITY.COMBO]: 0.1
+  }
+): Deck[] => {
+  const decks: Deck[] = [];
   
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
-
-const getRandomRampSpellText = (): any => {
-    const spellTexts = [
-    'Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.',
-    'Search your library for up to two basic land cards, reveal them, put them into your hand, then shuffle.',
-    'Target land you control becomes a 3/3 elemental creature with haste until end of turn. It\'s still a land.',
-    'Put target land card from a graveyard onto the battlefield under your control.',
-    'Creatures you control get +0/+2 until end of turn.',
-    'You gain 3 life for each earth source you control.',
-    'Destroy target artifact or enchantment.',
-    'Create a 3/3 green Elemental creature token.';
-  ];
+  // Generate decks
+  for (let i = 0; i < count; i++) {
+    // Randomly select archetype
+    const archetypes = Object.values(AI_ARCHETYPES);
+    const archetype = archetypes[Math.floor(Math.random() * archetypes.length)];
+    
+    // Randomly select difficulty from range
+    const difficulty = difficultyRange[Math.floor(Math.random() * difficultyRange.length)];
+    
+    // Select personality based on distribution
+    const personalities = Object.keys(personalityDistribution);
+    const personalityRandom = Math.random();
+    let cumulativeProbability = 0;
+    let personality = AI_PERSONALITY.BALANCED;
+    
+    for (const p of personalities) {
+      cumulativeProbability += personalityDistribution[p];
+      if (personalityRandom <= cumulativeProbability) {
+        personality = p;
+        break;
+      }
+    }
+    
+    // Generate deck
+    const deck = generateAIDeck(archetype, difficulty, personality);
+    decks.push(deck);
+  }
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
+  return decks;
+};
 
-const getRandomEarthUtilityText = (): any => {
-    const spellTexts = [
-    'Target creature gets +2/+2 until end of turn.',
-    'Regenerate target creature.',
-    'Target creature gains hexproof until end of turn.',
-    'Target creature gets +1/+1 for each earth source you control until end of turn.',
-    'Creatures you control gain trample until end of turn.',
-    'Prevent all combat damage that would be dealt this turn.',
-    'Target creature fights target creature an opponent controls.',
-    'Create two 1/1 green Saproling creature tokens.';
-  ];
+/**
+ * Adjust AI deck based on match history and meta
+ */
+export const adjustAIDeck = (
+  deck: Deck,
+  matchHistory: any[],
+  meta: any
+): Deck => {
+  // Clone the deck to avoid modifying the original
+  const adjustedDeck: Deck = JSON.parse(JSON.stringify(deck));
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
-
-const getRandomAirAbilityText = (): any => {
-    const abilities = [
-    'Flying',
-    'When this creature enters the battlefield, tap target creature an opponent controls.',
-    'Whenever this creature deals combat damage to a player, you may return target creature to its owner\'s hand.',
-    'This creature can only be blocked by creatures with flying.',
-    'Whenever you cast an air spell, this creature gets +1/+1 until end of turn.',
-    'When this creature enters the battlefield, look at the top two cards of your library. Put one on top and one on the bottom.',
-    'This creature gets +1/+0 for each air source you control.',
-    'Whenever this creature becomes the target of a spell, you may draw a card.';
-  ];
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
-
-const getRandomBounceSpellText = (): any => {
-    const spellTexts = [
-    'Return target creature to its owner\'s hand.',
-    'Return target nonland permanent to its owner\'s hand.',
-    'Return up to two target creatures to their owners\' hands.',
-    'Return all creatures to their owners\' hands.',
-    'Return target permanent you control and target permanent you don\'t control to their owners\' hands.',
-    'Return target creature to its owner\'s hand. Its controller draws a card.',
-    'Return target creature to its owner\'s hand. You gain 2 life.',
-    'Return target attacking or blocking creature to its owner\'s hand.';
-  ];
+  // Analyze match history to find weaknesses
+  const losses = matchHistory.filter(match => match.result === 'loss');
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
-  };
-
-const getRandomAirUtilityText = (): any => {
-    const spellTexts = [
-    'Tap up to two target creatures.',
-    'Target creature gains flying until end of turn.',
-    'Creatures you control gain flying until end of turn.',
-    'Prevent all combat damage that would be dealt by creatures without flying this turn.',
-    'Look at the top three cards of your library. Put one into your hand and the rest on the bottom of your library in any order.',
-    'Target creature gets -2/-0 until end of turn.',
-    'Creatures your opponents control get -1/-0 until end of turn.',
-    'Target creature can\'t be blocked this turn.';
-  ];
+  if (losses.length === 0) {
+    // No losses, no need to adjust
+    return adjustedDeck;
+  }
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
+  // Count elements that caused losses
+  const elementLosses: Record<string, number> = {
+    fire: 0,
+    water: 0,
+    earth: 0,
+    air: 0,
+    void: 0
   };
-
-const getRandomVoidAbilityText = (): any => {
-    const abilities = [
-    'When this creature dies, each opponent loses 2 life and you gain 2 life.',
-    'Sacrifice another creature: This creature gets +2/+2 until end of turn.',
-    'When this creature enters the battlefield, each player discards a card.',
-    'Whenever you sacrifice another creature, put a +1/+1 counter on this creature.',
-    'When this creature enters the battlefield, exile target card from a graveyard.',
-    'Whenever a creature an opponent controls dies, you gain 1 life.',
-    'This creature gets +1/+1 for each card in your graveyard.',
-    'Whenever this creature deals combat damage to a player, that player discards a card.';
-  ];
   
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
-
-const getRandomVoidComboText = (): any => {
-    const comboTexts = [
-    'Whenever you cast a spell, each opponent loses 1 life.',
-    'At the beginning of your upkeep, sacrifice a creature. If you do, draw a card.',
-    'Whenever a creature dies, put a charge counter on this. Then, if there are three or more charge counters on it, remove them and create a 5/5 black Demon creature token with flying.',
-    'Whenever you gain life, each opponent loses that much life.',
-    'Whenever a creature enters the battlefield under your control, you may pay 1 life. If you do, draw a card.',
-    'Whenever you sacrifice a creature, target opponent sacrifices a creature.',
-    'At the beginning of your end step, if you lost life this turn, create a 2/2 black Zombie creature token.',
-    'Whenever you cast a void spell, target opponent discards a card.';
-  ];
+  losses.forEach(match => {
+    match.opponentDeck.mainColors.forEach((element: string) => {
+      if (elementLosses[element] !== undefined) {
+        elementLosses[element]++;
+      }
+    });
+  });
   
-  return comboTexts[Math.floor(Math.random() * comboTexts.length)]
-  };
-
-const getRandomVoidUtilityText = (): any => {
-    const spellTexts = [
-    'Target player discards two cards.',
-    'Each player sacrifices a creature.',
-    'Target player loses 3 life and you gain 3 life.',
-    'Exile target card from a graveyard. Draw a card.',
-    'Target creature gets -3/-3 until end of turn.',
-    'Search your library for a card, put it into your hand, then shuffle. You lose 2 life.',
-    'Return target creature card from your graveyard to your hand.',
-    'Create a 2/2 black Zombie creature token.';
-  ];
+  // Find the element that caused the most losses
+  const worstMatchup = Object.keys(elementLosses)
+    .sort((a, b) => elementLosses[b] - elementLosses[a])[0];
   
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]
+  // Add cards that are good against the worst matchup
+  const counterCards: Record<string, string[]> = {
+    fire: ['water', 'earth'],
+    water: ['earth', 'void'],
+    earth: ['air', 'fire'],
+    air: ['fire', 'void'],
+    void: ['water', 'air']
   };
-
-const getRandomMultiAbilityText = (): any => {
-    const abilities = [
-    'When this creature enters the battlefield, you gain 2 life and draw a card.',
-    'This creature has vigilance and trample.',
-    'This creature has flying and first strike.',
-    'When this creature dies, it deals 2 damage to target creature and you gain 2 life.',
-    'Whenever you cast a multi-colored spell, put a +1/+1 counter on this creature.',
-    'This creature gets +1/+1 for each different type of mana used to cast it.';
-    'When this creature enters the battlefield, choose one — Create a 1/1 token; or Draw a card; or Gain 3 life.',
-    'This creature has protection from mono-colored spells.'
-  ];
   
-  return abilities[Math.floor(Math.random() * abilities.length)]
-  };
+  const counterElements = counterCards[worstMatchup] || [];
+  
+  // Add 3-5 cards that counter the worst matchup
+  for (let i = 0; i < 3 + Math.floor(Math.random() * 3); i++) {
+    if (counterElements.length > 0) {
+      const element = counterElements[Math.floor(Math.random() * counterElements.length)];
+      const elementCards = cardDatabase[element as keyof typeof cardDatabase];
+      
+      if (elementCards.length > 0) {
+        const randomIndex = Math.floor(Math.random() * elementCards.length);
+        const card = elementCards[randomIndex];
+        
+        // Replace a random card of the same type
+        const sameTypeCards = adjustedDeck.cards.filter(c => c.type === card.type);
+        if (sameTypeCards.length > 0) {
+          const replaceIndex = adjustedDeck.cards.indexOf(
+            sameTypeCards[Math.floor(Math.random() * sameTypeCards.length)]
+          );
+          adjustedDeck.cards[replaceIndex] = { ...card };
+        } else {
+          // If no cards of the same type, just add it
+          adjustedDeck.cards.push({ ...card });
+        }
+      }
+    }
+  }
+  
+  // Adjust lands to match the new card distribution
+  adjustedDeck.lands = generateLands(adjustedDeck.cards, deck.difficulty);
+  
+  // Recalculate deck statistics
+  return calculateDeckStats(adjustedDeck);
+};
 
-const getRandomMultiSpellText = (): any => {
-    const spellTexts = [;
-    'Choose one — Destroy target artifact; or Destroy target enchantment; or Destroy target land.',
-    'Target creature gets +2/+2 and gains flying and vigilance until end of turn.',
-    'Deal 2 damage to target creature and you gain 2 life.',
-    'Counter target spell. Its controller loses 2 life.',
-    'Create a 2/2 green and blue Elemental creature token with flying and hexproof.',
-    'Draw a card, then add one mana of any color.',
-    'Target player discards a card, then draws a card.',
-    'Exile target creature. Its controller gains life equal to its power.'
-  ];
-  `
-  return spellTexts[Math.floor(Math.random() * spellTexts.length)]``
-  };```
+export default {
+  generateAIDeck,
+  generateAIDecksForTournament,
+  adjustAIDeck
+};
