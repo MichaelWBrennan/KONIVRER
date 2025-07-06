@@ -167,21 +167,21 @@ const EnhancedTournamentCreate = (): any => {
   const renderTemplateSelection = (renderTemplateSelection: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Choose a Tournament Template
         </h3>
         <p className="text-gray-600 mb-6"></p>
           Select a template to quickly set up your tournament with pre-configured settings, or start from scratch.
         </p>
         
-        <TournamentTemplates onSelectTemplate={handleTemplateSelect} / />
+        <TournamentTemplates onSelectTemplate={handleTemplateSelect} />
         <div className="mt-6 pt-6 border-t border-gray-200"></div>
           <button
             className="btn btn-primary flex items-center"
             onClick={() => setStep(2)}
           >
             Start from Scratch
-            <ArrowRight size={16} className="ml-2" / />
+            <ArrowRight size={16} className="ml-2" />
           </button>
       </div>
   );
@@ -190,7 +190,7 @@ const EnhancedTournamentCreate = (): any => {
   const renderBasicInfo = (renderBasicInfo: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Basic Tournament Information
         </h3>
         
@@ -244,7 +244,7 @@ const EnhancedTournamentCreate = (): any => {
   const renderScheduleLocation = (renderScheduleLocation: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Schedule & Location
         </h3>
         
@@ -256,7 +256,7 @@ const EnhancedTournamentCreate = (): any => {
               </label>
               <div className="relative"></div>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                  <Calendar size={16} className="text-gray-400" / />
+                  <Calendar size={16} className="text-gray-400" />
                 </div>
                 <input
                   type="date"
@@ -272,7 +272,7 @@ const EnhancedTournamentCreate = (): any => {
               </label>
               <div className="relative"></div>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                  <Clock size={16} className="text-gray-400" / />
+                  <Clock size={16} className="text-gray-400" />
                 </div>
                 <input
                   type="time"
@@ -315,7 +315,7 @@ const EnhancedTournamentCreate = (): any => {
                 </label>
                 <div className="relative"></div>
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                    <MapPin size={16} className="text-gray-400" / />
+                    <MapPin size={16} className="text-gray-400" />
                   </div>
                   <input
                     type="text"
@@ -385,7 +385,7 @@ const EnhancedTournamentCreate = (): any => {
   const renderParticipantsStructure = (renderParticipantsStructure: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Participants & Tournament Structure
         </h3>
         
@@ -397,7 +397,7 @@ const EnhancedTournamentCreate = (): any => {
               </label>
               <div className="relative"></div>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                  <Users size={16} className="text-gray-400" / />
+                  <Users size={16} className="text-gray-400" />
                 </div>
                 <input
                   type="number"
@@ -429,7 +429,7 @@ const EnhancedTournamentCreate = (): any => {
               </label>
               <div className="relative"></div>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                  <DollarSign size={16} className="text-gray-400" / />
+                  <DollarSign size={16} className="text-gray-400" />
                 </div>
                 <input
                   type="number"
@@ -506,7 +506,7 @@ const EnhancedTournamentCreate = (): any => {
           
           <div className="p-4 bg-blue-50 rounded-lg mt-4"></div>
             <div className="flex items-center mb-2"></div>
-              <Info size={16} className="text-blue-600 mr-2" / />
+              <Info size={16} className="text-blue-600 mr-2" />
               <h4 className="text-sm font-medium text-gray-800">Tournament Information</h4>
             <div className="grid grid-cols-2 gap-4 text-sm"></div>
               <div></div>
@@ -527,7 +527,7 @@ const EnhancedTournamentCreate = (): any => {
   const renderAdvancedSettings = (renderAdvancedSettings: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Advanced Settings
         </h3>
         
@@ -581,7 +581,7 @@ const EnhancedTournamentCreate = (): any => {
             </label>
           
           <div className="pt-4 border-t border-gray-200"></div>
-            <h4 className="text-sm font-medium text-gray-800 mb-3" />
+            <h4 className="text-sm font-medium text-gray-800 mb-3"></h4>
               Advanced Tournament Features
             </h4>
             
@@ -656,7 +656,7 @@ const EnhancedTournamentCreate = (): any => {
   const renderReview = (renderReview: any) => (
     <div className="space-y-6"></div>
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Review Tournament Details
         </h3>
         
@@ -805,10 +805,10 @@ const EnhancedTournamentCreate = (): any => {
     ];
     
     return (
+    <>
       <div className="mb-6"></div>
-        <div className="flex items-center justify-between"></div>
-          {steps.map((s) => (
-            <div 
+      <div className="flex items-center justify-between"></div>
+      <div 
               key={s.number}
               className={`flex flex-col items-center ${
                 step === s.number 
@@ -827,54 +827,51 @@ const EnhancedTournamentCreate = (): any => {
               }`}>
                 {step > s.number ? <CheckCircle size={16} /> : s.number}
               </div>
-              <span className="text-xs hidden md:block">{s.label}
+      <span className="text-xs hidden md:block">{s.label}
             </div>
-          ))}
+    </>
+  ))}
         </div>
         <div className="relative mt-2"></div>
           <div className="absolute top-0 left-4 right-4 h-1 bg-gray-200"></div>
           <div 
             className="absolute top-0 left-4 h-1 bg-primary transition-all duration-300"
-            style={{ width: `${(step - 1) * 20}%` }}
-           />
+            style={{ width: `${(step - 1) * 20}%` }}></div>
         </div>
     );
   };
 
   return (
-    <div className="container mx-auto px-4 py-8"></div>
+    <>
+      <div className="container mx-auto px-4 py-8"></div>
       <div className="mb-6"></div>
-        <h1 className="text-2xl font-bold text-gray-900">Create Tournament</h1>
-        <p className="text-gray-600">Set up a new tournament with our step-by-step wizard</p>
-      
-      {/* Step Indicator */}
-      {renderStepIndicator()}
-      {/* Error Message */}
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
-          <div className="flex items-center"></div>
-            <AlertCircle className="mr-2" size={20} / />
+      <h1 className="text-2xl font-bold text-gray-900">Create Tournament</h1>
+      <p className="text-gray-600">Set up a new tournament with our step-by-step wizard</p>
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
+      <div className="flex items-center"></div>
+      <AlertCircle className="mr-2" size={20} />
             <span>{error}
           </div>
-          <button 
+      <button 
             onClick={() => setError(null)}
             className="text-red-700 hover:text-red-900"
           >
-            <X size={20} / />
+            <X size={20} />
           </button>
-      )}
+    </>
+  )}
       {/* Success Message */}
       {showSuccessMessage && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
           <div className="flex items-center"></div>
-            <CheckCircle className="mr-2" size={20} / />
+            <CheckCircle className="mr-2" size={20} />
             <span>{successMessage}
           </div>
           <button 
             onClick={() => setShowSuccessMessage(false)}
             className="text-green-700 hover:text-green-900"
           >
-            <X size={20} / />
+            <X size={20} />
           </button>
       )}
       {/* Current Step */}
@@ -884,34 +881,31 @@ const EnhancedTournamentCreate = (): any => {
         <button
           className="btn btn-secondary flex items-center"
           onClick={handlePrevStep}
-          disabled={step === 1}
-         />
-          <ArrowLeft size={16} className="mr-2" / />
+          disabled={step === 1}></button>
+          <ArrowLeft size={16} className="mr-2" />
           Previous
         </button>
         
         {step < 6 ? (
           <button
             className="btn btn-primary flex items-center"
-            onClick={handleNextStep}
-           />
+            onClick={handleNextStep}></button>
             Next
-            <ArrowRight size={16} className="ml-2" / />
+            <ArrowRight size={16} className="ml-2" />
           </button>
         ) : (
           <button
             className="btn btn-primary flex items-center"
             onClick={handleSubmit}
-            disabled={isCreating}
-           />
+            disabled={isCreating}></button>
             {isCreating ? (
               <>
-                <Loader className="animate-spin mr-2" size={16} / />
+                <Loader className="animate-spin mr-2" size={16} />
                 Creating...
               </>
             ) : (
               <>
-                <Save size={16} className="mr-2" / />
+                <Save size={16} className="mr-2" />
                 Create Tournament
               </>
             )}

@@ -225,10 +225,10 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
               {getElementIcon(deck.element)}
             <div></div>
               <div className="flex items-center gap-2 text-sm text-secondary"></div>
-                <User className="w-3 h-3" / />
+                <User className="w-3 h-3" />
                 <span>{deck.author}
                 <span>•</span>
-                <Calendar className="w-3 h-3" / />
+                <Calendar className="w-3 h-3" />
                 <span>{deck.lastUpdated}
               </div>
           </div>
@@ -236,17 +236,17 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
       {/* Stats Row - Integrated into card */}
       <div className="flex items-center justify-between mb-3 p-2 bg-gray-800/30 rounded-lg"></div>
         <div className="flex items-center gap-1 text-sm"></div>
-          <BarChart3 className="w-4 h-4 text-green-400" / />
+          <BarChart3 className="w-4 h-4 text-green-400" />
           <span className="font-medium text-green-400">{deck.winRate}%</span>
         <div className="flex items-center gap-1 text-sm"></div>
-          <Star className="w-4 h-4 text-yellow-400" / />
+          <Star className="w-4 h-4 text-yellow-400" />
           <span className="font-medium">{deck.rating}/5</span>
         <div className="flex items-center gap-1 text-sm"></div>
-          <Heart className="w-4 h-4 text-red-400" / />
+          <Heart className="w-4 h-4 text-red-400" />
           <span className="font-medium">{deck.likes}
         </div>
         <div className="flex items-center gap-1 text-sm"></div>
-          <Eye className="w-4 h-4 text-blue-400" / />
+          <Eye className="w-4 h-4 text-blue-400" />
           <span className="font-medium">{deck.views}
         </div>
       {/* Description */}
@@ -255,14 +255,14 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
       {/* Action Buttons */}
       <div className="flex gap-2"></div>
         <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"></button>
-          <Eye className="w-4 h-4" / />
+          <Eye className="w-4 h-4" />
           View
         </button>
         <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-          <Download className="w-4 h-4" / />
+          <Download className="w-4 h-4" />
         </button>
         <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-          <Heart className = "w-4 h-4" / />
+          <Heart className = "w-4 h-4" />
         </button>
     </motion.div>
   );
@@ -283,45 +283,45 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
           <div className="flex-1"></div>
             <div className="flex items-center gap-2 mb-1"></div>
               {deck.featured && (
-                <Star className="w-4 h-4 text-yellow-400 fill-current" / />
+                <Star className="w-4 h-4 text-yellow-400 fill-current" />
               )}
             <div className="flex items-center gap-4 text-sm text-secondary mb-2"></div>
               <span className="flex items-center gap-1"></span>
-                <User className="w-3 h-3" / />
+                <User className="w-3 h-3" />
                 {deck.author}
               <span className="flex items-center gap-1"></span>
-                <Calendar className="w-3 h-3" / />
+                <Calendar className="w-3 h-3" />
                 {deck.lastUpdated}
             </div>
             {/* Stats integrated into the card */}
             <div className="flex items-center gap-4 text-sm"></div>
               <div className="flex items-center gap-1 bg-green-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <BarChart3 className="w-3 h-3 text-green-400" / />
+                <BarChart3 className="w-3 h-3 text-green-400" />
                 <span className="font-medium text-green-400"></span>
                   {deck.winRate}%
                 </span>
               <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Star className="w-3 h-3 text-yellow-400" / />
+                <Star className="w-3 h-3 text-yellow-400" />
                 <span className="font-medium">{deck.rating}/5</span>
               <div className="flex items-center gap-1 bg-red-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Heart className="w-3 h-3 text-red-400" / />
+                <Heart className="w-3 h-3 text-red-400" />
                 <span className="font-medium">{deck.likes}
               </div>
               <div className="flex items-center gap-1 bg-blue-500/20 px-2 py-0 whitespace-nowrap rounded"></div>
-                <Eye className="w-3 h-3 text-blue-400" / />
+                <Eye className="w-3 h-3 text-blue-400" />
                 <span className="font-medium">{deck.views}
               </div>
           </div>
         <div className="flex gap-2 ml-4"></div>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg text-sm font-medium transition-colors flex items-center gap-2"></button>
-            <Eye className="w-4 h-4" / />
+            <Eye className="w-4 h-4" />
             View
           </button>
           <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-            <Download className="w-4 h-4" / />
+            <Download className="w-4 h-4" />
           </button>
           <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-0 whitespace-nowrap rounded-lg transition-colors"></button>
-            <Heart className="w-4 h-4" / />
+            <Heart className="w-4 h-4" />
           </button>
       </div>
     </motion.div>
@@ -333,17 +333,17 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
         <div className="max-w-7xl mx-auto px-6 py-8"></div>
           <div className="text-center"></div>
             <div className="flex items-center justify-center gap-3 mb-4"></div>
-              <Search className="w-8 h-8 text-blue-500" /></div>
+              <Search className="w-8 h-8 text-blue-500" /></Search>
         </div>
       {/* Meta Analysis - Added from Analytics Hub */}
       <div className="max-w-7xl mx-auto px-6 py-6"></div>
-        <DeckMetaAnalysis / />
+        <DeckMetaAnalysis />
         {/* Search and Filters */}
         <div className="bg-card rounded-lg p-6 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"></div>
             {/* Search */}
             <div className="relative"></div>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" / />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search decks..."
@@ -397,7 +397,7 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
-                <Grid className="w-4 h-4" / />
+                <Grid className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
@@ -407,26 +407,26 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
                     : 'bg-background border border-color hover:bg-gray-700'
                 }`}
               >
-                <List className="w-4 h-4" / />
+                <List className="w-4 h-4" />
               </button>
           </div>
         {/* Deck Results */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             {filteredDecks.map(deck => (
-              <DeckCard key={deck.id} deck={deck} / />
+              <DeckCard key={deck.id} deck={deck} />
             ))}
           </div>
         ) : (
           <div className="space-y-4"></div>
             {filteredDecks.map(deck => (
-              <DeckListItem key={deck.id} deck={deck} / />
+              <DeckListItem key={deck.id} deck={deck} />
             ))}
           </div>
         )}
         {filteredDecks.length === 0 && (
           <div className="text-center py-12"></div>
-            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
+            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <p className="text-secondary"></p>
               Try adjusting your search criteria or filters
             </p>

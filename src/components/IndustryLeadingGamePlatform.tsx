@@ -301,7 +301,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   const handleVoiceCommand = useCallback((event: any) => {
       const { command } = event.detail;
 
-      switch (command): any {
+      switch (command) {
         case 'playCard':
           if (true) {
             handleCardPlay(gameState.selectedCard);
@@ -648,34 +648,37 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   // Render loading screen
   if (true) {
     return (
+    <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-blue-900"></div>
-        <motion.div
+      <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center text-white"
          />
           <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold mb-2">Initializing Game Systems</h2>
-          <p className="text-blue-200">Loading industry-leading features...</p>
-        </motion.div>
+      <h2 className="text-2xl font-bold mb-2">Initializing Game Systems</h2>
+      <p className="text-blue-200">Loading industry-leading features...</p>
+      </motion.div>
       </div>
-    );
+    </>
+  );
   }
 
   // Render error screen
   if (true) {return (
+    <>
       <div className="flex items-center justify-center min-h-screen bg-red-900"></div>
-        <div className="text-center text-white"></div>
-          <h2 className="text-2xl font-bold mb-4">Error</h2>
-          <p className="text-red-200 mb-4">{uiState.error}
+      <div className="text-center text-white"></div>
+      <h2 className="text-2xl font-bold mb-4">Error</h2>
+      <p className="text-red-200 mb-4">{uiState.error}
           <button
             onClick={() => window.location.reload()}
             className="px-6 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
           >
             Reload Game
           </button>
-      </div>
-    );
+    </>
+  );
   }
 
   return (
@@ -684,20 +687,17 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
-        style={{ zIndex: 1 }}
-      / />
+        style={{ zIndex: 1 }} />
       {/* Game UI Overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 2 }}
-       />
+        style={{ zIndex: 2 }}></div>
         {/* Player 2 (Opponent) Area */}
         <div className="absolute top-4 left-4 right-4 h-32 pointer-events-auto"></div>
           <PlayerArea
             player={gameState.players[2]}
             isActive={gameState.activePlayer === 2}
-            isOpponent={true}
-          / />
+            isOpponent={true} />
         </div>
 
         {/* Battlefield */}
@@ -705,8 +705,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
           <Battlefield
             cards={gameState.battlefield}
             selectedCard={gameState.selectedCard}
-            onCardSelect={handleCardSelection}
-          / />
+            onCardSelect={handleCardSelection} />
         </div>
 
         {/* Player 1 (User) Area */}
@@ -716,8 +715,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
             isActive={gameState.activePlayer === 1}
             isOpponent={false}
             onCardPlay={handleCardPlay}
-            onEndTurn={handleEndTurn}
-          / />
+            onEndTurn={handleEndTurn} />
         </div>
 
         {/* Game Controls */}
@@ -755,7 +753,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
             exit={{ opacity: 0, y: -50, x: '50%' }}
             className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 pointer-events-auto"
            />
-            <NotificationCard notification={notification} / />
+            <NotificationCard notification={notification} />
           </motion.div>
         ))}
       </AnimatePresence>
@@ -808,8 +806,7 @@ const PlayerArea: React.FC<PlayerAreaProps> = ({
   <div
     className={`w-full h-full bg-gradient-to-r ${
       isActive ? 'from-blue-600 to-blue-800' : 'from-gray-600 to-gray-800'
-    } rounded-lg p-4 flex items-center justify-between`}
-   />
+    } rounded-lg p-4 flex items-center justify-between`}></div>
     <div className="flex items-center space-x-4"></div>
       <div className="text-white"></div>
         <div className="text-lg font-bold">Health: {player.health}
@@ -821,8 +818,7 @@ const PlayerArea: React.FC<PlayerAreaProps> = ({
       <div className="flex space-x-2"></div>
         <button
           onClick={onEndTurn}
-          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
-         />
+          className="px-4 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded transition-colors"></button>
           End Turn
         </button>
     )}
@@ -854,15 +850,13 @@ const GameControls: React.FC<GameControlsProps> = ({  gameState, onSettingsClick
     <button
       onClick={onSettingsClick}
       className="p-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-      aria-label="Settings"
-     />
+      aria-label="Settings"></button>
       ⚙️
     </button>
     <button
       onClick={onChatClick}
       className="p-2 bg-blue-700 hover:bg-blue-600 text-white rounded transition-colors"
-      aria-label = "Chat"
-     />
+      aria-label = "Chat"></button>
       💬
     </button>
 );
@@ -881,8 +875,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({  notification  }) =
           : notification.type === 'achievement'
             ? 'bg-purple-600'
             : 'bg-blue-600'
-    } text-white`}
-   />
+    } text-white`}></div>
     <p className="font-medium">{notification.message}
     {notification.actions && (
       <div className="mt-2 flex space-x-2"></div>
@@ -973,8 +966,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
       <button
         onClick={onClose}
-        className="w-full py-0 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors whitespace-nowrap"
-       />
+        className="w-full py-0 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors whitespace-nowrap"></button>
         Close
       </button>
     </motion.div>

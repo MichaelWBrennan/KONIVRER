@@ -376,33 +376,27 @@ const EnhancedCardSearch = (): any => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
       <div className="max-w-7xl mx-auto p-4"></div>
-        {/* Header */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
-          <div className="flex items-center justify-between mb-4"></div>
-            <h1 className="text-3xl font-bold text-white">Card Search</h1>
-
-            <div className="flex items-center space-x-4"></div>
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-white"></div>
-                  {ownedCards.size}
-                <div className="text-sm text-gray-300">Owned</div>
-
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-yellow-400"></div>
-                  {wishlist.size}
-                <div className="text-sm text-gray-300">Wishlist</div>
-
-              <div className="text-center"></div>
-                <div className="text-lg font-bold text-red-400"></div>
-                  {favorites.size}
-                <div className="text-sm text-gray-300">Favorites</div>
-            </div>
+      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <h1 className="text-3xl font-bold text-white">Card Search</h1>
+      <div className="flex items-center space-x-4"></div>
+      <div className="text-center"></div>
+      <div className="text-lg font-bold text-white"></div>
+      <div className="text-sm text-gray-300">Owned</div>
+      <div className="text-center"></div>
+      <div className="text-lg font-bold text-yellow-400"></div>
+      <div className="text-sm text-gray-300">Wishlist</div>
+      <div className="text-center"></div>
+      <div className="text-lg font-bold text-red-400"></div>
+      <div className="text-sm text-gray-300">Favorites</div>
+      </div>
 
           {/* Search Bar */}
           <div className="relative mb-4"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
               placeholder="Search cards by name, text, or type..."
@@ -411,23 +405,17 @@ const EnhancedCardSearch = (): any => {
               className="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none text-lg"
             />
           </div>
-
-          {/* Quick Filters */}
-          <div className="flex flex-wrap gap-2 mb-4"></div>
-            <button
-              onClick={() = />
-                setAdvancedSearch(prev => ({ ...prev, type: 'creature' }))}
-              className="px-3 py-0 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white rounded-full text-sm transition-colors"
-            >
-              Creatures
-            </button>
+      <div className="flex flex-wrap gap-2 mb-4"></div>
+      <button
+              onClick={() =></button>
+      </button>
             <button
               onClick={() => setSortBy('owned')}
               className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors"
             >
               Owned First
             </button>
-            <button
+      <button
               onClick={() => {
                 const favoriteCards = [...favorites];
                 setAdvancedSearch(prev => ({ ...prev, name: '' }));
@@ -437,23 +425,18 @@ const EnhancedCardSearch = (): any => {
             >
               Favorites
             </button>
-
-          {/* Advanced Search Toggle */}
-          <button
+      <button
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center space-x-2 text-purple-400 hover:text-purple-300 transition-colors"
           >
-            <Filter className="w-4 h-4" / />
+            <Filter className="w-4 h-4" />
             <span>Advanced Search</span>
-            {showAdvanced ? (
-              <ChevronUp className="w-4 h-4" / />
+      <ChevronUp className="w-4 h-4" />
             ) : (
-              <ChevronDown className="w-4 h-4" / />
+              <ChevronDown className="w-4 h-4" />
             )}
         </div>
-
-        {/* Advanced Search Panel */}
-        <AnimatePresence />
+      <AnimatePresence />
           {showAdvanced && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
@@ -463,10 +446,10 @@ const EnhancedCardSearch = (): any => {
              />
               <AdvancedSearchPanel
                 search={advancedSearch}
-                onSearchChange={setAdvancedSearch}
-              / />
+                onSearchChange={setAdvancedSearch} />
             </motion.div>
-          )}
+    </>
+  )}
         </AnimatePresence>
 
         {/* Controls Bar */}
@@ -487,7 +470,7 @@ const EnhancedCardSearch = (): any => {
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
-                  <Grid className="w-4 h-4" / />
+                  <Grid className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
@@ -497,7 +480,7 @@ const EnhancedCardSearch = (): any => {
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
-                  <List className="w-4 h-4" / />
+                  <List className="w-4 h-4" />
                 </button>
             </div>
 
@@ -516,7 +499,7 @@ const EnhancedCardSearch = (): any => {
                 <option value="owned">Owned</option>
 
               <button
-                onClick={() = />
+                onClick={() =></button>
                   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                 className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
               >
@@ -586,7 +569,7 @@ const EnhancedCardSearch = (): any => {
                 Page {currentPage} of {totalPages}
 
               <button
-                onClick={() = />
+                onClick={() =></button>
                   setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
@@ -827,8 +810,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
             cardName={card.name}
             className="w-full h-full"
             clickable={false}
-            showFallback={true}
-          / />
+            showFallback={true} />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center"></div>
             <div className="text-white text-center p-2"></div>
@@ -873,7 +855,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
               : 'bg-black/50 text-gray-300 hover:text-red-400'
           }`}
         >
-          <Heart className="w-3 h-3" / />
+          <Heart className="w-3 h-3" />
         </button>
 
         <button
@@ -888,9 +870,9 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
           }`}
         >
           {inWishlist ? (
-            <BookmarkCheck className="w-3 h-3" / />
+            <BookmarkCheck className="w-3 h-3" />
           ) : (
-            <Bookmark className="w-3 h-3" / />
+            <Bookmark className="w-3 h-3" />
           )}
       </div>
 
@@ -902,7 +884,7 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
         }}
         className="absolute bottom-2 right-2 p-1 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
       >
-        <Plus className = "w-3 h-3" / />
+        <Plus className = "w-3 h-3" />
       </button>
     </motion.div>
   );
@@ -967,7 +949,7 @@ const CardListItem: React.FC<CardListItemProps> = ({
                 : 'text-gray-400 hover:text-red-400'
             }`}
           >
-            <Heart className="w-4 h-4" / />
+            <Heart className="w-4 h-4" />
           </button>
 
           <button
@@ -982,9 +964,9 @@ const CardListItem: React.FC<CardListItemProps> = ({
             }`}
           >
             {inWishlist ? (
-              <BookmarkCheck className="w-4 h-4" / />
+              <BookmarkCheck className="w-4 h-4" />
             ) : (
-              <Bookmark className="w-4 h-4" / />
+              <Bookmark className="w-4 h-4" />
             )}
 
           <button
@@ -994,7 +976,7 @@ const CardListItem: React.FC<CardListItemProps> = ({
             }}
             className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
           >
-            <Plus className = "w-4 h-4" / />
+            <Plus className = "w-4 h-4" />
           </button>
       </div>
     </motion.div>
@@ -1042,9 +1024,8 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
           <h2 className="text-2xl font-bold text-white">{card.name}
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-white transition-colors"
-           />
-            <X className="w-6 h-6" / />
+            className="p-2 text-gray-400 hover:text-white transition-colors"></button>
+            <X className="w-6 h-6" />
           </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
@@ -1089,9 +1070,8 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
                   isFavorite
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                }`}
-               />
-                <Heart className="w-4 h-4" / />
+                }`}></button>
+                <Heart className="w-4 h-4" />
                 <span>{isFavorite ? 'Unfavorite' : 'Favorite'}
               </button>
 
@@ -1101,12 +1081,11 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
                   inWishlist
                     ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
                     : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                }`}
-               />
+                }`}></button>
                 {inWishlist ? (
-                  <BookmarkCheck className="w-4 h-4" / />
+                  <BookmarkCheck className="w-4 h-4" />
                 ) : (
-                  <Bookmark className="w-4 h-4" / />
+                  <Bookmark className="w-4 h-4" />
                 )}
                 <span></span>
                   {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -1114,9 +1093,8 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
 
               <button
                 onClick={onAddToDeck}
-                className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-               />
-                <Plus className="w-4 h-4" / />
+                className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"></button>
+                <Plus className="w-4 h-4" />
                 <span>Add to Deck</span>
             </div>
         </div>

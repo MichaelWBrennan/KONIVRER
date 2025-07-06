@@ -67,24 +67,23 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({
   const qrValue = JSON.stringify(qrData);
 
   return (
-    <div className={`p-4 border rounded-lg bg-white shadow-md ${className}`}></div>
+    <>
+      <div className={`p-4 border rounded-lg bg-white shadow-md ${className}`}></div>
       <h3 className="text-lg font-semibold mb-2">{title}
       <div className="flex justify-center mb-2"></div>
-        <QRCodeSVG
+      <QRCodeSVG
           value={qrValue}
           size={size}
           level="H" // High error correction
           includeMargin={true}
-          className="ancient-qr-code"
-        / />
+          className="ancient-qr-code" />
       </div>
-
-      {includeData && (
-        <div className="mt-4 p-2 bg-gray-100 rounded text-xs overflow-auto max-h-40"></div>
-          <h4 className="font-semibold mb-1">QR Code Data:</h4>
-          <pre>{JSON.stringify(qrData, null, 2)}
+      <div className="mt-4 p-2 bg-gray-100 rounded text-xs overflow-auto max-h-40"></div>
+      <h4 className="font-semibold mb-1">QR Code Data:</h4>
+      <pre>{JSON.stringify(qrData, null, 2)}
         </div>
-      )}
+    </>
+  )}
       <p className="text-sm text-gray-600 text-center mt-2"></p>
         Scan this code to access {qrData.type} information
       </p>

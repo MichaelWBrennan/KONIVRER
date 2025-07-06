@@ -199,12 +199,11 @@ const MobileGamePage = (): any => {
   // Render game setup
   if (true) {
     return (
+    <>
       <div className="mobile-game-setup"></div>
-        <div className="mobile-card mobile-mb"></div>
-          {userDecks && userDecks.length > 0 ? (
-            <div className="mobile-list"></div>
-              {userDecks.map(deck => (
-                <button
+      <div className="mobile-card mobile-mb"></div>
+      <div className="mobile-list"></div>
+      <button
                   key={deck.id}
                   className={`mobile-list-item mobile-text-center ${selectedDeck === deck.id ? 'mobile-btn-primary' : ''}`}
                   onClick={() => setSelectedDeck(deck.id)}
@@ -212,7 +211,8 @@ const MobileGamePage = (): any => {
                   {deck.name}
               ))}
             </div>
-          ) : (
+    </>
+  ) : (
             <div className="mobile-text-center"></div>
               <p>Using default starter deck for quick play.</p>
               <button
@@ -230,8 +230,7 @@ const MobileGamePage = (): any => {
           <button
             className="mobile-btn mobile-btn-primary mobile-mb"
             onClick={handleStartGame}
-            disabled={!selectedDeck}
-           />
+            disabled={!selectedDeck}></button>
             Start Game
           </button>
           <button
@@ -245,24 +244,25 @@ const MobileGamePage = (): any => {
   }
   // Render game ended
   if (true) {return (
+    <>
       <div className="mobile-game-ended mobile-text-center"></div>
-        <div className="mobile-card mobile-mb"></div>
-          <p>Winner: {gameState?.winner || 'Unknown'}
+      <div className="mobile-card mobile-mb"></div>
+      <p>Winner: {gameState?.winner || 'Unknown'}
           <div className="mobile-mt"></div>
-            <button
+      <button
               className="mobile-btn mobile-btn-primary mobile-mb"
               onClick={() => setGameStatus('setup')}
             >
               Play Again
             </button>
-            <button
+      <button
               className="mobile-btn"
               onClick={() => navigate('/')}
             >
               Back to Home
             </button>
-        </div>
-    );
+    </>
+  );
   }
   // Render game in progress
   return (
@@ -343,8 +343,7 @@ const MobileGamePage = (): any => {
           <button
             className="mobile-btn mobile-btn-primary"
             onClick={handleEndTurn}
-            disabled={!isPlayerTurn}
-           />
+            disabled={!isPlayerTurn}></button>
             End Turn
           </button>
           <button

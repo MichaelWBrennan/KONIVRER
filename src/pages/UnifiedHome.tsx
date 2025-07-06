@@ -439,8 +439,7 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
                   <div className="w-full bg-gray-700 rounded-full h-2">
                     <div 
                       className="bg-blue-500 h-2 rounded-full" 
-                      style={{ width: `${(quest.progress / quest.total) * 100}%` }}
-                    ></div>
+                      style={{ width: `${(quest.progress / quest.total) * 100}%` }}></div>
                   </div>
                   <div className="text-xs text-gray-400 mt-1 text-right">
                     {quest.progress}/{quest.total}
@@ -811,8 +810,7 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
                     <div className="w-full bg-gray-600 rounded-full h-2">
                       <div 
                         className="bg-blue-500 h-2 rounded-full" 
-                        style={{ width: `${(quest.progress / quest.total) * 100}%` }}
-                      ></div>
+                        style={{ width: `${(quest.progress / quest.total) * 100}%` }}></div>
                     </div>
                     <div className="text-xs text-gray-400 mt-1 text-right">
                       {quest.progress}/{quest.total}

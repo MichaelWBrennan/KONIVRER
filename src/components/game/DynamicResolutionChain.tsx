@@ -81,7 +81,7 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
         <div className="flex items-center"></div>
           {isWaitingForMe && (
             <div className="flex items-center mr-2"></div>
-              <Clock size={16} className="text-yellow-400 animate-pulse mr-1" / />
+              <Clock size={16} className="text-yellow-400 animate-pulse mr-1" />
               <span className="text-yellow-400 text-xs">Your Response</span>
           )}
         </div>
@@ -104,8 +104,7 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                       key={`${item.card.id}-${index}`}
                       className={`flex items-center p-1.5 rounded mb-1 ${
                         index === 0 ? 'bg-blue-900/50 border border-blue-500' : 'bg-gray-800/50'
-                      }`}
-                     />
+                      }`}></div>
                       <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-600 to-blue-700 flex items-center justify-center text-white text-xs mr-2"></div>
                         {stack.length - index}
                       <div className="flex-1"></div>
@@ -157,8 +156,7 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                 {selectedCard && (
                   <button
                     onClick={handleRespond}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm py-1.5 rounded"
-                   />
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm py-1.5 rounded"></button>
                     Play {selectedCard.name} as Response
                   </button>
                 )}

@@ -16,40 +16,36 @@ const EnhancedPhysicalMatchmaking = (): any => {
   const [showQRData, setShowQRData] = useState(false);
 
   return (
-    <div className="p-4"></div>
+    <>
+      <div className="p-4"></div>
       <h1 className="text-2xl font-bold mb-4">Enhanced Physical Matchmaking</h1>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-        <div className="bg-gray-50 p-4 rounded-lg shadow"></div>
-          <h2 className="text-xl font-semibold mb-3">Physical Matches</h2>
-          <p className="mb-2">Total matches: {matches.length}
+      <div className="bg-gray-50 p-4 rounded-lg shadow"></div>
+      <h2 className="text-xl font-semibold mb-3">Physical Matches</h2>
+      <p className="mb-2">Total matches: {matches.length}
 
           <div className="mb-4"></div>
-            <label className="block text-sm font-medium mb-1"></label>
-              Select a match to generate QR code:
-            </label>
+      <label className="block text-sm font-medium mb-1"></label>
+      </label>
             <select
               className="w-full p-2 border rounded"
               value={selectedMatch || ''}
               onChange={e => setSelectedMatch(e.target.value)}
             >
               <option value="">-- Select a match --</option>
-              {matches.map(match => (
-                <option key={match.id} value={match.id} />
+      <option key={match.id} value={match.id} />
                   Match #{match.id.substring(0, 6)} -{' '}
                   {match.player1?.name || 'Player 1'} vs{' '}
                   {match.player2?.name || 'Player 2'}
               ))}
             </select>
-
-          {selectedMatch && (
-            <div className="mt-4"></div>
-              <QRCodeGenerator
+      <div className="mt-4"></div>
+      <QRCodeGenerator
                 matchId={selectedMatch}
-                includeData={showQRData}
-              / />
+                includeData={showQRData} />
             </div>
-          )}
+    </>
+  )}
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg shadow"></div>
@@ -77,8 +73,7 @@ const EnhancedPhysicalMatchmaking = (): any => {
             <div className="mt-4"></div>
               <QRCodeGenerator
                 tournamentId={selectedTournament}
-                includeData={showQRData}
-              / />
+                includeData={showQRData} />
             </div>
           )}
         </div>

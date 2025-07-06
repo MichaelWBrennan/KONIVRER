@@ -192,34 +192,34 @@ const UnifiedTournaments = (): any => {
   });
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="animate-spin mx-auto mb-4" size={48} / />
+      <div className="text-center"></div>
+      <RefreshCw className="animate-spin mx-auto mb-4" size={48} />
           <p>Loading tournament data...</p>
-      </div>
-    );
+    </>
+  );
   }
   return (
-    <div className="min-h-screen bg-gray-900 text-white"></div>
+    <>
+      <div className="min-h-screen bg-gray-900 text-white"></div>
       <div className="container mx-auto px-4 py-6"></div>
-        {/* Organizer Actions */}
-        <div className="flex justify-end mb-4"></div>
-          {hasOrganizerAccess() && (
-            <div className="flex space-x-2"></div>
-              <Link
+      <div className="flex justify-end mb-4"></div>
+      <div className="flex space-x-2"></div>
+      <Link
                 to="/tournament-create"
                 className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg transition-colors text-xs"
                />
-                <Plus size={12} / />
+                <Plus size={12} />
                 <span>Create Event</span>
-              <Link
+      <Link
                 to="/tournament-manager"
                 className="flex items-center space-x-1 bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-lg transition-colors text-xs"
                />
-                <Settings size={12} / />
+                <Settings size={12} />
                 <span>Manage</span>
-            </div>
-          )}
+    </>
+  )}
         </div>
         
         {/* Unified Search and Filters */}
@@ -229,8 +229,7 @@ const UnifiedTournaments = (): any => {
               <div className="flex items-center"></div>
                 <Search
                   className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                  size={14}
-                / />
+                  size={14} />
                 <input
                   type="text"
                   placeholder="Search events or locations..."
@@ -271,28 +270,26 @@ const UnifiedTournaments = (): any => {
                 {[...filteredTournaments, ...filteredEvents].map(tournament => (
                   <div
                     key={tournament.id}
-                    className="bg-gray-700 rounded-lg p-4 hover:bg-gray-650 transition-colors"
-                   />
+                    className="bg-gray-700 rounded-lg p-4 hover:bg-gray-650 transition-colors"></div>
                     <div className="flex items-start justify-between mb-3"></div>
                       <div className="flex-1"></div>
                         <p className="text-gray-400 text-sm mb-2"></p>
                           {tournament.organizer}
                         <div className="flex items-center space-x-4 text-sm text-gray-300"></div>
                           <span className="flex items-center"></span>
-                            <Calendar size={14} className="mr-1" / />
+                            <Calendar size={14} className="mr-1" />
                             {tournament.date} at {tournament.time}
                           <span className="flex items-center"></span>
-                            <MapPin size={14} className="mr-1" / />
+                            <MapPin size={14} className="mr-1" />
                             {tournament.location}
                           <span className="flex items-center"></span>
-                            <Users size={14} className="mr-1" / />
+                            <Users size={14} className="mr-1" />
                             {tournament.participants}/
                             {tournament.maxParticipants}
                         </div>
                       <div className="text-right"></div>
                         <span
-                          className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}
-                         />
+                          className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}></span>
                           {tournament.status}
                         <div className="text-lg font-bold text-green-400 mt-1"></div>
                           {tournament.prizePool}
@@ -325,14 +322,14 @@ const UnifiedTournaments = (): any => {
                             }`}
                             disabled={tournament.isRegistered || tournament.participants >= tournament.maxParticipants}
                           >
-                            <UserPlus size={14} / />
+                            <UserPlus size={14} />
                             <span></span>
                               {tournament.isRegistered ? 'Registered' : 
                                tournament.participants >= tournament.maxParticipants ? 'Full' : 'Register'}
                           </button>
                         )}
                         <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"></button>
-                          <Eye size={14} / />
+                          <Eye size={14} />
                           <span>View Details</span>
                       </div>
                   </div>
@@ -342,8 +339,7 @@ const UnifiedTournaments = (): any => {
             <div className="bg-gray-800 rounded-lg p-6"></div>
               <LiveTournamentBracket
                 tournamentId="world-championship-2024"
-                isLive={true}
-              / />
+                isLive={true} />
             </div>
             {/* Community Events */}
             <div className="bg-gray-800 rounded-lg p-6"></div>
@@ -352,19 +348,18 @@ const UnifiedTournaments = (): any => {
                   <div key={event.id} className="bg-gray-700 rounded-lg p-4"></div>
                     <div className="flex items-start justify-between mb-2"></div>
                       <span
-                        className={`px-2 py-0 whitespace-nowrap rounded text-xs ${getStatusColor(event.status)}`}
-                       />
+                        className={`px-2 py-0 whitespace-nowrap rounded text-xs ${getStatusColor(event.status)}`}></span>
                         {event.status}
                     </div>
                     <div className="space-y-1 text-sm text-gray-400 mb-3"></div>
                       <div className="flex items-center"></div>
-                        <Calendar size={12} className="mr-1" / />
+                        <Calendar size={12} className="mr-1" />
                         {event.date} at {event.time}
                       <div className="flex items-center"></div>
-                        <MapPin size={12} className="mr-1" / />
+                        <MapPin size={12} className="mr-1" />
                         {event.location}
                       <div className="flex items-center"></div>
-                        <Users size={12} className="mr-1" / />
+                        <Users size={12} className="mr-1" />
                         {event.participants}/{event.maxParticipants} players
                       </div>
                     <div className="flex items-center justify-between"></div>
@@ -440,8 +435,7 @@ const UnifiedTournaments = (): any => {
                 {leaderboards.slice(0, 10).map((player, index) => (
                   <div
                     key={player.rank}
-                    className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700 transition-colors"
-                   />
+                    className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700 transition-colors"></div>
                     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm"></div>
                       {player.rank}
                     <div className="flex-1"></div>
@@ -473,15 +467,13 @@ const UnifiedTournaments = (): any => {
                     {analytics.metaBreakdown?.map(archetype => (
                       <div
                         key={archetype.archetype}
-                        className="flex items-center justify-between"
-                       />
+                        className="flex items-center justify-between"></div>
                         <span className="text-sm">{archetype.archetype}
                         <div className="flex items-center space-x-2"></div>
                           <div className="w-16 bg-gray-700 rounded-full h-2"></div>
                             <div
                               className="bg-blue-500 h-2 rounded-full"
-                              style={{ width: `${archetype.percentage}%` }}
-                             />
+                              style={{ width: `${archetype.percentage}%` }}></div>
                           </div>
                           <span className="text-xs text-gray-400 w-8"></span>
                             {archetype.percentage}%

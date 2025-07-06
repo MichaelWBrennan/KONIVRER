@@ -59,8 +59,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
       {selectedDeck ? (
         <div
           className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer"
-          onClick={toggleDropdown}
-         />
+          onClick={toggleDropdown}></div>
           <div className="flex items-center space-x-3"></div>
             <div className="w-12 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-sm"></div>
               {selectedDeck.name?.[0] || 'D'}
@@ -79,12 +78,12 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
                 onEditDeck(selectedDeck);
               }}
             >
-              <Edit className="w-4 h-4" / />
+              <Edit className="w-4 h-4" />
             </button>
             {isOpen ? (
-              <ChevronUp className="w-5 h-5 text-gray-500" / />
+              <ChevronUp className="w-5 h-5 text-gray-500" />
             ) : (
-              <ChevronDown className="w-5 h-5 text-gray-500" / />
+              <ChevronDown className="w-5 h-5 text-gray-500" />
             )}
         </div>
       ) : (
@@ -97,7 +96,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
              />
-              <Plus className="w-4 h-4" / />
+              <Plus className="w-4 h-4" />
               <span>Create Deck</span>
             </motion.button>
             <motion.button
@@ -107,7 +106,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
               whileTap={{ scale: 0.95 }}
              />
               <span>Select Deck</span>
-              <ChevronDown className="w-4 h-4" / />
+              <ChevronDown className="w-4 h-4" />
             </motion.button>
           </div>
       )}
@@ -125,8 +124,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
                 <p>No decks available</p>
                 <button
                   onClick={onCreateDeck}
-                  className="mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm"
-                 />
+                  className="mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm"></button>
                   Create your first deck
                 </button>
             ) : (
@@ -161,7 +159,7 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({
                     className="w-full text-left px-4 py-0 whitespace-nowrap text-blue-600 hover:bg-blue-50 flex items-center space-x-2"
                     whileHover={{ x: 2 }}
                    />
-                    <Plus className="w-4 h-4" / />
+                    <Plus className="w-4 h-4" />
                     <span>Create New Deck</span>
                   </motion.button>
                 </div>

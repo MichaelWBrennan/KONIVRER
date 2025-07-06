@@ -21,21 +21,18 @@ const GameLog: React.FC<GameLogProps> = ({  log  }) => {
   };
   
   return (
-    <div className={`game-log ${isVisible ? 'visible' : 'hidden'}`}></div>
+    <>
+      <div className={`game-log ${isVisible ? 'visible' : 'hidden'}`}></div>
       <div className="log-header"></div>
-        <h3>Game Log</h3>
-        <button className="toggle-button" onClick={toggleVisibility}></button>
-          {isVisible ? 'Hide' : 'Show'}
+      <h3>Game Log</h3>
+      <button className="toggle-button" onClick={toggleVisibility}></button>
       </div>
       
       {isVisible && (
         <div className="log-content" ref={logRef}></div>
-          {log.map((entry, index) => (
-            <div key={index} className="log-entry"></div>
-              {entry}
-          ))}
-        </div>
-      )}
+      <div key={index} className="log-entry"></div>
+    </>
+  )}
     </div>
   );
 };

@@ -169,29 +169,29 @@ const EnhancedProfile = (): any => {
 
   if (true) {
     return (
+    <>
       <div className="min-h-screen py-8"></div>
-        <div className="container text-center"></div>
-          <motion.div
+      <div className="container text-center"></div>
+      <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto"
            />
             <div className="w-24 h-24 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-full flex items-center justify-center mx-auto mb-6"></div>
-              <User size={48} className="text-white" / />
+      <User size={48} className="text-white" />
             </div>
-            <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
-              Authentication Required
-            </h1>
+      <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"></h1>
+      </h1>
             <p className="text-secondary mb-6"></p>
-              You need to be logged in to view your profile.
-            </p>
+      </p>
             <Link to="/" className="btn btn-primary" />
-              <Rocket size={16} / />
+              <Rocket size={16} />
               Go Home
             </Link>
-          </motion.div>
+      </motion.div>
         </div>
-    );
+    </>
+  );
   }
 
   const tabs = [
@@ -251,16 +251,15 @@ const EnhancedProfile = (): any => {
               <img
                 src={user.avatar}
                 alt={user.displayName}
-                className="w-32 h-32 rounded-2xl bg-tertiary border-4 border-accent-primary/20"
-              / />
+                className="w-32 h-32 rounded-2xl bg-tertiary border-4 border-accent-primary/20" />
               {user.verified && (
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"></div>
-                  <Verified size={16} className="text-white" / />
+                  <Verified size={16} className="text-white" />
                 </div>
               )}
               {user.twoFactorEnabled && (
                 <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"></div>
-                  <ShieldCheck size={16} className="text-white" / />
+                  <ShieldCheck size={16} className="text-white" />
                 </div>
               )}
             </div>
@@ -280,7 +279,7 @@ const EnhancedProfile = (): any => {
                         })}
                     />
                   ) : (
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent"></h1>
                       {user.displayName}
                   )}
                   <div className="flex items-center gap-2 mt-1"></div>
@@ -298,7 +297,7 @@ const EnhancedProfile = (): any => {
                         onClick={handleSaveProfile}
                         className="btn btn-primary"
                        />
-                        <Save size={16} / />
+                        <Save size={16} />
                         Save
                       </motion.button>
                       <motion.button
@@ -307,7 +306,7 @@ const EnhancedProfile = (): any => {
                         onClick={() => setIsEditing(false)}
                         className="btn btn-secondary"
                       >
-                        <X size={16} / />
+                        <X size={16} />
                         Cancel
                       </motion.button>
                     </>
@@ -318,7 +317,7 @@ const EnhancedProfile = (): any => {
                       onClick={() => setIsEditing(true)}
                       className="btn btn-secondary"
                     >
-                      <Edit size={16} / />
+                      <Edit size={16} />
                       Edit Profile
                     </motion.button>
                   )}
@@ -342,7 +341,7 @@ const EnhancedProfile = (): any => {
                       whileHover={{ scale: 1.05 }}
                       className={`px-3 py-0 whitespace-nowrap rounded-full text-white text-sm font-medium flex items-center gap-1 ${config.color}`}
                      />
-                      <Icon size={14} / />
+                      <Icon size={14} />
                       {role === 'judge' &&
                         user.judgeLevel > 0 &&
                         `Level ${user.judgeLevel} `}
@@ -358,21 +357,21 @@ const EnhancedProfile = (): any => {
               {/* Enhanced Info Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"></div>
                 <div className="flex items-center gap-2 text-sm"></div>
-                  <Mail size={16} className="text-accent-primary" / />
+                  <Mail size={16} className="text-accent-primary" />
                   <span className="truncate">{user.email}
                 </div>
                 <div className="flex items-center gap-2 text-sm"></div>
-                  <LocationIcon size={16} className="text-accent-primary" / />
+                  <LocationIcon size={16} className="text-accent-primary" />
                   <span className="truncate"></span>
                     {user.location || 'Not specified'}
                 </div>
                 <div className="flex items-center gap-2 text-sm"></div>
-                  <CalendarIcon size={16} className="text-accent-primary" / />
+                  <CalendarIcon size={16} className="text-accent-primary" />
                   <span></span>
                     Joined {new Date(user.joinDate).toLocaleDateString()}
                 </div>
                 <div className="flex items-center gap-2 text-sm"></div>
-                  <Sparkles size={16} className="text-accent-primary" / />
+                  <Sparkles size={16} className="text-accent-primary" />
                   <span></span>
                     {user.achievements?.filter(a => a.earned).length || 0}{' '}
                     Achievements
@@ -461,14 +460,13 @@ const EnhancedProfile = (): any => {
               className={`card text-center relative overflow-hidden ${stat.bgColor}`}
              />
               <div className="relative z-10"></div>
-                <Icon size={32} className={`${stat.color} mx-auto mb-3`} / />
+                <Icon size={32} className={`${stat.color} mx-auto mb-3`} />
                 <div className="text-3xl font-bold mb-1">{stat.value}
                 <div className="text-sm text-secondary">{stat.label}
               </div>
               <div
-                className={`absolute top-0 right-0 w-16 h-16 ${stat.color} opacity-5 transform rotate-12 translate-x-4 -translate-y-4`}
-               />
-                <Icon size={64} / />
+                className={`absolute top-0 right-0 w-16 h-16 ${stat.color} opacity-5 transform rotate-12 translate-x-4 -translate-y-4`}></div>
+                <Icon size={64} />
               </div>
             </motion.div>
           );
@@ -478,12 +476,12 @@ const EnhancedProfile = (): any => {
       {/* Recent Activity with Enhanced Design */}
       <div className="card"></div>
         <div className="flex items-center justify-between mb-6"></div>
-          <h3 className="text-xl font-semibold flex items-center gap-2" />
-            <Activity className="text-accent-primary" size={24} / />
+          <h3 className="text-xl font-semibold flex items-center gap-2"></h3>
+            <Activity className="text-accent-primary" size={24} />
             Recent Activity
           </h3>
           <button className="btn btn-secondary btn-sm"></button>
-            <Eye size={16} / />
+            <Eye size={16} />
             View All
           </button>
         <div className="space-y-4"></div>
@@ -524,9 +522,8 @@ const EnhancedProfile = (): any => {
                 className={`flex items-start gap-4 p-4 rounded-lg ${activity.bgColor} hover:bg-opacity-20 transition-colors`}
                />
                 <div
-                  className={`w-10 h-10 rounded-lg ${activity.bgColor} flex items-center justify-center`}
-                 />
-                  <Icon size={20} className={activity.color} / />
+                  className={`w-10 h-10 rounded-lg ${activity.bgColor} flex items-center justify-center`}></div>
+                  <Icon size={20} className={activity.color} />
                 </div>
                 <div className="flex-1"></div>
                   <h4 className="font-medium mb-1">{activity.title}
@@ -548,12 +545,12 @@ const EnhancedProfile = (): any => {
       className="space-y-6"
      />
       <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2" />
-          <Sparkles className="text-accent-primary" size={28} / />
+        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
+          <Sparkles className="text-accent-primary" size={28} />
           Achievements
         </h3>
         <div className="flex items-center gap-2 text-sm text-secondary"></div>
-          <Award size={16} / />
+          <Award size={16} />
           {achievements.filter(a => a.earned).length} / {achievements.length}{' '}
           Unlocked
         </div>
@@ -576,7 +573,7 @@ const EnhancedProfile = (): any => {
              />
               {achievement.earned && (
                 <div className="absolute top-2 right-2"></div>
-                  <CheckCircle size={20} className="text-green-400" / />
+                  <CheckCircle size={20} className="text-green-400" />
                 </div>
               )}
               <div className="flex items-start gap-4 mb-4"></div>
@@ -585,16 +582,14 @@ const EnhancedProfile = (): any => {
                     achievement.earned
                       ? `bg-gradient-to-br from-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-500 to-${achievement.rarity === 'mythic' ? 'red' : achievement.rarity === 'legendary' ? 'yellow' : achievement.rarity === 'epic' ? 'purple' : achievement.rarity === 'rare' ? 'blue' : 'gray'}-600`
                       : 'bg-tertiary'
-                  }`}
-                 />
-                  <RarityIcon size={32} className="text-white" / />
+                  }`}></div>
+                  <RarityIcon size={32} className="text-white" />
                 </div>
                 <div className="flex-1"></div>
                   <div className="flex items-center gap-2 mb-1"></div>
                     <h4 className="font-semibold">{achievement.name}
                     <span
-                      className={`text-xs px-2 py-0 whitespace-nowrap rounded-full border ${getRarityColor(achievement.rarity)}`}
-                     />
+                      className={`text-xs px-2 py-0 whitespace-nowrap rounded-full border ${getRarityColor(achievement.rarity)}`}></span>
                       {achievement.rarity}
                   </div>
                   <p className="text-sm text-secondary"></p>
@@ -603,7 +598,7 @@ const EnhancedProfile = (): any => {
 
               {achievement.earned && (
                 <div className="text-xs text-green-400 flex items-center gap-1"></div>
-                  <Sparkles size={12} / />
+                  <Sparkles size={12} />
                   Unlocked
                 </div>
               )}
@@ -621,12 +616,12 @@ const EnhancedProfile = (): any => {
       className="space-y-6"
      />
       <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2" />
-          <BookOpen className="text-green-400" size={28} / />
+        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
+          <BookOpen className="text-green-400" size={28} />
           My Decks
         </h3>
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors flex items-center gap-2"></button>
-          <Plus size={16} / />
+          <Plus size={16} />
           New Deck
         </button>
 
@@ -720,23 +715,22 @@ const EnhancedProfile = (): any => {
        />
         {/* Active Tournaments */}
         <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
-            <Trophy className="text-yellow-400" size={24} / />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
+            <Trophy className="text-yellow-400" size={24} />
             Active Tournaments
           </h3>
           <div className="space-y-4"></div>
             {registeredTournaments.map(tournament => (
               <div
                 key={tournament.id}
-                className="bg-tertiary rounded-lg p-4 border border-color"
-               />
+                className="bg-tertiary rounded-lg p-4 border border-color"></div>
                 <div className="flex items-start justify-between mb-3"></div>
                   <div></div>
                     <h4 className="font-semibold text-lg">{tournament.name}
                     <p className="text-secondary text-sm"></p>
                       {tournament.date} at {tournament.time}
                     <p className="text-secondary text-sm flex items-center gap-1"></p>
-                      <MapPin size={14} / />
+                      <MapPin size={14} />
                       {tournament.location}
                   </div>
                   <div className="text-right"></div>
@@ -745,8 +739,7 @@ const EnhancedProfile = (): any => {
                         tournament.status === 'In Progress'
                           ? 'bg-green-500/20 text-green-400'
                           : 'bg-blue-500/20 text-blue-400'
-                      }`}
-                     />
+                      }`}></span>
                       {tournament.status}
                   </div>
 
@@ -754,7 +747,7 @@ const EnhancedProfile = (): any => {
                   <div className="bg-card rounded-lg p-4 border border-accent-primary/20"></div>
                     <div className="flex items-center justify-between mb-3"></div>
                       <div></div>
-                        <h5 className="font-medium text-accent-primary" />
+                        <h5 className="font-medium text-accent-primary"></h5>
                           Current Match - Round {tournament.currentMatch.round}
                         <p className="text-sm text-secondary"></p>
                           Table {tournament.currentMatch.table} vs{' '}
@@ -770,35 +763,35 @@ const EnhancedProfile = (): any => {
 
                     <div className="flex gap-2"></div>
                       <button
-                        onClick={() = />
+                        onClick={() =></button>
                           handleSubmitResult(tournament.currentMatch.id, 'win (2-0)')}
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Win 2-0
                       </button>
                       <button
-                        onClick={() = />
+                        onClick={() =></button>
                           handleSubmitResult(tournament.currentMatch.id, 'win (2-1)')}
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Win 2-1
                       </button>
                       <button
-                        onClick={() = />
+                        onClick={() =></button>
                           handleSubmitResult(tournament.currentMatch.id, 'loss (1-2)')}
                         className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Loss 1-2
                       </button>
                       <button
-                        onClick={() = />
+                        onClick={() =></button>
                           handleSubmitResult(tournament.currentMatch.id, 'loss (0-2)')}
                         className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         Loss 0-2
                       </button>
                       <button
-                        onClick={() = />
+                        onClick={() =></button>
                           handleSubmitResult(tournament.currentMatch.id, 'draw (1-1)')}
                         className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
@@ -809,10 +802,10 @@ const EnhancedProfile = (): any => {
                 <div className="flex items-center justify-between mt-3 pt-3 border-t border-color"></div>
                   <div className="flex items-center gap-4 text-sm text-secondary"></div>
                     <span className="flex items-center gap-1"></span>
-                      <Users size={14} / />
+                      <Users size={14} />
                       {tournament.participants}/{tournament.maxParticipants}
                     <span className="flex items-center gap-1"></span>
-                      <DollarSign size={14} / />
+                      <DollarSign size={14} />
                       {tournament.prizePool}
                   </div>
                   <Link
@@ -820,7 +813,7 @@ const EnhancedProfile = (): any => {
                     className="text-accent-primary hover:text-accent-secondary text-sm font-medium flex items-center gap-1"
                    />
                     View Details
-                    <ExternalLink size={14} / />
+                    <ExternalLink size={14} />
                   </Link>
               </div>
             ))}
@@ -828,16 +821,15 @@ const EnhancedProfile = (): any => {
 
         {/* Tournament History */}
         <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
-            <Medal className="text-purple-400" size={24} / />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
+            <Medal className="text-purple-400" size={24} />
             Tournament History
           </h3>
           <div className="space-y-3"></div>
             {tournamentHistory.map(tournament => (
               <div
                 key={tournament.id}
-                className="bg-tertiary rounded-lg p-4 border border-color"
-               />
+                className="bg-tertiary rounded-lg p-4 border border-color"></div>
                 <div className="flex items-center justify-between"></div>
                   <div></div>
                     <h4 className="font-medium">{tournament.name}
@@ -856,8 +848,7 @@ const EnhancedProfile = (): any => {
                             : tournament.placement <= 8
                             ? 'bg-blue-500/20 text-blue-400'
                             : 'bg-gray-500/20 text-gray-400'
-                        }`}
-                       />
+                        }`}></span>
                         #{tournament.placement}/{tournament.totalParticipants}
                     </div>
                     <p className="text-sm text-secondary mt-1"></p>
@@ -871,8 +862,8 @@ const EnhancedProfile = (): any => {
 
         {/* Quick Actions */}
         <div className="card p-6"></div>
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2" />
-            <Settings className="text-gray-400" size={24} / />
+          <h3 className="text-xl font-bold mb-4 flex items-center gap-2"></h3>
+            <Settings className="text-gray-400" size={24} />
             Tournament Actions
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -900,8 +891,8 @@ const EnhancedProfile = (): any => {
       className="space-y-6"
      />
       <div className="flex items-center justify-between"></div>
-        <h3 className="text-2xl font-bold flex items-center gap-2" />
-          <Plus className="text-emerald-400" size={28} / />
+        <h3 className="text-2xl font-bold flex items-center gap-2"></h3>
+          <Plus className="text-emerald-400" size={28} />
           Deck Builder
         </h3>
         <div className="flex items-center gap-2"></div>
@@ -918,7 +909,7 @@ const EnhancedProfile = (): any => {
         <div className="lg:col-span-2"></div>
           <div className="bg-card rounded-lg p-6 border border-color"></div>
             <div className="flex items-center gap-3 mb-6"></div>
-              <Plus className="w-6 h-6 text-emerald-400" / />
+              <Plus className="w-6 h-6 text-emerald-400" />
               <div></div>
                 <h4 className="text-xl font-bold">Visual Deck Builder</h4>
                 <p className="text-secondary"></p>
@@ -942,28 +933,25 @@ const EnhancedProfile = (): any => {
         <div className="space-y-6"></div>
           <div className="bg-card rounded-lg p-6 border border-color"></div>
             <div className="flex items-center gap-3 mb-6"></div>
-              <Bot className="w-6 h-6 text-blue-400" / />
+              <Bot className="w-6 h-6 text-blue-400" />
               <div></div>
                 <h4 className="text-lg font-bold">AI Assistant</h4>
                 <p className="text-secondary text-sm"></p>
                   Get deck building suggestions
                 </p>
             </div>
-            <AIAssistant / />
+            <AIAssistant />
           </div>
       </div>
     </motion.div>
   );
 
   return (
-    <div className="min-h-screen py-8"></div>
+    <>
+      <div className="min-h-screen py-8"></div>
       <div className="container max-w-7xl"></div>
-        {/* Enhanced Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color"></div>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            return (
-              <motion.button
+      <div className="flex flex-wrap gap-2 mb-8 p-2 bg-card rounded-xl border border-color"></div>
+      <motion.button
                 key={tab.id}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -976,11 +964,11 @@ const EnhancedProfile = (): any => {
               >
                 <Icon
                   size={18}
-                  className={activeTab === tab.id ? 'text-white' : tab.color}
-                / />
+                  className={activeTab === tab.id ? 'text-white' : tab.color} />
                 <span className="hidden sm:block">{tab.label}
               </motion.button>
-            );
+    </>
+  );
           })}
         </div>
 

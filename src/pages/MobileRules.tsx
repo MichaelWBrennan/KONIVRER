@@ -10,7 +10,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 const MobileRules = (): any => {
   return (
     <ErrorBoundary />
-      <MobilePDFViewer / />
+      <MobilePDFViewer />
     </ErrorBoundary>
   );
 };

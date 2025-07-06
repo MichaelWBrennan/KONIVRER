@@ -218,22 +218,20 @@ const EnhancedMatchmaking = (): any => {
     return ['all', ...Array.from(archetypes)];
   };
   return (
-    <div className="min-h-screen py-8"></div>
+    <>
+      <div className="min-h-screen py-8"></div>
       <div className="container max-w-6xl"></div>
-        {/* Header */}
-        <div className="mb-8"><p className="text-gray-600 mt-2"></div>
-            Find matches based on skill, confidence, deck archetype, and
-            playstyle
-          </p>
+      <div className="mb-8"><p className="text-gray-600 mt-2"></p>
+      </p>
         {/* Matchmaking Controls */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6"></div>
-          <div className="flex flex-col md:flex-row gap-4"></div>
-            <div className="flex-1"></div>
-              <div className="relative"></div>
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
-                  <Search className="h-5 w-5 text-gray-400" / />
+      <div className="flex flex-col md:flex-row gap-4"></div>
+      <div className="flex-1"></div>
+      <div className="relative"></div>
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
+      <Search className="h-5 w-5 text-gray-400" />
                 </div>
-                <input
+      <input
                   type="text"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Search players..."
@@ -241,20 +239,17 @@ const EnhancedMatchmaking = (): any => {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
-            <div className="flex flex-wrap gap-2"></div>
-              <button
+      <div className="flex flex-wrap gap-2"></div>
+      <button
                 className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 onClick={findMatch}
-                disabled={searching}
-               />
-                {searching ? (
-                  <>
-                    <RefreshCw className="animate-spin -ml-1 mr-2 h-4 w-4" / />
+                disabled={searching}></button>
+      <RefreshCw className="animate-spin -ml-1 mr-2 h-4 w-4" />
                     Finding Match...
                   </>
                 ) : (
                   <>
-                    <Zap className="-ml-1 mr-2 h-4 w-4" / />
+                    <Zap className="-ml-1 mr-2 h-4 w-4" />
                     Find Match
                   </>
                 )}
@@ -262,16 +257,15 @@ const EnhancedMatchmaking = (): any => {
                 className="inline-flex items-center px-3 py-0 whitespace-nowrap border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 onClick={() => setShowPreferences(!showPreferences)}
               >
-                <Settings className="-ml-0.5 mr-2 h-4 w-4" / />
+                <Settings className="-ml-0.5 mr-2 h-4 w-4" />
                 Preferences
                 {showPreferences ? (
-                  <ChevronUp className="ml-2 h-4 w-4" / />
+                  <ChevronUp className="ml-2 h-4 w-4" />
                 ) : (
-                  <ChevronDown className="ml-2 h-4 w-4" / />
+                  <ChevronDown className="ml-2 h-4 w-4" />
                 )}
             </div>
-          {/* Preferences Panel */}
-          <AnimatePresence />
+      <AnimatePresence />
             {showPreferences && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
@@ -281,11 +275,11 @@ const EnhancedMatchmaking = (): any => {
                 className="overflow-hidden"
                />
                 <div className="mt-4 pt-4 border-t border-gray-200"></div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                    <div></div>
-                      <div className="space-y-2"></div>
-                        <label className="flex items-center"></label>
-                          <input
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div></div>
+      <div className="space-y-2"></div>
+      <label className="flex items-center"></label>
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={matchmakingPreferences.prioritizeSkill}
@@ -296,10 +290,9 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Prioritize skill rating similarity
-                          </span>
+      </span>
                         <label className="flex items-center"></label>
-                          <input
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={
@@ -312,10 +305,9 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Prioritize confidence band matching
-                          </span>
+      </span>
                         <label className="flex items-center"></label>
-                          <input
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={
@@ -328,10 +320,9 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Consider deck archetype matchups
-                          </span>
+      </span>
                         <label className="flex items-center"></label>
-                          <input
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={matchmakingPreferences.prioritizePlaystyle}
@@ -342,13 +333,12 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Consider playstyle compatibility
-                          </span>
+      </span>
                       </div>
-                    <div></div>
-                      <div className="space-y-2"></div>
-                        <label className="flex items-center"></label>
-                          <input
+      <div></div>
+      <div className="space-y-2"></div>
+      <label className="flex items-center"></label>
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={
@@ -361,10 +351,9 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Prefer complementary playstyles
-                          </span>
+      </span>
                         <label className="flex items-center"></label>
-                          <input
+      <input
                             type="checkbox"
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                             checked={
@@ -377,14 +366,12 @@ const EnhancedMatchmaking = (): any => {
                               })}
                           />
                           <span className="ml-2 text-sm text-gray-700"></span>
-                            Prefer similar confidence bands
-                          </span>
+      </span>
                         <div></div>
-                          <label className="block text-sm text-gray-700 mb-1"></label>
-                            Maximum wait time
-                          </label>
+      <label className="block text-sm text-gray-700 mb-1"></label>
+      </label>
                           <div className="flex items-center"></div>
-                            <input
+      <input
                               type="range"
                               min="10"
                               max="300"
@@ -398,13 +385,12 @@ const EnhancedMatchmaking = (): any => {
                                 })}
                             />
                             <span className="ml-2 text-sm text-gray-700 min-w-[50px]"></span>
-                              {matchmakingPreferences.maxWaitTime}s
-                            </span>
+      </span>
                         </div>
-                    </div>
+      </div>
                 </div>
-              </motion.div>
-            )}
+    </>
+  )}
           </AnimatePresence>
         {/* Current Match */}
         <AnimatePresence />
@@ -424,13 +410,12 @@ const EnhancedMatchmaking = (): any => {
                     <div className="w-16 bg-gray-200 rounded-full h-2"></div>
                       <div
                         className="h-2 rounded-full bg-blue-600"
-                        style={{ width: `${currentMatch.quality * 100}%` }}
-                       />
+                        style={{ width: `${currentMatch.quality * 100}%` }}></div>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"></div>
-                  <EnhancedPlayerProfile player={currentMatch.player1} / />
-                  <EnhancedPlayerProfile player={currentMatch.player2} / />
+                  <EnhancedPlayerProfile player={currentMatch.player1} />
+                  <EnhancedPlayerProfile player={currentMatch.player2} />
                 </div>
                 <div className="bg-white rounded-lg p-3 mb-4"></div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"></div>
@@ -467,16 +452,14 @@ const EnhancedMatchmaking = (): any => {
                 <div className="flex justify-end space-x-3"></div>
                   <button
                     className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                    onClick={cancelMatch}
-                   />
-                    <X className="-ml-1 mr-2 h-4 w-4 text-gray-500" / />
+                    onClick={cancelMatch}></button>
+                    <X className="-ml-1 mr-2 h-4 w-4 text-gray-500" />
                     Decline
                   </button>
                   <button
                     className="inline-flex items-center px-4 py-0 whitespace-nowrap border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    onClick={acceptMatch}
-                   />
-                    <Check className="-ml-1 mr-2 h-4 w-4" / />
+                    onClick={acceptMatch}></button>
+                    <Check className="-ml-1 mr-2 h-4 w-4" />
                     Accept Match
                   </button>
               </div>
@@ -486,7 +469,7 @@ const EnhancedMatchmaking = (): any => {
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6"></div>
           <div className="flex items-center mb-3"></div>
-            <Filter className="h-5 w-5 text-gray-400 mr-2" / />
+            <Filter className="h-5 w-5 text-gray-400 mr-2" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
             <div></div>
@@ -585,18 +568,18 @@ const EnhancedMatchmaking = (): any => {
         <div className="bg-white rounded-lg shadow-md overflow-hidden"></div>
           <div className="p-4 border-b border-gray-200 flex justify-between items-center"></div>
             <div className="flex items-center"></div>
-              <Users className="h-5 w-5 text-gray-400 mr-2" / />
+              <Users className="h-5 w-5 text-gray-400 mr-2" />
             </div>
             <div className="text-sm text-gray-500"></div>
               {filteredPlayers.length} players found
             </div>
           {loading ? (
             <div className="p-8 text-center"></div>
-              <RefreshCw className="animate-spin h-8 w-8 text-gray-400 mx-auto mb-4" / />
+              <RefreshCw className="animate-spin h-8 w-8 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">Loading players...</p>
           ) : filteredPlayers.length === 0 ? (
             <div className="p-8 text-center"></div>
-              <Users className="h-8 w-8 text-gray-300 mx-auto mb-4" / />
+              <Users className="h-8 w-8 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500"></p>
                 No players found matching your filters.
               </p>
@@ -605,9 +588,8 @@ const EnhancedMatchmaking = (): any => {
               {filteredPlayers.map(player => (
                 <div
                   key={player.id}
-                  className="p-4 hover:bg-gray-50 transition-colors"
-                 />
-                  <EnhancedPlayerProfile player={player} expandable={true} / />
+                  className="p-4 hover:bg-gray-50 transition-colors"></div>
+                  <EnhancedPlayerProfile player={player} expandable={true} />
                 </div>
               ))}
             </div>

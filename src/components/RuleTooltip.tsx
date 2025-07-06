@@ -86,7 +86,7 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
       <div className="flex items-center gap-1 cursor-help"></div>
         {children}
         {showIcon && (
-          <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" / />
+          <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" />
         )}
 
       <AnimatePresence />
@@ -109,13 +109,12 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
                       : position === 'left'
                         ? 'left-full top-1/2 -translate-y-1/2 -ml-1 border-t border-r'
                         : 'right-full top-1/2 -translate-y-1/2 -mr-1 border-b border-l'
-                }`}
-              / />
+                }`}></div>
               {/* Content */}
               <div className="relative"></div>
                 <div className="flex items-center gap-2 mb-2"></div>
-                  <Book className="w-4 h-4 text-blue-400" / />
-                  <h4 className="font-semibold text-white text-sm" />
+                  <Book className="w-4 h-4 text-blue-400" />
+                  <h4 className="font-semibold text-white text-sm"></h4>
                     {content.title}
                   {content.category && (
                     <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded"></span>
@@ -133,7 +132,7 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
                     onClick={() => window.open('/rules', '_blank')}
                     className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
                   >
-                    <ExternalLink className="w-3 h-3" / />
+                    <ExternalLink className="w-3 h-3" />
                     View Full Rules
                   </button>
               </div>

@@ -121,74 +121,57 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
   };
 
   return (
-    <div className="player-form-indicator"></div>
+    <>
+      <div className="player-form-indicator"></div>
       <div
-        className={`inline-flex items-center rounded-full border ${getColor()} ${classes.container}`}
-       />
-        <span className={`mr-1 ${classes.icon}`}>{getIcon()}
+        className={`inline-flex items-center rounded-full border ${getColor()} ${classes.container}`}></div>
+      <span className={`mr-1 ${classes.icon}`}>{getIcon()}
         <span className="font-medium">{getDescription()}
       </div>
-
-      {showDetails && (
-        <motion.div
+      <motion.div
           className="mt-2 bg-white rounded-lg border border-gray-200 p-3 shadow-sm"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
          />
           <div className="flex items-center justify-between mb-2"></div>
-            <span className="text-sm font-medium text-gray-700">Momentum</span>
-            <span
+      <span className="text-sm font-medium text-gray-700">Momentum</span>
+      <span
               className={`text-sm font-medium ${momentum > 0 ? 'text-green-600' : momentum < 0 ? 'text-red-600' : 'text-gray-600'}`}
             >
               {formatMomentum(momentum)}
           </div>
-
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden"></div>
-            <div
+      <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden"></div>
+      <div
               className={`absolute top-0 bottom-0 left-1/2 ${momentum > 0 ? 'bg-green-500' : 'bg-red-500'}`}
               style={{
                 width: `${Math.abs(momentum) * 100}%`,
                 transform: momentum > 0 ? 'translateX(0)' : 'translateX(-100%)',
               }}
             ></div>
-
-          <div className="mt-3 grid grid-cols-2 gap-2"></div>
-            <div className="text-xs"></div>
-              <div className="text-gray-500">Recent Form</div>
-              <div className="font-medium"></div>
-                {recentForm > 0.3
-                  ? 'Strong'
-                  : recentForm > 0
-                    ? 'Positive'
-                    : recentForm < -0.3
+      <div className="mt-3 grid grid-cols-2 gap-2"></div>
+      <div className="text-xs"></div>
+      <div className="text-gray-500">Recent Form</div>
+      <div className="font-medium"></div>
+      < -0.3
                       ? 'Poor'
                       : recentForm < 0
                         ? 'Negative'
                         : 'Neutral'}
             </div>
             <div className="text-xs"></div>
-              <div className="text-gray-500">Streak</div>
-              <div className="font-medium"></div>
-                {streakFactor > 0.7
-                  ? 'Exceptional'
-                  : streakFactor > 0.4
-                    ? 'Notable'
-                    : streakFactor > 0.2
-                      ? 'Modest'
-                      : 'None'}
-            </div>
+      <div className="text-gray-500">Streak</div>
+      <div className="font-medium"></div>
+      </div>
 
           <div className="mt-3"></div>
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
-              <span>Performance Trend</span>
-              <BarChart className="w-3 h-3" / />
+      <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
+      <span>Performance Trend</span>
+      <BarChart className="w-3 h-3" />
             </div>
-            <div
-              className={`${classes.chart} bg-gray-100 rounded-md overflow-hidden relative`}
-             />
-              {/* Simple performance visualization */}
-              <motion.div
+      <div
+              className={`${classes.chart} bg-gray-100 rounded-md overflow-hidden relative`}></div>
+      <motion.div
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 1, ease: 'easeInOut' }}
@@ -216,10 +199,10 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                     strokeLinecap="round"
                   />
                 </svg>
-              </motion.div>
+      </motion.div>
             </div>
-        </motion.div>
-      )}
+    </>
+  )}
     </div>
   );
 };

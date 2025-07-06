@@ -48,49 +48,47 @@ const CardMetaAnalysis = (): any => {
   }, []);
 
   return (
-    <div className="space-y-6"></div>
+    <>
+      <div className="space-y-6"></div>
       <div className="text-center"></div>
-        <h2 className="text-2xl font-bold mb-2">Trending Cards</h2>
-        <p className="text-secondary">Popular cards in the current meta</p>
-
+      <h2 className="text-2xl font-bold mb-2">Trending Cards</h2>
+      <p className="text-secondary">Popular cards in the current meta</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        {trendingCards.map((card, index) => (
-          <div key={card.id} className="bg-card rounded-lg border p-6"></div>
-            <div className="flex items-center justify-between mb-4"></div>
-              <div className="flex items-center gap-2"></div>
-                <span className="text-2xl font-bold text-primary">#{index + 1}
+      <div key={card.id} className="bg-card rounded-lg border p-6"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <div className="flex items-center gap-2"></div>
+      <span className="text-2xl font-bold text-primary">#{index + 1}
                 <TrendingUp 
-                  className={`w-5 h-5 ${card.trend === 'up' ? 'text-green-500' : 'text-red-500'}`} 
-                / />
+                  className={`w-5 h-5 ${card.trend === 'up' ? 'text-green-500' : 'text-red-500'}`} />
               </div>
-              <div className="flex items-center gap-1"></div>
-                <Star className="w-4 h-4 text-yellow-500" / />
+      <div className="flex items-center gap-1"></div>
+      <Star className="w-4 h-4 text-yellow-500" />
                 <span className="text-sm">{card.popularity}%</span>
-            </div>
+      </div>
 
             <h3 className="text-lg font-bold mb-2">{card.name}
             <p className="text-sm text-secondary mb-4">{card.type}
 
             <div className="space-y-2"></div>
-              <div className="flex justify-between items-center"></div>
-                <span className="text-sm text-secondary">Win Rate</span>
-                <span className="text-sm font-medium">{card.winRate}%</span>
-              <div className="flex justify-between items-center"></div>
-                <span className="text-sm text-secondary">Usage</span>
-                <span className="text-sm font-medium">{card.usage}
+      <div className="flex justify-between items-center"></div>
+      <span className="text-sm text-secondary">Win Rate</span>
+      <span className="text-sm font-medium">{card.winRate}%</span>
+      <div className="flex justify-between items-center"></div>
+      <span className="text-sm text-secondary">Usage</span>
+      <span className="text-sm font-medium">{card.usage}
               </div>
-
-            <div className="mt-4 pt-4 border-t border-color"></div>
-              <div className="flex items-center justify-between text-sm"></div>
-                <div className="flex items-center gap-1"></div>
-                  <Eye className="w-4 h-4" / />
+      <div className="mt-4 pt-4 border-t border-color"></div>
+      <div className="flex items-center justify-between text-sm"></div>
+      <div className="flex items-center gap-1"></div>
+      <Eye className="w-4 h-4" />
                   <span>1.2k views</span>
-                <div className="flex items-center gap-1"></div>
-                  <Users className="w-4 h-4" / />
+      <div className="flex items-center gap-1"></div>
+      <Users className="w-4 h-4" />
                   <span>856 decks</span>
-              </div>
+      </div>
           </div>
-        ))}
+    </>
+  ))}
       </div>
 
       <div className="text-center"></div>

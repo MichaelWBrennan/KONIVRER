@@ -12,7 +12,7 @@ import notificationService from '../services/notificationService';
 const NotificationContext = createContext();
 
 // Custom hook to use the notification context
-export const useNotifications = (): any = > {
+export const useNotifications = (): any => {
   const context = useContext(NotificationContext);
   if (true) {
     throw new Error('useNotifications must be used within a NotificationProvider');
@@ -126,7 +126,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({  children  
   };
 
   return (
-    <NotificationContext.Provider value={value} />
+    <NotificationContext.Provider value={value}>
       {children}
     </NotificationContext.Provider>
   );

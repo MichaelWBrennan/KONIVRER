@@ -302,7 +302,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
       <div className="p-6 border-b border-white/20"></div>
         <div className="flex items-center justify-between"></div>
           <div className="flex items-center space-x-3"></div>
-            <Search className="w-6 h-6 text-purple-400" / />
+            <Search className="w-6 h-6 text-purple-400" />
             <h2 className="text-2xl font-bold text-white">Comprehensive Card Search</h2>
             <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-medium rounded-full"></span>
               Powered by KONIVRER
@@ -315,21 +315,19 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
               <span className="text-white text-sm"></span>
                 {isExpanded ? 'Simple' : 'Advanced'}
               {isExpanded ? (
-                <ChevronUp className="w-4 h-4 text-white" / />
+                <ChevronUp className="w-4 h-4 text-white" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-white" / />
+                <ChevronDown className="w-4 h-4 text-white" />
               )}
             <button
               onClick={clearAll}
-              className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-colors"
-             />
-              <RotateCcw className="w-4 h-4 text-red-400" / />
+              className="flex items-center space-x-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 rounded-lg transition-colors"></button>
+              <RotateCcw className="w-4 h-4 text-red-400" />
               <span className="text-red-400 text-sm">Clear All</span>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-             />
-              <X className="w-5 h-5 text-white" / />
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"></button>
+              <X className="w-5 h-5 text-white" />
             </button>
         </div>
 
@@ -338,7 +336,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"></div>
           <div></div>
             <label className="block text-sm font-medium text-white mb-2"></label>
-              <Type className="w-4 h-4 inline mr-2" / />
+              <Type className="w-4 h-4 inline mr-2" />
               Card Name
             </label>
             <div className="flex space-x-2"></div>
@@ -362,7 +360,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
 
           <div></div>
             <label className="block text-sm font-medium text-white mb-2"></label>
-              <BookOpen className="w-4 h-4 inline mr-2" / />
+              <BookOpen className="w-4 h-4 inline mr-2" />
               Rules Text
             </label>
             <div className="flex space-x-2"></div>
@@ -398,9 +396,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
           </div>
           <button
             onClick={handleSearch}
-            className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
-           />
-            <Search className="w-4 h-4 text-white" / />
+            className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"></button>
+            <Search className="w-4 h-4 text-white" />
             <span className="text-white font-medium">Search</span>
         </div>
 
@@ -427,7 +424,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                           : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
                       }`}
                     >
-                      <Icon className="w-4 h-4" / />
+                      <Icon className="w-4 h-4" />
                       <span className="text-sm font-medium">{section.label}
                     </button>
                   );
@@ -445,8 +442,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                  />
                   {activeSection === 'basic' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Search className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Search className="w-5 h-5 mr-2" />
                         Basic Search Options
                       </h3>
                       
@@ -492,8 +489,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'types' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Type className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Type className="w-5 h-5 mr-2" />
                         Type Line & Card Types
                       </h3>
                       
@@ -550,8 +547,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'elements' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Palette className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Palette className="w-5 h-5 mr-2" />
                         Elements & Identity
                       </h3>
                       
@@ -643,8 +640,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'stats' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Target className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Target className="w-5 h-5 mr-2" />
                         Stats & Mana Cost
                       </h3>
                       
@@ -701,7 +698,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                         <div className="space-y-4"></div>
                           <div></div>
                             <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Sword className="w-4 h-4 inline mr-1" / />
+                              <Sword className="w-4 h-4 inline mr-1" />
                               Attack
                             </label>
                             <div className="flex space-x-2"></div>
@@ -725,7 +722,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                           
                           <div></div>
                             <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Shield className="w-4 h-4 inline mr-1" / />
+                              <Shield className="w-4 h-4 inline mr-1" />
                               Defense
                             </label>
                             <div className="flex space-x-2"></div>
@@ -749,7 +746,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                           
                           <div></div>
                             <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Zap className="w-4 h-4 inline mr-1" / />
+                              <Zap className="w-4 h-4 inline mr-1" />
                               Strength (Combined)
                             </label>
                             <div className="flex space-x-2"></div>
@@ -778,8 +775,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'sets' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Calendar className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Calendar className="w-5 h-5 mr-2" />
                         Sets & Rarity
                       </h3>
                       
@@ -835,7 +832,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                     : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20'
                                 }`}
                               >
-                                <Star className="w-3 h-3 inline mr-1" / />
+                                <Star className="w-3 h-3 inline mr-1" />
                                 {rarity}
                             ))}
                           </div>
@@ -843,7 +840,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                       
                       <div></div>
                         <label className="block text-sm font-medium text-white mb-2"></label>
-                          <Hash className="w-4 h-4 inline mr-2" / />
+                          <Hash className="w-4 h-4 inline mr-2" />
                           Collector Number
                         </label>
                         <div className="flex space-x-2"></div>
@@ -886,8 +883,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'prices' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <DollarSign className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <DollarSign className="w-5 h-5 mr-2" />
                         Price & Market
                       </h3>
                       
@@ -945,15 +942,15 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'flavor' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <BookOpen className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <BookOpen className="w-5 h-5 mr-2" />
                         Flavor & Lore
                       </h3>
                       
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
                         <div></div>
                           <label className="block text-sm font-medium text-white mb-2"></label>
-                            <User className="w-4 h-4 inline mr-2" / />
+                            <User className="w-4 h-4 inline mr-2" />
                             Artist
                           </label>
                           <div className="flex space-x-2"></div>
@@ -998,8 +995,8 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                   )}
                   {activeSection === 'advanced' && (
                     <div className="space-y-6"></div>
-                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center" />
-                        <Settings className="w-5 h-5 mr-2" / />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center"></h3>
+                        <Settings className="w-5 h-5 mr-2" />
                         Advanced Options
                       </h3>
                       
@@ -1007,7 +1004,7 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                         <div className="space-y-4"></div>
                           <div></div>
                             <label className="block text-sm font-medium text-white mb-2"></label>
-                              <Globe className="w-4 h-4 inline mr-2" / />
+                              <Globe className="w-4 h-4 inline mr-2" />
                               Language
                             </label>
                             <select
@@ -1109,14 +1106,14 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                                     onClick={() => removeCriteria(index)}
                                     className="p-1 text-red-400 hover:text-red-300"
                                   >
-                                    <Minus className="w-4 h-4" / />
+                                    <Minus className="w-4 h-4" />
                                   </button>
                               ))}
                               <button
                                 onClick={() => addCriteria('')}
                                 className="flex items-center space-x-2 px-3 py-1 bg-green-500/20 hover:bg-green-500/30 rounded text-green-400 text-sm transition-colors"
                               >
-                                <Plus className="w-4 h-4" / />
+                                <Plus className="w-4 h-4" />
                                 <span>Add criteria</span>
                             </div>
                         </div>
@@ -1138,15 +1135,13 @@ const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }
                 <div className="flex items-center space-x-3"></div>
                   <button
                     onClick={clearAll}
-                    className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
-                   />
+                    className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"></button>
                     Clear All
                   </button>
                   <button
                     onClick={handleSearch}
-                    className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                   />
-                    <Search className="w-4 h-4" / />
+                    className="flex items-center space-x-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"></button>
+                    <Search className="w-4 h-4" />
                     <span>Search Cards</span>
                 </div>
             </motion.div>

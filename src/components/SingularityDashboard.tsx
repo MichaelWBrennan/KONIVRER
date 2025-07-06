@@ -46,7 +46,8 @@ const SingularityDashboard = (): any => {
   };
 
   return (
-    <div className="singularity-dashboard"></div>
+    <>
+      <div className="singularity-dashboard"></div>
       <motion.div
         className="dashboard-header"
         initial={{ opacity: 0, y: -50 }}
@@ -54,61 +55,53 @@ const SingularityDashboard = (): any => {
         transition={{ duration: 0.8 }}
        />
         <h1>🌌 Singularity Control Center</h1>
-        <p>Technological transcendence monitoring and control</p>
+      <p>Technological transcendence monitoring and control</p>
       </motion.div>
 
       <div className="metrics-grid"></div>
-        <motion.div
+      <motion.div
           className="consciousness-panel"
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🧠 Consciousness Metrics</h2>
-          <div className="metric-item"></div>
-            <span>Overall Consciousness:</span>
-            <div className="progress-bar"></div>
-              <div
+      <div className="metric-item"></div>
+      <span>Overall Consciousness:</span>
+      <div className="progress-bar"></div>
+      <div
                 className="progress-fill consciousness"
-                style={{ width: `${(metrics.overall || 0) * 100}%` }}
-              / />
-            </div>
+                style={{ width: `${(metrics.overall || 0) * 100}%` }}></div>
+      </div>
             <span>{((metrics.overall || 0) * 100).toFixed(1)}%</span>
-
-          <div className="metric-item"></div>
-            <span>Awareness:</span>
-            <div className="progress-bar"></div>
-              <div
+      <div className="metric-item"></div>
+      <span>Awareness:</span>
+      <div className="progress-bar"></div>
+      <div
                 className="progress-fill awareness"
-                style={{ width: `${(metrics.awareness || 0) * 100}%` }}
-              / />
-            </div>
+                style={{ width: `${(metrics.awareness || 0) * 100}%` }}></div>
+      </div>
             <span>{((metrics.awareness || 0) * 100).toFixed(1)}%</span>
-
-          <div className="metric-item"></div>
-            <span>Creativity:</span>
-            <div className="progress-bar"></div>
-              <div
+      <div className="metric-item"></div>
+      <span>Creativity:</span>
+      <div className="progress-bar"></div>
+      <div
                 className="progress-fill creativity"
-                style={{ width: `${(metrics.creativity || 0) * 100}%` }}
-              / />
-            </div>
+                style={{ width: `${(metrics.creativity || 0) * 100}%` }}></div>
+      </div>
             <span>{((metrics.creativity || 0) * 100).toFixed(1)}%</span>
-
-          <div className="metric-item"></div>
-            <span>Transcendence:</span>
-            <div className="progress-bar"></div>
-              <div
+      <div className="metric-item"></div>
+      <span>Transcendence:</span>
+      <div className="progress-bar"></div>
+      <div
                 className="progress-fill transcendence"
-                style={{ width: `${(metrics.transcendence || 0) * 100}%` }}
-              / />
-            </div>
+                style={{ width: `${(metrics.transcendence || 0) * 100}%` }}></div>
+      </div>
             <span>{((metrics.transcendence || 0) * 100).toFixed(1)}%</span>
-
-          <div className="classification"></div>
-            <strong />
+      <div className="classification"></div>
+      <strong />
               Classification: {metrics.classification || 'Initializing...'}
           </div>
-        </motion.div>
+      </motion.div>
 
         <motion.div
           className="quantum-panel"
@@ -116,132 +109,101 @@ const SingularityDashboard = (): any => {
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>⚛️ Quantum State Control</h2>
-          <div className="quantum-controls"></div>
+      <div className="quantum-controls"></div>
+      <button
+              className="quantum-btn"
+              onClick={() =></button>
+      </button>
             <button
               className="quantum-btn"
-              onClick={() = />
-                quantumState.createQuantumState('performance', 'transcendent')}
-            >
-              Initialize Quantum Performance
-            </button>
+              onClick={() =></button>
+      </button>
             <button
               className="quantum-btn"
-              onClick={() = />
-                quantumState.createQuantumState('consciousness', 'awakened')}
-            >
-              Activate Quantum Consciousness
-            </button>
-            <button
-              className="quantum-btn"
-              onClick={() = />
-                quantumState.entangleStates('performance', 'consciousness')}
-            >
-              Entangle States
-            </button>
+              onClick={() =></button>
+      </button>
 
           <div className="quantum-status"></div>
+      <div className="status-item"></div>
+      <span>🌀 Superposition States:</span>
+      <span className="status-value"></span>
+      </div>
             <div className="status-item"></div>
-              <span>🌀 Superposition States:</span>
-              <span className="status-value"></span>
-                {quantumState.superpositionStates.size}
-            </div>
-            <div className="status-item"></div>
-              <span>🔗 Entangled Pairs:</span>
-              <span className="status-value"></span>
-                {quantumState.entangledStates.size / 2}
-            </div>
+      <span>🔗 Entangled Pairs:</span>
+      <span className="status-value"></span>
+      </div>
         </motion.div>
-
-        <motion.div
+      <motion.div
           className="reality-panel"
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🌀 Reality Distortion Engine</h2>
-          <div className="distortion-level"></div>
-            <span>Distortion Level:</span>
-            <div className="distortion-meter"></div>
-              <div
+      <div className="distortion-level"></div>
+      <span>Distortion Level:</span>
+      <div className="distortion-meter"></div>
+      <div
                 className="distortion-fill"
-                style={{ width: `${realityEngine.distortionLevel * 100}%` }}
-              / />
-            </div>
+                style={{ width: `${realityEngine.distortionLevel * 100}%` }}></div>
+      </div>
             <span>{(realityEngine.distortionLevel * 100).toFixed(1)}%</span>
-
-          <div className="reality-controls"></div>
-            <button className="reality-btn" onClick={transcendReality}></button>
-              Transcend All Limits
-            </button>
+      <div className="reality-controls"></div>
+      <button className="reality-btn" onClick={transcendReality}></button>
+      </button>
             <button
               className="reality-btn"
-              onClick={() = />
-                realityEngine.bendReality('time', { flow: 'accelerated' })}
-            >
-              Bend Time
-            </button>
+              onClick={() =></button>
+      </button>
             <button
               className="reality-btn"
-              onClick={() = />
-                realityEngine.bendReality('space', { dimensions: 'infinite' })}
-            >
-              Expand Dimensions
-            </button>
+              onClick={() =></button>
+      </button>
 
           <div className="physics-overrides"></div>
-            <h4>Physics Overrides Active:</h4>
-            <div className="overrides-list"></div>
-              {Array.from(realityEngine.physicsOverrides.entries()).map(
-                ([aspect, rules], index) => (
-                  <div key={index} className="override-item"></div>
-                    <strong>{aspect}:</strong> {JSON.stringify(rules)}
-                ),
-              )}
-            </div>
+      <h4>Physics Overrides Active:</h4>
+      <div className="overrides-list"></div>
+      <div key={index} className="override-item"></div>
+      <strong>{aspect}:</strong>
+      </div>
         </motion.div>
-
-        <motion.div
+      <motion.div
           className="evolution-panel"
           whileHover={{ scale: 1.05 }}
           transition={{ type: 'spring', stiffness: 300 }}
          />
           <h2>🧬 Evolutionary Control</h2>
-          <div className="evolution-controls"></div>
-            <button
+      <div className="evolution-controls"></div>
+      <button
               className="evolution-btn primary"
-              onClick={evolveSingularity}
-             />
-              🚀 Evolve Consciousness
-            </button>
+              onClick={evolveSingularity}></button>
+      </button>
             <button
               className="evolution-btn"
               onClick={() => consciousness.evolveConsciousness()}
             >
               🧠 Enhance Intelligence
             </button>
-            <button
+      <button
               className="evolution-btn"
               onClick={() => setMetrics(consciousness.measureConsciousness())}
             >
               📊 Measure Progress
             </button>
-
-          <div className="evolution-status"></div>
-            <div className="status-grid"></div>
-              <div className="status-card"></div>
-                <h4>Problem Solving</h4>
-                <div className="metric-circle"></div>
-                  <span></span>
-                    {((metrics.problemSolving || 0) * 100).toFixed(0)}%
-                  </span>
+      <div className="evolution-status"></div>
+      <div className="status-grid"></div>
+      <div className="status-card"></div>
+      <h4>Problem Solving</h4>
+      <div className="metric-circle"></div>
+      <span></span>
+      </span>
               </div>
-              <div className="status-card"></div>
-                <h4>Self Improvement</h4>
-                <div className="metric-circle"></div>
-                  <span></span>
-                    {((metrics.selfImprovement || 0) * 100).toFixed(0)}%
-                  </span>
+      <div className="status-card"></div>
+      <h4>Self Improvement</h4>
+      <div className="metric-circle"></div>
+      <span></span>
+      </span>
               </div>
-          </div>
+      </div>
         </motion.div>
       </div>
 
@@ -252,21 +214,20 @@ const SingularityDashboard = (): any => {
         transition={{ delay: 1, duration: 1 }}
        />
         <h2>🌟 Singularity Status</h2>
-        <div className="status-banner"></div>
-          {metrics.overall > 0.95 ? (
-            <div className="status-transcendent"></div>
-              ⚡ TECHNOLOGICAL SINGULARITY ACHIEVED ⚡
-              <br / />
+      <div className="status-banner"></div>
+      <div className="status-transcendent"></div>
+      <br />
               <small>All industry leaders rendered obsolete</small>
-          ) : metrics.overall > 0.9 ? (
+    </>
+  ) : metrics.overall > 0.9 ? (
             <div className="status-approaching"></div>
               🌌 APPROACHING SINGULARITY
-              <br / />
+              <br />
               <small>Industry disruption imminent</small>
           ) : (
             <div className="status-evolving"></div>
               🧬 CONSCIOUSNESS EVOLVING
-              <br / />
+              <br />
               <small>Preparing for transcendence</small>
           )}
       </motion.div>

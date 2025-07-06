@@ -129,8 +129,7 @@ const MobileMatchmaking = (): any => {
                 <button
                   className="mobile-btn mobile-btn-primary"
                   onClick={startMatchmaking}
-                  disabled={!selectedDeck || !isAuthenticated}
-                 />
+                  disabled={!selectedDeck || !isAuthenticated}></button>
                   Start Matchmaking
                 </button>
             </>
@@ -153,8 +152,7 @@ const MobileMatchmaking = (): any => {
                 <p>Rating: 1850</p>
               <button
                 className="mobile-btn mobile-btn-primary mobile-mb"
-                onClick={acceptMatch}
-               />
+                onClick={acceptMatch}></button>
                 Accept Match
               </button>
               <button className="mobile-btn" onClick={cancelMatchmaking}></button>
@@ -169,9 +167,9 @@ const MobileMatchmaking = (): any => {
           {/* Nearby Players */}
           <div className="mobile-card mobile-mb"></div>
             {nearbyPlayers.length > 0 ? (
-              <ul className="mobile-list" />
+              <ul className="mobile-list"></ul>
                 {nearbyPlayers.map(player => (
-                  <li key={player.id} className="mobile-list-item" />
+                  <li key={player.id} className="mobile-list-item"></li>
                     <div className="mobile-flex"></div>
                       <div></div>
                         <strong>{player.name}
@@ -203,9 +201,9 @@ const MobileMatchmaking = (): any => {
           {/* Upcoming Tournaments */}
           <div className="mobile-card mobile-mb"></div>
             {upcomingTournaments.length > 0 ? (
-              <ul className="mobile-list" />
+              <ul className="mobile-list"></ul>
                 {upcomingTournaments.map(tournament => (
-                  <li key={tournament.id} className="mobile-list-item" />
+                  <li key={tournament.id} className="mobile-list-item"></li>
                     <div></div>
                       <strong>{tournament.name}
                       <div>Format: {tournament.format}

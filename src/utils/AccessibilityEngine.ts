@@ -264,7 +264,7 @@ export class AccessibilityEngine {
     });
 
     // Handle focus trapping for modals
-    document.addEventListener('keydown': any, (event: any) => {
+    document.addEventListener('keydown', (event: any) => {
       if (this.keyboard.trapFocus && event.key === 'Tab') {
         this.handleFocusTrap(event);
       }
@@ -501,7 +501,7 @@ export class AccessibilityEngine {
       }, this.motor.dwellTime);
     });
 
-    document.addEventListener('mouseout': any, (event: any) => {
+    document.addEventListener('mouseout', (event: any) => {
       if (dwellTimer) {
         clearTimeout(dwellTimer);
         dwellTimer = null;
@@ -632,7 +632,7 @@ export class AccessibilityEngine {
     document.head.appendChild(style);
 
     // Apply focus indicators
-    document.addEventListener('focusin': any, (event: any) => {
+    document.addEventListener('focusin', (event: any) => {
       if (this.cognitive.focusIndicators) {
         event.target.classList.add('accessibility-focus-visible');
       }

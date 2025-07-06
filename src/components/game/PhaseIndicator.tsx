@@ -21,15 +21,13 @@ const PhaseIndicator = ({
   const turnNumber = Math.floor(Math.random() * 10) + 1; // This would normally come from game state
 
   return (
-    <div className="flex flex-col items-center"></div>
+    <>
+      <div className="flex flex-col items-center"></div>
       <div className="text-white text-xs mb-1 font-medium flex items-center"></div>
-        <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full mr-2"></span>
-          Turn {turnNumber}
-        <span className="text-white">Simultaneous Play</span>
-
-      {/* Simultaneous mode indicator */}
+      <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full mr-2"></span>
+      <span className="text-white">Simultaneous Play</span>
       <div className="flex items-center bg-black/40 backdrop-blur-sm rounded-full p-2 shadow-lg"></div>
-        <motion.div
+      <motion.div
           animate={{
             scale: [1, 1.05, 1],
             opacity: [0.9, 1, 0.9]
@@ -39,7 +37,7 @@ const PhaseIndicator = ({
          />
           Free Play Mode - Play Any Card Anytime
         </motion.div>
-      </div>
+    </>
   );
 };
 

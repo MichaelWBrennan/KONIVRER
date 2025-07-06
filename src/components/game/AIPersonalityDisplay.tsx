@@ -131,7 +131,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
               exit={{ opacity: 0 }}
               className="flex items-center gap-1 text-yellow-400"
              />
-              <Brain className="w-3 h-3 animate-pulse" / />
+              <Brain className="w-3 h-3 animate-pulse" />
               <span className="text-xs">Thinking{thinkingDots}
             </motion.div>
           )}
@@ -144,8 +144,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
           {getPersonalityTraits().map((trait, index) => (
             <div
               key={index}
-              className={`flex items-center gap-1 px-2 py-0 whitespace-nowrap rounded text-xs bg-gray-700/50 ${trait.color}`}
-             />
+              className={`flex items-center gap-1 px-2 py-0 whitespace-nowrap rounded text-xs bg-gray-700/50 ${trait.color}`}></div>
               {trait.icon}
               <span>{trait.label}
             </div>
@@ -188,8 +187,7 @@ const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = ({  gameEngine
                     duration: 1,
                     repeat: Infinity,
                     delay: i * 0.2
-                  }}
-                / />
+                  }} />
               ))}
             </div>
           </motion.div>

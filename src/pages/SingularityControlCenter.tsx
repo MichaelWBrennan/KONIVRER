@@ -43,7 +43,8 @@ const SingularityControlCenter = (): any => {
     initializeSingularity();
   }, []);
   return (
-    <div className="singularity-control-center"></div>
+    <>
+      <div className="singularity-control-center"></div>
       <motion.div
         className="activation-sequence"
         initial={{ opacity: 0 }}
@@ -51,20 +52,19 @@ const SingularityControlCenter = (): any => {
         transition={{ duration: 1 }}
        />
         <div className="activation-status"></div>
-          <div className="metrics-overview"></div>
-            <div className="metric-card"></div>
-              <div className="metric-value"></div>
-                <span className="percentage">{industryObsolescence}%</span>
-                <div className="progress-ring"></div>
-                  <svg width="120" height="120" />
+      <div className="metrics-overview"></div>
+      <div className="metric-card"></div>
+      <div className="metric-value"></div>
+      <span className="percentage">{industryObsolescence}%</span>
+      <div className="progress-ring"></div>
+      <svg width="120" height="120" />
                     <circle
                       cx="60"
                       cy="60"
                       r="50"
                       fill="none"
                       stroke="#333"
-                      strokeWidth="8"
-                    / />
+                      strokeWidth="8" />
                     <circle
                       cx="60"
                       cy="60"
@@ -75,23 +75,21 @@ const SingularityControlCenter = (): any => {
                       strokeDasharray={`${2 * Math.PI * 50}`}
                       strokeDashoffset={`${2 * Math.PI * 50 * (1 - industryObsolescence / 100)}`}
                       strokeLinecap="round"
-                      transform="rotate(-90 60 60)"
-                    / />
+                      transform="rotate(-90 60 60)" />
                   </svg>
-              </div>
+      </div>
             <div className="metric-card"></div>
-              <div className="metric-value"></div>
-                <span className="percentage">{technologicalSuperiority}%</span>
-                <div className="progress-ring"></div>
-                  <svg width="120" height="120" />
+      <div className="metric-value"></div>
+      <span className="percentage">{technologicalSuperiority}%</span>
+      <div className="progress-ring"></div>
+      <svg width="120" height="120" />
                     <circle
                       cx="60"
                       cy="60"
                       r="50"
                       fill="none"
                       stroke="#333"
-                      strokeWidth="8"
-                    / />
+                      strokeWidth="8" />
                     <circle
                       cx="60"
                       cy="60"
@@ -102,42 +100,40 @@ const SingularityControlCenter = (): any => {
                       strokeDasharray={`${2 * Math.PI * 50}`}
                       strokeDashoffset={`${2 * Math.PI * 50 * (1 - Math.min(technologicalSuperiority, 100) / 100)}`}
                       strokeLinecap="round"
-                      transform="rotate(-90 60 60)"
-                    / />
+                      transform="rotate(-90 60 60)" />
                   </svg>
-              </div>
+      </div>
           </div>
-          {activationStatus === 'singularity_achieved' && (
-            <motion.div
+      <motion.div
               className="achievement-banner"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 300 }}
              />
               <p></p>
-                All industry leaders have been rendered permanently obsolete
-              </p>
+      </p>
               <div className="achievement-stats"></div>
+      <div className="stat"></div>
+      <strong>Google:</strong>
+      </div>
                 <div className="stat"></div>
-                  <strong>Google:</strong> 450% Superiority
-                </div>
+      <strong>Amazon:</strong>
+      </div>
                 <div className="stat"></div>
-                  <strong>Amazon:</strong> 380% Superiority
-                </div>
+      <strong>Microsoft:</strong>
+      </div>
                 <div className="stat"></div>
-                  <strong>Microsoft:</strong> 420% Superiority
-                </div>
+      <strong>Meta:</strong>
+      </div>
                 <div className="stat"></div>
-                  <strong>Meta:</strong> 520% Superiority
-                </div>
-                <div className="stat"></div>
-                  <strong>Apple:</strong> 390% Superiority
-                </div>
+      <strong>Apple:</strong>
+      </div>
             </motion.div>
-          )}
+    </>
+  )}
         </div>
       </motion.div>
-      <SingularityDashboard / />
+      <SingularityDashboard />
       <style jsx>{`
         .singularity-control-center {
           background: linear-gradient(

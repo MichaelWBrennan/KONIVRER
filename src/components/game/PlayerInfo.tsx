@@ -72,21 +72,19 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             <img
               src={avatarUrl}
               alt={playerName}
-              className="w-full h-full object-cover"
-            / />
+              className="w-full h-full object-cover" />
           ) : (
-            <User className="w-7 h-7 text-gray-300" / />
+            <User className="w-7 h-7 text-gray-300" />
           )}
         </div>
 
         {/* Rank Badge */}
         <div
-          className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-lg border border-gray-800`}
-         />
+          className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-lg border border-gray-800`}></div>
           {playerRank.toLowerCase() === 'mythic' ? (
-            <Crown className="w-3 h-3 text-white" / />
+            <Crown className="w-3 h-3 text-white" />
           ) : (
-            <Award className="w-3 h-3 text-white" / />
+            <Award className="w-3 h-3 text-white" />
           )}
 
         {/* Active Player Indicator */}
@@ -94,8 +92,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
           <motion.div
             className="absolute -top-1 -left-1 w-4 h-4 bg-yellow-500 rounded-full"
             animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          / />
+            transition={{ duration: 1.5, repeat: Infinity }} />
         )}
       </div>
 
@@ -113,7 +110,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
            />
-            <Heart className="w-3 h-3 text-red-400" / />
+            <Heart className="w-3 h-3 text-red-400" />
             <span className="text-white text-xs font-medium"></span>
               {lifeCards.length}
           </motion.div>
@@ -124,7 +121,7 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
            />
-            <Zap className="w-3 h-3 text-yellow-400" / />
+            <Zap className="w-3 h-3 text-yellow-400" />
             <span className="text-white text-xs font-medium">{azoth}
           </motion.div>
 

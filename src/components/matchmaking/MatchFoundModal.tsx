@@ -67,11 +67,10 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
               className="absolute top-0 left-0 h-1 bg-white bg-opacity-30"
               initial={{ width: '100%' }}
               animate={{ width: '0%' }}
-              transition={{ duration: timeLimit, ease: 'linear' }}
-            / />
+              transition={{ duration: timeLimit, ease: 'linear' }} />
             <h3 className="text-xl font-bold">Match Found!</h3>
             <div className="flex items-center justify-center space-x-2 text-blue-100"></div>
-              <Clock className="w-4 h-4" / />
+              <Clock className="w-4 h-4" />
               <p>Accept or decline within {timeLeft} seconds</p>
           </div>
 
@@ -115,8 +114,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
                 <div className="flex items-center justify-between text-sm"></div>
                   <div className="text-gray-500">Ping</div>
                   <div
-                    className={`font-medium ${match.opponent.ping < 50 ? 'text-green-600' : match.opponent.ping < 100 ? 'text-yellow-600' : 'text-red-600'}`}
-                   />
+                    className={`font-medium ${match.opponent.ping < 50 ? 'text-green-600' : match.opponent.ping < 100 ? 'text-yellow-600' : 'text-red-600'}`}></div>
                     {match.opponent.ping} ms
                   </div>
               )}
@@ -129,7 +127,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                />
-                <X className="w-5 h-5" / />
+                <X className="w-5 h-5" />
                 <span>Decline</span>
               </motion.button>
               <motion.button
@@ -138,7 +136,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                />
-                <CheckCircle className="w-5 h-5" / />
+                <CheckCircle className="w-5 h-5" />
                 <span>Accept</span>
               </motion.button>
             </div>

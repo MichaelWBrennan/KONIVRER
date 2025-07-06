@@ -27,10 +27,10 @@ import { useAuth } from '../../contexts/AuthContext';
  * Provides a unified messaging interface that works across tournament software and digital game
  */
 interface UnifiedMessagingProps {
-  initialOpen = false;
-  initialConversation = null;
-  compact = false;
-  className = '';
+  initialOpen?: boolean;
+  initialConversation?: any;
+  compact?: boolean;
+  className?: string;
 }
 
 const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({  
@@ -187,65 +187,64 @@ const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({
   }, []);
   
   return (
-    <div className={`unified-messaging ${compact ? 'compact' : ''} ${className}`}></div>
+    <div className={`unified-messaging ${compact ? 'compact' : ''} ${className}`}>
       {/* Messaging Button */}
       <button 
         className="messaging-button"
-        onClick={toggleMessaging}
-       />
-        <MessageSquare size={24} / />
+        onClick={toggleMessaging}>
+        <MessageSquare size={24} />
         {unreadCount > 0 && (
-          <span className="unread-badge">{unreadCount}
+          <span className="unread-badge">{unreadCount}</span>
         )}
       </button>
       
       {/* Messaging Panel */}
-      <AnimatePresence />
+      <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             className="messaging-panel"
-           />
-            <div className="messaging-header"></div>
+           >
+            <div className="messaging-header">
               {activeConversation ? (
                 <>
                   <button 
                     className="back-button"
-                    onClick={closeConversation}
-                   />
-                    <ChevronLeft size={20} / />
+                    onClick={closeConversation}>
+                    <ChevronLeft size={20} />
                   </button>
-                  <div className="conversation-info"></div>
-                    <div className="user-avatar"></div>
-                      <User size={20} / />
+                  <div className="conversation-info">
+                    <div className="user-avatar">
+                      <User size={20} />
                     </div>
-                    <div className="user-name"></div>
+                    <div className="user-name">
                       {activeConversation.userId}
+                    </div>
                   </div>
                   <button 
                     className="more-button"
-                    onClick={toggleDropdown}
-                   />
-                    <MoreVertical size={20} / />
+                    onClick={toggleDropdown}>
+                    <MoreVertical size={20} />
                   </button>
                   
                   {/* Dropdown Menu */}
-                  <AnimatePresence />
+                  <AnimatePresence>
                     {showDropdown && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="dropdown-menu"
-                       />
-                        <button className="dropdown-item"></button>
-                          <BellOff size={16} / />
+                        className="dropdown-menu">
+                        <button className="dropdown-item">
+                          <BellOff size={16} />
                           <span>Mute Conversation</span>
-                        <button className="dropdown-item"></button>
-                          <Trash2 size={16} / />
+                        </button>
+                        <button className="dropdown-item">
+                          <Trash2 size={16} />
                           <span>Delete Conversation</span>
+                        </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -255,59 +254,61 @@ const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({
                   <div className="header-title">Messages</div>
                   <button 
                     className="close-button"
-                    onClick={toggleMessaging}
-                   />
-                    <X size={20} / />
+                    onClick={toggleMessaging}>
+                    <X size={20} />
                   </button>
                 </>
               )}
             </div>
             
-            <div className="messaging-content"></div>
+            <div className="messaging-content">
               {activeConversation ? (
-                <div className="conversation-view"></div>
+                <div className="conversation-view">
                   {/* Messages */}
-                  <div className="messages-container"></div>
+                  <div className="messages-container">
                     {isLoading ? (
-                      <div className="loading-messages"></div>
+                      <div className="loading-messages">
                         <span>Loading messages...</span>
+                      </div>
                     ) : messages.length === 0 ? (
-                      <div className="no-messages"></div>
+                      <div className="no-messages">
                         <span>No messages yet</span>
                         <p>Start the conversation by sending a message</p>
+                      </div>
                     ) : (
                       <>
                         {messages.map((message) => (
                           <div 
                             key={message.id}
-                            className={`message ${message.senderId === user?.id ? 'sent' : 'received'}`}
-                           />
-                            <div className="message-content"></div>
+                            className={`message ${message.senderId === user?.id ? 'sent' : 'received'}`}>
+                            <div className="message-content">
                               {message.content}
                               
-                              <div className="message-meta"></div>
-                                <span className="message-time"></span>
-                                  <Clock size={12} / />
+                              <div className="message-meta">
+                                <span className="message-time">
+                                  <Clock size={12} />
                                   {formatTimestamp(message.timestamp)}
+                                </span>
                                 
                                 {message.senderId === user?.id && (
                                   <button 
                                     className="delete-message"
                                     onClick={() => handleDeleteMessage(message.id)}
                                   >
-                                    <Trash2 size={12} / />
+                                    <Trash2 size={12} />
                                   </button>
                                 )}
                               </div>
+                            </div>
                           </div>
                         ))}
-                        <div ref={messagesEndRef} /></div>
+                        <div ref={messagesEndRef} />
                       </>
                     )}
                   </div>
                   
                   {/* Message Input */}
-                  <div className="message-input-container"></div>
+                  <div className="message-input-container">
                     <textarea
                       ref={inputRef}
                       className="message-input"
@@ -319,17 +320,18 @@ const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({
                     <button 
                       className="send-button"
                       onClick={handleSendMessage}
-                      disabled={!newMessage.trim()}
-                     />
-                      <Send size={20} / />
+                      disabled={!newMessage.trim()}>
+                      <Send size={20} />
                     </button>
+                  </div>
                 </div>
               ) : (
-                <div className="conversations-list"></div>
+                <div className="conversations-list">
                   {conversations.length === 0 ? (
-                    <div className="no-conversations"></div>
+                    <div className="no-conversations">
                       <span>No conversations yet</span>
                       <p>Start a new conversation by searching for a user</p>
+                    </div>
                   ) : (
                     <>
                       {conversations.map((conversation) => (
@@ -338,28 +340,31 @@ const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({
                           className={`conversation-item ${conversation.unreadCount > 0 ? 'unread' : ''}`}
                           onClick={() => openConversation(conversation)}
                         >
-                          <div className="user-avatar"></div>
-                            <User size={24} / />
+                          <div className="user-avatar">
+                            <User size={24} />
                           </div>
-                          <div className="conversation-details"></div>
-                            <div className="conversation-header"></div>
-                              <div className="user-name">{conversation.userId}
+                          <div className="conversation-details">
+                            <div className="conversation-header">
+                              <div className="user-name">{conversation.userId}</div>
                               {conversation.lastActivity && (
-                                <div className="last-activity"></div>
+                                <div className="last-activity">
                                   {formatTimestamp(conversation.lastActivity)}
+                                </div>
                               )}
                             </div>
                             {conversation.latestMessage && (
-                              <div className="latest-message"></div>
+                              <div className="latest-message">
                                 {conversation.latestMessage.content.length > 30
                                   ? conversation.latestMessage.content.substring(0, 30) + '...'
                                   : conversation.latestMessage.content
                                 }
+                              </div>
                             )}
                           </div>
                           {conversation.unreadCount > 0 && (
-                            <div className="unread-count"></div>
+                            <div className="unread-count">
                               {conversation.unreadCount}
+                            </div>
                           )}
                         </div>
                       ))}
@@ -371,6 +376,7 @@ const UnifiedMessaging: React.FC<UnifiedMessagingProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
   );
 };
 

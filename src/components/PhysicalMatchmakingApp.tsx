@@ -465,7 +465,7 @@ const PhysicalMatchmakingApp = (): any => {
                   }}
                 >
                   <div className="mobile-player-info"></div>
-                    <h3 className="mobile-player-name esoteric-text-accent" />
+                    <h3 className="mobile-player-name esoteric-text-accent"></h3>
                       {player.name || 'Unknown'}
                     <p className="mobile-player-deck esoteric-text-muted"></p>
                       {player.deckName || 'No deck'}
@@ -488,8 +488,7 @@ const PhysicalMatchmakingApp = (): any => {
           <h3 className="mobile-form-title esoteric-rune">Add New Player</h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handlePlayerSubmit}
-           />
+            onSubmit={handlePlayerSubmit}></form>
             <div className="mobile-form-group"></div>
               <label htmlFor="playerName" className="esoteric-text-muted"></label>
                 Player Name
@@ -548,8 +547,7 @@ const PhysicalMatchmakingApp = (): any => {
             <button
               type="submit"
               className="mobile-btn mobile-btn-primary esoteric-btn"
-              disabled={!newPlayerForm.name || !newPlayerForm.deckName}
-             />
+              disabled={!newPlayerForm.name || !newPlayerForm.deckName}></button>
               Add Player
             </button>
         </div>
@@ -562,7 +560,7 @@ const PhysicalMatchmakingApp = (): any => {
     () => (
       <div className="mobile-tab-content esoteric-card"></div>
         <div className="mobile-card-header esoteric-card-header"></div>
-          <h2 className="mobile-card-title esoteric-rune" />
+          <h2 className="mobile-card-title esoteric-rune"></h2>
             Tournament Management
           </h2>
 
@@ -596,7 +594,7 @@ const PhysicalMatchmakingApp = (): any => {
                   }}
                 >
                   <div className="mobile-tournament-info"></div>
-                    <h3 className="mobile-tournament-name esoteric-text-accent" />
+                    <h3 className="mobile-tournament-name esoteric-text-accent"></h3>
                       {tournament.name || 'Unknown'}
                     <p className="mobile-tournament-date esoteric-text-muted"></p>
                       {tournament.date
@@ -621,13 +619,12 @@ const PhysicalMatchmakingApp = (): any => {
         </div>
 
         <div className="mobile-form-container"></div>
-          <h3 className="mobile-form-title esoteric-rune" />
+          <h3 className="mobile-form-title esoteric-rune"></h3>
             Create New Tournament
           </h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handleTournamentSubmit}
-           />
+            onSubmit={handleTournamentSubmit}></form>
             <div className="mobile-form-group"></div>
               <label htmlFor="tournamentName" className="esoteric-text-muted"></label>
                 Tournament Name
@@ -673,8 +670,7 @@ const PhysicalMatchmakingApp = (): any => {
             <div className="mobile-form-group"></div>
               <label
                 htmlFor="tournamentLocation"
-                className="esoteric-text-muted"
-               />
+                className="esoteric-text-muted"></label>
                 Location
               </label>
               <input
@@ -696,8 +692,7 @@ const PhysicalMatchmakingApp = (): any => {
             <div className="mobile-form-group"></div>
               <label
                 htmlFor="tournamentMaxPlayers"
-                className="esoteric-text-muted"
-               />
+                className="esoteric-text-muted"></label>
                 Max Players
               </label>
               <input
@@ -724,8 +719,7 @@ const PhysicalMatchmakingApp = (): any => {
                 !newTournamentForm.name ||
                 !newTournamentForm.date ||
                 !newTournamentForm.location
-              }
-             />
+              }></button>
               Create Tournament
             </button>
         </div>
@@ -803,8 +797,7 @@ const PhysicalMatchmakingApp = (): any => {
                     <p className="mobile-match-result esoteric-text-muted"></p>
                       Result:{' '}
                       <span
-                        className={match.result ? 'esoteric-text-accent' : ''}
-                       />
+                        className={match.result ? 'esoteric-text-accent' : ''}></span>
                         {resultText}
                     </p>
                   <div className="mobile-match-actions"></div>
@@ -833,8 +826,7 @@ const PhysicalMatchmakingApp = (): any => {
           <h3 className="mobile-form-title esoteric-rune">Create New Match</h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handleMatchSubmit}
-           />
+            onSubmit={handleMatchSubmit}></form>
             <div className="mobile-form-group"></div>
               <label htmlFor="player1" className="esoteric-text-muted"></label>
                 Player 1
@@ -962,8 +954,7 @@ const PhysicalMatchmakingApp = (): any => {
                 !newMatchForm.player1Id ||
                 !newMatchForm.player2Id ||
                 newMatchForm.player1Id === newMatchForm.player2Id
-              }
-             />
+              }></button>
               Create Match
             </button>
         </div>
@@ -987,7 +978,7 @@ const PhysicalMatchmakingApp = (): any => {
           <h2 className="mobile-card-title esoteric-rune">Settings</h2>
 
         <div className="mobile-settings-section"></div>
-          <h3 className="mobile-settings-title esoteric-rune" />
+          <h3 className="mobile-settings-title esoteric-rune"></h3>
             Data Management
           </h3>
           <div className="mobile-settings-actions"></div>
@@ -1023,47 +1014,30 @@ const PhysicalMatchmakingApp = (): any => {
   const renderPlayerDetailModal = useCallback(() => {
     if (!selectedPlayer) return null;
     return (
+    <>
       <div className="mobile-modal esoteric-modal"></div>
-        <div className="mobile-modal-content esoteric-modal-content"></div>
-          <div className="mobile-modal-header esoteric-modal-header"></div>
-            <h2 className="mobile-modal-title esoteric-rune">Player Details</h2>
-            <button
+      <div className="mobile-modal-content esoteric-modal-content"></div>
+      <div className="mobile-modal-header esoteric-modal-header"></div>
+      <h2 className="mobile-modal-title esoteric-rune">Player Details</h2>
+      <button
               onClick={() => setSelectedPlayer(null)}
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-
-          <div className="mobile-modal-body"></div>
-            <div className="mobile-player-detail"></div>
-              <h3 className="esoteric-text-accent" />
-                {selectedPlayer.name || 'Unknown'}
-              <p className="esoteric-text-muted"></p>
-                Deck: {selectedPlayer.deckName || 'No deck'}
-              {selectedPlayer.contactInfo && (
-                <p className="esoteric-text-muted"></p>
-                  Contact: {selectedPlayer.contactInfo}
-              )}
-              <p className="esoteric-text-muted"></p>
-                Rating: {Math.round(selectedPlayer.rating || 1500)}
-
-              {selectedPlayer.matches && selectedPlayer.matches.length > 0 && (
-                <div className="mobile-player-stats"></div>
-                  <h4 className="esoteric-rune">Match History</h4>
-                  <p className="esoteric-text-muted"></p>
-                    Wins: {selectedPlayer.wins || 0} | Losses:{' '}
-                    {selectedPlayer.losses || 0} | Draws:{' '}
-                    {selectedPlayer.draws || 0}
-                  <p className="esoteric-text-muted"></p>
-                    Win Rate:{' '}
-                    {(
-                      (selectedPlayer.wins / selectedPlayer.matches.length) *
-                      100
-                    ).toFixed(1)}
-                    %
-                  </p>
-              )}
+      <div className="mobile-modal-body"></div>
+      <div className="mobile-player-detail"></div>
+      <h3 className="esoteric-text-accent"></h3>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <div className="mobile-player-stats"></div>
+      <h4 className="esoteric-rune">Match History</h4>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+    </>
+  )}
             </div>
 
             <div className="mobile-modal-actions"></div>
@@ -1099,12 +1073,12 @@ const PhysicalMatchmakingApp = (): any => {
       [];
 
     return (
+    <>
       <div className="mobile-modal esoteric-modal"></div>
-        <div className="mobile-modal-content esoteric-modal-content"></div>
-          <div className="mobile-modal-header esoteric-modal-header"></div>
-            <h2 className="mobile-modal-title esoteric-rune" />
-              Tournament Details
-            </h2>
+      <div className="mobile-modal-content esoteric-modal-content"></div>
+      <div className="mobile-modal-header esoteric-modal-header"></div>
+      <h2 className="mobile-modal-title esoteric-rune"></h2>
+      </h2>
             <button
               onClick={() => setSelectedTournament(null)}
               className="mobile-btn-close esoteric-btn-close"
@@ -1112,37 +1086,21 @@ const PhysicalMatchmakingApp = (): any => {
             >
               ✕
             </button>
-
-          <div className="mobile-modal-body"></div>
-            <div className="mobile-tournament-detail"></div>
-              <h3 className="esoteric-text-accent" />
-                {selectedTournament.name || 'Unknown Tournament'}
-              <p className="esoteric-text-muted"></p>
-                Date:{' '}
-                {selectedTournament.date
-                  ? new Date(selectedTournament.date).toLocaleDateString()
-                  : 'No date'}
-              <p className="esoteric-text-muted"></p>
-                Location: {selectedTournament.location || 'No location'}
-              <p className="esoteric-text-muted"></p>
-                Players: {tournamentPlayers.length} /{' '}
-                {selectedTournament.maxPlayers || 32}
-              <p className="esoteric-text-muted"></p>
-                Status: {selectedTournament.status || 'Not Started'}
-
-              {tournamentPlayers.length > 0 && (
-                <div className="mobile-tournament-players"></div>
-                  <h4 className="esoteric-rune">Participants</h4>
-                  <div className="mobile-player-chips"></div>
-                    {tournamentPlayers.map(player => (
-                      <div
+      <div className="mobile-modal-body"></div>
+      <div className="mobile-tournament-detail"></div>
+      <h3 className="esoteric-text-accent"></h3>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <div className="mobile-tournament-players"></div>
+      <h4 className="esoteric-rune">Participants</h4>
+      <div className="mobile-player-chips"></div>
+      <div
                         key={player.id}
-                        className="mobile-player-chip esoteric-chip"
-                       />
-                        {player.name || 'Unknown'}
-                    ))}
-                  </div>
-              )}
+                        className="mobile-player-chip esoteric-chip"></div>
+    </>
+  )}
               {tournamentMatches.length > 0 && (
                 <div className="mobile-tournament-matches"></div>
                   <h4 className="esoteric-rune">Matches</h4>
@@ -1183,55 +1141,39 @@ const PhysicalMatchmakingApp = (): any => {
     );
 
     return (
+    <>
       <div className="mobile-modal esoteric-modal"></div>
-        <div className="mobile-modal-content esoteric-modal-content"></div>
-          <div className="mobile-modal-header esoteric-modal-header"></div>
-            <h2 className="mobile-modal-title esoteric-rune">Match Details</h2>
-            <button
+      <div className="mobile-modal-content esoteric-modal-content"></div>
+      <div className="mobile-modal-header esoteric-modal-header"></div>
+      <h2 className="mobile-modal-title esoteric-rune">Match Details</h2>
+      <button
               onClick={() => setSelectedMatch(null)}
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-
-          <div className="mobile-modal-body"></div>
-            <div className="mobile-match-detail"></div>
-              <div className="mobile-match-players-detail"></div>
-                <div className="mobile-player-card esoteric-player-card"></div>
-                  <h3 className="esoteric-text-accent" />
-                    {player1?.name || 'Unknown'}
-                  <p className="esoteric-text-muted"></p>
-                    {player1?.deckName || 'No deck'}
-                </div>
+      <div className="mobile-modal-body"></div>
+      <div className="mobile-match-detail"></div>
+      <div className="mobile-match-players-detail"></div>
+      <div className="mobile-player-card esoteric-player-card"></div>
+      <h3 className="esoteric-text-accent"></h3>
+      <p className="esoteric-text-muted"></p>
+      </div>
 
                 <div className="mobile-vs-badge esoteric-vs-badge">VS</div>
-
-                <div className="mobile-player-card esoteric-player-card"></div>
-                  <h3 className="esoteric-text-accent" />
-                    {player2?.name || 'Unknown'}
-                  <p className="esoteric-text-muted"></p>
-                    {player2?.deckName || 'No deck'}
-                </div>
+      <div className="mobile-player-card esoteric-player-card"></div>
+      <h3 className="esoteric-text-accent"></h3>
+      <p className="esoteric-text-muted"></p>
+      </div>
 
               <div className="mobile-match-meta"></div>
-                <p className="esoteric-text-muted"></p>
-                  Tournament: {tournament?.name || 'Quick Match'}
-                <p className="esoteric-text-muted"></p>
-                  Round: {selectedMatch.round || 1} • Table:{' '}
-                  {selectedMatch.table || 1}
-                <p className="esoteric-text-muted"></p>
-                  Status: {selectedMatch.result ? 'Completed' : 'Pending'}
-                {selectedMatch.result && (
-                  <p className="esoteric-text-accent"></p>
-                    Result:{' '}
-                    {selectedMatch.result === 'player1'
-                      ? `${player1?.name || 'Player 1'} won`
-                      : selectedMatch.result === 'player2'
-                        ? `${player2?.name || 'Player 2'} won`
-                        : 'Draw'}
-                  </p>
-                )}
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-accent"></p>
+    </>
+  )}
               </div>
 
               {!selectedMatch.result && (
@@ -1239,21 +1181,21 @@ const PhysicalMatchmakingApp = (): any => {
                   <h4 className="esoteric-rune">Record Result</h4>
                   <div className="mobile-result-buttons"></div>
                     <button
-                      onClick={() = />
+                      onClick={() =></button>
                         handleRecordResult(selectedMatch.id, 'player1')}
                       className="mobile-btn esoteric-btn"
                     >
                       {player1?.name || 'Player 1'} Won
                     </button>
                     <button
-                      onClick={() = />
+                      onClick={() =></button>
                         handleRecordResult(selectedMatch.id, 'player2')}
                       className="mobile-btn esoteric-btn"
                     >
                       {player2?.name || 'Player 2'} Won
                     </button>
                     <button
-                      onClick={() = />
+                      onClick={() =></button>
                         handleRecordResult(selectedMatch.id, 'draw')}
                       className="mobile-btn esoteric-btn"
                     >
@@ -1298,11 +1240,12 @@ const PhysicalMatchmakingApp = (): any => {
   const renderImportModal = useCallback(() => {
     if (!isImporting) return null;
     return (
+    <>
       <div className="mobile-modal esoteric-modal"></div>
-        <div className="mobile-modal-content esoteric-modal-content"></div>
-          <div className="mobile-modal-header esoteric-modal-header"></div>
-            <h2 className="mobile-modal-title esoteric-rune">Import Data</h2>
-            <button
+      <div className="mobile-modal-content esoteric-modal-content"></div>
+      <div className="mobile-modal-header esoteric-modal-header"></div>
+      <h2 className="mobile-modal-title esoteric-rune">Import Data</h2>
+      <button
               onClick={() => {
                 setIsImporting(false);
                 setImportData('');
@@ -1313,19 +1256,17 @@ const PhysicalMatchmakingApp = (): any => {
             >
               ✕
             </button>
-
-          <div className="mobile-modal-body"></div>
-            <div className="mobile-import-form"></div>
-              <p className="esoteric-text-muted"></p>
-                Paste the exported JSON data below to import players,
-                tournaments, and matches.
-              </p>
+      <div className="mobile-modal-body"></div>
+      <div className="mobile-import-form"></div>
+      <p className="esoteric-text-muted"></p>
+      </p>
 
               {importError && (
                 <div className="mobile-error-message esoteric-error-message"></div>
-                  <p>{importError}
+      <p>{importError}
                 </div>
-              )}
+    </>
+  )}
               <div className="mobile-form-group"></div>
                 <label htmlFor="importDataText" className="esoteric-text-muted"></label>
                   JSON Data
@@ -1344,8 +1285,7 @@ const PhysicalMatchmakingApp = (): any => {
                 <button
                   onClick={handleImport}
                   className="mobile-btn mobile-btn-primary esoteric-btn"
-                  disabled={!importDataText}
-                 />
+                  disabled={!importDataText}></button>
                   Import
                 </button>
                 <button
@@ -1367,26 +1307,24 @@ const PhysicalMatchmakingApp = (): any => {
   const renderQRCodeModal = useCallback(() => {
     if (!showQRCode) return null;
     return (
+    <>
       <div className="mobile-modal esoteric-modal"></div>
-        <div className="mobile-modal-content esoteric-modal-content"></div>
-          <div className="mobile-modal-header esoteric-modal-header"></div>
-            <h2 className="mobile-modal-title esoteric-rune">Match QR Code</h2>
-            <button
+      <div className="mobile-modal-content esoteric-modal-content"></div>
+      <div className="mobile-modal-header esoteric-modal-header"></div>
+      <h2 className="mobile-modal-title esoteric-rune">Match QR Code</h2>
+      <button
               onClick={() => setShowQRCode(false)}
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-
-          <div className="mobile-modal-body mobile-qr-container"></div>
-            <div className="mobile-qr-code esoteric-qr-code"></div>
-              <QRCode value={qrCodeData || '{}'} size={250} / />
+      <div className="mobile-modal-body mobile-qr-container"></div>
+      <div className="mobile-qr-code esoteric-qr-code"></div>
+      <QRCode value={qrCodeData || '{}'} size={250} />
             </div>
-
-            <p className="esoteric-text-muted"></p>
-              Scan this code to access match details
-            </p>
+      <p className="esoteric-text-muted"></p>
+      </p>
 
             <button
               onClick={() => setShowQRCode(false)}
@@ -1394,8 +1332,8 @@ const PhysicalMatchmakingApp = (): any => {
             >
               Close
             </button>
-        </div>
-    );
+    </>
+  );
   }, [showQRCode, qrCodeData]);
 
   return (

@@ -99,30 +99,24 @@ const PhysicalPlayEnhancements: React.FC<PhysicalPlayEnhancementsProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic] p-6"></div>
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic] p-6"></div>
       <div className="max-w-7xl mx-auto"></div>
-        {/* Header */}
-        <motion.div
+      <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
          />
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent" />
-            Physical Play Enhancements
-          </h1>
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent"></h1>
+      </h1>
           <p className="text-gray-300 text-lg"></p>
-            Industry-leading tools for in-person tournament management
-          </p>
+      </p>
           <div className="mt-4 bg-green-600/20 border border-green-500 rounded-lg p-3 inline-block"></div>
-            <span className="text-green-300 font-semibold"></span>
-              All Premium Features Free
-            </span>
+      <span className="text-green-300 font-semibold"></span>
+      </span>
         </motion.div>
-
-        {/* Feature Selector */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8"></div>
-          {features.map(feature => (
-            <motion.button
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8"></div>
+      <motion.button
               key={feature.id}
               onClick={() => setActiveFeature(feature.id)}
               whileHover={{ scale: 1.05 }}
@@ -134,13 +128,12 @@ const PhysicalPlayEnhancements: React.FC<PhysicalPlayEnhancementsProps> = ({
               }`}
             >
               <div className="flex flex-col items-center text-center"></div>
-                {feature.icon}
-                <h3 className="font-semibold mt-2 text-sm">{feature.name}
+      <h3 className="font-semibold mt-2 text-sm">{feature.name}
                 <p className="text-xs text-gray-400 mt-1"></p>
-                  {feature.description}
-              </div>
+      </div>
             </motion.button>
-          ))}
+    </>
+  ))}
         </div>
 
         {/* Feature Content */}
@@ -160,31 +153,28 @@ const PhysicalPlayEnhancements: React.FC<PhysicalPlayEnhancementsProps> = ({
                 scanResults={scanResults}
                 setScanResults={setScanResults}
                 videoRef={videoRef}
-                canvasRef={canvasRef}
-              / />
+                canvasRef={canvasRef} />
             )}
             {activeFeature === 'nfc-pairing' && (
-              <NFCPairingSystem players={players} tournament={tournament} / />
+              <NFCPairingSystem players={players} tournament={tournament} />
             )}
             {activeFeature === 'voice-control' && (
               <VoiceControlSystem
                 voiceEnabled={voiceEnabled}
                 setVoiceEnabled={setVoiceEnabled}
                 tournament={tournament}
-                onUpdateTournament={onUpdateTournament}
-              / />
+                onUpdateTournament={onUpdateTournament} />
             )}
             {activeFeature === 'venue-optimization' && (
-              <VenueOptimization tournament={tournament} players={players} / />
+              <VenueOptimization tournament={tournament} players={players} />
             )}
             {activeFeature === 'environmental' && (
               <EnvironmentalAdaptation
                 settings={environmentSettings}
-                setSettings={setEnvironmentSettings}
-              / />
+                setSettings={setEnvironmentSettings} />
             )}
             {activeFeature === 'streaming' && (
-              <StreamingIntegration tournament={tournament} / />
+              <StreamingIntegration tournament={tournament} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -261,61 +251,53 @@ const DeckRegistrationScanner: React.FC<DeckRegistrationScannerProps> = ({
   }, [setScanResults]);
 
   return (
-    <div></div>
-      <h2 className="text-2xl font-bold mb-6" />
-        Computer Vision Deck Registration
+    <>
+      <div></div>
+      <h2 className="text-2xl font-bold mb-6"></h2>
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        {/* Camera Feed */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <div className="flex items-center justify-between mb-4"></div>
-            <h3 className="text-lg font-semibold">Camera Feed</h3>
-            <div className="flex space-x-2"></div>
-              <button
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <h3 className="text-lg font-semibold">Camera Feed</h3>
+      <div className="flex space-x-2"></div>
+      <button
                 onClick={isScanning ? stopScanning : startScanning}
                 className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                   isScanning
                     ? 'bg-red-600 hover:bg-red-700'
                     : 'bg-green-600 hover:bg-green-700'
-                }`}
-               />
-                {isScanning ? (
-                  <>
-                    <Camera className="w-4 h-4 mr-2 inline" / />
+                }`}></button>
+      <Camera className="w-4 h-4 mr-2 inline" />
                     Stop Scanning
                   </>
                 ) : (
                   <>
-                    <Scan className="w-4 h-4 mr-2 inline" / />
+                    <Scan className="w-4 h-4 mr-2 inline" />
                     Start Scanning
                   </>
                 )}
             </div>
-
-          <div
+      <div
             className="relative bg-black rounded-lg overflow-hidden"
-            style={{ aspectRatio: '16/9' }}
-           />
-            <video
+            style={{ aspectRatio: '16/9' }}></div>
+      <video
               ref={videoRef}
               autoPlay
               playsInline
               muted
-              className="w-full h-full object-cover"
-            / />
+              className="w-full h-full object-cover" />
             <canvas
               ref={canvasRef}
-              className="absolute inset-0 w-full h-full"
-            / />
+              className="absolute inset-0 w-full h-full" />
             {isScanning && (
               <div className="absolute inset-0 flex items-center justify-center"></div>
-                <div className="border-2 border-purple-500 rounded-lg w-64 h-40 flex items-center justify-center"></div>
-                  <span className="text-purple-300 font-medium"></span>
-                    Position card here
-                  </span>
+      <div className="border-2 border-purple-500 rounded-lg w-64 h-40 flex items-center justify-center"></div>
+      <span className="text-purple-300 font-medium"></span>
+      </span>
               </div>
-            )}
+    </>
+  )}
             {currentCard && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -334,8 +316,7 @@ const DeckRegistrationScanner: React.FC<DeckRegistrationScannerProps> = ({
             <div className="mt-4 flex justify-center"></div>
               <button
                 onClick={simulateCardDetection}
-                className="bg-purple-600 hover:bg-purple-700 px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"
-               />
+                className="bg-purple-600 hover:bg-purple-700 px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors"></button>
                 Simulate Card Detection
               </button>
           )}
@@ -361,7 +342,7 @@ const DeckRegistrationScanner: React.FC<DeckRegistrationScannerProps> = ({
                   <p className="text-sm text-green-400"></p>
                     {Math.round(card.confidence * 100)}%
                   </p>
-                  <CheckCircle className="w-4 h-4 text-green-400 ml-auto" / />
+                  <CheckCircle className="w-4 h-4 text-green-400 ml-auto" />
                 </div>
               </motion.div>
             ))}
@@ -369,7 +350,7 @@ const DeckRegistrationScanner: React.FC<DeckRegistrationScannerProps> = ({
 
           {scanResults.length === 0 && (
             <div className="text-center py-8 text-gray-400"></div>
-              <Scan className="w-12 h-12 mx-auto mb-2 opacity-50" / />
+              <Scan className="w-12 h-12 mx-auto mb-2 opacity-50" />
               <p>No cards detected yet</p>
               <p className="text-sm">Start scanning to detect cards</p>
           )}
@@ -444,45 +425,37 @@ const NFCPairingSystem: React.FC<NFCPairingSystemProps> = ({  players, tournamen
   );
 
   return (
-    <div></div>
+    <>
+      <div></div>
       <h2 className="text-2xl font-bold mb-6">NFC Quick Pairing</h2>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        {/* NFC Status */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center" />
-            <NfcIcon className="w-5 h-5 mr-2" / />
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <h3 className="text-lg font-semibold mb-4 flex items-center"></h3>
+      <NfcIcon className="w-5 h-5 mr-2" />
             NFC Status
           </h3>
-
-          <div className="space-y-4"></div>
-            <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
-              <span>NFC Support</span>
-              <div className="flex items-center"></div>
-                {nfcEnabled ? (
-                  <>
-                    <CheckCircle className="w-5 h-5 text-green-400 mr-2" / />
+      <div className="space-y-4"></div>
+      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
+      <span>NFC Support</span>
+      <div className="flex items-center"></div>
+      <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
                     <span className="text-green-400">Available</span>
-                  </>
+      </>
                 ) : (
                   <>
-                    <AlertCircle className="w-5 h-5 text-red-400 mr-2" / />
+                    <AlertCircle className="w-5 h-5 text-red-400 mr-2" />
                     <span className="text-red-400">Not Available</span>
-                  </>
+      </>
                 )}
             </div>
-
-            <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
-              <span>Active Pairings</span>
-              <span className="font-semibold">{pairedPlayers.length}
+      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
+      <span>Active Pairings</span>
+      <span className="font-semibold">{pairedPlayers.length}
             </div>
-
-            {!nfcEnabled && (
-              <div className="p-3 bg-yellow-600/20 border border-yellow-500 rounded-lg"></div>
-                <p className="text-yellow-300 text-sm"></p>
-                  NFC not supported on this device. Use QR codes as alternative.
-                </p>
-            )}
+      <div className="p-3 bg-yellow-600/20 border border-yellow-500 rounded-lg"></div>
+      <p className="text-yellow-300 text-sm"></p>
+    </>
+  )}
         </div>
 
         {/* Player Pairing */}
@@ -493,8 +466,7 @@ const NFCPairingSystem: React.FC<NFCPairingSystemProps> = ({  players, tournamen
             {players.slice(0, 6).map(player => (
               <div
                 key={player.id}
-                className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"
-               />
+                className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
                 <div></div>
                   <p className="font-medium">{player.name}
                   <p className="text-sm text-gray-400"></p>
@@ -514,12 +486,12 @@ const NFCPairingSystem: React.FC<NFCPairingSystemProps> = ({  players, tournamen
                 >
                   {scanningFor === player.id ? (
                     <>
-                      <RefreshCw className="w-3 h-3 mr-1 inline animate-spin" / />
+                      <RefreshCw className="w-3 h-3 mr-1 inline animate-spin" />
                       Scanning...
                     </>
                   ) : (
                     <>
-                      <NfcIcon className="w-3 h-3 mr-1 inline" / />
+                      <NfcIcon className="w-3 h-3 mr-1 inline" />
                       Pair
                     </>
                   )}
@@ -674,17 +646,16 @@ const VoiceControlSystem: React.FC<VoiceControlSystemProps> = ({
   }, []);
 
   return (
-    <div></div>
-      <h2 className="text-2xl font-bold mb-6" />
-        Voice-Controlled Match Reporting
+    <>
+      <div></div>
+      <h2 className="text-2xl font-bold mb-6"></h2>
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        {/* Voice Control Interface */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <div className="flex items-center justify-between mb-4"></div>
-            <h3 className="text-lg font-semibold">Voice Control</h3>
-            <button
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <div className="flex items-center justify-between mb-4"></div>
+      <h3 className="text-lg font-semibold">Voice Control</h3>
+      <button
               onClick={() => setVoiceEnabled(!voiceEnabled)}
               className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                 voiceEnabled
@@ -694,20 +665,19 @@ const VoiceControlSystem: React.FC<VoiceControlSystemProps> = ({
             >
               {voiceEnabled ? (
                 <>
-                  <Volume2 className="w-4 h-4 mr-2 inline" / />
+                  <Volume2 className="w-4 h-4 mr-2 inline" />
                   Enabled
                 </>
               ) : (
                 <>
-                  <VolumeX className="w-4 h-4 mr-2 inline" / />
+                  <VolumeX className="w-4 h-4 mr-2 inline" />
                   Disabled
                 </>
               )}
           </div>
-
-          <div className="space-y-4"></div>
-            <div className="text-center"></div>
-              <button
+      <div className="space-y-4"></div>
+      <div className="text-center"></div>
+      <button
                 onClick={isListening ? stopListening : startListening}
                 disabled={!voiceEnabled}
                 className={`w-24 h-24 rounded-full flex items-center justify-center transition-all ${
@@ -716,23 +686,21 @@ const VoiceControlSystem: React.FC<VoiceControlSystemProps> = ({
                     : voiceEnabled
                       ? 'bg-purple-600 hover:bg-purple-700'
                       : 'bg-gray-600 cursor-not-allowed'
-                }`}
-               />
-                {isListening ? (
-                  <MicOff className="w-8 h-8" / />
+                }`}></button>
+      <MicOff className="w-8 h-8" />
                 ) : (
-                  <Mic className="w-8 h-8" / />
+                  <Mic className="w-8 h-8" />
                 )}
               <p className="mt-2 text-sm text-gray-400"></p>
-                {isListening ? 'Listening...' : 'Click to start listening'}
-            </div>
+      </div>
 
             {recognizedText && (
               <div className="p-3 bg-gray-800/50 rounded-lg"></div>
-                <p className="text-sm text-gray-400 mb-1">Recognized:</p>
-                <p className="font-medium">{recognizedText}
+      <p className="text-sm text-gray-400 mb-1">Recognized:</p>
+      <p className="font-medium">{recognizedText}
               </div>
-            )}
+    </>
+  )}
             {lastCommand && (
               <div className="p-3 bg-green-600/20 border border-green-500 rounded-lg"></div>
                 <p className="text-sm text-green-400 mb-1">Last Command:</p>
@@ -766,7 +734,7 @@ const VoiceControlSystem: React.FC<VoiceControlSystemProps> = ({
 
           {voiceCommands.length === 0 && (
             <div className="text-center py-8 text-gray-400"></div>
-              <Mic className="w-12 h-12 mx-auto mb-2 opacity-50" / />
+              <Mic className="w-12 h-12 mx-auto mb-2 opacity-50" />
               <p>No voice commands yet</p>
               <p className="text-sm">Start speaking to see commands here</p>
           )}
@@ -778,16 +746,16 @@ const VoiceControlSystem: React.FC<VoiceControlSystemProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           <div></div>
             <h4 className = "font-medium mb-2 text-purple-300">Match Results</h4>
-            <ul className="space-y-1 text-sm text-gray-400" />
+            <ul className="space-y-1 text-sm text-gray-400"></ul>
               <li>"Player [name] won"</li>
               <li>"Record match result"</li>
               <li>"Match ended in draw"</li>
           </div>
           <div></div>
-            <h4 className="font-medium mb-2 text-purple-300" />
+            <h4 className="font-medium mb-2 text-purple-300"></h4>
               Tournament Control
             </h4>
-            <ul className="space-y-1 text-sm text-gray-400" />
+            <ul className="space-y-1 text-sm text-gray-400"></ul>
               <li>"Next round"</li>
               <li>"Time extension"</li>
               <li>"Pause tournament"</li>
@@ -827,22 +795,18 @@ const VenueOptimization: React.FC<VenueOptimizationProps> = ({  tournament, play
   ];
 
   return (
-    <div></div>
+    <>
+      <div></div>
       <h2 className="text-2xl font-bold mb-6">Venue Optimization</h2>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        {/* Layout Configuration */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4">Layout Configuration</h3>
-
-          <div className="space-y-4"></div>
-            <div></div>
-              <label className="block text-sm font-medium mb-2"></label>
-                Layout Type
-              </label>
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <h3 className="text-lg font-semibold mb-4">Layout Configuration</h3>
+      <div className="space-y-4"></div>
+      <div></div>
+      <label className="block text-sm font-medium mb-2"></label>
+      </label>
               <div className="grid grid-cols-2 gap-2"></div>
-                {layoutOptions.map(option => (
-                  <button
+      <button
                     key={option.id}
                     onClick={() => setVenueLayout(option.id)}
                     className={`p-3 rounded-lg border text-left transition-colors ${
@@ -853,9 +817,8 @@ const VenueOptimization: React.FC<VenueOptimizationProps> = ({  tournament, play
                   >
                     <p className="font-medium">{option.name}
                     <p className="text-xs text-gray-400"></p>
-                      {option.description}
-                  </button>
-                ))}
+    </>
+  ))}
               </div>
 
             <div></div>
@@ -890,8 +853,7 @@ const VenueOptimization: React.FC<VenueOptimizationProps> = ({  tournament, play
           <div className="bg-gray-800 rounded-lg p-4 min-h-64 flex items-center justify-center"></div>
             <VenueLayoutVisualization
               layout={venueLayout}
-              tableCount={tableCount}
-            / />
+              tableCount={tableCount} />
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2 text-center text-sm"></div>
@@ -921,20 +883,17 @@ const EnvironmentalAdaptation: React.FC<EnvironmentalAdaptationProps> = ({  sett
   };
 
   return (
-    <div></div>
+    <>
+      <div></div>
       <h2 className="text-2xl font-bold mb-6">Environmental Adaptation</h2>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
-        {/* Lighting Conditions */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center" />
-            <Eye className="w-5 h-5 mr-2" / />
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <h3 className="text-lg font-semibold mb-4 flex items-center"></h3>
+      <Eye className="w-5 h-5 mr-2" />
             Lighting
           </h3>
-
-          <div className="space-y-3"></div>
-            {['dim', 'normal', 'bright'].map(level => (
-              <button
+      <div className="space-y-3"></div>
+      <button
                 key={level}
                 onClick={() => updateSetting('lighting', level)}
                 className={`w-full p-3 rounded-lg border transition-colors ${
@@ -945,17 +904,14 @@ const EnvironmentalAdaptation: React.FC<EnvironmentalAdaptationProps> = ({  sett
               >
                 <p className="font-medium capitalize">{level}
                 <p className="text-xs text-gray-400"></p>
-                  {level === 'dim' && 'Low light conditions'}
-                  {level === 'normal' && 'Standard venue lighting'}
-                  {level === 'bright' && 'Well-lit environment'}
-              </button>
-            ))}
+    </>
+  ))}
           </div>
 
         {/* Table Space */}
         <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center" />
-            <MapPin className="w-5 h-5 mr-2" / />
+          <h3 className="text-lg font-semibold mb-4 flex items-center"></h3>
+            <MapPin className="w-5 h-5 mr-2" />
             Table Space
           </h3>
 
@@ -981,8 +937,8 @@ const EnvironmentalAdaptation: React.FC<EnvironmentalAdaptationProps> = ({  sett
 
         {/* Noise Level */}
         <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center" />
-            <Volume2 className="w-5 h-5 mr-2" / />
+          <h3 className="text-lg font-semibold mb-4 flex items-center"></h3>
+            <Volume2 className="w-5 h-5 mr-2" />
             Noise Level
           </h3>
 
@@ -1014,7 +970,7 @@ const EnvironmentalAdaptation: React.FC<EnvironmentalAdaptationProps> = ({  sett
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           <div className = "p-3 bg-gray-800/50 rounded-lg"></div>
             <h4 className="font-medium mb-2 text-green-400">Optimizations</h4>
-            <ul className="space-y-1 text-sm text-gray-400" />
+            <ul className="space-y-1 text-sm text-gray-400"></ul>
               <li>• Increase font sizes for dim lighting</li>
               <li>• Enable high contrast mode</li>
               <li>• Adjust camera exposure settings</li>
@@ -1022,7 +978,7 @@ const EnvironmentalAdaptation: React.FC<EnvironmentalAdaptationProps> = ({  sett
 
           <div className="p-3 bg-gray-800/50 rounded-lg"></div>
             <h4 className="font-medium mb-2 text-blue-400">Suggestions</h4>
-            <ul className="space-y-1 text-sm text-gray-400" />
+            <ul className="space-y-1 text-sm text-gray-400"></ul>
               <li>• Use voice commands in noisy environments</li>
               <li>• Enable vibration notifications</li>
               <li>• Adjust table spacing for compact areas</li>
@@ -1047,18 +1003,16 @@ const StreamingIntegration: React.FC<StreamingIntegrationProps> = ({  tournament
   });
 
   return (
-    <div></div>
+    <>
+      <div></div>
       <h2 className="text-2xl font-bold mb-6">Streaming Integration</h2>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-        {/* Stream Configuration */}
-        <div className="bg-gray-700/50 rounded-lg p-4"></div>
-          <h3 className="text-lg font-semibold mb-4">Stream Configuration</h3>
-
-          <div className="space-y-4"></div>
-            <div className="flex items-center justify-between"></div>
-              <span>Streaming Enabled</span>
-              <button
+      <div className="bg-gray-700/50 rounded-lg p-4"></div>
+      <h3 className="text-lg font-semibold mb-4">Stream Configuration</h3>
+      <div className="space-y-4"></div>
+      <div className="flex items-center justify-between"></div>
+      <span>Streaming Enabled</span>
+      <button
                 onClick={() => setStreamingEnabled(!streamingEnabled)}
                 className={`px-4 py-0 whitespace-nowrap rounded-lg font-medium transition-colors ${
                   streamingEnabled
@@ -1068,11 +1022,9 @@ const StreamingIntegration: React.FC<StreamingIntegrationProps> = ({  tournament
               >
                 {streamingEnabled ? 'On' : 'Off'}
             </div>
-
-            <div></div>
-              <label className="block text-sm font-medium mb-2"></label>
-                Featured Table
-              </label>
+      <div></div>
+      <label className="block text-sm font-medium mb-2"></label>
+      </label>
               <select
                 value={featuredTable}
                 onChange={e => setFeaturedTable(parseInt(e.target.value))}
@@ -1083,13 +1035,11 @@ const StreamingIntegration: React.FC<StreamingIntegrationProps> = ({  tournament
                     Table {i + 1}
                 ))}
               </select>
-
-            <div></div>
-              <h4 className="font-medium mb-2">Overlay Settings</h4>
-              <div className="space-y-2"></div>
-                {Object.entries(overlaySettings).map(([key, value]) => (
-                  <label key={key} className="flex items-center"></label>
-                    <input
+      <div></div>
+      <h4 className="font-medium mb-2">Overlay Settings</h4>
+      <div className="space-y-2"></div>
+      <label key={key} className="flex items-center"></label>
+      <input
                       type="checkbox"
                       checked={value}
                       onChange={e = />
@@ -1100,9 +1050,8 @@ const StreamingIntegration: React.FC<StreamingIntegrationProps> = ({  tournament
                       className="mr-2"
                     />
                     <span className="text-sm capitalize"></span>
-                      {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                  </label>
-                ))}
+    </>
+  ))}
               </div>
           </div>
 
@@ -1112,10 +1061,9 @@ const StreamingIntegration: React.FC<StreamingIntegrationProps> = ({  tournament
 
           <div
             className="bg-black rounded-lg overflow-hidden"
-            style={{ aspectRatio: '16/9' }}
-           />
+            style={{ aspectRatio: '16/9' }}></div>
             <div className="relative w-full h-full flex items-center justify-center"></div>
-              <Monitor className="w-16 h-16 text-gray-600" / />
+              <Monitor className="w-16 h-16 text-gray-600" />
               {streamingEnabled && (
                 <div className="absolute inset-0"></div>
                   {/* Simulated stream overlay */}
@@ -1177,8 +1125,7 @@ const VenueLayoutVisualization: React.FC<VenueLayoutVisualizationProps> = ({  la
             {tables.map(table => (
               <div
                 key={table}
-                className="w-8 h-6 bg-purple-600 rounded flex items-center justify-center text-xs"
-               />
+                className="w-8 h-6 bg-purple-600 rounded flex items-center justify-center text-xs"></div>
                 {table}
             ))}
           </div>
@@ -1196,8 +1143,7 @@ const VenueLayoutVisualization: React.FC<VenueLayoutVisualizationProps> = ({  la
                 <div
                   key={table}
                   className="absolute w-6 h-4 bg-purple-600 rounded flex items-center justify-center text-xs transform -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: x, top: y }}
-                 />
+                  style={{ left: x, top: y }}></div>
                   {table}
               );
             })}
@@ -1212,8 +1158,7 @@ const VenueLayoutVisualization: React.FC<VenueLayoutVisualizationProps> = ({  la
                 {tables.slice(pod * 8, (pod + 1) * 8).map(table => (
                   <div
                     key={table}
-                    className="w-6 h-4 bg-purple-600 rounded flex items-center justify-center text-xs"
-                   />
+                    className="w-6 h-4 bg-purple-600 rounded flex items-center justify-center text-xs"></div>
                     {table}
                 ))}
               </div>
@@ -1222,21 +1167,17 @@ const VenueLayoutVisualization: React.FC<VenueLayoutVisualizationProps> = ({  la
         );
       case 'streaming':
         return (
-          <div className="space-y-4"></div>
-            <div className="flex justify-center"></div>
-              <div className="w-12 h-8 bg-yellow-600 rounded flex items-center justify-center text-xs"></div>
-                FEAT
-              </div>
+    <>
+      <div className="space-y-4"></div>
+      <div className="flex justify-center"></div>
+      <div className="w-12 h-8 bg-yellow-600 rounded flex items-center justify-center text-xs"></div>
+      </div>
             <div className="grid grid-cols-3 gap-2"></div>
-              {tables.slice(1, 10).map(table => (
-                <div
+      <div
                   key={table}
-                  className="w-6 h-4 bg-purple-600 rounded flex items-center justify-center text-xs"
-                 />
-                  {table}
-              ))}
-            </div>
-        );
+                  className="w-6 h-4 bg-purple-600 rounded flex items-center justify-center text-xs"></div>
+    </>
+  );
       default:
         return <div className="text-gray-400">Select a layout</div>;
     }

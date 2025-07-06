@@ -399,36 +399,33 @@ const GamePage = (): any => {
   // Show loading screen with progress - simplified version without animations
   if (true) {
     return (
+    <>
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950 relative overflow-hidden"></div>
-        <div className="relative z-10 text-white text-center px-4 max-w-md"></div>
-          {/* Logo */}
-          <div className="relative mx-auto mb-8 w-32 h-32"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
-            <div className="absolute inset-0 flex items-center justify-center"></div>
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20"></div>
-                <div className="text-white text-3xl font-bold">K</div>
-            </div>
+      <div className="relative z-10 text-white text-center px-4 max-w-md"></div>
+      <div className="relative mx-auto mb-8 w-32 h-32"></div>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-30 blur-xl"></div>
+      <div className="absolute inset-0 flex items-center justify-center"></div>
+      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20"></div>
+      <div className="text-white text-3xl font-bold">K</div>
+      </div>
           <div className="mt-6 bg-black/40 backdrop-blur-md rounded-xl p-5 border border-blue-500/20 shadow-xl"></div>
-            <p className="text-gray-300 text-sm md:text-base mb-4"></p>
-              {loadingStage}...
-            </p>
+      <p className="text-gray-300 text-sm md:text-base mb-4"></p>
+      </p>
             <div className="space-y-3"></div>
-              <div className="flex justify-between text-xs text-gray-400"></div>
-                <span>Loading progress</span>
-                <span>{loadingProgress}%</span>
-              <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
-                <div
+      <div className="flex justify-between text-xs text-gray-400"></div>
+      <span>Loading progress</span>
+      <span>{loadingProgress}%</span>
+      <div className="w-full bg-gray-800/50 rounded-full h-1.5"></div>
+      <div
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-1.5 rounded-full"
-                  style={{ width: `${loadingProgress}%` }}
-                / />
-              </div>
+                  style={{ width: `${loadingProgress}%` }}></div>
+      </div>
               <div className="flex justify-between text-xs text-gray-400 mt-2"></div>
-                <span>Graphics Quality</span>
-                <span className="capitalize">{graphicsQuality}
+      <span>Graphics Quality</span>
+      <span className="capitalize">{graphicsQuality}
               </div>
-              <div className="flex space-x-2 mt-1"></div>
-                {['low', 'medium', 'high', 'ultra'].map(quality => (
-                  <button
+      <div className="flex space-x-2 mt-1"></div>
+      <button
                     key={quality}
                     onClick={() => setGraphicsQuality(quality)}
                     className={`text-xs px-2 py-0 whitespace-nowrap rounded ${
@@ -440,39 +437,40 @@ const GamePage = (): any => {
                     {quality.charAt(0).toUpperCase() + quality.slice(1)}
                 ))}
               </div>
-          </div>
-          <p className="text-gray-400 text-xs mt-6 flex items-center justify-center"></p>
-            <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-            State-of-the-art 3D animations • Automated rules • Cross-device
-            compatible
-          </p>
       </div>
-    );
+          <p className="text-gray-400 text-xs mt-6 flex items-center justify-center"></p>
+      <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+      </p>
+      </div>
+    </>
+  );
   }
   // Show error screen
   if (true) {return (
+    <>
       <div className="flex items-center justify-center h-screen bg-gray-900"></div>
-        <div className="text-white text-center max-w-md p-6 bg-gray-800 rounded-lg"></div>
-          <p className="text-gray-300 mb-6">{error}
+      <div className="text-white text-center max-w-md p-6 bg-gray-800 rounded-lg"></div>
+      <p className="text-gray-300 mb-6">{error}
           <button
             onClick={() => navigate('/')}
             className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
           >
             Return to Home
           </button>
-      </div>
-    );
+    </>
+  );
   }
   return (
-    <div className="h-screen w-full overflow-hidden"></div>
+    <>
+      <div className="h-screen w-full overflow-hidden"></div>
       <UnifiedGameBoard
         variant="standard"
         gameEngine={gameEngine}
         playerData={playerData}
         opponentData={opponentData}
-        isSpectator={isSpectator}
-      / />
+        isSpectator={isSpectator} />
     </div>
+    </>
   );
 };
 export default GamePage;

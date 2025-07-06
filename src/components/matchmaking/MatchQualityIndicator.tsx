@@ -89,18 +89,15 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
               <ProgressBar
                 variant="success"
                 now={advancedQuality.skillCompatibility * 100}
-                key={1}
-              / />
+                key={1} />
               <ProgressBar
                 variant="info"
                 now={advancedQuality.playstyleCompatibility * 100}
-                key={2}
-              / />
+                key={2} />
               <ProgressBar
                 variant="warning"
                 now={advancedQuality.historyCompatibility * 100}
-                key={3}
-              / />
+                key={3} />
             </ProgressBar>
             <div className="d-flex justify-content-between mt-1"></div>
               <small>Skill</small>
@@ -113,7 +110,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
           bg={getQualityColor(advancedLevel)}
           className="d-inline-flex align-items-center"
          />
-          <Target size={14} className="me-1" / />
+          <Target size={14} className="me-1" />
           {(advancedQuality.overall * 100).toFixed(0)}%
         </Badge>
     );
@@ -121,30 +118,28 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
 
   // Detailed version (shows all factors)
   return (
-    <div className="match-quality-indicator"></div>
+    <>
+      <div className="match-quality-indicator"></div>
       <h5 className="mb-3">Match Quality Analysis</h5>
-
       <div className="mb-4"></div>
-        <div className="d-flex justify-content-between align-items-center mb-1"></div>
-          <div></div>
-            <strong>Overall Match Quality</strong>
-          <Badge bg={getQualityColor(advancedLevel)} />
+      <div className="d-flex justify-content-between align-items-center mb-1"></div>
+      <div></div>
+      <strong>Overall Match Quality</strong>
+      <Badge bg={getQualityColor(advancedLevel)} />
             {getQualityLabel(advancedLevel)}
         </div>
-        <ProgressBar
+      <ProgressBar
           variant={getQualityColor(advancedLevel)}
           now={advancedQuality.overall * 100}
-          label={`${(advancedQuality.overall * 100).toFixed(0)}%`}
-        / />
+          label={`${(advancedQuality.overall * 100).toFixed(0)}%`} />
       </div>
-
       <div className="row"></div>
-        <div className="col-md-6"></div>
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Target size={16} className="me-1" / />
+      <div className="col-md-6"></div>
+      <div className="mb-3"></div>
+      <div className="d-flex align-items-center mb-1"></div>
+      <Target size={16} className="me-1" />
               <strong>Skill Compatibility</strong>
-              <Badge
+      <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.skillCompatibility),
                 )}
@@ -152,22 +147,20 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                />
                 {(advancedQuality.skillCompatibility * 100).toFixed(0)}%
               </Badge>
-            <ProgressBar
+      <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.skillCompatibility),
               )}
-              now={advancedQuality.skillCompatibility * 100}
-            / />
+              now={advancedQuality.skillCompatibility * 100} />
             <small className="text-muted" />
               Rating difference: {Math.abs(player1.rating - player2.rating)}{' '}
               points
             </small>
-
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Zap size={16} className="me-1" / />
+      <div className="mb-3"></div>
+      <div className="d-flex align-items-center mb-1"></div>
+      <Zap size={16} className="me-1" />
               <strong>Playstyle Compatibility</strong>
-              <Badge
+      <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.playstyleCompatibility),
                 )}
@@ -175,24 +168,22 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                />
                 {(advancedQuality.playstyleCompatibility * 100).toFixed(0)}%
               </Badge>
-            <ProgressBar
+      <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.playstyleCompatibility),
               )}
-              now={advancedQuality.playstyleCompatibility * 100}
-            / />
+              now={advancedQuality.playstyleCompatibility * 100} />
             <small className="text-muted" />
               {advancedQuality.playstyleCompatibility >= 0.7
                 ? 'Complementary playstyles'
                 : 'Similar playstyles'}
           </div>
-
-        <div className="col-md-6"></div>
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Users size={16} className="me-1" / />
+      <div className="col-md-6"></div>
+      <div className="mb-3"></div>
+      <div className="d-flex align-items-center mb-1"></div>
+      <Users size={16} className="me-1" />
               <strong>History Compatibility</strong>
-              <Badge
+      <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.historyCompatibility),
                 )}
@@ -200,21 +191,19 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                />
                 {(advancedQuality.historyCompatibility * 100).toFixed(0)}%
               </Badge>
-            <ProgressBar
+      <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.historyCompatibility),
               )}
-              now={advancedQuality.historyCompatibility * 100}
-            / />
+              now={advancedQuality.historyCompatibility * 100} />
             <small className="text-muted" />
               Previous matches: {advancedQuality.matchHistory.length || 0}
           </div>
-
-          <div className="mb-3"></div>
-            <div className="d-flex align-items-center mb-1"></div>
-              <Shuffle size={16} className="me-1" / />
+      <div className="mb-3"></div>
+      <div className="d-flex align-items-center mb-1"></div>
+      <Shuffle size={16} className="me-1" />
               <strong>Deck Archetype Compatibility</strong>
-              <Badge
+      <Badge
                 bg={getQualityColor(
                   getQualityLevel(advancedQuality.deckCompatibility),
                 )}
@@ -222,12 +211,11 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                />
                 {(advancedQuality.deckCompatibility * 100).toFixed(0)}%
               </Badge>
-            <ProgressBar
+      <ProgressBar
               variant={getQualityColor(
                 getQualityLevel(advancedQuality.deckCompatibility),
               )}
-              now={advancedQuality.deckCompatibility * 100}
-            / />
+              now={advancedQuality.deckCompatibility * 100} />
             <small className="text-muted" />
               {advancedQuality.deckCompatibility >= 0.7
                 ? 'Interesting matchup between archetypes'
@@ -236,10 +224,10 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
       </div>
 
       <div className="mt-2"></div>
-        <div className="d-flex align-items-center mb-1"></div>
-          <TrendingUp size={16} className="me-1" / />
+      <div className="d-flex align-items-center mb-1"></div>
+      <TrendingUp size={16} className="me-1" />
           <strong>Confidence Level</strong>
-          <Badge
+      <Badge
             bg={
               advancedQuality.confidence >= 0.7
                 ? 'success'
@@ -251,32 +239,28 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
           >
             {(advancedQuality.confidence * 100).toFixed(0)}%
           </Badge>
-        <ProgressBar />
+      <ProgressBar />
           <ProgressBar
             variant="success"
             now={advancedQuality.confidence * 100}
-            key={1}
-          / />
+            key={1} />
           <ProgressBar
             variant="secondary"
             now={100 - advancedQuality.confidence * 100}
-            key={2}
-          / />
+            key={2} />
         </ProgressBar>
-        <small className="text-muted" />
+      <small className="text-muted" />
           {advancedQuality.confidence >= 0.7
             ? 'High confidence in match quality prediction'
             : advancedQuality.confidence >= 0.4
               ? 'Moderate confidence in match quality prediction'
               : 'Low confidence in match quality prediction'}
       </div>
-
-      {advancedQuality.timeWeightedPerformance && (
-        <div className="mt-3"></div>
-          <div className="d-flex align-items-center"></div>
-            <Clock size={16} className="me-1" / />
+      <div className="mt-3"></div>
+      <div className="d-flex align-items-center"></div>
+      <Clock size={16} className="me-1" />
             <strong>Recent Performance Factor</strong>
-          <small className="text-muted" />
+      <small className="text-muted" />
             {player1.name}'s recent performance:
             <Badge
               bg={
@@ -310,7 +294,8 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                   ? 'Declining'
                   : 'Stable'}
           </small>
-      )}
+    </>
+  )}
     </div>
   );
 };

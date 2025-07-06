@@ -878,7 +878,7 @@ export class TournamentEngine {
 
     const pairings = [];
 
-    while(): any {
+    while () {
       const player1 = availablePlayers.shift();
 
       // Score potential opponents based on multiple factors

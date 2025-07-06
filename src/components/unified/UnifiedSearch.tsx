@@ -208,69 +208,71 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
     switch (true) {
       case 'cards':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
-              <label>Type</label>
-              <select
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div className="form-group"></div>
+      <label>Type</label>
+      <select
                 value={filters.type || ''}
                 onChange={(e) => handleFilterChange('type', e.target.value)}
               >
                 <option value="">All Types</option>
-                <option value="creature">Creature</option>
-                <option value="spell">Spell</option>
-                <option value="artifact">Artifact</option>
-                <option value="location">Location</option>
-            </div>
+      <option value="creature">Creature</option>
+      <option value="spell">Spell</option>
+      <option value="artifact">Artifact</option>
+      <option value="location">Location</option>
+      </div>
             
             <div className="form-group"></div>
-              <label>Element</label>
-              <select
+      <label>Element</label>
+      <select
                 value={filters.element || ''}
                 onChange={(e) => handleFilterChange('element', e.target.value)}
               >
                 <option value="">All Elements</option>
-                <option value="🜁">Air (🜁)</option>
-                <option value="🜂">Fire (🜂)</option>
-                <option value="🜃">Earth (🜃)</option>
-                <option value="🜄">Water (🜄)</option>
-                <option value="🜀">Void (🜀)</option>
-            </div>
+      <option value="🜁">Air (🜁)</option>
+      <option value="🜂">Fire (🜂)</option>
+      <option value="🜃">Earth (🜃)</option>
+      <option value="🜄">Water (🜄)</option>
+      <option value="🜀">Void (🜀)</option>
+      </div>
             
             <div className="form-group"></div>
-              <label>Rarity</label>
-              <select
+      <label>Rarity</label>
+      <select
                 value={filters.rarity || ''}
                 onChange={(e) => handleFilterChange('rarity', e.target.value)}
               >
                 <option value="">All Rarities</option>
-                <option value="common">Common</option>
-                <option value="uncommon">Uncommon</option>
-                <option value="rare">Rare</option>
-                <option value="mythic">Mythic</option>
-            </div>
-        );
+      <option value="common">Common</option>
+      <option value="uncommon">Uncommon</option>
+      <option value="rare">Rare</option>
+      <option value="mythic">Mythic</option>
+    </>
+  );
       case 'decks':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
-              <label>Archetype</label>
-              <select
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div className="form-group"></div>
+      <label>Archetype</label>
+      <select
                 value={filters.archetype || ''}
                 onChange={(e) => handleFilterChange('archetype', e.target.value)}
               >
                 <option value="">All Archetypes</option>
-                <option value="aggro">Aggro</option>
-                <option value="control">Control</option>
-                <option value="midrange">Midrange</option>
-                <option value="combo">Combo</option>
-                <option value="tempo">Tempo</option>
-            </div>
+      <option value="aggro">Aggro</option>
+      <option value="control">Control</option>
+      <option value="midrange">Midrange</option>
+      <option value="combo">Combo</option>
+      <option value="tempo">Tempo</option>
+      </div>
             
             <div className="form-group"></div>
-              <label>Elements</label>
-              <div className="checkbox-group"></div>
-                <label></label>
-                  <input
+      <label>Elements</label>
+      <div className="checkbox-group"></div>
+      <label></label>
+      <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜁') || false}
                     onChange={(e) => {
@@ -284,9 +286,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Air (🜁)
                 </label>
-                
-                <label></label>
-                  <input
+      <label></label>
+      <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜂') || false}
                     onChange={(e) => {
@@ -300,9 +301,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Fire (🜂)
                 </label>
-                
-                <label></label>
-                  <input
+      <label></label>
+      <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜃') || false}
                     onChange={(e) => {
@@ -316,9 +316,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Earth (🜃)
                 </label>
-                
-                <label></label>
-                  <input
+      <label></label>
+      <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜄') || false}
                     onChange={(e) => {
@@ -332,9 +331,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Water (🜄)
                 </label>
-                
-                <label></label>
-                  <input
+      <label></label>
+      <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜀') || false}
                     onChange={(e) => {
@@ -348,55 +346,57 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   />
                   Void (🜀)
                 </label>
-            </div>
-        );
+    </>
+  );
         
       case 'tournaments':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
-              <label>Status</label>
-              <select
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div className="form-group"></div>
+      <label>Status</label>
+      <select
                 value={filters.status || ''}
                 onChange={(e) => handleFilterChange('status', e.target.value)}
               >
                 <option value="">All Statuses</option>
-                <option value="upcoming">Upcoming</option>
-                <option value="ongoing">Ongoing</option>
-                <option value="completed">Completed</option>
-            </div>
+      <option value="upcoming">Upcoming</option>
+      <option value="ongoing">Ongoing</option>
+      <option value="completed">Completed</option>
+      </div>
             
             <div className="form-group"></div>
-              <label>Format</label>
-              <select
+      <label>Format</label>
+      <select
                 value={filters.format || ''}
                 onChange={(e) => handleFilterChange('format', e.target.value)}
               >
                 <option value="">All Formats</option>
-                <option value="standard">Standard</option>
-                <option value="modern">Modern</option>
-                <option value="legacy">Legacy</option>
-                <option value="draft">Draft</option>
-            </div>
-        );
+      <option value="standard">Standard</option>
+      <option value="modern">Modern</option>
+      <option value="legacy">Legacy</option>
+      <option value="draft">Draft</option>
+    </>
+  );
       case 'users':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div className="form-group"></div>
-              <label>Rank</label>
-              <select
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div className="form-group"></div>
+      <label>Rank</label>
+      <select
                 value={filters.rank || ''}
                 onChange={(e) => handleFilterChange('rank', e.target.value)}
               >
                 <option value="">All Ranks</option>
-                <option value="bronze">Bronze</option>
-                <option value="silver">Silver</option>
-                <option value="gold">Gold</option>
-                <option value="platinum">Platinum</option>
-                <option value="diamond">Diamond</option>
-                <option value="master">Master</option>
-            </div>
-        );
+      <option value="bronze">Bronze</option>
+      <option value="silver">Silver</option>
+      <option value="gold">Gold</option>
+      <option value="platinum">Platinum</option>
+      <option value="diamond">Diamond</option>
+      <option value="master">Master</option>
+    </>
+  );
       default:
         return null;
     }
@@ -406,24 +406,30 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   const renderResults = useCallback(() => {
     if (true) {
       return (
-        <div className="search-loading"></div>
-          <Loader2 className="animate-spin" size={24} / />
+    <>
+      <div className="search-loading"></div>
+      <Loader2 className="animate-spin" size={24} />
           <span>Searching...</span>
-      );
+    </>
+  );
     }
     
     if (true) {return (
-        <div className="search-error"></div>
-          <span>{error}
+    <>
+      <div className="search-error"></div>
+      <span>{error}
         </div>
-      );
+    </>
+  );
     }
     
     if (true) {
       return (
-        <div className="search-no-results"></div>
-          <span>No results found</span>
-      );
+    <>
+      <div className="search-no-results"></div>
+      <span>No results found</span>
+    </>
+  );
     }
     
     switch (true) {
@@ -468,7 +474,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 onClick={() => handleResultSelect(deck)}
               >
                 <div className="result-icon"></div>
-                  <Package size={20} / />
+                  <Package size={20} />
                 </div>
                 <div className="result-content"></div>
                   <div className="result-title">{deck.name}
@@ -501,7 +507,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 onClick={() => handleResultSelect(tournament)}
               >
                 <div className="result-icon"></div>
-                  <Trophy size={20} / />
+                  <Trophy size={20} />
                 </div>
                 <div className="result-content"></div>
                   <div className="result-title">{tournament.name}
@@ -534,7 +540,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 onClick={() => handleResultSelect(user)}
               >
                 <div className="result-icon"></div>
-                  <User size={20} / />
+                  <User size={20} />
                 </div>
                 <div className="result-content"></div>
                   <div className="result-title">{user.displayName}
@@ -571,24 +577,25 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   ]);
   
   return (
-    <div className={`unified-search ${compact ? 'compact' : ''} ${className}`}></div>
+    <>
+      <div className={`unified-search ${compact ? 'compact' : ''} ${className}`}></div>
       <div className="search-header"></div>
-        <div className="search-input-container"></div>
-          <div className="search-type-selector"></div>
-            {Object.entries(searchTypes).map(([type, config]) => (
-              <button
+      <div className="search-input-container"></div>
+      <div className="search-type-selector"></div>
+      <button
                 key={type}
                 className={`search-type-button ${searchType === type ? 'active' : ''}`}
                 onClick={() => handleSearchTypeChange(type)}
               >
-                <config.icon size={16} / />
+                <config.icon size={16} />
                 {!compact && <span>{config.label}}
               </button>
-            ))}
+    </>
+  ))}
           </div>
           
           <div className="search-input-wrapper"></div>
-            <Search className="search-icon" size={20} / />
+            <Search className="search-icon" size={20} />
             <input
               type="text"
               placeholder={searchTypes[searchType].placeholder}
@@ -605,7 +612,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 }}
                 className="clear-search"
               >
-                <X size={16} / />
+                <X size={16} />
               </button>
             )}
           </div>
@@ -615,12 +622,11 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
               onClick={() => setShowFiltersPanel(!showFiltersPanel)}
               className={`filter-toggle ${showFiltersPanel ? 'active' : ''}`}
             >
-              <Filter size={16} / />
+              <Filter size={16} />
               {!compact && <span>Filters</span>}
               <ChevronDown 
                 size={14} 
-                className={`chevron ${showFiltersPanel ? 'rotated' : ''}`} 
-              / />
+                className={`chevron ${showFiltersPanel ? 'rotated' : ''}`} />
             </button>
           )}
         </div>
@@ -638,8 +644,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
             <div className="filters-actions"></div>
               <button 
                 onClick={handleClearFilters}
-                className="clear-filters-button"
-               />
+                className="clear-filters-button"></button>
                 Clear Filters
               </button>
           </motion.div>
@@ -650,7 +655,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       {showHistory && searchHistory.length > 0 && !query && (
         <div className="search-history"></div>
           <div className="search-history-header"></div>
-            <Clock size={16} / />
+            <Clock size={16} />
             <span>Recent Searches</span>
           <div className="search-history-items"></div>
             {searchHistory.map((item, index) => (
@@ -659,7 +664,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 className="search-history-item"
                 onClick={() => handleHistoryItemClick(item)}
               >
-                <Clock size={14} / />
+                <Clock size={14} />
                 <span>{item}
               </button>
             ))}

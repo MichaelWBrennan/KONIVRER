@@ -318,21 +318,19 @@ const MatchmakingSystem = (): any => {
 
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4"></div>
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center"></div>
-          <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" / />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2" />
-            Offline Mode
-          </h2>
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center"></div>
+      <WifiOff className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2"></h2>
+      </h2>
           <p className="text-gray-600 mb-6"></p>
-            Matchmaking requires an internet connection. You can still play
-            against AI opponents or practice with your decks.
-          </p>
+      </p>
           <button className="bg-blue-600 text-white px-6 py-0 whitespace-nowrap rounded-lg font-medium hover:bg-blue-700 transition-colors"></button>
-            Play vs AI
-          </button>
+      </button>
       </div>
-    );
+    </>
+  );
   }
 
   return (
@@ -342,10 +340,10 @@ const MatchmakingSystem = (): any => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"></div>
           <div className="flex items-center justify-between h-16"></div>
             <div className="flex items-center space-x-4"></div>
-              <Users className="w-8 h-8 text-blue-600" / />
+              <Users className="w-8 h-8 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900">Matchmaking</h1>
               <div className="flex items-center space-x-2 text-sm text-gray-500"></div>
-                <Wifi className="w-4 h-4 text-green-500" / />
+                <Wifi className="w-4 h-4 text-green-500" />
                 <span>Online</span>
             </div>
 
@@ -371,7 +369,7 @@ const MatchmakingSystem = (): any => {
           <div className="lg:col-span-2 space-y-6"></div>
             {/* Format Selection */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h2 className="text-lg font-semibold text-gray-900 mb-4"></h2>
                 Game Format
               </h2>
               <div className="grid grid-cols-2 gap-4"></div>
@@ -398,7 +396,7 @@ const MatchmakingSystem = (): any => {
 
             {/* Deck Selection */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h2 className="text-lg font-semibold text-gray-900 mb-4"></h2>
                 Select Deck
               </h2>
               {selectedDeck ? (
@@ -427,7 +425,7 @@ const MatchmakingSystem = (): any => {
 
             {/* Matchmaking Preferences */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h2 className="text-lg font-semibold text-gray-900 mb-4"></h2>
                 Preferences
               </h2>
 
@@ -440,7 +438,7 @@ const MatchmakingSystem = (): any => {
                     {skillRanges.map(range => (
                       <button
                         key={range.id}
-                        onClick={() = />
+                        onClick={() =></button>
                           setPreferences(prev => ({
                             ...prev,
                             skillRange: range.id,
@@ -506,9 +504,8 @@ const MatchmakingSystem = (): any => {
                 <button
                   onClick={startMatchmaking}
                   disabled={!selectedDeck}
-                  className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-                 />
-                  <Search className="w-5 h-5" / />
+                  className="w-full bg-blue-600 text-white py-0 whitespace-nowrap px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"></button>
+                  <Search className="w-5 h-5" />
                   <span>Find Match</span>
               ) : isSearching ? (
                 <div className="text-center"></div>
@@ -522,8 +519,7 @@ const MatchmakingSystem = (): any => {
                     queue: #{getQueuePosition()}
                   <button
                     onClick={cancelMatchmaking}
-                    className="bg-gray-600 text-white px-6 py-0 whitespace-nowrap rounded-lg hover:bg-gray-700 transition-colors"
-                   />
+                    className="bg-gray-600 text-white px-6 py-0 whitespace-nowrap rounded-lg hover:bg-gray-700 transition-colors"></button>
                     Cancel Search
                   </button>
               ) : null}
@@ -533,7 +529,7 @@ const MatchmakingSystem = (): any => {
           <div className="space-y-6"></div>
             {/* Queue Status */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
                 Queue Status
               </h3>
               <div className="space-y-3"></div>
@@ -553,7 +549,7 @@ const MatchmakingSystem = (): any => {
 
             {/* Recent Matches */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
                 Recent Matches
               </h3>
               <div className="space-y-3"></div>
@@ -564,14 +560,12 @@ const MatchmakingSystem = (): any => {
                 ].map((match, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                   />
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"></div>
                     <div className="flex items-center space-x-3"></div>
                       <div
                         className={`w-3 h-3 rounded-full ${
                           match.result === 'win' ? 'bg-green-500' : 'bg-red-500'
-                        }`}
-                       />
+                        }`}></div>
                       <span className="font-medium">{match.opponent}
                     </div>
                     <span
@@ -579,8 +573,7 @@ const MatchmakingSystem = (): any => {
                         match.result === 'win'
                           ? 'text-green-600'
                           : 'text-red-600'
-                      }`}
-                     />
+                      }`}></span>
                       {match.rating}
                   </div>
                 ))}
@@ -588,18 +581,18 @@ const MatchmakingSystem = (): any => {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-sm p-6"></div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-4"></h3>
                 Quick Actions
               </h3>
               <div className="space-y-2"></div>
                 <button className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-3"></button>
-                  <Trophy className="w-5 h-5 text-yellow-500" / />
+                  <Trophy className="w-5 h-5 text-yellow-500" />
                   <span>Join Tournament</span>
                 <button className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-3"></button>
-                  <Users className="w-5 h-5 text-blue-500" / />
+                  <Users className="w-5 h-5 text-blue-500" />
                   <span>Create Lobby</span>
                 <button className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-3"></button>
-                  <Zap className="w-5 h-5 text-purple-500" / />
+                  <Zap className="w-5 h-5 text-purple-500" />
                   <span>Practice vs AI</span>
               </div>
           </div>
@@ -610,8 +603,8 @@ const MatchmakingSystem = (): any => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"></div>
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"></div>
             <div className="text-center mb-6"></div>
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" / />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2" />
+              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-2"></h2>
                 Match Found!
               </h2>
               <p className="text-gray-600"></p>
@@ -663,14 +656,12 @@ const MatchmakingSystem = (): any => {
             <div className="flex space-x-3"></div>
               <button
                 onClick={declineMatch}
-                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"
-               />
+                className="flex-1 bg-gray-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors"></button>
                 Decline
               </button>
               <button
                 onClick={acceptMatch}
-                className="flex-1 bg-green-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
-               />
+                className="flex-1 bg-green-600 text-white py-0 whitespace-nowrap px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"></button>
                 Accept Match
               </button>
 

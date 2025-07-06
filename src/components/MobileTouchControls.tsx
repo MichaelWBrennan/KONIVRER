@@ -279,8 +279,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ touchAction: 'none' }}
-      />
+        style={{ touchAction: 'none' }}></div>
       {/* Control Panel */}
       <div
         className={`fixed bottom-4 left-4 right-4 transition-transform duration-300 z-50 ${
@@ -397,8 +396,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
           <div
             className={`w-3 h-3 rounded-full mx-auto mb-1 ${
               isPlayerTurn ? 'bg-green-500' : 'bg-gray-400'
-            }`}
-          />
+            }`}></div>
           <span className="text-xs font-medium text-gray-600">
             {isPlayerTurn ? 'Your Turn' : 'Waiting'}
           </span>

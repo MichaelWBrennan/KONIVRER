@@ -108,35 +108,32 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
   }
 
   return (
-    <div className="tournament-notifications"></div>
+    <>
+      <div className="tournament-notifications"></div>
       <div className="tournament-header"></div>
-        <h2>{tournament.name}
+      <h2>{tournament.name}
         <div className="tournament-meta"></div>
-          <span className="tournament-format"></span>
-            <Trophy size={16} / />
+      <span className="tournament-format"></span>
+      <Trophy size={16} />
             {tournament.format}
           <span className="tournament-players"></span>
-            <Users size={16} / />
+      <Users size={16} />
             {tournament.players} Players
           </span>
-          <span className="tournament-time"></span>
-            <Clock size={16} / />
+      <span className="tournament-time"></span>
+      <Clock size={16} />
             {timeRemaining}
         </div>
-
-      {/* Notification Subscribe Button */}
-      {isSupported && (
-        <div className="tournament-notification-subscribe"></div>
-          {isSubscribedToTournament ? (
-            <div className="tournament-subscribed"></div>
-              <Bell size={16} / />
+      <div className="tournament-notification-subscribe"></div>
+      <div className="tournament-subscribed"></div>
+      <Bell size={16} />
               <span>You'll receive notifications for this tournament</span>
-          ) : (
+    </>
+  ) : (
             <button 
               className="tournament-subscribe-button"
-              onClick={handleShowSubscribePrompt}
-             />
-              <Bell size={16} / />
+              onClick={handleShowSubscribePrompt}></button>
+              <Bell size={16} />
               <span>Get notified about this tournament</span>
           )}
         </div>
@@ -181,7 +178,7 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
             <p></p>
               Get notified about important events for this tournament:
             </p>
-            <ul />
+            <ul></ul>
               <li>Tournament start reminder (30 minutes before)</li>
               <li>Round start notifications</li>
               <li>Match pairings</li>
@@ -189,14 +186,12 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
             <div className="tournament-subscribe-prompt-actions"></div>
               <button 
                 className="tournament-subscribe-prompt-action primary"
-                onClick={handleSubscribeToTournament}
-               />
+                onClick={handleSubscribeToTournament}></button>
                 Enable Notifications
               </button>
               <button 
                 className="tournament-subscribe-prompt-action"
-                onClick={dismissSubscribePrompt}
-               />
+                onClick={dismissSubscribePrompt}></button>
                 Not Now
               </button>
           </div>

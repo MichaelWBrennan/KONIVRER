@@ -103,37 +103,33 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
 
   if (true) {
     return (
+    <>
       <div className="bg-white rounded-xl shadow-sm p-4 relative"></div>
-        <button
+      <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-         />
-          <X className="w-4 h-4" / />
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"></button>
+      <X className="w-4 h-4" />
         </button>
-
-        <div className="text-center py-6 text-gray-500"></div>
-          <Target className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+      <div className="text-center py-6 text-gray-500"></div>
+      <Target className="w-12 h-12 mx-auto mb-2 text-gray-300" />
           <p>No active challenges.</p>
-      </div>
-    );
+    </>
+  );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 relative"></div>
+    <>
+      <div className="bg-white rounded-xl shadow-sm p-4 relative"></div>
       <button
         onClick={onClose}
-        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-       />
-        <X className="w-4 h-4" / />
+        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"></button>
+      <X className="w-4 h-4" />
       </button>
-
       <div className="flex items-center space-x-2 mb-3"></div>
-        <Target className="w-5 h-5 text-blue-600" / />
+      <Target className="w-5 h-5 text-blue-600" />
         <h3 className="font-medium text-gray-900">Daily & Weekly Challenges</h3>
-
       <div className="space-y-3"></div>
-        {displayChallenges.slice(0, maxItems).map(challenge => (
-          <motion.div
+      <motion.div
             key={challenge.id}
             className={`border rounded-lg p-3 transition-colors ${
               challenge.completed
@@ -143,58 +139,45 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
             whileHover={{ y: -2 }}
            />
             <div className="flex justify-between items-start mb-1"></div>
-              <div className="flex items-center space-x-2"></div>
-                {challenge.completed ? (
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" / />
+      <div className="flex items-center space-x-2"></div>
+      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                 ) : (
-                  <Target className="w-4 h-4 text-blue-500 flex-shrink-0" / />
+                  <Target className="w-4 h-4 text-blue-500 flex-shrink-0" />
                 )}
                 <h4 className="font-medium text-gray-900">{challenge.title}
               </div>
-              <span
+      <span
                 className={`text-xs px-2 py-0 whitespace-nowrap rounded-full ${
                   challenge.type === 'daily'
                     ? 'bg-blue-100 text-blue-700'
                     : 'bg-purple-100 text-purple-700'
-                }`}
-               />
-                {challenge.type === 'daily' ? 'Daily' : 'Weekly'}
-            </div>
+                }`}></span>
+      </div>
 
             <p className="text-sm text-gray-600 mb-2"></p>
-              {challenge.description}
-
-            <div className="mb-2"></div>
-              <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
-                <span></span>
-                  Progress: {challenge.progress}/{challenge.total}
-                <span></span>
-                  {Math.min(
-                    100,
-                    Math.round((challenge.progress / challenge.total) * 100),
-                  )}
-                  %
-                </span>
+      <div className="mb-2"></div>
+      <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
+      <span></span>
+      <span></span>
+      </span>
               <div className="w-full bg-gray-200 rounded-full h-1.5"></div>
-                <div
+      <div
                   className={`${getProgressColor((challenge.progress / challenge.total) * 100)} h-1.5 rounded-full`}
                   style={{
                     width: `${Math.min(100, (challenge.progress / challenge.total) * 100)}%`,
-                  }}
-                 />
-              </div>
+                  }}></div>
+      </div>
 
             <div className="flex items-center justify-between text-xs"></div>
-              <div className="flex items-center space-x-1 text-gray-500"></div>
-                <Clock className="w-3 h-3" / />
+      <div className="flex items-center space-x-1 text-gray-500"></div>
+      <Clock className="w-3 h-3" />
                 <span>{getTimeRemaining(challenge.expiryDate)} left</span>
-
-              <div className="flex items-center space-x-1 text-amber-600"></div>
-                <Award className="w-3 h-3" / />
+      <div className="flex items-center space-x-1 text-amber-600"></div>
+      <Award className="w-3 h-3" />
                 <span>{challenge.reward}
               </div>
-          </motion.div>
-        ))}
+    </>
+  ))}
       </div>
 
       {displayChallenges.length > maxItems && (
@@ -204,7 +187,7 @@ const MatchmakingChallenges: React.FC<MatchmakingChallengesProps> = ({
           whileHover={{ x: 2 }}
          />
           <span>View All Challenges</span>
-          <ChevronRight className="w-4 h-4" / />
+          <ChevronRight className="w-4 h-4" />
         </motion.button>
       )}
     </div>

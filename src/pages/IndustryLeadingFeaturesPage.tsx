@@ -103,48 +103,40 @@ const IndustryLeadingFeaturesPage = (): any => {
     },
   ];
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic]"></div>
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-[OpenDyslexic]"></div>
       <div className="container mx-auto px-4 py-8"></div>
-        {/* Header */}
-        <motion.div
+      <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
          />
           <p className="text-xl text-gray-300 mb-6 max-w-4xl mx-auto"></p>
-            Experience the most advanced TCG platform ever created. All premium
-            features are now completely free, powered by state-of-the-art AI,
-            machine learning, and cutting-edge technology.
-          </p>
+      </p>
           <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-full px-8 py-0 whitespace-nowrap inline-block mb-8"></div>
-            <div className="flex items-center"></div>
-              <CheckCircle className="w-6 h-6 mr-3" / />
+      <div className="flex items-center"></div>
+      <CheckCircle className="w-6 h-6 mr-3" />
               <span className="text-xl font-bold"></span>
-                All Premium Features Free Forever
-              </span>
+      </span>
           </div>
-          {/* Feature Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"></div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
-              <div className="text-2xl font-bold text-purple-400">$200k+</div>
-              <div className="text-sm text-gray-400">Development Value</div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
-              <div className="text-2xl font-bold text-blue-400">50+</div>
-              <div className="text-sm text-gray-400">Advanced Features</div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
-              <div className="text-2xl font-bold text-green-400"></div>
-                AI-Powered
-              </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"></div>
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+      <div className="text-2xl font-bold text-purple-400">$200k+</div>
+      <div className="text-sm text-gray-400">Development Value</div>
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+      <div className="text-2xl font-bold text-blue-400">50+</div>
+      <div className="text-sm text-gray-400">Advanced Features</div>
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+      <div className="text-2xl font-bold text-green-400"></div>
+      </div>
               <div className="text-sm text-gray-400">Machine Learning</div>
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
-              <div className="text-2xl font-bold text-yellow-400">100%</div>
-              <div className="text-sm text-gray-400">Free Access</div>
-          </div>
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-gray-700"></div>
+      <div className="text-2xl font-bold text-yellow-400">100%</div>
+      <div className="text-sm text-gray-400">Free Access</div>
+      </div>
         </motion.div>
-        {/* Feature Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
-          {features.map((feature, index) => (
-            <motion.button
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
+      <motion.button
               key={feature.id}
               onClick={() => setActiveFeature(feature.id)}
               initial={{ opacity: 0, y: 20 }}
@@ -159,30 +151,27 @@ const IndustryLeadingFeaturesPage = (): any => {
               }`}
             >
               <div
-                className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.color} opacity-10`}
-              / />
-              <div className="relative z-10"></div>
-                <div className="flex items-center mb-4"></div>
-                  <div
-                    className={`p-3 rounded-lg bg-gradient-to-br ${feature.color} mr-4`}
-                   />
-                    {feature.icon}
-                  <div className="text-left"></div>
-                    {activeFeature === feature.id && (
-                      <div className="flex items-center text-purple-300 text-sm mt-1"></div>
-                        <Sparkles className="w-4 h-4 mr-1" / />
+                className={`absolute inset-0 rounded-xl bg-gradient-to-br ${feature.color} opacity-10`}></div>
+      <div className="relative z-10"></div>
+      <div className="flex items-center mb-4"></div>
+      <div
+                    className={`p-3 rounded-lg bg-gradient-to-br ${feature.color} mr-4`}></div>
+      <div className="text-left"></div>
+      <div className="flex items-center text-purple-300 text-sm mt-1"></div>
+      <Sparkles className="w-4 h-4 mr-1" />
                         Active
                       </div>
-                    )}
+    </>
+  )}
                 </div>
                 <p className="text-gray-300 text-sm mb-4"></p>
                   {feature.description}
                 <div className="flex items-center justify-between"></div>
                   <div className="flex items-center text-green-400 text-sm"></div>
-                    <CheckCircle className="w-4 h-4 mr-1" / />
+                    <CheckCircle className="w-4 h-4 mr-1" />
                     Free
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400" / />
+                  <ArrowRight className="w-5 h-5 text-gray-400" />
                 </div>
             </motion.button>
           ))}
@@ -201,22 +190,19 @@ const IndustryLeadingFeaturesPage = (): any => {
               <FeatureOverview
                 features={features}
                 featuresEnabled={featuresEnabled}
-                setFeaturesEnabled={setFeaturesEnabled}
-              / />
+                setFeaturesEnabled={setFeaturesEnabled} />
             )}
             {activeFeature === 'meta-adaptive' && (
               <MetaAdaptiveFeature
                 tournamentEngine={tournamentEngine}
                 tournaments={tournaments}
-                players={players}
-              / />
+                players={players} />
             )}
             {activeFeature === 'advanced-analytics' && (
               <AdvancedAnalyticsEngine
                 players={players}
                 matches={matches}
-                tournaments={tournaments}
-              / />
+                tournaments={tournaments} />
             )}
             {activeFeature === 'physical-enhancements' && (
               <PhysicalPlayEnhancements
@@ -229,15 +215,13 @@ const IndustryLeadingFeaturesPage = (): any => {
               <ContentCreationTools
                 tournament={tournaments[0]}
                 matches={matches}
-                players={players}
-              / />
+                players={players} />
             )}
             {activeFeature === 'bayesian-ml' && (
               <BayesianMLFeature
                 bayesianEngine={bayesianEngine}
                 players={players}
-                matches={matches}
-              / />
+                matches={matches} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -301,33 +285,29 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
     },
   ];
   return (
-    <div className="p-8"></div>
+    <>
+      <div className="p-8"></div>
       <div className="text-center mb-8"></div>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto"></p>
-          Every feature that would typically cost thousands of dollars in
-          enterprise software, now available completely free. This represents
-          over $200,000 in development value.
-        </p>
+      <p className="text-gray-300 text-lg max-w-3xl mx-auto"></p>
+      </p>
       {/* Implementation Highlights */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"></div>
-        {implementationHighlights.map((category, index) => (
-          <motion.div
+      <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             className="bg-gray-700/50 rounded-lg p-6"
            />
-            <ul className="space-y-2" />
-              {category.features.map((feature, featureIndex) => (
-                <li
+            <ul className="space-y-2"></ul>
+      <li
                   key={featureIndex}
-                  className="flex items-center text-gray-300"
-                 />
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" / />
+                  className="flex items-center text-gray-300"></li>
+      <CheckCircle className="w-4 h-4 text-green-400 mr-3 flex-shrink-0" />
                   <span className="text-sm">{feature}
                 </li>
-              ))}
+    </>
+  ))}
             </ul>
           </motion.div>
         ))}
@@ -338,8 +318,7 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
           {Object.entries(featuresEnabled).map(([key, enabled]) => (
             <div
               key={key}
-              className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"
-             />
+              className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg"></div>
               <span className="text-sm font-medium capitalize"></span>
                 {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
               <button
@@ -356,7 +335,7 @@ const FeatureOverview: React.FC<FeatureOverviewProps> = ({  features, featuresEn
         </div>
         <div className = "mt-6 p-4 bg-green-600/20 border border-green-500 rounded-lg"></div>
           <div className="flex items-center"></div>
-            <Sparkles className="w-5 h-5 text-green-400 mr-2" / />
+            <Sparkles className="w-5 h-5 text-green-400 mr-2" />
             <span className="text-green-300 font-medium"></span>
               All features are permanently free - no subscriptions, no limits,
               no hidden costs
@@ -394,54 +373,50 @@ const MetaAdaptiveFeature: React.FC<MetaAdaptiveFeatureProps> = ({  tournamentEn
     setTournamentStructure(structure);
   };
   return (
-    <div className="p-8"></div>
+    <>
+      <div className="p-8"></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
-        {/* Tournament Structure Optimization */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
-            <div className="p-4 bg-gray-800/50 rounded-lg"></div>
-              <div className="grid grid-cols-2 gap-4 text-sm"></div>
-                <div></div>
-                  <span className="text-gray-400">Players:</span>
-                  <span className="ml-2 font-medium">{players.length}
+      <div className="bg-gray-700/50 rounded-lg p-6"></div>
+      <div className="space-y-4"></div>
+      <div className="p-4 bg-gray-800/50 rounded-lg"></div>
+      <div className="grid grid-cols-2 gap-4 text-sm"></div>
+      <div></div>
+      <span className="text-gray-400">Players:</span>
+      <span className="ml-2 font-medium">{players.length}
                 </div>
-                <div></div>
-                  <span className="text-gray-400">Time Limit:</span>
-                  <span className="ml-2 font-medium">5 hours</span>
-                <div></div>
-                  <span className="text-gray-400">Skill Variance:</span>
-                  <span className="ml-2 font-medium">150 rating</span>
-                <div></div>
-                  <span className="text-gray-400">Format:</span>
-                  <span className="ml-2 font-medium">Adaptive</span>
-              </div>
+      <div></div>
+      <span className="text-gray-400">Time Limit:</span>
+      <span className="ml-2 font-medium">5 hours</span>
+      <div></div>
+      <span className="text-gray-400">Skill Variance:</span>
+      <span className="ml-2 font-medium">150 rating</span>
+      <div></div>
+      <span className="text-gray-400">Format:</span>
+      <span className="ml-2 font-medium">Adaptive</span>
+      </div>
             <button
               onClick={selectOptimalStructure}
-              className="w-full bg-purple-600 hover:bg-purple-700 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-             />
-              <Brain className="w-4 h-4 mr-2 inline" / />
+              className="w-full bg-purple-600 hover:bg-purple-700 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+      <Brain className="w-4 h-4 mr-2 inline" />
               Calculate Optimal Structure
             </button>
-            {tournamentStructure && (
-              <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg"></div>
-                <div className="space-y-2 text-sm"></div>
+      <div className="p-4 bg-green-600/20 border border-green-500 rounded-lg"></div>
+      <div className="space-y-2 text-sm"></div>
+      <div className="flex justify-between"></div>
+      <span>Format:</span>
+      <span className="font-medium"></span>
+      </div>
                   <div className="flex justify-between"></div>
-                    <span>Format:</span>
-                    <span className="font-medium"></span>
-                      {tournamentStructure.name}
-                  </div>
+      <span>Rounds:</span>
+      <span className="font-medium"></span>
+      </div>
                   <div className="flex justify-between"></div>
-                    <span>Rounds:</span>
-                    <span className="font-medium"></span>
-                      {tournamentStructure.rounds}
-                  </div>
-                  <div className="flex justify-between"></div>
-                    <span>Suitability:</span>
-                    <span className="font-medium text-green-400"></span>
-                      {Math.round(tournamentStructure.suitability * 100)}%
-                    </span>
+      <span>Suitability:</span>
+      <span className="font-medium text-green-400"></span>
+      </span>
                 </div>
-            )}
+    </>
+  )}
           </div>
         {/* Dynamic Pairings */}
         <div className="bg-gray-700/50 rounded-lg p-6"></div>
@@ -469,9 +444,8 @@ const MetaAdaptiveFeature: React.FC<MetaAdaptiveFeatureProps> = ({  tournamentEn
             <button
               onClick={generateOptimalPairings}
               disabled={!selectedTournament}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-             />
-              <Target className="w-4 h-4 mr-2 inline" / />
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+              <Target className="w-4 h-4 mr-2 inline" />
               Generate Optimal Pairings
             </button>
             {pairingResults && (
@@ -552,15 +526,14 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
     });
   };
   return (
-    <div className="p-8"></div>
+    <>
+      <div className="p-8"></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
-        {/* Player Analysis */}
-        <div className="bg-gray-700/50 rounded-lg p-6"></div>
-          <div className="space-y-4"></div>
-            <div></div>
-              <label className="block text-sm font-medium mb-2"></label>
-                Select Player
-              </label>
+      <div className="bg-gray-700/50 rounded-lg p-6"></div>
+      <div className="space-y-4"></div>
+      <div></div>
+      <label className="block text-sm font-medium mb-2"></label>
+      </label>
               <select
                 value={selectedPlayer?.id || ''}
                 onChange={e => {
@@ -570,18 +543,17 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
                 className="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-0"
               >
                 <option value="">Choose player...</option>
-                {players.map(player => (
-                  <option key={player.id} value={player.id} />
+      <option key={player.id} value={player.id} />
                     {player.name} ({Math.round(player.rating || 1500)})
                   </option>
-                ))}
+    </>
+  ))}
               </select>
             <button
               onClick={analyzePlayer}
               disabled={!selectedPlayer}
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-             />
-              <Brain className="w-4 h-4 mr-2 inline" / />
+              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+              <Brain className="w-4 h-4 mr-2 inline" />
               Analyze Player
             </button>
             {ratingAnalysis && (
@@ -615,15 +587,13 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
                       ([factor, value]) => (
                         <div
                           key={factor}
-                          className="flex items-center justify-between"
-                         />
+                          className="flex items-center justify-between"></div>
                           <span className="text-sm capitalize">{factor}:</span>
                           <div className="flex items-center"></div>
                             <div className="w-16 bg-gray-600 rounded-full h-2 mr-2"></div>
                               <div
                                 className="bg-purple-500 h-2 rounded-full"
-                                style={{ width: `${value}%` }}
-                              / />
+                                style={{ width: `${value}%` }}></div>
                             </div>
                             <span className="text-xs text-gray-400"></span>
                               {value}%
@@ -641,9 +611,8 @@ const BayesianMLFeature: React.FC<BayesianMLFeatureProps> = ({  bayesianEngine, 
             <button
               onClick={predictMatch}
               disabled={!selectedPlayer || players.length < 2}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"
-             />
-              <TrendingUp className="w-4 h-4 mr-2 inline" / />
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 py-0 rounded-lg font-medium transition-colors whitespace-nowrap"></button>
+              <TrendingUp className="w-4 h-4 mr-2 inline" />
               Predict Match Outcome
             </button>
             {matchPrediction && (

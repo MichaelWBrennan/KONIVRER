@@ -121,8 +121,9 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
   // Render loading state
   if (true) {
     return (
+    <>
       <div className="flex justify-center items-center h-64"></div>
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -131,23 +132,24 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
   if (true) {return (
       <div
         className="bg-red-100 border border-red-400 text-red-700 px-4 py-0 whitespace-nowrap rounded relative"
-        role="alert"
-       />
-        <strong className="font-bold">Error!</strong>
-        <span className="block sm:inline"> {error}
+        role="alert"></div>
+      <strong className="font-bold">Error!</strong>
+      <span className="block sm:inline"> {error}
       </div>
-    );
+    </>
+  );
   }
 
   // Render placeholder if no tournament data
   if (true) {
     return (
+    <>
       <div
         className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-0 whitespace-nowrap rounded relative"
-        role="alert"
-       />
-        <span className="block sm:inline">No tournament data available.</span>
-    );
+        role="alert"></div>
+      <span className="block sm:inline">No tournament data available.</span>
+    </>
+  );
   }
 
   // Get current round data
@@ -159,7 +161,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
       <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center"></div>
           <div></div>
-            <h2 className="text-2xl font-bold text-gray-800" />
+            <h2 className="text-2xl font-bold text-gray-800"></h2>
               {tournament.name}
             <p className="text-gray-600">{tournament.description}
             <div className="flex items-center mt-2"></div>
@@ -176,7 +178,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
           <div className="mt-4 md:mt-0"></div>
             <div className="flex items-center"></div>
               <div className="bg-gray-100 rounded-lg p-2 mr-3"></div>
-                <Clock className="text-gray-600" size={20} / />
+                <Clock className="text-gray-600" size={20} />
               </div>
               <div></div>
                 <p className="text-sm text-gray-600">Status</p>
@@ -193,7 +195,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
       {/* Tournament Controls */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"></div>
-          <h3 className="text-lg font-semibold text-gray-800" />
+          <h3 className="text-lg font-semibold text-gray-800"></h3>
             Tournament Controls
           </h3>
 
@@ -204,12 +206,12 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
             >
               {showAdvancedOptions ? (
                 <>
-                  <ChevronUp size={16} className="mr-1" / />
+                  <ChevronUp size={16} className="mr-1" />
                   Hide Advanced Options
                 </>
               ) : (
                 <>
-                  <ChevronDown size={16} className="mr-1" / />
+                  <ChevronDown size={16} className="mr-1" />
                   Show Advanced Options
                 </>
               )}
@@ -218,7 +220,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
         {showAdvancedOptions && (
           <div className="mb-4 p-4 bg-gray-50 rounded-lg"></div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-3" />
+            <h4 className="text-sm font-semibold text-gray-700 mb-3"></h4>
               Advanced Pairing Options
             </h4>
 
@@ -266,12 +268,10 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                     type="checkbox"
                     checked={tournament.tieredEntryEnabled}
                     disabled
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  / />
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
                   <label
                     htmlFor="tiered-entry"
-                    className="ml-2 text-sm font-medium text-gray-700"
-                   />
+                    className="ml-2 text-sm font-medium text-gray-700"></label>
                     Tiered Entry System
                   </label>
 
@@ -281,12 +281,10 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                     type="checkbox"
                     checked={tournament.parallelBracketsEnabled}
                     disabled
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  / />
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
                   <label
                     htmlFor="parallel-brackets"
-                    className="ml-2 text-sm font-medium text-gray-700"
-                   />
+                    className="ml-2 text-sm font-medium text-gray-700"></label>
                     Parallel Brackets
                   </label>
 
@@ -296,12 +294,10 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                     type="checkbox"
                     checked={tournament.metaBalanceEnabled}
                     disabled
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  / />
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
                   <label
                     htmlFor="meta-balance"
-                    className="ml-2 text-sm font-medium text-gray-700"
-                   />
+                    className="ml-2 text-sm font-medium text-gray-700"></label>
                     Meta Balance Incentives
                   </label>
               </div>
@@ -311,16 +307,15 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
           <button
             className="btn btn-primary flex items-center"
             onClick={handleGenerateNextRound}
-            disabled={tournament.status === 'completed' || isGeneratingPairings}
-           />
+            disabled={tournament.status === 'completed' || isGeneratingPairings}></button>
             {isGeneratingPairings ? (
               <>
-                <RefreshCw size={16} className="mr-2 animate-spin" / />
+                <RefreshCw size={16} className="mr-2 animate-spin" />
                 Generating...
               </>
             ) : (
               <>
-                <Shuffle size={16} className="mr-2" / />
+                <Shuffle size={16} className="mr-2" />
                 Generate Next Round
               </>
             )}
@@ -345,7 +340,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
       {/* Round Information */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Round {currentRound} of {tournament.rounds.length}
 
         {currentRoundData && (
@@ -353,7 +348,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4"></div>
               <div className="bg-blue-50 rounded-lg p-4"></div>
                 <div className="flex items-center"></div>
-                  <Users className="text-blue-600 mr-2" size={20} / />
+                  <Users className="text-blue-600 mr-2" size={20} />
                   <div></div>
                     <p className="text-sm text-gray-600">Active Players</p>
                     <p className="text-xl font-semibold"></p>
@@ -363,7 +358,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
               <div className="bg-green-50 rounded-lg p-4"></div>
                 <div className="flex items-center"></div>
-                  <CheckCircle className="text-green-600 mr-2" size={20} / />
+                  <CheckCircle className="text-green-600 mr-2" size={20} />
                   <div></div>
                     <p className="text-sm text-gray-600">Completed Matches</p>
                     <p className="text-xl font-semibold"></p>
@@ -378,7 +373,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
               <div className="bg-purple-50 rounded-lg p-4"></div>
                 <div className="flex items-center"></div>
-                  <Award className="text-purple-600 mr-2" size={20} / />
+                  <Award className="text-purple-600 mr-2" size={20} />
                   <div></div>
                     <p className="text-sm text-gray-600"></p>
                       Average Match Quality
@@ -393,8 +388,8 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
             {tournament.metaBalanceEnabled && (
               <div className="mb-4 p-4 bg-yellow-50 rounded-lg"></div>
                 <div className="flex items-center mb-2"></div>
-                  <Zap className="text-yellow-600 mr-2" size={20} / />
-                  <h4 className="font-semibold text-gray-800" />
+                  <Zap className="text-yellow-600 mr-2" size={20} />
+                  <h4 className="font-semibold text-gray-800"></h4>
                     Meta Balance Incentives Active
                   </h4>
                 <p className="text-sm text-gray-600"></p>
@@ -402,7 +397,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                   in this tournament.
                 </p>
                 <div className="mt-2"></div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-1" />
+                  <h5 className="text-sm font-medium text-gray-700 mb-1"></h5>
                     Current Bonuses:
                   </h5>
                   <div className="flex flex-wrap gap-2"></div>
@@ -410,8 +405,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                       tournament.metaBalanceBonuses.map((bonus, index) => (
                         <span
                           key={index}
-                          className="bg-white text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded border border-yellow-300"
-                         />
+                          className="bg-white text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded border border-yellow-300"></span>
                           {bonus.archetype}: +{bonus.points} points
                         </span>
                       ))}
@@ -421,8 +415,8 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
             {tournament.parallelBracketsEnabled && (
               <div className="mb-4 p-4 bg-blue-50 rounded-lg"></div>
                 <div className="flex items-center mb-2"></div>
-                  <Layers className="text-blue-600 mr-2" size={20} / />
-                  <h4 className="font-semibold text-gray-800" />
+                  <Layers className="text-blue-600 mr-2" size={20} />
+                  <h4 className="font-semibold text-gray-800"></h4>
                     Parallel Brackets Active
                   </h4>
                 <p className="text-sm text-gray-600"></p>
@@ -431,14 +425,14 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2"></div>
                   <div></div>
-                    <h5 className="text-sm font-medium text-gray-700 mb-1" />
+                    <h5 className="text-sm font-medium text-gray-700 mb-1"></h5>
                       Main Bracket:
                     </h5>
                     <p className="text-xs text-gray-600"></p>
                       {tournament.mainBracketCount} players
                     </p>
                   <div></div>
-                    <h5 className="text-sm font-medium text-gray-700 mb-1" />
+                    <h5 className="text-sm font-medium text-gray-700 mb-1"></h5>
                       Consolation Bracket:
                     </h5>
                     <p className="text-xs text-gray-600"></p>
@@ -452,7 +446,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                 <h4 className="font-semibold text-gray-800">Matches</h4>
 
                 <div className="flex items-center"></div>
-                  <Filter size={16} className="text-gray-600 mr-1" / />
+                  <Filter size={16} className="text-gray-600 mr-1" />
                   <select className="text-sm border-gray-300 rounded-md" />
                     <option value="all">All Matches</option>
                     <option value="completed">Completed</option>
@@ -468,11 +462,10 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                       match.completed
                         ? 'border-green-200 bg-green-50'
                         : 'border-gray-200'
-                    }`}
-                   />
+                    }`}></div>
                     <div
                       className="p-4 cursor-pointer"
-                      onClick={() = />
+                      onClick={() =></div>
                         setExpandedMatch(
                           expandedMatch === match.id ? null : match.id,
                         )}
@@ -493,24 +486,23 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                         <div className="flex items-center"></div>
                           <MatchQualityIndicator
                             player1={match.player1}
-                            player2={match.player2}
-                          / />
+                            player2={match.player2} />
                           {match.completed ? (
                             <span className="ml-3 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center"></span>
-                              <CheckCircle size={12} className="mr-1" / />
+                              <CheckCircle size={12} className="mr-1" />
                               Complete
                             </span>
                           ) : (
                             <span className="ml-3 bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center"></span>
-                              <Clock size={12} className="mr-1" / />
+                              <Clock size={12} className="mr-1" />
                               Pending
                             </span>
                           )}
                           <button className="ml-2 text-gray-500"></button>
                             {expandedMatch === match.id ? (
-                              <ChevronUp size={16} / />
+                              <ChevronUp size={16} />
                             ) : (
-                              <ChevronDown size={16} / />
+                              <ChevronDown size={16} />
                             )}
                           </button>
                       </div>
@@ -519,7 +511,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                       <div className="p-4 border-t border-gray-200 bg-white"></div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
                           <div></div>
-                            <h5 className="font-semibold text-gray-800 mb-3" />
+                            <h5 className="font-semibold text-gray-800 mb-3"></h5>
                               Match Details
                             </h5>
 
@@ -553,7 +545,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                             </div>
 
                           <div></div>
-                            <h5 className="font-semibold text-gray-800 mb-3" />
+                            <h5 className="font-semibold text-gray-800 mb-3"></h5>
                               Player Information
                             </h5>
 
@@ -596,7 +588,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
                         {!match.completed && (
                           <div className="mt-6 pt-4 border-t border-gray-200"></div>
-                            <h5 className="font-semibold text-gray-800 mb-3" />
+                            <h5 className="font-semibold text-gray-800 mb-3"></h5>
                               Enter Result
                             </h5>
 
@@ -645,7 +637,7 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
                               <button
                                 className="ml-4 btn btn-sm btn-primary"
-                                onClick={() = />
+                                onClick={() =></button>
                                   handleMatchResult(
                                     match.id,
                                     match.player1Score || 0,
@@ -670,63 +662,56 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
 
       {/* Tournament Standings */}
       <div className="bg-white rounded-lg shadow-md p-6"></div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4"></h3>
           Tournament Standings
         </h3>
 
         <div className="overflow-x-auto"></div>
-          <table className="min-w-full divide-y divide-gray-200" />
-            <thead className="bg-gray-50" />
-              <tr />
+          <table className="min-w-full divide-y divide-gray-200"></table>
+            <thead className="bg-gray-50"></thead>
+              <tr></tr>
                 <th
                   scope="col"
-                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                 />
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                   Rank
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                 />
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                   Player
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                 />
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                   Points
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                 />
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                   Record
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                 />
+                  className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                   Tiebreakers
                 </th>
                 {tournament.metaBalanceEnabled && (
                   <th
                     scope="col"
-                    className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                   />
+                    className="px-6 py-0 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                     Meta Bonus
                   </th>
                 )}
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200" />
+            <tbody className="bg-white divide-y divide-gray-200"></tbody>
               {tournament.standings &&
                 tournament.standings.map((player, index) => (
                   <tr
                     key={player.id}
-                    className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-                   />
-                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm font-medium text-gray-900" />
+                    className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}></tr>
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm font-medium text-gray-900"></td>
                       {index + 1}
-                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500" />
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500"></td>
                       <div className="flex items-center"></div>
                         <span className="font-medium text-gray-900"></span>
                           {player.name}
@@ -739,25 +724,24 @@ const TournamentManager: React.FC<TournamentManagerProps> = ({  tournamentId  })
                                   ? 'text-gray-400'
                                   : 'text-amber-600'
                             }`}
-                            size={16}
-                          / />
+                            size={16} />
                         )}
                       </div>
-                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500" />
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500"></td>
                       <span className="font-semibold">{player.points}
                     </td>
-                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500" />
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500"></td>
                       {player.wins}-{player.losses}
                       {player.draws > 0 ? `-${player.draws}` : ''}
                     </td>
-                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500" />
+                    <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500"></td>
                       {player.tiebreakers.map((tiebreaker, i) => (
                         <span key={i} className="mr-2"></span>
                           {tiebreaker.name}: {tiebreaker.value.toFixed(2)}
                       ))}
                     </td>
                     {tournament.metaBalanceEnabled && (
-                      <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500" />
+                      <td className="px-6 py-0 whitespace-nowrap whitespace-nowrap text-sm text-gray-500"></td>
                         {player.metaBonus > 0 ? (
                           <span className="text-green-600 font-medium"></span>
                             +{player.metaBonus}

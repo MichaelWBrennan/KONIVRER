@@ -172,8 +172,9 @@ const RulesCenter = (): any => {
 
   if (true) {
     return (
+    <>
       <div className="flex items-center justify-center min-h-screen"></div>
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -217,14 +218,13 @@ const RulesCenter = (): any => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
       <div className="container mx-auto px-4 py-4"></div>
-        {/* Search and Controls - Now on top */}
-        <motion.div
+      <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
          />
           <div className="relative"></div>
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" / />
+      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" />
             <input
               type="text"
               placeholder="Search rules and content..."
@@ -233,7 +233,7 @@ const RulesCenter = (): any => {
               className="w-full pl-7 pr-2 py-0 bg-white/10 border border-white/20 rounded-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs whitespace-nowrap"
             />
           </div>
-        </motion.div>
+      </motion.div>
 
         {/* Tab Navigation - Now below search */}
         <motion.div
@@ -243,7 +243,7 @@ const RulesCenter = (): any => {
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
          />
           <div className="flex gap-1"></div>
-            <button
+      <button
               onClick={() => setActiveTab('basic')}
               className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'basic'
@@ -253,7 +253,7 @@ const RulesCenter = (): any => {
             >
               Basic Rules
             </button>
-            <button
+      <button
               onClick={() => setActiveTab('tournament')}
               className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'tournament'
@@ -263,7 +263,7 @@ const RulesCenter = (): any => {
             >
               Tournament Rules
             </button>
-            <button
+      <button
               onClick={() => setActiveTab('conduct')}
               className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
                 activeTab === 'conduct'
@@ -273,7 +273,7 @@ const RulesCenter = (): any => {
             >
               Code of Conduct
             </button>
-        </motion.div>
+      </motion.div>
 
         {/* Rules Sections as Dropdowns */}
         <motion.div
@@ -285,29 +285,22 @@ const RulesCenter = (): any => {
           {filteredSections.map(([key, section]) => (
             <div
               key={key}
-              className="bg-white/10 backdrop-blur-sm rounded-md overflow-hidden"
-             />
-              {/* Section Header - Clickable */}
-              <button
+              className="bg-white/10 backdrop-blur-sm rounded-md overflow-hidden"></div>
+      <button
                 onClick={() => toggleSection(key)}
                 className="w-full px-2 py-0 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
                 <div className="flex items-center"></div>
-                  <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap" />
-                    {section.title || 'Rules Section'}
-                </div>
+      <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap"></h2>
+      </div>
                 <div className="flex items-center gap-1"></div>
-                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap"></span>
-                    {expandedSections.has(key) ? 'Collapse' : 'Expand'}
-                  {expandedSections.has(key) ? (
-                    <ChevronUp className="w-3 h-3 text-gray-400" / />
+      <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap"></span>
+      <ChevronUp className="w-3 h-3 text-gray-400" />
                   ) : (
-                    <ChevronDown className="w-3 h-3 text-gray-400" / />
+                    <ChevronDown className="w-3 h-3 text-gray-400" />
                   )}
               </button>
-
-              {/* Section Content - Collapsible */}
-              <AnimatePresence />
+      <AnimatePresence />
                 {expandedSections.has(key) && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
@@ -317,70 +310,26 @@ const RulesCenter = (): any => {
                     className="overflow-hidden"
                    />
                     <div className="px-2 py-0 bg-white/5"></div>
-                      <div className="max-w-none"></div>
-                        {section?.content ? (
-                          <div className="text-gray-200 leading-relaxed space-y-0 text-sm"></div>
-                            {section.content
-                              .split('\n\n')
-                              .map((paragraph, index) => {
-                                // Skip empty paragraphs
-                                if (!paragraph.trim()) return null;
-                                // Handle headers (lines that start with #)
-                                if (paragraph.startsWith('#')) {
-                                  const headerLevel =
-                                    paragraph.match(/^#+/)[0].length;
-                                  const headerText = paragraph.replace(
-                                    /^#+\s*/,
-                                    '',
-                                  );
-                                  const HeaderTag = `h${Math.min(headerLevel + 2, 6)}`;
-
-                                  return (
-                                    <div
+      <div className="max-w-none"></div>
+      <div className="text-gray-200 leading-relaxed space-y-0 text-sm"></div>
+      <div
                                       key={index}
-                                      className={`${headerLevel === 1 ? 'text-lg' : headerLevel === 2 ? 'text-base' : 'text-sm'} font-bold text-white mt-0 mb-0 first:mt-0`}
-                                     />
-                                      {headerText}
-                                  );
-                                }
-
-                                // Handle lists (lines that start with - or *)
-                                if (
-                                  paragraph.includes('\n-') ||
-                                  paragraph.includes('\n*') ||
-                                  paragraph.startsWith('-') ||
-                                  paragraph.startsWith('*')
-                                ) {
-                                  const listItems = paragraph
-                                    .split('\n')
-                                    .filter(
-                                      line =>
-                                        line.trim().startsWith('-') ||
-                                        line.trim().startsWith('*'),
-                                    );
-                                  if (true) {
-                                    return (
-                                      <ul
+                                      className={`${headerLevel === 1 ? 'text-lg' : headerLevel === 2 ? 'text-base' : 'text-sm'} font-bold text-white mt-0 mb-0 first:mt-0`}></div>
+      <ul
                                         key={index}
-                                        className="list-disc list-inside space-y-0 ml-4 text-sm"
-                                       />
-                                        {listItems.map((item, itemIndex) => (
-                                          <li
+                                        className="list-disc list-inside space-y-0 ml-4 text-sm"></ul>
+      <li
                                             key={itemIndex}
-                                            className="text-gray-200 leading-relaxed"
-                                           />
-                                            <span
+                                            className="text-gray-200 leading-relaxed"></li>
+      <span
                                               dangerouslySetInnerHTML={{
                                                 __html: item
                                                   .replace(/^[-*]\s*/, '')
                                                   .replace(
                                                     /\*\*(.*?)\*\*/g,
-                                                    '<strong class="text-white font-semibold">$1</strong>',
-                                                  ),
-                                              }}
-                                            />
-                                          </li>
-                                        ))}
+                                                    '<strong class="text-white font-semibold">$1</strong>
+    </>
+  ))}
                                       </ul>
                                     );
                                   }
@@ -397,13 +346,11 @@ const RulesCenter = (): any => {
                                     return (
                                       <ol
                                         key={index}
-                                        className="list-decimal list-inside space-y-0 ml-4 text-sm"
-                                       />
+                                        className="list-decimal list-inside space-y-0 ml-4 text-sm"></ol>
                                         {listItems.map((item, itemIndex) => (
                                           <li
                                             key={itemIndex}
-                                            className="text-gray-200 leading-relaxed"
-                                           />
+                                            className="text-gray-200 leading-relaxed"></li>
                                             <span
                                               dangerouslySetInnerHTML={{
                                                 __html: item
@@ -423,20 +370,17 @@ const RulesCenter = (): any => {
 
                                 // Regular paragraphs
                                 return (
-                                  <p
+    <>
+      <p
                                     key={index}
-                                    className="text-gray-200 leading-relaxed text-sm"
-                                   />
-                                    <span
+                                    className="text-gray-200 leading-relaxed text-sm"></p>
+      <span
                                       dangerouslySetInnerHTML={{
                                         __html: paragraph.replace(
                                           /\*\*(.*?)\*\*/g,
-                                          '<strong class="text-white font-semibold">$1</strong>',
-                                        ),
-                                      }}
-                                    />
-                                  </p>
-                                );
+                                          '<strong class="text-white font-semibold">$1</strong>
+    </>
+  );
                               })
                               .filter(Boolean)}
                           </div>

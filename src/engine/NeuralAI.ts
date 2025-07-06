@@ -1440,7 +1440,7 @@ class NeuralAI {
     input[index++] = context.gamePhase === 'late' ? 1 : 0;
     
     // Fill remaining game features
-    while(): any {
+    while () {
       input[index++] = 0;
     }
     
@@ -1452,7 +1452,7 @@ class NeuralAI {
     input[index++] = emotionalState.satisfaction;
     
     // Fill remaining emotional features
-    while(): any {
+    while () {
       input[index++] = 0;
     }
     
@@ -1466,7 +1466,7 @@ class NeuralAI {
     }
     
     // Fill remaining memory features
-    while(): any {
+    while () {
       input[index++] = 0;
     }
     
@@ -1476,7 +1476,7 @@ class NeuralAI {
     input[index++] = this.empathyLevel;
     
     // Fill remaining personality features
-    while(): any {
+    while () {
       input[index++] = 0;
     }
     

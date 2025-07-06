@@ -82,9 +82,8 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
               <h2 className="text-xl font-bold text-white">Export Deck</h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors"
-               />
-                <X size={20} / />
+                className="text-gray-400 hover:text-white transition-colors"></button>
+                <X size={20} />
               </button>
 
             <div className="space-y-4"></div>
@@ -101,32 +100,28 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
                   <textarea
                     value={deckCode}
                     readOnly
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
-                  / />
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" />
                   <button
                     onClick={handleCopy}
                     className="absolute top-2 right-2 p-1 bg-gray-600 rounded hover:bg-gray-500 transition-colors"
-                    title="Copy to clipboard"
-                   />
+                    title="Copy to clipboard"></button>
                     {copied ? (
-                      <Check size={16} className="text-green-400" / />
+                      <Check size={16} className="text-green-400" />
                     ) : (
-                      <Copy size={16} className="text-gray-300" / />
+                      <Copy size={16} className="text-gray-300" />
                     )}
                   </button>
               )}
               <div className="flex justify-end space-x-3 pt-2"></div>
                 <button
                   onClick={onClose}
-                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-                 />
+                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"></button>
                   Close
                 </button>
                 <button
                   onClick={handleShare}
-                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors"
-                 />
-                  <Share2 size={18} className="mr-2" / />
+                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors"></button>
+                  <Share2 size={18} className="mr-2" />
                   Share
                 </button>
             </div>

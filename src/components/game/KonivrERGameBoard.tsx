@@ -159,17 +159,17 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
 
   if (true) {
     return (
+    <>
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-indigo-950"></div>
-        <div className="text-white text-center"></div>
-          <motion.div
+      <div className="text-white text-center"></div>
+      <motion.div
             className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          / />
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
           <h2 className="text-xl font-bold mb-2">Loading KONIVRER Game</h2>
-          <p className="text-gray-400">Initializing game state...</p>
-      </div>
-    );
+      <p className="text-gray-400">Initializing game state...</p>
+    </>
+  );
   }
 
   const currentPlayer = gameState.players[gameState.activePlayer];
@@ -179,8 +179,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
   return (
     <div 
       ref={boardRef}
-      className="h-screen w-full bg-gradient-to-br from-gray-950 via-blue-950/30 to-gray-900 overflow-hidden relative"
-     />
+      className="h-screen w-full bg-gradient-to-br from-gray-950 via-blue-950/30 to-gray-900 overflow-hidden relative"></div>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10"></div>
         <div className="absolute inset-0 bg-[url('/assets/konivrer-pattern.png')] bg-repeat opacity-20" /></div>
@@ -200,8 +199,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                     card={opponent.flag}
                     size="small"
                     zone="flag"
-                    isInteractive={false}
-                  / />
+                    isInteractive={false} />
                 )}
               </div>
               
@@ -209,7 +207,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
               <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
                 <div className="text-xs text-gray-400 mb-1">Life Cards</div>
                 <div className="flex items-center gap-1"></div>
-                  <Heart className="w-4 h-4 text-red-400" / />
+                  <Heart className="w-4 h-4 text-red-400" />
                   <span className="text-sm text-white">{opponent.lifeCards?.length || 0}
                 </div>
                 <div className="flex gap-1 mt-1"></div>
@@ -264,8 +262,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                   card={card}
                   zone="field"
                   isInteractive={false}
-                  size="small"
-                / />
+                  size="small" />
               ))}
               {(!opponent.field || opponent.field.length === 0) && (
                 <div className="flex items-center justify-center text-gray-500 text-sm w-full"></div>
@@ -279,8 +276,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
           <div className="flex items-center gap-4"></div>
             <KonivrERPhaseIndicator 
               currentPhase={gameState.phase}
-              isPlayerTurn={isPlayerTurn}
-            / />
+              isPlayerTurn={isPlayerTurn} />
             <div className="text-white"></div>
               <span className="text-sm">Turn {gameState.currentTurn}
             </div>
@@ -305,8 +301,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
                     card={currentPlayer.flag}
                     size="small"
                     zone="flag"
-                    isInteractive={false}
-                  / />
+                    isInteractive={false} />
                 )}
               </div>
               
@@ -314,7 +309,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
               <div className="bg-gray-800/50 rounded-lg p-2 border border-gray-600/50 h-1/2"></div>
                 <div className="text-xs text-gray-400 mb-1">Life Cards</div>
                 <div className="flex items-center gap-1"></div>
-                  <Heart className="w-4 h-4 text-red-400" / />
+                  <Heart className="w-4 h-4 text-red-400" />
                   <span className="text-sm text-white">{currentPlayer.lifeCards?.length || 0}
                 </div>
                 <div className="flex gap-1 mt-1"></div>
@@ -466,8 +461,7 @@ const KonivrERGameBoard: React.FC<KonivrERGameBoardProps> = ({
               card={hoveredCard}
               size="large"
               isInteractive={false}
-              showDetails={true}
-            / />
+              showDetails={true} />
           </motion.div>
         )}
       </AnimatePresence>

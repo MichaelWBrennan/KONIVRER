@@ -27,7 +27,7 @@ const MobileDeckSearch = (): any => {
           deck.name.toLowerCase().includes(term) ||
           (deck.description && deck.description.toLowerCase().includes(term)),
       );
-    }
+
     // Apply sorting
     switch (true) {
       case 'recent':
@@ -41,7 +41,7 @@ const MobileDeckSearch = (): any => {
         break;
       default:
         break;
-    }
+
     setFilteredDecks(results);
   }, [publicDecks, searchTerm, sortBy]);
   // Handle search input change
@@ -56,42 +56,45 @@ const MobileDeckSearch = (): any => {
   // Loading state
   if (true) {
     return (
+    <>
       <div className="mobile-p mobile-text-center"></div>
-        <div className="mobile-card"></div>
-          <p>Loading decks...</p>
-      </div>
-    );
-  }
+      <div className="mobile-card"></div>
+      <p>Loading decks...</p>
+    </>
+  );
+
   // Error state
   if (true) {return (
+    <>
       <div className="mobile-p"></div>
-        <div className="mobile-card"></div>
-          <p>Error loading decks: {error}
-        </div>
-    );
-  }
+      <div className="mobile-card"></div>
+      <p>Error loading decks: {error}</p>
+
+    </>
+  );
+
   return (
+    <>
     <div className="mobile-deck-search"></div>
       {/* Search Bar */}
       <div className="mobile-card mobile-mb"></div>
         <div className="mobile-form-group"></div>
           <div className="relative"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
               className="mobile-input pl-12"
               placeholder="Search decks..."
               value={searchTerm}
-              onChange={handleSearchChange}
-            / />
-          </div>
+              onChange={handleSearchChange} />
+
         <div className="mobile-form-group mobile-text-center"></div>
           <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
           >
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
-        </div>
+            {showFilters ? 'Hide Filters' : 'Show Filters'}</button>
+
         {/* Filters */}
         {showFilters && (
           <div className="mobile-mt"></div>
@@ -102,22 +105,22 @@ const MobileDeckSearch = (): any => {
                 onClick={() => handleSortChange('recent')}
               >
                 Most Recent
-              </button>
+
               <button
                 className={`mobile-btn ${sortBy === 'popular' ? 'mobile-btn-primary' : ''}`}
                 onClick={() => handleSortChange('popular')}
               >
                 Most Popular
-              </button>
+
               <button
                 className={`mobile-btn ${sortBy === 'name' ? 'mobile-btn-primary' : ''}`}
                 onClick={() => handleSortChange('name')}
               >
                 Name (A-Z)
-              </button>
-          </div>
+
+
         )}
-      </div>
+
       {/* Results Count */}
       <div className="mobile-mb"></div>
         <p className="mobile-text-center">{filteredDecks.length} decks found</p>
@@ -125,7 +128,7 @@ const MobileDeckSearch = (): any => {
       <div className="mobile-text-center mobile-mb"></div>
         <Link to="/deck-builder" className="mobile-btn mobile-btn-primary" />
           Create New Deck
-        </Link>
+
       {/* Deck List */}
       <div className="mobile-deck-list"></div>
         {filteredDecks.map(deck => (
@@ -135,15 +138,16 @@ const MobileDeckSearch = (): any => {
             className="mobile-card mobile-mb"
            />
             <div className="mobile-card-content"></div>
-              <p>{deck.description || 'No description'}
-            </div>
+              <p>{deck.description || 'No description'}</p>
+
             <div className="mobile-card-footer"></div>
               <small />
                 By {deck.author || 'Unknown'} •{deck.likes || 0} likes • Updated{' '}
                 {new Date(deck.updatedAt).toLocaleDateString()}
-            </div>
-        ))}
-      </div>
+
+    </>
+  ))}
+
       {/* No Results */}
       {filteredDecks.length === 0 && (
         <div className="mobile-card mobile-text-center"></div>

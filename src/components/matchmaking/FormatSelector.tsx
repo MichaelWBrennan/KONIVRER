@@ -67,8 +67,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({
         >
           <div className="flex items-center space-x-3 mb-2"></div>
             <div
-              className={`w-6 h-6 rounded-full bg-gradient-to-br ${format.color} flex items-center justify-center text-white`}
-             />
+              className={`w-6 h-6 rounded-full bg-gradient-to-br ${format.color} flex items-center justify-center text-white`}></div>
               {format.icon}
             <span className="font-medium text-gray-900">{format.name}
           </div>

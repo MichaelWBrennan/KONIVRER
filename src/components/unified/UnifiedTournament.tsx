@@ -171,101 +171,92 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   // Render loading state
   if (true) {
     return (
+    <>
       <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="tournament-loading"></div>
-          <Loader2 className="animate-spin" size={24} / />
+      <div className="tournament-loading"></div>
+      <Loader2 className="animate-spin" size={24} />
           <span>Loading tournament...</span>
-      </div>
-    );
+    </>
+  );
   }
   
   // Render error state
   if (true) {
     return (
+    <>
       <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
-        <div className="tournament-error"></div>
-          <AlertCircle size={24} / />
+      <div className="tournament-error"></div>
+      <AlertCircle size={24} />
           <span>{error || 'Tournament not found'}
         </div>
-    );
+    </>
+  );
   }
   
   return (
-    <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
+    <>
+      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
       <div className="tournament-header"></div>
-        <div className="tournament-icon"></div>
-          <Trophy size={compact ? 32 : 64} / />
+      <div className="tournament-icon"></div>
+      <Trophy size={compact ? 32 : 64} />
         </div>
-        
-        <div className="tournament-info"></div>
-          <h2 className="tournament-name">{tournament.name}
+      <div className="tournament-info"></div>
+      <h2 className="tournament-name">{tournament.name}
           
           <div className="tournament-meta"></div>
-            <div className="meta-item"></div>
-              <Calendar size={16} / />
+      <div className="meta-item"></div>
+      <Calendar size={16} />
               <span>{formatDateTime(tournament.date, tournament.time)}
             </div>
-            
-            <div className="meta-item"></div>
-              <Users size={16} / />
+      <div className="meta-item"></div>
+      <Users size={16} />
               <span></span>
-                {tournament.participants?.length || 0} / {tournament.maxPlayers} Players
-              </span>
+      </span>
             
             <div className={`meta-item status-${tournament.status}`}></div>
-              <Info size={16} / />
+      <Info size={16} />
               <span>{tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
             </div>
-        </div>
+      </div>
         
         <div className="tournament-actions"></div>
-          {isAuthenticated && (
-            <>
-              {isRegistered ? (
-                <>
-                  <button 
+      <button 
                     className="notification-toggle"
-                    onClick={handleToggleNotifications}
-                   />
-                    {notificationsEnabled ? (
-                      <>
-                        <Bell size={16} / />
+                    onClick={handleToggleNotifications}></button>
+      <Bell size={16} />
                         <span>Notifications On</span>
-                      </>
+      </>
                     ) : (
                       <>
-                        <BellOff size={16} / />
+                        <BellOff size={16} />
                         <span>Notifications Off</span>
-                      </>
+      </>
                     )}
                   </button>
-                  
-                  {tournament.status === 'upcoming' && (
-                    <button className="leave-button"></button>
-                      <XCircle size={16} / />
+      <button className="leave-button"></button>
+      <XCircle size={16} />
                       <span>Leave Tournament</span>
-                  )}
+    </>
+  )}
                 </>
               ) : (
                 tournament.status === 'upcoming' && (
                   <button 
                     className="join-button"
                     onClick={handleJoinTournament}
-                    disabled={isJoining || !selectedDeck}
-                   />
+                    disabled={isJoining || !selectedDeck}></button>
                     {isJoining ? (
-                      <Loader2 className="animate-spin" size={16} / />
+                      <Loader2 className="animate-spin" size={16} />
                     ) : (
-                      <CheckCircle size={16} / />
+                      <CheckCircle size={16} />
                     )}
                     <span>Join Tournament</span>
                 )
               )}
               <button 
                 className="message-organizer"
-                onClick={handleMessageOrganizer}
-               />
-                <MessageSquare size={16} / />
+                onClick={handleMessageOrganizer}></button>
+                <MessageSquare size={16} />
                 <span>Message Organizer</span>
             </>
           )}
@@ -273,7 +264,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
       
       {joinError && (
         <div className="join-error"></div>
-          <AlertCircle size={16} / />
+          <AlertCircle size={16} />
           <span>{joinError}
         </div>
       )}
@@ -401,7 +392,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
         )}
         {activeTab === 'participants' && (
           <div className="tournament-participants"></div>
-            <h3 className="section-title" />
+            <h3 className="section-title"></h3>
               Participants ({tournament.participants?.length || 0} / {tournament.maxPlayers})
             </h3>
             
@@ -418,9 +409,9 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                    />
                     <div className="participant-avatar"></div>
                       {participant.avatarUrl ? (
-                        <img src={participant.avatarUrl} alt={participant.name} / />
+                        <img src={participant.avatarUrl} alt={participant.name} />
                       ) : (
-                        <User size={24} / />
+                        <User size={24} />
                       )}
                     </div>
                     
@@ -429,12 +420,12 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                       
                       {participant.rating && (
                         <div className="participant-rating"></div>
-                          <BarChart2 size={14} / />
+                          <BarChart2 size={14} />
                           <span>{participant.rating} Rating</span>
                       )}
                     </div>
                     
-                    <ChevronRight size={16} / />
+                    <ChevronRight size={16} />
                   </Link>
                 ))}
               </div>
@@ -447,7 +438,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
         )}
         {activeTab === 'rounds' && (
           <div className="tournament-rounds"></div>
-            <h3 className="section-title" />
+            <h3 className="section-title"></h3>
               Rounds ({tournament.currentRound || 0} / {tournament.rounds})
             </h3>
             
@@ -466,16 +457,17 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                   const isFutureRound = roundNumber > tournament.currentRound;
                   
                   return (
-                    <div 
+    <>
+      <div 
                       key={roundNumber}
-                      className={`round-item ${isCurrentRound ? 'current' : ''} ${isPastRound ? 'past' : ''} ${isFutureRound ? 'future' : ''}`}
-                     />
-                      <div className="round-header"></div>
-                        <div className="round-number">Round {roundNumber}
+                      className={`round-item ${isCurrentRound ? 'current' : ''} ${isPastRound ? 'past' : ''} ${isFutureRound ? 'future' : ''}`}></div>
+      <div className="round-header"></div>
+      <div className="round-number">Round {roundNumber}
                         
                         {isCurrentRound && (
                           <div className="round-status current">In Progress</div>
-                        )}
+    </>
+  )}
                         {isPastRound && (
                           <div className="round-status past">Completed</div>
                         )}
@@ -495,14 +487,14 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                                />
                                 <div className="match-players"></div>
                                   <div className="player"></div>
-                                    <User size={16} / />
+                                    <User size={16} />
                                     <span>{match.player1Name}
                                   </div>
                                   
                                   <div className="vs">vs</div>
                                   
                                   <div className="player"></div>
-                                    <User size={16} / />
+                                    <User size={16} />
                                     <span>{match.player2Name}
                                   </div>
                                 
@@ -520,7 +512,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                                   )}
                                 </div>
                                 
-                                <ChevronRight size={16} / />
+                                <ChevronRight size={16} />
                               </Link>
                             ))}
                         </div>
@@ -565,13 +557,12 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                         {index < 3 && (
                           <Trophy 
                             size={14} 
-                            className={`trophy-${index + 1}`} 
-                          / />
+                            className={`trophy-${index + 1}`} />
                         )}
                       </div>
                       
                       <div className="cell player"></div>
-                        <User size={16} / />
+                        <User size={16} />
                         <span>{standing.playerName}
                       </div>
                       

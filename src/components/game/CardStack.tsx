@@ -19,7 +19,8 @@ interface CardStackProps {
 const CardStack: React.FC<CardStackProps> = ({  stack = [], onCardHover  }) => {
   if (!stack || stack.length === 0) return null;
   return (
-    <div className="relative w-32 h-40"></div>
+    <>
+      <div className="relative w-32 h-40"></div>
       <AnimatePresence />
         {stack.map((item, index) => (
           <motion.div
@@ -39,23 +40,17 @@ const CardStack: React.FC<CardStackProps> = ({  stack = [], onCardHover  }) => {
             onHoverEnd={() => onCardHover(null)}
           >
             <div className="w-28 h-36 bg-purple-900 border-2 border-purple-700 rounded-lg shadow-lg p-2 flex flex-col"></div>
-              <div className="text-white text-xs font-bold truncate mb-1"></div>
-                {item.card.name}
-
-              <div className="flex-grow bg-black/30 rounded mb-1"></div>
-
-              <div className="text-white text-[8px]">{item.card.type}
+      <div className="text-white text-xs font-bold truncate mb-1"></div>
+      <div className="flex-grow bg-black/30 rounded mb-1"></div>
+      <div className="text-white text-[8px]">{item.card.type}
 
               {/* Stack position indicator */}
               <div className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"></div>
-                {index + 1}
-
-              {/* Owner indicator */}
-              <div className="absolute -bottom-2 -right-2 bg-gray-800 text-white text-[8px] font-bold rounded-full px-1.5 py-0.5"></div>
-                {item.controller === 0 ? 'You' : 'Opp'}
-            </div>
+      <div className="absolute -bottom-2 -right-2 bg-gray-800 text-white text-[8px] font-bold rounded-full px-1.5 py-0.5"></div>
+      </div>
           </motion.div>
-        ))}
+    </>
+  ))}
       </AnimatePresence>
 
       {/* Stack count */}

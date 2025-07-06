@@ -132,7 +132,7 @@ const TournamentManager = (): any => {
         <div className="bg-secondary border border-color rounded-xl p-6"></div>
           <div className="flex items-center gap-3"></div>
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center"></div>
-              <Calendar className="text-white" size={24} / />
+              <Calendar className="text-white" size={24} />
             </div>
             <div></div>
               <p className="text-sm text-secondary">Active Tournaments</p>
@@ -142,7 +142,7 @@ const TournamentManager = (): any => {
         <div className="bg-secondary border border-color rounded-xl p-6"></div>
           <div className="flex items-center gap-3"></div>
             <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center"></div>
-              <Users className="text-white" size={24} / />
+              <Users className="text-white" size={24} />
             </div>
             <div></div>
               <p className="text-sm text-secondary">Total Players</p>
@@ -152,7 +152,7 @@ const TournamentManager = (): any => {
         <div className="bg-secondary border border-color rounded-xl p-6"></div>
           <div className="flex items-center gap-3"></div>
             <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center"></div>
-              <Trophy className="text-white" size={24} / />
+              <Trophy className="text-white" size={24} />
             </div>
             <div></div>
               <p className="text-sm text-secondary">Prize Pool</p>
@@ -162,7 +162,7 @@ const TournamentManager = (): any => {
         <div className="bg-secondary border border-color rounded-xl p-6"></div>
           <div className="flex items-center gap-3"></div>
             <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-              <BarChart3 className="text-white" size={24} / />
+              <BarChart3 className="text-white" size={24} />
             </div>
             <div></div>
               <p className="text-sm text-secondary">Avg Attendance</p>
@@ -173,11 +173,11 @@ const TournamentManager = (): any => {
       {/* Tournament List */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <div className="flex items-center justify-between mb-6"></div>
-          <h3 className="text-xl font-bold text-primary" />
+          <h3 className="text-xl font-bold text-primary"></h3>
             Tournament Overview
           </h3>
           <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
-            <Plus size={16} / />
+            <Plus size={16} />
             Create Tournament
           </button>
 
@@ -185,12 +185,11 @@ const TournamentManager = (): any => {
           {tournaments.map(tournament => (
             <div
               key={tournament.id}
-              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"
-             />
+              className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"></div>
               <div className="flex items-center justify-between"></div>
                 <div className="flex-1"></div>
                   <div className="flex items-center gap-3 mb-2"></div>
-                    <h4 className="font-semibold text-primary" />
+                    <h4 className="font-semibold text-primary"></h4>
                       {tournament.name}
                     <span
                       className={`px-2 py-0 whitespace-nowrap rounded-lg text-xs font-medium ${
@@ -199,35 +198,34 @@ const TournamentManager = (): any => {
                           : tournament.status === 'ongoing'
                             ? 'bg-green-100 text-green-800'
                             : 'bg-gray-100 text-gray-800'
-                      }`}
-                     />
+                      }`}></span>
                       {tournament.status}
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary"></div>
                     <div className="flex items-center gap-2"></div>
-                      <Calendar size={14} / />
+                      <Calendar size={14} />
                       {tournament.date} at {tournament.time}
                     <div className="flex items-center gap-2"></div>
-                      <MapPin size={14} / />
+                      <MapPin size={14} />
                       {tournament.location}
                     <div className="flex items-center gap-2"></div>
-                      <Users size={14} / />
+                      <Users size={14} />
                       {tournament.players}/{tournament.maxPlayers} players
                     </div>
                     <div className="flex items-center gap-2"></div>
-                      <Trophy size={14} / />
+                      <Trophy size={14} />
                       {tournament.prizePool}
                   </div>
 
                 <div className="flex items-center gap-2"></div>
                   {tournament.status === 'ongoing' && (
                     <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"></button>
-                      <Play size={16} / />
+                      <Play size={16} />
                     </button>
                   )}
                   <button className="p-2 text-secondary hover:bg-tertiary rounded-lg transition-colors"></button>
-                    <Settings size={16} / />
+                    <Settings size={16} />
                   </button>
               </div>
           ))}
@@ -240,7 +238,7 @@ const TournamentManager = (): any => {
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <div className="flex items-center gap-3 mb-6"></div>
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-            <Brain className="text-white" size={24} / />
+            <Brain className="text-white" size={24} />
           </div>
           <div></div>
             <h3 className="text-xl font-bold text-primary">Bayesian Matchmaking Analytics</h3>
@@ -274,23 +272,23 @@ const TournamentManager = (): any => {
         <div></div>
           <h4 className="text-lg font-semibold text-primary mb-4">Archetype Performance</h4>
           <div className="overflow-x-auto"></div>
-            <table className="w-full" />
-              <thead />
-                <tr className="border-b border-color" />
+            <table className="w-full"></table>
+              <thead></thead>
+                <tr className="border-b border-color"></tr>
                   <th className="text-left py-2 px-4 text-sm font-medium text-secondary">Archetype</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Players</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Win Rate</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">Avg. Rating</th>
                   <th className="text-center py-2 px-4 text-sm font-medium text-secondary">W-L-D</th>
               </thead>
-              <tbody />
+              <tbody></tbody>
                 {Object.entries(bayesianAnalytics.archetypePerformance).map(([archetype, data]) => (
-                  <tr key={archetype} className="border-b border-color hover:bg-tertiary" />
-                    <td className="py-3 px-4" />
+                  <tr key={archetype} className="border-b border-color hover:bg-tertiary"></tr>
+                    <td className="py-3 px-4"></td>
                       <div className="font-medium text-primary">{archetype}
                     </td>
                     <td className="py-3 px-4 text-center">{data.count}
-                    <td className="py-3 px-4 text-center" />
+                    <td className="py-3 px-4 text-center"></td>
                       <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-opacity-10"
                         style={{
                           backgroundColor: parseFloat(data.winRate) >= 0.55 ? 'rgba(34, 197, 94, 0.1)' : 
@@ -304,7 +302,7 @@ const TournamentManager = (): any => {
                         {(parseFloat(data.winRate) * 100).toFixed(1)}%
                       </div>
                     <td className="py-3 px-4 text-center">{data.averageRating}
-                    <td className="py-3 px-4 text-center text-sm" />
+                    <td className="py-3 px-4 text-center text-sm"></td>
                       <span className="text-green-500">{data.wins}-
                       <span className="text-red-500">{data.losses}-
                       <span className="text-yellow-500">{data.draws}
@@ -344,11 +342,11 @@ const TournamentManager = (): any => {
   
   const renderCreateTournament = (renderCreateTournament: any) => (
     <div className="bg-secondary border border-color rounded-xl p-6"></div>
-      <h3 className="text-xl font-bold text-primary mb-6" />
+      <h3 className="text-xl font-bold text-primary mb-6"></h3>
         Create New Tournament
       </h3>
 
-      <form className="space-y-6" />
+      <form className="space-y-6"></form>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
           <div></div>
             <label className="block text-sm font-medium text-primary mb-2"></label>
@@ -357,8 +355,7 @@ const TournamentManager = (): any => {
             <input
               type="text"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-              placeholder="Enter tournament name"
-            / />
+              placeholder="Enter tournament name" />
           </div>
 
           <div></div>
@@ -367,8 +364,7 @@ const TournamentManager = (): any => {
             </label>
             <input
               type="date"
-              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            / />
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent" />
           </div>
 
           <div></div>
@@ -377,8 +373,7 @@ const TournamentManager = (): any => {
             </label>
             <input
               type="time"
-              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            / />
+              className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent" />
           </div>
 
           <div></div>
@@ -388,8 +383,7 @@ const TournamentManager = (): any => {
             <input
               type="number"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-              placeholder="64"
-            / />
+              placeholder="64" />
           </div>
 
           <div></div>
@@ -399,8 +393,7 @@ const TournamentManager = (): any => {
             <input
               type="text"
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-              placeholder="$25"
-            / />
+              placeholder="$25" />
           </div>
 
         <div></div>
@@ -410,8 +403,7 @@ const TournamentManager = (): any => {
           <input
             type="text"
             className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            placeholder="Enter venue address"
-          / />
+            placeholder="Enter venue address" />
         </div>
 
         <div></div>
@@ -421,18 +413,17 @@ const TournamentManager = (): any => {
           <textarea
             rows={4}
             className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
-            placeholder="Tournament description and rules"
-          / />
+            placeholder="Tournament description and rules" />
         </div>
 
         {/* Bayesian Matchmaking Settings */}
         <div className="bg-primary border border-color rounded-xl p-6"></div>
           <div className="flex items-center gap-3 mb-4"></div>
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center"></div>
-              <Brain className="text-white" size={20} / />
+              <Brain className="text-white" size={20} />
             </div>
             <div></div>
-              <h4 className="text-lg font-semibold text-primary" />
+              <h4 className="text-lg font-semibold text-primary"></h4>
                 Bayesian Matchmaking Settings
               </h4>
               <p className="text-sm text-secondary"></p>
@@ -443,9 +434,9 @@ const TournamentManager = (): any => {
           {/* Enable/Disable Toggle */}
           <div className="flex items-center justify-between p-4 bg-secondary border border-color rounded-lg mb-4"></div>
             <div className="flex items-center gap-3"></div>
-              <Zap className="text-accent-primary" size={18} / />
+              <Zap className="text-accent-primary" size={18} />
               <div></div>
-                <h5 className="font-medium text-primary" />
+                <h5 className="font-medium text-primary"></h5>
                   Enable Smart Matchmaking
                 </h5>
                 <p className="text-xs text-secondary"></p>
@@ -454,7 +445,7 @@ const TournamentManager = (): any => {
             </div>
             <button
               type="button"
-              onClick={() = />
+              onClick={() =></button>
                 setMatchmakingSettings(prev => ({
                   ...prev,
                   enabled: !prev.enabled,
@@ -466,9 +457,9 @@ const TournamentManager = (): any => {
               }`}
             >
               {matchmakingSettings.enabled ? (
-                <ToggleRight size={16} / />
+                <ToggleRight size={16} />
               ) : (
-                <ToggleLeft size={16} / />
+                <ToggleLeft size={16} />
               )}
               {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
           </div>
@@ -487,14 +478,14 @@ const TournamentManager = (): any => {
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() = />
+                    onClick={() =></div>
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         algorithm: 'bayesian',
                       }))}
                   >
                     <div className="flex items-center gap-2 mb-1"></div>
-                      <Brain className="text-accent-primary" size={16} / />
+                      <Brain className="text-accent-primary" size={16} />
                       <span className="font-medium text-primary text-sm"></span>
                         Bayesian TrueSkill
                       </span>
@@ -508,14 +499,14 @@ const TournamentManager = (): any => {
                         ? 'border-accent-primary bg-accent-primary/10'
                         : 'border-color hover:border-accent-primary/50'
                     }`}
-                    onClick={() = />
+                    onClick={() =></div>
                       setMatchmakingSettings(prev => ({
                         ...prev,
                         algorithm: 'elo',
                       }))}
                   >
                     <div className="flex items-center gap-2 mb-1"></div>
-                      <TrendingUp className="text-blue-500" size={16} / />
+                      <TrendingUp className="text-blue-500" size={16} />
                       <span className="font-medium text-primary text-sm"></span>
                         Enhanced ELO
                       </span>
@@ -665,7 +656,7 @@ const TournamentManager = (): any => {
               {/* Advanced Settings Toggle */}
               <details className="group" />
                 <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-accent-primary hover:text-accent-secondary transition-colors" />
-                  <Sliders size={16} / />
+                  <Sliders size={16} />
                   Advanced Parameters
                   <span className="ml-auto group-open:rotate-180 transition-transform"></span>
                     ▼
@@ -717,14 +708,12 @@ const TournamentManager = (): any => {
         <div className="flex gap-4"></div>
           <button
             type="submit"
-            className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"
-           />
+            className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
             Create Tournament
           </button>
           <button
             type="button"
-            className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"
-           />
+            className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"></button>
             Save as Draft
           </button>
       </form>
@@ -735,7 +724,7 @@ const TournamentManager = (): any => {
       {/* Bayesian Analytics Section */}
       {renderBayesianAnalytics()}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h3 className="text-xl font-bold text-primary mb-6" />
+        <h3 className="text-xl font-bold text-primary mb-6"></h3>
           Tournament Analytics
         </h3>
 
@@ -765,10 +754,10 @@ const TournamentManager = (): any => {
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <div className="flex items-center gap-3 mb-4"></div>
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
-            <Brain className="text-white" size={24} / />
+            <Brain className="text-white" size={24} />
           </div>
           <div></div>
-            <h3 className="text-xl font-bold text-primary" />
+            <h3 className="text-xl font-bold text-primary"></h3>
               Bayesian Matchmaking System
             </h3>
             <p className="text-secondary"></p>
@@ -780,9 +769,9 @@ const TournamentManager = (): any => {
         {/* Enable/Disable Toggle */}
         <div className="flex items-center justify-between p-4 bg-primary border border-color rounded-xl"></div>
           <div className="flex items-center gap-3"></div>
-            <Zap className="text-accent-primary" size={20} / />
+            <Zap className="text-accent-primary" size={20} />
             <div></div>
-              <h4 className="font-semibold text-primary" />
+              <h4 className="font-semibold text-primary"></h4>
                 Enable Smart Matchmaking
               </h4>
               <p className="text-sm text-secondary"></p>
@@ -790,7 +779,7 @@ const TournamentManager = (): any => {
               </p>
           </div>
           <button
-            onClick={() = />
+            onClick={() =></button>
               setMatchmakingSettings(prev => ({
                 ...prev,
                 enabled: !prev.enabled,
@@ -802,17 +791,17 @@ const TournamentManager = (): any => {
             }`}
           >
             {matchmakingSettings.enabled ? (
-              <ToggleRight size={20} / />
+              <ToggleRight size={20} />
             ) : (
-              <ToggleLeft size={20} / />
+              <ToggleLeft size={20} />
             )}
             {matchmakingSettings.enabled ? 'Enabled' : 'Disabled'}
         </div>
 
       {/* Algorithm Selection */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
-          <Target className="text-accent-primary" size={20} / />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
+          <Target className="text-accent-primary" size={20} />
           Matchmaking Algorithm
         </h4>
 
@@ -823,14 +812,14 @@ const TournamentManager = (): any => {
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() = />
+            onClick={() =></div>
               setMatchmakingSettings(prev => ({
                 ...prev,
                 algorithm: 'bayesian',
               }))}
           >
             <div className="flex items-center gap-3 mb-2"></div>
-              <Brain className="text-accent-primary" size={20} / />
+              <Brain className="text-accent-primary" size={20} />
               <h5 className="font-semibold text-primary">Bayesian TrueSkill</h5>
             <p className="text-sm text-secondary"></p>
               Advanced probabilistic model that accounts for skill uncertainty
@@ -843,11 +832,11 @@ const TournamentManager = (): any => {
                 ? 'border-accent-primary bg-accent-primary/10'
                 : 'border-color hover:border-accent-primary/50'
             }`}
-            onClick={() = />
+            onClick={() =></div>
               setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))}
           >
             <div className="flex items-center gap-3 mb-2"></div>
-              <TrendingUp className="text-blue-500" size={20} / />
+              <TrendingUp className="text-blue-500" size={20} />
               <h5 className="font-semibold text-primary">Enhanced ELO</h5>
             <p className="text-sm text-secondary"></p>
               Traditional rating system enhanced with deck archetype analysis
@@ -857,8 +846,8 @@ const TournamentManager = (): any => {
 
       {/* Skill Matching Parameters */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
-          <Activity className="text-accent-primary" size={20} / />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
+          <Activity className="text-accent-primary" size={20} />
           Skill Matching Parameters
         </h4>
 
@@ -966,8 +955,8 @@ const TournamentManager = (): any => {
 
       {/* Deck Diversity & Meta Balance */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
-          <Shuffle className="text-accent-primary" size={20} / />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
+          <Shuffle className="text-accent-primary" size={20} />
           Deck Diversity & Meta Balance
         </h4>
 
@@ -1027,8 +1016,8 @@ const TournamentManager = (): any => {
 
         {/* Deck Archetype Analysis */}
         <div className="mt-6 p-4 bg-primary border border-color rounded-xl"></div>
-          <h5 className="font-semibold text-primary mb-3 flex items-center gap-2" />
-            <BarChart3 size={16} / />
+          <h5 className="font-semibold text-primary mb-3 flex items-center gap-2"></h5>
+            <BarChart3 size={16} />
             Current Meta Analysis
           </h5>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"></div>
@@ -1049,8 +1038,8 @@ const TournamentManager = (): any => {
 
       {/* Advanced Settings */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
-          <Sliders className="text-accent-primary" size={20} / />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
+          <Sliders className="text-accent-primary" size={20} />
           Advanced Configuration
         </h4>
 
@@ -1124,8 +1113,8 @@ const TournamentManager = (): any => {
 
       {/* System Status & Performance */}
       <div className="bg-secondary border border-color rounded-xl p-6"></div>
-        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
-          <Activity className="text-accent-primary" size={20} / />
+        <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2"></h4>
+          <Activity className="text-accent-primary" size={20} />
           System Performance
         </h4>
 
@@ -1154,9 +1143,9 @@ const TournamentManager = (): any => {
 
         <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl"></div>
           <div className="flex items-start gap-3"></div>
-            <Info className="text-blue-500 mt-1" size={16} / />
+            <Info className="text-blue-500 mt-1" size={16} />
             <div></div>
-              <h5 className="font-semibold text-blue-800 mb-1" />
+              <h5 className="font-semibold text-blue-800 mb-1"></h5>
                 Bayesian Learning Status
               </h5>
               <p className="text-sm text-blue-700"></p>
@@ -1182,34 +1171,22 @@ const TournamentManager = (): any => {
   );
 
   return (
-    <div className="min-h-screen bg-primary"></div>
+    <>
+      <div className="min-h-screen bg-primary"></div>
       <div className="container py-8"></div>
-        {/* Header */}
-        <div className="mb-8"></div>
-          <div className="flex items-center gap-3 mb-4"></div>
-            <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center"></div>
-              <Trophy className="text-white" size={24} / />
+      <div className="mb-8"></div>
+      <div className="flex items-center gap-3 mb-4"></div>
+      <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center"></div>
+      <Trophy className="text-white" size={24} />
             </div>
-            <div></div>
-              <h1 className="text-3xl font-bold text-primary" />
-                Tournament Manager
-              </h1>
+      <div></div>
+      <h1 className="text-3xl font-bold text-primary"></h1>
+      </h1>
               <p className="text-secondary"></p>
-                Organize and manage KONIVRER tournaments
-              </p>
+      </p>
           </div>
-
-        {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2"></div>
-          {[
-            { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-            { id: 'create', label: 'Create Tournament', icon: Plus },
-            { id: 'analytics', label: 'Analytics', icon: Target },
-            { id: 'settings', label: 'Settings', icon: Settings },
-          ].map(tab => {
-            const Icon = tab.icon;
-            return (
-              <button
+      <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2"></div>
+      <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-0 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-200 ${
@@ -1218,18 +1195,12 @@ const TournamentManager = (): any => {
                     : 'text-secondary hover:text-primary hover:bg-tertiary'
                 }`}
               >
-                <Icon size={16} / />
+                <Icon size={16} />
                 {tab.label}
             );
           })}
         </div>
-
-        {/* Content */}
-        {activeTab === 'dashboard' && renderDashboard()}
-        {activeTab === 'create' && renderCreateTournament()}
-        {activeTab === 'analytics' && renderAnalytics()}
-        {activeTab === 'settings' && renderMatchmakingSettings()}
-    </div>
+    </>
   );
 };
 

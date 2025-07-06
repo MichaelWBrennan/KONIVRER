@@ -756,68 +756,41 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
   const renderMatchDetails = (): any => {
     if (!matchData) return null;
     return (
+    <>
       <div className="mobile-match-details esoteric-card"></div>
-        <h3 className="esoteric-rune">Match Details</h3>
-
-        <div className="mobile-match-stats"></div>
-          <div className="mobile-stat-group"></div>
-            <span className="mobile-stat-label esoteric-text-muted"></span>
-              Match Quality:
-            </span>
+      <h3 className="esoteric-rune">Match Details</h3>
+      <div className="mobile-match-stats"></div>
+      <div className="mobile-stat-group"></div>
+      <span className="mobile-stat-label esoteric-text-muted"></span>
+      </span>
             <span className="mobile-stat-value esoteric-text-accent"></span>
-              {Math.round((matchData.matchQuality || 0.5) * 100)}%
-            </span>
+      </span>
 
           <div className="mobile-stat-group"></div>
-            <span className="mobile-stat-label esoteric-text-muted"></span>
-              Win Probability:
-            </span>
+      <span className="mobile-stat-label esoteric-text-muted"></span>
+      </span>
             <span className="mobile-stat-value esoteric-text-accent"></span>
-              {Math.round((matchData.winProbability || 0.5) * 100)}%
-            </span>
+      </span>
 
           <div className="mobile-stat-group"></div>
-            <span className="mobile-stat-label esoteric-text-muted"></span>
-              Rating Difference:
-            </span>
+      <span className="mobile-stat-label esoteric-text-muted"></span>
+      </span>
             <span className="mobile-stat-value esoteric-text-accent"></span>
-              {matchData.player && matchData.opponent
-                ? Math.abs(
-                    Math.round(
-                      (matchData.player.rating || 1500) -
-                        (matchData.opponent.rating || 1500),
-                    ),
-                  )
-                : 0}
-          </div>
+      </div>
 
           <div className="mobile-stat-group"></div>
-            <span className="mobile-stat-label esoteric-text-muted"></span>
-              Playstyle Compatibility:
-            </span>
+      <span className="mobile-stat-label esoteric-text-muted"></span>
+      </span>
             <span className="mobile-stat-value esoteric-text-accent"></span>
-              {Math.round(
-                (matchData.playstyleCompatibility?.compatibility || 0.5) * 100,
-              )}
-              %
-            </span>
+      </span>
         </div>
-
-        {selectedFactor && (
-          <div className="mobile-factor-details"></div>
-            <h4 className="esoteric-rune" />
-              {formatFactorName(selectedFactor)} Details
-            </h4>
+      <div className="mobile-factor-details"></div>
+      <h4 className="esoteric-rune"></h4>
+      </h4>
             <p className="esoteric-text-muted"></p>
-              {getFactorDescription(selectedFactor)}
-            <p className="esoteric-text-accent"></p>
-              Value:{' '}
-              {Math.round(
-                (matchData.matchFactors?.[selectedFactor] || 0.5) * 100,
-              )}
-              %
-            </p>
-        )}
+      <p className="esoteric-text-accent"></p>
+    </>
+  )}
       </div>
     );
   };
@@ -840,11 +813,11 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
   };
 
   return (
-    <div className="mobile-matchmaking-visualizer"></div>
+    <>
+      <div className="mobile-matchmaking-visualizer"></div>
       <div className="mobile-card-header esoteric-card-header"></div>
-        <h2 className="mobile-card-title esoteric-rune" />
-          Matchmaking Visualizer
-        </h2>
+      <h2 className="mobile-card-title esoteric-rune"></h2>
+      </h2>
         <button
           className="mobile-btn-icon esoteric-btn-icon"
           onClick={() => setShowDetails(!showDetails)}
@@ -852,57 +825,48 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
         >
           {showDetails ? '−' : '+'}
       </div>
-
       <div className="mobile-tabs esoteric-tabs"></div>
-        <button
+      <button
           className={`mobile-tab-button ${activeTab === 'rating' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('rating')}
         >
           Rating
         </button>
-        <button
+      <button
           className={`mobile-tab-button ${activeTab === 'factors' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('factors')}
         >
           Factors
         </button>
-        <button
+      <button
           className={`mobile-tab-button ${activeTab === 'playstyle' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('playstyle')}
         >
           Playstyle
         </button>
-        <button
+      <button
           className={`mobile-tab-button ${activeTab === 'contextual' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('contextual')}
         >
           Context
         </button>
-        <button
+      <button
           className={`mobile-tab-button ${activeTab === 'meta' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('meta')}
         >
           Meta
         </button>
-
       <div className="mobile-visualization-container"></div>
-        <canvas
+      <canvas
           ref={canvasRef}
           width={600}
           height={400}
-          className="mobile-visualization-canvas"
-        / />
+          className="mobile-visualization-canvas" />
       </div>
-
-      {showDetails && renderMatchDetails()}
-      {activeTab === 'factors' && (
-        <div className="mobile-factor-selector"></div>
-          <p className="esoteric-text-muted">Select a factor for details:</p>
-          <div className="mobile-factor-buttons"></div>
-            {matchData &&
-              matchData.matchFactors &&
-              Object.keys(matchData.matchFactors).map(factor => (
-                <button
+      <div className="mobile-factor-selector"></div>
+      <p className="esoteric-text-muted">Select a factor for details:</p>
+      <div className="mobile-factor-buttons"></div>
+      <button
                   key={factor}
                   className={`mobile-btn esoteric-btn ${selectedFactor === factor ? 'active esoteric-btn-active' : ''}`}
                   onClick={() => setSelectedFactor(factor)}
@@ -910,7 +874,8 @@ const EnhancedMatchmakingVisualizer = ({ rankingEngine, matchData }): any => {
                   {formatFactorName(factor)}
               ))}
           </div>
-      )}
+    </>
+  )}
     </div>
   );
 };

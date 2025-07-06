@@ -116,13 +116,13 @@ const AdvancedSearchPage = (): any => {
   };
   return (
     <div className="container mx-auto px-4 py-0 whitespace-nowrap max-w-4xl"><div className="bg-amber-950/30 border border-amber-800/40 rounded-lg p-6 mb-8 shadow-lg"></div>
-        <form onSubmit={handleSubmit} />
+        <form onSubmit={handleSubmit}></form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             {/* Card Name */}
             <div></div>
               <label htmlFor="name" className="block text-amber-200 mb-2">Card Name</label>
               <div className="relative"></div>
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" / />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" />
                 <input
                   type="text"
                   id="name"
@@ -130,14 +130,13 @@ const AdvancedSearchPage = (): any => {
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg pl-10 pr-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                  placeholder="Search by card name"
-                / />
+                  placeholder="Search by card name" />
               </div>
             {/* Card Text */}
             <div></div>
               <label htmlFor="text" className="block text-amber-200 mb-2">Card Text</label>
               <div className="relative"></div>
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" / />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/60 w-4 h-4" />
                 <input
                   type="text"
                   id="text"
@@ -145,8 +144,7 @@ const AdvancedSearchPage = (): any => {
                   value={formData.text}
                   onChange={handleInputChange}
                   className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg pl-10 pr-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                  placeholder="Search card text"
-                / />
+                  placeholder="Search card text" />
               </div>
             {/* Card Type */}
             <div></div>
@@ -158,8 +156,7 @@ const AdvancedSearchPage = (): any => {
                 value={formData.type}
                 onChange={handleInputChange}
                 className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                placeholder="e.g. Elemental, Spell"
-              / />
+                placeholder="e.g. Elemental, Spell" />
             </div>
             {/* Element */}
             <div></div>
@@ -187,8 +184,7 @@ const AdvancedSearchPage = (): any => {
                 min="0"
                 max="10"
                 className="w-full bg-amber-950/50 border border-amber-800/40 rounded-lg px-4 py-0 whitespace-nowrap text-amber-100 focus:border-amber-600 focus:outline-none"
-                placeholder="e.g. 3"
-              / />
+                placeholder="e.g. 3" />
             </div>
             {/* Rarity */}
             <div></div>
@@ -222,15 +218,13 @@ const AdvancedSearchPage = (): any => {
           <div className="flex justify-center mt-8 space-x-4"></div>
             <button
               type="submit"
-              className="bg-amber-700 hover:bg-amber-600 text-amber-100 px-6 py-0 whitespace-nowrap rounded-lg font-medium flex items-center space-x-2 transition-colors shadow-md"
-             />
-              <Search size={20} / />
+              className="bg-amber-700 hover:bg-amber-600 text-amber-100 px-6 py-0 whitespace-nowrap rounded-lg font-medium flex items-center space-x-2 transition-colors shadow-md"></button>
+              <Search size={20} />
               <span>Search</span>
             <button
               type="button"
               onClick={handleReset}
-              className="bg-amber-950/50 hover:bg-amber-900 text-amber-300 px-6 py-0 whitespace-nowrap rounded-lg font-medium transition-colors border border-amber-800/40 shadow-md"
-             />
+              className="bg-amber-950/50 hover:bg-amber-900 text-amber-300 px-6 py-0 whitespace-nowrap rounded-lg font-medium transition-colors border border-amber-800/40 shadow-md"></button>
               Reset
             </button>
         </form>

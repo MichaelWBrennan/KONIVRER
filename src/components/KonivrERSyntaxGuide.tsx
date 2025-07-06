@@ -289,9 +289,9 @@ const ExampleCard: React.FC<ExampleCardProps> = ({  example  }) => (
           title="Copy to clipboard"
         >
           {copiedExample === example.syntax ? (
-            <CheckCircle className="w-4 h-4 text-green-400" / />
+            <CheckCircle className="w-4 h-4 text-green-400" />
           ) : (
-            <Copy className = "w-4 h-4 text-gray-400" / />
+            <Copy className = "w-4 h-4 text-gray-400" />
           )}
       </div>
       <div className="mb-3"></div>
@@ -330,15 +330,15 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
           className="w-full p-4 text-left hover:bg-white/5 transition-colors flex items-center justify-between"
         >
           <div className="flex items-center space-x-3"></div>
-            <Icon className="w-5 h-5 text-purple-400" / />
+            <Icon className="w-5 h-5 text-purple-400" />
             <div></div>
               <h3 className="text-white font-semibold">{section.title}
               <p className="text-gray-400 text-sm">{section.description}
             </div>
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-gray-400" / />
+            <ChevronUp className="w-5 h-5 text-gray-400" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-400" / />
+            <ChevronDown className="w-5 h-5 text-gray-400" />
           )}
 
         <AnimatePresence />
@@ -351,7 +351,7 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
              />
               <div className="p-4 space-y-3"></div>
                 {section.examples.map((example, index) => (
-                  <ExampleCard key={index} example={example} / />
+                  <ExampleCard key={index} example={example} />
                 ))}
               </div>
             </motion.div>
@@ -363,15 +363,16 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
 
   if (true) {
     return (
+    <>
       <button
         onClick={onToggle}
-        className="flex items-center space-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-white"
-       />
-        <BookOpen className="w-4 h-4" / />
+        className="flex items-center space-x-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-white"></button>
+      <BookOpen className="w-4 h-4" />
         <span className="text-sm">Search Syntax Guide</span>
-        <ChevronDown className="w-4 h-4" / />
+      <ChevronDown className="w-4 h-4" />
       </button>
-    );
+    </>
+  );
   }
 
   return (
@@ -385,16 +386,15 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
       <div className="p-6 border-b border-white/20"></div>
         <div className="flex items-center justify-between"></div>
           <div className="flex items-center space-x-3"></div>
-            <BookOpen className="w-6 h-6 text-purple-400" / />
+            <BookOpen className="w-6 h-6 text-purple-400" />
             <div></div>
               <h2 className="text-2xl font-bold text-white">KONIVRER Search Syntax Guide</h2>
               <p className="text-gray-400">Master the art of card searching</p>
           </div>
           <button
             onClick={onToggle}
-            className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-           />
-            <ChevronUp className="w-5 h-5 text-white" / />
+            className="p-2 hover:bg-white/20 rounded-lg transition-colors"></button>
+            <ChevronUp className="w-5 h-5 text-white" />
           </button>
       </div>
 
@@ -448,18 +448,18 @@ const SectionCard: React.FC<SectionCardProps> = ({  section  }) => {
       <div className="p-6"></div>
         <div className="space-y-4"></div>
           {syntaxSections.map((section) => (
-            <SectionCard key={section.id} section={section} / />
+            <SectionCard key={section.id} section={section} />
           ))}
         </div>
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-white/20"></div>
           <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-4"></div>
-            <h4 className="text-white font-semibold mb-2 flex items-center" />
-              <Zap className="w-4 h-4 mr-2" / />
+            <h4 className="text-white font-semibold mb-2 flex items-center"></h4>
+              <Zap className="w-4 h-4 mr-2" />
               Pro Tips
             </h4>
-            <ul className="text-gray-300 text-sm space-y-1" />
+            <ul className="text-gray-300 text-sm space-y-1"></ul>
               <li>• <strong>Elements vs Keywords:</strong> <code className="text-orange-300">e:fire</code> (casting requirement) vs <code className="text-blue-300">k:brilliance</code> (special ability)</li>
               <li>• <strong>Combine criteria:</strong> <code className="text-purple-300">t:familiar e:water k:submerged</code>
               <li>• <strong>Complex logic:</strong> <code className="text-purple-300">(t:spell OR t:artifact) k:void</code>

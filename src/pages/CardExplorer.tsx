@@ -62,18 +62,17 @@ const CardExplorer = (): any => {
             <div className="bg-card rounded-lg p-6"></div>
               <div className="flex items-center gap-4 mb-6"></div>
                 <div className="flex-1 relative"></div>
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" / />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
                   <input
                     type="text"
                     placeholder=""
-                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  / />
+                    className="w-full pl-10 pr-4 py-3 border border-color rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
                 </div>
                 <button
                   onClick={() => setShowAdvancedSearch(true)}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1 px-2 py-0 whitespace-nowrap text-sm font-medium"
                 >
-                  <Filter className="w-4 h-4" / />
+                  <Filter className="w-4 h-4" />
                 </button>
                 <a 
                   href="https://#/syntax-guide" 
@@ -92,12 +91,12 @@ const CardExplorer = (): any => {
                         : 'bg-gray-600 hover:bg-gray-700 text-white'
                     }`}
                   >
-                    <Bot className="w-4 h-4" / />
+                    <Bot className="w-4 h-4" />
                     AI Assistant
                     {showAIAssistant ? (
-                      <ChevronLeft className="w-4 h-4" / />
+                      <ChevronLeft className="w-4 h-4" />
                     ) : (
-                      <ChevronRight className="w-4 h-4" / />
+                      <ChevronRight className="w-4 h-4" />
                     )}
                 )}
               </div>
@@ -128,7 +127,7 @@ const CardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <Grid className="w-4 h-4" / />
+                <Grid className="w-4 h-4" />
                 All Cards
               </button>
               <button
@@ -139,7 +138,7 @@ const CardExplorer = (): any => {
                     : 'text-secondary hover:text-primary'
                 }`}
               >
-                <TrendingUp className="w-4 h-4" / />
+                <TrendingUp className="w-4 h-4" />
                 Trending Cards
               </button>
             {/* Tab Content */}
@@ -148,11 +147,10 @@ const CardExplorer = (): any => {
               <CardDatabase
                 cards={searchResults}
                 searchCriteria={activeSearchCriteria}
-                showSearchInterface={true}
-              / />
+                showSearchInterface={true} />
             ) : (
               /* Trending Cards */
-              <CardMetaAnalysis / />
+              <CardMetaAnalysis />
             )}
           </motion.div>
           {/* AI Assistant Panel */}
@@ -165,10 +163,10 @@ const CardExplorer = (): any => {
              />
               <div className="p-6"></div>
                 <div className="flex items-center gap-3 mb-6"></div>
-                  <Bot className="w-6 h-6 text-blue-400" / />
+                  <Bot className="w-6 h-6 text-blue-400" />
                   <div></div>
                   </div>
-                <AIAssistant / />
+                <AIAssistant />
               </div>
             </motion.div>
           )}

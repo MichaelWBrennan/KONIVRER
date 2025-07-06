@@ -95,7 +95,7 @@ const TournamentCreate = (): any => {
   };
   const renderTemplateSelection = (renderTemplateSelection: any) => (
     <div className="space-y-6"></div>
-      <TournamentTemplates onSelectTemplate={handleTemplateSelect} / />
+      <TournamentTemplates onSelectTemplate={handleTemplateSelect} />
     </div>
   );
   const renderBasicInfo = (renderBasicInfo: any) => (
@@ -638,36 +638,28 @@ const TournamentCreate = (): any => {
     navigate('/tournaments');
   };
   return (
-    <div className="min-h-screen py-8"></div>
+    <>
+      <div className="min-h-screen py-8"></div>
       <div className="container max-w-4xl"></div>
-        {/* Progress Steps */}
-        <div className="flex items-center justify-between mb-8 overflow-x-auto"></div>
-          {steps.map((stepItem, index) => {
-            const Icon = stepItem.icon;
-            const isActive = step === stepItem.id;
-            const isCompleted = step > stepItem.id;
-            return (
-              <div key={stepItem.id} className="flex items-center"></div>
-                <div
+      <div className="flex items-center justify-between mb-8 overflow-x-auto"></div>
+      <div key={stepItem.id} className="flex items-center"></div>
+      <div
                   className={`flex items-center gap-2 px-3 py-0 whitespace-nowrap rounded-lg transition-colors ${
                     isActive
                       ? 'bg-accent-primary text-white'
                       : isCompleted
                         ? 'bg-green-600 text-white'
                         : 'bg-tertiary text-muted'
-                  }`}
-                 />
-                  <Icon size={16} / />
+                  }`}></div>
+      <Icon size={16} />
                   <span className="text-sm font-medium hidden sm:block"></span>
-                    {stepItem.title}
-                  <span className="text-sm font-medium sm:hidden"></span>
-                    {stepItem.id}
-                </div>
+      <span className="text-sm font-medium sm:hidden"></span>
+      </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-8 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-tertiary'}`}
-                  / />
-                )}
+                    className={`w-8 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-tertiary'}`}></div>
+    </>
+  )}
               </div>
             );
           })}
@@ -706,7 +698,7 @@ const TournamentCreate = (): any => {
               </button>
             ) : (
               <button onClick={handleSubmit} className="btn btn-primary"></button>
-                <Save size={16} / />
+                <Save size={16} />
                 Create Tournament
               </button>
             )}

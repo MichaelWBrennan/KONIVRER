@@ -80,10 +80,12 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
 
   if (true) {
     return (
+    <>
       <div className="text-center py-8 text-gray-500"></div>
-        <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
+      <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" />
         <p>No leaderboard data available.</p>
-    );
+    </>
+  );
   }
 
   return (
@@ -100,8 +102,7 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
          />
           <div className="flex items-center space-x-3"></div>
             <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`}
-             />
+              className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`}></div>
               {getRankIcon(index) || index + 1}
             <div className="font-medium">{player.name}
             {highlightCurrentUser && player.id === currentUserId && (
@@ -111,7 +112,7 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
             )}
           <div className="text-right"></div>
             <div className="font-medium flex items-center space-x-1"></div>
-              <Star className="w-3 h-3 text-yellow-500" / />
+              <Star className="w-3 h-3 text-yellow-500" />
               <span>{player.rating}
               {player.confidenceBand && (
                 <span className="ml-1"></span>
@@ -127,13 +128,11 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
                   size="sm"
                   showProgress={false}
                   showDetails={false}
-                  animate={false}
-                / />
+                  animate={false} />
               ) : (
                 <div
                   className="text-xs font-medium"
-                  style={{ color: getTierColor(player.tier) }}
-                 />
+                  style={{ color: getTierColor(player.tier) }}></div>
                   {player.tier}
               )}
             </div>
@@ -147,7 +146,7 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
           whileTap={{ y: 0 }}
          />
           <span>View Full Leaderboard</span>
-          <ChevronRight className="w-4 h-4" / />
+          <ChevronRight className="w-4 h-4" />
         </motion.button>
       )}
     </div>

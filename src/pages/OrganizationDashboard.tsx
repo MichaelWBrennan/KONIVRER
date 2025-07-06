@@ -170,10 +170,10 @@ const OrganizationDashboard = (): any => {
               <p className="text-sm font-medium text-gray-600">Total Tournaments</p>
               <p className="text-2xl font-bold text-gray-900">{analytics.totalTournaments}
             </div>
-            <Trophy className="h-8 w-8 text-blue-600" / />
+            <Trophy className="h-8 w-8 text-blue-600" />
           </div>
           <div className="mt-2 flex items-center text-sm"></div>
-            <TrendingUp className="h-4 w-4 text-green-500 mr-1" / />
+            <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
             <span className="text-green-600">+{analytics.monthlyGrowth}%</span>
             <span className="text-gray-500 ml-1">this month</span>
         </div>
@@ -183,7 +183,7 @@ const OrganizationDashboard = (): any => {
               <p className="text-sm font-medium text-gray-600">Total Players</p>
               <p className="text-2xl font-bold text-gray-900">{analytics.totalPlayers}
             </div>
-            <Users className="h-8 w-8 text-green-600" / />
+            <Users className="h-8 w-8 text-green-600" />
           </div>
           <div className="mt-2 flex items-center text-sm"></div>
             <span className="text-gray-600">Avg per tournament:</span>
@@ -195,7 +195,7 @@ const OrganizationDashboard = (): any => {
               <p className="text-sm font-medium text-gray-600">Total Revenue</p>
               <p className="text-2xl font-bold text-gray-900">${analytics.totalRevenue}
             </div>
-            <DollarSign className="h-8 w-8 text-yellow-600" / />
+            <DollarSign className="h-8 w-8 text-yellow-600" />
           </div>
           <div className="mt-2 flex items-center text-sm"></div>
             <span className="text-gray-600">This year</span>
@@ -207,14 +207,13 @@ const OrganizationDashboard = (): any => {
               <p className="text-2xl font-bold text-gray-900"></p>
                 {organization?.currentPlayers}/{organization?.playerCap}
             </div>
-            <Target className="h-8 w-8 text-purple-600" / />
+            <Target className="h-8 w-8 text-purple-600" />
           </div>
           <div className="mt-2"></div>
             <div className="w-full bg-gray-200 rounded-full h-2"></div>
               <div 
                 className="bg-purple-600 h-2 rounded-full"
-                style={{ width: `${(organization?.currentPlayers / organization?.playerCap) * 100}%` }}
-              / />
+                style={{ width: `${(organization?.currentPlayers / organization?.playerCap) * 100}%` }}></div>
             </div>
         </div>
       {/* Recent Tournaments */}
@@ -225,7 +224,7 @@ const OrganizationDashboard = (): any => {
               to="/tournaments/create"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
              />
-              <Plus className="h-4 w-4" / />
+              <Plus className="h-4 w-4" />
               Create Tournament
             </Link>
         </div>
@@ -244,13 +243,13 @@ const OrganizationDashboard = (): any => {
                     tournament.status === 'active' ? 'bg-green-100 text-green-800' :
                     tournament.status === 'registration' ? 'bg-blue-100 text-blue-800' :
                     'bg-gray-100 text-gray-800'
-                  }`} />
+                  }`}></span>
                     {tournament.status}
                   <Link
                     to={`/tournaments/${tournament.id}/live`}
                     className="text-blue-600 hover:text-blue-800"
                    />
-                    <Eye className="h-4 w-4" / />
+                    <Eye className="h-4 w-4" />
                   </Link>
               </div>
             ))}
@@ -270,7 +269,7 @@ const OrganizationDashboard = (): any => {
                     index === 1 ? 'bg-green-500' :
                     index === 2 ? 'bg-yellow-500' :
                     'bg-purple-500'
-                  }`} / />
+                  }`}></div>
                   <span className="font-medium text-gray-900">{format.name}
                 </div>
                 <span className="text-gray-600">{format.count} tournaments</span>
@@ -285,7 +284,7 @@ const OrganizationDashboard = (): any => {
           to="/tournaments/create"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
          />
-          <Plus className="h-4 w-4" / />
+          <Plus className="h-4 w-4" />
           Create Tournament
         </Link>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200"></div>
@@ -297,23 +296,23 @@ const OrganizationDashboard = (): any => {
                   <div></div>
                     <div className="flex items-center gap-4 text-sm text-gray-600 mt-2"></div>
                       <div className="flex items-center gap-1"></div>
-                        <Calendar className="h-4 w-4" / />
+                        <Calendar className="h-4 w-4" />
                         {new Date(tournament.date).toLocaleDateString()}
                       <div className="flex items-center gap-1"></div>
-                        <Clock className="h-4 w-4" / />
+                        <Clock className="h-4 w-4" />
                         {tournament.time}
                       <div className="flex items-center gap-1"></div>
-                        <Users className="h-4 w-4" / />
+                        <Users className="h-4 w-4" />
                         {tournament.participants}/{tournament.maxParticipants}
                       <div className="flex items-center gap-1"></div>
-                        <DollarSign className="h-4 w-4" / />
+                        <DollarSign className="h-4 w-4" />
                         ${tournament.entryFee}
                     </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     tournament.status === 'active' ? 'bg-green-100 text-green-800' :
                     tournament.status === 'registration' ? 'bg-blue-100 text-blue-800' :
                     'bg-gray-100 text-gray-800'
-                  }`} />
+                  }`}></span>
                     {tournament.status}
                 </div>
                 <div className="flex gap-2"></div>
@@ -321,18 +320,18 @@ const OrganizationDashboard = (): any => {
                     to={`/tournaments/${tournament.id}/live`}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                    />
-                    <Eye className="h-4 w-4" / />
+                    <Eye className="h-4 w-4" />
                     View
                   </Link>
                   <Link
                     to={`/tournaments/${tournament.id}/edit`}
                     className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
                    />
-                    <Edit className="h-4 w-4" / />
+                    <Edit className="h-4 w-4" />
                     Edit
                   </Link>
                   <button className="border border-red-300 text-red-700 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-2"></button>
-                    <Trash2 className="h-4 w-4" / />
+                    <Trash2 className="h-4 w-4" />
                     Delete
                   </button>
               </div>
@@ -344,7 +343,7 @@ const OrganizationDashboard = (): any => {
     <div className="space-y-6"></div>
       <div className="flex justify-between items-center"></div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"></button>
-          <UserPlus className="h-4 w-4" / />
+          <UserPlus className="h-4 w-4" />
           Invite Staff
         </button>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200"></div>
@@ -354,7 +353,7 @@ const OrganizationDashboard = (): any => {
               <div key={member.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"></div>
                 <div className="flex items-center gap-4"></div>
                   <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center"></div>
-                    <Users className="h-5 w-5 text-gray-600" / />
+                    <Users className="h-5 w-5 text-gray-600" />
                   </div>
                   <div></div>
                     <p className="text-sm text-gray-600">{member.email}
@@ -363,7 +362,7 @@ const OrganizationDashboard = (): any => {
                         member.role === 'organizer' ? 'bg-purple-100 text-purple-800' :
                         member.role === 'judge' ? 'bg-blue-100 text-blue-800' :
                         'bg-gray-100 text-gray-800'
-                      }`} />
+                      }`}></span>
                         {member.role}
                       <span className="text-xs text-gray-500"></span>
                         Last active: {new Date(member.lastActive).toLocaleDateString()}
@@ -371,10 +370,10 @@ const OrganizationDashboard = (): any => {
                 </div>
                 <div className="flex items-center gap-2"></div>
                   <button className="text-blue-600 hover:text-blue-800"></button>
-                    <Edit className="h-4 w-4" / />
+                    <Edit className="h-4 w-4" />
                   </button>
                   <button className="text-red-600 hover:text-red-800"></button>
-                    <Trash2 className="h-4 w-4" / />
+                    <Trash2 className="h-4 w-4" />
                   </button>
               </div>
             ))}
@@ -385,7 +384,7 @@ const OrganizationDashboard = (): any => {
     <div className="space-y-6"></div>
       <div className="flex justify-between items-center"></div>
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"></button>
-          <Plus className="h-4 w-4" / />
+          <Plus className="h-4 w-4" />
           Add Location
         </button>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200"></div>
@@ -402,7 +401,7 @@ const OrganizationDashboard = (): any => {
                         </span>
                       )}
                     <div className="flex items-center gap-1 text-gray-600 mb-2"></div>
-                      <MapPin className="h-4 w-4" / />
+                      <MapPin className="h-4 w-4" />
                       {location.address}
                     <div className="flex items-center gap-4 text-sm text-gray-600"></div>
                       <span>Capacity: {location.capacity} players</span>
@@ -410,10 +409,10 @@ const OrganizationDashboard = (): any => {
                     </div>
                   <div className="flex items-center gap-2"></div>
                     <button className="text-blue-600 hover:text-blue-800"></button>
-                      <Edit className="h-4 w-4" / />
+                      <Edit className="h-4 w-4" />
                     </button>
                     <button className="text-red-600 hover:text-red-800"></button>
-                      <Trash2 className="h-4 w-4" / />
+                      <Trash2 className="h-4 w-4" />
                     </button>
                 </div>
             ))}
@@ -434,8 +433,7 @@ const OrganizationDashboard = (): any => {
             <input
               type="text"
               value={organization?.name || ''}
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            / />
+              className="w-full p-3 border border-gray-300 rounded-lg" />
           </div>
           <div></div>
             <label className="block text-sm font-medium text-gray-700 mb-2"></label>
@@ -444,8 +442,7 @@ const OrganizationDashboard = (): any => {
             <textarea
               value={organization?.description || ''}
               rows={3}
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            / />
+              className="w-full p-3 border border-gray-300 rounded-lg" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             <div></div>
@@ -455,8 +452,7 @@ const OrganizationDashboard = (): any => {
               <input
                 type="url"
                 value={organization?.website || ''}
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              / />
+                className="w-full p-3 border border-gray-300 rounded-lg" />
             </div>
             <div></div>
               <label className="block text-sm font-medium text-gray-700 mb-2"></label>
@@ -465,8 +461,7 @@ const OrganizationDashboard = (): any => {
               <input
                 type="email"
                 value={organization?.email || ''}
-                className="w-full p-3 border border-gray-300 rounded-lg"
-              / />
+                className="w-full p-3 border border-gray-300 rounded-lg" />
             </div>
         </div>
       {/* Payment Settings */}
@@ -476,14 +471,14 @@ const OrganizationDashboard = (): any => {
         <div className="p-6"></div>
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"></div>
             <div className="flex items-center gap-3"></div>
-              <CreditCard className="h-6 w-6 text-blue-600" / />
+              <CreditCard className="h-6 w-6 text-blue-600" />
               <div></div>
                 <p className="text-sm text-gray-600">Accept entry fees through PayPal</p>
             </div>
             <div className="flex items-center gap-2"></div>
               {organization?.paypalConnected ? (
                 <div className="flex items-center gap-2 text-green-600"></div>
-                  <CheckCircle className="h-4 w-4" / />
+                  <CheckCircle className="h-4 w-4" />
                   Connected
                 </div>
               ) : (
@@ -511,12 +506,13 @@ const OrganizationDashboard = (): any => {
   );
   if (true) {
     return (
+    <>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center"></div>
-        <div className="text-center"></div>
-          <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" / />
+      <div className="text-center"></div>
+      <RefreshCw className="mx-auto h-8 w-8 text-blue-600 animate-spin mb-4" />
           <p className="text-gray-600">Loading organization data...</p>
-      </div>
-    );
+    </>
+  );
   }
   return (
     <div className="min-h-screen bg-gray-50"></div>
@@ -524,21 +520,21 @@ const OrganizationDashboard = (): any => {
       <div className="bg-white shadow-sm border-b border-gray-200"></div>
         <div className="max-w-7xl mx-auto px-4 py-6"></div>
           <div className="flex justify-between items-center"></div>
-            <div><p className="text-gray-600"></div>
+            <div><p className="text-gray-600"></p>
                 Organization Dashboard
               </p>
             <div className="flex items-center gap-4"></div>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                 organization?.status === 'active' ? 'bg-green-100 text-green-800' :
                 'bg-gray-100 text-gray-800'
-              }`} />
+              }`}></span>
                 {organization?.status}
             </div>
         </div>
       {/* Navigation Tabs */}
       <div className="bg-white border-b border-gray-200"></div>
         <div className="max-w-7xl mx-auto px-4"></div>
-          <nav className="flex space-x-8" />
+          <nav className="flex space-x-8"></nav>
             {[
               { id: 'overview', label: 'Overview', icon: BarChart3 },
               { id: 'tournaments', label: 'Tournaments', icon: Trophy },
@@ -555,7 +551,7 @@ const OrganizationDashboard = (): any => {
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
-                <Icon className="h-4 w-4" / />
+                <Icon className="h-4 w-4" />
                 {label}
             ))}
           </nav>

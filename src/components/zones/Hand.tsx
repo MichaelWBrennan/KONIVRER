@@ -45,12 +45,13 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
   };
   
   return (
-    <div className="hand-zone"></div>
+    <>
+      <div className="hand-zone"></div>
       <div className="zone-label">YOUR HAND</div>
       <div className="cards-container"></div>
-        {cards.length === 0 ? (
-          <div className="empty-zone">No cards</div>
-        ) : (
+      <div className="empty-zone">No cards</div>
+    </>
+  ) : (
           cards.map(card => (
             <div 
               key={card.id} 

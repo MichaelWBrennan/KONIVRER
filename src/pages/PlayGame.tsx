@@ -163,25 +163,21 @@ const PlayGame = (): any => {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white py-8"></div>
+    <>
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white py-8"></div>
       <div className="container mx-auto px-4"></div>
-        <div className="flex items-center mb-8"></div>
-          <button 
+      <div className="flex items-center mb-8"></div>
+      <button 
             onClick={() => navigate('/')}
             className="p-2 rounded-full hover:bg-gray-700 mr-3"
           >
-            <ArrowLeft size={20} / />
+            <ArrowLeft size={20} />
           </button>
-          <h1 className="text-3xl font-bold">Play KONIVRER</h1>
-        
-        {/* Game Formats */}
-        <div className="mb-8"></div>
-          <h2 className="text-xl font-semibold mb-4">Select Format</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4"></div>
-            {formats.map(format => {
-              const IconComponent = format.icon;
-              return (
-                <div 
+      <h1 className="text-3xl font-bold">Play KONIVRER</h1>
+      <div className="mb-8"></div>
+      <h2 className="text-xl font-semibold mb-4">Select Format</h2>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+      <div 
                   key={format.id}
                   onClick={() => setSelectedFormat(format.id)}
                   className={`bg-gray-800 rounded-xl p-4 cursor-pointer transition-all ${
@@ -189,12 +185,13 @@ const PlayGame = (): any => {
                   }`}
                 >
                   <div className="flex items-center mb-2"></div>
-                    <IconComponent className="mr-2 text-blue-400" size={20} / />
+      <IconComponent className="mr-2 text-blue-400" size={20} />
                     <h3 className="font-medium">{format.name}
                   </div>
-                  <p className="text-sm text-gray-400">{format.description}
+      <p className="text-sm text-gray-400">{format.description}
                 </div>
-              );
+    </>
+  );
             })}
           </div>
         
@@ -346,13 +343,12 @@ const PlayGame = (): any => {
                 <div className="bg-gray-700 rounded-lg p-4"></div>
                   <div className="flex justify-between items-center mb-3"></div>
                     <div className="flex items-center"></div>
-                      <Brain className="text-blue-400 mr-2" size={20} / />
+                      <Brain className="text-blue-400 mr-2" size={20} />
                       <h3 className="font-medium">{aiDeck.name}
                     </div>
                     <button 
                       onClick={generateAIDeckWithDelay}
-                      className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded-lg text-xs"
-                     />
+                      className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded-lg text-xs"></button>
                       Regenerate
                     </button>
                   
@@ -372,18 +368,18 @@ const PlayGame = (): any => {
                       <div className="text-xs text-gray-400 mb-1">AI Settings:</div>
                       <div className="flex items-center space-x-3 text-sm"></div>
                         <div className="flex items-center"></div>
-                          <Cpu size={14} className="mr-1 text-blue-400" / />
+                          <Cpu size={14} className="mr-1 text-blue-400" />
                           <span>{aiDifficultyOptions.find(o => o.id === aiDifficulty)?.name}
                         </div>
                         <div className="flex items-center"></div>
-                          <Bot size={14} className="mr-1 text-purple-400" / />
+                          <Bot size={14} className="mr-1 text-purple-400" />
                           <span>{aiPersonalityOptions.find(o => o.id === aiPersonality)?.name}
                         </div>
                     </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-center p-4 bg-gray-700 rounded-lg text-gray-400"></div>
-                  <AlertTriangle className="mr-2" size={20} / />
+                  <AlertTriangle className="mr-2" size={20} />
                   <span>Failed to generate AI deck. Please try again.</span>
               )}
             </div>
@@ -400,9 +396,8 @@ const PlayGame = (): any => {
                (opponentType !== 'ai' && (selectedFormat === 'draft' || selectedFormat === 'sealed' || selectedDeck)))
                 ? 'bg-blue-600 hover:bg-blue-500' 
                 : 'bg-gray-700 cursor-not-allowed'
-            }`}
-           />
-            <Play size={24} / />
+            }`}></button>
+            <Play size={24} />
             <span></span>
               {opponentType === 'ai' 
                 ? `Play Against ${aiDifficultyOptions.find(o => o.id === aiDifficulty)?.name} AI` 

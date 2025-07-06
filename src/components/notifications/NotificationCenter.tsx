@@ -115,88 +115,91 @@ const NotificationCenter = (): any => {
   }
 
   return (
-    <div className="notification-center"></div>
+    <div className="notification-center">
       {/* Notification Bell */}
       <button 
         className="notification-bell"
         onClick={toggleNotifications}
-        aria-label="Notifications"
-       />
+        aria-label="Notifications">
         {isSubscribed ? (
-          <Bell size={24} / />
+          <Bell size={24} />
         ) : (
-          <BellOff size={24} / />
+          <BellOff size={24} />
         )}
         {notifications.filter(n => !n.read).length > 0 && (
-          <span className="notification-badge"></span>
+          <span className="notification-badge">
             {notifications.filter(n => !n.read).length}
+          </span>
         )}
       </button>
 
       {/* Notification Panel */}
       {showNotifications && (
-        <div className="notification-panel"></div>
-          <div className="notification-header"></div>
+        <div className="notification-panel">
+          <div className="notification-header">
             <h3>Notifications</h3>
-            <div className="notification-actions"></div>
+            <div className="notification-actions">
               <button 
                 className="notification-action"
-                onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
-               />
+                onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}>
                 {isSubscribed ? 'Disable' : 'Enable'}
-              <button className="notification-action"></button>
-                <Settings size={16} / />
+              </button>
+              <button className="notification-action">
+                <Settings size={16} />
               </button>
               <button 
                 className="notification-close"
-                onClick={toggleNotifications}
-               />
-                <X size={20} / />
+                onClick={toggleNotifications}>
+                <X size={20} />
               </button>
+            </div>
           </div>
           
-          <div className="notification-list"></div>
+          <div className="notification-list">
             {notifications.length === 0 ? (
-              <div className="notification-empty"></div>
+              <div className="notification-empty">
                 <p>No notifications</p>
+              </div>
             ) : (
               notifications.map(notification => (
                 <div 
                   key={notification.id} 
-                  className={`notification-item ${!notification.read ? 'unread' : ''}`}
-                 />
-                  <div className="notification-content"></div>
-                    <h4>{notification.title}
-                    <p>{notification.message}
-                    <span className="notification-time"></span>
+                  className={`notification-item ${!notification.read ? 'unread' : ''}`}>
+                  <div className="notification-content">
+                    <h4>{notification.title}</h4>
+                    <p>{notification.message}</p>
+                    <span className="notification-time">
                       {formatTime(notification.timestamp)}
+                    </span>
                   </div>
+                </div>
               ))
             )}
           </div>
+        </div>
       )}
       {/* Notification Permission Prompt */}
       {showPrompt && (
-        <div className="notification-prompt"></div>
-          <div className="notification-prompt-content"></div>
+        <div className="notification-prompt">
+          <div className="notification-prompt-content">
             <h4>Enable Notifications</h4>
             <p>Get notified about tournaments, messages, and matches</p>
-            <div className="notification-prompt-actions"></div>
+            <div className="notification-prompt-actions">
               <button 
                 className="notification-prompt-action primary"
-                onClick={handleSubscribe}
-               />
-                <Check size={16} / />
+                onClick={handleSubscribe}>
+                <Check size={16} />
                 Enable
               </button>
               <button 
                 className="notification-prompt-action"
-                onClick={dismissPrompt}
-               />
-                <X size={16} / />
+                onClick={dismissPrompt}>
+                <X size={16} />
                 Not Now
               </button>
+            </div>
           </div>
+        </div>
       )}
       <style jsx>{`
         .notification-center {
@@ -366,6 +369,7 @@ const NotificationCenter = (): any => {
           border-color: #1a73e8;
         }
       `}</style>
+    </div>
   );
 };
 

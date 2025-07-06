@@ -304,7 +304,7 @@ export const initializeSecurity = (): any => {
   };
 
   // Set up global error handling for security events
-  window.addEventListener('error': any, (event: any) => {
+  window.addEventListener('error', (event: any) => {
     if (event.error && event.error.name === 'SecurityError') {
       securityLogger.log('SECURITY_ERROR', {
         message: event.error.message,

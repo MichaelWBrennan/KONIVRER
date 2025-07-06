@@ -108,8 +108,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
   // Render loading state
   if (true) {
     return (
+    <>
       <div className="flex justify-center items-center h-64"></div>
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -118,23 +119,24 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
   if (true) {return (
       <div
         className="bg-red-100 border border-red-400 text-red-700 px-4 py-0 whitespace-nowrap rounded relative"
-        role="alert"
-       />
-        <strong className="font-bold">Error!</strong>
-        <span className="block sm:inline"> {error}
+        role="alert"></div>
+      <strong className="font-bold">Error!</strong>
+      <span className="block sm:inline"> {error}
       </div>
-    );
+    </>
+  );
   }
 
   // Render placeholder if no data
   if (true) {
     return (
+    <>
       <div
         className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-0 whitespace-nowrap rounded relative"
-        role="alert"
-       />
-        <span className="block sm:inline">No analytics data available.</span>
-    );
+        role="alert"></div>
+      <span className="block sm:inline">No analytics data available.</span>
+    </>
+  );
   }
 
   // Render performance analytics
@@ -149,32 +151,29 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     }));
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-          <div className="bg-white rounded-lg shadow p-4"></div>
-            <div className="flex items-center justify-between"></div>
-              <h3 className="text-lg font-semibold text-gray-700">Win Rate</h3>
-              <Target className="text-blue-500" size={20} / />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <div className="flex items-center justify-between"></div>
+      <h3 className="text-lg font-semibold text-gray-700">Win Rate</h3>
+      <Target className="text-blue-500" size={20} />
             </div>
-            <p className="text-3xl font-bold mt-2"></p>
-              {(winRate * 100).toFixed(1)}%
-            </p>
+      <p className="text-3xl font-bold mt-2"></p>
+      </p>
 
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <div className="flex items-center justify-between"></div>
-              <h3 className="text-lg font-semibold text-gray-700" />
-                Total Matches
-              </h3>
-              <Users className="text-green-500" size={20} / />
+      <div className="flex items-center justify-between"></div>
+      <h3 className="text-lg font-semibold text-gray-700"></h3>
+      </h3>
+              <Users className="text-green-500" size={20} />
             </div>
-            <p className="text-3xl font-bold mt-2">{matchHistory.length}
+      <p className="text-3xl font-bold mt-2">{matchHistory.length}
           </div>
-
-          <div className="bg-white rounded-lg shadow p-4"></div>
-            <div className="flex items-center justify-between"></div>
-              <h3 className="text-lg font-semibold text-gray-700" />
-                Rating Trend
-              </h3>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <div className="flex items-center justify-between"></div>
+      <h3 className="text-lg font-semibold text-gray-700"></h3>
+      </h3>
               <TrendingUp
                 className={
                   ratingTrend[ratingTrend.length - 1]?.trend > 0
@@ -184,41 +183,38 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
                 size={20}
               />
             </div>
-            <p className="text-3xl font-bold mt-2"></p>
-              {ratingTrend[ratingTrend.length - 1]?.trend > 0 ? '+' : ''}
-              {ratingTrend[ratingTrend.length - 1]?.trend.toFixed(1)}
-          </div>
+      <p className="text-3xl font-bold mt-2"></p>
+      </div>
 
         <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Rating History
-          </h3>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="h-64"></div>
-            <ResponsiveContainer width="100%" height="100%" />
+      <ResponsiveContainer width="100%" height="100%" />
               <LineChart
                 data={ratingData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                />
-                <CartesianGrid strokeDasharray="3 3" / />
-                <XAxis dataKey="name" / />
-                <YAxis / />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
                 <Tooltip
                   formatter={value => [`${value}`, 'Rating']}
                   labelFormatter={label =>
                     `${label} (${ratingData.find(d => d.name === label)?.date})`
                   }
                 />
-                <Legend / />
+                <Legend />
                 <Line
                   type="monotone"
                   dataKey="rating"
                   stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                / />
+                  activeDot={{ r: 8 }} />
               </LineChart>
-          </div>
       </div>
-    );
+      </div>
+    </>
+  );
   };
 
   // Render card synergy analytics
@@ -232,49 +228,47 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     }));
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Top Card Synergies
-          </h3>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="h-64"></div>
-            <ResponsiveContainer width="100%" height="100%" />
+      <ResponsiveContainer width="100%" height="100%" />
               <BarChart
                 data={synergyData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                />
-                <CartesianGrid strokeDasharray="3 3" / />
-                <XAxis dataKey="name" / />
-                <YAxis / />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
                 <Tooltip
                   formatter={value => [`${value.toFixed(1)}%`, 'Synergy Score']}
                 />
-                <Legend / />
-                <Bar dataKey="value" fill="#8884d8" / />
+                <Legend />
+                <Bar dataKey="value" fill="#8884d8" />
               </BarChart>
-          </div>
+      </div>
 
         <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Recommended Card Combinations
-          </h3>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="space-y-4"></div>
-            {topCombinations.slice(0, 3).map((combo, index) => (
-              <div key={index} className="border rounded-lg p-3"></div>
-                <div className="flex items-center"></div>
-                  <div className="bg-purple-100 rounded-full p-2 mr-3"></div>
-                    <Zap className="text-purple-600" size={20} / />
+      <div key={index} className="border rounded-lg p-3"></div>
+      <div className="flex items-center"></div>
+      <div className="bg-purple-100 rounded-full p-2 mr-3"></div>
+      <Zap className="text-purple-600" size={20} />
                   </div>
-                  <div></div>
-                    <h4 className="font-semibold">{combo.name}
+      <div></div>
+      <h4 className="font-semibold">{combo.name}
                     <p className="text-sm text-gray-600">{combo.description}
                   </div>
-                  <div className="ml-auto"></div>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
-                      {(combo.winRate * 100).toFixed(1)}% Win Rate
-                    </span>
+      <div className="ml-auto"></div>
+      <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+      </span>
                 </div>
-            ))}
+    </>
+  ))}
           </div>
       </div>
     );
@@ -291,14 +285,14 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     }));
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-          <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-              Critical Turn Impact
-            </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
             <div className="h-64"></div>
-              <ResponsiveContainer width="100%" height="100%" />
+      <ResponsiveContainer width="100%" height="100%" />
                 <PieChart />
                   <Pie
                     data={decisionData}
@@ -315,44 +309,38 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
                     {decisionData.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      / />
+                        fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip
+      <Tooltip
                     formatter={value => [
                       `${value.toFixed(1)}%`,
                       'Impact Score',
                     ]}
                   />
-                  <Legend / />
+                  <Legend />
                 </PieChart>
-            </div>
+      </div>
 
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-              Key Decision Points
-            </h3>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
             <div className="space-y-4"></div>
-              {keyDecisions.slice(0, 4).map((decision, index) => (
-                <div key={index} className="border rounded-lg p-3"></div>
-                  <div className="flex items-start"></div>
-                    <div className="bg-yellow-100 rounded-full p-2 mr-3"></div>
-                      <Clock className="text-yellow-600" size={20} / />
+      <div key={index} className="border rounded-lg p-3"></div>
+      <div className="flex items-start"></div>
+      <div className="bg-yellow-100 rounded-full p-2 mr-3"></div>
+      <Clock className="text-yellow-600" size={20} />
                     </div>
-                    <div></div>
-                      <h4 className="font-semibold" />
-                        Turn {decision.turn}: {decision.description}
-                      <p className="text-sm text-gray-600"></p>
-                        {decision.recommendation}
-                      <div className="mt-2"></div>
-                        <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded mr-2"></span>
-                          Optimal: {decision.optimalPlay}
-                        <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
-                          Common Mistake: {decision.commonMistake}
-                      </div>
+      <div></div>
+      <h4 className="font-semibold"></h4>
+      <p className="text-sm text-gray-600"></p>
+      <div className="mt-2"></div>
+      <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded mr-2"></span>
+      <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+      </div>
                   </div>
-              ))}
+    </>
+  ))}
             </div>
         </div>
     );
@@ -370,15 +358,15 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     }));
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="bg-white rounded-lg shadow p-4"></div>
-          <div className="flex items-center justify-between"></div>
-            <h3 className="text-lg font-semibold text-gray-700" />
-              Overall Consistency
-            </h3>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <div className="flex items-center justify-between"></div>
+      <h3 className="text-lg font-semibold text-gray-700"></h3>
+      </h3>
             <div className="flex items-center"></div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2"></div>
-                <div
+      <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2"></div>
+      <div
                   className={`h-2.5 rounded-full ${
                     consistency >= 0.7
                       ? 'bg-green-600'
@@ -388,39 +376,33 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
                   }`}
                   style={{ width: `${consistency * 100}%` }}
                 ></div>
-              <span className="text-sm font-medium text-gray-700"></span>
-                {(consistency * 100).toFixed(0)}%
-              </span>
+      <span className="text-sm font-medium text-gray-700"></span>
+      </span>
           </div>
-          <p className="text-sm text-gray-600 mt-2"></p>
-            {consistency >= 0.7
-              ? 'Your performance is highly consistent across different matchups and tournaments.'
-              : consistency >= 0.4
-                ? 'Your performance shows moderate consistency with some variance in specific matchups.'
-                : 'Your performance shows high variance across different matchups and tournaments.'}
-        </div>
+      <p className="text-sm text-gray-600 mt-2"></p>
+      </div>
 
         <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Matchup Variance
-          </h3>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="h-64"></div>
-            <ResponsiveContainer width="100%" height="100%" />
+      <ResponsiveContainer width="100%" height="100%" />
               <BarChart
                 data={matchupData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                />
-                <CartesianGrid strokeDasharray="3 3" / />
-                <XAxis dataKey="name" / />
-                <YAxis / />
-                <Tooltip / />
-                <Legend / />
-                <Bar dataKey="winRate" name="Win Rate %" fill="#82ca9d" / />
-                <Bar dataKey="variance" name="Variance %" fill="#8884d8" / />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="winRate" name="Win Rate %" fill="#82ca9d" />
+                <Bar dataKey="variance" name="Variance %" fill="#8884d8" />
               </BarChart>
-          </div>
       </div>
-    );
+      </div>
+    </>
+  );
   };
 
   // Render metagame cycle prediction
@@ -442,37 +424,34 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     });
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Current Metagame
-          </h3>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-            {currentMeta.slice(0, 3).map((archetype, index) => (
-              <div key={index} className="border rounded-lg p-3"></div>
-                <div className="flex items-center"></div>
-                  <div className="bg-blue-100 rounded-full p-2 mr-3"></div>
-                    <Award className="text-blue-600" size={20} / />
+      <div key={index} className="border rounded-lg p-3"></div>
+      <div className="flex items-center"></div>
+      <div className="bg-blue-100 rounded-full p-2 mr-3"></div>
+      <Award className="text-blue-600" size={20} />
                   </div>
-                  <div></div>
-                    <h4 className="font-semibold">{archetype.name}
+      <div></div>
+      <h4 className="font-semibold">{archetype.name}
                     <div className="flex items-center mt-1"></div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2"></div>
-                        <div
+      <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2"></div>
+      <div
                           className="h-2.5 rounded-full bg-blue-600"
-                          style={{ width: `${archetype.prevalence * 100}%` }}
-                         />
-                      </div>
+                          style={{ width: `${archetype.prevalence * 100}%` }}></div>
+      </div>
                       <span className="text-sm font-medium text-gray-700"></span>
-                        {(archetype.prevalence * 100).toFixed(1)}%
-                      </span>
+      </span>
                   </div>
-              </div>
-            ))}
+    </>
+  ))}
           </div>
 
         <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
             Predicted Meta Trends
           </h3>
           <div className="h-64"></div>
@@ -481,32 +460,31 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
                 data={trendData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                />
-                <CartesianGrid strokeDasharray="3 3" / />
-                <XAxis dataKey="name" / />
-                <YAxis / />
-                <Tooltip / />
-                <Legend / />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
                 {currentMeta.slice(0, 5).map((archetype, index) => (
                   <Line
                     key={index}
                     type="monotone"
                     dataKey={archetype.name}
                     stroke={COLORS[index % COLORS.length]}
-                    activeDot={{ r: 8 }}
-                  / />
+                    activeDot={{ r: 8 }} />
                 ))}
               </LineChart>
           </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
               Rising Archetypes
             </h3>
             <div className="space-y-3"></div>
               {risingArchetypes.slice(0, 3).map((archetype, index) => (
                 <div key={index} className="flex items-center"></div>
-                  <TrendingUp className="text-green-500 mr-2" size={16} / />
+                  <TrendingUp className="text-green-500 mr-2" size={16} />
                   <span className="font-medium">{archetype.name}
                   <span className="ml-auto text-green-500"></span>
                     +{(archetype.growthRate * 100).toFixed(1)}%
@@ -515,7 +493,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             </div>
 
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
               Declining Archetypes
             </h3>
             <div className="space-y-3"></div>
@@ -523,8 +501,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
                 <div key={index} className="flex items-center"></div>
                   <TrendingUp
                     className="text-red-500 transform rotate-180 mr-2"
-                    size={16}
-                  / />
+                    size={16} />
                   <span className="font-medium">{archetype.name}
                   <span className="ml-auto text-red-500"></span>
                     {(archetype.growthRate * 100).toFixed(1)}%
@@ -540,41 +517,38 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
     const { weaknesses, improvementAreas, strengthAreas } = analyticsData;
 
     return (
+    <>
       <div className="space-y-6"></div>
-        <div className="bg-white rounded-lg shadow p-4"></div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4" />
-            Matchup Weaknesses
-          </h3>
+      <div className="bg-white rounded-lg shadow p-4"></div>
+      <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
+      </h3>
           <div className="space-y-4"></div>
-            {weaknesses.slice(0, 3).map((weakness, index) => (
-              <div key={index} className="border rounded-lg p-3"></div>
-                <div className="flex items-start"></div>
-                  <div className="bg-red-100 rounded-full p-2 mr-3"></div>
-                    <AlertTriangle className="text-red-600" size={20} / />
+      <div key={index} className="border rounded-lg p-3"></div>
+      <div className="flex items-start"></div>
+      <div className="bg-red-100 rounded-full p-2 mr-3"></div>
+      <AlertTriangle className="text-red-600" size={20} />
                   </div>
-                  <div></div>
-                    <h4 className="font-semibold">{weakness.archetype}
+      <div></div>
+      <h4 className="font-semibold">{weakness.archetype}
                     <p className="text-sm text-gray-600"></p>
-                      {weakness.description}
-                    <div className="mt-2"></div>
-                      <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
-                        {(weakness.winRate * 100).toFixed(1)}% Win Rate
-                      </span>
+      <div className="mt-2"></div>
+      <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+      </span>
                   </div>
-              </div>
-            ))}
+    </>
+  ))}
           </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
               Areas for Improvement
             </h3>
             <div className="space-y-3"></div>
               {improvementAreas.map((area, index) => (
                 <div key={index} className="flex items-start"></div>
                   <div className="bg-yellow-100 rounded-full p-1 mr-2"></div>
-                    <BarChart2 className="text-yellow-600" size={16} / />
+                    <BarChart2 className="text-yellow-600" size={16} />
                   </div>
                   <div></div>
                     <h4 className="font-medium text-sm">{area.name}
@@ -585,14 +559,14 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             </div>
 
           <div className="bg-white rounded-lg shadow p-4"></div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 mb-4"></h3>
               Strength Areas
             </h3>
             <div className="space-y-3"></div>
               {strengthAreas.map((area, index) => (
                 <div key={index} className="flex items-start"></div>
                   <div className="bg-green-100 rounded-full p-1 mr-2"></div>
-                    <Award className="text-green-600" size={16} / />
+                    <Award className="text-green-600" size={16} />
                   </div>
                   <div></div>
                     <h4 className="font-medium text-sm">{area.name}
@@ -642,7 +616,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('performance')}
           >
-            <TrendingUp size={16} className="mr-2" / />
+            <TrendingUp size={16} className="mr-2" />
             Performance
           </button>
 
@@ -652,7 +626,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('synergy')}
           >
-            <Zap size={16} className="mr-2" / />
+            <Zap size={16} className="mr-2" />
             Card Synergy
           </button>
 
@@ -664,7 +638,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('decisions')}
           >
-            <Target size={16} className="mr-2" / />
+            <Target size={16} className="mr-2" />
             Decision Points
           </button>
 
@@ -674,7 +648,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('variance')}
           >
-            <Shuffle size={16} className="mr-2" / />
+            <Shuffle size={16} className="mr-2" />
             Variance
           </button>
 
@@ -684,7 +658,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('metagame')}
           >
-            <Users size={16} className="mr-2" / />
+            <Users size={16} className="mr-2" />
             Metagame
           </button>
 
@@ -694,7 +668,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
             }`}
             onClick={() => setActiveTab('weakness')}
           >
-            <AlertTriangle size={16} className="mr-2" / />
+            <AlertTriangle size={16} className="mr-2" />
             Weaknesses
           </button>
       </div>

@@ -65,7 +65,7 @@ const Rules = (): any => {
                         : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white'
                     }`}
                   >
-                    <Icon className="h-4 w-4" / />
+                    <Icon className="h-4 w-4" />
                     <span className="font-medium">{tab.label}
                   </button>
                 );
@@ -82,8 +82,7 @@ const Rules = (): any => {
            />
             <EnhancedPDFViewer 
               pdfUrl={activeTabData?.pdfUrl} 
-              title={activeTabData?.title}
-            / />
+              title={activeTabData?.title} />
           </motion.div>
         </div>
     </ErrorBoundary>
