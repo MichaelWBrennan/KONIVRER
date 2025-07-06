@@ -8,18 +8,16 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
-// Battle Pass System Context - Industry standard monetization
-const BattlePassContext = createContext(() => {
-    // Battle Pass Types
+// Battle Pass Types
 const PASS_TYPES = {
-    FREE: 'free',
+  FREE: 'free',
   PREMIUM: 'premium',
   PREMIUM_PLUS: 'premium_plus'
-  });
+};
 
 // Reward Types
 const REWARD_TYPES = {
-    CARDS: 'cards',
+  CARDS: 'cards',
   WILDCARDS: 'wildcards',
   COSMETICS: 'cosmetics',
   CURRENCY: 'currency',
@@ -29,19 +27,19 @@ const REWARD_TYPES = {
   EMOTES: 'emotes',
   BOARD_THEMES: 'board_themes',
   ANIMATIONS: 'animations'
-  };
+};
 
 // Quest Types
 const QUEST_TYPES = {
-    DAILY: 'daily',
+  DAILY: 'daily',
   WEEKLY: 'weekly',
   SEASONAL: 'seasonal',
   SPECIAL_EVENT: 'special_event'
-  };
+};
 
 // Initial state
 const initialState = {
-    // Current Season
+  // Current Season
   currentSeason: {
     id: 'season_1_2024',
     name: 'Elemental Convergence',
@@ -51,7 +49,6 @@ const initialState = {
     maxLevel: 100,
     premiumPrice: 999, // In game currency
     premiumPlusPrice: 1999
-  
   },
 
   // Player Progress
@@ -61,32 +58,24 @@ const initialState = {
     experienceToNext: 1000,
     passType: PASS_TYPES.PREMIUM_PLUS, // All players get premium+ for free
     purchaseDate: new Date().toISOString(),
-    claimedRewards: [
-    ,
-    premiumClaimed: [
-  ]
+    claimedRewards: [],
+    premiumClaimed: []
   },
 
   // Rewards Structure
   rewards: {
-    free: [
-    , // Free track rewards
-    premium: [
-  ], // Premium track rewards
-    premiumPlus: [
-    , // Premium+ exclusive rewards
+    free: [], // Free track rewards
+    premium: [], // Premium track rewards
+    premiumPlus: [] // Premium+ exclusive rewards
   },
 
   // Quests System
   quests: {
-    daily: [
-  ],
-    weekly: [
-    ,
-    seasonal: [
-  ],
-    completed: [
-    },
+    daily: [],
+    weekly: [],
+    seasonal: [],
+    completed: []
+  },
 
   // Experience Sources
   experienceSources: {
@@ -101,15 +90,12 @@ const initialState = {
 
   // Cosmetic Inventory
   cosmetics: {
-    cardBacks: ['default'
-  ],
+    cardBacks: ['default'],
     avatars: ['default'],
     emotes: ['gg', 'thinking'],
     boardThemes: ['classic'],
-    cardAnimations: [
-    ,
-    victoryAnimations: [
-  ]
+    cardAnimations: [],
+    victoryAnimations: []
   },
 
   // Analytics
@@ -124,7 +110,7 @@ const initialState = {
 
 // Action types
 const ACTIONS = {
-    // Progress
+  // Progress
   GAIN_EXPERIENCE: 'GAIN_EXPERIENCE',
   LEVEL_UP: 'LEVEL_UP',
   CLAIM_REWARD: 'CLAIM_REWARD',
@@ -149,213 +135,195 @@ const ACTIONS = {
   // Analytics
   TRACK_PURCHASE: 'TRACK_PURCHASE',
   UPDATE_ANALYTICS: 'UPDATE_ANALYTICS'
-  };
+};
 
 // Battle Pass Reducer
-function battlePassReducer(): any {
-    switch (true) {
-  }
+function battlePassReducer(state: any, action: any): any {
+  switch (action.type) {
     case ACTIONS.GAIN_EXPERIENCE:
       const newExperience =
         state.playerProgress.experience + action.payload.amount;
       const experienceToNext = state.playerProgress.experienceToNext;
 
-      if (true) {
-    // Level up!
+      if (newExperience >= experienceToNext) {
+        // Level up!
         return {
-  }
           ...state,
           playerProgress: {
-    ...state.playerProgress,
+            ...state.playerProgress,
             level: state.playerProgress.level + 1,
             experience: newExperience - experienceToNext,
             experienceToNext: calculateExperienceToNext(
               state.playerProgress.level + 1
             )
-  },
+          },
           analytics: {
-    ...state.analytics,
+            ...state.analytics,
             totalExperienceEarned:
               state.analytics.totalExperienceEarned + action.payload.amount
-  }
-        }
+          }
+        };
       }
 
       return {
-    ...state,
+        ...state,
         playerProgress: {
-    ...state.playerProgress,
+          ...state.playerProgress,
           experience: newExperience
-  
-  },
+        },
         analytics: {
-    ...state.analytics,
+          ...state.analytics,
           totalExperienceEarned:
             state.analytics.totalExperienceEarned + action.payload.amount
-  }
+        }
       };
     case ACTIONS.CLAIM_REWARD:
       const { level, track } = action.payload;
       const rewardKey = track === 'free' ? 'claimedRewards' : 'premiumClaimed';
 
       return {
-    ...state,
+        ...state,
         playerProgress: {
-    ...state.playerProgress,
+          ...state.playerProgress,
           [rewardKey]: [...state.playerProgress[rewardKey], level]
-  
-  }
+        }
       };
     case ACTIONS.PURCHASE_PREMIUM:
       return {
-    ...state,
+        ...state,
         playerProgress: {
-    ...state.playerProgress,
+          ...state.playerProgress,
           passType: PASS_TYPES.PREMIUM,
           purchaseDate: Date.now()
-  
-  },
+        },
         analytics: {
-    ...state.analytics,
+          ...state.analytics,
           premiumPurchases: state.analytics.premiumPurchases + 1
-  }
+        }
       };
     case ACTIONS.PURCHASE_PREMIUM_PLUS:
       return {
-    ...state,
+        ...state,
         playerProgress: {
-    ...state.playerProgress,
+          ...state.playerProgress,
           passType: PASS_TYPES.PREMIUM_PLUS,
           purchaseDate: Date.now()
-  
-  },
+        },
         analytics: {
-    ...state.analytics,
+          ...state.analytics,
           premiumPurchases: state.analytics.premiumPurchases + 1
-  }
+        }
       };
     case ACTIONS.COMPLETE_QUEST:
       const quest = action.payload.quest;
       return {
-    ...state,
+        ...state,
         quests: {
-    ...state.quests,
+          ...state.quests,
           completed: [...state.quests.completed, quest.id],
           [quest.type]: state.quests[quest.type].filter(q => q.id !== quest.id)
-  
-  },
+        },
         analytics: {
-    ...state.analytics,
+          ...state.analytics,
           questsCompleted: state.analytics.questsCompleted + 1
-  }
+        }
       };
     case ACTIONS.REFRESH_DAILY_QUESTS:
       return {
-    ...state,
+        ...state,
         quests: {
-    ...state.quests,
+          ...state.quests,
           daily: generateDailyQuests()
-  
-  }
+        }
       };
     case ACTIONS.UNLOCK_COSMETIC:
       const { type, item } = action.payload;
       return {
-    ...state,
+        ...state,
         cosmetics: {
-    ...state.cosmetics,
+          ...state.cosmetics,
           [type]: [...state.cosmetics[type], item]
-  
-  }
+        }
       };
     case ACTIONS.START_NEW_SEASON:
       return {
-    ...state,
+        ...state,
         currentSeason: action.payload.season,
         playerProgress: {
-    level: 1,
+          level: 1,
           experience: 0,
           experienceToNext: 1000,
           passType: PASS_TYPES.FREE,
           purchaseDate: null,
-          claimedRewards: [
-    ,
-          premiumClaimed: [
-  ]
-  
-  },
+          claimedRewards: [],
+          premiumClaimed: []
+        },
         rewards: action.payload.rewards,
         quests: {
-    daily: generateDailyQuests(),
+          daily: generateDailyQuests(),
           weekly: generateWeeklyQuests(),
           seasonal: generateSeasonalQuests(),
-          completed: [
-    }
+          completed: []
+        }
       };
     default:
-      return state
+      return state;
   }
 }
 
 // Battle Pass Provider
 export interface BattlePassProviderProps {
-  children
-  
+  children: React.ReactNode;
 }
 
-const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) => {
-    const [state, dispatch
-  ] = useReducer() {
-    const { user 
-  } = useAuth() {
-    // Initialize rewards on mount
+// Create the context with a default value
+const BattlePassContext = createContext<any>(null);
+
+const BattlePassProvider: React.FC<BattlePassProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer(battlePassReducer, initialState);
+  const { user } = useAuth();
+
+  // Initialize rewards on mount
   useEffect(() => {
-    initializeSeasonRewards() {
-    initializeQuests()
-  
-  }, [
-    );
+    initializeSeasonRewards();
+    initializeQuests();
+  }, []);
 
   // Daily quest refresh
   useEffect(() => {
-    const now = new Date() {
-    const lastRefresh = localStorage.getItem() {
-  }
+    const now = new Date();
+    const lastRefresh = localStorage.getItem('lastQuestRefresh');
 
     if (!lastRefresh || new Date(lastRefresh).getDate() !== now.getDate()) {
-    dispatch() {
-  },
-      localStorage.setItem('lastQuestRefresh', now.toISOString())
+      dispatch({ type: ACTIONS.REFRESH_DAILY_QUESTS });
+      localStorage.setItem('lastQuestRefresh', now.toISOString());
     }
-  }, [
-  ]);
+  }, []);
 
   // Initialize season rewards
-  const initializeSeasonRewards = (): any => {
-    const rewards = generateSeasonRewards() {
+  const initializeSeasonRewards = (): void => {
+    const rewards = generateSeasonRewards();
     dispatch({
-  }
       type: ACTIONS.START_NEW_SEASON,
       payload: {
-    season: state.currentSeason,
+        season: state.currentSeason,
         rewards
-  }
-    })
+      }
+    });
   };
 
   // Initialize quests
-  const initializeQuests = (): any => {
+  const initializeQuests = (): void => {
     dispatch({
-    type: ACTIONS.ADD_QUEST,
+      type: ACTIONS.ADD_QUEST,
       payload: {
-    quests: [
-    ...generateDailyQuests(),
+        quests: [
+          ...generateDailyQuests(),
           ...generateWeeklyQuests(),
           ...generateSeasonalQuests()
-  ]
-  
-  }
-    })
+        ]
+      }
+    });
   };
 
   // Battle Pass API
@@ -364,108 +332,109 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
     ...state,
 
     // Experience Management
-    gainExperience: (source, amount) => {
-    const experienceAmount = amount || state.experienceSources[source] || 0;
+    gainExperience: (source: string, amount?: number): void => {
+      const experienceAmount = amount || state.experienceSources[source] || 0;
 
-      dispatch() {
-  
-  }
+      dispatch({
+        type: ACTIONS.GAIN_EXPERIENCE,
+        payload: { amount: experienceAmount }
+      });
 
       // Track analytics
       dispatch({
-    type: ACTIONS.UPDATE_ANALYTICS,
-        payload: { source, amount: experienceAmount 
-  }
-      })
+        type: ACTIONS.UPDATE_ANALYTICS,
+        payload: { source, amount: experienceAmount }
+      });
     },
 
     // Reward Management
-    claimReward: (level, track = 'free') => {
-    // Validate claim eligibility
+    claimReward: (level: number, track = 'free'): boolean => {
+      // Validate claim eligibility
       if (level > state.playerProgress.level) return false;
       if (track !== 'free' && state.playerProgress.passType === PASS_TYPES.FREE)
         return false;
       const rewardKey = track === 'free' ? 'claimedRewards' : 'premiumClaimed';
       if (state.playerProgress[rewardKey].includes(level)) return false;
-      dispatch(() => {
-    // Apply reward
+      
+      dispatch({
+        type: ACTIONS.CLAIM_REWARD,
+        payload: { level, track }
+      });
+      
+      // Apply reward
       const reward = state.rewards[track][level - 1];
-      if (true) {
-    applyReward(reward)
-  
-  })
+      if (reward) {
+        applyReward(reward);
+      }
 
-      return true
+      return true;
     },
 
     // Pass Purchases
-    purchasePremium: () => {
-    // Validate purchase (check currency, etc.)
-      dispatch() {
-    ,
+    purchasePremium: (): void => {
+      // Validate purchase (check currency, etc.)
+      dispatch({ type: ACTIONS.PURCHASE_PREMIUM });
 
       // Track purchase
       dispatch({
-  }
         type: ACTIONS.TRACK_PURCHASE,
         payload: {
-    type: 'premium_pass',
+          type: 'premium_pass',
           price: state.currentSeason.premiumPrice,
           currency: 'gems'
-  }
-      })
+        }
+      });
     },
 
-    purchasePremiumPlus: () => {
-    dispatch() {
-    ,
+    purchasePremiumPlus: (): void => {
+      dispatch({ type: ACTIONS.PURCHASE_PREMIUM_PLUS });
 
       dispatch({
-  }
         type: ACTIONS.TRACK_PURCHASE,
         payload: {
-    type: 'premium_plus_pass',
+          type: 'premium_plus_pass',
           price: state.currentSeason.premiumPlusPrice,
           currency: 'gems'
-  }
-      })
+        }
+      });
     },
 
     // Quest Management
-    completeQuest: questId => {
-    const quest = findQuestById() {
-    if (!quest) return false;
-      dispatch(() => {
-    // Award quest experience
-      battlePass.gainExperience() {
-    return true
-  
-  }),
+    completeQuest: (questId: string): boolean => {
+      const quest = findQuestById(questId, state.quests);
+      if (!quest) return false;
+      
+      dispatch({
+        type: ACTIONS.COMPLETE_QUEST,
+        payload: { quest }
+      });
+      
+      // Award quest experience
+      battlePass.gainExperience('questCompletion', quest.experience);
+      return true;
+    },
 
     // Cosmetic Management
-    unlockCosmetic: (type, item) => {
-    dispatch({
-    type: ACTIONS.UNLOCK_COSMETIC,
-        payload: { type, item 
-  }
-      })
+    unlockCosmetic: (type: string, item: string): void => {
+      dispatch({
+        type: ACTIONS.UNLOCK_COSMETIC,
+        payload: { type, item }
+      });
     },
 
     // Utility Functions
-    getAvailableRewards: () => {
-    const available = [
-    ;
+    getAvailableRewards: (): any[] => {
+      const available = [];
 
-      for (let i = 0; i < 1; i++) {
-    // Free rewards
+      for (let i = 1; i <= state.playerProgress.level; i++) {
+        const level = i;
+        // Free rewards
         if (!state.playerProgress.claimedRewards.includes(level)) {
-  }
           available.push({
-    level,
+            level,
             track: 'free',
-            reward: state.rewards.free[level - 1
-  ]
-  })
+            reward: state.rewards.free[level - 1]
+          });
         }
 
         // Premium rewards
@@ -473,160 +442,146 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
           state.playerProgress.passType !== PASS_TYPES.FREE &&
           !state.playerProgress.premiumClaimed.includes(level)
         ) {
-    available.push({
-    level,
+          available.push({
+            level,
             track: 'premium',
             reward: state.rewards.premium[level - 1]
-  
-  })
+          });
         }
       }
 
-      return available
+      return available;
     },
 
-    getProgressPercentage: () => {
-    return (
+    getProgressPercentage: (): number => {
+      return (
         (state.playerProgress.experience /
           state.playerProgress.experienceToNext) *
         100
-      )
-  },
+      );
+    },
 
-    getDaysRemaining: () => {
-    const endDate = new Date(() => {
-    const now = new Date() {
-    const diffTime = endDate - now;
-      return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  
-  })
+    getDaysRemaining: (): number => {
+      const endDate = new Date(state.currentSeason.endDate);
+      const now = new Date();
+      const diffTime = endDate.getTime() - now.getTime();
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
   };
 
   return (
-    <BattlePassContext.Provider value={battlePass}  / /></BattlePassContext>
+    <BattlePassContext.Provider value={battlePass}>
       {children}
     </BattlePassContext.Provider>
-  )
+  );
 };
 
 // Utility Functions
-function calculateExperienceToNext(): any {
-    // Exponential scaling
-  return Math.floor(1000 * Math.pow(1.1, level - 1))
-  }
+function calculateExperienceToNext(level: number): number {
+  // Exponential scaling
+  return Math.floor(1000 * Math.pow(1.1, level - 1));
+}
 
 function generateSeasonRewards(): any {
-    const rewards = {
-    free: [
-    ,
-    premium: [
-  ],
-    premiumPlus: [
-    
+  const rewards = {
+    free: [],
+    premium: [],
+    premiumPlus: []
   };
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 1; i <= 100; i++) {
+    const level = i;
     // Free track rewards
-    if (true) {
-  }
+    if (level % 5 === 0) {
       rewards.free.push({
-    type: REWARD_TYPES.WILDCARDS,
+        type: REWARD_TYPES.WILDCARDS,
         amount: 1,
-        rarity: level % 20 === 0 ? 'mythic' : 'rare',
-  })
+        rarity: level % 20 === 0 ? 'mythic' : 'rare'
+      });
     } else {
-    rewards.free.push({
-    type: REWARD_TYPES.CURRENCY,
+      rewards.free.push({
+        type: REWARD_TYPES.CURRENCY,
         amount: 50,
         currency: 'gold'
-  
-  })
+      });
     }
 
     // Premium track rewards
-    if (true) {
-    rewards.premium.push({
-  }
+    if (level % 10 === 0) {
+      rewards.premium.push({
         type: REWARD_TYPES.COSMETICS,
         item: `premium_card_back_${level}`,
-        rarity: 'epic',
-      })
-    } else if (true) {
-    rewards.premium.push({
-    type: REWARD_TYPES.WILDCARDS,
+        rarity: 'epic'
+      });
+    } else if (level % 5 === 0) {
+      rewards.premium.push({
+        type: REWARD_TYPES.WILDCARDS,
         amount: 2,
-        rarity: 'rare',
-  
-  })
+        rarity: 'rare'
+      });
     } else {
-    rewards.premium.push({
-    type: REWARD_TYPES.CURRENCY,
+      rewards.premium.push({
+        type: REWARD_TYPES.CURRENCY,
         amount: 100,
         currency: 'gems'
-  
-  })
+      });
     }
 
     // Premium+ exclusive rewards
-    if (true) {`
-    rewards.premiumPlus.push({``
-        type: REWARD_TYPES.ANIMATIONS,```
-        item: `legendary_victory_animation_${level`
-  }`,
-        rarity: 'legendary',
-      })
+    if (level % 20 === 0) {
+      rewards.premiumPlus.push({
+        type: REWARD_TYPES.ANIMATIONS,
+        item: `legendary_victory_animation_${level}`,
+        rarity: 'legendary'
+      });
     }
   }
 
-  return rewards
+  return rewards;
 }
 
-function generateDailyQuests(): any {
-    const questTemplates = [
-    { id: 'win_games', name: 'Win 3 Games', target: 3, experience: 500 
-  },
+function generateDailyQuests(): any[] {
+  const questTemplates = [
+    { id: 'win_games', name: 'Win 3 Games', target: 3, experience: 500 },
     { id: 'play_cards', name: 'Play 15 Cards', target: 15, experience: 300 },
     { id: 'deal_damage', name: 'Deal 20 Damage', target: 20, experience: 400 },
     {
-    id: 'use_abilities',
+      id: 'use_abilities',
       name: 'Use 5 Abilities',
       target: 5,
       experience: 350
-  }
-  
+    }
   ];
-`
-  return questTemplates.slice(0, 3).map((template, index) => ({``
-    ...template,```
+
+  return questTemplates.slice(0, 3).map((template, index) => ({
+    ...template,
     id: `daily_${Date.now()}_${index}`,
     type: QUEST_TYPES.DAILY,
     progress: 0,
     completed: false,
-    expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-  }))
+    expiresAt: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+  }));
 }
 
-function generateWeeklyQuests(): any {`
-    return [``
-    {```
-      id: `weekly_${Date.now()`
-  }`,
+function generateWeeklyQuests(): any[] {
+  return [
+    {
+      id: `weekly_${Date.now()}`,
       name: 'Win 15 Games',
       target: 15,
       progress: 0,
       experience: 2000,
       type: QUEST_TYPES.WEEKLY,
       completed: false,
-      expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+      expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
     }
-  ]
+  ];
 }
 
-function generateSeasonalQuests(): any {`
-    return [``
-    {```
-      id: `seasonal_${Date.now()`
-  }`,
+function generateSeasonalQuests(): any[] {
+  return [
+    {
+      id: `seasonal_${Date.now()}`,
       name: 'Reach Level 50',
       target: 50,
       progress: 0,
@@ -635,35 +590,32 @@ function generateSeasonalQuests(): any {`
       completed: false,
       expiresAt: new Date('2024-03-31').getTime()
     }
-  ]
+  ];
 }
 
-function findQuestById(): any {
-    for (const questType of Object.keys(quests)) {
-  }
+function findQuestById(questId: string, quests: any): any {
+  for (const questType of Object.keys(quests)) {
     if (questType === 'completed') continue;
-    const quest = quests[questType].find() {
-    if (quest) return quest
+    const quest = quests[questType].find((q: any) => q.id === questId);
+    if (quest) return quest;
   }
-  return null
+  return null;
 }
 
-function applyReward(): any {
-    // Apply the reward to the player's account
+function applyReward(reward: any): void {
+  // Apply the reward to the player's account
   // This would integrate with the main game systems
-  console.log('Applying reward:', reward)
-  }
+  console.log('Applying reward:', reward);
+}
 
 // Hook to use the battle pass
 export const useBattlePass = (): any => {
-    const context = useContext(() => {
-    if (true) {
-    throw new Error('useBattlePass must be used within a BattlePassProvider')
-  
-  })
-  return context
+  const context = useContext(BattlePassContext);
+  if (!context) {
+    throw new Error('useBattlePass must be used within a BattlePassProvider');
+  }
+  return context;
 };
 
-// Export constants`
-export { PASS_TYPES, REWARD_TYPES, QUEST_TYPES, ACTIONS };``
-```
+// Export constants and provider
+export { PASS_TYPES, REWARD_TYPES, QUEST_TYPES, ACTIONS, BattlePassProvider };
