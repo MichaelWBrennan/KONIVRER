@@ -1,0 +1,192 @@
+name: KONIVRER Automation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  automation:
+    name: Automated Workflow
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for git information
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Automation Workflow
+        run: |
+          # Set environment variables
+          export CI=true
+          export NODE_ENV=production
+          export CI_PROVIDER=github
+          
+          # Run the automation workflow
+          npx tsx automation/orchestrator.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate Report
+        run: npx tsx automation/cli.ts report --output automation-report.html
+      
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: automation-report
+          path: automation-report.html
+      
+      - name: Cache Optimization
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            ~/.npm
+            dist
+          key: ${{ runner.os }}-automation-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-automation-
+      
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    needs: automation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Lint
+        run: npm run lint
+      
+      - name: Type Check
+        run: npm run type-check
+      
+      - name: Format Check
+        run: npm run format:check
+      
+      - name: Test
+        run: npm run test
+      
+      - name: Coverage
+        run: npm run test:coverage
+      
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+  
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: automation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Security Audit
+        run: npm audit --audit-level=moderate
+      
+      - name: Custom Security Checks
+        run: npm run security:check
+      
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: javascript, typescript
+  
+  performance:
+    name: Performance Analysis
+    runs-on: ubuntu-latest
+    needs: automation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build:optimized
+      
+      - name: Performance Optimization
+        run: npm run performance:optimize
+      
+      - name: Bundle Analysis
+        run: npm run build:analyze
+      
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: optimized-build
+          path: dist
+  
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [quality, security, performance]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Download optimized build
+        uses: actions/download-artifact@v3
+        with:
+          name: optimized-build
+          path: dist
+      
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+      
+      # Add additional deployment steps as needed
+      # - AWS S3/CloudFront
+      # - Azure Static Web Apps
+      # - Netlify
+      # - Vercel
+      # etc.

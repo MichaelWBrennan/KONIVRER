@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  automation:
+    build:
+      context: ..
+      dockerfile: automation/Dockerfile
+    container_name: konivrer-automation
+    restart: unless-stopped
+    volumes:
+      - ../:/app
+      - automation-logs:/app/automation/logs
+      - automation-reports:/app/automation/reports
+    environment:
+      - NODE_ENV=production
+      - CI=true
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+    ports:
+      - "3000:3000"
+    networks:
+      - automation-network
+
+  dashboard:
+    image: node:18-alpine
+    container_name: konivrer-automation-dashboard
+    restart: unless-stopped
+    volumes:
+      - ../:/app
+      - automation-logs:/app/automation/logs
+      - automation-reports:/app/automation/reports
+    working_dir: /app
+    command: npx serve -s automation/dashboard -l 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      - automation
+    networks:
+      - automation-network
+
+volumes:
+  automation-logs:
+  automation-reports:
+
+networks:
+  automation-network:
+    driver: bridge
