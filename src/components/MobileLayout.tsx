@@ -177,7 +177,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           paddingBottom: `${getBottomSafeArea()}px`,
           paddingLeft: `${safeAreaInsets.left}px`,
           paddingRight: `${safeAreaInsets.right}px`,
-          background: '#221b10', /* Brown menu color from the image */
+          background: '#221b10', /* Brown menu color from the reference image */
           borderTop: '1px solid var(--border-primary)',
           boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.3)',
         }}
