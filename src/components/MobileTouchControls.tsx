@@ -19,12 +19,12 @@ import {
 } from 'lucide-react';
 
 interface MobileTouchControlsProps {
-  onCardAction
-  onZoom
-  onRotate
-  onPan
-  gameState
-  isPlayerTurn
+  onCardAction: (action: string, data?: any) => void;
+  onZoom: (factor: number) => void;
+  onRotate: (angle: number) => void;
+  onPan: (delta: { x: number; y: number }) => void;
+  gameState: any;
+  isPlayerTurn: boolean;
 }
 
 const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({ 
@@ -46,8 +46,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
     lastPan: { x: 0, y: 0 },
   });
 
-  const touchAreaRef  = useRef<HTMLElement>(null);
-  const gestureTimeoutRef  = useRef<HTMLElement>(null);
+  const touchAreaRef = useRef<HTMLDivElement>(null);
+  const gestureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Load preferences from localStorage
@@ -322,6 +322,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                 </button>
               ))}
             </div>
+          </div>
 
           {/* Quick Actions */}
           <div className="flex justify-center space-x-2 mb-4">

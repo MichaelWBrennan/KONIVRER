@@ -212,6 +212,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             </div>
           )}
         </div>
+      </div>
 
       {/* Header */}
       <header
@@ -239,6 +240,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             ) : (
               <Menu className="w-6 h-6" />
             )}
+          </button>
 
           <h1
             className="text-lg font-bold"
@@ -262,7 +264,6 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
               K
             </span>
           </div>
-        </button>
         </div>
       </header>
 
@@ -400,8 +401,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           paddingBottom: `${getBottomSafeArea()}px`,
           background: 'var(--bg-primary)',
         }}
-       />
+      >
         {children}
+      </main>
 
       {/* Bottom Navigation (Portrait only) */}
       {orientation === 'portrait' && (
