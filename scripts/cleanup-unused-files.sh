@@ -35,6 +35,7 @@ FILES_TO_REMOVE=(
   "src/components/Home_simple.tsx"
   "src/components/MobileHome.tsx"
   "src/components/MobileHomePage.tsx"
+  "src/pages/Home_backup.tsx"
   
   # Original PDF viewers
   "src/components/PDFViewer.tsx"
@@ -61,6 +62,12 @@ FILES_TO_REMOVE=(
   "scripts/ai-recorder.js"
   "scripts/ai-test.js"
   "scripts/integrate-ai-recorder.js"
+  
+  # Duplicate components
+  "src/components/unified/UnifiedCardSearch.tsx"
+  
+  # Test/demo files
+  "src/styles/notification-test.css"
 )
 
 # Check if each file exists before removing
