@@ -8,393 +8,956 @@
 // Rules Engine for KONIVRER
 // This utility provides functions to validate game rules and deck building constraints
 
-class RulesEngine {
-    constructor() {
-    this.rules = null;
-  this.loadRules()
-  
-  }
+import { Card } from './comprehensiveSearchEngine';
+
+// Game formats
+export enum GameFormat {
+  STANDARD = 'standard',
+  EXTENDED = 'extended',
+  LEGACY = 'legacy',
+  DRAFT = 'draft',
+  SEALED = 'sealed',
+  COMMANDER = 'commander',
+  BRAWL = 'brawl',
+  TOURNAMENT = 'tournament'
 }
 
-  async loadRules() {
-    try {
-  }
-      const rulesModule = await import() {
-    this.rules = rulesModule.default || rulesModule
-  } catch (error: any) {
-    console.error('Failed to load rules:', error)
-  }
+// Card rarity
+export enum CardRarity {
+  COMMON = 'common',
+  UNCOMMON = 'uncommon',
+  RARE = 'rare',
+  MYTHIC = 'mythic',
+  LEGENDARY = 'legendary',
+  PROMO = 'promo',
+  SPECIAL = 'special'
+}
+
+// Card type
+export enum CardType {
+  CHARACTER = 'character',
+  SPELL = 'spell',
+  ITEM = 'item',
+  LOCATION = 'location',
+  EVENT = 'event',
+  QUEST = 'quest',
+  COMPANION = 'companion',
+  RESOURCE = 'resource'
+}
+
+// Card element
+export enum CardElement {
+  FIRE = 'fire',
+  WATER = 'water',
+  EARTH = 'earth',
+  AIR = 'air',
+  LIGHT = 'light',
+  DARK = 'dark',
+  NEUTRAL = 'neutral',
+  MULTI = 'multi'
+}
+
+// Card faction
+export enum CardFaction {
+  IMPERIAL = 'imperial',
+  NOMAD = 'nomad',
+  MYSTIC = 'mystic',
+  TECH = 'tech',
+  WILD = 'wild',
+  VOID = 'void',
+  NEUTRAL = 'neutral',
+  MULTI = 'multi'
+}
+
+// Validation result
+export interface ValidationResult {
+  isValid: boolean;
+  validations: ValidationIssue[];
+}
+
+// Validation issue
+export interface ValidationIssue {
+  type: 'error' | 'warning' | 'info';
+  rule: string;
+  message: string;
+  severity: 'high' | 'medium' | 'low';
+  affectedCards?: string[];
+}
+
+// Deck interface
+export interface Deck {
+  id: string;
+  name: string;
+  format: GameFormat;
+  cards: DeckCard[];
+  commander?: DeckCard;
+  companion?: DeckCard;
+  sideboard?: DeckCard[];
+  metadata?: Record<string, any>;
+}
+
+// Deck card interface
+export interface DeckCard {
+  id: string;
+  quantity: number;
+  card: Card;
+}
+
+// Format rules
+export interface FormatRules {
+  minDeckSize: number;
+  maxDeckSize: number;
+  maxCopiesOfCard: number;
+  allowedSets: string[];
+  bannedCards: string[];
+  restrictedCards: string[];
+  allowedCardTypes: CardType[];
+  allowedElements: CardElement[];
+  allowedFactions: CardFaction[];
+  requiresCommander: boolean;
+  allowsCompanion: boolean;
+  maxSideboardSize: number;
+  specialRules?: Record<string, any>;
+}
+
+// Rules data
+export interface RulesData {
+  formats: Record<GameFormat, FormatRules>;
+  cardRules: Record<string, any>;
+  interactions: Record<string, any>;
+  keywords: Record<string, any>;
+  abilities: Record<string, any>;
+  version: string;
+}
+
+class RulesEngine {
+  private rules: RulesData | null;
+  private formatRules: Record<GameFormat, FormatRules>;
+  private cardDatabase: Record<string, Card>;
+
+  constructor() {
+    this.rules = null;
+    this.formatRules = {
+      [GameFormat.STANDARD]: {
+        minDeckSize: 60,
+        maxDeckSize: 100,
+        maxCopiesOfCard: 4,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: true,
+        maxSideboardSize: 15,
+      },
+      [GameFormat.EXTENDED]: {
+        minDeckSize: 60,
+        maxDeckSize: 100,
+        maxCopiesOfCard: 4,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: true,
+        maxSideboardSize: 15,
+      },
+      [GameFormat.LEGACY]: {
+        minDeckSize: 60,
+        maxDeckSize: 200,
+        maxCopiesOfCard: 4,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: true,
+        maxSideboardSize: 15,
+      },
+      [GameFormat.DRAFT]: {
+        minDeckSize: 40,
+        maxDeckSize: 60,
+        maxCopiesOfCard: 999, // No limit in draft
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: false,
+        maxSideboardSize: 999, // No limit in draft
+      },
+      [GameFormat.SEALED]: {
+        minDeckSize: 40,
+        maxDeckSize: 60,
+        maxCopiesOfCard: 999, // No limit in sealed
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: false,
+        maxSideboardSize: 999, // No limit in sealed
+      },
+      [GameFormat.COMMANDER]: {
+        minDeckSize: 99,
+        maxDeckSize: 99,
+        maxCopiesOfCard: 1,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: true,
+        allowsCompanion: false,
+        maxSideboardSize: 0,
+      },
+      [GameFormat.BRAWL]: {
+        minDeckSize: 59,
+        maxDeckSize: 59,
+        maxCopiesOfCard: 1,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: true,
+        allowsCompanion: false,
+        maxSideboardSize: 0,
+      },
+      [GameFormat.TOURNAMENT]: {
+        minDeckSize: 60,
+        maxDeckSize: 60,
+        maxCopiesOfCard: 4,
+        allowedSets: [],
+        bannedCards: [],
+        restrictedCards: [],
+        allowedCardTypes: Object.values(CardType),
+        allowedElements: Object.values(CardElement),
+        allowedFactions: Object.values(CardFaction),
+        requiresCommander: false,
+        allowsCompanion: true,
+        maxSideboardSize: 15,
+      },
+    };
+    this.cardDatabase = {};
+    this.loadRules();
   }
 
-  // Deck Building Validation
-  validateDeck(deck: any) {
-    const validations = [
-    ;
+  /**
+   * Load rules from the server or local storage
+   */
+  async loadRules(): Promise<void> {
+    try {
+      // Try to load from local storage first
+      const cachedRules = localStorage.getItem('konivrer_rules');
+      if (cachedRules) {
+        this.rules = JSON.parse(cachedRules);
+        
+        // Check if rules are outdated
+        const lastUpdated = localStorage.getItem('konivrer_rules_updated');
+        if (lastUpdated) {
+          const updateTime = new Date(lastUpdated);
+          const now = new Date();
+          const daysSinceUpdate = (now.getTime() - updateTime.getTime()) / (1000 * 60 * 60 * 24);
+          
+          // If rules are older than 1 day, fetch new ones
+          if (daysSinceUpdate > 1) {
+            this.fetchRules();
+          }
+        }
+      } else {
+        // No cached rules, fetch from server
+        await this.fetchRules();
+      }
+    } catch (error) {
+      console.error('Failed to load rules:', error);
+    }
+  }
+
+  /**
+   * Fetch rules from the server
+   */
+  private async fetchRules(): Promise<void> {
+    try {
+      const response = await fetch('/api/rules');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch rules: ${response.status} ${response.statusText}`);
+      }
+      
+      const rulesData = await response.json();
+      this.rules = rulesData;
+      
+      // Update format rules with server data
+      if (rulesData.formats) {
+        this.formatRules = rulesData.formats;
+      }
+      
+      // Cache rules
+      localStorage.setItem('konivrer_rules', JSON.stringify(rulesData));
+      localStorage.setItem('konivrer_rules_updated', new Date().toISOString());
+    } catch (error) {
+      console.error('Failed to fetch rules from server:', error);
+    }
+  }
+
+  /**
+   * Load card database
+   * @param cards - Card database
+   */
+  loadCardDatabase(cards: Card[]): void {
+    this.cardDatabase = {};
+    cards.forEach(card => {
+      this.cardDatabase[card.id] = card;
+    });
+  }
+
+  /**
+   * Validate a deck against the rules
+   * @param deck - Deck to validate
+   * @param format - Game format
+   * @returns Validation result
+   */
+  validateDeck(deck: Deck): ValidationResult {
+    const validations: ValidationIssue[] = [];
+    const format = deck.format || GameFormat.STANDARD;
+    const rules = this.formatRules[format];
+    
+    if (!rules) {
+      validations.push({
+        type: 'error',
+        rule: 'unknown-format',
+        message: `Unknown format: ${format}`,
+        severity: 'high'
+      });
+      return { isValid: false, validations };
+    }
 
     // Basic deck size validation
-    const totalCards = this.getTotalCards() {
-  }
-    const minCards = this.getMinDeckSize() {
-    const maxCards = this.getMaxDeckSize() {
-  }
+    const totalCards = this.getTotalCards(deck);
+    const minCards = rules.minDeckSize;
+    const maxCards = rules.maxDeckSize;
 
-    if (true) {
-    validations.push({
-  }
+    if (totalCards < minCards) {
+      validations.push({
         type: 'error',
-        rule: 'deck-size',
+        rule: 'deck-size-min',
         message: `Deck must have at least ${minCards} cards (currently ${totalCards})`,
         severity: 'high'
-      })
+      });
     }
 
-    if (true) {
-    validations.push({
-  }`
-        type: 'error',``
-        rule: 'deck-size',```
-        message: `Deck cannot exceed ${maxCards} cards (currently ${totalCards})`,
+    if (totalCards > maxCards) {
+      validations.push({
+        type: 'error',
+        rule: 'deck-size-max',
+        message: `Deck must have at most ${maxCards} cards (currently ${totalCards})`,
         severity: 'high'
-      })
+      });
     }
 
-    // Element validation
-    const elementValidation = this.validateElements() {
-    validations.push() {
-  }
-
-    // Card copy limits
-    const copyValidation = this.validateCardCopies() {
-    validations.push() {
-  }
-
-    // Flag card validation
-    const flagValidation = this.validateFlagCards() {
-    validations.push() {
-  }
-
-    // Rarity distribution validation
-    const rarityValidation = this.validateRarityDistribution() {
-    validations.push(() => {
-    return {
-    isValid: validations.filter(v => v.type === 'error').length === 0,
-      validations,
-      summary: this.generateValidationSummary(validations)
-  
-  })
-  }
-
-  validateElements(deck: any) {
-    const validations = [
-  ];
-    const flagCard = deck.cards.find() {
-  }
-
-    if (true) {
-    validations.push() {
-    return validations
-  
-  }
-
-    // Get allowed elements from flag card
-    const allowedElements = this.getAllowedElements() {
-    // Check each card's elements
-    deck.cards.forEach(card => {
-    if (card.type === 'ΦLAG') return; // Skip flag cards
-
-      const cardElements = card.elements || [
-    ;
-      const invalidElements = cardElements.filter(
-        element => !allowedElements.includes(element) && element !== 'Neutral';
-      );
-
-      if (true) {
-  
-  }
-        validations.push({`
-    type: 'error',``
-          rule: 'element-restriction',```
-          message: `${card.name`
-  } contains forbidden elements: ${invalidElements.join(', ')}`,
-          severity: 'medium',
-          cardId: card.id
-        })
-      }
-    });
-
-    return validations
-  }
-
-  validateCardCopies(deck: any, format: any) {
-    const validations = [
-  ];
-    const maxCopies = this.getMaxCopies() {
-  }
-    const cardCounts = {
-    ;
-
-    // Count card copies
-    deck.cards.forEach(card => {
-    if (card.type === 'ΦLAG') return; // Flag cards have different rules
-
-      cardCounts[card.name] =
-        (cardCounts[card.name] || 0) + (card.quantity || 1)
-  
-  });
-
-    // Check limits
-    Object.entries(cardCounts).forEach(([cardName, count]) => {
-    if (true) {
-    validations.push({
-  }`
-          type: 'error',``
-          rule: 'copy-limit',```
-          message: `Too many copies of ${cardName} (${count}/${maxCopies})`,
-          severity: 'medium'
-        })
-      }
-    });
-
-    return validations
-  }
-
-  validateFlagCards(deck: any) {
-    const validations = [
-    ;
-    const flagCards = deck.cards.filter() {
-  }
-
-    if (true) {
-    validations.push({
-    type: 'error',
-        rule: 'flag-required',
-        message: 'Deck must include exactly one Flag card',
-        severity: 'high'
-  
-  })
-    } else if (true) {
-    validations.push({
-    type: 'error',
-        rule: 'flag-limit',
-        message: 'Deck can only include one Flag card',
-        severity: 'high'
-  
-  })
-    }
-
-    return validations
-  }
-
-  validateRarityDistribution(deck: any) {
-    const validations = [
-  ];
-    const rarityCounts = {
-    common: 0,
-      uncommon: 0,
-      rare: 0
-  
-  };
-
-    // Count cards by rarity (excluding flag)
-    deck.cards.forEach(card => {
-    if (card.type === 'ΦLAG') return;
-
-      const quantity = card.quantity || 1;
-      switch (true) {
-    case 'Common':
-        case 'common':
-        case '🜠':
-          rarityCounts.common += quantity;
-          break;
-        case 'Uncommon':
-        case 'uncommon':
-        case '☽':
-          rarityCounts.uncommon += quantity;
-          break;
-        case 'Rare':
-        case 'rare':
-        case '☉':
-          rarityCounts.rare += quantity;
-          break
-  
-  }
-    });
-
-    // Validate against KONIVRER requirements
-    const requirements = {
-    common: 25,
-      uncommon: 13,
-      rare: 2
-  };
-
-    Object.entries(requirements).forEach(([rarity, required]) => {
-    const actual = rarityCounts[rarity];
-      if (true) {
-    validations.push({
-  }`
-          type: 'error',``
-          rule: 'rarity-distribution',```
-          message: `Incorrect ${rarity} card count: ${actual}/${required}`,
+    // Commander validation
+    if (rules.requiresCommander) {
+      if (!deck.commander) {
+        validations.push({
+          type: 'error',
+          rule: 'commander-required',
+          message: 'This format requires a commander',
           severity: 'high'
-        })
+        });
+      } else {
+        // Validate commander is a valid card for the format
+        const commanderCard = deck.commander.card;
+        if (!this.isCardLegal(commanderCard, format)) {
+          validations.push({
+            type: 'error',
+            rule: 'commander-legality',
+            message: `Commander ${commanderCard.name} is not legal in ${format}`,
+            severity: 'high',
+            affectedCards: [commanderCard.id]
+          });
+        }
+        
+        // Validate commander has the commander trait
+        if (!commanderCard.keywords?.includes('Commander')) {
+          validations.push({
+            type: 'error',
+            rule: 'commander-trait',
+            message: `Commander ${commanderCard.name} does not have the Commander trait`,
+            severity: 'high',
+            affectedCards: [commanderCard.id]
+          });
+        }
+      }
+    } else if (deck.commander) {
+      validations.push({
+        type: 'warning',
+        rule: 'commander-not-allowed',
+        message: `This format does not use commanders`,
+        severity: 'medium'
+      });
+    }
+
+    // Companion validation
+    if (deck.companion) {
+      if (!rules.allowsCompanion) {
+        validations.push({
+          type: 'error',
+          rule: 'companion-not-allowed',
+          message: 'This format does not allow companions',
+          severity: 'high'
+        });
+      } else {
+        // Validate companion is a valid card for the format
+        const companionCard = deck.companion.card;
+        if (!this.isCardLegal(companionCard, format)) {
+          validations.push({
+            type: 'error',
+            rule: 'companion-legality',
+            message: `Companion ${companionCard.name} is not legal in ${format}`,
+            severity: 'high',
+            affectedCards: [companionCard.id]
+          });
+        }
+        
+        // Validate companion has the companion trait
+        if (!companionCard.keywords?.includes('Companion')) {
+          validations.push({
+            type: 'error',
+            rule: 'companion-trait',
+            message: `Companion ${companionCard.name} does not have the Companion trait`,
+            severity: 'high',
+            affectedCards: [companionCard.id]
+          });
+        }
+        
+        // Validate companion requirements
+        const companionRequirements = this.getCompanionRequirements(companionCard);
+        if (companionRequirements && !this.checkCompanionRequirements(deck, companionRequirements)) {
+          validations.push({
+            type: 'error',
+            rule: 'companion-requirements',
+            message: `Deck does not meet the requirements for companion ${companionCard.name}`,
+            severity: 'high',
+            affectedCards: [companionCard.id]
+          });
+        }
+      }
+    }
+
+    // Sideboard validation
+    if (deck.sideboard && deck.sideboard.length > 0) {
+      const sideboardSize = deck.sideboard.reduce((total, card) => total + card.quantity, 0);
+      if (sideboardSize > rules.maxSideboardSize) {
+        validations.push({
+          type: 'error',
+          rule: 'sideboard-size',
+          message: `Sideboard must have at most ${rules.maxSideboardSize} cards (currently ${sideboardSize})`,
+          severity: 'high'
+        });
+      }
+      
+      // Validate sideboard cards are legal
+      const illegalSideboardCards = deck.sideboard
+        .filter(card => !this.isCardLegal(card.card, format))
+        .map(card => card.card.id);
+      
+      if (illegalSideboardCards.length > 0) {
+        validations.push({
+          type: 'error',
+          rule: 'sideboard-legality',
+          message: `Sideboard contains ${illegalSideboardCards.length} illegal cards`,
+          severity: 'high',
+          affectedCards: illegalSideboardCards
+        });
+      }
+    }
+
+    // Card copy limit validation
+    const cardCounts: Record<string, number> = {};
+    deck.cards.forEach(deckCard => {
+      const cardId = deckCard.card.id;
+      cardCounts[cardId] = (cardCounts[cardId] || 0) + deckCard.quantity;
+    });
+    
+    const maxCopies = rules.maxCopiesOfCard;
+    const cardsOverLimit = Object.entries(cardCounts)
+      .filter(([_, count]) => count > maxCopies)
+      .map(([cardId, count]) => ({
+        cardId,
+        count,
+        name: this.cardDatabase[cardId]?.name || 'Unknown Card'
+      }));
+    
+    if (cardsOverLimit.length > 0) {
+      cardsOverLimit.forEach(card => {
+        validations.push({
+          type: 'error',
+          rule: 'card-copy-limit',
+          message: `Deck contains ${card.count} copies of ${card.name} (maximum is ${maxCopies})`,
+          severity: 'high',
+          affectedCards: [card.cardId]
+        });
+      });
+    }
+
+    // Card legality validation
+    const illegalCards = deck.cards
+      .filter(deckCard => !this.isCardLegal(deckCard.card, format))
+      .map(deckCard => ({
+        cardId: deckCard.card.id,
+        name: deckCard.card.name,
+        reason: this.getIllegalityReason(deckCard.card, format)
+      }));
+    
+    if (illegalCards.length > 0) {
+      illegalCards.forEach(card => {
+        validations.push({
+          type: 'error',
+          rule: 'card-legality',
+          message: `${card.name} is not legal in ${format}: ${card.reason}`,
+          severity: 'high',
+          affectedCards: [card.cardId]
+        });
+      });
+    }
+
+    // Element/faction balance check (warning only)
+    const elementCounts: Record<CardElement, number> = {} as Record<CardElement, number>;
+    const factionCounts: Record<CardFaction, number> = {} as Record<CardFaction, number>;
+    
+    deck.cards.forEach(deckCard => {
+      const card = deckCard.card;
+      const element = card.element as CardElement;
+      const faction = card.faction as CardFaction;
+      
+      if (element) {
+        elementCounts[element] = (elementCounts[element] || 0) + deckCard.quantity;
+      }
+      
+      if (faction) {
+        factionCounts[faction] = (factionCounts[faction] || 0) + deckCard.quantity;
       }
     });
+    
+    // Check if deck is heavily skewed towards one element
+    const totalCards = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const dominantElement = Object.entries(elementCounts)
+      .sort(([_, a], [__, b]) => b - a)
+      .shift();
+    
+    if (dominantElement && totalCards > 0) {
+      const [element, count] = dominantElement;
+      const percentage = Math.round((count / totalCards) * 100);
+      
+      if (percentage > 80) {
+        validations.push({
+          type: 'info',
+          rule: 'element-balance',
+          message: `Deck is ${percentage}% ${element} element cards`,
+          severity: 'low'
+        });
+      }
+    }
 
-    return validations
-  }
+    // Format-specific validations
+    if (format === GameFormat.COMMANDER) {
+      // Check color identity matches commander
+      if (deck.commander) {
+        const commanderElement = deck.commander.card.element as CardElement;
+        const commanderFaction = deck.commander.card.faction as CardFaction;
+        
+        const invalidElementCards = deck.cards
+          .filter(deckCard => {
+            const cardElement = deckCard.card.element as CardElement;
+            return cardElement !== CardElement.NEUTRAL && 
+                   cardElement !== commanderElement && 
+                   commanderElement !== CardElement.MULTI;
+          })
+          .map(deckCard => deckCard.card.id);
+        
+        const invalidFactionCards = deck.cards
+          .filter(deckCard => {
+            const cardFaction = deckCard.card.faction as CardFaction;
+            return cardFaction !== CardFaction.NEUTRAL && 
+                   cardFaction !== commanderFaction && 
+                   commanderFaction !== CardFaction.MULTI;
+          })
+          .map(deckCard => deckCard.card.id);
+        
+        if (invalidElementCards.length > 0) {
+          validations.push({
+            type: 'error',
+            rule: 'commander-element-identity',
+            message: `Deck contains cards with elements that don't match the commander's element`,
+            severity: 'high',
+            affectedCards: invalidElementCards
+          });
+        }
+        
+        if (invalidFactionCards.length > 0) {
+          validations.push({
+            type: 'error',
+            rule: 'commander-faction-identity',
+            message: `Deck contains cards with factions that don't match the commander's faction`,
+            severity: 'high',
+            affectedCards: invalidFactionCards
+          });
+        }
+      }
+    }
 
-  // Helper functions
-  getTotalCards(deck: any) {
-    return deck.cards.reduce((sum, card) => sum + (card.quantity || 1), 0)
-  }
-
-  getMinDeckSize() {
-    // KONIVRER requires exactly 40 cards (excluding flag)
-    return 40
-  }
-
-  getMaxDeckSize() {
-    // KONIVRER requires exactly 40 cards (excluding flag)
-    return 40
-  }
-
-  getMaxCopies(format: any) {
-    // KONIVRER allows maximum 1 copy per card
-    return 1
-  }
-
-  getAllowedElements(flagCard: any) {
-    // This would parse the flag card's description to determine allowed elements
-    // For now, return a default set
-    if (true) {
-    // Player chooses 5 of 6 elements
-      return [
-    'Quintessence',
-        'Inferno',
-        'Submerged',
-        'Steadfast',
-        'Brilliance'
-  ]; // Example selection
-  
-  }
-
-    // Default to all elements if flag not recognized
-    return [
-    'Quintessence',
-      'Inferno',
-      'Submerged',
-      'Steadfast',
-      'Brilliance',
-      'Void'
-  ]
-  }
-
-  generateValidationSummary(validations: any) {
-    const errors = validations.filter() {
-  }
-    const warnings = validations.filter(() => {
+    // Check for overall validity
+    const hasErrors = validations.some(v => v.type === 'error');
     return {
-    errorCount: errors.length,
-      warningCount: warnings.length,
-      isLegal: errors.length === 0,
-      highSeverityIssues: validations.filter(v => v.severity === 'high').length
-  })
-  }
-
-  // Keyword ability definitions based on official KONIVRER rules
-  getKeywordDefinition(keyword: any) {
-    const keywords = {
-  }
-      AMALGAM: {
-    name: 'AMALGAM',
-        description: 'Choose one of two listed Keywords/Elements when played.',
-        rulesText:
-          'Summoned: Choose one of the two listed Keywords when you play the card. Azoth: Choose one of the two listed Elements when you play the card as an Azoth Source.'
-  },
-      BRILLIANCE: {
-    name: 'BRILLIANCE',
-        description:
-          "Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card's Strength on the bottom of its owner's life cards.",
-        rulesText:
-          "Doesn't affect ▢ (Nether) cards. Activates only once on play."
-  },
-      GUST: {
-    name: 'GUST',
-        description:
-          "Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card's Strength to its owner's hand.",
-        rulesText:
-          "Doesn't affect 🜃 (Earth) cards. Activates only once on play."
-  },
-      INFERNO: {
-    name: 'INFERNO',
-        description:
-          "After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card's Strength.",
-        rulesText:
-          "Doesn't affect 🜄 (Water) cards. Activates only once on play."
-  },
-      STEADFAST: {
-    name: 'STEADFAST',
-        description:
-          "Redirect damage ≤ 🜃 used to pay for this card's Strength, that would be done to you or cards you control, to this card's Strength.",
-        rulesText:
-          "Doesn't affect 🜂 (Fire) cards. Activates only once on play."
-  },
-      SUBMERGED: {
-    name: 'SUBMERGED',
-        description:
-          "Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card's Strength, that many cards below the top of its owner's deck.",
-        rulesText: "Doesn't affect 🜁 (Air) cards. Activates only once on play."
-  },
-      QUINTESSENCE: {
-    name: 'QUINTESSENCE',
-        description:
-          "This card can't be played as a Familiar. While in the Azoth row, it produces any Azoth type.",
-        rulesText: 'Universal Azoth source when used as resource.'
-  },
-      VOID: {
-    name: 'VOID',
-        description: 'Remove target card from the game.',
-        rulesText:
-          'Doesn\'t affect ⭘ (Aether) cards. Removed cards go to the "Removed from Play" zone.'
-  }
+      isValid: !hasErrors,
+      validations
     };
-
-    return keywords[keyword.toUpperCase()]
   }
 
-  // Element interaction rules based on keyword restrictions
-  getElementInteractions(element1: any, element2: any) {
-    // Define element immunity matrix based on official KONIVRER rules
-    const immunities = {
-    Brilliance: ['Nether'], // Brilliance doesn't affect ▢ (Nether) cards
-      Gust: ['Earth'], // Gust doesn't affect 🜃 (Earth) cards
-      Inferno: ['Water'], // Inferno doesn't affect 🜄 (Water) cards
-      Steadfast: ['Fire'], // Steadfast doesn't affect 🜂 (Fire) cards
-      Submerged: ['Air'], // Submerged doesn't affect 🜁 (Air) cards
-      Void: ['Aether'], // Void doesn't affect ⭘ (Aether) cards
-  
-  };
-
-    // Check if element2 is immune to element1's effects
-    if (immunities[element1]? .includes(element2)) {
-    return 'immune'
+  /**
+   * Get the total number of cards in a deck
+   * @param deck - Deck to count
+   * @returns Total number of cards
+   */
+  private getTotalCards(deck: Deck): number {
+    return deck.cards.reduce((total, card) => total + card.quantity, 0);
   }
 
-    // Element symbols mapping
-    const elementSymbols = { : null
-      Fire: '🜂',
-      Water: '🜄',
-      Earth: '🜃',
-      Air: '🜁',
-      Aether: '⭘',
-      Nether: '▢',
-      Generic: '✡⃝'
-    };
+  /**
+   * Check if a card is legal in a format
+   * @param card - Card to check
+   * @param format - Game format
+   * @returns Whether the card is legal
+   */
+  isCardLegal(card: Card, format: GameFormat): boolean {
+    const rules = this.formatRules[format];
+    if (!rules) return false;
+    
+    // Check if card is banned
+    if (rules.bannedCards.includes(card.id)) {
+      return false;
+    }
+    
+    // Check if card's set is allowed
+    if (rules.allowedSets.length > 0 && !rules.allowedSets.includes(card.setCode)) {
+      return false;
+    }
+    
+    // Check if card type is allowed
+    if (rules.allowedCardTypes.length > 0 && !rules.allowedCardTypes.includes(card.type as CardType)) {
+      return false;
+    }
+    
+    // Check if card element is allowed
+    if (rules.allowedElements.length > 0 && !rules.allowedElements.includes(card.element as CardElement)) {
+      return false;
+    }
+    
+    // Check if card faction is allowed
+    if (rules.allowedFactions.length > 0 && !rules.allowedFactions.includes(card.faction as CardFaction)) {
+      return false;
+    }
+    
+    return true;
+  }
 
-    return 'neutral'
+  /**
+   * Get the reason a card is illegal in a format
+   * @param card - Card to check
+   * @param format - Game format
+   * @returns Reason for illegality
+   */
+  private getIllegalityReason(card: Card, format: GameFormat): string {
+    const rules = this.formatRules[format];
+    if (!rules) return 'Unknown format';
+    
+    if (rules.bannedCards.includes(card.id)) {
+      return 'Card is banned';
+    }
+    
+    if (rules.allowedSets.length > 0 && !rules.allowedSets.includes(card.setCode)) {
+      return `Set ${card.setCode} is not allowed in ${format}`;
+    }
+    
+    if (rules.allowedCardTypes.length > 0 && !rules.allowedCardTypes.includes(card.type as CardType)) {
+      return `Card type ${card.type} is not allowed in ${format}`;
+    }
+    
+    if (rules.allowedElements.length > 0 && !rules.allowedElements.includes(card.element as CardElement)) {
+      return `Element ${card.element} is not allowed in ${format}`;
+    }
+    
+    if (rules.allowedFactions.length > 0 && !rules.allowedFactions.includes(card.faction as CardFaction)) {
+      return `Faction ${card.faction} is not allowed in ${format}`;
+    }
+    
+    return 'Unknown reason';
+  }
+
+  /**
+   * Get companion requirements
+   * @param card - Companion card
+   * @returns Companion requirements or null if not found
+   */
+  private getCompanionRequirements(card: Card): Record<string, any> | null {
+    if (!this.rules || !this.rules.cardRules) return null;
+    
+    const cardRules = this.rules.cardRules[card.id];
+    if (!cardRules || !cardRules.companionRequirements) return null;
+    
+    return cardRules.companionRequirements;
+  }
+
+  /**
+   * Check if a deck meets companion requirements
+   * @param deck - Deck to check
+   * @param requirements - Companion requirements
+   * @returns Whether the deck meets the requirements
+   */
+  private checkCompanionRequirements(deck: Deck, requirements: Record<string, any>): boolean {
+    // This would implement specific companion requirement checks
+    // For example, "all cards must have even cost" or "no duplicates"
+    
+    if (requirements.noRepeats) {
+      // Check if all cards are unique (singleton)
+      const cardIds = new Set<string>();
+      for (const deckCard of deck.cards) {
+        if (deckCard.quantity > 1) return false;
+        if (cardIds.has(deckCard.card.id)) return false;
+        cardIds.add(deckCard.card.id);
+      }
+    }
+    
+    if (requirements.minCost !== undefined) {
+      // Check if all cards have at least the minimum cost
+      for (const deckCard of deck.cards) {
+        if (deckCard.card.cost < requirements.minCost) return false;
+      }
+    }
+    
+    if (requirements.maxCost !== undefined) {
+      // Check if all cards have at most the maximum cost
+      for (const deckCard of deck.cards) {
+        if (deckCard.card.cost > requirements.maxCost) return false;
+      }
+    }
+    
+    if (requirements.evenCost) {
+      // Check if all cards have even cost
+      for (const deckCard of deck.cards) {
+        if (deckCard.card.cost % 2 !== 0) return false;
+      }
+    }
+    
+    if (requirements.oddCost) {
+      // Check if all cards have odd cost
+      for (const deckCard of deck.cards) {
+        if (deckCard.card.cost % 2 === 0) return false;
+      }
+    }
+    
+    if (requirements.requiredElement) {
+      // Check if all cards have the required element
+      for (const deckCard of deck.cards) {
+        const cardElement = deckCard.card.element as CardElement;
+        if (cardElement !== requirements.requiredElement && 
+            cardElement !== CardElement.NEUTRAL) {
+          return false;
+        }
+      }
+    }
+    
+    if (requirements.requiredFaction) {
+      // Check if all cards have the required faction
+      for (const deckCard of deck.cards) {
+        const cardFaction = deckCard.card.faction as CardFaction;
+        if (cardFaction !== requirements.requiredFaction && 
+            cardFaction !== CardFaction.NEUTRAL) {
+          return false;
+        }
+      }
+    }
+    
+    if (requirements.requiredKeyword) {
+      // Check if all cards have the required keyword
+      for (const deckCard of deck.cards) {
+        if (!deckCard.card.keywords?.includes(requirements.requiredKeyword)) {
+          return false;
+        }
+      }
+    }
+    
+    return true;
+  }
+
+  /**
+   * Get the minimum deck size for a format
+   * @param format - Game format
+   * @returns Minimum deck size
+   */
+  getMinDeckSize(format: GameFormat = GameFormat.STANDARD): number {
+    return this.formatRules[format]?.minDeckSize || 60;
+  }
+
+  /**
+   * Get the maximum deck size for a format
+   * @param format - Game format
+   * @returns Maximum deck size
+   */
+  getMaxDeckSize(format: GameFormat = GameFormat.STANDARD): number {
+    return this.formatRules[format]?.maxDeckSize || 100;
+  }
+
+  /**
+   * Get the maximum copies of a card allowed in a format
+   * @param format - Game format
+   * @returns Maximum copies allowed
+   */
+  getMaxCopiesOfCard(format: GameFormat = GameFormat.STANDARD): number {
+    return this.formatRules[format]?.maxCopiesOfCard || 4;
+  }
+
+  /**
+   * Get the maximum sideboard size for a format
+   * @param format - Game format
+   * @returns Maximum sideboard size
+   */
+  getMaxSideboardSize(format: GameFormat = GameFormat.STANDARD): number {
+    return this.formatRules[format]?.maxSideboardSize || 15;
+  }
+
+  /**
+   * Get all legal sets for a format
+   * @param format - Game format
+   * @returns Array of legal set codes
+   */
+  getLegalSets(format: GameFormat = GameFormat.STANDARD): string[] {
+    return this.formatRules[format]?.allowedSets || [];
+  }
+
+  /**
+   * Get all banned cards for a format
+   * @param format - Game format
+   * @returns Array of banned card IDs
+   */
+  getBannedCards(format: GameFormat = GameFormat.STANDARD): string[] {
+    return this.formatRules[format]?.bannedCards || [];
+  }
+
+  /**
+   * Get all restricted cards for a format
+   * @param format - Game format
+   * @returns Array of restricted card IDs
+   */
+  getRestrictedCards(format: GameFormat = GameFormat.STANDARD): string[] {
+    return this.formatRules[format]?.restrictedCards || [];
+  }
+
+  /**
+   * Check if a format requires a commander
+   * @param format - Game format
+   * @returns Whether the format requires a commander
+   */
+  requiresCommander(format: GameFormat = GameFormat.STANDARD): boolean {
+    return this.formatRules[format]?.requiresCommander || false;
+  }
+
+  /**
+   * Check if a format allows a companion
+   * @param format - Game format
+   * @returns Whether the format allows a companion
+   */
+  allowsCompanion(format: GameFormat = GameFormat.STANDARD): boolean {
+    return this.formatRules[format]?.allowsCompanion || false;
+  }
+
+  /**
+   * Get all available formats
+   * @returns Array of game formats
+   */
+  getAvailableFormats(): GameFormat[] {
+    return Object.keys(this.formatRules) as GameFormat[];
+  }
+
+  /**
+   * Get rules for a specific format
+   * @param format - Game format
+   * @returns Format rules
+   */
+  getFormatRules(format: GameFormat): FormatRules | null {
+    return this.formatRules[format] || null;
+  }
+
+  /**
+   * Get rules for a specific card
+   * @param cardId - Card ID
+   * @returns Card rules or null if not found
+   */
+  getCardRules(cardId: string): Record<string, any> | null {
+    if (!this.rules || !this.rules.cardRules) return null;
+    return this.rules.cardRules[cardId] || null;
+  }
+
+  /**
+   * Get rules for a specific keyword
+   * @param keyword - Keyword name
+   * @returns Keyword rules or null if not found
+   */
+  getKeywordRules(keyword: string): Record<string, any> | null {
+    if (!this.rules || !this.rules.keywords) return null;
+    return this.rules.keywords[keyword] || null;
+  }
+
+  /**
+   * Get rules for a specific ability
+   * @param ability - Ability name
+   * @returns Ability rules or null if not found
+   */
+  getAbilityRules(ability: string): Record<string, any> | null {
+    if (!this.rules || !this.rules.abilities) return null;
+    return this.rules.abilities[ability] || null;
+  }
+
+  /**
+   * Get interaction rules between cards
+   * @param cardId1 - First card ID
+   * @param cardId2 - Second card ID
+   * @returns Interaction rules or null if not found
+   */
+  getInteractionRules(cardId1: string, cardId2: string): Record<string, any> | null {
+    if (!this.rules || !this.rules.interactions) return null;
+    
+    // Check for specific interaction
+    const key1 = `${cardId1}:${cardId2}`;
+    const key2 = `${cardId2}:${cardId1}`;
+    
+    return this.rules.interactions[key1] || 
+           this.rules.interactions[key2] || 
+           null;
+  }
+
+  /**
+   * Get the rules version
+   * @returns Rules version
+   */
+  getRulesVersion(): string {
+    return this.rules?.version || 'unknown';
   }
 }
 
-// Export singleton instance`
-export const rulesEngine = new RulesEngine() {}``
-export default rulesEngine;```
+// Create singleton instance
+const rulesEngine = new RulesEngine();
+
+export default rulesEngine;
