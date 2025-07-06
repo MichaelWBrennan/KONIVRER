@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * TypeScript Error Auto-Fix Script
  * 
@@ -5,8 +6,8 @@
  * It uses the TypeScript Compiler API to analyze and fix issues.
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const { execSync } = require('child_process');
 
 // Check if ts-morph is installed
@@ -112,7 +113,7 @@ console.log(`- Fixed errors: ${fixedErrorCount}`);
 console.log(`- Remaining errors: ${remainingErrorCount}`);
 
 // Main function to fix errors in a file
-function fixFile(sourceFile, errors) {
+function fixFile(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Fix missing imports
@@ -137,7 +138,7 @@ function fixFile(sourceFile, errors) {
 }
 
 // Fix missing imports
-function fixMissingImports(sourceFile, errors) {
+function fixMissingImports(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Find "Cannot find name" errors
@@ -166,7 +167,7 @@ function fixMissingImports(sourceFile, errors) {
 }
 
 // Fix syntax errors
-function fixSyntaxErrors(sourceFile, errors) {
+function fixSyntaxErrors(sourceFile: any, errors: any) {
   let fixedCount = 0;
   const text = sourceFile.getFullText();
   
@@ -194,7 +195,7 @@ function fixSyntaxErrors(sourceFile, errors) {
 }
 
 // Fix missing types
-function fixMissingTypes(sourceFile, errors) {
+function fixMissingTypes(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Add proper return types to functions
@@ -227,7 +228,7 @@ function fixMissingTypes(sourceFile, errors) {
 }
 
 // Fix implicit any errors
-function fixImplicitAny(sourceFile, errors) {
+function fixImplicitAny(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Find implicit any errors
@@ -259,7 +260,7 @@ function fixImplicitAny(sourceFile, errors) {
 }
 
 // Fix missing interfaces
-function fixMissingInterfaces(sourceFile, errors) {
+function fixMissingInterfaces(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Find object literals that could benefit from interfaces
@@ -303,7 +304,7 @@ function fixMissingInterfaces(sourceFile, errors) {
 }
 
 // Fix object literal errors
-function fixObjectLiteralErrors(sourceFile, errors) {
+function fixObjectLiteralErrors(sourceFile: any, errors: any) {
   let fixedCount = 0;
   
   // Find object literal errors

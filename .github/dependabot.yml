@@ -1,78 +1,37 @@
+
 version: 2
 updates:
-  # Frontend dependencies
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
+      interval: "daily"
+      time: "03:00"
     open-pull-requests-limit: 10
     reviewers:
-      - 'Crypto3k'
+      - "MichaelWBrennan"
     assignees:
-      - 'Crypto3k'
+      - "MichaelWBrennan"
     commit-message:
-      prefix: 'deps'
-      include: 'scope'
+      prefix: "🔄"
+      include: "scope"
     labels:
-      - 'dependencies'
-      - 'frontend'
-      - 'security'
-    # Group security updates for faster merging
-    groups:
-      security-updates:
-        patterns:
-          - '*'
-        update-types:
-          - 'security'
-      minor-updates:
-        patterns:
-          - '*'
-        update-types:
-          - 'minor'
-          - 'patch'
-    # Allow auto-merge for security patches
+      - "dependencies"
+      - "automated"
     allow:
-      - dependency-type: 'direct'
-        update-type: 'security'
-      - dependency-type: 'indirect'
-        update-type: 'security'
+      - dependency-type: "all"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
-  # Backend dependencies
-  - package-ecosystem: 'npm'
-    directory: '/Backend'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
-    open-pull-requests-limit: 10
-    reviewers:
-      - 'Crypto3k'
-    assignees:
-      - 'Crypto3k'
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
     commit-message:
-      prefix: 'chore'
-      include: 'scope'
+      prefix: "🔄"
+      include: "scope"
     labels:
-      - 'dependencies'
-      - 'backend'
-
-  # GitHub Actions
-  - package-ecosystem: 'github-actions'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
-    open-pull-requests-limit: 5
-    reviewers:
-      - 'Crypto3k'
-    assignees:
-      - 'Crypto3k'
-    commit-message:
-      prefix: 'ci'
-      include: 'scope'
-    labels:
-      - 'dependencies'
-      - 'github-actions'
+      - "github-actions"
+      - "automated"

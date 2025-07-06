@@ -2,9 +2,9 @@
  * ESLint plugin to enforce TypeScript-only policy
  */
 
-const noJsFiles = require('./no-js-files');
+import noJsFiles from './no-js-files';
 
-module.exports = {
+export default {
   rules: {
     'no-js-files': noJsFiles
   },

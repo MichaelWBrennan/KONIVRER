@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 console.log('🔧 Fixing broken class structures...\n');
 
 // Get all TypeScript files
-const getAllTsFiles = (dir) => {
+const getAllTsFiles = (dir: any) => {
   const files = [];
   const items = fs.readdirSync(dir);
   

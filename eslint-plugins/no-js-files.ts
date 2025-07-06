@@ -4,7 +4,7 @@
  * This rule checks if a file is JavaScript and reports an error if it is.
  */
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {

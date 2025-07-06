@@ -19,8 +19,8 @@
  * Licensed under the MIT License
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const { execSync } = require('child_process');
 const { performance } = require('perf_hooks');
 
@@ -685,7 +685,7 @@ class AIIntegration {
           if (!content.includes('import AIRecorder')) {
             const importStatement = isTypeScript
               ? "import AIRecorder from '../../scripts/ai-recorder.js';\n"
-              : "const AIRecorder = require('../../scripts/ai-recorder.js');\n";
+              : "import AIRecorder from '../../scripts/ai-recorder.js';\n";
             
             // Find a good place to add the import
             const importIndex = content.lastIndexOf('import ');
@@ -1087,7 +1087,7 @@ main().catch(error => {
 });
 
 // Export classes for use in other scripts
-module.exports = AIRecorder;
+export default AIRecorder;
 module.exports.AIBuilder = AIBuilder;
 module.exports.AITester = AITester;
 module.exports.AIIntegration = AIIntegration;
