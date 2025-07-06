@@ -14,8 +14,7 @@ interface User {
   id: string;
   email: string;
   displayName: string;
-  avatar?: string
-  
+  avatar?: string;
 }
 
 interface AuthContextType {
@@ -24,13 +23,11 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  register: (email: string, password: string, displayName: string) => Promise<void /></void>
-  
+  register: (email: string, password: string, displayName: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
-  children: ReactNode
-  
+  children: ReactNode;
 }
 
 // Create context
@@ -40,65 +37,58 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * Authentication Provider Component
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async (email: string, password: string): Promise<void> => {
-    setIsLoading() {
-  }
+    setIsLoading(true);
     try {
-    // TODO: Implement actual authentication
-      console.log(() => {
-    // Mock successful login
+      // TODO: Implement actual authentication
+      console.log('Logging in with:', email, password);
+      // Mock successful login
       setUser({
-    id: '1',
+        id: '1',
         email,
         displayName: email.split('@')[0] || 'User'
-  
-  }))
+      });
     } catch (error) {
-    console.error() {
-    throw error
-  
-  } finally {
-    setIsLoading(false)
-  }
+      console.error('Login error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = async (): Promise<void> => {
-    setIsLoading(() => {
+    setIsLoading(true);
     try {
-    // TODO: Implement actual logout
-      setUser(null)
-  
-  }) catch (error) {
-    console.error() {
-    throw error
-  
-  } finally {
-    setIsLoading(false)
-  }
+      // TODO: Implement actual logout
+      setUser(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const register = async (email: string, password: string, displayName: string): Promise<void> => {
-    setIsLoading() {
+    setIsLoading(true);
     try {
-  }
       // TODO: Implement actual registration
-      console.log(() => {
-    // Mock successful registration
+      console.log('Registering with:', email, password, displayName);
+      // Mock successful registration
       setUser({
-    id: '1',
+        id: '1',
         email,
         displayName
-  }))
+      });
     } catch (error) {
-    console.error() {
-    throw error
-  
-  } finally {
-    setIsLoading(false)
-  }
+      console.error('Registration error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const value: AuthContextType = {
@@ -111,22 +101,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={value} /></AuthContext>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 /**
  * Hook to use authentication context
  */
 export const useAuth = (): AuthContextType => {
-    const context = useContext(() => {
-    if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  
-  })
-  return context
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
 
 export default AuthProvider;
