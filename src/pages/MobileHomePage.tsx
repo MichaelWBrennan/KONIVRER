@@ -4,7 +4,7 @@ import SimpleMobileLayout from '../components/SimpleMobileLayout';
 const MobileHomePage: React.FC = () => {
   return (
     <SimpleMobileLayout currentPage="home">
-      {/* Completely empty content area - only bottom navigation */}
+      {/* Empty home page - only the brown bottom navigation menu */}
     </SimpleMobileLayout>
   );
 };
