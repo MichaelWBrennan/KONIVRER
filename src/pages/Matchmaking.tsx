@@ -68,7 +68,7 @@ import { useDeck } from '../contexts/DeckContext';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 // Components
 import MatchmakingQueue from '../components/matchmaking/MatchmakingQueue';
-import PlayerCard from '../components/matchmaking/PlayerCard';
+import UnifiedPlayerCard from '../components/matchmaking/UnifiedPlayerCard';
 import MatchFoundModal from '../components/matchmaking/MatchFoundModal';
 import RankProgressBar from '../components/matchmaking/RankProgressBar';
 import RecentMatches from '../components/matchmaking/RecentMatches';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card';
+import UnifiedCard from '../UnifiedCard';
 import { ELEMENT_SYMBOLS } from '../../engine/elementalSystem';
 import '../../styles/zones.css';
 
@@ -21,7 +21,7 @@ const AzothRow: React.FC<AzothRowProps> = ({  azothCards  }) => {
               className={`azoth-card ${card.rested ? 'rested' : ''}`}
               title={`${card.name} - ${card.elementType} Azoth`}
              />
-              <Card card={card} location="azoth" / />
+              <UnifiedCard variant="standard" card={card} location="azoth" />
               <div className="element-indicator"></div>
                 {ELEMENT_SYMBOLS[card.elementType]}
             </div>

@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, Clock } from 'lucide-react';
-import PlayerCard from './PlayerCard';
+import UnifiedPlayerCard from './UnifiedPlayerCard';
 
 interface MatchFoundModalProps {
   isOpen
@@ -79,7 +79,7 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
             <div className="flex items-center justify-between mb-6"></div>
               <div className="text-center flex-1"></div>
                 <div className="text-sm text-gray-500 mb-2">You</div>
-                <PlayerCard player={player} size="small" showStats={false} / />
+                <UnifiedPlayerCard player={player} variant="compact" size="small" showStats={false} />
                 <div className="text-sm text-gray-500 mt-1"></div>
                   {player?.tier} {player?.division}
               </div>
@@ -88,11 +88,12 @@ const MatchFoundModal: React.FC<MatchFoundModalProps> = ({
 
               <div className="text-center flex-1"></div>
                 <div className="text-sm text-gray-500 mb-2">Opponent</div>
-                <PlayerCard
+                <UnifiedPlayerCard
                   player={match.opponent}
+                  variant="compact"
                   size="small"
                   showStats={false}
-                / />
+                />
                 <div className="text-sm text-gray-500 mt-1"></div>
                   {match.opponent?.tier}
               </div>
