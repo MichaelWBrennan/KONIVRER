@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
-import './index.css';
+import AllInOneApp from './core/AllInOne';
 
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
@@ -35,6 +34,6 @@ if (!rootElement) {
 const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <AllInOneApp />
   </React.StrictMode>
 );
