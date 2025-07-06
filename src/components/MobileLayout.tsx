@@ -172,14 +172,14 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           color: 'var(--text-primary)',
           borderBottom: '1px solid var(--border-primary)',
         }}
-       >
+      >
         <div className="flex items-center space-x-2">
           <span className="font-medium">KONIVRER</span>
           {!isOnline && (
             <div
               className="flex items-center space-x-1"
               style={{ color: 'var(--accent-warning)' }}
-             >
+            >
               <WifiOff className="w-3 h-3" />
               <span>Offline</span>
             </div>
@@ -224,7 +224,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           borderBottom: '1px solid var(--border-primary)',
           boxShadow: 'var(--shadow-md)',
         }}
-       >
+      >
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -357,7 +357,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{ background: 'var(--accent-success)' }}
-                   />
+                  ></div>
                   <span
                     className="text-sm"
                     style={{ color: 'var(--text-secondary)' }}
@@ -370,7 +370,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{ background: 'var(--accent-warning)' }}
-                   />
+                  ></div>
                   <span
                     className="text-sm"
                     style={{ color: 'var(--text-secondary)' }}

@@ -361,12 +361,13 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   : 'bg-gray-100 text-gray-400'
               }`}
               title={`Sound ${isSoundEnabled ? 'On' : 'Off'}`}
-             />
+             >
               {isSoundEnabled ? (
                 <Volume2 className="w-4 h-4" />
               ) : (
                 <VolumeX className="w-4 h-4" />
               )}
+            </button>
 
             <button
               onClick={() => setShowControls(!showControls)}
