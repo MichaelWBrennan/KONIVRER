@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card';
+import UnifiedCard from '../UnifiedCard';
 import '../../styles/zones.css';
 
 interface CombatRowProps {
@@ -17,7 +17,7 @@ const CombatRow: React.FC<CombatRowProps> = ({  combatCards, isCurrentPlayer  })
         ) : (
           combatCards.map(card => (
             <div key={card.id} className="combat-card"></div>
-              <Card card={card} location="combat" / />
+              <UnifiedCard variant="standard" card={card} location="combat" />
               {card.attacking && <div className="status-indicator attacking">Attacking</div>}
               {card.defending && <div className="status-indicator defending">Defending</div>}
           ))

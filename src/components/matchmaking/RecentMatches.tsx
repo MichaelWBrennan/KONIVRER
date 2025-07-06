@@ -8,7 +8,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, ChevronRight, Clock, Target, Shield } from 'lucide-react';
-import PlayerCard from './PlayerCard';
+import UnifiedPlayerCard from './UnifiedPlayerCard';
 
 interface RecentMatchesProps {
   matches
