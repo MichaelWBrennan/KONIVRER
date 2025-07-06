@@ -65,10 +65,10 @@ const errorPatterns = [
 ];
 
 // Files to process (excluding .old files)
-function getAllTsxFiles(dir) {
+function getAllTsxFiles(dir: any) {
   const files = [];
   
-  function traverse(currentDir) {
+  function traverse(currentDir: any) {
     const items = fs.readdirSync(currentDir);
     
     for (const item of items) {
@@ -90,7 +90,7 @@ function getAllTsxFiles(dir) {
 }
 
 // Fix common syntax errors
-function fixCommonErrors(content) {
+function fixCommonErrors(content: any) {
   let fixed = content;
   
   // Fix missing type annotations in function parameters
@@ -132,7 +132,7 @@ function fixCommonErrors(content) {
 }
 
 // Create a minimal working version of problematic files
-function createMinimalVersion(filePath) {
+function createMinimalVersion(filePath: any) {
   const fileName = path.basename(filePath, path.extname(filePath));
   const isComponent = fileName.charAt(0) === fileName.charAt(0).toUpperCase();
   
@@ -187,7 +187,7 @@ export default defaultExport;
 }
 
 // Main processing function
-function processFile(filePath) {
+function processFile(filePath: any) {
   try {
     console.log(`Processing: ${filePath}`);
     

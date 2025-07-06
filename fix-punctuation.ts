@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 console.log('🔧 Fixing punctuation errors...\n');
 
 // Get files with specific error types
-function getFilesWithErrors(errorType) {
+function getFilesWithErrors(errorType: any) {
   try {
     const output = execSync('npm run type-check 2>&1', { encoding: 'utf8' });
     return [];

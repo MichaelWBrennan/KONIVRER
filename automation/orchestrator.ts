@@ -1,23 +1,14 @@
+#!/usr/bin/env tsx
+
 /**
- * KONIVRER Automation Orchestrator
- * 
- * Industry-leading passive workflow automation system that integrates:
- * - Continuous code quality monitoring
- * - Automated testing and validation
- * - Performance optimization
- * - Security scanning
- * - Dependency management
- * - Build optimization
- * - Deployment pipeline
- * - AI-powered code analysis and suggestions
- * - Self-healing capabilities
- * 
- * This system runs in the background and requires zero manual intervention,
- * creating a truly passive workflow that maximizes developer productivity.
+ * Ultimate Automation Orchestrator
+ * Coordinates all automation workflows for 100% hands-off operation
  */
 
-import fs from 'fs';
-import path from 'path';
+import { promises as fs } from 'fs';
+import { join } from 'path';
+import { execSync } from 'child_process';
+import type { AutomationConfig, AutomationResult } from '../src/types/automation';
 import { execSync, spawn, ChildProcess } from 'child_process';
 import chokidar from 'chokidar';
 

@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 console.log('🔧 Fixing final TypeScript errors...\n');
 
 // Get all TypeScript files
-const getAllTsFiles = (dir) => {
+const getAllTsFiles = (dir: any) => {
   const files = [];
   const items = fs.readdirSync(dir);
   

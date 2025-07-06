@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Convert JavaScript files to TypeScript
  * 
@@ -5,40 +6,18 @@
  * and updates configurations to ensure TypeScript is the only language used.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+const { execSync } = require('child_process');
 
 // Configuration
-const ROOT_DIR: string = path.resolve(__dirname, '..');
-const EXCLUDE_DIRS: string[] = ['node_modules', 'dist', 'build', '.git'];
-const EXCLUDE_FILES: string[] = ['sw.js']; // Service worker should remain as JS
-
-interface TSConfig {
-  compilerOptions: {
-    allowJs: boolean;
-    [key: string]: any;
-  };
-  include: string[];
-  exclude: string[];
-  [key: string]: any;
-}
-
-interface PackageJson {
-  scripts: {
-    [key: string]: string;
-  };
-  husky?: {
-    hooks?: {
-      [key: string]: string;
-    };
-  };
-  [key: string]: any;
-}
+const ROOT_DIR = path.resolve(__dirname, '..');
+const EXCLUDE_DIRS = ['node_modules', 'dist', 'build', '.git'];
+const EXCLUDE_FILES = ['sw.js']; // Service worker should remain as JS
 
 // Find all JavaScript files
-function findJavaScriptFiles(dir: string): string[] {
-  let results: string[] = [];
+function findJavaScriptFiles(dir: any) {
+  let results = [];
   
   const list = fs.readdirSync(dir);
   
@@ -61,7 +40,7 @@ function findJavaScriptFiles(dir: string): string[] {
 }
 
 // Convert a JavaScript file to TypeScript
-function convertToTypeScript(filePath: string): void {
+function convertToTypeScript(filePath: any) {
   console.log(`Converting ${filePath} to TypeScript...`);
   
   // Read the file content
@@ -74,7 +53,7 @@ function convertToTypeScript(filePath: string): void {
   let tsContent = content;
   
   // Add 'any' type to function parameters
-  tsContent = tsContent.replace(/function\s+(\w+)\s*\(([^)]*)\)/g, (match: string, funcName: string, params: string) => {
+  tsContent = tsContent.replace(/function\s+(\w+)\s*\(([^)]*)\)/g, (match, funcName, params) => {
     if (!params.trim()) return `function ${funcName}()`;
     
     const typedParams = params.split(',').map(param => {
@@ -92,7 +71,7 @@ function convertToTypeScript(filePath: string): void {
   });
   
   // Add return type to functions
-  tsContent = tsContent.replace(/function\s+(\w+)\s*\(([^)]*)\)(\s*{)/g, (match: string, funcName: string, params: string, bracket: string) => {
+  tsContent = tsContent.replace(/function\s+(\w+)\s*\(([^)]*)\)(\s*{)/g, (match, funcName, params, bracket) => {
     return `function ${funcName}(${params}): any${bracket}`;
   });
   
@@ -109,11 +88,11 @@ function convertToTypeScript(filePath: string): void {
 }
 
 // Update tsconfig to include all TypeScript files
-function updateTsConfig(): void {
+function updateTsConfig() {
   console.log('Updating tsconfig.json...');
   
   const tsconfigPath = path.join(ROOT_DIR, 'tsconfig.json');
-  const tsconfig: TSConfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf8'));
+  const tsconfig = JSON.parse(fs.readFileSync(tsconfigPath, 'utf8'));
   
   // Ensure all TypeScript files are included
   tsconfig.include = ['**/*.ts', '**/*.tsx'];
@@ -131,7 +110,7 @@ function updateTsConfig(): void {
 }
 
 // Update ESLint config to enforce TypeScript
-function updateEslintConfig(): void {
+function updateEslintConfig() {
   console.log('Updating ESLint configuration...');
   
   const eslintPath = path.join(ROOT_DIR, '.eslintrc.cjs');
@@ -154,11 +133,11 @@ function updateEslintConfig(): void {
 }
 
 // Update package.json to enforce TypeScript
-function updatePackageJson(): void {
+function updatePackageJson() {
   console.log('Updating package.json...');
   
   const packagePath = path.join(ROOT_DIR, 'package.json');
-  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+  const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
   
   // Add script to check for JavaScript files
   packageJson.scripts['check:no-js'] = "find src -name '*.js' | grep -q . && echo 'JavaScript files found in src/' && exit 1 || echo 'No JavaScript files found in src/'";
@@ -185,7 +164,7 @@ function updatePackageJson(): void {
 }
 
 // Create a GitHub Action to enforce TypeScript
-function createGitHubAction(): void {
+function createGitHubAction() {
   console.log('Creating GitHub Action to enforce TypeScript...');
   
   const actionDir = path.join(ROOT_DIR, '.github', 'workflows');
@@ -235,7 +214,7 @@ jobs:
 }
 
 // Create a TypeScript conversion guide
-function createConversionGuide(): void {
+function createConversionGuide() {
   console.log('Creating TypeScript conversion guide...');
   
   const guidePath = path.join(ROOT_DIR, 'TYPESCRIPT_GUIDE.md');
@@ -297,7 +276,7 @@ If you encounter issues with TypeScript:
 }
 
 // Main function
-async function main(): Promise<void> {
+async function main() {
   console.log('Starting JavaScript to TypeScript conversion...');
   
   // Find all JavaScript files

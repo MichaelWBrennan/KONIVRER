@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Mass TypeScript Error Fixing Script
+ * Fix Problematic Files Script
  * 
- * Processes all files with significant TypeScript errors and creates minimal versions.
+ * Processes specific files with high error counts.
  */
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function createMinimalModule(moduleName) {
+function createMinimalModule(moduleName: any) {
   return `/**
  * ${moduleName} Module
  * 
@@ -57,7 +56,7 @@ export default ${moduleName};
 `;
 }
 
-function createMinimalComponent(componentName, isPage = false) {
+function createMinimalComponent(componentName: any, isPage = false: any) {
   const displayName = componentName.replace(/([A-Z])/g, ' $1').trim();
   const description = isPage ? 'Page' : 'Component';
   
@@ -144,41 +143,7 @@ export default ${componentName};
 `;
 }
 
-function getFilesWithErrors() {
-  try {
-    // Get TypeScript errors
-    const output = execSync('npm run type-check 2>&1', { 
-      cwd: __dirname,
-      encoding: 'utf8',
-      maxBuffer: 1024 * 1024 * 10 // 10MB buffer
-    });
-    
-    // Parse error output to get files with error counts
-    const lines = output.split('\n');
-    const fileErrors = new Map();
-    
-    for (const line of lines) {
-      const match = line.match(/^(src\/[^(]+)\((\d+),(\d+)\):\s*error\s+TS/);
-      if (match) {
-        const filePath = match[1];
-        if (!filePath.includes('.old.')) {
-          fileErrors.set(filePath, (fileErrors.get(filePath) || 0) + 1);
-        }
-      }
-    }
-    
-    // Convert to array and sort by error count
-    return Array.from(fileErrors.entries())
-      .sort((a, b) => b[1] - a[1])
-      .filter(([, count]) => count >= 20); // Only files with 20+ errors
-      
-  } catch (error) {
-    console.error('Error getting TypeScript errors:', error.message);
-    return [];
-  }
-}
-
-function processFile(filePath) {
+function processFile(filePath: any) {
   try {
     const fullPath = path.join(__dirname, filePath);
     
@@ -214,46 +179,30 @@ function processFile(filePath) {
 }
 
 function main() {
-  console.log('🔍 Analyzing TypeScript errors...\n');
+  console.log('🔧 Processing problematic files...\n');
   
-  const filesWithErrors = getFilesWithErrors();
+  // Read the list of problematic files
+  const problematicFilesPath = path.join(__dirname, 'high-priority-errors.txt');
   
-  if (filesWithErrors.length === 0) {
-    console.log('No files with significant errors found!');
+  if (!fs.existsSync(problematicFilesPath)) {
+    console.error('problematic-files.txt not found!');
     return;
   }
   
-  console.log(`Found ${filesWithErrors.length} files with 20+ errors each:\n`);
+  const fileList = fs.readFileSync(problematicFilesPath, 'utf8')
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
   
-  // Show top 10 files
-  filesWithErrors.slice(0, 10).forEach(([file, count]) => {
-    console.log(`  ${file}: ${count} errors`);
-  });
-  
-  console.log('\n🔧 Processing files...\n');
+  console.log(`Found ${fileList.length} files to process\n`);
   
   let processed = 0;
   let successful = 0;
   
-  // Process files in batches to avoid overwhelming the system
-  const batchSize = 10;
-  for (let i = 0; i < filesWithErrors.length; i += batchSize) {
-    const batch = filesWithErrors.slice(i, i + batchSize);
-    
-    for (const [filePath] of batch) {
-      processed++;
-      if (processFile(filePath)) {
-        successful++;
-      }
-      
-      // Stop after processing 50 files to avoid too many changes at once
-      if (processed >= 50) {
-        break;
-      }
-    }
-    
-    if (processed >= 50) {
-      break;
+  for (const filePath of fileList) {
+    processed++;
+    if (processFile(filePath)) {
+      successful++;
     }
   }
   
@@ -261,18 +210,6 @@ function main() {
   console.log(`📊 Processed: ${processed} files`);
   console.log(`✅ Successful: ${successful} files`);
   console.log(`💾 All original files backed up with .old extension`);
-  
-  // Check new error count
-  console.log('\n🔍 Checking new error count...');
-  try {
-    const output = execSync('npm run type-check 2>&1 | grep "error TS" | wc -l', { 
-      cwd: __dirname,
-      encoding: 'utf8'
-    });
-    console.log(`📉 Current error count: ${output.trim()}`);
-  } catch (error) {
-    console.log('Could not get new error count');
-  }
 }
 
 main();

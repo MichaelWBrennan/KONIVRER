@@ -26,7 +26,7 @@ function getErrorFiles() {
   }
 }
 
-function fixFile(filePath) {
+function fixFile(filePath: any) {
   if (!fs.existsSync(filePath)) return false;
   
   let content = fs.readFileSync(filePath, 'utf8');
