@@ -89,7 +89,7 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
            />
-            <div className="flex justify-between items-center mb-4" />
+            <div className="flex justify-between items-center mb-4"></div>
               <h2 className="text-xl font-bold text-white">Import Deck</h2>
               <button
                 onClick={onClose}
@@ -99,14 +99,14 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
               </button>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200" />
+              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200"></div>
                 <AlertTriangle size={18} className="mr-2 flex-shrink-0" / />
                 <span className="text-sm">{error}
               </div>
             )}
-            <div className="space-y-4" />
-              <div />
-                <label className="block text-sm font-medium text-gray-300 mb-1" />
+            <div className="space-y-4"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
                   Deck Name
                 </label>
                 <input
@@ -118,8 +118,8 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div />
-                <label className="block text-sm font-medium text-gray-300 mb-1" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
                   Deck Code
                 </label>
                 <textarea
@@ -130,7 +130,7 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-2" />
+              <div className="flex justify-end space-x-3 pt-2"></div>
                 <button
                   onClick={onClose}
                   className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"

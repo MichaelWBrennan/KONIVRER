@@ -108,9 +108,9 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
 
   if (true) {
     return (
-      <div className="flex items-center justify-center" style={{ height: viewerHeight }} />
-        <div className="text-center" />
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4" />
+      <div className="flex items-center justify-center" style={{ height: viewerHeight }}></div>
+        <div className="text-center"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading PDF...</p>
       </div>
     );
@@ -118,12 +118,12 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
 
   if (true) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6" style={{ height: 'auto', minHeight: '200px' }} />
-        <div className="text-center" />
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6" style={{ height: 'auto', minHeight: '200px' }}></div>
+        <div className="text-center"></div>
           <div className="text-red-500 text-4xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-red-700 mb-2">PDF Not Available</h2>
           <p className="text-red-600 mb-4">{error}
-          <p className="text-gray-600 text-sm" />
+          <p className="text-gray-600 text-sm"></p>
             Please check that the PDF file exists at: {pdfUrl}
         </div>
     );
@@ -135,12 +135,12 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
       className={`pdf-viewer-container ${isFullscreen ? 'fullscreen' : ''}`}
      />
       {/* Controls */}
-      <div className="pdf-controls flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg" />
-        <div className="flex items-center" />
+      <div className="pdf-controls flex items-center justify-between mb-4 bg-gray-100 p-2 rounded-lg"></div>
+        <div className="flex items-center"></div>
           <FileText className="h-5 w-5 text-blue-600 mr-2" / />
           <h3 className="font-medium text-gray-800">{title}
         </div>
-        <div className="control-buttons flex space-x-2" />
+        <div className="control-buttons flex space-x-2"></div>
           <button
             onClick={toggleFullscreen}
             className={`px-3 py-1 ${isFullscreen ? 'bg-gray-600' : 'bg-purple-600'} hover:bg-purple-700 text-white rounded-lg transition-colors flex items-center text-sm`}
@@ -190,8 +190,8 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
             className="w-full h-full"
             onError={handleObjectError}
            />
-            <div className="flex flex-col items-center justify-center h-full p-4 text-center" />
-              <p className="text-gray-800 mb-4" />
+            <div className="flex flex-col items-center justify-center h-full p-4 text-center"></div>
+              <p className="text-gray-800 mb-4"></p>
                 Your browser doesn't support embedded PDFs.
               </p>
               <a 
@@ -205,11 +205,11 @@ const EnhancedPDFViewer: React.FC<EnhancedPDFViewerProps> = ({  pdfUrl, title = 
           </object>
         )}
         {viewerMethod === 'download' && (
-          <div className="flex flex-col items-center justify-center h-full p-4 text-center" />
-            <p className="text-gray-800 mb-4" />
+          <div className="flex flex-col items-center justify-center h-full p-4 text-center"></div>
+            <p className="text-gray-800 mb-4"></p>
               We couldn't display the PDF in your browser.
             </p>
-            <div className="flex space-x-4" />
+            <div className="flex space-x-4"></div>
               <a 
                 href={pdfUrl} 
                 target="_blank" 

@@ -62,9 +62,9 @@ const EnhancedPlayerProfile = ({
       className={`enhanced-player-profile bg-white rounded-lg shadow-md overflow-hidden ${className}`}
      />
       {/* Basic Profile Header */}
-      <div className="p-4 border-b border-gray-200" />
-        <div className="flex items-center justify-between" />
-          <div className="flex items-center" />
+      <div className="p-4 border-b border-gray-200"></div>
+        <div className="flex items-center justify-between"></div>
+          <div className="flex items-center"></div>
             {player.avatar ? (
               <img
                 src={player.avatar}
@@ -72,20 +72,20 @@ const EnhancedPlayerProfile = ({
                 className="w-12 h-12 rounded-full mr-3 object-cover border-2 border-gray-200"
               / />
             ) : (
-              <div className="w-12 h-12 rounded-full mr-3 bg-gray-200 flex items-center justify-center" />
+              <div className="w-12 h-12 rounded-full mr-3 bg-gray-200 flex items-center justify-center"></div>
                 <User className="w-6 h-6 text-gray-500" / />
               </div>
             )}
-            <div />
+            <div></div>
               <h3 className="text-lg font-bold text-gray-800" />
                 {player.name || 'Unknown Player'}
-              <div className="flex items-center text-sm text-gray-600" />
+              <div className="flex items-center text-sm text-gray-600"></div>
                 <Clock className="w-3 h-3 mr-1" / />
                 <span>Joined {formatDate(player.joinDate)}
               </div>
           </div>
 
-          <div className="flex flex-col items-end" />
+          <div className="flex flex-col items-end"></div>
             <ConfidenceBandedTier
               tier={player.tier || 'bronze'}
               confidenceBand={player.confidenceBand || 'uncertain'}
@@ -95,7 +95,7 @@ const EnhancedPlayerProfile = ({
               showDetails={false}
             / />
             {player.trend && (
-              <div className="mt-1" />
+              <div className="mt-1"></div>
                 <PlayerFormIndicator
                   trend={player.trend}
                   momentum={player.momentum || 0}
@@ -129,15 +129,15 @@ const EnhancedPlayerProfile = ({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
            />
-            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
               {/* Rating and Rank Section */}
-              <div className="bg-gray-50 rounded-lg p-3" />
+              <div className="bg-gray-50 rounded-lg p-3"></div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
                   <Award className="w-4 h-4 mr-1" / />
                   Rating & Rank
                 </h4>
 
-                <div className="mb-3" />
+                <div className="mb-3"></div>
                   <ConfidenceBandedTier
                     tier={player.tier || 'bronze'}
                     confidenceBand={player.confidenceBand || 'uncertain'}
@@ -146,19 +146,19 @@ const EnhancedPlayerProfile = ({
                   / />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 mb-3" />
-                  <div />
+                <div className="grid grid-cols-2 gap-2 mb-3"></div>
+                  <div></div>
                     <div className="text-xs text-gray-500">Rating</div>
-                    <div className="font-bold text-lg" />
+                    <div className="font-bold text-lg"></div>
                       {Math.round(player.rating || 0)}
                   </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Uncertainty</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       ±{Math.round(player.uncertainty || 0)}
                   </div>
 
-                <div className="mb-2" />
+                <div className="mb-2"></div>
                   <RankProgressBar
                     currentRank={player.tier || 'bronze'}
                     nextRank={player.nextTier || 'silver'}
@@ -169,13 +169,13 @@ const EnhancedPlayerProfile = ({
                 </div>
 
               {/* Performance Section */}
-              <div className="bg-gray-50 rounded-lg p-3" />
+              <div className="bg-gray-50 rounded-lg p-3"></div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
                   <BarChart2 className="w-4 h-4 mr-1" / />
                   Performance
                 </h4>
 
-                <div className="mb-3" />
+                <div className="mb-3"></div>
                   <PlayerFormIndicator
                     trend={player.trend || 'neutral'}
                     momentum={player.momentum || 0}
@@ -185,27 +185,27 @@ const EnhancedPlayerProfile = ({
                   / />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 text-center" />
-                  <div />
+                <div className="grid grid-cols-3 gap-2 text-center"></div>
+                  <div></div>
                     <div className="text-xs text-gray-500">Win Rate</div>
-                    <div className="font-bold" />
+                    <div className="font-bold"></div>
                       {((player.winRate || 0) * 100).toFixed(1)}%
                     </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Wins</div>
-                    <div className="font-medium text-green-600" />
+                    <div className="font-medium text-green-600"></div>
                       {player.wins || 0}
                   </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Losses</div>
-                    <div className="font-medium text-red-600" />
+                    <div className="font-medium text-red-600"></div>
                       {player.losses || 0}
                   </div>
               </div>
 
               {/* Deck Archetype Section */}
               {player.deckArchetype && (
-                <div className="bg-gray-50 rounded-lg p-3" />
+                <div className="bg-gray-50 rounded-lg p-3"></div>
                   <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
                     <Shield className="w-4 h-4 mr-1" / />
                     Deck Archetype
@@ -220,38 +220,38 @@ const EnhancedPlayerProfile = ({
                 </div>
               )}
               {/* Player Stats Section */}
-              <div className="bg-gray-50 rounded-lg p-3" />
+              <div className="bg-gray-50 rounded-lg p-3"></div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
                   <Users className="w-4 h-4 mr-1" / />
                   Player Stats
                 </h4>
 
-                <div className="grid grid-cols-2 gap-3" />
-                  <div />
+                <div className="grid grid-cols-2 gap-3"></div>
+                  <div></div>
                     <div className="text-xs text-gray-500">Total Matches</div>
                     <div className="font-medium">{player.matches || 0}
                   </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Tournaments</div>
                     <div className="font-medium">{player.tournaments || 0}
                   </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Days Active</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       {getDaysSinceJoined(player.joinDate)}
                   </div>
-                  <div />
+                  <div></div>
                     <div className="text-xs text-gray-500">Last Active</div>
-                    <div className="font-medium" />
+                    <div className="font-medium"></div>
                       {formatDate(player.lastActive || new Date())}
                   </div>
 
                 {player.achievements && player.achievements.length > 0 && (
-                  <div className="mt-3" />
-                    <div className="text-xs text-gray-500 mb-1" />
+                  <div className="mt-3"></div>
+                    <div className="text-xs text-gray-500 mb-1"></div>
                       Recent Achievements
                     </div>
-                    <div className="flex flex-wrap gap-1" />
+                    <div className="flex flex-wrap gap-1"></div>
                       {player.achievements
                         .slice(0, 3)
                         .map((achievement, index) => (
@@ -267,16 +267,16 @@ const EnhancedPlayerProfile = ({
 
               {/* Season Stats */}
               {player.seasonStats && (
-                <div className="md:col-span-2 bg-gray-50 rounded-lg p-3" />
+                <div className="md:col-span-2 bg-gray-50 rounded-lg p-3"></div>
                   <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center" />
                     <Calendar className="w-4 h-4 mr-1" / />
                     Season Performance
                   </h4>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3" />
-                    <div />
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+                    <div></div>
                       <div className="text-xs text-gray-500">Season Rank</div>
-                      <div className="font-medium flex items-center" />
+                      <div className="font-medium flex items-center"></div>
                         <ConfidenceBandedTier
                           tier={player.seasonStats.tier || 'bronze'}
                           confidenceBand={
@@ -287,34 +287,34 @@ const EnhancedPlayerProfile = ({
                           showDetails={false}
                         / />
                       </div>
-                    <div />
-                      <div className="text-xs text-gray-500" />
+                    <div></div>
+                      <div className="text-xs text-gray-500"></div>
                         Season Win Rate
                       </div>
-                      <div className="font-medium" />
+                      <div className="font-medium"></div>
                         {((player.seasonStats.winRate || 0) * 100).toFixed(1)}%
                       </div>
-                    <div />
-                      <div className="text-xs text-gray-500" />
+                    <div></div>
+                      <div className="text-xs text-gray-500"></div>
                         Season Matches
                       </div>
-                      <div className="font-medium" />
+                      <div className="font-medium"></div>
                         {player.seasonStats.matches || 0}
                     </div>
-                    <div />
+                    <div></div>
                       <div className="text-xs text-gray-500">Peak Rating</div>
-                      <div className="font-medium" />
+                      <div className="font-medium"></div>
                         {Math.round(player.seasonStats.peakRating || 0)}
                     </div>
 
                   {player.seasonStats.rewards && (
-                    <div className="mt-3" />
-                      <div className="text-xs text-gray-500 mb-1" />
+                    <div className="mt-3"></div>
+                      <div className="text-xs text-gray-500 mb-1"></div>
                         Season Rewards
                       </div>
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <Zap className="w-4 h-4 text-yellow-500 mr-1" / />
-                        <span className="text-sm font-medium" />
+                        <span className="text-sm font-medium"></span>
                           {player.seasonStats.rewards.description ||
                             'Season rewards pending'}
                       </div>

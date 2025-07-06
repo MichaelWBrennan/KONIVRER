@@ -288,7 +288,7 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
       </Card.Header>
       <Card.Body />
         {status === 'loading' && (
-          <div className="text-center my-3" />
+          <div className="text-center my-3"></div>
             <Spinner animation="border" variant="primary" / />
             <p className="mt-2">Processing...</p>
         )}
@@ -303,7 +303,7 @@ const TournamentNotificationTest: React.FC<TournamentNotificationTestProps> = ({
         {!isSubscribed && (
           <Alert variant="warning" />
             <Alert.Heading>Enable Notifications</Alert.Heading>
-            <p />
+            <p></p>
               You need to enable notifications to receive tournament updates.
             </p>
             <Button 

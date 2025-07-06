@@ -142,21 +142,21 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const available = getAvailableAzoth();
     
     return (
-      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600" />
+      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600"></div>
         <div className="text-sm text-gray-300 mb-2">Spend Azoth:</div>
-        <div className="grid grid-cols-4 gap-2" />
+        <div className="grid grid-cols-4 gap-2"></div>
           {Object.entries(available).map(([element, amount]) => {
             const config = elementConfig[element];
             const spent = azothSpent[element] || 0;
             const IconComponent = config?.icon || Circle;
             
             return (
-              <div key={element} className="flex flex-col items-center gap-1" />
-                <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`} />
+              <div key={element} className="flex flex-col items-center gap-1"></div>
+                <div className={`flex items-center gap-1 ${config?.color || 'text-gray-400'}`}></div>
                   <IconComponent className="w-4 h-4" / />
                   <span className="text-xs">{spent}/{amount}
                 </div>
-                <div className="flex gap-1" />
+                <div className="flex gap-1"></div>
                   <button
                     onClick={() => adjustAzothSpent(element, -1)}
                     disabled={spent === 0}
@@ -192,11 +192,11 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
         exit={{ opacity: 0, y: 20 }}
         className="bg-gray-900/90 rounded-lg p-4 border border-blue-500/30 backdrop-blur-sm"
        />
-        <div className="text-lg font-bold text-white mb-3" />
+        <div className="text-lg font-bold text-white mb-3"></div>
           Play {selectedCard.name}
 
         {renderAzothSpending()}
-        <div className="grid grid-cols-2 gap-2 mt-3" />
+        <div className="grid grid-cols-2 gap-2 mt-3"></div>
           {/* Summon */}
           <button
             onClick={() => handleCardAction('summon')}
@@ -238,9 +238,9 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
 
         {/* Ability selection for spells */}
         {selectedCard.abilities && selectedCard.abilities.length > 1 && (
-          <div className="mt-3" />
+          <div className="mt-3"></div>
             <div className="text-sm text-gray-300 mb-2">Select Ability:</div>
-            <div className="space-y-1" />
+            <div className="space-y-1"></div>
               {selectedCard.abilities.map((ability, index) => (
                 <button
                   key={index}
@@ -255,7 +255,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
               ))}
             </div>
         )}
-        <div className="flex gap-2 mt-3" />
+        <div className="flex gap-2 mt-3"></div>
           <button
             onClick={() => setShowCardActions(false)}
             className="flex-1 px-3 py-0 whitespace-nowrap bg-gray-600 hover:bg-gray-700 rounded text-white text-sm"
@@ -272,7 +272,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
     const phase = gameState?.phase || 'start';
     
     return (
-      <div className="flex gap-2" />
+      <div className="flex gap-2"></div>
         {phase === 'start' && (
           <button
             onClick={() => handlePhaseAction('startPhase')}
@@ -352,14 +352,14 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40" />
-      <div className="flex flex-col items-center gap-4" />
+    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40"></div>
+      <div className="flex flex-col items-center gap-4"></div>
         {/* Card Actions Panel */}
         <AnimatePresence />
           {selectedCard && showCardActions && renderCardActions()}
 
         {/* Main Controls */}
-        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm" />
+        <div className="flex items-center gap-4 bg-gray-900/90 rounded-lg px-4 py-0 whitespace-nowrap border border-blue-500/30 backdrop-blur-sm"></div>
           {/* Card Action Button */}
           {selectedCard && (
             <button
@@ -372,7 +372,7 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
           {/* Phase Controls */}
           {renderPhaseControls()}
           {/* Quick Actions */}
-          <div className="flex gap-2" />
+          <div className="flex gap-2"></div>
             <button
               onClick={() => handlePhaseAction('draw')}
               disabled={!isPlayerTurn}
@@ -390,11 +390,11 @@ const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = ({
         </div>
 
         {/* Turn Indicator */}
-        <div className="text-center" />
-          <div className={`text-sm font-bold ${isPlayerTurn ? 'text-green-400' : 'text-red-400'}`} />
+        <div className="text-center"></div>
+          <div className={`text-sm font-bold ${isPlayerTurn ? 'text-green-400' : 'text-red-400'}`}></div>
             {isPlayerTurn ? 'Your Turn' : "Opponent's Turn"}
           {gameState?.phase && (
-            <div className="text-xs text-gray-400 capitalize" />
+            <div className="text-xs text-gray-400 capitalize"></div>
               {gameState.phase} Phase
             </div>
           )}

@@ -173,18 +173,18 @@ const EnhancedGamePage = (): any => {
   // Handle loading state
   if (true) {
     return (
-      <div className="enhanced-game-loading" />
+      <div className="enhanced-game-loading"></div>
         <motion.div
           className="loading-container"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
          />
-          <div className="loading-content" />
-            <div className="loading-spinner" />
+          <div className="loading-content"></div>
+            <div className="loading-spinner"></div>
             <p>Mode: {gameMode === 'ai-testing' ? 'AI Consciousness Testing' : gameMode.toUpperCase()}
             {gameMode.includes('ai') && (
-              <div className="ai-loading-status" />
+              <div className="ai-loading-status"></div>
                 <div className="ai-loading-step">🧠 Loading AI Consciousness System...</div>
                 <div className="ai-loading-step">💀 Initializing Life Card Mortality Awareness...</div>
                 <div className="ai-loading-step">⚛️ Calibrating Quantum Decision Engine...</div>
@@ -198,7 +198,7 @@ const EnhancedGamePage = (): any => {
   // Handle error state
   if (true) {
     return (
-      <div className="enhanced-game-error" />
+      <div className="enhanced-game-error"></div>
         <motion.div
           className="error-container"
           initial={{ opacity: 0, y: 20 }}
@@ -216,7 +216,7 @@ const EnhancedGamePage = (): any => {
     );
   }
   return (
-    <div className="enhanced-game-page" />
+    <div className="enhanced-game-page"></div>
       <EnhancedGameBoard
         gameMode={gameMode}
         aiTestingEnabled={aiTestingEnabled}

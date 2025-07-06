@@ -210,19 +210,19 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
   }, [currentDeck]);
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden" />
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden"></div>
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4" />
-        <div className="flex items-center gap-3" />
-          <div className="bg-white/20 rounded-full p-2" />
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4"></div>
+        <div className="flex items-center gap-3"></div>
+          <div className="bg-white/20 rounded-full p-2"></div>
             <Bot className="w-6 h-6" / />
           </div>
-          <div />
+          <div></div>
             <h2 className="text-xl font-bold">AI Deck Assistant</h2>
         </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-700" />
+      <div className="flex border-b border-gray-700"></div>
         <button
           onClick={() => setActiveTab('suggestions')}
           className={`flex-1 px-4 py-0 whitespace-nowrap text-sm font-medium transition-colors ${
@@ -255,7 +255,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
         </button>
 
       {/* Content */}
-      <div className="p-4 max-h-96 overflow-y-auto" />
+      <div className="p-4 max-h-96 overflow-y-auto"></div>
         <AnimatePresence mode="wait" />
           {activeTab === 'suggestions' && (
             <motion.div
@@ -291,36 +291,36 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                   animate={{ opacity: 1, x: 0 }}
                   className={`border-l-4 ${getPriorityColor(suggestion.priority)} bg-gray-700/50 p-4 rounded-r-lg`}
                  />
-                  <div className="flex items-start justify-between mb-2" />
-                    <div className="flex items-center gap-2" />
+                  <div className="flex items-start justify-between mb-2"></div>
+                    <div className="flex items-center gap-2"></div>
                       {getSuggestionIcon(suggestion.type)}
                       <h3 className="font-semibold">{suggestion.title}
                     </div>
-                    <div className="text-xs text-gray-400" />
+                    <div className="text-xs text-gray-400"></div>
                       {suggestion.confidence}% confidence
                     </div>
 
-                  <p className="text-sm text-gray-300 mb-3" />
+                  <p className="text-sm text-gray-300 mb-3"></p>
                     {suggestion.description}
 
-                  <div className="space-y-2" />
+                  <div className="space-y-2"></div>
                     {suggestion.cards.map((card, index) => (
                       <div
                         key={index}
                         className="flex items-center justify-between bg-gray-800/50 p-2 rounded"
                        />
-                        <div className="flex items-center gap-2" />
-                          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold" />
+                        <div className="flex items-center gap-2"></div>
+                          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold"></div>
                             {card.cost}
                           <span className="font-medium">{card.name}
                         </div>
-                        <div className="text-xs text-gray-400" />
+                        <div className="text-xs text-gray-400"></div>
                           {card.reason}
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex gap-2 mt-3" />
+                  <div className="flex gap-2 mt-3"></div>
                     <button
                       onClick={() => onSuggestion?.(suggestion)}
                       className="flex-1 bg-green-600 hover:bg-green-700 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"
@@ -358,25 +358,25 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
               className="space-y-4"
              />
               {/* Deck Stats */}
-              <div className="grid grid-cols-2 gap-4" />
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
-                  <div className="text-2xl font-bold text-blue-400" />
+              <div className="grid grid-cols-2 gap-4"></div>
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
+                  <div className="text-2xl font-bold text-blue-400"></div>
                     {currentDeck.length}
                   <div className="text-xs text-gray-400">Total Cards</div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
                   <div className="text-2xl font-bold text-green-400">3.2</div>
                   <div className="text-xs text-gray-400">Avg. Mana Cost</div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
                   <div className="text-2xl font-bold text-purple-400">78%</div>
                   <div className="text-xs text-gray-400">Meta Score</div>
-                <div className="bg-gray-700/50 p-3 rounded-lg text-center" />
+                <div className="bg-gray-700/50 p-3 rounded-lg text-center"></div>
                   <div className="text-2xl font-bold text-yellow-400">B+</div>
                   <div className="text-xs text-gray-400">Overall Grade</div>
               </div>
 
               {/* Strengths & Weaknesses */}
-              <div className="space-y-3" />
-                <div />
+              <div className="space-y-3"></div>
+                <div></div>
                   <h3 className="font-semibold text-green-400 mb-2 flex items-center gap-2" />
                     <Shield className="w-4 h-4" / />
                     Strengths
@@ -387,7 +387,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                     <li>• Consistent damage output</li>
                 </div>
 
-                <div />
+                <div></div>
                   <h3 className="font-semibold text-red-400 mb-2 flex items-center gap-2" />
                     <Sword className="w-4 h-4" / />
                     Weaknesses
@@ -408,7 +408,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
               className="space-y-4"
              />
               {/* Chat Messages */}
-              <div className="space-y-3 max-h-64 overflow-y-auto" />
+              <div className="space-y-3 max-h-64 overflow-y-auto"></div>
                 {chatMessages.map(message => (
                   <div
                     key={message.id}
@@ -422,7 +422,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
                       }`}
                      />
                       <p className="text-sm">{message.message}
-                      <p className="text-xs opacity-75 mt-1" />
+                      <p className="text-xs opacity-75 mt-1"></p>
                         {message.timestamp.toLocaleTimeString()}
                     </div>
                 ))}

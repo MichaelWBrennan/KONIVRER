@@ -19,12 +19,12 @@ import {
 } from 'lucide-react';
 
 interface MobileTouchControlsProps {
-  onCardAction
-  onZoom
-  onRotate
-  onPan
-  gameState
-  isPlayerTurn
+  onCardAction: (action: string, data?: any) => void;
+  onZoom: (factor: number) => void;
+  onRotate: (angle: number) => void;
+  onPan: (delta: { x: number; y: number }) => void;
+  gameState: any;
+  isPlayerTurn: boolean;
 }
 
 const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({ 
@@ -46,8 +46,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
     lastPan: { x: 0, y: 0 },
   });
 
-  const touchAreaRef  = useRef<HTMLElement>(null);
-  const gestureTimeoutRef  = useRef<HTMLElement>(null);
+  const touchAreaRef = useRef<HTMLDivElement>(null);
+  const gestureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Load preferences from localStorage
@@ -288,10 +288,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
         }`}
       >
         <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4">
-        </div>
-      </div>
-      {/* Touch Mode Selector */}
-      <div className="flex justify-center mb-4">
+          {/* Touch Mode Selector */}
+          <div className="flex justify-center mb-4">
         <div className="bg-gray-100 rounded-lg p-1 flex space-x-1">
           {[
                 {
@@ -324,6 +322,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                 </button>
               ))}
             </div>
+          </div>
 
           {/* Quick Actions */}
           <div className="flex justify-center space-x-2 mb-4">
@@ -362,12 +361,13 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   : 'bg-gray-100 text-gray-400'
               }`}
               title={`Sound ${isSoundEnabled ? 'On' : 'Off'}`}
-             />
+             >
               {isSoundEnabled ? (
                 <Volume2 className="w-4 h-4" />
               ) : (
                 <VolumeX className="w-4 h-4" />
               )}
+            </button>
 
             <button
               onClick={() => setShowControls(!showControls)}
@@ -376,7 +376,9 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
             >
               <Settings className="w-4 h-4" />
             </button>
+          </div>
         </div>
+      </div>
 
       {/* Touch Mode Indicator */}
       {gestureState.isGesturing && (

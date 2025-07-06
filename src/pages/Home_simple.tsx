@@ -211,12 +211,12 @@ const Home = (): any => {
     }
   };
   return (
-    <div className="min-h-screen bg-gray-900 text-white" />
+    <div className="min-h-screen bg-gray-900 text-white"></div>
       {/* Latest News Section */}
       <section className="py-12" />
-        <div className="container mx-auto px-4" />
-          <div className="max-w-6xl mx-auto" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8" />
+        <div className="container mx-auto px-4"></div>
+          <div className="max-w-6xl mx-auto"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
               {blogPosts.map((post, index) => (
                 <motion.article
                   key={post.id}
@@ -226,7 +226,7 @@ const Home = (): any => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                  />
                   {/* Featured Image */}
-                  <div className="relative" />
+                  <div className="relative"></div>
                     <img
                       src={post.image}
                       alt={post.title}
@@ -237,35 +237,35 @@ const Home = (): any => {
                      />
                       {post.type}
                     {post.featured && (
-                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white" />
+                      <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-600 text-white"></div>
                         Featured
                       </div>
                     )}
                   {/* Content */}
-                  <div className="p-6" />
-                    <p className="text-gray-400 mb-4 line-clamp-3" />
+                  <div className="p-6"></div>
+                    <p className="text-gray-400 mb-4 line-clamp-3"></p>
                       {post.excerpt}
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4" />
-                      <div className="flex items-center space-x-4" />
-                        <span className="flex items-center space-x-1" />
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4"></div>
+                      <div className="flex items-center space-x-4"></div>
+                        <span className="flex items-center space-x-1"></span>
                           <User size={14} / />
                           <span>{post.author}
                         </span>
-                        <span className="flex items-center space-x-1" />
+                        <span className="flex items-center space-x-1"></span>
                           <Clock size={14} / />
                           <span>{post.readTime}
                         </span>
                       <span>{formatDate(post.date)}
                     </div>
                     {/* Stats and Actions */}
-                    <div className="flex items-center justify-between" />
-                      <div className="flex items-center space-x-4 text-sm text-gray-400" />
-                        <span className="flex items-center space-x-1" />
+                    <div className="flex items-center justify-between"></div>
+                      <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
+                        <span className="flex items-center space-x-1"></span>
                           <Eye size={14} / />
                           <span>{post.views.toLocaleString()}
                         </span>
-                        <span className="flex items-center space-x-1" />
+                        <span className="flex items-center space-x-1"></span>
                           <Heart size={14} / />
                           <span>{post.likes}
                         </span>

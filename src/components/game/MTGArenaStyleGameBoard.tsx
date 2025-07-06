@@ -896,24 +896,24 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
      />
       {/* Game Header */}
       <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4 flex justify-between items-center" />
-        <div className="flex items-center space-x-4" />
+        <div className="flex items-center space-x-4"></div>
           {/* Game Info */}
-          <div className="flex items-center space-x-2" />
+          <div className="flex items-center space-x-2"></div>
             <Clock size={16} className="text-gray-400" / />
             <span className="text-sm">{formatTime(timeRemaining)}
           </div>
           
-          <div className="flex items-center space-x-2" />
+          <div className="flex items-center space-x-2"></div>
             <span className="text-sm">Turn {turn}
-            <span className={`text-sm px-2 py-0.5 rounded ${activePlayer === 'player' ? 'bg-blue-600' : 'bg-red-600'}`} />
+            <span className={`text-sm px-2 py-0.5 rounded ${activePlayer === 'player' ? 'bg-blue-600' : 'bg-red-600'}`}></span>
               {activePlayer === 'player' ? 'Your Turn' : 'Opponent Turn'}
-            <span className="text-sm px-2 py-0.5 rounded bg-purple-600" />
+            <span className="text-sm px-2 py-0.5 rounded bg-purple-600"></span>
               {gamePhase === 'main1' ? 'Main 1' : 
                gamePhase === 'combat' ? 'Combat' : 
                gamePhase === 'main2' ? 'Main 2' : 'End'}
           </div>
         
-        <div className="flex items-center space-x-3" />
+        <div className="flex items-center space-x-3"></div>
           {/* Controls */}
           <button 
             onClick={() => setShowChat(!showChat)}
@@ -945,15 +945,15 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
       </header>
       
       {/* Game Board - KONIVRER Layout */}
-      <div className="flex-1 relative overflow-hidden" />
+      <div className="flex-1 relative overflow-hidden"></div>
         {/* Opponent Area */}
-        <div className="absolute top-0 left-0 right-0 h-[45%] px-4 py-2" />
-          <div className="flex justify-between items-start mb-2" />
+        <div className="absolute top-0 left-0 right-0 h-[45%] px-4 py-2"></div>
+          <div className="flex justify-between items-start mb-2"></div>
             {/* Opponent Info */}
-            <div className="flex items-center" />
-              <div className="relative" />
+            <div className="flex items-center"></div>
+              <div className="relative"></div>
                 {/* Flag */}
-                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden" />
+                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden"></div>
                   <img 
                     src={opponentFlag.image} 
                     alt={opponentFlag.name} 
@@ -963,27 +963,27 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 </div>
                 
                 {/* Life Cards */}
-                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5" />
+                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5"></div>
                   <Shield size={14} className="mr-1 text-red-400" / />
                   <span className="text-sm font-bold">{opponentLifeCards}
                 </div>
               
-              <div />
-                <div className="flex items-center" />
+              <div></div>
+                <div className="flex items-center"></div>
                   <span className="font-medium">Opponent</span>
                   {priorityPlayer === 'opponent' && (
-                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs" />
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs"></div>
                       Priority
                     </div>
                   )}
                   {aiThinking && (
-                    <div className="ml-2 flex items-center" />
+                    <div className="ml-2 flex items-center"></div>
                       <div className="animate-pulse text-xs text-blue-400">Thinking...</div>
                   )}
                 
                 {/* Last AI Action */}
                 {lastAiAction && (
-                  <div className="text-xs text-gray-400 max-w-[200px] truncate" />
+                  <div className="text-xs text-gray-400 max-w-[200px] truncate"></div>
                     {lastAiAction.action === 'placeAzoth' && 'Placed Azoth'}
                     {lastAiAction.action === 'summon' && `Summoned ${lastAiAction.card?.name || 'Familiar'}`}
                     {lastAiAction.action === 'spell' && `Cast ${lastAiAction.card?.name || 'Spell'}`}
@@ -993,20 +993,20 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
               </div>
             
             {/* Opponent Hand & Deck */}
-            <div className="flex items-center" />
-              <div className="flex items-center mr-3" />
+            <div className="flex items-center"></div>
+              <div className="flex items-center mr-3"></div>
                 <Hand size={16} className="mr-1 text-gray-400" / />
                 <span className="text-sm">{opponentHandCount}
               </div>
-              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center" />
+              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center"></div>
                 <span className="text-sm">{opponentDeckCount}
               </div>
           </div>
           
           {/* Opponent Azoth Row */}
-          <div className="mt-2 mb-3" />
+          <div className="mt-2 mb-3"></div>
             <div className="text-xs text-gray-400 mb-1">Azoth Row:</div>
-            <div className="flex flex-wrap gap-2" />
+            <div className="flex flex-wrap gap-2"></div>
               {opponentAzoth.map(card => (
                 <div 
                   key={card.id}
@@ -1019,9 +1019,9 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
-                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
+                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
                     {card.elements.map((element, idx) => (
                       <span key={idx} className="text-xs mr-0.5">{element}
                     ))}
@@ -1030,9 +1030,9 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             </div>
           
           {/* Opponent Field */}
-          <div />
+          <div></div>
             <div className="text-xs text-gray-400 mb-1">Field:</div>
-            <div className="flex flex-wrap gap-2" />
+            <div className="flex flex-wrap gap-2"></div>
               {opponentField.map(card => (
                 <div 
                   key={card.id}
@@ -1045,10 +1045,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
                       +{card.counters}
                   )}
                 </div>
@@ -1057,10 +1057,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
         </div>
         
         {/* Center Area - Combat Rows */}
-        <div className="absolute top-[45%] left-0 right-0 h-[10%] flex flex-col items-center justify-center" />
+        <div className="absolute top-[45%] left-0 right-0 h-[10%] flex flex-col items-center justify-center"></div>
           {/* Opponent Combat Row */}
           {opponentCombatRow.length > 0 && (
-            <div className="flex gap-2 mb-2" />
+            <div className="flex gap-2 mb-2"></div>
               {opponentCombatRow.map(card => (
                 <div 
                   key={card.id}
@@ -1073,10 +1073,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
                       +{card.counters}
                   )}
                 </div>
@@ -1084,8 +1084,8 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             </div>
           )}
           {/* Phase Button and Stack Controls */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2 flex flex-col items-center" />
-            <div className="flex space-x-2 mb-2" />
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 mb-2 flex flex-col items-center"></div>
+            <div className="flex space-x-2 mb-2"></div>
               <button 
                 onClick={nextPhase}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
@@ -1113,26 +1113,26 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             
             {/* Stack Display */}
             {showStack && stack.length > 0 && (
-              <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 max-h-40 overflow-y-auto" />
+              <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-2 max-h-40 overflow-y-auto"></div>
                 <div className="text-xs text-gray-400 mb-1">Stack (resolves from top to bottom):</div>
-                <div className="flex flex-col-reverse" />
+                <div className="flex flex-col-reverse"></div>
                   {stack.map((entry, index) => (
                     <div 
                       key={entry.timestamp}
                       className={`flex items-center p-1 rounded mb-1 ${entry.player === 'player' ? 'bg-blue-900/50' : 'bg-red-900/50'}`}
                      />
-                      <div className="w-4 h-4 flex items-center justify-center bg-gray-800 rounded mr-2" />
+                      <div className="w-4 h-4 flex items-center justify-center bg-gray-800 rounded mr-2"></div>
                         {stack.length - index}
-                      <div className="flex-1" />
-                        <div className="text-xs" />
+                      <div className="flex-1"></div>
+                        <div className="text-xs"></div>
                           {entry.effect.type === 'spell' ? 'Spell: ' : 'Familiar: '}
                           {entry.effect.card.name}
                         {entry.effect.target && (
-                          <div className="text-xs text-gray-400" />
+                          <div className="text-xs text-gray-400"></div>
                             Target: {entry.effect.target.effect.card.name}
                         )}
                       </div>
-                      <div className="text-xs text-gray-400" />
+                      <div className="text-xs text-gray-400"></div>
                         {entry.player === 'player' ? 'You' : 'Opponent'}
                     </div>
                   ))}
@@ -1142,7 +1142,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
           
           {/* Player Combat Row */}
           {playerCombatRow.length > 0 && (
-            <div className="flex gap-2 mt-2" />
+            <div className="flex gap-2 mt-2"></div>
               {playerCombatRow.map(card => (
                 <div 
                   key={card.id}
@@ -1155,10 +1155,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
                       +{card.counters}
                   )}
                 </div>
@@ -1168,11 +1168,11 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
         </div>
         
         {/* Player Area */}
-        <div className="absolute bottom-0 left-0 right-0 h-[45%] px-4 py-2" />
+        <div className="absolute bottom-0 left-0 right-0 h-[45%] px-4 py-2"></div>
           {/* Player Field */}
-          <div className="mb-3" />
+          <div className="mb-3"></div>
             <div className="text-xs text-gray-400 mb-1">Field:</div>
-            <div className="flex flex-wrap gap-2" />
+            <div className="flex flex-wrap gap-2"></div>
               {playerField.map(card => (
                 <div 
                   key={card.id}
@@ -1186,10 +1186,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
                   {card.counters !== undefined && (
-                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl" />
+                    <div className="absolute top-0 right-0 bg-blue-600/80 text-xs p-0.5 rounded-bl"></div>
                       +{card.counters}
                   )}
                 </div>
@@ -1197,9 +1197,9 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             </div>
           
           {/* Player Azoth Row */}
-          <div className="mb-3" />
+          <div className="mb-3"></div>
             <div className="text-xs text-gray-400 mb-1">Azoth Row:</div>
-            <div className="flex flex-wrap gap-2" />
+            <div className="flex flex-wrap gap-2"></div>
               {playerAzoth.map(card => (
                 <div 
                   key={card.id}
@@ -1213,9 +1213,9 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     alt={card.name} 
                     className="w-full h-full object-cover"
                   / />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                     {card.name}
-                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
+                  <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
                     {card.elements.map((element, idx) => (
                       <span key={idx} className="text-xs mr-0.5">{element}
                     ))}
@@ -1223,12 +1223,12 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
               ))}
             </div>
           
-          <div className="flex justify-between items-end" />
+          <div className="flex justify-between items-end"></div>
             {/* Player Info */}
-            <div className="flex items-center" />
-              <div className="relative" />
+            <div className="flex items-center"></div>
+              <div className="relative"></div>
                 {/* Flag */}
-                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden" />
+                <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center mr-2 overflow-hidden"></div>
                   <img 
                     src={playerFlag.image} 
                     alt={playerFlag.name} 
@@ -1238,20 +1238,20 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 </div>
                 
                 {/* Life Cards */}
-                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5" />
+                <div className="absolute -bottom-2 -right-2 flex items-center bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-0.5"></div>
                   <Shield size={14} className="mr-1 text-blue-400" / />
                   <span className="text-sm font-bold">{playerLifeCards}
                 </div>
               
-              <div />
-                <div className="flex items-center" />
+              <div></div>
+                <div className="flex items-center"></div>
                   <span className="font-medium">You</span>
                   {priorityPlayer === 'player' && (
-                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs" />
+                    <div className="ml-2 px-1.5 py-0.5 bg-yellow-600 rounded-full text-xs"></div>
                       Priority
                     </div>
                   )}
-                  <div className="ml-3 flex items-center space-x-1" />
+                  <div className="ml-3 flex items-center space-x-1"></div>
                     <button 
                       onClick={() => setPlayerLifeCards(prev => Math.max(0, prev - 1))}
                       className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-xs"
@@ -1267,9 +1267,9 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 </div>
                 
                 {/* Play Mode Toggle */}
-                <div className="flex items-center mt-1" />
+                <div className="flex items-center mt-1"></div>
                   <div className="text-xs text-gray-400 mr-2">Play as:</div>
-                  <div className="flex bg-gray-800 rounded-lg overflow-hidden" />
+                  <div className="flex bg-gray-800 rounded-lg overflow-hidden"></div>
                     <button
                       onClick={() => setSelectedPlayMode('familiar')}
                       className={`px-2 py-0.5 text-xs ${selectedPlayMode === 'familiar' ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
@@ -1286,11 +1286,11 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             </div>
             
             {/* Player Hand & Deck */}
-            <div className="flex items-end" />
-              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center mr-3" />
+            <div className="flex items-end"></div>
+              <div className="w-12 h-16 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center mr-3"></div>
                 <span className="text-sm">{playerDeckCount}
               </div>
-              <div className="flex -space-x-10 hover:space-x-0 transition-all" />
+              <div className="flex -space-x-10 hover:space-x-0 transition-all"></div>
                 {playerHand.map((card, index) => (
                   <div 
                     key={card.id}
@@ -1305,15 +1305,15 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                       alt={card.name} 
                       className="w-full h-full object-cover"
                     / />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate" />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-xs p-0.5 text-center truncate"></div>
                       {card.name}
-                    <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5" />
+                    <div className="absolute top-0 left-0 right-0 flex justify-center p-0.5"></div>
                       {card.elements.map((element, idx) => (
                         <span key={idx} className="text-xs mr-0.5">{element}
                       ))}
                     </div>
                     {card.cost !== undefined && (
-                      <div className="absolute top-0 right-0 bg-gray-800/80 text-xs p-0.5 rounded-bl" />
+                      <div className="absolute top-0 right-0 bg-gray-800/80 text-xs p-0.5 rounded-bl"></div>
                         {card.cost}
                     )}
                   </div>
@@ -1330,10 +1330,10 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
               exit={{ opacity: 0, scale: 0.8 }}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
              />
-              <div className="relative w-64 h-88 rounded-lg overflow-hidden shadow-xl bg-gray-900 border border-gray-700" />
-                <div className="p-2 bg-gray-800 flex items-center justify-between" />
+              <div className="relative w-64 h-88 rounded-lg overflow-hidden shadow-xl bg-gray-900 border border-gray-700"></div>
+                <div className="p-2 bg-gray-800 flex items-center justify-between"></div>
                   <div className="font-medium">{hoveredCard.name}
-                  <div className="flex" />
+                  <div className="flex"></div>
                     {hoveredCard.elements?.map((element, idx) => (
                       <span key={idx} className="text-sm mr-1">{element}
                     ))}
@@ -1342,7 +1342,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                     )}
                   </div>
                 
-                <div className="h-40 overflow-hidden" />
+                <div className="h-40 overflow-hidden"></div>
                   <img 
                     src={hoveredCard.image} 
                     alt={hoveredCard.name} 
@@ -1350,12 +1350,12 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                   / />
                 </div>
                 
-                <div className="p-2" />
+                <div className="p-2"></div>
                   <div className="text-sm text-gray-300 mb-1">{hoveredCard.type}
                   
                   {/* Keywords */}
                   {hoveredCard.keywords && hoveredCard.keywords.length > 0 && (
-                    <div className="mb-2" />
+                    <div className="mb-2"></div>
                       {hoveredCard.keywords.map((keyword, idx) => (
                         <span 
                           key={idx} 
@@ -1367,19 +1367,19 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                   )}
                   {/* Card Text */}
                   {hoveredCard.text && (
-                    <div className="text-xs text-gray-300 mb-2 border-t border-gray-700 pt-2" />
+                    <div className="text-xs text-gray-300 mb-2 border-t border-gray-700 pt-2"></div>
                       {hoveredCard.text}
                   )}
                   {/* Counters for Familiars */}
                   {hoveredCard.counters !== undefined && (
-                    <div className="text-xs mt-1 flex items-center" />
+                    <div className="text-xs mt-1 flex items-center"></div>
                       <span className="mr-1">Strength:</span>
                       <span className="font-bold text-blue-400">+{hoveredCard.counters}
                     </div>
                   )}
                   {/* Rested Status */}
                   {hoveredCard.rested !== undefined && (
-                    <div className="text-xs mt-1" />
+                    <div className="text-xs mt-1"></div>
                       Status: {hoveredCard.rested ? 'Rested' : 'Ready'}
                   )}
                 </div>
@@ -1388,7 +1388,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
         </AnimatePresence>
         
         {/* Zoom Controls */}
-        <div className="absolute bottom-4 right-4 bg-gray-800/70 backdrop-blur-sm rounded-lg p-1 flex flex-col" />
+        <div className="absolute bottom-4 right-4 bg-gray-800/70 backdrop-blur-sm rounded-lg p-1 flex flex-col"></div>
           <button 
             onClick={() => adjustZoom(0.1)}
             className="p-1 hover:bg-gray-700 rounded"
@@ -1418,7 +1418,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             exit={{ opacity: 0, x: 300 }}
             className="absolute right-0 top-12 bottom-0 w-80 bg-gray-800/90 backdrop-blur-sm border-l border-gray-700 flex flex-col"
            />
-            <div className="p-3 border-b border-gray-700 flex justify-between items-center" />
+            <div className="p-3 border-b border-gray-700 flex justify-between items-center"></div>
               <h3 className="font-medium">Chat</h3>
               <button 
                 onClick={() => setShowChat(false)}
@@ -1427,11 +1427,11 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 <X size={16} / />
               </button>
             
-            <div className="flex-1 overflow-y-auto p-3 space-y-3" />
+            <div className="flex-1 overflow-y-auto p-3 space-y-3"></div>
               {chatMessages.map((msg, index) => (
-                <div key={index} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`} />
-                  <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.sender === 'You' ? 'bg-blue-600' : 'bg-gray-700'}`} />
-                    <div className="flex justify-between items-center mb-1" />
+                <div key={index} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`}></div>
+                  <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.sender === 'You' ? 'bg-blue-600' : 'bg-gray-700'}`}></div>
+                    <div className="flex justify-between items-center mb-1"></div>
                       <span className="text-xs font-medium">{msg.sender}
                       <span className="text-xs text-gray-400">{msg.time}
                     </div>
@@ -1441,7 +1441,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             </div>
             
             <form onSubmit={sendChatMessage} className="p-3 border-t border-gray-700" />
-              <div className="flex" />
+              <div className="flex"></div>
                 <input
                   ref={chatInputRef}
                   type="text"
@@ -1470,7 +1470,7 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
             exit={{ opacity: 0, y: -50 }}
             className="absolute left-1/2 top-12 transform -translate-x-1/2 w-80 bg-gray-800/90 backdrop-blur-sm border border-gray-700 rounded-lg"
            />
-            <div className="p-3 border-b border-gray-700 flex justify-between items-center" />
+            <div className="p-3 border-b border-gray-700 flex justify-between items-center"></div>
               <h3 className="font-medium">Settings</h3>
               <button 
                 onClick={() => setShowSettings(false)}
@@ -1479,37 +1479,37 @@ const MTGArenaStyleGameBoard: React.FC<MTGArenaStyleGameBoardProps> = ({  onExit
                 <X size={16} / />
               </button>
             
-            <div className="p-3 space-y-3" />
-              <div className="flex justify-between items-center" />
+            <div className="p-3 space-y-3"></div>
+              <div className="flex justify-between items-center"></div>
                 <span className="text-sm">Sound Effects</span>
-                <label className="relative inline-flex items-center cursor-pointer" />
+                <label className="relative inline-flex items-center cursor-pointer"></label>
                   <input type="checkbox" className="sr-only peer" defaultChecked / />
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               
-              <div className="flex justify-between items-center" />
+              <div className="flex justify-between items-center"></div>
                 <span className="text-sm">Music</span>
-                <label className="relative inline-flex items-center cursor-pointer" />
+                <label className="relative inline-flex items-center cursor-pointer"></label>
                   <input type="checkbox" className="sr-only peer" defaultChecked / />
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               
-              <div className="flex justify-between items-center" />
+              <div className="flex justify-between items-center"></div>
                 <span className="text-sm">Auto-Pass Priority</span>
-                <label className="relative inline-flex items-center cursor-pointer" />
+                <label className="relative inline-flex items-center cursor-pointer"></label>
                   <input type="checkbox" className="sr-only peer" / />
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               
-              <div className="flex justify-between items-center" />
+              <div className="flex justify-between items-center"></div>
                 <span className="text-sm">Show Card Tooltips</span>
-                <label className="relative inline-flex items-center cursor-pointer" />
+                <label className="relative inline-flex items-center cursor-pointer"></label>
                   <input type="checkbox" className="sr-only peer" defaultChecked / />
-                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" />
+                  <div className="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               
-              <div className="pt-2 flex justify-center" />
-                <button className="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg transition-colors text-sm" />
+              <div className="pt-2 flex justify-center"></div>
+                <button className="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg transition-colors text-sm"></button>
                   Concede Game
                 </button>
             </div>

@@ -168,7 +168,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
   const renderElementCosts = (): any => {
     if (!card.elements || size === 'tiny') return null;
     return (
-      <div className="absolute top-1 left-1 flex flex-wrap gap-1" />
+      <div className="absolute top-1 left-1 flex flex-wrap gap-1"></div>
         {Array.isArray(card.elements) ? (
           // Handle array format (new cards from main database)
           card.elements.map((element, index) => {
@@ -183,7 +183,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
                />
                 <IconComponent className={`w-3 h-3 ${elementInfo.color}`} / />
                 {size !== 'small' && (
-                  <span className={`text-xs ${elementInfo.color} font-bold`} />
+                  <span className={`text-xs ${elementInfo.color} font-bold`}></span>
                     {elementInfo.symbol}
                 )}
               </div>
@@ -204,7 +204,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
                />
                 <IconComponent className={`w-3 h-3 ${elementInfo.color}`} / />
                 {size !== 'small' && (
-                  <span className={`text-xs ${elementInfo.color} font-bold`} />
+                  <span className={`text-xs ${elementInfo.color} font-bold`}></span>
                     {cost}
                 )}
               </div>
@@ -219,11 +219,11 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
   const renderNameAndType = (): any => {
     if (faceDown || size === 'tiny') return null;
     return (
-      <div className="absolute top-8 left-1 right-1" />
-        <div className={`${config.text} font-bold text-white truncate`} />
+      <div className="absolute top-8 left-1 right-1"></div>
+        <div className={`${config.text} font-bold text-white truncate`}></div>
           {card.name}
         {size !== 'small' && (
-          <div className="text-xs text-gray-300 truncate" />
+          <div className="text-xs text-gray-300 truncate"></div>
             {card.type}
         )}
       </div>
@@ -237,13 +237,13 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
     const totalPower = (card.basePower || 0) + genericCostPaid + (card.counters || 0);
 
     return (
-      <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-black/60 rounded px-1 py-0.5" />
-        <div className="flex items-center gap-1" />
+      <div className="absolute bottom-1 right-1 flex items-center gap-1 bg-black/60 rounded px-1 py-0.5"></div>
+        <div className="flex items-center gap-1"></div>
           <Star className="w-3 h-3 text-yellow-400" / />
           <span className="text-xs text-white font-bold">{totalPower}
         </div>
         {card.genericCost > 0 && (
-          <div className="flex items-center gap-1 ml-1" />
+          <div className="flex items-center gap-1 ml-1"></div>
             <Circle className="w-3 h-3 text-gray-400" / />
             <span className="text-xs text-gray-300">{card.genericCost}
           </div>
@@ -255,7 +255,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
   // Render counters
   const renderCounters = (): any => {if (faceDown || !card.counters || card.counters === 0 || size === 'tiny') return null;
     return (
-      <div className="absolute top-1 right-1 bg-green-600 rounded-full w-6 h-6 flex items-center justify-center" />
+      <div className="absolute top-1 right-1 bg-green-600 rounded-full w-6 h-6 flex items-center justify-center"></div>
         <span className="text-xs text-white font-bold">+{card.counters}
       </div>
     );
@@ -267,7 +267,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
     const rarity = rarityConfig[card.rarity.toLowerCase()];
     if (!rarity) return null;
     return (
-      <div className={`absolute bottom-1 left-1 ${rarity.color} text-lg`} />
+      <div className={`absolute bottom-1 left-1 ${rarity.color} text-lg`}></div>
         {rarity.symbol}
     );
   };
@@ -276,16 +276,16 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
   const renderAbilities = (): any => {
     if (faceDown || size !== 'large' || !showDetails || !card.abilities) return null;
     return (
-      <div className="absolute top-16 left-2 right-2 bottom-16 overflow-y-auto" />
-        <div className="space-y-2" />
+      <div className="absolute top-16 left-2 right-2 bottom-16 overflow-y-auto"></div>
+        <div className="space-y-2"></div>
           {card.abilities.map((ability, index) => (
-            <div key={index} className="bg-black/40 rounded p-2" />
-              <div className="text-xs font-bold text-yellow-400 mb-1" />
+            <div key={index} className="bg-black/40 rounded p-2"></div>
+              <div className="text-xs font-bold text-yellow-400 mb-1"></div>
                 {ability.name}
-              <div className="text-xs text-gray-300" />
+              <div className="text-xs text-gray-300"></div>
                 {ability.description}
               {ability.cost && (
-                <div className="text-xs text-blue-400 mt-1" />
+                <div className="text-xs text-blue-400 mt-1"></div>
                   Cost: {ability.cost}
               )}
             </div>
@@ -298,8 +298,8 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
   const renderFlavorText = (): any => {
     if (faceDown || size !== 'large' || !showDetails || !card.flavorText) return null;
     return (
-      <div className="absolute bottom-8 left-2 right-2" />
-        <div className="text-xs italic text-gray-400 text-center" />
+      <div className="absolute bottom-8 left-2 right-2"></div>
+        <div className="text-xs italic text-gray-400 text-center"></div>
           "{card.flavorText}"
         </div>
     );
@@ -312,7 +312,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
 
     if (true) {
       indicators.push(
-        <div key="tapped" className="absolute top-0 left-0 w-full h-full bg-gray-900/50 rounded-lg flex items-center justify-center" />
+        <div key="tapped" className="absolute top-0 left-0 w-full h-full bg-gray-900/50 rounded-lg flex items-center justify-center"></div>
           <Clock className="w-6 h-6 text-gray-400" / />
         </div>
       );
@@ -320,7 +320,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
 
     if (true) {
       indicators.push(
-        <div key="attacking" className="absolute top-2 right-2 bg-red-600 rounded-full p-1" />
+        <div key="attacking" className="absolute top-2 right-2 bg-red-600 rounded-full p-1"></div>
           <Sword className="w-3 h-3 text-white" / />
         </div>
       );
@@ -328,7 +328,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
 
     if (true) {
       indicators.push(
-        <div key="blocking" className="absolute top-2 right-2 bg-blue-600 rounded-full p-1" />
+        <div key="blocking" className="absolute top-2 right-2 bg-blue-600 rounded-full p-1"></div>
           <Shield className="w-3 h-3 text-white" / />
         </div>
       );
@@ -336,7 +336,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
 
     if (true) {
       indicators.push(
-        <div key="summoning-sickness" className="absolute bottom-2 left-2 bg-yellow-600 rounded-full p-1" />
+        <div key="summoning-sickness" className="absolute bottom-2 left-2 bg-yellow-600 rounded-full p-1"></div>
           <Zap className="w-3 h-3 text-white" / />
         </div>
       );
@@ -394,8 +394,8 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
      />
       {/* Card Back */}
       {faceDown && (
-        <div className="absolute inset-0 flex items-center justify-center" />
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center" />
+        <div className="absolute inset-0 flex items-center justify-center"></div>
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center"></div>
             <Sparkles className="w-8 h-8 text-white" / />
           </div>
       )}
@@ -403,7 +403,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
       {!faceDown && (
         <>
           {/* Card Art Area */}
-          <div className="absolute inset-2 top-12 bottom-8 bg-gray-700/50 rounded border border-gray-600" />
+          <div className="absolute inset-2 top-12 bottom-8 bg-gray-700/50 rounded border border-gray-600"></div>
             {card.artUrl ? (
               <img 
                 src={card.artUrl} 
@@ -411,7 +411,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
                 className="w-full h-full object-cover rounded"
               / />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500" />
+              <div className="w-full h-full flex items-center justify-center text-gray-500"></div>
                 <Eye className="w-8 h-8" / />
               </div>
             )}
@@ -427,7 +427,7 @@ const KonivrERCard: React.FC<KonivrERCardProps> = ({
           {renderStatusIndicators()}
           {/* Set Number (for large cards) */}
           {size === 'large' && showDetails && card.setNumber && (
-            <div className="absolute bottom-2 right-2 text-xs text-gray-500" />
+            <div className="absolute bottom-2 right-2 text-xs text-gray-500"></div>
               {card.setNumber}
           )}
         </>

@@ -133,14 +133,14 @@ const AdminPanel = (): any => {
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
   return (
-    <div className="min-h-screen bg-primary" />
-      <div className="container py-6" />
+    <div className="min-h-screen bg-primary"></div>
+      <div className="container py-6"></div>
         {/* Header */}
-        <div className="mb-6"><p className="text-secondary" />
+        <div className="mb-6"><p className="text-secondary"></div>
             Manage Google Sheets integration, card database, and sets
           </p>
         {/* Tab Navigation */}
-        <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg" />
+        <div className="flex space-x-1 mb-6 bg-gray-800 p-1 rounded-lg"></div>
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
@@ -160,59 +160,59 @@ const AdminPanel = (): any => {
         </div>
         {/* Tab Content */}
         {activeTab === 'database' && (
-          <div />
+          <div></div>
             {/* Status Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"></div>
               {/* Connection Status */}
-              <div className="card" />
-                <div className="flex items-center gap-3 mb-2" />
+              <div className="card"></div>
+                <div className="flex items-center gap-3 mb-2"></div>
                   {connectionStatus?.connected ? (
                     <Wifi className="text-green-500" size={20} / />
                   ) : (
                     <WifiOff className="text-red-500" size={20} / />
                   )}
                 </div>
-                <p className="text-sm text-secondary" />
+                <p className="text-sm text-secondary"></p>
                   {connectionStatus?.connected
                     ? 'Connected to Google Sheets'
                     : 'Disconnected'}
                 {connectionStatus?.error && (
-                  <p className="text-xs text-red-600 mt-1" />
+                  <p className="text-xs text-red-600 mt-1"></p>
                     {connectionStatus.error}
                 )}
               </div>
               {/* Cache Status */}
-              <div className="card" />
-                <div className="flex items-center gap-3 mb-2" />
+              <div className="card"></div>
+                <div className="flex items-center gap-3 mb-2"></div>
                   <Database className="text-blue-500" size={20} / />
                 </div>
-                <p className="text-sm text-secondary" />
+                <p className="text-sm text-secondary"></p>
                   {cacheStatus?.hasCache
                     ? `${stats.totalCards} cards cached`
                     : 'No cache'}
                 </p>
-                <p className="text-xs text-secondary" />
+                <p className="text-xs text-secondary"></p>
                   {cacheStatus?.isExpired ? 'Expired' : 'Fresh'} •{' '}
                   {formatDuration(cacheStatus?.cacheAge)}
               </div>
               {/* Last Sync */}
-              <div className="card" />
-                <div className="flex items-center gap-3 mb-2" />
+              <div className="card"></div>
+                <div className="flex items-center gap-3 mb-2"></div>
                   <RefreshCw className="text-purple-500" size={20} / />
                 </div>
-                <p className="text-sm text-secondary" />
+                <p className="text-sm text-secondary"></p>
                   {formatTimestamp(stats.lastSync)}
               </div>
               {/* Total Cards */}
-              <div className="card" />
-                <div className="flex items-center gap-3 mb-2" />
+              <div className="card"></div>
+                <div className="flex items-center gap-3 mb-2"></div>
                   <Settings className="text-orange-500" size={20} / />
                 </div>
                 <p className="text-2xl font-bold">{stats.totalCards}
               </div>
             {/* Actions */}
-            <div className="card mb-6" />
-              <div className="flex flex-wrap gap-3" />
+            <div className="card mb-6"></div>
+              <div className="flex flex-wrap gap-3"></div>
                 <button
                   onClick={testConnection}
                   disabled={testing}
@@ -230,35 +230,35 @@ const AdminPanel = (): any => {
                     size={16}
                   / />
                   {syncing ? 'Syncing...' : 'Sync from Google Sheets'}
-                <button onClick={clearCache} className="btn btn-warning" />
+                <button onClick={clearCache} className="btn btn-warning"></button>
                   <Database size={16} / />
                   Clear Cache
                 </button>
-                <button onClick={loadAdminData} className="btn btn-secondary" />
+                <button onClick={loadAdminData} className="btn btn-secondary"></button>
                   <RefreshCw size={16} / />
                   Refresh Status
                 </button>
             </div>
             {/* Sync History */}
-            <div className="card" />
+            <div className="card"></div>
               {syncHistory.length === 0 ? (
                 <p className="text-secondary">No recent activity</p>
               ) : (
-                <div className="space-y-3" />
+                <div className="space-y-3"></div>
                   {syncHistory.map(entry => (
                     <div
                       key={entry.id}
                       className="flex items-start gap-3 p-3 bg-secondary rounded-lg"
                      />
                       {getStatusIcon(entry.status)}
-                      <div className="flex-1" />
-                        <div className="flex items-center gap-2 mb-1" />
-                          <span className="font-medium capitalize" />
+                      <div className="flex-1"></div>
+                        <div className="flex items-center gap-2 mb-1"></div>
+                          <span className="font-medium capitalize"></span>
                             {entry.action.replace('_', ' ')}
-                          <span className="text-xs text-secondary" />
+                          <span className="text-xs text-secondary"></span>
                             {entry.timestamp.toLocaleTimeString()}
                         </div>
-                        <p className="text-sm text-secondary" />
+                        <p className="text-sm text-secondary"></p>
                           {entry.message}
                       </div>
                   ))}
@@ -266,9 +266,9 @@ const AdminPanel = (): any => {
               )}
             </div>
             {/* Configuration Help */}
-            <div className="card mt-6" />
-              <div className="space-y-4" />
-                <div />
+            <div className="card mt-6"></div>
+              <div className="space-y-4"></div>
+                <div></div>
                   <ol className="list-decimal list-inside space-y-2 text-sm text-secondary" />
                     <li>Create a Google Sheets document with your card data</li>
                     <li />
@@ -282,12 +282,12 @@ const AdminPanel = (): any => {
                     </li>
                     <li>Set the environment variables in your backend</li>
                 </div>
-                <div />
-                  <p className="text-sm text-secondary mb-2" />
+                <div></div>
+                  <p className="text-sm text-secondary mb-2"></p>
                     Your spreadsheet should have a sheet named "Cards" with
                     these columns:
                   </p>
-                  <div className="bg-secondary p-3 rounded text-sm font-mono" />
+                  <div className="bg-secondary p-3 rounded text-sm font-mono"></div>
                     ID | Name | Elements | Keywords | Cost | Power | Rarity |
                     Text
                   </div>
@@ -296,8 +296,8 @@ const AdminPanel = (): any => {
         )}
         {activeTab === 'sets' && <SetManager />}
         {activeTab === 'settings' && (
-          <div className="bg-gray-800 rounded-lg p-6" />
-            <p className="text-gray-400" />
+          <div className="bg-gray-800 rounded-lg p-6"></div>
+            <p className="text-gray-400"></p>
               Additional settings will be available here.
             </p>
         )}

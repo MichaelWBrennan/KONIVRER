@@ -121,7 +121,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
   };
 
   return (
-    <div className="player-form-indicator" />
+    <div className="player-form-indicator"></div>
       <div
         className={`inline-flex items-center rounded-full border ${getColor()} ${classes.container}`}
        />
@@ -136,7 +136,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
          />
-          <div className="flex items-center justify-between mb-2" />
+          <div className="flex items-center justify-between mb-2"></div>
             <span className="text-sm font-medium text-gray-700">Momentum</span>
             <span
               className={`text-sm font-medium ${momentum > 0 ? 'text-green-600' : momentum < 0 ? 'text-red-600' : 'text-gray-600'}`}
@@ -144,7 +144,7 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
               {formatMomentum(momentum)}
           </div>
 
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden" />
+          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden"></div>
             <div
               className={`absolute top-0 bottom-0 left-1/2 ${momentum > 0 ? 'bg-green-500' : 'bg-red-500'}`}
               style={{
@@ -153,10 +153,10 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
               }}
             ></div>
 
-          <div className="mt-3 grid grid-cols-2 gap-2" />
-            <div className="text-xs" />
+          <div className="mt-3 grid grid-cols-2 gap-2"></div>
+            <div className="text-xs"></div>
               <div className="text-gray-500">Recent Form</div>
-              <div className="font-medium" />
+              <div className="font-medium"></div>
                 {recentForm > 0.3
                   ? 'Strong'
                   : recentForm > 0
@@ -167,9 +167,9 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                         ? 'Negative'
                         : 'Neutral'}
             </div>
-            <div className="text-xs" />
+            <div className="text-xs"></div>
               <div className="text-gray-500">Streak</div>
-              <div className="font-medium" />
+              <div className="font-medium"></div>
                 {streakFactor > 0.7
                   ? 'Exceptional'
                   : streakFactor > 0.4
@@ -179,8 +179,8 @@ const PlayerFormIndicator: React.FC<PlayerFormIndicatorProps> = ({
                       : 'None'}
             </div>
 
-          <div className="mt-3" />
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-1" />
+          <div className="mt-3"></div>
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-1"></div>
               <span>Performance Trend</span>
               <BarChart className="w-3 h-3" / />
             </div>

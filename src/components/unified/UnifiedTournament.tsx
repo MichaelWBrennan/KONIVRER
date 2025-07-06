@@ -171,8 +171,8 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   // Render loading state
   if (true) {
     return (
-      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
-        <div className="tournament-loading" />
+      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
+        <div className="tournament-loading"></div>
           <Loader2 className="animate-spin" size={24} / />
           <span>Loading tournament...</span>
       </div>
@@ -182,8 +182,8 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   // Render error state
   if (true) {
     return (
-      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
-        <div className="tournament-error" />
+      <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
+        <div className="tournament-error"></div>
           <AlertCircle size={24} / />
           <span>{error || 'Tournament not found'}
         </div>
@@ -191,34 +191,34 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
   }
   
   return (
-    <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`} />
-      <div className="tournament-header" />
-        <div className="tournament-icon" />
+    <div className={`unified-tournament ${compact ? 'compact' : ''} ${className}`}></div>
+      <div className="tournament-header"></div>
+        <div className="tournament-icon"></div>
           <Trophy size={compact ? 32 : 64} / />
         </div>
         
-        <div className="tournament-info" />
+        <div className="tournament-info"></div>
           <h2 className="tournament-name">{tournament.name}
           
-          <div className="tournament-meta" />
-            <div className="meta-item" />
+          <div className="tournament-meta"></div>
+            <div className="meta-item"></div>
               <Calendar size={16} / />
               <span>{formatDateTime(tournament.date, tournament.time)}
             </div>
             
-            <div className="meta-item" />
+            <div className="meta-item"></div>
               <Users size={16} / />
-              <span />
+              <span></span>
                 {tournament.participants?.length || 0} / {tournament.maxPlayers} Players
               </span>
             
-            <div className={`meta-item status-${tournament.status}`} />
+            <div className={`meta-item status-${tournament.status}`}></div>
               <Info size={16} / />
               <span>{tournament.status.charAt(0).toUpperCase() + tournament.status.slice(1)}
             </div>
         </div>
         
-        <div className="tournament-actions" />
+        <div className="tournament-actions"></div>
           {isAuthenticated && (
             <>
               {isRegistered ? (
@@ -241,7 +241,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                   </button>
                   
                   {tournament.status === 'upcoming' && (
-                    <button className="leave-button" />
+                    <button className="leave-button"></button>
                       <XCircle size={16} / />
                       <span>Leave Tournament</span>
                   )}
@@ -272,23 +272,23 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
         </div>
       
       {joinError && (
-        <div className="join-error" />
+        <div className="join-error"></div>
           <AlertCircle size={16} / />
           <span>{joinError}
         </div>
       )}
       {!isRegistered && tournament.status === 'upcoming' && isAuthenticated && (
-        <div className="deck-selection" />
+        <div className="deck-selection"></div>
           <h3 className="section-title">Select Deck to Register</h3>
           
           {deckList.length === 0 ? (
-            <div className="no-decks" />
+            <div className="no-decks"></div>
               <span>You don't have any decks. Create a deck first to join the tournament.</span>
               <Link to="/decks/new" className="create-deck-button" />
                 Create Deck
               </Link>
           ) : (
-            <div className="deck-list" />
+            <div className="deck-list"></div>
               <select
                 value={selectedDeck || ''}
                 onChange={(e) => setSelectedDeck(e.target.value)}
@@ -314,7 +314,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
         </div>
       )}
       {!compact && (
-        <div className="tournament-tabs" />
+        <div className="tournament-tabs"></div>
           <button 
             className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
@@ -340,42 +340,42 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
             Standings
           </button>
       )}
-      <div className="tournament-content" />
+      <div className="tournament-content"></div>
         {activeTab === 'overview' && (
-          <div className="tournament-overview" />
-            <div className="info-card" />
+          <div className="tournament-overview"></div>
+            <div className="info-card"></div>
               <h3 className="card-title">Tournament Details</h3>
               
-              <div className="tournament-details" />
-                <div className="detail-item" />
+              <div className="tournament-details"></div>
+                <div className="detail-item"></div>
                   <div className="detail-label">Format</div>
                   <div className="detail-value">{tournament.format}
                 </div>
                 
-                <div className="detail-item" />
+                <div className="detail-item"></div>
                   <div className="detail-label">Rounds</div>
                   <div className="detail-value">{tournament.rounds}
                 </div>
                 
-                <div className="detail-item" />
+                <div className="detail-item"></div>
                   <div className="detail-label">Entry Fee</div>
-                  <div className="detail-value" />
+                  <div className="detail-value"></div>
                     {tournament.entryFee ? `$${tournament.entryFee}` : 'Free'}
                   </div>
                 
-                <div className="detail-item" />
+                <div className="detail-item"></div>
                   <div className="detail-label">Prizes</div>
                   <div className="detail-value">{tournament.prizes || 'TBD'}
                 </div>
                 
-                <div className="detail-item" />
+                <div className="detail-item"></div>
                   <div className="detail-label">Location</div>
                   <div className="detail-value">{tournament.location || 'Online'}
                 </div>
                 
-                <div className="detail-item" />
+                <div className="detail-item"></div>
                   <div className="detail-label">Organizer</div>
-                  <div className="detail-value" />
+                  <div className="detail-value"></div>
                     {tournament.organizer ? (
                       <Link to={`/users/${tournament.organizer.id}`} />
                         {tournament.organizer.name}
@@ -385,38 +385,38 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                   </div>
               </div>
             
-            <div className="info-card" />
+            <div className="info-card"></div>
               <h3 className="card-title">Description</h3>
               
-              <div className="tournament-description" />
+              <div className="tournament-description"></div>
                 {tournament.description || 'No description provided.'}
             </div>
             
-            <div className="info-card" />
+            <div className="info-card"></div>
               <h3 className="card-title">Rules</h3>
               
-              <div className="tournament-rules" />
+              <div className="tournament-rules"></div>
                 {tournament.rules || 'Standard tournament rules apply.'}
             </div>
         )}
         {activeTab === 'participants' && (
-          <div className="tournament-participants" />
+          <div className="tournament-participants"></div>
             <h3 className="section-title" />
               Participants ({tournament.participants?.length || 0} / {tournament.maxPlayers})
             </h3>
             
             {!tournament.participants || tournament.participants.length === 0 ? (
-              <div className="no-participants" />
+              <div className="no-participants"></div>
                 <span>No participants yet</span>
             ) : (
-              <div className="participants-list" />
+              <div className="participants-list"></div>
                 {tournament.participants.map((participant) => (
                   <Link 
                     key={participant.id}
                     to={`/users/${participant.id}`}
                     className="participant-item"
                    />
-                    <div className="participant-avatar" />
+                    <div className="participant-avatar"></div>
                       {participant.avatarUrl ? (
                         <img src={participant.avatarUrl} alt={participant.name} / />
                       ) : (
@@ -424,11 +424,11 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                       )}
                     </div>
                     
-                    <div className="participant-details" />
+                    <div className="participant-details"></div>
                       <div className="participant-name">{participant.name}
                       
                       {participant.rating && (
-                        <div className="participant-rating" />
+                        <div className="participant-rating"></div>
                           <BarChart2 size={14} / />
                           <span>{participant.rating} Rating</span>
                       )}
@@ -440,25 +440,25 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
               </div>
             )}
             {tournament.status === 'upcoming' && tournament.participants?.length < tournament.maxPlayers && (
-              <div className="participants-footer" />
+              <div className="participants-footer"></div>
                 <span>{tournament.maxPlayers - (tournament.participants?.length || 0)} spots remaining</span>
             )}
           </div>
         )}
         {activeTab === 'rounds' && (
-          <div className="tournament-rounds" />
+          <div className="tournament-rounds"></div>
             <h3 className="section-title" />
               Rounds ({tournament.currentRound || 0} / {tournament.rounds})
             </h3>
             
             {tournament.status === 'upcoming' ? (
-              <div className="no-rounds" />
+              <div className="no-rounds"></div>
                 <span>Tournament has not started yet</span>
             ) : tournament.rounds === 0 ? (
-              <div className="no-rounds" />
+              <div className="no-rounds"></div>
                 <span>No rounds scheduled</span>
             ) : (
-              <div className="rounds-list" />
+              <div className="rounds-list"></div>
                 {Array.from({ length: tournament.rounds }).map((_, index) => {
                   const roundNumber = index + 1;
                   const isCurrentRound = roundNumber === tournament.currentRound;
@@ -470,7 +470,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                       key={roundNumber}
                       className={`round-item ${isCurrentRound ? 'current' : ''} ${isPastRound ? 'past' : ''} ${isFutureRound ? 'future' : ''}`}
                      />
-                      <div className="round-header" />
+                      <div className="round-header"></div>
                         <div className="round-number">Round {roundNumber}
                         
                         {isCurrentRound && (
@@ -484,7 +484,7 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                         )}
                       
                       {(isCurrentRound || isPastRound) && tournament.matches && (
-                        <div className="round-matches" />
+                        <div className="round-matches"></div>
                           {tournament.matches
                             .filter(match => match.round === roundNumber)
                             .map((match) => (
@@ -493,20 +493,20 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                                 to={`/matches/${match.id}`}
                                 className={`match-item ${match.status}`}
                                />
-                                <div className="match-players" />
-                                  <div className="player" />
+                                <div className="match-players"></div>
+                                  <div className="player"></div>
                                     <User size={16} / />
                                     <span>{match.player1Name}
                                   </div>
                                   
                                   <div className="vs">vs</div>
                                   
-                                  <div className="player" />
+                                  <div className="player"></div>
                                     <User size={16} / />
                                     <span>{match.player2Name}
                                   </div>
                                 
-                                <div className="match-result" />
+                                <div className="match-result"></div>
                                   {match.status === 'completed' ? (
                                     <>
                                       <span className="score">{match.player1Score}
@@ -533,18 +533,18 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
           </div>
         )}
         {activeTab === 'standings' && (
-          <div className="tournament-standings" />
+          <div className="tournament-standings"></div>
             <h3 className="section-title">Standings</h3>
             
             {tournament.status === 'upcoming' ? (
-              <div className="no-standings" />
+              <div className="no-standings"></div>
                 <span>Tournament has not started yet</span>
             ) : !tournament.standings || tournament.standings.length === 0 ? (
-              <div className="no-standings" />
+              <div className="no-standings"></div>
                 <span>No standings available</span>
             ) : (
-              <div className="standings-table" />
-                <div className="table-header" />
+              <div className="standings-table"></div>
+                <div className="table-header"></div>
                   <div className="header-cell rank">Rank</div>
                   <div className="header-cell player">Player</div>
                   <div className="header-cell record">Record</div>
@@ -553,14 +553,14 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                     <div className="header-cell rating">Rating</div>
                   )}
                 
-                <div className="table-body" />
+                <div className="table-body"></div>
                   {tournament.standings.map((standing, index) => (
                     <Link 
                       key={standing.playerId}
                       to={`/users/${standing.playerId}`}
                       className="table-row"
                      />
-                      <div className="cell rank" />
+                      <div className="cell rank"></div>
                         {index + 1}
                         {index < 3 && (
                           <Trophy 
@@ -570,19 +570,19 @@ const UnifiedTournament: React.FC<UnifiedTournamentProps> = ({  tournamentId: pr
                         )}
                       </div>
                       
-                      <div className="cell player" />
+                      <div className="cell player"></div>
                         <User size={16} / />
                         <span>{standing.playerName}
                       </div>
                       
-                      <div className="cell record" />
+                      <div className="cell record"></div>
                         {standing.wins}-{standing.losses}-{standing.draws}
                       
-                      <div className="cell points" />
+                      <div className="cell points"></div>
                         {standing.points}
                       
                       {tournament.bayesianRankings && (
-                        <div className="cell rating" />
+                        <div className="cell rating"></div>
                           {standing.bayesianRating || '-'}
                       )}
                     </Link>

@@ -69,8 +69,8 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
       exit={{ opacity: 0, y: 20 }}
       className="absolute bottom-24 right-4 bg-black/80 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden z-50 w-80"
      />
-      <div className="flex items-center justify-between bg-gradient-to-r from-purple-800 to-blue-800 px-3 py-2" />
-        <div className="flex items-center" />
+      <div className="flex items-center justify-between bg-gradient-to-r from-purple-800 to-blue-800 px-3 py-2"></div>
+        <div className="flex items-center"></div>
           <button
             onClick={() => setExpanded(!expanded)}
             className="text-white mr-2"
@@ -78,9 +78,9 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
             {expanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
           </button>
           <h3 className="text-white font-medium text-sm">Dynamic Resolution Chain</h3>
-        <div className="flex items-center" />
+        <div className="flex items-center"></div>
           {isWaitingForMe && (
-            <div className="flex items-center mr-2" />
+            <div className="flex items-center mr-2"></div>
               <Clock size={16} className="text-yellow-400 animate-pulse mr-1" / />
               <span className="text-yellow-400 text-xs">Your Response</span>
           )}
@@ -95,9 +95,9 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
             className="overflow-hidden"
            />
             {/* Stack display */}
-            <div className="p-3 border-b border-gray-700" />
+            <div className="p-3 border-b border-gray-700"></div>
               <h4 className="text-white text-xs font-medium mb-2">Stack (Resolves Last to First)</h4>
-              <div className="max-h-32 overflow-y-auto" />
+              <div className="max-h-32 overflow-y-auto"></div>
                 {stack.length > 0 ? (
                   stack.map((item, index) => (
                     <div 
@@ -106,11 +106,11 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                         index === 0 ? 'bg-blue-900/50 border border-blue-500' : 'bg-gray-800/50'
                       }`}
                      />
-                      <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-600 to-blue-700 flex items-center justify-center text-white text-xs mr-2" />
+                      <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-600 to-blue-700 flex items-center justify-center text-white text-xs mr-2"></div>
                         {stack.length - index}
-                      <div className="flex-1" />
+                      <div className="flex-1"></div>
                         <div className="text-white text-xs font-medium">{item.card.name}
-                        <div className="text-gray-400 text-xs" />
+                        <div className="text-gray-400 text-xs"></div>
                           {gameState.players[item.controller].name} - {item.type}
                       </div>
                   ))
@@ -121,8 +121,8 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
             
             {/* Response options */}
             {isWaitingForMe && (
-              <div className="p-3" />
-                <div className="flex justify-between items-center mb-2" />
+              <div className="p-3"></div>
+                <div className="flex justify-between items-center mb-2"></div>
                   <h4 className="text-white text-xs font-medium">Your Response</h4>
                   <button
                     onClick={() => onPass()}
@@ -131,9 +131,9 @@ const DynamicResolutionChain: React.FC<DynamicResolutionChainProps> = ({
                     Pass
                   </button>
                 
-                <div className="max-h-40 overflow-y-auto mb-2" />
+                <div className="max-h-40 overflow-y-auto mb-2"></div>
                   {playableCards.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-1" />
+                    <div className="grid grid-cols-2 gap-1"></div>
                       {playableCards.map(card => (
                         <div
                           key={card.id}

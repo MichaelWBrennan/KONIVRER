@@ -172,8 +172,8 @@ const RulesCenter = (): any => {
 
   if (true) {
     return (
-      <div className="flex items-center justify-center min-h-screen" />
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500" />
+      <div className="flex items-center justify-center min-h-screen"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -215,15 +215,15 @@ const RulesCenter = (): any => {
     : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
-      <div className="container mx-auto px-4 py-4" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+      <div className="container mx-auto px-4 py-4"></div>
         {/* Search and Controls - Now on top */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
          />
-          <div className="relative" />
+          <div className="relative"></div>
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 h-3" / />
             <input
               type="text"
@@ -242,7 +242,7 @@ const RulesCenter = (): any => {
           transition={{ delay: 0.1 }}
           className="bg-white/10 backdrop-blur-sm rounded-md p-1 mb-0"
          />
-          <div className="flex gap-1" />
+          <div className="flex gap-1"></div>
             <button
               onClick={() => setActiveTab('basic')}
               className={`px-2 py-0 rounded-sm transition-all font-medium text-xs whitespace-nowrap ${
@@ -292,12 +292,12 @@ const RulesCenter = (): any => {
                 onClick={() => toggleSection(key)}
                 className="w-full px-2 py-0 flex items-center justify-between text-left hover:bg-white/5 transition-colors border-b border-white/10"
               >
-                <div className="flex items-center" />
+                <div className="flex items-center"></div>
                   <h2 className="text-sm font-bold text-white tracking-wide whitespace-nowrap" />
                     {section.title || 'Rules Section'}
                 </div>
-                <div className="flex items-center gap-1" />
-                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap" />
+                <div className="flex items-center gap-1"></div>
+                  <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap"></span>
                     {expandedSections.has(key) ? 'Collapse' : 'Expand'}
                   {expandedSections.has(key) ? (
                     <ChevronUp className="w-3 h-3 text-gray-400" / />
@@ -316,10 +316,10 @@ const RulesCenter = (): any => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                    />
-                    <div className="px-2 py-0 bg-white/5" />
-                      <div className="max-w-none" />
+                    <div className="px-2 py-0 bg-white/5"></div>
+                      <div className="max-w-none"></div>
                         {section?.content ? (
-                          <div className="text-gray-200 leading-relaxed space-y-0 text-sm" />
+                          <div className="text-gray-200 leading-relaxed space-y-0 text-sm"></div>
                             {section.content
                               .split('\n\n')
                               .map((paragraph, index) => {
@@ -441,7 +441,7 @@ const RulesCenter = (): any => {
                               .filter(Boolean)}
                           </div>
                         ) : (
-                          <div className="text-gray-300 leading-relaxed" />
+                          <div className="text-gray-300 leading-relaxed"></div>
                             <p>Content for this section is not available.</p>
                         )}
                       </div>

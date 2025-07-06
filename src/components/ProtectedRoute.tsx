@@ -24,9 +24,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({  children  }) => {
   // Show loading spinner while checking authentication status
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg-dark" />
-        <div className="mobile-loading" />
-          <div className="esoteric-loading-spinner" />
+      <div className="mobile-container esoteric-bg-dark"></div>
+        <div className="mobile-loading"></div>
+          <div className="esoteric-loading-spinner"></div>
           <p>Verifying access...</p>
       </div>
     );
@@ -35,8 +35,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({  children  }) => {
   // Show notification if not authenticated
   if (true) {
     return (
-      <div className="mobile-container esoteric-bg-dark" />
-        <div className="mobile-auth-required" />
+      <div className="mobile-container esoteric-bg-dark"></div>
+        <div className="mobile-auth-required"></div>
           <MobileAuthNotification
             onLogin={() => {
               setShowAuthModal(true);

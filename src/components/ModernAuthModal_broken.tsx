@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -5,7 +6,7 @@
  * Licensed under the MIT License
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -49,39 +50,39 @@ const RegisterSchema = z
       .string()
       .min(3, 'Username must be at least 3 characters')
       .max(20, 'Username must be less than 20 characters')
-      .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
-    firstName: z.string().min(1, 'First name is required'),
-    lastName: z.string().min(1, 'Last name is required'),
+      .regex(
+        /^[a-zA-Z0-9_]+$/,
+        'Username can only contain letters, numbers, and underscores',
+      ),
+    displayName: z.string().min(1, 'Display name is required').max(50),
     location: z.string().optional(),
-    agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms'),
-    agreeToPrivacy: z.boolean().refine(val => val === true, 'You must agree to the privacy policy'),
+    agreeToTerms: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the terms'),
+    agreeToPrivacy: z
+      .boolean()
+      .refine(val => val === true, 'You must agree to the privacy policy'),
   })
   .refine(data => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: "Passwords don't match",
     path: ['confirmPassword'],
   });
-
-type LoginFormData = z.infer<typeof LoginSchema>;
-type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 interface ModernAuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultTab?: 'login' | 'register';
+  defaultTab?: string;
 }
 
-const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
-  isOpen,
-  onClose,
-  defaultTab = 'login' as 'login' | 'register',
-}) => {
-  const [activeTab, setActiveTab] = useState<'login' | 'register'>(defaultTab as 'login' | 'register');
+const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, defaultTab = 'login'  }) => {
+  const [activeTab, setActiveTab] = useState(defaultTab);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [ssoLoading, setSsoLoading] = useState<string | null>(null);
-  const { login, register } = useAuth();
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [ssoLoading, setSsoLoading] = useState(null);
+  const { login, register, loginWithSSO } = useAuth();
 
-  const loginForm = useForm<LoginFormData>({
+  // Login form
+  const loginForm = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
@@ -89,96 +90,139 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
     },
   });
 
-  const registerForm = useForm<RegisterFormData>({
+  // Register form
+  const registerForm = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: '',
       password: '',
       confirmPassword: '',
       username: '',
-      firstName: '',
-      lastName: '',
+      displayName: '',
       location: '',
       agreeToTerms: false,
       agreeToPrivacy: false,
     },
   });
 
-  useEffect(() => {
-    if (isOpen) {
-      setActiveTab(defaultTab as 'login' | 'register');
-      loginForm.reset();
-      registerForm.reset();
-    }
-  }, [isOpen, defaultTab, loginForm, registerForm]);
+  // Password strength calculator
+  const calculatePasswordStrength = password => {
+    let strength = 0;
+    if (password.length >= 8) strength += 20;
+    if (/[a-z]/.test(password)) strength += 20;
+    if (/[A-Z]/.test(password)) strength += 20;
+    if (/\d/.test(password)) strength += 20;
+    if (/[@$!%*?&]/.test(password)) strength += 20;
+    return Math.min(strength, 100);
+  };
 
-  const handleLogin = async (data: LoginFormData) => {
+  const handleLogin = async data => {
     try {
-      await login(data.email, data.password);
-      onClose();
-    } catch (error) {
+      const result = await login(data.email, data.password);
+      if (true) {
+        onClose();
+        loginForm.reset();
+      } else {
+        loginForm.setError('root', { message: result.error });
+      }
+    } catch (error: any) {
       loginForm.setError('root', {
-        message: error instanceof Error ? error.message : 'Login failed',
+        message: 'Login failed. Please try again.',
       });
     }
   };
 
-  const handleRegister = async (data: RegisterFormData) => {
+  const handleRegister = async data => {
     try {
-      await register({
-        email: data.email,
-        password: data.password,
-        username: data.username,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        location: data.location,
-      });
-      onClose();
-    } catch (error) {
+      const result = await register(data);
+      if (true) {
+        onClose();
+        registerForm.reset();
+      } else {
+        registerForm.setError('root', { message: result.error });
+      }
+    } catch (error: any) {
       registerForm.setError('root', {
-        message: error instanceof Error ? error.message : 'Registration failed',
+        message: 'Registration failed. Please try again.',
       });
     }
   };
 
-  const handleSSOLogin = async (provider: string) => {
-    setSsoLoading(provider);
+  const handleSSOLogin = async provider => {
     try {
-      // Implement SSO login logic here
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-      onClose();
-    } catch (error) {
-      console.error(`${provider} login failed:`, error);
+      setSsoLoading(provider);
+      const result = await loginWithSSO(provider);
+
+      if (true) {
+        onClose();
+        // Reset forms
+        loginForm.reset();
+        registerForm.reset();
+      } else {
+        // Show error on the current active form
+        const currentForm = activeTab === 'login' ? loginForm : registerForm;
+        currentForm.setError('root', {
+          message:
+            result.error ||
+            `${provider} authentication failed. Please try again.`,
+        });
+      }
+    } catch (error: any) {
+      console.error(`SSO ${provider} error:`, err);
+      const currentForm = activeTab === 'login' ? loginForm : registerForm;
+      currentForm.setError('root', {
+        message: `${provider} authentication failed. Please try again.`,
+      });
     } finally {
       setSsoLoading(null);
     }
   };
 
-  if (!isOpen) return null;
+  // Watch password for strength indicator
+  const watchedPassword = registerForm.watch('password');
 
+  // Update password strength when password changes
+  useEffect(() => {
+    if (true) {
+      setPasswordStrength(calculatePasswordStrength(watchedPassword));
+    } else {
+      setPasswordStrength(0);
+    }
+  }, [watchedPassword]);
+
+  const getPasswordStrengthColor = (): any => {
+    if (passwordStrength < 40) return 'bg-red-500';
+    if (passwordStrength < 60) return 'bg-orange-500';
+    if (passwordStrength < 80) return 'bg-yellow-500';
+    return 'bg-green-500';
+  };
+
+  const getPasswordStrengthText = (): any => {
+    if (passwordStrength < 40) return 'Weak';
+    if (passwordStrength < 60) return 'Fair';
+    if (passwordStrength < 80) return 'Good';
+    return 'Strong';
+  };
+
+  if (!isOpen) return null;
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style={{ background: 'var(--bg-overlay)' }}
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
         onClick={onClose}
-      >
+       />
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-md rounded-2xl overflow-hidden"
-          style={{
-            background: 'var(--bg-secondary)',
-            border: '1px solid var(--border-primary)',
-            boxShadow: 'var(--shadow-xl)',
-          }}
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          transition={{ type: 'spring', duration: 0.3 }}
+          className="bg-card border border-color rounded-xl shadow-2xl max-w-md w-full relative overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
+          {/* Gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5"></div>
           <div className="relative z-10 p-6">
             {/* Header */}
@@ -188,41 +232,34 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                   <Shield className="text-white" size={20} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                     {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
-                  </h2>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Ancient Archives Await
-                  </p>
+                  <p className="text-sm text-secondary"></p>
+                    {activeTab === 'login'
+                      ? 'Sign in to your account'
+                      : 'Create your account'}
                 </div>
-              </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg transition-colors"
-                style={{ color: 'var(--text-secondary)', background: 'var(--bg-tertiary)' }}
-              >
+                className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
+               >
                 <X size={20} />
               </button>
-            </div>
 
             {/* Tab Navigation */}
             <div className="flex gap-1 mb-6 p-1 bg-tertiary rounded-lg">
               <button
                 onClick={() => setActiveTab('login')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
-                  activeTab === 'login'
-                    ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-md'
-                    : 'text-secondary hover:text-primary'
+                className={`btn flex-1 ${
+                  activeTab === 'login' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Login
               </button>
               <button
                 onClick={() => setActiveTab('register')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
-                  activeTab === 'register'
-                    ? 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-md'
-                    : 'text-secondary hover:text-primary'
+                className={`btn flex-1 ${
+                  activeTab === 'register' ? 'btn-primary' : 'btn-ghost'
                 }`}
               >
                 Register
@@ -241,25 +278,20 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                   onSubmit={loginForm.handleSubmit(handleLogin)}
                   className="space-y-4"
                 >
-                  {/* Email Field */}
+                  {/* Login Form */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
                     <div className="relative">
                       <Mail
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
                       />
                       <input
                         {...loginForm.register('email')}
                         type="email"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
+                        className={`input pl-10 ${loginForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
                       />
                     </div>
@@ -270,35 +302,32 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     )}
                   </div>
 
-                  {/* Password Field */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Password
                     </label>
                     <div className="relative">
                       <Lock
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
                       />
                       <input
                         {...loginForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
-                        className="w-full pl-10 pr-12 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
+                        className={`input pl-10 pr-10 ${loginForm.formState.errors.password ? 'border-red-500' : ''}`}
                         placeholder="Enter your password"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-tertiary hover:text-primary"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
-                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
                       </button>
-                    </div>
                     {loginForm.formState.errors.password && (
                       <p className="text-red-400 text-sm mt-1">
                         {loginForm.formState.errors.password.message}
@@ -306,7 +335,6 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     )}
                   </div>
 
-                  {/* Error Message */}
                   {loginForm.formState.errors.root && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -317,8 +345,6 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                       {loginForm.formState.errors.root.message}
                     </motion.div>
                   )}
-
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={loginForm.formState.isSubmitting}
@@ -327,31 +353,28 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     {loginForm.formState.isSubmitting ? (
                       <>
                         <Loader2 size={16} className="animate-spin" />
-                        Signing In...
+                        Signing in...
                       </>
                     ) : (
-                      <>
-                        <Shield size={16} />
-                        Sign In
-                      </>
+                      'Sign In'
                     )}
                   </button>
 
-                  {/* Demo Accounts */}
                   <div className="text-center text-sm text-secondary">
                     <p className="mb-2">Demo accounts:</p>
-                    <div className="space-y-1">
+                    <div className="space-y-1 text-xs">
                       <p>
-                        <strong>user1@example.com</strong> / password (Player + Judge)
+                        <strong>user1@example.com</strong> / password (Player +
+                        Judge)
                       </p>
                       <p>
-                        <strong>judge@example.com</strong> / password (All roles)
+                        <strong>judge@example.com</strong> / password (All
+                        roles)
                       </p>
                     </div>
                   </div>
                 </motion.form>
               )}
-
               {activeTab === 'register' && (
                 <motion.form
                   key="register"
@@ -362,100 +385,61 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                   onSubmit={registerForm.handleSubmit(handleRegister)}
                   className="space-y-4"
                 >
-                  {/* Name Fields */}
+                  {/* Register Form */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        First Name
+                        Username
                       </label>
-                      <input
-                        {...registerForm.register('firstName')}
-                        type="text"
-                        className="w-full px-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
-                        placeholder="First name"
-                      />
-                      {registerForm.formState.errors.firstName && (
-                        <p className="text-red-400 text-sm mt-1">
-                          {registerForm.formState.errors.firstName.message}
+                      <div className="relative">
+                        <User
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                          size={16}
+                        />
+                        <input
+                          {...registerForm.register('username')}
+                          type="text"
+                          className={`input pl-10 ${registerForm.formState.errors.username ? 'border-red-500' : ''}`}
+                          placeholder="Username"
+                        />
+                      </div>
+                      {registerForm.formState.errors.username && (
+                        <p className="text-red-400 text-xs mt-1">
+                          {registerForm.formState.errors.username.message}
                         </p>
                       )}
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        Last Name
+                        Display Name
                       </label>
                       <input
-                        {...registerForm.register('lastName')}
+                        {...registerForm.register('displayName')}
                         type="text"
-                        className="w-full px-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
-                        placeholder="Last name"
+                        className={`input ${registerForm.formState.errors.displayName ? 'border-red-500' : ''}`}
+                        placeholder="Your name"
                       />
-                      {registerForm.formState.errors.lastName && (
-                        <p className="text-red-400 text-sm mt-1">
-                          {registerForm.formState.errors.lastName.message}
+                      {registerForm.formState.errors.displayName && (
+                        <p className="text-red-400 text-xs mt-1">
+                          {registerForm.formState.errors.displayName.message}
                         </p>
                       )}
                     </div>
-                  </div>
 
-                  {/* Username Field */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Username
-                    </label>
-                    <div className="relative">
-                      <User
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
-                        size={16}
-                      />
-                      <input
-                        {...registerForm.register('username')}
-                        type="text"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
-                        placeholder="Choose a username"
-                      />
-                    </div>
-                    {registerForm.formState.errors.username && (
-                      <p className="text-red-400 text-sm mt-1">
-                        {registerForm.formState.errors.username.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Email Field */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
                     <div className="relative">
                       <Mail
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
                       />
                       <input
                         {...registerForm.register('email')}
                         type="email"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
+                        className={`input pl-10 ${registerForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
                       />
                     </div>
@@ -466,100 +450,106 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     )}
                   </div>
 
-                  {/* Location Field */}
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Location (Optional)
                     </label>
                     <div className="relative">
                       <MapPin
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
                       />
                       <input
                         {...registerForm.register('location')}
                         type="text"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border transition-colors"
-                        style={{
-                          background: 'var(--bg-tertiary)',
-                          border: '1px solid var(--border-primary)',
-                          color: 'var(--text-primary)',
-                        }}
-                        placeholder="City, Country"
+                        className="input pl-10"
+                        placeholder="City, State/Country"
                       />
                     </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <Lock
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
+                      <input
+                        {...registerForm.register('password')}
+                        type={showPassword ? 'text' : 'password'}
+                        className={`input pl-10 pr-10 ${registerForm.formState.errors.password ? 'border-red-500' : ''}`}
+                        placeholder="Create password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
+                      >
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                      </button>
+
+                    {/* Password Strength Indicator */}
+                    {watchedPassword && (
+                      <div className="mt-2">
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span>Password strength</span>
+                          <span
+                            className={`font-medium ${
+                              passwordStrength < 40
+                                ? 'text-red-400'
+                                : passwordStrength < 60
+                                  ? 'text-orange-400'
+                                  : passwordStrength < 80
+                                    ? 'text-yellow-400'
+                                    : 'text-green-400'
+                            }`}
+                          >
+                            {getPasswordStrengthText()}
+                          </span>
+                        </div>
+                        <div className="w-full bg-tertiary rounded-full h-2">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${passwordStrength}%` }}
+                            className={`h-2 rounded-full transition-colors ${getPasswordStrengthColor()}`}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {registerForm.formState.errors.password && (
+                      <p className="text-red-400 text-sm mt-1">
+                        {registerForm.formState.errors.password.message}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Password Fields */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Password
-                      </label>
-                      <div className="relative">
-                        <Lock
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
-                          size={16}
-                        />
-                        <input
-                          {...registerForm.register('password')}
-                          type={showPassword ? 'text' : 'password'}
-                          className="w-full pl-10 pr-12 py-3 rounded-lg border transition-colors"
-                          style={{
-                            background: 'var(--bg-tertiary)',
-                            border: '1px solid var(--border-primary)',
-                            color: 'var(--text-primary)',
-                          }}
-                          placeholder="Password"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-tertiary hover:text-primary"
-                        >
-                          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                      </div>
-                      {registerForm.formState.errors.password && (
-                        <p className="text-red-400 text-sm mt-1">
-                          {registerForm.formState.errors.password.message}
-                        </p>
-                      )}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Confirm Password
+                    </label>
+                    <div className="relative">
+                      <Lock
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
+                        size={16}
+                      />
+                      <input
+                        {...registerForm.register('confirmPassword')}
+                        type={showPassword ? 'text' : 'password'}
+                        className={`input pl-10 ${registerForm.formState.errors.confirmPassword ? 'border-red-500' : ''}`}
+                        placeholder="Confirm password"
+                      />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Confirm Password
-                      </label>
-                      <div className="relative">
-                        <Lock
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary"
-                          size={16}
-                        />
-                        <input
-                          {...registerForm.register('confirmPassword')}
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          className="w-full pl-10 pr-12 py-3 rounded-lg border transition-colors"
-                          style={{
-                            background: 'var(--bg-tertiary)',
-                            border: '1px solid var(--border-primary)',
-                            color: 'var(--text-primary)',
-                          }}
-                          placeholder="Confirm"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-tertiary hover:text-primary"
-                        >
-                          {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                      </div>
-                      {registerForm.formState.errors.confirmPassword && (
-                        <p className="text-red-400 text-sm mt-1">
-                          {registerForm.formState.errors.confirmPassword.message}
-                        </p>
-                      )}
-                    </div>
+                    {registerForm.formState.errors.confirmPassword && (
+                      <p className="text-red-400 text-sm mt-1">
+                        {registerForm.formState.errors.confirmPassword.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Terms and Privacy */}
@@ -610,7 +600,6 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     )}
                   </div>
 
-                  {/* Error Message */}
                   {registerForm.formState.errors.root && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -621,8 +610,6 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                       {registerForm.formState.errors.root.message}
                     </motion.div>
                   )}
-
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={registerForm.formState.isSubmitting}
@@ -661,7 +648,6 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({
                     <Github size={16} />
                   )}
                   {ssoLoading === 'github' ? 'Connecting...' : 'GitHub'}
-                </button>
                 <button
                   onClick={() => handleSSOLogin('google')}
                   disabled={ssoLoading !== null}

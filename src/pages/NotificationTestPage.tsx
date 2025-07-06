@@ -172,29 +172,29 @@ const NotificationTestPage: React.FC = () => {
   };
   
   return (
-    <div className="notification-test-page" />
-      <div className="container" />
+    <div className="notification-test-page"></div>
+      <div className="container"></div>
         <h1>Push Notification Test</h1>
         
-        <div className="notification-status" />
+        <div className="notification-status"></div>
           <h2>Status</h2>
-          <div className="status-item" />
+          <div className="status-item"></div>
             <strong>Supported:</strong> {isSupported ? 'Yes' : 'No'}
-          <div className="status-item" />
+          <div className="status-item"></div>
             <strong>Permission:</strong> {permission}
-          <div className="status-item" />
+          <div className="status-item"></div>
             <strong>Subscribed:</strong> {isSubscribed ? 'Yes' : 'No'}
-          <div className="status-item" />
+          <div className="status-item"></div>
             <strong>Status:</strong> {subscriptionStatus}
           {notificationStatus && (
-            <div className="status-item notification-result" />
+            <div className="status-item notification-result"></div>
               <strong>Result:</strong> {notificationStatus}
           )}
         </div>
         
-        <div className="subscription-controls" />
+        <div className="subscription-controls"></div>
           <h2>Subscription</h2>
-          <div className="button-group" />
+          <div className="button-group"></div>
             <button 
               className="btn btn-primary" 
               onClick={handleSubscribe}
@@ -211,10 +211,10 @@ const NotificationTestPage: React.FC = () => {
             </button>
         </div>
         
-        <div className="notification-form" />
+        <div className="notification-form"></div>
           <h2>Send Notification</h2>
           
-          <div className="form-group" />
+          <div className="form-group"></div>
             <label htmlFor="notification-type">Notification Type</label>
             <select 
               id="notification-type" 
@@ -227,7 +227,7 @@ const NotificationTestPage: React.FC = () => {
               <option value="match">Match</option>
           </div>
           
-          <div className="form-group" />
+          <div className="form-group"></div>
             <label htmlFor="notification-title">Title</label>
             <input 
               type="text" 
@@ -237,7 +237,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group" />
+          <div className="form-group"></div>
             <label htmlFor="notification-body">Body</label>
             <textarea 
               id="notification-body" 
@@ -246,7 +246,7 @@ const NotificationTestPage: React.FC = () => {
             />
           </div>
           
-          <div className="form-group checkbox" />
+          <div className="form-group checkbox"></div>
             <input 
               type="checkbox" 
               id="require-interaction" 
@@ -255,7 +255,7 @@ const NotificationTestPage: React.FC = () => {
             />
             <label htmlFor="require-interaction">Require Interaction</label>
           
-          <div className="button-group" />
+          <div className="button-group"></div>
             <button 
               className="btn btn-primary" 
               onClick={handleSendNotification}

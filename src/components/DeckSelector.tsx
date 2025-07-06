@@ -71,8 +71,8 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto" />
-      <div className="flex justify-between items-center mb-6" />
+    <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto"></div>
+      <div className="flex justify-between items-center mb-6"></div>
         <h2 className="text-2xl font-bold text-white">Select a Deck</h2>
         {onClose && (
           <button
@@ -84,8 +84,8 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
         )}
       </div>
 
-      <div className="mb-6" />
-        <div className="relative" />
+      <div className="mb-6"></div>
+        <div className="relative"></div>
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
           <input
             type="text"
@@ -97,11 +97,11 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
         </div>
 
       {filteredDecks.length === 0 ? (
-        <div className="text-center py-8 text-gray-400" />
+        <div className="text-center py-8 text-gray-400"></div>
           <p>No decks found</p>
           <p className="text-sm mt-2">Create a new deck to get started</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
           {filteredDecks.map(deck => (
             <motion.div
               key={deck.id}
@@ -113,9 +113,9 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
               }`}
               onClick={() => setSelectedDeckId(deck.id)}
             >
-              <div className="flex justify-between items-start mb-2" />
+              <div className="flex justify-between items-start mb-2"></div>
                 <h3 className="text-lg font-medium text-white">{deck.name}
-                <div className="flex space-x-1" />
+                <div className="flex space-x-1"></div>
                   <button
                     onClick={e => {
                       e.stopPropagation();
@@ -136,11 +136,11 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
                   </button>
               </div>
 
-              <div className="text-sm text-gray-400 mb-3" />
+              <div className="text-sm text-gray-400 mb-3"></div>
                 {deck.cardCount} cards • Last modified:{' '}
                 {new Date(deck.lastModified).toLocaleDateString()}
 
-              <div className="flex space-x-2 mt-4" />
+              <div className="flex space-x-2 mt-4"></div>
                 {deck.colors &&
                   deck.colors.map(color => (
                     <div

@@ -129,11 +129,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   }, [saveSearch, query, filters, sortBy, sortOrder]);
   
   return (
-    <div className="unified-card-search" />
+    <div className="unified-card-search"></div>
       {/* Search Header */}
-      <div className="search-header" />
-        <div className="search-input-container" />
-          <div className="search-input-wrapper" />
+      <div className="search-header"></div>
+        <div className="search-input-container"></div>
+          <div className="search-input-wrapper"></div>
             <Search className="search-icon" size={20} / />
             <input
               type="text"
@@ -180,7 +180,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
           </AnimatePresence>
         
         {/* Search Controls */}
-        <div className="search-controls" />
+        <div className="search-controls"></div>
           {showFilters && (
             <button
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
@@ -194,7 +194,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               / />
             </button>
           )}
-          <div className="view-controls" />
+          <div className="view-controls"></div>
             <button
               onClick={() => setViewMode('grid')}
               className={`view-button ${viewMode === 'grid' ? 'active' : ''}`}
@@ -209,7 +209,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             </button>
           
           {showExport && hasResults && (
-            <div className="export-controls" />
+            <div className="export-controls"></div>
               <button onClick={() => handleExport('json')} className="export-button">
                 <Download size={16} / />
                 JSON
@@ -220,7 +220,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               </button>
           )}
           {showHistory && (
-            <button onClick={handleSaveSearch} className="save-search-button" />
+            <button onClick={handleSaveSearch} className="save-search-button"></button>
               <Bookmark size={16} / />
               Save
             </button>
@@ -236,9 +236,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             exit={{ opacity: 0, height: 0 }}
             className="advanced-filters"
            />
-            <div className="filter-grid" />
+            <div className="filter-grid"></div>
               {/* Type Filter */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Type</label>
                 <select
                   value={filters.type}
@@ -251,7 +251,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </select>
               
               {/* Element Filter */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Element</label>
                 <select
                   value={filters.element}
@@ -264,9 +264,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </select>
               
               {/* Strength Range */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Strength</label>
-                <div className="range-inputs" />
+                <div className="range-inputs"></div>
                   <input
                     type="number"
                     placeholder="Min"
@@ -283,9 +283,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </div>
               
               {/* Cost Range */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Cost</label>
-                <div className="range-inputs" />
+                <div className="range-inputs"></div>
                   <input
                     type="number"
                     placeholder="Min"
@@ -302,7 +302,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </div>
               
               {/* Rarity Filter */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Rarity</label>
                 <select
                   value={filters.rarity}
@@ -315,7 +315,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </select>
               
               {/* Set Filter */}
-              <div className="filter-group" />
+              <div className="filter-group"></div>
                 <label>Set</label>
                 <select
                   value={filters.set}
@@ -328,8 +328,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </select>
             </div>
             
-            <div className="filter-actions" />
-              <button onClick={clearFilters} className="clear-filters" />
+            <div className="filter-actions"></div>
+              <button onClick={clearFilters} className="clear-filters"></button>
                 Clear All Filters
               </button>
           </motion.div>
@@ -338,11 +338,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       
       {/* Search History & Saved Searches */}
       {showHistory && (searchHistory.length > 0 || savedSearches.length > 0) && (
-        <div className="search-history" />
+        <div className="search-history"></div>
           {searchHistory.length > 0 && (
-            <div className="history-section" />
+            <div className="history-section"></div>
               <h4><History size={16} /> Recent Searches</h4>
-              <div className="history-items" />
+              <div className="history-items"></div>
                 {searchHistory.slice(0, 5).map((term, index) => (
                   <button
                     key={index}
@@ -354,9 +354,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               </div>
           )}
           {savedSearches.length > 0 && (
-            <div className="saved-searches-section" />
+            <div className="saved-searches-section"></div>
               <h4><Bookmark size={16} /> Saved Searches</h4>
-              <div className="saved-searches" />
+              <div className="saved-searches"></div>
                 {savedSearches.slice(0, 3).map((search) => (
                   <button
                     key={search.id}
@@ -371,19 +371,19 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       )}
       {/* Results Header */}
       {(hasResults || isLoading || error) && (
-        <div className="results-header" />
-          <div className="results-info" />
+        <div className="results-header"></div>
+          <div className="results-info"></div>
             {isLoading ? (
-              <div className="loading-indicator" />
+              <div className="loading-indicator"></div>
                 <Loader2 className="spinner" size={16} / />
                 Searching...
               </div>
             ) : error ? (
-              <div className="error-indicator" />
+              <div className="error-indicator"></div>
                 <AlertCircle size={16} / />
                 {error}
             ) : (
-              <span className="results-count" />
+              <span className="results-count"></span>
                 {totalResults.toLocaleString()} cards found
                 {query && ` for "${query}"`}
               </span>
@@ -391,7 +391,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
           </div>
           
           {hasResults && (
-            <div className="sort-controls" />
+            <div className="sort-controls"></div>
               <select
                 value={`${sortBy}-${sortOrder}`}
                 onChange={(e) => {
@@ -414,7 +414,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       )}
       {/* Results Grid/List */}
       {hasResults && (
-        <div className={`results-container ${viewMode}`} />
+        <div className={`results-container ${viewMode}`}></div>
           <AnimatePresence mode="wait" />
             {results.map((card, index) => (
               <motion.div
@@ -436,7 +436,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       )}
       {/* Pagination */}
       {hasResults && totalPages > 1 && (
-        <div className="pagination" />
+        <div className="pagination"></div>
           <button
             onClick={() => setPage(currentPage - 1)}
             disabled={currentPage === 1}
@@ -445,7 +445,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             Previous
           </button>
           
-          <div className="page-info" />
+          <div className="page-info"></div>
             Page {currentPage} of {totalPages}
           
           <button
@@ -458,11 +458,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       )}
       {/* No Results */}
       {!isLoading && !error && !hasResults && (query || Object.values(filters).some(v => v !== '' && (!Array.isArray(v) || v.length > 0))) && (
-        <div className="no-results" />
+        <div className="no-results"></div>
           <AlertCircle size={48} / />
           <h3>No cards found</h3>
           <p>Try adjusting your search terms or filters</p>
-          <button onClick={clearFilters} className="clear-filters-button" />
+          <button onClick={clearFilters} className="clear-filters-button"></button>
             Clear All Filters
           </button>
       )}

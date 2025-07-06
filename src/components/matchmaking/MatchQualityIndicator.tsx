@@ -83,7 +83,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
         placement="top"
         overlay={
           <Tooltip />
-            <div className="text-center mb-1" />
+            <div className="text-center mb-1"></div>
               Match Quality: {getQualityLabel(advancedLevel)}
             <ProgressBar />
               <ProgressBar
@@ -102,7 +102,7 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                 key={3}
               / />
             </ProgressBar>
-            <div className="d-flex justify-content-between mt-1" />
+            <div className="d-flex justify-content-between mt-1"></div>
               <small>Skill</small>
               <small>Playstyle</small>
               <small>History</small>
@@ -121,12 +121,12 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
 
   // Detailed version (shows all factors)
   return (
-    <div className="match-quality-indicator" />
+    <div className="match-quality-indicator"></div>
       <h5 className="mb-3">Match Quality Analysis</h5>
 
-      <div className="mb-4" />
-        <div className="d-flex justify-content-between align-items-center mb-1" />
-          <div />
+      <div className="mb-4"></div>
+        <div className="d-flex justify-content-between align-items-center mb-1"></div>
+          <div></div>
             <strong>Overall Match Quality</strong>
           <Badge bg={getQualityColor(advancedLevel)} />
             {getQualityLabel(advancedLevel)}
@@ -138,10 +138,10 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
         / />
       </div>
 
-      <div className="row" />
-        <div className="col-md-6" />
-          <div className="mb-3" />
-            <div className="d-flex align-items-center mb-1" />
+      <div className="row"></div>
+        <div className="col-md-6"></div>
+          <div className="mb-3"></div>
+            <div className="d-flex align-items-center mb-1"></div>
               <Target size={16} className="me-1" / />
               <strong>Skill Compatibility</strong>
               <Badge
@@ -163,8 +163,8 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
               points
             </small>
 
-          <div className="mb-3" />
-            <div className="d-flex align-items-center mb-1" />
+          <div className="mb-3"></div>
+            <div className="d-flex align-items-center mb-1"></div>
               <Zap size={16} className="me-1" / />
               <strong>Playstyle Compatibility</strong>
               <Badge
@@ -187,9 +187,9 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
                 : 'Similar playstyles'}
           </div>
 
-        <div className="col-md-6" />
-          <div className="mb-3" />
-            <div className="d-flex align-items-center mb-1" />
+        <div className="col-md-6"></div>
+          <div className="mb-3"></div>
+            <div className="d-flex align-items-center mb-1"></div>
               <Users size={16} className="me-1" / />
               <strong>History Compatibility</strong>
               <Badge
@@ -210,8 +210,8 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
               Previous matches: {advancedQuality.matchHistory.length || 0}
           </div>
 
-          <div className="mb-3" />
-            <div className="d-flex align-items-center mb-1" />
+          <div className="mb-3"></div>
+            <div className="d-flex align-items-center mb-1"></div>
               <Shuffle size={16} className="me-1" / />
               <strong>Deck Archetype Compatibility</strong>
               <Badge
@@ -235,8 +235,8 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
           </div>
       </div>
 
-      <div className="mt-2" />
-        <div className="d-flex align-items-center mb-1" />
+      <div className="mt-2"></div>
+        <div className="d-flex align-items-center mb-1"></div>
           <TrendingUp size={16} className="me-1" / />
           <strong>Confidence Level</strong>
           <Badge
@@ -272,8 +272,8 @@ const MatchQualityIndicator: React.FC<MatchQualityIndicatorProps> = ({  player1,
       </div>
 
       {advancedQuality.timeWeightedPerformance && (
-        <div className="mt-3" />
-          <div className="d-flex align-items-center" />
+        <div className="mt-3"></div>
+          <div className="d-flex align-items-center"></div>
             <Clock size={16} className="me-1" / />
             <strong>Recent Performance Factor</strong>
           <small className="text-muted" />

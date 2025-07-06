@@ -192,20 +192,20 @@ const UnifiedTournaments = (): any => {
   });
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center" />
-        <div className="text-center" />
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center"></div>
+        <div className="text-center"></div>
           <RefreshCw className="animate-spin mx-auto mb-4" size={48} / />
           <p>Loading tournament data...</p>
       </div>
     );
   }
   return (
-    <div className="min-h-screen bg-gray-900 text-white" />
-      <div className="container mx-auto px-4 py-6" />
+    <div className="min-h-screen bg-gray-900 text-white"></div>
+      <div className="container mx-auto px-4 py-6"></div>
         {/* Organizer Actions */}
-        <div className="flex justify-end mb-4" />
+        <div className="flex justify-end mb-4"></div>
           {hasOrganizerAccess() && (
-            <div className="flex space-x-2" />
+            <div className="flex space-x-2"></div>
               <Link
                 to="/tournament-create"
                 className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg transition-colors text-xs"
@@ -223,10 +223,10 @@ const UnifiedTournaments = (): any => {
         </div>
         
         {/* Unified Search and Filters */}
-        <div className="bg-gray-800 rounded-lg p-3 mb-6" />
-          <div className="flex flex-col md:flex-row items-center gap-2" />
-            <div className="relative w-full" />
-              <div className="flex items-center" />
+        <div className="bg-gray-800 rounded-lg p-3 mb-6"></div>
+          <div className="flex flex-col md:flex-row items-center gap-2"></div>
+            <div className="relative w-full"></div>
+              <div className="flex items-center"></div>
                 <Search
                   className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                   size={14}
@@ -239,7 +239,7 @@ const UnifiedTournaments = (): any => {
                   className="w-full pl-7 pr-2 py-1 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 text-xs"
                 />
               </div>
-            <div className="flex gap-2 flex-shrink-0" />
+            <div className="flex gap-2 flex-shrink-0"></div>
               <select
                 value={filters.status}
                 onChange={e = />
@@ -262,50 +262,50 @@ const UnifiedTournaments = (): any => {
             </div>
         </div>
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" />
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6"></div>
           {/* Events */}
-          <div className="xl:col-span-2 space-y-6" />
+          <div className="xl:col-span-2 space-y-6"></div>
             {/* All Events */}
-            <div className="bg-gray-800 rounded-lg p-6" />
-              <div className="space-y-4" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
+              <div className="space-y-4"></div>
                 {[...filteredTournaments, ...filteredEvents].map(tournament => (
                   <div
                     key={tournament.id}
                     className="bg-gray-700 rounded-lg p-4 hover:bg-gray-650 transition-colors"
                    />
-                    <div className="flex items-start justify-between mb-3" />
-                      <div className="flex-1" />
-                        <p className="text-gray-400 text-sm mb-2" />
+                    <div className="flex items-start justify-between mb-3"></div>
+                      <div className="flex-1"></div>
+                        <p className="text-gray-400 text-sm mb-2"></p>
                           {tournament.organizer}
-                        <div className="flex items-center space-x-4 text-sm text-gray-300" />
-                          <span className="flex items-center" />
+                        <div className="flex items-center space-x-4 text-sm text-gray-300"></div>
+                          <span className="flex items-center"></span>
                             <Calendar size={14} className="mr-1" / />
                             {tournament.date} at {tournament.time}
-                          <span className="flex items-center" />
+                          <span className="flex items-center"></span>
                             <MapPin size={14} className="mr-1" / />
                             {tournament.location}
-                          <span className="flex items-center" />
+                          <span className="flex items-center"></span>
                             <Users size={14} className="mr-1" / />
                             {tournament.participants}/
                             {tournament.maxParticipants}
                         </div>
-                      <div className="text-right" />
+                      <div className="text-right"></div>
                         <span
                           className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium ${getStatusColor(tournament.status)}`}
                          />
                           {tournament.status}
-                        <div className="text-lg font-bold text-green-400 mt-1" />
+                        <div className="text-lg font-bold text-green-400 mt-1"></div>
                           {tournament.prizePool}
                       </div>
-                    <div className="flex items-center justify-between" />
-                      <div className="flex items-center space-x-4 text-sm" />
+                    <div className="flex items-center justify-between"></div>
+                      <div className="flex items-center space-x-4 text-sm"></div>
                         <span>Entry: {tournament.entryFee}
                         {tournament.currentRound && (
-                          <span />
+                          <span></span>
                             Round {tournament.currentRound}/{tournament.rounds}
                         )}
                       </div>
-                      <div className="flex space-x-2" />
+                      <div className="flex space-x-2"></div>
                         {tournament.streamUrl && (
                           <a
                             href={tournament.streamUrl}
@@ -326,12 +326,12 @@ const UnifiedTournaments = (): any => {
                             disabled={tournament.isRegistered || tournament.participants >= tournament.maxParticipants}
                           >
                             <UserPlus size={14} / />
-                            <span />
+                            <span></span>
                               {tournament.isRegistered ? 'Registered' : 
                                tournament.participants >= tournament.maxParticipants ? 'Full' : 'Register'}
                           </button>
                         )}
-                        <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors" />
+                        <button className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 px-3 py-0 whitespace-nowrap rounded text-sm transition-colors"></button>
                           <Eye size={14} / />
                           <span>View Details</span>
                       </div>
@@ -339,36 +339,36 @@ const UnifiedTournaments = (): any => {
                 ))}
               </div>
             {/* Featured Live Tournament */}
-            <div className="bg-gray-800 rounded-lg p-6" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
               <LiveTournamentBracket
                 tournamentId="world-championship-2024"
                 isLive={true}
               / />
             </div>
             {/* Community Events */}
-            <div className="bg-gray-800 rounded-lg p-6" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 {filteredEvents.map(event => (
-                  <div key={event.id} className="bg-gray-700 rounded-lg p-4" />
-                    <div className="flex items-start justify-between mb-2" />
+                  <div key={event.id} className="bg-gray-700 rounded-lg p-4"></div>
+                    <div className="flex items-start justify-between mb-2"></div>
                       <span
                         className={`px-2 py-0 whitespace-nowrap rounded text-xs ${getStatusColor(event.status)}`}
                        />
                         {event.status}
                     </div>
-                    <div className="space-y-1 text-sm text-gray-400 mb-3" />
-                      <div className="flex items-center" />
+                    <div className="space-y-1 text-sm text-gray-400 mb-3"></div>
+                      <div className="flex items-center"></div>
                         <Calendar size={12} className="mr-1" / />
                         {event.date} at {event.time}
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <MapPin size={12} className="mr-1" / />
                         {event.location}
-                      <div className="flex items-center" />
+                      <div className="flex items-center"></div>
                         <Users size={12} className="mr-1" / />
                         {event.participants}/{event.maxParticipants} players
                       </div>
-                    <div className="flex items-center justify-between" />
-                      <div className="flex items-center space-x-2 text-xs" />
+                    <div className="flex items-center justify-between"></div>
+                      <div className="flex items-center space-x-2 text-xs"></div>
                         <span>{event.entryFee}
                       </div>
                       <button 
@@ -386,39 +386,39 @@ const UnifiedTournaments = (): any => {
                 ))}
               </div>
             {/* Live Matches */}
-            <div className="bg-gray-800 rounded-lg p-6" />
-              <div className="space-y-3" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
+              <div className="space-y-3"></div>
                 {matches
                   .filter(m => m.status === 'In Progress')
                   .map(match => (
-                    <div key={match.id} className="bg-gray-700 rounded-lg p-4" />
-                      <div className="flex items-center justify-between mb-2" />
-                        <div className="text-sm text-gray-400" />
+                    <div key={match.id} className="bg-gray-700 rounded-lg p-4"></div>
+                      <div className="flex items-center justify-between mb-2"></div>
+                        <div className="text-sm text-gray-400"></div>
                           {match.tournament} • Round {match.round} • Table{' '}
                           {match.table}
-                        <div className="flex items-center space-x-2" />
-                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                        <div className="flex items-center space-x-2"></div>
+                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                           <span className="text-red-400 text-sm">LIVE</span>
                       </div>
-                      <div className="grid grid-cols-2 gap-4" />
-                        <div className="text-center" />
-                          <div className="font-semibold" />
+                      <div className="grid grid-cols-2 gap-4"></div>
+                        <div className="text-center"></div>
+                          <div className="font-semibold"></div>
                             {match.player1.name}
-                          <div className="text-sm text-gray-400" />
+                          <div className="text-sm text-gray-400"></div>
                             {match.player1.deck}
-                          <div className="text-sm text-green-400" />
+                          <div className="text-sm text-green-400"></div>
                             {match.player1.wins}-{match.player1.losses}
                         </div>
-                        <div className="text-center" />
-                          <div className="font-semibold" />
+                        <div className="text-center"></div>
+                          <div className="font-semibold"></div>
                             {match.player2.name}
-                          <div className="text-sm text-gray-400" />
+                          <div className="text-sm text-gray-400"></div>
                             {match.player2.deck}
-                          <div className="text-sm text-green-400" />
+                          <div className="text-sm text-green-400"></div>
                             {match.player2.wins}-{match.player2.losses}
                         </div>
                       {match.streamUrl && (
-                        <div className="mt-3 text-center" />
+                        <div className="mt-3 text-center"></div>
                           <a
                             href={match.streamUrl}
                             target="_blank"
@@ -433,31 +433,31 @@ const UnifiedTournaments = (): any => {
               </div>
           </div>
           {/* Right Column - Leaderboards & Analytics */}
-          <div className="space-y-6" />
+          <div className="space-y-6"></div>
             {/* Leaderboards */}
-            <div className="bg-gray-800 rounded-lg p-6" />
-              <div className="space-y-3" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
+              <div className="space-y-3"></div>
                 {leaderboards.slice(0, 10).map((player, index) => (
                   <div
                     key={player.rank}
                     className="flex items-center space-x-3 p-2 rounded hover:bg-gray-700 transition-colors"
                    />
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm" />
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 font-bold text-sm"></div>
                       {player.rank}
-                    <div className="flex-1" />
+                    <div className="flex-1"></div>
                       <div className="font-semibold">{player.player}
-                      <div className="text-xs text-gray-400" />
+                      <div className="text-xs text-gray-400"></div>
                         {player.wins}W-{player.losses}L • {player.winRate}% WR
                       </div>
-                    <div className="text-right" />
-                      <div className="font-bold text-yellow-400" />
+                    <div className="text-right"></div>
+                      <div className="font-bold text-yellow-400"></div>
                         {player.points}
-                      <div className="text-xs text-gray-400" />
+                      <div className="text-xs text-gray-400"></div>
                         {player.favoriteArchetype}
                     </div>
                 ))}
               </div>
-              <div className="mt-4 text-center" />
+              <div className="mt-4 text-center"></div>
                 <Link
                   to="/leaderboards"
                   className="text-blue-400 hover:text-blue-300 text-sm"
@@ -466,31 +466,31 @@ const UnifiedTournaments = (): any => {
                 </Link>
             </div>
             {/* Meta Analytics */}
-            <div className="bg-gray-800 rounded-lg p-6" />
-              <div className="space-y-4" />
-                <div />
-                  <div className="space-y-2" />
+            <div className="bg-gray-800 rounded-lg p-6"></div>
+              <div className="space-y-4"></div>
+                <div></div>
+                  <div className="space-y-2"></div>
                     {analytics.metaBreakdown?.map(archetype => (
                       <div
                         key={archetype.archetype}
                         className="flex items-center justify-between"
                        />
                         <span className="text-sm">{archetype.archetype}
-                        <div className="flex items-center space-x-2" />
-                          <div className="w-16 bg-gray-700 rounded-full h-2" />
+                        <div className="flex items-center space-x-2"></div>
+                          <div className="w-16 bg-gray-700 rounded-full h-2"></div>
                             <div
                               className="bg-blue-500 h-2 rounded-full"
                               style={{ width: `${archetype.percentage}%` }}
                              />
                           </div>
-                          <span className="text-xs text-gray-400 w-8" />
+                          <span className="text-xs text-gray-400 w-8"></span>
                             {archetype.percentage}%
                           </span>
                       </div>
                     ))}
                   </div>
               </div>
-              <div className="mt-4 text-center" />
+              <div className="mt-4 text-center"></div>
                 <Link
                   to="/meta-analysis"
                   className="text-blue-400 hover:text-blue-300 text-sm"

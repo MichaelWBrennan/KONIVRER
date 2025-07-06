@@ -102,39 +102,39 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
       whileTap={onClick ? { scale: 0.98 } : {}}
       onClick={onClick}
      />
-      <div className="flex items-center space-x-3" />
+      <div className="flex items-center space-x-3"></div>
         <div
           className={`${sizeClasses.avatar} bg-gradient-to-br ${getRankColor(player.tier)} rounded-full flex items-center justify-center text-white font-bold`}
          />
           {player.avatar ||
             getRankIcon(player.tier) ||
             player.name?.[0]?.toUpperCase()}
-        <div className="min-w-0 flex-1" />
+        <div className="min-w-0 flex-1"></div>
           <div
             className={`font-medium text-gray-900 truncate ${sizeClasses.name}`}
            />
             {player.name}
           {showStats && (
-            <div className={`text-gray-500 ${sizeClasses.stats}`} />
+            <div className={`text-gray-500 ${sizeClasses.stats}`}></div>
               {player.tier && (
-                <span className="inline-flex items-center mr-2" />
+                <span className="inline-flex items-center mr-2"></span>
                   <Trophy className="w-3 h-3 mr-1" / />
                   {player.tier}
               )}
               {player.rating && (
-                <span className="inline-flex items-center mr-2" />
+                <span className="inline-flex items-center mr-2"></span>
                   <Star className="w-3 h-3 mr-1" / />
                   {player.rating}
               )}
               {player.winRate && (
-                <span className="inline-flex items-center" />
+                <span className="inline-flex items-center"></span>
                   <Target className="w-3 h-3 mr-1" / />
                   {(player.winRate * 100).toFixed(1)}%
                 </span>
               )}
               {player.hero && (
-                <div className="mt-1 truncate" />
-                  <span className="inline-flex items-center" />
+                <div className="mt-1 truncate"></div>
+                  <span className="inline-flex items-center"></span>
                     <Shield className="w-3 h-3 mr-1" / />
                     {player.hero}
                 </div>

@@ -78,7 +78,7 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
            />
-            <div className="flex justify-between items-center mb-4" />
+            <div className="flex justify-between items-center mb-4"></div>
               <h2 className="text-xl font-bold text-white">Export Deck</h2>
               <button
                 onClick={onClose}
@@ -87,17 +87,17 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
                 <X size={20} / />
               </button>
 
-            <div className="space-y-4" />
-              <p className="text-gray-300 text-sm" />
+            <div className="space-y-4"></div>
+              <p className="text-gray-300 text-sm"></p>
                 Share this deck code with others so they can import your deck.
               </p>
 
               {isExporting ? (
-                <div className="h-32 bg-gray-700 rounded flex items-center justify-center" />
+                <div className="h-32 bg-gray-700 rounded flex items-center justify-center"></div>
                   <span className="animate-spin mr-2">⟳</span>
                   <span className="text-gray-300">Generating deck code...</span>
               ) : (
-                <div className="relative" />
+                <div className="relative"></div>
                   <textarea
                     value={deckCode}
                     readOnly
@@ -115,7 +115,7 @@ const DeckExportModal: React.FC<DeckExportModalProps> = ({  isOpen, onClose, dec
                     )}
                   </button>
               )}
-              <div className="flex justify-end space-x-3 pt-2" />
+              <div className="flex justify-end space-x-3 pt-2"></div>
                 <button
                   onClick={onClose}
                   className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"

@@ -632,8 +632,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
   // Render loading state
   if (true) {
     return (
-      <div className="flex justify-center items-center h-64" />
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+      <div className="flex justify-center items-center h-64"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -667,21 +667,21 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
     : null;
 
   return (
-    <div className="tournament-manager" />
+    <div className="tournament-manager"></div>
       {/* Tournament Header */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center" />
-          <div />
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center"></div>
+          <div></div>
             <h2 className="text-2xl font-bold text-gray-800" />
               {tournament.name}
             <p className="text-gray-600">{tournament.description}
-            <div className="flex flex-wrap items-center mt-2 gap-2" />
-              <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded" />
+            <div className="flex flex-wrap items-center mt-2 gap-2"></div>
+              <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
                 {tournament.format}
-              <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded" />
+              <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
                 {tournament.participants.length} participants
               </span>
-              <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded" />
+              <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded"></span>
                 {tournament.rounds ? tournament.rounds.length : 0} rounds
               </span>
               <span className={`text-xs font-medium px-2.5 py-0.5 rounded ${
@@ -698,19 +698,19 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     : 'Upcoming'}
             </div>
 
-          <div className="mt-4 md:mt-0 flex flex-col md:items-end" />
-            <div className="flex items-center mb-2" />
-              <div className="bg-gray-100 rounded-lg p-2 mr-3" />
+          <div className="mt-4 md:mt-0 flex flex-col md:items-end"></div>
+            <div className="flex items-center mb-2"></div>
+              <div className="bg-gray-100 rounded-lg p-2 mr-3"></div>
                 <Calendar className="text-gray-600" size={20} / />
               </div>
-              <div />
+              <div></div>
                 <p className="text-sm text-gray-600">Date</p>
-                <p className="font-semibold" />
+                <p className="font-semibold"></p>
                   {new Date(tournament.date).toLocaleDateString()}
               </div>
             
             {isRoundTimerRunning && (
-              <div className="flex items-center mt-2" />
+              <div className="flex items-center mt-2"></div>
                 <div className={`rounded-lg p-2 mr-3 ${
                   roundTimeRemaining < 5 * 60 * 1000 ? 'bg-red-100' : 'bg-green-100'
                 }`} />
@@ -718,7 +718,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     roundTimeRemaining < 5 * 60 * 1000 ? 'text-red-600' : 'text-green-600'
                   } size={20} / />
                 </div>
-                <div />
+                <div></div>
                   <p className="text-sm text-gray-600">Round Timer</p>
                   <p className={`font-semibold ${
                     roundTimeRemaining < 5 * 60 * 1000 ? 'text-red-600' : 'text-green-600'
@@ -730,8 +730,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       </div>
 
       {/* Tournament Tabs */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6" />
-        <div className="flex flex-wrap gap-2" />
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6"></div>
+        <div className="flex flex-wrap gap-2"></div>
           <button
             className={`px-4 py-2 rounded-md text-sm font-medium ${
               activeTab === 'dashboard'
@@ -786,8 +786,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
 
       {/* Success Message */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between" />
-          <div className="flex items-center" />
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
+          <div className="flex items-center"></div>
             <CheckCircle className="mr-2" size={20} / />
             <span>{successMessage}
           </div>
@@ -800,11 +800,11 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       )}
       {/* Confirmation Dialog */}
       {showConfirmation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" />
-          <div className="bg-white rounded-lg p-6 max-w-md w-full" />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"></div>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full"></div>
             <h3 className="text-lg font-semibold mb-4">Confirm Action</h3>
             <p className="mb-6">{confirmationMessage}
-            <div className="flex justify-end gap-2" />
+            <div className="flex justify-end gap-2"></div>
               <button
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                 onClick={handleCancelConfirmation}
@@ -821,21 +821,21 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       )}
       {/* Processing Overlay */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50" />
-          <div className="bg-white rounded-lg p-6 flex items-center" />
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"></div>
+          <div className="bg-white rounded-lg p-6 flex items-center"></div>
             <Loader className="animate-spin mr-3" size={24} / />
             <span className="text-lg">Processing...</span>
         </div>
       )}
       {/* Dashboard Tab */}
       {activeTab === 'dashboard' && (
-        <div className="space-y-6" />
+        <div className="space-y-6"></div>
           {/* Quick Actions */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4" />
               Quick Actions
             </h3>
-            <div className="flex flex-wrap gap-3" />
+            <div className="flex flex-wrap gap-3"></div>
               {tournament.status === 'upcoming' && (
                 <button
                   className="btn btn-primary flex items-center"
@@ -910,36 +910,36 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
           </div>
           
           {/* Tournament Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" />
-            <div className="bg-white rounded-lg shadow-md p-6" />
-              <div className="flex items-center mb-4" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"></div>
+            <div className="bg-white rounded-lg shadow-md p-6"></div>
+              <div className="flex items-center mb-4"></div>
                 <Users className="text-primary mr-3" size={24} / />
                 <h3 className="text-lg font-semibold text-gray-800" />
                   Participants
                 </h3>
-              <div className="text-3xl font-bold text-gray-900 mb-2" />
+              <div className="text-3xl font-bold text-gray-900 mb-2"></div>
                 {tournament.participants.length}
-              <div className="text-sm text-gray-600" />
+              <div className="text-sm text-gray-600"></div>
                 {tournament.maxParticipants 
                   ? `${tournament.participants.length}/${tournament.maxParticipants} (${Math.round(tournament.participants.length / tournament.maxParticipants * 100)}%)`
                   : `Total registered participants`
                 }
               </div>
             
-            <div className="bg-white rounded-lg shadow-md p-6" />
-              <div className="flex items-center mb-4" />
+            <div className="bg-white rounded-lg shadow-md p-6"></div>
+              <div className="flex items-center mb-4"></div>
                 <Clock className="text-primary mr-3" size={24} / />
                 <h3 className="text-lg font-semibold text-gray-800" />
                   Progress
                 </h3>
-              <div className="text-3xl font-bold text-gray-900 mb-2" />
+              <div className="text-3xl font-bold text-gray-900 mb-2"></div>
                 {tournament.rounds ? `${tournament.rounds.length}/${tournament.totalRounds || '?'}` : '0/0'}
               </div>
-              <div className="text-sm text-gray-600" />
+              <div className="text-sm text-gray-600"></div>
                 Rounds completed
               </div>
               {tournament.rounds && tournament.rounds.length > 0 && (
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3" />
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3"></div>
                   <div 
                     className="bg-primary h-2.5 rounded-full" 
                     style={{ width: `${tournament.totalRounds ? Math.round(tournament.rounds.length / tournament.totalRounds * 100) : 0}%` }}
@@ -948,20 +948,20 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
               )}
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-6" />
-              <div className="flex items-center mb-4" />
+            <div className="bg-white rounded-lg shadow-md p-6"></div>
+              <div className="flex items-center mb-4"></div>
                 <CheckCircle className="text-primary mr-3" size={24} / />
                 <h3 className="text-lg font-semibold text-gray-800" />
                   Completion
                 </h3>
               {currentRoundData ? (
                 <>
-                  <div className="text-3xl font-bold text-gray-900 mb-2" />
+                  <div className="text-3xl font-bold text-gray-900 mb-2"></div>
                     {currentRoundData.matches.filter(m => m.completed).length}/{currentRoundData.matches.length}
-                  <div className="text-sm text-gray-600" />
+                  <div className="text-sm text-gray-600"></div>
                     Matches completed in current round
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3" />
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3"></div>
                     <div 
                       className="bg-primary h-2.5 rounded-full" 
                       style={{ width: `${currentRoundData.matches.length ? Math.round(currentRoundData.matches.filter(m => m.completed).length / currentRoundData.matches.length * 100) : 0}%` }}
@@ -973,14 +973,14 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             </div>
           
           {/* Recent Activity */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4" />
               Recent Activity
             </h3>
             {tournament.activityLog && tournament.activityLog.length > 0 ? (
-              <div className="space-y-3" />
+              <div className="space-y-3"></div>
                 {tournament.activityLog.slice(0, 5).map((activity, index) => (
-                  <div key={index} className="flex items-start p-3 border-b border-gray-100" />
+                  <div key={index} className="flex items-start p-3 border-b border-gray-100"></div>
                     <div className={`rounded-full p-2 mr-3 ${
                       activity.type === 'match_result' 
                         ? 'bg-green-100' 
@@ -995,7 +995,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                       {activity.type === 'tournament_started' && <Play size={16} className="text-gray-600" />}
                       {activity.type === 'tournament_ended' && <Award size={16} className="text-gray-600" />}
                     </div>
-                    <div />
+                    <div></div>
                       <p className="text-sm font-medium">{activity.message}
                       <p className="text-xs text-gray-500">{new Date(activity.timestamp).toLocaleString()}
                     </div>
@@ -1008,14 +1008,14 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       )}
       {/* Rounds & Pairings Tab */}
       {activeTab === 'rounds' && (
-        <div className="space-y-6" />
+        <div className="space-y-6"></div>
           {/* Round Navigation */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"></div>
               <h3 className="text-lg font-semibold text-gray-800" />
                 Round {currentRound} of {tournament.rounds ? tournament.rounds.length : 0}
               
-              <div className="flex items-center mt-4 md:mt-0" />
+              <div className="flex items-center mt-4 md:mt-0"></div>
                 <button
                   className="btn btn-sm btn-secondary mr-2"
                   disabled={currentRound <= 1}
@@ -1033,7 +1033,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             </div>
             
             {tournament.rounds && tournament.rounds.length > 0 ? (
-              <div className="flex overflow-x-auto pb-2 mb-4" />
+              <div className="flex overflow-x-auto pb-2 mb-4"></div>
                 {tournament.rounds.map((round, index) => (
                   <button
                     key={index}
@@ -1051,7 +1051,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
               <p className="text-gray-600 mb-4">No rounds generated yet</p>
             )}
             {tournament.status === 'in_progress' && (
-              <div className="flex flex-wrap gap-2" />
+              <div className="flex flex-wrap gap-2"></div>
                 <button
                   className="btn btn-primary flex items-center"
                   onClick={() => showConfirmDialog(
@@ -1086,23 +1086,23 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
           
           {/* Round Stats */}
           {currentRoundData && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" />
-              <div className="bg-blue-50 rounded-lg p-4" />
-                <div className="flex items-center" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+              <div className="bg-blue-50 rounded-lg p-4"></div>
+                <div className="flex items-center"></div>
                   <Users className="text-blue-600 mr-2" size={20} / />
-                  <div />
+                  <div></div>
                     <p className="text-sm text-gray-600">Active Players</p>
-                    <p className="text-xl font-semibold" />
+                    <p className="text-xl font-semibold"></p>
                       {currentRoundData.matches.length * 2}
                   </div>
               </div>
 
-              <div className="bg-green-50 rounded-lg p-4" />
-                <div className="flex items-center" />
+              <div className="bg-green-50 rounded-lg p-4"></div>
+                <div className="flex items-center"></div>
                   <CheckCircle className="text-green-600 mr-2" size={20} / />
-                  <div />
+                  <div></div>
                     <p className="text-sm text-gray-600">Completed Matches</p>
-                    <p className="text-xl font-semibold" />
+                    <p className="text-xl font-semibold"></p>
                       {
                         currentRoundData.matches.filter(
                           match => match.completed,
@@ -1112,14 +1112,14 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                   </div>
               </div>
 
-              <div className="bg-purple-50 rounded-lg p-4" />
-                <div className="flex items-center" />
+              <div className="bg-purple-50 rounded-lg p-4"></div>
+                <div className="flex items-center"></div>
                   <Award className="text-purple-600 mr-2" size={20} / />
-                  <div />
-                    <p className="text-sm text-gray-600" />
+                  <div></div>
+                    <p className="text-sm text-gray-600"></p>
                       Average Match Quality
                     </p>
-                    <p className="text-xl font-semibold" />
+                    <p className="text-xl font-semibold"></p>
                       {(currentRoundData.averageMatchQuality * 100).toFixed(0)}%
                     </p>
                 </div>
@@ -1127,13 +1127,13 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
           )}
           {/* Matches List */}
           {currentRoundData ? (
-            <div className="bg-white rounded-lg shadow-md overflow-hidden" />
-              <div className="p-4 bg-gray-50 border-b border-gray-200" />
+            <div className="bg-white rounded-lg shadow-md overflow-hidden"></div>
+              <div className="p-4 bg-gray-50 border-b border-gray-200"></div>
                 <h3 className="font-semibold text-gray-800" />
                   Round {currentRound} Pairings
                 </h3>
               
-              <div className="overflow-x-auto" />
+              <div className="overflow-x-auto"></div>
                 <table className="min-w-full divide-y divide-gray-200" />
                   <thead className="bg-gray-50" />
                     <tr />
@@ -1171,12 +1171,12 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                             {player2 ? player2.name : 'Unknown'}
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
                             {match.completed ? (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" />
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"></span>
                                 <CheckCircle size={12} className="mr-1" / />
                                 Completed
                               </span>
                             ) : (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800" />
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"></span>
                                 <Clock size={12} className="mr-1" / />
                                 In Progress
                               </span>
@@ -1184,7 +1184,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
                             {match.completed ? (
-                              <span className="font-medium" />
+                              <span className="font-medium"></span>
                                 {match.player1Score} - {match.player2Score}
                             ) : (
                               <span className="text-gray-400">Pending</span>
@@ -1192,7 +1192,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
                             {!match.completed && tournament.status === 'in_progress' && (
-                              <div className="flex items-center space-x-2" />
+                              <div className="flex items-center space-x-2"></div>
                                 <button
                                   className="text-blue-600 hover:text-blue-800"
                                   onClick={() => setExpandedMatch(expandedMatch === match.id ? null : match.id)}
@@ -1214,11 +1214,11 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                   </tbody>
               </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-md p-6" />
-              <div className="flex flex-col items-center justify-center py-8" />
+            <div className="bg-white rounded-lg shadow-md p-6"></div>
+              <div className="flex flex-col items-center justify-center py-8"></div>
                 <Info size={48} className="text-gray-400 mb-4" / />
                 <p className="text-gray-600 text-lg mb-2">No rounds available</p>
-                <p className="text-gray-500 text-sm text-center max-w-md" />
+                <p className="text-gray-500 text-sm text-center max-w-md"></p>
                   {tournament.status === 'upcoming' 
                     ? 'Start the tournament to generate the first round of pairings.'
                     : 'No rounds have been generated for this tournament yet.'}
@@ -1228,16 +1228,16 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
       )}
       {/* Participants Tab */}
       {activeTab === 'participants' && (
-        <div className="space-y-6" />
+        <div className="space-y-6"></div>
           {/* Participants Header */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"></div>
               <h3 className="text-lg font-semibold text-gray-800" />
                 Participants ({tournament.participants.length})
               </h3>
               
-              <div className="mt-4 md:mt-0 w-full md:w-auto" />
-                <div className="relative" />
+              <div className="mt-4 md:mt-0 w-full md:w-auto"></div>
+                <div className="relative"></div>
                   <input
                     type="text"
                     className="input pl-10"
@@ -1245,13 +1245,13 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                     <Search size={16} className="text-gray-400" / />
                   </div>
               </div>
             
             {tournament.status === 'upcoming' && (
-              <div className="flex flex-wrap gap-2" />
+              <div className="flex flex-wrap gap-2"></div>
                 <button
                   className="btn btn-primary flex items-center"
                   onClick={() => {/* Open add participant modal */}}
@@ -1271,8 +1271,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
           </div>
           
           {/* Participants List */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden" />
-            <div className="overflow-x-auto" />
+          <div className="bg-white rounded-lg shadow-md overflow-hidden"></div>
+            <div className="overflow-x-auto"></div>
               <table className="min-w-full divide-y divide-gray-200" />
                 <thead className="bg-gray-50" />
                   <tr />
@@ -1299,18 +1299,18 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                   {filteredParticipants.map((participant) => (
                     <tr key={participant.id} />
                       <td className="px-6 py-4 whitespace-nowrap" />
-                        <div className="flex items-center" />
-                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center" />
+                        <div className="flex items-center"></div>
+                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"></div>
                             {participant.avatarUrl ? (
                               <img src={participant.avatarUrl} alt={participant.name} className="h-10 w-10 rounded-full" / />
                             ) : (
                               <User size={20} className="text-gray-500" / />
                             )}
                           </div>
-                          <div className="ml-4" />
-                            <div className="text-sm font-medium text-gray-900" />
+                          <div className="ml-4"></div>
+                            <div className="text-sm font-medium text-gray-900"></div>
                               {participant.name}
-                            <div className="text-sm text-gray-500" />
+                            <div className="text-sm text-gray-500"></div>
                               ID: {participant.id}
                           </div>
                       </td>
@@ -1323,7 +1323,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         {participant.points || 0}
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
                         {participant.tiebreakers ? (
-                          <div className="flex flex-col" />
+                          <div className="flex flex-col"></div>
                             <span>OMW: {(participant.tiebreakers.opponentMatchWinPercentage * 100).toFixed(1)}%</span>
                             <span>GW: {(participant.tiebreakers.gameWinPercentage * 100).toFixed(1)}%</span>
                         ) : (
@@ -1331,7 +1331,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
-                        <div className="flex items-center space-x-2" />
+                        <div className="flex items-center space-x-2"></div>
                           <button
                             className="text-blue-600 hover:text-blue-800"
                             onClick={() => {/* View participant details */}}
@@ -1359,22 +1359,22 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             </div>
             
             {filteredParticipants.length === 0 && (
-              <div className="p-6 text-center" />
+              <div className="p-6 text-center"></div>
                 <p className="text-gray-500">No participants found</p>
             )}
         </div>
       )}
       {/* Standings Tab */}
       {activeTab === 'standings' && (
-        <div className="space-y-6" />
+        <div className="space-y-6"></div>
           {/* Standings Header */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"></div>
               <h3 className="text-lg font-semibold text-gray-800" />
                 Tournament Standings
               </h3>
               
-              <div className="flex items-center mt-4 md:mt-0" />
+              <div className="flex items-center mt-4 md:mt-0"></div>
                 <button
                   className="btn btn-secondary flex items-center mr-2"
                   onClick={handlePrintPairings}
@@ -1393,8 +1393,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             </div>
           
           {/* Standings Table */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden" />
-            <div className="overflow-x-auto" />
+          <div className="bg-white rounded-lg shadow-md overflow-hidden"></div>
+            <div className="overflow-x-auto"></div>
               <table className="min-w-full divide-y divide-gray-200" />
                 <thead className="bg-gray-50" />
                   <tr />
@@ -1427,18 +1427,18 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" />
                           {index + 1}
                         <td className="px-6 py-4 whitespace-nowrap" />
-                          <div className="flex items-center" />
-                            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center" />
+                          <div className="flex items-center"></div>
+                            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center"></div>
                               {participant.avatarUrl ? (
                                 <img src={participant.avatarUrl} alt={participant.name} className="h-10 w-10 rounded-full" / />
                               ) : (
                                 <User size={20} className="text-gray-500" / />
                               )}
                             </div>
-                            <div className="ml-4" />
-                              <div className="text-sm font-medium text-gray-900" />
+                            <div className="ml-4"></div>
+                              <div className="text-sm font-medium text-gray-900"></div>
                                 {participant.name}
-                              <div className="text-sm text-gray-500" />
+                              <div className="text-sm text-gray-500"></div>
                                 ID: {participant.id}
                             </div>
                         </td>
@@ -1449,7 +1449,7 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                           {standing.points}
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500" />
                           {standing.tiebreakers ? (
-                            <div className="flex flex-col" />
+                            <div className="flex flex-col"></div>
                               <span>OMW: {(standing.tiebreakers.opponentMatchWinPercentage * 100).toFixed(1)}%</span>
                               <span>GW: {(standing.tiebreakers.gameWinPercentage * 100).toFixed(1)}%</span>
                           ) : (
@@ -1465,22 +1465,22 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
             </div>
             
             {(!tournament.standings || tournament.standings.length === 0) && (
-              <div className="p-6 text-center" />
+              <div className="p-6 text-center"></div>
                 <p className="text-gray-500">No standings available yet</p>
             )}
         </div>
       )}
       {/* Settings Tab */}
       {activeTab === 'settings' && (
-        <div className="space-y-6" />
+        <div className="space-y-6"></div>
           {/* Settings Header */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6" />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4" />
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6"></div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"></div>
               <h3 className="text-lg font-semibold text-gray-800" />
                 Tournament Settings
               </h3>
               
-              <div className="flex items-center mt-4 md:mt-0" />
+              <div className="flex items-center mt-4 md:mt-0"></div>
                 {isEditingSettings ? (
                   <>
                     <button
@@ -1516,16 +1516,16 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
           </div>
           
           {/* Settings Form */}
-          <div className="bg-white rounded-lg shadow-md p-6" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-              <div />
+          <div className="bg-white rounded-lg shadow-md p-6"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+              <div></div>
                 <h4 className="text-md font-semibold text-gray-800 mb-4" />
                   Basic Information
                 </h4>
                 
-                <div className="space-y-4" />
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                <div className="space-y-4"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Tournament Name
                     </label>
                     {isEditingSettings ? (
@@ -1540,8 +1540,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     )}
                   </div>
                   
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Description
                     </label>
                     {isEditingSettings ? (
@@ -1555,8 +1555,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     )}
                   </div>
                   
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Format
                     </label>
                     {isEditingSettings ? (
@@ -1578,14 +1578,14 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                   </div>
               </div>
               
-              <div />
+              <div></div>
                 <h4 className="text-md font-semibold text-gray-800 mb-4" />
                   Tournament Structure
                 </h4>
                 
-                <div className="space-y-4" />
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                <div className="space-y-4"></div>
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Maximum Participants
                     </label>
                     {isEditingSettings ? (
@@ -1602,8 +1602,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     )}
                   </div>
                   
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Rounds
                     </label>
                     {isEditingSettings ? (
@@ -1620,8 +1620,8 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                     )}
                   </div>
                   
-                  <div />
-                    <label className="block text-sm font-medium text-gray-700 mb-1" />
+                  <div></div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1"></label>
                       Time Limit (minutes)
                     </label>
                     {isEditingSettings ? (
@@ -1639,14 +1639,14 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                   </div>
               </div>
             
-            <div className="mt-6" />
+            <div className="mt-6"></div>
               <h4 className="text-md font-semibold text-gray-800 mb-4" />
                 Advanced Settings
               </h4>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-                <div className="space-y-4" />
-                  <div className="flex items-center" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div className="space-y-4"></div>
+                  <div className="flex items-center"></div>
                     {isEditingSettings ? (
                       <input
                         type="checkbox"
@@ -1656,13 +1656,13 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         onChange={(e) => setEditedSettings({...editedSettings, decklistRequired: e.target.checked})}
                       />
                     ) : (
-                      <div className={`w-4 h-4 rounded ${tournament.decklistRequired ? 'bg-blue-600' : 'bg-gray-300'}`} />
+                      <div className={`w-4 h-4 rounded ${tournament.decklistRequired ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                     )}
-                    <label htmlFor="decklistRequired" className="ml-2 text-sm font-medium text-gray-700" />
+                    <label htmlFor="decklistRequired" className="ml-2 text-sm font-medium text-gray-700"></label>
                       Decklist Required
                     </label>
                   
-                  <div className="flex items-center" />
+                  <div className="flex items-center"></div>
                     {isEditingSettings ? (
                       <input
                         type="checkbox"
@@ -1672,15 +1672,15 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         onChange={(e) => setEditedSettings({...editedSettings, metaBalanceEnabled: e.target.checked})}
                       />
                     ) : (
-                      <div className={`w-4 h-4 rounded ${tournament.metaBalanceEnabled ? 'bg-blue-600' : 'bg-gray-300'}`} />
+                      <div className={`w-4 h-4 rounded ${tournament.metaBalanceEnabled ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                     )}
-                    <label htmlFor="metaBalanceEnabled" className="ml-2 text-sm font-medium text-gray-700" />
+                    <label htmlFor="metaBalanceEnabled" className="ml-2 text-sm font-medium text-gray-700"></label>
                       Meta Balance Incentives
                     </label>
                 </div>
                 
-                <div className="space-y-4" />
-                  <div className="flex items-center" />
+                <div className="space-y-4"></div>
+                  <div className="flex items-center"></div>
                     {isEditingSettings ? (
                       <input
                         type="checkbox"
@@ -1691,13 +1691,13 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         disabled={tournament.status !== 'upcoming'}
                       />
                     ) : (
-                      <div className={`w-4 h-4 rounded ${tournament.tieredEntryEnabled ? 'bg-blue-600' : 'bg-gray-300'}`} />
+                      <div className={`w-4 h-4 rounded ${tournament.tieredEntryEnabled ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                     )}
-                    <label htmlFor="tieredEntryEnabled" className="ml-2 text-sm font-medium text-gray-700" />
+                    <label htmlFor="tieredEntryEnabled" className="ml-2 text-sm font-medium text-gray-700"></label>
                       Tiered Entry System
                     </label>
                   
-                  <div className="flex items-center" />
+                  <div className="flex items-center"></div>
                     {isEditingSettings ? (
                       <input
                         type="checkbox"
@@ -1708,9 +1708,9 @@ const EnhancedTournamentManager: React.FC<EnhancedTournamentManagerProps> = ({  
                         disabled={tournament.status !== 'upcoming'}
                       />
                     ) : (
-                      <div className={`w-4 h-4 rounded ${tournament.parallelBracketsEnabled ? 'bg-blue-600' : 'bg-gray-300'}`} />
+                      <div className={`w-4 h-4 rounded ${tournament.parallelBracketsEnabled ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                     )}
-                    <label htmlFor="parallelBracketsEnabled" className="ml-2 text-sm font-medium text-gray-700" />
+                    <label htmlFor="parallelBracketsEnabled" className="ml-2 text-sm font-medium text-gray-700"></label>
                       Parallel Brackets
                     </label>
                 </div>
@@ -1735,7 +1735,7 @@ const Play = (Play: any) => (
     strokeLinejoin="round"
     {...props}
    />
-    <polygon points="5 3 19 12 5 21 5 3" />
+    <polygon points="5 3 19 12 5 21 5 3"></p>
   </svg>
 );
 
@@ -1752,8 +1752,8 @@ const Upload = (Upload: any) => (
     strokeLinejoin="round"
     {...props}
    />
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="17 8 12 3 7 8" />
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></p>
+    <polyline points="17 8 12 3 7 8"></p>
     <line x1="12" y1="3" x2="12" y2="15" />
   </svg>
 );

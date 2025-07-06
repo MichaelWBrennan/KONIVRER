@@ -61,7 +61,7 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
         </Card.Header>
         <Card.Body className="text-center text-muted" />
           <Info size={24} className="mb-2" / />
-          <p />
+          <p></p>
             Add at least 3 cards to your deck to see synergy recommendations.
           </p>
         </Card.Body>
@@ -72,7 +72,7 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
   return (
     <Card className="mt-3 mb-3" />
       <Card.Header className="d-flex align-items-center justify-content-between" />
-        <div />
+        <div></div>
           <Zap className="me-2" size={18} / />
           <span>Card Synergy Recommendations</span>
         <Button
@@ -85,11 +85,11 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
       </Card.Header>
       <Card.Body />
         {loading ? (
-          <div className="text-center p-3" />
+          <div className="text-center p-3"></div>
             <Spinner animation="border" / />
             <p className="mt-2">Analyzing card synergies...</p>
         ) : error ? (
-          <div className="text-center text-danger" />
+          <div className="text-center text-danger"></div>
             <p>{error}
             <Button
               variant="outline-primary"
@@ -99,8 +99,8 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
               Try Again
             </Button>
         ) : recommendations.length === 0 ? (
-          <div className="text-center text-muted" />
-            <p />
+          <div className="text-center text-muted"></div>
+            <p></p>
               No recommendations available. Try adding more cards to your deck.
             </p>
         ) : (
@@ -110,18 +110,18 @@ const CardSynergyRecommendations: React.FC<CardSynergyRecommendationsProps> = ({
                 key={index}
                 className="d-flex justify-content-between align-items-center"
                />
-                <div />
+                <div></div>
                   <div className="fw-bold">{rec.cardName}
-                  <div className="small text-muted" />
-                    <span className="me-2" />
+                  <div className="small text-muted"></div>
+                    <span className="me-2"></span>
                       <TrendingUp size={14} className="me-1" / />
                       Win Rate: {(rec.expectedWinRate * 100).toFixed(1)}%
                     </span>
-                    <span />
+                    <span></span>
                       <Target size={14} className="me-1" / />
                       Synergy with: {rec.synergyWith}
                   </div>
-                <div className="d-flex align-items-center" />
+                <div className="d-flex align-items-center"></div>
                   <Badge
                     bg={
                       rec.synergyScore > 0.15

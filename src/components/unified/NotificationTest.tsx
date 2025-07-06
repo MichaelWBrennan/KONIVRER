@@ -184,7 +184,7 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
       </Card.Header>
       <Card.Body />
         {status === 'loading' && (
-          <div className="text-center my-3" />
+          <div className="text-center my-3"></div>
             <Spinner animation="border" variant="primary" / />
             <p className="mt-2">Processing...</p>
         )}
@@ -196,27 +196,27 @@ const NotificationTest: React.FC<NotificationTestProps> = ({  userId = 'user1'  
           <Alert variant="success" dismissible onClose={() => setMessage('')}>
             {message}
         )}
-        <div className="mb-3" />
+        <div className="mb-3"></div>
           <strong>Current Status:</strong>
           <ul className="mt-2" />
             <li />
               <strong>Permission:</strong>{' '}
-              <span className={`badge ${permission === 'granted' ? 'bg-success' : permission === 'denied' ? 'bg-danger' : 'bg-warning'}`} />
+              <span className={`badge ${permission === 'granted' ? 'bg-success' : permission === 'denied' ? 'bg-danger' : 'bg-warning'}`}></span>
                 {permission || 'Not requested'}
             </li>
             <li />
               <strong>Subscribed:</strong>{' '}
-              <span className={`badge ${isSubscribed ? 'bg-success' : 'bg-secondary'}`} />
+              <span className={`badge ${isSubscribed ? 'bg-success' : 'bg-secondary'}`}></span>
                 {isSubscribed ? 'Yes' : 'No'}
             </li>
             <li />
               <strong>Push API Supported:</strong>{' '}
-              <span className={`badge ${('PushManager' in window) ? 'bg-success' : 'bg-danger'}`} />
+              <span className={`badge ${('PushManager' in window) ? 'bg-success' : 'bg-danger'}`}></span>
                 {('PushManager' in window) ? 'Yes' : 'No'}
             </li>
             <li />
               <strong>Service Worker Supported:</strong>{' '}
-              <span className={`badge ${('serviceWorker' in navigator) ? 'bg-success' : 'bg-danger'}`} />
+              <span className={`badge ${('serviceWorker' in navigator) ? 'bg-success' : 'bg-danger'}`}></span>
                 {('serviceWorker' in navigator) ? 'Yes' : 'No'}
             </li>
         </div>

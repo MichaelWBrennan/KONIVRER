@@ -125,7 +125,7 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
   };
   
   return (
-    <div className="card-actions-modal" />
+    <div className="card-actions-modal"></div>
       {showAzothSelector ? (
         <AzothSelector 
           availableAzoth={availableAzoth}
@@ -140,13 +140,13 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
           onCancel={() => setShowTributeSelector(false)}
         />
       ) : (
-        <div className="card-actions-content" />
+        <div className="card-actions-content"></div>
           <h3>Play {card.name}
           
           {!selectedAction ? (
-            <div className="action-selection" />
+            <div className="action-selection"></div>
               <h4>Select Action:</h4>
-              <div className="action-buttons" />
+              <div className="action-buttons"></div>
                 {availableActions.map(action => (
                   action.available && (
                     <button 
@@ -159,9 +159,9 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                 ))}
               </div>
           ) : selectedAction === 'azoth' && !selectedElement ? (
-            <div className="element-selection" />
+            <div className="element-selection"></div>
               <h4>Select Element Type:</h4>
-              <div className="element-buttons" />
+              <div className="element-buttons"></div>
                 {Object.values(ELEMENTS).map(element => (
                   <button 
                     key={element}
@@ -172,9 +172,9 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                 ))}
               </div>
           ) : selectedAction === 'spell' && card.abilities && card.abilities.length > 1 ? (
-            <div className="ability-selection" />
+            <div className="ability-selection"></div>
               <h4>Select Ability:</h4>
-              <div className="ability-options" />
+              <div className="ability-options"></div>
                 {card.abilities.map((ability, index) => (
                   <div 
                     key={index}
@@ -184,24 +184,24 @@ const CardActions: React.FC<CardActionsProps> = ({  card, onAction, onClose  }) 
                     {ability.effect}
                 ))}
               </div>
-              <button className="next-button" onClick={handleConfirm} />
+              <button className="next-button" onClick={handleConfirm}></button>
                 Next
               </button>
           ) : (
-            <div className="confirmation" />
+            <div className="confirmation"></div>
               <h4>Confirm Action:</h4>
-              <p />
+              <p></p>
                 {selectedAction === 'summon' && `Summon ${card.name} as a Familiar`}
                 {selectedAction === 'tribute' && `Play ${card.name} with Tribute (${tributeCount} card${tributeCount !== 1 ? 's' : ''})`}
                 {selectedAction === 'azoth' && `Place ${card.name} as ${selectedElement} Azoth`}
                 {selectedAction === 'spell' && `Cast ${card.name} as a Spell`}
                 {selectedAction === 'burst' && `Play ${card.name} as a Burst`}
               </p>
-              <button className="confirm-button" onClick={handleConfirm} />
+              <button className="confirm-button" onClick={handleConfirm}></button>
                 Confirm
               </button>
           )}
-          <button className="close-button" onClick={onClose} />
+          <button className="close-button" onClick={onClose}></button>
             Cancel
           </button>
       )}

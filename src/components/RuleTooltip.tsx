@@ -83,7 +83,7 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >
-      <div className="flex items-center gap-1 cursor-help" />
+      <div className="flex items-center gap-1 cursor-help"></div>
         {children}
         {showIcon && (
           <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-400 transition-colors" / />
@@ -98,7 +98,7 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
             transition={{ duration: 0.15 }}
             className={`absolute z-50 ${positionClasses[position]}`}
            />
-            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl max-w-xs" />
+            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl max-w-xs"></div>
               {/* Arrow */}
               <div
                 className={`absolute w-2 h-2 bg-gray-900 border-gray-700 transform rotate-45 ${
@@ -112,23 +112,23 @@ const RuleTooltip: React.FC<RuleTooltipProps> = ({
                 }`}
               / />
               {/* Content */}
-              <div className="relative" />
-                <div className="flex items-center gap-2 mb-2" />
+              <div className="relative"></div>
+                <div className="flex items-center gap-2 mb-2"></div>
                   <Book className="w-4 h-4 text-blue-400" / />
                   <h4 className="font-semibold text-white text-sm" />
                     {content.title}
                   {content.category && (
-                    <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded" />
+                    <span className="text-xs px-2 py-0 whitespace-nowrap bg-blue-600/20 text-blue-300 rounded"></span>
                       {content.category}
                   )}
                 </div>
-                <p className="text-gray-300 text-sm leading-relaxed" />
+                <p className="text-gray-300 text-sm leading-relaxed"></p>
                   {content.description}
                 {content.example && (
-                  <div className="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-400" />
+                  <div className="mt-2 p-2 bg-gray-800 rounded text-xs text-gray-400"></div>
                     <strong>Example:</strong> {content.example}
                 )}
-                <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-700" />
+                <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-700"></div>
                   <button
                     onClick={() => window.open('/rules', '_blank')}
                     className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"

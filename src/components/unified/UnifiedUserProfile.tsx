@@ -102,8 +102,8 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   // Render loading state
   if (true) {
     return (
-      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
-        <div className="profile-loading" />
+      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
+        <div className="profile-loading"></div>
           <Loader2 className="animate-spin" size={24} / />
           <span>Loading profile...</span>
       </div>
@@ -113,8 +113,8 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   // Render error state
   if (true) {
     return (
-      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
-        <div className="profile-error" />
+      <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
+        <div className="profile-error"></div>
           <AlertCircle size={24} / />
           <span>{error || 'User not found'}
         </div>
@@ -122,9 +122,9 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
   }
   
   return (
-    <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`} />
-      <div className="profile-header" />
-        <div className="profile-avatar" />
+    <div className={`unified-user-profile ${compact ? 'compact' : ''} ${className}`}></div>
+      <div className="profile-header"></div>
+        <div className="profile-avatar"></div>
           {profile.avatarUrl ? (
             <img src={profile.avatarUrl} alt={profile.displayName} / />
           ) : (
@@ -132,33 +132,33 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
           )}
         </div>
         
-        <div className="profile-info" />
+        <div className="profile-info"></div>
           <h2 className="profile-name">{profile.displayName}
           <div className="profile-username">@{profile.username}
           
-          <div className="profile-stats" />
-            <div className="stat-item" />
+          <div className="profile-stats"></div>
+            <div className="stat-item"></div>
               <Trophy size={16} / />
               <span>{profile.stats.rank}
             </div>
             
-            <div className="stat-item" />
+            <div className="stat-item"></div>
               <BarChart2 size={16} / />
               <span>{profile.stats.rating} Rating</span>
             
-            <div className="stat-item" />
+            <div className="stat-item"></div>
               <Calendar size={16} / />
               <span>Joined {new Date(profile.joinDate).toLocaleDateString()}
             </div>
         </div>
         
         {!isCurrentUser && !compact && (
-          <div className="profile-actions" />
+          <div className="profile-actions"></div>
             <button className="message-button" onClick={() => navigate('/messages/' + userId)}>
               <MessageSquare size={16} / />
               <span>Message</span>
             
-            <button className="challenge-button" />
+            <button className="challenge-button"></button>
               <Trophy size={16} / />
               <span>Challenge</span>
           </div>
@@ -166,7 +166,7 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
       </div>
       
       {!compact && (
-        <div className="profile-tabs" />
+        <div className="profile-tabs"></div>
           <button 
             className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
@@ -192,53 +192,53 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
             Decks
           </button>
       )}
-      <div className="profile-content" />
+      <div className="profile-content"></div>
         {activeTab === 'overview' && (
-          <div className="profile-overview" />
-            <div className="stats-card" />
+          <div className="profile-overview"></div>
+            <div className="stats-card"></div>
               <h3 className="card-title" />
                 <Trophy size={16} / />
                 <span>Game Stats</span>
               
-              <div className="stats-grid" />
-                <div className="stat-box" />
+              <div className="stats-grid"></div>
+                <div className="stat-box"></div>
                   <div className="stat-value">{profile.stats.wins}
                   <div className="stat-label">Wins</div>
                 
-                <div className="stat-box" />
+                <div className="stat-box"></div>
                   <div className="stat-value">{profile.stats.losses}
                   <div className="stat-label">Losses</div>
                 
-                <div className="stat-box" />
+                <div className="stat-box"></div>
                   <div className="stat-value">{profile.stats.draws}
                   <div className="stat-label">Draws</div>
                 
-                <div className="stat-box" />
+                <div className="stat-box"></div>
                   <div className="stat-value">{(profile.stats.winRate * 100).toFixed(1)}%</div>
                   <div className="stat-label">Win Rate</div>
               </div>
             
-            <div className="stats-card" />
+            <div className="stats-card"></div>
               <h3 className="card-title" />
                 <Award size={16} / />
                 <span>Tournament Stats</span>
               
-              <div className="stats-grid" />
-                <div className="stat-box" />
+              <div className="stats-grid"></div>
+                <div className="stat-box"></div>
                   <div className="stat-value">{profile.stats.tournamentWins}
                   <div className="stat-label">Wins</div>
                 
-                <div className="stat-box" />
+                <div className="stat-box"></div>
                   <div className="stat-value">{profile.stats.tournamentTop8s}
                   <div className="stat-label">Top 8s</div>
               </div>
             
-            <div className="stats-card" />
+            <div className="stats-card"></div>
               <h3 className="card-title" />
                 <Package size={16} / />
                 <span>Favorite Decks</span>
               
-              <div className="favorite-decks" />
+              <div className="favorite-decks"></div>
                 {profile.stats.favoriteDecks.map((deck) => (
                   <Link 
                     key={deck.id}
@@ -253,12 +253,12 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
               </div>
             
             {!compact && !isCurrentUser && (
-              <div className="message-card" />
+              <div className="message-card"></div>
                 <h3 className="card-title" />
                   <MessageSquare size={16} / />
                   <span>Send Message</span>
                 
-                <div className="message-form" />
+                <div className="message-form"></div>
                   <textarea
                     className="message-input"
                     placeholder={`Send a message to ${profile.displayName}...`}
@@ -282,12 +282,12 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
           </div>
         )}
         {activeTab === 'matches' && (
-          <div className="profile-matches" />
+          <div className="profile-matches"></div>
             <h3 className="section-title">Recent Matches</h3>
             
-            <div className="matches-list" />
+            <div className="matches-list"></div>
               {profile.recentMatches.length === 0 ? (
-                <div className="no-matches" />
+                <div className="no-matches"></div>
                   <span>No recent matches</span>
               ) : (
                 profile.recentMatches.map((match) => (
@@ -296,20 +296,20 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     to={`/matches/${match.id}`}
                     className={`match-item ${match.result}`}
                    />
-                    <div className="match-result-indicator" />
+                    <div className="match-result-indicator"></div>
                     
-                    <div className="match-details" />
-                      <div className="match-opponent" />
+                    <div className="match-details"></div>
+                      <div className="match-opponent"></div>
                         <Users size={16} / />
                         <span>vs. {match.opponent}
                       </div>
                       
-                      <div className="match-date" />
+                      <div className="match-date"></div>
                         <Clock size={14} / />
                         <span>{new Date(match.date).toLocaleDateString()}
                       </div>
                     
-                    <div className="match-result-text" />
+                    <div className="match-result-text"></div>
                       {match.result.toUpperCase()}
                     
                     <ChevronRight size={16} / />
@@ -319,12 +319,12 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
             </div>
         )}
         {activeTab === 'tournaments' && (
-          <div className="profile-tournaments" />
+          <div className="profile-tournaments"></div>
             <h3 className="section-title">Recent Tournaments</h3>
             
-            <div className="tournaments-list" />
+            <div className="tournaments-list"></div>
               {profile.recentTournaments.length === 0 ? (
-                <div className="no-tournaments" />
+                <div className="no-tournaments"></div>
                   <span>No recent tournaments</span>
               ) : (
                 profile.recentTournaments.map((tournament) => (
@@ -333,20 +333,20 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     to={`/tournaments/${tournament.id}`}
                     className="tournament-item"
                    />
-                    <div className="tournament-icon" />
+                    <div className="tournament-icon"></div>
                       <Trophy size={20} / />
                     </div>
                     
-                    <div className="tournament-details" />
+                    <div className="tournament-details"></div>
                       <div className="tournament-name">{tournament.name}
                       
-                      <div className="tournament-meta" />
-                        <div className="tournament-date" />
+                      <div className="tournament-meta"></div>
+                        <div className="tournament-date"></div>
                           <Calendar size={14} / />
                           <span>{new Date(tournament.date).toLocaleDateString()}
                         </div>
                         
-                        <div className="tournament-placement" />
+                        <div className="tournament-placement"></div>
                           <Award size={14} / />
                           <span>Placed {tournament.placement}
                         </div>
@@ -359,12 +359,12 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
             </div>
         )}
         {activeTab === 'decks' && (
-          <div className="profile-decks" />
+          <div className="profile-decks"></div>
             <h3 className="section-title">Favorite Decks</h3>
             
-            <div className="decks-list" />
+            <div className="decks-list"></div>
               {profile.stats.favoriteDecks.length === 0 ? (
-                <div className="no-decks" />
+                <div className="no-decks"></div>
                   <span>No favorite decks</span>
               ) : (
                 profile.stats.favoriteDecks.map((deck) => (
@@ -373,11 +373,11 @@ const UnifiedUserProfile: React.FC<UnifiedUserProfileProps> = ({  userId: propUs
                     to={`/decks/${deck.id}`}
                     className="deck-card"
                    />
-                    <div className="deck-icon" />
+                    <div className="deck-icon"></div>
                       <Package size={24} / />
                     </div>
                     
-                    <div className="deck-details" />
+                    <div className="deck-details"></div>
                       <div className="deck-name">{deck.name}
                       <div className="deck-winrate">{(deck.winRate * 100).toFixed(1)}% Win Rate</div>
                     

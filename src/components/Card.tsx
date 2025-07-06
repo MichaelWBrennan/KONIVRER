@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
   // For face-down cards (like in Life Cards zone)
   if (true) {
     return (
-      <div className="card face-down" onClick={handleCardClick} />
+      <div className="card face-down" onClick={handleCardClick}></div>
         <img src="/assets/card-back-new.png" alt="Card Back" / />
       </div>
     );
@@ -66,10 +66,10 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
         onClick={handleCardClick}
        />
         {/* Element costs */}
-        <div className="card-elements" />
+        <div className="card-elements"></div>
           {Object.entries(card.elements || {}).map(([element, count]) => (
             count > 0 && (
-              <div key={element} className={`element ${element}`} />
+              <div key={element} className={`element ${element}`}></div>
                 {ELEMENT_SYMBOLS[element]} {count}
             )
           ))}
@@ -83,7 +83,7 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
         
         {/* Keywords (separate from elements) */}
         {card.keywords && card.keywords.length > 0 && (
-          <div className="card-keywords" />
+          <div className="card-keywords"></div>
             {card.keywords.map((keyword, index) => {
               const keywordInfo = getKeywordDisplayInfo(keyword);
               return (
@@ -99,7 +99,7 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
         )}
         {/* Card abilities */}
         {card.abilities && card.abilities.length > 0 && (
-          <div className="card-abilities" />
+          <div className="card-abilities"></div>
             {card.abilities.map((ability, index) => (
               <div key={index} className="ability">{ability.effect}
             ))}
@@ -110,18 +110,18 @@ const Card: React.FC<CardProps> = ({  card, location = 'hand', onClick  }) => {
           <div className="flavor-text">{card.flavorText}
         )}
         {/* Set and rarity */}
-        <div className="card-set-rarity" />
+        <div className="card-set-rarity"></div>
           {card.set && card.rarity && `${card.set} • ${getRaritySymbol(card.rarity)}`}
         </div>
         
         {/* Set number */}
-        <div className="card-set-number" />
+        <div className="card-set-number"></div>
           {card.setNumber && `${card.setNumber}`}
         </div>
         
         {/* Strength/Health for Familiars */}
         {card.type === 'Familiar' && (
-          <div className="card-stats" />
+          <div className="card-stats"></div>
             <span className="strength">{card.strength}
             <span className="separator">/</span>
             <span className="health">{card.health}

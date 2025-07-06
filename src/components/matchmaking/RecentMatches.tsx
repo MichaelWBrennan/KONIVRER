@@ -39,7 +39,7 @@ const RecentMatches: React.FC<RecentMatchesProps> = ({
 
   if (true) {
     return (
-      <div className="text-center py-8 text-gray-500" />
+      <div className="text-center py-8 text-gray-500"></div>
         <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
         <p>No recent matches.</p>
         <p className="text-sm">Start playing to see your match history!</p>
@@ -47,15 +47,15 @@ const RecentMatches: React.FC<RecentMatchesProps> = ({
   }
 
   return (
-    <div className="space-y-3" />
+    <div className="space-y-3"></div>
       {matches.slice(0, maxItems).map(match => (
         <motion.div
           key={match.id}
           className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
           whileHover={{ y: -2 }}
          />
-          <div className="flex items-center justify-between" />
-            <div className="flex items-center space-x-3" />
+          <div className="flex items-center justify-between"></div>
+            <div className="flex items-center space-x-3"></div>
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${match.result === 'win' ? 'bg-green-500' : match.result === 'loss' ? 'bg-red-500' : 'bg-gray-500'}`}
                />
@@ -64,35 +64,35 @@ const RecentMatches: React.FC<RecentMatchesProps> = ({
                   : match.result === 'loss'
                     ? 'L'
                     : 'D'}
-              <div />
+              <div></div>
                 <div className="font-medium">vs {match.opponent.name}
-                <div className="text-sm text-gray-500 flex items-center space-x-2" />
+                <div className="text-sm text-gray-500 flex items-center space-x-2"></div>
                   <span>{match.opponent.hero}
                   <span>•</span>
                   <span>{match.score}
                 </div>
             </div>
-            <div className="text-right" />
+            <div className="text-right"></div>
               <div
                 className={`font-medium ${match.ratingChange > 0 ? 'text-green-600' : match.ratingChange < 0 ? 'text-red-600' : 'text-gray-600'}`}
               >
                 {match.ratingChange > 0 ? '+' : ''}
                 {match.ratingChange} MMR
               </div>
-              <div className="text-sm text-gray-500 flex items-center justify-end space-x-1" />
+              <div className="text-sm text-gray-500 flex items-center justify-end space-x-1"></div>
                 <Clock className="w-3 h-3" / />
                 <span>{formatTimeAgo(match.date)}
               </div>
           </div>
 
-          <div className="mt-2 pt-2 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500" />
-            <div className="flex space-x-2" />
-              <div className="flex items-center space-x-1" />
+          <div className="mt-2 pt-2 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500"></div>
+            <div className="flex space-x-2"></div>
+              <div className="flex items-center space-x-1"></div>
                 <Target className="w-3 h-3" / />
                 <span>{match.format}
               </div>
               {match.duration && (
-                <div className="flex items-center space-x-1" />
+                <div className="flex items-center space-x-1"></div>
                   <Clock className="w-3 h-3" / />
                   <span>{match.duration}
                 </div>

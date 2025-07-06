@@ -126,70 +126,70 @@ const TournamentManager = (): any => {
   ];
 
   const renderDashboard = (renderDashboard: any) => (
-    <div className="space-y-6" />
+    <div className="space-y-6"></div>
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6" />
-        <div className="bg-secondary border border-color rounded-xl p-6" />
-          <div className="flex items-center gap-3" />
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6"></div>
+        <div className="bg-secondary border border-color rounded-xl p-6"></div>
+          <div className="flex items-center gap-3"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center"></div>
               <Calendar className="text-white" size={24} / />
             </div>
-            <div />
+            <div></div>
               <p className="text-sm text-secondary">Active Tournaments</p>
               <p className="text-2xl font-bold text-primary">12</p>
           </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6" />
-          <div className="flex items-center gap-3" />
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center" />
+        <div className="bg-secondary border border-color rounded-xl p-6"></div>
+          <div className="flex items-center gap-3"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center"></div>
               <Users className="text-white" size={24} / />
             </div>
-            <div />
+            <div></div>
               <p className="text-sm text-secondary">Total Players</p>
               <p className="text-2xl font-bold text-primary">1,247</p>
           </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6" />
-          <div className="flex items-center gap-3" />
-            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center" />
+        <div className="bg-secondary border border-color rounded-xl p-6"></div>
+          <div className="flex items-center gap-3"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center"></div>
               <Trophy className="text-white" size={24} / />
             </div>
-            <div />
+            <div></div>
               <p className="text-sm text-secondary">Prize Pool</p>
               <p className="text-2xl font-bold text-primary">$45,200</p>
           </div>
 
-        <div className="bg-secondary border border-color rounded-xl p-6" />
-          <div className="flex items-center gap-3" />
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+        <div className="bg-secondary border border-color rounded-xl p-6"></div>
+          <div className="flex items-center gap-3"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
               <BarChart3 className="text-white" size={24} / />
             </div>
-            <div />
+            <div></div>
               <p className="text-sm text-secondary">Avg Attendance</p>
               <p className="text-2xl font-bold text-primary">87%</p>
           </div>
       </div>
 
       {/* Tournament List */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
-        <div className="flex items-center justify-between mb-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
+        <div className="flex items-center justify-between mb-6"></div>
           <h3 className="text-xl font-bold text-primary" />
             Tournament Overview
           </h3>
-          <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200" />
+          <button className="flex items-center gap-2 px-4 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
             <Plus size={16} / />
             Create Tournament
           </button>
 
-        <div className="space-y-4" />
+        <div className="space-y-4"></div>
           {tournaments.map(tournament => (
             <div
               key={tournament.id}
               className="border border-color rounded-xl p-4 hover:bg-tertiary transition-all duration-200"
              />
-              <div className="flex items-center justify-between" />
-                <div className="flex-1" />
-                  <div className="flex items-center gap-3 mb-2" />
+              <div className="flex items-center justify-between"></div>
+                <div className="flex-1"></div>
+                  <div className="flex items-center gap-3 mb-2"></div>
                     <h4 className="font-semibold text-primary" />
                       {tournament.name}
                     <span
@@ -204,29 +204,29 @@ const TournamentManager = (): any => {
                       {tournament.status}
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary" />
-                    <div className="flex items-center gap-2" />
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-secondary"></div>
+                    <div className="flex items-center gap-2"></div>
                       <Calendar size={14} / />
                       {tournament.date} at {tournament.time}
-                    <div className="flex items-center gap-2" />
+                    <div className="flex items-center gap-2"></div>
                       <MapPin size={14} / />
                       {tournament.location}
-                    <div className="flex items-center gap-2" />
+                    <div className="flex items-center gap-2"></div>
                       <Users size={14} / />
                       {tournament.players}/{tournament.maxPlayers} players
                     </div>
-                    <div className="flex items-center gap-2" />
+                    <div className="flex items-center gap-2"></div>
                       <Trophy size={14} / />
                       {tournament.prizePool}
                   </div>
 
-                <div className="flex items-center gap-2" />
+                <div className="flex items-center gap-2"></div>
                   {tournament.status === 'ongoing' && (
-                    <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors" />
+                    <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"></button>
                       <Play size={16} / />
                     </button>
                   )}
-                  <button className="p-2 text-secondary hover:bg-tertiary rounded-lg transition-colors" />
+                  <button className="p-2 text-secondary hover:bg-tertiary rounded-lg transition-colors"></button>
                     <Settings size={16} / />
                   </button>
               </div>
@@ -236,25 +236,25 @@ const TournamentManager = (): any => {
   );
 
   const renderBayesianAnalytics = (renderBayesianAnalytics: any) => (
-    <div className="space-y-6" />
-      <div className="bg-secondary border border-color rounded-xl p-6" />
-        <div className="flex items-center gap-3 mb-6" />
-          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+    <div className="space-y-6"></div>
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
+        <div className="flex items-center gap-3 mb-6"></div>
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
             <Brain className="text-white" size={24} / />
           </div>
-          <div />
+          <div></div>
             <h3 className="text-xl font-bold text-primary">Bayesian Matchmaking Analytics</h3>
-            <p className="text-sm text-secondary" />
+            <p className="text-sm text-secondary"></p>
               Advanced tournament analytics powered by TrueSkill™
             </p>
         </div>
         
         {/* Rating Distribution */}
-        <div className="mb-8" />
+        <div className="mb-8"></div>
           <h4 className="text-lg font-semibold text-primary mb-4">Player Rating Distribution</h4>
-          <div className="h-48 flex items-end gap-2" />
+          <div className="h-48 flex items-end gap-2"></div>
             {bayesianAnalytics.ratingDistribution.map((bucket) => (
-              <div key={bucket.range} className="flex flex-col items-center flex-1" />
+              <div key={bucket.range} className="flex flex-col items-center flex-1"></div>
                 <div 
                   className="w-full bg-accent-primary rounded-t-md" 
                   style={{ 
@@ -262,18 +262,18 @@ const TournamentManager = (): any => {
                     opacity: bucket.count > 0 ? 1 : 0.2
                   }}
                 ></div>
-                <div className="text-xs text-secondary mt-2 rotate-45 origin-left" />
+                <div className="text-xs text-secondary mt-2 rotate-45 origin-left"></div>
                   {bucket.range}
-                <div className="text-xs font-medium mt-1" />
+                <div className="text-xs font-medium mt-1"></div>
                   {bucket.count}
               </div>
             ))}
           </div>
         
         {/* Archetype Performance */}
-        <div />
+        <div></div>
           <h4 className="text-lg font-semibold text-primary mb-4">Archetype Performance</h4>
-          <div className="overflow-x-auto" />
+          <div className="overflow-x-auto"></div>
             <table className="w-full" />
               <thead />
                 <tr className="border-b border-color" />
@@ -314,15 +314,15 @@ const TournamentManager = (): any => {
           </div>
         
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8" />
-          <div className="bg-primary border border-color rounded-lg p-4" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8"></div>
+          <div className="bg-primary border border-color rounded-lg p-4"></div>
             <div className="text-sm text-secondary mb-1">Total Players</div>
             <div className="text-2xl font-bold text-primary">{bayesianAnalytics.playerCount}
           </div>
           
-          <div className="bg-primary border border-color rounded-lg p-4" />
+          <div className="bg-primary border border-color rounded-lg p-4"></div>
             <div className="text-sm text-secondary mb-1">Average Rating</div>
-            <div className="text-2xl font-bold text-primary" />
+            <div className="text-2xl font-bold text-primary"></div>
               {Math.round(bayesianAnalytics.ratingDistribution.reduce(
                 (sum, bucket) => {
                   // Estimate middle of range
@@ -335,7 +335,7 @@ const TournamentManager = (): any => {
               ) / bayesianAnalytics.playerCount)}
             </div>
           
-          <div className="bg-primary border border-color rounded-lg p-4" />
+          <div className="bg-primary border border-color rounded-lg p-4"></div>
             <div className="text-sm text-secondary mb-1">Avg. Uncertainty</div>
             <div className="text-2xl font-bold text-primary">±{bayesianAnalytics.uncertaintyAverage}
           </div>
@@ -343,15 +343,15 @@ const TournamentManager = (): any => {
   );
   
   const renderCreateTournament = (renderCreateTournament: any) => (
-    <div className="bg-secondary border border-color rounded-xl p-6" />
+    <div className="bg-secondary border border-color rounded-xl p-6"></div>
       <h3 className="text-xl font-bold text-primary mb-6" />
         Create New Tournament
       </h3>
 
       <form className="space-y-6" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Tournament Name
             </label>
             <input
@@ -361,8 +361,8 @@ const TournamentManager = (): any => {
             / />
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Date
             </label>
             <input
@@ -371,8 +371,8 @@ const TournamentManager = (): any => {
             / />
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Time
             </label>
             <input
@@ -381,8 +381,8 @@ const TournamentManager = (): any => {
             / />
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Max Players
             </label>
             <input
@@ -392,8 +392,8 @@ const TournamentManager = (): any => {
             / />
           </div>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Entry Fee
             </label>
             <input
@@ -403,8 +403,8 @@ const TournamentManager = (): any => {
             / />
           </div>
 
-        <div />
-          <label className="block text-sm font-medium text-primary mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-primary mb-2"></label>
             Location
           </label>
           <input
@@ -414,8 +414,8 @@ const TournamentManager = (): any => {
           / />
         </div>
 
-        <div />
-          <label className="block text-sm font-medium text-primary mb-2" />
+        <div></div>
+          <label className="block text-sm font-medium text-primary mb-2"></label>
             Description
           </label>
           <textarea
@@ -426,29 +426,29 @@ const TournamentManager = (): any => {
         </div>
 
         {/* Bayesian Matchmaking Settings */}
-        <div className="bg-primary border border-color rounded-xl p-6" />
-          <div className="flex items-center gap-3 mb-4" />
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center" />
+        <div className="bg-primary border border-color rounded-xl p-6"></div>
+          <div className="flex items-center gap-3 mb-4"></div>
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center"></div>
               <Brain className="text-white" size={20} / />
             </div>
-            <div />
+            <div></div>
               <h4 className="text-lg font-semibold text-primary" />
                 Bayesian Matchmaking Settings
               </h4>
-              <p className="text-sm text-secondary" />
+              <p className="text-sm text-secondary"></p>
                 Configure AI-powered tournament matchmaking
               </p>
           </div>
 
           {/* Enable/Disable Toggle */}
-          <div className="flex items-center justify-between p-4 bg-secondary border border-color rounded-lg mb-4" />
-            <div className="flex items-center gap-3" />
+          <div className="flex items-center justify-between p-4 bg-secondary border border-color rounded-lg mb-4"></div>
+            <div className="flex items-center gap-3"></div>
               <Zap className="text-accent-primary" size={18} / />
-              <div />
+              <div></div>
                 <h5 className="font-medium text-primary" />
                   Enable Smart Matchmaking
                 </h5>
-                <p className="text-xs text-secondary" />
+                <p className="text-xs text-secondary"></p>
                   Use AI to create balanced matches
                 </p>
             </div>
@@ -474,13 +474,13 @@ const TournamentManager = (): any => {
           </div>
 
           {matchmakingSettings.enabled && (
-            <div className="space-y-4" />
+            <div className="space-y-4"></div>
               {/* Algorithm Selection */}
-              <div />
-                <label className="block text-sm font-medium text-primary mb-2" />
+              <div></div>
+                <label className="block text-sm font-medium text-primary mb-2"></label>
                   Matchmaking Algorithm
                 </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
                   <div
                     className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
                       matchmakingSettings.algorithm === 'bayesian'
@@ -493,12 +493,12 @@ const TournamentManager = (): any => {
                         algorithm: 'bayesian',
                       }))}
                   >
-                    <div className="flex items-center gap-2 mb-1" />
+                    <div className="flex items-center gap-2 mb-1"></div>
                       <Brain className="text-accent-primary" size={16} / />
-                      <span className="font-medium text-primary text-sm" />
+                      <span className="font-medium text-primary text-sm"></span>
                         Bayesian TrueSkill
                       </span>
-                    <p className="text-xs text-secondary" />
+                    <p className="text-xs text-secondary"></p>
                       Advanced probabilistic skill modeling
                     </p>
 
@@ -514,20 +514,20 @@ const TournamentManager = (): any => {
                         algorithm: 'elo',
                       }))}
                   >
-                    <div className="flex items-center gap-2 mb-1" />
+                    <div className="flex items-center gap-2 mb-1"></div>
                       <TrendingUp className="text-blue-500" size={16} / />
-                      <span className="font-medium text-primary text-sm" />
+                      <span className="font-medium text-primary text-sm"></span>
                         Enhanced ELO
                       </span>
-                    <p className="text-xs text-secondary" />
+                    <p className="text-xs text-secondary"></p>
                       Traditional rating with meta analysis
                     </p>
                 </div>
 
               {/* Key Parameters */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Skill Variance: {matchmakingSettings.skillVariance}
                   <input
                     type="range"
@@ -541,12 +541,12 @@ const TournamentManager = (): any => {
                         skillVariance: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     Controls how much skill difference is allowed in matchmaking
                   </p>
                 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Uncertainty Factor: {matchmakingSettings.uncertaintyFactor}
                   <input
                     type="range"
@@ -560,12 +560,12 @@ const TournamentManager = (): any => {
                         uncertaintyFactor: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     How much uncertainty affects matchmaking decisions
                   </p>
                 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Deck Diversity Weight: {matchmakingSettings.deckDiversityWeight}
                   <input
                     type="range"
@@ -579,12 +579,12 @@ const TournamentManager = (): any => {
                         deckDiversityWeight: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     How much deck archetype affects matchmaking
                   </p>
                 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Historical Weight: {matchmakingSettings.historicalWeight}
                   <input
                     type="range"
@@ -598,12 +598,12 @@ const TournamentManager = (): any => {
                         historicalWeight: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     How much previous matches affect future pairings
                   </p>
                 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Preferred Matchup Balance: {matchmakingSettings.preferredMatchupBalance}
                   <input
                     type="range"
@@ -617,12 +617,12 @@ const TournamentManager = (): any => {
                         preferredMatchupBalance: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     Balance between fair and interesting matchups
                   </p>
                 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Confidence Threshold: {matchmakingSettings.confidenceThreshold}
                   <input
                     type="range"
@@ -636,12 +636,12 @@ const TournamentManager = (): any => {
                         confidenceThreshold: parseFloat(e.target.value),
                       }))}
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     Minimum confidence level for rating-based decisions
                   </p>
 
-                <div />
-                  <label className="block text-sm font-medium text-primary mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-primary mb-2"></label>
                     Deck Diversity Weight:{' '}
                     {matchmakingSettings.deckDiversityWeight}
                   <input
@@ -657,7 +657,7 @@ const TournamentManager = (): any => {
                       }))}
                     className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer"
                   />
-                  <p className="text-xs text-secondary mt-1" />
+                  <p className="text-xs text-secondary mt-1"></p>
                     Promotes diverse archetype matchups
                   </p>
               </div>
@@ -667,14 +667,14 @@ const TournamentManager = (): any => {
                 <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-accent-primary hover:text-accent-secondary transition-colors" />
                   <Sliders size={16} / />
                   Advanced Parameters
-                  <span className="ml-auto group-open:rotate-180 transition-transform" />
+                  <span className="ml-auto group-open:rotate-180 transition-transform"></span>
                     ▼
                   </span>
 
-                <div className="mt-4 space-y-4 pl-6 border-l-2 border-accent-primary/20" />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-                    <div />
-                      <label className="block text-xs font-medium text-primary mb-1" />
+                <div className="mt-4 space-y-4 pl-6 border-l-2 border-accent-primary/20"></div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <div></div>
+                      <label className="block text-xs font-medium text-primary mb-1"></label>
                         Learning Rate: {matchmakingSettings.learningRate}
                       <input
                         type="range"
@@ -691,8 +691,8 @@ const TournamentManager = (): any => {
                       />
                     </div>
 
-                    <div />
-                      <label className="block text-xs font-medium text-primary mb-1" />
+                    <div></div>
+                      <label className="block text-xs font-medium text-primary mb-1"></label>
                         Confidence Threshold:{' '}
                         {matchmakingSettings.confidenceThreshold}
                       <input
@@ -714,7 +714,7 @@ const TournamentManager = (): any => {
           )}
         </div>
 
-        <div className="flex gap-4" />
+        <div className="flex gap-4"></div>
           <button
             type="submit"
             className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"
@@ -731,27 +731,27 @@ const TournamentManager = (): any => {
   );
 
   const renderAnalytics = (renderAnalytics: any) => (
-    <div className="space-y-6" />
+    <div className="space-y-6"></div>
       {/* Bayesian Analytics Section */}
       {renderBayesianAnalytics()}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h3 className="text-xl font-bold text-primary mb-6" />
           Tournament Analytics
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" />
-          <div className="text-center" />
-            <div className="text-3xl font-bold text-accent-primary mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
+          <div className="text-center"></div>
+            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
               156
             </div>
             <div className="text-sm text-secondary">Total Tournaments</div>
-          <div className="text-center" />
-            <div className="text-3xl font-bold text-accent-primary mb-2" />
+          <div className="text-center"></div>
+            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
               4,892
             </div>
             <div className="text-sm text-secondary">Total Participants</div>
-          <div className="text-center" />
-            <div className="text-3xl font-bold text-accent-primary mb-2" />
+          <div className="text-center"></div>
+            <div className="text-3xl font-bold text-accent-primary mb-2"></div>
               $127,500
             </div>
             <div className="text-sm text-secondary">Total Prize Pool</div>
@@ -760,32 +760,32 @@ const TournamentManager = (): any => {
   );
 
   const renderMatchmakingSettings = (renderMatchmakingSettings: any) => (
-    <div className="space-y-6" />
+    <div className="space-y-6"></div>
       {/* Header */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
-        <div className="flex items-center gap-3 mb-4" />
-          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
+        <div className="flex items-center gap-3 mb-4"></div>
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center"></div>
             <Brain className="text-white" size={24} / />
           </div>
-          <div />
+          <div></div>
             <h3 className="text-xl font-bold text-primary" />
               Bayesian Matchmaking System
             </h3>
-            <p className="text-secondary" />
+            <p className="text-secondary"></p>
               Advanced AI-powered tournament matchmaking with skill-based
               pairing
             </p>
         </div>
 
         {/* Enable/Disable Toggle */}
-        <div className="flex items-center justify-between p-4 bg-primary border border-color rounded-xl" />
-          <div className="flex items-center gap-3" />
+        <div className="flex items-center justify-between p-4 bg-primary border border-color rounded-xl"></div>
+          <div className="flex items-center gap-3"></div>
             <Zap className="text-accent-primary" size={20} / />
-            <div />
+            <div></div>
               <h4 className="font-semibold text-primary" />
                 Enable Smart Matchmaking
               </h4>
-              <p className="text-sm text-secondary" />
+              <p className="text-sm text-secondary"></p>
                 Use AI to create balanced, competitive matches
               </p>
           </div>
@@ -810,13 +810,13 @@ const TournamentManager = (): any => {
         </div>
 
       {/* Algorithm Selection */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
           <Target className="text-accent-primary" size={20} / />
           Matchmaking Algorithm
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           <div
             className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
               matchmakingSettings.algorithm === 'bayesian'
@@ -829,10 +829,10 @@ const TournamentManager = (): any => {
                 algorithm: 'bayesian',
               }))}
           >
-            <div className="flex items-center gap-3 mb-2" />
+            <div className="flex items-center gap-3 mb-2"></div>
               <Brain className="text-accent-primary" size={20} / />
               <h5 className="font-semibold text-primary">Bayesian TrueSkill</h5>
-            <p className="text-sm text-secondary" />
+            <p className="text-sm text-secondary"></p>
               Advanced probabilistic model that accounts for skill uncertainty
               and learning over time
             </p>
@@ -846,28 +846,28 @@ const TournamentManager = (): any => {
             onClick={() = />
               setMatchmakingSettings(prev => ({ ...prev, algorithm: 'elo' }))}
           >
-            <div className="flex items-center gap-3 mb-2" />
+            <div className="flex items-center gap-3 mb-2"></div>
               <TrendingUp className="text-blue-500" size={20} / />
               <h5 className="font-semibold text-primary">Enhanced ELO</h5>
-            <p className="text-sm text-secondary" />
+            <p className="text-sm text-secondary"></p>
               Traditional rating system enhanced with deck archetype analysis
               and meta considerations
             </p>
         </div>
 
       {/* Skill Matching Parameters */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
           <Activity className="text-accent-primary" size={20} / />
           Skill Matching Parameters
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Skill Variance Tolerance
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.1"
@@ -881,18 +881,18 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.skillVariance * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Higher values allow more skill difference between matched players
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Historical Weight
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.1"
@@ -906,18 +906,18 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.historicalWeight * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               How much past performance influences current matchmaking
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Uncertainty Factor
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.1"
@@ -931,18 +931,18 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.uncertaintyFactor * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Accounts for rating uncertainty in new or inactive players
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Learning Rate
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.05"
@@ -956,27 +956,27 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.learningRate * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               How quickly the system adapts to new performance data
             </p>
         </div>
 
       {/* Deck Diversity & Meta Balance */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
           <Shuffle className="text-accent-primary" size={20} / />
           Deck Diversity & Meta Balance
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Deck Diversity Weight
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.1"
@@ -990,19 +990,19 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.deckDiversityWeight * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Prioritizes diverse deck archetype matchups over pure skill
               matching
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Matchup Balance Preference
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.5"
@@ -1016,47 +1016,47 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.preferredMatchupBalance * 100).toFixed(0)}
                 %
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Aims for balanced win rates between different deck archetypes
             </p>
         </div>
 
         {/* Deck Archetype Analysis */}
-        <div className="mt-6 p-4 bg-primary border border-color rounded-xl" />
+        <div className="mt-6 p-4 bg-primary border border-color rounded-xl"></div>
           <h5 className="font-semibold text-primary mb-3 flex items-center gap-2" />
             <BarChart3 size={16} / />
             Current Meta Analysis
           </h5>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" />
-            <div className="text-center" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"></div>
+            <div className="text-center"></div>
               <div className="text-lg font-bold text-accent-primary">32%</div>
               <div className="text-secondary">Aggro</div>
-            <div className="text-center" />
+            <div className="text-center"></div>
               <div className="text-lg font-bold text-blue-500">28%</div>
               <div className="text-secondary">Control</div>
-            <div className="text-center" />
+            <div className="text-center"></div>
               <div className="text-lg font-bold text-green-500">25%</div>
               <div className="text-secondary">Midrange</div>
-            <div className="text-center" />
+            <div className="text-center"></div>
               <div className="text-lg font-bold text-purple-500">15%</div>
               <div className="text-secondary">Combo</div>
           </div>
       </div>
 
       {/* Advanced Settings */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
           <Sliders className="text-accent-primary" size={20} / />
           Advanced Configuration
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Minimum Skill Difference
             </label>
             <input
@@ -1071,13 +1071,13 @@ const TournamentManager = (): any => {
                 }))}
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Minimum rating difference to consider players as different skill
               levels
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Maximum Skill Difference
             </label>
             <input
@@ -1092,15 +1092,15 @@ const TournamentManager = (): any => {
                 }))}
               className="w-full px-4 py-0 whitespace-nowrap bg-primary border border-color rounded-xl focus:ring-2 focus:ring-accent-primary focus:border-transparent"
             />
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Maximum allowed rating difference for matchmaking
             </p>
 
-          <div />
-            <label className="block text-sm font-medium text-primary mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-primary mb-2"></label>
               Confidence Threshold
             </label>
-            <div className="flex items-center gap-4" />
+            <div className="flex items-center gap-4"></div>
               <input
                 type="range"
                 min="0.5"
@@ -1114,52 +1114,52 @@ const TournamentManager = (): any => {
                   }))}
                 className="flex-1"
               />
-              <span className="text-sm text-secondary w-12" />
+              <span className="text-sm text-secondary w-12"></span>
                 {(matchmakingSettings.confidenceThreshold * 100).toFixed(0)}%
               </span>
-            <p className="text-xs text-secondary mt-1" />
+            <p className="text-xs text-secondary mt-1"></p>
               Minimum confidence level required for skill predictions
             </p>
         </div>
 
       {/* System Status & Performance */}
-      <div className="bg-secondary border border-color rounded-xl p-6" />
+      <div className="bg-secondary border border-color rounded-xl p-6"></div>
         <h4 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2" />
           <Activity className="text-accent-primary" size={20} / />
           System Performance
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" />
-          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
             <div className="text-2xl font-bold text-green-500 mb-2">94.7%</div>
             <div className="text-sm text-secondary">Match Quality Score</div>
-            <div className="text-xs text-secondary mt-1" />
+            <div className="text-xs text-secondary mt-1"></div>
               Based on post-game feedback
             </div>
 
-          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
+          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
             <div className="text-2xl font-bold text-blue-500 mb-2">1.2s</div>
             <div className="text-sm text-secondary">Avg. Processing Time</div>
-            <div className="text-xs text-secondary mt-1" />
+            <div className="text-xs text-secondary mt-1"></div>
               Per matchmaking request
             </div>
 
-          <div className="text-center p-4 bg-primary border border-color rounded-xl" />
+          <div className="text-center p-4 bg-primary border border-color rounded-xl"></div>
             <div className="text-2xl font-bold text-purple-500 mb-2">87.3%</div>
             <div className="text-sm text-secondary">Prediction Accuracy</div>
-            <div className="text-xs text-secondary mt-1" />
+            <div className="text-xs text-secondary mt-1"></div>
               Match outcome predictions
             </div>
         </div>
 
-        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl" />
-          <div className="flex items-start gap-3" />
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl"></div>
+          <div className="flex items-start gap-3"></div>
             <Info className="text-blue-500 mt-1" size={16} / />
-            <div />
+            <div></div>
               <h5 className="font-semibold text-blue-800 mb-1" />
                 Bayesian Learning Status
               </h5>
-              <p className="text-sm text-blue-700" />
+              <p className="text-sm text-blue-700"></p>
                 The system has processed 2,847 matches and is continuously
                 learning from player performance patterns. Current model
                 confidence: 92.4%
@@ -1168,39 +1168,39 @@ const TournamentManager = (): any => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4" />
-        <button className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200" />
+      <div className="flex gap-4"></div>
+        <button className="px-6 py-0 whitespace-nowrap bg-gradient-to-r from-accent-primary to-accent-secondary text-white rounded-xl hover:shadow-lg transition-all duration-200"></button>
           Save Settings
         </button>
-        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200" />
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"></button>
           Reset to Defaults
         </button>
-        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200" />
+        <button className="px-6 py-0 whitespace-nowrap border border-color text-secondary rounded-xl hover:bg-tertiary transition-all duration-200"></button>
           Export Configuration
         </button>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-primary" />
-      <div className="container py-8" />
+    <div className="min-h-screen bg-primary"></div>
+      <div className="container py-8"></div>
         {/* Header */}
-        <div className="mb-8" />
-          <div className="flex items-center gap-3 mb-4" />
-            <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center" />
+        <div className="mb-8"></div>
+          <div className="flex items-center gap-3 mb-4"></div>
+            <div className="w-12 h-12 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-xl flex items-center justify-center"></div>
               <Trophy className="text-white" size={24} / />
             </div>
-            <div />
+            <div></div>
               <h1 className="text-3xl font-bold text-primary" />
                 Tournament Manager
               </h1>
-              <p className="text-secondary" />
+              <p className="text-secondary"></p>
                 Organize and manage KONIVRER tournaments
               </p>
           </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2" />
+        <div className="flex gap-2 mb-8 bg-secondary border border-color rounded-xl p-2"></div>
           {[
             { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
             { id: 'create', label: 'Create Tournament', icon: Plus },

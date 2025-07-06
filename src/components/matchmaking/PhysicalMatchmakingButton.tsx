@@ -26,10 +26,10 @@ const PhysicalMatchmakingButton = (): any => {
       whileHover={{ y: -5 }}
       transition={{ type: 'spring', stiffness: 300 }}
      />
-      <div className="flex items-center space-x-2 mb-2" />
+      <div className="flex items-center space-x-2 mb-2"></div>
         <Trophy className="w-5 h-5 text-yellow-300" / />
         <h2 className="text-lg font-semibold">Physical Card Game?</h2>
-      <p className="text-sm text-purple-200 mb-4" />
+      <p className="text-sm text-purple-200 mb-4"></p>
         Use our enhanced physical matchmaking system for in-person tournaments,
         quick matches, and player tracking.
       </p>
@@ -43,22 +43,22 @@ const PhysicalMatchmakingButton = (): any => {
         <span>Open Physical Matchmaking</span>
       </motion.button>
 
-      <div className="mt-3 pt-3 border-t border-purple-500 border-opacity-30" />
-        <div className="grid grid-cols-4 gap-2" />
-          <div className="text-center" />
+      <div className="mt-3 pt-3 border-t border-purple-500 border-opacity-30"></div>
+        <div className="grid grid-cols-4 gap-2"></div>
+          <div className="text-center"></div>
             <Smartphone className="w-5 h-5 mx-auto mb-1" / />
             <p className="text-xs text-purple-200">Mobile</p>
-          <div className="text-center" />
+          <div className="text-center"></div>
             <Tablet className="w-5 h-5 mx-auto mb-1" / />
             <p className="text-xs text-purple-200">Tablet</p>
-          <div className="text-center" />
+          <div className="text-center"></div>
             <Laptop className="w-5 h-5 mx-auto mb-1" / />
             <p className="text-xs text-purple-200">Desktop</p>
-          <div className="text-center" />
+          <div className="text-center"></div>
             <QrCode className="w-5 h-5 mx-auto mb-1" / />
             <p className="text-xs text-purple-200">QR Codes</p>
         </div>
-        <div className="mt-2 text-xs text-center text-purple-200" />
+        <div className="mt-2 text-xs text-center text-purple-200"></div>
           <p>Works offline! Perfect for tournaments and game stores.</p>
       </div>
     </motion.div>

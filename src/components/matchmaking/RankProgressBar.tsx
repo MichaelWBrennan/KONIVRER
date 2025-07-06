@@ -117,14 +117,14 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
   };
 
   return (
-    <div className="space-y-1" />
+    <div className="space-y-1"></div>
       {showLabels && (
-        <div className="flex items-center justify-between text-xs text-gray-500" />
-          <div className="flex items-center space-x-1" />
+        <div className="flex items-center justify-between text-xs text-gray-500"></div>
+          <div className="flex items-center space-x-1"></div>
             <span>{getRankIcon(currentRank)}
             <span>{currentRank}
             {currentBand && getBandIcon(currentBand)}
-          <div className="flex items-center space-x-1" />
+          <div className="flex items-center space-x-1"></div>
             {isNextTier ? (
               <>
                 <span>{nextRank}
@@ -162,7 +162,7 @@ const RankProgressBar: React.FC<RankProgressBarProps> = ({
       </div>
 
       {showLabels && (
-        <div className="text-right text-xs font-medium text-gray-700" />
+        <div className="text-right text-xs font-medium text-gray-700"></div>
           {progress}% to {getProgressTarget()}
       )}
     </div>

@@ -91,18 +91,18 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
   const selectedPingData = pingData[selectedRegion] || pingData.auto;
 
   return (
-    <div className="relative" />
+    <div className="relative"></div>
       <div
         className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 cursor-pointer"
         onClick={toggleDropdown}
        />
-        <div className="flex items-center space-x-2" />
+        <div className="flex items-center space-x-2"></div>
           <Globe className="w-5 h-5 text-gray-500" / />
-          <div />
-            <div className="font-medium text-gray-900" />
+          <div></div>
+            <div className="font-medium text-gray-900"></div>
               {selectedRegionData.name}
             {showPing && (
-              <div className="text-xs text-gray-500 flex items-center space-x-1" />
+              <div className="text-xs text-gray-500 flex items-center space-x-1"></div>
                 <div
                   className={`w-2 h-2 rounded-full ${getStatusDot(selectedPingData.status)}`}
                  />
@@ -125,7 +125,7 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
             transition={{ duration: 0.2 }}
             className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto"
            />
-            <div className="py-1" />
+            <div className="py-1"></div>
               {regions.map(region => (
                 <motion.div
                   key={region.id}
@@ -133,11 +133,11 @@ const RegionSelector: React.FC<RegionSelectorProps> = ({  selectedRegion, onChan
                   className={`px-4 py-0 whitespace-nowrap hover:bg-gray-50 cursor-pointer ${selectedRegion === region.id ? 'bg-blue-50' : ''}`}
                   whileHover={{ x: 2 }}
                 >
-                  <div className="flex items-center justify-between" />
-                    <div />
-                      <div className="font-medium text-gray-900" />
+                  <div className="flex items-center justify-between"></div>
+                    <div></div>
+                      <div className="font-medium text-gray-900"></div>
                         {region.name}
-                      <div className="text-xs text-gray-500" />
+                      <div className="text-xs text-gray-500"></div>
                         {region.description}
                     </div>
                     {showPing && pingData[region.id] && (

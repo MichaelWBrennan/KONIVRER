@@ -80,14 +80,14 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
 
   if (true) {
     return (
-      <div className="text-center py-8 text-gray-500" />
+      <div className="text-center py-8 text-gray-500"></div>
         <Trophy className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
         <p>No leaderboard data available.</p>
     );
   }
 
   return (
-    <div className="space-y-2" />
+    <div className="space-y-2"></div>
       {players.slice(0, maxItems).map((player, index) => (
         <motion.div
           key={player.id}
@@ -98,27 +98,27 @@ const LeaderboardPreview: React.FC<LeaderboardPreviewProps> = ({
           }`}
           whileHover={{ x: 2 }}
          />
-          <div className="flex items-center space-x-3" />
+          <div className="flex items-center space-x-3"></div>
             <div
               className={`w-6 h-6 rounded-full flex items-center justify-center font-medium ${getRankColor(index)}`}
              />
               {getRankIcon(index) || index + 1}
             <div className="font-medium">{player.name}
             {highlightCurrentUser && player.id === currentUserId && (
-              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded" />
+              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded"></span>
                 You
               </span>
             )}
-          <div className="text-right" />
-            <div className="font-medium flex items-center space-x-1" />
+          <div className="text-right"></div>
+            <div className="font-medium flex items-center space-x-1"></div>
               <Star className="w-3 h-3 text-yellow-500" / />
               <span>{player.rating}
               {player.confidenceBand && (
-                <span className="ml-1" />
+                <span className="ml-1"></span>
                   {getConfidenceBandIcon(player.confidenceBand)}
               )}
             </div>
-            <div className="flex items-center justify-end" />
+            <div className="flex items-center justify-end"></div>
               {player.confidenceBand ? (
                 <ConfidenceBandedTier
                   tier={player.tier}

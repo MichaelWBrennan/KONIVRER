@@ -11,54 +11,54 @@ interface PlayerInfoProps {
 
 const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, isOpponent, isAI = false, aiStatus = null  }) => {
   return (
-    <div className={`player-info ${isOpponent ? 'opponent' : 'you'} ${isAI ? 'ai-player' : ''}`} />
-      <div className="player-header" />
+    <div className={`player-info ${isOpponent ? 'opponent' : 'you'} ${isAI ? 'ai-player' : ''}`}></div>
+      <div className="player-header"></div>
         <h2 />
           {isOpponent ? (isAI ? 'Cutting-Edge AI' : 'Opponent') : 'You'}
           {isAI && <Brain className="ai-brain-icon" />}
         {isAI && aiStatus && (
-          <div className="ai-status-mini" />
-            <div className="consciousness-mini" />
+          <div className="ai-status-mini"></div>
+            <div className="consciousness-mini"></div>
               <span>Consciousness: {((aiStatus.cuttingEdge?.consciousnessMetrics?.consciousnessLevel || 0.7) * 100).toFixed(0)}%</span>
           </div>
         )}
       </div>
       
-      <div className="info-row" />
-        <div className="info-item" />
+      <div className="info-row"></div>
+        <div className="info-item"></div>
           <span className="info-label">Life:</span>
           <span className="info-value">{player.lifeCards.length}
         </div>
         
         {!isOpponent && (
           <>
-            <div className="info-item" />
+            <div className="info-item"></div>
               <span className="info-label">Turn:</span>
               <span className="info-value">{player.id === 'player1' ? 'First' : 'Second'}
             </div>
             
-            <div className="info-item" />
+            <div className="info-item"></div>
               <span className="info-label">Cards:</span>
               <span className="info-value">{player.hand.length}
             </div>
           </>
         )}
         {isOpponent && (
-          <div className="info-item" />
+          <div className="info-item"></div>
             <span className="info-label">Cards:</span>
             <span className="info-value">{player.hand.length}
           </div>
         )}
         {/* AI Quick Stats */}
         {isAI && aiStatus && (
-          <div className="ai-quick-stats" />
-            <div className="ai-stat" />
+          <div className="ai-quick-stats"></div>
+            <div className="ai-stat"></div>
               <Eye className="stat-icon" / />
               <span>{((aiStatus.cuttingEdge?.theoryOfMindAccuracy || 0.5) * 100).toFixed(0)}%</span>
-            <div className="ai-stat" />
+            <div className="ai-stat"></div>
               <Heart className="stat-icon" / />
               <span>{((aiStatus.cuttingEdge?.emotionalIntelligence?.empathyLevel || 0.8) * 100).toFixed(0)}%</span>
-            <div className="ai-stat" />
+            <div className="ai-stat"></div>
               <Activity className="stat-icon" / />
               <span>{((aiStatus.cuttingEdge?.performanceMetrics?.decisionAccuracy || 0.7) * 100).toFixed(0)}%</span>
           </div>

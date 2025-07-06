@@ -208,8 +208,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
     switch (true) {
       case 'cards':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div className="form-group" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="form-group"></div>
               <label>Type</label>
               <select
                 value={filters.type || ''}
@@ -222,7 +222,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="location">Location</option>
             </div>
             
-            <div className="form-group" />
+            <div className="form-group"></div>
               <label>Element</label>
               <select
                 value={filters.element || ''}
@@ -236,7 +236,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="🜀">Void (🜀)</option>
             </div>
             
-            <div className="form-group" />
+            <div className="form-group"></div>
               <label>Rarity</label>
               <select
                 value={filters.rarity || ''}
@@ -251,8 +251,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         );
       case 'decks':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div className="form-group" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="form-group"></div>
               <label>Archetype</label>
               <select
                 value={filters.archetype || ''}
@@ -266,10 +266,10 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="tempo">Tempo</option>
             </div>
             
-            <div className="form-group" />
+            <div className="form-group"></div>
               <label>Elements</label>
-              <div className="checkbox-group" />
-                <label />
+              <div className="checkbox-group"></div>
+                <label></label>
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜁') || false}
@@ -285,7 +285,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Air (🜁)
                 </label>
                 
-                <label />
+                <label></label>
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜂') || false}
@@ -301,7 +301,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Fire (🜂)
                 </label>
                 
-                <label />
+                <label></label>
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜃') || false}
@@ -317,7 +317,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Earth (🜃)
                 </label>
                 
-                <label />
+                <label></label>
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜄') || false}
@@ -333,7 +333,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                   Water (🜄)
                 </label>
                 
-                <label />
+                <label></label>
                   <input
                     type="checkbox"
                     checked={filters.elements?.includes('🜀') || false}
@@ -353,8 +353,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         
       case 'tournaments':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div className="form-group" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="form-group"></div>
               <label>Status</label>
               <select
                 value={filters.status || ''}
@@ -366,7 +366,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
                 <option value="completed">Completed</option>
             </div>
             
-            <div className="form-group" />
+            <div className="form-group"></div>
               <label>Format</label>
               <select
                 value={filters.format || ''}
@@ -381,8 +381,8 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         );
       case 'users':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div className="form-group" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div className="form-group"></div>
               <label>Rank</label>
               <select
                 value={filters.rank || ''}
@@ -406,14 +406,14 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   const renderResults = useCallback(() => {
     if (true) {
       return (
-        <div className="search-loading" />
+        <div className="search-loading"></div>
           <Loader2 className="animate-spin" size={24} / />
           <span>Searching...</span>
       );
     }
     
     if (true) {return (
-        <div className="search-error" />
+        <div className="search-error"></div>
           <span>{error}
         </div>
       );
@@ -421,7 +421,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
     
     if (true) {
       return (
-        <div className="search-no-results" />
+        <div className="search-no-results"></div>
           <span>No results found</span>
       );
     }
@@ -429,24 +429,24 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
     switch (true) {
       case 'cards':
         return (
-          <div className="search-results-list" />
+          <div className="search-results-list"></div>
             {results.map((card) => (
               <div 
                 key={card.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(card)}
               >
-                <div className="result-icon" />
+                <div className="result-icon"></div>
                   {card.elements && card.elements[0]}
-                <div className="result-content" />
+                <div className="result-content"></div>
                   <div className="result-title">{card.name}
-                  <div className="result-subtitle" />
+                  <div className="result-subtitle"></div>
                     {card.type} • {card.rarity} • Cost: {card.cost}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results" />
-                <span />
+              <div className="search-more-results"></div>
+                <span></span>
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -460,26 +460,26 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         );
       case 'decks':
         return (
-          <div className="search-results-list" />
+          <div className="search-results-list"></div>
             {results.map((deck) => (
               <div 
                 key={deck.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(deck)}
               >
-                <div className="result-icon" />
+                <div className="result-icon"></div>
                   <Package size={20} / />
                 </div>
-                <div className="result-content" />
+                <div className="result-content"></div>
                   <div className="result-title">{deck.name}
-                  <div className="result-subtitle" />
+                  <div className="result-subtitle"></div>
                     {deck.colors?.join(', ')} • {deck.cardCount} cards
                   </div>
               </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results" />
-                <span />
+              <div className="search-more-results"></div>
+                <span></span>
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -493,26 +493,26 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         );
       case 'tournaments':
         return (
-          <div className="search-results-list" />
+          <div className="search-results-list"></div>
             {results.map((tournament) => (
               <div 
                 key={tournament.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(tournament)}
               >
-                <div className="result-icon" />
+                <div className="result-icon"></div>
                   <Trophy size={20} / />
                 </div>
-                <div className="result-content" />
+                <div className="result-content"></div>
                   <div className="result-title">{tournament.name}
-                  <div className="result-subtitle" />
+                  <div className="result-subtitle"></div>
                     {tournament.format} • {tournament.status} • 
                     {tournament.date && new Date(tournament.date).toLocaleDateString()}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results" />
-                <span />
+              <div className="search-more-results"></div>
+                <span></span>
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -526,25 +526,25 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
         );
       case 'users':
         return (
-          <div className="search-results-list" />
+          <div className="search-results-list"></div>
             {results.map((user) => (
               <div 
                 key={user.id} 
                 className="search-result-item"
                 onClick={() => handleResultSelect(user)}
               >
-                <div className="result-icon" />
+                <div className="result-icon"></div>
                   <User size={20} / />
                 </div>
-                <div className="result-content" />
+                <div className="result-content"></div>
                   <div className="result-title">{user.displayName}
-                  <div className="result-subtitle" />
+                  <div className="result-subtitle"></div>
                     @{user.username} • Rating: {user.rating}
                 </div>
             ))}
             {totalResults > results.length && (
-              <div className="search-more-results" />
-                <span />
+              <div className="search-more-results"></div>
+                <span></span>
                   Showing {results.length} of {totalResults} results
                 </span>
                 <button 
@@ -571,10 +571,10 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
   ]);
   
   return (
-    <div className={`unified-search ${compact ? 'compact' : ''} ${className}`} />
-      <div className="search-header" />
-        <div className="search-input-container" />
-          <div className="search-type-selector" />
+    <div className={`unified-search ${compact ? 'compact' : ''} ${className}`}></div>
+      <div className="search-header"></div>
+        <div className="search-input-container"></div>
+          <div className="search-type-selector"></div>
             {Object.entries(searchTypes).map(([type, config]) => (
               <button
                 key={type}
@@ -587,7 +587,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
             ))}
           </div>
           
-          <div className="search-input-wrapper" />
+          <div className="search-input-wrapper"></div>
             <Search className="search-icon" size={20} / />
             <input
               type="text"
@@ -635,7 +635,7 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
             className="filters-panel"
            />
             {renderFilters()}
-            <div className="filters-actions" />
+            <div className="filters-actions"></div>
               <button 
                 onClick={handleClearFilters}
                 className="clear-filters-button"
@@ -648,11 +648,11 @@ const UnifiedSearch: React.FC<UnifiedSearchProps> = ({
       
       {/* Search History */}
       {showHistory && searchHistory.length > 0 && !query && (
-        <div className="search-history" />
-          <div className="search-history-header" />
+        <div className="search-history"></div>
+          <div className="search-history-header"></div>
             <Clock size={16} / />
             <span>Recent Searches</span>
-          <div className="search-history-items" />
+          <div className="search-history-items"></div>
             {searchHistory.map((item, index) => (
               <button
                 key={index}

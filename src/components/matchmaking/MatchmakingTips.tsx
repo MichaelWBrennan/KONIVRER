@@ -71,12 +71,12 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
         <X className="w-4 h-4" / />
       </button>
 
-      <div className="flex items-start space-x-3" />
-        <div className="bg-yellow-100 rounded-full p-2 text-yellow-700" />
+      <div className="flex items-start space-x-3"></div>
+        <div className="bg-yellow-100 rounded-full p-2 text-yellow-700"></div>
           <Lightbulb className="w-5 h-5" / />
         </div>
 
-        <div className="flex-1" />
+        <div className="flex-1"></div>
           <AnimatePresence mode="wait" />
             <motion.div
               key={currentTip}
@@ -85,21 +85,21 @@ const MatchmakingTips: React.FC<MatchmakingTipsProps> = ({  onClose  }) => {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
              />
-              <div className="flex items-center space-x-2 mb-1" />
+              <div className="flex items-center space-x-2 mb-1"></div>
                 <span className="text-2xl">{tips[currentTip].icon}
                 <h3 className="font-medium text-gray-900" />
                   {tips[currentTip].title}
               </div>
-              <p className="text-sm text-gray-600" />
+              <p className="text-sm text-gray-600"></p>
                 {tips[currentTip].content}
             </motion.div>
           </AnimatePresence>
 
-          <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-200 border-opacity-50" />
-            <div className="text-xs text-gray-500" />
+          <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-200 border-opacity-50"></div>
+            <div className="text-xs text-gray-500"></div>
               Tip {currentTip + 1} of {tips.length}
 
-            <div className="flex space-x-2" />
+            <div className="flex space-x-2"></div>
               <motion.button
                 onClick={prevTip}
                 className="p-1 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100"

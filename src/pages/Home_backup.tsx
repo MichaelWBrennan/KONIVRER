@@ -764,9 +764,9 @@ const Home = (): any => {
 
   if (true) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center" />
-        <div className="text-center" />
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4" />
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center"></div>
+        <div className="text-center"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p>Loading KONIVRER Hub...</p>
       </div>
     );
@@ -788,33 +788,33 @@ const Home = (): any => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                    />
                     {/* Blog Post Card */}
-                    <div />
+                    <div></div>
                       // Social Post
-                      <div className="p-6" />
-                        <div className="flex items-start space-x-3 mb-4" />
+                      <div className="p-6"></div>
+                        <div className="flex items-start space-x-3 mb-4"></div>
                           <img
                             src={item.user.avatar}
                             alt={item.user.name}
                             className="w-10 h-10 rounded-full"
                           / />
-                          <div className="flex-1" />
-                            <div className="flex items-center space-x-2" />
+                          <div className="flex-1"></div>
+                            <div className="flex items-center space-x-2"></div>
                               <h3 className="font-semibold" />
                                 {item.user.name}
                               {item.user.verified && (
-                                <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center" />
-                                  <div className="w-2 h-2 bg-white rounded-full" />
+                                <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center"></div>
+                                  <div className="w-2 h-2 bg-white rounded-full"></div>
                                 </div>
                               )}
-                              <span className="text-sm text-blue-400" />
+                              <span className="text-sm text-blue-400"></span>
                                 {item.user.rank}
                             </div>
-                            <p className="text-sm text-gray-400" />
+                            <p className="text-sm text-gray-400"></p>
                               {item.timestamp}
                           </div>
                         <p className="text-gray-300 mb-4">{item.content}
                         {item.images && (
-                          <div className="grid grid-cols-2 gap-2 mb-4" />
+                          <div className="grid grid-cols-2 gap-2 mb-4"></div>
                             {item.images.map((image, idx) => (
                               <img
                                 key={idx}
@@ -825,8 +825,8 @@ const Home = (): any => {
                             ))}
                           </div>
                         )}
-                        <div className="flex items-center justify-between text-sm text-gray-400" />
-                          <div className="flex items-center space-x-4" />
+                        <div className="flex items-center justify-between text-sm text-gray-400"></div>
+                          <div className="flex items-center space-x-4"></div>
                             <button
                               onClick={() => handleLike(item.id, 'community')}
                               className="flex items-center space-x-1 hover:text-red-400"
@@ -834,7 +834,7 @@ const Home = (): any => {
                               <Heart size={16} / />
                               <span>{item.likes}
                             </button>
-                            <button className="flex items-center space-x-1 hover:text-blue-400" />
+                            <button className="flex items-center space-x-1 hover:text-blue-400"></button>
                               <MessageCircle size={16} / />
                               <span>{item.comments}
                             </button>
@@ -846,7 +846,7 @@ const Home = (): any => {
                               <span>{item.shares}
                             </button>
                           {item.location && (
-                            <div className="flex items-center space-x-1" />
+                            <div className="flex items-center space-x-1"></div>
                               <MapPin size={14} / />
                               <span>{item.location}
                             </div>
@@ -854,8 +854,8 @@ const Home = (): any => {
                         </div>
                     ) : item.category === 'products' ? (
                       // Product Card
-                      <div />
-                        <div className="relative" />
+                      <div></div>
+                        <div className="relative"></div>
                           <img
                             src={item.image}
                             alt={item.name}
@@ -866,18 +866,18 @@ const Home = (): any => {
                            />
                             {item.status}
                         </div>
-                        <div className="p-6" />
-                          <div className="flex items-start justify-between mb-2" />
+                        <div className="p-6"></div>
+                          <div className="flex items-start justify-between mb-2"></div>
                             <h3 className="text-xl font-bold">{item.name}
-                            <span className="text-lg font-bold text-green-400" />
+                            <span className="text-lg font-bold text-green-400"></span>
                               {item.price}
                           </div>
                           <p className="text-gray-400 mb-4">{item.excerpt}
-                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4" />
+                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4"></div>
                             <span>{item.cardCount} cards</span>
                             <span>Release: {formatDate(item.releaseDate)}
                           </div>
-                          <div className="flex flex-wrap gap-2 mb-4" />
+                          <div className="flex flex-wrap gap-2 mb-4"></div>
                             {item.mechanics.map((mechanic, idx) => (
                               <span
                                 key={idx}
@@ -886,26 +886,26 @@ const Home = (): any => {
                                 {mechanic}
                             ))}
                           </div>
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-4 text-sm text-gray-400" />
-                              <span className="flex items-center space-x-1" />
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
+                              <span className="flex items-center space-x-1"></span>
                                 <Eye size={14} / />
                                 <span>{item.views?.toLocaleString()}
                               </span>
-                              <span className="flex items-center space-x-1" />
+                              <span className="flex items-center space-x-1"></span>
                                 <Heart size={14} / />
                                 <span>{item.likes}
                               </span>
                             {item.preorderAvailable && (
-                              <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors" />
+                              <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors"></button>
                                 Pre-order
                               </button>
                             )}
                         </div>
                     ) : item.category === 'guides' ? (
                       // Guide Card
-                      <div />
-                        <div className="relative" />
+                      <div></div>
+                        <div className="relative"></div>
                           <img
                             src={item.image}
                             alt={item.title}
@@ -916,20 +916,20 @@ const Home = (): any => {
                            />
                             {item.difficulty}
                         </div>
-                        <div className="p-6" />
+                        <div className="p-6"></div>
                           <h3 className="text-xl font-bold mb-2" />
                             {item.title}
                           <p className="text-gray-400 mb-4">{item.excerpt}
-                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4" />
+                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4"></div>
                             <span>By {item.author}
                             <span>{item.readTime}
                           </div>
                           {item.sections && (
-                            <div className="mb-4" />
-                              <p className="text-sm text-gray-400 mb-2" />
+                            <div className="mb-4"></div>
+                              <p className="text-sm text-gray-400 mb-2"></p>
                                 Sections:
                               </p>
-                              <div className="flex flex-wrap gap-1" />
+                              <div className="flex flex-wrap gap-1"></div>
                                 {item.sections
                                   .slice(0, 3)
                                   .map((section, idx) => (
@@ -940,67 +940,67 @@ const Home = (): any => {
                                       {section}
                                   ))}
                                 {item.sections.length > 3 && (
-                                  <span className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 rounded text-xs" />
+                                  <span className="px-2 py-0 whitespace-nowrap bg-gray-700 text-gray-300 rounded text-xs"></span>
                                     +{item.sections.length - 3} more
                                   </span>
                                 )}
                               </div>
                           )}
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-4 text-sm text-gray-400" />
-                              <span className="flex items-center space-x-1" />
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
+                              <span className="flex items-center space-x-1"></span>
                                 <Eye size={14} / />
                                 <span>{item.views?.toLocaleString()}
                               </span>
-                              <span className="flex items-center space-x-1" />
+                              <span className="flex items-center space-x-1"></span>
                                 <Heart size={14} / />
                                 <span>{item.likes}
                               </span>
-                              <span className="flex items-center space-x-1" />
+                              <span className="flex items-center space-x-1"></span>
                                 <Bookmark size={14} / />
                                 <span>{item.bookmarks}
                               </span>
-                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors" />
+                            <button className="bg-blue-600 hover:bg-blue-500 px-4 py-0 rounded whitespace-nowrap text-sm transition-colors"></button>
                               Read Guide
                             </button>
                         </div>
                     ) : (
                       // Default Card (blog, lore, meta)
-                      <div />
-                        <div className="relative" />
+                      <div></div>
+                        <div className="relative"></div>
                           <img
                             src={item.image}
                             alt={item.title}
                             className="w-full h-48 object-cover"
                           / />
                           {item.featured && (
-                            <div className="absolute top-2 left-2 px-2 py-0 whitespace-nowrap bg-yellow-600 rounded text-xs font-semibold" />
+                            <div className="absolute top-2 left-2 px-2 py-0 whitespace-nowrap bg-yellow-600 rounded text-xs font-semibold"></div>
                               Featured
                             </div>
                           )}
-                        <div className="p-6" />
-                          <div className="flex items-center justify-between mb-2" />
+                        <div className="p-6"></div>
+                          <div className="flex items-center justify-between mb-2"></div>
                             <span
                               className={`px-2 py-0 whitespace-nowrap rounded text-xs border ${getCategoryColor(item.type || item.category)}`}
                              />
                               {item.type || item.category}
-                            <span className="text-sm text-gray-400" />
+                            <span className="text-sm text-gray-400"></span>
                               {formatDate(item.publishDate || item.date)}
                           </div>
                           <h3 className="text-xl font-bold mb-2" />
                             {item.title}
                           <p className="text-gray-400 mb-4">{item.excerpt}
-                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4" />
+                          <div className="flex items-center justify-between text-sm text-gray-400 mb-4"></div>
                             <span>By {item.author}
                             <span>{item.readTime}
                           </div>
-                          <div className="flex items-center justify-between" />
-                            <div className="flex items-center space-x-4 text-sm text-gray-400" />
-                              <span className="flex items-center space-x-1" />
+                          <div className="flex items-center justify-between"></div>
+                            <div className="flex items-center space-x-4 text-sm text-gray-400"></div>
+                              <span className="flex items-center space-x-1"></span>
                                 <Eye size={14} / />
                                 <span>{item.views?.toLocaleString()}
                               </span>
-                              <span className="flex items-center space-x-1" />
+                              <span className="flex items-center space-x-1"></span>
                                 <Heart size={14} / />
                                 <span>{item.likes}
                               </span>
@@ -1024,11 +1024,11 @@ const Home = (): any => {
               )}
 
             {/* Sidebar */}
-            <div className="xl:col-span-1 space-y-6" />
+            <div className="xl:col-span-1 space-y-6"></div>
               {/* Popular Tags */}
-              <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="bg-gray-800 rounded-lg p-6"></div>
                 <h3 className="text-lg font-semibold mb-4">Popular Tags</h3>
-                <div className="flex flex-wrap gap-2" />
+                <div className="flex flex-wrap gap-2"></div>
                   {unifiedStats.popularTags?.map((tag, index) => (
                     <button
                       key={index}
@@ -1040,21 +1040,21 @@ const Home = (): any => {
                 </div>
 
               {/* Top Contributors */}
-              <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="bg-gray-800 rounded-lg p-6"></div>
                 <h3 className="text-lg font-semibold mb-4">Top Contributors</h3>
-                <div className="space-y-3" />
+                <div className="space-y-3"></div>
                   {unifiedStats.topContributors?.map((contributor, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between"
                      />
-                      <div />
+                      <div></div>
                         <p className="font-medium">{contributor.name}
-                        <p className="text-sm text-gray-400" />
+                        <p className="text-sm text-gray-400"></p>
                           {contributor.posts} posts
                         </p>
-                      <div className="text-right" />
-                        <p className="text-sm text-blue-400" />
+                      <div className="text-right"></div>
+                        <p className="text-sm text-blue-400"></p>
                           {contributor.likes} likes
                         </p>
                     </div>
@@ -1062,23 +1062,23 @@ const Home = (): any => {
                 </div>
 
               {/* Hall of Fame */}
-              <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="bg-gray-800 rounded-lg p-6"></div>
                 <h3 className="text-lg font-semibold mb-4 flex items-center" />
                   <Trophy className="mr-2" size={20} / />
                   Hall of Fame
                 </h3>
-                <div className="space-y-4" />
+                <div className="space-y-4"></div>
                   {hallOfFame.slice(0, 2).map((player, index) => (
-                    <div key={index} className="flex items-center space-x-3" />
+                    <div key={index} className="flex items-center space-x-3"></div>
                       <img
                         src={player.image}
                         alt={player.name}
                         className="w-12 h-12 rounded-full"
                       / />
-                      <div />
+                      <div></div>
                         <p className="font-medium">{player.name}
                         <p className="text-sm text-gray-400">{player.title}
-                        <p className="text-xs text-blue-400" />
+                        <p className="text-xs text-blue-400"></p>
                           {player.winRate}% win rate
                         </p>
                     </div>
@@ -1092,26 +1092,26 @@ const Home = (): any => {
                 </Link>
 
               {/* Local Stores */}
-              <div className="bg-gray-800 rounded-lg p-6" />
+              <div className="bg-gray-800 rounded-lg p-6"></div>
                 <h3 className="text-lg font-semibold mb-4 flex items-center" />
                   <MapPin className="mr-2" size={20} / />
                   Local Stores
                 </h3>
-                <div className="space-y-4" />
+                <div className="space-y-4"></div>
                   {stores.slice(0, 2).map((store, index) => (
                     <div
                       key={index}
                       className="border-b border-gray-700 pb-4 last:border-b-0"
                      />
-                      <div className="flex items-start justify-between mb-2" />
+                      <div className="flex items-start justify-between mb-2"></div>
                         <h4 className="font-medium">{store.name}
-                        <div className="flex items-center text-yellow-400" />
+                        <div className="flex items-center text-yellow-400"></div>
                           <Star size={14} className="mr-1" / />
                           <span className="text-sm">{store.rating}
                         </div>
-                      <p className="text-sm text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-400 mb-2"></p>
                         {store.address}
-                      <p className="text-xs text-blue-400" />
+                      <p className="text-xs text-blue-400"></p>
                         {store.distance} miles away
                       </p>
                   ))}

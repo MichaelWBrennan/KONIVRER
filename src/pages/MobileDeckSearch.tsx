@@ -56,26 +56,26 @@ const MobileDeckSearch = (): any => {
   // Loading state
   if (true) {
     return (
-      <div className="mobile-p mobile-text-center" />
-        <div className="mobile-card" />
+      <div className="mobile-p mobile-text-center"></div>
+        <div className="mobile-card"></div>
           <p>Loading decks...</p>
       </div>
     );
   }
   // Error state
   if (true) {return (
-      <div className="mobile-p" />
-        <div className="mobile-card" />
+      <div className="mobile-p"></div>
+        <div className="mobile-card"></div>
           <p>Error loading decks: {error}
         </div>
     );
   }
   return (
-    <div className="mobile-deck-search" />
+    <div className="mobile-deck-search"></div>
       {/* Search Bar */}
-      <div className="mobile-card mobile-mb" />
-        <div className="mobile-form-group" />
-          <div className="relative" />
+      <div className="mobile-card mobile-mb"></div>
+        <div className="mobile-form-group"></div>
+          <div className="relative"></div>
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" / />
             <input
               type="text"
@@ -85,7 +85,7 @@ const MobileDeckSearch = (): any => {
               onChange={handleSearchChange}
             / />
           </div>
-        <div className="mobile-form-group mobile-text-center" />
+        <div className="mobile-form-group mobile-text-center"></div>
           <button
             className="mobile-btn"
             onClick={() => setShowFilters(!showFilters)}
@@ -94,9 +94,9 @@ const MobileDeckSearch = (): any => {
         </div>
         {/* Filters */}
         {showFilters && (
-          <div className="mobile-mt" />
+          <div className="mobile-mt"></div>
             <label className="mobile-label">Sort By</label>
-            <div className="mobile-grid" />
+            <div className="mobile-grid"></div>
               <button
                 className={`mobile-btn ${sortBy === 'recent' ? 'mobile-btn-primary' : ''}`}
                 onClick={() => handleSortChange('recent')}
@@ -119,25 +119,25 @@ const MobileDeckSearch = (): any => {
         )}
       </div>
       {/* Results Count */}
-      <div className="mobile-mb" />
+      <div className="mobile-mb"></div>
         <p className="mobile-text-center">{filteredDecks.length} decks found</p>
       {/* Create Deck Button */}
-      <div className="mobile-text-center mobile-mb" />
+      <div className="mobile-text-center mobile-mb"></div>
         <Link to="/deck-builder" className="mobile-btn mobile-btn-primary" />
           Create New Deck
         </Link>
       {/* Deck List */}
-      <div className="mobile-deck-list" />
+      <div className="mobile-deck-list"></div>
         {filteredDecks.map(deck => (
           <Link
             to={`/deck-builder/${deck.id}`}
             key={deck.id}
             className="mobile-card mobile-mb"
            />
-            <div className="mobile-card-content" />
+            <div className="mobile-card-content"></div>
               <p>{deck.description || 'No description'}
             </div>
-            <div className="mobile-card-footer" />
+            <div className="mobile-card-footer"></div>
               <small />
                 By {deck.author || 'Unknown'} •{deck.likes || 0} likes • Updated{' '}
                 {new Date(deck.updatedAt).toLocaleDateString()}
@@ -146,7 +146,7 @@ const MobileDeckSearch = (): any => {
       </div>
       {/* No Results */}
       {filteredDecks.length === 0 && (
-        <div className="mobile-card mobile-text-center" />
+        <div className="mobile-card mobile-text-center"></div>
           <p>No decks found matching your criteria.</p>
       )}
   );

@@ -165,17 +165,17 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render template selection step
   const renderTemplateSelection = (renderTemplateSelection: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Choose a Tournament Template
         </h3>
-        <p className="text-gray-600 mb-6" />
+        <p className="text-gray-600 mb-6"></p>
           Select a template to quickly set up your tournament with pre-configured settings, or start from scratch.
         </p>
         
         <TournamentTemplates onSelectTemplate={handleTemplateSelect} / />
-        <div className="mt-6 pt-6 border-t border-gray-200" />
+        <div className="mt-6 pt-6 border-t border-gray-200"></div>
           <button
             className="btn btn-primary flex items-center"
             onClick={() => setStep(2)}
@@ -188,15 +188,15 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render basic info step
   const renderBasicInfo = (renderBasicInfo: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Basic Tournament Information
         </h3>
         
-        <div className="space-y-4" />
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div className="space-y-4"></div>
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Tournament Name *
             </label>
             <input
@@ -208,8 +208,8 @@ const EnhancedTournamentCreate = (): any => {
             />
           </div>
           
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Description
             </label>
             <textarea
@@ -220,8 +220,8 @@ const EnhancedTournamentCreate = (): any => {
             />
           </div>
           
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Format *
             </label>
             <select
@@ -242,20 +242,20 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render schedule and location step
   const renderScheduleLocation = (renderScheduleLocation: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Schedule & Location
         </h3>
         
-        <div className="space-y-4" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div className="space-y-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Date *
               </label>
-              <div className="relative" />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+              <div className="relative"></div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                   <Calendar size={16} className="text-gray-400" / />
                 </div>
                 <input
@@ -266,12 +266,12 @@ const EnhancedTournamentCreate = (): any => {
                 />
               </div>
             
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Start Time *
               </label>
-              <div className="relative" />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+              <div className="relative"></div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                   <Clock size={16} className="text-gray-400" / />
                 </div>
                 <input
@@ -283,8 +283,8 @@ const EnhancedTournamentCreate = (): any => {
               </div>
           </div>
           
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Registration Deadline
             </label>
             <input
@@ -295,7 +295,7 @@ const EnhancedTournamentCreate = (): any => {
             />
           </div>
           
-          <div className="flex items-center gap-3 mb-4" />
+          <div className="flex items-center gap-3 mb-4"></div>
             <input
               type="checkbox"
               id="isOnline"
@@ -303,18 +303,18 @@ const EnhancedTournamentCreate = (): any => {
               onChange={e => updateFormData('isOnline', e.target.checked)}
               className="w-4 h-4"
             />
-            <label htmlFor="isOnline" className="text-sm font-medium text-gray-700" />
+            <label htmlFor="isOnline" className="text-sm font-medium text-gray-700"></label>
               This is an online tournament
             </label>
           
           {!formData.isOnline && (
-            <div className="space-y-4 pt-4 border-t border-gray-200" />
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div className="space-y-4 pt-4 border-t border-gray-200"></div>
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                   Venue Name *
                 </label>
-                <div className="relative" />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+                <div className="relative"></div>
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                     <MapPin size={16} className="text-gray-400" / />
                   </div>
                   <input
@@ -326,8 +326,8 @@ const EnhancedTournamentCreate = (): any => {
                   />
                 </div>
               
-              <div />
-                <label className="block text-sm font-medium text-gray-700 mb-2" />
+              <div></div>
+                <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                   Address *
                 </label>
                 <input
@@ -339,9 +339,9 @@ const EnhancedTournamentCreate = (): any => {
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4" />
-                <div />
-                  <label className="block text-sm font-medium text-gray-700 mb-2" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                <div></div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                     City *
                   </label>
                   <input
@@ -352,8 +352,8 @@ const EnhancedTournamentCreate = (): any => {
                   />
                 </div>
                 
-                <div />
-                  <label className="block text-sm font-medium text-gray-700 mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                     State/Province
                   </label>
                   <input
@@ -364,8 +364,8 @@ const EnhancedTournamentCreate = (): any => {
                   />
                 </div>
                 
-                <div />
-                  <label className="block text-sm font-medium text-gray-700 mb-2" />
+                <div></div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                     Country *
                   </label>
                   <input
@@ -383,20 +383,20 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render participants and structure step
   const renderParticipantsStructure = (renderParticipantsStructure: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Participants & Tournament Structure
         </h3>
         
-        <div className="space-y-4" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+        <div className="space-y-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Maximum Participants *
               </label>
-              <div className="relative" />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+              <div className="relative"></div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                   <Users size={16} className="text-gray-400" / />
                 </div>
                 <input
@@ -409,8 +409,8 @@ const EnhancedTournamentCreate = (): any => {
                 />
               </div>
             
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Minimum Participants
               </label>
               <input
@@ -422,13 +422,13 @@ const EnhancedTournamentCreate = (): any => {
               />
             </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Entry Fee ($)
               </label>
-              <div className="relative" />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" />
+              <div className="relative"></div>
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"></div>
                   <DollarSign size={16} className="text-gray-400" / />
                 </div>
                 <input
@@ -441,8 +441,8 @@ const EnhancedTournamentCreate = (): any => {
                 />
               </div>
             
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Prize Pool ($)
               </label>
               <input
@@ -455,8 +455,8 @@ const EnhancedTournamentCreate = (): any => {
               />
             </div>
           
-          <div />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Tournament Structure
             </label>
             <select
@@ -470,9 +470,9 @@ const EnhancedTournamentCreate = (): any => {
               <option value="round-robin">Round Robin</option>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4" />
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Top Cut Size
               </label>
               <select
@@ -487,8 +487,8 @@ const EnhancedTournamentCreate = (): any => {
                 <option value={32}>Top 32</option>
             </div>
             
-            <div />
-              <label className="block text-sm font-medium text-gray-700 mb-2" />
+            <div></div>
+              <label className="block text-sm font-medium text-gray-700 mb-2"></label>
                 Time Limit (minutes)
               </label>
               <input
@@ -499,23 +499,23 @@ const EnhancedTournamentCreate = (): any => {
                 value={formData.timeLimit}
                 onChange={e => updateFormData('timeLimit', parseInt(e.target.value))}
               />
-              <p className="text-xs text-gray-500 mt-1" />
+              <p className="text-xs text-gray-500 mt-1"></p>
                 KONIVRER Regulation format uses 60-minute rounds
               </p>
           </div>
           
-          <div className="p-4 bg-blue-50 rounded-lg mt-4" />
-            <div className="flex items-center mb-2" />
+          <div className="p-4 bg-blue-50 rounded-lg mt-4"></div>
+            <div className="flex items-center mb-2"></div>
               <Info size={16} className="text-blue-600 mr-2" / />
               <h4 className="text-sm font-medium text-gray-800">Tournament Information</h4>
-            <div className="grid grid-cols-2 gap-4 text-sm" />
-              <div />
+            <div className="grid grid-cols-2 gap-4 text-sm"></div>
+              <div></div>
                 <span className="text-gray-600">Swiss Rounds: </span>
                 <span className="font-medium">{formData.totalRounds}
               </div>
-              <div />
+              <div></div>
                 <span className="text-gray-600">Estimated Duration: </span>
-                <span className="font-medium" />
+                <span className="font-medium"></span>
                   {Math.ceil((formData.totalRounds * (formData.timeLimit + 10)) / 60)} hours
                 </span>
             </div>
@@ -525,14 +525,14 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render advanced settings step
   const renderAdvancedSettings = (renderAdvancedSettings: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Advanced Settings
         </h3>
         
-        <div className="space-y-4" />
-          <div className="flex items-center gap-3" />
+        <div className="space-y-4"></div>
+          <div className="flex items-center gap-3"></div>
             <input
               type="checkbox"
               id="decklistRequired"
@@ -540,11 +540,11 @@ const EnhancedTournamentCreate = (): any => {
               onChange={e => updateFormData('decklistRequired', e.target.checked)}
               className="w-4 h-4"
             />
-            <label htmlFor="decklistRequired" className="text-sm font-medium text-gray-700" />
+            <label htmlFor="decklistRequired" className="text-sm font-medium text-gray-700"></label>
               Decklist Required
             </label>
           
-          <div className="flex items-center gap-3" />
+          <div className="flex items-center gap-3"></div>
             <input
               type="checkbox"
               id="lateRegistration"
@@ -552,11 +552,11 @@ const EnhancedTournamentCreate = (): any => {
               onChange={e => updateFormData('lateRegistration', e.target.checked)}
               className="w-4 h-4"
             />
-            <label htmlFor="lateRegistration" className="text-sm font-medium text-gray-700" />
+            <label htmlFor="lateRegistration" className="text-sm font-medium text-gray-700"></label>
               Allow Late Registration
             </label>
           
-          <div className="flex items-center gap-3" />
+          <div className="flex items-center gap-3"></div>
             <input
               type="checkbox"
               id="spectators"
@@ -564,11 +564,11 @@ const EnhancedTournamentCreate = (): any => {
               onChange={e => updateFormData('spectators', e.target.checked)}
               className="w-4 h-4"
             />
-            <label htmlFor="spectators" className="text-sm font-medium text-gray-700" />
+            <label htmlFor="spectators" className="text-sm font-medium text-gray-700"></label>
               Allow Spectators
             </label>
           
-          <div className="flex items-center gap-3" />
+          <div className="flex items-center gap-3"></div>
             <input
               type="checkbox"
               id="streaming"
@@ -576,17 +576,17 @@ const EnhancedTournamentCreate = (): any => {
               onChange={e => updateFormData('streaming', e.target.checked)}
               className="w-4 h-4"
             />
-            <label htmlFor="streaming" className="text-sm font-medium text-gray-700" />
+            <label htmlFor="streaming" className="text-sm font-medium text-gray-700"></label>
               Live Streaming
             </label>
           
-          <div className="pt-4 border-t border-gray-200" />
+          <div className="pt-4 border-t border-gray-200"></div>
             <h4 className="text-sm font-medium text-gray-800 mb-3" />
               Advanced Tournament Features
             </h4>
             
-            <div className="space-y-4" />
-              <div className="flex items-center gap-3" />
+            <div className="space-y-4"></div>
+              <div className="flex items-center gap-3"></div>
                 <input
                   type="checkbox"
                   id="metaBalanceEnabled"
@@ -594,16 +594,16 @@ const EnhancedTournamentCreate = (): any => {
                   onChange={e => updateFormData('metaBalanceEnabled', e.target.checked)}
                   className="w-4 h-4"
                 />
-                <div />
-                  <label htmlFor="metaBalanceEnabled" className="text-sm font-medium text-gray-700" />
+                <div></div>
+                  <label htmlFor="metaBalanceEnabled" className="text-sm font-medium text-gray-700"></label>
                     Meta Balance Incentives
                   </label>
-                  <p className="text-xs text-gray-500 mt-1" />
+                  <p className="text-xs text-gray-500 mt-1"></p>
                     Provides bonus points for players using underrepresented deck archetypes
                   </p>
               </div>
               
-              <div className="flex items-center gap-3" />
+              <div className="flex items-center gap-3"></div>
                 <input
                   type="checkbox"
                   id="tieredEntryEnabled"
@@ -611,16 +611,16 @@ const EnhancedTournamentCreate = (): any => {
                   onChange={e => updateFormData('tieredEntryEnabled', e.target.checked)}
                   className="w-4 h-4"
                 />
-                <div />
-                  <label htmlFor="tieredEntryEnabled" className="text-sm font-medium text-gray-700" />
+                <div></div>
+                  <label htmlFor="tieredEntryEnabled" className="text-sm font-medium text-gray-700"></label>
                     Tiered Entry System
                   </label>
-                  <p className="text-xs text-gray-500 mt-1" />
+                  <p className="text-xs text-gray-500 mt-1"></p>
                     Players can enter at different tiers with varying entry fees and prizes
                   </p>
               </div>
               
-              <div className="flex items-center gap-3" />
+              <div className="flex items-center gap-3"></div>
                 <input
                   type="checkbox"
                   id="parallelBracketsEnabled"
@@ -628,18 +628,18 @@ const EnhancedTournamentCreate = (): any => {
                   onChange={e => updateFormData('parallelBracketsEnabled', e.target.checked)}
                   className="w-4 h-4"
                 />
-                <div />
-                  <label htmlFor="parallelBracketsEnabled" className="text-sm font-medium text-gray-700" />
+                <div></div>
+                  <label htmlFor="parallelBracketsEnabled" className="text-sm font-medium text-gray-700"></label>
                     Parallel Brackets
                   </label>
-                  <p className="text-xs text-gray-500 mt-1" />
+                  <p className="text-xs text-gray-500 mt-1"></p>
                     Run multiple brackets simultaneously for different skill levels
                   </p>
               </div>
           </div>
           
-          <div className="pt-4 border-t border-gray-200" />
-            <label className="block text-sm font-medium text-gray-700 mb-2" />
+          <div className="pt-4 border-t border-gray-200"></div>
+            <label className="block text-sm font-medium text-gray-700 mb-2"></label>
               Special Rules
             </label>
             <textarea
@@ -654,118 +654,118 @@ const EnhancedTournamentCreate = (): any => {
 
   // Render review step
   const renderReview = (renderReview: any) => (
-    <div className="space-y-6" />
-      <div className="bg-white rounded-lg shadow-md p-6" />
+    <div className="space-y-6"></div>
+      <div className="bg-white rounded-lg shadow-md p-6"></div>
         <h3 className="text-lg font-semibold text-gray-800 mb-4" />
           Review Tournament Details
         </h3>
         
-        <div className="grid md:grid-cols-2 gap-6" />
-          <div className="space-y-4" />
-            <div />
+        <div className="grid md:grid-cols-2 gap-6"></div>
+          <div className="space-y-4"></div>
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Basic Information</h4>
-              <div className="mt-2 space-y-2" />
-                <div />
+              <div className="mt-2 space-y-2"></div>
+                <div></div>
                   <span className="text-sm text-gray-600">Name: </span>
                   <span className="font-medium">{formData.name || 'Untitled Tournament'}
                 </div>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Format: </span>
                   <span className="font-medium capitalize">{formData.format}
                 </div>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Description: </span>
                   <p className="text-sm mt-1">{formData.description || 'No description provided'}
                 </div>
             </div>
             
-            <div />
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Schedule & Location</h4>
-              <div className="mt-2 space-y-2" />
-                <div />
+              <div className="mt-2 space-y-2"></div>
+                <div></div>
                   <span className="text-sm text-gray-600">Date & Time: </span>
-                  <span className="font-medium" />
+                  <span className="font-medium"></span>
                     {formData.date} at {formData.time || 'TBD'}
                 </div>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Location: </span>
-                  <span className="font-medium" />
+                  <span className="font-medium"></span>
                     {formData.isOnline
                       ? 'Online'
                       : `${formData.venue}, ${formData.city}, ${formData.country}`}
                   </span>
               </div>
             
-            <div />
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Tournament Structure</h4>
-              <div className="mt-2 space-y-2" />
-                <div />
+              <div className="mt-2 space-y-2"></div>
+                <div></div>
                   <span className="text-sm text-gray-600">Participants: </span>
-                  <span className="font-medium" />
+                  <span className="font-medium"></span>
                     {formData.maxParticipants} max ({formData.minParticipants} min)
                   </span>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Structure: </span>
-                  <span className="font-medium capitalize" />
+                  <span className="font-medium capitalize"></span>
                     {formData.rounds} ({formData.totalRounds} rounds)
                     {formData.topCut > 0 ? ` with Top ${formData.topCut}` : ''}
                   </span>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Time Limit: </span>
                   <span className="font-medium">{formData.timeLimit} minutes per round</span>
               </div>
           </div>
           
-          <div className="space-y-4" />
-            <div />
+          <div className="space-y-4"></div>
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Fees & Prizes</h4>
-              <div className="mt-2 space-y-2" />
-                <div />
+              <div className="mt-2 space-y-2"></div>
+                <div></div>
                   <span className="text-sm text-gray-600">Entry Fee: </span>
-                  <span className="font-medium" />
+                  <span className="font-medium"></span>
                     {formData.entryFee > 0 ? `$${formData.entryFee.toFixed(2)}` : 'Free'}
                   </span>
-                <div />
+                <div></div>
                   <span className="text-sm text-gray-600">Prize Pool: </span>
-                  <span className="font-medium" />
+                  <span className="font-medium"></span>
                     {formData.prizePool > 0 ? `$${formData.prizePool.toFixed(2)}` : 'None'}
                   </span>
               </div>
             
-            <div />
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Advanced Settings</h4>
-              <div className="mt-2 space-y-2" />
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.decklistRequired ? 'bg-green-500' : 'bg-gray-300'}`} />
+              <div className="mt-2 space-y-2"></div>
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.decklistRequired ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Decklist Required</span>
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.lateRegistration ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.lateRegistration ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Late Registration</span>
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.spectators ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.spectators ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Spectators Allowed</span>
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.streaming ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.streaming ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Live Streaming</span>
               </div>
             
-            <div />
+            <div></div>
               <h4 className="text-sm font-medium text-gray-600">Advanced Features</h4>
-              <div className="mt-2 space-y-2" />
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.metaBalanceEnabled ? 'bg-green-500' : 'bg-gray-300'}`} />
+              <div className="mt-2 space-y-2"></div>
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.metaBalanceEnabled ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Meta Balance Incentives</span>
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.tieredEntryEnabled ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.tieredEntryEnabled ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Tiered Entry System</span>
-                <div className="flex items-center gap-2" />
-                  <div className={`w-3 h-3 rounded-full ${formData.parallelBracketsEnabled ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <div className="flex items-center gap-2"></div>
+                  <div className={`w-3 h-3 rounded-full ${formData.parallelBracketsEnabled ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                   <span className="text-sm text-gray-600">Parallel Brackets</span>
               </div>
           </div>
         
         {formData.specialRules && (
-          <div className="mt-6 pt-4 border-t border-gray-200" />
+          <div className="mt-6 pt-4 border-t border-gray-200"></div>
             <h4 className="text-sm font-medium text-gray-600">Special Rules</h4>
             <p className="text-sm mt-2">{formData.specialRules}
           </div>
@@ -805,8 +805,8 @@ const EnhancedTournamentCreate = (): any => {
     ];
     
     return (
-      <div className="mb-6" />
-        <div className="flex items-center justify-between" />
+      <div className="mb-6"></div>
+        <div className="flex items-center justify-between"></div>
           {steps.map((s) => (
             <div 
               key={s.number}
@@ -831,8 +831,8 @@ const EnhancedTournamentCreate = (): any => {
             </div>
           ))}
         </div>
-        <div className="relative mt-2" />
-          <div className="absolute top-0 left-4 right-4 h-1 bg-gray-200" />
+        <div className="relative mt-2"></div>
+          <div className="absolute top-0 left-4 right-4 h-1 bg-gray-200"></div>
           <div 
             className="absolute top-0 left-4 h-1 bg-primary transition-all duration-300"
             style={{ width: `${(step - 1) * 20}%` }}
@@ -842,8 +842,8 @@ const EnhancedTournamentCreate = (): any => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8" />
-      <div className="mb-6" />
+    <div className="container mx-auto px-4 py-8"></div>
+      <div className="mb-6"></div>
         <h1 className="text-2xl font-bold text-gray-900">Create Tournament</h1>
         <p className="text-gray-600">Set up a new tournament with our step-by-step wizard</p>
       
@@ -851,8 +851,8 @@ const EnhancedTournamentCreate = (): any => {
       {renderStepIndicator()}
       {/* Error Message */}
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between" />
-          <div className="flex items-center" />
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
+          <div className="flex items-center"></div>
             <AlertCircle className="mr-2" size={20} / />
             <span>{error}
           </div>
@@ -865,8 +865,8 @@ const EnhancedTournamentCreate = (): any => {
       )}
       {/* Success Message */}
       {showSuccessMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between" />
-          <div className="flex items-center" />
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 flex items-center justify-between"></div>
+          <div className="flex items-center"></div>
             <CheckCircle className="mr-2" size={20} / />
             <span>{successMessage}
           </div>
@@ -880,7 +880,7 @@ const EnhancedTournamentCreate = (): any => {
       {/* Current Step */}
       {renderStep()}
       {/* Navigation Buttons */}
-      <div className="flex justify-between mt-6" />
+      <div className="flex justify-between mt-6"></div>
         <button
           className="btn btn-secondary flex items-center"
           onClick={handlePrevStep}

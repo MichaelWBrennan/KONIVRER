@@ -128,7 +128,7 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
 
   if (true) {
     return (
-      <div className="bg-white rounded-xl shadow-sm p-4 relative" />
+      <div className="bg-white rounded-xl shadow-sm p-4 relative"></div>
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
@@ -136,7 +136,7 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
           <X className="w-4 h-4" / />
         </button>
 
-        <div className="text-center py-6 text-gray-500" />
+        <div className="text-center py-6 text-gray-500"></div>
           <Gift className="w-12 h-12 mx-auto mb-2 text-gray-300" / />
           <p>No rewards available.</p>
       </div>
@@ -163,7 +163,7 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 relative" />
+    <div className="bg-white rounded-xl shadow-sm p-4 relative"></div>
       <button
         onClick={onClose}
         className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
@@ -171,11 +171,11 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
         <X className="w-4 h-4" / />
       </button>
 
-      <div className="flex items-center space-x-2 mb-3" />
+      <div className="flex items-center space-x-2 mb-3"></div>
         <Gift className="w-5 h-5 text-blue-600" / />
         <h3 className="font-medium text-gray-900">Season Rewards</h3>
 
-      <div className="space-y-3" />
+      <div className="space-y-3"></div>
         {displayRewards.slice(0, maxItems).map(reward => (
           <motion.div
             key={reward.id}
@@ -186,35 +186,35 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
             }`}
             whileHover={{ y: -2 }}
            />
-            <div className="flex justify-between items-start mb-1" />
-              <div className="flex items-center space-x-2" />
+            <div className="flex justify-between items-start mb-1"></div>
+              <div className="flex items-center space-x-2"></div>
                 <div className="text-2xl">{reward.icon}
                 <h4 className="font-medium text-gray-900">{reward.name}
               </div>
-              <div className="flex items-center space-x-1" />
+              <div className="flex items-center space-x-1"></div>
                 {reward.unlocked ? (
                   <Unlock className="w-4 h-4 text-green-500" / />
                 ) : (
                   <Lock className="w-4 h-4 text-gray-400" / />
                 )}
-                <span className={`text-xs ${getRarityColor(reward.rarity)}`} />
+                <span className={`text-xs ${getRarityColor(reward.rarity)}`}></span>
                   {reward.rarity.charAt(0).toUpperCase() +
                     reward.rarity.slice(1)}
               </div>
 
             <p className="text-sm text-gray-600 mb-2">{reward.description}
 
-            <div className="flex items-center justify-between text-xs" />
-              <div className="flex items-center space-x-1 text-gray-500" />
+            <div className="flex items-center justify-between text-xs"></div>
+              <div className="flex items-center space-x-1 text-gray-500"></div>
                 <Trophy className="w-3 h-3" / />
-                <span />
+                <span></span>
                   Required Rank:{' '}
                   {reward.requiredRank.charAt(0).toUpperCase() +
                     reward.requiredRank.slice(1)}
               </div>
 
               {!reward.unlocked && (
-                <div className="flex items-center space-x-1 text-blue-600" />
+                <div className="flex items-center space-x-1 text-blue-600"></div>
                   <Info className="w-3 h-3" / />
                   <span>How to unlock</span>
               )}

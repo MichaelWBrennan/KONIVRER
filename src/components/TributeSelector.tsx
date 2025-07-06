@@ -34,21 +34,21 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
   };
   
   return (
-    <div className="tribute-selector-overlay" />
-      <div className="tribute-selector-container" />
+    <div className="tribute-selector-overlay"></div>
+      <div className="tribute-selector-container"></div>
         <h3>Select Cards to Tribute</h3>
         
-        <div className="tribute-requirements" />
+        <div className="tribute-requirements"></div>
           <p>Select {requiredCount} card{requiredCount !== 1 ? 's' : ''} to tribute</p>
-          <p className="tribute-count" />
+          <p className="tribute-count"></p>
             Selected: {selectedCards.length}/{requiredCount}
         </div>
         
-        <div className="eligible-cards" />
+        <div className="eligible-cards"></div>
           {eligibleCards.length === 0 ? (
             <div className="no-cards">No eligible cards for tribute</div>
           ) : (
-            <div className="cards-grid" />
+            <div className="cards-grid"></div>
               {eligibleCards.map(card => (
                 <div 
                   key={card.id} 
@@ -57,7 +57,7 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
                 >
                   <Card card={card} location="field" / />
                   {selectedCards.some(c => c.id === card.id) && (
-                    <div className="selected-overlay" />
+                    <div className="selected-overlay"></div>
                       <div className="selected-indicator">Selected</div>
                   )}
               ))}
@@ -65,7 +65,7 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
           )}
         </div>
         
-        <div className="tribute-actions" />
+        <div className="tribute-actions"></div>
           <button 
             className="confirm-button" 
             onClick={handleConfirm}
@@ -73,7 +73,7 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
            />
             Confirm
           </button>
-          <button className="cancel-button" onClick={onCancel} />
+          <button className="cancel-button" onClick={onCancel}></button>
             Cancel
           </button>
       </div>
