@@ -1,0 +1,80 @@
+name: Enforce TypeScript
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  # Run on schedule (weekly)
+  schedule:
+    - cron: '0 0 * * 0'
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  enforce-typescript:
+    name: Enforce TypeScript
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check for JavaScript files in src
+        run: |
+          if find src -name "*.js" | grep -q .; then
+            echo "JavaScript files found in src/ directory:"
+            find src -name "*.js"
+            exit 1
+          else
+            echo "No JavaScript files found in src/ directory."
+          fi
+      
+      - name: TypeScript check
+        run: npm run type-check
+      
+      - name: Convert JavaScript files if found
+        if: failure()
+        run: |
+          echo "JavaScript files found. Converting to TypeScript..."
+          
+          # Install ts-node
+          npm install -g ts-node
+          
+          # Run conversion script
+          ts-node scripts/convert-to-typescript.ts
+          
+          # Check if conversion was successful
+          if find src -name "*.js" | grep -q .; then
+            echo "Some JavaScript files could not be converted:"
+            find src -name "*.js"
+            exit 1
+          else
+            echo "All JavaScript files successfully converted to TypeScript."
+          fi
+      
+      - name: Create Pull Request if changes were made
+        if: failure()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Convert JavaScript files to TypeScript"
+          title: "Convert JavaScript files to TypeScript"
+          body: |
+            This PR was automatically created by the Enforce TypeScript workflow.
+            
+            JavaScript files were found in the repository and have been converted to TypeScript.
+            
+            Please review the changes carefully before merging.
+          branch: auto-convert-to-typescript
+          base: ${{ github.head_ref || github.ref_name }}
+          labels: typescript, automated-pr, self-healing

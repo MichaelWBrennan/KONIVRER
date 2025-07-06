@@ -27,6 +27,8 @@
     "dev:typed": "npm run type-check && npm run dev",
     "fix:typescript": "node scripts/fix-typescript-errors.js",
     "fix:typescript:auto": "node scripts/fix-typescript-errors.js --auto",
+    "check:no-js": "find src -name '*.js' | grep -q . && echo 'JavaScript files found in src/' && exit 1 || echo 'No JavaScript files found in src/'",
+    "convert:to-typescript": "ts-node scripts/convert-to-typescript.ts",
     "automation": "tsx automation/cli.ts",
     "automation:start": "tsx automation/cli.ts start",
     "automation:start:bg": "tsx automation/cli.ts start --background",
