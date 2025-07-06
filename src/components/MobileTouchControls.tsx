@@ -380,25 +380,28 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
 
       {/* Touch Mode Indicator */}
       {gestureState.isGesturing && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-0 whitespace-nowrap rounded-lg z-50" />
-          <span className="text-sm font-medium" />
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/75 text-white px-4 py-0 whitespace-nowrap rounded-lg z-50">
+          <span className="text-sm font-medium">
             {touchMode === 'select' && 'Tap to select cards'}
             {touchMode === 'pan' && 'Drag to pan view'}
             {touchMode === 'zoom' && 'Pinch to zoom'}
             {touchMode === 'attack' && 'Tap target to attack'}
+          </span>
         </div>
       )}
       {/* Game State Indicator */}
-      <div className="fixed top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-40" />
-        <div className="text-center" />
+      <div className="fixed top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 z-40">
+        <div className="text-center">
           <div
             className={`w-3 h-3 rounded-full mx-auto mb-1 ${
               isPlayerTurn ? 'bg-green-500' : 'bg-gray-400'
             }`}
           />
-          <span className="text-xs font-medium text-gray-600" />
+          <span className="text-xs font-medium text-gray-600">
             {isPlayerTurn ? 'Your Turn' : 'Waiting'}
+          </span>
         </div>
+      </div>
     </>
   );
 };

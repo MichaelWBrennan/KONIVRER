@@ -203,12 +203,13 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             style={{ color: 'var(--accent-primary)' }}
           />
           {batteryLevel !== null && (
-            <div className="flex items-center space-x-1" />
+            <div className="flex items-center space-x-1">
               <Battery
                 className="w-3 h-3"
                 style={{ color: 'var(--accent-info)' }}
               />
               <span>{batteryLevel}%</span>
+            </div>
           )}
         </div>
 

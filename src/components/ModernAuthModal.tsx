@@ -231,7 +231,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                 <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center">
                   <Shield className="text-white" size={20} />
                 </div>
-                <div />
+                <div>
                   <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                     {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
                   <p className="text-sm text-secondary" />
@@ -295,13 +295,14 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       />
                     </div>
                     {loginForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {loginForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Password
                     </label>
                     <div className="relative" />
@@ -383,8 +384,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                  />
                   {/* Register Form */}
                   <div className="grid grid-cols-2 gap-4" />
-                    <div />
-                      <label className="block text-sm font-medium mb-2" />
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
                         Username
                       </label>
                       <div className="relative" />
@@ -405,8 +406,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       )}
                     </div>
 
-                    <div />
-                      <label className="block text-sm font-medium mb-2" />
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
                         Display Name
                       </label>
                       <input
@@ -421,8 +422,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       )}
                     </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
                     <div className="relative" />
@@ -443,8 +444,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Location (Optional)
                     </label>
                     <div className="relative" />
@@ -460,8 +461,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       />
                     </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Password
                     </label>
                     <div className="relative" />
@@ -519,8 +520,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Confirm Password
                     </label>
                     <div className="relative" />
@@ -550,7 +551,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         id="agreeToTerms"
                         className="w-4 h-4 mt-0.5"
                       />
-                      <label htmlFor="agreeToTerms" className="text-sm" />
+                      <label htmlFor="agreeToTerms" className="text-sm">
                         I agree to the{' '}
                         <a
                           href="#"
@@ -570,7 +571,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         id="agreeToPrivacy"
                         className="w-4 h-4 mt-0.5"
                       />
-                      <label htmlFor="agreeToPrivacy" className="text-sm" />
+                      <label htmlFor="agreeToPrivacy" className="text-sm">
                         I agree to the{' '}
                         <a
                           href="#"
