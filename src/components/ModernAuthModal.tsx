@@ -328,8 +328,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         )}
                       </button>
                     {loginForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {loginForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
@@ -401,8 +402,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         />
                       </div>
                       {registerForm.formState.errors.username && (
-                        <p className="text-red-400 text-xs mt-1" />
+                        <p className="text-red-400 text-xs mt-1">
                           {registerForm.formState.errors.username.message}
+                        </p>
                       )}
                     </div>
 
@@ -417,8 +419,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         placeholder="Your name"
                       />
                       {registerForm.formState.errors.displayName && (
-                        <p className="text-red-400 text-xs mt-1" />
+                        <p className="text-red-400 text-xs mt-1">
                           {registerForm.formState.errors.displayName.message}
+                        </p>
                       )}
                     </div>
 
@@ -439,8 +442,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       />
                     </div>
                     {registerForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
@@ -515,8 +519,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         </div>
                     )}
                     {registerForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
@@ -537,14 +542,15 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       />
                     </div>
                     {registerForm.formState.errors.confirmPassword && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.confirmPassword.message}
+                      </p>
                     )}
                   </div>
 
                   {/* Terms and Privacy */}
-                  <div className="space-y-3" />
-                    <div className="flex items-start gap-3" />
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
                       <input
                         {...registerForm.register('agreeToTerms')}
                         type="checkbox"
@@ -556,15 +562,16 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                         />
+                        >
                           Terms of Service
                         </a>
                     </div>
                     {registerForm.formState.errors.agreeToTerms && (
-                      <p className="text-red-400 text-sm" />
+                      <p className="text-red-400 text-sm">
                         {registerForm.formState.errors.agreeToTerms.message}
+                      </p>
                     )}
-                    <div className="flex items-start gap-3" />
+                    <div className="flex items-start gap-3">
                       <input
                         {...registerForm.register('agreeToPrivacy')}
                         type="checkbox"
@@ -576,13 +583,14 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                         />
+                        >
                           Privacy Policy
                         </a>
                     </div>
                     {registerForm.formState.errors.agreeToPrivacy && (
-                      <p className="text-red-400 text-sm" />
+                      <p className="text-red-400 text-sm">
                         {registerForm.formState.errors.agreeToPrivacy.message}
+                      </p>
                     )}
                   </div>
 
