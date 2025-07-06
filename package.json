@@ -67,12 +67,7 @@
     "ai:test": "node scripts/ai-test.js",
     "ai:demo": "node scripts/ai-integration-demo.js demo",
     "ai:examples": "node scripts/ai-integration-demo.js examples",
-    "ai:integrate": "node scripts/integrate-ai-recorder.js",
-    "migrate:ts": "node scripts/migrate-to-typescript.js",
-    "migrate:ts:dry": "node scripts/migrate-to-typescript.js --dry-run",
-    "migrate:ts:interactive": "node scripts/migrate-to-typescript.js --interactive",
-    "optimize:build": "node scripts/optimize-build.js",
-    "optimize:all": "npm run migrate:ts && npm run optimize:build && npm run build:optimized"
+    "ai:integrate": "node scripts/integrate-ai-recorder.js"
   },
   "keywords": [
     "konivrer",
