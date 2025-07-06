@@ -364,9 +364,9 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
               title={`Sound ${isSoundEnabled ? 'On' : 'Off'}`}
              />
               {isSoundEnabled ? (
-                <Volume2 className="w-4 h-4" / />
+                <Volume2 className="w-4 h-4" />
               ) : (
-                <VolumeX className="w-4 h-4" / />
+                <VolumeX className="w-4 h-4" />
               )}
 
             <button
@@ -374,7 +374,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
               className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
               title="Toggle Controls"
             >
-              <Settings className="w-4 h-4" / />
+              <Settings className="w-4 h-4" />
             </button>
         </div>
 
@@ -395,7 +395,7 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
             className={`w-3 h-3 rounded-full mx-auto mb-1 ${
               isPlayerTurn ? 'bg-green-500' : 'bg-gray-400'
             }`}
-          / />
+          />
           <span className="text-xs font-medium text-gray-600" />
             {isPlayerTurn ? 'Your Turn' : 'Waiting'}
         </div>

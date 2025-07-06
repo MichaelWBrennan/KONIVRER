@@ -196,18 +196,18 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             <WifiOff
               className="w-3 h-3"
               style={{ color: 'var(--accent-warning)' }}
-            / />
+            />
           )}
           <Signal
             className="w-3 h-3"
             style={{ color: 'var(--accent-primary)' }}
-          / />
+          />
           {batteryLevel !== null && (
             <div className="flex items-center space-x-1" />
               <Battery
                 className="w-3 h-3"
                 style={{ color: 'var(--accent-info)' }}
-              / />
+              />
               <span>{batteryLevel}%</span>
           )}
         </div>
@@ -234,9 +234,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
             }}
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6" / />
+              <X className="w-6 h-6" />
             ) : (
-              <Menu className="w-6 h-6" / />
+              <Menu className="w-6 h-6" />
             )}
 
           <h1
