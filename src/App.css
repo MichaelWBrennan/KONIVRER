@@ -17,10 +17,13 @@
   --bg-tertiary: #334155;
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
   --text-muted: #64748b;
   --accent-primary: #3b82f6;
   --accent-secondary: #8b5cf6;
+  --border-primary: #475569;
   --border-color: #475569;
+  --gradient-primary: linear-gradient(135deg, #8b5a2b 0%, #a0522d 50%, #cd853f 100%);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
