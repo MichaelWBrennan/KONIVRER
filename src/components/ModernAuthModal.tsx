@@ -69,9 +69,9 @@ const RegisterSchema = z
   });
 
 interface ModernAuthModalProps {
-  isOpen
-  onClose
-  defaultTab = 'login';
+  isOpen: boolean;
+  onClose: () => void;
+  defaultTab?: string;
 }
 
 const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, defaultTab = 'login'  }) => {
@@ -206,7 +206,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
 
   if (!isOpen) return null;
   return (
-    <AnimatePresence />
+    <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -223,15 +223,15 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
           onClick={e => e.stopPropagation()}
         >
           {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5" / />
-          <div className="relative z-10 p-6" />
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-accent-secondary/5"></div>
+          <div className="relative z-10 p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6" />
-              <div className="flex items-center gap-3" />
-                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center" />
-                  <Shield className="text-white" size={20} / />
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-accent-primary to-accent-secondary rounded-lg flex items-center justify-center">
+                  <Shield className="text-white" size={20} />
                 </div>
-                <div />
+                <div>
                   <h2 className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent" />
                     {activeTab === 'login' ? 'Welcome Back' : 'Join KONIVRER'}
                   <p className="text-sm text-secondary" />
@@ -242,8 +242,8 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
-               />
-                <X size={20} / />
+               >
+                <X size={20} />
               </button>
 
             {/* Tab Navigation */}
@@ -276,59 +276,61 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   transition={{ duration: 0.2 }}
                   onSubmit={loginForm.handleSubmit(handleLogin)}
                   className="space-y-4"
-                 />
+                 >
                   {/* Login Form */}
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
-                    <div className="relative" />
+                    <div className="relative">
                       <Mail
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...loginForm.register('email')}
                         type="email"
                         className={`input pl-10 ${loginForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
-                      / />
+                      />
                     </div>
                     {loginForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {loginForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Password
                     </label>
                     <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...loginForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 pr-10 ${loginForm.formState.errors.password ? 'border-red-500' : ''}`}
                         placeholder="Enter your password"
-                      / />
+                      />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
                         {showPassword ? (
-                          <EyeOff size={16} / />
+                          <EyeOff size={16} />
                         ) : (
-                          <Eye size={16} / />
+                          <Eye size={16} />
                         )}
                       </button>
                     {loginForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {loginForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
@@ -338,7 +340,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       animate={{ opacity: 1, y: 0 }}
                       className="p-3 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-center gap-2"
                      />
-                      <AlertCircle size={16} / />
+                      <AlertCircle size={16} />
                       {loginForm.formState.errors.root.message}
                     </motion.div>
                   )}
@@ -349,7 +351,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                    />
                     {loginForm.formState.isSubmitting ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" / />
+                        <Loader2 size={16} className="animate-spin" />
                         Signing in...
                       </>
                     ) : (
@@ -383,30 +385,31 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                  />
                   {/* Register Form */}
                   <div className="grid grid-cols-2 gap-4" />
-                    <div />
-                      <label className="block text-sm font-medium mb-2" />
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
                         Username
                       </label>
                       <div className="relative" />
                         <User
                           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                           size={16}
-                        / />
+                        />
                         <input
                           {...registerForm.register('username')}
                           type="text"
                           className={`input pl-10 ${registerForm.formState.errors.username ? 'border-red-500' : ''}`}
                           placeholder="Username"
-                        / />
+                        />
                       </div>
                       {registerForm.formState.errors.username && (
-                        <p className="text-red-400 text-xs mt-1" />
+                        <p className="text-red-400 text-xs mt-1">
                           {registerForm.formState.errors.username.message}
+                        </p>
                       )}
                     </div>
 
-                    <div />
-                      <label className="block text-sm font-medium mb-2" />
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
                         Display Name
                       </label>
                       <input
@@ -414,76 +417,78 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                         type="text"
                         className={`input ${registerForm.formState.errors.displayName ? 'border-red-500' : ''}`}
                         placeholder="Your name"
-                      / />
+                      />
                       {registerForm.formState.errors.displayName && (
-                        <p className="text-red-400 text-xs mt-1" />
+                        <p className="text-red-400 text-xs mt-1">
                           {registerForm.formState.errors.displayName.message}
+                        </p>
                       )}
                     </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
                     <div className="relative" />
                       <Mail
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...registerForm.register('email')}
                         type="email"
                         className={`input pl-10 ${registerForm.formState.errors.email ? 'border-red-500' : ''}`}
                         placeholder="Enter your email"
-                      / />
+                      />
                     </div>
                     {registerForm.formState.errors.email && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.email.message}
+                      </p>
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Location (Optional)
                     </label>
                     <div className="relative" />
                       <MapPin
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...registerForm.register('location')}
                         type="text"
                         className="input pl-10"
                         placeholder="City, State/Country"
-                      / />
+                      />
                     </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Password
                     </label>
                     <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...registerForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 pr-10 ${registerForm.formState.errors.password ? 'border-red-500' : ''}`}
                         placeholder="Create password"
-                      / />
+                      />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary"
                       >
                         {showPassword ? (
-                          <EyeOff size={16} / />
+                          <EyeOff size={16} />
                         ) : (
-                          <Eye size={16} / />
+                          <Eye size={16} />
                         )}
                       </button>
 
@@ -510,78 +515,82 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                             initial={{ width: 0 }}
                             animate={{ width: `${passwordStrength}%` }}
                             className={`h-2 rounded-full transition-colors ${getPasswordStrengthColor()}`}
-                          / />
+                          />
                         </div>
                     )}
                     {registerForm.formState.errors.password && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.password.message}
+                      </p>
                     )}
                   </div>
 
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Confirm Password
                     </label>
                     <div className="relative" />
                       <Lock
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
-                      / />
+                      />
                       <input
                         {...registerForm.register('confirmPassword')}
                         type={showPassword ? 'text' : 'password'}
                         className={`input pl-10 ${registerForm.formState.errors.confirmPassword ? 'border-red-500' : ''}`}
                         placeholder="Confirm password"
-                      / />
+                      />
                     </div>
                     {registerForm.formState.errors.confirmPassword && (
-                      <p className="text-red-400 text-sm mt-1" />
+                      <p className="text-red-400 text-sm mt-1">
                         {registerForm.formState.errors.confirmPassword.message}
+                      </p>
                     )}
                   </div>
 
                   {/* Terms and Privacy */}
-                  <div className="space-y-3" />
-                    <div className="flex items-start gap-3" />
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
                       <input
                         {...registerForm.register('agreeToTerms')}
                         type="checkbox"
                         id="agreeToTerms"
                         className="w-4 h-4 mt-0.5"
-                      / />
-                      <label htmlFor="agreeToTerms" className="text-sm" />
+                      />
+                      <label htmlFor="agreeToTerms" className="text-sm">
                         I agree to the{' '}
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                         />
+                        >
                           Terms of Service
                         </a>
                     </div>
                     {registerForm.formState.errors.agreeToTerms && (
-                      <p className="text-red-400 text-sm" />
+                      <p className="text-red-400 text-sm">
                         {registerForm.formState.errors.agreeToTerms.message}
+                      </p>
                     )}
-                    <div className="flex items-start gap-3" />
+                    <div className="flex items-start gap-3">
                       <input
                         {...registerForm.register('agreeToPrivacy')}
                         type="checkbox"
                         id="agreeToPrivacy"
                         className="w-4 h-4 mt-0.5"
-                      / />
-                      <label htmlFor="agreeToPrivacy" className="text-sm" />
+                      />
+                      <label htmlFor="agreeToPrivacy" className="text-sm">
                         I agree to the{' '}
                         <a
                           href="#"
                           className="text-accent-primary hover:underline"
-                         />
+                        >
                           Privacy Policy
                         </a>
                     </div>
                     {registerForm.formState.errors.agreeToPrivacy && (
-                      <p className="text-red-400 text-sm" />
+                      <p className="text-red-400 text-sm">
                         {registerForm.formState.errors.agreeToPrivacy.message}
+                      </p>
                     )}
                   </div>
 
@@ -591,7 +600,7 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                       animate={{ opacity: 1, y: 0 }}
                       className="p-3 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-center gap-2"
                      />
-                      <AlertCircle size={16} / />
+                      <AlertCircle size={16} />
                       {registerForm.formState.errors.root.message}
                     </motion.div>
                   )}
@@ -602,12 +611,12 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                    />
                     {registerForm.formState.isSubmitting ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" / />
+                        <Loader2 size={16} className="animate-spin" />
                         Creating Account...
                       </>
                     ) : (
                       <>
-                        <Zap size={16} / />
+                        <Zap size={16} />
                         Create Account
                       </>
                     )}
@@ -628,9 +637,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {ssoLoading === 'github' ? (
-                    <Loader2 size={16} className="animate-spin" / />
+                    <Loader2 size={16} className="animate-spin" />
                   ) : (
-                    <Github size={16} / />
+                    <Github size={16} />
                   )}
                   {ssoLoading === 'github' ? 'Connecting...' : 'GitHub'}
                 <button
@@ -639,9 +648,9 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   className="btn btn-secondary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {ssoLoading === 'google' ? (
-                    <Loader2 size={16} className="animate-spin" / />
+                    <Loader2 size={16} className="animate-spin" />
                   ) : (
-                    <Chrome size={16} / />
+                    <Chrome size={16} />
                   )}
                   {ssoLoading === 'google' ? 'Connecting...' : 'Google'}
               </div>
