@@ -1,793 +1,280 @@
 /**
  * KONIVRER Unified Layout Component
  * 
- * A unified layout component that combines functionality from:
- * - Layout
- * - MobileLayout
- * - SimpleMobileLayout
- * - MobileFirstLayout
+ * A modern, properly typed layout component that provides consistent
+ * navigation and structure across the application.
  * 
- * Copyright (c) 2024 KONIVRER Deck Database
- * Licensed under the MIT License
+ * @version 2.0.0
+ * @since 2024-07-06
  */
 
-import React, { useState, useEffect, useContext } from 'react';
-import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { BaseComponentProps } from '../types';
-import { useAuth } from '../contexts/AuthContext';
-import { useUnified } from '../contexts/UnifiedContext';
-import { useMessaging } from '../contexts/MessagingContext';
-import { useMediaQuery } from '../hooks/useMediaQuery';
-import UnifiedAuthModal from './UnifiedAuthModal';
-
-import PWAInstallPrompt from './PWAInstallPrompt';
-import NotificationCenter from './notifications/NotificationCenter';
-import UnifiedMessaging from './unified/UnifiedMessaging';
-import UnifiedSearch from './unified/UnifiedSearch';
-import { analytics } from '../utils/analytics';
-import pwaManager from '../utils/pwaUtils';
-
-// Import styles
-import '../styles/mobile-first.css';
-import '../styles/esoteric-theme.css';
-
-// Import icons
+import React, { useState, ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Home,
   Database,
-  BookOpen,
+  Layers,
+  Trophy,
+  Play,
+  LogIn,
   User,
-  Users,
   Menu,
   X,
-  Trophy,
-  Shield,
-  LogIn,
-  LogOut,
-  Settings,
-  Layers,
-  Sparkles,
-  Palette,
-  Play,
-  Bot,
-  MapPin,
-  Package,
-  Scale,
-  Award,
-  FileText,
-  Globe,
-  BarChart3,
-  DollarSign,
-  TrendingUp,
-  Target,
-  Calculator,
-  Eye,
-  Zap,
-  Link as LinkIcon,
-  AlertTriangle,
-  Activity,
-  Gamepad2,
-  Wrench,
-  Wifi,
-  WifiOff,
-  Battery,
-  Signal,
-  Bell,
-  Search,
-  MessageCircle,
-  Calendar,
-  HelpCircle,
-  Info
 } from 'lucide-react';
 
-// Unified interface for all layout variants
+// Types
 interface UnifiedLayoutProps {
-  children?: React.ReactNode;
+  children: ReactNode;
+  variant?: 'standard' | 'simple' | 'mobile' | 'golden';
   currentPage?: string;
-  variant?: 'standard' | 'mobile' | 'simple' | 'mobile-first';
-  showSidebar?: boolean;
-  showHeader?: boolean;
-  showFooter?: boolean;
-  showNavigation?: boolean;
   className?: string;
+  showFooter?: boolean;
 }
 
-const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
-  children,
-  currentPage = 'home',
-  variant = 'standard',
-  showSidebar = true,
-  showHeader = true,
-  showFooter = true,
-  showNavigation = true,
-  className = ''
-}) => {
-  // Detect if we're on mobile
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const actualVariant = variant === 'standard' && isMobile ? 'mobile' : variant;
-  
-  // Common hooks
+interface NavigationItem {
+  id: string;
+  label: string;
+  path: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+}
+
+// Navigation items
+const navigationItems: NavigationItem[] = [
+  { id: 'home', label: 'Home', path: '/', icon: Home },
+  { id: 'cards', label: 'Cards', path: '/cards', icon: Database },
+  { id: 'decks', label: 'Decks', path: '/decks', icon: Layers },
+  { id: 'tournaments', label: 'Tournaments', path: '/tournaments', icon: Trophy },
+  { id: 'play', label: 'Play', path: '/play', icon: Play },
+];
+
+/**
+ * Golden Menu Bar Component
+ */
+const GoldenMenuBar: React.FC<{
+  onLoginClick: () => void;
+  className?: string;
+}> = ({ onLoginClick, className = '' }) => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const { user, logout, isAuthenticated, loading } = auth;
-  
-  // Common state
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [isInstalled, setIsInstalled] = useState(false);
-  const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
-  const [orientation, setOrientation] = useState('portrait');
-  const [safeAreaInsets, setSafeAreaInsets] = useState({
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  });
-  
-  // Update the setShowAuthModal function in the auth object
-  useEffect(() => {
-    if (auth && typeof auth.setShowAuthModal === 'function') {
-      auth.setShowAuthModal = setShowAuthModal;
+
+  const isActiveRoute = (path: string): boolean => {
+    if (path === '/') {
+      return location.pathname === '/';
     }
-  }, [auth]);
-  
-  // Detect PWA status
-  useEffect(() => {
-    const checkPWAStatus = () => {
-      const installed =
-        window.matchMedia('(display-mode: standalone)').matches ||
-        (window.navigator as any).standalone === true;
-      setIsInstalled(installed);
-    };
-    
-    checkPWAStatus();
-    window.addEventListener('appinstalled', checkPWAStatus);
-    
-    return () => {
-      window.removeEventListener('appinstalled', checkPWAStatus);
-    };
-  }, []);
-  
-  // Network status
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-    
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-  
-  // Battery status
-  useEffect(() => {
-    const getBatteryInfo = async () => {
-      try {
-        if ('getBattery' in navigator) {
-          const battery = await (navigator as any).getBattery();
-          setBatteryLevel(battery.level * 100);
-          
-          battery.addEventListener('levelchange', () => {
-            setBatteryLevel(battery.level * 100);
-          });
-        }
-      } catch (error) {
-        console.error('Battery API not supported', error);
-      }
-    };
-    
-    getBatteryInfo();
-  }, []);
-  
-  // Orientation
-  useEffect(() => {
-    const handleOrientationChange = () => {
-      setOrientation(
-        window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
-      );
-    };
-    
-    handleOrientationChange();
-    window.addEventListener('resize', handleOrientationChange);
-    
-    return () => {
-      window.removeEventListener('resize', handleOrientationChange);
-    };
-  }, []);
-  
-  // Safe area insets for notched devices
-  useEffect(() => {
-    const updateSafeAreaInsets = () => {
-      const style = window.getComputedStyle(document.documentElement);
-      const top = parseInt(style.getPropertyValue('--sat') || '0', 10);
-      const bottom = parseInt(style.getPropertyValue('--sab') || '0', 10);
-      const left = parseInt(style.getPropertyValue('--sal') || '0', 10);
-      const right = parseInt(style.getPropertyValue('--sar') || '0', 10);
-      
-      setSafeAreaInsets({ top, bottom, left, right });
-    };
-    
-    updateSafeAreaInsets();
-    window.addEventListener('resize', updateSafeAreaInsets);
-    
-    return () => {
-      window.removeEventListener('resize', updateSafeAreaInsets);
-    };
-  }, []);
-  
-  // Analytics
-  useEffect(() => {
-    analytics.trackPageView(location.pathname);
-  }, [location]);
-  
-  // Navigation items
-  const navigationItems = [
-    {
-      id: 'home',
-      label: 'Home',
-      icon: <Home className="w-5 h-5" />,
-      path: '/',
-    },
-    {
-      id: 'cards',
-      label: 'Cards',
-      icon: <Database className="w-5 h-5" />,
-      path: '/cards',
-    },
-    {
-      id: 'decks',
-      label: 'Decks',
-      icon: <Layers className="w-5 h-5" />,
-      path: '/decks',
-    },
-    {
-      id: 'tournaments',
-      label: 'Tournaments',
-      icon: <Trophy className="w-5 h-5" />,
-      path: '/tournaments',
-    },
-    {
-      id: 'play',
-      label: 'Play',
-      icon: <Play className="w-5 h-5" />,
-      path: '/play',
-    },
-    {
-      id: 'social',
-      label: 'Social',
-      icon: <Users className="w-5 h-5" />,
-      path: '/social',
-    },
-    {
-      id: 'analytics',
-      label: 'Analytics',
-      icon: <BarChart3 className="w-5 h-5" />,
-      path: '/analytics',
-    },
-    {
-      id: 'rules',
-      label: 'Rules',
-      icon: <BookOpen className="w-5 h-5" />,
-      path: '/rules',
-    },
-    {
-      id: 'profile',
-      label: 'Profile',
-      icon: <User className="w-5 h-5" />,
-      path: '/profile',
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: <Settings className="w-5 h-5" />,
-      path: '/settings',
-    },
-  ];
-  
-  // Handle login/logout
-  const handleAuthAction = () => {
-    if (isAuthenticated) {
-      logout();
-    } else {
-      setShowAuthModal(true);
-    }
+    return location.pathname.startsWith(path);
   };
-  
-  // Render simple mobile layout
-  const renderSimpleMobileLayout = () => {
-    return (
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        {/* Content */}
-        <main className="flex-1">
-          {children}
-        </main>
-        
-        {/* Bottom Navigation */}
-        {showNavigation && (
-          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1">
-            <div className="flex justify-around">
-              {navigationItems.slice(0, 5).map((item) => (
-                <button
-                  key={item.id}
-                  className={`flex flex-col items-center p-2 ${
-                    currentPage === item.id
-                      ? 'text-blue-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                  onClick={() => navigate(item.path)}
-                >
-                  {item.icon}
-                  <span className="text-xs mt-1">{item.label}</span>
-                </button>
-              ))}
-            </div>
-          </nav>
-        )}
-      </div>
-    );
-  };
-  
-  // Render mobile layout
-  const renderMobileLayout = () => {
-    return (
-      <div className="flex flex-col min-h-screen bg-gray-900 text-white">
-        {/* Header */}
-        {showHeader && (
-          <header className="bg-gray-800 border-b border-gray-700 p-4">
-            <div className="flex justify-between items-center">
-              <div className="text-xl font-bold">KONIVRER</div>
-              
-              <div className="flex items-center space-x-3">
-                {/* Status indicators */}
-                <div className="flex items-center space-x-2 text-xs text-gray-400">
-                  {isOnline ? (
-                    <Wifi size={14} className="text-green-400" />
-                  ) : (
-                    <WifiOff size={14} className="text-red-400" />
-                  )}
-                  
-                  {batteryLevel !== null && (
-                    <div className="flex items-center">
-                      <Battery size={14} />
-                      <span>{Math.round(batteryLevel)}%</span>
-                    </div>
-                  )}
-                  
-                  <Signal size={14} />
-                </div>
-                
-                {/* Menu button */}
-                <button
-                  className="p-2 rounded-full hover:bg-gray-700"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                </button>
-              </div>
-            </div>
-          </header>
-        )}
-        
-        {/* Slide-out menu */}
-        {isMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-50">
-            <div className="absolute right-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <div className="text-xl font-bold">Menu</div>
-                <button
-                  className="p-2 rounded-full hover:bg-gray-700"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <nav className="space-y-1">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
-                    className={`flex items-center w-full p-3 rounded-lg ${
-                      currentPage === item.id
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700'
-                    }`}
-                    onClick={() => {
-                      navigate(item.path);
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    {item.icon}
-                    <span className="ml-3">{item.label}</span>
-                  </button>
-                ))}
-                
-                <div className="h-px bg-gray-700 my-3"></div>
-                
-                <button
-                  className="flex items-center w-full p-3 rounded-lg text-gray-300 hover:bg-gray-700"
-                  onClick={handleAuthAction}
-                >
-                  {isAuthenticated ? (
-                    <>
-                      <LogOut size={20} />
-                      <span className="ml-3">Logout</span>
-                    </>
-                  ) : (
-                    <>
-                      <LogIn size={20} />
-                      <span className="ml-3">Login</span>
-                    </>
-                  )}
-                </button>
-              </nav>
-            </div>
+
+  return (
+    <nav 
+      className={`bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-yellow-600 ${className}`}
+      style={{
+        background: 'linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)',
+        borderBottom: '2px solid #d4af37',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="text-2xl font-bold text-yellow-500">
+              KONIVRER
+            </Link>
           </div>
-        )}
-        
-        {/* Content */}
-        <main className="flex-1 p-4 pb-16">
-          {children}
-        </main>
-        
-        {/* Bottom Navigation */}
-        {showNavigation && (
-          <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-2 py-1">
-            <div className="flex justify-around">
-              {navigationItems.slice(0, 5).map((item) => (
-                <button
-                  key={item.id}
-                  className={`flex flex-col items-center p-2 ${
-                    currentPage === item.id
-                      ? 'text-blue-400'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                  onClick={() => navigate(item.path)}
-                >
-                  {item.icon}
-                  <span className="text-xs mt-1">{item.label}</span>
-                </button>
-              ))}
-            </div>
-          </nav>
-        )}
-        
-        {/* Auth Modal */}
-        {showAuthModal && (
-          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
-        )}
-      </div>
-    );
-  };
-  
-  // Render mobile-first layout
-  const renderMobileFirstLayout = () => {
-    return (
-      <div className="mobile-first-layout">
-        {/* Header */}
-        {showHeader && (
-          <header className="app-header">
-            <div className="header-content">
-              <div className="logo">KONIVRER</div>
-              
-              <div className="header-actions">
-                <button className="icon-button" onClick={() => navigate('/search')}>
-                  <Search size={20} />
-                </button>
+
+          {/* Navigation Items */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = isActiveRoute(item.path);
                 
-                <button className="icon-button" onClick={() => navigate('/notifications')}>
-                  <Bell size={20} />
-                </button>
-                
-                <button
-                  className="icon-button"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                </button>
-              </div>
-            </div>
-          </header>
-        )}
-        
-        {/* Slide-out menu */}
-        {isMenuOpen && (
-          <div className="menu-overlay">
-            <div className="menu-panel">
-              <div className="menu-header">
-                <div className="user-info">
-                  {isAuthenticated ? (
-                    <>
-                      <div className="avatar">
-                        <User size={24} />
-                      </div>
-                      <div className="user-details">
-                        <div className="username">{user?.displayName || 'User'}</div>
-                        <div className="user-level">Level 42</div>
-                      </div>
-                    </>
-                  ) : (
-                    <button className="login-button" onClick={() => setShowAuthModal(true)}>
-                      <LogIn size={20} />
-                      <span>Login</span>
-                    </button>
-                  )}
-                </div>
-                
-                <button
-                  className="close-button"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <nav className="menu-navigation">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
-                    className={`menu-item ${currentPage === item.id ? 'active' : ''}`}
-                    onClick={() => {
-                      navigate(item.path);
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </button>
-                ))}
-                
-                <div className="menu-divider"></div>
-                
-                {isAuthenticated && (
-                  <button
-                    className="menu-item"
-                    onClick={() => {
-                      logout();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <LogOut size={20} />
-                    <span>Logout</span>
-                  </button>
-                )}
-              </nav>
-              
-              <div className="menu-footer">
-                <div className="app-version">Version 1.0.0</div>
-                <div className="app-copyright">© 2024 KONIVRER</div>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Content */}
-        <main className="app-content">
-          {children}
-        </main>
-        
-        {/* Bottom Navigation */}
-        {showNavigation && (
-          <nav className="bottom-navigation">
-            {navigationItems.slice(0, 5).map((item) => (
-              <button
-                key={item.id}
-                className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
-                onClick={() => navigate(item.path)}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        )}
-        
-        {/* Auth Modal */}
-        {showAuthModal && (
-          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
-        )}
-        
-        {/* PWA Install Prompt */}
-        {!isInstalled && <PWAInstallPrompt />}
-        
-        {/* Notification Center */}
-        <NotificationCenter />
-        
-        {/* Unified Messaging */}
-        <UnifiedMessaging />
-      </div>
-    );
-  };
-  
-  // Render standard layout
-  const renderStandardLayout = () => {
-    return (
-      <div className={`flex min-h-screen bg-gray-900 text-white ${className}`}>
-        {/* Sidebar */}
-        {showSidebar && (
-          <aside className="w-64 bg-gray-800 border-r border-gray-700 hidden md:block">
-            <div className="p-4">
-              <div className="text-2xl font-bold mb-6">KONIVRER</div>
-              
-              <nav className="space-y-1">
-                {navigationItems.map((item) => (
+                return (
                   <Link
                     key={item.id}
                     to={item.path}
-                    className={`flex items-center px-4 py-3 rounded-lg ${
-                      location.pathname === item.path
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-300 hover:bg-gray-700'
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-yellow-600 text-black'
+                        : 'text-yellow-400 hover:bg-yellow-600 hover:text-black'
                     }`}
                   >
-                    {item.icon}
-                    <span className="ml-3">{item.label}</span>
+                    <IconComponent size={18} className="mr-2" />
+                    {item.label}
                   </Link>
-                ))}
-                
-                <div className="h-px bg-gray-700 my-3"></div>
-                
-                <button
-                  className="flex items-center w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700"
-                  onClick={handleAuthAction}
-                >
-                  {isAuthenticated ? (
-                    <>
-                      <LogOut size={20} />
-                      <span className="ml-3">Logout</span>
-                    </>
-                  ) : (
-                    <>
-                      <LogIn size={20} />
-                      <span className="ml-3">Login</span>
-                    </>
-                  )}
-                </button>
-              </nav>
+                );
+              })}
             </div>
-          </aside>
-        )}
-        
-        <div className="flex-1 flex flex-col">
-          {/* Header */}
-          {showHeader && (
-            <header className="bg-gray-800 border-b border-gray-700 p-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <button
-                    className="p-2 rounded-full hover:bg-gray-700 md:hidden"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  >
-                    <Menu size={20} />
-                  </button>
-                  <div className="text-xl font-bold ml-2 md:hidden">KONIVRER</div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Search size={20} />
-                  </button>
-                  
-                  <button className="p-2 rounded-full hover:bg-gray-700">
-                    <Bell size={20} />
-                  </button>
-                  
-                  {isAuthenticated ? (
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                        <User size={16} />
-                      </div>
-                      <span className="ml-2 hidden md:inline">{user?.displayName || 'User'}</span>
-                    </div>
-                  ) : (
-                    <button
-                      className="flex items-center px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500"
-                      onClick={() => setShowAuthModal(true)}
-                    >
-                      <LogIn size={16} />
-                      <span className="ml-2">Login</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            </header>
-          )}
-          
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 md:hidden">
-              <div className="absolute left-0 top-0 h-full w-3/4 bg-gray-800 p-4 overflow-y-auto">
-                <div className="flex justify-between items-center mb-6">
-                  <div className="text-xl font-bold">Menu</div>
-                  <button
-                    className="p-2 rounded-full hover:bg-gray-700"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-                
-                <nav className="space-y-1">
-                  {navigationItems.map((item) => (
-                    <Link
-                      key={item.id}
-                      to={item.path}
-                      className={`flex items-center px-4 py-3 rounded-lg ${
-                        location.pathname === item.path
-                          ? 'bg-blue-600 text-white'
-                          : 'text-gray-300 hover:bg-gray-700'
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.icon}
-                      <span className="ml-3">{item.label}</span>
-                    </Link>
-                  ))}
-                  
-                  <div className="h-px bg-gray-700 my-3"></div>
-                  
-                  <button
-                    className="flex items-center w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700"
-                    onClick={() => {
-                      handleAuthAction();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    {isAuthenticated ? (
-                      <>
-                        <LogOut size={20} />
-                        <span className="ml-3">Logout</span>
-                      </>
-                    ) : (
-                      <>
-                        <LogIn size={20} />
-                        <span className="ml-3">Login</span>
-                      </>
-                    )}
-                  </button>
-                </nav>
-              </div>
-            </div>
-          )}
-          
-          {/* Content */}
-          <main className="flex-1 p-4">
-            {children || <Outlet />}
-          </main>
-          
-          {/* Footer */}
-          {showFooter && (
-            <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-gray-400 text-sm">
-              <div className="container mx-auto">
-                <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
-              </div>
-            </footer>
-          )}
+          </div>
+
+          {/* Login Button */}
+          <div className="hidden md:block">
+            <button
+              onClick={onLoginClick}
+              className="flex items-center px-4 py-2 border border-yellow-500 text-yellow-500 rounded-md hover:bg-yellow-500 hover:text-black transition-all duration-200"
+            >
+              <LogIn size={18} className="mr-2" />
+              Login
+            </button>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button className="text-yellow-400 hover:text-yellow-300">
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
-        
-        {/* Auth Modal */}
-        {showAuthModal && (
-          <UnifiedAuthModal onClose={() => setShowAuthModal(false)} />
-        )}
       </div>
-    );
+    </nav>
+  );
+};
+
+/**
+ * Standard Menu Bar Component
+ */
+const StandardMenuBar: React.FC<{
+  onLoginClick: () => void;
+  className?: string;
+}> = ({ onLoginClick, className = '' }) => {
+  const location = useLocation();
+
+  const isActiveRoute = (path: string): boolean => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
   };
-  
-  // Render the appropriate variant
-  switch (actualVariant) {
-    case 'simple':
-      return renderSimpleMobileLayout();
-    case 'mobile':
-      return renderMobileLayout();
-    case 'mobile-first':
-      return renderMobileFirstLayout();
-    default:
-      return renderStandardLayout();
-  }
+
+  return (
+    <nav className={`bg-gray-800 border-b border-gray-700 ${className}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="text-2xl font-bold text-blue-400">
+              KONIVRER
+            </Link>
+          </div>
+
+          {/* Navigation Items */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = isActiveRoute(item.path);
+                
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                    }`}
+                  >
+                    <IconComponent size={18} className="mr-2" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Login Button */}
+          <div className="hidden md:block">
+            <button
+              onClick={onLoginClick}
+              className="flex items-center px-4 py-2 border border-blue-500 text-blue-400 rounded-md hover:bg-blue-500 hover:text-white transition-all duration-200"
+            >
+              <LogIn size={18} className="mr-2" />
+              Login
+            </button>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button className="text-gray-400 hover:text-white">
+              <Menu size={24} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+/**
+ * Main Unified Layout Component
+ */
+export const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
+  children,
+  variant = 'standard',
+  currentPage = 'home',
+  className = '',
+  showFooter = true,
+}) => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const handleLoginClick = (): void => {
+    setShowAuthModal(true);
+  };
+
+  const handleCloseAuthModal = (): void => {
+    setShowAuthModal(false);
+  };
+
+  return (
+    <div className={`flex flex-col min-h-screen bg-gray-900 text-white ${className}`}>
+      {/* Navigation */}
+      {variant === 'golden' ? (
+        <GoldenMenuBar onLoginClick={handleLoginClick} />
+      ) : (
+        <StandardMenuBar onLoginClick={handleLoginClick} />
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1">
+        {children}
+      </main>
+
+      {/* Footer */}
+      {showFooter && (
+        <footer className="bg-gray-800 border-t border-gray-700 py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center text-gray-400">
+              <p>&copy; 2024 KONIVRER Deck Database. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
+      )}
+
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-white">Login</h2>
+              <button
+                onClick={handleCloseAuthModal}
+                className="text-gray-400 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="text-center py-8">
+              <p className="text-gray-300 mb-4">Authentication coming soon...</p>
+              <button
+                onClick={handleCloseAuthModal}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default UnifiedLayout;
