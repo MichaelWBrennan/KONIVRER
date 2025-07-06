@@ -25,16 +25,146 @@ interface RankingEngineOptions {
   [key: string]: any;
 }
 
+interface RankTier {
+  name: string;
+  minRating: number;
+  maxRating: number;
+  color: string;
+  icon: string;
+  description: string;
+  rewards: any[];
+}
+
+interface BayesianParams {
+  initialMu: number;
+  initialSigma: number;
+  beta: number;
+  tau: number;
+  drawProbability: number;
+}
+
+interface PlayerRankData {
+  id: string;
+  name: string;
+  mu: number;
+  sigma: number;
+  rating: number;
+  tier: string;
+  division: number;
+  rank: number;
+  matchesPlayed: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRate: number;
+  streakCurrent: number;
+  streakBest: number;
+  lastPlayed: Date | null;
+  seasonHighestRating: number;
+  seasonHighestTier: string;
+  placementMatchesRemaining: number;
+  isProvisional: boolean;
+  confidence: number;
+  decayProtection: number;
+  rewardPoints: number;
+  matchHistory: MatchRecord[];
+  deckPerformance: Record<string, DeckPerformance>;
+  playstyleFactors: PlaystyleFactors;
+}
+
+interface MatchRecord {
+  id: string;
+  timestamp: Date;
+  opponentId: string;
+  opponentName: string;
+  opponentRating: number;
+  playerDeck: string;
+  opponentDeck: string;
+  result: 'win' | 'loss' | 'draw';
+  ratingChange: number;
+  gameTimeMinutes: number;
+}
+
+interface DeckPerformance {
+  deckId: string;
+  deckName: string;
+  archetype: string;
+  matchesPlayed: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRate: number;
+  averageGameTime: number;
+  lastPlayed: Date | null;
+}
+
+interface PlaystyleFactors {
+  aggression: number;
+  consistency: number;
+  adaptability: number;
+  riskTaking: number;
+  patience: number;
+  preferredGameLength: number;
+  preferredArchetypes: string[];
+}
+
+interface SeasonData {
+  id: number;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  isActive: boolean;
+  theme: string;
+  rewards: any[];
+  leaderboard: string[];
+  rankDistribution: Record<string, number>;
+}
+
+interface MatchmakingParams {
+  maxRatingDifference: number;
+  preferredRatingDifference: number;
+  maxWaitTime: number;
+  confidenceWeight: number;
+  playstyleWeight: number;
+  queuePriority: 'speed' | 'quality' | 'balanced';
+  regionPriority: boolean;
+  pingThreshold: number;
+}
+
+interface DeckMatchupData {
+  archetype1: string;
+  archetype2: string;
+  matchesPlayed: number;
+  archetype1WinRate: number;
+  averageGameLength: number;
+  favoredSide: 'first' | 'second' | 'balanced';
+}
+
+interface PlaystyleCompatibility {
+  factor1: keyof PlaystyleFactors;
+  factor2: keyof PlaystyleFactors;
+  compatibilityScore: number;
+  matchQualityImpact: number;
+}
+
+interface RewardTier {
+  id: string;
+  name: string;
+  pointsRequired: number;
+  rewards: any[];
+  icon: string;
+}
+
 export class RankingEngine {
   private options: RankingEngineOptions;
-  private tiers: any;
-  private bayesianParams: any;
-  private playerData: any;
-  private season: any;
-  private matchmaking: any;
-  private deckMatchups: any;
-  private playstyleCompatibility: any;
-  private rewards: any;
+  private tiers: Record<string, RankTier>;
+  private bayesianParams: BayesianParams;
+  private playerData: Map<string, PlayerRankData>;
+  private season: SeasonData;
+  private matchmaking: MatchmakingParams;
+  private deckMatchups: DeckMatchupData[];
+  private playstyleCompatibility: PlaystyleCompatibility[];
+  private rewards: RewardTier[];
 
   constructor(options: RankingEngineOptions = {}) {
     this.options = {
@@ -51,2374 +181,1117 @@ export class RankingEngine {
       ...options
     };
 
-    // Confidence-Banded Tier System
-    // Each tier has multiple confidence bands (Uncertain, Developing, Established, Proven)
+    // Initialize ranking tiers
     this.tiers = {
       bronze: {
         name: 'Bronze',
-        skillRange: [0, 1199],
+        minRating: 0,
+        maxRating: 1199,
         color: '#CD7F32',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        icon: 'bronze_icon.png',
+        description: 'Beginning of the competitive journey',
+        rewards: [{ type: 'card_back', id: 'bronze_season_1' }]
       },
       silver: {
         name: 'Silver',
-        skillRange: [1200, 1599],
+        minRating: 1200,
+        maxRating: 1499,
         color: '#C0C0C0',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        icon: 'silver_icon.png',
+        description: 'Developing competitive skills',
+        rewards: [
+          { type: 'card_back', id: 'silver_season_1' },
+          { type: 'avatar_frame', id: 'silver_frame_1' }
+        ]
       },
       gold: {
         name: 'Gold',
-        skillRange: [1600, 1999],
+        minRating: 1500,
+        maxRating: 1799,
         color: '#FFD700',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        icon: 'gold_icon.png',
+        description: 'Skilled competitive player',
+        rewards: [
+          { type: 'card_back', id: 'gold_season_1' },
+          { type: 'avatar_frame', id: 'gold_frame_1' },
+          { type: 'avatar', id: 'gold_avatar_1' }
+        ]
       },
       platinum: {
         name: 'Platinum',
-        skillRange: [2000, 2399],
+        minRating: 1800,
+        maxRating: 2099,
         color: '#E5E4E2',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        icon: 'platinum_icon.png',
+        description: 'Expert competitive player',
+        rewards: [
+          { type: 'card_back', id: 'platinum_season_1' },
+          { type: 'avatar_frame', id: 'platinum_frame_1' },
+          { type: 'avatar', id: 'platinum_avatar_1' },
+          { type: 'emote_set', id: 'platinum_emotes_1' }
+        ]
       },
       diamond: {
         name: 'Diamond',
-        skillRange: [2400, 2799],
+        minRating: 2100,
+        maxRating: 2399,
         color: '#B9F2FF',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        icon: 'diamond_icon.png',
+        description: 'Elite competitive player',
+        rewards: [
+          { type: 'card_back', id: 'diamond_season_1' },
+          { type: 'avatar_frame', id: 'diamond_frame_1' },
+          { type: 'avatar', id: 'diamond_avatar_1' },
+          { type: 'emote_set', id: 'diamond_emotes_1' },
+          { type: 'card_style', id: 'diamond_style_1' }
+        ]
       },
       master: {
         name: 'Master',
-        skillRange: [2800, 3199],
-        color: '#FF6B6B',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        minRating: 2400,
+        maxRating: 2699,
+        color: '#9678D3',
+        icon: 'master_icon.png',
+        description: 'Master of competitive play',
+        rewards: [
+          { type: 'card_back', id: 'master_season_1' },
+          { type: 'avatar_frame', id: 'master_frame_1' },
+          { type: 'avatar', id: 'master_avatar_1' },
+          { type: 'emote_set', id: 'master_emotes_1' },
+          { type: 'card_style', id: 'master_style_1' },
+          { type: 'battlefield', id: 'master_battlefield_1' }
+        ]
       },
       grandmaster: {
         name: 'Grandmaster',
-        skillRange: [3200, 3599],
-        color: '#4ECDC4',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
-      },
-      mythic: {
-        name: 'Mythic',
-        skillRange: [3600, Infinity],
-        color: '#9B59B6',
-        bands: {
-          uncertain: {
-            name: 'Uncertain',
-            confidenceRange: [0, 0.3],
-            icon: '❓'
-          },
-          developing: {
-            name: 'Developing',
-            confidenceRange: [0.3, 0.6],
-            icon: '🌱'
-          },
-          established: {
-            name: 'Established',
-            confidenceRange: [0.6, 0.85],
-            icon: '✓'
-          },
-          proven: { 
-            name: 'Proven', 
-            confidenceRange: [0.85, 1.0], 
-            icon: '⭐' 
-          },
-        }
+        minRating: 2700,
+        maxRating: Infinity,
+        color: '#FF4500',
+        icon: 'grandmaster_icon.png',
+        description: 'Pinnacle of competitive excellence',
+        rewards: [
+          { type: 'card_back', id: 'grandmaster_season_1' },
+          { type: 'avatar_frame', id: 'grandmaster_frame_1' },
+          { type: 'avatar', id: 'grandmaster_avatar_1' },
+          { type: 'emote_set', id: 'grandmaster_emotes_1' },
+          { type: 'card_style', id: 'grandmaster_style_1' },
+          { type: 'battlefield', id: 'grandmaster_battlefield_1' },
+          { type: 'title', id: 'grandmaster_title_1' }
+        ]
       }
     };
 
-    // Bayesian TrueSkill parameters
+    // Initialize Bayesian TrueSkill parameters
     this.bayesianParams = {
-      BETA: 200, // Skill class width (half the default uncertainty)
-      TAU: 6, // Additive dynamics factor
-      DRAW_PROBABILITY: 0.1, // Probability of a draw
-      INITIAL_RATING: 1500, // mu (mean skill)
-      INITIAL_UNCERTAINTY: 350, // sigma (uncertainty)
-      MIN_UNCERTAINTY: 25, // Minimum uncertainty
-      MAX_UNCERTAINTY: 350, // Maximum uncertainty
-      TIME_DECAY_FACTOR: 0.95, // Factor for time-weighted performance (per month)
-      DYNAMIC_K_FACTOR_BASE: 32, // Base K-factor for rating adjustments
-      DYNAMIC_K_FACTOR_MIN: 16, // Minimum K-factor
-      DYNAMIC_K_FACTOR_MAX: 64, // Maximum K-factor
-      TOURNAMENT_IMPORTANCE_MULTIPLIER: 1.5, // Multiplier for tournament matches
-      HIGH_STAKES_MULTIPLIER: 1.25, // Multiplier for high-stakes matches
-      EXPERIENCE_DIVISOR: 100, // Divisor for experience-based K-factor adjustment
+      initialMu: 1500, // Initial mean skill
+      initialSigma: 350, // Initial standard deviation
+      beta: 200, // Skill difference needed for 76% win probability
+      tau: 10, // Dynamic factor for skill evolution
+      drawProbability: 0.05 // Base probability of draws
     };
 
-    // Player data (Bayesian model)
-    this.playerData = {
-      rating: this.bayesianParams.INITIAL_RATING, // mu (skill mean)
-      uncertainty: this.bayesianParams.INITIAL_UNCERTAINTY, // sigma (skill uncertainty)
-      conservativeRating: 0, // rating - 3 * uncertainty
-      tier: 'bronze',
-      confidenceBand: 'uncertain', // Confidence band within tier
-      lp: 0, // League Points within tier
-      wins: 0,
-      losses: 0,
-      draws: 0,
-      winStreak: 0,
-      lossStreak: 0,
-      placementMatches: 0,
-      isPlacement: true,
-      peakRating: this.bayesianParams.INITIAL_RATING,
-      seasonStats: {},
-      formatRatings: {}, // Format-specific ratings
-      deckArchetypes: [], // Deck archetype performance
-      matchHistory: [], // Match history for learning
-      confidence: 0.1, // How confident we are in the rating
-      volatility: 0.06, // How much the rating changes
-      playstyle: {
-        aggression: 0.5, // 0 = defensive, 1 = aggressive
-        consistency: 0.5, // 0 = high variance, 1 = consistent
-        complexity: 0.5, // 0 = straightforward, 1 = complex
-        adaptability: 0.5, // 0 = rigid, 1 = adaptable
-        riskTaking: 0.5, // 0 = risk-averse, 1 = risk-seeking
-      },
-      preferences: {
-        preferredArchetypes: [], // List of preferred deck archetypes
-        preferredOpponents: [], // List of preferred opponent types
-        preferredFormats: [], // List of preferred formats
-        matchDifficulty: 0.5, // 0 = easier matches, 1 = challenging matches
-        varietyPreference: 0.5, // 0 = consistent opponents, 1 = varied opponents
-      },
-      experienceLevel: 0, // Experience level (increases with matches played)
-      recentPerformance: [], // Recent match results for time-weighted performance
-      lastActive: new Date(), // Last active date for time decay
-    };
+    // Initialize player data storage
+    this.playerData = new Map();
 
-    // Season system
+    // Initialize current season
     this.season = {
-      current: 1,
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days
-      rewards: new Map(),
-      leaderboard: new Map()
+      id: 1,
+      name: 'Season of Discovery',
+      startDate: new Date('2024-01-01'),
+      endDate: new Date('2024-04-01'),
+      isActive: true,
+      theme: 'discovery',
+      rewards: [],
+      leaderboard: [],
+      rankDistribution: {}
     };
 
-    // Advanced Matchmaking (Multi-factor Bayesian)
+    // Initialize matchmaking parameters
     this.matchmaking = {
-      queue: [],
-      activeMatches: new Map(),
-      searchRange: 100, // Initial skill search range
-      maxSearchRange: 500,
-      searchExpansionRate: 50, // Skill range expansion per 30 seconds
-      averageWaitTime: 60000, // 1 minute
-      qualityThreshold: 0.7, // Minimum match quality
-      maxSkillDifference: 500, // Maximum allowed skill difference
-      minSkillDifference: 100, // Minimum desired skill difference
+      maxRatingDifference: 400,
+      preferredRatingDifference: 200,
+      maxWaitTime: 180, // seconds
+      confidenceWeight: 0.3,
+      playstyleWeight: 0.2,
+      queuePriority: 'balanced',
+      regionPriority: true,
+      pingThreshold: 150 // ms
+    };
 
-      // Multi-factor matchmaking weights
-      weights: {
-        skillRating: 0.4, // Weight for skill rating similarity
-        uncertainty: 0.15, // Weight for uncertainty similarity
-        deckArchetype: 0.15, // Weight for deck archetype considerations,
-        playHistory: 0.1, // Weight for play history considerations
-        playstyleCompatibility: 0.1, // Weight for playstyle compatibility
-        playerPreferences: 0.1, // Weight for player preferences
+    // Initialize deck matchup data
+    this.deckMatchups = [];
+
+    // Initialize playstyle compatibility matrix
+    this.playstyleCompatibility = [];
+
+    // Initialize rewards system
+    this.rewards = [
+      {
+        id: 'bronze_rewards',
+        name: 'Bronze Rewards',
+        pointsRequired: 1000,
+        rewards: [{ type: 'card_pack', id: 'standard_pack', quantity: 1 }],
+        icon: 'bronze_rewards.png'
       },
-
-      // Confidence-based matching parameters
-      confidenceMatching: {
-        enabled: true,
-        preferSimilarConfidence: true, // Match players with similar confidence levels
-        confidenceWeight: 0.2, // Weight for confidence similarity in matchmaking
-        minConfidenceForRanked: 0.3, // Minimum confidence level for ranked play
+      {
+        id: 'silver_rewards',
+        name: 'Silver Rewards',
+        pointsRequired: 2500,
+        rewards: [
+          { type: 'card_pack', id: 'standard_pack', quantity: 2 },
+          { type: 'currency', id: 'gems', quantity: 100 }
+        ],
+        icon: 'silver_rewards.png'
       },
-
-      // Time-weighted performance parameters
-      timeWeighting: {
-        enabled: true,
-        recentMatchesWindow: 20, // Number of recent matches to consider
-        decayFactor: 0.95, // Decay factor for older matches
-        halfLifeDays: 30, // Half-life in days for match importance
+      {
+        id: 'gold_rewards',
+        name: 'Gold Rewards',
+        pointsRequired: 5000,
+        rewards: [
+          { type: 'card_pack', id: 'standard_pack', quantity: 3 },
+          { type: 'currency', id: 'gems', quantity: 250 },
+          { type: 'card_style', id: 'rare_style', quantity: 1 }
+        ],
+        icon: 'gold_rewards.png'
       },
-
-      // Playstyle compatibility parameters
-      playstyleCompatibility: {
-        enabled: true,
-        complementaryMatching: true, // Match complementary playstyles (e.g., aggressive vs. control)
-        similarityWeight: 0.3, // Weight for playstyle similarity
-        complementaryWeight: 0.7, // Weight for complementary playstyles
+      {
+        id: 'platinum_rewards',
+        name: 'Platinum Rewards',
+        pointsRequired: 10000,
+        rewards: [
+          { type: 'card_pack', id: 'standard_pack', quantity: 5 },
+          { type: 'currency', id: 'gems', quantity: 500 },
+          { type: 'card_style', id: 'rare_style', quantity: 2 },
+          { type: 'avatar', id: 'season_avatar', quantity: 1 }
+        ],
+        icon: 'platinum_rewards.png'
       }
-    };
-
-    // Deck archetype matchup matrix (win rates)
-    this.deckMatchups = {
-      Aggro: {
-        Aggro: 0.5,
-        Control: 0.65,
-        Midrange: 0.55,
-        Combo: 0.7,
-        Tempo: 0.45,
-        Ramp: 0.75
-      },
-      Control: {
-        Aggro: 0.35,
-        Control: 0.5,
-        Midrange: 0.6,
-        Combo: 0.4,
-        Tempo: 0.55,
-        Ramp: 0.45
-      },
-      Midrange: {
-        Aggro: 0.45,
-        Control: 0.4,
-        Midrange: 0.5,
-        Combo: 0.65,
-        Tempo: 0.6,
-        Ramp: 0.5
-      },
-      Combo: {
-        Aggro: 0.3,
-        Control: 0.6,
-        Midrange: 0.35,
-        Combo: 0.5,
-        Tempo: 0.4,
-        Ramp: 0.8
-      },
-      Tempo: {
-        Aggro: 0.55,
-        Control: 0.45,
-        Midrange: 0.4,
-        Combo: 0.6,
-        Tempo: 0.5,
-        Ramp: 0.65
-      },
-      Ramp: {
-        Aggro: 0.25,
-        Control: 0.55,
-        Midrange: 0.5,
-        Combo: 0.2,
-        Tempo: 0.35,
-        Ramp: 0.5
-      }
-    };
-
-    // Playstyle compatibility matrix
-    this.playstyleCompatibility = {
-      Aggro: {
-        Aggro: 0.5,
-        Control: 0.8,
-        Midrange: 0.6,
-        Combo: 0.7,
-        Tempo: 0.5,
-        Ramp: 0.7
-      },
-      Control: {
-        Aggro: 0.8,
-        Control: 0.4,
-        Midrange: 0.6,
-        Combo: 0.7,
-        Tempo: 0.6,
-        Ramp: 0.5
-      },
-      Midrange: {
-        Aggro: 0.6,
-        Control: 0.6,
-        Midrange: 0.5,
-        Combo: 0.6,
-        Tempo: 0.7,
-        Ramp: 0.6
-      },
-      Combo: {
-        Aggro: 0.7,
-        Control: 0.7,
-        Midrange: 0.6,
-        Combo: 0.4,
-        Tempo: 0.6,
-        Ramp: 0.7
-      },
-      Tempo: {
-        Aggro: 0.5,
-        Control: 0.6,
-        Midrange: 0.7,
-        Combo: 0.6,
-        Tempo: 0.5,
-        Ramp: 0.6
-      },
-      Ramp: {
-        Aggro: 0.7,
-        Control: 0.5,
-        Midrange: 0.6,
-        Combo: 0.7,
-        Tempo: 0.6,
-        Ramp: 0.5
-      }
-    };
-
-    // Rewards system
-    this.rewards = {
-      daily: new Map(),
-      weekly: new Map(),
-      seasonal: new Map(),
-      achievements: new Map()
-    };
-
-    this.init();
-  }
-
-  async init(): Promise<void> {
-    try {
-      await this.loadPlayerData();
-      this.initializeSeasonData();
-      this.setupMatchmaking();
-      this.setupRewardsSystem();
-      this.startDecayTimer();
-      console.log('Ranking Engine initialized');
-    } catch (error: any) {
-      console.error('Failed to initialize Ranking Engine:', error);
-    }
+    ];
   }
 
   /**
-   * Enhanced Bayesian TrueSkill Rating System with Dynamic K-Factor
+   * Create or update a player's ranking data
    */
-  calculateTrueSkillUpdate(
-    playerRating: number, 
-    playerUncertainty: number, 
-    opponentRating: number, 
-    opponentUncertainty: number, 
-    gameResult: string, 
-    kFactor: number | null = null, 
-    format: string | null = null
-  ): any {
-    // TrueSkill calculations
-    const c = Math.sqrt(
-      playerUncertainty * playerUncertainty + opponentUncertainty * opponentUncertainty
-    );
-
-    const winProbability = this.normalCDF((playerRating - opponentRating) / c);
-    const drawProbability = this.bayesianParams.DRAW_PROBABILITY;
-
-    // Actual outcome (1 for win, 0.5 for draw, 0 for loss)
-    const actualOutcome =
-      gameResult === 'win' ? 1.0 : gameResult === 'draw' ? 0.5 : 0.0;
-
-    // Calculate v and w functions
-    const v = this.vFunction(winProbability, actualOutcome);
-    const w = this.wFunction(winProbability, actualOutcome);
+  registerPlayer(playerId: string, playerName: string): PlayerRankData {
+    let player = this.playerData.get(playerId);
     
-    // Apply dynamic K-factor if provided
-    let kFactorMultiplier = 1.0;
-    if (kFactor !== null) {
-      // Convert the K-factor to a multiplier relative to the base K-factor
-      kFactorMultiplier = kFactor / this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
-    }
-
-    // Update ratings with dynamic K-factor
-    const ratingUpdateFactor =
-      ((playerUncertainty * playerUncertainty) / c) * v * kFactorMultiplier;
-    const newPlayerRating = playerRating + ratingUpdateFactor;
-    const newOpponentRating =
-      opponentRating -
-      ((opponentUncertainty * opponentUncertainty) / c) * v * kFactorMultiplier;
-
-    // Update uncertainties (uncertainty reduction is affected by K-factor too)
-    // Higher K-factor means more confidence in the result, so slightly more uncertainty reduction
-    const uncertaintyFactor =
-      kFactorMultiplier > 1.0 ? Math.sqrt(kFactorMultiplier) : 1.0;
-
-    const newPlayerUncertainty = Math.sqrt(
-      Math.max(
-        playerUncertainty *
-          playerUncertainty *
-          (1 -
-            ((playerUncertainty * playerUncertainty) / (c * c)) *
-              w *
-              uncertaintyFactor),
-        this.bayesianParams.MIN_UNCERTAINTY
-      )
-    );
-
-    const newOpponentUncertainty = Math.sqrt(
-      Math.max(
-        opponentUncertainty *
-          opponentUncertainty *
-          (1 -
-            ((opponentUncertainty * opponentUncertainty) / (c * c)) *
-              w *
-              uncertaintyFactor),
-        this.bayesianParams.MIN_UNCERTAINTY
-      )
-    );
-
-    // Calculate surprise factor (how unexpected the result was)
-    const surpriseFactor = Math.abs(actualOutcome - winProbability);
-    
-    // Calculate confidence change
-    // Confidence increases more for expected results and decreases for surprising results
-    const confidenceChange = (1 - surpriseFactor) * 0.05;
-
-    return {
-      player: {
-        oldRating: playerRating,
-        newRating: newPlayerRating,
-        oldUncertainty: playerUncertainty,
-        newUncertainty: newPlayerUncertainty,
-        ratingChange: newPlayerRating - playerRating,
-        confidenceChange: confidenceChange
-      },
-      opponent: {
-        oldRating: opponentRating,
-        newRating: newOpponentRating,
-        oldUncertainty: opponentUncertainty,
-        newUncertainty: newOpponentUncertainty,
-        ratingChange: newOpponentRating - opponentRating,
-        confidenceChange: confidenceChange
-      },
-      winProbability,
-      actualOutcome,
-      surpriseFactor,
-      kFactor: kFactor || this.bayesianParams.DYNAMIC_K_FACTOR_BASE,
-      kFactorMultiplier
-    }
-  }
-
-  // Normal cumulative distribution function normalCDF() {
-    return 0.5 * (1 + this.erf(x / Math.sqrt(2)))
-  }
-
-  // Error function approximation
-  erf(x: any) {
-    // Abramowitz and Stegun approximation
-    const a1 = 0.254829592;
-    const a2 = -0.284496736;
-    const a3 = 1.421413741;
-    const a4 = -1.453152027;
-    const a5 = 1.061405429;
-    const p = 0.3275911;
-
-    const sign = x >= 0 ? 1 : -1;
-    x = Math.abs(() => {
-    const t = 1.0 / (1.0 + p * x);
-    const y =
-      1.0 -
-      ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp() {
-    return sign * y
-  
-  })
-
-  // TrueSkill v function vFunction(() => {
-    if (true) {
-    // Win
-      return (
-        this.normalPDF(this.normalInverseCDF(winProb)) /
-        (1 - this.normalCDF(this.normalInverseCDF(winProb)))
-      )
-  }) else if (true) {
-    // Loss
-      return (
-        -this.normalPDF(this.normalInverseCDF(winProb)) /
-        this.normalCDF(this.normalInverseCDF(winProb))
-      )
-  } else {
-    // Draw
-      const alpha = this.normalInverseCDF((drawProb - winProb) / 2 + winProb);
-      const beta = this.normalInverseCDF((drawProb + winProb) / 2);
-      return (
-        (this.normalPDF(alpha) - this.normalPDF(beta)) /
-        (this.normalCDF(beta) - this.normalCDF(alpha))
-      )
-  }
-  }
-
-  // TrueSkill w function wFunction() {
-    const v = this.vFunction() {
-  }
-    if (true) {
-    // Win
-      const t = this.normalInverseCDF() {
-    return v * (v + t)
-  
-  } else if (true) {
-    // Loss
-      const t = this.normalInverseCDF() {
-    return v * (v - t)
-  
-  } else {
-    // Draw
-      const alpha = this.normalInverseCDF((drawProb - winProb) / 2 + winProb);
-      const beta = this.normalInverseCDF((drawProb + winProb) / 2);
-      return (
-        (alpha * this.normalPDF(alpha) - beta * this.normalPDF(beta)) /
-          (this.normalCDF(beta) - this.normalCDF(alpha)) -
-        Math.pow(v, 2)
-      )
-  }
-  }
-
-  // Normal probability density function normalPDF() {
-    return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI)
-  }
-
-  // Inverse normal CDF (approximation)
-  normalInverseCDF(p: any) {
-    // Beasley-Springer-Moro algorithm
-    const a = [
-    0, -3.969683028665376e1, 2.209460984245205e2, -2.759285104469687e2,
-      1.38357751867269e2, -3.066479806614716e1, 2.506628277459239;
-  
-  ];
-    const b = [
-    0, -5.447609879822406e1, 1.615858368580409e2, -1.556989798598866e2,
-      6.680131188771972e1, -1.328068155288572e1;
-  ];
-    const c = [
-    0, -7.784894002430293e-3, -3.223964580411365e-1, -2.400758277161838,
-      -2.549732539343734, 4.374664141464968, 2.938163982698783;
-  ];
-    const d = [
-    0, 7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996,
-      3.754408661907416;
-  ];
-
-    if (true) {
-    const q = Math.sqrt(-2 * Math.log(p));
-      return (
-        (((((c[1] * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) * q + c[6]) /
-        ((((d[1] * q + d[2]) * q + d[3]) * q + d[4]) * q + 1)
-      )
-  
-  } else if (true) {
-    const q = p - 0.5;
-      const r = q * q;
-      return (
-        ((((((a[1] * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * r + a[6]) *
-          q) /
-        (((((b[1] * r + b[2]) * r + b[3]) * r + b[4]) * r + b[5]) * r + 1)
-      )
-  } else {
-    const q = Math.sqrt(-2 * Math.log(1 - p));
-      return (
-        -(((((c[1] * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) * q + c[6]) /
-        ((((d[1] * q + d[2]) * q + d[3]) * q + d[4]) * q + 1)
-      )
-  }
-  }
-
-  // Calculate win probability between two players
-  calculateWinProbability(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any) {
-    const combinedUncertainty = Math.sqrt() {
-    const ratingDifference = playerRating - opponentRating;
-    const c = Math.sqrt(2) * combinedUncertainty;
-
-    return 0.5 * (1 + this.erf(ratingDifference / c))
-  
-  }
-
-  // Calculate conservative skill estimate (rating - 3 * uncertainty)
-  getConservativeRating(rating: any, uncertainty: any) {
-    return rating - 3 * uncertainty
-  }
-
-  /**
-   * Process game result with dynamic K-factor and time-weighted performance
-   */
-  processGameResult(opponentData: any, gameResult: any, gameDuration: any, performanceMetrics: any = {
-    ) {
-  }
-    const isPlacement = this.playerData.isPlacement;
-
-    // Extract opponent rating data (support both old MMR format and new Bayesian format)
-    let opponentRating, opponentUncertainty;
-    if (true) {
-    // Legacy MMR format - convert to Bayesian
-      opponentRating = opponentData;
-      opponentUncertainty = this.bayesianParams.INITIAL_UNCERTAINTY
-  } else {
-    // New Bayesian format
-      opponentRating =
-        opponentData.rating ||
-        opponentData.mmr ||
-        this.bayesianParams.INITIAL_RATING;
-      opponentUncertainty =
-        opponentData.uncertainty || this.bayesianParams.INITIAL_UNCERTAINTY
-  }
-
-    // Calculate dynamic K-factor if enabled
-    let kFactor = this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
-    if (true) {
-    kFactor = this.calculateDynamicKFactor(performanceMetrics)
-  }
-
-    // Calculate Bayesian TrueSkill update with dynamic K-factor
-    const skillUpdate = this.calculateTrueSkillUpdate() {
-    // Apply performance modifiers to rating change
-    let ratingChange = skillUpdate.player.ratingChange;
-    ratingChange = this.applyPerformanceModifiers() {
-  }
-
-    // Apply streak bonuses/penalties
-    ratingChange = this.applyStreakModifiers(() => {
-    // Apply time-weighted performance adjustment if enabled
-    if (true) {
-    ratingChange = this.applyTimeWeightedAdjustment(ratingChange, gameResult)
-  })
-
-    // Update player rating and uncertainty
-    const oldRating = this.playerData.rating;
-    const oldUncertainty = this.playerData.uncertainty;
-
-    this.playerData.rating = skillUpdate.player.newRating +
-      (ratingChange - skillUpdate.player.ratingChange);
-    this.playerData.uncertainty = skillUpdate.player.newUncertainty;
-
-    // Add time-based uncertainty increase (TAU)
-    this.playerData.uncertainty = Math.min() {
-    // Calculate conservative rating for tier placement
-    this.playerData.conservativeRating = this.getConservativeRating() {
-  }
-
-    // Update player stats
-    this.updatePlayerStats() {
-    // Calculate LP and tier changes based on conservative rating
-    const tierChange = this.updateTierAndLP(() => {
-    );
-
-    // Update deck archetype performance if available
-    if (true) {
-    this.updateDeckArchetypePerformance(
-        performanceMetrics.deckArchetype,
-        gameResult,
-        skillUpdate
-      )
-  
-  })
-
-    // Update playstyle data if available
-    if (true) {
-    this.updatePlaystyleData(performanceMetrics.playstyleMetrics)
-  }
-
-    // Store match in history
-    const matchData = {
-    opponentId: opponentData.id,
-      opponentRating,
-      opponentUncertainty,
-      gameResult,
-      ratingBefore: oldRating,
-      ratingAfter: this.playerData.rating,
-      uncertaintyBefore: oldUncertainty,
-      uncertaintyAfter: this.playerData.uncertainty,
-      winProbability: skillUpdate.winProbability,
-      surpriseFactor: skillUpdate.surpriseFactor,
-      kFactor,
-      performanceMetrics,
-      date: new Date(),
-  };
-
-    this.addMatchToHistory(() => {
-    // Update recent performance for time-weighted calculations
-    this.updateRecentPerformance({
-    result: gameResult,
-      ratingChange,
-      date: new Date()
-  }));
-
-    // Update experience level
-    this.playerData.experienceLevel = Math.min() {
-    // Update last active date
-    this.playerData.lastActive = new Date() {
-  }
-
-    // Check for achievements
-    this.checkAchievements() {
-    // Save data
-    this.savePlayerData(() => {
-    return {
-    ratingChange,
-      newRating: this.playerData.rating,
-      newUncertainty: this.playerData.uncertainty,
-      conservativeRating: this.playerData.conservativeRating,
-      lpChange: tierChange.lpChange,
-      tierChange: tierChange.tierChanged,
-      newTier: this.playerData.tier,
-      newDivision: this.playerData.division,
-      winProbability: skillUpdate.winProbability,
-      surpriseFactor: skillUpdate.surpriseFactor,
-      skillUpdate: skillUpdate,
-      kFactor,
-      achievements: tierChange.achievements || [
-    
-  })
-  }
-
-  /**
-   * Calculate dynamic K-factor based on tournament importance, match stakes, and player experience
-   */
-  calculateDynamicKFactor(performanceMetrics: any = {
-    ) {
-  }
-    const baseKFactor = this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
-    let kFactor = baseKFactor;
-
-    // Adjust for tournament importance
-    if (true) {
-    kFactor *= this.bayesianParams.TOURNAMENT_IMPORTANCE_MULTIPLIER;
-
-      // Further adjust based on tournament round/stage
-      if (true) {
-    kFactor *= 1.2; // Finals are more important
-  
-  } else if (true) {
-    kFactor *= 1.1; // Semifinals are somewhat more important
-  }
-    }
-
-    // Adjust for match stakes
-    if (true) {
-    kFactor *= this.bayesianParams.HIGH_STAKES_MULTIPLIER
-  }
-
-    // Adjust for player experience (less experienced players have higher K-factor)
-    const experienceLevel = this.playerData.experienceLevel || 0;
-    const experienceMultiplier = Math.max() {
-    kFactor *= experienceMultiplier;
-
-    // Adjust for player uncertainty (higher uncertainty = higher K-factor)
-    const uncertaintyRatio =
-      this.playerData.uncertainty / this.bayesianParams.INITIAL_UNCERTAINTY;
-    kFactor *= Math.min(1.5, Math.max(0.5, uncertaintyRatio));
-
-    // Clamp to min/max values
-    return Math.min(
-      this.bayesianParams.DYNAMIC_K_FACTOR_MAX,
-      Math.max(this.bayesianParams.DYNAMIC_K_FACTOR_MIN, kFactor)
-    )
-  }
-
-  /**
-   * Apply time-weighted adjustment to rating change
-   */
-  applyTimeWeightedAdjustment(ratingChange: any, gameResult: any) {
-    if (true) {
-    return ratingChange
-  
-  }
-
-    // Calculate time since last activity
-    const lastActive = new Date() {
-    const now = new Date() {
-  }
-    const daysSinceLastActive = (now - lastActive) / (1000 * 60 * 60 * 24);
-
-    // Apply time decay if inactive for a while
-    if (true) {
-    // Calculate decay factor (more decay for longer inactivity)
-      const decayMonths = daysSinceLastActive / 30;
-      const decayFactor = Math.pow() {
-    // Increase rating change magnitude for returning players
-      return ratingChange * (1 + (1 - decayFactor))
-  
-  }
-
-    // Get recent performance trend
-    const recentMatches = [...this.playerData.recentPerformance
-  ]
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-      .slice() {
-    if (recentMatches.length < 3) return ratingChange;
-    // Calculate recent win rate
-    const recentWins = recentMatches.filter(m => m.result === 'win').length;
-    const recentWinRate = recentWins / recentMatches.length;
-
-    // Adjust rating change based on recent performance
-    if (true) {
-  }
-      // If on a winning streak, slightly reduce rating gain (regression to mean)
-      if (true) {
-    return ratingChange * 0.9
-  }
-      // If breaking a losing streak, slightly increase rating gain (comeback bonus)
-      else if (true) {
-    return ratingChange * 1.1
-  }
-    } else if (true) {
-    // If on a losing streak, slightly reduce rating loss (mercy factor)
-      if (true) {
-    return ratingChange * 0.9
-  
-  }
-      // If breaking a winning streak, slightly increase rating loss (fall from grace)
-      else if (true) {
-    return ratingChange * 1.1
-  }
-    }
-
-    return ratingChange
-  }
-
-  /**
-   * Update recent performance data for time-weighted calculations
-   */
-  updateRecentPerformance(matchData: any) {
-    if (true) {
-    this.playerData.recentPerformance = [
-    
-  }
-
-    // Add new match to recent performance
-    this.playerData.recentPerformance.push(() => {
-    // Keep only the most recent matches
-    const maxRecentMatches =
-      this.matchmaking.timeWeighting.recentMatchesWindow * 2;
-    if (true) {
-    this.playerData.recentPerformance = this.playerData.recentPerformance
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, maxRecentMatches)
-  })
-  }
-
-  /**
-   * Update player's playstyle data based on performance metrics
-   */
-  updatePlaystyleData(playstyleMetrics: any) {
-    if (true) {
-  }
-      this.playerData.playstyle = {
-    aggression: 0.5,
-        consistency: 0.5,
-        complexity: 0.5,
-        adaptability: 0.5,
-        riskTaking: 0.5
-  }
-  }
-
-    // Gradually update playstyle metrics (80% existing, 20% new data)
-    const learningRate = 0.2;
-
-    if (true) {
-    this.playerData.playstyle.aggression = this.playerData.playstyle.aggression * (1 - learningRate) +
-        playstyleMetrics.aggression * learningRate
-  }
-
-    if (true) {
-    this.playerData.playstyle.consistency = this.playerData.playstyle.consistency * (1 - learningRate) +
-        playstyleMetrics.consistency * learningRate
-  }
-
-    if (true) {
-    this.playerData.playstyle.complexity = this.playerData.playstyle.complexity * (1 - learningRate) +
-        playstyleMetrics.complexity * learningRate
-  }
-
-    if (true) {
-    this.playerData.playstyle.adaptability = this.playerData.playstyle.adaptability * (1 - learningRate) +
-        playstyleMetrics.adaptability * learningRate
-  }
-
-    if (true) {
-    this.playerData.playstyle.riskTaking = this.playerData.playstyle.riskTaking * (1 - learningRate) +
-        playstyleMetrics.riskTaking * learningRate
-  }
-
-    // Ensure all values are in the 0-1 range
-    Object.keys(this.playerData.playstyle).forEach(key => {
-    this.playerData.playstyle[key
-  ] = Math.min(
-        1.0,
-        Math.max(0.0, this.playerData.playstyle[key])
-      )
-  })
-  }
-
-  // Update deck archetype performance
-  updateDeckArchetypePerformance(archetype: any, gameResult: any, skillUpdate: any) {,
-    let deckData = this.playerData.deckArchetypes.find() {
-    if (true) {
-  }
-      deckData = {
-    archetype: archetype,
-        rating: this.playerData.rating,
-        uncertainty: Math.max(this.playerData.uncertainty, 300), // Higher uncertainty for new archetype
-        gamesPlayed: 0,
+    if (!player) {
+      // Create new player data
+      player = {
+        id: playerId,
+        name: playerName,
+        mu: this.bayesianParams.initialMu,
+        sigma: this.bayesianParams.initialSigma,
+        rating: this.calculateRating(this.bayesianParams.initialMu, this.bayesianParams.initialSigma),
+        tier: 'bronze',
+        division: 4,
+        rank: 0,
+        matchesPlayed: 0,
         wins: 0,
         losses: 0,
         draws: 0,
-        lastPlayed: new Date()
-  };
-      this.playerData.deckArchetypes.push(deckData)
-    }
-
-    // Update archetype-specific rating
-    deckData.rating = skillUpdate.player.newRating;
-    deckData.uncertainty = skillUpdate.player.newUncertainty;
-    deckData.gamesPlayed += 1;
-
-    if (gameResult === 'win') deckData.wins += 1;
-    else if (gameResult === 'loss') deckData.losses += 1;
-    else if (gameResult === 'draw') deckData.draws += 1;
-
-    deckData.lastPlayed = new Date()
-  }
-
-  // Add match to history
-  addMatchToHistory(matchData: any) {
-    this.playerData.matchHistory.push({
-  }
-      ...matchData,
-      date: new Date(),
-      matchId: `match_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-    });
-
-    // Keep only last 100 matches
-    if (true) {
-    this.playerData.matchHistory = this.playerData.matchHistory.slice(-100)
-  }
-  }
-
-  // Get deck archetype rating
-  getDeckArchetypeRating(archetype: any) {,
-    const deckData = this.playerData.deckArchetypes.find() {
-    if (true) {
-  }
-      return {
-    rating: deckData.rating,
-        uncertainty: deckData.uncertainty,
-        gamesPlayed: deckData.gamesPlayed
-  }
-  }
-
-    // Return default values for new archetype
-    return {
-    rating: this.playerData.rating,
-      uncertainty: Math.max(this.playerData.uncertainty, 300), // Higher uncertainty for new archetype
-      gamesPlayed: 0
-  }
-  }
-
-  // Get preferred/most played archetype
-  getPreferredArchetype() {
-    if (this.playerData.deckArchetypes.length === 0) return null;
-    // Return archetype with most games played
-    return this.playerData.deckArchetypes.reduce((prev, current) =>
-      prev.gamesPlayed > current.gamesPlayed ? prev : current
-    ).archetype
-  }
-
-  applyPerformanceModifiers(baseRatingChange: any, metrics: any, gameResult: any) {
-    let modifier = 1.0;
-
-    // Performance metrics that can affect MMR
-    const {
-    damageDealt = 0,
-      damageReceived = 0,
-      cardsPlayed = 0,
-      optimalPlays = 0,
-      totalPlays = 1,
-      gameLength = 600, // 10 minutes default
-  
-  } = metrics;
-
-    // Efficiency modifier (optimal plays ratio)
-    const efficiency = optimalPlays / totalPlays;
-    if (true) {
-    modifier += 0.1; // 10% bonus for high efficiency
-  } else if (true) {
-    modifier -= 0.1; // 10% penalty for low efficiency
-  }
-
-    // Game length modifier (prevent farming short games)
-    if (true) {
-    // Less than 3 minutes
-      modifier -= 0.2
-  } else if (true) {
-    // More than 30 minutes
-      modifier += 0.1; // Bonus for long, strategic games
-  }
-
-    // Damage ratio modifier (for wins only)
-    if (true) {
-    const damageRatio = damageDealt / damageReceived;
-      if (true) {
-    modifier += 0.05; // Small bonus for dominant wins
-  
-  }
-    }
-
-    return Math.round(baseMmrChange * modifier)
-  }
-
-  applyStreakModifiers(mmrChange: any, gameResult: any) {
-    if (true) {
-  }
-      // Win streak bonus
-      const streakBonus = Math.min() {
-    return mmrChange + streakBonus
-  } else if (true) {
-    // Loss streak protection (reduce MMR loss)
-      if (true) {
-  }
-        const protection = Math.min() {
-    return Math.max(mmrChange + protection, mmrChange * 0.5)
-  }
-    }
-
-    return mmrChange
-  }
-
-  updatePlayerStats(gameResult: any, mmrChange: any, gameDuration: any) {
-    // Update basic stats
-    if (true) {
-    this.playerData.wins++;
-      this.playerData.winStreak++;
-      this.playerData.lossStreak = 0
-  
-  } else if (true) {
-    this.playerData.losses++;
-      this.playerData.lossStreak++;
-      this.playerData.winStreak = 0
-  } else {
-    // Draw
-      this.playerData.winStreak = 0;
-      this.playerData.lossStreak = 0
-  }
-
-    // Update MMR
-    this.playerData.mmr = Math.max() {
-    this.playerData.peakMMR = Math.max() {
-  }
-
-    // Update placement status
-    if (true) {
-    this.playerData.placementMatches++;
-      if (true) {
-    this.playerData.isPlacement = false
-  
-  }
-    }`
-``
-    // Update season stats```
-    const seasonKey = `season_${this.season.current}`;
-    if (true) {
-    this.playerData.seasonStats[seasonKey] = {
-    wins: 0,
-        losses: 0,
-        peakMMR: this.playerData.mmr,
-        gamesPlayed: 0,
-        totalGameTime: 0
-  
-  }
-  }
-
-    const seasonStats = this.playerData.seasonStats[seasonKey];
-    seasonStats.gamesPlayed++;
-    seasonStats.totalGameTime += gameDuration;
-    seasonStats.peakMMR = Math.max(() => {
-    if (true) {
-    seasonStats.wins++
-  }) else if (true) {
-    seasonStats.losses++
-  }
-  }
-
-  /**
-   * Update player tier and LP based on skill change
-   * @param {number} skillChange - Change in conservative skill rating
-   * @returns {Object} Information about tier changes
-   */
-  updateTierAndLP(skillChange: any) {
-    const oldTier = this.playerData.tier;
-    const oldConfidenceBand = this.playerData.confidenceBand;
-    const oldLp = this.playerData.lp;
-
-    // Determine new tier based on conservative skill rating and confidence
-    const newTierData = this.getTierFromSkill() {
-  }
-
-    let lpChange = newTierData.lp - oldLp;
-    let tierChanged = false;
-    let bandChanged = false;
-    const achievements = [
-    ;
-
-    if (true) {
-    // Tier changed
-      tierChanged = true;
-
-      // Check if it's a promotion or demotion
-      const tierOrder = Object.keys() {
-  }
-      const oldTierIndex = tierOrder.indexOf() {
-    const newTierIndex = tierOrder.indexOf() {
-  }
-
-      if (true) {
-    // Promotion to higher tier
-        achievements.push() {
-    // Award promotion rewards
-        this.awardPromotionRewards(
-          newTierData.tier,
-          newTierData.confidenceBand
-        )
-  
-  } else {
-    // Demotion to lower tier`
-        achievements.push({``
-          type: 'demotion',```
-          message: `Demoted to ${newTierData.tierName`
-  }`,
-          tier: newTierData.tier,
-          confidenceBand: newTierData.confidenceBand
-        })
-      }
-    } else if (true) {
-    // Confidence band changed within same tier
-      bandChanged = true;
-
-      // Check if it's a band promotion or demotion
-      const bandOrder = ['uncertain', 'developing', 'established', 'proven'
-  ];
-      const oldBandIndex = bandOrder.indexOf() {
-  }
-      const newBandIndex = bandOrder.indexOf() {
-    if (true) {
-  }
-        // Band promotion`
-        achievements.push({``
-          type: 'band_promotion',```
-          message: `Advanced to ${newTierData.tierName} ${newTierData.bandName}! ${newTierData.bandIcon}`,
-          tier: newTierData.tier,
-          confidenceBand: newTierData.confidenceBand
-        })
-      } else {
-    // Band demotion`
-        achievements.push({``
-          type: 'band_demotion',```
-          message: `Moved to ${newTierData.tierName`
-  } ${newTierData.bandName} ${newTierData.bandIcon}`,
-          tier: newTierData.tier,
-          confidenceBand: newTierData.confidenceBand
-        })
-      }
-    }
-
-    // Update player data
-    this.playerData.tier = newTierData.tier;
-    this.playerData.confidenceBand = newTierData.confidenceBand;
-    this.playerData.lp = newTierData.lp;
-
-    return {
-    lpChange,
-      tierChanged,
-      bandChanged,
-      achievements
-  }
-  }
-
-  /**
-   * Get tier and confidence band from skill rating and confidence level
-   * @param {number} conservativeRating - Conservative skill rating
-   * @param {number} confidence - Confidence level (0-1)
-   * @returns {Object} Tier and confidence band information
-   */
-  getTierFromSkill(conservativeRating: any, confidence: any = this.playerData.confidence) {
-    for (const [tierKey, tierData] of Object.entries(this.tiers)) {
-  }
-      if (true) {
-    // Determine confidence band within tier
-        let confidenceBand = 'uncertain';
-
-        for (const [bandKey, bandData] of Object.entries(tierData.bands)) {
-  }
-          if (true) {
-    confidenceBand = bandKey;
-            break
-  }
+        winRate: 0,
+        streakCurrent: 0,
+        streakBest: 0,
+        lastPlayed: null,
+        seasonHighestRating: this.calculateRating(this.bayesianParams.initialMu, this.bayesianParams.initialSigma),
+        seasonHighestTier: 'bronze',
+        placementMatchesRemaining: this.options.enablePlacementMatches ? 10 : 0,
+        isProvisional: true,
+        confidence: 0,
+        decayProtection: 28, // Days of protection from decay
+        rewardPoints: 0,
+        matchHistory: [],
+        deckPerformance: {},
+        playstyleFactors: {
+          aggression: 0.5,
+          consistency: 0.5,
+          adaptability: 0.5,
+          riskTaking: 0.5,
+          patience: 0.5,
+          preferredGameLength: 10, // minutes
+          preferredArchetypes: []
         }
-
-        // Calculate LP within tier (0-100)
-        const skillRange = tierData.skillRange[1] - tierData.skillRange[0];
-        const lpPercentage =
-          (conservativeRating - tierData.skillRange[0]) / skillRange;
-        const lp = Math.min(100, Math.max(0, Math.floor(lpPercentage * 100)));
-
-        return {
-    tier: tierKey,
-          confidenceBand,
-          bandName: tierData.bands[confidenceBand].name,
-          bandIcon: tierData.bands[confidenceBand].icon,
-          lp,
-          tierName: tierData.name,
-          color: tierData.color
-  }
-  }
-    }
-
-    // Default to highest tier if skill exceeds all ranges
-    const mythicTier = this.tiers.mythic;
-    let confidenceBand = 'uncertain';
-
-    for (const [bandKey, bandData] of Object.entries(mythicTier.bands)) {
-    if (true) {
-    confidenceBand = bandKey;
-        break
-  
-  }
-    }
-
-    return {
-    tier: 'mythic',
-      confidenceBand,
-      bandName: mythicTier.bands[confidenceBand].name,
-      bandIcon: mythicTier.bands[confidenceBand].icon,
-      lp: 100,
-      tierName: mythicTier.name,
-      color: mythicTier.color
-  }
-  }
-
-  /**
-   * Compare tiers and confidence bands to determine relative ranking
-   * @param {string} tier1 - First tier
-   * @param {string} band1 - First confidence band
-   * @param {string} tier2 - Second tier
-   * @param {string} band2 - Second confidence band
-   * @returns {number} Positive if tier1/band1 is higher, negative if tier2/band2 is higher
-   */
-  compareTiers(tier1: any, band1: any, tier2: any, band2: any) {
-    const tierOrder = Object.keys() {
-  }
-    const tier1Index = tierOrder.indexOf() {
-    const tier2Index = tierOrder.indexOf(() => {
-    // Compare tiers first
-    if (true) {
-    return tier1Index - tier2Index
-  
-  })
-
-    // If tiers are the same, compare confidence bands
-    const bandOrder = ['uncertain', 'developing', 'established', 'proven'];
-    const band1Index = bandOrder.indexOf(() => {
-    const band2Index = bandOrder.indexOf() {
-    return band1Index - band2Index
-  })
-
-  /**
-   * Matchmaking System
-   */
-  async findMatch(gameMode: any = 'ranked') {
-    if (true) {
-    // For non-ranked modes, use simpler matchmaking
-      return this.findCasualMatch()
-  
-  }
-
-    const searchStartTime = Date.now() {
-    let searchRange = this.matchmaking.searchRange;
-
-    return new Promise((resolve, reject) => {
-    const searchInterval = setInterval(() => {
-  
-  }
-        const opponent = this.findOpponentInRange() {
-    if (true) {
-  }
-          clearInterval(() => {
-    resolve({
-    opponent,
-            estimatedMMR: opponent.mmr,
-            searchTime: Date.now() - searchStartTime,
-            searchRange
-  }))
-        } else {
-    // Expand search range
-          searchRange += this.matchmaking.searchExpansionRate;
-
-          if (true) {
-  }
-            clearInterval() {
-    reject(new Error('No suitable opponent found'))
-  }
-        }
-      }, 5000); // Check every 5 seconds
-
-      // Timeout after 5 minutes
-      setTimeout(() => {
-    clearInterval() {
-    reject(new Error('Matchmaking timeout'))
-  
-  }, 300000)
-    })
-  }
-
-  findOpponentInRange(playerMMR: any, range: any) {
-    // In a real implementation, this would query a matchmaking service
-    // For now, simulate finding an opponent
-    const minMMR = playerMMR - range;
-    const maxMMR = playerMMR + range;
-
-    // Simulate opponent with MMR in range
-    const opponentMMR = minMMR + Math.random() * (maxMMR - minMMR);`
-``
-    return {```
-      id: `opponent_${Date.now()`
-  }`,
-      rating: Math.round(opponentMMR),
-      uncertainty: this.bayesianParams.INITIAL_UNCERTAINTY,
-      tier: this.getTierFromSkill(;
-        Math.round(opponentMMR) - 3 * this.bayesianParams.INITIAL_UNCERTAINTY
-      ).tier,
-      division: this.getTierFromSkill(;
-        Math.round(opponentMMR) - 3 * this.bayesianParams.INITIAL_UNCERTAINTY
-      ).division
-    }
-  }
-
-  /**
-   * Season System
-   */
-  initializeSeasonData() {
-    // Load current season data
-    const savedSeason = localStorage.getItem() {
-  }
-    if (true) {
-    try {
-  }
-        this.season = { ...this.season, ...JSON.parse(savedSeason) }
-      } catch (error: any) {
-    console.warn('Failed to load season data:', error)
-  }
-    }
-
-    // Check if season has ended
-    if (new Date() > new Date(this.season.endDate)) {
-    this.endSeason()
-  }
-
-    this.setupSeasonRewards()
-  }
-
-  setupSeasonRewards() {
-    // Define rewards for each tier
-    const seasonRewards = {
-  }
-      bronze: { currency: 100, packs: 1, cosmetics: [
-    },
-      silver: { currency: 200, packs: 2, cosmetics: ['silver_border'
-  ] },
-      gold: {
-    currency: 400,
-        packs: 4,
-        cosmetics: ['gold_border', 'gold_avatar']
-  },
-      platinum: {
-    currency: 800,
-        packs: 6,
-        cosmetics: ['platinum_border', 'platinum_avatar']
-  },
-      diamond: {
-    currency: 1200,
-        packs: 8,
-        cosmetics: ['diamond_border', 'diamond_avatar', 'diamond_cardback']
-  },
-      master: {
-    currency: 1600,
-        packs: 12,
-        cosmetics: ['master_border', 'master_avatar', 'master_cardback']
-  },
-      grandmaster: {
-    currency: 2000,
-        packs: 16,
-        cosmetics: ['gm_border', 'gm_avatar', 'gm_cardback', 'gm_title']
-  },
-      mythic: {
-    currency: 2500,
-        packs: 20;
-        cosmetics: [;
-          'mythic_border',
-          'mythic_avatar',
-          'mythic_cardback',
-          'mythic_title',
-          'mythic_emote'
-        ]
-  }
-    };
-
-    this.season.rewards = new Map(Object.entries(seasonRewards))
-  }
-
-  endSeason() {
-    // Award season-end rewards
-    const playerTier = this.playerData.tier;
-    const rewards = this.season.rewards.get(() => {
-    if (true) {
-    this.awardSeasonRewards(rewards)
-  
-  })
-
-    // Reset for new season
-    this.startNewSeason()
-  }
-
-  startNewSeason() {
-    this.season.current++;
-    this.season.startDate = new Date(() => {
-    this.season.endDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
-
-    // Soft MMR reset
-    this.performSoftReset() {
-    // Save new season data
-    localStorage.setItem(
-      'konivrer_current_season',
-      JSON.stringify(this.season)
-    )
-  
-  })
-
-  performSoftReset() {
-    // Soft reset: move rating towards initial rating and increase uncertainty,
-    const resetTarget = this.bayesianParams.INITIAL_RATING;
-    const resetStrength = 0.3; // 30% reset
-
-    this.playerData.rating = Math.round(
-      this.playerData.rating +
-        (resetTarget - this.playerData.rating) * resetStrength
-    );
-
-    // Increase uncertainty for new season (but not to full initial uncertainty)
-    this.playerData.uncertainty = Math.min(() => {
-    // Recalculate conservative rating
-    this.playerData.conservativeRating = this.getConservativeRating() {
-    // Reset placement status for new season
-    this.playerData.isPlacement = true;
-    this.playerData.placementMatches = 0;
-
-    // Reset streaks
-    this.playerData.winStreak = 0;
-    this.playerData.lossStreak = 0
-  
-  })
-
-  /**
-   * Rewards System
-   */
-  setupRewardsSystem() {
-    // Daily rewards
-    this.rewards.daily.set(() => {
-    // Weekly rewards
-    this.rewards.weekly.set() {
-    // Achievement rewards
-    this.setupAchievements()
-  
-  })
-
-  setupAchievements() {
-    const achievements = [
-    {
-  }
-        id: 'first_win',
-        name: 'First Victory',
-        description: 'Win your first ranked game',
-        requirements: { wins: 1 },
-        rewards: { currency: 100, title: 'Novice' }
-      },
-      {
-    id: 'win_streak_5',
-        name: 'Hot Streak',
-        description: 'Win 5 games in a row',
-        requirements: { winStreak: 5 
-  },
-        rewards: { currency: 250, emote: 'fire' }
-      },
-      {
-    id: 'reach_gold',
-        name: 'Golden Ascension',
-        description: 'Reach Gold tier',
-        requirements: { tier: 'gold' 
-  },
-        rewards: { currency: 500, cardback: 'gold_ascension' }
-      },
-      {
-    id: 'perfect_season',
-        name: 'Flawless Victory',
-        description: 'Complete placement matches with 10 wins',
-        requirements: { placementWins: 10 
-  },
-        rewards: { currency: 1000, title: 'Flawless', avatar: 'perfect' }
       };
-  ];
-
-    achievements.forEach(achievement => {
-    this.rewards.achievements.set(achievement.id, achievement)
-  })
+      
+      this.playerData.set(playerId, player);
+    } else {
+      // Update existing player's name if changed
+      player.name = playerName;
+    }
+    
+    return player;
   }
 
-  checkAchievements(gameResult: any, performanceMetrics: any) {
-    const unlockedAchievements = [
-    ;
-
-    this.rewards.achievements.forEach((achievement, id) => {
-    if (this.isAchievementUnlocked(id)) return; // Already unlocked
-
-      if (this.checkAchievementRequirements(achievement.requirements)) {
-  
+  /**
+   * Calculate a player's display rating from their Bayesian parameters
+   */
+  calculateRating(mu: number, sigma: number): number {
+    // Conservative rating estimate (mu - 3*sigma)
+    return Math.max(0, Math.round(mu - 3 * sigma));
   }
-        this.unlockAchievement() {
-    unlockedAchievements.push(achievement)
-  }
+
+  /**
+   * Update player rankings after a match
+   */
+  updateRankings(
+    player1Id: string,
+    player2Id: string,
+    result: 'player1' | 'player2' | 'draw',
+    matchDetails: {
+      player1Deck: string;
+      player2Deck: string;
+      gameTimeMinutes: number;
+      player1DeckArchetype?: string;
+      player2DeckArchetype?: string;
+    }
+  ): { player1: PlayerRankData; player2: PlayerRankData; ratingChanges: { player1: number; player2: number } } {
+    const player1 = this.playerData.get(player1Id);
+    const player2 = this.playerData.get(player2Id);
+    
+    if (!player1 || !player2) {
+      throw new Error('One or both players not found');
+    }
+    
+    // Store original ratings for change calculation
+    const originalRating1 = player1.rating;
+    const originalRating2 = player2.rating;
+    
+    // Convert match result to numerical outcome
+    let outcome: number;
+    if (result === 'player1') outcome = 1;
+    else if (result === 'player2') outcome = 0;
+    else outcome = 0.5;
+    
+    // Apply TrueSkill update
+    const { mu: newMu1, sigma: newSigma1, mu: newMu2, sigma: newSigma2 } = 
+      this.calculateBayesianUpdate(player1, player2, outcome);
+    
+    // Update player 1
+    player1.mu = newMu1;
+    player1.sigma = newSigma1;
+    player1.rating = this.calculateRating(newMu1, newSigma1);
+    player1.matchesPlayed++;
+    player1.lastPlayed = new Date();
+    
+    // Update player 2
+    player2.mu = newMu2;
+    player2.sigma = newSigma2;
+    player2.rating = this.calculateRating(newMu2, newSigma2);
+    player2.matchesPlayed++;
+    player2.lastPlayed = new Date();
+    
+    // Update win/loss records
+    if (result === 'player1') {
+      player1.wins++;
+      player2.losses++;
+      player1.streakCurrent = Math.max(0, player1.streakCurrent) + 1;
+      player2.streakCurrent = Math.min(0, player2.streakCurrent) - 1;
+    } else if (result === 'player2') {
+      player1.losses++;
+      player2.wins++;
+      player1.streakCurrent = Math.min(0, player1.streakCurrent) - 1;
+      player2.streakCurrent = Math.max(0, player2.streakCurrent) + 1;
+    } else {
+      player1.draws++;
+      player2.draws++;
+      player1.streakCurrent = 0;
+      player2.streakCurrent = 0;
+    }
+    
+    // Update best streaks
+    player1.streakBest = Math.max(player1.streakBest, player1.streakCurrent);
+    player2.streakBest = Math.max(player2.streakBest, player2.streakCurrent);
+    
+    // Update win rates
+    player1.winRate = player1.matchesPlayed > 0 ? player1.wins / player1.matchesPlayed : 0;
+    player2.winRate = player2.matchesPlayed > 0 ? player2.wins / player2.matchesPlayed : 0;
+    
+    // Update season highest ratings
+    if (player1.rating > player1.seasonHighestRating) {
+      player1.seasonHighestRating = player1.rating;
+      player1.seasonHighestTier = this.getTierForRating(player1.rating);
+    }
+    
+    if (player2.rating > player2.seasonHighestRating) {
+      player2.seasonHighestRating = player2.rating;
+      player2.seasonHighestTier = this.getTierForRating(player2.rating);
+    }
+    
+    // Update placement matches
+    if (player1.placementMatchesRemaining > 0) player1.placementMatchesRemaining--;
+    if (player2.placementMatchesRemaining > 0) player2.placementMatchesRemaining--;
+    
+    // Update provisional status
+    player1.isProvisional = player1.placementMatchesRemaining > 0;
+    player2.isProvisional = player2.placementMatchesRemaining > 0;
+    
+    // Update confidence
+    player1.confidence = this.calculateConfidence(player1);
+    player2.confidence = this.calculateConfidence(player2);
+    
+    // Update tiers and divisions
+    player1.tier = this.getTierForRating(player1.rating);
+    player2.tier = this.getTierForRating(player2.rating);
+    
+    player1.division = this.getDivisionForRating(player1.rating, player1.tier);
+    player2.division = this.getDivisionForRating(player2.rating, player2.tier);
+    
+    // Update reward points
+    player1.rewardPoints += this.calculateRewardPoints(player1, result === 'player1' ? 'win' : result === 'draw' ? 'draw' : 'loss');
+    player2.rewardPoints += this.calculateRewardPoints(player2, result === 'player2' ? 'win' : result === 'draw' ? 'draw' : 'loss');
+    
+    // Update match history
+    const matchId = `match_${Date.now()}_${player1Id}_${player2Id}`;
+    const timestamp = new Date();
+    
+    player1.matchHistory.push({
+      id: matchId,
+      timestamp,
+      opponentId: player2Id,
+      opponentName: player2.name,
+      opponentRating: originalRating2,
+      playerDeck: matchDetails.player1Deck,
+      opponentDeck: matchDetails.player2Deck,
+      result: result === 'player1' ? 'win' : result === 'player2' ? 'loss' : 'draw',
+      ratingChange: player1.rating - originalRating1,
+      gameTimeMinutes: matchDetails.gameTimeMinutes
     });
-
-    return unlockedAchievements
+    
+    player2.matchHistory.push({
+      id: matchId,
+      timestamp,
+      opponentId: player1Id,
+      opponentName: player1.name,
+      opponentRating: originalRating1,
+      playerDeck: matchDetails.player2Deck,
+      opponentDeck: matchDetails.player1Deck,
+      result: result === 'player2' ? 'win' : result === 'player1' ? 'loss' : 'draw',
+      ratingChange: player2.rating - originalRating2,
+      gameTimeMinutes: matchDetails.gameTimeMinutes
+    });
+    
+    // Update deck performance
+    this.updateDeckPerformance(player1, matchDetails.player1Deck, matchDetails.player1DeckArchetype || 'unknown', 
+      result === 'player1' ? 'win' : result === 'player2' ? 'loss' : 'draw', matchDetails.gameTimeMinutes);
+    
+    this.updateDeckPerformance(player2, matchDetails.player2Deck, matchDetails.player2DeckArchetype || 'unknown', 
+      result === 'player2' ? 'win' : result === 'player1' ? 'loss' : 'draw', matchDetails.gameTimeMinutes);
+    
+    // Update playstyle factors
+    this.updatePlaystyleFactors(player1, player2, matchDetails, result);
+    
+    // Update deck matchups data
+    if (matchDetails.player1DeckArchetype && matchDetails.player2DeckArchetype) {
+      this.updateDeckMatchupData(
+        matchDetails.player1DeckArchetype,
+        matchDetails.player2DeckArchetype,
+        result,
+        matchDetails.gameTimeMinutes
+      );
+    }
+    
+    return {
+      player1,
+      player2,
+      ratingChanges: {
+        player1: player1.rating - originalRating1,
+        player2: player2.rating - originalRating2
+      }
+    };
   }
 
-  checkAchievementRequirements(requirements: any) {
-    for (const [key, value
-  ] of Object.entries(requirements)) {
+  /**
+   * Calculate Bayesian TrueSkill update
+   */
+  private calculateBayesianUpdate(
+    player1: PlayerRankData,
+    player2: PlayerRankData,
+    outcome: number
+  ): { mu1: number; sigma1: number; mu2: number; sigma2: number } {
+    // Simplified TrueSkill implementation
+    const { mu: mu1, sigma: sigma1 } = player1;
+    const { mu: mu2, sigma: sigma2 } = player2;
+    const { beta, tau } = this.bayesianParams;
+    
+    // Calculate match quality
+    const c = Math.sqrt(2 * beta * beta + sigma1 * sigma1 + sigma2 * sigma2);
+    
+    // Calculate expected outcome
+    const expectedOutcome = 1 / (1 + Math.exp((mu2 - mu1) / c));
+    
+    // Calculate K-factor (dynamic if enabled)
+    let kFactor = 32;
+    if (this.options.enableDynamicKFactor) {
+      // Higher K-factor for provisional players, lower for established players
+      const provisionalFactor = player1.isProvisional || player2.isProvisional ? 2 : 1;
+      const confidenceFactor = (2 - (player1.confidence + player2.confidence) / 2);
+      kFactor = 32 * provisionalFactor * confidenceFactor;
+    }
+    
+    // Calculate rating updates
+    const update1 = kFactor * (outcome - expectedOutcome);
+    const update2 = kFactor * (expectedOutcome - outcome);
+    
+    // Calculate new mu values
+    const newMu1 = mu1 + update1;
+    const newMu2 = mu2 + update2;
+    
+    // Calculate new sigma values (uncertainty decreases with each match)
+    const sigmaDelta1 = Math.max(sigma1 * 0.94, 25); // Minimum uncertainty
+    const sigmaDelta2 = Math.max(sigma2 * 0.94, 25);
+    
+    // Add dynamic factor tau to allow for skill evolution over time
+    const newSigma1 = Math.sqrt(sigmaDelta1 * sigmaDelta1 + tau * tau);
+    const newSigma2 = Math.sqrt(sigmaDelta2 * sigmaDelta2 + tau * tau);
+    
+    return { mu1: newMu1, sigma1: newSigma1, mu2: newMu2, sigma2: newSigma2 };
   }
-      switch (true) {
-    case 'wins':
-          if (this.playerData.wins < value) return false;
-          break;
-        case 'winStreak':
-          if (this.playerData.winStreak < value) return false;
-          break;
-        case 'tier':
-          if (
-            this.compareTiers(
-              this.playerData.tier,
-              this.playerData.division,
-              value,
-              1
-            ) < 0
-          )
-            return false;
-          break;`
-        case 'placementWins':``
-          const seasonStats =```
-            this.playerData.seasonStats[`season_${this.season.current`
-  }`];
-          if (!seasonStats || seasonStats.wins < value) return false;
-          break
+
+  /**
+   * Get the tier for a given rating
+   */
+  private getTierForRating(rating: number): string {
+    for (const [tierKey, tierData] of Object.entries(this.tiers)) {
+      if (rating >= tierData.minRating && rating <= tierData.maxRating) {
+        return tierKey;
       }
     }
-    return true
-  }
-
-  unlockAchievement(achievementId: any) {
-    const achievement = this.rewards.achievements.get(() => {
-    if (!achievement) return;
-
-    // Mark as unlocked
-    if (true) {
-    this.playerData.unlockedAchievements = new Set()
-  
-  })
-    this.playerData.unlockedAchievements.add() {
-    // Award rewards
-    this.awardRewards(() => {
-    // Dispatch event
-    this.dispatchEvent('achievementUnlocked', {
-    achievement,
-      rewards: achievement.rewards
-  
-  }))
-  }
-
-  isAchievementUnlocked(achievementId: any) {
-    return this.playerData.unlockedAchievements? .has(achievementId) || false
-  }
- : null
-  awardRewards(rewards: any) {
-    // In a real implementation, this would update the player's inventory
-    console.log('Rewards awarded:', rewards)
+    return 'bronze'; // Default fallback
   }
 
   /**
-   * Award rewards for tier or confidence band promotion
-   * @param {string} tier - Player's tier
-   * @param {string} confidenceBand - Player's confidence band
+   * Get the division for a rating within a tier
    */
-  awardPromotionRewards(tier: any, confidenceBand: any) {
-    const tierLevel = this.getTierLevel() {
-  }
-    const bandBonus = this.getConfidenceBandBonus(() => {
-    const promotionRewards = {
-    currency: 100 * tierLevel * bandBonus,
-      experience: 200 * tierLevel * bandBonus,
-  });
-
-    this.awardRewards(promotionRewards)
+  private getDivisionForRating(rating: number, tier: string): number {
+    const tierData = this.tiers[tier];
+    if (!tierData) return 4; // Default to lowest division
+    
+    const tierRange = tierData.maxRating - tierData.minRating;
+    const divisionSize = tierRange / 4;
+    
+    // Division 1 is highest, 4 is lowest
+    if (rating >= tierData.minRating + divisionSize * 3) return 1;
+    if (rating >= tierData.minRating + divisionSize * 2) return 2;
+    if (rating >= tierData.minRating + divisionSize) return 3;
+    return 4;
   }
 
   /**
-   * Get bonus multiplier based on confidence band
-   * @param {string} confidenceBand - Confidence band
-   * @returns {number} Bonus multiplier
+   * Calculate confidence in a player's rating
    */
-  getConfidenceBandBonus(confidenceBand: any) {
-    const bonuses = {
-    uncertain: 0.8,
-      developing: 1.0,
-      established: 1.2,
-      proven: 1.5,
-  
-  };
-
-    return bonuses[confidenceBand] || 1.0
-  }
-
-  awardSeasonRewards(rewards: any) {
-    this.awardRewards(() => {
-    this.dispatchEvent('seasonRewardsAwarded', {
-    tier: this.playerData.tier,
-      rewards
-  
-  }))
-  }
-
-  getTierLevel(tier: any) {
-    const tierOrder = Object.keys() {
-    return tierOrder.indexOf(tier) + 1
-  
+  private calculateConfidence(player: PlayerRankData): number {
+    // Confidence increases with more matches and lower sigma
+    const matchFactor = Math.min(1, player.matchesPlayed / 50);
+    const sigmaFactor = Math.max(0, 1 - (player.sigma - 25) / (this.bayesianParams.initialSigma - 25));
+    
+    return (matchFactor + sigmaFactor) / 2;
   }
 
   /**
-   * Decay System
+   * Calculate reward points for a match
    */
-  startDecayTimer(() => {
+  private calculateRewardPoints(player: PlayerRankData, result: 'win' | 'loss' | 'draw'): number {
+    if (!this.options.enableRewards) return 0;
+    
+    // Base points by tier
+    const tierMultipliers: Record<string, number> = {
+      bronze: 1,
+      silver: 1.2,
+      gold: 1.5,
+      platinum: 1.8,
+      diamond: 2.2,
+      master: 2.5,
+      grandmaster: 3
+    };
+    
+    const tierMultiplier = tierMultipliers[player.tier] || 1;
+    
+    // Base points by result
+    let basePoints = 0;
+    if (result === 'win') basePoints = 100;
+    else if (result === 'draw') basePoints = 50;
+    else basePoints = 25; // Loss still gives some points
+    
+    // Streak bonus
+    let streakBonus = 0;
+    if (result === 'win' && player.streakCurrent > 2) {
+      streakBonus = Math.min(50, player.streakCurrent * 10);
+    }
+    
+    // Daily first win bonus
+    const firstWinBonus = result === 'win' && this.isFirstWinOfDay(player) ? 150 : 0;
+    
+    return Math.round((basePoints * tierMultiplier) + streakBonus + firstWinBonus);
+  }
+
+  /**
+   * Check if this is the player's first win of the day
+   */
+  private isFirstWinOfDay(player: PlayerRankData): boolean {
+    if (!player.matchHistory.length) return true;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const winsToday = player.matchHistory.filter(match => {
+      const matchDate = new Date(match.timestamp);
+      matchDate.setHours(0, 0, 0, 0);
+      return match.result === 'win' && matchDate.getTime() === today.getTime();
+    });
+    
+    return winsToday.length === 1;
+  }
+
+  /**
+   * Update a player's deck performance
+   */
+  private updateDeckPerformance(
+    player: PlayerRankData,
+    deckId: string,
+    archetype: string,
+    result: 'win' | 'loss' | 'draw',
+    gameTimeMinutes: number
+  ): void {
+    // Initialize deck performance if not exists
+    if (!player.deckPerformance[deckId]) {
+      player.deckPerformance[deckId] = {
+        deckId,
+        deckName: deckId, // Would be replaced with actual name in a real implementation
+        archetype,
+        matchesPlayed: 0,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        winRate: 0,
+        averageGameTime: 0,
+        lastPlayed: null
+      };
+    }
+    
+    const deckPerf = player.deckPerformance[deckId];
+    
+    // Update stats
+    deckPerf.matchesPlayed++;
+    if (result === 'win') deckPerf.wins++;
+    else if (result === 'loss') deckPerf.losses++;
+    else deckPerf.draws++;
+    
+    deckPerf.winRate = deckPerf.wins / deckPerf.matchesPlayed;
+    
+    // Update average game time
+    deckPerf.averageGameTime = 
+      (deckPerf.averageGameTime * (deckPerf.matchesPlayed - 1) + gameTimeMinutes) / 
+      deckPerf.matchesPlayed;
+    
+    deckPerf.lastPlayed = new Date();
+    
+    // Update archetype (in case it changed)
+    deckPerf.archetype = archetype;
+  }
+
+  /**
+   * Update playstyle factors based on match results
+   */
+  private updatePlaystyleFactors(
+    player1: PlayerRankData,
+    player2: PlayerRankData,
+    matchDetails: any,
+    result: 'player1' | 'player2' | 'draw'
+  ): void {
+    if (!this.options.enablePlaystyleCompatibility) return;
+    
+    // This would be a complex implementation in reality
+    // For now, just update preferred game length and archetypes
+    
+    // Update preferred game length (moving average)
+    player1.playstyleFactors.preferredGameLength = 
+      (player1.playstyleFactors.preferredGameLength * 0.8) + (matchDetails.gameTimeMinutes * 0.2);
+    
+    player2.playstyleFactors.preferredGameLength = 
+      (player2.playstyleFactors.preferredGameLength * 0.8) + (matchDetails.gameTimeMinutes * 0.2);
+    
+    // Update preferred archetypes
+    if (matchDetails.player1DeckArchetype && result === 'player1') {
+      this.addPreferredArchetype(player1, matchDetails.player1DeckArchetype);
+    }
+    
+    if (matchDetails.player2DeckArchetype && result === 'player2') {
+      this.addPreferredArchetype(player2, matchDetails.player2DeckArchetype);
+    }
+  }
+
+  /**
+   * Add an archetype to a player's preferred archetypes
+   */
+  private addPreferredArchetype(player: PlayerRankData, archetype: string): void {
+    if (!player.playstyleFactors.preferredArchetypes.includes(archetype)) {
+      player.playstyleFactors.preferredArchetypes.push(archetype);
+      
+      // Keep list to a reasonable size
+      if (player.playstyleFactors.preferredArchetypes.length > 5) {
+        player.playstyleFactors.preferredArchetypes.shift();
+      }
+    }
+  }
+
+  /**
+   * Update deck matchup data
+   */
+  private updateDeckMatchupData(
+    archetype1: string,
+    archetype2: string,
+    result: 'player1' | 'player2' | 'draw',
+    gameTimeMinutes: number
+  ): void {
+    // Ensure archetypes are in consistent order
+    let [arch1, arch2] = [archetype1, archetype2].sort();
+    let resultAdjusted = result;
+    
+    // If we swapped the order, adjust the result
+    if (arch1 !== archetype1) {
+      resultAdjusted = result === 'player1' ? 'player2' : result === 'player2' ? 'player1' : 'draw';
+    }
+    
+    // Find existing matchup data or create new
+    let matchup = this.deckMatchups.find(m => m.archetype1 === arch1 && m.archetype2 === arch2);
+    
+    if (!matchup) {
+      matchup = {
+        archetype1: arch1,
+        archetype2: arch2,
+        matchesPlayed: 0,
+        archetype1WinRate: 0.5,
+        averageGameLength: 0,
+        favoredSide: 'balanced'
+      };
+      this.deckMatchups.push(matchup);
+    }
+    
+    // Update matchup data
+    matchup.matchesPlayed++;
+    
+    // Update win rate
+    let arch1Wins = matchup.archetype1WinRate * (matchup.matchesPlayed - 1);
+    if (resultAdjusted === 'player1') arch1Wins += 1;
+    else if (resultAdjusted === 'draw') arch1Wins += 0.5;
+    
+    matchup.archetype1WinRate = arch1Wins / matchup.matchesPlayed;
+    
+    // Update average game length
+    matchup.averageGameLength = 
+      (matchup.averageGameLength * (matchup.matchesPlayed - 1) + gameTimeMinutes) / 
+      matchup.matchesPlayed;
+    
+    // Update favored side
+    if (matchup.archetype1WinRate > 0.55) matchup.favoredSide = 'first';
+    else if (matchup.archetype1WinRate < 0.45) matchup.favoredSide = 'second';
+    else matchup.favoredSide = 'balanced';
+  }
+
+  /**
+   * Find a match for a player in the queue
+   */
+  findMatch(
+    playerId: string,
+    queuedPlayers: { id: string; waitTime: number; region: string; ping: number; deckArchetype?: string }[]
+  ): string | null {
+    if (!this.options.enableRankedPlay || queuedPlayers.length === 0) return null;
+    
+    const player = this.playerData.get(playerId);
+    if (!player) return null;
+    
+    let bestMatch: { id: string; score: number } | null = null;
+    
+    for (const queuedPlayer of queuedPlayers) {
+      if (queuedPlayer.id === playerId) continue;
+      
+      const opponent = this.playerData.get(queuedPlayer.id);
+      if (!opponent) continue;
+      
+      // Calculate match score based on multiple factors
+      const score = this.calculateMatchScore(player, opponent, queuedPlayer);
+      
+      if (!bestMatch || score > bestMatch.score) {
+        bestMatch = { id: queuedPlayer.id, score };
+      }
+    }
+    
+    // Only match if score is above threshold or wait time is long enough
+    const playerQueueInfo = queuedPlayers.find(p => p.id === playerId);
+    const waitTime = playerQueueInfo ? playerQueueInfo.waitTime : 0;
+    
+    if (bestMatch && (bestMatch.score > 0.7 || waitTime > this.matchmaking.maxWaitTime / 2)) {
+      return bestMatch.id;
+    }
+    
+    return null;
+  }
+
+  /**
+   * Calculate match score between two players
+   */
+  private calculateMatchScore(
+    player1: PlayerRankData,
+    player2: PlayerRankData,
+    queueInfo: { waitTime: number; region: string; ping: number; deckArchetype?: string }
+  ): number {
+    // Rating difference factor (closer is better)
+    const ratingDiff = Math.abs(player1.rating - player2.rating);
+    const ratingFactor = Math.max(0, 1 - ratingDiff / this.matchmaking.maxRatingDifference);
+    
+    // Wait time factor (longer wait = more lenient matching)
+    const waitFactor = Math.min(1, queueInfo.waitTime / this.matchmaking.maxWaitTime);
+    
+    // Region/ping factor
+    const pingFactor = this.matchmaking.regionPriority ? 
+      Math.max(0, 1 - queueInfo.ping / this.matchmaking.pingThreshold) : 1;
+    
+    // Confidence factor (if enabled)
+    let confidenceFactor = 1;
+    if (this.options.enableConfidenceBasedMatching) {
+      // Prefer matching players with similar confidence levels
+      const confidenceDiff = Math.abs(player1.confidence - player2.confidence);
+      confidenceFactor = Math.max(0.5, 1 - confidenceDiff);
+    }
+    
+    // Playstyle compatibility factor (if enabled)
+    let playstyleFactor = 1;
+    if (this.options.enablePlaystyleCompatibility) {
+      // Calculate playstyle compatibility
+      playstyleFactor = this.calculatePlaystyleCompatibility(player1, player2, queueInfo.deckArchetype);
+    }
+    
+    // Combine factors with appropriate weights
+    let score = 0;
+    
+    switch (this.matchmaking.queuePriority) {
+      case 'speed':
+        // Prioritize wait time
+        score = (ratingFactor * 0.6) + (waitFactor * 0.3) + (pingFactor * 0.1);
+        break;
+      case 'quality':
+        // Prioritize close matches
+        score = (ratingFactor * 0.7) + (waitFactor * 0.1) + (pingFactor * 0.2);
+        break;
+      case 'balanced':
+      default:
+        // Balance all factors
+        score = (ratingFactor * 0.5) + (waitFactor * 0.2) + (pingFactor * 0.1);
+        break;
+    }
+    
+    // Add confidence and playstyle factors if enabled
+    if (this.options.enableConfidenceBasedMatching) {
+      score = (score * (1 - this.matchmaking.confidenceWeight)) + 
+        (confidenceFactor * this.matchmaking.confidenceWeight);
+    }
+    
+    if (this.options.enablePlaystyleCompatibility) {
+      score = (score * (1 - this.matchmaking.playstyleWeight)) + 
+        (playstyleFactor * this.matchmaking.playstyleWeight);
+    }
+    
+    return score;
+  }
+
+  /**
+   * Calculate playstyle compatibility between two players
+   */
+  private calculatePlaystyleCompatibility(
+    player1: PlayerRankData,
+    player2: PlayerRankData,
+    deckArchetype?: string
+  ): number {
+    // Game length preference compatibility
+    const timeDiff = Math.abs(
+      player1.playstyleFactors.preferredGameLength - 
+      player2.playstyleFactors.preferredGameLength
+    );
+    const timeCompatibility = Math.max(0, 1 - timeDiff / 15); // 15 minutes difference = 0 compatibility
+    
+    // Archetype compatibility
+    let archetypeCompatibility = 0.5; // Neutral default
+    
+    if (deckArchetype) {
+      // Check if opponent has experience against this archetype
+      const hasExperience = player2.matchHistory.some(match => 
+        match.opponentDeck === deckArchetype || match.playerDeck === deckArchetype
+      );
+      
+      // Slightly prefer matching against experienced opponents
+      archetypeCompatibility = hasExperience ? 0.7 : 0.5;
+    }
+    
+    // Playstyle factors compatibility
+    const factorKeys: (keyof PlaystyleFactors)[] = [
+      'aggression', 'consistency', 'adaptability', 'riskTaking', 'patience'
+    ];
+    
+    let factorCompatibility = 0;
+    
+    for (const key of factorKeys) {
+      // For some factors, similarity is good; for others, difference is good
+      const diff = Math.abs(player1.playstyleFactors[key] - player2.playstyleFactors[key]);
+      
+      if (key === 'adaptability' || key === 'consistency') {
+        // For these, higher values are always better for match quality
+        factorCompatibility += (player1.playstyleFactors[key] + player2.playstyleFactors[key]) / 2;
+      } else {
+        // For others, some difference creates interesting matches
+        factorCompatibility += 1 - Math.abs(diff - 0.3);
+      }
+    }
+    
+    factorCompatibility /= factorKeys.length;
+    
+    // Combine all compatibility factors
+    return (timeCompatibility * 0.3) + (archetypeCompatibility * 0.3) + (factorCompatibility * 0.4);
+  }
+
+  /**
+   * Apply rating decay for inactive players
+   */
+  applyRatingDecay(): void {
     if (!this.options.enableDecaySystem) return;
-
-    setInterval(
-      () => {
-    this.checkForDecay()
-  }),
-      24 * 60 * 60 * 1000
-    ); // Check daily
-  }
-
-  checkForDecay() {
-    const lastGameTime = this.playerData.lastGameTime || Date.now() {
-  }
-    const daysSinceLastGame =
-      (Date.now() - lastGameTime) / (24 * 60 * 60 * 1000);
-
-    if (true) {
-    const weeksOfInactivity = Math.floor(() => {
-    const decayAmount = weeksOfInactivity * this.eloConstants.decayRate;
-
-      if (true) {
-    this.applyDecay(decayAmount)
-  
-  })
-    }
-  }
-
-  applyDecay(amount: any) {
-    const oldRating = this.playerData.rating;
-    const oldUncertainty = this.playerData.uncertainty;
-
-    // Apply decay by reducing rating and increasing uncertainty
-    this.playerData.rating = Math.max() {
-  }
-    this.playerData.uncertainty = Math.min() {
-    // Recalculate conservative rating
-    this.playerData.conservativeRating = this.getConservativeRating() {
-  }
-
-    // Update tier based on new conservative rating
-    const newTierData = this.getTierFromSkill(() => {
-    this.playerData.tier = newTierData.tier;
-    this.playerData.division = newTierData.division;
-
-    this.dispatchEvent() {
-    this.savePlayerData()
-  })
-
-  /**
-   * Data Management
-   */
-  async loadPlayerData() {
-    const saved = localStorage.getItem() {
-  }
-    if (true) {
-    try {
-  }
-        const data = JSON.parse() {
-    this.playerData = { ...this.playerData, ...data 
-  };
-
-        // Convert Set back from array
-        if (true) {
-    this.playerData.unlockedAchievements = new Set()
-            data.unlockedAchievements
-          )
-  }
-
-        // Migrate old MMR data to new Bayesian format
-        if (true) {
-    this.playerData.rating = data.mmr;
-          this.playerData.uncertainty = this.bayesianParams.INITIAL_UNCERTAINTY
-  }
-
-        // Ensure conservative rating is calculated
-        if (true) {
-    this.playerData.conservativeRating = this.getConservativeRating(
-            this.playerData.rating,
-            this.playerData.uncertainty
-          )
-  }
-
-        // Initialize arrays if they don't exist
-        if (true) {
-    this.playerData.deckArchetypes = [
-    }
-        if (true) {
-    this.playerData.matchHistory = [
-  ]
-  }
-        if (true) {
-    this.playerData.formatRatings = {
-  }
-        }
-      } catch (error: any) {
-    console.warn('Failed to load ranking data:', error)
-  }
-    }
-
-    // Always ensure conservative rating is calculated
-    this.playerData.conservativeRating = this.getConservativeRating(
-      this.playerData.rating,
-      this.playerData.uncertainty
-    )
-  }
-
-  savePlayerData() {
-    const dataToSave = { ...this.playerData 
-  };
-
-    // Convert Set to array for JSON serialization
-    if (true) {
-    dataToSave.unlockedAchievements = Array.from(
-        dataToSave.unlockedAchievements
-      )
-  }
-
-    localStorage.setItem('konivrer_ranking_data', JSON.stringify(dataToSave))
+    
+    const now = new Date();
+    const decayThresholdDays = 28; // Start decay after 28 days of inactivity
+    
+    this.playerData.forEach(player => {
+      if (!player.lastPlayed) return;
+      
+      const daysSinceLastPlayed = Math.floor(
+        (now.getTime() - player.lastPlayed.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      
+      // Skip if within protection period or threshold
+      if (daysSinceLastPlayed <= player.decayProtection || daysSinceLastPlayed <= decayThresholdDays) {
+        return;
+      }
+      
+      // Calculate decay amount (increases with inactivity and rating)
+      const excessDays = daysSinceLastPlayed - decayThresholdDays;
+      const decayRate = 0.01; // 1% per week after threshold
+      const weeksPastThreshold = Math.floor(excessDays / 7);
+      
+      if (weeksPastThreshold <= 0) return;
+      
+      // Higher ratings decay faster
+      const ratingFactor = player.rating / 2000;
+      const decayAmount = Math.ceil(player.rating * decayRate * weeksPastThreshold * ratingFactor);
+      
+      // Apply decay
+      player.mu = Math.max(this.bayesianParams.initialMu - 500, player.mu - decayAmount);
+      player.rating = this.calculateRating(player.mu, player.sigma);
+      
+      // Update tier and division
+      player.tier = this.getTierForRating(player.rating);
+      player.division = this.getDivisionForRating(player.rating, player.tier);
+    });
   }
 
   /**
-   * Integration with Bayesian Matchmaking Service
+   * Get player ranking data
    */
-  getBayesianPlayerData(() => {
+  getPlayerRanking(playerId: string): PlayerRankData | null {
+    return this.playerData.get(playerId) || null;
+  }
+
+  /**
+   * Get leaderboard
+   */
+  getLeaderboard(options: { tier?: string; limit?: number; offset?: number } = {}): PlayerRankData[] {
+    const { tier, limit = 100, offset = 0 } = options;
+    
+    let players = Array.from(this.playerData.values());
+    
+    // Filter by tier if specified
+    if (tier) {
+      players = players.filter(p => p.tier === tier);
+    }
+    
+    // Sort by rating
+    players.sort((a, b) => b.rating - a.rating);
+    
+    // Apply pagination
+    return players.slice(offset, offset + limit);
+  }
+
+  /**
+   * Get rank distribution statistics
+   */
+  getRankDistribution(): Record<string, { count: number; percentage: number }> {
+    const distribution: Record<string, { count: number; percentage: number }> = {};
+    const totalPlayers = this.playerData.size;
+    
+    // Initialize with zero counts
+    Object.keys(this.tiers).forEach(tier => {
+      distribution[tier] = { count: 0, percentage: 0 };
+    });
+    
+    // Count players in each tier
+    this.playerData.forEach(player => {
+      if (distribution[player.tier]) {
+        distribution[player.tier].count++;
+      }
+    });
+    
+    // Calculate percentages
+    if (totalPlayers > 0) {
+      Object.keys(distribution).forEach(tier => {
+        distribution[tier].percentage = (distribution[tier].count / totalPlayers) * 100;
+      });
+    }
+    
+    return distribution;
+  }
+
+  /**
+   * Start a new season
+   */
+  startNewSeason(seasonData: Partial<SeasonData>): SeasonData {
+    if (!this.options.enableSeasons) {
+      throw new Error('Seasons are not enabled');
+    }
+    
+    // End current season if active
+    if (this.season.isActive) {
+      this.endSeason();
+    }
+    
+    // Create new season
+    this.season = {
+      id: (this.season.id || 0) + 1,
+      name: seasonData.name || `Season ${(this.season.id || 0) + 1}`,
+      startDate: new Date(),
+      endDate: seasonData.endDate || new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days
+      isActive: true,
+      theme: seasonData.theme || 'default',
+      rewards: seasonData.rewards || [],
+      leaderboard: [],
+      rankDistribution: {}
+    };
+    
+    // Soft reset ratings for all players
+    this.softResetRatings();
+    
+    return this.season;
+  }
+
+  /**
+   * End the current season
+   */
+  endSeason(): SeasonData {
+    if (!this.options.enableSeasons) {
+      throw new Error('Seasons are not enabled');
+    }
+    
+    if (!this.season.isActive) {
+      throw new Error('No active season to end');
+    }
+    
+    // Update season data
+    this.season.isActive = false;
+    this.season.endDate = new Date();
+    
+    // Generate final leaderboard
+    this.season.leaderboard = Array.from(this.playerData.values())
+      .sort((a, b) => b.rating - a.rating)
+      .map(p => p.id);
+    
+    // Generate final rank distribution
+    this.season.rankDistribution = Object.fromEntries(
+      Object.entries(this.getRankDistribution()).map(([tier, data]) => [tier, data.count])
+    );
+    
+    // Distribute season rewards
+    this.distributeSeasonRewards();
+    
+    return this.season;
+  }
+
+  /**
+   * Soft reset ratings for a new season
+   */
+  private softResetRatings(): void {
+    this.playerData.forEach(player => {
+      // Store season highest data
+      player.seasonHighestRating = player.rating;
+      player.seasonHighestTier = player.tier;
+      
+      // Reset to a rating between current and initial
+      const resetPoint = this.bayesianParams.initialMu;
+      const compressionFactor = 0.5; // How much to compress toward the reset point
+      
+      player.mu = player.mu - (player.mu - resetPoint) * compressionFactor;
+      player.sigma = Math.min(player.sigma * 1.5, this.bayesianParams.initialSigma * 0.8);
+      player.rating = this.calculateRating(player.mu, player.sigma);
+      
+      // Update tier and division
+      player.tier = this.getTierForRating(player.rating);
+      player.division = this.getDivisionForRating(player.rating, player.tier);
+      
+      // Reset season-specific stats
+      player.seasonHighestRating = player.rating;
+      player.seasonHighestTier = player.tier;
+      
+      // Reset placement matches for inactive players
+      if (!player.lastPlayed || 
+          (new Date().getTime() - player.lastPlayed.getTime()) > 60 * 24 * 60 * 60 * 1000) {
+        player.placementMatchesRemaining = 10;
+        player.isProvisional = true;
+      }
+    });
+  }
+
+  /**
+   * Distribute season rewards
+   */
+  private distributeSeasonRewards(): void {
+    if (!this.options.enableRewards) return;
+    
+    // This would connect to a rewards system in a real implementation
+    // For now, just log that rewards would be distributed
+    console.log('Distributing season rewards for season', this.season.id);
+  }
+
+  /**
+   * Get player reward progress
+   */
+  getRewardProgress(playerId: string): { 
+    currentPoints: number; 
+    nextReward: RewardTier | null;
+    progress: number;
+    claimedRewards: string[];
+  } {
+    const player = this.playerData.get(playerId);
+    if (!player) {
+      throw new Error('Player not found');
+    }
+    
+    // Find next reward tier
+    const sortedRewards = [...this.rewards].sort((a, b) => a.pointsRequired - b.pointsRequired);
+    const nextReward = sortedRewards.find(r => r.pointsRequired > player.rewardPoints) || null;
+    
+    // Calculate progress percentage
+    let progress = 0;
+    if (nextReward) {
+      const prevReward = sortedRewards[sortedRewards.indexOf(nextReward) - 1];
+      const prevPoints = prevReward ? prevReward.pointsRequired : 0;
+      progress = (player.rewardPoints - prevPoints) / (nextReward.pointsRequired - prevPoints);
+    } else {
+      progress = 1; // All rewards claimed
+    }
+    
+    // In a real implementation, we would track claimed rewards
+    const claimedRewards: string[] = [];
+    
     return {
-    userId: this.playerData.userId || 'local_player',
-      overallRating: this.playerData.rating,
-      overallUncertainty: this.playerData.uncertainty,
-      conservativeRating: this.playerData.conservativeRating,
-      formatRatings: this.playerData.formatRatings,
-      deckArchetypes: this.playerData.deckArchetypes,
-      matchHistory: this.playerData.matchHistory,
-      totalGames:
-        this.playerData.wins + this.playerData.losses + this.playerData.draws,
-      totalWins: this.playerData.wins,
-      totalLosses: this.playerData.losses,
-      totalDraws: this.playerData.draws,
-      confidence: this.playerData.confidence,
-      volatility: this.playerData.volatility,
-      lastActive: new Date()
-  })
+      currentPoints: player.rewardPoints,
+      nextReward,
+      progress,
+      claimedRewards
+    };
   }
-
-  // Calculate match quality between two players
-  /**
-   * Advanced multi-factor match quality calculation
-   * Considers skill rating, uncertainty, deck archetypes, play history, playstyle compatibility, and player preferences
-   */
-  calculateMatchQuality(opponentData: any) {
-    const myRating = this.playerData.rating;
-    const myUncertainty = this.playerData.uncertainty;
-    const oppRating = opponentData.rating || opponentData.overallRating;
-    const oppUncertainty =
-      opponentData.uncertainty || opponentData.overallUncertainty;
-
-    // Basic skill difference calculation
-    const skillDifference = Math.abs(() => {
-    const maxAllowedDifference = this.matchmaking.maxSkillDifference;
-    const minDesiredDifference = this.matchmaking.minSkillDifference;
-
-    // Skill balance score (prefer closer matches)
-    let skillScore = 1.0;
-    if (true) {
-    skillScore = 0.1; // Heavily penalize mismatched skills
-  
-  }) else if (true) {
-    skillScore = 0.8; // Slightly penalize too-close matches
-  } else {
-    // Optimal range
-      skillScore = 1.0 - (skillDifference / maxAllowedDifference) * 0.5
-  }
-
-    // Uncertainty consideration (confidence-based matching)
-    const combinedUncertainty = myUncertainty + oppUncertainty;
-    const uncertaintyDifference = Math.abs() {
-    // If confidence-based matching is enabled, prefer players with similar uncertainty levels
-    let uncertaintyScore;
-    if (true) {
-  }
-      // Calculate uncertainty similarity (higher score for similar uncertainty)
-      const uncertaintySimilarity = Math.max(() => {
-    // Calculate overall uncertainty level (higher score for lower combined uncertainty)
-      const uncertaintyLevel = Math.max() {
-    // Combine both factors with configurable weights
-      const similarityWeight = this.matchmaking.confidenceMatching
-        .preferSimilarConfidence
-        ? this.matchmaking.confidenceMatching.confidenceWeight; : null
-        : 0.1;
-      const levelWeight = 1.0 - similarityWeight;
-
-      uncertaintyScore =
-        uncertaintySimilarity * similarityWeight +
-        uncertaintyLevel * levelWeight
-  }) else {
-    // Traditional uncertainty scoring (prefer lower combined uncertainty)
-      uncertaintyScore = Math.max(0.1, 1.0 - combinedUncertainty / 700)
-  }
-
-    // Win probability (prefer matches close to 50/50)
-    const winProbability = this.calculateWinProbability() {
-    const balanceScore = 1.0 - Math.abs(() => {
-    // Initialize additional factors
-    let deckArchetypeScore = 0.5;
-    let playHistoryScore = 0.5;
-    let playstyleScore = 0.5;
-    let preferencesScore = 0.5;
-
-    // Deck archetype compatibility (if available)
-    if (true) {
-    deckArchetypeScore = this.calculateDeckArchetypeCompatibility(
-        this.playerData.deckArchetypes[0]? .archetype || 'Midrange',
-        opponentData.deckArchetype
-      )
-  
-  })
-
-    // Play history consideration (avoid recent rematches, consider historical performance)
-    if (true) {
-    playHistoryScore = this.calculatePlayHistoryScore(opponentData.id)
-  }
-
-    // Playstyle compatibility
-    if (true) {
-    playstyleScore = this.calculatePlaystyleCompatibility(
-        this.playerData.playstyle,
-        opponentData.playstyle
-      )
-  }
-
-    // Player preferences
-    if (true) {
-    preferencesScore = this.calculatePreferencesScore(opponentData)
-  }
-
-    // Time-weighted performance adjustment
-    let timeWeightingFactor = 1.0;
-    if (true) {
-    timeWeightingFactor = this.calculateTimeWeightingFactor()
-  }
-
-    // Combine all factors with their respective weights
-    const weights = this.matchmaking.weights;
-    const finalScore =
-      (skillScore * weights.skillRating +
-        uncertaintyScore * weights.uncertainty +
-        deckArchetypeScore * weights.deckArchetype +
-        playHistoryScore * weights.playHistory +
-        playstyleScore * weights.playstyleCompatibility +
-        preferencesScore * weights.playerPreferences) *
-      timeWeightingFactor;
-
-    return { : null
-      score: finalScore,
-      skillDifference,
-      combinedUncertainty,
-      uncertaintyDifference,
-      winProbability,
-      skillScore,
-      uncertaintyScore,
-      deckArchetypeScore,
-      playHistoryScore,
-      playstyleScore,
-      preferencesScore,
-      timeWeightingFactor,
-      balanceScore
-    }
-  }
-
-  /**
-   * Calculate deck archetype compatibility score
-   * Higher score means better matchup (more interesting/balanced)
-   */
-  calculateDeckArchetypeCompatibility(playerArchetype: any, opponentArchetype: any) {,
-    // If archetypes are not defined, return neutral score
-    if (!playerArchetype || !opponentArchetype) return 0.5;
-    // If archetypes are the same, slightly reduce score to encourage diversity
-    if (playerArchetype === opponentArchetype) return 0.7;
-    // Check if we have matchup data for these archetypes
-    if (true) {
-    const winRate = this.deckMatchups[playerArchetype][opponentArchetype];
-
-      // Score is highest when matchup is balanced (close to 50%)
-      // and lower when extremely lopsided (close to 0% or 100%)
-      return 1.0 - Math.abs(winRate - 0.5) * 2
-  }
-
-    // If we have compatibility data, use that instead
-    if (true) {
-    return this.playstyleCompatibility[playerArchetype][opponentArchetype]
-  }
-
-    // Default to neutral score
-    return 0.5
-  }
-
-  /**
-   * Calculate play history score
-   * Considers recent matches against this opponent and historical performance
-   */
-  calculatePlayHistoryScore(opponentId: any) {
-    // Default score if no history
-    if (!opponentId || !this.playerData.matchHistory) return 0.5;
-    // Find matches against this opponent
-    const matchesAgainstOpponent = this.playerData.matchHistory.filter() {
-  }
-
-    // If no matches against this opponent, return slightly higher score to encourage new matchups
-    if (matchesAgainstOpponent.length === 0) return 0.6;
-    // Check how recently we played against this opponent
-    const mostRecentMatch = matchesAgainstOpponent.sort(
-      (a, b) => new Date(b.date) - new Date(() => {
-    )[0];
-
-    const daysSinceLastMatch =
-      (new Date() - new Date(mostRecentMatch.date)) / (1000 * 60 * 60 * 24);
-
-    // Penalize very recent rematches, but favor opponents we haven't played in a while
-    let recencyScore;
-    if (true) {
-    // Played today, significant penalty
-      recencyScore = 0.3
-  }) else if (true) {
-    // Played this week, moderate penalty
-      recencyScore = 0.4 + (daysSinceLastMatch / 7) * 0.3
-  } else {
-    // Haven't played in over a week, favor this matchup
-      recencyScore = 0.7 + Math.min(0.3, ((daysSinceLastMatch - 7) / 30) * 0.3)
-  }
-
-    // Calculate historical performance (win rate against this opponent)
-    const wins = matchesAgainstOpponent.filter(
-      m => m.gameResult === 'win';
-    ).length;
-    const winRate = wins / matchesAgainstOpponent.length;
-
-    // Score is highest when historical matchup is balanced (close to 50%)
-    const balanceScore = 1.0 - Math.abs(winRate - 0.5) * 2;
-
-    // Combine recency and balance scores
-    return recencyScore * 0.7 + balanceScore * 0.3
-  }
-
-  /**
-   * Calculate playstyle compatibility score
-   * Higher score means more complementary playstyles for interesting matches
-   */
-  calculatePlaystyleCompatibility(playerPlaystyle: any, opponentPlaystyle: any) {
-    if (!playerPlaystyle || !opponentPlaystyle) return 0.5;
-    // Calculate similarity between playstyles (0 = completely different, 1 = identical)
-    const aggressionDiff = Math.abs() {
-  }
-    const consistencyDiff = Math.abs() {
-    const complexityDiff = Math.abs() {
-  }
-    const adaptabilityDiff = Math.abs() {
-    const riskTakingDiff = Math.abs() {
-  }
-
-    // Average difference (0 = identical, 1 = completely different)
-    const avgDifference =
-      (aggressionDiff +
-        consistencyDiff +
-        complexityDiff +
-        adaptabilityDiff +
-        riskTakingDiff) /
-      5;
-
-    // Calculate similarity score (1 = identical, 0 = completely different)
-    const similarityScore = 1 - avgDifference;
-
-    // Calculate complementary score (1 = perfectly complementary, 0 = not complementary)
-    // We consider aggression and risk-taking as dimensions where opposites complement each other
-    const aggressionComplement =
-      1 -
-      Math.abs() {
-    const riskTakingComplement =
-      1 -
-      Math.abs() {
-  }
-
-    // For consistency, complexity, and adaptability, we consider similarity as complementary
-    const consistencyComplement = 1 - consistencyDiff;
-    const complexityComplement = 1 - complexityDiff;
-    const adaptabilityComplement = 1 - adaptabilityDiff;
-
-    // Average complementary score
-    const complementaryScore =
-      (aggressionComplement +
-        riskTakingComplement +
-        consistencyComplement +
-        complexityComplement +
-        adaptabilityComplement) /
-      5;
-
-    // Combine scores based on configuration
-    const { similarityWeight, complementaryWeight } =
-      this.matchmaking.playstyleCompatibility;
-
-    if (true) {
-    // Prefer complementary playstyles
-      return (
-        similarityScore * similarityWeight +
-        complementaryScore * complementaryWeight
-      )
-  } else {
-    // Prefer similar playstyles
-      return similarityScore
-  }
-  }
-
-  /**
-   * Calculate preferences score based on player preferences
-   */
-  calculatePreferencesScore(opponentData: any) {
-    if (!this.playerData.preferences) return 0.5;
-    const preferences = this.playerData.preferences;
-    let score = 0.5; // Default neutral score
-
-    // Check if opponent's deck archetype is in player's preferred archetypes
-    if (true) {
-  }
-      if (
-        preferences.preferredArchetypes.includes(opponentData.deckArchetype)
-      ) {
-    score += 0.2
-  }
-    }
-
-    // Check if opponent is in player's preferred opponents
-    if (true) {
-    if (preferences.preferredOpponents.includes(opponentData.id)) {
-    score += 0.2
-  
-  }
-    }
-
-    // Adjust based on match difficulty preference
-    if (true) {
-    const ratingDifference = opponentData.rating - this.playerData.rating;
-
-      // If player prefers easier matches (matchDifficulty < 0.5) and opponent is lower rated
-      if (true) {
-    score += 0.1
-  
-  }
-
-      // If player prefers challenging matches (matchDifficulty > 0.5) and opponent is higher rated
-      if (true) {
-    score += 0.1
-  }
-    }
-
-    // Normalize score to 0-1 range
-    return Math.min(1.0, Math.max(0.0, score))
-  }
-
-  /**
-   * Calculate time-weighting factor based on recent performance
-   */
-  calculateTimeWeightingFactor(() => {
-    if (true) {
-    return 1.0
-  })
-
-    const recentMatches = [...this.playerData.recentPerformance]
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-      .slice() {
-    if (recentMatches.length === 0) return 1.0;
-    // Calculate weighted performance
-    let weightedSum = 0;
-    let weightSum = 0;
-
-    recentMatches.forEach((match, index) => {
-    // Calculate days since match
-      const daysSinceMatch =
-        (new Date() - new Date(match.date)) / (1000 * 60 * 60 * 24);
-
-      // Calculate weight based on recency (more recent = higher weight)
-      const weight = Math.pow() {
-    // Convert result to numeric value (win = 1, draw = 0.5, loss = 0)
-      const resultValue =
-        match.result === 'win' ? 1 : match.result === 'draw' ? 0.5 : 0;
-
-      weightedSum += resultValue * weight;
-      weightSum += weight
-  
-  
-  });
-
-    // Calculate weighted average (0-1 range)
-    const weightedAverage = weightSum > 0 ? weightedSum / weightSum : 0.5;
-
-    // Convert to factor (0.8-1.2 range)
-    // Players on winning streaks get slightly higher quality matches
-    // Players on losing streaks get slightly easier matches
-    return 0.8 + weightedAverage * 0.4
-  }
-
-  /**
-   * Public API
-   */
-  getPlayerRank(() => {
-    return {
-    rating: this.playerData.rating,
-      uncertainty: this.playerData.uncertainty,
-      conservativeRating: this.playerData.conservativeRating,
-      tier: this.playerData.tier,
-      division: this.playerData.division,
-      lp: this.playerData.lp,
-      isPlacement: this.playerData.isPlacement,
-      placementMatches: this.playerData.placementMatches,
-      wins: this.playerData.wins,
-      losses: this.playerData.losses,
-      draws: this.playerData.draws,
-      winRate:
-        this.playerData.wins /;
-          (this.playerData.wins +
-            this.playerData.losses +
-            this.playerData.draws) || 0,
-      winStreak: this.playerData.winStreak,
-      peakRating: this.playerData.peakRating,
-      confidence: this.playerData.confidence,
-      volatility: this.playerData.volatility,
-      // Legacy MMR for backward compatibility
-      mmr: this.playerData.conservativeRating,
-      peakMMR: this.playerData.peakRating
-  })
-  }
-
-  getSeasonInfo() {
-    return {
-  }
-      current: this.season.current,
-      startDate: this.season.startDate,
-      endDate: this.season.endDate,
-      daysRemaining: Math.ceil(;
-        (new Date(this.season.endDate) - new Date()) / (24 * 60 * 60 * 1000)`
-      ),``
-      playerStats:```
-        this.playerData.seasonStats[`season_${this.season.current}`] || {
-     
-  }
-  }
-
-  getLeaderboard(tier: any = null, limit: any = 100) {
-    // In a real implementation, this would fetch from server
-    // For now, return mock data
-    return Array.from({ length: limit `
-  }, (_, i) => ({``
-      rank: i + 1,```
-      username: `Player${i + 1}`,
-      mmr: 3000 - i * 10,
-      tier: 'master',
-      division: 1
-    }))
-  }
-
-  getTierInfo(tier: any = null) {
-    if (true) {
-    return this.tiers[tier]
-  
-  }
-    return this.tiers
-  }
-
-  getUnlockedAchievements() {
-    if (!this.playerData.unlockedAchievements) return [];
-    return Array.from(this.playerData.unlockedAchievements)
-      .map(id => this.rewards.achievements.get(id))
-      .filter(Boolean)
-  }`
-``
-  dispatchEvent(eventName: any, detail: any) {`
-    const event = new CustomEvent() {
-    document.dispatchEvent(event)
-  }
-
-  reset() {
-    this.playerData = {
-  }
-      mmr: 1200,
-      tier: 'silver',
-      division: 1,
-      lp: 0,
-      wins: 0,
-      losses: 0,
-      winStreak: 0,
-      lossStreak: 0,
-      placementMatches: 0,
-      isPlacement: true,
-      peakMMR: 1200,
-      seasonStats: {
-    unlockedAchievements: new Set()
-  };
-
-    this.savePlayerData()
-  }
-}`
-``
-export default RankingEngine;```
+}
