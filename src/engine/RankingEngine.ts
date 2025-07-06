@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -11,13 +10,35 @@ import React from 'react';
  * Handles Bayesian TrueSkill system, seasonal rankings, matchmaking, and rewards
  * Includes multi-factor matchmaking, confidence-based matching, and time-weighted performance
  */
-export class RankingEngine {
-    constructor(options: any = {
-  }
+
+interface RankingEngineOptions {
+  enableRankedPlay?: boolean;
+  enableSeasons?: boolean;
+  enableRewards?: boolean;
+  enableDecaySystem?: boolean;
+  enablePlacementMatches?: boolean;
+  enableMultiFactorMatchmaking?: boolean;
+  enableConfidenceBasedMatching?: boolean;
+  enableTimeWeightedPerformance?: boolean;
+  enablePlaystyleCompatibility?: boolean;
+  enableDynamicKFactor?: boolean;
+  [key: string]: any;
 }
-}) {
+
+export class RankingEngine {
+  private options: RankingEngineOptions;
+  private tiers: any;
+  private bayesianParams: any;
+  private playerData: any;
+  private season: any;
+  private matchmaking: any;
+  private deckMatchups: any;
+  private playstyleCompatibility: any;
+  private rewards: any;
+
+  constructor(options: RankingEngineOptions = {}) {
     this.options = {
-    enableRankedPlay: true,
+      enableRankedPlay: true,
       enableSeasons: true,
       enableRewards: true,
       enableDecaySystem: true,
@@ -28,210 +49,232 @@ export class RankingEngine {
       enablePlaystyleCompatibility: true,
       enableDynamicKFactor: true,
       ...options
-  
-  };
+    };
 
     // Confidence-Banded Tier System
     // Each tier has multiple confidence bands (Uncertain, Developing, Established, Proven)
     this.tiers = {
-    bronze: {
-  }
+      bronze: {
         name: 'Bronze',
         skillRange: [0, 1199],
         color: '#CD7F32',
         bands: {
-    uncertain: {
-    name: 'Uncertain',
+          uncertain: {
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       silver: {
-    name: 'Silver',
+        name: 'Silver',
         skillRange: [1200, 1599],
         color: '#C0C0C0',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       gold: {
-    name: 'Gold',
+        name: 'Gold',
         skillRange: [1600, 1999],
         color: '#FFD700',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       platinum: {
-    name: 'Platinum',
+        name: 'Platinum',
         skillRange: [2000, 2399],
         color: '#E5E4E2',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       diamond: {
-    name: 'Diamond',
+        name: 'Diamond',
         skillRange: [2400, 2799],
         color: '#B9F2FF',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       master: {
-    name: 'Master',
+        name: 'Master',
         skillRange: [2800, 3199],
         color: '#FF6B6B',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       grandmaster: {
-    name: 'Grandmaster',
+        name: 'Grandmaster',
         skillRange: [3200, 3599],
         color: '#4ECDC4',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       },
       mythic: {
-    name: 'Mythic',
+        name: 'Mythic',
         skillRange: [3600, Infinity],
         color: '#9B59B6',
         bands: {
-  }
           uncertain: {
-    name: 'Uncertain',
+            name: 'Uncertain',
             confidenceRange: [0, 0.3],
             icon: '❓'
-  },
+          },
           developing: {
-    name: 'Developing',
+            name: 'Developing',
             confidenceRange: [0.3, 0.6],
             icon: '🌱'
-  },
+          },
           established: {
-    name: 'Established',
+            name: 'Established',
             confidenceRange: [0.6, 0.85],
             icon: '✓'
-  },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          },
+          proven: { 
+            name: 'Proven', 
+            confidenceRange: [0.85, 1.0], 
+            icon: '⭐' 
+          },
         }
       }
     };
 
     // Bayesian TrueSkill parameters
     this.bayesianParams = {
-    BETA: 200, // Skill class width (half the default uncertainty)
+      BETA: 200, // Skill class width (half the default uncertainty)
       TAU: 6, // Additive dynamics factor
       DRAW_PROBABILITY: 0.1, // Probability of a draw
       INITIAL_RATING: 1500, // mu (mean skill)
@@ -245,11 +288,11 @@ export class RankingEngine {
       TOURNAMENT_IMPORTANCE_MULTIPLIER: 1.5, // Multiplier for tournament matches
       HIGH_STAKES_MULTIPLIER: 1.25, // Multiplier for high-stakes matches
       EXPERIENCE_DIVISOR: 100, // Divisor for experience-based K-factor adjustment
-  };
+    };
 
     // Player data (Bayesian model)
     this.playerData = {
-    rating: this.bayesianParams.INITIAL_RATING, // mu (skill mean)
+      rating: this.bayesianParams.INITIAL_RATING, // mu (skill mean)
       uncertainty: this.bayesianParams.INITIAL_UNCERTAINTY, // sigma (skill uncertainty)
       conservativeRating: 0, // rating - 3 * uncertainty
       tier: 'bronze',
@@ -263,53 +306,43 @@ export class RankingEngine {
       placementMatches: 0,
       isPlacement: true,
       peakRating: this.bayesianParams.INITIAL_RATING,
-      seasonStats: {
-  }
-      formatRatings: {
-    // Format-specific ratings
-      deckArchetypes: [
-    , // Deck archetype performance
-      matchHistory: [
-  ], // Match history for learning
+      seasonStats: {},
+      formatRatings: {}, // Format-specific ratings
+      deckArchetypes: [], // Deck archetype performance
+      matchHistory: [], // Match history for learning
       confidence: 0.1, // How confident we are in the rating
       volatility: 0.06, // How much the rating changes
       playstyle: {
-    aggression: 0.5, // 0 = defensive, 1 = aggressive
+        aggression: 0.5, // 0 = defensive, 1 = aggressive
         consistency: 0.5, // 0 = high variance, 1 = consistent
         complexity: 0.5, // 0 = straightforward, 1 = complex
         adaptability: 0.5, // 0 = rigid, 1 = adaptable
         riskTaking: 0.5, // 0 = risk-averse, 1 = risk-seeking
-  
-  },
+      },
       preferences: {
-    preferredArchetypes: [
-    , // List of preferred deck archetypes
-        preferredOpponents: [
-  ], // List of preferred opponent types
-        preferredFormats: [
-    , // List of preferred formats
+        preferredArchetypes: [], // List of preferred deck archetypes
+        preferredOpponents: [], // List of preferred opponent types
+        preferredFormats: [], // List of preferred formats
         matchDifficulty: 0.5, // 0 = easier matches, 1 = challenging matches
         varietyPreference: 0.5, // 0 = consistent opponents, 1 = varied opponents
-  },
+      },
       experienceLevel: 0, // Experience level (increases with matches played)
-      recentPerformance: [
-  ], // Recent match results for time-weighted performance
+      recentPerformance: [], // Recent match results for time-weighted performance
       lastActive: new Date(), // Last active date for time decay
     };
 
     // Season system
     this.season = {
-    current: 1,
+      current: 1,
       startDate: new Date(),
       endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days
       rewards: new Map(),
       leaderboard: new Map()
-  };
+    };
 
     // Advanced Matchmaking (Multi-factor Bayesian)
     this.matchmaking = {
-    queue: [
-    ,
+      queue: [],
       activeMatches: new Map(),
       searchRange: 100, // Initial skill search range
       maxSearchRange: 500,
@@ -321,180 +354,183 @@ export class RankingEngine {
 
       // Multi-factor matchmaking weights
       weights: {
-    skillRating: 0.4, // Weight for skill rating similarity
+        skillRating: 0.4, // Weight for skill rating similarity
         uncertainty: 0.15, // Weight for uncertainty similarity
         deckArchetype: 0.15, // Weight for deck archetype considerations,
         playHistory: 0.1, // Weight for play history considerations
         playstyleCompatibility: 0.1, // Weight for playstyle compatibility
         playerPreferences: 0.1, // Weight for player preferences
-  
-  },
+      },
 
       // Confidence-based matching parameters
       confidenceMatching: {
-    enabled: true,
+        enabled: true,
         preferSimilarConfidence: true, // Match players with similar confidence levels
         confidenceWeight: 0.2, // Weight for confidence similarity in matchmaking
         minConfidenceForRanked: 0.3, // Minimum confidence level for ranked play
-  },
+      },
 
       // Time-weighted performance parameters
       timeWeighting: {
-    enabled: true,
+        enabled: true,
         recentMatchesWindow: 20, // Number of recent matches to consider
         decayFactor: 0.95, // Decay factor for older matches
         halfLifeDays: 30, // Half-life in days for match importance
-  },
+      },
 
       // Playstyle compatibility parameters
       playstyleCompatibility: {
-    enabled: true,
+        enabled: true,
         complementaryMatching: true, // Match complementary playstyles (e.g., aggressive vs. control)
         similarityWeight: 0.3, // Weight for playstyle similarity
         complementaryWeight: 0.7, // Weight for complementary playstyles
-  }
+      }
     };
 
     // Deck archetype matchup matrix (win rates)
     this.deckMatchups = {
-    Aggro: {
-    Aggro: 0.5,
+      Aggro: {
+        Aggro: 0.5,
         Control: 0.65,
         Midrange: 0.55,
         Combo: 0.7,
         Tempo: 0.45,
         Ramp: 0.75
-  
-  },
+      },
       Control: {
-    Aggro: 0.35,
+        Aggro: 0.35,
         Control: 0.5,
         Midrange: 0.6,
         Combo: 0.4,
         Tempo: 0.55,
         Ramp: 0.45
-  },
+      },
       Midrange: {
-    Aggro: 0.45,
+        Aggro: 0.45,
         Control: 0.4,
         Midrange: 0.5,
         Combo: 0.65,
         Tempo: 0.6,
         Ramp: 0.5
-  },
+      },
       Combo: {
-    Aggro: 0.3,
+        Aggro: 0.3,
         Control: 0.6,
         Midrange: 0.35,
         Combo: 0.5,
         Tempo: 0.4,
         Ramp: 0.8
-  },
+      },
       Tempo: {
-    Aggro: 0.55,
+        Aggro: 0.55,
         Control: 0.45,
         Midrange: 0.4,
         Combo: 0.6,
         Tempo: 0.5,
         Ramp: 0.65
-  },
+      },
       Ramp: {
-    Aggro: 0.25,
+        Aggro: 0.25,
         Control: 0.55,
         Midrange: 0.5,
         Combo: 0.2,
         Tempo: 0.35,
         Ramp: 0.5
-  }
+      }
     };
 
     // Playstyle compatibility matrix
     this.playstyleCompatibility = {
-    Aggro: {
-    Aggro: 0.5,
+      Aggro: {
+        Aggro: 0.5,
         Control: 0.8,
         Midrange: 0.6,
         Combo: 0.7,
         Tempo: 0.5,
         Ramp: 0.7
-  
-  },
+      },
       Control: {
-    Aggro: 0.8,
+        Aggro: 0.8,
         Control: 0.4,
         Midrange: 0.6,
         Combo: 0.7,
         Tempo: 0.6,
         Ramp: 0.5
-  },
+      },
       Midrange: {
-    Aggro: 0.6,
+        Aggro: 0.6,
         Control: 0.6,
         Midrange: 0.5,
         Combo: 0.6,
         Tempo: 0.7,
         Ramp: 0.6
-  },
+      },
       Combo: {
-    Aggro: 0.7,
+        Aggro: 0.7,
         Control: 0.7,
         Midrange: 0.6,
         Combo: 0.4,
         Tempo: 0.6,
         Ramp: 0.7
-  },
+      },
       Tempo: {
-    Aggro: 0.5,
+        Aggro: 0.5,
         Control: 0.6,
         Midrange: 0.7,
         Combo: 0.6,
         Tempo: 0.5,
         Ramp: 0.6
-  },
+      },
       Ramp: {
-    Aggro: 0.7,
+        Aggro: 0.7,
         Control: 0.5,
         Midrange: 0.6,
         Combo: 0.7,
         Tempo: 0.6,
         Ramp: 0.5
-  }
+      }
     };
 
     // Rewards system
     this.rewards = {
-    daily: new Map(),
+      daily: new Map(),
       weekly: new Map(),
       seasonal: new Map(),
       achievements: new Map()
-  };
+    };
 
-    this.init()
+    this.init();
   }
 
-  async init() {
+  async init(): Promise<void> {
     try {
-  }
-      await this.loadPlayerData() {
-    this.initializeSeasonData() {
-  }
-      this.setupMatchmaking() {
-    this.setupRewardsSystem(() => {
-    this.startDecayTimer() {
-    console.log('Ranking Engine initialized')
-  
-  }) catch (error: any) {
-    console.error('Failed to initialize Ranking Engine:', error)
-  }
+      await this.loadPlayerData();
+      this.initializeSeasonData();
+      this.setupMatchmaking();
+      this.setupRewardsSystem();
+      this.startDecayTimer();
+      console.log('Ranking Engine initialized');
+    } catch (error: any) {
+      console.error('Failed to initialize Ranking Engine:', error);
+    }
   }
 
   /**
    * Enhanced Bayesian TrueSkill Rating System with Dynamic K-Factor
    */
-  calculateTrueSkillUpdate(playerRating: any, playerUncertainty: any, opponentRating: any, opponentUncertainty: any, gameResult: any, kFactor: any = null, format: any = null) {
+  calculateTrueSkillUpdate(
+    playerRating: number, 
+    playerUncertainty: number, 
+    opponentRating: number, 
+    opponentUncertainty: number, 
+    gameResult: string, 
+    kFactor: number | null = null, 
+    format: string | null = null
+  ): any {
     // TrueSkill calculations
-    const c = Math.sqrt() {
-  }
+    const c = Math.sqrt(
+      playerUncertainty * playerUncertainty + opponentUncertainty * opponentUncertainty
+    );
 
     const winProbability = this.normalCDF((playerRating - opponentRating) / c);
     const drawProbability = this.bayesianParams.DRAW_PROBABILITY;
@@ -504,15 +540,15 @@ export class RankingEngine {
       gameResult === 'win' ? 1.0 : gameResult === 'draw' ? 0.5 : 0.0;
 
     // Calculate v and w functions
-    const v = this.vFunction() {
-    const w = this.wFunction(() => {
+    const v = this.vFunction(winProbability, actualOutcome);
+    const w = this.wFunction(winProbability, actualOutcome);
+    
     // Apply dynamic K-factor if provided
     let kFactorMultiplier = 1.0;
-    if (true) {
-    // Convert the K-factor to a multiplier relative to the base K-factor
-      kFactorMultiplier = kFactor / this.bayesianParams.DYNAMIC_K_FACTOR_BASE
-  
-  })
+    if (kFactor !== null) {
+      // Convert the K-factor to a multiplier relative to the base K-factor
+      kFactorMultiplier = kFactor / this.bayesianParams.DYNAMIC_K_FACTOR_BASE;
+    }
 
     // Update ratings with dynamic K-factor
     const ratingUpdateFactor =
@@ -525,7 +561,7 @@ export class RankingEngine {
     // Update uncertainties (uncertainty reduction is affected by K-factor too)
     // Higher K-factor means more confidence in the result, so slightly more uncertainty reduction
     const uncertaintyFactor =
-      kFactorMultiplier > 1.0 ? Math.sqrt(): 1.0 { return null; }
+      kFactorMultiplier > 1.0 ? Math.sqrt(kFactorMultiplier) : 1.0;
 
     const newPlayerUncertainty = Math.sqrt(
       Math.max(
@@ -536,7 +572,7 @@ export class RankingEngine {
               w *
               uncertaintyFactor),
         this.bayesianParams.MIN_UNCERTAINTY
-      );
+      )
     );
 
     const newOpponentUncertainty = Math.sqrt(
@@ -548,33 +584,33 @@ export class RankingEngine {
               w *
               uncertaintyFactor),
         this.bayesianParams.MIN_UNCERTAINTY
-      );
+      )
     );
 
     // Calculate surprise factor (how unexpected the result was)
-    const surpriseFactor = Math.abs() {
+    const surpriseFactor = Math.abs(actualOutcome - winProbability);
+    
     // Calculate confidence change
     // Confidence increases more for expected results and decreases for surprising results
     const confidenceChange = (1 - surpriseFactor) * 0.05;
 
     return {
-  }
       player: {
-    oldRating: playerRating,
+        oldRating: playerRating,
         newRating: newPlayerRating,
         oldUncertainty: playerUncertainty,
         newUncertainty: newPlayerUncertainty,
         ratingChange: newPlayerRating - playerRating,
         confidenceChange: confidenceChange
-  },
+      },
       opponent: {
-    oldRating: opponentRating,
+        oldRating: opponentRating,
         newRating: newOpponentRating,
         oldUncertainty: opponentUncertainty,
         newUncertainty: newOpponentUncertainty,
         ratingChange: newOpponentRating - opponentRating,
         confidenceChange: confidenceChange
-  },
+      },
       winProbability,
       actualOutcome,
       surpriseFactor,
