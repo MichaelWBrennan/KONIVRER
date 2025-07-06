@@ -51,7 +51,7 @@ jobs:
           path: automation-report.html
       
       - name: Cache Optimization
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
