@@ -35,48 +35,58 @@ This document provides information about the unified components created to reduc
    - Props: `variant` - Can be "standard", "game", "konivrer", or "preview"
    - Usage: `<UnifiedCard variant="game" card={cardData} location="hand" />`
 
-6. **UnifiedCardSearch**
+6. **UnifiedCardItem**
+   - Combines: `CardGridItem` and `CardListItem` from CardDatabase.tsx
+   - Props: `variant` - Can be "grid" or "list"
+   - Usage: `<UnifiedCardItem variant="grid" card={cardData} favorites={favorites} toggleFavorite={toggleFavorite} />`
+
+7. **UnifiedCardSearch**
    - Combines all card search components
    - Props: `variant` - Can be "standard", "enhanced", "mobile", or "advanced"
    - Usage: `<UnifiedCardSearch variant="enhanced" onCardSelect={handleCardSelect} />`
 
 ### Game Components
 
-7. **UnifiedGameBoard**
+8. **UnifiedGameBoard**
    - Combines: `GameBoard.tsx`, `EnhancedGameBoard.tsx`, `MTGArenaStyleGameBoard.tsx`
    - Props: `variant` - Can be "standard", "enhanced", or "arena"
    - Usage: `<UnifiedGameBoard variant="enhanced" gameEngine={gameEngine} />`
 
-8. **UnifiedGameControls**
+9. **UnifiedGameControls**
    - Combines all game control components
    - Props: `variant` - Can be "standard", "mobile", or "advanced"
    - Usage: `<UnifiedGameControls variant="mobile" onAction={handleAction} />`
 
-9. **UnifiedGameEngine**
+10. **UnifiedGameEngine**
    - Combines: `GameEngine.ts`, `AIPlayer.ts`, `CuttingEdgeAI.ts`, `NeuralAI.ts`
    - Usage: `const engine = new UnifiedGameEngine(options)`
 
 ### Feature Components
 
-10. **UnifiedTournamentManager**
+11. **UnifiedTournamentManager**
     - Combines all tournament management components
     - Props: `variant` - Can be "standard", "advanced", or "mobile"
     - Usage: `<UnifiedTournamentManager variant="advanced" />`
 
-11. **UnifiedMatchmaking**
+12. **UnifiedMatchmaking**
     - Combines online and physical matchmaking components
     - Props: `variant` - Can be "online", "physical", or "hybrid"
     - Usage: `<UnifiedMatchmaking variant="online" />`
 
-12. **UnifiedDeckBuilder**
+13. **UnifiedDeckBuilder**
     - Combines all deck builder components
     - Props: `variant` - Can be "standard", "enhanced", or "mobile"
     - Usage: `<UnifiedDeckBuilder variant="enhanced" />`
 
-13. **UnifiedNotification**
+14. **UnifiedNotification**
     - Combines all notification components
     - Props: `variant` - Can be "toast", "popup", or "inline"
     - Usage: `<UnifiedNotification variant="toast" message="Card added to deck" />`
+
+15. **UnifiedPlayerCard**
+    - Combines player card components used in matchmaking
+    - Props: `variant` - Can be "standard", "compact", or "detailed"
+    - Usage: `<UnifiedPlayerCard variant="compact" player={playerData} size="small" />`
 
 ## Utility Scripts
 
@@ -87,6 +97,11 @@ This document provides information about the unified components created to reduc
 2. **unified-ai.js**
    - Combines: `ai-build.js`, `ai-integration-demo.js`, `ai-recorder.js`, `ai-test.js`, `integrate-ai-recorder.js`
    - Usage: `npm run ai:start`
+
+3. **cleanup-unused-files.sh**
+   - Script to remove original files after migration to unified components
+   - Usage: `./scripts/cleanup-unused-files.sh`
+   - Note: Only run this after all components have been migrated
 
 ## Migration Guide
 
