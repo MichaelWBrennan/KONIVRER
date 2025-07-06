@@ -20,7 +20,11 @@ import {
   WifiOff,
   Battery,
   Signal,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import ModernAuthModal from './ModernAuthModal';
 
 interface MobileLayoutProps {
   children: React.ReactNode;
@@ -29,10 +33,12 @@ interface MobileLayoutProps {
 
 const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'home'  }) => {
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [batteryLevel, setBatteryLevel] = useState(null);
   const [orientation, setOrientation] = useState('portrait');
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [safeAreaInsets, setSafeAreaInsets] = useState({
     top: 0,
     bottom: 0,
@@ -127,18 +133,6 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
       label: 'Social',
       icon: <Users className="w-5 h-5" />,
       path: '/social',
-    },
-    {
-      id: 'analytics',
-      label: 'Stats',
-      icon: <BarChart3 className="w-5 h-5" />,
-      path: '/analytics',
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: <Settings className="w-5 h-5" />,
-      path: '/settings',
     },
   ];
 
@@ -419,7 +413,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           }}
         >
           <div className="flex justify-around py-2">
-            {navigationItems.slice(0, 5).map(item => (
+            {navigationItems.map(item => (
               <button
                 key={item.id}
                 onClick={() => handleNavigation(item.path)}
@@ -449,6 +443,31 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
                 <span className="text-xs mt-1 font-medium">{item.label}</span>
               </button>
             ))}
+            
+            {/* Login/Logout Button */}
+            {isAuthenticated ? (
+              <button
+                onClick={logout}
+                className="flex flex-col items-center p-2 rounded-lg transition-colors mobile-nav-item"
+                style={{
+                  color: 'var(--text-tertiary)',
+                }}
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="text-xs mt-1 font-medium">Logout</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="flex flex-col items-center p-2 rounded-lg transition-colors mobile-nav-item"
+                style={{
+                  color: 'var(--text-tertiary)',
+                }}
+              >
+                <LogIn className="w-5 h-5" />
+                <span className="text-xs mt-1 font-medium">Login</span>
+              </button>
+            )}
           </div>
         </nav>
       )}
@@ -490,6 +509,12 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           --sar: env(safe-area-inset-right);
         }
       `}</style>
+      
+      {/* Auth Modal */}
+      <ModernAuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </div>
   );
 };
