@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -25,1134 +24,1212 @@ import React from 'react';
 import { createParticleSystem } from './ParticleSystem';
 import { getCardSpecificAnimations } from './CardSpecificAnimations';
 
+// Animation types
+export interface AnimationOptions {
+  duration?: number;
+  ease?: string;
+  delay?: number;
+  repeat?: number;
+  yoyo?: boolean;
+  onStart?: () => void;
+  onUpdate?: (progress: number) => void;
+  onComplete?: () => void;
+  [key: string]: any;
+}
+
+export interface CardAnimationOptions extends AnimationOptions {
+  element: HTMLElement;
+  type: AnimationType;
+  particleEffect?: ParticleEffectType;
+  lightingEffect?: LightingEffectType;
+  soundEffect?: boolean;
+  perspective?: boolean;
+  cardData?: CardData;
+  [key: string]: any;
+}
+
+export interface TimelineOptions {
+  paused?: boolean;
+  repeat?: number;
+  yoyo?: boolean;
+  onStart?: () => void;
+  onUpdate?: (progress: number) => void;
+  onComplete?: () => void;
+  [key: string]: any;
+}
+
+export interface ParticleOptions {
+  type: ParticleEffectType;
+  count: number;
+  duration: number;
+  color?: string | string[];
+  size?: number | [number, number];
+  speed?: number | [number, number];
+  direction?: number | [number, number];
+  gravity?: number;
+  opacity?: number | [number, number];
+  [key: string]: any;
+}
+
+export interface LightingOptions {
+  type: LightingEffectType;
+  color: string;
+  intensity: number;
+  duration: number;
+  decay?: number;
+  [key: string]: any;
+}
+
+export interface CardData {
+  id: string;
+  name: string;
+  type: string;
+  elements: string[];
+  rarity: string;
+  [key: string]: any;
+}
+
+export enum AnimationType {
+  DRAW = 'draw',
+  PLAY = 'play',
+  ATTACK = 'attack',
+  BLOCK = 'block',
+  DESTROY = 'destroy',
+  SHUFFLE = 'shuffle',
+  FLIP = 'flip',
+  HOVER = 'hover',
+  TAP = 'tap',
+  UNTAP = 'untap',
+  HIGHLIGHT = 'highlight',
+  MOVE = 'move',
+  BOUNCE = 'bounce',
+  SHAKE = 'shake',
+  PULSE = 'pulse',
+  GLOW = 'glow',
+  FADE_IN = 'fadeIn',
+  FADE_OUT = 'fadeOut',
+  CUSTOM = 'custom'
+}
+
+export enum ParticleEffectType {
+  NONE = 'none',
+  FIRE = 'fire',
+  WATER = 'water',
+  EARTH = 'earth',
+  AIR = 'air',
+  AETHER = 'aether',
+  NETHER = 'nether',
+  SPARKLE = 'sparkle',
+  SMOKE = 'smoke',
+  EXPLOSION = 'explosion',
+  SHATTER = 'shatter',
+  LEAVES = 'leaves',
+  BUBBLES = 'bubbles',
+  LIGHTNING = 'lightning',
+  DUST = 'dust',
+  CUSTOM = 'custom'
+}
+
+export enum LightingEffectType {
+  NONE = 'none',
+  FLASH = 'flash',
+  PULSE = 'pulse',
+  GLOW = 'glow',
+  RADIAL = 'radial',
+  DIRECTIONAL = 'directional',
+  AMBIENT = 'ambient',
+  CUSTOM = 'custom'
+}
+
 // Create a mock gsap object until we can install the real one
-const gsap = {
-    registerPlugin: () => {
-    set: () => ({
-  
-  }),
-  timeline: () => ({
-    to: () => ({
-  }),
-    onStart: () => ({
-    ),
-    onComplete: () => ({
-  }),
-    onUpdate: () => ({
-    )
-  
-  }),
-  to: () => ({
-    )
+interface MockGSAP {
+  registerPlugin: (...args: any[]) => void;
+  set: (target: any, vars: any) => any;
+  timeline: (options?: TimelineOptions) => MockTimeline;
+  to: (target: any, duration: number, vars: any) => MockTween;
+  from: (target: any, duration: number, vars: any) => MockTween;
+  fromTo: (target: any, duration: number, fromVars: any, toVars: any) => MockTween;
+  [key: string]: any;
+}
 
-  };
+interface MockTimeline {
+  to: (target: any, duration: number, vars: any, position?: string | number) => MockTimeline;
+  from: (target: any, duration: number, vars: any, position?: string | number) => MockTimeline;
+  fromTo: (target: any, duration: number, fromVars: any, toVars: any, position?: string | number) => MockTimeline;
+  set: (target: any, vars: any, position?: string | number) => MockTimeline;
+  add: (child: any, position?: string | number) => MockTimeline;
+  addLabel: (label: string, position?: string | number) => MockTimeline;
+  play: (from?: string | number) => MockTimeline;
+  pause: (atTime?: string | number) => MockTimeline;
+  resume: () => MockTimeline;
+  reverse: (from?: string | number) => MockTimeline;
+  restart: (includeDelay?: boolean, suppressEvents?: boolean) => MockTimeline;
+  seek: (position: string | number) => MockTimeline;
+  progress: (value?: number) => number | MockTimeline;
+  time: (value?: number) => number | MockTimeline;
+  duration: (value?: number) => number | MockTimeline;
+  totalDuration: (value?: number) => number | MockTimeline;
+  timeScale: (value?: number) => number | MockTimeline;
+  delay: (value?: number) => number | MockTimeline;
+  repeat: (value?: number) => number | MockTimeline;
+  repeatDelay: (value?: number) => number | MockTimeline;
+  yoyo: (value?: boolean) => boolean | MockTimeline;
+  kill: (vars?: any) => MockTimeline;
+  clear: (suppressEvents?: boolean) => MockTimeline;
+  onStart: (callback: () => void) => MockTimeline;
+  onUpdate: (callback: (progress: number) => void) => MockTimeline;
+  onComplete: (callback: () => void) => MockTimeline;
+  [key: string]: any;
+}
 
-// Register GSAP plugins - commented out until we install the real plugins
-// gsap.registerPlugin() {
-    // Mock plugins
-const MotionPathPlugin = {
-  };
-const PixiPlugin = {
-    ;
+interface MockTween {
+  play: () => MockTween;
+  pause: () => MockTween;
+  resume: () => MockTween;
+  reverse: () => MockTween;
+  restart: (includeDelay?: boolean, suppressEvents?: boolean) => MockTween;
+  seek: (position: number) => MockTween;
+  progress: (value?: number) => number | MockTween;
+  time: (value?: number) => number | MockTween;
+  duration: (value?: number) => number | MockTween;
+  delay: (value?: number) => number | MockTween;
+  repeat: (value?: number) => number | MockTween;
+  repeatDelay: (value?: number) => number | MockTween;
+  yoyo: (value?: boolean) => boolean | MockTween;
+  kill: (vars?: any) => MockTween;
+  onStart: (callback: () => void) => MockTween;
+  onUpdate: (callback: (progress: number) => void) => MockTween;
+  onComplete: (callback: () => void) => MockTween;
+  [key: string]: any;
+}
 
-// Animation quality settings based on device performance
-const QUALITY_LEVELS = {
-  }
-  ULTRA: {
-    particleCount: 200,
-    shadowQuality: 'high',
-    reflections: true,
-    postProcessing: true,
-    physicsSimulation: true,
-    maxAnimations: Infinity
-  },
-  HIGH: {
-    particleCount: 100,
-    shadowQuality: 'medium',
-    reflections: true,
-    postProcessing: true,
-    physicsSimulation: true,
-    maxAnimations: 10
-  },
-  MEDIUM: {
-    particleCount: 50,
-    shadowQuality: 'low',
-    reflections: false,
-    postProcessing: false,
-    physicsSimulation: true,
-    maxAnimations: 5
-  },
-  LOW: {
-    particleCount: 20,
-    shadowQuality: 'none',
-    reflections: false,
-    postProcessing: false,
-    physicsSimulation: false,
-    maxAnimations: 3
-  }
+const gsap: MockGSAP = {
+  registerPlugin: (...args: any[]) => {},
+  set: (target: any, vars: any) => ({}),
+  timeline: (options?: TimelineOptions) => ({
+    to: (target: any, duration: number, vars: any, position?: string | number) => ({} as MockTimeline),
+    from: (target: any, duration: number, vars: any, position?: string | number) => ({} as MockTimeline),
+    fromTo: (target: any, duration: number, fromVars: any, toVars: any, position?: string | number) => ({} as MockTimeline),
+    set: (target: any, vars: any, position?: string | number) => ({} as MockTimeline),
+    add: (child: any, position?: string | number) => ({} as MockTimeline),
+    addLabel: (label: string, position?: string | number) => ({} as MockTimeline),
+    play: (from?: string | number) => ({} as MockTimeline),
+    pause: (atTime?: string | number) => ({} as MockTimeline),
+    resume: () => ({} as MockTimeline),
+    reverse: (from?: string | number) => ({} as MockTimeline),
+    restart: (includeDelay?: boolean, suppressEvents?: boolean) => ({} as MockTimeline),
+    seek: (position: string | number) => ({} as MockTimeline),
+    progress: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    time: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    duration: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    totalDuration: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    timeScale: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    delay: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    repeat: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    repeatDelay: (value?: number) => (value !== undefined ? ({} as MockTimeline) : 0),
+    yoyo: (value?: boolean) => (value !== undefined ? ({} as MockTimeline) : false),
+    kill: (vars?: any) => ({} as MockTimeline),
+    clear: (suppressEvents?: boolean) => ({} as MockTimeline),
+    onStart: (callback: () => void) => ({} as MockTimeline),
+    onUpdate: (callback: (progress: number) => void) => ({} as MockTimeline),
+    onComplete: (callback: () => void) => ({} as MockTimeline)
+  }),
+  to: (target: any, duration: number, vars: any) => ({} as MockTween),
+  from: (target: any, duration: number, vars: any) => ({} as MockTween),
+  fromTo: (target: any, duration: number, fromVars: any, toVars: any) => ({} as MockTween)
 };
 
-class CardAnimationSystem {
-    constructor(options: any = {
+// Register GSAP plugins - commented out until we install the real plugins
+// gsap.registerPlugin(MotionPathPlugin, PixiPlugin);
+
+/**
+ * Animation system configuration
+ */
+interface AnimationConfig {
+  enabled: boolean;
+  quality: 'low' | 'medium' | 'high' | 'ultra';
+  particlesEnabled: boolean;
+  lightingEnabled: boolean;
+  soundEnabled: boolean;
+  perspectiveEnabled: boolean;
+  performanceMode: boolean;
+  debugMode: boolean;
+  [key: string]: any;
+}
+
+let config: AnimationConfig = {
+  enabled: true,
+  quality: 'medium',
+  particlesEnabled: true,
+  lightingEnabled: true,
+  soundEnabled: true,
+  perspectiveEnabled: true,
+  performanceMode: false,
+  debugMode: false
+};
+
+/**
+ * Configure the animation system
+ */
+export function configureAnimations(options: Partial<AnimationConfig>): void {
+  config = { ...config, ...options };
+  
+  // Apply configuration changes
+  if (config.performanceMode) {
+    config.quality = 'low';
+    config.particlesEnabled = false;
+    config.lightingEnabled = false;
+    config.perspectiveEnabled = false;
+  }
+  
+  if (config.debugMode) {
+    console.log('Animation system configured:', config);
   }
 }
-}) {
-    // Initialize with device-appropriate settings
-    this.qualityLevel = options.qualityLevel || this.detectQualityLevel() {
-  }
-    this.settings = QUALITY_LEVELS[this.qualityLevel];
 
-    // Animation queues and state
-    this.animationQueue = [
-    ;
-    this.activeAnimations = new Map() {
-    this.particleSystems = new Map() {
-  }
+/**
+ * Get current animation configuration
+ */
+export function getAnimationConfig(): AnimationConfig {
+  return { ...config };
+}
 
-    // Performance monitoring
-    this.lastFrameTime = performance.now() {
-    this.frameCount = 0;
-    this.fps = 60;
-
-    // Initialize 3D context if supported
-    this.has3DSupport = this.detect3DSupport() {
-  }
-
-    console.log(
-      `Card Animation System initialized with ${this.qualityLevel} quality`
-    )
-  }
-
-  /**
-   * Detect appropriate quality level based on device capabilities
-   */
-  detectQualityLevel() {
-    // Use global performance mode if available
-    if (true) {
-  }
-      switch (true) {
-    case 'high':
-          return 'ULTRA';
-        case 'medium':
-          return 'HIGH';
-        case 'low':
-          return 'MEDIUM';
-        default:
-          return 'HIGH'
-  }
-    }
-
-    // Otherwise detect based on device capabilities
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(() => {
-    const memory = navigator.deviceMemory || 4;
-    const cores = navigator.hardwareConcurrency || 4;
-
-    if (true) {
-    if (memory <= 2 || cores <= 2) return 'LOW';
-      if (memory <= 4 || cores <= 4) return 'MEDIUM';
-      return 'HIGH'
-  }) else {
-    if (memory <= 4 || cores <= 2) return 'MEDIUM';
-      if (memory <= 8 || cores <= 4) return 'HIGH';
-      return 'ULTRA'
-  }
-  }
-
-  /**
-   * Detect 3D support in the browser
-   */
-  detect3DSupport() {
-    try {
-  }
-      const canvas = document.createElement(() => {
-    const gl =
-        canvas.getContext('webgl') || canvas.getContext() {
-    return !!gl
-  }) catch (error: any) {
-    console.warn() {
-    return false
+/**
+ * Create a card animation
+ */
+export function animateCard(options: CardAnimationOptions): void {
+  if (!config.enabled) return;
   
-  }
-  }
-
-  /**
-   * Play a card draw animation
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {Object} options - Animation options
-   */
-  playCardDrawAnimation(cardElement: any, options: any = {
-    ) {
-  }
-    if (!cardElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-
-    // Set up initial state
-    gsap.set() {
-  }
-`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `draw-${cardId}`,
-      onStart: () => this.onAnimationStart(cardId, 'draw'),
-      onComplete: () => {
-    this.onAnimationComplete(cardId, 'draw', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
-  });
-
-    // Add the main card animation
-    timeline.to(() => {
-    // Add card-specific effects if available
-    if (true) {
-    this.addRarityEffects(cardElement, timeline, cardData)
-  })
-
-    // Add to active animations
-    this.activeAnimations.set(cardId, {
-    element: cardElement,
-      timeline,
-      type: 'draw',
-      startTime: performance.now()
-  });
-
-    return timeline
-  }
-
-  /**
-   * Play a card play animation (from hand to battlefield)
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {Object} options - Animation options
-   */
-  playCardPlayAnimation(cardElement: any, options: any = {
-    ) {
-  }
-    if (!cardElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-    const startPosition = options.startPosition || { x: 0, y: 0 
-  };
-    const endPosition = options.endPosition || { x: 0, y: 0 };
-
-    // Calculate path
-    const path = this.calculatePath() {
-    // Set up initial state
-    gsap.set() {
-  }
-`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `play-${cardId}`,
-      onStart: () => this.onAnimationStart(cardId, 'play'),
-      onComplete: () => {
-    this.onAnimationComplete(cardId, 'play', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
-  });
-
-    // Add the main card animation
-    timeline
-      .to(cardElement, {
-    duration: 0.8,
-        motionPath: {
-    path: path,
-          autoRotate: true,
-          alignOrigin: [0.5, 0.5
-  ]
+  const { element, type, particleEffect, lightingEffect, soundEffect, perspective, cardData } = options;
   
-  },
-        scale: 1.2,
-        ease: 'power2.inOut'
-      })
-      .to(cardElement, {
-    duration: 0.3,
-        scale: 1,
-        ease: 'elastic.out(1, 0.5)'
-  });
-
-    // Add card-specific effects
-    const cardSpecificAnimations = getCardSpecificAnimations(() => {
-    if (true) {
-    cardSpecificAnimations.onPlay(cardElement, timeline, this.settings)
-  })
-
-    // Add particle effects for special cards
-    if (
-      this.settings.particleCount > 0 &&
-      (cardData.rarity === 'rare')
-    ) {
-    this.createParticleEffect(cardElement, {
-    type: 'play',
-        color: this.getColorForCardType(cardData.type, cardData.color),
-        duration: 1.5,
-        count: this.settings.particleCount
+  if (!element) {
+    console.error('Cannot animate card: No element provided');
+    return;
+  }
   
-  })
-    }
-
-    // Add to active animations
-    this.activeAnimations.set(cardId, {
-    element: cardElement,
-      timeline,
-      type: 'play',
-      startTime: performance.now()
-  });
-
-    return timeline
+  // Apply perspective if enabled
+  if (perspective && config.perspectiveEnabled) {
+    applyPerspective(element);
   }
-
-  /**
-   * Play a card attack animation
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {HTMLElement} targetElement - The target card or player DOM element
-   * @param {Object} options - Animation options
-   */
-  playCardAttackAnimation(cardElement: any, targetElement: any, options: any = {
-    ) {
-  }
-    if (!cardElement || !targetElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-    const originalPosition = this.getElementPosition() {
-  }
-    const targetPosition = this.getElementPosition() {`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `attack-${cardId`
-  }`,
-      onStart: () => this.onAnimationStart(cardId, 'attack'),;
-      onComplete: () => {;
-        // Return card to original position
-        gsap.to(cardElement, {
-    duration: 0.5,
-          x: originalPosition.x,
-          y: originalPosition.y,
-          rotation: 0,
-          ease: 'power2.inOut',
-          onComplete: () => {
-    this.onAnimationComplete(cardId, 'attack', options.onComplete)
   
-  })
-      },
-      onUpdate: () => this.onAnimationUpdate(cardId);
+  // Get animation based on type
+  const animation = getAnimationByType(type, element, options);
+  
+  // Add particle effects if enabled
+  if (particleEffect && config.particlesEnabled) {
+    addParticleEffect(element, particleEffect, cardData);
+  }
+  
+  // Add lighting effects if enabled
+  if (lightingEffect && config.lightingEnabled) {
+    addLightingEffect(element, lightingEffect, cardData);
+  }
+  
+  // Add sound effects if enabled
+  if (soundEffect && config.soundEnabled) {
+    playSoundEffect(type, cardData);
+  }
+  
+  // Play animation
+  animation.play();
+}
+
+/**
+ * Apply 3D perspective to an element
+ */
+function applyPerspective(element: HTMLElement): void {
+  const parent = element.parentElement;
+  if (parent) {
+    gsap.set(parent, {
+      perspective: 800
     });
+    
+    gsap.set(element, {
+      transformStyle: 'preserve-3d'
+    });
+  }
+}
 
-    // Calculate attack path
-    const attackPath = [
-    { x: originalPosition.x, y: originalPosition.y },
-      { x: targetPosition.x, y: targetPosition.y }
-  ];
+/**
+ * Get animation based on type
+ */
+function getAnimationByType(
+  type: AnimationType,
+  element: HTMLElement,
+  options: CardAnimationOptions
+): MockTimeline {
+  const timeline = gsap.timeline({
+    paused: true,
+    onStart: options.onStart,
+    onUpdate: options.onUpdate,
+    onComplete: options.onComplete
+  });
+  
+  const duration = options.duration || 0.5;
+  const ease = options.ease || 'power2.out';
+  
+  switch (type) {
+    case AnimationType.DRAW:
+      return createDrawAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.PLAY:
+      return createPlayAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.ATTACK:
+      return createAttackAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.BLOCK:
+      return createBlockAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.DESTROY:
+      return createDestroyAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.SHUFFLE:
+      return createShuffleAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.FLIP:
+      return createFlipAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.HOVER:
+      return createHoverAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.TAP:
+      return createTapAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.UNTAP:
+      return createUntapAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.HIGHLIGHT:
+      return createHighlightAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.MOVE:
+      return createMoveAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.BOUNCE:
+      return createBounceAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.SHAKE:
+      return createShakeAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.PULSE:
+      return createPulseAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.GLOW:
+      return createGlowAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.FADE_IN:
+      return createFadeInAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.FADE_OUT:
+      return createFadeOutAnimation(element, timeline, duration, ease, options);
+    
+    case AnimationType.CUSTOM:
+      return createCustomAnimation(element, timeline, duration, ease, options);
+    
+    default:
+      console.warn(`Unknown animation type: ${type}`);
+      return timeline;
+  }
+}
 
-    // Add the main attack animation
+/**
+ * Create draw animation
+ */
+function createDrawAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const startX = options.startX || -300;
+  const startY = options.startY || 100;
+  const startRotation = options.startRotation || 45;
+  
+  gsap.set(element, {
+    x: startX,
+    y: startY,
+    rotation: startRotation,
+    scale: 0.8,
+    opacity: 0
+  });
+  
+  timeline.to(element, {
+    x: 0,
+    y: 0,
+    rotation: 0,
+    scale: 1,
+    opacity: 1,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create play animation
+ */
+function createPlayAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const startScale = options.startScale || 1.2;
+  const startY = options.startY || -50;
+  
+  gsap.set(element, {
+    y: startY,
+    scale: startScale,
+    opacity: 0.8
+  });
+  
+  timeline
+    .to(element, {
+      y: 0,
+      scale: 1,
+      opacity: 1,
+      duration: duration * 0.7,
+      ease: 'back.out(1.7)'
+    })
+    .to(element, {
+      y: -10,
+      duration: duration * 0.15,
+      ease: 'power1.out'
+    })
+    .to(element, {
+      y: 0,
+      duration: duration * 0.15,
+      ease: 'bounce.out'
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create attack animation
+ */
+function createAttackAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const distance = options.distance || 100;
+  
+  timeline
+    .to(element, {
+      x: distance,
+      rotation: 5,
+      scale: 1.1,
+      duration: duration * 0.4,
+      ease: 'power2.in'
+    })
+    .to(element, {
+      x: 0,
+      rotation: 0,
+      scale: 1,
+      duration: duration * 0.6,
+      ease: 'power1.out'
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create block animation
+ */
+function createBlockAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  timeline
+    .to(element, {
+      scale: 1.1,
+      rotation: -5,
+      duration: duration * 0.3,
+      ease: 'power1.out'
+    })
+    .to(element, {
+      scale: 1,
+      rotation: 0,
+      duration: duration * 0.7,
+      ease
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create destroy animation
+ */
+function createDestroyAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  timeline
+    .to(element, {
+      rotation: options.rotation || 10,
+      scale: 1.2,
+      opacity: 0.8,
+      duration: duration * 0.3,
+      ease: 'power2.in'
+    })
+    .to(element, {
+      rotation: options.finalRotation || 30,
+      scale: 0,
+      opacity: 0,
+      duration: duration * 0.7,
+      ease
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create shuffle animation
+ */
+function createShuffleAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const rotationAmount = options.rotation || 360;
+  
+  timeline
+    .to(element, {
+      rotation: rotationAmount,
+      scale: 0.8,
+      opacity: 0.8,
+      duration: duration,
+      ease
+    })
+    .to(element, {
+      rotation: 0,
+      scale: 1,
+      opacity: 1,
+      duration: duration * 0.5,
+      ease: 'power1.out'
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create flip animation
+ */
+function createFlipAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const axis = options.axis || 'Y';
+  
+  timeline.to(element, {
+    [`rotate${axis}`]: '+=180',
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create hover animation
+ */
+function createHoverAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const scale = options.scale || 1.1;
+  const yOffset = options.yOffset || -10;
+  
+  timeline.to(element, {
+    y: yOffset,
+    scale,
+    boxShadow: '0 15px 30px rgba(0, 0, 0, 0.3)',
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create tap animation
+ */
+function createTapAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  timeline.to(element, {
+    rotation: 90,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create untap animation
+ */
+function createUntapAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  timeline.to(element, {
+    rotation: 0,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create highlight animation
+ */
+function createHighlightAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const color = options.color || 'rgba(255, 215, 0, 0.5)';
+  
+  timeline
+    .to(element, {
+      boxShadow: `0 0 20px ${color}`,
+      duration: duration * 0.5,
+      ease: 'power2.in'
+    })
+    .to(element, {
+      boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
+      duration: duration * 0.5,
+      ease: 'power2.out'
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create move animation
+ */
+function createMoveAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const x = options.x || 0;
+  const y = options.y || 0;
+  
+  timeline.to(element, {
+    x,
+    y,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create bounce animation
+ */
+function createBounceAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const height = options.height || 30;
+  
+  timeline
+    .to(element, {
+      y: -height,
+      duration: duration * 0.5,
+      ease: 'power2.out'
+    })
+    .to(element, {
+      y: 0,
+      duration: duration * 0.5,
+      ease: 'bounce.out'
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create shake animation
+ */
+function createShakeAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const intensity = options.intensity || 10;
+  const repeat = options.repeat || 5;
+  
+  for (let i = 0; i < repeat; i++) {
     timeline
-      .to(cardElement, {
-    duration: 0.3,
-        scale: 1.1,
-        rotation: 5,
-        ease: 'power2.out'
-  })
-      .to(() => {
-    // Add impact effect on target
-    timeline
-      .to(
-        targetElement,
-        {
-    duration: 0.1,
-          scale: 0.95,
-          rotation: -3,
-          ease: 'power4.out'
-  }),
-        '-=0.1'
-      )
-      .to(targetElement, {
-    duration: 0.3,
-        scale: 1,
-        rotation: 0,
-        ease: 'elastic.out(1, 0.3)'
-  });
-
-    // Add card-specific attack effects
-    const cardSpecificAnimations = getCardSpecificAnimations(() => {
-    if (true) {
-    cardSpecificAnimations.onAttack(
-        cardElement,
-        targetElement,
-        timeline,
-        this.settings
-      )
-  })
-
-    // Add particle effects for the attack
-    if (true) {
-    this.createParticleEffect(targetElement, {
-    type: 'impact',
-        color: this.getColorForCardType(cardData.type, cardData.color),
-        duration: 0.8,
-        count: Math.floor(this.settings.particleCount / 2),
-        spread: 0.8
-  
-  })
-    }
-
-    // Add to active animations
-    this.activeAnimations.set(cardId, {
-    element: cardElement,
-      timeline,
-      type: 'attack',
-      startTime: performance.now()
-  });
-
-    return timeline
-  }
-
-  /**
-   * Play a card tap/untap animation
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {boolean} isTapping - Whether tapping (true) or untapping (false)
-   * @param {Object} options - Animation options
-   */
-  playCardTapAnimation(cardElement: any, isTapping: any = true, options: any = {
-    ) {
-  }
-    if (!cardElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `tap-${cardId`
-  }`,
-      onStart: () => this.onAnimationStart(cardId, isTapping ? 'tap' : 'untap'),
-      onComplete: () => {
-    this.onAnimationComplete(
-          cardId,
-          isTapping ? 'tap' : 'untap',
-          options.onComplete
-        ),
-      onUpdate: () => this.onAnimationUpdate(cardId)
-  });
-
-    // Add the main tap/untap animation
-    timeline.to() {
-    // Add subtle effects
-    if (true) {
-  }
-      timeline
-        .to(
-          cardElement,
-          {
-    duration: 0.1,
-            scale: 0.98,
-            ease: 'power1.out'
-  },
-          '-=0.1'
-        )
-        .to(cardElement, {
-    duration: 0.2,
-          scale: 1,
-          ease: 'power1.inOut'
-  })
-    } else {
-    timeline
-        .to(
-          cardElement,
-          {
-    duration: 0.1,
-            scale: 1.02,
-            ease: 'power1.out'
-  
-  },
-          '-=0.1'
-        )
-        .to(cardElement, {
-    duration: 0.2,
-          scale: 1,
-          ease: 'power1.inOut'
-  })
-    }
-
-    // Add card-specific tap/untap effects
-    const cardSpecificAnimations = getCardSpecificAnimations() {
-    if (true) {
-  }
-      if (true) {
-    cardSpecificAnimations.onTap(cardElement, timeline, this.settings)
-  } else if (true) {
-    cardSpecificAnimations.onUntap(cardElement, timeline, this.settings)
-  }
-    }
-
-    // Add to active animations
-    this.activeAnimations.set(cardId, {
-    element: cardElement,
-      timeline,
-      type: isTapping ? 'tap' : 'untap',
-      startTime: performance.now()
-  });
-
-    return timeline
-  }
-
-  /**
-   * Play a card destruction/removal animation
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {Object} options - Animation options
-   */
-  playCardDestroyAnimation(cardElement: any, options: any = {
-    ) {
-  }
-    if (!cardElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-    const targetZone = options.targetZone || 'graveyard';
-`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `destroy-${cardId`
-  }`,
-      onStart: () => this.onAnimationStart(cardId, 'destroy'),
-      onComplete: () => {
-    this.onAnimationComplete(cardId, 'destroy', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
-  });
-
-    // Different animations based on target zone
-    if (true) {
-    // Destruction animation
-      timeline
-        .to(cardElement, {
-    duration: 0.2,
-          scale: 1.1,
-          brightness: 1.5,
-          ease: 'power2.in'
-  
-  })
-        .to(cardElement, {
-    duration: 0.5,
-          scale: 0,
-          rotation: Math.random() > 0.5 ? 45 : -45,
-          opacity: 0,
-          ease: 'power3.in'
-  });
-
-      // Add particle effects for destruction
-      if (true) {
-    this.createParticleEffect(cardElement, {
-    type: 'destroy',
-          color: this.getColorForCardType(cardData.type, cardData.color),
-          duration: 1.2,
-          count: this.settings.particleCount,
-          spread: 1
-  
-  })
-      }
-    } else if (true) {
-    // Exile animation (more ethereal)
-      timeline
-        .to(cardElement, {
-    duration: 0.3,
-          scale: 1.1,
-          filter: 'brightness(1.7) hue-rotate(90deg)',
-          ease: 'power2.in'
-  
-  })
-        .to(cardElement, {
-    duration: 0.7,
-          scale: 0,
-          opacity: 0,
-          filter: 'brightness(2) hue-rotate(180deg) blur(10px)',
-          ease: 'power2.inOut'
-  });
-
-      // Add particle effects for exile
-      if (true) {
-    this.createParticleEffect(cardElement, {
-    type: 'exile',
-          color: '#FFFFFF',
-          duration: 1.5,
-          count: this.settings.particleCount,
-          spread: 1.2
-  
-  })
-      }
-    } else {
-    // Generic removal animation
-      timeline.to(cardElement, {
-    duration: 0.5,
-        scale: 0,
-        opacity: 0,
-        ease: 'power3.in'
-  
-  })
-    }
-
-    // Add card-specific destruction effects
-    const cardSpecificAnimations = getCardSpecificAnimations(() => {
-    if (true) {
-    cardSpecificAnimations.onDestroy(
-        cardElement,
-        timeline,
-        this.settings,
-        targetZone
-      )
-  })
-
-    // Add to active animations
-    this.activeAnimations.set(cardId, {
-    element: cardElement,
-      timeline,
-      type: 'destroy',
-      startTime: performance.now()
-  });
-
-    return timeline
-  }
-
-  /**
-   * Play a card ability activation animation
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {Object} options - Animation options
-   */
-  playCardAbilityAnimation(cardElement: any, options: any = {
-    ) {
-  }
-    if (!cardElement) return;
-`
-    const cardId =``
-      cardElement.dataset.cardId ||```
-      `card-${Math.random().toString(36).substr(2, 9)}`;
-    const cardData = options.cardData || {
-    ;
-    const abilityIndex = options.abilityIndex || 0;
-    const targets = options.targets || [
-    ;
-`
-    // Create the animation timeline``
-    const timeline = gsap.timeline({```
-      id: `ability-${cardId`
-  }-${abilityIndex}`,
-      onStart: () => this.onAnimationStart(cardId, 'ability'),
-      onComplete: () => {
-    this.onAnimationComplete(cardId, 'ability', options.onComplete),
-      onUpdate: () => this.onAnimationUpdate(cardId)
-  });
-
-    // Add the main ability activation animation
-    timeline
-      .to(cardElement, {
-    duration: 0.2,
-        scale: 1.1,
-        filter: 'brightness(1.3)',
-        ease: 'power2.out'
-  })
-      .to(cardElement, {
-    duration: 0.3,
-        scale: 1,
-        filter: 'brightness(1)',
-        ease: 'power2.in'
-  });
-
-    // If there are targets, animate effects to each target
-    if (true) {
-    const cardPosition = this.getElementPosition() {
-  }
-
-      targets.forEach((target, index) => {
-    const targetElement = target.element;
-        if (!targetElement) return;
-
-        const targetPosition = this.getElementPosition(() => {
-    const delay = index * 0.1; // Stagger effect for multiple targets
-
-        // Create a beam/projectile effect from card to target
-        this.createBeamEffect(cardElement, targetElement, {
-    color: this.getColorForCardType(cardData.type, cardData.color),
-          duration: 0.5,
-          delay: delay,
-          timeline: timeline
-  
-  }));
-
-        // Add impact effect on target
-        timeline
-          .to(targetElement, {
-    duration: 0.15,
-            scale: 0.95,
-            filter: 'brightness(1.2)',
-            ease: 'power2.out',
-            delay: delay + 0.4
-  })
-          .to(targetElement, {
-    duration: 0.3,
-            scale: 1,
-            filter: 'brightness(1)',
-            ease: 'elastic.out(1, 0.3)'
-  })
+      .to(element, {
+        x: i % 2 ? intensity : -intensity,
+        duration: duration / (repeat * 2),
+        ease: 'power1.inOut'
       })
-    }
-
-    // Add card-specific ability effects
-    const cardSpecificAnimations = getCardSpecificAnimations(() => {
-    if (true) {
-    cardSpecificAnimations.onAbility(
-        cardElement,
-        timeline,
-        this.settings,
-        abilityIndex,
-        targets
-      )
-  })
-
-    // Add particle effects for the ability
-    if (true) {
-    this.createParticleEffect(cardElement, {
-    type: 'ability',
-        color: this.getColorForCardType(cardData.type, cardData.color),
-        duration: 1,
-        count: Math.floor(this.settings.particleCount / 2)
-  
-  })
-    }`
-``
-    // Add to active animations```
-    this.activeAnimations.set(`${cardId}-ability-${abilityIndex}`, {
-    element: cardElement,
-      timeline,
-      type: 'ability',
-      startTime: performance.now()
-  });
-
-    return timeline
-  }
-
-  /**
-   * Create a particle effect
-   * @param {HTMLElement} element - The source element
-   * @param {Object} options - Particle effect options
-   */
-  createParticleEffect(element: any, options: any = {
-    ) {,
-    if (!element || this.settings.particleCount <= 0) return;
-
-    const elementId =`
-      element.dataset.cardId ||``
-      element.id ||```
-      `element-${Math.random().toString(36).substr(2, 9)`
-  }`;```
-    const particleId = `particles-${elementId}-${options.type || 'generic'}-${Date.now()}`;
-
-    // Create particle container if it doesn't exist
-    let particleContainer = document.getElementById() {
-    if (true) {
-  }
-      particleContainer = document.createElement() {
-    particleContainer.id = 'particle-container';
-      particleContainer.style.position = 'absolute';
-      particleContainer.style.top = '0';
-      particleContainer.style.left = '0';
-      particleContainer.style.width = '100%';
-      particleContainer.style.height = '100%';
-      particleContainer.style.pointerEvents = 'none';
-      particleContainer.style.zIndex = '1000';
-      document.body.appendChild(particleContainer)
-  }
-
-    // Create particle element
-    const particleElement = document.createElement() {
-    particleElement.id = particleId;
-    particleElement.style.position = 'absolute';
-    particleElement.style.pointerEvents = 'none';
-`
-    // Position the particle element at the source element`
-    const elementRect = element.getBoundingClientRect() {`
-  }```
-    particleElement.style.top = `${elementRect.top}px`;```
-    particleElement.style.left = `${elementRect.left}px`;```
-    particleElement.style.width = `${elementRect.width}px`;```
-    particleElement.style.height = `${elementRect.height}px`;
-
-    particleContainer.appendChild() {
-    // Create the particle system
-    const particleSystem = createParticleSystem(() => {
-    // Store the particle system
-    this.particleSystems.set(particleId, {
-    element: particleElement,
-      system: particleSystem,
-      startTime: performance.now(),
-      duration: options.duration || 1
-  
-  }));
-
-    // Set up cleanup
-    setTimeout(
-      () => {
-    this.particleSystems.delete(() => {
-    if (true) {
-    particleElement.parentNode.removeChild(particleElement)
-  
-  })
-      },
-      (options.duration || 1) * 1000 + 100
-    );
-
-    return particleSystem
-  }
-
-  /**
-   * Create a beam effect between two elements
-   * @param {HTMLElement} sourceElement - The source element
-   * @param {HTMLElement} targetElement - The target element
-   * @param {Object} options - Beam effect options
-   */
-  createBeamEffect(sourceElement: any, targetElement: any, options: any = {
-    ) {
-  }
-    if (!sourceElement || !targetElement) return;
-
-    const sourceRect = sourceElement.getBoundingClientRect() {
-    const targetRect = targetElement.getBoundingClientRect() {
-  }
-
-    // Create beam container if it doesn't exist
-    let beamContainer = document.getElementById() {
-    if (true) {
-  }
-      beamContainer = document.createElement() {
-    beamContainer.id = 'beam-container';
-      beamContainer.style.position = 'absolute';
-      beamContainer.style.top = '0';
-      beamContainer.style.left = '0';
-      beamContainer.style.width = '100%';
-      beamContainer.style.height = '100%';
-      beamContainer.style.pointerEvents = 'none';
-      beamContainer.style.zIndex = '999';
-      document.body.appendChild(beamContainer)
-  }`
-``
-    // Create beam element```
-    const beamId = `beam-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    const beamElement = document.createElement() {
-    beamElement.id = beamId;`
-    beamElement.style.position = 'absolute';``
-    beamElement.style.pointerEvents = 'none';```
-    beamElement.style.background = `linear-gradient(to right, ${options.color || '#FFFFFF'`
-  }, ${options.color || '#FFFFFF'}88)`;
-    beamElement.style.transformOrigin = 'left center';
-    beamElement.style.height = '4px';`
-    beamElement.style.borderRadius = '2px';``
-    beamElement.style.filter = 'blur(1px) brightness(1.5)';```
-    beamElement.style.boxShadow = `0 0 8px ${options.color || '#FFFFFF'}`;
-    beamElement.style.opacity = '0';
-
-    beamContainer.appendChild() {
-    // Calculate beam position and angle
-    const sourceX = sourceRect.left + sourceRect.width / 2;
-    const sourceY = sourceRect.top + sourceRect.height / 2;
-    const targetX = targetRect.left + targetRect.width / 2;
-    const targetY = targetRect.top + targetRect.height / 2;
-
-    const angle =
-      Math.atan2(targetY - sourceY, targetX - sourceX) * (180 / Math.PI);
-    const distance = Math.sqrt(
-      Math.pow(targetX - sourceX, 2) + Math.pow(targetY - sourceY, 2)
-    );`
-``
-    // Position and rotate the beam```
-    beamElement.style.top = `${sourceY - 2`
-  }px`;```
-    beamElement.style.left = `${sourceX}px`;```
-    beamElement.style.width = `${distance}px`;```
-    beamElement.style.transform = `rotate(${angle}deg)`;
-
-    // Animate the beam
-    const timeline = options.timeline || gsap.timeline(() => {
-    timeline
-      .to(beamElement, {
-    duration: 0.1,
-        opacity: 1,
-        delay: options.delay || 0,
-        ease: 'power1.out'
-  }))
-      .to(
-        beamElement,
-        {
-    duration: options.duration || 0.5,
-          opacity: 0,
-          ease: 'power1.in',
-          onComplete: () => {;
-            if (true) {
-    beamElement.parentNode.removeChild(beamElement)
-  
-  }
-          }
-        },
-        '+=0.1'
-      );
-
-    return timeline
-  }
-
-  /**
-   * Add special effects for rare cards
-   * @param {HTMLElement} cardElement - The card DOM element
-   * @param {Object} timeline - GSAP timeline
-   * @param {Object} cardData - Card data
-   */
-  addRarityEffects(cardElement: any, timeline: any, cardData: any) {
-    // Add glow effect
-    timeline
-      .to(
-        cardElement,`
-        {``
-          duration: 0.3,```
-          boxShadow: `0 0 15px #FFD700`,```
-          filter: `brightness(1.2)`,
-          ease: 'power2.out'
-  },
-        '-=0.3'
-      )
-      .to(cardElement, {
-    duration: 0.5,
-        boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
-        filter: 'brightness(1)',
-        ease: 'power2.in'
-  });
-
-    // Add particle effects
-    if (true) {
-    this.createParticleEffect(cardElement, {
-    type: 'rarity',
-        color: isMythic ? '#FFA500' : '#FFD700',
-        duration: 1.2,
-        count: Math.floor(this.settings.particleCount / 2)
-  
-  })
-    }
-  }
-
-  /**
-   * Calculate a path for card movement
-   * @param {Object} start - Start position {x, y}
-   * @param {Object} end - End position {x, y}
-   * @param {string} type - Path type ('linear', 'arc', 'bezier')
-   * @returns {Array} Path points
-   */
-  calculatePath(start: any, end: any, type: any = 'arc') {,
-    switch (true) {
-    case 'linear':
-        return [
-    { x: start.x, y: start.y 
-  },
-          { x: end.x, y: end.y }
-  
-  ];
-      case 'arc':
-        // Create an arc path
-        const midX = (start.x + end.x) / 2;
-        const midY = (start.y + end.y) / 2 - 100; // Arc height
-
-        return [
-    { x: start.x, y: start.y },
-          { x: midX, y: midY },
-          { x: end.x, y: end.y }
-  ];
-      case 'bezier':
-        // Create a bezier curve path
-        const ctrl1X = start.x + (end.x - start.x) / 3;
-        const ctrl1Y = start.y - 100;
-        const ctrl2X = start.x + ((end.x - start.x) * 2) / 3;
-        const ctrl2Y = end.y - 100;
-
-        return [
-    { x: start.x, y: start.y },
-          { x: ctrl1X, y: ctrl1Y },
-          { x: ctrl2X, y: ctrl2Y },
-          { x: end.x, y: end.y }
-  ];
-      default:
-        return [;
-          { x: start.x, y: start.y },
-          { x: end.x, y: end.y }
-        ]
-    }
-  }
-
-  /**
-   * Get the position of an element
-   * @param {HTMLElement} element - The DOM element
-   * @returns {Object} Position {x, y}
-   */
-  getElementPosition(element: any) {,
-    const rect = element.getBoundingClientRect(() => {
-    return {
-    x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-  })
-  }
-
-  /**
-   * Get color based on card type and color
-   * @param {string} type - Card type
-   * @param {string} color - Card color
-   * @returns {string} CSS color
-   */
-  getColorForCardType(type: any, color: any) {,
-    // First check card color
-    if (true) {
-    switch (color.toLowerCase()) {
-    case 'white':
-          return '#FFFFCC';
-        case 'blue':
-          return '#99CCFF';
-        case 'black':
-          return '#9966CC';
-        case 'red':
-          return '#FF6666';
-        case 'green':
-          return '#66CC66';
-        case 'gold':
-        case 'multicolor':
-          return '#FFCC66';
-        case 'colorless':
-          return '#CCCCCC'
-  
-  }
-    }
-
-    // Fallback to type
-    switch (true) {
-    case 'Familiar':
-        return '#66CC66';
-      case 'Spell':
-        return '#9966CC';
-      case 'Azoth':
-        return '#FFCC66';
-      default:
-        return '#FFFFFF'
-  }
-  }
-
-  /**
-   * Called when an animation starts
-   * @param {string} id - Animation ID
-   * @param {string} type - Animation type`
-   */``
-  onAnimationStart(id: any, type: any) {,```
-    console.log(`Animation started: ${type} (${id})`);
-
-    // Limit concurrent animations based on quality settings
-    if (true) {
-    // Find oldest animation and complete it immediately
-      let oldestId = null;
-      let oldestTime = Infinity;
-
-      this.activeAnimations.forEach((anim, animId) => {
-    if (true) {
-    oldestTime = anim.startTime;
-          oldestId = animId
-  
-  
-  }
+      .to(element, {
+        x: 0,
+        duration: duration / (repeat * 2),
+        ease: 'power1.inOut'
       });
-
-      if (true) {
-    const oldAnim = this.activeAnimations.get(() => {
-    if (true) {
-    oldAnim.timeline.progress(1)
+  }
   
-  })
-      }
-    }
-  }
+  return timeline;
+}
 
-  /**
-   * Called when an animation completes
-   * @param {string} id - Animation ID
-   * @param {string} type - Animation type
-   * @param {Function} callback - Completion callback`
-   */``
-  onAnimationComplete(id: any, type: any, callback: any) {,```
-    console.log(`Animation completed: ${type} (${id})`);
-    this.activeAnimations.delete(() => {
-    if (true) {
-    callback()
-  })
-  }
-
-  /**
-   * Called on animation update for performance monitoring
-   * @param {string} id - Animation ID
-   */
-  onAnimationUpdate(id: any) {
-    const now = performance.now() {
-  }
-    this.frameCount++;
-
-    // Update FPS every second
-    if (true) {
-    this.fps = this.frameCount;
-      this.frameCount = 0;
-      this.lastFrameTime = now;
-
-      // Adjust quality if performance is poor
-      if (true) {
-  }`
-        const newLevel = this.fps < 20 ? 'LOW' : 'MEDIUM';``
-        console.warn(```
-          `Performance issue detected (${this.fps} FPS). Reducing quality to ${newLevel}.`
-        );
-        this.qualityLevel = newLevel;
-        this.settings = QUALITY_LEVELS[this.qualityLevel]
-      }
-    }
-  }
-
-  /**
-   * Stop all animations
-   */
-  stopAllAnimations() {
-    this.activeAnimations.forEach((anim, id) => {
-    if (true) {
-    anim.timeline.kill()
+/**
+ * Create pulse animation
+ */
+function createPulseAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const scale = options.scale || 1.1;
   
-  
-  }
+  timeline
+    .to(element, {
+      scale,
+      duration: duration * 0.5,
+      ease: 'power2.in'
+    })
+    .to(element, {
+      scale: 1,
+      duration: duration * 0.5,
+      ease: 'power2.out'
     });
+  
+  return timeline;
+}
 
-    this.activeAnimations.clear() {
-    this.particleSystems.clear() {
+/**
+ * Create glow animation
+ */
+function createGlowAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  const color = options.color || 'rgba(255, 255, 255, 0.8)';
+  const intensity = options.intensity || 20;
+  
+  timeline
+    .to(element, {
+      boxShadow: `0 0 ${intensity}px ${color}`,
+      duration: duration * 0.5,
+      ease: 'power2.in'
+    })
+    .to(element, {
+      boxShadow: `0 0 ${intensity / 2}px ${color}`,
+      duration: duration * 0.5,
+      ease: 'power2.out',
+      repeat: options.repeat || -1,
+      yoyo: true
+    });
+  
+  return timeline;
+}
+
+/**
+ * Create fade in animation
+ */
+function createFadeInAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  gsap.set(element, {
+    opacity: 0
+  });
+  
+  timeline.to(element, {
+    opacity: 1,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create fade out animation
+ */
+function createFadeOutAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  timeline.to(element, {
+    opacity: 0,
+    duration,
+    ease
+  });
+  
+  return timeline;
+}
+
+/**
+ * Create custom animation
+ */
+function createCustomAnimation(
+  element: HTMLElement,
+  timeline: MockTimeline,
+  duration: number,
+  ease: string,
+  options: CardAnimationOptions
+): MockTimeline {
+  // Check if card has specific animations
+  if (options.cardData) {
+    const cardSpecificAnimation = getCardSpecificAnimations(options.cardData);
+    if (cardSpecificAnimation) {
+      return cardSpecificAnimation(element, timeline, duration, ease, options);
+    }
   }
+  
+  // Fallback to a generic animation
+  timeline.to(element, {
+    scale: 1.1,
+    rotation: 5,
+    duration: duration * 0.5,
+    ease: 'power2.in'
+  }).to(element, {
+    scale: 1,
+    rotation: 0,
+    duration: duration * 0.5,
+    ease: 'power2.out'
+  });
+  
+  return timeline;
+}
 
-    // Remove all particle and beam elements
-    const particleContainer = document.getElementById(() => {
-    if (true) {
-    particleContainer.innerHTML = ''
-  })
-
-    const beamContainer = document.getElementById(() => {
-    if (true) {
-    beamContainer.innerHTML = ''
-  })
+/**
+ * Add particle effect to an element
+ */
+function addParticleEffect(
+  element: HTMLElement,
+  effectType: ParticleEffectType,
+  cardData?: CardData
+): void {
+  if (!config.particlesEnabled) return;
+  
+  // Adjust particle options based on quality setting
+  const qualityMultiplier = {
+    low: 0.3,
+    medium: 0.7,
+    high: 1.0,
+    ultra: 1.5
+  }[config.quality];
+  
+  const options: ParticleOptions = {
+    type: effectType,
+    count: Math.floor(30 * qualityMultiplier),
+    duration: 1.0,
+    size: [3, 8],
+    speed: [1, 3],
+    direction: [0, 360],
+    gravity: 0.1,
+    opacity: [0.6, 1.0]
+  };
+  
+  // Adjust options based on effect type
+  switch (effectType) {
+    case ParticleEffectType.FIRE:
+      options.color = ['#ff4500', '#ff8c00', '#ffd700'];
+      options.gravity = -0.1;
+      break;
+    case ParticleEffectType.WATER:
+      options.color = ['#00bfff', '#1e90ff', '#87cefa'];
+      options.gravity = 0.2;
+      break;
+    case ParticleEffectType.EARTH:
+      options.color = ['#8b4513', '#a0522d', '#cd853f'];
+      options.gravity = 0.3;
+      break;
+    case ParticleEffectType.AIR:
+      options.color = ['#f0f8ff', '#e6e6fa', '#b0e0e6'];
+      options.gravity = -0.05;
+      break;
+    case ParticleEffectType.AETHER:
+      options.color = ['#9370db', '#8a2be2', '#9400d3'];
+      options.gravity = -0.2;
+      break;
+    case ParticleEffectType.NETHER:
+      options.color = ['#4b0082', '#800080', '#8b008b'];
+      options.gravity = 0.15;
+      break;
+    case ParticleEffectType.SPARKLE:
+      options.color = ['#ffffff', '#fffacd', '#ffd700'];
+      options.gravity = 0;
+      options.size = [1, 3];
+      break;
+    case ParticleEffectType.EXPLOSION:
+      options.color = ['#ff4500', '#ff8c00', '#ffd700', '#ffffff'];
+      options.count = Math.floor(50 * qualityMultiplier);
+      options.speed = [3, 8];
+      break;
+    default:
+      break;
   }
-}`
-``
-export default CardAnimationSystem;```
+  
+  // Create particle system
+  createParticleSystem(element, options);
+}
+
+/**
+ * Add lighting effect to an element
+ */
+function addLightingEffect(
+  element: HTMLElement,
+  effectType: LightingEffectType,
+  cardData?: CardData
+): void {
+  if (!config.lightingEnabled) return;
+  
+  // Get element position and dimensions
+  const rect = element.getBoundingClientRect();
+  
+  // Create lighting element
+  const lightElement = document.createElement('div');
+  lightElement.className = 'card-lighting-effect';
+  lightElement.style.position = 'absolute';
+  lightElement.style.left = `${rect.left}px`;
+  lightElement.style.top = `${rect.top}px`;
+  lightElement.style.width = `${rect.width}px`;
+  lightElement.style.height = `${rect.height}px`;
+  lightElement.style.pointerEvents = 'none';
+  lightElement.style.zIndex = '1000';
+  
+  // Determine color based on card elements if available
+  let color = '#ffffff';
+  if (cardData && cardData.elements && cardData.elements.length > 0) {
+    const elementColors: Record<string, string> = {
+      fire: '#ff4500',
+      water: '#1e90ff',
+      earth: '#8b4513',
+      air: '#e6e6fa',
+      aether: '#9370db',
+      nether: '#4b0082'
+    };
+    
+    color = elementColors[cardData.elements[0].toLowerCase()] || color;
+  }
+  
+  // Configure lighting based on effect type
+  const options: LightingOptions = {
+    type: effectType,
+    color,
+    intensity: 0.8,
+    duration: 1.0
+  };
+  
+  // Apply lighting effect
+  switch (effectType) {
+    case LightingEffectType.FLASH:
+      lightElement.style.boxShadow = `0 0 30px ${color}`;
+      lightElement.style.backgroundColor = `${color}33`; // 20% opacity
+      
+      gsap.to(lightElement, {
+        opacity: 0,
+        duration: options.duration,
+        ease: 'power2.out',
+        onComplete: () => {
+          lightElement.remove();
+        }
+      });
+      break;
+      
+    case LightingEffectType.PULSE:
+      lightElement.style.boxShadow = `0 0 20px ${color}`;
+      lightElement.style.backgroundColor = `${color}1a`; // 10% opacity
+      
+      gsap.to(lightElement, {
+        boxShadow: `0 0 40px ${color}`,
+        backgroundColor: `${color}33`, // 20% opacity
+        duration: options.duration / 2,
+        ease: 'power2.inOut',
+        repeat: 1,
+        yoyo: true,
+        onComplete: () => {
+          lightElement.remove();
+        }
+      });
+      break;
+      
+    case LightingEffectType.GLOW:
+      lightElement.style.boxShadow = `0 0 15px ${color}`;
+      lightElement.style.backgroundColor = `${color}1a`; // 10% opacity
+      
+      gsap.to(lightElement, {
+        boxShadow: `0 0 25px ${color}`,
+        backgroundColor: `${color}26`, // 15% opacity
+        duration: options.duration,
+        ease: 'power1.inOut',
+        repeat: -1,
+        yoyo: true
+      });
+      
+      // Remove after 5 seconds
+      setTimeout(() => {
+        gsap.to(lightElement, {
+          opacity: 0,
+          duration: 1,
+          onComplete: () => {
+            lightElement.remove();
+          }
+        });
+      }, 5000);
+      break;
+      
+    default:
+      lightElement.remove();
+      return;
+  }
+  
+  // Add to document
+  document.body.appendChild(lightElement);
+}
+
+/**
+ * Play sound effect
+ */
+function playSoundEffect(type: AnimationType, cardData?: CardData): void {
+  if (!config.soundEnabled) return;
+  
+  // In a real implementation, this would play actual sounds
+  if (config.debugMode) {
+    console.log(`Playing sound effect for ${type}`, cardData);
+  }
+}
+
+/**
+ * Create a sequence of animations
+ */
+export function createAnimationSequence(
+  animations: CardAnimationOptions[],
+  options: TimelineOptions = {}
+): {
+  play: () => void;
+  pause: () => void;
+  resume: () => void;
+} {
+  if (!config.enabled || animations.length === 0) {
+    return {
+      play: () => {},
+      pause: () => {},
+      resume: () => {}
+    };
+  }
+  
+  const timeline = gsap.timeline({
+    paused: true,
+    ...options
+  });
+  
+  // Add each animation to the timeline
+  let position = 0;
+  animations.forEach((animOptions, index) => {
+    const { element, type } = animOptions;
+    
+    if (!element) {
+      console.error(`Animation ${index} has no element`);
+      return;
+    }
+    
+    const duration = animOptions.duration || 0.5;
+    const delay = animOptions.delay || 0;
+    
+    // Get animation
+    const animation = getAnimationByType(type, element, animOptions);
+    
+    // Add to main timeline
+    timeline.add(animation, position);
+    
+    // Update position for next animation
+    position += duration + delay;
+  });
+  
+  return {
+    play: () => timeline.play(),
+    pause: () => timeline.pause(),
+    resume: () => timeline.resume()
+  };
+}
+
+/**
+ * Preload animation assets
+ */
+export function preloadAnimationAssets(): Promise<void> {
+  return new Promise((resolve) => {
+    // In a real implementation, this would preload images, sounds, etc.
+    setTimeout(resolve, 100);
+  });
+}
+
+/**
+ * Clean up animation resources
+ */
+export function cleanupAnimations(): void {
+  // In a real implementation, this would clean up any resources
+  if (config.debugMode) {
+    console.log('Cleaning up animation resources');
+  }
+}
+
+export default {
+  animateCard,
+  createAnimationSequence,
+  configureAnimations,
+  getAnimationConfig,
+  preloadAnimationAssets,
+  cleanupAnimations,
+  AnimationType,
+  ParticleEffectType,
+  LightingEffectType
+};
