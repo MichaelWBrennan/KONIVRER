@@ -59,9 +59,10 @@ import {
 
 // Import hooks
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import UnifiedLayout from '../components/UnifiedLayout';
 
 interface UnifiedHomeProps {
-  variant?: 'standard' | 'simple' | 'mobile';
+  variant?: 'standard' | 'simple' | 'mobile' | 'golden';
 }
 
 const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
@@ -958,12 +959,135 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
     );
   };
   
+  // Render golden home with UnifiedLayout
+  const renderGoldenHome = () => {
+    return (
+      <UnifiedLayout variant="golden" currentPage="home">
+        <div className="container mx-auto px-4 py-8">
+          {/* Hero Section */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
+              Welcome to KONIVRER
+            </h1>
+            <p className="text-xl text-gray-300 mb-8">
+              The ultimate deck building and strategy card game experience
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/play"
+                className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-semibold rounded-lg hover:from-yellow-400 hover:to-yellow-500 transition-all duration-300 transform hover:scale-105"
+              >
+                Start Playing
+              </Link>
+              <Link
+                to="/cards"
+                className="px-8 py-3 border-2 border-yellow-500 text-yellow-500 font-semibold rounded-lg hover:bg-yellow-500 hover:text-black transition-all duration-300"
+              >
+                Browse Cards
+              </Link>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-gray-800 rounded-lg p-6 text-center border border-gray-700">
+              <div className="text-3xl font-bold text-yellow-500 mb-2">{playerGold.toLocaleString()}</div>
+              <div className="text-gray-400">Gold</div>
+            </div>
+            <div className="bg-gray-800 rounded-lg p-6 text-center border border-gray-700">
+              <div className="text-3xl font-bold text-blue-500 mb-2">{playerGems.toLocaleString()}</div>
+              <div className="text-gray-400">Gems</div>
+            </div>
+            <div className="bg-gray-800 rounded-lg p-6 text-center border border-gray-700">
+              <div className="text-3xl font-bold text-green-500 mb-2">{playerLevel}</div>
+              <div className="text-gray-400">Level</div>
+            </div>
+            <div className="bg-gray-800 rounded-lg p-6 text-center border border-gray-700">
+              <div className="text-3xl font-bold text-purple-500 mb-2">{playerWins}</div>
+              <div className="text-gray-400">Wins</div>
+            </div>
+          </div>
+
+          {/* Daily Quests */}
+          <div className="bg-gray-800 rounded-lg p-6 mb-8 border border-gray-700">
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500">Daily Quests</h2>
+            <div className="space-y-4">
+              {dailyQuests.map((quest, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center mr-4">
+                      <Award className="text-black" size={24} />
+                    </div>
+                    <div>
+                      <div className="font-semibold">{quest.title}</div>
+                      <div className="text-sm text-gray-400">{quest.progress}/{quest.target}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="text-yellow-500 font-bold mr-4">{quest.reward}</div>
+                    <div className="w-24 bg-gray-600 rounded-full h-2">
+                      <div 
+                        className="bg-yellow-500 h-2 rounded-full" 
+                        style={{ width: `${(quest.progress / quest.target) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+              <h3 className="text-xl font-bold mb-4 text-yellow-500">Recent Matches</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-3 bg-gray-700 rounded">
+                  <span>Victory vs. Player123</span>
+                  <span className="text-green-500 font-semibold">+25 XP</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-700 rounded">
+                  <span>Defeat vs. ProGamer</span>
+                  <span className="text-red-500 font-semibold">+5 XP</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-700 rounded">
+                  <span>Victory vs. CardMaster</span>
+                  <span className="text-green-500 font-semibold">+30 XP</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+              <h3 className="text-xl font-bold mb-4 text-yellow-500">Latest News</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-gray-700 rounded">
+                  <div className="font-semibold mb-1">New Set Release</div>
+                  <div className="text-sm text-gray-400">Elemental Convergence now available!</div>
+                </div>
+                <div className="p-3 bg-gray-700 rounded">
+                  <div className="font-semibold mb-1">Tournament Update</div>
+                  <div className="text-sm text-gray-400">Weekly tournament starts tomorrow</div>
+                </div>
+                <div className="p-3 bg-gray-700 rounded">
+                  <div className="font-semibold mb-1">Balance Changes</div>
+                  <div className="text-sm text-gray-400">Several cards have been updated</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </UnifiedLayout>
+    );
+  };
+
   // Render the appropriate variant
   switch (actualVariant) {
     case 'mobile':
       return renderMobileHome();
     case 'simple':
       return renderSimpleHome();
+    case 'golden':
+      return renderGoldenHome();
     default:
       return renderStandardHome();
   }

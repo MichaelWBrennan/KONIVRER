@@ -15,17 +15,22 @@
  * copies or substantial portions of the Software.
  */
 
+/**
+ * KONIVRER Deck Database - Main Entry Point
+ * 
+ * @version 2.0.0
+ * @since 2024-07-06
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.tsx';
-import { AuthProvider } from './contexts/AuthContext.tsx';
 import './styles/main.css';
 import './styles/unified.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // Performance monitoring
-if (true) {
+if (process.env.NODE_ENV === 'production') {
   import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
     getCLS(console.log);
     getFID(console.log);
@@ -35,13 +40,14 @@ if (true) {
   });
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Root element not found');
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthProvider>
+    <App />
   </React.StrictMode>
 );
 
