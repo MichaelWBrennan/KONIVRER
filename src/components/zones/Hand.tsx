@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Card from '../Card';
-import CardActions from '../CardActions';
+import UnifiedCard from '../UnifiedCard';
+import UnifiedCardActions from '../UnifiedCardActions';
 import { useGame } from '../../contexts/GameContext';
 import '../../styles/zones.css';
 
@@ -57,18 +57,19 @@ const Hand: React.FC<HandProps> = ({  cards  }) => {
               className="hand-card"
               onClick={() => handleCardClick(card)}
             >
-              <Card card={card} location="hand" / />
+              <UnifiedCard variant="standard" card={card} location="hand" />
             </div>
           ))
         )}
       </div>
       
       {selectedCard && (
-        <CardActions 
+        <UnifiedCardActions 
+          variant="standard"
           card={selectedCard} 
           onAction={handleCardAction}
           onClose={handleCloseActions}
-        / />
+        />
       )}
     </div>
   );

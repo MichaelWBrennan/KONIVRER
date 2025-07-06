@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Card from './Card';
+import UnifiedCard from './UnifiedCard';
 import { useGame } from '../contexts/GameContext';
 import '../styles/tributeSelector.css';
 
@@ -55,7 +55,7 @@ const TributeSelector: React.FC<TributeSelectorProps> = ({  requiredCount, onCon
                   className={`tribute-card ${selectedCards.some(c => c.id === card.id) ? 'selected' : ''}`}
                   onClick={() => handleCardClick(card)}
                 >
-                  <Card card={card} location="field" / />
+                  <UnifiedCard variant="standard" card={card} location="field" />
                   {selectedCards.some(c => c.id === card.id) && (
                     <div className="selected-overlay"></div>
                       <div className="selected-indicator">Selected</div>

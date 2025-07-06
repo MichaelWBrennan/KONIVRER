@@ -5,11 +5,11 @@ import { useMediaQuery } from './hooks/useMediaQuery';
 
 import './App.css';
 
-// Create simple page components that use SimpleMobileLayout
-import SimpleMobileLayout from './components/SimpleMobileLayout';
+// Create simple page components that use UnifiedLayout with mobile variant
+import UnifiedLayout from './components/UnifiedLayout';
 
 const CardsPage: React.FC = () => (
-  <SimpleMobileLayout currentPage="cards">
+  <UnifiedLayout variant="mobile" currentPage="cards">
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
         Cards Database
@@ -18,11 +18,11 @@ const CardsPage: React.FC = () => (
         Browse and search through the KONIVRER card collection.
       </p>
     </div>
-  </SimpleMobileLayout>
+  </UnifiedLayout>
 );
 
 const TournamentsPage: React.FC = () => (
-  <SimpleMobileLayout currentPage="tournaments">
+  <UnifiedLayout variant="mobile" currentPage="tournaments">
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
         Tournaments
@@ -31,11 +31,11 @@ const TournamentsPage: React.FC = () => (
         View upcoming tournaments and competition results.
       </p>
     </div>
-  </SimpleMobileLayout>
+  </UnifiedLayout>
 );
 
 const SocialPage: React.FC = () => (
-  <SimpleMobileLayout currentPage="social">
+  <UnifiedLayout variant="mobile" currentPage="social">
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
         Social Hub
@@ -44,11 +44,11 @@ const SocialPage: React.FC = () => (
         Connect with other players and join the community.
       </p>
     </div>
-  </SimpleMobileLayout>
+  </UnifiedLayout>
 );
 
 const AnalyticsPage: React.FC = () => (
-  <SimpleMobileLayout currentPage="analytics">
+  <UnifiedLayout variant="mobile" currentPage="analytics">
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
         Statistics & Analytics
@@ -57,7 +57,7 @@ const AnalyticsPage: React.FC = () => (
         View your game statistics and performance analytics.
       </p>
     </div>
-  </SimpleMobileLayout>
+  </UnifiedLayout>
 );
 
 const App: React.FC = () => {
