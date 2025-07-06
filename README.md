@@ -82,20 +82,58 @@ src/
 - **State Management:** React Context API
 - **Routing:** React Router v6
 - **Build Tool:** Vite with optimized bundling
+- **Automation:** Industry-leading passive workflow automation system
+
+### Automation System
+
+KONIVRER features an industry-leading, 100% passive workflow automation system that continuously monitors, optimizes, and maintains code quality, performance, and security without manual intervention.
+
+#### Key Automation Features
+
+- **Zero-Intervention Workflow**: Fully automated processes that run in the background
+- **Self-Healing Codebase**: Automatically fixes common issues
+- **AI-Powered Analysis**: Intelligent suggestions and optimizations
+- **Comprehensive Dashboard**: Real-time monitoring and insights
+- **Continuous Quality Assurance**: Automated testing, linting, and security scanning
+
+#### Using the Automation System
+
+```bash
+# Start development with automation
+npm run dev:auto
+
+# Run automation workflow
+npm run automation:run
+
+# View automation dashboard
+npm run automation:dashboard
+
+# View detailed documentation
+cat automation/README.md
+```
+
+For complete documentation, see the [Automation System README](./automation/README.md).
 
 ## Deployment
 
-Run the optimized deployment script:
+Run the automated deployment script:
 
 ```bash
-node scripts/optimize-and-deploy.js
+npm run deploy:auto
 ```
 
 This will:
 
+- Run the full automation workflow
 - Clean and build the project
 - Run quality checks
 - Deploy to production
+
+For manual deployment:
+
+```bash
+node scripts/optimize-and-deploy.js
+```
 
 ## Contributing
 
