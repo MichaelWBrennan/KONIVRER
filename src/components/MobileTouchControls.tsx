@@ -350,8 +350,8 @@ const MobileTouchControls: React.FC<MobileTouchControlsProps> = ({
                   : 'bg-gray-100 text-gray-400'
               }`}
               title={`Vibration ${isVibrationEnabled ? 'On' : 'Off'}`}
-             />
-              <Settings className="w-4 h-4" / />
+             >
+              <Settings className="w-4 h-4" />
             </button>
 
             <button

@@ -172,8 +172,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
           color: 'var(--text-primary)',
           borderBottom: '1px solid var(--border-primary)',
         }}
-       />
-        <div className="flex items-center space-x-2" />
+       >
+        <div className="flex items-center space-x-2">
           <span className="font-medium">KONIVRER</span>
           {!isOnline && (
             <div
@@ -182,6 +182,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
              >
               <WifiOff className="w-3 h-3" />
               <span>Offline</span>
+            </div>
           )}
         </div>
 

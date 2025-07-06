@@ -276,13 +276,13 @@ const ModernAuthModal: React.FC<ModernAuthModalProps> = ({  isOpen, onClose, def
                   transition={{ duration: 0.2 }}
                   onSubmit={loginForm.handleSubmit(handleLogin)}
                   className="space-y-4"
-                 />
+                 >
                   {/* Login Form */}
-                  <div />
-                    <label className="block text-sm font-medium mb-2" />
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
                       Email
                     </label>
-                    <div className="relative" />
+                    <div className="relative">
                       <Mail
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted"
                         size={16}
