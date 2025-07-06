@@ -182,7 +182,7 @@ function main() {
   console.log('🔧 Processing problematic files...\n');
   
   // Read the list of problematic files
-  const problematicFilesPath = path.join(__dirname, 'all-files-with-errors.txt');
+  const problematicFilesPath = path.join(__dirname, 'high-priority-errors.txt');
   
   if (!fs.existsSync(problematicFilesPath)) {
     console.error('problematic-files.txt not found!');
