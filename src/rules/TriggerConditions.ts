@@ -12,491 +12,693 @@
  * Each condition specifies when a triggered ability should activate.
  */
 
+import { GameState } from '../types/GameState';
+import { Card } from '../types/Card';
+import { Player } from '../types/Player';
+import { CardType, Element, Zone } from '../types/Enums';
+
+// Event types
+export enum EventType {
+  CARD_PLAYED = 'cardPlayed',
+  CARD_DRAWN = 'cardDrawn',
+  CARD_DISCARDED = 'cardDiscarded',
+  CARD_DESTROYED = 'cardDestroyed',
+  CARD_ATTACKED = 'cardAttacked',
+  CARD_DAMAGED = 'cardDamaged',
+  TURN_START = 'turnStart',
+  TURN_END = 'turnEnd',
+  PHASE_CHANGE = 'phaseChange',
+  AZOTH_GAINED = 'azothGained',
+  AZOTH_LOST = 'azothLost',
+  ENERGY_GAINED = 'energyGained',
+  ENERGY_LOST = 'energyLost',
+  PLAYER_DAMAGED = 'playerDamaged',
+  SPELL_CAST = 'spellCast',
+  ABILITY_ACTIVATED = 'abilityActivated'
+}
+
+// Game event interface
+export interface GameEvent {
+  type: EventType;
+  player?: Player;
+  card?: Card;
+  target?: Card | Player;
+  source?: Card | Player;
+  amount?: number;
+  zone?: Zone;
+  phase?: string;
+  metadata?: Record<string, any>;
+}
+
+// Trigger condition interface
+export interface TriggerCondition {
+  name: string;
+  description: string;
+  check: (
+    gameState: GameState,
+    event: GameEvent,
+    card: Card,
+    sourceCard: Card,
+    ...args: any[]
+  ) => boolean;
+}
+
 /**
  * Get all trigger conditions
- * @returns {Array} Array of trigger condition objects
+ * @returns Array of trigger condition objects
  */
-export function getTriggerConditions() {
-    return [
+export function getTriggerConditions(): TriggerCondition[] {
+  return [
     // When a card enters the field
     {
-  }
       name: 'enterField',
       description: 'When a card enters the field',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'cardPlayed' && event.card.zone === 'field'
-  }
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.CARD_PLAYED && event.zone === Zone.FIELD;
+      }
     },
 
     // When a specific card enters the field
     {
-    name: 'specificCardEntersField',
+      name: 'specificCardEntersField',
       description: 'When a specific card enters the field',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.zone === 'field' &&
-          event.card.id === specificCardId
-        )
-  
-  }
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return (
+          event.type === EventType.CARD_PLAYED &&
+          event.zone === Zone.FIELD &&
+          event.card?.id === specificCardId
+        );
+      }
     },
 
     // When a card of a specific type enters the field
     {
-    name: 'cardTypeEntersField',
+      name: 'cardTypeEntersField',
       description: 'When a card of a specific type enters the field',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        cardType: CardType
+      ): boolean => {
+        return (
+          event.type === EventType.CARD_PLAYED &&
+          event.zone === Zone.FIELD &&
+          event.card?.type === cardType
+        );
+      }
+    },
 
-      check: (gameState, event, card, sourceCard, cardType) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.zone === 'field' &&
-          event.card.type === cardType
-        )
-  
-  }
+    // When a card of a specific element enters the field
+    {
+      name: 'elementEntersField',
+      description: 'When a card of a specific element enters the field',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        element: Element
+      ): boolean => {
+        return (
+          event.type === EventType.CARD_PLAYED &&
+          event.zone === Zone.FIELD &&
+          event.card?.element === element
+        );
+      }
     },
 
     // When a card leaves the field
     {
-    name: 'leaveField',
+      name: 'leaveField',
       description: 'When a card leaves the field',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          (event.type === 'cardDestroyed' ||
-            event.type === 'cardExiled' ||
-            event.type === 'cardReturned') &&
-          event.fromZone === 'field'
-        )
-  
-  }
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return (
+          (event.type === EventType.CARD_DESTROYED ||
+            event.type === EventType.CARD_DISCARDED) &&
+          event.card?.zone === Zone.FIELD
+        );
+      }
     },
 
     // When a card is destroyed
     {
-    name: 'cardDestroyed',
+      name: 'cardDestroyed',
       description: 'When a card is destroyed',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.CARD_DESTROYED;
+      }
+    },
 
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'cardDestroyed'
-  
-  }
+    // When a specific card is destroyed
+    {
+      name: 'specificCardDestroyed',
+      description: 'When a specific card is destroyed',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return event.type === EventType.CARD_DESTROYED && event.card?.id === specificCardId;
+      }
     },
 
     // When a card of a specific type is destroyed
     {
-    name: 'cardTypeDestroyed',
+      name: 'cardTypeDestroyed',
       description: 'When a card of a specific type is destroyed',
-
-      check: (gameState, event, card, sourceCard, cardType) => {
-    return event.type === 'cardDestroyed' && event.card.type === cardType
-  
-  }
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        cardType: CardType
+      ): boolean => {
+        return event.type === EventType.CARD_DESTROYED && event.card?.type === cardType;
+      }
     },
 
-    // When a player casts a spell
+    // When a card of a specific element is destroyed
     {
-    name: 'spellCast',
-      description: 'When a player casts a spell',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'cardPlayed' && event.card.type === 'Spell'
-  
-  }
+      name: 'elementDestroyed',
+      description: 'When a card of a specific element is destroyed',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        element: Element
+      ): boolean => {
+        return event.type === EventType.CARD_DESTROYED && event.card?.element === element;
+      }
     },
 
-    // When a player casts a spell of a specific color
+    // When a card attacks
     {
-    name: 'colorSpellCast',
-      description: 'When a player casts a spell of a specific color',
-
-      check: (gameState, event, card, sourceCard, color) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.type === 'Spell' &&
-          event.card.color === color
-        )
-  
-  }
+      name: 'cardAttacks',
+      description: 'When a card attacks',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.CARD_ATTACKED && event.card?.id === card.id;
+      }
     },
 
-    // When a player attacks with a Familiar
+    // When a card is attacked
     {
-    name: 'familiarAttacks',
-      description: 'When a player attacks with a Familiar',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'attackDeclared' && event.attackers.length > 0
-  
-  }
+      name: 'cardIsAttacked',
+      description: 'When a card is attacked',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return (
+          event.type === EventType.CARD_ATTACKED &&
+          event.target &&
+          'id' in event.target &&
+          event.target.id === card.id
+        );
+      }
     },
 
-    // When a specific Familiar attacks
+    // When a card deals damage
     {
-    name: 'specificFamiliarAttacks',
-      description: 'When a specific Familiar attacks',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          event.type === 'attackDeclared' &&
-          event.attackers.some(attacker => attacker.id === specificCardId)
-        )
-  
-  }
+      name: 'cardDealsDamage',
+      description: 'When a card deals damage',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return (
+          event.type === EventType.CARD_DAMAGED &&
+          event.source &&
+          'id' in event.source &&
+          event.source.id === card.id
+        );
+      }
     },
 
-    // When a player blocks with a Familiar
+    // When a card takes damage
     {
-    name: 'familiarBlocks',
-      description: 'When a player blocks with a Familiar',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'blockDeclared' && event.blockers.length > 0
-  
-  }
+      name: 'cardTakesDamage',
+      description: 'When a card takes damage',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return (
+          event.type === EventType.CARD_DAMAGED &&
+          event.card?.id === card.id &&
+          event.amount !== undefined &&
+          event.amount > 0
+        );
+      }
     },
 
-    // When a specific Familiar blocks
+    // When a player takes damage
     {
-    name: 'specificFamiliarBlocks',
-      description: 'When a specific Familiar blocks',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          event.type === 'blockDeclared' &&
-          event.blockers.some(blocker => blocker.card.id === specificCardId)
-        )
-  
-  }
+      name: 'playerTakesDamage',
+      description: 'When a player takes damage',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.PLAYER_DAMAGED) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a Familiar deals damage
+    // When a card is drawn
     {
-    name: 'familiarDealsDamage',
-      description: 'When a Familiar deals damage',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          (event.type === 'combatDamage' || event.type === 'abilityDamage') &&
-          event.source.type === 'Familiar'
-        )
-  
-  }
+      name: 'cardDrawn',
+      description: 'When a card is drawn',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.CARD_DRAWN;
+      }
     },
 
-    // When a specific Familiar deals damage
+    // When a specific card is drawn
     {
-    name: 'specificFamiliarDealsDamage',
-      description: 'When a specific Familiar deals damage',
+      name: 'specificCardDrawn',
+      description: 'When a specific card is drawn',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return event.type === EventType.CARD_DRAWN && event.card?.id === specificCardId;
+      }
+    },
 
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          (event.type === 'combatDamage' || event.type === 'abilityDamage') &&
+    // When a card of a specific type is drawn
+    {
+      name: 'cardTypeDrawn',
+      description: 'When a card of a specific type is drawn',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        cardType: CardType
+      ): boolean => {
+        return event.type === EventType.CARD_DRAWN && event.card?.type === cardType;
+      }
+    },
+
+    // When a card of a specific element is drawn
+    {
+      name: 'elementDrawn',
+      description: 'When a card of a specific element is drawn',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        element: Element
+      ): boolean => {
+        return event.type === EventType.CARD_DRAWN && event.card?.element === element;
+      }
+    },
+
+    // When a card is discarded
+    {
+      name: 'cardDiscarded',
+      description: 'When a card is discarded',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.CARD_DISCARDED;
+      }
+    },
+
+    // When a specific card is discarded
+    {
+      name: 'specificCardDiscarded',
+      description: 'When a specific card is discarded',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return event.type === EventType.CARD_DISCARDED && event.card?.id === specificCardId;
+      }
+    },
+
+    // When a card of a specific type is discarded
+    {
+      name: 'cardTypeDiscarded',
+      description: 'When a card of a specific type is discarded',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        cardType: CardType
+      ): boolean => {
+        return event.type === EventType.CARD_DISCARDED && event.card?.type === cardType;
+      }
+    },
+
+    // When a card of a specific element is discarded
+    {
+      name: 'elementDiscarded',
+      description: 'When a card of a specific element is discarded',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        element: Element
+      ): boolean => {
+        return event.type === EventType.CARD_DISCARDED && event.card?.element === element;
+      }
+    },
+
+    // When a spell is cast
+    {
+      name: 'spellCast',
+      description: 'When a spell is cast',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.SPELL_CAST;
+      }
+    },
+
+    // When a specific spell is cast
+    {
+      name: 'specificSpellCast',
+      description: 'When a specific spell is cast',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return event.type === EventType.SPELL_CAST && event.card?.id === specificCardId;
+      }
+    },
+
+    // When a spell of a specific element is cast
+    {
+      name: 'elementSpellCast',
+      description: 'When a spell of a specific element is cast',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        element: Element
+      ): boolean => {
+        return (
+          event.type === EventType.SPELL_CAST &&
+          event.card?.type === CardType.SPELL &&
+          event.card?.element === element
+        );
+      }
+    },
+
+    // When an ability is activated
+    {
+      name: 'abilityActivated',
+      description: 'When an ability is activated',
+      check: (gameState: GameState, event: GameEvent, card: Card, sourceCard: Card): boolean => {
+        return event.type === EventType.ABILITY_ACTIVATED;
+      }
+    },
+
+    // When a specific card's ability is activated
+    {
+      name: 'specificAbilityActivated',
+      description: "When a specific card's ability is activated",
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        specificCardId: string
+      ): boolean => {
+        return (
+          event.type === EventType.ABILITY_ACTIVATED &&
+          event.source &&
+          'id' in event.source &&
           event.source.id === specificCardId
-        )
-  
-  }
+        );
+      }
     },
 
-    // When a Familiar is dealt damage
+    // When a turn starts
     {
-    name: 'familiarDealtDamage',
-      description: 'When a Familiar is dealt damage',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          (event.type === 'combatDamage' || event.type === 'abilityDamage') &&
-          event.target.type === 'Familiar'
-        )
-  
-  }
+      name: 'turnStart',
+      description: 'When a turn starts',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.TURN_START) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a specific Familiar is dealt damage
+    // When a turn ends
     {
-    name: 'specificFamiliarDealtDamage',
-      description: 'When a specific Familiar is dealt damage',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          (event.type === 'combatDamage' || event.type === 'abilityDamage') &&
-          event.target.id === specificCardId
-        )
-  
-  }
+      name: 'turnEnd',
+      description: 'When a turn ends',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.TURN_END) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a player places an Azoth
+    // When a phase changes
     {
-    name: 'azothPlaced',
-      description: 'When a player places an Azoth',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'cardPlayed' && event.card.zone === 'azothRow'
-  
-  }
+      name: 'phaseChange',
+      description: 'When a phase changes',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        phaseName?: string
+      ): boolean => {
+        if (event.type !== EventType.PHASE_CHANGE) return false;
+        
+        // If phaseName is specified, check if it matches
+        if (phaseName && event.phase) {
+          return event.phase === phaseName;
+        }
+        
+        return true;
+      }
     },
 
-    // When a player places a specific Azoth
+    // When Azoth is gained
     {
-    name: 'specificAzothPlaced',
-      description: 'When a player places a specific Azoth',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.zone === 'azothRow' &&
-          event.card.id === specificCardId
-        )
-  
-  }
+      name: 'azothGained',
+      description: 'When Azoth is gained',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.AZOTH_GAINED) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a player draws a card
+    // When Azoth is lost
     {
-    name: 'cardDrawn',
-      description: 'When a player draws a card',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'cardDrawn'
-  
-  }
+      name: 'azothLost',
+      description: 'When Azoth is lost',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.AZOTH_LOST) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a player draws their second card in a turn
+    // When Energy is gained
     {
-    name: 'secondCardDrawn',
-      description: 'When a player draws their second card in a turn',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardDrawn' &&
-          gameState.players[event.player
-  ].cardsDrawnThisTurn === 2
-        )
-  
-  }
+      name: 'energyGained',
+      description: 'When Energy is gained',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.ENERGY_GAINED) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a player has no cards in hand
+    // When Energy is lost
     {
-    name: 'emptyHand',
-      description: 'When a player has no cards in hand',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardPlayed' &&
-          gameState.players[event.player].hand.length === 0
-        )
-  
-  }
+      name: 'energyLost',
+      description: 'When Energy is lost',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        playerId?: string
+      ): boolean => {
+        if (event.type !== EventType.ENERGY_LOST) return false;
+        
+        // If playerId is specified, check if it matches
+        if (playerId && event.player) {
+          return event.player.id === playerId;
+        }
+        
+        // Otherwise, check if it's the card's controller
+        const cardController = gameState.players.find(p =>
+          p.field.some(c => c.id === card.id)
+        );
+        
+        return event.player?.id === cardController?.id;
+      }
     },
 
-    // When a player has 7 or more cards in hand
+    // When a specific condition is met
     {
-    name: 'fullHand',
-      description: 'When a player has 7 or more cards in hand',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardDrawn' &&
-          gameState.players[event.player].hand.length >= 7
-        )
-  
-  }
-    },
-
-    // When a player has 3 or more Azoth
-    {
-    name: 'threeOrMoreAzoth',
-      description: 'When a player has 3 or more Azoth',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.zone === 'azothRow' &&
-          gameState.players[event.player].azothRow.length >= 3
-        )
-  
-  }
-    },
-
-    // When a player has 5 or more Azoth
-    {
-    name: 'fiveOrMoreAzoth',
-      description: 'When a player has 5 or more Azoth',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.zone === 'azothRow' &&
-          gameState.players[event.player].azothRow.length >= 5
-        )
-  
-  }
-    },
-
-    // When a player has 3 or more Familiars
-    {
-    name: 'threeOrMoreFamiliars',
-      description: 'When a player has 3 or more Familiars',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.type === 'Familiar' &&
-          gameState.players[event.player].field.filter(
-            c => c.type === 'Familiar'
-          ).length >= 3
-        )
-  
-  }
-    },
-
-    // When a player has 5 or more Familiars
-    {
-    name: 'fiveOrMoreFamiliars',
-      description: 'When a player has 5 or more Familiars',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'cardPlayed' &&
-          event.card.type === 'Familiar' &&
-          gameState.players[event.player].field.filter(
-            c => c.type === 'Familiar'
-          ).length >= 5
-        )
-  
-  }
-    },
-
-    // When a player has 10 or more cards in their graveyard
-    {
-    name: 'tenOrMoreCardsInGraveyard',
-      description: 'When a player has 10 or more cards in their graveyard',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          (event.type === 'cardDestroyed' || event.type === 'spellResolved') &&
-          gameState.players[event.player].graveyard.length >= 10
-        )
-  
-  }
-    },
-
-    // When a player has 20 or more cards in their graveyard
-    {
-    name: 'twentyOrMoreCardsInGraveyard',
-      description: 'When a player has 20 or more cards in their graveyard',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          (event.type === 'cardDestroyed' || event.type === 'spellResolved') &&
-          gameState.players[event.player].graveyard.length >= 20
-        )
-  
-  }
-    },
-
-    // At the beginning of a player's turn
-    {
-    name: 'beginningOfTurn',
-      description: "At the beginning of a player's turn",
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'phaseChange' && event.newPhase === 'start'
-  
-  }
-    },
-
-    // At the beginning of a player's end step
-    {
-    name: 'beginningOfEndStep',
-      description: "At the beginning of a player's end step",
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'phaseChange' && event.newPhase === 'end'
-  
-  }
-    },
-
-    // At the beginning of combat
-    {
-    name: 'beginningOfCombat',
-      description: 'At the beginning of combat',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'phaseChange' && event.newPhase === 'combat'
-  
-  }
-    },
-
-    // At the end of combat
-    {
-    name: 'endOfCombat',
-      description: 'At the end of combat',
-
-      check: (gameState, event, card, sourceCard) => {
-    return (
-          event.type === 'phaseChange' &&
-          event.oldPhase === 'combat' &&
-          event.newPhase === 'post-combat'
-        )
-  
-  }
-    },
-
-    // When a player activates an ability
-    {
-    name: 'abilityActivated',
-      description: 'When a player activates an ability',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'abilityActivated'
-  
-  }
-    },
-
-    // When a player activates an ability of a specific card
-    {
-    name: 'specificCardAbilityActivated',
-      description: 'When a player activates an ability of a specific card',
-
-      check: (gameState, event, card, sourceCard, specificCardId) => {
-    return (
-          event.type === 'abilityActivated' && event.card.id === specificCardId
-        )
-  
-  }
-    },
-
-    // When a player loses a life card
-    {
-    name: 'lifeCardLost',
-      description: 'When a player loses a life card',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'lifeCardDestroyed'
-  
-  }
-    },
-
-    // When a player gains a life card
-    {
-    name: 'lifeCardGained',
-      description: 'When a player gains a life card',
-
-      check: (gameState, event, card, sourceCard) => {
-    return event.type === 'lifeCardAdded'
-  
-  }
+      name: 'customCondition',
+      description: 'When a custom condition is met',
+      check: (
+        gameState: GameState,
+        event: GameEvent,
+        card: Card,
+        sourceCard: Card,
+        conditionFn: (gameState: GameState, event: GameEvent, card: Card) => boolean
+      ): boolean => {
+        return conditionFn(gameState, event, card);
+      }
     }
-  ]
+  ];
+}
+
+// Export a map of trigger conditions for easier lookup
+export const triggerConditionMap: Record<string, TriggerCondition> = getTriggerConditions().reduce(
+  (map, condition) => {
+    map[condition.name] = condition;
+    return map;
+  },
+  {} as Record<string, TriggerCondition>
+);
+
+/**
+ * Check if a trigger condition is met
+ * @param conditionName - Name of the condition to check
+ * @param gameState - Current game state
+ * @param event - Event that triggered the check
+ * @param card - Card that has the trigger
+ * @param sourceCard - Card that is the source of the trigger
+ * @param args - Additional arguments for the condition
+ * @returns Whether the condition is met
+ */
+export function checkTriggerCondition(
+  conditionName: string,
+  gameState: GameState,
+  event: GameEvent,
+  card: Card,
+  sourceCard: Card,
+  ...args: any[]
+): boolean {
+  const condition = triggerConditionMap[conditionName];
+  if (!condition) {
+    console.error(`Trigger condition '${conditionName}' not found`);
+    return false;
+  }
+  
+  return condition.check(gameState, event, card, sourceCard, ...args);
 }
 
 export default {
-    getTriggerConditions
-  };
+  getTriggerConditions,
+  triggerConditionMap,
+  checkTriggerCondition
+};
