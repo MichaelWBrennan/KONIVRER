@@ -38,17 +38,19 @@ const CardExplorer = (): any => {
     ]);
   };
   return (
-    <div className="min-h-screen bg-background"></div>
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-card border-b border-color"></div>
-        <div className="max-w-7xl mx-auto px-6 py-8"></div>
-          <div className="text-center"></div>
-            <div className="flex items-center justify-center gap-3 mb-4"></div>
+      <div className="bg-card border-b border-color">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+            </div>
           </div>
+        </div>
       </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8"></div>
-        <div className="flex gap-6"></div>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex gap-6">
           {/* Main Content Area */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -194,7 +196,9 @@ const CardExplorer = (): any => {
             </motion.div>
           </motion.div>
         )}
+        </div>
       </div>
+    </div>
   );
 };
 export default CardExplorer;

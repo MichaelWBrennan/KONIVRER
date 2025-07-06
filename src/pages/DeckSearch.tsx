@@ -205,21 +205,22 @@ const DeckCard: React.FC<DeckCardProps> = ({  deck  }) => (
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
       className="bg-card rounded-lg p-6 border border-color hover:border-blue-500/50 transition-all duration-300 relative"
-     />
+    >
       {/* Featured Badge */}
       {deck.featured && (
-        <div className="absolute top-4 right-4"></div>
-          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1"></div>
-            <Star className="w-3 h-3 text-yellow-400 fill-current" / />
-            <span className="text-xs font-medium text-yellow-400"></span>
+        <div className="absolute top-4 right-4">
+          <div className="flex items-center gap-1 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-2 py-1">
+            <Star className="w-3 h-3 text-yellow-400 fill-current" />
+            <span className="text-xs font-medium text-yellow-400">
               Featured
             </span>
+          </div>
         </div>
       )}
       {/* Header with Element and Stats */}
-      <div className="flex items-start justify-between mb-3"></div>
-        <div className="flex-1"></div>
-          <div className="flex items-center gap-3 mb-2"></div>
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
             <div className={`text-2xl ${getElementColor(deck.element)}`}></div>
               {getElementIcon(deck.element)}
             <div></div>
